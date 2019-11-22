@@ -1,0 +1,4 @@
+﻿de.PyScripterHelp=PyScripter Hilfe
+de.EditwithPyScripter=Mit PyScripter bearbeiten
+de.ShellIntegrationEditwithPyScripter=Einen 'Mit PyScripter bearbeiten' Eintrag zum Explorer Kontextmenü hinzufügen
+de.ShellIntegration=Shell Integration

@@ -2,11 +2,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
   Left = 521
   Top = 154
   HelpContext = 620
-  Anchors = [akRight, akBottom]
   Caption = 'Editor Options'
   ClientHeight = 421
   ClientWidth = 567
-  OldCreateOrder = True
   ShowHint = True
   OnShow = FormShow
   ExplicitWidth = 573
@@ -23,54 +21,10 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     DesignSize = (
       567
       421)
-    object btnOk: TButton
-      Left = 257
-      Top = 388
-      Width = 94
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Caption = '&OK'
-      Default = True
-      ModalResult = 1
-      TabOrder = 0
-      OnClick = btnOkClick
-    end
-    object btnCancel: TButton
-      Left = 361
-      Top = 388
-      Width = 94
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Cancel = True
-      Caption = '&Cancel'
-      ModalResult = 2
-      TabOrder = 1
-    end
-    object btnHelp: TButton
-      Left = 465
-      Top = 388
-      Width = 94
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Caption = '&Help'
-      TabOrder = 3
-      OnClick = btnHelpClick
-    end
-    object cbApplyToAll: TCheckBox
-      Left = 19
-      Top = 366
-      Width = 113
-      Height = 21
-      Caption = 'Apply to all editors'
-      Checked = True
-      State = cbChecked
-      TabOrder = 2
-    end
     object TabControl: TSpTBXTabControl
-      AlignWithMargins = True
-      Left = 4
-      Top = 4
-      Width = 559
+      Left = 1
+      Top = 1
+      Width = 565
       Height = 353
       Align = alTop
       ActiveTabIndex = 0
@@ -79,28 +33,28 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
         Checked = True
-        CustomWidth = 111
+        CustomWidth = 112
       end
       object SpTBXTabItem2: TSpTBXTabItem
         Caption = 'Options'
-        CustomWidth = 111
+        CustomWidth = 112
       end
       object SpTBXTabItem3: TSpTBXTabItem
         Caption = 'Keystrokes'
-        CustomWidth = 111
+        CustomWidth = 112
       end
       object SpTBXTabItem5: TSpTBXTabItem
         Caption = 'Color Theme'
-        CustomWidth = 111
+        CustomWidth = 112
       end
       object SpTBXTabItem4: TSpTBXTabItem
         Caption = 'Syntax Colors'
-        CustomWidth = 111
+        CustomWidth = 112
       end
       object Options: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 559
+        Width = 565
         Height = 328
         Caption = 'Options'
         ImageIndex = -1
@@ -109,7 +63,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           AlignWithMargins = True
           Left = 5
           Top = 3
-          Width = 547
+          Width = 553
           Height = 247
           Align = alTop
           Caption = 'Options'
@@ -119,7 +73,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object GridPanel1: TGridPanel
             Left = 2
             Top = 15
-            Width = 543
+            Width = 549
             Height = 230
             Align = alClient
             BevelOuter = bvNone
@@ -149,7 +103,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object StackPanel1: TStackPanel
               Left = 0
               Top = 0
-              Width = 271
+              Width = 274
               Height = 230
               Align = alClient
               BevelOuter = bvNone
@@ -195,7 +149,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckAutoIndent: TCheckBox
                 Left = 0
                 Top = 0
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 
                   'Will indent the caret on new lines with the same amount of leadi' +
@@ -206,7 +160,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckRightMouseMoves: TCheckBox
                 Left = 0
                 Top = 19
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 
                   'When clicking with the right mouse for a popup menu, move the cu' +
@@ -217,7 +171,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckDragAndDropEditing: TCheckBox
                 Left = 0
                 Top = 38
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 
                   'Allows you to select a block of text and drag it within the docu' +
@@ -228,7 +182,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckEnhanceEndKey: TCheckBox
                 Left = 0
                 Top = 57
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 'Enhances end key similar to JDeveloper'
                 Caption = 'Enhance End Key'
@@ -237,7 +191,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckWordWrap: TCheckBox
                 Left = 0
                 Top = 76
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 'Allows the editor accept OLE file drops'
                 Caption = 'Word wrap'
@@ -246,7 +200,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckEnhanceHomeKey: TCheckBox
                 Left = 0
                 Top = 95
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 'enhances home key positioning, similar to visual studio'
                 Caption = 'Enhance Home Key'
@@ -255,7 +209,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckAltSetsColumnMode: TCheckBox
                 Left = 0
                 Top = 114
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 
                   'Holding down the Alt Key will put the selection mode into column' +
@@ -266,7 +220,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckTabsToSpaces: TCheckBox
                 Left = 0
                 Top = 133
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 'Converts a tab character to the number of spaces in Tab Width'
                 Caption = 'Tabs to spaces'
@@ -275,7 +229,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckKeepCaretX: TCheckBox
                 Left = 0
                 Top = 152
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 
                   'When moving through lines the X position will always stay the sa' +
@@ -286,7 +240,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckSmartTabDelete: TCheckBox
                 Left = 0
                 Top = 171
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 'similar to Smart Tabs, but when you delete characters'
                 Caption = 'Smart tab delete'
@@ -295,7 +249,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckTabIndent: TCheckBox
                 Left = 0
                 Top = 190
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 'Tab indents and Shift-Tab unindents'
                 Caption = 'Tab Indent'
@@ -304,7 +258,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckSmartTabs: TCheckBox
                 Left = 0
                 Top = 209
-                Width = 271
+                Width = 274
                 Height = 17
                 Hint = 
                   'When tabbing, the cursor will go to the next non-white space cha' +
@@ -314,9 +268,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               end
             end
             object StackPanel2: TStackPanel
-              Left = 271
+              Left = 274
               Top = 0
-              Width = 272
+              Width = 275
               Height = 230
               Align = alClient
               BevelOuter = bvNone
@@ -357,12 +311,12 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               HorizontalPositioning = sphpFill
               TabOrder = 1
               DesignSize = (
-                272
+                275
                 230)
               object ckHalfPageScroll: TCheckBox
                 Left = 0
                 Top = 0
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 
                   'When scrolling with page-up and page-down commands, only scroll ' +
@@ -374,7 +328,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckTrimTrailingSpaces: TCheckBox
                 Left = 0
                 Top = 19
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 'Spaces at the end of lines will be trimmed and not saved'
                 Anchors = [akTop, akRight]
@@ -384,7 +338,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckScrollByOneLess: TCheckBox
                 Left = 0
                 Top = 38
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 'Forces scrolling to be one less'
                 Anchors = [akTop, akRight]
@@ -394,7 +348,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckShowSpecialChars: TCheckBox
                 Left = 0
                 Top = 57
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 'Shows line breaks, spaces and tabs using special symbols'
                 Anchors = [akTop, akRight]
@@ -404,7 +358,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckScrollPastEOF: TCheckBox
                 Left = 0
                 Top = 76
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 'Allows the cursor to go past the end of file marker'
                 Anchors = [akTop, akRight]
@@ -414,7 +368,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckDisableScrollArrows: TCheckBox
                 Left = 0
                 Top = 95
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 
                   'Disables the scroll bar arrow buttons when you can'#39't scroll in t' +
@@ -426,7 +380,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckScrollPastEOL: TCheckBox
                 Left = 0
                 Top = 114
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 
                   'Allows the cursor to go past the last character into the white s' +
@@ -438,7 +392,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckGroupUndo: TCheckBox
                 Left = 0
                 Top = 133
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 
                   'When undoing/redoing actions, handle all continuous changes of t' +
@@ -451,7 +405,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckShowScrollHint: TCheckBox
                 Left = 0
                 Top = 152
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 
                   'Shows a hint of the visible line numbers when scrolling vertical' +
@@ -463,7 +417,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckHideShowScrollbars: TCheckBox
                 Left = 0
                 Top = 171
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 
                   'if enabled, then the scrollbars will only show when necessary.  ' +
@@ -476,7 +430,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               object ckScrollHintFollows: TCheckBox
                 Left = 0
                 Top = 190
-                Width = 272
+                Width = 275
                 Height = 17
                 Hint = 'The scroll hint follows the mouse when scrolling vertically'
                 Anchors = [akTop, akRight]
@@ -490,7 +444,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           AlignWithMargins = True
           Left = 5
           Top = 252
-          Width = 547
+          Width = 553
           Height = 69
           Align = alBottom
           Caption = 'Caret'
@@ -537,127 +491,15 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
       end
-      object KeyStrokes: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 559
-        Height = 328
-        Caption = 'Keystrokes'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem3'
-        object gbKeyStrokes: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 202
-          Width = 547
-          Height = 119
-          Align = alBottom
-          Caption = 'Keystroke Options'
-          TabOrder = 3
-          object Label5: TLabel
-            Left = 50
-            Top = 28
-            Width = 51
-            Height = 13
-            Caption = 'Command:'
-          end
-          object Label6: TLabel
-            Left = 50
-            Top = 91
-            Width = 61
-            Height = 13
-            Caption = 'Keystroke 2:'
-          end
-          object Label7: TLabel
-            Left = 50
-            Top = 59
-            Width = 61
-            Height = 13
-            Caption = 'Keystroke 1:'
-          end
-          object cKeyCommand: TComboBox
-            Left = 185
-            Top = 23
-            Width = 185
-            Height = 21
-            Style = csDropDownList
-            Sorted = True
-            TabOrder = 0
-            OnExit = cKeyCommandExit
-            OnKeyPress = cKeyCommandKeyPress
-            OnKeyUp = cKeyCommandKeyUp
-          end
-        end
-        object btnAddKey: TButton
-          Left = 245
-          Top = 166
-          Width = 102
-          Height = 25
-          Caption = '&Add'
-          TabOrder = 1
-          OnClick = btnAddKeyClick
-        end
-        object btnRemKey: TButton
-          Left = 353
-          Top = 166
-          Width = 102
-          Height = 25
-          Caption = '&Remove'
-          TabOrder = 2
-          OnClick = btnRemKeyClick
-        end
-        object btnUpdateKey: TButton
-          Left = 138
-          Top = 166
-          Width = 102
-          Height = 25
-          Caption = '&Update'
-          TabOrder = 0
-          OnClick = btnUpdateKeyClick
-        end
-        object Panel2: TPanel
-          Left = 2
-          Top = 0
-          Width = 553
-          Height = 158
-          Align = alTop
-          TabOrder = 4
-          object KeyList: TListView
-            Left = 1
-            Top = 1
-            Width = 551
-            Height = 156
-            Align = alClient
-            BorderStyle = bsNone
-            Columns = <
-              item
-                Caption = 'Command'
-                Width = 167
-              end
-              item
-                Caption = 'Keystroke'
-                Width = 142
-              end>
-            ColumnClick = False
-            FlatScrollBars = True
-            HideSelection = False
-            ReadOnly = True
-            RowSelect = True
-            SortType = stText
-            TabOrder = 0
-            ViewStyle = vsReport
-          end
-        end
-      end
       object ColorThemes: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 559
+        Width = 565
         Height = 328
         Caption = 'Color Theme'
         ImageIndex = -1
         DesignSize = (
-          559
+          565
           328)
         TabItem = 'SpTBXTabItem5'
         object SpTBXLabel1: TLabel
@@ -677,7 +519,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         object SynThemeSample: TSynEdit
           Left = 169
           Top = 41
-          Width = 388
+          Width = 394
           Height = 276
           Anchors = [akLeft, akTop, akRight]
           Font.Charset = DEFAULT_CHARSET
@@ -685,6 +527,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Font.Height = -12
           Font.Name = 'Courier New'
           Font.Style = []
+          Font.Quality = fqClearTypeNatural
           TabOrder = 0
           CodeFolding.GutterShapeSize = 11
           CodeFolding.CollapsedLineColor = clGrayText
@@ -702,7 +545,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Visible = False
           Gutter.Width = 0
           RightEdge = 0
-          FontSmoothing = fsmNone
         end
         object lbColorThemes: TListBox
           Left = 3
@@ -727,12 +569,12 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       object Color: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 559
+        Width = 565
         Height = 328
         Caption = 'Syntax Colors'
         ImageIndex = -1
         DesignSize = (
-          559
+          565
           328)
         TabItem = 'SpTBXTabItem4'
         object Label11: TLabel
@@ -826,7 +668,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         object SynEdit1: TSynEdit
           Left = 190
           Top = 64
-          Width = 366
+          Width = 372
           Height = 257
           Anchors = [akLeft, akTop, akRight]
           Font.Charset = DEFAULT_CHARSET
@@ -834,6 +676,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Font.Height = -12
           Font.Name = 'Courier New'
           Font.Style = []
+          Font.Quality = fqClearTypeNatural
           TabOrder = 4
           OnClick = SynEdit1Click
           CodeFolding.GutterShapeSize = 11
@@ -852,12 +695,11 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Visible = False
           Gutter.Width = 0
           RightEdge = 0
-          FontSmoothing = fsmNone
         end
         object cbHighlighters: TComboBox
           Left = 3
           Top = 23
-          Width = 542
+          Width = 548
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
@@ -875,12 +717,13 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           OnClick = lbElementsClick
         end
         object cbElementForeground: TSpTBXColorEdit
-          Left = 3
+          Left = 7
           Top = 181
           Width = 177
           Height = 21
           TabOrder = 1
           SelectedColor = clBlack
+          SelectedFormat = cttHTML
           OnSelectedColorChanged = cbElementForegroundChange
         end
         object cbElementBackground: TSpTBXColorEdit
@@ -890,22 +733,133 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 21
           TabOrder = 2
           SelectedColor = clBlack
+          SelectedFormat = cttHTML
           OnSelectedColorChanged = cbElementBackgroundChange
+        end
+      end
+      object KeyStrokes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 565
+        Height = 328
+        Caption = 'Keystrokes'
+        ImageIndex = -1
+        TabItem = 'SpTBXTabItem3'
+        object gbKeyStrokes: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 202
+          Width = 553
+          Height = 119
+          Align = alBottom
+          Caption = 'Keystroke Options'
+          TabOrder = 3
+          object Label5: TLabel
+            Left = 50
+            Top = 28
+            Width = 51
+            Height = 13
+            Caption = 'Command:'
+          end
+          object Label6: TLabel
+            Left = 50
+            Top = 91
+            Width = 61
+            Height = 13
+            Caption = 'Keystroke 2:'
+          end
+          object Label7: TLabel
+            Left = 50
+            Top = 59
+            Width = 61
+            Height = 13
+            Caption = 'Keystroke 1:'
+          end
+          object cKeyCommand: TComboBox
+            Left = 185
+            Top = 23
+            Width = 185
+            Height = 21
+            Style = csDropDownList
+            Sorted = True
+            TabOrder = 0
+            OnKeyUp = cKeyCommandKeyUp
+          end
+        end
+        object btnAddKey: TButton
+          Left = 245
+          Top = 166
+          Width = 102
+          Height = 25
+          Caption = '&Add'
+          TabOrder = 1
+          OnClick = btnAddKeyClick
+        end
+        object btnRemKey: TButton
+          Left = 353
+          Top = 166
+          Width = 102
+          Height = 25
+          Caption = '&Remove'
+          TabOrder = 2
+          OnClick = btnRemKeyClick
+        end
+        object btnUpdateKey: TButton
+          Left = 138
+          Top = 166
+          Width = 102
+          Height = 25
+          Caption = '&Update'
+          TabOrder = 0
+          OnClick = btnUpdateKeyClick
+        end
+        object Panel2: TPanel
+          Left = 2
+          Top = 0
+          Width = 559
+          Height = 158
+          Align = alTop
+          TabOrder = 4
+          object KeyList: TListView
+            Left = 1
+            Top = 1
+            Width = 557
+            Height = 156
+            Align = alClient
+            BorderStyle = bsNone
+            Columns = <
+              item
+                Caption = 'Command'
+                Width = 200
+              end
+              item
+                Caption = 'Keystroke'
+                Width = 142
+              end>
+            ColumnClick = False
+            FlatScrollBars = True
+            HideSelection = False
+            ReadOnly = True
+            RowSelect = True
+            SortType = stText
+            TabOrder = 0
+            ViewStyle = vsReport
+          end
         end
       end
       object Display: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 559
+        Width = 565
         Height = 328
         Caption = 'Display'
         ImageIndex = -1
         DesignSize = (
-          559
+          565
           328)
         TabItem = 'SpTBXTabItem1'
         object gbRightEdge: TGroupBox
-          Left = 284
+          Left = 290
           Top = 116
           Width = 266
           Height = 80
@@ -924,7 +878,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
           object Label10: TLabel
             Left = 9
-            Top = 20
+            Top = 19
             Width = 66
             Height = 13
             Caption = 'Edge Column:'
@@ -946,19 +900,20 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Anchors = [akTop, akRight]
             TabOrder = 1
             SelectedColor = clBlack
+            SelectedFormat = cttHTML
           end
         end
         object gbGutter: TGroupBox
           AlignWithMargins = True
           Left = 5
           Top = 197
-          Width = 547
+          Width = 553
           Height = 124
           Align = alBottom
           Caption = 'Gutter'
           TabOrder = 0
           DesignSize = (
-            547
+            553
             124)
           object Label1: TLabel
             Left = 285
@@ -968,7 +923,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Caption = 'Gutter color:'
           end
           object pnlGutterFontDisplay: TPanel
-            Left = 355
+            Left = 361
             Top = 44
             Width = 181
             Height = 27
@@ -977,8 +932,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object lblGutterFont: TLabel
               Left = 1
               Top = 1
-              Width = 179
-              Height = 25
+              Width = 72
+              Height = 8
               Align = alClient
               Alignment = taCenter
               Caption = 'Terminal 8pt'
@@ -988,9 +943,76 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Name = 'Terminal'
               Font.Style = []
               ParentFont = False
-              ExplicitWidth = 72
-              ExplicitHeight = 8
             end
+          end
+          object cbGutterColor: TSpTBXColorEdit
+            Left = 399
+            Top = 76
+            Width = 137
+            Height = 21
+            TabOrder = 7
+            SelectedColor = clBlack
+            SelectedFormat = cttHTML
+          end
+          object ckGutterAutosize: TCheckBox
+            Left = 24
+            Top = 38
+            Width = 230
+            Height = 21
+            Caption = 'Autosize'
+            TabOrder = 1
+          end
+          object ckGutterShowLineNumbers: TCheckBox
+            Left = 24
+            Top = 58
+            Width = 230
+            Height = 21
+            Caption = 'Show line numbers'
+            TabOrder = 2
+          end
+          object ckGutterShowLeaderZeros: TCheckBox
+            Left = 24
+            Top = 99
+            Width = 230
+            Height = 21
+            Caption = 'Show leading zeros'
+            TabOrder = 3
+          end
+          object ckGutterVisible: TCheckBox
+            Left = 24
+            Top = 18
+            Width = 230
+            Height = 21
+            Caption = 'Visible'
+            Checked = True
+            State = cbChecked
+            TabOrder = 0
+          end
+          object ckGutterStartAtZero: TCheckBox
+            Left = 24
+            Top = 78
+            Width = 230
+            Height = 21
+            Caption = 'Start at zero'
+            TabOrder = 8
+          end
+          object cbGutterFont: TCheckBox
+            Left = 285
+            Top = 18
+            Width = 156
+            Height = 21
+            Caption = 'Use Gutter Font'
+            TabOrder = 4
+            OnClick = cbGutterFontClick
+          end
+          object ckGutterGradient: TCheckBox
+            Left = 285
+            Top = 99
+            Width = 230
+            Height = 21
+            Hint = 'Gutter gradient visible'
+            Caption = 'Gutter Gradient'
+            TabOrder = 9
           end
           object btnGutterFont: TButton
             Left = 447
@@ -1001,77 +1023,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 5
             OnClick = btnGutterFontClick
           end
-          object ckGutterAutosize: TCheckBox
-            Left = 24
-            Top = 38
-            Width = 243
-            Height = 21
-            Caption = 'Autosize'
-            TabOrder = 1
-          end
-          object ckGutterShowLineNumbers: TCheckBox
-            Left = 24
-            Top = 58
-            Width = 243
-            Height = 21
-            Caption = 'Show line numbers'
-            TabOrder = 2
-          end
-          object ckGutterShowLeaderZeros: TCheckBox
-            Left = 24
-            Top = 99
-            Width = 243
-            Height = 21
-            Caption = 'Show leading zeros'
-            TabOrder = 3
-          end
-          object ckGutterVisible: TCheckBox
-            Left = 23
-            Top = 18
-            Width = 244
-            Height = 21
-            Caption = 'Visible'
-            Checked = True
-            State = cbChecked
-            TabOrder = 0
-          end
-          object cbGutterFont: TCheckBox
-            Left = 285
-            Top = 18
-            Width = 161
-            Height = 21
-            Caption = 'Use Gutter Font'
-            TabOrder = 4
-            OnClick = cbGutterFontClick
-          end
-          object ckGutterStartAtZero: TCheckBox
-            Left = 24
-            Top = 78
-            Width = 244
-            Height = 21
-            Caption = 'Start at zero'
-            TabOrder = 8
-          end
-          object ckGutterGradient: TCheckBox
-            Left = 285
-            Top = 99
-            Width = 245
-            Height = 21
-            Hint = 'Gutter gradient visible'
-            Caption = 'Gutter Gradient'
-            TabOrder = 9
-          end
-          object cbGutterColor: TSpTBXColorEdit
-            Left = 399
-            Top = 76
-            Width = 137
-            Height = 21
-            TabOrder = 7
-            SelectedColor = clBlack
-          end
         end
         object gbBookmarks: TGroupBox
-          Left = 284
+          Left = 290
           Top = 50
           Width = 266
           Height = 62
@@ -1081,7 +1035,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckBookmarkKeys: TCheckBox
             Left = 23
             Top = 16
-            Width = 170
+            Width = 230
             Height = 21
             Caption = 'Bookmark keys'
             TabOrder = 0
@@ -1089,7 +1043,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckBookmarkVisible: TCheckBox
             Left = 23
             Top = 35
-            Width = 170
+            Width = 230
             Height = 21
             Caption = 'Bookmarks visible'
             TabOrder = 1
@@ -1111,8 +1065,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object labFont: TLabel
               Left = 1
               Top = 1
-              Width = 188
-              Height = 28
+              Width = 128
+              Height = 16
               Align = alClient
               Alignment = taCenter
               Caption = 'Courier New 10pt'
@@ -1122,8 +1076,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Name = 'Courier New'
               Font.Style = []
               ParentFont = False
-              ExplicitWidth = 128
-              ExplicitHeight = 16
             end
           end
           object btnFont: TButton
@@ -1137,7 +1089,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
         object gbLineSpacing: TGroupBox
-          Left = 6
+          Left = 7
           Top = 108
           Width = 266
           Height = 88
@@ -1181,7 +1133,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
         object GroupBox2: TGroupBox
-          Left = 284
+          Left = 290
           Top = 7
           Width = 266
           Height = 43
@@ -1195,9 +1147,55 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Height = 21
             TabOrder = 0
             SelectedColor = clBlack
+            SelectedFormat = cttHTML
           end
         end
       end
+    end
+    object cbApplyToAll: TCheckBox
+      Left = 19
+      Top = 366
+      Width = 230
+      Height = 21
+      Caption = 'Apply to all editors'
+      Checked = True
+      Color = clNone
+      ParentColor = False
+      State = cbChecked
+      TabOrder = 2
+    end
+    object btnOk: TButton
+      Left = 257
+      Top = 388
+      Width = 94
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&OK'
+      Default = True
+      ModalResult = 1
+      TabOrder = 0
+      OnClick = btnOkClick
+    end
+    object btnCancel: TButton
+      Left = 361
+      Top = 388
+      Width = 94
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Cancel = True
+      Caption = '&Cancel'
+      ModalResult = 2
+      TabOrder = 1
+    end
+    object btnHelp: TButton
+      Left = 465
+      Top = 388
+      Width = 94
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&Help'
+      TabOrder = 3
+      OnClick = btnHelpClick
     end
   end
   object FontDialog: TFontDialog

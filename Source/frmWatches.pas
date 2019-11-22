@@ -20,12 +20,15 @@ uses
   System.Variants,
   System.Classes,
   System.Contnrs,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.Menus,
   Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   frmIDEDockWin,
   JvComponentBase,
   JvAppStorage,
@@ -51,6 +54,7 @@ type
     mnCopyToClipboard: TSpTBXItem;
     TBXItem1: TSpTBXItem;
     Panel1: TPanel;
+    vicCodeImages: TVirtualImageList;
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnAddWatchClick(Sender: TObject);
     procedure mnEditWatchClick(Sender: TObject);
@@ -107,10 +111,11 @@ uses
   SynEdit,
   JvGnugettext,
   StringResources,
+  uEditAppIntfs,
+  uCommonFunctions,
   dmCommands,
   frmPyIDEMain,
   frmCallStack,
-  uCommonFunctions,
   cPyBaseDebugger,
   cVirtualStringTreeHelper;
 
@@ -429,7 +434,7 @@ procedure TWatchesWindow.UpdateWindow(DebuggerState: TDebuggerState);
 Var
   i: Integer;
 begin
-  if not PyControl.InternalPython.Loaded or PyControl.Running then begin
+  if not GI_PyControl.PythonLoaded or GI_PyControl.Running then begin
     WatchesView.Enabled := False;
     Exit;
   end else

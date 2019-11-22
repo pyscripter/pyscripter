@@ -291,7 +291,7 @@
           New Features
             Support for Python 3.2
             New IDE Option added "Jump to error on Exception"  (Issue 130)
-            New IDE Option added "File template for new python scirpts"  (Issue 385)
+            New IDE Option added "File template for new Python scirpts"  (Issue 385)
             New IDE Option added "Auto completion font"  (Issue 365)
             French translation by Groupe AmiensPython added
           Bug fixes
@@ -302,10 +302,10 @@
             Native unicode strings throught (speed improvements on XP)
             Revamped Code Explorer (Issues 192, 163, 213, 225)
             Improvements to Code completion
-            -  Auto-completion for the import statement in python 2.5 and later (Issue 230)
+            -  Auto-completion for the import statement in Python 2.5 and later (Issue 230)
             -  Processing of function return statements
             -  Background module parsing and caching of parsed modules
-            Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
+            Start-up Python scripts pyscripter_init.py and python_init.py. See help file for details.
             Imporved "Match Brace" (Issue 426) and New Editor Command "Select to brace"
             Italian translation by Vincenzo Demasi added
             Russian translation by Aleksander Dragunkin added
@@ -410,7 +410,7 @@
   History:   v 3.3
           New Features
             Thread debugging (#455)
-            Much faster python output redirection
+            Much faster Python output redirection
             Form Layout and placement stored in PyScripter.local.ini
           Issues addressed
             #659, #827, #848, #849
@@ -445,17 +445,53 @@
             Open and work with remote files from Windows and Linux machines as if they were local
             Run and Debug scripts on remote Windows and Linux machines using SSH
             Python 3 type hints used in code completion
-            Connection to python server with Windows named pipes. Avoids firewall issues.
+            Connection to Python server with Windows named pipes. Avoids firewall issues.
               Requires the installation of pywin32 (pip install pywin32).
-            IDE option to force the use of sockets for connection to the python server.  (default True)
+            IDE option to force the use of sockets for connection to the Python server.  (default True)
             New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) and
               Move Line Up/Down (Alt + Up/Down) as in Visual Studio
             PyScripter icons given a facelift by Salim Saddaquzzaman
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
-            #501 #682, #907
+            #501, #682, #907
 
-            { TODO : Issues 667 }
+  History:   v 3.6
+          New Features
+            Much faster Remote Engine using asynchronous Windows named pipes if pywin32 is available.
+            IDE option to force the use of sockets for connection to the Python
+              server now defaults to False
+            Enhancements to the SSH Engine - now compatible with PuTTY
+            Execute system commands in the interpreter with !. Supports parameter substitution.
+            Clickable status panels with Python version and engine type
+            Text drag & drop between PyScripter and other applications (#554)
+            Triple-click selects line and Quadraple-click selects all
+            Double-click drag selects whole words - triple-click drag selects whole lines
+            Consistent syntax color themes accross supported languages (#855)
+            New IDE option "Trim trailing spaces when saving files" (#667)
+            New IDE Option 'Step into open files only'.  Defaults to False. (#510)
+            Localization of the installer
+          Issues addressed
+            #624, #743, #857, #904, #922, #927, 928, #929, #936
+
+  History:   v 3.6.1
+          New Features
+            Python 3.8 support.  Dropped support for Python 3.0 and 3.1.
+            Compatibility with conda distributions
+            JSON and YAML file templates added
+            Three new styles added (Windows10BlackPearl, Windows10BlueWhale, Windows10ClearDay)
+            Translation improvements
+            "Always Use Sockets" IDE option is True by default (#938)
+          Issues addressed
+            #311, #941, #955
+
+  History:   v 3.6.2
+          New Features
+            Improved compatibility with venv virtual environments
+            Restore code folding state when you start PyScripter (#973)
+            Improve DPI scaling
+          Issues addressed
+            #962, #948, #966, #967, #968, #972
+
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
             { TODO: Interpreter raw_input #311 }
@@ -538,7 +574,7 @@ uses
   cPyDebugger,
   cRefactoring,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl, System.ImageList, Vcl.VirtualImageList;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -553,12 +589,12 @@ type
     zOrderProcessing : Boolean;
   public
     zOrder : TList;
+    procedure WMDropFiles(var Msg: TMessage); message WM_DROPFILES;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
   end;
 
-
-  TPyIDEMainForm = class(TForm, IDropTarget)
+  TPyIDEMainForm = class(TForm, IIDELayouts, IPyIDEServices)
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
     BGPanel: TPanel;
@@ -1033,6 +1069,11 @@ type
     actPythonSSH: TAction;
     mnPythonEngineSSH: TSpTBXItem;
     SpTBXItem14: TSpTBXItem;
+    SpTBXSeparatorItem22: TSpTBXSeparatorItem;
+    lbPythonVersion: TSpTBXLabelItem;
+    SpTBXSeparatorItem23: TSpTBXSeparatorItem;
+    lbPythonEngine: TSpTBXLabelItem;
+    vilImages: TVirtualImageList;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1153,6 +1194,8 @@ type
     procedure PythonVersionsClick(Sender: TObject);
     procedure actPythonSetupExecute(Sender: TObject);
     procedure actRemoteFileOpenExecute(Sender: TObject);
+    procedure lbPythonVersionClick(Sender: TObject);
+    procedure lbPythonEngineClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1160,27 +1203,25 @@ type
     procedure DebugActiveScript(ActiveEditor: IEditor;
       InitStepIn : Boolean = False; RunToCursorLine : integer = -1);
     procedure SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
-    procedure tbiSearchTextAcceptText(const NewText: WideString);
-    procedure tbiReplaceTextAcceptText(const NewText: WideString);
+    procedure tbiSearchTextAcceptText(const NewText: string);
+    procedure tbiReplaceTextAcceptText(const NewText: string);
     procedure DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
         State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
         var AImageList: TCustomImageList; var AImageIndex: Integer;
         var ARect: TRect; var PaintDefault: Boolean);
-    procedure SetupCustomizer;
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
-    procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
     procedure ApplyIDEOptionsToEditor(Editor: IEditor);
     procedure OpenInitialFiles;
   protected
-    fCurrentLine : integer;
-    fErrorLine : integer;
     fCurrentBrowseInfo : string;
+    procedure ScaleForCurrentDpi; override;
     function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
     function OpenCmdLineFile(FileName : string) : Boolean;
     procedure DebuggerBreakpointChange(Sender: TObject; Editor : IEditor; ALine: integer);
-    procedure DebuggerCurrentPosChange(Sender: TObject);
+    procedure DebuggerCurrentPosChange(Sender: TObject; const OldPos, NewPos: TEditorPos);
+    procedure DebuggerErrorPosChange(Sender: TObject; const OldPos, NewPos: TEditorPos);
     procedure UpdateStandardActions;
     procedure UpdateStatusBarPanels;
     procedure ApplicationOnHint(Sender: TObject);
@@ -1202,23 +1243,31 @@ type
     // Browse MRU stuff
     procedure PrevClickHandler(Sender: TObject);
     procedure NextClickHandler(Sender: TObject);
-    procedure PrevMRUAdd(S : WideString);
-    procedure NextMRUAdd(S : WideString);
-  protected
-    fStoredEffect : Longint;
+    procedure PrevMRUAdd(S : string);
+    procedure NextMRUAdd(S : string);
+  private
     OldScreenPPI : Integer;
     OldDesktopSize : string;
     LoadLayoutError : Boolean;
-    // IDropTarget implementation
-    function DragEnter(const dataObj: IDataObject; grfKeyState: Longint;
-      pt: TPoint; var dwEffect: Longint): HResult; stdcall;
-    function DropTargetDragOver(grfKeyState: Longint; pt: TPoint;
-      var dwEffect: Longint): HResult; stdcall;
-    function IDropTarget.DragOver= DropTargetDragOver;
-    function DragLeave: HResult; stdcall;
-    function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint;
-      var dwEffect: Longint): HResult; stdcall;
-    procedure ScaleForCurrentDpi; override;
+    // IIDELayouts implementation
+    function LayoutExists(const Layout: string): Boolean;
+    procedure LoadLayout(const Layout : string);
+    procedure SaveLayout(const Layout : string);
+   // IPyIDEServices implementation
+    function GetActiveEditor : IEditor;
+    procedure WriteStatusMsg(const S : string);
+    function ShowFilePosition(FileName : string; Line, Offset : integer; SelLen : integer = 0;
+         ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
+    procedure ClearPythonWindows;
+    procedure SaveEnvironment;
+    procedure SaveFileModules;
+    procedure SetRunLastScriptHints(const ScriptName : string);
+    function GetStoredScript(const Name: string): TStrings;
+    function GetMessageServices: IMessageServices;
+    function GetUnitTestServices: IUnitTestServices;
+    function GetIDELayouts: IIDELayouts;
+    function GetAppStorage: TJvCustomAppStorage;
+    function GetLocalAppStorage: TJvCustomAppStorage;
   public
     StyleDPIAwareness : TStyleDPIAwareness;
     ActiveTabControlIndex : integer;
@@ -1226,7 +1275,6 @@ type
     MenuHelpRequested : Boolean;
     Layouts : TStringList;
     fLanguageList : TStringList;
-    procedure SaveEnvironment;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
     procedure StoreLocalApplicationData;
@@ -1235,32 +1283,23 @@ type
        TabControlIndex : integer = 1) : IEditor;
     function NewFileFromTemplate(FileTemplate : TFileTemplate;
        TabControlIndex : integer = 1) : IEditor;
-    function GetActiveEditor : IEditor;
-    procedure SaveFileModules;
     procedure UpdateDebugCommands(DebuggerState : TDebuggerState);
-    procedure SetRunLastScriptHints(ScriptName : string);
-    function ShowFilePosition(FileName : string; Line, Offset : integer; SelLen : integer = 0;
-         ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
     procedure DebuggerStateChange(Sender: TObject; OldState,
       NewState: TDebuggerState);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
     procedure DebuggerYield(Sender: TObject; DoIdle : Boolean);
-    procedure DebuggerErrorPosChange(Sender: TObject);
-    procedure SetCurrentPos(Editor : IEditor; ALine: integer);
-    procedure PyIDEOptionsChanged;
+    procedure PyIDEOptionsChanged(Sender: TObject);
+    procedure SetupCustomizer;
     procedure SetupLanguageMenu;
     procedure SetupToolsMenu;
     procedure SetupLayoutsMenu;
     procedure SetupSyntaxMenu;
     procedure SetupPythonVersionsMenu;
     procedure LayoutClick(Sender : TObject);
-    procedure LoadLayout(const Layout : string);
     procedure LoadToolbarLayout(const Layout: string);
     procedure LoadToolbarItems(const Path : string);
-    procedure SaveLayout(const Layout : string);
     procedure SaveToolbarLayout(const Layout: string);
     procedure SaveToolbarItems(const Path : string);
-    procedure WriteStatusMsg(S : string);
     function JumpToFilePosInfo(FilePosInfo : string) : boolean;
     procedure FindDefinition(Editor : IEditor; TextCoord : TBufferCoord;
       ShowMessages, Silent, JumpToFirstMatch : Boolean; var FilePosInfo : string);
@@ -1278,18 +1317,13 @@ type
     function TabControlIndex(TabControl : TSpTBXCustomTabControl) : integer;
     procedure ConfigureFileExplorer(FCN : TFileChangeNotificationType;
       BackgroundProcessing : Boolean);
+    procedure ShowIDEDockForm(Form: TForm);
     property ActiveTabControl : TSpTBXCustomTabControl read GetActiveTabControl
       write SetActiveTabControl;
   end;
 
 Const
   ctkRemember : TDSACheckTextKind = 100;
-  dsaSearchFromStart = 1;
-  dsaReplaceFromStart = 2;
-  dsaReplaceNumber = 3;
-  dsaSearchStartReached = 4;
-  dsaPostMortemInfo = 5;
-
   FactoryToolbarItems = 'Factory Toolbar Items v1.0';
 
 var
@@ -1303,6 +1337,7 @@ uses
   System.Math,
   System.IniFiles,
   System.DateUtils,
+  System.RegularExpressions,
   Vcl.Clipbrd,
   Vcl.StdActns,
   Vcl.Themes,
@@ -1318,7 +1353,6 @@ uses
   MPDataObject,
   SynHighlighterPython,
   SynEditHighlighter,
-  SynRegExpr,
   SynEditKeyCmds,
   SynCompletionProposal,
   PythonEngine,
@@ -1443,74 +1477,9 @@ begin
   end;
 end;
 
-function TPyIDEMainForm.DragEnter(const dataObj: IDataObject;
-  grfKeyState: Integer; pt: TPoint; var dwEffect: Integer): HResult;
-
-  function GetFormatEtc: TFormatEtc;
-  begin
-    Result.cfFormat := CF_HDROP; // This guy is always registered for all applications
-    Result.ptd := nil;
-    Result.dwAspect := DVASPECT_CONTENT;
-    Result.lindex := -1;
-    Result.tymed := TYMED_HGLOBAL
-  end;
-
-begin
-  if Succeeded(dataObj.QueryGetData(GetFormatEtc)) then
-    dwEffect := DROPEFFECT_COPY
-  else
-    dwEffect := DROPEFFECT_NONE;
-  fStoredEffect := dwEffect;
-  Result := S_OK;
-end;
-
-function TPyIDEMainForm.DragLeave: HResult;
-begin
-    Result := S_OK;
-end;
-
-function TPyIDEMainForm.DropTargetDragOver(grfKeyState: Integer; pt: TPoint;
-  var dwEffect: Integer): HResult;
-begin
-  dwEffect := fStoredEffect;
-  Result := S_OK;
-end;
-
 procedure TPyIDEMainForm.EditorViewsMenuClick(Sender: TObject);
 begin
   GI_EditorFactory.UpdateEditorViewMenu;
-end;
-
-function TPyIDEMainForm.Drop(const dataObj: IDataObject; grfKeyState: Integer;
-  pt: TPoint; var dwEffect: Integer): HResult;
-Var
-  CommonHDrop : TCommonHDrop;
-  FileName : string;
-  i : integer;
-  TabCtrlIndx : integer;
-begin
-  Result := S_OK;
-  if TabControl2.Visible then
-    TabCtrlIndx :=
-      IfThen(PtInRect(TabControl2.ClientRect, TabControl2.ScreenToClient(pt)), 2, 1)
-  else
-    TabCtrlIndx := 1;
-
-  CommonHDrop := TCommonHDrop.Create;
-  try
-    if CommonHDrop.LoadFromDataObject(dataObj) then begin
-      for i := 0 to CommonHDrop.FileCount - 1 do begin
-        FileName := CommonHDrop.FileName(i);
-        if FileExists(FileName) then  // checks it is not a directory
-          try
-            DoOpenFile(FileName, '', TabCtrlIndx);
-          except
-          end;
-      end;
-    end;
-  finally
-    CommonHDrop.Free;
-  end;
 end;
 
 type
@@ -1523,6 +1492,7 @@ Var
   LocalOptionsFileName: string;
 begin
   // Style DPI awareness
+  TStyleDPIAwareness.RoundScalingFactor := False;
   StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
   StyleDPIAwareness.Parent := Self;
 
@@ -1533,10 +1503,9 @@ begin
     JvAppInstances.Check;
   end;
 
-// Trying to reduce flicker!
-  ControlStyle := ControlStyle + [csOpaque];
-
+  // Notifications
   SkinManager.AddSkinNotification(Self);
+  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 
   // JvDocking Fonts
   with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
@@ -1549,6 +1518,9 @@ begin
   Layouts.Sorted := True;
   Layouts.Duplicates := dupError;
 
+  // GI_PyIDEServices
+  GI_PyIDEServices := Self;
+
   // Application Storage
   OptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.ini');
   AppStorage.Encoding := TEncoding.UTF8;
@@ -1560,22 +1532,13 @@ begin
     AppStorage.FileName := OptionsFileName;
   end else  // default location
     AppStorage.FileName :=
-      CommandsDataModule.UserDataPath + OptionsFileName;
+      TPyScripterSettings.UserDataPath + OptionsFileName;
 
   // LocalAppStorage
   LocalOptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.local.ini');
   LocalAppStorage.Location := flCustom;
   LocalAppStorage.FileName :=
-      CommandsDataModule.UserDataPath + LocalOptionsFileName;
-
-  // DSA stuff
-  DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
-  RegisterDSACheckMarkText(ctkRemember, 'Remember answer and do not show again');
-  RegisterDSA(dsaSearchFromStart, 'SearchFromStart', 'Search from start question', DSAAppStorage, ctkRemember);
-  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace srom start question', DSAAppStorage, ctkRemember);
-  RegisterDSA(dsaReplaceNumber, 'ReplaceNumber', 'Information about number of replacements', DSAAppStorage, ctkShow);
-  RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
-  RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
+      TPyScripterSettings.UserDataPath + LocalOptionsFileName;
 
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before All Forms', StopWatch.ElapsedMilliseconds])));
   // Create and layout IDE windows
@@ -1613,7 +1576,7 @@ begin
   TP_GlobalIgnoreClass(TJvFormStorage);
   TP_GlobalIgnoreClass(TJvAppIniFileStorage);
   TranslateComponent(Self);
-  //(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
 
   // Setup Languages
   fLanguageList := TStringList.Create;
@@ -1641,6 +1604,15 @@ begin
       JvFormStorage.RestoreFormPlacement;
   end;
 
+  // DSA stuff
+  DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
+  RegisterDSACheckMarkText(ctkRemember, _(SDSActkRememberText));
+  RegisterDSA(dsaSearchFromStart, 'SearchFromStart', 'Search from start question', DSAAppStorage, ctkRemember);
+  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace srom start question', DSAAppStorage, ctkRemember);
+  RegisterDSA(dsaReplaceNumber, 'ReplaceNumber', 'Information about number of replacements', DSAAppStorage, ctkShow);
+  RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
+  RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
+
   // Store Factory Settings
   if not AppStorage.PathExists(FactoryToolbarItems) then
     SaveToolbarItems(FactoryToolbarItems);
@@ -1652,7 +1624,7 @@ begin
     try
       //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before LoadLayout', StopWatch.ElapsedMilliseconds])));
       LoadLayout('Current');
-      //(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
+      //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
     except
       LoadLayoutError := True;
       LocalAppStorage.DeleteSubTree('Layouts\Default');
@@ -1665,6 +1637,8 @@ begin
   end
   else
   begin
+    WindowState := wsMaximized;
+
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := PPIScaled(200);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
@@ -1704,6 +1678,14 @@ begin
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
+
+  //Flicker
+  MainMenu.DoubleBuffered := True;
+  MainToolBar.DoubleBuffered := True;
+  DebugToolbar.DoubleBuffered := True;
+  ViewToolbar.DoubleBuffered := True;
+  EditorToolbar.DoubleBuffered := True;
+  UserToolbar.DoubleBuffered := True;
 
   SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;
@@ -1772,14 +1754,10 @@ begin
     except
     end;
 
-    // Stop DropTarget to make sure is unregistered
-    RevokeDragDrop(TabControl1.Handle);
-    RevokeDragDrop(TabControl2.Handle);
-
-
-    VariablesWindow.ClearAll;
-    UnitTestWindow.ClearAll;
-    CallStackWindow.ClearAll;
+    // Stop accepting files
+    DragAcceptFiles(TabControl1.Handle, False);
+    DragAcceptFiles(TabControl2.Handle, False);
+    ClearPythonWindows;
 
     // Give the time to the treads to terminate
     Sleep(200);
@@ -1852,84 +1830,70 @@ begin
     Editor.Activate;
 end;
 
-procedure TPyIDEMainForm.actNavFileExplorerExecute(Sender: TObject);
+procedure TPyIDEMainForm.ShowIDEDockForm(Form: TForm);
 begin
-  ShowDockForm(FileExplorerWindow);
-  FileExplorerWindow.FormActivate(Sender);
+  ShowDockForm(Form as TIDEDockWindow);
+  if Assigned(Form.OnActivate) then
+    Form.OnActivate(Self);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
   PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+end;
+
+procedure TPyIDEMainForm.ClearPythonWindows;
+begin
+  VariablesWindow.ClearAll;
+  UnitTestWindow.ClearAll;
+  CallStackWindow.ClearAll;
+end;
+
+procedure TPyIDEMainForm.actNavFileExplorerExecute(Sender: TObject);
+begin
+  ShowIDEDockForm(FileExplorerWindow);
 end;
 
 procedure TPyIDEMainForm.actNavInterpreterExecute(Sender: TObject);
 begin
-  ShowDockForm(PythonIIForm);
-  PythonIIForm.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(PythonIIForm);
 end;
 
 procedure TPyIDEMainForm.actNavMessagesExecute(Sender: TObject);
 begin
-  ShowDockForm(MessagesWindow);
-  MessagesWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(MessagesWindow);
 end;
 
 procedure TPyIDEMainForm.actNavOutputExecute(Sender: TObject);
 begin
-  ShowDockForm(OutputWindow);
-  OutputWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(OutputWindow);
 end;
 
 procedure TPyIDEMainForm.actNavProjectExplorerExecute(Sender: TObject);
 begin
-  ShowDockForm(ProjectExplorerWindow);
-  ProjectExplorerWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(ProjectExplorerWindow);
 end;
 
 procedure TPyIDEMainForm.actNavRETesterExecute(Sender: TObject);
 begin
-  ShowDockForm(RegExpTesterWindow);
-  RegExpTesterWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(RegExpTesterWindow);
 end;
 
 procedure TPyIDEMainForm.actNavTodoExecute(Sender: TObject);
 begin
-  ShowDockForm(ToDoWindow);
-  ToDoWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(ToDoWindow);
 end;
 
 procedure TPyIDEMainForm.actNavUnitTestsExecute(Sender: TObject);
 begin
-  ShowDockForm(UnitTestWindow);
-  UnitTestWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(UnitTestWindow);
 end;
 
 procedure TPyIDEMainForm.actNavVariablesExecute(Sender: TObject);
 begin
-  ShowDockForm(VariablesWindow);
-  VariablesWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(VariablesWindow);
 end;
 
 procedure TPyIDEMainForm.actNavWatchesExecute(Sender: TObject);
 begin
-  ShowDockForm(WatchesWindow);
-  WatchesWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(WatchesWindow);
 end;
 
 procedure TPyIDEMainForm.actNewFileExecute(Sender: TObject);
@@ -2038,7 +2002,7 @@ end;
 
 procedure TPyIDEMainForm.actPythonReinitializeExecute(Sender: TObject);
 begin
-  if not PyControl.Inactive then begin
+  if not GI_PyControl.Inactive then begin
     if Vcl.Dialogs.MessageDlg(_(STerminateInterpreter),
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
@@ -2066,7 +2030,7 @@ begin
   if not Assigned(ActiveEditor) then Exit;
 
   if TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(ActiveEditor) then begin
-    MessagesWindow.AddMessage(Format(_(SSyntaxIsOK), [ActiveEditor.FileTitle]));
+    GI_PyIDEServices.Messages.AddMessage(Format(_(SSyntaxIsOK), [ActiveEditor.FileTitle]));
     ShowDockForm(MessagesWindow);
   end;
 end;
@@ -2080,7 +2044,7 @@ begin
 
   PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
 
-  MessagesWindow.AddMessage(Format(_(SModuleImportedOK), [ActiveEditor.FileTitle]));
+  GI_PyIDEServices.Messages.AddMessage(Format(_(SModuleImportedOK), [ActiveEditor.FileTitle]));
   ShowDockForm(MessagesWindow);
 end;
 
@@ -2113,7 +2077,7 @@ end;
 
 procedure TPyIDEMainForm.actRunDebugLastScriptExecute(Sender: TObject);
 begin
-  if PyControl.Inactive then
+  if GI_PyControl.Inactive then
     PyControl.Debug(PyControl.RunConfig);
 end;
 
@@ -2140,7 +2104,7 @@ end;
 
 procedure TPyIDEMainForm.actRunLastScriptExecute(Sender: TObject);
 begin
-  if PyControl.Inactive then
+  if GI_PyControl.Inactive then
     PyControl.Run(PyControl.RunConfig);
 end;
 
@@ -2153,10 +2117,10 @@ procedure TPyIDEMainForm.actDebugExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(PyControl.InternalPython.Loaded and not PyControl.Running);
+  Assert(GI_PyControl.PythonLoaded and not GI_PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.Inactive then
+    if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.Resume;
@@ -2177,10 +2141,10 @@ procedure TPyIDEMainForm.actStepIntoExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(PyControl.InternalPython.Loaded and not PyControl.Running);
+  Assert(GI_PyControl.PythonLoaded and not GI_PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.Inactive then
+    if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor, True)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.StepInto;
@@ -2209,7 +2173,7 @@ begin
   Application.ProcessMessages;
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.Inactive then
+    if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor, False, ActiveEditor.SynEdit.CaretY)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.RunToCursor(ActiveEditor, ActiveEditor.SynEdit.CaretY);
@@ -2267,7 +2231,7 @@ procedure TPyIDEMainForm.DebugActiveScript(ActiveEditor: IEditor;
 var
   RunConfig: TRunConfiguration;
 begin
-  Assert(PyControl.Inactive);
+  Assert(GI_PyControl.Inactive);
   RunConfig := TRunConfiguration.Create;
   try
     SetupRunConfiguration(RunConfig, ActiveEditor);
@@ -2286,26 +2250,26 @@ begin
   PyFileActive := Assigned(Editor) and
     (Editor.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn);
 
-  actSyntaxCheck.Enabled := PyFileActive and PyControl.Inactive;
-  actRun.Enabled := PyFileActive and PyControl.Inactive;
-  actExternalRun.Enabled := PyFileActive and PyControl.Inactive;
-  actImportModule.Enabled := PyFileActive and PyControl.Inactive;
-  actDebug.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused));
-  actStepInto.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused));
+  actSyntaxCheck.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actRun.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actExternalRun.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actImportModule.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actDebug.Enabled := PyFileActive and (GI_PyControl.Inactive or (DebuggerState = dsPaused));
+  actStepInto.Enabled := PyFileActive and (GI_PyControl.Inactive or (DebuggerState = dsPaused));
   actStepOut.Enabled := DebuggerState = dsPaused;
   actStepOver.Enabled := DebuggerState = dsPaused;
   actDebugAbort.Enabled := DebuggerState in [dsPaused, dsDebugging, dsRunning, dsPostMortem];
   actDebugPause.Enabled := DebuggerState = dsDebugging;
-  actRunToCursor.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused))
+  actRunToCursor.Enabled := PyFileActive and (GI_PyControl.Inactive or (DebuggerState = dsPaused))
     and PyControl.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
   actToggleBreakPoint.Enabled := PyFileActive;
   actClearAllBreakPoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;
-  actExecSelection.Enabled := PyControl.InternalPython.Loaded and not PyControl.Running and PyFileActive;
+  actExecSelection.Enabled := GI_PyControl.PythonLoaded and not GI_PyControl.Running and PyFileActive;
   actPythonReinitialize.Enabled := Assigned(PyControl.ActiveInterpreter) and
     (icReInitialize in PyControl.ActiveInterpreter.InterpreterCapabilities) and
     not (PyControl.DebuggerState in [dsPaused, dsPostMortem]);
-  actPostMortem.Enabled := PyControl.Inactive and
+  actPostMortem.Enabled := GI_PyControl.Inactive and
     Assigned(PyControl.ActiveDebugger) and PyControl.ActiveDebugger.PostMortemEnabled;
   if DebuggerState = dsPaused then begin
     actDebug.Caption := _(SResumeCaption);
@@ -2314,7 +2278,7 @@ begin
     actDebug.Caption := _('Debug');
     actDebug.Hint := _(SDebugHint);
   end;
-  actRunLastScript.Enabled := PyControl.Inactive and (PyControl.RunConfig.ScriptName <> '');
+  actRunLastScript.Enabled := GI_PyControl.Inactive and (PyControl.RunConfig.ScriptName <> '');
   actRunDebugLastScript.Enabled := actRunLastScript.Enabled;
   actRunLastScriptExternal.Enabled := actRunLastScript.Enabled;
 
@@ -2329,41 +2293,7 @@ begin
   ActiveTabControlIndex := TabControlIndex(Value);
 end;
 
-procedure TPyIDEMainForm.SetCurrentPos(Editor : IEditor; ALine: integer);
-Var
-  ActiveEditor : IEditor;
-begin
-  ActiveEditor := GetActiveEditor;
-  if not Assigned(ActiveEditor) then Exit;  //No editors!
-
-  if (not Assigned(Editor) or (ActiveEditor = Editor)) and (fCurrentLine > 0) then
-    // Remove possible current lines
-    with ActiveEditor do begin
-      SynEdit.InvalidateGutterLine(fCurrentLine);
-      SynEdit.InvalidateLine(fCurrentLine);
-      SynEdit2.InvalidateGutterLine(fCurrentLine);
-      SynEdit2.InvalidateLine(fCurrentLine);
-    end;
-
-  fCurrentLine := ALine;  // Store
-  if not Assigned(Editor) then Exit;
-
-  if Editor <> ActiveEditor then
-    Editor.Activate;
-
-  with Editor.SynEdit do begin
-    if (ALine > 0) and (CaretY <> ALine) then begin
-      CaretXY := BufferCoord(1, ALine);
-      EnsureCursorPosVisible;
-    end;
-    InvalidateGutterLine(ALine);
-    InvalidateLine(ALine);
-  end;
-  Editor.SynEdit2.InvalidateGutterLine(ALine);
-  Editor.SynEdit2.InvalidateLine(ALine);
-end;
-
-procedure TPyIDEMainForm.SetRunLastScriptHints(ScriptName: string);
+procedure TPyIDEMainForm.SetRunLastScriptHints(const ScriptName: string);
 Var
   S : string;
 begin
@@ -2375,37 +2305,51 @@ begin
    actRunLastScriptExternal.Hint := _(sHintExternalRun) + S;
 end;
 
-procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject);
-{
-  Invalidates old and/or new error line but does not Activate the Editor
-}
-var
-  Editor : IEditor;
+procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject;
+  const OldPos, NewPos: TEditorPos);
+{  Invalidates old and/or new error line but does not Activate the Editor }
 begin
-  Editor := GetActiveEditor;
-  if not Assigned(Editor) then Exit;  //No editors!
+  if csDestroying in ComponentState then Exit;
 
-  if (not Assigned(PyControl.ErrorPos.Editor) or (PyControl.ErrorPos.Editor = Editor)) and
-    (fErrorLine > 0)
-  then begin
+  if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then begin
     // Remove possible error line
-    Editor.SynEdit.InvalidateLine(fErrorLine);
-    Editor.SynEdit2.InvalidateLine(fErrorLine);
+    OldPos.Editor.SynEdit.InvalidateLine(OldPos.Line);
+    OldPos.Editor.SynEdit2.InvalidateLine(OldPos.Line);
   end;
-  fErrorLine := PyControl.ErrorPos.Line;  // Store
-  if (Editor = PyControl.ErrorPos.Editor) and (PyControl.ErrorPos.Line > 0) then begin
-    Editor.SynEdit.InvalidateLine(PyControl.ErrorPos.Line);
-    Editor.SynEdit2.InvalidateLine(PyControl.ErrorPos.Line);
+  if Assigned(NewPos.Editor)  and (NewPos.Line > 0) then begin
+    NewPos.Editor.SynEdit.InvalidateLine(NewPos.Line);
+    NewPos.Editor.SynEdit2.InvalidateLine(NewPos.Line);
   end;
 end;
 
-procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject);
+procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject;
+  const OldPos, NewPos: TEditorPos);
 begin
   if csDestroying in ComponentState then Exit;
-  if (PyControl.ActiveDebugger <> nil) and not PyControl.Running then
-    SetCurrentPos(PyControl.CurrentPos.Editor , PyControl.CurrentPos.Line)
-  else
-    SetCurrentPos(PyControl.CurrentPos.Editor, -1);
+
+  if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then
+    // Remove possible current lines
+    with OldPos.Editor do begin
+      SynEdit.InvalidateGutterLine(OldPos.Line);
+      SynEdit.InvalidateLine(OldPos.Line);
+      SynEdit2.InvalidateGutterLine(OldPos.Line);
+      SynEdit2.InvalidateLine(OldPos.Line);
+    end;
+
+  if not Assigned(NewPos.Editor) then Exit;
+
+  if GetActiveEditor <> NewPos.Editor then
+    NewPos.Editor.Activate;
+  with NewPos.Editor.SynEdit do begin
+    if (NewPos.Line > 0) and (CaretY <> NewPos.Line) then begin
+      CaretXY := BufferCoord(1, NewPos.Line);
+      EnsureCursorPosVisible;
+    end;
+    InvalidateGutterLine(NewPos.Line);
+    InvalidateLine(NewPos.Line);
+  end;
+  NewPos.Editor.SynEdit2.InvalidateGutterLine(NewPos.Line);
+  NewPos.Editor.SynEdit2.InvalidateLine(NewPos.Line);
 end;
 
 procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,
@@ -2415,7 +2359,7 @@ var
 begin
   if csDestroying in ComponentState then Exit;
 
-  if PyControl.InternalPython.Loaded then
+  if GI_PyControl.PythonLoaded then
     case NewState of
       dsDebugging,
       dsRunning: begin
@@ -2489,11 +2433,6 @@ begin
   PythonIIForm.UpdateInterpreterActions;
   UpdateStatusBarPanels;
   UpdateDebugCommands(PyControl.DebuggerState);
-  // TODO Modified stuff
-//  for i := 0 to TabControl.PagesCount - 1 do
-//    if i < TabControl.Tabs.Count then
-//      TabControl.Tabs[i].Modified :=
-//        TEditorForm(TJvStandardPage(TabControl.Tabs[i].Data).Components[0]).GetEditor.Modified;
   if Assigned(GI_ActiveEditor) then
     TEditorForm(GI_ActiveEditor.Form).DoOnIdle;
   PythonIIForm.DoOnIdle;
@@ -2501,7 +2440,7 @@ begin
   // If a Tk or Wx remote engine is active pump up event handling
   // This is for processing input output coming from event handlers
   if (PyControl.ActiveInterpreter is TPyRemoteInterpreter) and
-     (PyControl.Inactive)
+     (GI_PyControl.Inactive)
   then
     with(TPyRemoteInterpreter(PyControl.ActiveInterpreter)) do begin
       if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
@@ -2551,7 +2490,7 @@ begin
       end;
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
 
-      if PyControl.InternalPython.Loaded and
+      if GI_PyControl.PythonLoaded and
         Editor.FileName.StartsWith(PyControl.PythonVersion.InstallPath, True)
       then
         Editor.ReadOnly := True;
@@ -2820,6 +2759,36 @@ begin
      Result := TabControl1;
 end;
 
+function TPyIDEMainForm.GetAppStorage: TJvCustomAppStorage;
+begin
+  Result := AppStorage;
+end;
+
+function TPyIDEMainForm.GetIDELayouts: IIDELayouts;
+begin
+  Result := Self;
+end;
+
+function TPyIDEMainForm.GetLocalAppStorage: TJvCustomAppStorage;
+begin
+  Result := LocalAppStorage;
+end;
+
+function TPyIDEMainForm.GetMessageServices: IMessageServices;
+begin
+  Result := MessagesWindow;
+end;
+
+function TPyIDEMainForm.GetStoredScript(const Name: string): TStrings;
+begin
+  Result := CommandsDataModule.JvMultiStringHolder.StringsByName[Name];
+end;
+
+function TPyIDEMainForm.GetUnitTestServices: IUnitTestServices;
+begin
+  Result := UnitTestWindow;
+end;
+
 function TPyIDEMainForm.TabControl(TabControlIndex: integer): TSpTBXTabControl;
 begin
   if TabControlIndex = 2 then
@@ -2863,6 +2832,14 @@ begin
     lbStatusCAPS.Caption := 'CAPS'
   else
     lbStatusCAPS.Caption := ' ';
+
+  if GI_PyControl.PythonLoaded then begin
+    lbPythonVersion.Caption := PyControl.PythonVersion.DisplayName;
+    lbPythonEngine.Caption := _(EngineTypeName[PyControl.PythonEngineType]);
+  end else begin
+    lbPythonVersion.Caption := _('Python Not Available');
+    lbPythonEngine.Caption := ' ';
+  end;
 
   ExternalToolsLED.Visible := OutputWindow.JvCreateProcess.State <> psReady;
 end;
@@ -2973,7 +2950,9 @@ end;
 
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
+  GI_PyIDEServices := nil;
   SkinManager.RemoveSkinNotification(Self);
+  PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
   FreeAndNil(Layouts);
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
@@ -3043,7 +3022,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PyIDEOptionsChanged;
+procedure TPyIDEMainForm.PyIDEOptionsChanged(Sender: TObject);
 var
   Editor : IEditor;
   i : integer;
@@ -3059,22 +3038,15 @@ begin
   EditorSearchOptions.SearchTextAtCaret :=
     PyIDEOptions.SearchTextAtCaret;
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
-  CommandsDataModule.SynPythonSyn.DefaultFilter :=
-    PyIDEOptions.PythonFileFilter;
-  CommandsDataModule.SynCythonSyn.DefaultFilter :=
-    PyIDEOptions.CythonFileFilter;
-  CommandsDataModule.SynWebHTMLSyn.DefaultFilter :=
-    PyIDEOptions.HTMLFileFilter;
-  CommandsDataModule.SynWebXMLSyn.DefaultFilter :=
-    PyIDEOptions.XMLFileFilter;
-  CommandsDataModule.SynWebCssSyn.DefaultFilter :=
-    PyIDEOptions.CSSFileFilter;
-  CommandsDataModule.SynCppSyn.DefaultFilter :=
-    PyIDEOptions.CPPFileFilter;
-  CommandsDataModule.SynYAMLSyn.DefaultFilter :=
-    PyIDEOptions.YAMLFileFilter;
-  CommandsDataModule.SynJSONSyn.DefaultFilter :=
-    PyIDEOptions.JSONFileFilter;
+  CommandsDataModule.SynPythonSyn.DefaultFilter := PyIDEOptions.PythonFileFilter;
+  CommandsDataModule.SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
+  CommandsDataModule.SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
+  CommandsDataModule.SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
+  CommandsDataModule.SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
+  CommandsDataModule.SynCppSyn.DefaultFilter := PyIDEOptions.CPPFileFilter;
+  CommandsDataModule.SynYAMLSyn.DefaultFilter := PyIDEOptions.YAMLFileFilter;
+  CommandsDataModule.SynJSONSyn.DefaultFilter := PyIDEOptions.JSONFileFilter;
+  CommandsDataModule.SynGeneralSyn.DefaultFilter := PyIDEOptions.GeneralFileFilter;
   //  Dock animation parameters
   JvDockVSNetStyleSpTBX.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);
   JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);
@@ -3184,8 +3156,9 @@ begin
 
       AppStorage.DeleteSubTree('Highlighters');
       for i := 0 to Highlighters.Count - 1 do
-        AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
-          TPersistent(Highlighters.Objects[i]));
+        if CommandsDataModule.IsHighlighterStored(Highlighters.Objects[i]) then
+          AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
+            TPersistent(Highlighters.Objects[i]));
       AppStorage.WritePersistent('Highlighters\Intepreter',
         PythonIIForm.SynEdit.Highlighter);
 
@@ -3208,8 +3181,8 @@ begin
       AppStorage.DeleteSubTree('File Templates');
       AppStorage.WriteObjectList('File Templates', FileTemplates);
 
-      TempStringList.Assign(CodeTemplatesCompletion.AutoCompleteList);
-      AppStorage.WriteStringList('Code Templates', TempStringList);
+      AppStorage.DeleteSubTree('Code Templates');
+      AppStorage.WriteStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
     end;
     AppStorage.WritePersistent('Secondary Tabs', TabsPersistsInfo);
@@ -3230,7 +3203,10 @@ begin
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
     AppStorage.WriteCollection('Tools', ToolsCollection, 'Tool');
+    AppStorage.DeleteSubTree('SSH');
+    AppStorage.StorageOptions.StoreDefaultValues := True;
     AppStorage.WriteCollection('SSH', SSHServers, 'Server');
+    AppStorage.StorageOptions.StoreDefaultValues := False;
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
     AppStorage.WriteString('Output Window\Font Name', OutputWindow.lsbConsole.Font.Name);
     AppStorage.WriteInteger('Output Window\Font Size', OutputWindow.lsbConsole.Font.Size);
@@ -3381,13 +3357,8 @@ begin
         FileTemplates.AddDefaultTemplates;
       end;
 
-      TempStringList := TStringList.Create;
-      try
-        AppStorage.ReadStringList('Code Templates', TempStringList);
-        CodeTemplatesCompletion.AutoCompleteList.Assign(TempStringList);
-      finally
-        TempStringList.Free;
-      end;
+      if AppStorage.PathExists('Code Templates') then
+        AppStorage.ReadStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     end;
@@ -3411,7 +3382,7 @@ begin
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadCollection('SSH', SSHServers, True, 'Server');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', 'Courier New');
+  OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', DefaultCodeFontName);
   OutputWindow.lsbConsole.Font.Size := AppStorage.ReadInteger('Output Window\Font Size', 9);
   OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
@@ -3480,20 +3451,13 @@ end;
 procedure TPyIDEMainForm.TabControlActiveTabChange(Sender: TObject;
   TabIndex: Integer);
 Var
-  EditorForm : TEditorForm;
   Index : integer;
   TabCtrl : TSpTBXTabControl;
 begin
   EditorSearchOptions.InitSearch;
   UpdateCaption;
   TabCtrl := Sender as TSpTBXTabControl;
-  if Assigned(TabCtrl.ActivePage) and not (csDestroying in ComponentState) then begin
-    if TabCtrl.ActivePage.ControlCount > 0 then
-    begin
-      EditorForm := TabCtrl.ActivePage.Controls[0] as TEditorForm;
-      // Code hint stuff
-      EditorForm.SetUpCodeHints;
-    end;
+  if Assigned(TabCtrl.ActivePage) and not (csDestroying in ComponentState) then
     // zOrder
     with TabCtrl do
       if not zOrderProcessing then begin
@@ -3504,10 +3468,6 @@ begin
           zOrder.Move(Index, 0);
         zOrderPos := 0;
       end;
-  end else begin
-    CodeHint.OnGetCodeHint := nil;
-    CodeHint.OnHyperLinkClick := nil;
-  end;
 end;
 
 procedure TPyIDEMainForm.TabControlMouseDown(Sender: TObject; Button: TMouseButton;
@@ -3666,6 +3626,8 @@ begin
 
     for i := 0 to GI_EditorFactory.Count - 1 do
       GI_EditorFactory.Editor[i].Retranslate;
+
+    RegisterCustomParams;  // To get tranlations of descriptions
   end;
 end;
 
@@ -3677,11 +3639,11 @@ begin
   M := Screen.PixelsPerInch;
   D := 96;
   if M <> D then begin
-    ScaleImageList(CommandsDataModule.Images, M, D);
-    ScaleImageList(CommandsDataModule.CodeImages, M, D);
     // Status bar
     StatusBar.Toolbar.Items.ViewBeginUpdate;
     try
+      lbPythonVersion.MinWidth := PPIScaled(lbPythonVersion.MinWidth);
+      lbPythonEngine.MinWidth := PPIScaled(lbPythonEngine.MinWidth);
       lbStatusCaret.CustomWidth := PPIScaled(lbStatusCaret.CustomWidth);
       lbStatusModified.CustomWidth := PPIScaled(lbStatusModified.CustomWidth);
       lbStatusOverwrite.CustomWidth := PPIScaled(lbStatusOverwrite.CustomWidth);
@@ -3782,9 +3744,6 @@ begin
   for i := actlStandard.ActionCount - 1 downto 0 do
     if actlStandard.Actions[i].Category = 'External Tools' then
       actlStandard.Actions[i].Free;
-  // Delete Images added in previous calls
-  for i := CommandsDataModule.Images.Count - 1 downto CommandsDataModule.NumberOfOriginalImages do
-    CommandsDataModule.Images.Delete(i);
   for i := 0 to ToolsCollection.Count - 1 do begin
     Tool := (ToolsCollection.Items[i] as TToolItem).ExternalTool;
     if Tool.Caption <> '' then begin
@@ -3793,6 +3752,7 @@ begin
       Action.ActionList := actlStandard;
       mnTools.Add(MenuItem);
       MenuItem.Action := Action;
+      MenuItem.Images := TPyScripterSettings.ShellImages;
     end;
   end;
 end;
@@ -3905,14 +3865,11 @@ end;
 procedure TPyIDEMainForm.SyntaxClick(Sender: TObject);
 Var
   Editor : IEditor;
-  Syntax : string;
 begin
   // Change Syntax sheme
   Editor := GetActiveEditor;
   if Assigned(Editor) then begin
-    Syntax := (Sender as TTBCustomItem).Caption;
-    Editor.SynEdit.Highlighter :=
-      GetHighlighterFromLanguageName(Syntax,CommandsDataModule.Highlighters);
+    Editor.SynEdit.Highlighter := TSynCustomHighlighter((Sender as TTBCustomItem).Tag);
     Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
     TEditorForm(Editor.Form).DefaultExtension := '';
   end;
@@ -3940,7 +3897,7 @@ Var
   i : integer;
   PythonLoaded: Boolean;
 begin
-  PythonLoaded := PyControl.InternalPython.Loaded;
+  PythonLoaded := GI_PyControl.PythonLoaded;
   for i := 0 to mnPythonVersions.Count - 3 do begin
     mnPythonVersions.Items[i].Enabled := PyControl.DebuggerState = dsInactive;
     mnPythonVersions.Items[i].Checked := PythonLoaded and
@@ -3953,10 +3910,13 @@ Var
   i : integer;
   MenuItem : TSpTBXItem;
 begin
+  while mnSyntax.Count > 2 do
+    mnSyntax.Delete(0);
   for i := CommandsDataModule.Highlighters.Count - 1 downto 0 do begin
     MenuItem := TSpTBXItem.Create(Self);
     mnSyntax.Insert(0, MenuItem);
-    MenuItem.Caption := CommandsDataModule.Highlighters[i];
+    MenuItem.Caption := _(CommandsDataModule.Highlighters[i]);
+    MenuItem.Tag := Integer(CommandsDataModule.Highlighters.Objects[i]);
     MenuItem.GroupIndex := 3;
     MenuItem.OnClick := SyntaxClick;
     MenuItem.Hint := Format(_(SUseSyntax), [MenuItem.Caption]);
@@ -4063,10 +4023,16 @@ begin
           end;
         if Assigned(Action) then
         begin
-          Item := TSpTBXItem.Create(Self);
+          // Find items of External actions on UserToolbars
+          Item := FindComponent('tb' + Action.Name) as TTBCustomItem;
+          if not Assigned(Item) then begin
+            Item := TSpTBXItem.Create(Self);
+            Item.Name := 'tb' + Action.Name;
+            if Action is TExternalToolAction then
+              Item.Images := TPyScripterSettings.ShellImages;
+            SpTBXCustomizer.Items.Add(Item);
+          end;
           Item.Action := Action;
-          Item.Name := 'tb' + Action.Name;
-          SpTBXCustomizer.Items.Add(Item);
         end;
       end;
     end;
@@ -4118,6 +4084,25 @@ procedure TPyIDEMainForm.LayoutClick(Sender: TObject);
 begin
   LoadLayout(TSpTBXItem(Sender).Caption);
   TSpTBXItem(Sender).Checked := True;
+end;
+
+function TPyIDEMainForm.LayoutExists(const Layout: string): Boolean;
+begin
+  Result := Layouts.IndexOf(Name) >= 0;
+end;
+
+procedure TPyIDEMainForm.lbPythonEngineClick(Sender: TObject);
+var
+  MousePos : TPoint;
+begin
+  GetCursorPos(MousePos);
+  MousePos := ScreenToClient(MousePos);
+  mnPythonEngines.Popup(MousePos.X, MousePos.Y, True);
+end;
+
+procedure TPyIDEMainForm.lbPythonVersionClick(Sender: TObject);
+begin
+  actPythonSetup.Execute;
 end;
 
 procedure TPyIDEMainForm.actLayoutSaveExecute(Sender: TObject);
@@ -4197,15 +4182,16 @@ begin
   EditTool(ExternalPython, True);
 end;
 
-procedure TPyIDEMainForm.WriteStatusMsg(S: string);
+procedure TPyIDEMainForm.WriteStatusMsg(const S: string);
 begin
   lbStatusMessage.Caption := S;
 end;
 
 procedure TPyIDEMainForm.ThemeEditorGutter(Gutter : TSynGutter);
 Var
-  GradColor, TextColor : TColor;
+  GradColor: TColor;
 begin
+  Assert(SkinManager.GetSkinType <> sknSkin);
   if SkinManager.GetSkinType in [sknNone, sknWindows] then begin
     Gutter.GradientStartColor := clWindow;
     Gutter.GradientEndColor := clBtnFace;
@@ -4213,23 +4199,12 @@ begin
     Exit;
   end;
 
-  if SkinManager.GetSkinType = sknSkin then begin
-    GradColor := CurrentSkin.Options(skncToolbar, sknsNormal).Body.Color1;
-    if GradColor = clNone then
-      GradColor := CurrentSkin.Options(skncDock, sknsNormal).Body.Color1;
-    Gutter.Font.Color := CurrentSkin.GetTextColor(skncTab, sknsNormal)
-  end else begin  // Delphi Skins
-    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
-      ecFillColor, GradColor) or (GradColor = clNone)
-    then
-      GradColor := StyleServices.GetSystemColor(clBtnFace);
-
-//    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
-//      ecTextColor, TextColor) or (TextColor = clNone)
-//    then
-      TextColor := StyleServices.GetSystemColor(clGrayText);
-    Gutter.Font.Color := TextColor;
-  end;
+  // Delphi Styles
+  if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
+    ecFillColor, GradColor) or (GradColor = clNone)
+  then
+    GradColor := StyleServices.GetSystemColor(clBtnFace);
+  Gutter.Font.Color :=  StyleServices.GetSystemColor(clGrayText);;
 
   with Gutter do begin
     BorderStyle := gbsNone;
@@ -4314,8 +4289,8 @@ begin
             FName := Editor.GetFileNameOrTitle;
 
             if ShowMessages then begin
-              MessagesWindow.ClearMessages;
-              MessagesWindow.AddMessage(_(SDefinitionsOf) + Token + '"');
+              GI_PyIDEServices.Messages.ClearMessages;
+              GI_PyIDEServices.Messages.AddMessage(_(SDefinitionsOf) + Token + '"');
             end;
 
             FileName := '';
@@ -4330,7 +4305,7 @@ begin
               Line := CE.CodePos.LineNo;
               Col := CE.CodePos.CharOffset;
               if ShowMessages then
-                MessagesWindow.AddMessage(_(SDefinitionFound), FileName, Line, Col);
+                GI_PyIDEServices.Messages.AddMessage(_(SDefinitionFound), FileName, Line, Col);
             end;
 
             if ShowMessages then
@@ -4341,7 +4316,7 @@ begin
                 ShowFilePosition(Filename, Line, Col);
             end else begin
               if ShowMessages then
-                MessagesWindow.AddMessage(_(SDefinitionNotFound));
+                GI_PyIDEServices.Messages.AddMessage(_(SDefinitionNotFound));
               MessageBeep(MB_ICONASTERISK);
             end;
           end;
@@ -4375,7 +4350,7 @@ var
   TempCursor : IInterface;
   FoundReferences : Boolean;
   ResultsList : TStringList;
-  RegExpr : TRegExpr;
+  RegEx : TRegEx;
 begin
   Application.ProcessMessages;
   TempCursor := WaitCursor;
@@ -4390,30 +4365,26 @@ begin
             if FName = '' then
               FName := GI_ActiveEditor.FileTitle;
 
-            MessagesWindow.ClearMessages;
-            MessagesWindow.AddMessage(_(SReferencesOf) + Token + '"');
+            GI_PyIDEServices.Messages.ClearMessages;
+            GI_PyIDEServices.Messages.AddMessage(_(SReferencesOf) + Token + '"');
 
             ResultsList := TStringList.Create;
             try
               PyScripterRefactor.FindReferencesByCoordinates(FName,
                 CaretY, CaretX, ErrMsg, ResultsList);
               FoundReferences := ResultsList.Count > 0;
-              RegExpr := TRegExpr.Create;
-              RegExpr.Expression := FilePosInfoRegExpr;
-              try
-                i := 0;
-                while i  < ResultsList.Count -1 do begin
-                  if RegExpr.Exec(ResultsList[i]) then begin
-                    FileName := RegExpr.Match[1];
-                    Line := StrToInt(RegExpr.Match[2]);
-                    Col := StrToInt(RegExpr.Match[3]);
-                    MessagesWindow.AddMessage(ResultsList[i+1],
-                      Filename, Line, Col, Length(Token));
+              RegEx.Create(FilePosInfoRegExpr);
+              i := 0;
+              while i  < ResultsList.Count -1 do begin
+                with RegEx.Match(ResultsList[i]) do
+                  if Success then begin
+                    FileName := GroupValue(1);
+                    Line := StrToInt(GroupValue(2));
+                    Col := StrToInt(GroupValue(3));
+                    GI_PyIDEServices.Messages.AddMessage(ResultsList[i+1],
+                      Filename, Line, Col, Token.Length);
                   end;
-                  Inc(i, 2);
-                end;
-              finally
-                RegExpr.Free;
+                Inc(i, 2);
               end;
             finally
               ResultsList.Free;
@@ -4421,7 +4392,7 @@ begin
 
             ShowDockForm(MessagesWindow);
             if not FoundReferences then begin
-              MessagesWindow.AddMessage(_(SReferencesNotFound));
+              GI_PyIDEServices.Messages.AddMessage(_(SReferencesNotFound));
               MessageBeep(MB_ICONASTERISK);
             end;
           end;
@@ -4436,6 +4407,7 @@ procedure TPyIDEMainForm.WMSpSkinChange(var Message: TMessage);
 begin
   // Update EditorOptions
   ThemeEditorGutter(EditorOptions.Gutter);
+  PyIDEOptions.CodeFolding.FolderBarLinesColor := EditorOptions.Gutter.Font.Color;
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;
@@ -4480,22 +4452,16 @@ function TPyIDEMainForm.JumpToFilePosInfo(FilePosInfo: string): boolean;
 Var
   FileName : string;
   Line, Col : integer;
-  RegExpr : TRegExpr;
 begin
   Result := False;
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.Expression := FilePosInfoRegExpr;
-    if RegExpr.Exec(FilePosInfo) then begin
-      FileName := RegExpr.Match[1];
-      Line := StrToInt(RegExpr.Match[2]);
-      Col := StrToInt(RegExpr.Match[3]);
+  with TRegEx.Match(FilePosInfo, FilePosInfoRegExpr) do
+    if Success then begin
+      FileName := GroupValue(1);
+      Line := StrToInt(GroupValue(2));
+      Col := StrToInt(GroupValue(3));
 
-      Result := ShowFilePosition(FileName, Line, Col);
+      Exit(ShowFilePosition(FileName, Line, Col));
     end;
-  finally
-    RegExpr.Free;
-  end;
 end;
 
 procedure TPyIDEMainForm.DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
@@ -4553,7 +4519,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PrevMRUAdd(S: WideString);
+procedure TPyIDEMainForm.PrevMRUAdd(S : string);
 begin
   mnPreviousList.MRUAdd(S);
   mnPreviousList.Items[0].OnClick := PrevClickHandler;
@@ -4650,7 +4616,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.NextMRUAdd(S: WideString);
+procedure TPyIDEMainForm.NextMRUAdd(S : string);
 begin
   mnNextList.MRUAdd(S);
   mnNextList.Items[0].OnClick := NextClickHandler;
@@ -4746,11 +4712,6 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.WMEraseBkgnd(var Message: TWMEraseBkgnd);
-begin
-  Message.Result := 1;
-end;
-
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
@@ -4772,15 +4733,15 @@ begin
   SetupLayoutsMenu;
   SetupSyntaxMenu;
 
-  // Register drop target
-  RegisterDragDrop(TabControl1.Handle, Self);
-  RegisterDragDrop(TabControl2.Handle, Self);
+  // Start accepting files
+  DragAcceptFiles(TabControl1.Handle, True);
+  DragAcceptFiles(TabControl2.Handle, True);
 
   TThread.ForceQueue(nil, procedure
   begin
     // Activate File Explorer
     FileExplorerWindow.FileExplorerTree.Active := True;
-    Application.ProcessMessages;
+    //Application.ProcessMessages;
 
     // Load Python Engine and Assign Debugger Events
     PyControl.LoadPythonEngine;
@@ -4804,7 +4765,7 @@ begin
     // This is needed to update the variables window
     PyControl.DoStateChange(dsInactive);
 
-    // Open initial files after loading python (#879)
+    // Open initial files after loading Python (#879)
     OpenInitialFiles;
 
     if PyIDEOptions.AutoCheckForUpdates and
@@ -4813,7 +4774,7 @@ begin
     then
       PostMessage(Handle, WM_CHECKFORUPDATES, 0, 0);
 
-    if not PyControl.InternalPython.Loaded then
+    if not GI_PyControl.PythonLoaded then
       actPythonSetupExecute(Self);
   end);
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
@@ -4964,6 +4925,8 @@ end;
 procedure TPyIDEMainForm.mnLanguageClick(Sender: TObject);
 begin
   ChangeLanguage(fLanguageList[(Sender as TSpTBXItem).Tag]);
+  SetupSyntaxMenu;
+  SetupToolsMenu;
 end;
 
 procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);
@@ -4991,7 +4954,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.tbiSearchTextAcceptText(const NewText: WideString);
+procedure TPyIDEMainForm.tbiSearchTextAcceptText(const NewText: string);
 Var
   S : string;
   i: integer;
@@ -5071,7 +5034,7 @@ begin
   tbiRecentProjects.MRURemove(Filename);
 end;
 
-procedure TPyIDEMainForm.tbiReplaceTextAcceptText(const NewText: WideString);
+procedure TPyIDEMainForm.tbiReplaceTextAcceptText(const NewText: string);
 Var
   S : string;
   i: integer;
@@ -5147,6 +5110,26 @@ begin
 end;
 
 { TTSpTBXTabControl }
+
+procedure TSpTBXTabControl.WMDropFiles(var Msg: TMessage);
+var
+  i, iNumberDropped: Integer;
+  FileName: array[0..MAX_PATH - 1] of Char;
+begin
+  try
+    iNumberDropped := DragQueryFile(THandle(Msg.wParam), Cardinal(-1),
+      nil, 0);
+
+    for i := 0 to iNumberDropped - 1 do
+    begin
+      DragQueryFile(THandle(Msg.wParam), i, FileName, MAX_PATH);
+      PyIDEMainForm.DoOpenFile(FileName, '', PyIDEMainForm.TabControlIndex(Self));
+    end;
+  finally
+    Msg.Result := 0;
+    DragFinish(THandle(Msg.wParam));
+  end;
+end;
 
 constructor TSpTBXTabControl.Create(AOwner: TComponent);
 begin

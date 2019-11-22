@@ -69,6 +69,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Width = 380
         Height = 26
         AllowDrag = False
+        DoubleBuffered = True
         object RegExpTesterToolbar: TSpTBXToolbar
           Left = 0
           Top = 0
@@ -262,20 +263,20 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 Options = [coAllowClick, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
                 Position = 0
                 Spacing = 1
+                Text = '#'
                 Width = 20
-                WideText = '#'
               end
               item
                 Options = [coAllowClick, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
                 Position = 1
+                Text = 'Name'
                 Width = 60
-                WideText = 'Name'
               end
               item
                 Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
                 Position = 2
+                Text = 'Value'
                 Width = 296
-                WideText = 'Value'
               end>
           end
         end
@@ -286,7 +287,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 5
           Cursor = crSizeNS
           Align = alBottom
-          Color = clNone
           ParentColor = False
         end
         object dpRegExpText: TPanel
@@ -352,7 +352,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 5
           Cursor = crSizeNS
           Align = alTop
-          Color = clNone
           ParentColor = False
         end
         object pnlMiddle: TPanel
@@ -426,7 +425,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Height = 5
             Cursor = crSizeNS
             Align = alTop
-            Color = clNone
             ParentColor = False
           end
           object dpMatchText: TPanel

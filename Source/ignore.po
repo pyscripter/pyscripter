@@ -142,7 +142,7 @@ msgstr ""
 #. CommandsDataModule..ProgramVersionCheck..VersionHistoryFileOptions.XMLOptions.WhiteSpaceReplacement
 #: dmCommands.dfm:626
 #. CommandsDataModule..ProgramVersionCheck..VersionHistoryFileOptions.XMLOptions.InvalidCharReplacement
-#: dmCommands.dfm:627
+#: dmComm\ands.dfm:627
 msgid "_"
 msgstr ""
 
@@ -163,24 +163,12 @@ msgstr ""
 msgid "_RPI"
 msgstr ""
 
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm:583
-msgid "|Sheband"
-msgstr ""
-
 #  Doesn't have any letters
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..btnStdFormats..Caption
 #: dlgToolProperties.dfm:487
 #. EditorForm..SynWebCompletion..TriggerChars
 #: frmEditor.dfm:574
 msgid "<"
-msgstr ""
-
-#. VariablesWindow..BGPanel..FGPanel..DocPanel..HTMLLabel..Caption
-#: frmVariables.dfm:115
-#. VariablesWindow..BGPanel..FGPanel..DocPanel..HTMLLabel....Text.Strings
-#: frmVariables.dfm:117
-msgid "<b>NameSpace"
 msgstr ""
 
 #  Doesn't have any letters
@@ -366,11 +354,6 @@ msgstr ""
 msgid "Active Controls hierarchy:"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FriendlyAttrAnchor
-#: SynHighlighterYAML.pas:167
-msgid "Anchor"
-msgstr ""
-
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm:4188
 msgid "Ansi"
@@ -396,22 +379,10 @@ msgstr ""
 msgid "awakeGUI"
 msgstr ""
 
-#. Programmer's name for it: SYNS_AttrBanner
-#: SynHighlighterPython.pas:1560
-#. Programmer's name for it: SYNS_FriendlyAttrBanner
-#: SynHighlighterPython.pas:1561
-msgid "Banner"
-msgstr ""
-
 #. Programmer's name for it: SBothOperandsOfIntDivideMustBeIntegers
 #: VarPyth.pas:256
 msgid "Both operands of an integer division must be of type "
 "integer"
-msgstr ""
-
-#. ReplaceInFilesDialog..SpTBXPanel1..lblInString..Caption
-#: dlgReplaceInFiles.dfm:80
-msgid "C:\\test\\dir\\TestFile.pas"
 msgstr ""
 
 #. Programmer's name for it: SCannotSetUserData
@@ -451,11 +422,6 @@ msgstr ""
 msgid "cl"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FriendlyClassName
-#: SynHighlighterPython.pas:251
-msgid "Class Name"
-msgstr ""
-
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm:569
 msgid "cls"
@@ -464,11 +430,6 @@ msgstr ""
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm:1656
 msgid "cm"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyCommentedCode
-#: SynHighlighterPython.pas:249
-msgid "Commented Code"
 msgstr ""
 
 #. EditorForm..SynWebCompletion......BiggestWord
@@ -577,29 +538,14 @@ msgstr ""
 msgid "Cython"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FilterCython
-#: SynHighlighterPython.pas:255
-msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
-msgstr ""
-
 #. PythonIIForm..DebugIDE..ModuleName
 #: frmPythonII.dfm:232
 msgid "DebugIDE"
 msgstr ""
 
-#. PyIDEMainForm..TBXSwitcher..Theme
-#: frmPyIDEMain.dfm:1931
-msgid "Default"
-msgstr ""
-
 #. Programmer's name for it: RsScreenRes
 #: dlgExceptionMail.pas:112
 msgid "Display  : %dx%d pixels, %d bpp"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
-#: SynHighlighterYAML.pas:162
-msgid "Document Delimiter"
 msgstr ""
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_DOTALL..Caption
@@ -776,11 +722,6 @@ msgstr ""
 msgid "Invalid property type: %s"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FriendlyAttrKey
-#: SynHighlighterYAML.pas:163
-msgid "Key"
-msgstr ""
-
 #  Doesn't look like text
 #. ToolProperties..Panel1..PageControl..tsProperties..GroupBox3..Label14..Caption
 #: dlgToolProperties.dfm:348
@@ -954,11 +895,6 @@ msgstr ""
 msgid "MULTILINE"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
-#: SynHighlighterYAML.pas:164
-msgid "Numeric Value"
-msgstr ""
-
 #. OptionsInspector..Caption
 #: dlgOptionsEditor.dfm:4
 msgid "Options Inspector"
@@ -990,13 +926,6 @@ msgstr ""
 msgid "Processor: %s, %s, %d MHz"
 msgstr ""
 
-#. Programmer's name for it: SYNS_AttrPrompt
-#: SynHighlighterPython.pas:1566
-#. Programmer's name for it: SYNS_FriendlyAttrPrompt
-#: SynHighlighterPython.pas:1567
-msgid "Prompt"
-msgstr ""
-
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm:562
 msgid "pyapp"
@@ -1024,11 +953,6 @@ msgstr ""
 #. CommandsDataModule..ProgramVersionHTTPLocation..VersionInfoFileName
 #: dmCommands.dfm:635
 msgid "PyScripterVersionInfo.ini"
-msgstr ""
-
-#. CommandsDataModule..SynPythonSyn..DefaultFilter
-#: dmCommands.dfm:8
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
 msgstr ""
 
 #. PyIDEMainForm..Caption
@@ -1189,11 +1113,6 @@ msgstr ""
 msgid "tabToolbars"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FriendlyAttrTag
-#: SynHighlighterYAML.pas:166
-msgid "Tag"
-msgstr ""
-
 #  Seems like a Font.Name extract
 #. AboutBox..SpTBXTabControl1..Font.Name
 #: dlgAboutPyScripter.dfm:26
@@ -1330,11 +1249,6 @@ msgstr ""
 msgid "TestTree"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FriendlyAttrTextValue
-#: SynHighlighterYAML.pas:165
-msgid "Text Value"
-msgstr ""
-
 #. CommandsDataModule..ParameterCompletion......BiggestWord
 #: dmCommands.dfm:891
 msgid "This a very long explanation indeed"
@@ -1398,13 +1312,6 @@ msgstr ""
 #. PrintPreviewDlg..ToolBar1..ToolButton5..Caption
 #: dlgSynPrintPreview.dfm:80
 msgid "ToolButton5"
-msgstr ""
-
-#. Programmer's name for it: SYNS_AttrTraceback
-#: SynHighlighterPython.pas:1564
-#. Programmer's name for it: SYNS_FriendlyAttrTraceback
-#: SynHighlighterPython.pas:1565
-msgid "Traceback"
 msgstr ""
 
 #  Seems like a Font.Name extract
@@ -1548,3 +1455,14 @@ msgstr ""
 #: SynHighlighterYAML.pas:161
 msgid "YAML"
 msgstr ""
+
+#. PyIDEMainForm..StatusBar..lbStatusModified..Caption
+#: frmPyIDEMain.dfm
+msgid " "
+msgstr ""
+
+#. CommandLineDlg..Panel..SynParameters..Font.Name
+#: dlgCommandLine.dfm
+msgid "Consolas"
+msgstr ""
+

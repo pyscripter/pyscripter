@@ -34,19 +34,19 @@ uses
   JclUnitVersioning,
   JclUnitVersioningProviders,
   {$ENDIF UNITVERSIONING}
-  JclDebug, dlgPyIDEBase, SpTBXItem, SpTBXControls;
+  JclDebug, dlgPyIDEBase;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
 
 type
   TExceptionDialogMail = class(TPyIDEDlgBase)
-    SendBtn: TSpTBXButton;
     TextMemo: TMemo;
-    OkBtn: TSpTBXButton;
-    DetailsBtn: TSpTBXButton;
     BevelDetails: TBevel;
     DetailsMemo: TMemo;
+    SendBtn: TButton;
+    OkBtn: TButton;
+    DetailsBtn: TButton;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -96,9 +96,8 @@ implementation
 
 uses
   ClipBrd, Math, JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings,
-  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo, cPySupportTypes,
-  cPyScripterSettings,
-  cPyControl;
+  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo,
+  uEditAppIntfs, cPySupportTypes, cPyScripterSettings;
 
 resourcestring
   RsAppError = '%s - application error';
@@ -326,7 +325,7 @@ begin
     // Version Info
     DetailsMemo.Lines.Add(Format('%s version : %s %s', [Application.Title,
       ApplicationVersion, WinPlatform]));
-    if PyControl.InternalPython.Loaded then
+    if GI_PyControl.PythonLoaded then
     begin
       DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
       DetailsMemo.Lines.Add(Format('Python Engine : %s',
@@ -340,7 +339,7 @@ begin
     begin
       DetailsMemo.Lines.Add(Format(LoadResString(PResStringRec(@RsStackList)),
         [DateTimeToStr(StackList.TimeStamp)]));
-      StackList.AddToStrings(DetailsMemo.Lines, True, True, True, True);
+      StackList.AddToStrings(DetailsMemo.Lines, True, False, True, False);
       NextDetailBlock;
     end;
     // System and OS information

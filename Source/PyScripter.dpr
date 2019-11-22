@@ -93,8 +93,6 @@ uses
   frmProjectExplorer in 'frmProjectExplorer.pas' {ProjectExplorerWindow},
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
-  SynHighlighterWeb in 'SynHighlighterWeb.pas',
-  SynHighlighterWebMisc in 'SynHighlighterWebMisc.pas',
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
   SynHighlighterYAML in 'SynHighlighterYAML.pas',
@@ -111,13 +109,13 @@ uses
   cPySupportTypes in 'cPySupportTypes.pas',
   cPyControl in 'cPyControl.pas',
   JvGnugettext in 'JvGnugettext.pas',
-  JvDSADialogs in 'JvDSADialogs.pas',
-  System.IniFiles in 'System.IniFiles.pas',
   cInternalPython in 'cInternalPython.pas',
   dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog},
   cSSHSupport in 'cSSHSupport.pas',
   dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog},
-  cPySSHDebugger in 'cPySSHDebugger.pas';
+  cPySSHDebugger in 'cPySSHDebugger.pas',
+  JclSysUtils in 'JclSysUtils.pas',
+  RtlVclFixes in 'RtlVclFixes.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

@@ -2,37 +2,68 @@ inherited CommandLineDlg: TCommandLineDlg
   HelpContext = 910
   ActiveControl = SynParameters
   Caption = 'Command Line Parameters'
-  ClientHeight = 150
-  ClientWidth = 446
+  ClientHeight = 172
+  ClientWidth = 528
   OnDestroy = FormDestroy
-  ExplicitWidth = 452
-  ExplicitHeight = 178
+  ExplicitWidth = 534
+  ExplicitHeight = 201
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel: TSpTBXPanel
+  object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 446
-    Height = 150
+    Width = 528
+    Height = 172
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
-      446
-      150)
+      528
+      172)
+    object Label1: TLabel
+      Left = 13
+      Top = 43
+      Width = 349
+      Height = 26
+      Anchors = [akLeft, akRight, akBottom]
+      Caption = 
+        'Please enter parameters to be appended to the command line:'#13#10'Not' +
+        'e that the script name is automatically inserted as the first ar' +
+        'gument.'
+      Color = clNone
+      ParentColor = False
+    end
+    object Label3: TLabel
+      Left = 13
+      Top = 108
+      Width = 252
+      Height = 13
+      Anchors = [akLeft, akBottom]
+      Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
+      Color = clNone
+      Enabled = False
+      ParentColor = False
+    end
     object SynParameters: TSynEdit
-      Left = 8
-      Top = 61
-      Width = 405
+      Left = 11
+      Top = 84
+      Width = 484
       Height = 18
       Anchors = [akLeft, akRight, akBottom]
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'Courier New'
+      Font.Name = 'Consolas'
       Font.Style = []
       TabOrder = 0
       OnEnter = SynParametersEnter
+      CodeFolding.GutterShapeSize = 11
+      CodeFolding.CollapsedLineColor = clGrayText
+      CodeFolding.FolderBarLinesColor = clGrayText
+      CodeFolding.IndentGuidesColor = clGray
+      CodeFolding.IndentGuides = True
+      CodeFolding.ShowCollapsedLine = False
+      CodeFolding.ShowHintMark = True
+      UseCodeFolding = False
       Gutter.Font.Charset = DEFAULT_CHARSET
       Gutter.Font.Color = clWindowText
       Gutter.Font.Height = -11
@@ -44,42 +75,9 @@ inherited CommandLineDlg: TCommandLineDlg
       ScrollBars = ssNone
       WantReturns = False
     end
-    object OKButton: TSpTBXButton
-      Left = 100
-      Top = 115
-      Width = 75
-      Height = 25
-      Caption = '&OK'
-      Anchors = [akRight, akBottom]
-      TabOrder = 1
-      OnClick = OKButtonClick
-      Default = True
-      ModalResult = 1
-    end
-    object BitBtn2: TSpTBXButton
-      Left = 194
-      Top = 115
-      Width = 75
-      Height = 25
-      Caption = '&Cancel'
-      Anchors = [akRight, akBottom]
-      TabOrder = 2
-      Cancel = True
-      ModalResult = 2
-    end
-    object HelpButton: TSpTBXButton
-      Left = 289
-      Top = 115
-      Width = 75
-      Height = 25
-      Caption = '&Help'
-      Anchors = [akRight, akBottom]
-      TabOrder = 3
-      OnClick = btnHelpClick
-    end
     object TBXButton1: TSpTBXButton
-      Left = 419
-      Top = 61
+      Left = 501
+      Top = 83
       Width = 17
       Height = 19
       Hint = 'History'
@@ -89,42 +87,52 @@ inherited CommandLineDlg: TCommandLineDlg
       TabOrder = 5
       DropDownMenu = TBXPopupHistory
     end
-    object cbUseCommandLine: TSpTBXCheckBox
-      Left = 8
-      Top = 5
+    object cbUseCommandLine: TCheckBox
+      Left = 13
+      Top = 16
       Width = 177
       Height = 21
       Caption = 'Use Command Line Parameters?'
-      ParentColor = True
       TabOrder = 4
     end
-    object Label1: TSpTBXLabel
-      Left = 8
-      Top = 27
-      Width = 421
-      Height = 28
-      Caption = 
-        'Please enter parameters to be appended to the command line:'#13#10'Not' +
-        'e that the script name is automatically inserted as the first ar' +
-        'gument.'
-      Anchors = [akLeft, akBottom]
-      AutoSize = False
-      Wrapping = twWrap
+    object OKButton: TButton
+      Left = 144
+      Top = 137
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&OK'
+      Default = True
+      ModalResult = 1
+      TabOrder = 1
+      OnClick = OKButtonClick
     end
-    object Label3: TSpTBXLabel
-      Left = 8
-      Top = 87
-      Width = 258
-      Height = 19
-      Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
-      Anchors = [akLeft, akBottom]
-      Enabled = False
+    object btnCancel: TButton
+      Left = 238
+      Top = 137
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Cancel = True
+      Caption = '&Cancel'
+      ModalResult = 2
+      TabOrder = 2
+    end
+    object btnHelp: TButton
+      Left = 333
+      Top = 137
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&Help'
+      TabOrder = 3
+      OnClick = btnHelpClick
     end
   end
   object TBXPopupHistory: TSpTBXPopupMenu
     OnPopup = TBXPopupHistoryPopup
-    Left = 392
-    Top = 96
+    Left = 456
+    Top = 8
     object EmptyHistoryPopupItem: TSpTBXItem
       Caption = '(Empty History)'
     end

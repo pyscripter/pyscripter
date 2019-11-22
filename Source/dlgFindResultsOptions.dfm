@@ -8,49 +8,28 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
   ClientWidth = 307
   Position = poScreenCenter
   ExplicitWidth = 313
-  ExplicitHeight = 335
+  ExplicitHeight = 336
   PixelsPerInch = 96
   TextHeight = 13
-  object SpTBXPanel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 307
     Height = 307
-    Caption = 'SpTBXPanel1'
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
       307
       307)
-    object gbxMatchList: TSpTBXGroupBox
+    object gbxMatchList: TGroupBox
       AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 297
+      Left = 4
+      Top = 4
+      Width = 299
       Height = 103
-      Caption = 'Match Results List'
       Align = alTop
+      Caption = 'Match Results List'
       TabOrder = 0
-      TBXStyleBackground = True
-      object chkGrepMiddle: TSpTBXCheckBox
-        Left = 12
-        Top = 36
-        Width = 231
-        Height = 21
-        Caption = 'Jump to matches in the &middle of the editor'
-        ParentColor = True
-        TabOrder = 2
-      end
-      object chkGrepExpandAll: TSpTBXCheckBox
-        Left = 12
-        Top = 16
-        Width = 192
-        Height = 21
-        Caption = '&Expand all matches after searching'
-        ParentColor = True
-        TabOrder = 1
-      end
       object pnlListFont: TPanel
         Left = 28
         Top = 61
@@ -68,35 +47,39 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
         TabOrder = 0
         OnClick = pnlListFontClick
       end
+      object chkGrepMiddle: TCheckBox
+        Left = 12
+        Top = 36
+        Width = 280
+        Height = 21
+        Caption = 'Jump to matches in the &middle of the editor'
+        TabOrder = 2
+      end
+      object chkGrepExpandAll: TCheckBox
+        Left = 12
+        Top = 16
+        Width = 280
+        Height = 21
+        Caption = '&Expand all matches after searching'
+        TabOrder = 1
+      end
     end
-    object gbxMatchContext: TSpTBXGroupBox
+    object gbxMatchContext: TGroupBox
       Left = 5
       Top = 114
       Width = 297
       Height = 153
-      Caption = 'Match Context Display'
       Anchors = [akLeft, akTop, akRight]
+      Caption = 'Match Context Display'
       TabOrder = 1
-      TBXStyleBackground = True
-      object lblContextLines: TSpTBXLabel
+      object lblContextLines: TLabel
         Left = 28
         Top = 101
-        Width = 120
-        Height = 19
+        Width = 114
+        Height = 13
         Caption = 'Number of context lines'
-      end
-      object spnContextLines: TSpTBXSpinEdit
-        Left = 28
-        Top = 118
-        Width = 54
-        Height = 21
-        Alignment = taLeftJustify
-        TabOrder = 2
-        SpinButton.Left = 35
-        SpinButton.Top = 0
-        SpinButton.Width = 15
-        SpinButton.Height = 17
-        SpinButton.Align = alRight
+        Color = clNone
+        ParentColor = False
       end
       object pnlContextFont: TPanel
         Left = 28
@@ -118,38 +101,49 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
         Color = clWindow
         UseDockManager = False
         TabOrder = 1
+        StyleElements = [seClient, seBorder]
         OnClick = pnlMatchLineColorClick
       end
+      object spnContextLines: TSpinEdit
+        Left = 28
+        Top = 123
+        Width = 54
+        Height = 22
+        MaxValue = 0
+        MinValue = 0
+        TabOrder = 2
+        Value = 0
+      end
     end
-    object btnOK: TSpTBXButton
+    object btnOK: TButton
       Left = 30
       Top = 274
       Width = 75
       Height = 25
-      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 2
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 2
     end
-    object btnCancel: TSpTBXButton
+    object btnCancel: TButton
       Left = 114
       Top = 274
       Width = 75
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 3
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 3
     end
-    object btnHelp: TSpTBXButton
+    object btnHelp: TButton
       Left = 198
       Top = 274
       Width = 75
       Height = 25
-      Caption = '&Help'
       Anchors = [akRight, akBottom]
+      Caption = '&Help'
       TabOrder = 4
       OnClick = btnHelpClick
     end

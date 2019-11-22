@@ -1,0 +1,12 @@
+﻿***********  Dies ist die 64-Bit Version von PyScripter. *************
+Sie erfordert eine 64-Bit Version von Windows. Bitte beachten Sie, dass PyScripter
+nur funktioniert, wenn eine 64-Bit Version von Python installiert ist.
+
+Bevor Sie PyScripter verwenden, stellen Sie bitte sicher dass Python
+Version 2.6 oder neuer auf Ihrem Rechner installiert ist.
+Wenn nicht, finden Sie eine passende Version auf: http://www.python.org/
+
+Die neuesete Version von PyScripter finden Sie hier:
+https://sourceforge.net/projects/pyscripter/files/
+
+Danke für Ihr Interesse an PyScripter.

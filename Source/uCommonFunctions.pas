@@ -10,16 +10,27 @@ unit uCommonFunctions;
 
 interface
 Uses
-  Windows, Classes, System.SysUtils, Graphics, SynEditTypes, SynUnicode,
-  uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr, Vcl.ComCtrls,
-  System.Diagnostics;
+  Winapi.Windows,
+  System.Classes,
+  System.SysUtils,
+  System.Diagnostics,
+  System.RegularExpressionsAPI,
+  System.RegularExpressionsCore,
+  System.RegularExpressions,
+  Vcl.Controls,
+  Vcl.ComCtrls,
+  Vcl.Graphics,
+  SynEditTypes,
+  SynUnicode,
+  SynEdit,
+  uEditAppIntfs;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
   IdentChars: TSysCharSet = ['_', '0'..'9', 'A'..'Z', 'a'..'z'];
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
   STracebackFilePosExpr =  '"\<?' + SFileExpr + '\>?", line (\d+)(, in ([\<\>\?\w]+))?';
-  SWarningFilePosExpr = SFileExpr + ':(\d+):';
+  SWarningFilePosExpr = '\<?' +SFileExpr + '\>?:(\d+):';
   WideLF = WideChar(#10);
   WideNull = WideChar(#0);
   AnsiLineFeed       = AnsiChar(#10);
@@ -43,7 +54,7 @@ function StrIsRight(AText, ARight: PChar): Boolean;
 
 (* returns next token - based on Classes.ExtractStrings *)
 function StrGetToken(var Content: PChar;
-                     Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
+  Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
 
 (* removes quotes to AText, if needed *)
 function StrUnQuote(const AText: string): string;
@@ -120,7 +131,8 @@ function SortedIdentToInt(const Ident: string; var Int: Longint;
 function ComparePythonIdents(const S1, S2 : string): Integer; overload;
 function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
 
-(* Used to get Vista fonts *)
+(* Used to get Vista and code fonts *)
+function DefaultCodeFontName: string;
 procedure SetDefaultFonts(const AFont: TFont);
 procedure SetDesktopIconFonts(const AFont: TFont);
 procedure SetVistaContentFonts(const AFont: TFont);
@@ -194,14 +206,12 @@ function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
 (* Extracts a token and returns the remainder of a string *)
 function StrToken(var S: String; Separator: Char): string;
 
-(* Get Hot Color from SpTBX Skin option entry *)
-function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
-
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 
-(* Create a Regular Expression and compile it *)
-function CompiledRegExpr(Expr : string): TRegExpr;
+(* Create a PCRE Regular Expression and compile it *)
+function CompiledRegEx(Expr : string; Options: TRegExOptions = [roNotEmpty];
+  UCP : Boolean = True): TRegEx;
 
 (* Checks whether S contains digits only *)
 function IsDigits(S : string): Boolean;
@@ -253,7 +263,35 @@ procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
 (* Terminates a process and all child processes *)
 function TerminateProcessTree(ProcessID: DWORD): Boolean;
 
+(* Executes a Command using CreateProcess and captures output *)
+function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
+function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
+
+(* Checks if a file extension is contained in a file filter *)
+function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
+
+(* Checks if a file name is indicates a Python source file *)
+function FileIsPythonSource(FileName: string): Boolean;
+
+(* Simple routine to hook/detour a function *)
+procedure RedirectFunction(OrgProc, NewProc: Pointer);
+
 type
+  (*  Extends System.RegularExperssions.TRegEx *)
+  TRegExHelper = record helper for TRegEx
+  public
+    procedure Study;
+    procedure SetAdditionalPCREOptions(PCREOptions : Integer);
+    function PerlRegEx : TPerlRegEx;
+  end;
+
+  TMatchHelper = record helper for TMatch
+  public
+    function GroupIndex(Index: integer): integer;
+    function GroupLength(Index: integer): integer;
+    function GroupValue(Index: integer): string;
+  end;
+
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
   TLineBreakStringList = class(TStringList)
   protected
@@ -284,7 +322,6 @@ type
     Interfaced based Timer that can be used with anonymous methods
      Developed by  : Nuno Picado (https://github.com/nunopicado/Reusable-Objects)
   *)
-
   ITimer = interface(IInvokable)
   ['{1C06BCF6-1C6D-473E-993F-2B231B17D4F5}']
     function Start(const Action: TProc): ITimer;
@@ -302,6 +339,7 @@ Uses
   Winapi.UrlMon,
   Winapi.CommCtrl,
   Winapi.TlHelp32,
+  Winapi.Wincodec,
   System.Types,
   System.StrUtils,
   System.AnsiStrings,
@@ -316,6 +354,7 @@ Uses
   JclBase,
   JclStrings,
   JclPeImage,
+  JclSysUtils,
   JvJCLUtils,
   JvGnugettext,
   MPCommonUtilities,
@@ -325,12 +364,9 @@ Uses
   SynEditTextBuffer,
   VarPyth,
   PythonEngine,
-  dmCommands,
-  frmPythonII,
   StringResources,
   cPyScripterSettings,
   cParameters,
-  cPyControl,
   cSSHSupport;
 
 function GetIconIndexFromFile(const AFileName: string;
@@ -580,11 +616,11 @@ function GetWordAtPos(const LineText : string; Start : Integer; WordChars : TSys
   ScanBackwards : boolean = True; ScanForward : boolean = True;
   HandleBrackets : Boolean = False) : string;
 Var
-  i, j : integer;
+  i : integer;
   L, WordStart, WordEnd, ParenCounter, NewStart : integer;
   Bracket, MatchingBracket : WideChar;
 Const
-  AllBrackets: array[0..5] of WideChar = ('(', ')', '[', ']','{', '}');
+  AllBrackets = '()[]{}';
   CloseBrackets = [')', ']', '}'];
   OpenBrackets = ['(', '[', '{'];
 begin
@@ -619,12 +655,7 @@ begin
       //We found a close, go till it's opening paren
 
       Bracket := LineText[NewStart];
-      MatchingBracket := '(';  // Just to avoid warning
-      for j := Low(AllBrackets) to High(AllBrackets) do
-        if Bracket = AllBrackets[j] then begin
-          MatchingBracket := AllBrackets[j xor 1]; // 0 -> 1, 1 -> 0, ...
-          break;
-        end;
+      MatchingBracket := AllBrackets[AllBrackets.IndexOf(Bracket)]; // IndexOf is zero based!
 
       ParenCounter := 1;
       i := NewStart - 1;
@@ -666,13 +697,14 @@ begin
 
     //  Remove left margin and clear empty lines
     for i := 1 to SL.Count - 1 do
-      Margin := Min(Margin, CalcIndent(SL[i]));
-    for i := 1 to SL.Count - 1 do begin
-      if Margin < MaxInt then
-        SL[i] := Copy(SL[i], Margin+1, Length(SL[i]) - Margin);
       if Trim(SL[i]) = '' then
-        SL[i] := '';
-    end;
+        SL[i] := ''
+      else
+        Margin := Min(Margin, CalcIndent(SL[i]));
+    if (Margin > 0) and (Margin < MaxInt) then
+      for i := 1 to SL.Count - 1 do
+        if SL[i] <> '' then
+          SL[i] := Copy(SL[i], Margin+1, Length(SL[i]) - Margin);
     Result := SL.Text;
     // Remove any trailing or leading blank lines.
     Result := StrTrimCharsRight(Result, [#10, #13]);
@@ -910,18 +942,11 @@ End;//ReadLn
 
 
 function ParsePySourceEncoding(Textline : string): string;
-var
-  RegExpr : TRegExpr;
 begin
   Result := '';
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.Expression := 'coding[:=]\s*([-\w.]+)';
-    if RegExpr.Exec(TextLine) then
-      Result := RegExpr.Match[1];
-  finally
-    RegExpr.Free;
-  end;
+  with TRegEx.Match(TextLine, 'coding[:=]\s*([-\w.]+)') do
+    if Success then
+      Exit(Groups[1].Value);
 end;
 
 function GetAveCharSize(Canvas: TCanvas): TPoint;
@@ -1129,6 +1154,14 @@ begin
   S1 := List[Index1];
   S2 := List[Index2];
   Result := ComparePythonIdents(S1, S2);
+end;
+
+function DefaultCodeFontName: string;
+begin
+    if CheckWin32Version(6) then
+      Result := 'Consolas'
+    else
+      Result := 'Courier New';
 end;
 
 procedure SetDefaultFonts(const AFont: TFont);
@@ -1342,8 +1375,8 @@ begin
   wStr := Lines.Text;
   Lines.LineBreak := OldLineBreak;
 
-  if PyControl.InternalPython.Loaded and
-    (IsPython or CommandsDataModule.FileIsPythonSource(AFileName)) then
+  if GI_PyControl.PythonLoaded and
+    (IsPython or FileIsPythonSource(AFileName)) then
   begin
     PyEncoding := '';
     if Lines.Count > 0 then
@@ -1354,7 +1387,7 @@ begin
     with GetPythonEngine do begin
       if PyEncoding = '' then
         PyEncoding := SysModule.getdefaultencoding();
-      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
       UniPy := nil;
       EncodedString := nil;
       try
@@ -1423,7 +1456,7 @@ Var
 begin
   Result := True;
   if (AFileName <> '') and FileExists(AFileName) then begin
-    IsPythonFile :=  CommandsDataModule.FileIsPythonSource(AFileName);
+    IsPythonFile :=  FileIsPythonSource(AFileName);
     try
       FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
       try
@@ -1458,7 +1491,7 @@ begin
               end
               else
               begin
-                if not PyControl.InternalPython.Loaded or GetPythonEngine.IsPython3000 then
+                if not GI_PyControl.PythonLoaded or GetPythonEngine.IsPython3000 then
                   Encoding := sf_UTF8_NoBOM
                 else
                   Encoding := sf_Ansi;
@@ -1492,7 +1525,7 @@ begin
         case Encoding of
           sf_Ansi :
             // if it is a Pytyhon file detect an encoding spec
-            if PyControl.InternalPython.Loaded and IsPythonFile and (PyEncoding <> '') then
+            if GI_PyControl.PythonLoaded and IsPythonFile and (PyEncoding <> '') then
             begin
               PyWstr := nil;
               try
@@ -1813,17 +1846,6 @@ end;
 //      Result[I] := Replace;
 //end;
 
-function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
-begin
-  with OptionEntry do
-    case SkinType of
-      0 : Result := Color1;
-      1,2 : Result := Color2;
-    else
-      Result := Color4;
-    end;
-end;
-
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 var
   Form: TCustomForm;
@@ -1848,33 +1870,36 @@ begin
     end;
 end;
 
-function Dedent (const S : string) : string;
-Var
-  LeadWhiteSpace: string;
-  RegExpr: TRegExpr;
+function Dedent(const S : string) : string;
 begin
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.ModifierM := False;
-    RegExpr.Expression := '^\s*';
-    if RegExpr.Exec(S) then
-    begin
-      LeadWhiteSpace := RegExpr.Match[0];
-      RegExpr.ModifierM := True;
-      RegExpr.Expression := '^' + LeadWhiteSpace;
-      Result := RegExpr.Replace(S, '');
-    end else
-      Result := S;
-  finally
-    RegExpr.Free;
-  end;
+  with TRegEx.Match(S, '^\s+') do
+    if Success then
+      // to avoid repeated replacements of initial space
+      Exit(TRegEx.Replace(TRegEx.Replace(S,
+         '^'+Groups[0].Value , '!', [roNotEmpty, roMultiLine]),
+         '^!' , '', [roNotEmpty, roMultiLine]))
+    else
+      Exit(S)
 end;
 
-function CompiledRegExpr(Expr : string): TRegExpr;
+function CompiledRegEx(Expr : string; Options: TRegExOptions = [roNotEmpty];
+  UCP : Boolean = True): TRegEx;
 begin
-  Result := TRegExpr.Create;
-  Result.Expression := Expr;
-  Result.Compile;
+  try
+    Result.Create(Expr, Options);
+    if UCP then
+      Result.SetAdditionalPCREOptions(PCRE_UCP);
+    Result.Study
+  except
+    on E: ERegularExpressionError do
+      begin
+        Vcl.Dialogs.MessageDlg(Format(_(SInvalidRegularExpression), [E.Message]),
+          mtError, [mbOK], 0);
+        Abort;
+      end
+    else
+      raise;
+  end;
 end;
 
 function IsColorDark(AColor : TColor) : boolean;
@@ -2056,18 +2081,45 @@ begin
   end;
 end;
 
+//procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
+//var
+//  buffer: TBitmap;
+//begin
+//  buffer := TBitmap.Create;
+//  try
+//    buffer.SetSize(NewWidth, NewHeight);
+//    buffer.AlphaFormat := afDefined;
+//    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
+//    Bitmap.SetSize(NewWidth, NewHeight);
+//    Bitmap.Canvas.Draw(0, 0, buffer);
+//  finally
+//    buffer.Free;
+//  end;
+//end;
+
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 var
-  buffer: TBitmap;
+  Factory: IWICImagingFactory;
+  Scaler: IWICBitmapScaler;
+  Source : TWICImage;
 begin
-  buffer := TBitmap.Create;
+  Bitmap.AlphaFormat := afDefined;
+  Source := TWICImage.Create;
   try
-    buffer.SetSize(NewWidth, NewHeight);
-    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
-    Bitmap.SetSize(NewWidth, NewHeight);
-    Bitmap.Canvas.Draw(0, 0, buffer);
+    Source.Assign(Bitmap);
+    Factory := TWICImage.ImagingFactory;
+    Factory.CreateBitmapScaler(Scaler);
+    try
+      Scaler.Initialize(Source.Handle, NewWidth, NewHeight,
+        WICBitmapInterpolationModeHighQualityCubic);
+      Source.Handle := IWICBitmap(Scaler);
+    finally
+      Scaler := nil;
+      Factory := nil;
+    end;
+    Bitmap.Assign(Source);
   finally
-    buffer.Free;
+    Source.Free;
   end;
 end;
 
@@ -2085,7 +2137,6 @@ function DesktopSizeString: string;
 begin
   Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
 end;
-
 
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 begin
@@ -2323,6 +2374,144 @@ begin
     end;
 end;
 
+function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
+Var
+  ProcessOptions : TJclExecuteCmdProcessOptions;
+begin
+  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
+  try
+    ProcessOptions.MergeError := False;
+    ProcessOptions.RawOutput := True;
+    ProcessOptions.RawError := True;
+    ProcessOptions.CreateProcessFlags :=
+      ProcessOptions.CreateProcessFlags or
+       CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;
+    ExecuteCmdProcess(ProcessOptions);
+    Result := ProcessOptions.ExitCode;
+    CmdOutput := ProcessOptions.Output;
+    CmdError := ProcessOptions.Error;
+  finally
+    ProcessOptions.Free;
+  end;
+end;
+
+function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
+Var
+  CmdError: string;
+begin
+  Result := ExecuteCmd(Command, CmdOutput, CmdError);
+end;
+
+function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
+var
+  j, ExtLen: Integer;
+begin
+  Result := False;
+  ExtLen := FileExt.Length;
+  if ExtLen = 0 then
+    Exit;
+  FileExt := LowerCase(FileExt);
+  FileFilter := LowerCase(FileFilter);
+  j := Pos('|', FileFilter);
+  if j > 0 then begin
+    Delete(FileFilter, 1, j);
+    j := Pos(FileExt, FileFilter);
+    if (j > 0) and
+       ((j + ExtLen > Length(FileFilter)) or (FileFilter[j + ExtLen] = ';'))
+    then
+      Exit(True);
+  end;
+end;
+
+function FileIsPythonSource(FileName: string): Boolean;
+Var
+  Ext: string;
+begin
+  Ext := ExtractFileExt(FileName);
+  if Ext = '' then
+    Exit(False);
+  Result := FileExtInFileFilter(Ext, PyIDEOptions.PythonFileFilter);
+end;
+
+//  Regular Expressions Start
+type
+  { TPerlRegExHelper }
+  TPerlRegExHelper = class helper for TPerlRegEx
+    procedure SetAdditionalPCREOptions(PCREOptions : Integer);
+  end;
+
+procedure TPerlRegExHelper.SetAdditionalPCREOptions(PCREOptions: Integer);
+begin
+  with Self do FPCREOptions := FPCREOptions or PCREOptions;
+end;
+
+{ TRegExHelper }
+procedure TRegExHelper.Study;
+begin
+  with Self do FRegEx.Study;
+end;
+
+function TRegExHelper.PerlRegEx: TPerlRegEx;
+begin
+  with Self do
+    Result := FregEx;
+end;
+
+procedure TRegExHelper.SetAdditionalPCREOptions(PCREOptions: Integer);
+begin
+  with Self do FRegEx.SetAdditionalPCREOptions(PCREOptions);
+end;
+
+{ TMatchHelper }
+
+function TMatchHelper.GroupIndex(Index: integer): integer;
+begin
+  if Index < Groups.Count then
+    Result := Groups[Index].Index
+  else
+    Result := -1;
+end;
+
+function TMatchHelper.GroupLength(Index: integer): integer;
+begin
+  if Index < Groups.Count then
+    Result := Groups[Index].Length
+  else
+    Result := 0;
+end;
+
+function TMatchHelper.GroupValue(Index: integer): string;
+begin
+  if Index < Groups.Count then
+    Result := Groups[Index].Value
+  else
+    Result := '';
+end;
+//  Regular Expressions End
+
+procedure RedirectFunction(OrgProc, NewProc: Pointer);
+{
+  From spring4d
+  See https://devblogs.microsoft.com/oldnewthing/20181206-00/?p=100415
+  in relation to the use of WriteProcessMemory
+}
+type
+  TJmpBuffer = packed record
+    Jmp: Byte;
+    Offset: Integer;
+  end;
+var
+  n: NativeUInt;
+  JmpBuffer: TJmpBuffer;
+begin
+  JmpBuffer.Jmp := $E9;
+  JmpBuffer.Offset := PByte(NewProc) - (PByte(OrgProc) + 5);
+  if not WriteProcessMemory(GetCurrentProcess, OrgProc, @JmpBuffer, SizeOf(JmpBuffer), n) then
+    RaiseLastOSError;
+  FlushInstructionCache(GetCurrentProcess, OrgProc, SizeOf(JmpBuffer))
+end;
+
+
 {https://stackoverflow.com/questions/20142166/explain-errors-from-getkeystate-getcursorpos}
 
 function PatchedGetCursorPos(var lpPoint: TPoint): BOOL; stdcall;
@@ -2349,16 +2538,16 @@ begin
 end;
 
 var
-  PeImportHooks: TJclPeMapImgHooks;
   OldGetCursorPos: function(var lpPoint: TPoint): BOOL; stdcall = nil;
 
 initialization
   StopWatch := TStopWatch.StartNew;
-  PeImportHooks := TJclPeMapImgHooks.Create;
-  PeImportHooks.HookImport(Pointer(HInstance), user32, 'GetCursorPos',
-    @PatchedGetCursorPos, @OldGetCursorPos);
+
+  @OldGetCursorPos := GetProcAddress(GetModuleHandle(user32), 'GetCursorPos');
+  with TJclPeMapImgHooks do
+    ReplaceImport(SystemBase, user32, @OldGetCursorPos, @PatchedGetCursorPos);
 
 finalization
-  PeImportHooks.UnhookByNewAddress(@PatchedGetCursorPos);
-  FreeAndNil(PeImportHooks);
+ with TJclPeMapImgHooks do
+   ReplaceImport(SystemBase, user32, @PatchedGetCursorPos, @OldGetCursorPos);
 end.

@@ -8,17 +8,6 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
 the specific language governing rights and limitations under the License.
 
-The Original Code is: SynCompletionProposal.pas, released 2000-04-11.
-The Original Code is based on mwCompletionProposal.pas by Cyrille de Brebisson,
-part of the mwEdit component suite.
-Portions created by Cyrille de Brebisson are Copyright (C) 1999
-Cyrille de Brebisson.
-Unicode translation by Maël Hörz.
-All Rights Reserved.
-
-Contributors to the SynEdit and mwEdit projects are listed in the
-Contributors.txt file.
-
 Alternatively, the contents of this file may be used under the terms of the
 GNU General Public License Version 2 or later (the "GPL"), in which case
 the provisions of the GPL are applicable instead of those above.
@@ -28,19 +17,6 @@ under the MPL, indicate your decision by deleting the provisions above and
 replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
-
-$Id: SynCompletionProposal.pas,v 1.80.1.1 2013/06/25 10:31:19 codehunterworks Exp $
-
-You may retrieve the latest version of this file at the SynEdit home page,
-located at http://SynEdit.SourceForge.net
-
-Last Changes:
-  1.80.1.1 - Removed TProposalColumn.BiggestWord and
-             added TProposalColumn.ColumnWidth (Static Column Width in Pixels)
-
-Modified by KV to
-  - apply FormatParams to only the first line of the ItemList
-  - to show the commas between parameters in parameter completion
 -------------------------------------------------------------------------------}
 
 unit SynCompletionProposal;
@@ -50,22 +26,23 @@ unit SynCompletionProposal;
 interface
 
 uses
+  Winapi.Windows,
+  Winapi.Messages,
   System.Types,
+  System.SysUtils,
+  System.Classes,
   System.UITypes,
-  Windows,
-  Messages,
-  Graphics,
-  Forms,
-  Controls,
-  StdCtrls,
-  ExtCtrls,
-  Menus,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.Menus,
+  Vcl.ImgList,
   SynEditTypes,
   SynEditKeyCmds,
   SynEdit,
-  SynUnicode,
-  SysUtils,
-  Classes;
+  SynUnicode;
 
 type
   SynCompletionType = (ctCode, ctHint, ctParams);
@@ -123,7 +100,6 @@ type
   TSynBaseCompletionProposalForm = class(TSynForm)
   private
     FCurrentString: string;
-    FOnKeyPress: TKeyPressWEvent;
     FOnPaintItem: TSynBaseCompletionProposalPaintItem;
     FOnMeasureItem: TSynBaseCompletionProposalMeasureItem;
     FOnChangePosition: TCompletionChange;
@@ -152,7 +128,7 @@ type
     FItemHeight: Integer;
     FMargin: Integer;
     FEffectiveItemHeight: Integer;
-    FImages: TImageList;
+    FImages: TCustomImageList;
 
 //These are the reflections of the Options property of the CompletionProposal
     FCase: boolean;
@@ -185,7 +161,7 @@ type
     procedure SetPosition(const Value: Integer);
     procedure SetResizeable(const Value: Boolean);
     procedure SetItemHeight(const Value: Integer);
-    procedure SetImages(const Value: TImageList);
+    procedure SetImages(const Value: TCustomImageList);
     procedure StringListChange(Sender: TObject);
     procedure DoDoubleClick(Sender : TObject);
     procedure DoFormShow(Sender: TObject);
@@ -202,23 +178,19 @@ type
     function IsWordBreakChar(AChar: WideChar): Boolean;
   protected
     FCodeItemInfoWindow : THintWindow;
-    procedure DoKeyPressW(Key: WideChar);
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyPress(var Key: Char); override;
-    procedure KeyPressW(var Key: WideChar); virtual;
     procedure Paint; override;
     procedure Activate; override;
     procedure Deactivate; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure Resize; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    procedure WMChar(var Msg: TWMChar); message WM_CHAR;
     procedure WMMouseWheel(var Msg: TMessage); message WM_MOUSEWHEEL;
     procedure WMActivate (var Message: TWMActivate); message WM_ACTIVATE;
     procedure WMEraseBackgrnd(var Message: TMessage); message WM_ERASEBKGND;
     procedure WMGetDlgCode(var Message: TWMGetDlgCode); message WM_GETDLGCODE;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure CreateWnd; override;
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure ShowCodeItemInfo(Info: string);
   public
@@ -234,7 +206,7 @@ type
     property CurrentIndex: Integer read FCurrentIndex write FCurrentIndex;
     property CurrentLevel: Integer read FCurrentLevel write FCurrentLevel;
     property OnParameterToken: TCompletionParameter read FParameterToken write FParameterToken;
-    property OnKeyPress: TKeyPressWEvent read FOnKeyPress write FOnKeyPress;
+    property OnKeyPress;
     property OnPaintItem: TSynBaseCompletionProposalPaintItem read FOnPaintItem write FOnPaintItem;
     property OnMeasureItem: TSynBaseCompletionProposalMeasureItem read FOnMeasureItem write FOnMeasureItem;
     property OnValidate: TValidateEvent read FOnValidate write FOnValidate;
@@ -266,7 +238,7 @@ type
     property Font: TFont read fFont write SetFont;
     property Columns: TProposalColumns read FColumns write SetColumns;
     property Resizeable: Boolean read FResizeable write SetResizeable default True;
-    property Images: TImageList read FImages write SetImages;
+    property Images: TCustomImageList read FImages write SetImages;
   end;
 
   TSynBaseCompletionProposal = class(TComponent)
@@ -289,7 +261,7 @@ type
     function GetItemList: TStrings;
     function GetInsertList: TStrings;
     function GetOnCancel: TNotifyEvent;
-    function GetOnKeyPress: TKeyPressWEvent;
+    function GetOnKeyPress: TKeyPressEvent;
     function GetOnPaintItem: TSynBaseCompletionProposalPaintItem;
     function GetOnMeasureItem: TSynBaseCompletionProposalMeasureItem;
     function GetOnValidate: TValidateEvent;
@@ -299,13 +271,13 @@ type
     procedure SetInsertList(const Value: TStrings);
     procedure SetNbLinesInWindow(const Value: Integer);
     procedure SetOnCancel(const Value: TNotifyEvent);
-    procedure SetOnKeyPress(const Value: TKeyPressWEvent);
+    procedure SetOnKeyPress(const Value: TKeyPressEvent);
     procedure SetOnPaintItem(const Value: TSynBaseCompletionProposalPaintItem);
     procedure SetOnMeasureItem(const Value: TSynBaseCompletionProposalMeasureItem);
     procedure SetPosition(const Value: Integer);
     procedure SetOnValidate(const Value: TValidateEvent);
     procedure SetWidth(Value: Integer);
-    procedure SetImages(const Value: TImageList);
+    procedure SetImages(const Value: TCustomImageList);
     function GetDisplayKind: SynCompletionType;
     procedure SetDisplayKind(const Value: SynCompletionType);
     function GetParameterToken: TCompletionParameter;
@@ -341,7 +313,7 @@ type
     procedure SetItemHeight(const Value: Integer);
     function GetMargin: Integer;
     procedure SetMargin(const Value: Integer);
-    function GetImages: TImageList;
+    function GetImages: TCustomImageList;
     function IsWordBreakChar(AChar: WideChar): Boolean;
   protected
     procedure DefineProperties(Filer: TFiler); override;
@@ -365,7 +337,7 @@ type
     procedure AddItem(ADisplayText, AInsertText: string);
     procedure ResetAssignedList;
 
-    property OnKeyPress: TKeyPressWEvent read GetOnKeyPress write SetOnKeyPress;
+    property OnKeyPress: TKeyPressEvent read GetOnKeyPress write SetOnKeyPress;
     property OnValidate: TValidateEvent read GetOnValidate write SetOnValidate;
     property OnCancel: TNotifyEvent read GetOnCancel write SetOnCancel;
     property CurrentString: string read GetCurrentString write SetCurrentString;
@@ -395,7 +367,7 @@ type
     property Columns: TProposalColumns read GetColumns write SetColumns;
     property Resizeable: Boolean read GetResizeable write SetResizeable default True;
     property ItemHeight: Integer read GetItemHeight write SetItemHeight default 0;
-    property Images: TImageList read GetImages write SetImages default nil;
+    property Images: TCustomImageList read GetImages write SetImages default nil;
     property Margin: Integer read GetMargin write SetMargin default 2;
 
     property OnChange: TCompletionChange read GetOnChange write SetOnChange;
@@ -552,9 +524,9 @@ type
 
 
 procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
-  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
+  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TCustomImageList);
 function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
-  Columns: TProposalColumns; Images: TImageList): Integer;
+  Columns: TProposalColumns; Images: TCustomImageList): Integer;
 function PrettyTextToFormattedString(const APrettyText: string;
   AlternateBoldStyle: Boolean = False): string;
 (*
@@ -568,11 +540,13 @@ function GetParameter(var S: string): string;
 implementation
 
 uses
-  Math,
+  System.Math,
+  Vcl.Themes,
   SynEditTextBuffer,
   SynEditMiscProcs,
   SynEditKeyConst,
-  Vcl.Themes, uCommonFunctions;
+  JvGnugettext,
+  uCommonFunctions;
 
 const
   TextHeightString = 'CompletionProposal';
@@ -751,7 +725,7 @@ var
 
       if CurChar = '}' then
       begin
-        Command := SynWideUpperCase(Command);
+        Command := System.SysUtils.AnsiUpperCase(Command);
 
         Data := nil;
         CommandType := fcNoCommand;
@@ -799,14 +773,14 @@ var
         begin
           if (Length(Parameter) = 2)
             and CharInSet(Parameter[1], ['+', '-', '~'])
-            and CharInSet(SynWideUpperCase(Parameter[2])[1],
+            and CharInSet(System.SysUtils.AnsiUpperCase(Parameter[2])[1],
               ['B', 'I', 'U', 'S']) then
           begin
             CommandType := fcStyle;
             if not (fcStyle in StripCommands) then
             begin
               Data := New(PFormatStyleData);
-              PFormatStyleData(Data)^.Style := SynWideUpperCase(Parameter[2])[1];
+              PFormatStyleData(Data)^.Style := System.SysUtils.AnsiUpperCase(Parameter[2])[1];
               case Parameter[1] of
               '+': PFormatStyleData(Data)^.Action := 1;
               '-': PFormatStyleData(Data)^.Action := -1;
@@ -884,7 +858,7 @@ end;
 
 
 function PaintChunks(TargetCanvas: TCanvas; const Rect: TRect;
-  ChunkList: TFormatChunkList; Columns: TProposalColumns; Images: TImageList;
+  ChunkList: TFormatChunkList; Columns: TProposalColumns; Images: TCustomImageList;
   Invisible: Boolean): Integer;
 var
   i: Integer;
@@ -999,7 +973,7 @@ begin
 end;
 
 procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
-  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
+  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TCustomImageList);
 var
   Chunks: TFormatChunkList;
   StripCommands: TFormatCommands;
@@ -1019,7 +993,7 @@ begin
 end;
 
 function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
-  Columns: TProposalColumns; Images: TImageList): Integer;
+  Columns: TProposalColumns; Images: TCustomImageList): Integer;
 var
   Chunks: TFormatChunkList;
   TmpRect: TRect;
@@ -1057,7 +1031,7 @@ Begin
         end;
       #3:
         begin
-          if CharInSet(SynWideUpperCase(APrettyText[i + 1])[1], ['B', 'I', 'U']) then
+          if CharInSet(System.SysUtils.AnsiUpperCase(APrettyText[i + 1])[1], ['B', 'I', 'U']) then
           begin
             Result := Result + '\style{';
 
@@ -1296,18 +1270,6 @@ begin
   end;
 end;
 
-procedure TSynBaseCompletionProposalForm.CreateWnd;
-begin
-  inherited;
-
-  if not (csDesigning in ComponentState) then
-  begin
-    // "redefine" window-procedure to get Unicode messages
-    if Win32Platform = VER_PLATFORM_WIN32_NT then
-      SetWindowLongW(Handle, GWL_WNDPROC, Integer(GetWindowLongA(Handle, GWL_WNDPROC)));
-  end;
-end;
-
 procedure TSynBaseCompletionProposalForm.Activate;
 begin
   Visible := True;
@@ -1342,9 +1304,27 @@ end;
 procedure TSynBaseCompletionProposalForm.KeyDown(var Key: Word; Shift: TShiftState);
 var
   C: WideChar;
+  Cmd: TSynEditorCommand;
+  i: integer;
+
+  procedure ExecuteCmdAndCancel;
+  begin
+    if Cmd <> ecNone then begin
+      if Assigned(CurrentEditor) then
+        (CurrentEditor as TCustomSynEdit).CommandProcessor(Cmd, #0, nil);
+
+      if Assigned(OnCancel) then
+        OnCancel(Self);
+    end;
+  end;
 begin
   if DisplayType = ctCode then
   begin
+    i := (CurrentEditor as TCustomSynEdit).Keystrokes.FindKeycode(Key, Shift);
+    if i >= 0 then
+      Cmd := TCustomSynEdit(CurrentEditor).Keystrokes[i].Command
+    else
+      Cmd := ecNone;
     case Key of
       SYNEDIT_RETURN:
         if (FCompleteWithEnter) and Assigned(OnValidate) then
@@ -1358,6 +1338,7 @@ begin
           OnCancel(Self);
       end;
       SYNEDIT_LEFT:
+        if (Shift = []) then
         begin
           if Length(FCurrentString) > 0 then
           begin
@@ -1375,8 +1356,10 @@ begin
             if Assigned(OnCancel) then
               OnCancel(Self);
           end;
-        end;
+        end else
+          ExecuteCmdAndCancel;
       SYNEDIT_RIGHT:
+        if (Shift = []) then
         begin
           if Assigned(CurrentEditor) then
             with CurrentEditor as TCustomSynEdit do
@@ -1395,7 +1378,8 @@ begin
 
               CommandProcessor(ecRight, #0, nil);
             end;
-        end;
+        end else
+          ExecuteCmdAndCancel;
       SYNEDIT_PRIOR:
         MoveLine(-FLinesInWindow);
       SYNEDIT_NEXT:
@@ -1434,9 +1418,13 @@ begin
             if Assigned(OnCancel) then
               OnCancel(Self);
           end;
-        end;
-      SYNEDIT_DELETE: if Assigned(CurrentEditor) then
-                      (CurrentEditor as TCustomSynEdit).CommandProcessor(ecDeleteChar, #0, nil);
+        end else
+          ExecuteCmdAndCancel;
+      SYNEDIT_DELETE:
+        if Assigned(CurrentEditor) then
+          (CurrentEditor as TCustomSynEdit).CommandProcessor(ecDeleteChar, #0, nil);
+    else
+      ExecuteCmdAndCancel;
     end;
   end;
   Invalidate;
@@ -1444,16 +1432,8 @@ end;
 
 procedure TSynBaseCompletionProposalForm.KeyPress(var Key: Char);
 begin
-end;
+  if Key = #0 then Exit;
 
-procedure TSynBaseCompletionProposalForm.DoKeyPressW(Key: WideChar);
-begin
-  if Key <> #0 then
-    KeyPressW(Key);
-end;
-
-procedure TSynBaseCompletionProposalForm.KeyPressW(var Key: WideChar);
-begin
   if DisplayType = ctCode then
   begin
     case Key of
@@ -1911,7 +1891,7 @@ begin
   end;
 end;
 
-procedure TSynBaseCompletionProposalForm.SetImages(const Value: TImageList);
+procedure TSynBaseCompletionProposalForm.SetImages(const Value: TCustomImageList);
 begin
   if FImages <> Value then
   begin
@@ -2007,13 +1987,6 @@ begin
 
   if Assigned(ParentForm) and ParentForm.HandleAllocated then
     SendMessage(ParentForm.Handle, WM_NCACTIVATE, Ord(Message.Active <> WA_INACTIVE), 0);
-end;
-
-procedure TSynBaseCompletionProposalForm.WMChar(var Msg: TWMChar);
-begin
-  // Process only if Ctrl or Alt are not pressed
-  if (KeyDataToShiftState(Msg.KeyData) + [ssShift]) = [ssShift] then
-    DoKeyPressW(WideChar(Msg.CharCode));
 end;
 
 procedure TSynBaseCompletionProposalForm.DoFormHide(Sender: TObject);
@@ -2439,7 +2412,7 @@ begin
   Result := Form.OnCancel;
 end;
 
-function TSynBaseCompletionProposal.GetOnKeyPress: TKeyPressWEvent;
+function TSynBaseCompletionProposal.GetOnKeyPress: TKeyPressEvent;
 begin
   Result := Form.OnKeyPress;
 end;
@@ -2489,7 +2462,7 @@ begin
   Form.OnCancel := Value;
 end;
 
-procedure TSynBaseCompletionProposal.SetOnKeyPress(const Value: TKeyPressWEvent);
+procedure TSynBaseCompletionProposal.SetOnKeyPress(const Value: TKeyPressEvent);
 begin
   Form.OnKeyPress := Value;
 end;
@@ -2674,12 +2647,12 @@ begin
     FForm.ItemHeight := Value;
 end;
 
-procedure TSynBaseCompletionProposal.SetImages(const Value: TImageList);
+procedure TSynBaseCompletionProposal.SetImages(const Value: TCustomImageList);
 begin
   FForm.Images := Value;
 end;
 
-function TSynBaseCompletionProposal.GetImages: TImageList;
+function TSynBaseCompletionProposal.GetImages: TCustomImageList;
 begin
   Result := FForm.Images;
 end;
@@ -3012,7 +2985,7 @@ begin
   fTimerInterval:= 1000;
   fNoNextKey := False;
 
-  fShortCut := Menus.ShortCut(Ord(' '), [ssCtrl]);
+  fShortCut := Vcl.Menus.ShortCut(Ord(' '), [ssCtrl]);
   Options := DefaultProposalOptions;
   fEditors := TList.Create;
 end;
@@ -3386,7 +3359,7 @@ begin
   FEndOfTokenChr := DefaultEndOfTokenChr;
   fAutoCompleteList := TStringList.Create;
   fNoNextKey := false;
-  fShortCut := Menus.ShortCut(Ord(' '), [ssShift]);
+  fShortCut := Vcl.Menus.ShortCut(Ord(' '), [ssShift]);
 end;
 
 procedure TSynAutoComplete.SetShortCut(Value: TShortCut);
@@ -3454,79 +3427,84 @@ begin
     i := AutoCompleteList.IndexOf(Token);
     if (Length(Token) > 0) and (i <> -1) then
     begin
-      TmpOptions := Editor.Options;
-      OrigOptions := Editor.Options;
-      ChangedIndent := eoAutoIndent in TmpOptions;
-      ChangedTrailing := eoTrimTrailingSpaces in TmpOptions;
+      Editor.Lines.BeginUpdate;
+      try
+        TmpOptions := Editor.Options;
+        OrigOptions := Editor.Options;
+        ChangedIndent := eoAutoIndent in TmpOptions;
+        ChangedTrailing := eoTrimTrailingSpaces in TmpOptions;
 
-      if ChangedIndent then Exclude(TmpOptions, eoAutoIndent);
-      if ChangedTrailing then Exclude(TmpOptions, eoTrimTrailingSpaces);
+        if ChangedIndent then Exclude(TmpOptions, eoAutoIndent);
+        if ChangedTrailing then Exclude(TmpOptions, eoTrimTrailingSpaces);
 
-      if ChangedIndent or ChangedTrailing then
-        Editor.Options := TmpOptions;
+        if ChangedIndent or ChangedTrailing then
+          Editor.Options := TmpOptions;
 
-      Editor.UndoList.AddChange(crAutoCompleteBegin, StartOfBlock, StartOfBlock, '',
-        smNormal);
+        Editor.UndoList.AddChange(crAutoCompleteBegin, StartOfBlock, StartOfBlock, '',
+          smNormal);
 
-      fNoNextKey := True;
-      for j := 1 to Length(Token) do
-        Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
-      BeginningSpaceCount := Editor.DisplayX - 1;
-      if not(eoTabsToSpaces in Editor.Options) and
-        (BeginningSpaceCount >= Editor.TabWidth)
-      then
-        Spacing := UnicodeStringOfChar(#9, BeginningSpaceCount div Editor.TabWidth)
-          + UnicodeStringOfChar(' ', BeginningSpaceCount mod Editor.TabWidth)
-      else
-        Spacing := UnicodeStringOfChar(' ', BeginningSpaceCount);
+        fNoNextKey := True;
+        for j := 1 to Length(Token) do
+          Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
+        BeginningSpaceCount := Editor.DisplayX - 1;
+        if not(eoTabsToSpaces in Editor.Options) and
+          (BeginningSpaceCount >= Editor.TabWidth)
+        then
+          Spacing := StringofChar(#9, BeginningSpaceCount div Editor.TabWidth)
+            + StringofChar(' ', BeginningSpaceCount mod Editor.TabWidth)
+        else
+          Spacing := StringofChar(' ', BeginningSpaceCount);
 
-      inc(i);
-      if (i < AutoCompleteList.Count) and
-         (Length(AutoCompleteList[i]) > 0) and
-         (AutoCompleteList[i][1] = '|') then
-      begin
-        inc(i);
-      end;
-      StartOfBlock.Char := -1;
-      StartOfBlock.Line := -1;
-      while (i < AutoCompleteList.Count) and
-            (length(AutoCompleteList[i]) > 0) and
-            (AutoCompleteList[i][1] = '=') do
-      begin
-  {      for j := 0 to PrevSpace - 1 do
-          Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);}
-        Temp := AutoCompleteList[i];
-        for j := 2 to Length(Temp) do begin
-          if (Temp[j] = #9) then
-            Editor.CommandProcessor(ecTab, Temp[j], nil)
-          else
-            Editor.CommandProcessor(ecChar, Temp[j], nil);
-          if (Temp[j] = '|') then
-            StartOfBlock := Editor.CaretXY
-        end;
         inc(i);
         if (i < AutoCompleteList.Count) and
-           (length(AutoCompleteList[i]) > 0) and
-           (AutoCompleteList[i][1] = '=') then
+           (Length(AutoCompleteList[i]) > 0) and
+           (AutoCompleteList[i][1] = '|') then
         begin
-           Editor.CommandProcessor (ecLineBreak,' ',nil);
-           for j := 1 to length(Spacing) do
-             if (Spacing[j] = #9) then
-               Editor.CommandProcessor(ecTab, #9, nil)
-             else
-               Editor.CommandProcessor (ecChar, ' ', nil);
+          inc(i);
         end;
-      end;
-      if (StartOfBlock.Char <> -1) and (StartOfBlock.Line <> -1) then begin
-        Editor.CaretXY := StartOfBlock;
-        Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
-      end;
+        StartOfBlock.Char := -1;
+        StartOfBlock.Line := -1;
+        while (i < AutoCompleteList.Count) and
+              (length(AutoCompleteList[i]) > 0) and
+              (AutoCompleteList[i][1] = '=') do
+        begin
+    {      for j := 0 to PrevSpace - 1 do
+            Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);}
+          Temp := AutoCompleteList[i];
+          for j := 2 to Length(Temp) do begin
+            if (Temp[j] = #9) then
+              Editor.CommandProcessor(ecTab, Temp[j], nil)
+            else
+              Editor.CommandProcessor(ecChar, Temp[j], nil);
+            if (Temp[j] = '|') then
+              StartOfBlock := Editor.CaretXY
+          end;
+          inc(i);
+          if (i < AutoCompleteList.Count) and
+             (length(AutoCompleteList[i]) > 0) and
+             (AutoCompleteList[i][1] = '=') then
+          begin
+             Editor.CommandProcessor (ecLineBreak,' ',nil);
+             for j := 1 to length(Spacing) do
+               if (Spacing[j] = #9) then
+                 Editor.CommandProcessor(ecTab, #9, nil)
+               else
+                 Editor.CommandProcessor (ecChar, ' ', nil);
+          end;
+        end;
+        if (StartOfBlock.Char <> -1) and (StartOfBlock.Line <> -1) then begin
+          Editor.CaretXY := StartOfBlock;
+          Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
+        end;
 
-      if ChangedIndent or ChangedTrailing then Editor.Options := OrigOptions;
+        if ChangedIndent or ChangedTrailing then Editor.Options := OrigOptions;
 
-      Editor.UndoList.AddChange(crAutoCompleteEnd, StartOfBlock, StartOfBlock,
-        '', smNormal);
-      fNoNextKey := False;
+        Editor.UndoList.AddChange(crAutoCompleteEnd, StartOfBlock, StartOfBlock,
+          '', smNormal);
+        fNoNextKey := False;
+      finally
+        Editor.Lines.EndUpdate;
+      end;
     end
     else if LookupIfNotExact and Assigned(FInternalCompletion) then
     begin
@@ -3538,7 +3516,7 @@ begin
           if (i + 1 < AutoCompleteList.Count) and (length(AutoCompleteList[i + 1]) > 0) and
             (AutoCompleteList[i + 1][1] = '|') then
           begin
-            Temp := AutoCompleteList[i + 1];
+            Temp := _(AutoCompleteList[i + 1]);
             Delete(Temp, 1, 1);
           end
           else
@@ -3674,6 +3652,7 @@ begin
   FInternalCompletion.ShortCut := 0;
   FInternalCompletion.OnAfterCodeCompletion := DoInternalAutoCompletion;
   FInternalCompletion.Columns.Add;
+  FInternalCompletion.Width := 350;
   FInternalCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 end;
 

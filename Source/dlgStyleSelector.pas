@@ -3,13 +3,29 @@ unit dlgStyleSelector;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Types, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
-  Vcl.ActnList, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnMan, Vcl.ToolWin,
-  System.Actions, dlgPyIDEBase, SpTBXItem, SpTBXControls,
-  System.Generics.Collections, Vcl.Themes, Vcl.Styles,
-  Vcl.Styles.PyScripter;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Types,
+  System.Classes,
+  System.Actions,
+  System.Generics.Collections,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ActnList,
+  Vcl.PlatformDefaultStyleActnCtrls,
+  Vcl.ActnMan,
+  Vcl.ToolWin,
+  Vcl.Themes,
+  Vcl.Styles,
+  Vcl.Styles.PyScripter,
+  dlgPyIDEBase;
 
 type
   TStyleSelectorForm = class(TPyIDEDlgBase)
@@ -17,10 +33,10 @@ type
     ActionManager1: TActionManager;
     ActionApplyStyle: TAction;
     Panel1: TPanel;
-    Button1: TSpTBXButton;
     Button2: TButton;
     LBStyleNames: TListBox;
     Label2: TLabel;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -45,9 +61,8 @@ implementation
 
 uses
   System.IOUtils,
-  dmCommands,
+  cPyScripterSettings,
   frmPyIDEMain;
-
 
 type
  TVclStylesPreviewClass = class(TVclStylesPreview);
@@ -56,22 +71,23 @@ type
 
 procedure TStyleSelectorForm.FormCreate(Sender: TObject);
 begin
-   Loading:=False;
-   LBStyleNames.Sorted := True;
-   ExternalStyleFilesDict := TDictionary<string, string>.Create;
-   FStylesPath := CommandsDataModule.StylesFilesDir;
-   FPreview:=TVclStylesPreview.Create(Self);
-   FPreview.Parent:=Panel1;
-   FPreview.Icon := Application.Icon.Handle;
-   FPreview.BoundsRect := Panel1.ClientRect;
-   FillVclStylesList;
+  inherited;
+  Loading:=False;
+  LBStyleNames.Sorted := True;
+  ExternalStyleFilesDict := TDictionary<string, string>.Create;
+  FStylesPath := TPyScripterSettings.StylesFilesDir;
+  FPreview:=TVclStylesPreview.Create(Self);
+  FPreview.Parent:=Panel1;
+  FPreview.Icon := Application.Icon.Handle;
+  FPreview.BoundsRect := Panel1.ClientRect;
+  FillVclStylesList;
 end;
 
 procedure TStyleSelectorForm.FormDestroy(Sender: TObject);
 begin
   ExternalStyleFilesDict.Free;
   FPreview.Free;
-  end;
+end;
 
 procedure TStyleSelectorForm.FormShow(Sender: TObject);
 //  Todo Select active style
@@ -117,7 +133,6 @@ begin
          // Resource style
         LStyle := TStyleManager.Style[StyleName];
     end;
-
   end;
 
   if Assigned(LStyle) and not Loading  then
@@ -130,9 +145,8 @@ begin
 
 end;
 
-
 class procedure TStyleSelectorForm.SetStyle(StyleName: string);
-// StyleName can be either a reousrce of a file name
+// StyleName can be either a resource of a file name
 var
   SName : string;
   StyleInfo : TStyleInfo;

@@ -45,23 +45,27 @@ unit dlgReplaceInFiles;
 interface
 
 uses
-  Classes, Controls, StdCtrls, Forms,
-  cFindInFiles, SpTBXControls, SpTBXEditors,
-  dlgPyIDEBase, SpTBXItem;
+  System.Classes,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  Vcl.StdCtrls,
+  Vcl.Forms,
+  cFindInFiles,
+  dlgPyIDEBase;
 
 type
   TReplaceInFilesDialog = class(TPyIDEDlgBase)
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    cbBackup: TSpTBXCheckBox;
-    cbReplace: TSpTBXComboBox;
-    lblInString: TSpTBXLabel;
-    lblReplaceString: TSpTBXLabel;
-    lblWith: TSpTBXLabel;
-    lblIn: TSpTBXLabel;
-    lblReplace: TSpTBXLabel;
-    SpTBXPanel1: TSpTBXPanel;
+    cbReplace: TComboBox;
+    Panel1: TPanel;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
+    cbBackup: TCheckBox;
+    lblReplaceString: TLabel;
+    lblWith: TLabel;
+    lblIn: TLabel;
+    lblReplace: TLabel;
+    lblInString: TLabel;
     procedure btnHelpClick(Sender: TObject);
   private
     FFindInFilesExpert : TFindInFilesExpert;
@@ -83,7 +87,8 @@ implementation
 {$R *.dfm}
 
 uses
-  SysUtils, frmFindResults;
+  System.SysUtils,
+  frmFindResults;
 
 constructor TReplaceInFilesDialog.Create(AOwner: TComponent);
 begin

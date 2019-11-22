@@ -46,7 +46,7 @@ inherited OutputWindow: TOutputWindow
   ExplicitHeight = 370
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 552
     Height = 331
     ExplicitWidth = 552

@@ -917,7 +917,7 @@ var
   i: Integer;
 begin
   with Modifiers do begin
-    i:= IndexOf(AName);
+    i:= IndexOfName(AName);
     if i >= 0 then Delete(i);
   end;
 end;

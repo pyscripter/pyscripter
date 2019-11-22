@@ -12,10 +12,31 @@ unit frmCodeExplorer;
 interface
 
 uses
-  Windows, Messages, System.UITypes, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
-  Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
-  cPythonSourceScanner, SpTBXItem, JvComponentBase, SpTBXControls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Contnrs,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.Menus,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  JvComponentBase,
+  JvDockControlForm,
+  JvAppStorage,
+  VirtualTrees,
+  TB2Item,
+  SpTBXItem,
+  SpTBXControls,
+  frmIDEDockWin,
+  cPythonSourceScanner;
 
 type
   TCESortOrder = (soPosition, soAlpha);
@@ -182,6 +203,7 @@ type
 
   // for storing and restoring code explorer data
   ICodeExplorerData = interface
+  ['{9349A5A2-EF7B-4203-9D01-BF3F21F096C2}']
     function GetSourceScanner : IAsyncSourceScanner;
     procedure SetSourceScanner(SC : IAsyncSourceScanner);
     function GetNewSourceScanner : IAsyncSourceScanner;
@@ -226,6 +248,7 @@ type
     mnFindReferences: TSpTBXItem;
     mnAlphaSort: TSpTBXItem;
     mnFollowEditor: TSpTBXItem;
+    vicCodeImages: TVirtualImageList;
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: string);
@@ -373,10 +396,10 @@ procedure TScanCodeThread.GetEditorData;
 Var
   Editor : IEditor;
 begin
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(Editor) then begin
-    fNewCEData := Editor.CodeExplorerData;
-    fNewCEData.NewSourceScanner := Editor.SourceScanner;
+    fNewCEData := Editor.CodeExplorerData as ICodeExplorerData;
+    fNewCEData.NewSourceScanner := Editor.SourceScanner as IAsyncSourceScanner;
   end else begin
     fNewCEData := nil;
   end;
@@ -688,7 +711,7 @@ Var
 begin
   if not mnFollowEditor.Checked then Exit;
 
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if not Assigned(Editor) then Exit;
 
   if (TScanCodeThread(WorkerThread).fOldCEData = Editor.CodeExplorerData) and
@@ -748,7 +771,7 @@ begin
     end else
       Exit;
 
-    Editor := PyIDEMainForm.GetActiveEditor;
+    Editor := GI_PyIDEServices.GetActiveEditor;
     if Assigned(Editor) and (CodePos.LineNo >= 0) then begin
       with Editor.ActiveSynEdit do
       begin

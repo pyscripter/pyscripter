@@ -30,12 +30,13 @@ uses
   SpTBXControls,
   SpTBXItem,
   SpTBXSkins,
+  uEditAppIntfs,
   frmIDEDockWin;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
 
-  TUnitTestWindow = class(TIDEDockWindow)
+  TUnitTestWindow = class(TIDEDockWindow, IUnitTestServices)
     ExplorerDock: TSpTBXDock;
     ExplorerToolbar: TSpTBXToolbar;
     RunImages: TImageList;
@@ -104,6 +105,12 @@ type
     { Private declarations }
     TestClasses : TStringList;
     TestSuite, TestResult : Variant;
+  // IUnitTestServices implementaton
+    procedure StartTest(Test: Variant);
+    procedure StopTest(Test: Variant);
+    procedure AddError(Test, Err: Variant);
+    procedure AddFailure(Test, Err: Variant);
+    procedure AddSuccess(Test: Variant);
   protected
     procedure UpdateActions; override;
   public
@@ -112,11 +119,6 @@ type
     TestsRun, TestsFailed, TestErrors : integer;
     ElapsedTime : double;
     procedure ClearAll;
-    procedure StartTest(Test: Variant);
-    procedure StopTest(Test: Variant);
-    procedure AddError(Test, Err: Variant);
-    procedure AddFailure(Test, Err: Variant);
-    procedure AddSuccess(Test: Variant);
     function SelectedTestCount : integer;
     function FindTestNode(Test : Variant) : PVirtualNode;
   end;
@@ -133,10 +135,7 @@ uses
   PythonEngine,
   VarPyth,
   StringResources,
-  dmCommands,
-  frmPyIDEMain,
   uCommonFunctions,
-  uEditAppIntfs,
   cPyBaseDebugger,
   cPyDebugger,
   cPyControl;
@@ -172,7 +171,7 @@ Var
   TestCount : integer;
 begin
   ClearAll;
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(Editor) then begin
     Cursor := WaitCursor;
 
@@ -440,7 +439,7 @@ Var
   StartTime, StopTime, Freq : Int64;
 begin
   // Only allow when PyControl.ActiveDebugger is inactive
-  if not PyControl.Inactive then Exit;
+  if not GI_PyControl.Inactive then Exit;
 
   // bugfix for Python 2.6 or higher
   //if (PyControl.PythonVersionIndex >= 10) and (PyControl.ActiveInterpreter is TPyRemoteInterpreter) then
@@ -476,7 +475,7 @@ begin
 
   Status := utwRunning;
   UpdateActions;
-  PyIDEMainForm.DebuggerStateChange(Self, dsInactive, dsRunning);
+  PyControl.DoStateChange(dsRunning);
   Application.ProcessMessages;
 
   TestResult := PyControl.ActiveInterpreter.UnitTestResult();
@@ -492,7 +491,7 @@ begin
     VarClear(TestResult);
     VarClear(TempTestSuite);
     Status := utwRun;
-    PyIDEMainForm.DebuggerStateChange(Self, dsRunning, dsInactive);
+    PyControl.DoStateChange(dsInactive);
     lblRunTests.Caption := Format(RunTestsLabel,
       [TestsRun, Iff(TestsRun=1, '', 's'), Format(ElapsedTimeFormat, [ElapsedTime])]);
   end;
@@ -640,7 +639,7 @@ begin
   Count := SelectedTestCount;
 
   actRun.Enabled := (Status in [utwLoaded, utwRun]) and (Count > 0) and
-    PyControl.Inactive;
+    GI_PyControl.Inactive;
 
   actSelectAll.Enabled := Status in [utwLoaded, utwRun];
   actDeselectAll.Enabled := Status in [utwLoaded, utwRun];
@@ -706,7 +705,7 @@ begin
           end;
         end else
           LineNo := InspectModule.findsource(PythonObject).__getitem__(1);
-        PyIDEMainForm.ShowFilePosition(FileName, Succ(LineNo), 1);
+        GI_PyIDEServices.ShowFilePosition(FileName, Succ(LineNo), 1);
       end;
     end;
   end;

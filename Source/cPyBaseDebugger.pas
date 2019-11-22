@@ -134,6 +134,7 @@ type
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
     procedure RunScript(FileName : string); virtual;
     function EvalCode(const Expr : string) : Variant; virtual; abstract;
+    procedure SystemCommand(const Cmd : string); virtual; abstract;
     function GetObjectType(Ob : Variant) : string; virtual; abstract;
     function UnitTestResult : Variant; virtual; abstract;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; virtual; abstract;
@@ -295,9 +296,6 @@ uses
   JvGnuGettext,
   JclSysInfo,
   StringResources,
-  dmCommands,
-  frmMessages,
-  frmPyIDEMain,
   uCommonFunctions,
   cPyControl,
   cPyDebugger,
@@ -381,25 +379,21 @@ Var
   FileName : string;
   Editor : IEditor;
 begin
-  MessagesWindow.ShowPythonTraceback(SkipFrames);
-  MessagesWindow.AddMessage(E.Message);
+  GI_PyIDEServices.Messages.ShowPythonTraceback(SkipFrames);
+  GI_PyIDEServices.Messages.AddMessage(E.Message);
   with GetPythonEngine.Traceback do begin
     if ItemCount > 0 then begin
       TI := Items[ItemCount -1];
-      FileName := TI.FileName;
-      if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
-        FileName :=  Copy(FileName, 2, Length(FileName)-2);
+      FileName := FromPythonFileName(TI.FileName);
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       // Check whether the error occurred in the active editor
-      if (Assigned(Editor) and (Editor = PyIDEMainForm.GetActiveEditor)) or
+      if (Assigned(Editor) and (Editor = GI_PyIDEServices.GetActiveEditor)) or
         PyIDEOptions.JumpToErrorOnException then
       begin
-        if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
+        if GI_PyIDEServices.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
           Assigned(GI_ActiveEditor)
-        then begin
-          PyControl.ErrorPos.NewPos(GI_ActiveEditor, TI.LineNo);
-          PyControl.DoErrorPosChanged;
-        end;
+        then
+          PyControl.DoErrorPosChanged(TEditorPos.NPos(GI_ActiveEditor, TI.LineNo));
       end;
     end;
   end;
@@ -410,7 +404,7 @@ procedure TPyBaseInterpreter.Initialize;
 Var
   FileName : String;
 begin
-  FileName := CommandsDataModule.UserDataPath + EngineInitFile;
+  FileName := TPyScripterSettings.UserDataPath + EngineInitFile;
 
   try
     RunScript(FileName);
@@ -454,6 +448,11 @@ end;
 
 function TPyBaseInterpreter.FromPythonFileName(const FileName: string): string;
 begin
+  if FileName = '' then
+    Result := ''
+ else if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
+   Result :=  Copy(FileName, 2, Length(FileName)-2)
+ else
   Result := FileName;
 end;
 
@@ -461,7 +460,8 @@ function TPyBaseInterpreter.ToPythonFileName(const FileName: string): string;
 Var
   Server, FName : string;
 begin
-  if TSSHFileName.Parse(FileName, Server, FName) then
+  // check for untitled or remote files
+  if (FileName.IndexOfAny(['\', '/', '.']) < 0) or TSSHFileName.Parse(FileName, Server, FName) then
     Result := '<' + FileName + '>'
   else
     Result := FileName;

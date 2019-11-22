@@ -32,6 +32,7 @@ type
     SpTBXLabel5: TSpTBXLabel;
     lbCategories: TSpTBXListBox;
     Panel2: TPanel;
+    procedure FormCreate(Sender: TObject);
     procedure lbCommandsDrawItem(Sender: TObject;
       ACanvas: TCanvas; var ARect: TRect; Index: Integer;
       const State: TOwnerDrawState; const PaintStage: TSpTBXPaintStage;
@@ -64,6 +65,12 @@ Uses
   JvGnugettext,
   frmPyIDEMain;
 
+procedure TSpTBXCustomizeFormMod.FormCreate(Sender: TObject);
+begin
+  inherited;
+  TranslateComponent(Self);
+end;
+
 { TSpTBXCustomizeFormMod }
 
 procedure TSpTBXCustomizeFormMod.DoFillCommands(ToolbarList, ItemList,
@@ -78,11 +85,11 @@ begin
   for i := 0 to ItemList.Count - 1 do begin
     Item := ItemList.Objects[i] as TTBCustomItem;
     if Assigned(Item) and Assigned(Item.Action) and (Item.Action is TCustomAction) then begin
-      if lbCategories.Items.IndexOf((Item.Action as TCustomAction).Category) < 0 then
-        lbCategories.Items.Add((Item.Action as TCustomAction).Category);
+      if lbCategories.Items.IndexOf(_((Item.Action as TCustomAction).Category)) < 0 then
+        lbCategories.Items.Add(_((Item.Action as TCustomAction).Category));
     end;
   end;
-  lbCategories.Items.Add(CategoryOther);
+  lbCategories.Items.Add(_(CategoryOther));
 
   lbCommands.Clear;
   if lbCategories.Count > 0 then begin
@@ -102,7 +109,7 @@ begin
 
   lbCommands.Clear;
 
-  if Category = CategoryOther then begin
+  if Category = _(CategoryOther) then begin
     for i := 1 to fItemList.Count - 1 do begin  // Skip the first item
       Item := FItemList.Objects[i] as TTBCustomItem;
       if not Assigned(Item) or not Assigned(Item.Action) or
@@ -114,7 +121,7 @@ begin
     for i := 1 to fItemList.Count - 1 do begin  // Skip the first item
       Item := FItemList.Objects[i] as TTBCustomItem;
       if Assigned(Item) and Assigned(Item.Action) and (Item.Action is TCustomAction) and
-        ((Item.Action as TCustomAction).Category = Category)
+        (_((Item.Action as TCustomAction).Category) = Category)
       then
         lbCommands.Items.AddObject(FItemList[i], Item);
     end;

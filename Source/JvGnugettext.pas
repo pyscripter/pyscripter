@@ -1161,7 +1161,7 @@ end;
 {$IFDEF UNICODE}
 function utf8decode (s:RawByteString):UnicodeString; inline;
 begin
-  Result:=UTF8ToWideString(s);
+  Result:=UTF8ToUnicodeString(s);
 end;
 {$endif}
 

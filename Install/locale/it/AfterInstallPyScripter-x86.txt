@@ -1,0 +1,11 @@
+﻿***********  Questa è la versione a 32bit di PyScripter. *************
+Se stai usando la versione di Windows a 64bit nota che PyScripter funzionerà solo se è installata una versione di Python a 32bit.
+
+Per compatibilità con Python 2.6, 2.7 e 3.x, questa versione di PyScripter richiede una versione aggiornata del pacchetto C++ Ridistribuibile.
+Questo pacchetto viene installato automaticamente durante l'installazione di Python 2.6, 2.7 e 3.x. 
+Se non hai una di queste versioni installate, puoi scaricare ed installare manualmente il pacchetto da
+
+http://www.microsoft.com/downloads/details.aspx?familyid=A5C84275-3B97-4AB7-A40D-3802B2AF5FC2.
+
+Visita https://github.com/pyscripter/pyscripter/wiki per informazioni sul debug remoto e altre info su PyScripter.
+

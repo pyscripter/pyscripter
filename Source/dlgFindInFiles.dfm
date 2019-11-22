@@ -147,7 +147,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Top = 22
         Width = 20
         Height = 20
-        Hint = 'Select Directory'
+        Hint = 'Select directory'
         Anchors = [akTop, akRight]
         ImageIndex = 45
         Images = CommandsDataModule.Images

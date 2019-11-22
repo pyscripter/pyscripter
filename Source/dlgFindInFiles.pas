@@ -45,7 +45,7 @@ unit dlgFindInFiles;
 interface
 
 uses
-  Classes, Controls, Graphics, Forms, StdCtrls,
+  System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, Vcl.StdCtrls,
   cFindInFiles, dlgPyIDEBase, Vcl.ExtCtrls;
 
 type
@@ -96,12 +96,21 @@ implementation
 {$R *.dfm}
 
 uses
-  System.UITypes, SysUtils, Windows, Messages, FileCtrl, Math,
-  uEditAppIntfs, frmFindResults,
-  Dialogs, JvGnugettext, StringResources,
-  cPyScripterSettings,
+  Winapi.Windows,
+  Winapi.Messages,
   System.Types,
-  System.StrUtils, cParameters,
+  System.Math,
+  System.UITypes,
+  System.SysUtils,
+  System.StrUtils,
+  Vcl.FileCtrl,
+  Vcl.Dialogs,
+  JvGnugettext,
+  uEditAppIntfs,
+  frmFindResults,
+  StringResources,
+  cPyScripterSettings,
+  cParameters,
   cPyControl;
 
 function GetScrollbarWidth: Integer;
@@ -146,10 +155,10 @@ procedure TFindInFilesDialog.cbDirectoryDropDown(Sender: TObject);
 var
   i: Integer;
   MaxWidth: Integer;
-  Bitmap: Graphics.TBitmap;
+  Bitmap: Vcl.Graphics.TBitmap;
 begin
   MaxWidth := cbDirectory.Width;
-  Bitmap := Graphics.TBitmap.Create;
+  Bitmap := Vcl.Graphics.TBitmap.Create;
   try
     Bitmap.Canvas.Font.Assign(cbDirectory.Font);
     for i := 0 to cbDirectory.Items.Count - 1 do
@@ -180,8 +189,8 @@ begin
     begin
       if Dir = '' then continue;
       DirName := ExpandFileName(Parameters.ReplaceInText(Dir));
-      if not SysUtils.DirectoryExists(DirName) then begin
-        Dialogs.MessageDlg(Format(_(SSearchDirectoryDoesNotExist), [DirName]), mtError, [mbOK], 0);
+      if not System.SysUtils.DirectoryExists(DirName) then begin
+        Vcl.Dialogs.MessageDlg(Format(_(SSearchDirectoryDoesNotExist), [DirName]), mtError, [mbOK], 0);
         Abort;
       end;
     end;
@@ -277,7 +286,7 @@ begin
   cbDirectory.Items.Assign(FFindInFilesExpert.DirList);
   cbMasks.Items.Assign(FFindInFilesExpert.MaskList);
 
-  if PyControl.InternalPython.Loaded and
+  if GI_PyControl.PythonLoaded and
     (cbDirectory.Items.IndexOf(PyControl.PythonVersion.InstallPath) < 0) then
     cbDirectory.Items. Add(PyControl.PythonVersion.InstallPath);
 

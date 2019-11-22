@@ -1,0 +1,4 @@
+﻿ja.PyScripterHelp=PyScripter ヘルプ
+ja.EditwithPyScripter=PyScripterで編集
+ja.ShellIntegrationEditwithPyScripter='PyScripterで編集'をファイルエクスプローラのコンテキストメニューに追加する
+ja.ShellIntegration=Shell Integration

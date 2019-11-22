@@ -61,7 +61,6 @@ implementation
 uses
   Vcl.Clipbrd,
   dmCommands,
-  frmPyIDEMain,
   uEditAppIntfs,
   uCommonFunctions,
   cPyControl,
@@ -133,7 +132,7 @@ begin
     BreakPoint := PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint;
 
     if (BreakPoint.FileName ='') then Exit; // No FileName or LineNumber
-    PyIDEMainForm.ShowFilePosition(BreakPoint.FileName, BreakPoint.Line, 1);
+    GI_PyIDEServices.ShowFilePosition(BreakPoint.FileName, BreakPoint.Line, 1);
   end;
 end;
 

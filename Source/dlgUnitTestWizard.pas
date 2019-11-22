@@ -10,11 +10,29 @@ unit dlgUnitTestWizard;
 interface
 
 uses
-  Windows, System.UITypes, Messages, SysUtils, Variants, Classes,
-  Graphics, Controls, Forms,
-  Dialogs, Buttons, VirtualTrees, ExtCtrls,
-  frmCodeExplorer, cPythonSourceScanner, TB2Item, Menus, SpTBXItem,
-  SpTBXControls, dlgPyIDEBase;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Buttons,
+  Vcl.Menus,
+  Vcl.ExtCtrls,
+  Vcl.StdCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  TB2Item,
+  SpTBXItem,
+  VirtualTrees,
+  frmCodeExplorer,
+  cPythonSourceScanner,
+  dlgPyIDEBase;
 
 type
 
@@ -38,18 +56,19 @@ type
   end;
 
   TUnitTestWizard = class(TPyIDEDlgBase)
-    Panel1: TSpTBXPanel;
+    Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
     Bevel1: TBevel;
     PopupUnitTestWizard: TSpTBXPopupMenu;
     mnSelectAll: TSpTBXItem;
     mnDeselectAll: TSpTBXItem;
-    Label1: TSpTBXLabel;
-    lbHeader: TSpTBXLabel;
-    OKButton: TSpTBXButton;
-    BitBtn2: TSpTBXButton;
-    HelpButton: TSpTBXButton;
-    lbFileName: TSpTBXLabel;
+    Label1: TLabel;
+    lbHeader: TLabel;
+    lbFileName: TLabel;
+    OKButton: TButton;
+    BitBtn2: TButton;
+    HelpButton: TButton;
+    vicCodeImages: TVirtualImageList;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -76,7 +95,11 @@ type
 
 implementation
 
-uses dmCommands, JvJVCLUtils, SpTBXSkins, uCommonFunctions;
+uses
+  JvJVCLUtils,
+  SpTBXSkins,
+  dmCommands,
+  uCommonFunctions;
 
 {$R *.dfm}
 

@@ -94,8 +94,6 @@ uses
   JclStrings,
   JvGnugettext,
   StringResources,
-  dmCommands,
-  frmPythonII,
   uEditAppIntfs,
   uCommonFunctions,
   cPyBaseDebugger,
@@ -165,7 +163,7 @@ begin
       Path := '';
     if Length(Path) > 1 then
     begin
-      PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
+      PythonPathAdder :=  GI_PyControl.AddPathToInternalPythonPath(Path);
     end;
   end;
 
@@ -179,7 +177,7 @@ begin
 
   // Extract the identifier
   LineS := GetNthLine(ParsedModule.Source, Line);
-  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False);
+  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False, True);
   DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, IdentChars, False, True);
 
   if DottedIdent = '' then begin
@@ -192,6 +190,8 @@ begin
   Scope := ParsedModule.GetScopeForLine(Line);
   if not assigned(Scope) then
     ErrMsg := _(SCouldNotFindScope)
+  else if (DottedIdent = Scope.Name) and (Scope.CodeBlock.StartLine = Line) then
+    Result := Scope
   else
     // Find identifier in the module and scope
     Result := FindDottedDefinition(DottedIdent, ParsedModule, Scope, ErrMsg);
@@ -255,7 +255,7 @@ begin
   if SpecialPackagesIndex >= 0 then
     // only import if it is not available
     try
-      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
       if SysModule.modules.__contains__(DottedModuleName) then
       else
         Import(AnsiString(DottedModuleName));
@@ -279,15 +279,14 @@ begin
 
     if Assigned(Editor) and Editor.HasPythonFile and Assigned(Editor.SourceScanner) then
     begin
-      SourceScanner := Editor.SourceScanner;
+      SourceScanner := Editor.SourceScanner as IAsyncSourceScanner;
       fSourceScanners.Add(SourceScanner);
       Result := SourceScanner.ParsedModule;
     end;
   end;
 
   // Next try to find the source
-  if (Result = nil) and (FName <> '') and
-     CommandsDataModule.FileIsPythonSource(FName) then
+  if (Result = nil) and (FName <> '') and FileIsPythonSource(FName) then
   begin
     DottedModuleName := FileNameToModuleName(FName);
     Index := fParsedModules.IndexOf(DottedModuleName);
@@ -414,7 +413,8 @@ function TPyScripterRefactor.FindUnDottedDefinition(const Ident: string;
 {
   Look for an undotted (root) identifier in a given CodeElement (scope)
   of a ParsedModule
-  First it checks the Scope and Parent scopes
+  First it checks whether it is an expression
+  Second it checks the Scope and Parent scopes
   Then it checks the builtin module
   Finally it looks for implicitely imported modules and from * imports
 }
@@ -422,8 +422,11 @@ Var
   NameSpace : TStringList;
   Index: integer;
   CodeElement : TCodeElement;
+  Identifier : string;
+  VarAtts: TVariableAttributes;
 begin
   Result := nil;
+  // Special case for self or cls
   if (Ident = 'self') or (Ident = 'cls') then begin
     Result := Scope;
     while not (Result is TParsedClass) and Assigned(TCodeElement(Result).Parent) do
@@ -435,15 +438,25 @@ begin
     Exit;
   end;
 
+  Identifier := Ident;
+  // First check for brackets
+  if Ident.IndexOfAny([')', ']', '}']) >= 0 then begin
+    Identifier := GetExpressionType(Ident, VarAtts);
+    if Identifier = ''  then  begin
+      ErrMsg := Format(_(SCouldNotInferType), [Ident]);
+      Exit;
+    end;
+  end;
+
   NameSpace := TStringList.Create;
   NameSpace.CaseSensitive := True;
   try
-    // First check the Scope and Parent scopes
+    // Second check the Scope and Parent scopes
     CodeElement := Scope;
     while Assigned(CodeElement) do begin
       NameSpace.Clear;
       CodeElement.GetNameSpace(NameSpace);
-      Index := NameSpace.IndexOf(Ident);
+      Index := NameSpace.IndexOf(Identifier);
       if Index >= 0 then begin
         Result := NameSpace.Objects[Index] as TBaseCodeElement;
         break;
@@ -459,7 +472,7 @@ begin
 
   // then check the builtin module
   if not Assigned(Result) then
-    Result := GetBuiltInName(Ident);
+    Result := GetBuiltInName(Identifier);
 
   if Assigned(Result) and (Result is TVariable)
     and (TVariable(Result).Parent is TModuleImport)
@@ -471,10 +484,9 @@ begin
   if Assigned(Result) and (Result is TModuleImport) then
     Result := ResolveModuleImport(TModuleImport(Result));
 
-
   if not Assigned(Result) then
     ErrMsg := Format(_(SCouldNotFindIdent),
-      [Ident, ParsedModule.Name]);
+      [Identifier, ParsedModule.Name]);
 end;
 
 function TPyScripterRefactor.ResolveModuleImport(const ModuleName,
@@ -676,11 +688,27 @@ Var
   NameSpace : TStringList;
   Def : TBaseCodeElement;
   Index : integer;
+  VarAtts: TVariableAttributes;
 begin
   Result := nil;
   Suffix := DottedIdent;
   Prefix := StrToken(Suffix, '.');
   Def := nil;
+
+  if Scope is TParsedFunction then begin
+    Scope := GetFuncReturnType(TParsedFunction(Scope), ErrMsg);
+    if Scope = nil then
+      Exit;
+  end;
+
+  if Prefix.IndexOfAny([')', ']', '}']) >= 0 then begin
+    Prefix := GetExpressionType(Prefix, VarAtts);
+    if Prefix = ''  then  begin
+      ErrMsg := Format(_(SCouldNotInferType), [Prefix]);
+      Exit;
+    end;
+  end;
+
   NameSpace := TStringList.Create;
   NameSpace.CaseSensitive := True;
   try
@@ -749,7 +777,7 @@ begin
     Path := '';
   if Length(Path) > 1 then
   begin
-    PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
+    PythonPathAdder :=  GI_PyControl.AddPathToInternalPythonPath(Path);
   end;
 
   // GetParsedModule
@@ -762,7 +790,7 @@ begin
 
   // Extract the identifier
   LineS := GetNthLine(ParsedModule.Source, Line);
-  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False);
+  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False, True);
   DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, IdentChars, False, True);
 
   if DottedIdent = '' then begin
@@ -776,6 +804,9 @@ begin
   Def := nil;
   if not assigned(Scope) then
     ErrMsg := _(SCouldNotFindScope)
+  else if (DottedIdent = Scope.Name) and (Scope.CodeBlock.StartLine = Line) then
+    // Issue 967
+    Def := Scope
   else
     // Find identifier in the module and scope
     Def := FindDottedDefinition(DottedIdent, ParsedModule, Scope, ErrMsg);
@@ -904,7 +935,10 @@ begin
 
   // Exit if no return type is given
   // Functions from Module proxies will have Return type = ''
-  if FunctionCE.ReturnType = '' then Exit;
+  if FunctionCE.ReturnType = '' then begin
+    ErrMsg := Format(_(SCouldInferFunctionReturnType), [FunctionCE.Name]);
+    Exit;
+  end;
 
   S := FunctionCE.GetDottedName;
   if fGetTypeCache.IndexOf(S) >= 0 then
@@ -953,7 +987,7 @@ begin
   // the following if for seaching for sub-modules and sub-packages
   CEName := Copy(CE.Name, CharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
   ModuleIsImported := False;
-  if not WideSameText(CE.GetModule.FileName, Module.FileName) then begin
+  if not AnsiSameText(CE.GetModule.FileName, Module.FileName) then begin
     // Check (approximately!) whether CE.GetModule gets imported in Module
     CEModuleName := CE.GetModule.Name;
     if CharPos(CE.GetModule.Name, WideChar('.')) > 0 then
@@ -983,7 +1017,7 @@ begin
 
   if not ModuleIsImported then Exit; // no need to process further
 
-  // if Module is TModuleProxy then MaskedSource will be '' and Cadeblock.StartLine will be 0
+  // if Module is TModuleProxy then MaskedSource will be '' and Codeblock.StartLine will be 0
   // so no searching will take place.
 
   SL := TStringList.Create;

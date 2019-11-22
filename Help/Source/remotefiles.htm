@@ -50,7 +50,10 @@
 	other versions of Windows you can install the latest version of
 	<a href="https://github.com/PowerShell/Win32-OpenSSH">OpenSSH for Windows</a> 
 	using the provided <a href="https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH">installation 
-	instructions</a>.<br><br>
+	instructions</a>.<br><br>Alternatively on the client side you can use the 
+	popular SSH client
+	<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">
+	PuTTY</a>.<br><br>
 	<h5>Configuring the SSH client side</h5>
 	Pyscripter requires password-less authentication using rsa keys.&nbsp; You 
 	need to create the rsa keys and add them to the ssh-agent service which 
@@ -108,14 +111,32 @@
 	<img alt="graphic" border="0" src="editsshserverdialog.JPG" style="width:37.15em; height:24.40em"></div>
 
 <div align="left" class="auto-style2"><br><br>For each SSH server you need to 
-	provide a Name that will be used to identify the SSH server, as well as the user 
-	name and host name (or IP address) that will be used to connect to the 
-	server.&nbsp; You also need to provide the command that will be used to 
-	execute Python on the server. Optionally you can provide additional SSH -o 
+	provide a Name that will be used to identify the SSH server, as well as the 
+	user name and host name (or IP address) that will be used to connect to the 
+	server.&nbsp; You also need to provide the path to the scp and ssh commads and 
+	the command that will be used to execute Python on the server . Optionally you can provide additional SSH -o 
 	options that will be passed to the ssh and scp commands.&nbsp; For standard 
-	use leave this field empty.<br><br>
-	<br>
-	</div>
+	use leave this field empty.&nbsp; If you want to use password authentication 
+	(only with Putty - see below) you also need to check the Password Needed 
+	option.</div>
+<div align="left" class="auto-style2"><br><br>Instead of
+	<font face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #000000">&nbsp;<a href="https://github.com/PowerShell/Win32-OpenSSH">OpenSSH for Windows</a> 
+	you can use
+	<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">
+	PuTTY</a>as the SSH client.&nbsp; See below a typical PuTTY configuration of 
+	an SSH server.&nbsp; The example uses password authentication, but you can 
+	use a private/public key combination instead for password-free 
+	authentication.&nbsp;&nbsp; In that case you need to use puttygen to create 
+	the private/public key and add&nbsp; -i path_to_your_private_key to the scp 
+	and ssh options or instead run pagent and add to it the private key.&nbsp; 
+	You also need to setup your server to accept the public key by appending it to 
+	the ~/.ssh/authorized_keys file.&nbsp; See
+	<a href="https://www.ssh.com/ssh/authorized_keys/openssh">here</a> for 
+	details.<br></span></font></div>
+<div align="center">
+	<img alt="graphic" border="0" src="editsshserverdialog_putty.JPG" style="width:37.15em; height:24.40em"></div>
+
 	
 	
 </body>

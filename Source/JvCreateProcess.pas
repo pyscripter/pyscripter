@@ -361,7 +361,7 @@ end;
 
 function IsConsoleWindow(AHandle: THandle): Boolean;
 begin
-  Result := THandle(GetWindowLongPtr(AHandle, GWL_HINSTANCE)) = WinSrvHandle;
+  Result := THandle(GetWindowLongPtr(AHandle, GWLP_HINSTANCE)) = WinSrvHandle;
 end;
 
 type

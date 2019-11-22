@@ -11,7 +11,9 @@ unit cPyScripterSettings;
 interface
 Uses
   System.Classes,
+  Vcl.ImgList,
   Vcl.Graphics,
+  JclNotify,
   SpTBXTabs,
   SynEditTextBuffer,
   SynEditCodeFolding,
@@ -21,6 +23,12 @@ Uses
   cPySupportTypes,
   dlgSynEditOptions;
 
+Const
+  dsaSearchFromStart = 1;
+  dsaReplaceFromStart = 2;
+  dsaReplaceNumber = 3;
+  dsaSearchStartReached = 4;
+  dsaPostMortemInfo = 5;
 
 type
   TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
@@ -32,9 +40,16 @@ type
     constructor Create; virtual; abstract;
   end;
 
+  {
+    Persistent IDE Settings
+    Note: TPythonIDEOptions is exposed to Python.
+    IFreeNotification is implemented to make sure the object is not used
+    by Python after its destruction (see WrapDelphi for details)
+  }
   TPythonIDEOptions = class(TBaseOptions, IFreeNotification)
   private
-    fFreeNotifImpl : IFreeNotification;
+    fFreeNotifyImpl : IFreeNotification;
+    fOnChange: TJclNotifyEventBroadcast;
     fTimeOut : integer;
     fUndoAfterSave : Boolean;
     fSaveFilesBeforeRun : Boolean;
@@ -54,6 +69,7 @@ type
     fJSFileFilter : string;
     fPHPFileFilter : string;
     fJSONFileFilter : string;
+    fGeneralFileFilter : string;
     fFileExplorerFilter : string;
     fDateLastCheckedForUpdates : TDateTime;
     fAutoCheckForUpdates : boolean;
@@ -110,20 +126,25 @@ type
     fStyleMainWindowBorder : Boolean;
     fFileExplorerBackgroundProcessing : Boolean;
     fSSHCommand : string;
+    fSSHOptions: string;
     fScpCommand : string;
-    fSSHDisableVariablesWin : Boolean;
-    fAlwaysUseSockets : Boolean;
+    fScpOptions: string;
+    fSSHDisableVariablesWin: Boolean;
+    fAlwaysUseSockets: Boolean;
+    fTrimTrailingSpacesOnSave: Boolean;
+    fTraceOnlyIntoOpenFiles: Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
-    property FreeNotifImpl : IFreeNotification read fFreeNotifImpl implements IFreeNotification;
+    property FreeNotifyImpl : IFreeNotification read fFreeNotifyImpl implements IFreeNotification;
   public
     constructor Create; override;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
-    property PythonFileExtensions : string read GetPythonFileExtensions;
-  published
     procedure Changed;
+    property PythonFileExtensions : string read GetPythonFileExtensions;
+    property OnChange: TJclNotifyEventBroadcast read fOnChange;
+  published
     property CodeFolding : TSynCodeFolding read fCodeFolding
       write fCodeFolding;
     property TimeOut : integer read fTimeOut write fTimeOut default 0;
@@ -163,6 +184,8 @@ type
       write fPHPFileFilter;
     property JSONFileFilter : string read fJSONFileFilter
       write fJSONFileFilter;
+    property GeneralFileFilter : string read fGeneralFileFilter
+      write fGeneralFileFilter;
     property FileExplorerFilter : string read fFileExplorerFilter
       write fFileExplorerFilter;
     property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
@@ -268,17 +291,28 @@ type
     property StyleMainWindowBorder : Boolean read fStyleMainWindowBorder
       write fStyleMainWindowBorder default False;
     property FileExplorerBackgroundProcessing : Boolean read fFileExplorerBackgroundProcessing
-      write fFileExplorerBackgroundProcessing default True;
+      write fFileExplorerBackgroundProcessing default False;
     property SSHCommand : string read fSSHCommand write fSSHCommand;
+    property SSHOptions : string read fSSHOptions write fSSHOptions;
     property ScpCommand : string read fScpCommand write fScpCommand;
+     property ScpOptions : string read fScpOptions write fScpOptions;
     property SSHDisableVariablesWin : boolean read fSSHDisableVariablesWin
       write fSSHDisableVariablesWin default True;
     property AlwaysUseSockets : Boolean read fAlwaysUseSockets
-      write fAlwaysUseSockets default True;
+      write fAlwaysUseSockets default False;
+    property TrimTrailingSpacesOnSave : Boolean read fTrimTrailingSpacesOnSave
+      write fTrimTrailingSpacesOnSave default True;
+    property TraceOnlyIntoOpenFiles : Boolean read fTraceOnlyIntoOpenFiles
+      write fTraceOnlyIntoOpenFiles default False;
   end;
 {$METHODINFO OFF}
 
   TPyScripterSettings = class
+    class var UserDataPath : string;
+    class var ColorThemesFilesDir : string;
+    class var StylesFilesDir : string;
+    class var Images: TCustomImageList;
+    class var ShellImages: TCustomImageList;
     class var DefaultEditorKeyStrokes: TSynEditKeyStrokes;
     class procedure RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);
     class procedure CreateIDEOptions;
@@ -305,21 +339,21 @@ Var
 implementation
 
 uses
+  Winapi.Windows,
   System.UITypes,
   System.SysUtils,
   Vcl.Forms,
+  Vcl.Dialogs,
   uHighlighterProcs,
-  StringResources,
-  frmPyIDEMain,
+  JvAppStorage,
+  JvGnuGettext,
+  SynEdit,
   SynEditStrConst,
+  SynEditMiscClasses,
   SynHighlighterPython,
   SynHighlighterYAML,
-  JvGnuGettext,
-  uCommonFunctions,
-  dmCommands,
-  SynEdit,
-  Winapi.Windows, JvAppStorage,
-  SynEditMiscClasses;
+  StringResources,
+  uCommonFunctions;
 
 { TPythonIDEOptions }
 
@@ -347,6 +381,7 @@ begin
       Self.fJSFileFilter := JSFileFilter;
       Self.fPHPFileFilter := PHPFileFilter;
       Self.fJSONFileFilter := JSONFileFilter;
+      Self.fGeneralFileFilter := GeneralFileFilter;
       Self.fFileExplorerFilter := FileExplorerFilter;
       Self.fDateLastCheckedForUpdates := DateLastCheckedForUpdates;
       Self.fAutoCheckForUpdates := AutoCheckForUpdates;
@@ -402,9 +437,13 @@ begin
       Self.fStyleMainWindowBorder := StyleMainWindowBorder;
       Self.fFileExplorerBackgroundProcessing := FileExplorerBackgroundProcessing;
       Self.fSSHCommand := SSHCommand;
+      Self.fSSHOptions := SSHOptions;
       Self.fScpCommand := ScpCommand;
+      Self.fScpOptions := ScpOptions;
       Self.fSSHDisableVariablesWin := SSHDisableVariablesWin;
       Self.fAlwaysUseSockets := AlwaysUseSockets;
+      Self.fTrimTrailingSpacesOnSave := TrimTrailingSpacesOnSave;
+      Self.fTraceOnlyIntoOpenFiles := TraceOnlyIntoOpenFiles;
     end
   else
     inherited;
@@ -412,20 +451,13 @@ end;
 
 procedure TPythonIDEOptions.Changed;
 begin
-  CommandsDataModule.ParameterCompletion.Font.Assign(AutoCompletionFont);
-  CommandsDataModule.ParameterCompletion.TitleFont.Assign(AutoCompletionFont);
-  CommandsDataModule.ParameterCompletion.TitleFont.Style := [fsBold];
-  CommandsDataModule.ModifierCompletion.Font.Assign(AutoCompletionFont);
-  CommandsDataModule.ModifierCompletion.TitleFont.Assign(AutoCompletionFont);
-  CommandsDataModule.ModifierCompletion.TitleFont.Style := [fsBold];
-  if Assigned(CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal()) then
-    CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(AutoCompletionFont);
-  PyIDEMainForm.PyIDEOptionsChanged;
+  fOnChange.Notify(Self);
 end;
 
 constructor TPythonIDEOptions.Create;
 begin
-  fFreeNotifImpl := TFreeNotificationImpl.Create(Self);
+  fFreeNotifyImpl := TFreeNotificationImpl.Create(Self);
+  fOnChange := TJclNotifyEventBroadcast.Create;
 
   fTimeOut := 0; // 5000;
   fUndoAfterSave := True;
@@ -434,16 +466,17 @@ begin
   fCreateBackupFiles := False;
   fExporerInitiallyExpanded := False;
   fProjectExporerInitiallyExpanded := True;
-  fPythonFileFilter := _('Python Files (*.py;*.pyw)|*.py;*.pyw');
-  fCythonFileFilter := SYNS_FilterCython;
-  fHTMLFileFilter := SYNS_FilterHTML;
-  fXMLFileFilter := SYNS_FilterXML;
-  fCSSFileFilter := SYNS_FilterCSS;
-  fCPPFileFilter := SYNS_FilterCPP;
-  fYAMLFileFilter := SYNS_FilterYAML;
-  fJSFileFilter := SYNS_FilterJScript;
-  fPHPFileFilter := SYNS_FilterPHP;
-  fJSONFileFilter := _('JSON Files (*.json;*.ipynb)|*.json;*.ipynb');
+  fPythonFileFilter := _(sPythonFileFilter);
+  fCythonFileFilter := _(sCythonFileFilter);
+  fHTMLFileFilter := _(sHTMLFileFilter);
+  fXMLFileFilter := _(sXMLFileFilter);
+  fCSSFileFilter := _(sCSSFileFilter);
+  fCPPFileFilter := _(sCPPFileFilter);
+  fYAMLFileFilter := _(sYAMLFileFilter);
+  fJSFileFilter := _(sJSFileFilter);
+  fPHPFileFilter := _(sPHPFileFilter);
+  fJSONFileFilter := _(sJSONFileFilter);
+  fGeneralFileFilter := _(sGeneralFileFilter);
   fFileExplorerFilter := '*.py;*.pyw';
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
@@ -498,11 +531,15 @@ begin
   fInternalInterpreterHidden := True;
   fCompactLineNumbers := True;
   fStyleMainWindowBorder := False;
-  fFileExplorerBackgroundProcessing := True;
+  fFileExplorerBackgroundProcessing := False;
   fSSHCommand := 'ssh';
+  fSSHOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fScpCommand := 'scp';
+  fScpOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fSSHDisableVariablesWin := True;
   fAlwaysUseSockets := True;
+  fTrimTrailingSpacesOnSave := True;
+  fTraceOnlyIntoOpenFiles := False;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 
@@ -510,6 +547,7 @@ destructor TPythonIDEOptions.Destroy;
 begin
   FreeAndNil(fAutoCompletionFont);
   FreeAndNil(fCodeFolding);
+  FreeAndNil(fOnChange);
   inherited;
 end;
 
@@ -544,7 +582,8 @@ strict private
   class destructor Destroy;
 end;
 
-{ TJvAppStorageFontPropertyEngine }
+
+{ TJvAppStorageFontPropertyEngine }
 
 function TJvAppStorageFontPropertyEngine.Supports(AObject,
   AProperty: TObject): Boolean;
@@ -651,8 +690,6 @@ begin
 end;
 
 type
-// Modify JvAppStorage handling of TSynGutter
-// We want to PPI scale size properties
 TJvAppStorageKeyStrokesPropertyEngine = class(TJvAppStoragePropertyBaseEngine)
 public
   function Supports(AObject: TObject; AProperty: TObject): Boolean; override;
@@ -807,6 +844,32 @@ end;
 
 class constructor TPyScripterSettings.CreateSettings;
 begin
+  // User Data directory for storing the ini file etc.
+  if FileExists(ChangeFileExt(Application.ExeName, '.ini')) then
+    // Portable version - nothing is stored in other directories
+    UserDataPath :=   ExtractFilePath(Application.ExeName)
+  else begin
+    UserDataPath := IncludeTrailingPathDelimiter(GetHomePath) + 'PyScripter\';
+    if not ForceDirectories(UserDataPath) then
+      Vcl.Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
+  end;
+
+  // Skins directory
+  ColorThemesFilesDir := UserDataPath + 'Highlighters';
+  if not DirectoryExists(ColorThemesFilesDir) then
+    try
+      CreateDir(ColorThemesFilesDir);
+    except
+    end;
+
+  // Styles directory
+  StylesFilesDir := UserDataPath + 'Styles';
+  if not DirectoryExists(StylesFilesDir) then
+    try
+      CreateDir(StylesFilesDir);
+    except
+    end;
+
   TPyScripterSettings.CreateIDEOptions;
   TPyScripterSettings.CreateEditorOptions;
   // Save Default editor keystrokes
@@ -819,10 +882,7 @@ begin
   EditorOptions := TSynEditorOptionsContainer.Create(nil);
   with EditorOptions do begin
     Font.Size := 10;
-    if CheckWin32Version(6) then
-      Font.Name := 'Consolas'
-    else
-      Font.Name := 'Courier New';
+    Font.Name := DefaultCodeFontName;
     Gutter.Font.Name := Font.Name;
     Gutter.Font.Color := clGrayText;
     Gutter.Gradient := True;
@@ -882,13 +942,4 @@ begin
   end;
 end;
 
-Var
-  PyScripterSettings: TPyScripterSettings;
-
-
-initialization
-  // To make sure the class constructor destructor are called
-  PyScripterSettings:= TPyScripterSettings.Create();
-finalization
-  PyScripterSettings.Free;
 end.

@@ -63,7 +63,7 @@ uses
   TB2Toolbar,
   SpTBXItem,
   TB2Item,
-  dlgPyIDEBase;
+  dlgPyIDEBase, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
 
 const
   UM_RESIZECOLS = WM_USER + 523;
@@ -123,6 +123,7 @@ type
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     RightStatusLabel: TSpTBXLabelItem;
     lvProcs: TListview;
+    vicCodeImages: TVirtualImageList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtMethodsChange(Sender: TObject);
     procedure edtMethodsKeyPress(Sender: TObject; var Key: Char);
@@ -611,7 +612,7 @@ begin
     ProcInfo := lvProcs.Selected.Data;
     if ProcInfo <> nil then
     begin
-      PyIDEMainForm.ShowFilePosition(fFileName, ProcInfo.LineNo, 1);
+      GI_PyIDEServices.ShowFilePosition(fFileName, ProcInfo.LineNo, 1);
       ModalResult := mrOk;
     end;
   end;

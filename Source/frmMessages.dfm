@@ -83,24 +83,24 @@ inherited MessagesWindow: TMessagesWindow
         Columns = <
           item
             Position = 0
+            Text = 'Message'
             Width = 339
-            WideText = 'Message'
           end
           item
             Position = 1
+            Text = 'File Name'
             Width = 200
-            WideText = 'File Name'
           end
           item
             Alignment = taRightJustify
             Position = 2
-            WideText = 'Line'
+            Text = 'Line'
           end
           item
             Alignment = taRightJustify
             Position = 3
+            Text = 'Position'
             Width = 60
-            WideText = 'Position'
           end
           item
             Position = 4

@@ -46,12 +46,39 @@ unit frmToDo;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
-  Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
-  TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
-  SynUnicode, uCommonFunctions, System.Actions,
-  SpTBXControls, System.ImageList;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  System.Contnrs,
+  System.Actions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.ComCtrls,
+  Vcl.Menus,
+  Vcl.VirtualImageList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  SpTBXControls,
+  JvDockControlForm,
+  JvAppStorage,
+  JvComponentBase,
+  VirtualTrees,
+  SynUnicode,
+  uCommonFunctions,
+  frmIDEDockWin;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -87,7 +114,6 @@ type
   end;
 
   TToDoWindow = class(TIDEDockWindow)
-    ilTodo: TImageList;
     TBXDock1: TSpTBXDock;
     Toolbar: TSpTBXToolbar;
     tbiGoTo: TSpTBXItem;
@@ -119,6 +145,8 @@ type
     actFilePrint: TAction;
     actEditGoto: TAction;
     actFileRefresh: TAction;
+    ToDoImageCollection: TImageCollection;
+    ToDoImages: TVirtualImageList;
     procedure actEditCopyExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -195,9 +223,7 @@ uses
   System.Math,
   Vcl.Clipbrd,
   MPCommonUtilities,
-  dmCommands,
   uEditAppIntfs,
-  frmPyIDEMain,
   dlgToDoOptions,
   cProjectClasses,
   cParameters,
@@ -255,8 +281,8 @@ begin
     begin
       Result := not FAbortSignalled;
 
-      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) and
-        (FileInfo.Attr and SysUtils.faHidden = 0) then
+      if Result and (FileInfo.Attr and System.SysUtils.faDirectory = 0) and
+        (FileInfo.Attr and System.SysUtils.faHidden = 0) then
       begin
         Name := Path + FileInfo.Name;
         LoadFile(Name);
@@ -287,7 +313,7 @@ begin
   SelectedItem := GetSelectedItem;
   if SelectedItem = nil then Exit;
 
-  PyIDEMainForm.ShowFilePosition(SelectedItem.FileName, SelectedItem.LineNo+1, 1);
+  GI_PyIDEServices.ShowFilePosition(SelectedItem.FileName, SelectedItem.LineNo+1, 1);
 end;
 
 resourcestring
@@ -364,8 +390,6 @@ end;
 procedure TToDoWindow.FormCreate(Sender: TObject);
 begin
   inherited;
-  ScaleImageList(ilTodo, Screen.PixelsPerInch, 96);
-
   FIsFirstActivation := True;
 
   FDataList := TObjectList.Create(True); // Owned objects
@@ -841,7 +865,7 @@ begin
    end;
    if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') then begin
      FileName := Parameters.ReplaceInText(TProjectFileNode(Node).FileName);
-     if CommandsDataModule.FileIsPythonSource(FileName)
+     if FileIsPythonSource(FileName)
      then
        TToDoWindow(Data).LoadFile(FileName);
    end;
@@ -903,6 +927,7 @@ begin
   Assert(Integer(Node.Index) < fDataList.Count);
   with PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo do
     case Column of
+      0:  CellText := '';
       1:  CellText := Display;
       2:  CellText := FileName;
       3:  CellText := IntToStr(LineNo);
@@ -934,7 +959,10 @@ begin
     Assert(ToDoView.GetNodeLevel(Node) = 0);
     Assert(Integer(Node.Index) < fDataList.Count);
     with PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo do
-      ImageIndex := Ord(Priority);
+      if Priority = tpMed then
+        ImageIndex := -1
+      else
+        ImageIndex := Ord(Priority);
   end;
 end;
 

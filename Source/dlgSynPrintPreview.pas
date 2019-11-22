@@ -41,14 +41,31 @@ unit dlgSynPrintPreview;
 interface
 
 uses
-  Windows, SysUtils, Classes, Graphics, Forms, Controls,
-  Buttons, ActnList, ImgList, Dialogs,
-  SynEditPrintPreview, Printers, SpTBXItem,
-  TB2Item, TB2Dock, TB2Toolbar, dlgPyIDEBase, System.Actions, System.ImageList;
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  System.Actions,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.Buttons,
+  Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.Dialogs,
+  Vcl.Printers,
+  Vcl.VirtualImageList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
+  SpTBXItem,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SynEditPrintPreview,
+  dlgPyIDEBase;
 
 type
   TPrintPreviewDlg = class(TPyIDEDlgBase)
-    ImageList: TImageList;
     SynEditPrintPreview: TSynEditPrintPreview;
     ActionList: TActionList;
     CloseCmd: TAction;
@@ -83,6 +100,8 @@ type
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     LeftStatusLabel: TSpTBXLabelItem;
     SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
+    icPrintPreview: TImageCollection;
+    vilPrintPreview: TVirtualImageList;
 
     procedure FirstCmdExecute(Sender: TObject);
     procedure PrevCmdExecute(Sender: TObject);
@@ -114,14 +133,18 @@ uses
 
 {$R *.DFM}
 
+resourcestring
+  SPrint = 'Print';
+  SPrintDoc = 'Print the document on';
+  SPage = 'Page';
+
 procedure TPrintPreviewDlg.FormShow(Sender: TObject);
 begin
-  ScaleImageList(ImageList, Screen.PixelsPerInch, 96);
   SynEditPrintPreview.UpdatePreview;
   SynEditPrintPreview.FirstPage;
   if Printer.PrinterIndex >= 0 then
-    PrintCmd.Hint := 'Print (' + Printer.Printers[Printer.PrinterIndex] +
-      ')|Print the document on ' + Printer.Printers[Printer.PrinterIndex];
+    PrintCmd.Hint := Format('%s (%s)|%s %1:s',
+      [SPrint, Printer.Printers[Printer.PrinterIndex], SPrintDoc]);
 end;
 
 procedure TPrintPreviewDlg.FirstCmdExecute(Sender: TObject);
@@ -204,7 +227,7 @@ end;
 procedure TPrintPreviewDlg.SynEditPrintPreviewPreviewPage(
   Sender: TObject; PageNumber: Integer);
 begin
-  RightStatusLabel.Caption := ' Page: ' + IntToStr(SynEditPrintPreview.PageNumber);
+  RightStatusLabel.Caption := Format(' %s: %d', [SPage, SynEditPrintPreview.PageNumber]);
 end;
 
 end.

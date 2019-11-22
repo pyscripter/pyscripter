@@ -78,7 +78,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
         TreeOptions.PaintOptions = [toHideSelection, toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
         TreeOptions.SelectionOptions = [toRightClickSelect, toCenterScrollIntoView]
-        TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toNoUseVETColorsProp, toThreadedExpandMark]
+        TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toNoUseVETColorsProp]
         TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
         TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]
         TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toAutoScrollHorz, toRestoreTopNodeOnRefresh]
@@ -94,6 +94,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         Width = 223
         Height = 26
         AllowDrag = False
+        DoubleBuffered = True
         object ExplorerToolbar: TSpTBXToolbar
           Left = 0
           Top = 0

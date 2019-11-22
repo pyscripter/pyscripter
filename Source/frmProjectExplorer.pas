@@ -29,7 +29,10 @@ uses
   Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.Menus,
-  Vcl.ImgList,
+  Vcl.ImgList, 
+  Vcl.VirtualImageList, 
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
   TB2Item,
   SpTBXItem,
   ActnList,
@@ -48,7 +51,6 @@ type
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
     ProjectMainPopUpMenu: TSpTBXPopupMenu;
-    ProjectImageList: TImageList;
     ProjectFolderPopupMenu: TSpTBXPopupMenu;
     mnAddFiles: TSpTBXItem;
     SpTBXItem6: TSpTBXItem;
@@ -126,6 +128,8 @@ type
     mnExtraPythonPath: TSpTBXItem;
     actProjectAddRemoteFile: TAction;
     SpTBXItem1: TSpTBXItem;
+    ilProjects: TImageCollection;
+    vilProjects: TVirtualImageList;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
@@ -143,9 +147,6 @@ type
       Column: TColumnIndex; NewText: string);
     procedure actProjectAddFilesExecute(Sender: TObject);
     procedure actProjectRenameExecute(Sender: TObject);
-    procedure ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
-      Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure actProjectSaveExecute(Sender: TObject);
     procedure actProjectSaveAsExecute(Sender: TObject);
     procedure actProjectNewExecute(Sender: TObject);
@@ -184,6 +185,10 @@ type
     procedure ExplorerTreeGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
     procedure actProjectAddRemoteFileExecute(Sender: TObject);
+    procedure ExplorerTreeGetImageIndexEx(Sender: TBaseVirtualTree;
+      Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+      var Ghosted: Boolean; var ImageIndex: TImageIndex;
+      var ImageList: TCustomImageList);
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
@@ -197,9 +202,11 @@ type
     function CanClose: boolean;
   end;
 
-Const
-  ProjectDefaultExtension = 'psproj';
+resourcestring
   ProjectFilter = 'PyScripter project files (*.%s)|*.%0:s';
+
+const
+  ProjectDefaultExtension = 'psproj';
 var
   ProjectExplorerWindow: TProjectExplorerWindow;
 
@@ -274,7 +281,7 @@ Var
   FName : string;
 begin
   Node := ExplorerTree.GetFirstSelected;
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if not Assigned(Node) or not Assigned(Editor) then Exit;
 
   if Editor.FileName <> '' then
@@ -315,7 +322,7 @@ begin
         Title := _(SAddFilesToProject);
         FileName := '';
         Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
-        Editor := PyIDEMainForm.GetActiveEditor;
+        Editor := GI_PyIDEServices.GetActiveEditor;
         if Assigned(Editor) and (Editor.FileName <> '') and
           (ExtractFileDir(Editor.FileName) <> '')
         then
@@ -379,7 +386,7 @@ begin
     if Data.ProjectNode is TProjectRunConfiguationsNode then
     begin
       ProjectNode := TProjectRunConfiguationNode.Create;
-      ProjectNode.Name := 'Untitled';
+      ProjectNode.Name := _('Untitled');
       Data.ProjectNode.AddChild(ProjectNode);
       ExplorerTree.ReinitNode(Node, True);
       Node := ExplorerTree.GetFirstChild(Node);
@@ -547,7 +554,7 @@ begin
       Title := _(SOpenProject);
       FileName := '';
       Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
-      Editor := PyIDEMainForm.GetActiveEditor;
+      Editor := GI_PyIDEServices.GetActiveEditor;
       if Assigned(Editor) and (Editor.FileName <> '') and
         (ExtractFileDir(Editor.FileName) <> '')
       then
@@ -814,7 +821,7 @@ Var
   Data : PNodeDataRec;
   SingleNodeSelected : Boolean;
 begin
-   actProjectExtraPythonPath.Enabled := PyControl.InternalPython.Loaded and not PyControl.Running;
+   actProjectExtraPythonPath.Enabled := GI_PyControl.PythonLoaded and not GI_PyControl.Running;
    // We update project actions here based on selection
    SingleNodeSelected := Assigned(Node) and
      (Length(ExplorerTree.GetSortedSelection(False)) = 1);
@@ -835,7 +842,7 @@ begin
      actProjectFileProperties.Enabled := (Data.ProjectNode is TProjectFileNode) and SingleNodeSelected;
      actProjectAddRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationsNode) and SingleNodeSelected;
      actProjectEditRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
-     actProjectRun.Enabled := PyControl.Inactive and
+     actProjectRun.Enabled := GI_PyControl.Inactive and
        (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
      actProjectExternalRun.Enabled := actProjectRun.Enabled;
      actProjectDebug.Enabled := actProjectRun.Enabled;
@@ -1089,13 +1096,14 @@ begin
   end;
 end;
 
-procedure TProjectExplorerWindow.ExplorerTreeGetImageIndex(
+procedure TProjectExplorerWindow.ExplorerTreeGetImageIndexEx(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
+  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex;
+  var ImageList: TCustomImageList);
 var
   Data : PNodeDataRec;
   Extension : string;
-  Index, ImgIndex : Integer;
+  Index : Integer;
   FileName : string;
 begin
   if not (Kind in [ikNormal, ikSelected]) then Exit;
@@ -1112,20 +1120,20 @@ begin
   else if Data.ProjectNode is TProjectFileNode then begin
     FileName := TProjectFileNode(Data.ProjectNode).FileName;
     Extension := ExtractFileExt(FileName);
-    Index := FileImageList.IndexOf(Extension);
-    if Index < 0 then begin
-      if (Extension <> '') and FileExists(FileName) then begin
-        ImgIndex := GetIconIndexFromFile(FileName, True);
-        if ImgIndex >= 0 then begin
-          ImageIndex :=
-            ProjectImageList.AddImage(CommandsDataModule.imlShellIcon, ImgIndex) -1;
+    if Extension <> '' then begin
+      Index := FileImageList.IndexOf(Extension);
+      if Index < 0 then begin
+        if FileExists(FileName) then begin        
+          ImageIndex := GetIconIndexFromFile(FileName, True);
           FileImageList.AddObject(Extension, TObject(ImageIndex));
         end;
-      end;
-    end else
-      ImageIndex := Integer(FileImageList.Objects[Index]);
+      end else
+        ImageIndex := Integer(FileImageList.Objects[Index]);
+      if ImageIndex >= 0 then
+        ImageList := TPyScripterSettings.ShellImages;
+    end;
   end else if Data.ProjectNode is TProjectRunConfiguationsNode then
-      ImageIndex := 2;
+    ImageIndex := 2;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeGetCellText(
@@ -1232,7 +1240,6 @@ end;
 procedure TProjectExplorerWindow.FormCreate(Sender: TObject);
 begin
   inherited;
-  ScaleImageList(ProjectImageList, Screen.PixelsPerInch, 96);
 
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);

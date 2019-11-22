@@ -189,7 +189,6 @@ inherited CodeTemplates: TCodeTemplates
         Gutter.Font.Style = []
         Gutter.Width = 0
         TabWidth = 4
-        FontSmoothing = fsmNone
       end
       object edDescription: TEdit
         Left = 115

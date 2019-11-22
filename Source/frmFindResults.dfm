@@ -74,7 +74,6 @@ inherited FindResultsWindow: TFindResultsWindow
           Height = 3
           Cursor = crSizeNS
           Align = alBottom
-          Color = clNone
           ParentColor = False
           MinSize = 20
         end
@@ -84,6 +83,7 @@ inherited FindResultsWindow: TFindResultsWindow
           Width = 599
           Height = 26
           AllowDrag = False
+          DoubleBuffered = True
           object ToolBar: TSpTBXToolbar
             Left = 0
             Top = 0
@@ -186,6 +186,7 @@ inherited FindResultsWindow: TFindResultsWindow
           ScrollBars = ssBoth
           TabOrder = 1
           WordWrap = False
+          StyleElements = [seClient, seBorder]
           Zoom = 100
         end
       end
@@ -199,7 +200,7 @@ inherited FindResultsWindow: TFindResultsWindow
           MinHeight = 20
         end
         object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-          CustomWidth = 570
+          CustomWidth = 0
         end
         object StatusRightLabel: TSpTBXLabelItem
           Alignment = taRightJustify

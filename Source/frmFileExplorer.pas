@@ -216,7 +216,7 @@ var
   Editor : IEditor;
   FileName : string;
 begin
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(Editor) then begin
     FileName := Editor.FileName;
     if FileName <> '' then
@@ -371,7 +371,7 @@ end;
 
 procedure TFileExplorerWindow.actManageFavoritesExecute(Sender: TObject);
 begin
-  EditFolderList(fFavorites, 'File Explorer Favorites');
+  EditFolderList(fFavorites, _('File Explorer favorites'));
 end;
 
 procedure TFileExplorerWindow.actNewFolderExecute(Sender: TObject);

@@ -37,7 +37,7 @@ type
     TunnelTask : ITask;
     fShuttingDown : Boolean;
     fSSHCommand : string;
-    fExtraSSHOptions : string;
+    fSSHOptions : string;
     function ProcessPlatformInfo(Info: string; out Is3k: Boolean;
       out Sep: Char; out TempDir: string): boolean;
     procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation);
@@ -47,8 +47,7 @@ type
     procedure ShutDownServer;  override;
   public
     SSHServerName : string;
-    HostName : string;
-    UserName : string;
+    SSHDestination : string;
     PythonCommand : string;
     PathSeparator : Char;
     TempDir : string;
@@ -73,6 +72,7 @@ implementation
 Uses
   Vcl.Dialogs,
   Vcl.Forms,
+  JvGNUGetText,
   StringResources,
   cPySupportTypes,
   cPyScripterSettings,
@@ -81,84 +81,98 @@ Uses
   cPyControl,
   MPCommonUtilities;
 
-function ExecuteCmd(Command : string; out CmdOutput: string): cardinal;
-Var
-  ProcessOptions : TJclExecuteCmdProcessOptions;
-begin
-  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
-  try
-    ProcessOptions.MergeError := False;
-    ProcessOptions.RawError := True;
-    ProcessOptions.CreateProcessFlags :=
-      ProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
-    ExecuteCmdProcess(ProcessOptions);
-    OutputDebugString(PChar(ProcessOptions.Error));
-    Result := ProcessOptions.ExitCode;
-    CmdOutput := ProcessOptions.Output;
-  finally
-    ProcessOptions.Free;
-  end;
-end;
-
-
 { TPySSHInterpreter }
 
 constructor TPySSHInterpreter.Create(SSHServer : TSSHServer);
 {
    1. ssh user@host pythoncommand 'import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())'
    2. Upload with scp server script and rpyc.zip
-   3. Start python server process
+   3. Start Python server process
    4. Start port tunneling process ssh user@host -L 127.0.0.1:port:127.0.0.1:port -N
    5. Connect to server
 }
 Var
   CommandOutput, ErrorOutput : string;
   Task : ITask;
+  ReturnCode:Integer;
+
+  procedure CreatePythonTask;
+  begin
+    //  Test SSH connection and get information about the server
+    Task := TTask.Create(procedure
+    {$IFDEF CPUX86}
+    Var
+      IsWow64: LongBool;
+    {$ENDIF CPUX86}
+    begin
+    {$IFDEF CPUX86}
+    IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+    try
+    {$ENDIF CPUX86}
+      ReturnCode := ExecuteCmd(Format('"%s" %s %s %s -c ' +
+        '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
+        [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]),
+        CommandOutput, ErrorOutput);
+      fServerIsAvailable :=  ReturnCode = 0;
+    {$IFDEF CPUX86}
+    finally
+      if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+    end;
+    {$ENDIF CPUX86}
+    end).Start;
+  end;
+
 begin
-  fSSHCommand := PyIDEOptions.SSHCommand;
+  fSSHCommand := SSHServer.SSHCommand;
+  fSSHOptions := SSHServer.SSHOptionsPW;
 
   fServerIsAvailable := False;
   fConnected := False;
   SSHServerName := SSHServer.Name;
-  UserName := SSHServer.UserName;
-  HostName := SSHServer.HostName;
+  SSHDestination := SSHServer.Destination;
   PythonCommand := SSHServer.PythonCommand;
-  fExtraSSHOptions := SSHServer.ExtraSSHOptions;
-  //  Test SSH connection and get information about the server
-  Task := TTask.Create(procedure
-  {$IFDEF CPUX86}
-  Var
-    IsWow64: LongBool;
-  {$ENDIF CPUX86}
-  begin
-  {$IFDEF CPUX86}
-  IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
-  if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
-  try
-  {$ENDIF CPUX86}
-     fServerIsAvailable := Execute(Format('"%s" %s %s %s@%s %s -c ' +
-      '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
-    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, PythonCommand]),
-    CommandOutput, ErrorOutput, False, True) = 0
-  {$IFDEF CPUX86}
-  finally
-    if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
-  end;
-  {$ENDIF CPUX86}
-  end).Start;
 
-  if Task.Wait(3000) and fServerIsAvailable then
-    fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
+  CreatePythonTask;
+  if Task.Wait(SSHTimeout) then begin
+    if SSHServer.IsClientPutty and (ErrorOutput <> '') and
+      SSHServer.ExtractHostKey(ErrorOutput) then
+    begin
+      // Unknown hostkey failure
+      if Vcl.Dialogs.MessageDlg(Format(_(SSHUnknownServerQuery), [SSHServer.HostKey]),
+        mtConfirmation, [mbYes, mbCancel], 0) = mrYes then
+      begin
+        fSSHOptions := SSHServer.SSHOptionsPW;
+        CreatePythonTask;
+        if not Task.Wait(SSHTimeout) then begin
+          // Timeout
+          Vcl.Dialogs.MessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
+          Exit;
+        end;
+      end else begin
+        SSHServer.HostKey := '';
+        Exit;
+      end;
+    end;
+    if fServerIsAvailable then
+      fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
+  end else begin
+    // Timeout
+    Vcl.Dialogs.MessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
+    Exit;
+  end;
 
   if not fServerIsAvailable then begin
-    Vcl.Dialogs.MessageDlg(Format(SSSHPythonError, [PythonCommand]), mtError, [mbAbort], 0);
+    SSHServer.ExtractHostKey(ErrorOutput);
+    Vcl.Dialogs.MessageDlg(Format(_(SSHPythonError),
+      [PythonCommand, ReturnCode, CommandOutput, ErrorOutput]), mtError, [mbAbort], 0);
     Exit;
   end;
 
   // Check for version mismatch
   if IsPython3000 <> GetPythonEngine.IsPython3000 then
   begin
-    Vcl.Dialogs.MessageDlg(Format(SSHVersionMismatch,
+    Vcl.Dialogs.MessageDlg(Format(_(SSHVersionMismatch),
       [IfThen(GetPythonEngine.IsPython3000, '3.x', '2,x'), IfThen(IsPython3000, '3.x', '2,x')]),
       mtError, [mbAbort], 0);
     Exit;
@@ -170,7 +184,8 @@ begin
   TunnelProcessOptions.RawOutput := True;
   TunnelProcessOptions.RawError := True;
   TunnelProcessOptions.CreateProcessFlags :=
-    TunnelProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
+    TunnelProcessOptions.CreateProcessFlags or
+     CREATE_UNICODE_ENVIRONMENT or CREATE_NO_WINDOW or CREATE_NEW_CONSOLE;
 
   inherited Create(peSSH);
   DebuggerClass := TPySSHDebugger;
@@ -183,9 +198,6 @@ end;
 procedure TPySSHInterpreter.CreateAndRunServerProcess;
 Var
   ErrorMsg : string;
-  {$IFDEF CPUX86}
-  IsWow64: LongBool;
-  {$ENDIF CPUX86}
 begin
   fShuttingDown := False;
   fServerIsAvailable := False;
@@ -210,8 +222,8 @@ begin
   fSocketPort := 18000 + Random(1000);
 
   // Create and Run Server process
-  ServerProcessOptions.CommandLine := Format('"%s" %s %s %s@%s %s ',
-    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, PythonCommand]) +
+  ServerProcessOptions.CommandLine := Format('"%s" %s %s %s ',
+    [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]) +
     Format('"%s" %d "%s"', [fRemServerFile, fSocketPort, fRemRpycFile]);
   ServerTask := TTask.Create(procedure
     {$IFDEF CPUX86}
@@ -234,8 +246,8 @@ begin
   Sleep(100);
   fServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
 
-  TunnelProcessOptions.CommandLine := Format('"%s" %s %s %s@%s -L 127.0.0.1:%d:127.0.0.1:%5:d -N',
-    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, fSocketPort]);
+  TunnelProcessOptions.CommandLine := Format('"%s" %s %s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
+    [fSSHCommand, fSSHOptions, SSHDestination, fSocketPort]);
   TunnelTask := TTask.Create(procedure
     {$IFDEF CPUX86}
     Var
@@ -314,12 +326,12 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-  if (fRemServerFile <> '') and (ExecuteCmd(Format('"%s" %s %s %s@%s rm ''%s''',
-      [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, fRemServerFile]), CommandOutput) = 0)
+  if (fRemServerFile <> '') and (ExecuteCmd(Format('"%s" %s %s rm ''%s''',
+      [fSSHCommand, fSSHOptions, SSHDestination, fRemServerFile]), CommandOutput) = 0)
   then
     fRemServerFile := '';
-  if (fRemRpycFile <> '')  and (ExecuteCmd(Format('"%s" %s %s %s@%s rm ''%s''',
-      [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, fRemRpycFile]), CommandOutput) = 0)
+  if (fRemRpycFile <> '')  and (ExecuteCmd(Format('"%s" %s %s rm ''%s''',
+      [fSSHCommand, fSSHOptions, SSHDestination, fRemRpycFile]), CommandOutput) = 0)
   then
     fRemRpycFile := '';
   {$IFDEF CPUX86}
@@ -358,8 +370,8 @@ function TPySSHInterpreter.FromPythonFileName(const FileName: string): string;
 begin
   if FileName = '' then
     Result := ''
-  else if FileName[1] ='<' then
-    Result := FileName
+  else if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
+     Result :=  Copy(FileName, 2, Length(FileName)-2)
   else
     Result := TSSHFileName.Format(SSHServerName, FileName);
 end;

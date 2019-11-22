@@ -3,24 +3,39 @@ unit dlgCommandLine;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  SynEdit, Buttons, TB2Item, 
-  Menus, SpTBXControls, SpTBXItem, dlgPyIDEBase, SpTBXMDIMRU;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  Vcl.Forms,
+  Vcl.Buttons,
+  Vcl.Menus,
+  Vcl.StdCtrls,
+  SynEdit,
+  TB2Item,
+  SpTBXControls,
+  SpTBXItem,
+  SpTBXMDIMRU,
+  dlgPyIDEBase;
 
 type
   TCommandLineDlg = class(TPyIDEDlgBase)
-    Panel: TSpTBXPanel;
+    Panel: TPanel;
     SynParameters: TSynEdit;
-    OKButton: TSpTBXButton;
-    BitBtn2: TSpTBXButton;
-    HelpButton: TSpTBXButton;
     TBXButton1: TSpTBXButton;
     TBXPopupHistory: TSpTBXPopupMenu;
     EmptyHistoryPopupItem: TSpTBXItem;
-    cbUseCommandLine: TSpTBXCheckBox;
-    Label1: TSpTBXLabel;
-    Label3: TSpTBXLabel;
     mnCommandHistoryMRU: TSpTBXMRUListItem;
+    cbUseCommandLine: TCheckBox;
+    Label1: TLabel;
+    Label3: TLabel;
+    OKButton: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
     procedure btnHelpClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SynParametersEnter(Sender: TObject);
@@ -28,14 +43,16 @@ type
     procedure OKButtonClick(Sender: TObject);
     procedure TBXPopupHistoryPopup(Sender: TObject);
     procedure mnCommandHistoryMRUClick(Sender: TObject;
-      const Filename: WideString);
+      const Filename: string);
   public
     { Public declarations }
   end;
 
 implementation
 
-uses dmCommands, frmPyIDEMain;
+uses
+  dmCommands,
+  frmPyIDEMain;
 
 {$R *.dfm}
 
@@ -65,7 +82,7 @@ begin
 end;
 
 procedure TCommandLineDlg.mnCommandHistoryMRUClick(Sender: TObject;
-  const Filename: WideString);
+  const Filename: string);
 begin
   SynParameters.Text := Filename;
   SynParameters.SetFocus;

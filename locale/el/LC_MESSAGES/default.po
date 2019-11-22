@@ -3,13 +3,17 @@
 # Copyright (C) Kiriakos Vlahos  2005-2018
 # This file is distributed under the same license as PyScripter
 # 
+# Translators:
+# luebbe <luebbe.opensource@gmail.com>, 2018
+# Kiriakos Vlahos <pyscripter@gmail.com>, 2019
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-09-06 07:00\n"
-"PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2018\n"
+"POT-Creation-Date: 2019-01-08 03:51\n"
+"PO-Revision-Date: 2018-01-24 08:21+0000\n"
+"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2019\n"
 "Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,10 +66,15 @@ msgstr ""
 msgid "Unknown parameter"
 msgstr "Άγνωστη παράμετρος"
 
-#. AskParamForm..SpTBXPanel1..btnOK..Caption
+#. AskParamForm..Panel1..Label1..Caption
+#: dlgAskParam.dfm
+msgid "Enter value for parameter "
+msgstr "Εισάγετε τιμή για την παράμετρο "
+
+#. AskParamForm..Panel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
+#. CollectionEditor..Panel1..OKBtn..Caption
 #. CommandLineDlg..Panel..OKButton..Caption
-#. ConfigureTools..SpTBXPanel1..OKBtn..Caption
 #. CustomizeParams..Panel..btnOK..Caption
 #. frmCustomKeyboard..Panel1..btnOK..Caption
 #. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..OKBtn..Caption
@@ -76,6 +85,7 @@ msgstr "Άγνωστη παράμετρος"
 #. ImportDirectoryForm..Panel1..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
+#. RemoteFileDialog..Panel2..OKButton..Caption
 #. ReplaceInFilesDialog..SpTBXPanel1..btnOK..Caption
 #. RunConfigurationForm..Panel1..btnOK..Caption
 #. fmEditorOptionsDialog..Panel1..btnOk..Caption
@@ -83,20 +93,21 @@ msgstr "Άγνωστη παράμετρος"
 #. fmToDoOptions..pnlBG..btnOK..Caption
 #. ToolProperties..Panel1..btnOK..Caption
 #. UnitTestWizard..Panel1..OKButton..Caption
-#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCommandLine.dfm
-#: dlgConfigureTools.dfm dlgCustomParams.dfm dlgCustomShortcuts.dfm
+#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCollectionEditor.dfm
+#: dlgCommandLine.dfm dlgCustomParams.dfm dlgCustomShortcuts.dfm
 #: dlgDirectoryList.dfm dlgExceptionMail.dfm dlgFileTemplates.dfm
 #: dlgFindInFiles.dfm dlgFindResultsOptions.dfm dlgImportDirectory.dfm
-#: dlgOptionsEditor.dfm dlgPickList.dfm dlgReplaceInFiles.dfm
-#: dlgRunConfiguration.dfm dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-#: dlgToDoOptions.dfm dlgToolProperties.dfm dlgUnitTestWizard.dfm
+#: dlgOptionsEditor.dfm dlgPickList.dfm dlgRemoteFile.dfm
+#: dlgReplaceInFiles.dfm dlgRunConfiguration.dfm dlgSynEditOptions.dfm
+#: dlgSynPageSetup.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
+#: dlgUnitTestWizard.dfm
 msgid "&OK"
 msgstr "&Εντάξει"
 
-#. AskParamForm..SpTBXPanel1..btnCancel..Caption
+#. AskParamForm..Panel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
+#. CollectionEditor..Panel1..CancelBtn..Caption
 #. CommandLineDlg..Panel..BitBtn2..Caption
-#. ConfigureTools..SpTBXPanel1..CancelBtn..Caption
 #. ConfirmReplaceDialog..SpTBXPanel1..btnCancel..Caption
 #. CustomizeParams..Panel..btnCancel..Caption
 #. frmCustomKeyboard..Panel1..btnCancel..Caption
@@ -106,8 +117,9 @@ msgstr "&Εντάξει"
 #. FindResultsOptionsDialog..SpTBXPanel1..btnCancel..Caption
 #. ImportDirectoryForm..Panel1..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
-#. OptionsInspector..Panel2..BitBtn2..Caption
+#. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
+#. RemoteFileDialog..Panel2..CancelButton..Caption
 #. ReplaceInFilesDialog..SpTBXPanel1..btnCancel..Caption
 #. RunConfigurationForm..Panel1..btnCancel..Caption
 #. StyleSelectorForm..Button2..Caption
@@ -116,26 +128,21 @@ msgstr "&Εντάξει"
 #. fmToDoOptions..pnlBG..btnCancel..Caption
 #. ToolProperties..Panel1..btnCancel..Caption
 #. UnitTestWizard..Panel1..BitBtn2..Caption
-#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCommandLine.dfm
-#: dlgConfigureTools.dfm dlgConfirmReplace.dfm dlgCustomParams.dfm
+#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCollectionEditor.dfm
+#: dlgCommandLine.dfm dlgConfirmReplace.dfm dlgCustomParams.dfm
 #: dlgCustomShortcuts.dfm dlgDirectoryList.dfm dlgFileTemplates.dfm
 #: dlgFindInFiles.dfm dlgFindResultsOptions.dfm dlgImportDirectory.dfm
-#: dlgNewFile.dfm dlgOptionsEditor.dfm dlgPickList.dfm dlgReplaceInFiles.dfm
-#: dlgRunConfiguration.dfm dlgStyleSelector.dfm dlgSynEditOptions.dfm
-#: dlgSynPageSetup.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
-#: dlgUnitTestWizard.dfm
+#: dlgNewFile.dfm dlgOptionsEditor.dfm dlgPickList.dfm dlgRemoteFile.dfm
+#: dlgReplaceInFiles.dfm dlgRunConfiguration.dfm dlgStyleSelector.dfm
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm dlgToDoOptions.dfm
+#: dlgToolProperties.dfm dlgUnitTestWizard.dfm
 msgid "&Cancel"
 msgstr "&Άκυρο"
 
-#. AskParamForm..SpTBXPanel1..chkSaveToFile..Caption
+#. AskParamForm..Panel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
 msgstr "και αποθηκεύστε το ως ειδική παράμετρο"
-
-#. AskParamForm..SpTBXPanel1..Label1..Caption
-#: dlgAskParam.dfm
-msgid "Enter value for parameter "
-msgstr "Εισάγετε τιμή για την παράμετρο "
 
 #. CodeTemplates..Caption
 #: dlgCodeTemplates.dfm
@@ -149,6 +156,7 @@ msgstr "Πρότυπα κώδικα"
 #. FindInFilesDialog..Panel1..btnHelp..Caption
 #. FindResultsOptionsDialog..SpTBXPanel1..btnHelp..Caption
 #. OptionsInspector..Panel2..HelpButton..Caption
+#. RemoteFileDialog..Panel2..HelpButton..Caption
 #. ReplaceInFilesDialog..SpTBXPanel1..btnHelp..Caption
 #. RunConfigurationForm..Panel1..btnHelp..Caption
 #. fmEditorOptionsDialog..Panel1..btnHelp..Caption
@@ -159,12 +167,13 @@ msgstr "Πρότυπα κώδικα"
 #. FunctionListWindow..Actions..actHelpHelp..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..Caption
 #. ToDoWindow..Actions..actHelpHelp..Caption
+#. Programmer's name for it: SDlgHelp
 #: dlgCodeTemplates.dfm dlgCommandLine.dfm dlgCustomShortcuts.dfm
 #: dlgFileTemplates.dfm dlgFindInFiles.dfm dlgFindResultsOptions.dfm
-#: dlgOptionsEditor.dfm dlgReplaceInFiles.dfm dlgRunConfiguration.dfm
-#: dlgSynEditOptions.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
-#: dlgUnitTestWizard.dfm frmFindResults.dfm frmFunctionList.dfm
-#: frmPyIDEMain.dfm frmToDo.dfm
+#: dlgOptionsEditor.dfm dlgRemoteFile.dfm dlgReplaceInFiles.dfm
+#: dlgRunConfiguration.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
+#: dlgToolProperties.dfm dlgUnitTestWizard.dfm frmFindResults.dfm
+#: frmFunctionList.dfm frmPyIDEMain.dfm frmToDo.dfm StringResources.pas
 msgid "&Help"
 msgstr "&Βοήθεια"
 
@@ -211,10 +220,10 @@ msgstr "Πιέστε Shift+Ctrl+P για συμπλήρωση παραμέτρω
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
 #. FileTemplatesDialog..Panel..lvItems......Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
+#. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgPythonVersions.dfm dlgToolProperties.dfm frmRegExpTester.dfm
 #: frmVariables.dfm frmVariables.pas
@@ -222,7 +231,7 @@ msgid "Name"
 msgstr "Όνομα"
 
 #. CodeTemplates..Panel..lvItems......Caption
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: dlgCodeTemplates.dfm frmToDo.dfm
 msgid "Description"
 msgstr "Περιγραφή"
@@ -266,11 +275,11 @@ msgid "Delete item"
 msgstr "Διαγραφή αντικειμένου"
 
 #. CodeTemplates..ActionList..actMoveUp..Caption
-#. ConfigureTools..SpTBXPanel1..MoveUpBtn..Caption
+#. CollectionEditor..Panel1..MoveUpBtn..Caption
 #. CustomizeParams..ActionList..actMoveUp..Caption
 #. FileTemplatesDialog..ActionList..actMoveUp..Caption
 #. FileExplorerWindow..FileExplorerActions..actGoUp..Caption
-#: dlgCodeTemplates.dfm dlgConfigureTools.dfm dlgCustomParams.dfm
+#: dlgCodeTemplates.dfm dlgCollectionEditor.dfm dlgCustomParams.dfm
 #: dlgFileTemplates.dfm frmFileExplorer.dfm
 msgid "&Up"
 msgstr "&Πάνω"
@@ -283,10 +292,10 @@ msgid "Move item up"
 msgstr "Μετακίνηση αντικειμένου πάνω"
 
 #. CodeTemplates..ActionList..actMoveDown..Caption
-#. ConfigureTools..SpTBXPanel1..MoveDownBtn..Caption
+#. CollectionEditor..Panel1..MoveDownBtn..Caption
 #. CustomizeParams..ActionList..actMoveDown..Caption
 #. FileTemplatesDialog..ActionList..actMoveDown..Caption
-#: dlgCodeTemplates.dfm dlgConfigureTools.dfm dlgCustomParams.dfm
+#: dlgCodeTemplates.dfm dlgCollectionEditor.dfm dlgCustomParams.dfm
 #: dlgFileTemplates.dfm
 msgid "&Down"
 msgstr "&Κάτω"
@@ -316,6 +325,27 @@ msgstr "Ενημέρωση"
 #: dlgToolProperties.dfm
 msgid "Update item"
 msgstr "Ενημέρωση του προτύπου"
+
+#. CollectionEditor..Panel1..AddBtn..Caption
+#. DirectoryListDialog..SpTBXPanel2..btnAdd..Caption
+#: dlgCollectionEditor.dfm dlgDirectoryList.dfm
+msgid "&Add..."
+msgstr "&Προσθήκη..."
+
+#. CollectionEditor..Panel1..RemoveBtn..Caption
+#. frmCustomKeyboard..ActionList1..actRemoveShortcut..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnRemKey..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnRemove..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Caption
+#: dlgCollectionEditor.dfm dlgCustomShortcuts.dfm dlgSynEditOptions.dfm
+#: dlgToDoOptions.dfm frmProjectExplorer.dfm
+msgid "&Remove"
+msgstr "&Διαγραφή"
+
+#. CollectionEditor..Panel1..ModifyBtn..Caption
+#: dlgCollectionEditor.dfm
+msgid "&Modify.."
+msgstr "&Αλλαγή..."
 
 #. CommandLineDlg..Caption
 #: dlgCommandLine.dfm
@@ -353,44 +383,20 @@ msgstr "Παράμετροι: Shift+Ctrl+P, Mετατροπείς Shift+Ctrl+M"
 msgid "(Empty History)"
 msgstr "(Άδεια Ιστορία)"
 
-#. ConfigureTools..Caption
-#: dlgConfigureTools.dfm
-msgid "Configure Tools"
-msgstr "Διαμόρφωση Εργαλείων"
-
-#. ConfigureTools..SpTBXPanel1..AddBtn..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Caption
-#: dlgConfigureTools.dfm dlgDirectoryList.dfm
-msgid "&Add..."
-msgstr "&Προσθήκη..."
-
-#. ConfigureTools..SpTBXPanel1..RemoveBtn..Caption
-#. frmCustomKeyboard..ActionList1..actRemoveShortcut..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnRemKey..Caption
-#. fmToDoOptions..pnlBG..gbxTokens..btnRemove..Caption
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Caption
-#: dlgConfigureTools.dfm dlgCustomShortcuts.dfm dlgSynEditOptions.dfm
-#: dlgToDoOptions.dfm frmProjectExplorer.dfm
-msgid "&Remove"
-msgstr "&Διαγραφή"
-
-#. ConfigureTools..SpTBXPanel1..ModifyBtn..Caption
-#: dlgConfigureTools.dfm
-msgid "&Modify.."
-msgstr "&Αλλαγή..."
-
 #. ConfirmReplaceDialog..Caption
 #: dlgConfirmReplace.dfm
 msgid "Confirm replace"
 msgstr "Επιβεβαίωση αντικατάστασης"
 
 #. ConfirmReplaceDialog..SpTBXPanel1..btnReplace..Caption
-#: dlgConfirmReplace.dfm
+#. Programmer's name for it: SDlgYes
+#: dlgConfirmReplace.dfm StringResources.pas
 msgid "&Yes"
 msgstr "&Ναι"
 
 #. ConfirmReplaceDialog..SpTBXPanel1..btnSkip..Caption
-#: dlgConfirmReplace.dfm
+#. Programmer's name for it: SDlgNo
+#: dlgConfirmReplace.dfm StringResources.pas
 msgid "&No"
 msgstr "&Όχι"
 
@@ -419,9 +425,9 @@ msgstr "&Τιμή:"
 #. CustomizeParams..Panel..lvItems......Caption
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Value"
@@ -674,8 +680,9 @@ msgstr "&Κατάλογοι:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
-#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgImportDirectory.pas
-msgid "Select Directory"
+#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
+#: dlgImportDirectory.pas uParams.pas
+msgid "Select directory"
 msgstr "Επιλογή καταλόγου αρχείων"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
@@ -814,68 +821,67 @@ msgid "Deselect all items"
 msgstr "Αποεπιλογή Όλων"
 
 #. PythonVersionsDialog..Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiSelectPythonVersion..Caption
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr ""
+msgstr "Εκδόσεις Python"
 
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
+#. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
-msgstr ""
+msgstr "Φάκελος"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
 msgid "Activate"
-msgstr ""
+msgstr "Ενεργοποίηση"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
-msgid "Activate selected python version"
-msgstr ""
+msgid "Activate selected Python version"
+msgstr "Ενεργοποιήστε την επιλεγμένη έκδοση Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #: dlgPythonVersions.dfm
 msgid "Add"
-msgstr ""
+msgstr "Προσθήκη"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
-msgid "Add a new python version"
-msgstr ""
+msgid "Add a new Python version"
+msgstr "Προσθήκη νέας έκδοσης Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
 msgid "Remove"
-msgstr ""
+msgstr "Διαγραφή"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
-msgid "Remove selected python version"
-msgstr ""
+msgid "Remove selected Python version"
+msgstr "Διαγράψτε την επιλεγμένη έκδοση Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
 msgid "Test"
-msgstr ""
+msgstr "Δοκιμή"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
-msgid "Test selected python version"
-msgstr ""
+msgid "Test selected Python version"
+msgstr "Δοκιμάστε την επιλεγμένη έκδοση Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
 msgid "Show"
-msgstr ""
+msgstr "Εμφάνιση"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
-msgid "Show selected python version in Explorer"
-msgstr ""
+msgid "Show selected Python version in Explorer"
+msgstr "Εμφάνιση της επιλεγμένης έκδοσης Python στον Περιηγητή"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -884,7 +890,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
-msgid "Open command prompt for the selected python version"
+msgid "Open command prompt for the selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
@@ -897,6 +903,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Category
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Category
 #. CommandsDataModule..actlMain..actHelpWebBlog..Category
+#. CommandsDataModule..actlMain..actDonate..Category
 #. FindResultsWindow..Actions..actHelpHelp..Category
 #. FindResultsWindow..Actions..actHelpHelp..Hint
 #. FunctionListWindow..Actions..actHelpHelp..Category
@@ -904,14 +911,35 @@ msgstr ""
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
 #. ToDoWindow..Actions..actHelpHelp..Category
 #. ToDoWindow..Actions..actHelpHelp..Hint
+#. Programmer's name for it: SDlgHelpHelp
 #: dlgPythonVersions.dfm dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm
-#: frmRegExpTester.dfm frmToDo.dfm
+#: frmRegExpTester.dfm frmToDo.dfm StringResources.pas
 msgid "Help"
 msgstr "Βοήθεια"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
+#: dlgPythonVersions.dfm
+msgid "Rename"
+msgstr "Μετονομασία"
+
+#. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
+#: dlgPythonVersions.dfm
+msgid "Rename selected Python version"
+msgstr "Μετονομάστε την επιλεγμένη έκδοση Python"
+
+#. RemoteFileDialog..Panel1..Label1..Caption
+#: dlgRemoteFile.dfm
+msgid "File Path:"
+msgstr ""
+
+#. RemoteFileDialog..Panel1..Label2..Caption
+#: dlgRemoteFile.dfm
+msgid "SSH Server:"
 msgstr ""
 
 #. ReplaceInFilesDialog..Caption
@@ -977,10 +1005,9 @@ msgid "&Parameters:"
 msgstr "&Παράμετροι:"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
-#: dlgRunConfiguration.dfm dlgToolProperties.dfm
-msgid "Working &directory:"
-msgstr "&Καταλόγος Εργασίας:"
+#: dlgRunConfiguration.dfm
+msgid "Working &Directory:"
+msgstr ""
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonEngines..Caption
@@ -1001,17 +1028,17 @@ msgstr "&Τύπος Μηχανής:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Remote"
 msgstr "Απομακρυσμένη"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Internal"
 msgstr "Εσωτερική"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Remote (Tk)"
 msgstr "Απομακρυσμένη (Τκ)"
 
@@ -1019,6 +1046,11 @@ msgstr "Απομακρυσμένη (Τκ)"
 #: dlgRunConfiguration.dfm
 msgid "Remote (Wx)"
 msgstr "Απομακρυσμένη (Wx)"
+
+#. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
+#: dlgRunConfiguration.dfm
+msgid "SSH"
+msgstr "SSH"
 
 #. RunConfigurationForm..Panel1..GroupBox3..Caption
 #: dlgRunConfiguration.dfm
@@ -1069,11 +1101,6 @@ msgstr "Διαθέσιμα Στυλ"
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
-#. StyleSelectorForm..Button1..Caption
-#: dlgStyleSelector.dfm
-msgid "&Apply Style"
-msgstr "&Εφαρμογή Στυλ"
-
 #. StyleSelectorForm..ActionManager1..StyleName
 #: dlgStyleSelector.dfm
 msgid "Platform Default"
@@ -1081,8 +1108,8 @@ msgstr ""
 
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
-msgid "Apply Style"
-msgstr "Εφαρμογή Στυλ"
+msgid "&Apply Style"
+msgstr "&Εφαρμογή Στυλ"
 
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -1424,37 +1451,6 @@ msgstr "Μισό μπλοκ"
 msgid "Block"
 msgstr "Μπλόκ"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Επιλογές Πλήκτρων Συντόμευσης"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Εντολή:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr "Πλήκτρο Συντόμευσης 2"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr "Πλήκτρο Συντόμευσης 1"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Εντολή"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr "Πλήκτρο Συντόμευσης"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
@@ -1515,6 +1511,37 @@ msgstr "&Υπογράμμιση"
 #: dlgSynEditOptions.dfm
 msgid "&Strike Out"
 msgstr "&Διαγραφή"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Επιλογές Πλήκτρων Συντόμευσης"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Εντολή:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr "Πλήκτρο Συντόμευσης 2"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr "Πλήκτρο Συντόμευσης 1"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Εντολή"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr "Πλήκτρο Συντόμευσης"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
@@ -1656,7 +1683,8 @@ msgstr "Κεφαλίδα"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label12..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label15..Caption
-#: dlgSynPageSetup.dfm
+#. Programmer's name for it: SEdCmdLeft
+#: dlgSynPageSetup.dfm StringResources.pas
 msgid "Left"
 msgstr "Αριστερά"
 
@@ -1668,7 +1696,8 @@ msgstr "Κεντράρισμα"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label14..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label17..Caption
-#: dlgSynPageSetup.dfm
+#. Programmer's name for it: SEdCmdRight
+#: dlgSynPageSetup.dfm StringResources.pas
 msgid "Right"
 msgstr "Δεξιά"
 
@@ -2071,6 +2100,11 @@ msgstr "(απαιτείται)"
 msgid "&Application:"
 msgstr "&Εφαρμογή:"
 
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
+#: dlgToolProperties.dfm
+msgid "Working &directory:"
+msgstr "&Καταλόγος Εργασίας:"
+
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
 msgid "Shortcut and Context"
@@ -2333,7 +2367,8 @@ msgstr ""
 "Python"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Caption
-#: dlgUnitTestWizard.dfm
+#. Programmer's name for it: SEdCmdSelectAll
+#: dlgUnitTestWizard.dfm StringResources.pas
 msgid "Select All"
 msgstr "Επιλογή &Ολων"
 
@@ -2351,6 +2386,12 @@ msgstr "Αποεπιλογή Όλων"
 #: dlgUnitTestWizard.dfm
 msgid "Deselect all nodes"
 msgstr "Αποεπιλογή όλων των κόμβων"
+
+#. CommandsDataModule..SynPythonSyn..DefaultFilter
+#. 5000;
+#: dmCommands.dfm cPyScripterSettings.pas
+msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
+msgstr "Αρχεία Python (*.py;*.pyw)|*.py;*.pyw"
 
 #. CommandsDataModule..ParameterCompletion..Title
 #. CommandsDataModule..actlMain..actParameterCompletion..Category
@@ -2375,7 +2416,7 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Comment Line"
-msgstr ""
+msgstr "|Σχόλιο κώδικα"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
@@ -2403,6 +2444,7 @@ msgstr "|Σχόλιο κωδικοποίησης αρχείου"
 #. CommandsDataModule..actlMain..actFileReload..Category
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Category
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Category
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Category
 #. FindResultsWindow..Actions..actFileSearch..Category
 #. FindResultsWindow..Actions..actFileRefresh..Category
 #. FindResultsWindow..Actions..actFileAbort..Category
@@ -2414,6 +2456,7 @@ msgstr "|Σχόλιο κωδικοποίησης αρχείου"
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Category
 #. PyIDEMainForm..actlStandard..actFileExit..Category
 #. PyIDEMainForm..actlStandard..actNewFile..Category
+#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Category
 #. ToDoWindow..Actions..actFileRefresh..Category
 #. ToDoWindow..Actions..actFilePrint..Category
 #. ToDoWindow..Actions..actFileAbort..Category
@@ -2443,7 +2486,8 @@ msgstr "Αποθήκευση ως|Αποθήκευση ενεργού αρχεί
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. OutputWindow..OutputActions..actToolClose..Caption
-#: dmCommands.dfm frmCommandOutput.dfm
+#. Programmer's name for it: SDlgClose
+#: dmCommands.dfm frmCommandOutput.dfm StringResources.pas
 msgid "&Close"
 msgstr "&Κλείσιμο"
 
@@ -2459,6 +2503,7 @@ msgstr "&Κλείσιμο|Κλείσιμο του ενεργού αρχείου"
 #. CommandsDataModule..actlMain..actEditUndo..Category
 #. CommandsDataModule..actlMain..actEditRedo..Category
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
+#. CommandsDataModule..actlMain..actEditReadOnly..Category
 #. CommandsDataModule..actlMain..actInsertTemplate..Category
 #. CommandsDataModule..actlMain..actEditLineNumbers..Category
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Category
@@ -2550,6 +2595,17 @@ msgstr "Επιλογή &Ολων"
 #: dmCommands.dfm
 msgid "Select All|Selects the entire document"
 msgstr "Επιλογή όλων|Επιλογή όλου του κειμένου"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Caption
+#. Programmer's name for it: SReadOnly
+#: dmCommands.dfm StringResources.pas
+msgid "Read Only"
+msgstr "Μόνο για Ανάγνωση"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Hint
+#: dmCommands.dfm
+msgid "Enable/disable editing"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actSearchFind..Category
 #. CommandsDataModule..actlMain..actSearchFindNext..Category
@@ -3223,12 +3279,12 @@ msgstr "Κλείσιμο όλων των αρχείων εκτός από το �
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr ""
+msgstr "Κλείσιμο Όλων στα &Δεξιά"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr ""
+msgstr "Κλείσιμο όλων των αρχείων στα δεξιά"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3326,7 +3382,8 @@ msgid "Regions"
 msgstr "Περιοχές"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
-#: dmCommands.dfm
+#. Programmer's name for it: SEdCmdFoldRanges
+#: dmCommands.dfm StringResources.pas
 msgid "Fold Ranges"
 msgstr "Σύμπτυξη περιοχών"
 
@@ -3415,8 +3472,29 @@ msgstr "Σύμπτυξη συναρτήσεων"
 msgid "Unfold functions"
 msgstr "Ανάπτυξη συναρτήσεων"
 
-#. CommandsDataModule..SynGeneralSyn..DefaultFilter
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
+#. Programmer's name for it: SRemoteFIleSave
+#: dmCommands.dfm StringResources.pas
+msgid "Save to Remote File"
+msgstr "Αποθήκευση σε απομακρυσμένο αρχείο"
+
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
+msgid "Save to remote file with SSH"
+msgstr "Αποθήκευση σε απομακρυσμένο αρχείο με SSH"
+
+#. CommandsDataModule..actlMain..actDonate..Caption
+#: dmCommands.dfm
+msgid "&Donate"
+msgstr "&Χορηγία"
+
+#. CommandsDataModule..actlMain..actDonate..Hint
+#: dmCommands.dfm
+msgid "Donate to the PyScripter project"
+msgstr "Προσφέρετε χορηγία στο έργο PyScripter"
+
+#. CommandsDataModule..SynGeneralSyn..DefaultFilter
+#: dmCommands.dfm cPyScripterSettings.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr "Αρχεία Κειμένου(*.txt,*.*)|*.txt;*.*"
 
@@ -3425,25 +3503,25 @@ msgstr "Αρχεία Κειμένου(*.txt,*.*)|*.txt;*.*"
 msgid "Breakpoints"
 msgstr "Σημεία Διακοπής"
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
 msgstr "Όνομα Αρχείου"
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
 #. FunctionListWindow..pnHolder..lvProcs......Caption
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmFunctionList.dfm frmMessages.dfm
 #: frmToDo.dfm
 msgid "Line"
 msgstr "Γραμμή"
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #: frmBreakPoints.dfm
 msgid "Condition"
 msgstr "Συνθήκη"
@@ -3481,13 +3559,13 @@ msgstr "Αντιγραφή στο πρόχειρο"
 msgid "Call Stack"
 msgstr "Στοίβα κλήσεων"
 
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
 msgstr "Όνομα Συνάρτησης"
 
-#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......Text
 #: frmCallStack.dfm
 msgid "Threads"
 msgstr "Νήματα εκτέλεσης"
@@ -3518,6 +3596,7 @@ msgstr "Νήματα εκτέλεσης"
 #. PyIDEMainForm..actlStandard..actPythonRemote..Category
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Category
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Category
+#. PyIDEMainForm..actlStandard..actPythonSSH..Category
 #. PyIDEMainForm..actlStandard..actExecSelection..Category
 #. PyIDEMainForm..actlStandard..actPostMortem..Category
 #. PyIDEMainForm..actlStandard..actPythonSetup..Category
@@ -3787,7 +3866,7 @@ msgstr "Ανάπτυξη"
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Category
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Category
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
-#: frmFileExplorer.dfm
+#: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
 msgstr "Εξερευνητής Αρχείων"
 
@@ -3828,7 +3907,7 @@ msgstr "&Διαχείρηση Αγαπημένων καταλόγων"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..TBXSubmenuItem3..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnPythonPath..Caption
-#: frmFileExplorer.dfm
+#: frmFileExplorer.dfm dmCommands.pas
 msgid "Python Path"
 msgstr "Κατάλογος Python"
 
@@ -3976,7 +4055,8 @@ msgstr "Ανανέωση αναζήτησης"
 
 #. FindResultsWindow..Actions..actFileAbort..Caption
 #. ToDoWindow..Actions..actFileAbort..Caption
-#: frmFindResults.dfm frmToDo.dfm
+#. Programmer's name for it: SDlgAbort
+#: frmFindResults.dfm frmToDo.dfm StringResources.pas
 msgid "&Abort"
 msgstr "&Eγκατάλειψη"
 
@@ -4211,12 +4291,12 @@ msgstr "Μετάβαση στον ορισμό της συνάρτησης"
 msgid "Messages"
 msgstr "Μηνύματα"
 
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Message"
 msgstr "Μήνυμα"
 
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Position"
 msgstr "Θέση"
@@ -4291,6 +4371,7 @@ msgstr "Γραμμή Εργαλείων Εξευρενητή Έργου"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Category
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Category
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Category
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Category
 #: frmProjectExplorer.dfm
 msgid "Project"
 msgstr "Έργο"
@@ -4420,7 +4501,7 @@ msgstr "Πρόσθεση Ενεργού Αρχείου"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Προσθήκε ενεργού αρχείου στον επιλεγμένο κατάλογο"
+msgstr "Προσθήκη ενεργού αρχείου στον επιλεγμένο κατάλογο"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -4492,10 +4573,26 @@ msgstr "&Αποσφαλμάτωση"
 msgid "Debug the selected configuration"
 msgstr "Αποσφαλμάτωση της επιλεγμένης Ρύθμισης Εκτέλεσης"
 
-#. PyIDEMainForm..StatusBar..lbStatusModified..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Caption
+#. Programmer's name for it: SRemoteFileAdd
+#: frmProjectExplorer.dfm StringResources.pas
+msgid "Add Remote File"
+msgstr "Προσθήκη απομακρυσμένου αρχείου"
+
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
+#: frmProjectExplorer.dfm
+msgid "Add a remote file to the folder"
+msgstr "Προσθήκη απομακρυσμένου αρχείου στον επιλεγμένο κατάλογο"
+
+#. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
-msgid " "
-msgstr ""
+msgid "Python version"
+msgstr "Έκδοση Python"
+
+#. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
+#: frmPyIDEMain.dfm dmCommands.pas
+msgid "Python engine type"
+msgstr "Τύπος μηχανής Python"
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
@@ -5498,6 +5595,16 @@ msgstr "&Επεξεργαστής κειμένου"
 msgid "Activate the Editor"
 msgstr "Ενεργοποίηση κειμενογράφου"
 
+#. PyIDEMainForm..actlStandard..actPythonSSH..Caption
+#: frmPyIDEMain.dfm
+msgid "&SSH"
+msgstr "&SSH"
+
+#. PyIDEMainForm..actlStandard..actPythonSSH..Hint
+#: frmPyIDEMain.dfm
+msgid "Use an SSH remote Python engine"
+msgstr "Χρήση απομακρυσμένης SSH μηχανής Python"
+
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "E&xecute selection"
@@ -5589,12 +5696,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "Απόκρυψη Δευτερεύντος Περιβάλλοντος Εργασίας"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "Απόκρυψη δευτερεύντος περιβάλλοντος εργασίας"
 
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
@@ -5603,16 +5710,29 @@ msgstr "Στυλ..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
-msgid "Setup Python..."
-msgstr ""
+msgid "Setup Python Versions..."
+msgstr "Προσαρμογή εκδόσεων Python..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
-msgid "Setup python engine"
-msgstr ""
+msgid "Setup Python engine"
+msgstr "Διαμόρφωση έκδοσης Python"
+
+#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
+#. SSH File and Remote engine
+#. Programmer's name for it: SRemoteFileOpen
+#: frmPyIDEMain.dfm StringResources.pas
+msgid "Open Remote File"
+msgstr "Άνοιγμα απομακρυσμένου αρχείου"
+
+#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
+#: frmPyIDEMain.dfm
+msgid "Open Remote File with SSH"
+msgstr "Άνοιγμα απομακρυσμένου αρχείου με SSH"
 
 #. PythonIIForm..Caption
-#: frmPythonII.dfm dmCommands.pas
+#. Create a Python External Run tool which is used in the run menu
+#: frmPythonII.dfm cTools.pas dmCommands.pas
 msgid "Python Interpreter"
 msgstr "Διερμηνευτής Python"
 
@@ -5759,6 +5879,11 @@ msgstr "Δεν εκτελέστηκε"
 #: frmRegExpTester.dfm
 msgid "Groups:"
 msgstr "Ομάδες:"
+
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
+#: frmRegExpTester.dfm
+msgid "Node"
+msgstr ""
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
@@ -5933,14 +6058,14 @@ msgstr "Καθαρισμός όλων των δοκιμών"
 msgid "Variables"
 msgstr "Μεταβλητές"
 
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Type"
 msgstr "Τύπος"
 
 #. WatchesWindow..Caption
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmWatches.dfm
 msgid "Watches"
 msgstr "Παρατηρητές"
@@ -5970,8 +6095,155 @@ msgstr "Καθαρισμός όλων των παρατηρητών"
 msgid "No editor is currently active"
 msgstr "Κανένα αρχείο δεν είναι ενεργό"
 
+#. Programmer's name for it: SNonameFileTitle
+#: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
+msgid "Untitled"
+msgstr "Ανώνυμο"
+
+#: cProjectClasses.pas
+msgid "Files"
+msgstr ""
+
+#: cProjectClasses.pas
+msgid "Run Configurations"
+msgstr ""
+
 #: cPyScripterSettings.pas
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+msgstr ""
+
+#: cSSHSupport.pas
+#, object-pascal-format
+msgid "Enter SSH Password for %s"
+msgstr "Εισαγωγή Κωδικού SSH για %s"
+
+#: cSSHSupport.pas
+msgid "Password:"
+msgstr "Κωδικός:"
+
+#: cSSHSupport.pas
+msgid "SSH Servers"
+msgstr "Εξυπηρετητές SSH"
+
+#: cSSHSupport.pas
+msgid "Select SSH Server"
+msgstr "Επιλογή Εξυπηρετητή SSH"
+
+#: cSSHSupport.pas
+msgid "SSH Server name"
+msgstr "Όνομα εξυπηρετητή SSH"
+
+#: cSSHSupport.pas
+msgid "Host name"
+msgstr ""
+
+#: cSSHSupport.pas uParams.pas
+msgid "User name"
+msgstr "Κωδικός χρήστη"
+
+#: cSSHSupport.pas
+msgid "Command to execute Python (no spaces)"
+msgstr "Εντολή εκτέλεσης Python (χωρίς κενά)"
+
+#: cSSHSupport.pas
+msgid "Path to SSH Command"
+msgstr ""
+
+#: cSSHSupport.pas dmCommands.pas
+msgid "SSH options"
+msgstr "Επιλογές SSH"
+
+#: cSSHSupport.pas
+msgid "Path to SCP Command"
+msgstr ""
+
+#: cSSHSupport.pas dmCommands.pas
+msgid "SCP options"
+msgstr "Επιλογές SCP"
+
+#: cSSHSupport.pas
+msgid "Password Needed (PyTTY only)"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Edit SSH Server"
+msgstr "Επεξεργασία εξυπηρετητή SSH"
+
+#. Add a few standard tools to the collection
+#: cTools.pas
+msgid "Python &Interpreter"
+msgstr "&Διερμηνευτής Python"
+
+#: cTools.pas
+msgid "External Python Interpreter"
+msgstr "Εξωτερικός Διερμηνευτής Python"
+
+#: cTools.pas
+msgid "Install Packages with pip"
+msgstr "Εγκατάσταση Πακέτων με pip"
+
+#: cTools.pas
+msgid "Install Python packages"
+msgstr "Εγκατάσταση Πακέτων Python"
+
+#: cTools.pas
+msgid "Python&Win help"
+msgstr "Βοήθεια Python&Win"
+
+#: cTools.pas
+msgid "Show PythonWin Help"
+msgstr "Εμφάνιση βοήθειας PythonWin"
+
+#: cTools.pas
+msgid "Check &Indentation"
+msgstr ""
+
+#: cTools.pas
+msgid "Check the indentation of the Python program"
+msgstr ""
+
+#: cTools.pas
+msgid "Command Prompt"
+msgstr ""
+
+#: cTools.pas
+msgid "Start a console at the directory of the active file"
+msgstr ""
+
+#: cTools.pas
+msgid "Profile"
+msgstr ""
+
+#: cTools.pas
+msgid "Profile active file"
+msgstr ""
+
+#: cTools.pas
+msgid "PyLint tool (www.logilab.org/projects/pylint)"
+msgstr ""
+
+#: cTools.pas
+msgid "Advanced Replace"
+msgstr ""
+
+#: cTools.pas
+msgid "Advanced Search and replace"
+msgstr ""
+
+#: cTools.pas
+msgid "Sort Selection"
+msgstr ""
+
+#: cTools.pas
+msgid "Sort the selected editor block (\"one-liner\" demo)"
+msgstr ""
+
+#: cTools.pas
+msgid "&Re-indent"
+msgstr ""
+
+#: cTools.pas
+msgid "Re-indent the active file"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6091,17 +6363,8 @@ msgstr "Ισπανικά: %s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
-"Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)"
-msgstr ""
-"Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)"
-
-#: dlgAboutPyScripter.pas
-msgid ""
-"Donations from numerous users have provided a strong incentive to develop "
-"this project.  Generous support from Tranquil IT (https://www.tranquil.it) "
-"makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
+"Donations from numerous users have provided a strong incentive to develop this project.\n"
+"Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6120,12 +6383,16 @@ msgid "Translators"
 msgstr "Μεταφράστες"
 
 #: dlgAboutPyScripter.pas
-msgid "Theme design"
-msgstr "Σχεδιασμός θεμάτων"
+msgid "Artwork and theme design"
+msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
-msgstr ""
+msgstr "Δωρεές"
+
+#: dlgCollectionEditor.pas
+msgid "Please make a selection"
+msgstr "Παρακαλώ επιλέξτε"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
@@ -6135,10 +6402,6 @@ msgstr ""
 
 #: dlgCustomShortcuts.pas
 msgid "Unassigned"
-msgstr ""
-
-#: dlgDirectoryList.pas
-msgid "Select Directory:"
 msgstr ""
 
 #. Programmer's name for it: RsSendBugReportSubject
@@ -6156,6 +6419,18 @@ msgstr ""
 msgid "Directory To Search:"
 msgstr ""
 
+#: dlgPythonVersions.pas
+msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
+msgstr ""
+
+#: dlgPythonVersions.pas
+msgid "Rename Python Version"
+msgstr "Μετονομασία Έκδοσης Python"
+
+#: dlgPythonVersions.pas
+msgid "New name:"
+msgstr "Νέο όνομα:"
+
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
 msgid "The Find in Files Results window is not active"
@@ -6164,6 +6439,10 @@ msgstr "Το παράθυρο αποτελεσμάτων της Αναζήτησ
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
 msgstr "Επιλογή φακέλου εργασίας;"
+
+#: dlgToDoOptions.pas
+msgid "'To Do' search path"
+msgstr ""
 
 #: dmCommands.pas
 msgid "IDE"
@@ -6202,7 +6481,7 @@ msgid "Dock animation move width (pixels)"
 msgstr ""
 
 #: dmCommands.pas
-msgid "File template for new python scripts"
+msgid "File template for new Python scripts"
 msgstr ""
 
 #: dmCommands.pas
@@ -6220,11 +6499,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Save files before run"
-msgstr ""
+msgstr "Αποθήκευση αρχείων πριν την εκτέλεση"
 
 #: dmCommands.pas
 msgid "Save environment before run"
-msgstr ""
+msgstr "Αποθήκευση περιβάλλοντος πριν την εκτέλεση"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
@@ -6233,10 +6512,6 @@ msgstr ""
 #: dmCommands.pas
 msgid "UTF8 in interactive interpreter"
 msgstr ""
-
-#: dmCommands.pas
-msgid "Python engine type"
-msgstr "Τύπος μηχανής Python"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6260,15 +6535,23 @@ msgstr "Απόθήκευση ιστορικού εντολών διερμηνε�
 
 #: dmCommands.pas
 msgid "Reinitialize before run"
-msgstr ""
+msgstr "&Επαναρχικοποίηση πριν την εκτέλεση"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
 msgstr ""
 
 #: dmCommands.pas
-msgid "Internal Interpreter Hidden"
+msgid "Internal Interpreter hidden"
 msgstr "Απόκρυψη εσωτερικού διερμηνευτή"
+
+#: dmCommands.pas
+msgid "Always use sockets"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Step into open files only"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Initially expanded"
@@ -6281,6 +6564,10 @@ msgstr "Φίλτρα αρχείων "
 #: dmCommands.pas
 msgid "File explorer filter"
 msgstr "Φίλτρο Εξερευνητή Αρχείων"
+
+#: dmCommands.pas
+msgid "text file"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6300,7 +6587,7 @@ msgstr "Δημιουργία αντιγράφων ασφαλείας"
 
 #: dmCommands.pas
 msgid "Undo after save"
-msgstr ""
+msgstr "Αναίρεση μετά την αποθήκευση"
 
 #: dmCommands.pas
 msgid "Show code hints"
@@ -6371,6 +6658,12 @@ msgid "Compact Line Numbers"
 msgstr "Συμπαγής αρίθμηση γραμμών"
 
 #: dmCommands.pas
+msgid "Trim trailing spaces when files are saved"
+msgstr ""
+
+#. User editor commands
+#. Programmer's name for it: SEdCmdCodeCompletion
+#: dmCommands.pas StringResources.pas
 msgid "Code Completion"
 msgstr "Συμπλήρωση Κώδικα"
 
@@ -6423,7 +6716,109 @@ msgid "File Explorer context menu"
 msgstr ""
 
 #: dmCommands.pas
+msgid "File Explorer background processing"
+msgstr ""
+
+#: dmCommands.pas
+msgid "SSH command"
+msgstr "Εντολή SSH"
+
+#: dmCommands.pas
+msgid "SCP command"
+msgstr "Εντολή SCP"
+
+#: dmCommands.pas
+msgid "Disable Variables Window with SSH"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Configure Tools"
+msgstr "Διαμόρφωση Εργαλείων"
+
+#: dmCommands.pas
 msgid "File download failed"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Python Module \"%s\""
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Imports"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Imported modules"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported Module \"%s\" as %s at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported Module \"%s\" at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported identifier \"%s\" from module \"%s\""
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported identifier \"%s\" as \"%s\" from module \"%s\""
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Global variables"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Global variable \"%s\" defined at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Class \"%s\" defined in line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Inherits from"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Attributes"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Class attributes"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Class attribute \"%s\" defined at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid ""
+"Function \"%s\" defined at line %d\n"
+"Arguments: %s"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid ""
+"Method %s defined at line %d\n"
+"Arguments: %s"
+msgstr ""
+
+#: frmFileExplorer.pas
+msgid "File Explorer favorites"
 msgstr ""
 
 #. Programmer's name for it: SAllString
@@ -6453,6 +6848,12 @@ msgid ""
 "Do you want to proceed?"
 msgstr ""
 
+#. Programmer's name for it: ProjectFilter
+#: frmProjectExplorer.pas
+#, object-pascal-format
+msgid "PyScripter project files (*.%s)|*.%0:s"
+msgstr ""
+
 #: frmPyIDEMain.pas
 msgid "Debug"
 msgstr "Αποσφαλμάτωση"
@@ -6477,6 +6878,10 @@ msgstr ""
 msgid "Debugger state: "
 msgstr ""
 
+#: frmPyIDEMain.pas
+msgid "Python Not Available"
+msgstr ""
+
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
@@ -6499,6 +6904,608 @@ msgstr ""
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr ""
+
+#. Needs to be manually updated as new editor commands are added
+#. Programmer's name for it: SEdCmdAutoCompletion
+#: StringResources.pas
+msgid "Auto Completion"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdBlockIndent
+#: StringResources.pas
+msgid "Block Indent"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdBlockUnindent
+#: StringResources.pas
+msgid "Block Unindent"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdClearAll
+#: StringResources.pas
+msgid "Clear All"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdColumnSelect
+#: StringResources.pas
+msgid "Column Select"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCommentBlock
+#: StringResources.pas
+msgid "Comment Block"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdContextHelp
+#: StringResources.pas
+msgid "Context Help"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCopy
+#: StringResources.pas
+msgid "Copy"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCopyLineDown
+#: StringResources.pas
+msgid "Copy Line Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCopyLineUp
+#: StringResources.pas
+msgid "Copy Line Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCut
+#: StringResources.pas
+msgid "Cut"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteBOL
+#: StringResources.pas
+msgid "Delete BOL"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteChar
+#: StringResources.pas
+msgid "Delete Char"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteEOL
+#: StringResources.pas
+msgid "Delete EOL"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteLastChar
+#: StringResources.pas
+msgid "Delete Last Char"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteLastWord
+#: StringResources.pas
+msgid "Delete Last Word"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteLine
+#: StringResources.pas
+msgid "Delete Line"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteWord
+#: StringResources.pas
+msgid "Delete Word"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDown
+#: StringResources.pas
+msgid "Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdEditorBottom
+#: StringResources.pas
+msgid "Editor Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdEditorTop
+#: StringResources.pas
+msgid "Editor Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldAll
+#: StringResources.pas
+msgid "Fold All"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldLevel1
+#: StringResources.pas
+msgid "Fold Level 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldLevel2
+#: StringResources.pas
+msgid "Fold Level 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldLevel3
+#: StringResources.pas
+msgid "Fold Level 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldNearest
+#: StringResources.pas
+msgid "Fold Nearest"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark0
+#: StringResources.pas
+msgid "Goto Bookmark 0"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark1
+#: StringResources.pas
+msgid "Goto Bookmark 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark2
+#: StringResources.pas
+msgid "Goto Bookmark 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark3
+#: StringResources.pas
+msgid "Goto Bookmark 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark4
+#: StringResources.pas
+msgid "Goto Bookmark 4"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark5
+#: StringResources.pas
+msgid "Goto Bookmark 5"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark6
+#: StringResources.pas
+msgid "Goto Bookmark 6"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark7
+#: StringResources.pas
+msgid "Goto Bookmark 7"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark8
+#: StringResources.pas
+msgid "Goto Bookmark 8"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark9
+#: StringResources.pas
+msgid "Goto Bookmark 9"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdInsertLine
+#: StringResources.pas
+msgid "Insert Line"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdInsertMode
+#: StringResources.pas
+msgid "Insert Mode"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineBreak
+#: StringResources.pas
+msgid "Line Break"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineEnd
+#: StringResources.pas
+msgid "Line End"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineSelect
+#: StringResources.pas
+msgid "Line Select"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineStart
+#: StringResources.pas
+msgid "Line Start"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLowerCase
+#: StringResources.pas
+msgid "Lower Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdMatchBracket
+#: StringResources.pas
+msgid "Match Bracket"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdMoveLineDown
+#: StringResources.pas
+msgid "Move Line Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdMoveLineUp
+#: StringResources.pas
+msgid "Move Line Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdNormalSelect
+#: StringResources.pas
+msgid "Normal Select"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdOverwriteMode
+#: StringResources.pas
+msgid "Overwrite Mode"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageBottom
+#: StringResources.pas
+msgid "Page Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageDown
+#: StringResources.pas
+msgid "Page Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageLeft
+#: StringResources.pas
+msgid "Page Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageRight
+#: StringResources.pas
+msgid "Page Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageTop
+#: StringResources.pas
+msgid "Page Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageUp
+#: StringResources.pas
+msgid "Page Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPaste
+#: StringResources.pas
+msgid "Paste"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdRedo
+#: StringResources.pas
+msgid "Redo"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollDown
+#: StringResources.pas
+msgid "Scroll Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollLeft
+#: StringResources.pas
+msgid "Scroll Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollRight
+#: StringResources.pas
+msgid "Scroll Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollUp
+#: StringResources.pas
+msgid "Scroll Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectDown
+#: StringResources.pas
+msgid "Select Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectEditorBottom
+#: StringResources.pas
+msgid "Select Editor Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectEditorTop
+#: StringResources.pas
+msgid "Select Editor Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectLeft
+#: StringResources.pas
+msgid "Select Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectLineEnd
+#: StringResources.pas
+msgid "Select Line End"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectLineStart
+#: StringResources.pas
+msgid "Select Line Start"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageBottom
+#: StringResources.pas
+msgid "Select Page Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageDown
+#: StringResources.pas
+msgid "Select Page Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageLeft
+#: StringResources.pas
+msgid "Select Page Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageRight
+#: StringResources.pas
+msgid "Select Page Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageTop
+#: StringResources.pas
+msgid "Select Page Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageUp
+#: StringResources.pas
+msgid "Select Page Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectRight
+#: StringResources.pas
+msgid "Select Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectUp
+#: StringResources.pas
+msgid "Select Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectWord
+#: StringResources.pas
+msgid "Select Word"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectWordLeft
+#: StringResources.pas
+msgid "Select Word Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectWordRight
+#: StringResources.pas
+msgid "Select Word Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark0
+#: StringResources.pas
+msgid "Set Bookmark 0"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark1
+#: StringResources.pas
+msgid "Set Bookmark 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark2
+#: StringResources.pas
+msgid "Set Bookmark 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark3
+#: StringResources.pas
+msgid "Set Bookmark 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark4
+#: StringResources.pas
+msgid "Set Bookmark 4"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark5
+#: StringResources.pas
+msgid "Set Bookmark 5"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark6
+#: StringResources.pas
+msgid "Set Bookmark 6"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark7
+#: StringResources.pas
+msgid "Set Bookmark 7"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark8
+#: StringResources.pas
+msgid "Set Bookmark 8"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark9
+#: StringResources.pas
+msgid "Set Bookmark 9"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdShiftTab
+#: StringResources.pas
+msgid "Shift Tab"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdTab
+#: StringResources.pas
+msgid "Tab"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdTitleCase
+#: StringResources.pas
+msgid "Title Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdToggleCase
+#: StringResources.pas
+msgid "Toggle Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdToggleInsertMode
+#: StringResources.pas
+msgid "Toggle Mode"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUndo
+#: StringResources.pas
+msgid "Undo"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldAll
+#: StringResources.pas
+msgid "Unfold All"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldLevel1
+#: StringResources.pas
+msgid "Unfold Level 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldLevel2
+#: StringResources.pas
+msgid "Unfold Level 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldLevel3
+#: StringResources.pas
+msgid "Unfold Level 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldNearest
+#: StringResources.pas
+msgid "Unfold Nearest"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldRanges
+#: StringResources.pas
+msgid "Unfold Ranges"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUp
+#: StringResources.pas
+msgid "Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUpperCase
+#: StringResources.pas
+msgid "Upper Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdWordLeft
+#: StringResources.pas
+msgid "Word Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdWordRight
+#: StringResources.pas
+msgid "Word Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdParameterCompletion
+#: StringResources.pas
+msgid "Parameter Completion"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectToBracket
+#: StringResources.pas
+msgid "Select to Bracket"
+msgstr ""
+
+#. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: SDlgWarning
+#: StringResources.pas
+msgid "Warning"
+msgstr ""
+
+#. Programmer's name for it: SDlgError
+#: StringResources.pas
+msgid "Error"
+msgstr ""
+
+#. Programmer's name for it: SDlgInformation
+#: StringResources.pas
+msgid "Information"
+msgstr ""
+
+#. Programmer's name for it: SDlgConfirm
+#: StringResources.pas
+msgid "Confirm"
+msgstr ""
+
+#. Programmer's name for it: SDlgOK
+#: StringResources.pas
+msgid "OK"
+msgstr ""
+
+#. Programmer's name for it: SDlgCancel
+#: StringResources.pas
+msgid "Cancel"
+msgstr ""
+
+#. Programmer's name for it: SDlgRetry
+#: StringResources.pas
+msgid "&Retry"
+msgstr ""
+
+#. Programmer's name for it: SDlgIgnore
+#: StringResources.pas
+msgid "&Ignore"
+msgstr ""
+
+#. Programmer's name for it: SDlgAll
+#: StringResources.pas
+msgid "&All"
+msgstr ""
+
+#. Programmer's name for it: SDlgNoToAll
+#: StringResources.pas
+msgid "N&o to All"
+msgstr ""
+
+#. Programmer's name for it: SDlgYesToAll
+#: StringResources.pas
+msgid "Yes to &All"
+msgstr ""
+
+#. Programmer's name for it: STrueValue
+#: StringResources.pas
+msgid "True"
+msgstr ""
+
+#. Programmer's name for it: SFalseValue
+#: StringResources.pas
+msgid "False"
+msgstr ""
+
+#. Programmer's name for it: SDSActkShowText
+#: StringResources.pas
+msgid "Do not show this dialog again"
+msgstr ""
+
+#. Programmer's name for it: SDSActkRememberText
+#: StringResources.pas
+msgid "Remember answer and do not show again"
 msgstr ""
 
 #. Programmer's name for it: SInternalError
@@ -6571,8 +7578,8 @@ msgstr "Γραμμή Εντολής : %s\n"
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
 #, object-pascal-format
-msgid "*** %s Python engine %s is active ***"
-msgstr "*** %s μηχανή Python %s είναι ενεργή ***"
+msgid "*** %s Python engine is active ***"
+msgstr ""
 
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
@@ -6582,21 +7589,18 @@ msgstr ""
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
 msgid ""
-"You are now in post-mortem analysis mode.  You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
-"To exit the post-mortem analysis select the Abort Debugging command."
+"You are now in post-mortem analysis mode.\n"
+"You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
+"To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr ""
-"Είστε σε ανάλυση post-mortem.  Μπορείτε να εξετάσετε τη Στοίβα Κλήσεων, τις Μεταβλητές και τους Παρατηρητές, να εκτιμήσετε εκφράσεις κλπ.  \n"
-"Όταν θελήσετε να φύγετε από την ανάλυση post-mortem επιλέξτε την εντολή Εγκατάλειψη Αποσφαλμάτωσης."
 
 #. Programmer's name for it: SFileEncodingWarning
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"Encoding file \"%s\" using \"%s\" encoding will result in information loss."
-"  Do you want to proceed?"
+"Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
+"Do you want to proceed?"
 msgstr ""
-"Η κωδικοποίηση του αρχείου \"%s\" με την κωδικοποίηση \"%s\" θα προκαλέσει "
-"απώλεια πληροφορίας.  Θέλετε να συνεχίσετε?"
 
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas
@@ -6654,31 +7658,17 @@ msgstr "Σφάλμα κατά την εισαγωγή του module"
 #. Programmer's name for it: SRemoteServerNotConnected
 #: StringResources.pas
 msgid ""
-"Remote Server is not connected.  Please reinitialize or disconnect the "
-"remote  interpreter."
+"Remote Server is not connected.\n"
+"Please reinitialize or disconnect the remote interpreter."
 msgstr ""
-"Δεν υπάρχει σύνδεση με τον απομακρυσμένο διακομιστή.  Επαναρχικοποιήστε η "
-"αποσυνδέστε τον απομακρυσμένο διερμηνευτή."
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
 msgid ""
-"The Rpyc module is not available.  To use the remote Python Engine download "
-"Rpyc from http://Rpyc.sf.net and install it."
+"The 'rpyc' package is not available.\n"
+"Please restart PyScripter and try again.\n"
+"If the error persists reinstall PyScripter."
 msgstr ""
-"Το module Rpyc δεν είναι διαθέσιμο.  Για να χρησιμοποιήσετε την "
-"απομαρκυσμένη μηχανή Python μεταφορτώστε το Rpyc από το http://Rpyc.sf.net "
-"και εγκαταστήστε το."
-
-#. Programmer's name for it: SWrongRpycVersion
-#: StringResources.pas
-msgid ""
-"Wrong Rpyc version.  To use the remote Python Engine download version 2.6 "
-"Rpyc from http://Rpyc.sf.net and install it."
-msgstr ""
-"Λάθος έκδοση του Rpyc.  Για να χρησιμοποιήσετε την απομαρκυσμένη μηχανή "
-"Python μεταφορτώστε την έκδοση 2.6 του Rpyc από το http://Rpyc.sf.net και "
-"εγκαταστήστε τη."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
@@ -6715,10 +7705,9 @@ msgstr "Καποιο άλλο αντικείμενο έχει το ίδιο όν
 #. Programmer's name for it: SCodeTemplateModified
 #: StringResources.pas
 msgid ""
-"The template has been modified.  Do you want to update it with the new "
-"definition?"
+"The template has been modified.\n"
+"Do you want to update it with the new definition?"
 msgstr ""
-"Το πρότυπο έχει μεταβληθεί.  Θέλετε να το ανανεώσετε με το νέο ορισμό;"
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
@@ -6780,17 +7769,16 @@ msgstr "Η έκδοσή σας είναι ενημερωμένη!"
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
 msgid ""
-"An External Tool is still running.  Do you want to terminate it and exit?"
+"An External Tool is still running.\n"
+"Do you want to terminate it and exit?"
 msgstr ""
-"Ένα εξωτερικό Εργαλείο είναι ενεργό. Θέλετε να το τερματίσετε και να φύγετε "
-"από το πρόγραμμα;"
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
 msgid ""
-"The Python interpreter is busy.  Are you sure you want to terminate it?"
+"The Python interpreter is busy.\n"
+"Are you sure you want to terminate it?"
 msgstr ""
-"Ο Διερμηνευτής της Python είναι απασχολημένος.  Θέλετε να τον τερματίσετε;"
 
 #. Programmer's name for it: SFindDefinitionWarning
 #: StringResources.pas
@@ -6838,18 +7826,16 @@ msgstr ""
 #. Programmer's name for it: SAbortDebugging
 #: StringResources.pas
 msgid ""
-"A debugging session is in progress.  Do you want to abort the session and "
-"Exit?"
+"A debugging session is in progress.\n"
+"Do you want to abort the session and Exit?"
 msgstr ""
-"Μια διαδικασία αποσφαλμάτωσης είναι ενεργή.  Θέλετε να την εγκαταλείψετε και"
-" φύγετε από το PyScripter;"
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
-msgid "The Python Script has timed out.  Do you want to interrupt it?"
+msgid ""
+"The Python Script has timed out.\n"
+"Do you want to interrupt it?"
 msgstr ""
-"Ο χρόνος αναμονής του προγραμματος Python τελείωσε.  Θέλετε να διακόψετε την"
-" εκτέλεση;"
 
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
@@ -7044,12 +8030,10 @@ msgstr "Αποθήκευση τροποποιημένων αρχείων"
 #. Programmer's name for it: SSelectModifiedFiles
 #: StringResources.pas
 msgid ""
-"The following files have been modified. Please select the files that you "
-"wish to save and press the OK button.  Press Cancel to go back to PyScripter"
+"The following files have been modified.\n"
+"Press 'OK' to save selected files and exit.\n"
+"Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
-"Τα ακόλουθα αρχεία έχουν αλλάξει.  Επιλέξτε τα αρχεία που θέλετε να "
-"αποθηκεύσετε και πατήστε το κουμπί Εντάξει.  Πατήστε το κουμπί Ακύρωση γαι "
-"να επιστρέψετε στο PyScripter."
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
@@ -7115,7 +8099,7 @@ msgstr "Πρόγραμμα Πλοήγησης"
 #. Programmer's name for it: SErrorInitScript
 #: StringResources.pas
 #, object-pascal-format
-msgid "Error in running initialization script %s: \"%s"
+msgid "Error in running initialization script %s: \"%s\""
 msgstr ""
 
 #. Programmer's name for it: SOpenDialogFilter
@@ -7131,28 +8115,37 @@ msgstr ""
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
-msgid "Jupyter is not available.  Please install jupiter first"
+msgid ""
+"The 'jupyter' package is not available.\n"
+"Please install 'jupyter' first."
 msgstr ""
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
 msgid ""
-"An external process is stil running.  Please terminate it first from the "
-"Output Window"
+"An external process is still running.\n"
+"Please terminate it first from the 'Output' window."
 msgstr ""
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
 #: StringResources.pas
 msgid ""
-"The active project has not been saved.  Do you want to save the changes?"
-msgstr "Το Έργο δεν έχει αποθηκευτεί.  Θέλετε να αποθηκεύσετε τις αλλαγές;"
+"The active project has not been saved.\n"
+"Do you want to save the changes?"
+msgstr ""
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
 msgstr "Αποτυχία δημιουργίας αντιγράφου ασφαλείας του έργου \"%s\""
+
+#. Programmer's name for it: SErrorInOpeningProject
+#: StringResources.pas
+#, object-pascal-format
+msgid "Error in opening project: \"%s\"."
+msgstr ""
 
 #. Programmer's name for it: SErrorInSavingProject
 #: StringResources.pas
@@ -7296,14 +8289,10 @@ msgstr "Επεξεργασία του %s"
 #, object-pascal-format
 msgid ""
 "%s\n"
-"has changed since it was searched.  Replacement aborted.\n"
+"has changed since it was searched. Replacement aborted.\n"
 "Expected: %s\n"
 "Found: %s"
 msgstr ""
-"%s\n"
-"άλλαξε από το χρόνο της αναζήτησης.  Η αντικατάσταση εγκαταλείφθηκε.\n"
-"Αναμενόμενο: %s\n"
-"Βρέθηκε: %s"
 
 #. Programmer's name for it: SFileSkipped
 #: StringResources.pas
@@ -7393,16 +8382,6 @@ msgstr "Εισαγωγή"
 msgid "Overwrite"
 msgstr "Επικάλυψη"
 
-#. Programmer's name for it: SReadOnly
-#: StringResources.pas
-msgid "Read Only"
-msgstr "Μόνο για Ανάγνωση"
-
-#. Programmer's name for it: SNonameFileTitle
-#: StringResources.pas
-msgid "Untitled"
-msgstr "Ανώνυμο"
-
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas
 msgid "module"
@@ -7423,20 +8402,16 @@ msgstr ""
 #. Programmer's name for it: SFileReloadingWarning
 #: StringResources.pas
 msgid ""
-"Reloading the file will result in the loss of all changes.  Do you want to "
-"proceed?"
+"Reloading the file will result in the loss of all changes.\n"
+"Do you want to proceed?"
 msgstr ""
-"Η επαναφόρτωση του αρχείου θα οδηγήσει σε απώλεια όλων των αλλαγών.  Θέλετε "
-"να συνεχίσετε;"
 
 #. Programmer's name for it: SFileAlreadyOpen
 #: StringResources.pas
 msgid ""
-"Another editor with the same file is open.  You can not have two editors "
-"with the same file."
+"Another editor with the same file is open.\n"
+"You can not have two editors with the same file."
 msgstr ""
-"Το ίδιο αρχείο είναι ήδη ανοικτό σε άλλο κειμενογράφο. Δεν μπορείτε να "
-"ανοίξετε το ίδιο αρχείο σε δύο κειμενογράφους."
 
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
@@ -7636,6 +8611,81 @@ msgstr ""
 msgid "Unregistered Versions"
 msgstr ""
 
+#. Programmer's name for it: SRemoteFileSelect
+#: StringResources.pas
+msgid "Select Remote File"
+msgstr ""
+
+#. Programmer's name for it: SErrorEmptyPath
+#: StringResources.pas
+msgid "File Path cannot be empty"
+msgstr ""
+
+#. Programmer's name for it: SErrorEmptySSH
+#: StringResources.pas
+msgid "The SSH server name cannot be empty"
+msgstr ""
+
+#. Programmer's name for it: SScpError4
+#: StringResources.pas
+msgid "SCP Error: Connecting to host failed"
+msgstr ""
+
+#. Programmer's name for it: SScpError5
+#: StringResources.pas
+msgid "SCP Error: Connection lost for some reason"
+msgstr ""
+
+#. Programmer's name for it: SScpErrorTimeout
+#: StringResources.pas
+msgid "SCP Error: Timeout"
+msgstr ""
+
+#. Programmer's name for it: SScpErrorOther
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"SCP Error:\n"
+"Output: %s+\n"
+"Error Output: %s+"
+msgstr ""
+
+#. Programmer's name for it: SSHUnknownServer
+#: StringResources.pas
+#, object-pascal-format
+msgid "Unknown SSH server \"%s\""
+msgstr ""
+
+#. Programmer's name for it: SSHUnknownServerQuery
+#: StringResources.pas
+#, object-pascal-format
+msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
+msgstr ""
+
+#. Programmer's name for it: SSHPythonTimeout
+#: StringResources.pas
+#, object-pascal-format
+msgid "Execution of Python (\"%s\") on the SSH server timed out"
+msgstr ""
+
+#. Programmer's name for it: SSHPythonError
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"Failed to execute Python (\"%s\") on the SSH server:\n"
+"ReturnCode: %d\n"
+"Output: %s\n"
+"ErrorOutput: %s"
+msgstr ""
+
+#. Programmer's name for it: SSHVersionMismatch
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"Local Python version is %s and remote Python version is %s. To use this SSH "
+"server please switch to Python version %1:s."
+msgstr ""
+
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
 msgid "Matching Brace"
@@ -7651,7 +8701,237 @@ msgstr "Αταίριαστη Παρέθενση"
 msgid "Multi-Line String"
 msgstr ""
 
+#. Programmer's name for it: SYNS_AttrSystemCmd
+#. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
+#: SynHighlighterPython.pas
+msgid "System Command"
+msgstr ""
+
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas
 msgid "YAML files (*.yaml)|*.yaml"
 msgstr "Αρχεία YAML (*.yaml)|*.yaml"
+
+#. Python Paths etc.
+#: uParams.pas
+msgid "Directory of active Python version"
+msgstr ""
+
+#: uParams.pas
+msgid "Executable of active Python"
+msgstr ""
+
+#: uParams.pas
+msgid "Version of active Python"
+msgstr ""
+
+#. register system paths and parameters
+#: uParams.pas
+msgid "Program Files directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Common Files directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows installation directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows System directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows Temp directory"
+msgstr ""
+
+#: uParams.pas
+msgid "MyDocuments directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Desktop directory"
+msgstr ""
+
+#. register parameters
+#: uParams.pas
+msgid "Clipboard as text"
+msgstr ""
+
+#: uParams.pas
+msgid "Current directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Executable name"
+msgstr ""
+
+#: uParams.pas
+msgid "Python Command Line Arguments"
+msgstr ""
+
+#. register parameter modifiers
+#: uParams.pas
+msgid "Path of file"
+msgstr ""
+
+#: uParams.pas
+msgid "Path without delimeter"
+msgstr ""
+
+#: uParams.pas
+msgid "File name"
+msgstr ""
+
+#: uParams.pas
+msgid "File extension"
+msgstr ""
+
+#: uParams.pas
+msgid "File extension without \".\""
+msgstr ""
+
+#: uParams.pas
+msgid "File name without extension"
+msgstr ""
+
+#: uParams.pas
+msgid "File drive"
+msgstr ""
+
+#: uParams.pas
+msgid "Expanded file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Expanded UNC file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Long file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Short file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Path with final path delimiter added"
+msgstr ""
+
+#: uParams.pas
+msgid "Path with final path delimiter removed"
+msgstr ""
+
+#: uParams.pas
+msgid "File type"
+msgstr ""
+
+#: uParams.pas
+msgid "Contents of text file"
+msgstr ""
+
+#: uParams.pas
+msgid "Command line parameter"
+msgstr ""
+
+#: uParams.pas
+msgid "Value of registry key"
+msgstr ""
+
+#: uParams.pas
+msgid "Value of environment variable"
+msgstr ""
+
+#: uParams.pas
+msgid "Upper case of string"
+msgstr ""
+
+#: uParams.pas
+msgid "Lower case of string"
+msgstr ""
+
+#: uParams.pas
+msgid "Quoted string"
+msgstr ""
+
+#: uParams.pas
+msgid "Unquoted string"
+msgstr ""
+
+#: uParams.pas
+msgid "Current date and time"
+msgstr ""
+
+#: uParams.pas
+msgid "Select file"
+msgstr ""
+
+#: uParams.pas
+msgid "Date of a date-time value"
+msgstr ""
+
+#: uParams.pas
+msgid "Time of a date-time value"
+msgstr ""
+
+#: uParams.pas
+msgid "Date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Creation date of a file"
+msgstr "Ημερομηνία δημιουργίας αρχείου"
+
+#: uParams.pas
+msgid "Last modification date of a file"
+msgstr "Ημερομηνία τελευταίας τροποποίησης αρχείου"
+
+#: uParams.pas
+msgid "Last access date of a file"
+msgstr "Ημερομηνία τελευταίας πρόσβασης στο αρχείο"
+
+#: uParams.pas
+msgid "Formatted date"
+msgstr ""
+
+#: uParams.pas
+msgid "Active document name"
+msgstr "Όνομα ενεργού αρχείου"
+
+#: uParams.pas
+msgid "The name or last run script"
+msgstr ""
+
+#: uParams.pas
+msgid "Project file name"
+msgstr "Όνομα αρχείου έργου"
+
+#: uParams.pas
+msgid "Modified files"
+msgstr ""
+
+#: uParams.pas
+msgid "Open files"
+msgstr ""
+
+#: uParams.pas
+msgid "Text of the active document or a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Current word in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Current line in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Current line number in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Selected text in the active document"
+msgstr ""

@@ -3,7 +3,7 @@
  Author:    Kiriakos Vlahos
  Date:      23-Apr-20018
  Purpose:   Encapsulate the creation of the internal Python engine.
-            Support multiple python versions and virtual environments.
+            Support multiple Python versions and virtual environments.
  History:
 -----------------------------------------------------------------------------}
 
@@ -31,10 +31,11 @@ type
 
   TInternalPython = class
   private
-    fPythonEngine : TPythonEngine;
+    fPythonEngine: TPythonEngine;
     fDebugIDE: TPythonModule;
     PyDelphiWrapper: TPyDelphiWrapper;
     PyscripterModule: TPythonModule;
+    fOldPath: String;
     procedure CreateDebugIDE;
     procedure CreatePyScripterModule;
     procedure CreatePythonEngine;
@@ -77,14 +78,13 @@ implementation
 
 uses
   WinApi.Windows,
+  System.UITypes,
+  System.StrUtils,
+  Vcl.Dialogs,
   VarPyth,
-  dmCommands,
-  frmPyIDEMain,
-  frmPythonII,
-  frmMessages,
-  frmUnitTests,
   SynHighlighterPython,
   cPyScripterSettings,
+  uEditAppIntfs,
   uCommonFunctions;
 
 { TInternalPython }
@@ -184,7 +184,7 @@ begin
   fPythonEngine.UseLastKnownVersion := False;
   fPythonEngine.AutoFinalize := False;
   fPythonEngine.InitThreads := True;
-  fPythonEngine.IO := PythonIIForm.PythonIO;
+  fPythonEngine.IO := GI_PyInterpreter.PythonIO;
   fPythonEngine.PyFlags := [pfInteractive];
   fPythonEngine.OnAfterInit := PythonEngineAfterInit;
 end;
@@ -208,9 +208,14 @@ procedure TInternalPython.DestroyPythonComponents;
 
 Var
   WasLoaded: Boolean;
+  RegVersion : string;
 begin
   WasLoaded := Loaded;
-  if WasLoaded then PyscripterModule.DeleteVar('IDEOptions');
+  if WasLoaded then begin
+    PyscripterModule.DeleteVar('IDEOptions');
+    RegVersion := fPythonEngine.RegVersion;
+    Delete(RegVersion, 2, 1);
+  end;
   FreeAndNil(fPythonEngine);  // Unloads Python Dll
   FreeAndNil(fDebugIDE);
   FreeAndNil(PyDelphiWrapper);
@@ -225,10 +230,16 @@ begin
     UnloadPythonDLL('win32file.pyd');
     UnloadPythonDLL('win32pipe.pyd');
     UnloadPythonDLL('win32event.pyd');
+    UnloadPythonDLL('_win32sysloader.pyd');
     UnloadPythonDLL('unicodedata.pyd');
     UnloadPythonDLL('_ctypes.pyd');
     UnloadPythonDLL('_hashlib.pyd');
-    //UnloadPythonDLL('pywintypes36.dll');
+    UnloadPythonDLL('_asyncio.pyd');
+    UnloadPythonDLL('_overlapped.pyd');
+    UnloadPythonDLL('_bz2.pyd');
+    UnloadPythonDLL('_lzma.pyd');
+    UnloadPythonDLL('_queue.pyd');
+    UnloadPythonDLL(PChar('pywintypes' + RegVersion + '.dll'));
   end;
 end;
 
@@ -274,24 +285,42 @@ begin
 end;
 
 function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
+Var
+  Path, NewPath : string;
 begin
   DestroyPythonComponents;
 
   CreatePythonComponents;
-  Version.AssignTo(PythonEngine);
-  // set environment variables
-  SetEnvironmentVariable('PYTHONHOME', '');
-  if not (Version.IsRegistered or Version.Is_venv) then begin
-    PythonEngine.SetPythonHome(Version.InstallPath);
-    SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
-  end;
+  try
+    Version.AssignTo(PythonEngine);
+    // set environment variables
+    if fOldPath <> '' then begin
+      SetEnvironmentVariable('PATH', PWideChar(fOldPath));
+      fOldPath := '';
+    end;
 
-  PythonEngine.LoadDll;
-  Result := PythonEngine.IsHandleValid;
-  if Result then begin
-    Initialize;
-  end else
-    DestroyPythonComponents;
+    SetEnvironmentVariable('PYTHONHOME', nil);  // delete it
+    if Version.Is_conda then begin
+      fOldPath := System.SysUtils.GetEnvironmentVariable('PATH');
+      if not ContainsText(Path, Version.InstallPath) then begin
+        NewPath := Format('%s;%0:s\Library\bin;', [Version.InstallPath]) + fOldPath;
+        SetEnvironmentVariable('PATH', PWideChar(NewPath));
+      end;
+    end;
+
+    PythonEngine.LoadDll;
+    Result := PythonEngine.IsHandleValid;
+    if Result then begin
+      Initialize;
+    end else
+      DestroyPythonComponents;
+  except
+    on E: Exception do begin
+      DestroyPythonComponents;
+      Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+      Result := False;
+    end;
+  end;
 end;
 
 procedure TInternalPython.MaskFPUExceptionsExecute(Sender: TObject; PSelf,
@@ -318,55 +347,24 @@ begin
         S := string(FName)
       else
         S := '';
-      MessagesWindow.AddMessage(string(Msg), S, LineNo, Offset);
+      GI_PyIDEServices.Messages.AddMessage(string(Msg), S, LineNo, Offset);
       Result := ReturnNone;
     end else
       Result := nil;
 end;
 
 procedure TInternalPython.PythonEngineAfterInit(Sender: TObject);
-Var
-  Keywords, Builtins, BuiltInMod : Variant;
-  i : integer;
 begin
   // Execute initialization script
   with PythonEngine do begin
     if IsPython3000 then
-      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript3000'])
+      ExecStrings(GI_PyIDEServices.GetStoredScript('InitScript3000'))
     else
-      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript'])
+      ExecStrings(GI_PyIDEServices.GetStoredScript('InitScript'));
   end;
 
-  // Setup Highlighter keywords
-  with CommandsDataModule do begin
-    SynPythonSyn.Keywords.Clear;
-    SynPythonSyn.Keywords.Sorted := False;
-    Keywords := Import('keyword').kwlist;
-    for i := 0 to Len(Keywords) - 1 do
-      SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
-    BuiltInMod := VarPyth.BuiltinModule;
-    Builtins := BuiltinMod.dir(BuiltinMod);
-    for i := 0 to Len(Builtins) - 1 do
-      SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
-    // add pseudo keyword self
-    SynPythonSyn.Keywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
-    SynPythonSyn.Keywords.Sorted := True;
-
-    with SynCythonSyn do begin
-      Keywords.Clear;
-      Keywords.Sorted := False;
-      Keywords.AddStrings(SynPythonSyn.Keywords);
-      AddCythonKeywords(SynCythonSyn.Keywords);
-      Keywords.Sorted := True;
-    end;
-
-    with (PythonIIForm.SynEdit.Highlighter as TSynPythonInterpreterSyn) do begin
-      Keywords.Clear;
-      Keywords.Sorted := False;
-      Keywords.AddStrings(SynPythonSyn.Keywords);
-      Keywords.Sorted := True;
-    end;
-  end;
+  // Update Highlighter keywords
+  GI_PyInterpreter.UpdatePythonKeywords;
 end;
 
 procedure TInternalPython.StatusWriteExecute(Sender: TObject; PSelf,
@@ -376,7 +374,7 @@ Var
 begin
   with PythonEngine do
     if PyArg_ParseTuple( args, 's:statusWrite', @Msg) <> 0 then begin
-      PyIDEMainForm.WriteStatusMsg(string(Msg));
+      GI_PyIDEServices.WriteStatusMsg(string(Msg));
       Result := ReturnNone;
     end else
       Result := nil;
@@ -385,7 +383,7 @@ end;
 procedure TInternalPython.testResultAddError(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddError(VarPythonCreate(Args).__getitem__(0),
+  GI_PyIDEServices.UnitTests.AddError(VarPythonCreate(Args).__getitem__(0),
     VarPythonCreate(Args).__getitem__(1));
   Result := PythonEngine.ReturnNone;
 end;
@@ -393,7 +391,7 @@ end;
 procedure TInternalPython.testResultAddFailure(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddFailure(VarPythonCreate(Args).__getitem__(0),
+  GI_PyIDEServices.UnitTests.AddFailure(VarPythonCreate(Args).__getitem__(0),
     VarPythonCreate(Args).__getitem__(1));
   Result := PythonEngine.ReturnNone;
 end;
@@ -401,21 +399,21 @@ end;
 procedure TInternalPython.testResultAddSuccess(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddSuccess(VarPythonCreate(Args).__getitem__(0));
+  GI_PyIDEServices.UnitTests.AddSuccess(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 
 procedure TInternalPython.testResultStartTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.StartTest(VarPythonCreate(Args).__getitem__(0));
+  GI_PyIDEServices.UnitTests.StartTest(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 
 procedure TInternalPython.testResultStopTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.StopTest(VarPythonCreate(Args).__getitem__(0));
+  GI_PyIDEServices.UnitTests.StopTest(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 

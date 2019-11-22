@@ -115,7 +115,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Gutter.Font.Style = []
         Gutter.Width = 0
         TabWidth = 4
-        FontSmoothing = fsmNone
       end
       object CBHighlighters: TComboBox
         Left = 400

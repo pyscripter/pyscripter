@@ -11,15 +11,35 @@ unit frmWebPreview;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, OleCtrls, ActiveX, SHDocVw, ImgList, uEditAppIntfs, TB2Item, TB2Dock,
-  TB2Toolbar, SpTBXItem, System.ImageList,
-  cTools, JclSysUtils;
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.ActiveX,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.OleCtrls,
+  Vcl.VirtualImageList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
+  SHDocVw,
+  Vcl.ImgList,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  JclSysUtils,
+  dmCommands,
+  uEditAppIntfs,
+  cTools;
 
 type
   TWebPreviewForm = class(TForm, IEditorView)
     WebBrowser: TWebBrowser;
-    Images: TImageList;
     TBXDock1: TSpTBXDock;
     TBXToolbar1: TSpTBXToolbar;
     ToolButtonForward: TSpTBXItem;
@@ -32,6 +52,7 @@ type
     TBXItem6: TSpTBXItem;
     TBXSeparatorItem4: TSpTBXSeparatorItem;
     TBXItem7: TSpTBXItem;
+    BrowserImages: TVirtualImageList;
     procedure ToolButtonBackClick(Sender: TObject);
     procedure ToolButtonForwardClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
@@ -70,7 +91,6 @@ implementation
 
 uses
   System.UITypes,
-  dmCommands,
   MSHTML,
   JvGnugettext,
   uCommonFunctions,
@@ -217,7 +237,6 @@ begin
   Result := TWebPreviewForm.Create(AOwner);
   if Assigned(ExternalTool) then
     Guard(ExternalTool, TWebPreviewForm(Result).IExternalToolGuard);
-  ScaleImageList(TWebPreviewForm(Result).Images, Screen.PixelsPerInch, 96);
 end;
 
 function TWebPreviewView.GetImageIndex: Integer;

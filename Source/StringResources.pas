@@ -2,7 +2,161 @@ unit StringResources;
 
 interface
 {gnugettext: scan-all}
+
 Const
+  // File Filters
+  sPythonFileFilter = 'Python Files (*.py;*.pyw)|*.py;*.pyw';
+  sCythonFileFilter = 'Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi';
+  sHTMLFileFilter = 'HTML Documents (*.htm;*.html)|*.htm;*.html';
+  sXMLFileFilter = 'XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd';
+  sCSSFileFilter = 'Cascading Stylesheets (*.css)|*.css';
+  sCPPFileFilter = 'C/C++ Files (*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu';
+  sYAMLFileFilter = 'YAML files (*.yaml)|*.yaml';
+  sJSFileFilter = 'Javascript Files (*.js)|*.js';
+  sPHPFileFilter = 'PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc';
+  sJSONFileFilter = 'JSON Files (*.json;*.ipynb)|*.json;*.ipynb';
+  sGeneralFileFilter = 'Text Files(*.txt,*.*)|*.txt;*.*';
+
+  // Editor commands
+  //Needs to be manually updated as new editor commands are added
+  SEdCmdAutoCompletion = 'Auto Completion';
+  SEdCmdBlockIndent = 'Block Indent';
+  SEdCmdBlockUnindent = 'Block Unindent';
+  SEdCmdClearAll = 'Clear All';
+  SEdCmdColumnSelect = 'Column Select';
+  SEdCmdCommentBlock = 'Comment Block';
+  SEdCmdContextHelp = 'Context Help';
+  SEdCmdCopy = 'Copy';
+  SEdCmdCopyLineDown = 'Copy Line Down';
+  SEdCmdCopyLineUp = 'Copy Line Up';
+  SEdCmdCut = 'Cut';
+  SEdCmdDeleteBOL = 'Delete BOL';
+  SEdCmdDeleteChar = 'Delete Char';
+  SEdCmdDeleteEOL = 'Delete EOL';
+  SEdCmdDeleteLastChar = 'Delete Last Char';
+  SEdCmdDeleteLastWord = 'Delete Last Word';
+  SEdCmdDeleteLine = 'Delete Line';
+  SEdCmdDeleteWord = 'Delete Word';
+  SEdCmdDown = 'Down';
+  SEdCmdEditorBottom = 'Editor Bottom';
+  SEdCmdEditorTop = 'Editor Top';
+  SEdCmdFoldAll = 'Fold All';
+  SEdCmdFoldLevel1 = 'Fold Level 1';
+  SEdCmdFoldLevel2 = 'Fold Level 2';
+  SEdCmdFoldLevel3 = 'Fold Level 3';
+  SEdCmdFoldNearest = 'Fold Nearest';
+  SEdCmdFoldRanges = 'Fold Ranges';
+  SEdCmdGotoBookmark0 = 'Goto Bookmark 0';
+  SEdCmdGotoBookmark1 = 'Goto Bookmark 1';
+  SEdCmdGotoBookmark2 = 'Goto Bookmark 2';
+  SEdCmdGotoBookmark3 = 'Goto Bookmark 3';
+  SEdCmdGotoBookmark4 = 'Goto Bookmark 4';
+  SEdCmdGotoBookmark5 = 'Goto Bookmark 5';
+  SEdCmdGotoBookmark6 = 'Goto Bookmark 6';
+  SEdCmdGotoBookmark7 = 'Goto Bookmark 7';
+  SEdCmdGotoBookmark8 = 'Goto Bookmark 8';
+  SEdCmdGotoBookmark9 = 'Goto Bookmark 9';
+  SEdCmdInsertLine = 'Insert Line';
+  SEdCmdInsertMode = 'Insert Mode';
+  SEdCmdLeft = 'Left';
+  SEdCmdLineBreak = 'Line Break';
+  SEdCmdLineEnd = 'Line End';
+  SEdCmdLineSelect = 'Line Select';
+  SEdCmdLineStart = 'Line Start';
+  SEdCmdLowerCase = 'Lower Case';
+  SEdCmdMatchBracket = 'Match Bracket';
+  SEdCmdMoveLineDown = 'Move Line Down';
+  SEdCmdMoveLineUp = 'Move Line Up';
+  SEdCmdNormalSelect = 'Normal Select';
+  SEdCmdOverwriteMode = 'Overwrite Mode';
+  SEdCmdPageBottom = 'Page Bottom';
+  SEdCmdPageDown = 'Page Down';
+  SEdCmdPageLeft = 'Page Left';
+  SEdCmdPageRight = 'Page Right';
+  SEdCmdPageTop = 'Page Top';
+  SEdCmdPageUp = 'Page Up';
+  SEdCmdPaste = 'Paste';
+  SEdCmdRedo = 'Redo';
+  SEdCmdRight = 'Right';
+  SEdCmdScrollDown = 'Scroll Down';
+  SEdCmdScrollLeft = 'Scroll Left';
+  SEdCmdScrollRight = 'Scroll Right';
+  SEdCmdScrollUp = 'Scroll Up';
+  SEdCmdSelectAll = 'Select All';
+  SEdCmdSelectDown = 'Select Down';
+  SEdCmdSelectEditorBottom = 'Select Editor Bottom';
+  SEdCmdSelectEditorTop = 'Select Editor Top';
+  SEdCmdSelectLeft = 'Select Left';
+  SEdCmdSelectLineEnd = 'Select Line End';
+  SEdCmdSelectLineStart = 'Select Line Start';
+  SEdCmdSelectPageBottom = 'Select Page Bottom';
+  SEdCmdSelectPageDown = 'Select Page Down';
+  SEdCmdSelectPageLeft = 'Select Page Left';
+  SEdCmdSelectPageRight = 'Select Page Right';
+  SEdCmdSelectPageTop = 'Select Page Top';
+  SEdCmdSelectPageUp = 'Select Page Up';
+  SEdCmdSelectRight = 'Select Right';
+  SEdCmdSelectUp = 'Select Up';
+  SEdCmdSelectWord = 'Select Word';
+  SEdCmdSelectWordLeft = 'Select Word Left';
+  SEdCmdSelectWordRight = 'Select Word Right';
+  SEdCmdSetBookmark0 = 'Set Bookmark 0';
+  SEdCmdSetBookmark1 = 'Set Bookmark 1';
+  SEdCmdSetBookmark2 = 'Set Bookmark 2';
+  SEdCmdSetBookmark3 = 'Set Bookmark 3';
+  SEdCmdSetBookmark4 = 'Set Bookmark 4';
+  SEdCmdSetBookmark5 = 'Set Bookmark 5';
+  SEdCmdSetBookmark6 = 'Set Bookmark 6';
+  SEdCmdSetBookmark7 = 'Set Bookmark 7';
+  SEdCmdSetBookmark8 = 'Set Bookmark 8';
+  SEdCmdSetBookmark9 = 'Set Bookmark 9';
+  SEdCmdShiftTab = 'Shift Tab';
+  SEdCmdTab = 'Tab';
+  SEdCmdTitleCase = 'Title Case';
+  SEdCmdToggleCase = 'Toggle Case';
+  SEdCmdToggleInsertMode = 'Toggle Mode';
+  SEdCmdUndo = 'Undo';
+  SEdCmdUnfoldAll = 'Unfold All';
+  SEdCmdUnfoldLevel1 = 'Unfold Level 1';
+  SEdCmdUnfoldLevel2 = 'Unfold Level 2';
+  SEdCmdUnfoldLevel3 = 'Unfold Level 3';
+  SEdCmdUnfoldNearest = 'Unfold Nearest';
+  SEdCmdUnfoldRanges = 'Unfold Ranges';
+  SEdCmdUp = 'Up';
+  SEdCmdUpperCase = 'Upper Case';
+  SEdCmdWordLeft = 'Word Left';
+  SEdCmdWordRight = 'Word Right';
+  // User editor commands
+  SEdCmdCodeCompletion = 'Code Completion';
+  SEdCmdParameterCompletion = 'Parameter Completion';
+  SEdCmdSelectToBracket = 'Select to Bracket';
+
+  // Delphi dialogs (from Vcl.Consts)
+  srNone = '(None)';
+  SDlgWarning = 'Warning';
+  SDlgError = 'Error';
+  SDlgInformation = 'Information';
+  SDlgConfirm = 'Confirm';
+  SDlgYes = '&Yes';
+  SDlgNo = '&No';
+  SDlgOK = 'OK';
+  SDlgCancel = 'Cancel';
+  SDlgHelp = '&Help';
+  SDlgHelpHelp = 'Help';
+  SDlgAbort = '&Abort';
+  SDlgRetry = '&Retry';
+  SDlgIgnore = '&Ignore';
+  SDlgAll = '&All';
+  SDlgNoToAll = 'N&o to All';
+  SDlgYesToAll = 'Yes to &All';
+  SDlgClose = '&Close';
+
+  STrueValue = 'True';
+  SFalseValue = 'False';
+
+  SDSActkShowText = 'Do not show this dialog again';
+  SDSActkRememberText = 'Remember answer and do not show again';
+
   SInternalError = 'Internal Error in %s';
   SNotFound = '"%s" not found';
   SItemsReplaced = '%d items found and %d" items replaced';
@@ -15,40 +169,27 @@ Const
   SInvalidRegularExpression = 'Invalid Regular Expression: %s';
   SEmptyList = '(Empty List)';
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
-  SEngineActive = '*** %s Python engine %sis active ***';
+  SEngineActive = '*** %s Python engine is active ***';
   SInterpreterNA = 'The internal Python interpreter is not available';
-  SPythonInitError =
-  'PyScripter cannot find the standard Python library modules.' + SLineBreak +
-  'This sounds like a Python installation error.  Please check the Windows Registry key ' + SLineBreak +
-  '    HKEY_LOCAL_MACHINE\SOFTWARE\Python\PythonCore\x.y  or ' + SLineBreak +
-  '    HKEY_CURRENT_USER\SOFTWARE\Python\PythonCore\x.y' + SLineBreak +
-  'for a single user installation of Python.  ("x.y" stands for the version of Python).' + SLineBreak +
-  'In a proper installation the key should exist and the "InstallPath" and "PythonPath" variables defined.' + SLineBreak +
-  'Also check the PYTHONHOME and PYTHONPATH environment variables to see whether they conflict with the Python version used.' ;
   SPythonLoadError =
   'PyScripter could not load a Python engine' + SLineBreak +
   '**Before** using PyScripter, you must ensure that a version of Python' + SLineBreak +
   'greater or equal to 2.6 is installed on your machine. If you do not have one' + SLineBreak +
   'installed, you can download one from http://www.python.org/.' + SLineBreak +  SLineBreak +
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
-  'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
-  '32-bit and 64-bit Windows with 32-bit versions of Python';
+  'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + SLineBreak +
+  '32-bit and 64-bit Windows with 32-bit versions of Python.';
   SPythonFindError =
   'PyScripter could not find a usable Python installation at the specified path.' + SLineBreak +
   'Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
-  'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
-  '32-bit and 64-bit Windows with 32-bit versions of Python';
-  SCouldNotShutDownRemoteEngine =
-  'PyScripter is waiting for the remote engine to shut-down for a long time without success.' + SLineBreak +
-  'This might mean that either the system is very busy or more likely something is preventing' + SLineBreak +
-  'the remote engine from shutting down, such as waiting in a blocked state.' + SLineBreak +
-  'You can use the task manager to kill the engine (appears as a process "python.exe")' + SLineBreak +
-  'and then reinitialize the remote engine.  Alternatively, you can close down and restart PyScripter';
-  SPostMortemInfo = 'You are now in post-mortem analysis mode.  You can examine the Call Stack, ' +
+  'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + SLineBreak +
+  '32-bit and 64-bit Windows with 32-bit versions of Python.';
+  SPostMortemInfo = 'You are now in post-mortem analysis mode.' + SLineBreak +
+                    'You can examine the Call Stack, ' +
                     'Variables and Watches windows, evaluate expressions etc.' + SLineBreak +
-                    'To exit the post-mortem analysis select the Abort Debugging command.';
+                    'To exit the post-mortem analysis select the ''Abort Debugging'' command.';
   SFileEncodingWarning = 'Encoding file "%s" using "%s" encoding will ' +
-                        'result in information loss.  Do you want to proceed?';
+                        'result in information loss.' + SLineBreak + 'Do you want to proceed?';
   SDecodingError = 'Error in decoding file "%s" from "%s" encoding';
   SFileOpenError = 'Error in opening file: "%s".' + sLineBreak + 'Error: %s';
   SFileSaveError = 'Error in saving file: "%s".' + sLineBreak +'Error: %s';
@@ -57,18 +198,19 @@ Const
   SCannotCompileWhileRunning = 'You cannot compile, import or run modules while debugging or running programs';
   SErrorInImportingModule = 'Error in importing module';
   SCouldNotSetCurrentDir = 'Could not set the current directory to the script path';
-  SRemoteServerNotConnected = 'Remote Server is not connected.  Please reinitialize or disconnect the remote  interpreter.';
-  SRpycNotAvailable = 'The Rpyc module is not available.  To use the remote Python Engine '+
-    'download Rpyc from http://Rpyc.sf.net and install it.';
-  SWrongRpycVersion = 'Wrong Rpyc version.  To use the remote Python Engine '+
-        'download version 2.6 Rpyc from http://Rpyc.sf.net and install it.';
+  SRemoteServerNotConnected = 'Remote Server is not connected.' + SLineBreak +
+                              'Please reinitialize or disconnect the remote interpreter.';
+  SRpycNotAvailable = 'The ''rpyc'' package is not available.' + SLineBreak +
+                      'Please restart PyScripter and try again.' + SLineBreak +
+                      'If the error persists reinstall PyScripter.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
   SCouldNotConnectRemoteEngine = 'Could not connect to the remote Python engine server. '+
         'The remote interpreter and debugger is not available.';
   SRemoteInterpreterInit = '*** Remote Interpreter Reinitialized  ***';
   SSameName = 'Another item has the same name';
-  SCodeTemplateModified = 'The template has been modified.  Do you want to update it with the new definition?';
+  SCodeTemplateModified = 'The template has been modified.' + SLineBreak +
+                          'Do you want to update it with the new definition?';
   SInvalidNumber = 'Invalid number!';
   SEmptyTokenTextError = 'You cannot insert a token that only consists of white space.';
   SAccessAppDataDir = 'Pyscripter needs access to the User Application Data directory: "%s". '+
@@ -80,16 +222,20 @@ Const
   SRegistryAccessDenied = 'Registry access denied. Could not change the file association.';
   SErrorWhileDownload = 'Error while downloading: ';
   SCurrentVersionUptodate = 'Current version is up-to-date!';
-  SKillExternalTool = 'An External Tool is still running.  Do you want to terminate it and exit?';
-  STerminateInterpreter = 'The Python interpreter is busy.  Are you sure you want to terminate it?';
+  SKillExternalTool = 'An External Tool is still running.' + SLineBreak +
+                      'Do you want to terminate it and exit?';
+  STerminateInterpreter = 'The Python interpreter is busy.' + SLineBreak +
+                          'Are you sure you want to terminate it?';
   SFindDefinitionWarning = 'This is the definition of "%s"';
   SPlaceCursorOnName = 'Please place the cursor on a function/class name or identifier';
   SCannotChangeEngine = 'Cannot change the Python engine while it is active.';
   SCouldNotOpenOutputFile = 'Could not open/create output file %s';
   SUnknownPythonVersion = 'PyScripter can''t use command line parameter PYTHON%s because it doesn''t know this version of Python.';
   SUnsupportedPythonVersion = 'PyScripter can''t use command line parameter PYTHON%s because it was compiled for Python %s or later.';
-  SAbortDebugging = 'A debugging session is in progress.  Do you want to abort the session and Exit?';
-  SInterruptRunningScript = 'The Python Script has timed out.  Do you want to interrupt it?';
+  SAbortDebugging = 'A debugging session is in progress.' + SLineBreak +
+                    'Do you want to abort the session and Exit?';
+  SInterruptRunningScript = 'The Python Script has timed out.' + SLineBreak +
+                            'Do you want to interrupt it?';
   SNoTestsFound = 'No tests found!';
   SDuplicateKey = 'Duplicate Key';
   SChangedFilesReloaded = 'Changed files have been reloaded';
@@ -132,9 +278,9 @@ Const
   SDeleteLayouts = 'Delete Layouts';
   SSelectLayouts = 'Please select the layouts you want to delete and press the OK button:';
   SSaveModifiedFiles = 'Save modified files';
-  SSelectModifiedFiles = 'The following files have been modified.'+
-    ' Please select the files that you wish to save and press the OK button. '+
-    ' Press Cancel to go back to PyScripter';
+  SSelectModifiedFiles = 'The following files have been modified.' + SLineBreak +
+    'Press ''OK'' to save selected files and exit.'+ SLineBreak +
+    'Press ''Cancel'' to return to PyScripter without saving files.';
   SImportHighlighters = 'Import Highlighters';
   SImportShortcuts = 'Import Shortcuts';
   SSaveAs = 'Save "%s" As';
@@ -155,11 +301,13 @@ Const
   SErrorInitScript = 'Error in running initialization script %s: "%s"';
   SOpenDialogFilter = 'Open dialog %s filter';
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
-  SNoJupyter = 'Jupyter is not available.  Please install jupiter first';
-  SExternalProcessRunning = 'An external process is stil running.  Please terminate it first from the Output Window';
+  SNoJupyter = 'The ''jupyter'' package is not available.' + SLineBreak + 'Please install ''jupyter'' first.';
+  SExternalProcessRunning = 'An external process is still running.' + SLineBreak +
+                            'Please terminate it first from the ''Output'' window.';
 
   //  Project Manager
-  SAskSaveProject = 'The active project has not been saved.  Do you want to save the changes?';
+  SAskSaveProject = 'The active project has not been saved.' + SLineBreak +
+                    'Do you want to save the changes?';
   SFailedToBackupProject = 'Failed to backup project "%s"';
   SErrorInOpeningProject = 'Error in opening project: "%s".';
   SErrorInSavingProject = 'Error in saving project: "%s".';
@@ -190,7 +338,7 @@ Const
   SMatches = '%d matches';
   SMatchContextNotAvail = 'Unable to load match context lines';
   SProcessing = 'Processing %s';
-  SFileChangedAbort = '%s' + sLineBreak + 'has changed since it was searched.  Replacement aborted.'
+  SFileChangedAbort = '%s' + sLineBreak + 'has changed since it was searched. Replacement aborted.'
     + sLineBreak + 'Expected: %s' + sLineBreak + 'Found: %s';
   SFileSkipped   = 'The following file will be skipped: ';
   SCouldNotBackup= 'Could not backup file "%s" and will skip it';
@@ -217,8 +365,10 @@ Const
   SNonameFileTitle = 'Untitled';
   SNonamePythonFileTitle = 'module';
   SAskSaveChanges = 'The text in the "%s" file has changed.'#13#10#13#10 + 'Do you want to save the modifications?';
-  SFileReloadingWarning = 'Reloading the file will result in the loss of all changes.  Do you want to proceed?';
-  SFileAlreadyOpen = 'Another editor with the same file is open.  You can not have two editors with the same file.';
+  SFileReloadingWarning = 'Reloading the file will result in the loss of all changes.' + SLineBreak +
+                          'Do you want to proceed?';
+  SFileAlreadyOpen = 'Another editor with the same file is open.' + SLineBreak +
+                     'You can not have two editors with the same file.';
 
   // Parameters
   SEnterParameterCaption = 'Parameter replacement';
@@ -245,6 +395,8 @@ Const
   SCouldNotFindModule = 'Could not find module: "%s"';
   SSelfOutsideClassScope = '"self" or "cls" used outside a class scope';
   SCouldNotFindIdentInScope = 'Could not find identifier "%s" in scope "%s"';
+  SCouldNotInferType = 'Could not infer type from expresson "%s"';
+  SCouldInferFunctionReturnType = 'Could not infer return type of function "%s"';
   SRefactoryEngineBusy = 'Refactoring engine is busy';
   SPythonKeyword = 'Python keyword';
 
@@ -257,6 +409,8 @@ Const
   SHTMLFileTemplateName = 'HTML Document';
   STextFileTemplateName = 'Text File';
   SXMLTemplateName = 'XML Document';
+  SJSONTemplateName = 'JSON File';
+  SYAMLTemplateName = 'YAML File';
   SJSTemplateName = 'JavaScript Code';
   SPHPTemplateName = 'PHP Code';
   SJupyterTemplateName = 'Jupyter Notebook';
@@ -272,14 +426,19 @@ Const
   SRemoteFileSelect = 'Select Remote File';
   SErrorEmptyPath = 'File Path cannot be empty';
   SErrorEmptySSH =  'The SSH server name cannot be empty';
-  SScpError4 = 'Scp Error: Connecting to host failed';
-  SScpError5 = 'Scp Error: Connection lost for some reason';
-  SScpOtherError = 'Scp Error: Unspecified failure';
-  SSSHUnknownServer = 'Unknown server "%s"';
-  SSSHPythonError = 'Failed to execute Python ("%s") on the SSH server';
-  SSHVersionMismatch = 'Local python version is %s and remote python version is %s. '+
-    'To use this SSH server please switch to python version %1:s';
-  SSHUnknownServer = 'Unknown SSH server: "%s"';
+  SScpError4 = 'SCP Error: Connecting to host failed';
+  SScpError5 = 'SCP Error: Connection lost for some reason';
+  SScpErrorTimeout = 'SCP Error: Timeout';
+  SScpErrorOther = 'SCP Error:'+#13#10+'Output: %s+'+#13#10+'Error Output: %s+';
+  SSHUnknownServer = 'Unknown SSH server "%s"';
+  SSHUnknownServerQuery = 'Unknown SSH server with fingerprint "%s". Do you want to proceed?';
+  SSHPythonTimeout = 'Execution of Python ("%s") on the SSH server timed out';
+  SSHPythonError = 'Failed to execute Python ("%s") on the SSH server:'+#13#10+
+     'ReturnCode: %d'+#13#10+
+     'Output: %s'+#13#10+
+     'ErrorOutput: %s';
+  SSHVersionMismatch = 'Local Python version is %s and remote Python version is %s. '+
+    'To use this SSH server please switch to Python version %1:s.';
 
   // do not localize further
 
@@ -332,6 +491,8 @@ Const
     '    main()';
   SXMLFileTemplate =
     '<?xml version="1.0" encoding="UTF-8"?>' + sLineBreak;
+  SJSONFileTemplate ='{'+ SLineBreak + SLineBreak + '}';
+  SYAMLFileTemplate = '---'+ SLineBreak + SLineBreak + '...';
   SCSSFileTemplate = // do not localize
     'BODY {' + sLineBreak +
     '' + sLineBreak +

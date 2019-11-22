@@ -13,18 +13,39 @@ interface
 Uses
   System.SysUtils,
   System.Classes,
+  System.RegularExpressions,
   PythonEngine,
-  SynRegExpr,
+  uEditAppIntfs,
   cTools;
 
 type
    { The available types of PythonEngines }
    TPythonEngineType =
      (peInternal,   // always available - used to communicate with external ones
-      peRemote,     // rpyc based external python - default
+      peRemote,     // rpyc based external Python - default
       peRemoteTk,   // specialized engines used to run GUI scripts
       peRemoteWx,
-      peSSH);       // SSH python engine
+      peSSH);       // SSH Python engine
+
+const
+  EngineTypeName : array [TPythonEngineType] of string =
+    ('Internal', 'Remote', 'Remote TK', 'Remote Wx', 'SSH');
+
+type
+  TEditorPos = record
+  public
+    [weak] Editor : IEditor;
+    Line : integer;
+    Char : integer;
+    IsSyntax : Boolean;
+    ErrorMsg : string;
+    procedure Clear;
+    procedure NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+      IsSyntaxError : Boolean = False; AErrorMsg : string = '');
+    class function EmptyPos: TEditorPos; static;
+    class function NPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+      IsSyntaxError : Boolean = False; AErrorMsg : string = ''): TEditorPos; static;
+  end;
 
   {
      Container of all info needed to run a given file
@@ -64,12 +85,12 @@ type
 
   { Python related regular expressions }
   TPyRegExpr = class
-    class var BlockOpenerRE : TRegExpr;
-    class var BlockCloserRE : TRegExpr;
-    class var CodeCommentLineRE : TRegExpr;
-    class var NonExecutableLineRE : TRegExpr;
+    class var BlockOpenerRE : TRegEx;
+    class var BlockCloserRE : TRegEx;
+    class var CodeCommentLineRE : TRegEx;
+    class var NonExecutableLineRE : TRegEx;
+    class var FunctionCallRE : TRegEx;
     class constructor Create;
-    class destructor Destroy;
     class function IsBlockOpener(S : string) : Boolean;
     class function IsBlockCloser(S : string) : Boolean;
     class function IsExecutableLine(Line : string) : Boolean;
@@ -80,13 +101,14 @@ procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
   ThreadExecMode : TThreadExecMode = emNewState);
 
 Const
-  IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
-  DottedIdentRE = '[A-Za-z_][A-Za-z0-9_\.]*';
+  IdentRE = '[_\p{L}]\w*';
+  DottedIdentRE = '[_\p{L}][\w\.]*';
 
 implementation
 
 Uses
-  Winapi.Windows;
+  Winapi.Windows,
+  uCommonFunctions;
 
 { TRunConfiguration }
 
@@ -141,43 +163,30 @@ begin
   fExternalRun.Assign(Value);
 end;
 
-
 { TPyRegExpr }
 
 class constructor TPyRegExpr.Create;
 begin
-  TPyRegExpr.BlockOpenerRE := TRegExpr.Create;
-  TPyRegExpr.BlockOpenerRE.Expression := ':\s*(#.*)?$';
-  TPyRegExpr.BlockCloserRE := TRegExpr.Create;
-  TPyRegExpr.BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
-  TPyRegExpr.NonExecutableLineRE := TRegExpr.Create;
-  TPyRegExpr.NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
-  TPyRegExpr.CodeCommentLineRE := TRegExpr.Create;
-  TPyRegExpr.CodeCommentLineRE.Expression := '^([ \t]*)##';
-  TPyRegExpr.CodeCommentLineRE.ModifierM := True;
-end;
-
-class destructor TPyRegExpr.Destroy;
-begin
-  TPyRegExpr.BlockOpenerRE.Free;
-  TPyRegExpr.BlockCloserRE.Free;
-  TPyRegExpr.NonExecutableLineRE.Free;
-  TPyRegExpr.CodeCommentLineRE.Free;
+  BlockOpenerRE.Create(':\s*(#.*)?$');
+  BlockCloserRE.Create('\s*(return|break|continue|raise|pass)\b');
+  CodeCommentLineRE.Create('^([ \t]*)##', [roNotEmpty, roMultiLine]);
+  NonExecutableLineRE.Create('(^\s*(class|def)\b)|(^\s*#)|(^\s*$)');
+  FunctionCallRE := CompiledRegEx(Format('^[ \t]*(%s)(\(?)', [DottedIdentRE]));
 end;
 
 class function TPyRegExpr.IsBlockCloser(S: string): Boolean;
 begin
-  Result := TPyRegExpr.BlockCloserRE.Exec(S);
+  Result := TPyRegExpr.BlockCloserRE.IsMatch(S);
 end;
 
 class function TPyRegExpr.IsBlockOpener(S: string): Boolean;
 begin
-  Result := TPyRegExpr.BlockOpenerRE.Exec(S);
+  Result := TPyRegExpr.BlockOpenerRE.IsMatch(S);
 end;
 
 class function TPyRegExpr.IsExecutableLine(Line: string): Boolean;
 begin
-  Result := not ((Line = '') or TPyRegExpr.NonExecutableLineRE.Exec(Line));
+  Result := not ((Line = '') or TPyRegExpr.NonExecutableLineRE.IsMatch(Line));
 end;
 
 { TAnonymousPythonThread }
@@ -238,5 +247,48 @@ begin
 end;
 
 
+{ TEditorPos }
+
+class function TEditorPos.EmptyPos: TEditorPos;
+begin
+  with Result do begin
+    Editor := nil;
+    Line := -1;
+    Char := -1;
+    IsSyntax := False;
+    ErrorMsg := '';
+  end;
+end;
+
+procedure TEditorPos.NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+                 IsSyntaxError : Boolean = False; AErrorMsg : string = '');
+begin
+  Editor := AEditor;
+  Line := ALine;
+  Char := AChar;
+  IsSyntax := IsSyntaxError;
+  ErrorMsg := AErrorMsg;
+end;
+
+class function TEditorPos.NPos(AEditor: IEditor; ALine, AChar: integer;
+  IsSyntaxError: Boolean; AErrorMsg: string): TEditorPos;
+begin
+  with Result do begin
+    Editor := AEditor;
+    Line := ALine;
+    Char := AChar;
+    IsSyntax := IsSyntaxError;
+    ErrorMsg := AErrorMsg;
+  end;
+end;
+
+procedure TEditorPos.Clear;
+begin
+  Editor := nil;
+  Line := -1;
+  Char := -1;
+  IsSyntax := False;
+  ErrorMsg := '';
+end;
 
 end.

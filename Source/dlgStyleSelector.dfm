@@ -1881,18 +1881,6 @@ object StyleSelectorForm: TStyleSelectorForm
     Height = 400
     TabOrder = 1
   end
-  object Button1: TSpTBXButton
-    Left = 188
-    Top = 446
-    Width = 105
-    Height = 25
-    Caption = '&Apply Style'
-    Action = ActionApplyStyle
-    Anchors = [akLeft, akBottom]
-    TabOrder = 0
-    Default = True
-    ModalResult = 1
-  end
   object Button2: TButton
     Left = 424
     Top = 446
@@ -1913,12 +1901,23 @@ object StyleSelectorForm: TStyleSelectorForm
     OnClick = LBStyleNamesClick
     OnDblClick = ActionApplyStyleExecute
   end
+  object Button1: TButton
+    Left = 188
+    Top = 446
+    Width = 105
+    Height = 25
+    Action = ActionApplyStyle
+    Anchors = [akLeft, akBottom]
+    Default = True
+    ModalResult = 1
+    TabOrder = 0
+  end
   object ActionManager1: TActionManager
     Left = 296
     Top = 344
     StyleName = 'Platform Default'
     object ActionApplyStyle: TAction
-      Caption = 'Apply Style'
+      Caption = '&Apply Style'
       OnExecute = ActionApplyStyleExecute
       OnUpdate = ActionApplyStyleUpdate
     end

@@ -99,7 +99,9 @@ var
 implementation
 
 uses
-  Vcl.Graphics, Vcl.Themes;
+  Vcl.Graphics,
+  Vcl.Themes,
+  uCommonFunctions;
 
 
 
@@ -263,7 +265,7 @@ begin
   HtLabel.SetBounds(2, 2, 0, 0);
 
   { TODO : Allow customization of these colors }
-  HtLabel.Font.Name := 'Consolas';
+  HtLabel.Font.Name := DefaultCodeFontName;
   HtLabel.Font.Size := 10;
   HtLabel.Transparent := True;
 end;

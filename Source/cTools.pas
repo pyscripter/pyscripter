@@ -10,7 +10,9 @@ unit cTools;
 
 interface
 uses
-  SysUtils, Classes, ActnList;
+  System.SysUtils,
+  System.Classes,
+  Vcl.ActnList;
 
 type
   TProcessStdInputOption = (piNone, piWordAtCursor, piCurrentLine, piSelection,
@@ -20,6 +22,10 @@ type
   TToolContext = (tcAlwaysEnabled, tcActiveFile, tcActivePythonFile, tcSelectionAvailable);
 
   TSaveFiles = (sfNone, sfActive, sfAll);
+
+  TExternalTool = class;
+
+  TExternalToolExecute = procedure(Tool: TExternalTool) of object;
 
   {
      Describes the properties of a command line tool
@@ -48,8 +54,10 @@ type
     procedure SetEnvironment(const Value: TStrings);
     function IsMessageFormatStore: Boolean;
   public
+    class var ExternalToolExecute: TExternalToolExecute;
     constructor Create;
     destructor Destroy; override;
+    procedure Execute;
     procedure Assign(Source: TPersistent); override;
   published
     // The caption of the Menu Item corresponding to this tool
@@ -146,7 +154,6 @@ type
     constructor CreateExtToolAction(AOwner: TComponent; ExternalTool : TExternalTool);
   end;
 
-
 { Expands environment variables }
 function ExpandEnv(const S: string): string;
 { Surrounds string with quotes when it contains spaces and is not quoted }
@@ -167,8 +174,15 @@ Var
 
 implementation
 
-uses Windows, cParameters, Menus, frmCommandOutput,
-  dmCommands, uCommonFunctions, uEditAppIntfs;
+uses
+  Winapi.Windows,
+  Vcl.Menus,
+  JclStrings,
+  JvGnuGetText,
+  cParameters,
+  uEditAppIntfs,
+  uCommonFunctions,
+  cPyScripterSettings;
 
 
 function ExpandEnv(const S: string): string;
@@ -218,7 +232,7 @@ end;
 
 function TToolItem.GetDisplayName: string;
 begin
-  Result := fExternalTool.Caption;
+  Result := StrRemoveChars(_(fExternalTool.Caption), ['&']);
 end;
 
 { TExternalTool }
@@ -271,6 +285,12 @@ begin
   inherited;
 end;
 
+procedure TExternalTool.Execute;
+begin
+  if Assigned(ExternalToolExecute) then
+    ExternalToolExecute(Self);
+end;
+
 function TExternalTool.IsMessageFormatStore: Boolean;
 begin
   Result := fParseMessages and (fMessagesFormat <> (GrepFileNameParam + ' ' + GrepLineNumberParam));
@@ -295,36 +315,33 @@ constructor TExternalToolAction.CreateExtToolAction(AOwner: TComponent;
 var
   S: string;
   AppFile: string;
-  Index: Integer;
 begin
   inherited Create(AOwner);
   fExternalTool := ExternalTool;
   if Assigned(fExternalTool) then begin
     ShortCut := fExternalTool.ShortCut;
-    Caption := fExternalTool.Caption;
-    S := StringReplace(Caption, ' ', '', [rfReplaceAll]);
-    S := StringReplace(S, '&', '', [rfReplaceAll]);
-    S := StringReplace(S, '.', '', [rfReplaceAll]);  // Fix error reported by David Funtowiez
+    Caption := _(fExternalTool.Caption);
+    S := StrRemoveChars(Caption , [' ', '&', '.']);  // Fix error reported by David Funtowiez
     if IsValidIdent(S) then
       Name := 'actTools' + S;
     Category := 'External Tools';
-    Hint := fExternalTool.Description;
+    Hint := _(fExternalTool.Description);
     ImageIndex := -1;
     if (fExternalTool.ApplicationName <> '') then begin
       AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
-      if FileExists(AppFile) then begin
-        Index := GetIconIndexFromFile(AppFile, True);
-        ImageIndex :=
-          CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index) - 1;
-      end;
+      if FileExists(AppFile) then
+        ImageIndex := GetIconIndexFromFile(AppFile, True);
     end;
   end;
 end;
 
 function TExternalToolAction.Execute: Boolean;
 begin
-  if Assigned(fExternalTool) then begin
-    OutputWindow.ExecuteTool(fExternalTool);
+  if Assigned(fExternalTool) and Assigned(fExternalTool.ExternalToolExecute) then begin
+    TThread.ForceQueue(nil, procedure
+    begin
+      fExternalTool.Execute;
+    end);
   end;
   Result := True;
 end;
@@ -349,8 +366,8 @@ initialization
   ToolsCollection := TCollection.Create(TToolItem);
   // Add a few standard tools to the collection
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Python &Interpreter';
-    Description := 'External Python Interpreter';
+    Caption := _('Python &Interpreter');
+    Description := _('External Python Interpreter');
     ApplicationName := '$[PythonExe-Short]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     SaveFiles := sfAll;
@@ -361,8 +378,8 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Install Packages with pip';
-    Description := 'Install python packages';
+    Caption := _('Install Packages with pip');
+    Description := _('Install Python packages');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Lib\site-packages\pip install $[Package?Package Name]';
     ParseMessages := False;
@@ -372,8 +389,8 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Python&Win help';
-    Description := 'Show Python Win Help';
+    Caption := _('Python&Win help');
+    Description := _('Show PythonWin Help');
     ApplicationName := '$[PythonExe-Path-Short]Lib\site-packages\PyWin32.chm';
     ParseMessages := False;
     CaptureOutput := False;
@@ -382,12 +399,12 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Check &Indentation';
-    Description := 'Check the Indentation of the Python program';
+    Caption := _('Check &Indentation');
+    Description := _('Check the indentation of the Python program');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Lib\tabnanny.py $[ActiveDoc-Short]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
-    ShortCut := Menus.Shortcut(Ord('T'), [ssShift, ssCtrl]);
+    ShortCut := Vcl.Menus.Shortcut(Ord('T'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
     SaveFiles := sfActive;
     ParseTraceback := True;
@@ -399,8 +416,8 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Command Prompt';
-    Description := 'Start a console at the directory of the active file';
+    Caption := _('Command Prompt');
+    Description := _('Start a console at the directory of the active file');
     ApplicationName := '%COMSPEC%';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     SaveFiles := sfAll;
@@ -411,8 +428,8 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Profile';
-    Description := 'Profile active file';
+    Caption := _('Profile');
+    Description := _('Profile active file');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Lib\profile.py $[ActiveDoc-Short] $[CmdLineArgs]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
@@ -426,10 +443,10 @@ initialization
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := 'Py&lint';
-    Description := 'PyLint tool (www.logilab.org/projects/pylint)';
+    Description := _('PyLint tool (www.logilab.org/projects/pylint)');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Lib\site-packages\pylint\lint.py $[ActiveDoc-Short] -f parseable';
-    ShortCut := Menus.Shortcut(Ord('L'), [ssCtrl]);
+    ShortCut := Vcl.Menus.Shortcut(Ord('L'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
     SaveFiles := sfAll;
     ParseTraceback := True;
@@ -441,8 +458,8 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Advanced Replace';
-    Description := 'Advanced Search and replace';
+    Caption := _('Advanced Replace');
+    Description := _('Advanced Search and replace');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '-c "import sys, re;l=sys.stdin.read();sys.stdout.write(re.sub(''$[st?Search Text:]'', ''$[rt?Replace Text:]'', l))"';
     Context := tcSelectionAvailable;
@@ -456,11 +473,11 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Sort Selection';
-    Description := 'Sort the selected editor block ("one-liner" demo)';
+    Caption := _('Sort Selection');
+    Description := _('Sort the selected editor block ("one-liner" demo)');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '-c "import sys;l=sys.stdin.readlines();l.sort();sys.stdout.writelines(l)"';
-    ShortCut := Menus.Shortcut(Ord('S'), [ssShift, ssCtrl]);
+    ShortCut := Vcl.Menus.Shortcut(Ord('S'), [ssShift, ssCtrl]);
     Context := tcSelectionAvailable;
     SaveFiles := sfNone;
     ProcessInput := piSelection;
@@ -472,8 +489,8 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := '&Reindent';
-    Description := 'Reindent the active file';
+    Caption := _('&Re-indent');
+    Description := _('Re-indent the active file');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Tools\Scripts\reindent.py';
     Context := tcActivePythonFile;
@@ -486,41 +503,11 @@ initialization
     WaitForTerminate := True;
   end;
 
-  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := '&Upper Case';
-    Description := 'Change selection to upper case';
-    ApplicationName := '$[PythonExe-Short]';
-    Parameters := '-c "import sys;sys.stdout.writelines([s.upper() for s in sys.stdin.readlines()])"';
-    Context := tcSelectionAvailable;
-    SaveFiles := sfNone;
-    ProcessInput := piSelection;
-    ProcessOutput := poSelection;
-    ParseMessages := False;
-    CaptureOutput := False;
-    ConsoleHidden := True;
-    WaitForTerminate := True;
-  end;
-
-  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := '&Lower Case';
-    Description := 'Change selection to lower case';
-    ApplicationName := '$[PythonExe-Short]';
-    Parameters := '-c "import sys;sys.stdout.writelines([s.lower() for s in sys.stdin.readlines()])"';
-    Context := tcSelectionAvailable;
-    SaveFiles := sfNone;
-    ProcessInput := piSelection;
-    ProcessOutput := poSelection;
-    ParseMessages := False;
-    CaptureOutput := False;
-    ConsoleHidden := True;
-    WaitForTerminate := True;
-  end;
-
   // Create a Python External Run tool which is used in the run menu
   ExternalPython := TExternalRun.Create;
   with ExternalPython do begin
-    Caption := 'Python Interpreter';
-    Description := 'External Python Interpreter';
+    Caption := _('Python Interpreter');
+    Description := _('External Python Interpreter');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[ActiveDoc-Short] $[CmdLineArgs]';
     WorkingDirectory := '$[ActiveDoc-Dir]';

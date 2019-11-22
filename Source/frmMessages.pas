@@ -10,14 +10,36 @@ unit frmMessages;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, JvDockControlForm, PythonEngine,
-  Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, VirtualTrees,
-  TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXSkins, SpTBXItem, SpTBXControls,
-  JvAppStorage, System.Actions;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Contnrs,
+  System.Actions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Menus,
+  Vcl.ExtCtrls,
+  Vcl.ActnList,
+  JvComponentBase,
+  JvDockControlForm,
+  JvAppStorage,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXSkins,
+  SpTBXItem,
+  SpTBXControls,
+  VirtualTrees,
+  PythonEngine,
+  uEditAppIntfs,
+  frmIDEDockWin;
 
 type
-  TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
+  TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler, IMessageServices)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnClearall: TSpTBXItem;
     MessagesView: TVirtualStringTree;
@@ -55,6 +77,13 @@ type
     fMessageHistory : TObjectList;
     fHistoryIndex : integer;
     fHistorySize : integer;
+    // IMessageServices implementation
+    procedure ShowWindow;
+    procedure AddMessage(const Msg: string; const FileName : string = '';
+       Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
+    procedure ClearMessages;
+    procedure ShowPythonTraceback(SkipFrames : integer = 1; ShowWindow : Boolean = False);
+    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0; ShowWindow : Boolean = False);
   protected
     procedure StoreTopNodeIndex;
     procedure RestoreTopNodeIndex;
@@ -63,12 +92,6 @@ type
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
-    procedure ShowWindow;
-    procedure AddMessage(Msg: string; FileName : string = '';
-       Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
-    procedure ClearMessages;
-    procedure ShowPythonTraceback(SkipFrames : integer = 1);
-    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0);
     procedure ShowPythonSyntaxError(E: EPySyntaxError); overload;
     procedure ShowPythonSyntaxError(ErrorClass : string; E: Variant); overload;
     procedure JumpToPosition(Node : PVirtualNode);
@@ -82,8 +105,13 @@ var
 implementation
 
 uses
-  frmPyIDEMain, dmCommands, uCommonFunctions,
-  Clipbrd, VarPyth, JvGnugettext, StringResources,
+  Vcl.Clipbrd,
+  VarPyth,
+  dmCommands,
+  frmPyIDEMain,
+  uCommonFunctions,
+  JvGnugettext,
+  StringResources,
   cPyControl;
 
 {$R *.dfm}
@@ -110,7 +138,7 @@ Type
 
 { TMessagesWindow }
 
-procedure TMessagesWindow.AddMessage(Msg, FileName: string;
+procedure TMessagesWindow.AddMessage(const Msg, FileName: string;
    Line, Offset, SelLen : integer);
 Var
   NewMsg : TMsg;
@@ -171,7 +199,7 @@ begin
   Clipboard.AsText := string(MessagesView.ContentToText(tstAll, #9));
 end;
 
-procedure TMessagesWindow.ShowPythonTraceback(SkipFrames : integer = 1);
+procedure TMessagesWindow.ShowPythonTraceback(SkipFrames : integer; ShowWindow : Boolean);
 Var
   i : integer;
 begin
@@ -182,12 +210,12 @@ begin
         with Items[i] do
           AddMessage('    '+Context, FileName, LineNo);
       end;
-      ShowDockForm(Self);
+      if ShowWindow then ShowDockForm(Self);
     end;
 end;
 
 procedure TMessagesWindow.ShowTraceback(Traceback: Variant;
-  SkipFrames: integer);
+  SkipFrames: integer; ShowWindow : Boolean);
 Var
   i : integer;
   CurrentTraceback : Variant;
@@ -213,7 +241,7 @@ begin
           PyControl.ActiveInterpreter.FromPythonFileName(CodeObject.co_filename), LineNo);
         CurrentTraceback := CurrentTraceback.tb_next;
       end;
-      ShowDockForm(Self);
+      if ShowWindow then ShowDockForm(Self);
     end;
   end;
 end;
@@ -245,7 +273,7 @@ end;
 
 procedure TMessagesWindow.ShowWindow;
 begin
-    ShowDockForm(Self);
+  PyIDEMainForm.ShowIDEDockForm(Self);
 end;
 
 procedure TMessagesWindow.StoreTopNodeIndex;
@@ -268,7 +296,7 @@ begin
     Msg := PMsgRec(MessagesView.GetNodeData(Node))^.Msg;
 
     if (Msg.FileName ='') then Exit; // No FileName or LineNumber
-    PyIDEMainForm.ShowFilePosition(Msg.FileName, Msg.Line, Msg.Offset, Msg.SelLen);
+    GI_PyIDEServices.ShowFilePosition(Msg.FileName, Msg.Line, Msg.Offset, Msg.SelLen);
   end;
 end;
 

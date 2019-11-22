@@ -17,6 +17,7 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -25,6 +26,8 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
@@ -46,6 +49,7 @@ type
     SpTBXSplitter: TSpTBXSplitter;
     reInfo: TRichEdit;
     Panel1: TPanel;
+    vicCodeImages: TVirtualImageList;
     procedure FormCreate(Sender: TObject);
     procedure VariablesTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
@@ -92,9 +96,10 @@ uses
   PythonEngine,
   JvGnugettext,
   StringResources,
+  uEditAppIntfs,
+  uCommonFunctions,
   dmCommands,
   frmCallStack,
-  uCommonFunctions,
   cVirtualStringTreeHelper,
   cPyControl,
   cPySupportTypes,
@@ -287,7 +292,7 @@ Var
   OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
 begin
   if ((PyControl.PythonEngineType = peSSH) and (PyIDEOptions.SSHDisableVariablesWin)) or
-     not (PyControl.InternalPython.Loaded and
+     not (GI_PyControl.PythonLoaded and
           Assigned(CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and
           Assigned(PyControl.ActiveDebugger)) then
@@ -296,7 +301,7 @@ begin
      Exit;
   end;
 
-  if PyControl.Running then begin
+  if GI_PyControl.Running then begin
     // should not update
     VariablesTree.Enabled := False;
     Exit;

@@ -384,7 +384,6 @@ type
     procedure SetShowTabImages(const Value: Boolean);
     procedure SetShowTabHints(const Value: Boolean);
     procedure SetTabHeight(const Value: Integer);
-    procedure WMEraseBkgnd(var Msg: TMessage); message WM_ERASEBKGND;
   protected
     procedure Paint; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
@@ -3709,11 +3708,6 @@ end;
 
 procedure TJvDockTabPanel.SetTotalTabWidth(const Value: Integer);
 begin
-end;
-
-procedure TJvDockTabPanel.WMEraseBkgnd(var Msg: TMessage);
-begin
-  Msg.Result := 1;
 end;
 
 function TJvDockTabPanel.GetDockClientFromPageIndex(Index: Integer): TControl;

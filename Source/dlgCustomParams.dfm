@@ -157,7 +157,6 @@ inherited CustomizeParams: TCustomizeParams
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
-        FontSmoothing = fsmNone
       end
       object edName: TEdit
         Left = 133

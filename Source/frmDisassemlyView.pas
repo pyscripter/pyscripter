@@ -28,7 +28,7 @@ uses
 type
   TDisForm = class(TForm, IEditorView)
     DisSynEdit: TSynEdit;
-    SynPythonSyn: TSynPythonSyn;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     procedure UpdateView(Editor : IEditor);
@@ -56,9 +56,16 @@ uses
   JvGnugettext,
   StringResources,
   dmCommands,
+  cPyScripterSettings,
   cPyControl;
 
 {$R *.dfm}
+
+procedure TDisForm.FormCreate(Sender: TObject);
+begin
+ DisSynEdit.Assign(EditorOptions);
+ DisSynEdit.Highlighter := CommandsDataModule.SynPythonSyn;
+end;
 
 { TDisForm }
 

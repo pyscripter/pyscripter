@@ -30,40 +30,6 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     Shape = bsTopLine
     ExplicitWidth = 422
   end
-  object SendBtn: TSpTBXButton
-    Left = 341
-    Top = 32
-    Width = 75
-    Height = 25
-    Hint = 'Send bug report using default mail client'
-    Caption = '&Send'
-    Anchors = [akTop, akRight]
-    TabOrder = 0
-    OnClick = SendBtnClick
-  end
-  object OkBtn: TSpTBXButton
-    Left = 342
-    Top = 4
-    Width = 75
-    Height = 25
-    Caption = '&OK'
-    Anchors = [akTop, akRight]
-    TabOrder = 2
-    Default = True
-    ModalResult = 1
-  end
-  object DetailsBtn: TSpTBXButton
-    Left = 342
-    Top = 60
-    Width = 75
-    Height = 25
-    Hint = 'Show or hide additional information|'
-    Caption = '&Details'
-    Anchors = [akTop, akRight]
-    Enabled = False
-    TabOrder = 3
-    OnClick = DetailsBtnClick
-  end
   object DetailsMemo: TMemo
     Left = 4
     Top = 101
@@ -97,5 +63,39 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     ReadOnly = True
     TabOrder = 1
     WantReturns = False
+  end
+  object SendBtn: TButton
+    Left = 341
+    Top = 32
+    Width = 75
+    Height = 25
+    Hint = 'Send bug report using default mail client'
+    Anchors = [akTop, akRight]
+    Caption = '&Send'
+    TabOrder = 0
+    OnClick = SendBtnClick
+  end
+  object OkBtn: TButton
+    Left = 342
+    Top = 4
+    Width = 75
+    Height = 25
+    Anchors = [akTop, akRight]
+    Caption = '&OK'
+    Default = True
+    ModalResult = 1
+    TabOrder = 2
+  end
+  object DetailsBtn: TButton
+    Left = 342
+    Top = 60
+    Width = 75
+    Height = 25
+    Hint = 'Show or hide additional information|'
+    Anchors = [akTop, akRight]
+    Caption = '&Details'
+    Enabled = False
+    TabOrder = 3
+    OnClick = DetailsBtnClick
   end
 end
