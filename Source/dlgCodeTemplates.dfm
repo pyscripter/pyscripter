@@ -29,7 +29,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 101
       Height = 24
       Action = actAddItem
-      Images = vicImages
+      Images = vilImages
       TabOrder = 3
     end
     object btnDelete: TButton
@@ -38,7 +38,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 101
       Height = 24
       Action = actDeleteItem
-      Images = vicImages
+      Images = vilImages
       TabOrder = 4
     end
     object btnMoveup: TButton
@@ -47,7 +47,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 101
       Height = 24
       Action = actMoveUp
-      Images = vicImages
+      Images = vilImages
       TabOrder = 5
     end
     object btnMoveDown: TButton
@@ -56,7 +56,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 101
       Height = 24
       Action = actMoveDown
-      Images = vicImages
+      Images = vilImages
       TabOrder = 6
     end
     object btnUpdate: TButton
@@ -65,7 +65,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 101
       Height = 24
       Action = actUpdateItem
-      Images = vicImages
+      Images = vilImages
       TabOrder = 7
     end
     object btnCancel: TButton
@@ -234,7 +234,7 @@ inherited CodeTemplates: TCodeTemplates
     end
   end
   object ActionList: TActionList
-    Images = vicImages
+    Images = vilImages
     OnUpdate = ActionListUpdate
     Left = 379
     Top = 27
@@ -269,7 +269,7 @@ inherited CodeTemplates: TCodeTemplates
       OnExecute = actUpdateItemExecute
     end
   end
-  object vicImages: TVirtualImageList
+  object vilImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <

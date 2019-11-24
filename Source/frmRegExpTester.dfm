@@ -76,19 +76,20 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Align = alTop
           AutoResize = False
           DockMode = dmCannotFloat
+          DockPos = 1
           FullSize = True
-          Images = CommandsDataModule.Images
+          Images = vilImages
           TabOrder = 0
           Customizable = False
           object TiClear: TSpTBXItem
             Caption = 'Clear'
             Hint = 'Clear all fields'
-            ImageIndex = 14
+            ImageIndex = 0
             OnClick = TiClearClick
           end
           object TBXSubmenuItem2: TSpTBXSubmenuItem
             Caption = 'Options'
-            ImageIndex = 22
+            ImageIndex = 4
             object CI_DOTALL: TSpTBXItem
               Caption = 'DOTALL'
               Hint = 'Sets the DOTALL re flag'
@@ -180,7 +181,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           object TIExecute: TSpTBXItem
             Caption = 'Execute'
             Hint = 'Execute search or match'
-            ImageIndex = 19
+            ImageIndex = 1
             OnClick = TIExecuteClick
           end
           object TBXSeparatorItem3: TSpTBXSeparatorItem
@@ -188,7 +189,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           object tiHelp: TSpTBXItem
             Caption = 'Help'
             Hint = 'Show Python Help on the re module'
-            ImageIndex = 33
+            ImageIndex = 5
             OnClick = tiHelpClick
           end
         end
@@ -198,11 +199,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Top = 448
         Width = 380
         Height = 26
-        Images = CommandsDataModule.Images
+        Images = vilImages
         SizeGrip = False
+        ExplicitLeft = 1
+        ExplicitTop = 452
         object lbStatusBar: TSpTBXLabelItem
           Caption = 'Not executed'
-          ImageIndex = 21
+          ImageIndex = 3
         end
       end
       object pnlBackground: TPanel
@@ -518,5 +521,49 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   inherited DockClient: TJvDockClient
     TopDock = False
     BottomDock = False
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 19
+        CollectionName = 'Item20'
+        Disabled = False
+        Name = 'Item20'
+      end
+      item
+        CollectionIndex = 20
+        CollectionName = 'Item21'
+        Disabled = False
+        Name = 'Item21'
+      end
+      item
+        CollectionIndex = 21
+        CollectionName = 'Item22'
+        Disabled = False
+        Name = 'Item22'
+      end
+      item
+        CollectionIndex = 22
+        CollectionName = 'Item23'
+        Disabled = False
+        Name = 'Item23'
+      end
+      item
+        CollectionIndex = 33
+        CollectionName = 'Item34'
+        Disabled = False
+        Name = 'Item34'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 32
+    Top = 376
   end
 end

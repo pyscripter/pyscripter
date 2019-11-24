@@ -18,7 +18,7 @@ uses
   SynEdit,
   cPySupportTypes,
   cPyBaseDebugger,
-  dlgPyIDEBase;
+  dlgPyIDEBase, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
 
 type
   TRunConfigurationForm = class(TPyIDEDlgBase)
@@ -53,6 +53,7 @@ type
     btnCancel: TButton;
     btnHelp: TButton;
     btnExternalRun: TButton;
+    vilImages: TVirtualImageList;
     procedure btnExternalRunClick(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

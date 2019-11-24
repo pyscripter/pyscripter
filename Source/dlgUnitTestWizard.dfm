@@ -72,7 +72,7 @@ inherited UnitTestWizard: TUnitTestWizard
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]
       HintMode = hmHint
-      Images = vicCodeImages
+      Images = vilCodeImages
       IncrementalSearch = isAll
       ParentShowHint = False
       PopupMenu = PopupUnitTestWizard
@@ -122,23 +122,23 @@ inherited UnitTestWizard: TUnitTestWizard
     end
   end
   object PopupUnitTestWizard: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 59
     Top = 118
     object mnSelectAll: TSpTBXItem
       Caption = 'Select All'
       Hint = 'Select all nodes'
-      ImageIndex = 104
+      ImageIndex = 0
       OnClick = mnSelectAllClick
     end
     object mnDeselectAll: TSpTBXItem
       Caption = 'Deselect All'
       Hint = 'Deselect all nodes'
-      ImageIndex = 105
+      ImageIndex = 1
       OnClick = mnDeselectAllClick
     end
   end
-  object vicCodeImages: TVirtualImageList
+  object vilCodeImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <
@@ -204,6 +204,26 @@ inherited UnitTestWizard: TUnitTestWizard
       end>
     ImageCollection = CommandsDataModule.icCodeImages
     Left = 56
+    Top = 184
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 104
+        CollectionName = 'Item105'
+        Disabled = False
+        Name = 'Item105'
+      end
+      item
+        CollectionIndex = 105
+        CollectionName = 'Item106'
+        Disabled = False
+        Name = 'Item106'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 128
     Top = 184
   end
 end

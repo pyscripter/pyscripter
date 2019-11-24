@@ -20,6 +20,9 @@ uses
   Vcl.ExtCtrls,
   Vcl.ImgList,
   Vcl.ActnList,
+  Vcl.VirtualImageList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
   JvComponentBase,
   JvDockControlForm,
   VirtualTrees,
@@ -30,6 +33,7 @@ uses
   SpTBXControls,
   SpTBXItem,
   SpTBXSkins,
+  dmCommands,
   uEditAppIntfs,
   frmIDEDockWin;
 
@@ -39,7 +43,6 @@ type
   TUnitTestWindow = class(TIDEDockWindow, IUnitTestServices)
     ExplorerDock: TSpTBXDock;
     ExplorerToolbar: TSpTBXToolbar;
-    RunImages: TImageList;
     tbiRefresh: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     tbiSelectFailed: TSpTBXItem;
@@ -74,6 +77,9 @@ type
     lblFailures: TLabel;
     SpTBXPanel1: TPanel;
     ErrorText: TRichEdit;
+    icRunImages: TImageCollection;
+    vilRunImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure UnitTestsDblClick(Sender: TObject);
     procedure actStopExecute(Sender: TObject);
     procedure actClearAllExecute(Sender: TObject);
@@ -232,8 +238,6 @@ end;
 procedure TUnitTestWindow.FormCreate(Sender: TObject);
 begin
   inherited;
-  ScaleImageList(RunImages, Screen.PixelsPerInch, 96);
-
   UnitTests.NodeDataSize := SizeOf(TNodeDataRec);
 
   TestClasses := TStringList.Create;

@@ -35,8 +35,10 @@ object EditorForm: TEditorForm
       OnEnter = FGPanelEnter
       OnExit = FGPanelExit
       ActiveTabIndex = 0
-      Images = CommandsDataModule.Images
+      Images = PyIDEMainForm.vilImages
       OnActiveTabChange = ViewsTabControlActiveTabChange
+      ExplicitLeft = 4
+      ExplicitTop = 0
       HiddenItems = <>
       object tabSource: TSpTBXTabItem
         Caption = 'Source'
@@ -927,7 +929,7 @@ object EditorForm: TEditorForm
     end
   end
   object pmnuEditor: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = PyIDEMainForm.vilImages
     Left = 96
     Top = 32
     object mnEditUndo: TSpTBXItem
@@ -1047,7 +1049,7 @@ object EditorForm: TEditorForm
     end
   end
   object pmnuViewsTab: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = PyIDEMainForm.vilImages
     Left = 168
     Top = 32
     object mnUpdateView: TSpTBXItem
@@ -1080,7 +1082,7 @@ object EditorForm: TEditorForm
     TitleFont.Style = [fsBold]
     Columns = <>
     Resizeable = False
-    Images = vicCodeImages
+    Images = vilCodeImages
     OnClose = SynCodeCompletionClose
     OnExecute = SynCodeCompletionExecute
     ShortCut = 0
@@ -1106,7 +1108,7 @@ object EditorForm: TEditorForm
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
     Columns = <>
-    Images = vicCodeImages
+    Images = vilCodeImages
     OnExecute = SynParamCompletionExecute
     ShortCut = 0
     Editor = SynEdit
@@ -1579,7 +1581,7 @@ object EditorForm: TEditorForm
     Left = 96
     Top = 80
   end
-  object vicCodeImages: TVirtualImageList
+  object vilCodeImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <

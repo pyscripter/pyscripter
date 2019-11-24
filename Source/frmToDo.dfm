@@ -66,7 +66,7 @@ inherited ToDoWindow: TToDoWindow
           Top = 0
           DockPos = 0
           FullSize = True
-          Images = CommandsDataModule.Images
+          Images = vicImages
           TabOrder = 0
           Customizable = False
           object tbiRefresh: TSpTBXItem
@@ -128,7 +128,6 @@ inherited ToDoWindow: TToDoWindow
         OnInitNode = ToDoViewInitNode
         OnKeyPress = TodoViewKeyPress
         OnShortenString = ToDoViewShortenString
-        ExplicitTop = 32
         Columns = <
           item
             Alignment = taCenter
@@ -170,7 +169,7 @@ inherited ToDoWindow: TToDoWindow
     Top = 8
   end
   object PopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vicImages
     Left = 128
     Top = 121
     object mnGoto: TSpTBXItem
@@ -199,14 +198,14 @@ inherited ToDoWindow: TToDoWindow
     end
   end
   object Actions: TActionList
-    Images = CommandsDataModule.Images
+    Images = vicImages
     Left = 40
     Top = 120
     object actFileRefresh: TAction
       Category = 'File'
       Caption = '&Refresh'
       Hint = 'Refresh to do items'
-      ImageIndex = 39
+      ImageIndex = 5
       ShortCut = 116
       OnExecute = actFileRefreshExecute
     end
@@ -214,14 +213,14 @@ inherited ToDoWindow: TToDoWindow
       Category = 'Edit'
       Caption = '&Goto'
       Hint = 'Goto source line'
-      ImageIndex = 32
+      ImageIndex = 3
       OnExecute = actEditGotoExecute
     end
     object actFilePrint: TAction
       Category = 'File'
       Caption = '&Print'
       Hint = 'Print to do items'
-      ImageIndex = 8
+      ImageIndex = 0
       ShortCut = 16464
       OnExecute = actFilePrintExecute
       OnUpdate = actFilePrintUpdate
@@ -230,21 +229,21 @@ inherited ToDoWindow: TToDoWindow
       Category = 'Options'
       Caption = '&Options...'
       Hint = 'Options...'
-      ImageIndex = 24
+      ImageIndex = 2
       OnExecute = actOptionsConfigureExecute
     end
     object actHelpHelp: TAction
       Category = 'Help'
       Caption = '&Help'
       Hint = 'Help'
-      ImageIndex = 33
+      ImageIndex = 4
       OnExecute = actHelpHelpExecute
     end
     object actEditCopy: TAction
       Category = 'Edit'
       Caption = '&Copy All'
       Hint = 'Copy all'
-      ImageIndex = 12
+      ImageIndex = 1
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
@@ -253,7 +252,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Abort'
       Enabled = False
       Hint = 'Abort search for todo items'
-      ImageIndex = 40
+      ImageIndex = 6
       ShortCut = 16449
       OnExecute = actFileAbortExecute
     end
@@ -526,6 +525,56 @@ inherited ToDoWindow: TToDoWindow
       end>
     ImageCollection = ToDoImageCollection
     Left = 128
+    Top = 64
+  end
+  object vicImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 8
+        CollectionName = 'Item9'
+        Disabled = False
+        Name = 'Item9'
+      end
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 24
+        CollectionName = 'Item25'
+        Disabled = False
+        Name = 'Item25'
+      end
+      item
+        CollectionIndex = 32
+        CollectionName = 'Item33'
+        Disabled = False
+        Name = 'Item33'
+      end
+      item
+        CollectionIndex = 33
+        CollectionName = 'Item34'
+        Disabled = False
+        Name = 'Item34'
+      end
+      item
+        CollectionIndex = 39
+        CollectionName = 'Item40'
+        Disabled = False
+        Name = 'Item40'
+      end
+      item
+        CollectionIndex = 40
+        CollectionName = 'Item41'
+        Disabled = False
+        Name = 'Item41'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 201
     Top = 64
   end
 end

@@ -49,6 +49,7 @@ inherited OutputWindow: TOutputWindow
   inherited BGPanel: TPanel
     Width = 552
     Height = 331
+    ExplicitLeft = -16
     ExplicitWidth = 552
     ExplicitHeight = 331
     inherited FGPanel: TPanel
@@ -82,13 +83,13 @@ inherited OutputWindow: TOutputWindow
   object TimeoutTimer: TTimer
     Enabled = False
     OnTimer = TimeoutTimerTimer
-    Left = 19
-    Top = 168
+    Left = 27
+    Top = 184
   end
   object OutputPopup: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
-    Left = 17
-    Top = 88
+    Images = vilImages
+    Left = 28
+    Top = 76
     object RunningProcess: TSpTBXSubmenuItem
       Caption = 'Running Process'
       object mnClose: TSpTBXItem
@@ -121,10 +122,10 @@ inherited OutputWindow: TOutputWindow
     end
   end
   object OutputActions: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnUpdate = OutputActionsUpdate
-    Left = 16
-    Top = 131
+    Left = 27
+    Top = 130
     object actCopy: TAction
       Caption = 'Co&py'
       Hint = 'Copy contents to Clipboard'
@@ -134,31 +135,31 @@ inherited OutputWindow: TOutputWindow
     object actOutputFont: TAction
       Caption = 'Font...'
       Hint = 'Select font'
-      ImageIndex = 91
+      ImageIndex = 5
       OnExecute = actOutputFontExecute
     end
     object actClearOutput: TAction
       Caption = 'Clear'
       Hint = 'Clear output'
-      ImageIndex = 14
+      ImageIndex = 1
       OnExecute = actClearOutputExecute
     end
     object actToolTerminate: TAction
       Caption = '&Terminate'
       Hint = 'Terminate running tool (unsafe)'
-      ImageIndex = 21
+      ImageIndex = 2
       OnExecute = actToolTerminateExecute
     end
     object actToolClose: TAction
       Caption = '&Close'
       Hint = 'Close running tool'
-      ImageIndex = 44
+      ImageIndex = 3
       OnExecute = actToolCloseExecute
     end
     object actToolQuit: TAction
       Caption = '&Quit'
       Hint = 'Post quit message to running tool'
-      ImageIndex = 52
+      ImageIndex = 4
       OnExecute = actToolQuitExecute
     end
     object actToolStopWaiting: TAction
@@ -166,5 +167,49 @@ inherited OutputWindow: TOutputWindow
       Hint = 'Stop waiting for running tool'
       OnExecute = actToolStopWaitingExecute
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 21
+        CollectionName = 'Item22'
+        Disabled = False
+        Name = 'Item22'
+      end
+      item
+        CollectionIndex = 44
+        CollectionName = 'Item45'
+        Disabled = False
+        Name = 'Item45'
+      end
+      item
+        CollectionIndex = 52
+        CollectionName = 'Item53'
+        Disabled = False
+        Name = 'Item53'
+      end
+      item
+        CollectionIndex = 91
+        CollectionName = 'Item92'
+        Disabled = False
+        Name = 'Item92'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 24
+    Top = 240
   end
 end

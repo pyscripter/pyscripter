@@ -311,7 +311,6 @@ type
     class var UserDataPath : string;
     class var ColorThemesFilesDir : string;
     class var StylesFilesDir : string;
-    class var Images: TCustomImageList;
     class var ShellImages: TCustomImageList;
     class var DefaultEditorKeyStrokes: TSynEditKeyStrokes;
     class procedure RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);

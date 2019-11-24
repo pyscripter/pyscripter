@@ -53,6 +53,7 @@ uses
   System.Variants,
   System.Classes,
   System.Actions,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -62,6 +63,8 @@ uses
   Vcl.ActnList,
   Vcl.ComCtrls,
   Vcl.StdCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   JvAppStorage,
   JvDockControlForm,
   TB2Item,
@@ -143,6 +146,7 @@ type
     actFileSearch: TAction;
     actReplaceSelected: TAction;
     reContext: TRichEdit;
+    vilImages: TVirtualImageList;
     procedure FormResize(Sender: TObject);
     procedure lbResultsMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);

@@ -150,7 +150,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Hint = 'Select directory'
         Anchors = [akTop, akRight]
         ImageIndex = 0
-        Images = vicImages
+        Images = vilImages
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
@@ -229,7 +229,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       TabOrder = 0
     end
   end
-  object vicImages: TVirtualImageList
+  object vilImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <

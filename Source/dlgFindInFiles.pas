@@ -83,7 +83,7 @@ type
     lblMasks: TLabel;
     lblDirectory: TLabel;
     Panel1: TPanel;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure btnBrowseClick(Sender: TObject);
     procedure rbProjectClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);

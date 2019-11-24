@@ -11,12 +11,35 @@ unit frmRegExpTester;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, StdCtrls,
-  VirtualTrees, SpTBXDkPanels, TB2Item,
-  TB2Dock, TB2Toolbar, JvAppStorage,
-  JvComponentBase, SpTBXItem, ComCtrls,  SpTBXControls, SpTBXSkins,
-  Generics.Collections, SpTBXEditors;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  System.Generics.Collections,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  JvDockControlForm,
+  Vcl.ExtCtrls,
+  Vcl.StdCtrls,
+  Vcl.ComCtrls,
+  Vcl.VirtualImageList,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  SpTBXControls,
+  SpTBXDkPanels,
+  SpTBXSkins,
+  SpTBXEditors,
+  JvAppStorage,
+  JvComponentBase,
+  VirtualTrees,
+  frmIDEDockWin,
+  Vcl.ImgList;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -63,6 +86,7 @@ type
     MatchText: TRichEdit;
     RI_findall: TSpTBXItem;
     SpinMatches: TSpTBXSpinEdit;
+    vilImages: TVirtualImageList;
     procedure TiClearClick(Sender: TObject);
     procedure GroupsViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
@@ -96,8 +120,8 @@ var
 implementation
 
 uses
+  Winapi.RichEdit,
   Vcl.Themes,
-  RichEdit,
   JvGnugettext,
   JvAppIniStorage,
   VarPyth,
@@ -303,7 +327,7 @@ begin
   except
     on E: Exception do begin
       with lbStatusBar do begin
-        ImageIndex := 21;
+        ImageIndex := 3;
         Caption := E.Message;
       end;
       PythonIIForm.ShowOutput := True;
@@ -340,7 +364,7 @@ begin
   except
     on E: Exception do begin
       with lbStatusBar do begin
-        ImageIndex := 21;
+        ImageIndex := 3;
         Caption := E.Message;
       end;
       PythonIIForm.ShowOutput := True;
@@ -364,12 +388,12 @@ begin
 
   if (not VarIsPython(MatchObject)) or VarIsNone(MatchObject) then begin
     with lbStatusBar do begin
-      ImageIndex := 21;
+      ImageIndex := 3;
       Caption := 'Search text did not match';
     end;
   end else begin
     with lbStatusBar do begin
-      ImageIndex := 20;
+      ImageIndex := 2;
       Caption := 'Search text matched';
     end;
     MatchText.Text := MatchObject.group();
@@ -449,7 +473,7 @@ begin
   SpinMatches.Value := 1;
   SpinMatches.Enabled := False;
   with lbStatusBar do begin
-    ImageIndex := 21;
+    ImageIndex := 3;
     Caption := 'Not executed';
   end;
 end;

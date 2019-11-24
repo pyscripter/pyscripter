@@ -33,7 +33,8 @@ uses
   frmIDEDockWin,
   dmCommands,
   cPyControl,
-  cPyBaseDebugger, SpTBXDkPanels;
+  cPyBaseDebugger, SpTBXDkPanels, System.ImageList, Vcl.ImgList,
+  Vcl.VirtualImageList;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -45,6 +46,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Splitter1: TSpTBXSplitter;
+    vilImages: TVirtualImageList;
     procedure CallStackViewDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -324,7 +326,7 @@ procedure TCallStackWindow.CallStackViewGetImageIndex(Sender: TBaseVirtualTree;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
   if (Kind = ikState) and (vsSelected in Node.States) and (Column = 0) then
-    ImageIndex := 41;
+    ImageIndex := 0;
 end;
 
 procedure TCallStackWindow.CallStackViewInitNode(Sender: TBaseVirtualTree;
@@ -476,11 +478,11 @@ begin
   Assert(Integer(Node.Index) < fThreads.Count);
   if Kind in [ikNormal, ikSelected] then begin
     if fThreads[Node.Index].Status = thrdRunning then
-      ImageIndex := 152
+      ImageIndex := 1
     else
-      ImageIndex := 153
+      ImageIndex := 2
   end else if (Kind = ikState) and (fThreads[Node.Index] = fActiveThread) then
-    ImageIndex := 41;
+    ImageIndex := 0;
 end;
 
 procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;

@@ -20,7 +20,6 @@ inherited ToolProperties: TToolProperties
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
-    ExplicitWidth = 406
     DesignSize = (
       444
       498)
@@ -34,7 +33,6 @@ inherited ToolProperties: TToolProperties
       Default = True
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 149
     end
     object btnCancel: TButton
       Left = 271
@@ -46,7 +44,6 @@ inherited ToolProperties: TToolProperties
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 233
     end
     object btnHelp: TButton
       Left = 355
@@ -57,7 +54,6 @@ inherited ToolProperties: TToolProperties
       Caption = '&Help'
       TabOrder = 2
       OnClick = btnHelpClick
-      ExplicitLeft = 317
     end
     object TabControl: TSpTBXTabControl
       Left = 1
@@ -66,7 +62,7 @@ inherited ToolProperties: TToolProperties
       Height = 453
       Align = alTop
       ActiveTabIndex = 0
-      ExplicitWidth = 404
+      ExplicitLeft = 2
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = '&Properties'
@@ -82,7 +78,6 @@ inherited ToolProperties: TToolProperties
         Height = 428
         Caption = '&Environment'
         ImageIndex = -1
-        ExplicitWidth = 404
         TabItem = 'SpTBXTabItem2'
         object GroupBox6: TGroupBox
           Left = 7
@@ -116,7 +111,6 @@ inherited ToolProperties: TToolProperties
             Height = 21
             Anchors = [akLeft, akTop, akRight]
             TabOrder = 0
-            ExplicitWidth = 130
           end
           object edEnvValue: TEdit
             Left = 77
@@ -127,7 +121,6 @@ inherited ToolProperties: TToolProperties
             Anchors = [akLeft, akTop, akRight]
             HideSelection = False
             TabOrder = 1
-            ExplicitWidth = 293
           end
         end
         object cbUseCustomEnv: TCheckBox
@@ -144,7 +137,7 @@ inherited ToolProperties: TToolProperties
           Width = 77
           Height = 24
           Action = actAddItem
-          Images = CommandsDataModule.Images
+          Images = vilImages
           TabOrder = 3
         end
         object btnDelete: TButton
@@ -153,7 +146,7 @@ inherited ToolProperties: TToolProperties
           Width = 77
           Height = 24
           Action = actDeleteItem
-          Images = CommandsDataModule.Images
+          Images = vilImages
           TabOrder = 4
         end
         object btnUpdate: TButton
@@ -162,7 +155,7 @@ inherited ToolProperties: TToolProperties
           Width = 77
           Height = 24
           Action = actUpdateItem
-          Images = CommandsDataModule.Images
+          Images = vilImages
           TabOrder = 5
         end
         object lvItems: TListView
@@ -188,7 +181,6 @@ inherited ToolProperties: TToolProperties
           TabOrder = 0
           ViewStyle = vsReport
           OnSelectItem = lvItemsSelectItem
-          ExplicitLeft = 3
         end
       end
       object tabProperties: TSpTBXTabSheet
@@ -198,7 +190,6 @@ inherited ToolProperties: TToolProperties
         Height = 428
         Caption = '&Properties'
         ImageIndex = -1
-        ExplicitWidth = 404
         DesignSize = (
           442
           428)
@@ -211,7 +202,6 @@ inherited ToolProperties: TToolProperties
           Anchors = [akLeft, akTop, akRight]
           Caption = 'General'
           TabOrder = 0
-          ExplicitWidth = 390
           DesignSize = (
             428
             65)
@@ -269,7 +259,6 @@ inherited ToolProperties: TToolProperties
           Anchors = [akLeft, akTop, akRight]
           Caption = 'Command'
           TabOrder = 1
-          ExplicitWidth = 390
           DesignSize = (
             428
             108)
@@ -316,6 +305,7 @@ inherited ToolProperties: TToolProperties
             Font.Height = -11
             Font.Name = 'Courier New'
             Font.Style = []
+            Font.Quality = fqClearTypeNatural
             TabOrder = 0
             OnEnter = SynApplicationEnter
             CodeFolding.GutterShapeSize = 11
@@ -348,6 +338,7 @@ inherited ToolProperties: TToolProperties
             Font.Height = -11
             Font.Name = 'Courier New'
             Font.Style = []
+            Font.Quality = fqClearTypeNatural
             TabOrder = 2
             OnEnter = SynParametersEnter
             CodeFolding.GutterShapeSize = 11
@@ -380,6 +371,7 @@ inherited ToolProperties: TToolProperties
             Font.Height = -11
             Font.Name = 'Courier New'
             Font.Style = []
+            Font.Quality = fqClearTypeNatural
             TabOrder = 3
             OnEnter = SynWorkDirEnter
             CodeFolding.GutterShapeSize = 11
@@ -410,7 +402,6 @@ inherited ToolProperties: TToolProperties
             Caption = '...'
             TabOrder = 1
             OnClick = btnAppDirClick
-            ExplicitLeft = 357
           end
           object btnWorkDir: TButton
             Left = 395
@@ -421,7 +412,6 @@ inherited ToolProperties: TToolProperties
             Caption = '...'
             TabOrder = 4
             OnClick = btnWorkDirClick
-            ExplicitLeft = 357
           end
         end
         object GroupBox4: TGroupBox
@@ -486,7 +476,6 @@ inherited ToolProperties: TToolProperties
               'None'
               'Active only'
               'All files')
-            ExplicitLeft = 233
           end
         end
         object GroupBox3: TGroupBox
@@ -497,7 +486,6 @@ inherited ToolProperties: TToolProperties
           Anchors = [akLeft, akTop, akRight]
           Caption = 'Standard Input and Output'
           TabOrder = 3
-          ExplicitWidth = 390
           DesignSize = (
             428
             94)
@@ -535,7 +523,6 @@ inherited ToolProperties: TToolProperties
             DropDownMenu = FormatsPopup
             TabOrder = 6
             OnClick = btnStdFormatsClick
-            ExplicitLeft = 357
           end
           object cbCaptureOutput: TCheckBox
             Left = 271
@@ -547,7 +534,6 @@ inherited ToolProperties: TToolProperties
             Checked = True
             State = cbChecked
             TabOrder = 2
-            ExplicitLeft = 233
           end
           object cbParseMessages: TCheckBox
             Left = 271
@@ -563,7 +549,6 @@ inherited ToolProperties: TToolProperties
             State = cbChecked
             TabOrder = 3
             OnClick = cbParseMessagesClick
-            ExplicitLeft = 233
           end
           object cbParseTraceback: TCheckBox
             Left = 271
@@ -578,7 +563,6 @@ inherited ToolProperties: TToolProperties
             Checked = True
             State = cbChecked
             TabOrder = 4
-            ExplicitLeft = 233
           end
           object edMessagesFormat: TEdit
             Left = 113
@@ -592,7 +576,6 @@ inherited ToolProperties: TToolProperties
             AutoSelect = False
             AutoSize = False
             TabOrder = 5
-            ExplicitWidth = 240
           end
           object cbStandardInput: TComboBox
             Left = 86
@@ -638,7 +621,6 @@ inherited ToolProperties: TToolProperties
           Anchors = [akLeft, akTop, akRight]
           Caption = 'Console'
           TabOrder = 4
-          ExplicitWidth = 390
           DesignSize = (
             428
             65)
@@ -693,7 +675,6 @@ inherited ToolProperties: TToolProperties
             SpinButton.Align = alRight
             SpinOptions.Increment = 100.000000000000000000
             SpinOptions.MaxValue = 1000.000000000000000000
-            ExplicitLeft = 240
           end
         end
       end
@@ -721,27 +702,53 @@ inherited ToolProperties: TToolProperties
     end
   end
   object ActionList: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnUpdate = ActionListUpdate
     Left = 90
     Top = 452
     object actAddItem: TAction
       Caption = '&Add'
       Hint = 'Add item'
-      ImageIndex = 49
+      ImageIndex = 2
       OnExecute = actAddItemExecute
     end
     object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
-      ImageIndex = 14
+      ImageIndex = 0
       OnExecute = actDeleteItemExecute
     end
     object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
-      ImageIndex = 39
+      ImageIndex = 1
       OnExecute = actUpdateItemExecute
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 39
+        CollectionName = 'Item40'
+        Disabled = False
+        Name = 'Item40'
+      end
+      item
+        CollectionIndex = 49
+        CollectionName = 'Item50'
+        Disabled = False
+        Name = 'Item50'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 141
+    Top = 452
   end
 end

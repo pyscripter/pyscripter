@@ -36,7 +36,7 @@ uses
   VirtualTrees,
   PythonEngine,
   uEditAppIntfs,
-  frmIDEDockWin;
+  frmIDEDockWin, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
 
 type
   TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler, IMessageServices)
@@ -58,6 +58,7 @@ type
     actNextMsgs: TAction;
     actPreviousMsgs: TAction;
     actClearAll: TAction;
+    vilImages: TVirtualImageList;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure actCopyToClipboardExecute(Sender: TObject);
     procedure ClearAllExecute(Sender: TObject);

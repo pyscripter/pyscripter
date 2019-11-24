@@ -42,7 +42,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Anchors = [akTop]
       ImageAlignment = iaCenter
       ImageIndex = 1
-      Images = vicImages
+      Images = vilImages
       TabOrder = 1
       OnClick = btnMoveUpClick
     end
@@ -55,7 +55,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Anchors = [akTop]
       ImageAlignment = iaCenter
       ImageIndex = 2
-      Images = vicImages
+      Images = vilImages
       TabOrder = 2
       OnClick = btnMoveDownClick
     end
@@ -154,7 +154,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Hint = 'Enter file path here'
       Anchors = [akLeft, akTop, akRight]
       Color = clBtnFace
-      Images = vicImages
+      Images = vilImages
       RightButton.ImageIndex = 0
       RightButton.Visible = True
       TabOrder = 3
@@ -162,7 +162,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnRightButtonClick = BtnPathClick
     end
   end
-  object vicImages: TVirtualImageList
+  object vilImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <

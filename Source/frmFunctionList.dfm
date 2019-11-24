@@ -84,7 +84,7 @@ inherited FunctionListWindow: TFunctionListWindow
       HideSelection = False
       ReadOnly = True
       RowSelect = True
-      SmallImages = vicCodeImages
+      SmallImages = vilCodeImages
       TabOrder = 0
       ViewStyle = vsReport
       OnChange = lvProcsChange
@@ -173,7 +173,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Top = 0
       DockMode = dmCannotFloatOrChangeDocks
       FullSize = True
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabOrder = 0
       Customizable = False
       object tbiCopy: TSpTBXItem
@@ -237,7 +237,7 @@ inherited FunctionListWindow: TFunctionListWindow
     Top = 88
   end
   object Actions: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnUpdate = ActionsUpdate
     Left = 32
     Top = 136
@@ -245,7 +245,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Category = 'Edit'
       Caption = '&Edit'
       Hint = 'Copy procedures to clipboard'
-      ImageIndex = 12
+      ImageIndex = 0
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
@@ -253,39 +253,39 @@ inherited FunctionListWindow: TFunctionListWindow
       Category = 'Options'
       Caption = '&Font..'
       Hint = 'Configure font'
-      ImageIndex = 91
+      ImageIndex = 3
       OnExecute = actOptionsFontExecute
     end
     object actViewStart: TAction
       Category = 'View'
       Caption = 'S&tart'
       Hint = 'Match only from the start'
-      ImageIndex = 94
+      ImageIndex = 5
       OnExecute = actViewStartExecute
     end
     object actViewAny: TAction
       Category = 'View'
       Caption = '&Any'
       Hint = 'Match anywhere'
-      ImageIndex = 93
+      ImageIndex = 4
       OnExecute = actViewAnyExecute
     end
     object actViewGoto: TAction
       Category = 'View'
       Caption = '&Goto'
       Hint = 'Goto implementation'
-      ImageIndex = 32
+      ImageIndex = 1
       OnExecute = actViewGotoExecute
     end
     object actHelpHelp: TAction
       Category = 'Help'
       Caption = '&Help'
       Hint = 'Help'
-      ImageIndex = 33
+      ImageIndex = 2
       OnExecute = actHelpHelpExecute
     end
   end
-  object vicCodeImages: TVirtualImageList
+  object vilCodeImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <
@@ -352,5 +352,49 @@ inherited FunctionListWindow: TFunctionListWindow
     ImageCollection = CommandsDataModule.icCodeImages
     Left = 32
     Top = 184
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 32
+        CollectionName = 'Item33'
+        Disabled = False
+        Name = 'Item33'
+      end
+      item
+        CollectionIndex = 33
+        CollectionName = 'Item34'
+        Disabled = False
+        Name = 'Item34'
+      end
+      item
+        CollectionIndex = 91
+        CollectionName = 'Item92'
+        Disabled = False
+        Name = 'Item92'
+      end
+      item
+        CollectionIndex = 93
+        CollectionName = 'Item94'
+        Disabled = False
+        Name = 'Item94'
+      end
+      item
+        CollectionIndex = 94
+        CollectionName = 'Item95'
+        Disabled = False
+        Name = 'Item95'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 33
+    Top = 230
   end
 end

@@ -58,7 +58,7 @@ type
     edDescription: TEdit;
     edShortcut: TEdit;
     lvItems: TListview;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);

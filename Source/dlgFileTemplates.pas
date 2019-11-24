@@ -64,7 +64,7 @@ type
     edName: TEdit;
     edCategory: TEdit;
     edExtension: TEdit;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure FormDestroy(Sender: TObject);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure actAddItemExecute(Sender: TObject);

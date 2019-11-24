@@ -78,6 +78,7 @@ uses
   VirtualTrees,
   SynUnicode,
   uCommonFunctions,
+  dmCommands,
   frmIDEDockWin;
 
 type
@@ -147,6 +148,7 @@ type
     actFileRefresh: TAction;
     ToDoImageCollection: TImageCollection;
     ToDoImages: TVirtualImageList;
+    vicImages: TVirtualImageList;
     procedure actEditCopyExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);

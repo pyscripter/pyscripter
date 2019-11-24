@@ -54,7 +54,8 @@ type
     mnCopyToClipboard: TSpTBXItem;
     TBXItem1: TSpTBXItem;
     Panel1: TPanel;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnAddWatchClick(Sender: TObject);
     procedure mnEditWatchClick(Sender: TObject);
@@ -294,7 +295,7 @@ begin
     while Assigned(Node.Parent) and (Node.Parent <> WatchesView.RootNode) do
       Node := Node.Parent;
     WatchInfo := fWatchesList[Node.Index] as TWatchInfo;
-    WatchInfo.Watch := InputBox('Edit Watch', 'Enter new expression:', WatchInfo.Watch);
+    WatchInfo.Watch := InputBox(_('Edit Watch'), _('Enter new expression:'), WatchInfo.Watch);
     if WatchInfo.Watch = '' then
       fWatchesList.Remove(WatchInfo);
     UpdateWindow(PyControl.DebuggerState);

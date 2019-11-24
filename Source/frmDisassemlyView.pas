@@ -23,7 +23,8 @@ uses
   SynEditHighlighter,
   SynHighlighterPython,
   SynEdit,
-  uEditAppIntfs, SynEditCodeFolding;
+  SynEditCodeFolding,
+  uEditAppIntfs;
 
 type
   TDisForm = class(TForm, IEditorView)

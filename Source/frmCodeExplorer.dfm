@@ -75,7 +75,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           Header.AutoSizeIndex = -1
           Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
           HintMode = hmHint
-          Images = vicCodeImages
+          Images = vilCodeImages
           IncrementalSearch = isAll
           TabOrder = 0
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toWheelPanning]
@@ -105,21 +105,21 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     end
   end
   object CEPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
-    Left = 8
+    Images = vilImages
+    Left = 24
     Top = 61
     object mnExpandAll: TSpTBXItem
       Caption = '&Expand All'
       Hint = 'Expand all nodes'
       HelpContext = 430
-      ImageIndex = 28
+      ImageIndex = 0
       OnClick = mnExpandAllClick
     end
     object nCollapseAll: TSpTBXItem
       Caption = '&Collapse All'
       Hint = 'Collapse all nodes'
       HelpContext = 430
-      ImageIndex = 29
+      ImageIndex = 1
       OnClick = nCollapseAllClick
     end
     object SpTBXSeparatorItem1: TSpTBXSeparatorItem
@@ -148,8 +148,8 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     end
   end
   object CENodePopUpMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
-    Left = 12
+    Images = vilImages
+    Left = 28
     Top = 120
     object mnFindDefinition: TSpTBXItem
       Caption = 'Find Definition'
@@ -169,11 +169,11 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       Caption = 'Highlight'
       Hint = 'Highlight References'
       HelpContext = 430
-      ImageIndex = 122
+      ImageIndex = 2
       OnClick = mnHighlightClick
     end
   end
-  object vicCodeImages: TVirtualImageList
+  object vilCodeImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <
@@ -238,7 +238,33 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         Name = 'Item10'
       end>
     ImageCollection = CommandsDataModule.icCodeImages
-    Left = 16
+    Left = 24
     Top = 176
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 28
+        CollectionName = 'Item29'
+        Disabled = False
+        Name = 'Item29'
+      end
+      item
+        CollectionIndex = 29
+        CollectionName = 'Item30'
+        Disabled = False
+        Name = 'Item30'
+      end
+      item
+        CollectionIndex = 122
+        CollectionName = 'Item123'
+        Disabled = False
+        Name = 'Item123'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 24
+    Top = 232
   end
 end

@@ -152,7 +152,6 @@ type
     actEditPaste: TEditPaste;
     actEditCopy: TEditCopy;
     actEditCut: TEditCut;
-    Images: TImageList;
     actFileCloseAllOther: TAction;
     actHelpWebGroupSupport: TAction;
     actHelpWebProjectHome: TAction;
@@ -689,7 +688,6 @@ begin
 
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 
-  TPyScripterSettings.Images := Images;
   TPyScripterSettings.ShellImages := ShellImages;
 
   // Translate

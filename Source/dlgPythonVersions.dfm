@@ -22,7 +22,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Align = alClient
       Header.AutoSizeIndex = 0
       Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
-      Images = vicImages
+      Images = vilImages
       TabOrder = 0
       OnDblClick = actPVActivateExecute
       OnGetCellText = vtPythonVersionsGetCellText
@@ -58,7 +58,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       DockPos = 0
       DragHandleStyle = dhNone
       FullSize = True
-      Images = vicImages
+      Images = vilImages
       Options = [tboShowHint, tboToolbarStyle]
       ParentShowHint = False
       ShowHint = True
@@ -98,7 +98,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     end
   end
   object actlPythonVersions: TActionList
-    Images = vicImages
+    Images = vilImages
     OnUpdate = actlPythonVersionsUpdate
     Left = 560
     Top = 64
@@ -159,7 +159,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       OnExecute = actPVRenameExecute
     end
   end
-  object vicImages: TVirtualImageList
+  object vilImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <

@@ -3903,6 +3903,10 @@ begin
     mnPythonVersions.Items[i].Checked := PythonLoaded and
       (PyControl.PythonVersionIndex = mnPythonVersions.Items[i].Tag);
   end;
+  case Sender.Tag of
+    0: mnPythonVersions.Items[mnPythonVersions.Count-1].ImageIndex := 154;
+    1: mnPythonVersions.Items[mnPythonVersions.Count-1].ImageIndex := 6;  // from Interpreter
+  end;
 end;
 
 procedure TPyIDEMainForm.SetupSyntaxMenu;

@@ -26,6 +26,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 512
     Width = 780
     Height = 25
+    ExplicitTop = 527
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
@@ -153,8 +154,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitLeft = -2
-      ExplicitTop = 3
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 648
@@ -258,11 +257,11 @@ object PyIDEMainForm: TPyIDEMainForm
     Height = 77
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
-      Left = 8
+      Left = 0
       Top = 0
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 8
+      DockPos = 0
       Images = vilImages
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
@@ -762,9 +761,11 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = '&Project'
         object mnProjectNew: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectNew
+          ImageIndex = 133
         end
         object mnProjectOpen: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectOpen
+          ImageIndex = 134
         end
         object SpTBXSubmenuItem1: TSpTBXSubmenuItem
           Caption = '&Recent Projects'
@@ -778,6 +779,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnProjectSave: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSave
+          ImageIndex = 140
         end
         object mnProjectSaveAs: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSaveAs

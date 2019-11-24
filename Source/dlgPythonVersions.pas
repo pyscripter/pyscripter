@@ -54,7 +54,7 @@ type
     tbiPVHelp: TSpTBXItem;
     actPVRename: TAction;
     SpTBXItem1: TSpTBXItem;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure vtPythonVersionsGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
     procedure FormCreate(Sender: TObject);

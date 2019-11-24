@@ -33,7 +33,7 @@ inherited PickListDialog: TPickListDialog
       Height = 24
       Caption = '&Select All'
       ImageIndex = 0
-      Images = vicImages
+      Images = vilImages
       TabOrder = 0
       OnClick = mnSelectAllClick
     end
@@ -44,7 +44,7 @@ inherited PickListDialog: TPickListDialog
       Height = 24
       Caption = '&Deselect All'
       ImageIndex = 1
-      Images = vicImages
+      Images = vilImages
       TabOrder = 1
       OnClick = mnDeselectAllClick
     end
@@ -111,7 +111,7 @@ inherited PickListDialog: TPickListDialog
     end
   end
   object PickListPopUp: TPopupMenu
-    Images = vicImages
+    Images = vilImages
     Left = 296
     Top = 112
     object mnSelectAll: TMenuItem
@@ -127,7 +127,7 @@ inherited PickListDialog: TPickListDialog
       OnClick = mnDeselectAllClick
     end
   end
-  object vicImages: TVirtualImageList
+  object vilImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <

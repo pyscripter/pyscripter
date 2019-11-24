@@ -47,7 +47,7 @@ type
     Label2: TLabel;
     edName: TEdit;
     lvItems: TListview;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);

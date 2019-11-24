@@ -132,7 +132,7 @@ type
     mnUnfoldClasses: TSpTBXItem;
     vilGutterGlyphs: TVirtualImageList;
     icGutterGlyphs: TImageCollection;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;

@@ -44,7 +44,7 @@ type
     btnCancel: TButton;
     lbMessage: TLabel;
     CheckListBox: TCheckListBox;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure mnDeselectAllClick(Sender: TObject);
     procedure mnSelectAllClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

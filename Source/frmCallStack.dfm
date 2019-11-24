@@ -78,7 +78,7 @@ inherited CallStackWindow: TCallStackWindow
           Header.AutoSizeIndex = 1
           Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoVisible]
           HintMode = hmTooltip
-          StateImages = CommandsDataModule.Images
+          StateImages = vilImages
           TabOrder = 0
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
@@ -129,8 +129,8 @@ inherited CallStackWindow: TCallStackWindow
           Colors.UnfocusedSelectionBorderColor = clGray
           Header.AutoSizeIndex = 0
           Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible, hoFullRepaintOnResize]
-          Images = CommandsDataModule.Images
-          StateImages = CommandsDataModule.Images
+          Images = vilImages
+          StateImages = vilImages
           TabOrder = 0
           TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
@@ -183,5 +183,31 @@ inherited CallStackWindow: TCallStackWindow
       ShortCut = 8314
       OnExecute = actNextFrameExecute
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 41
+        CollectionName = 'Item42'
+        Disabled = False
+        Name = 'Item42'
+      end
+      item
+        CollectionIndex = 152
+        CollectionName = 'Item153'
+        Disabled = False
+        Name = 'Item153'
+      end
+      item
+        CollectionIndex = 153
+        CollectionName = 'Item154'
+        Disabled = False
+        Name = 'Item154'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 423
+    Top = 32
   end
 end

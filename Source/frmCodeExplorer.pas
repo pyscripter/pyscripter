@@ -248,7 +248,8 @@ type
     mnFindReferences: TSpTBXItem;
     mnAlphaSort: TSpTBXItem;
     mnFollowEditor: TSpTBXItem;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: string);

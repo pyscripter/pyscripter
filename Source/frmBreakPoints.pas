@@ -13,7 +13,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, frmIDEDockWin, ExtCtrls,
   Contnrs, TB2Item, Menus, VirtualTrees, JvComponentBase,
-  SpTBXSkins, SpTBXItem, JvAppStorage, SpTBXControls;
+  SpTBXSkins, SpTBXItem, JvAppStorage, SpTBXControls, System.ImageList,
+  Vcl.ImgList, Vcl.VirtualImageList;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -26,6 +27,7 @@ type
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     mnCopyToClipboard: TSpTBXItem;
     Panel1: TPanel;
+    vilImages: TVirtualImageList;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnSetConditionClick(Sender: TObject);

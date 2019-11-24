@@ -15,7 +15,7 @@ uses
   System.UITypes, Dialogs, cTools, StdCtrls, SynEdit, Menus,
   ActnList, SpTBXControls, SpTBXEditors, SpTBXItem, SpTBXTabs, TB2Item, 
   dlgPyIDEBase, ComCtrls, System.Actions, Vcl.Samples.Spin, Vcl.ExtCtrls,
-  SynEditMiscClasses;
+  SynEditMiscClasses, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
 
 type
   TToolProperties = class(TPyIDEDlgBase)
@@ -84,6 +84,7 @@ type
     tabEnvironment: TSpTBXTabSheet;
     lvItems: TListview;
     seTimeout: TSpTBXSpinEdit;
+    vilImages: TVirtualImageList;
     procedure FormShow(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
     procedure SynApplicationEnter(Sender: TObject);

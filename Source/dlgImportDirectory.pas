@@ -28,7 +28,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     DirectoryEdit: TButtonedEdit;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure DirectoryEditBtnClick(Sender: TObject);
   private
     { Private declarations }

@@ -49,7 +49,7 @@ type
     SpTBXSplitter: TSpTBXSplitter;
     reInfo: TRichEdit;
     Panel1: TPanel;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
     procedure FormCreate(Sender: TObject);
     procedure VariablesTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);

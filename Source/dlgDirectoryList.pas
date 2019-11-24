@@ -39,7 +39,7 @@ type
     Label1: TLabel;
     DirectoryList: TListBox;
     edPath: TButtonedEdit;
-    vicImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure btnAddClick(Sender: TObject);
     procedure BtnPathClick(Sender: TObject);
     procedure btnReplaceClick(Sender: TObject);
@@ -190,7 +190,7 @@ end;
 
 procedure TDirectoryListDialog.FormShow(Sender: TObject);
 begin
-  vicImages.GetIcon(3, Icon);
+  vilImages.GetIcon(3, Icon);
   edPath.Color := StyleServices.GetSystemColor(clWindow);  // RSP-26633
   CheckButtons;
 end;

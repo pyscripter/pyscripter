@@ -130,6 +130,7 @@ type
     SpTBXItem1: TSpTBXItem;
     ilProjects: TImageCollection;
     vilProjects: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);

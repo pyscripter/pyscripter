@@ -18,6 +18,7 @@ uses
   System.Variants,
   System.Classes,
   System.Actions,
+  System.ImageList,
   System.RegularExpressions,
   Vcl.Graphics,
   Vcl.Controls,
@@ -27,6 +28,8 @@ uses
   Vcl.StdCtrls,
   Vcl.Menus,
   Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   TB2Item,
   SpTBXItem,
   SpTBXControls,
@@ -62,6 +65,7 @@ type
     actClearOutput: TAction;
     actOutputFont: TAction;
     actCopy: TAction;
+    vilImages: TVirtualImageList;
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);
     procedure JvCreateProcessRead(Sender: TObject; const S: String;
