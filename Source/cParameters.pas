@@ -571,7 +571,7 @@ var
         if ValueExists and not HasQuestion and (Result = '') then begin
           DoRemoveParameter(AName);
           Exit;
-        end else if not ValueExists and HasValue and (Result <> '') then
+        end else if not ValueExists and (Result <> '') then
           RegisterParameter(AName, Result, nil);
       end;
       if not HasQuestion and ValueExists then
