@@ -488,6 +488,8 @@
           New Features
             Improved compatibility with venv virtual environments
             Restore code folding state when you start PyScripter (#973)
+            Syntax for adding and removing parameters (#971)
+              $[proc=?Question] adds parameter proc and $[proc=] removes it
             Improve DPI scaling
           Issues addressed
             #962, #948, #966, #967, #968, #972

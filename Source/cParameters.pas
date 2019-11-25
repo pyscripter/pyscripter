@@ -534,8 +534,8 @@ var
   (* calculates parameter value *)
   var
     P: PChar;
-    AName, AQuestion: string;
-    ValueFound, HasValue, HasQuestion: Boolean;
+    AName, AQuestion, ExistingValue: string;
+    ValueExists, HasValue, HasQuestion: Boolean;
   begin
     P:= PChar(AParam);
     (* empty parameter are special case *)
@@ -554,7 +554,7 @@ var
       else Result:= '';
       HasQuestion:= P^ = '?';
       (* search in parameters first for actual value *)
-      ValueFound:= ((AName <> '') and FindValue(AName, Result)) or HasValue;
+      ValueExists:= ((AName <> '') and FindValue(AName, ExistingValue));
       (* if we have assigned question - query for parameter value *)
       if HasQuestion then begin
         Inc(P);
@@ -564,10 +564,20 @@ var
         (* AQuestion can contain parameters *)
         else if PChar(AQuestion)^ = '''' then
           AQuestion:= ReplaceInText(AnsiExtractQuotedStr(P, ''''));
-        ValueFound:= InputQuery(_(SEnterParameterCaption), AQuestion, Result);
+        InputQuery(_(SEnterParameterCaption), AQuestion, Result);
       end;
+      if HasValue and (AName <> '') then begin
+        (* Register/Remove parameter*)
+        if ValueExists and not HasQuestion and (Result = '') then begin
+          DoRemoveParameter(AName);
+          Exit;
+        end else if not ValueExists and HasValue and (Result <> '') then
+          RegisterParameter(AName, Result, nil);
+      end;
+      if not HasQuestion and ValueExists then
+        Result := ExistingValue;
       (* check if someone can help us *)
-      if not (HasQuestion or HasValue) and not ValueFound then
+      if not (ValueExists or HasQuestion or HasValue) then
         if not Assigned(FOnUnknownParameter) then begin
           Dialogs.MessageDlg(_(SParameterNotFound), mtError, [mbOK], 0);
           Abort;
