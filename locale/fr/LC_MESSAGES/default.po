@@ -5,8 +5,10 @@
 # 
 # Translators:
 # phil phil <phil.prost@gmail.com>, 2018
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # Thomas LEDOS <thomas.ledos92@gmail.com>, 2018
+# Fonteneau Simon <sfonteneau@tranquil.it>, 2019
+# Vincent CARDON <vcardon@tranquil.it>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +16,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Thomas LEDOS <thomas.ledos92@gmail.com>, 2018\n"
+"Last-Translator: Vincent CARDON <vcardon@tranquil.it>, 2019\n"
 "Language-Team: French (https://www.transifex.com/luebbe/teams/82736/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -209,7 +211,7 @@ msgstr "&Description:"
 #. FileTemplatesDialog..Panel..GroupBox..Label4..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+M for Modifier completion"
-msgstr "Shift+Ctrl+P pour la complétion de modificateur."
+msgstr "Shift+Ctrl+M pour la complétion de modificateur."
 
 #. CodeTemplates..Panel..GroupBox..Label3..Caption
 #. CustomizeParams..Panel..Label3..Caption
@@ -686,7 +688,7 @@ msgstr "Ré&pertoires:"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
 #: dlgImportDirectory.pas uParams.pas
 msgid "Select directory"
-msgstr ""
+msgstr "Sélectionner un répertoire"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -829,62 +831,62 @@ msgstr "Désélectionner toutes les occurences"
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr ""
+msgstr "Versions Python"
 
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
-msgstr ""
+msgstr "Dossier"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
 msgid "Activate"
-msgstr ""
+msgstr "Activer"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected Python version"
-msgstr ""
+msgstr "Activer la version sélectionnée de Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #: dlgPythonVersions.dfm
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new Python version"
-msgstr ""
+msgstr "Ajouter une nouvelle version de Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
 msgid "Remove"
-msgstr ""
+msgstr "Supprimer"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected Python version"
-msgstr ""
+msgstr "Supprimer la version sélectionnée de Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
 msgid "Test selected Python version"
-msgstr ""
+msgstr "Tester la version sélectionnée de Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
 msgid "Show"
-msgstr ""
+msgstr "Afficher"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected Python version in Explorer"
-msgstr ""
+msgstr "Afficher la version sélectionnée de Python dans l'explorateur"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -894,7 +896,7 @@ msgstr ""
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr ""
+msgstr "Ouvrir l'invite de commande pour la version sélectionnée de Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -923,27 +925,27 @@ msgstr "Aide"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
-msgstr ""
+msgstr "Afficher l'aide"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
 #: dlgPythonVersions.dfm
 msgid "Rename"
-msgstr ""
+msgstr "Renommer"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
 msgid "Rename selected Python version"
-msgstr ""
+msgstr "Renommer la version sélectionnée de Python"
 
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
-msgstr ""
+msgstr "Chemin du fichier:"
 
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
 msgid "SSH Server:"
-msgstr ""
+msgstr "Serveur SSH:"
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
@@ -1010,7 +1012,7 @@ msgstr "&Paramètres:"
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
 #: dlgRunConfiguration.dfm
 msgid "Working &Directory:"
-msgstr ""
+msgstr "Répertoire de travail"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonEngines..Caption
@@ -1053,7 +1055,7 @@ msgstr "Distant (Wx)"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #. RunConfigurationForm..Panel1..GroupBox3..Caption
 #: dlgRunConfiguration.dfm
@@ -1063,7 +1065,7 @@ msgstr "Exécution externe"
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr ""
+msgstr "Définir les propriétés d'exécution externe"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -2410,7 +2412,7 @@ msgstr "Désélectionner tous les noeuds"
 #. Programmer's name for it: sPythonFileFilter
 #: dmCommands.dfm StringResources.pas
 msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr ""
+msgstr "Fichiers Python (*.py;*.pyw)|*.py;*.pyw"
 
 #. CommandsDataModule..ParameterCompletion..Title
 #. CommandsDataModule..actlMain..actParameterCompletion..Category
@@ -2629,7 +2631,7 @@ msgstr "Lecture seule"
 #. CommandsDataModule..actlMain..actEditReadOnly..Hint
 #: dmCommands.dfm
 msgid "Enable/disable editing"
-msgstr ""
+msgstr "Activer/désactiver l'édition"
 
 #. CommandsDataModule..actlMain..actSearchFind..Category
 #. CommandsDataModule..actlMain..actSearchFindNext..Category
@@ -3270,7 +3272,7 @@ msgstr "Aller à la position du &débugger"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr ""
+msgstr "Aller à la position actuelle du débugger"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3305,12 +3307,12 @@ msgstr "Fermer tous les fichiers sauf le fichier actif"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr ""
+msgstr "Tout Fermer à &Droite"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr ""
+msgstr "Fermer tous les fichiers à droite"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3378,18 +3380,18 @@ msgstr "Tout"
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
 msgid "Fold all"
-msgstr ""
+msgstr "Tout plier"
 
 #. CommandsDataModule..actlMain..actUnfoldAll..Hint
 #: dmCommands.dfm
 msgid "Unfold all"
-msgstr ""
+msgstr "Tout déplier"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Caption
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
 #: dmCommands.dfm
 msgid "Nearest"
-msgstr ""
+msgstr "Le plus proche"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm
@@ -3405,7 +3407,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
 #: dmCommands.dfm
 msgid "Regions"
-msgstr ""
+msgstr "Régions"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
 #. Programmer's name for it: SEdCmdFoldRanges
@@ -3427,12 +3429,12 @@ msgstr "Niveau 1"
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Fold level 1"
-msgstr ""
+msgstr "Plier le 1er niveau"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Unfold level 1"
-msgstr ""
+msgstr "Déplier le 1er niveau"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
@@ -3443,12 +3445,12 @@ msgstr "Niveau 2"
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Fold level 2"
-msgstr ""
+msgstr "Plier le 2nd niveau"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Unfold level 2"
-msgstr ""
+msgstr "Déplier le 2nd niveau"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
@@ -3459,12 +3461,12 @@ msgstr "Niveau 3"
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Fold level 3"
-msgstr ""
+msgstr "Plier le 3ème niveau"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Unfold level 3"
-msgstr ""
+msgstr "Déplier le 3ème niveau"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Caption
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
@@ -3475,12 +3477,12 @@ msgstr "Classes"
 #. CommandsDataModule..actlMain..actFoldClasses..Hint
 #: dmCommands.dfm
 msgid "Fold classes"
-msgstr ""
+msgstr "Plier les classes"
 
 #. CommandsDataModule..actlMain..actUnfoldClasses..Hint
 #: dmCommands.dfm
 msgid "Unfold classes"
-msgstr ""
+msgstr "Déplier les classes"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Caption
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
@@ -3491,33 +3493,33 @@ msgstr "Fonctions"
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Fold functions"
-msgstr ""
+msgstr "Plier les fonctions"
 
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Unfold functions"
-msgstr ""
+msgstr "Déplier les fonctions"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr ""
+msgstr "Enregistrer vers un Fichier Distant"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr ""
+msgstr "Enregistrer vers un fichier distant avec SSH"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
 msgid "&Donate"
-msgstr ""
+msgstr "&Faire un don"
 
 #. CommandsDataModule..actlMain..actDonate..Hint
 #: dmCommands.dfm
 msgid "Donate to the PyScripter project"
-msgstr ""
+msgstr "Faire un don au projet PyScripter"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
@@ -3874,12 +3876,12 @@ msgstr "Fermer l'onglet actif"
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Fold"
-msgstr ""
+msgstr "Plier"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Unfold"
-msgstr ""
+msgstr "Déplier"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4602,17 +4604,17 @@ msgstr "Débugger la configuration sélectionnée"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr ""
+msgstr "Ajouter un fichier distant"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr ""
+msgstr "Ajouter un fichier distant au dossier"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
 msgid "Python version"
-msgstr ""
+msgstr "Version de Python"
 
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
 #: frmPyIDEMain.dfm dmCommands.pas
@@ -4685,7 +4687,7 @@ msgstr "Séparer l'éditeur"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace"
-msgstr ""
+msgstr "Séparer l'espace de travail"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..Caption
 #: frmPyIDEMain.dfm
@@ -4856,7 +4858,7 @@ msgstr "&Projet"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..SpTBXSubmenuItem1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Projects"
-msgstr ""
+msgstr "&Projets Récents"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -5625,12 +5627,12 @@ msgstr "Activer l'éditeur"
 #. PyIDEMainForm..actlStandard..actPythonSSH..Caption
 #: frmPyIDEMain.dfm
 msgid "&SSH"
-msgstr ""
+msgstr "&SSH"
 
 #. PyIDEMainForm..actlStandard..actPythonSSH..Hint
 #: frmPyIDEMain.dfm
 msgid "Use an SSH remote Python engine"
-msgstr ""
+msgstr "Utiliser un moteur Python distant SSH"
 
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
@@ -5723,12 +5725,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "Cacher l'Espace de Travail Secondaire"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "Cacher l'espace de travail secondaire"
 
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
@@ -5738,24 +5740,24 @@ msgstr "Styles..."
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python Versions..."
-msgstr ""
+msgstr "Définir les version de Python ..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
 msgid "Setup Python engine"
-msgstr ""
+msgstr "Définir le moteur Python"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
 #. SSH File and Remote engine
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr ""
+msgstr "Ouvrir un Fichier Distant"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr ""
+msgstr "Ouvrir un Fichier Distant avec SSH"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -5804,7 +5806,7 @@ msgstr "Copier le texte sélectionné sans demandes de confirmation"
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
 msgid "Paste && E&xecute"
-msgstr ""
+msgstr "Coller && E&xécuter"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
@@ -6132,7 +6134,7 @@ msgstr "Sans nom"
 
 #: cProjectClasses.pas
 msgid "Files"
-msgstr ""
+msgstr "Fichiers"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
@@ -6141,76 +6143,76 @@ msgstr ""
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
-msgstr ""
+msgstr "Entrez le mot de passe SSH pour %s"
 
 #: cSSHSupport.pas
 msgid "Password:"
-msgstr ""
+msgstr "Mot de passe:"
 
 #: cSSHSupport.pas
 msgid "SSH Servers"
-msgstr ""
+msgstr "Serveurs SSH"
 
 #: cSSHSupport.pas
 msgid "Select SSH Server"
-msgstr ""
+msgstr "Sélectionnez le serveur SSH"
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
-msgstr ""
+msgstr "Nom du serveur SSH"
 
 #: cSSHSupport.pas
 msgid "Host name"
-msgstr ""
+msgstr "Nom d'hôte"
 
 #: cSSHSupport.pas uParams.pas
 msgid "User name"
-msgstr ""
+msgstr "Utilisateur"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
-msgstr ""
+msgstr "Commande pour exécuter Python (sans espaces)"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
-msgstr ""
+msgstr "Chemin vers l'exécutable SSH"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
-msgstr ""
+msgstr "Options SSH"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
-msgstr ""
+msgstr "Chemin vers l'exécutable SCP"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
-msgstr ""
+msgstr "Options SCP"
 
 #: cSSHSupport.pas
 msgid "Password Needed (PyTTY only)"
-msgstr ""
+msgstr "Mot de passe requis (uniquement pour PyTTY)"
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
-msgstr ""
+msgstr "Modifier le serveur SSH"
 
 #. Add a few standard tools to the collection
 #: cTools.pas
 msgid "Python &Interpreter"
-msgstr ""
+msgstr "Interpréteur Python"
 
 #: cTools.pas
 msgid "External Python Interpreter"
-msgstr ""
+msgstr "Interpréteur Python Externe"
 
 #: cTools.pas
 msgid "Install Packages with pip"
-msgstr ""
+msgstr "Installer des paquets avec pip"
 
 #: cTools.pas
 msgid "Install Python packages"
-msgstr ""
+msgstr "Installer des paquets Python"
 
 #: cTools.pas
 msgid "Python&Win help"
@@ -6222,11 +6224,11 @@ msgstr ""
 
 #: cTools.pas
 msgid "Check &Indentation"
-msgstr ""
+msgstr "Vérifier l'&Indentation"
 
 #: cTools.pas
 msgid "Check the indentation of the Python program"
-msgstr ""
+msgstr "Vérifier l'indentation du programme Python"
 
 #: cTools.pas
 msgid "Command Prompt"
@@ -6246,7 +6248,7 @@ msgstr ""
 
 #: cTools.pas
 msgid "PyLint tool (www.logilab.org/projects/pylint)"
-msgstr ""
+msgstr "Utilitaires Pylint (www.logilab.org/projects/pylint)"
 
 #: cTools.pas
 msgid "Advanced Replace"
@@ -6258,7 +6260,7 @@ msgstr ""
 
 #: cTools.pas
 msgid "Sort Selection"
-msgstr ""
+msgstr "Trier la Sélection"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
@@ -6266,11 +6268,11 @@ msgstr ""
 
 #: cTools.pas
 msgid "&Re-indent"
-msgstr ""
+msgstr "&Ré-indenter"
 
 #: cTools.pas
 msgid "Re-indent the active file"
-msgstr ""
+msgstr "Ré-indenter le fichier actif"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6300,79 +6302,79 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Arabic: %s"
-msgstr ""
+msgstr "Arabe : %s "
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationChinese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Chinese: %s"
-msgstr ""
+msgstr "Chinois : %s "
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationFrench
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "French: %s"
-msgstr ""
+msgstr " Français : %s "
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGerman
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "German: %s"
-msgstr ""
+msgstr "Allemand : %s "
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGreek
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Greek: %s"
-msgstr ""
+msgstr " Grec : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationItalian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Italian: %s"
-msgstr ""
+msgstr " Italien : %s "
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Japanese: %s"
-msgstr ""
+msgstr " Japonais : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Taqbaylit: %s"
-msgstr ""
+msgstr "Kabyle : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortugueseBR
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Brazil): %s"
-msgstr ""
+msgstr "Portugais (Brésil) : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Portugal): %s"
-msgstr ""
+msgstr "Portugais (Portugal) : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationRussian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Russian: %s"
-msgstr ""
+msgstr "Russe : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Slovak: %s"
-msgstr ""
+msgstr "Slovaque : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Spanish: %s"
-msgstr ""
+msgstr "Espagnol : %s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6389,23 +6391,23 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
-msgstr ""
+msgstr "Responsable des traductions"
 
 #: dlgAboutPyScripter.pas
 msgid "Translators"
-msgstr ""
+msgstr "Traducteurs"
 
 #: dlgAboutPyScripter.pas
 msgid "Artwork and theme design"
-msgstr ""
+msgstr "Design et conception graphique"
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
-msgstr ""
+msgstr "Contributions financières"
 
 #: dlgCollectionEditor.pas
 msgid "Please make a selection"
-msgstr ""
+msgstr "Veuillez choisir"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
@@ -6430,7 +6432,7 @@ msgstr ""
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
-msgstr ""
+msgstr "Rechercher dans ce Répertoire :"
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
@@ -6438,11 +6440,11 @@ msgstr ""
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
-msgstr ""
+msgstr "Renommer la version de Python"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr ""
+msgstr "Nouveau nom :"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -6461,7 +6463,7 @@ msgstr ""
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr ""
+msgstr "Page"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
@@ -6594,7 +6596,7 @@ msgstr "Filtres de l'explorateur de fichiers"
 
 #: dmCommands.pas
 msgid "text file"
-msgstr ""
+msgstr "fichier texte"
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6748,11 +6750,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "SSH command"
-msgstr ""
+msgstr "Commande SSH"
 
 #: dmCommands.pas
 msgid "SCP command"
-msgstr ""
+msgstr "Commande SCP"
 
 #: dmCommands.pas
 msgid "Disable Variables Window with SSH"
@@ -6764,12 +6766,12 @@ msgstr "Configurer les outils"
 
 #: dmCommands.pas
 msgid "File download failed"
-msgstr ""
+msgstr "Le téléchargement du fichier a échoué"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Python Module \"%s\""
-msgstr ""
+msgstr "Module Python \"%s\" "
 
 #: frmCodeExplorer.pas
 msgid "Imports"
@@ -6777,7 +6779,7 @@ msgstr ""
 
 #: frmCodeExplorer.pas
 msgid "Imported modules"
-msgstr ""
+msgstr "Modules importés"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6801,7 +6803,7 @@ msgstr ""
 
 #: frmCodeExplorer.pas
 msgid "Global variables"
-msgstr ""
+msgstr "Variables globales"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6819,11 +6821,11 @@ msgstr ""
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
-msgstr ""
+msgstr "Attributs"
 
 #: frmCodeExplorer.pas
 msgid "Class attributes"
-msgstr ""
+msgstr "Attributs de classe"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6894,11 +6896,11 @@ msgstr "Débugger"
 
 #: frmPyIDEMain.pas
 msgid "Running"
-msgstr ""
+msgstr "En cours"
 
 #: frmPyIDEMain.pas
 msgid "Paused"
-msgstr ""
+msgstr "Suspendu"
 
 #: frmPyIDEMain.pas
 msgid "Post mortem"
@@ -7042,7 +7044,7 @@ msgstr ""
 #. Programmer's name for it: SEdCmdCut
 #: StringResources.pas
 msgid "Cut"
-msgstr ""
+msgstr "Couper"
 
 #. Programmer's name for it: SEdCmdDeleteBOL
 #: StringResources.pas

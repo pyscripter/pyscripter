@@ -5,7 +5,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # Edwin Yip <edwin.yip@innovationgear.com>, 2018
 # Bob Cao <yongbo_cao@163.com>, 2019
 # forest Ren <rzg_cn@163.com>, 2019
@@ -58,6 +58,10 @@ msgid "Taqbaylit"
 msgstr "阿拉伯语"
 
 #. Language of Portugal, Europe
+msgid "Polish"
+msgstr ""
+
+#. Language of Portugal, Europe
 msgid "Portuguese (Portugal)"
 msgstr "葡萄牙语(Portugal)"
 
@@ -76,3 +80,7 @@ msgstr "斯洛伐克"
 #. Language of Spain
 msgid "Spanish"
 msgstr "西班牙语"
+
+#. Language of Ukraine
+msgid "Ukrainian"
+msgstr ""

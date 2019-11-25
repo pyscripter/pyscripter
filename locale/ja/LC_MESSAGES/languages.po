@@ -5,7 +5,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # 松原 薪之介 <sinnosuke5524@gmail.com>, 2019
 # 
 #, fuzzy
@@ -56,6 +56,10 @@ msgid "Taqbaylit"
 msgstr "カビル語"
 
 #. Language of Portugal, Europe
+msgid "Polish"
+msgstr ""
+
+#. Language of Portugal, Europe
 msgid "Portuguese (Portugal)"
 msgstr "ポルトガル語（ポルトガル）"
 
@@ -74,3 +78,7 @@ msgstr "スロバキア語"
 #. Language of Spain
 msgid "Spanish"
 msgstr "スペイン語"
+
+#. Language of Ukraine
+msgid "Ukrainian"
+msgstr ""

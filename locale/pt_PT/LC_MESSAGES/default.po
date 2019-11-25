@@ -4,7 +4,8 @@
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
+# Gustavo Carreno <guscarreno@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: Gustavo Carreno <guscarreno@gmail.com>, 2019\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/luebbe/teams/82736/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -207,14 +208,14 @@ msgstr "&Descrição:"
 #. FileTemplatesDialog..Panel..GroupBox..Label4..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+M for Modifier completion"
-msgstr "Pressione Shift+Ctrl+M para Complementar modificação"
+msgstr "Pressione Shift+Ctrl+M para completar Modificador"
 
 #. CodeTemplates..Panel..GroupBox..Label3..Caption
 #. CustomizeParams..Panel..Label3..Caption
 #. FileTemplatesDialog..Panel..GroupBox..Label3..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+P for Parameter completion"
-msgstr "Pressione Shift+Ctrl+P para complementar Parâmetro"
+msgstr "Pressione Shift+Ctrl+P para completar Parâmetro"
 
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
@@ -367,7 +368,7 @@ msgid ""
 "Please enter parameters to be appended to the command line:\n"
 "Note that the script name is automatically inserted as the first argument."
 msgstr ""
-"Por favor, entre com os parâmetros que serão adicionados à linha de comando:\n"
+"Por favor, introduza os parâmetros que serão adicionados à linha de comando:\n"
 "Observe que o nome do script é inserido automaticamente como o primeiro argumento."
 
 #. CommandLineDlg..Panel..Label3..Caption
@@ -413,7 +414,7 @@ msgstr "Parâmetros Customizados"
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Caption
 #: dlgCustomParams.dfm dlgToolProperties.dfm
 msgid "Name-Value Pair"
-msgstr "Copia Nome-Valor"
+msgstr "Par Nome-Valor"
 
 #. CustomizeParams..Panel..GroupBox1..Label2..Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Label16..Caption
