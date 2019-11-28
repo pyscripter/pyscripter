@@ -26,6 +26,8 @@ uses
   Vcl.ActnList,
   Vcl.StdActns,
   Vcl.ImgList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
   SynEdit,
   SynEditPrint,
   SynUnicode,
@@ -54,7 +56,7 @@ uses
   dlgSynEditOptions,
   dlgOptionsEditor,
   uEditAppIntfs,
-  cPyBaseDebugger, Vcl.BaseImageCollection, Vcl.ImageCollection;
+  cPyBaseDebugger;
 
 type
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -122,7 +124,6 @@ type
   end;
 
   TCommandsDataModule = class(TDataModule)
-    SynPythonSyn: TSynPythonSyn;
     SynEditPrint: TSynEditPrint;
     PrintDialog: TPrintDialog;
     PrinterSetupDialog: TPrinterSetupDialog;
@@ -369,6 +370,7 @@ type
   protected
     procedure Loaded; override;
   public
+    SynPythonSyn: TSynPythonSyn;
     SynYAMLSyn: TSynYAMLSyn;
     SynCythonSyn: TSynCythonSyn;
     function GetHighlighterForFile(AFileName: string): TSynCustomHighlighter;
@@ -630,18 +632,13 @@ end;
 
 { TCommandsDataModule }
 
-type
-  TCrackSynCustomHighlighter = class(TSynCustomHighlighter)
-  end;
-
 procedure TCommandsDataModule.DataModuleCreate(Sender: TObject);
 var
-  i: Integer;
-  Highlighter : TSynCustomHighlighter;
   SHFileInfo: TSHFileInfo;
   Index : integer;
 begin
   // Setup Highlighters
+  SynPythonSyn := TSynPythonSyn.Create(Self);
   SynYAMLSyn := TSynYAMLSyn.Create(Self);
   SynCythonSyn := TSynCythonSyn.Create(Self);
   SynCythonSyn.Assign(SynPythonSyn);
@@ -663,15 +660,6 @@ begin
   Index := fHighlighters.IndexOf(SynGeneralSyn.FriendlyLanguageName);
   if Index >= 0 then fHighlighters.Delete(Index);
   fHighlighters.AddObject(SynGeneralSyn.FriendlyLanguageName, SynGeneralSyn);
-
-  // this is to save the internal state of highlighter attributes
-  // Work around for the reported bug according to which some
-  // highlighter attributes were not saved
-  for i := 0 to Highlighters.Count - 1 do begin
-    Highlighter := Highlighters.Objects[i] as TSynCustomHighlighter;
-    with TCrackSynCustomHighlighter(Highlighter) do
-        SetAttributesOnChange(DefHighlightChange);
-  end;
 
   // SynWeb Highlighters do not provide default filters
   SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;

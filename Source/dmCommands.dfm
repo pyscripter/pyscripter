@@ -4,26 +4,6 @@ object CommandsDataModule: TCommandsDataModule
   OnDestroy = DataModuleDestroy
   Height = 392
   Width = 675
-  object SynPythonSyn: TSynPythonSyn
-    DefaultFilter = 'Python Files (*.py;*.pyw)|*.py;*.pyw'
-    Options.AutoDetectEnabled = False
-    Options.AutoDetectLineLimit = 0
-    Options.Visible = False
-    IdentifierAttri.Foreground = clBlack
-    KeyAttri.Foreground = clNavy
-    NonKeyAttri.Style = []
-    NumberAttri.Foreground = clTeal
-    HexAttri.Foreground = clTeal
-    OctalAttri.Foreground = clTeal
-    FloatAttri.Foreground = clTeal
-    SpaceAttri.Background = clWhite
-    SpaceAttri.Foreground = clSilver
-    StringAttri.Foreground = clOlive
-    DocStringAttri.Foreground = 16711884
-    SymbolAttri.Foreground = clMaroon
-    Left = 616
-    Top = 212
-  end
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.DefaultFont.Charset = DEFAULT_CHARSET
@@ -51,7 +31,6 @@ object CommandsDataModule: TCommandsDataModule
     Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
-    Highlighter = SynPythonSyn
     TabWidth = 8
     Color = clWhite
     Left = 188
