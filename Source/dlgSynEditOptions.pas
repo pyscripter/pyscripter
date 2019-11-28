@@ -956,9 +956,16 @@ begin
       AppStorage.Location := flCustom;
       AppStorage.FileName := FileName;
       for i := 0 to cbHighlighters.Items.Count - 1 do
+      begin
+        TSynCustomHighlighter(cbHighlighters.Items.Objects[i]).BeginUpdate;
+        try
           AppStorage.ReadPersistent('Highlighters\'+
             TSynCustomHighlighter(cbHighlighters.Items.Objects[i]).FriendlyLanguageName,
             TPersistent(cbHighlighters.Items.Objects[i]));
+        finally
+          TSynCustomHighlighter(cbHighlighters.Items.Objects[i]).EndUpdate;
+        end;
+      end;
     finally
         AppStorage.Free;
     end;
@@ -1167,8 +1174,13 @@ begin
       AppStorage.FlushOnDestroy := False;
       AppStorage.Location := flCustom;
       AppStorage.FileName := FileName;
-      AppStorage.ReadPersistent('Highlighters\'+SynThemeSample.Highlighter.FriendlyLanguageName,
-          SynThemeSample.Highlighter);
+      SynThemeSample.Highlighter.BeginUpdate;
+      try
+        AppStorage.ReadPersistent('Highlighters\'+SynThemeSample.Highlighter.FriendlyLanguageName,
+            SynThemeSample.Highlighter);
+      finally
+        SynThemeSample.Highlighter.EndUpdate;
+      end;
     finally
       AppStorage.Free;
     end;

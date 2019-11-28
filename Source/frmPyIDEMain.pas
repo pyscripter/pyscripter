@@ -3324,13 +3324,26 @@ begin
       end;
 
       for i := 0 to Highlighters.Count - 1 do
-        AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
-          TPersistent(Highlighters.Objects[i]));
+      begin
+        TSynCustomHighlighter(Highlighters.Objects[i]).BeginUpdate;
+        try
+          AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
+            TPersistent(Highlighters.Objects[i]));
+        finally
+          TSynCustomHighlighter(Highlighters.Objects[i]).EndUpdate;
+        end;
+      end;
       CommandsDataModule.ApplyEditorOptions;
       if AppStorage.PathExists('Highlighters\Intepreter') then
-        AppStorage.ReadPersistent('Highlighters\Intepreter',
-          PythonIIForm.SynEdit.Highlighter);
-
+      begin
+        PythonIIForm.SynEdit.Highlighter.BeginUpdate;
+        try
+          AppStorage.ReadPersistent('Highlighters\Intepreter',
+            PythonIIForm.SynEdit.Highlighter);
+        finally
+          PythonIIForm.SynEdit.Highlighter.EndUpdate;
+        end;
+      end;
       AppStorage.DeleteSubTree('Highlighters');
 
       if AppStorage.PathExists('Interpreter Editor Options') then begin
