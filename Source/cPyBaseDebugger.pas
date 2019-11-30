@@ -281,11 +281,6 @@ Const
       (Value: 28; Name: 'xrange')
       );
 
-
-const
-   EngineInitFile = 'python_init.py';
-   PyScripterInitFile = 'pyscripter_init.py';
-
 implementation
 
 uses
@@ -401,17 +396,13 @@ end;
 
 procedure TPyBaseInterpreter.Initialize;
 // Execute python_init.py
-Var
-  FileName : String;
 begin
-  FileName := TPyScripterSettings.UserDataPath + EngineInitFile;
-
   try
-    RunScript(FileName);
+    RunScript(TPyScripterSettings.EngineInitFile);
   except
     on E: Exception do
       Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
-        [EngineInitFile, E.Message]), mtError, [mbOK], 0);
+        [TPyScripterSettings.EngineInitFile, E.Message]), mtError, [mbOK], 0);
   end;
 end;
 

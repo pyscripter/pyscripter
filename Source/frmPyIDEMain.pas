@@ -490,9 +490,11 @@
             Restore code folding state when you start PyScripter (#973)
             Syntax for adding and removing parameters (#971)
               $[proc=?Question] adds parameter proc and $[proc=] removes it
-            Improve DPI scaling
+            Highlighters and styles are now installed under ProgramData
+            Improved DPI scaling
+            Two new styles added (Calypso and Stellar)
           Issues addressed
-            #962, #948, #966, #967, #968, #972
+            #948, #962, #966, #967, #968, #972
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
@@ -1490,7 +1492,6 @@ type
 procedure TPyIDEMainForm.FormCreate(Sender: TObject);
 Var
   TabHost : TJvDockTabHostForm;
-  OptionsFileName: string;
   LocalOptionsFileName: string;
 begin
   // Style DPI awareness
@@ -1524,23 +1525,13 @@ begin
   GI_PyIDEServices := Self;
 
   // Application Storage
-  OptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.ini');
   AppStorage.Encoding := TEncoding.UTF8;
-  if FileExists(ChangeFileExt(Application.ExeName, '.ini')) then begin
-    AppStorage.Location := flExeFile;
-    AppStorage.FileName := OptionsFileName;
-  end else if FileExists(IncludeTrailingPathDelimiter(GetHomePath) + OptionsFileName) then begin
-    AppStorage.Location := flUserFolder;
-    AppStorage.FileName := OptionsFileName;
-  end else  // default location
-    AppStorage.FileName :=
-      TPyScripterSettings.UserDataPath + OptionsFileName;
+  AppStorage.FileName := TPyScripterSettings.OptionsFileName;
 
   // LocalAppStorage
   LocalOptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.local.ini');
-  LocalAppStorage.Location := flCustom;
   LocalAppStorage.FileName :=
-      TPyScripterSettings.UserDataPath + LocalOptionsFileName;
+    TPyScripterSettings.UserDataPath + LocalOptionsFileName;
 
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before All Forms', StopWatch.ElapsedMilliseconds])));
   // Create and layout IDE windows

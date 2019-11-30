@@ -132,12 +132,8 @@ begin
     TStyleManager.FormBorderStyle := fbsSystemStyle;
 
   Application.Initialize;
+  SetDefaultUIFont(Application.DefaultFont);
 
-  if CheckWin32Version(6) then // at least Vista
-    begin
-      Application.DefaultFont.Name := 'Segoe UI';
-      Application.DefaultFont.Size := 9;
-    end;
   Application.MainFormOnTaskbar := True;
 
   if TStyleManager.TrySetStyle('Windows10 Dark') then

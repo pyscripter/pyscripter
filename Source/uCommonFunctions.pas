@@ -133,9 +133,8 @@ function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Intege
 
 (* Used to get Vista and code fonts *)
 function DefaultCodeFontName: string;
-procedure SetDefaultFonts(const AFont: TFont);
-procedure SetDesktopIconFonts(const AFont: TFont);
-procedure SetVistaContentFonts(const AFont: TFont);
+procedure SetDefaultUIFont(const AFont: TFont);
+procedure SetContentFont(const AFont: TFont);
 
 (* Visual Studio replacement for SynEdits NextWord *)
 function VSNextWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
@@ -1164,23 +1163,20 @@ begin
       Result := 'Courier New';
 end;
 
-procedure SetDefaultFonts(const AFont: TFont);
+procedure SetDefaultUIFont(const AFont: TFont);
+Const
+  UIFont = 'Segoe UI';
 begin
-  AFont.Handle := GetStockObject(DEFAULT_GUI_FONT);
+  if CheckWin32Version(6)
+    and not SameText(AFont.Name, UIFont)
+    and (Screen.Fonts.IndexOf(UIFont) >= 0) then
+  begin
+    AFont.Size := 9;
+    AFont.Name := UIFont;
+  end;
 end;
 
-procedure SetDesktopIconFonts(const AFont: TFont);
-var
-  LogFont: TLogFont;
-begin
-  if SystemParametersInfo(SPI_GETICONTITLELOGFONT, SizeOf(LogFont),
-    @LogFont, 0) then
-    AFont.Handle := CreateFontIndirect(LogFont)
-  else
-    SetDefaultFonts(AFont);
-end;
-
-procedure SetVistaContentFonts(const AFont: TFont);
+procedure SetContentFont(const AFont: TFont);
 Const
   VistaContentFont = 'Calibri';
 begin
@@ -1188,7 +1184,7 @@ begin
     and not SameText(AFont.Name, VistaContentFont)
     and (Screen.Fonts.IndexOf(VistaContentFont) >= 0) then
   begin
-    AFont.Size := AFont.Size + 1;
+    AFont.Size := 9;
     AFont.Name := VistaContentFont;
   end;
 end;

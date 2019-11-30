@@ -689,7 +689,6 @@ end;
 procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
 Var
   II : Variant;   // wrapping sys and code modules
-  FileName : String;
 begin
   if InternalPython.Loaded then
   begin
@@ -717,13 +716,12 @@ begin
     fInternalInterpreter.Initialize;
 
     // Execute pyscripter_init.py
-    FileName := TPyScripterSettings.UserDataPath + PyScripterInitFile;
     try
-      fInternalInterpreter.RunScript(FileName);
+      fInternalInterpreter.RunScript(TPyScripterSettings.PyScripterInitFile);
     except
       on E: Exception do
         Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
-          [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
+          [TPyScripterSettings.PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
     end;
 
     // Notify Python Version Change

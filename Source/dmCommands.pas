@@ -1070,8 +1070,8 @@ end;
 
 procedure TCommandsDataModule.actToolsEditStartupScriptsExecute(Sender: TObject);
 begin
-  PyIDEMainForm.DoOpenFile(TPyScripterSettings.UserDataPath + PyScripterInitFile);
-  PyIDEMainForm.DoOpenFile(TPyScripterSettings.UserDataPath + EngineInitFile);
+  PyIDEMainForm.DoOpenFile(TPyScripterSettings.PyScripterInitFile);
+  PyIDEMainForm.DoOpenFile(TPyScripterSettings.EngineInitFile);
 end;
 
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);

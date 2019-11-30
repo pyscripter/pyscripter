@@ -308,12 +308,16 @@ type
 {$METHODINFO OFF}
 
   TPyScripterSettings = class
-    class var UserDataPath : string;
-    class var ColorThemesFilesDir : string;
-    class var StylesFilesDir : string;
+    class var IsPortable: Boolean;
+    class var UserDataPath: string;
+    class var OptionsFileName: string;
+    class var ColorThemesFilesDir: string;
+    class var StylesFilesDir: string;
+    class var EngineInitFile: string;
+    class var PyScripterInitFile: string;
     class var ShellImages: TCustomImageList;
     class var DefaultEditorKeyStrokes: TSynEditKeyStrokes;
-    class procedure RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);
+    class procedure RegisterEditorUserCommands(Keystrokes: TSynEditKeyStrokes);
     class procedure CreateIDEOptions;
     class procedure CreateEditorOptions;
     class constructor CreateSettings;
@@ -341,6 +345,7 @@ uses
   Winapi.Windows,
   System.UITypes,
   System.SysUtils,
+  System.IOUtils,
   Vcl.Forms,
   Vcl.Dialogs,
   uHighlighterProcs,
@@ -514,7 +519,7 @@ begin
   fJumpToErrorOnException := True;
   fFileTemplateForNewScripts := _(SPythonTemplateName);
   fAutoCompletionFont := TFont.Create;
-  fAutoCompletionFont.Assign(Application.DefaultFont);
+  SetDefaultUIFont(fAutoCompletionFont);
   fHighlightSelectedWord := True;
   fHighlightSelectedWordColor := clOlive;
   fFileChangeNotification := fcnNoMappedDrives;
@@ -842,32 +847,48 @@ begin
 end;
 
 class constructor TPyScripterSettings.CreateSettings;
-begin
-  // User Data directory for storing the ini file etc.
-  if FileExists(ChangeFileExt(Application.ExeName, '.ini')) then
-    // Portable version - nothing is stored in other directories
-    UserDataPath :=   ExtractFilePath(Application.ExeName)
-  else begin
-    UserDataPath := IncludeTrailingPathDelimiter(GetHomePath) + 'PyScripter\';
-    if not ForceDirectories(UserDataPath) then
-      Vcl.Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
+
+  procedure CopyFileIfNeeded(const Source, Dest: string);
+  begin
+    if not FileExists(Dest) and FileExists(Source) then
+    try
+       TFile.Copy(Source, Dest);
+    except
+      on E:Exception do
+        raise Exception.CreateFmt(_('Error in copying file "%s" to "%s"'
+          + SLineBreak + 'Error Message: '), [Source, Dest, E.Message]);
+    end;
   end;
 
-  // Skins directory
-  ColorThemesFilesDir := UserDataPath + 'Highlighters';
-  if not DirectoryExists(ColorThemesFilesDir) then
-    try
-      CreateDir(ColorThemesFilesDir);
-    except
-    end;
-
-  // Styles directory
-  StylesFilesDir := UserDataPath + 'Styles';
-  if not DirectoryExists(StylesFilesDir) then
-    try
-      CreateDir(StylesFilesDir);
-    except
-    end;
+var
+  PublicPath: string;
+begin
+  OptionsFileName := ChangeFileExt(Application.ExeName, '.ini');
+  IsPortable := FileExists(OptionsFileName);
+  if IsPortable then begin
+    // Portable version - nothing is stored in other directories
+    UserDataPath :=   ExtractFilePath(Application.ExeName);
+    ColorThemesFilesDir := TPath.Combine(UserDataPath, 'Highlighters');
+    StylesFilesDir := TPath.Combine(UserDataPath, 'Styles');
+  end else begin
+    UserDataPath := TPath.Combine(GetHomePath,  'PyScripter\');
+    OptionsFileName := TPath.Combine(UserDataPath, 'PyScripter.ini');
+    if not ForceDirectories(UserDataPath) then
+      Vcl.Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]),
+      mtWarning, [mbOK], 0);
+    PublicPath := TPath.Combine(TPath.GetPublicPath, 'PyScripter\');
+    ColorThemesFilesDir := TPath.Combine(PublicPath, 'Highlighters');
+    StylesFilesDir := TPath.Combine(PublicPath, 'Styles');
+    // First use setup
+    CopyFileIfNeeded(TPath.Combine(PublicPath, 'PyScripter.ini'), OptionsFileName);
+  end;
+  EngineInitFile := TPath.Combine(UserDataPath, 'python_init.py');
+  PyScripterInitFile := TPath.Combine(UserDataPath, 'pyscripter_init.py');
+  if not IsPortable then begin
+    // First use setup
+    CopyFileIfNeeded(TPath.Combine(PublicPath, 'python_init.py'), EngineInitFile);
+    CopyFileIfNeeded(TPath.Combine(PublicPath, 'pyscripter_init.py'), PyScripterInitFile);
+  end;
 
   TPyScripterSettings.CreateIDEOptions;
   TPyScripterSettings.CreateEditorOptions;
