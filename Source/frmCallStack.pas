@@ -17,24 +17,27 @@ uses
   System.Classes,
   System.Generics.Collections,
   System.Actions,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
   SpTBXSkins,
   SpTBXItem,
   SpTBXControls,
+  SpTBXDkPanels,
   VirtualTrees,
   frmIDEDockWin,
   dmCommands,
   cPyControl,
-  cPyBaseDebugger, SpTBXDkPanels, System.ImageList, Vcl.ImgList,
-  Vcl.VirtualImageList;
+  cPyBaseDebugger;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)

@@ -582,7 +582,7 @@ begin
   begin
     TCustomSynEdit(Dest).BeginUpdate;
     try
-      TCustomSynEdit(Dest).Font.Assign(Self.Font);
+      TCustomSynEdit(Dest).Font := Self.Font;
       TCustomSynEdit(Dest).BookmarkOptions.Assign(Self.BookmarkOptions);
       TCustomSynEdit(Dest).Gutter.Assign(Self.Gutter);
       TCustomSynEdit(Dest).Keystrokes.Assign(Self.Keystrokes);

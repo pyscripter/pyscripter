@@ -498,7 +498,6 @@
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
-            { TODO: Interpreter raw_input #311 }
             { TODO: LiveTemplates features for Code Templates }
 
 

@@ -1227,7 +1227,7 @@ begin
   end;
 
   InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
-  InterpreterEditorOptions.Font.Assign(EditorOptions.Font);
+  InterpreterEditorOptions.Font := EditorOptions.Font;
   PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
   PythonIIForm.RegisterHistoryCommands;
   PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);

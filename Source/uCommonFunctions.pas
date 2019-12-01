@@ -990,9 +990,9 @@ var
   SyncInputQuery : TSyncInputQuery;
   SaveThreadState: PPyThreadState;
 begin
-  if GetCurrentThreadId = MainThreadId then begin
-    Result := InputQuery(ACaption, APrompt, Value);
-  end else begin
+  if GetCurrentThreadId = MainThreadId then
+    Result := InputQuery(ACaption, APrompt, Value)
+  else begin
     SyncInputQuery := TSyncInputQuery.Create(ACaption, APrompt, Value);
     try
       with GetPythonEngine do begin
