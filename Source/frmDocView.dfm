@@ -152,7 +152,7 @@ object DocForm: TDocForm
         Disabled = False
         Name = 'Item10'
       end>
-    ImageCollection = CommandsDataModule.BrowserImages
+    ImageCollection = CommandsDataModule.icBrowserImages
     Left = 40
     Top = 72
   end

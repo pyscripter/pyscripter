@@ -150,7 +150,7 @@ object WebPreviewForm: TWebPreviewForm
         Disabled = False
         Name = 'Item10'
       end>
-    ImageCollection = CommandsDataModule.BrowserImages
+    ImageCollection = CommandsDataModule.icBrowserImages
     Left = 40
     Top = 96
   end
