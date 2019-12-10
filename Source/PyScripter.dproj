@@ -129,6 +129,8 @@
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
         <Debugger_IncludeSystemVars>true</Debugger_IncludeSystemVars>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=3.6.2.1;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=3.5.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
