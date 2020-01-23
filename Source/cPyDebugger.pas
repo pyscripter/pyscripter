@@ -941,7 +941,8 @@ begin
   fDebugger := II.debugger;
 
   // sys.displayhook
-  fII.setupdisplayhook()
+  if PyIDEOptions.PrettyPrintOutput then
+    fII.setupdisplayhook()
 end;
 
 procedure TPyInternalInterpreter.CreateMainModule;
