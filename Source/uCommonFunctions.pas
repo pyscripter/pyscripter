@@ -614,6 +614,7 @@ end;
 function GetWordAtPos(const LineText : string; Start : Integer; WordChars : TSysCharSet;
   ScanBackwards : boolean = True; ScanForward : boolean = True;
   HandleBrackets : Boolean = False) : string;
+{ TODO : Replace WordChars with IsLetterOrDigit to properly deal with Unicode }
 Var
   i : integer;
   L, WordStart, WordEnd, ParenCounter, NewStart : integer;
@@ -626,7 +627,9 @@ begin
   L := Length(LineText);
   WordStart := Start;
   WordEnd := Start;
-  if (Start <= 0) or (Start > L) or not CharInSet(LineText[Start], WordChars) then
+  if (Start <= 0) or (Start > L) then
+    Exit('')
+  else if not CharInSet(LineText[Start], WordChars) then
     Result := ''
   else begin
     if ScanBackwards then begin
