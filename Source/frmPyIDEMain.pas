@@ -2807,7 +2807,7 @@ begin
   if Editor <> nil then begin
     ptCaret := Editor.GetCaretPos;
     if (ptCaret.X > 0) and (ptCaret.Y > 0) then
-      lbStatusCaret.Caption := Format(' %6d:%3d ', [ptCaret.Y, ptCaret.X])
+      lbStatusCaret.Caption := Format('%d:%d', [ptCaret.Y, ptCaret.X])
     else
       lbStatusCaret.Caption := '';
     if GI_ActiveEditor.GetModified then
