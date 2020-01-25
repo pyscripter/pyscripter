@@ -246,11 +246,7 @@ function GetFileDate(const AFileName: string): string;
 begin
   Result:= '';
   if FileExists(AFileName) then begin
-{$IF CompilerVersion >= 21}
     FileAge(AFileName, DateTime);
-{$ELSE}
-    DateTime := FileDateToDateTime(FileAge(AFileName));
-{$IFEND}
     Result:= DateTimeToStr(DateTime);
   end;
 end;
