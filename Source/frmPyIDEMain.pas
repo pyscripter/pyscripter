@@ -496,9 +496,18 @@
           Issues addressed
             #948, #962, #966, #967, #968, #972
 
-            { TODO : Review Search and Replace }
-            { TODO : Auto PEP8 tool }
-            { TODO: LiveTemplates features for Code Templates }
+  History:   v 3.6.3
+          New Features
+            The status panel with text position info can now be clicked to
+            show the "Go to line" dialog.
+          Issues addressed
+            #983, #985
+
+
+}
+{ TODO : Review Search and Replace }
+{ TODO : Auto PEP8 tool }
+{ TODO: LiveTemplates features for Code Templates }
 
 
 {------------------------------------------------------------------------------}
