@@ -1199,6 +1199,7 @@ type
     procedure actRemoteFileOpenExecute(Sender: TObject);
     procedure lbPythonVersionClick(Sender: TObject);
     procedure lbPythonEngineClick(Sender: TObject);
+    procedure lbStatusCaretClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -4112,6 +4113,11 @@ end;
 procedure TPyIDEMainForm.lbPythonVersionClick(Sender: TObject);
 begin
   actPythonSetup.Execute;
+end;
+
+procedure TPyIDEMainForm.lbStatusCaretClick(Sender: TObject);
+begin
+   CommandsDataModule.actSearchGoToLineExecute(Self);
 end;
 
 procedure TPyIDEMainForm.actLayoutSaveExecute(Sender: TObject);

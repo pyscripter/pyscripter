@@ -54,8 +54,9 @@ object PyIDEMainForm: TPyIDEMainForm
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
     object lbStatusCaret: TSpTBXLabelItem
+      Hint = 'Text position'
       Wrapping = twEndEllipsis
-      Options = [tboNoAutoHint]
+      OnClick = lbStatusCaretClick
       Alignment = taCenter
       CustomWidth = 84
     end
