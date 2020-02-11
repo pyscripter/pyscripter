@@ -32,11 +32,11 @@ ArchitecturesInstallIn64BitMode={#OSPlatform}
 #endif
 
 [Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"; InfoBeforeFile: "locale\en\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoBeforeFile: "locale\de\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
-;Name: "el"; MessagesFile: "compiler:\Languages\Greek.isl"; InfoBeforeFile: "locale\el\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoBeforeFile: "locale\it\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "ja"; MessagesFile: "compiler:\Languages\Japanese.isl"; InfoBeforeFile: "locale\ja\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\ja\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "en"; MessagesFile: "compiler:Default.isl"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
+;Name: "el"; MessagesFile: "compiler:\Languages\Greek.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "ja"; MessagesFile: "compiler:\Languages\Japanese.isl"; InfoAfterFile: "locale\ja\AfterInstallPyScripter-{#OSPlatform}.txt"
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
