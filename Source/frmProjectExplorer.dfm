@@ -248,7 +248,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Category = 'Project'
       Caption = '&Remove'
       HelpContext = 435
-      Hint = 'Remove a file,  folder or run configuration from the project'
+      Hint = 'Remove a file, folder or run configuration from the project'
       ImageIndex = 9
       OnExecute = actProjectRemoveExecute
     end

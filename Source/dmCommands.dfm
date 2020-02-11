@@ -3684,7 +3684,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Replace...'
       Enabled = False
       HelpContext = 330
-      Hint = 'Replace|Search  & Replace'
+      Hint = 'Replace|Search & Replace'
       ImageIndex = 17
       ShortCut = 16456
       OnExecute = actSearchReplaceExecute
@@ -4135,7 +4135,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Replace'
       Enabled = False
       HelpContext = 330
-      Hint = 'Replace with existing  settings'
+      Hint = 'Replace with existing settings'
       ImageIndex = 17
       OnExecute = actSearchReplaceNowExecute
     end

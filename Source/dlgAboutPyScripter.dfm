@@ -1509,9 +1509,9 @@ inherited AboutBox: TAboutBox
         object Copyright: TLabel
           Left = 129
           Top = 68
-          Width = 181
+          Width = 177
           Height = 16
-          Caption = '(C) Kiriakos Vlahos  2005-2019'
+          Caption = '(C) Kiriakos Vlahos 2005-2019'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clHotLight
           Font.Height = -13
