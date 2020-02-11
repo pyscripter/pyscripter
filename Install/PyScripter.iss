@@ -235,6 +235,8 @@ Root: HKCR; SubKey: PyScripter project\Shell\Open\Command; ValueType: string; Va
 Root: HKCR; Subkey: PyScripter project\DefaultIcon; ValueType: string; ValueData: {app}\PyProject.ico,-1; Flags: uninsdeletevalue
 ; IE 11 mode (https://weblog.west-wind.com/posts/2011/may/21/web-browser-control-specifying-the-ie-version)
 Root: HKLM; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "PyScripter.exe"; ValueData: "11001"; Flags: uninsdeletekey createvalueifdoesntexist
+; IE DPI aware (https://stackoverflow.com/questions/38754354/wpf-web-browser-control-and-dpi-scaling/40657760)
+Root: HKLM; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_96DPI_PIXEL"; ValueType: dword; ValueName: "PyScripter.exe"; ValueData: "1"; Flags: uninsdeletekey createvalueifdoesntexist
 
 [Run]
 Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flags: nowait postinstall skipifsilent
