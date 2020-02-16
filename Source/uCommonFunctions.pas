@@ -240,6 +240,9 @@ function PPIScaled(I : Integer): Integer;
 (* Reverse PPI Scaling  *)
 function PPIUnScaled(I : Integer): Integer;
 
+(* Returns string with Monitor information *)
+function MonitorProfile: string;
+
 (* Returns string with Desktop size *)
 function DesktopSizeString: string;
 
@@ -2137,11 +2140,35 @@ begin
   Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
 end;
 
+function MonitorProfile: string;
+Const
+  strMask = '%d=%dDPI(%s,%d,%d,%d,%d)';
+Var
+  iMonitor: Integer;
+  M: TMonitor;
+Begin
+  Result := '';
+  For iMonitor := 0 To Screen.MonitorCount - 1 Do
+    Begin
+      If Result <> '' Then
+        Result := Result + ':';
+        M := Screen.Monitors[iMonitor];
+        Result := Result + Format(strMask, [
+        M.MonitorNum,
+        M.PixelsPerInch,
+        BoolToStr(M.Primary, True),
+        M.Left,
+        M.Top,
+        M.Width,
+        M.Height
+      ]);
+    End;
+End;
+
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 begin
   Result := Succeeded(URLDownloadToFile(nil, PWideChar(URL), PWideChar(Filename), 0, nil));
 end;
-
 
 { TSMREWSync }
 

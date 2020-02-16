@@ -502,6 +502,10 @@
             show the "Go to line" dialog.
           Issues addressed
             #983, #985
+  History:   v 3.6.4
+          New Features
+            Removed support for Python 2.6
+          Issues addressed
 
 
 }

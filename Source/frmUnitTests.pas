@@ -445,10 +445,6 @@ begin
   // Only allow when PyControl.ActiveDebugger is inactive
   if not GI_PyControl.Inactive then Exit;
 
-  // bugfix for Python 2.6 or higher
-  //if (PyControl.PythonVersionIndex >= 10) and (PyControl.ActiveInterpreter is TPyRemoteInterpreter) then
-  //  BuiltinModule.issubclass := Import('Rpyc').issubclass;
-
   UnitTestModule := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
 
   //  Create a TempTestSuite that contains only the checked tests
@@ -499,9 +495,6 @@ begin
     lblRunTests.Caption := Format(RunTestsLabel,
       [TestsRun, Iff(TestsRun=1, '', 's'), Format(ElapsedTimeFormat, [ElapsedTime])]);
   end;
-  // bugfix for Python 2.6 or higher - Restore original
-  //if (PyControl.PythonVersionIndex >= 10) and (PyControl.ActiveInterpreter is TPyRemoteInterpreter) then
-  //  BuiltinModule.issubclass := Import('Rpyc.Lib').orig_issubclass;
 end;
 
 procedure TUnitTestWindow.AddFailure(Test, Err: Variant);

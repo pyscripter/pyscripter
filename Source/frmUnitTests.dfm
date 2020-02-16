@@ -151,7 +151,6 @@ inherited UnitTestWindow: TUnitTestWindow
           OnGetHint = UnitTestsGetHint
           OnInitChildren = UnitTestsInitChildren
           OnInitNode = UnitTestsInitNode
-          ExplicitLeft = 2
           Columns = <>
         end
       end
