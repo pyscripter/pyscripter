@@ -35,7 +35,7 @@ type
     fDebugIDE: TPythonModule;
     PyDelphiWrapper: TPyDelphiWrapper;
     PyscripterModule: TPythonModule;
-    fOldPath: String;
+    fOldPath: string;
     procedure CreateDebugIDE;
     procedure CreatePyScripterModule;
     procedure CreatePythonEngine;

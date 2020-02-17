@@ -37,8 +37,6 @@ object EditorForm: TEditorForm
       ActiveTabIndex = 0
       Images = PyIDEMainForm.vilImages
       OnActiveTabChange = ViewsTabControlActiveTabChange
-      ExplicitLeft = 4
-      ExplicitTop = 0
       HiddenItems = <>
       object tabSource: TSpTBXTabItem
         Caption = 'Source'

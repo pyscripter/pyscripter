@@ -3130,7 +3130,7 @@ procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
 Var
     SynEdit: TCustomSynEdit;
 
-  function CaretBetween(AStr: String): boolean;
+  function CaretBetween(AStr: string): boolean;
   var
     i: Integer;
   begin

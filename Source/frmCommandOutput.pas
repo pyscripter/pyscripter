@@ -68,7 +68,7 @@ type
     vilImages: TVirtualImageList;
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);
-    procedure JvCreateProcessRead(Sender: TObject; const S: String;
+    procedure JvCreateProcessRead(Sender: TObject; const S: string;
       const StartsOnNewLine: Boolean);
     procedure JvCreateProcessTerminate(Sender: TObject;
       ExitCode: Cardinal);
@@ -185,7 +185,7 @@ begin
 end;
 
 procedure TOutputWindow.JvCreateProcessRead(Sender: TObject;
-  const S: String; const StartsOnNewLine: Boolean);
+  const S: string; const StartsOnNewLine: Boolean);
 begin
   // $0C is the Form Feed char.
   if S = #$C then

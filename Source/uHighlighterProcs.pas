@@ -48,7 +48,7 @@ function GetHighlighterFromFileExt(AHighlighters: TStrings;
   Extension: string): TSynCustomHighlighter;
 function GetHighlighterFromFileName(AHighlighters: TStrings;
   FileName: string): TSynCustomHighlighter;
-function GetHighlighterFromLanguageName(LanguageName : String;
+function GetHighlighterFromLanguageName(LanguageName : string;
   AHighlighters: TStrings) : TSynCustomHighlighter;
 function FileMaskFromFileFilter(Filter : string) : string;
 
@@ -156,7 +156,7 @@ begin
 end;
 
 
-function GetHighlighterFromLanguageName(LanguageName : String;
+function GetHighlighterFromLanguageName(LanguageName : string;
   AHighlighters: TStrings) : TSynCustomHighlighter;
 Var
   Index : integer;

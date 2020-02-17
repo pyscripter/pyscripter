@@ -164,7 +164,7 @@ function SaveWideStringsToFile(const AFileName: string;
   DoBackup : Boolean = True) : boolean;
 
 (* Read File contents. Allows reading of locked files *)
-function FileToAnsiStr(const FileName: String): AnsiString;
+function FileToAnsiStr(const FileName: string): AnsiString;
 
 (* Read File contents into encoded string. Takes into account Python encodings *)
 function FileToEncodedStr(const AFileName : string) : AnsiString;
@@ -203,7 +203,7 @@ function StrTrimCharsLeft(const S: string; const Chars: TSysCharSet): string;
 function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
 
 (* Extracts a token and returns the remainder of a string *)
-function StrToken(var S: String; Separator: Char): string;
+function StrToken(var S: string; Separator: Char): string;
 
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
@@ -1633,7 +1633,7 @@ begin
   end;
 end;
 
-function FileToAnsiStr(const FileName: String): AnsiString;
+function FileToAnsiStr(const FileName: string): AnsiString;
 (* allows reading of locked files *)
 var
   fs: TFileStream;

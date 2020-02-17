@@ -109,7 +109,7 @@ procedure TStyleSelectorForm.LBStyleNamesClick(Sender: TObject);
 var
   LStyle : TCustomStyleServices;
   FileName : string;
-  StyleName : String;
+  StyleName : string;
 begin
   LStyle:=nil;
   if LBStyleNames.ItemIndex >= 0 then

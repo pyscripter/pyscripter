@@ -238,7 +238,7 @@ public
     function GetParsedModule : TParsedModule;
     procedure StopScanning;
   public
-    constructor Create(const FileName : string; const Source : String);
+    constructor Create(const FileName : string; const Source : string);
     destructor Destroy; override;
   end;
 
@@ -250,7 +250,7 @@ public
     constructor Create;
     destructor Destroy; override;
     procedure ReleaseScanner(Scanner : IAsyncSourceScanner);
-    function CreateAsynchSourceScanner(const FileName : string; const Source : String): IAsyncSourceScanner;
+    function CreateAsynchSourceScanner(const FileName : string; const Source : string): IAsyncSourceScanner;
   end;
 
   Var
@@ -1690,7 +1690,7 @@ end;
 
 { TAsynchSourceScanner }
 
-constructor TAsynchSourceScanner.Create(const FileName, Source: String);
+constructor TAsynchSourceScanner.Create(const FileName, Source: string);
 begin
   inherited Create;
   fParsedModule := TParsedModule.Create(FileName, Source);
@@ -1766,7 +1766,7 @@ begin
 end;
 
 function TAsynchSourceScannerFactory.CreateAsynchSourceScanner(const FileName,
-  Source: String): IAsyncSourceScanner;
+  Source: string): IAsyncSourceScanner;
 begin
   ClearFinished;
   Result := TAsynchSourceScanner.Create(FileName, Source);

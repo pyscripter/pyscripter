@@ -70,7 +70,7 @@ uses
 
 type
   TSynEditorOptionsUserCommand = procedure(AUserCommand: Integer;
-                                           var ADescription: String) of object;
+                                           var ADescription: string) of object;
 
   //NOTE: in order for the user commands to be recorded correctly, you must
   //      put the command itself in the object property.
@@ -313,7 +313,7 @@ type
     FKeystrokes: TSynEditKeyStrokes;
     FOptions: TSynEditorOptions;
     FSynGutter: TSynGutter;
-    FWordBreakChars: String;
+    FWordBreakChars: string;
     FColor: TColor;
     FActiveLineColor : TColor;
     procedure SetBookMarks(const Value: TSynBookMarkOpt);
@@ -343,7 +343,7 @@ type
     property MaxUndo : Integer read FMaxUndo write FMaxUndo;
     property SelectedColor : TSynSelectedColor read FSelectedColor write FSelectedColor;
     property TabWidth : Integer read FTabWidth write FTabWidth;
-    property WordBreakChars : String read FWordBreakChars write FWordBreakChars;
+    property WordBreakChars : string read FWordBreakChars write FWordBreakChars;
     property Keystrokes : TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
     property ActiveLineColor : TColor read FActiveLineColor write FActiveLineColor;
   end;
@@ -915,7 +915,7 @@ procedure TfmEditorOptionsDialog.btnUpdateKeyClick(Sender: TObject);
 var
 //  Cmd          : Integer;
 //  KeyLoc       : Integer;
-//  TmpCommand   : String;
+//  TmpCommand   : string;
   OldShortcut  : TShortcut;
   OldShortcut2 : TShortcut;
   Key : TSynEditKeyStroke;
@@ -975,7 +975,7 @@ end;
 procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var
   Item : TListItem;
-  S : String;
+  S : string;
 begin
   if cKeyCommand.ItemIndex < 0 then Exit;
   Item:= KeyList.Items.Add;
@@ -1090,7 +1090,7 @@ end;
 
 procedure TfmEditorOptionsDialog.FillInKeystrokeInfo(
   AKey: TSynEditKeystroke; AItem: TListItem);
-var TmpString: String;      begin
+var TmpString: string;      begin
   with AKey do
   begin
     if Command >= ecUserFirst then

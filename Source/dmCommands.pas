@@ -396,7 +396,7 @@ type
     function ShowPythonKeywordHelp(KeyWord : string) : Boolean;
     procedure PrepareParameterCompletion;
     procedure PrepareModifierCompletion;
-    procedure GetEditorUserCommand(AUserCommand: Integer; var ADescription: String);
+    procedure GetEditorUserCommand(AUserCommand: Integer; var ADescription: string);
     procedure GetEditorAllUserCommands(ACommands: TStrings);
     function DoSearchReplaceText(SynEdit : TSynEdit;
       AReplace, ABackwards : Boolean ; IsIncremental : Boolean = False) : integer;
@@ -2649,7 +2649,7 @@ procedure TCommandsDataModule.actFindNextReferenceExecute(
   Sender: TObject);
 var
   SearchOptions: TSynSearchOptions;
-  SearchText : String;
+  SearchText : string;
   OldCaret : TBufferCoord;
 begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
@@ -2769,7 +2769,7 @@ begin
 end;
 
 procedure TCommandsDataModule.GetEditorUserCommand(AUserCommand: Integer;
-  var ADescription: String);
+  var ADescription: string);
 begin
   if AUserCommand = ecCodeCompletion then
     ADescription := _(SEdCmdCodeCompletion)
