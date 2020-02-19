@@ -1058,8 +1058,11 @@ begin
       begin
         TForm(Control).BorderStyle := BorderStyle;
         TForm(Control).FormStyle := FormStyle;
-        if WindowState = wsNormal then
+        if WindowState = wsNormal then begin
+          //https://stackoverflow.com/questions/3118751/how-can-i-display-a-form-on-a-secondary-monitor
+          Control.Visible := Visible;
           Control.BoundsRect := DockRect;
+        end;
         TForm(Control).WindowState := WindowState;
       end
       else
