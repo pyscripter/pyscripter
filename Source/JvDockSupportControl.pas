@@ -3524,7 +3524,7 @@ var
 begin
   TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading];
   TCItem.pszText := Buffer;
-  TCItem.cchTextMax := SizeOf(Buffer);
+  TCItem.cchTextMax := Length(Buffer);
   if SendMessage(FTabControl.Handle, TCM_GETITEM, Index, LPARAM(@TCItem)) = 0 then
     TabControlError(Format(sTabFailRetrieve, [Index]));
   Result := Buffer;
