@@ -11,7 +11,6 @@ object PyIDEMainForm: TPyIDEMainForm
   OldCreateOrder = False
   Position = poDefault
   ShowHint = True
-  WindowState = wsMaximized
   StyleElements = [seFont, seClient]
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -33,7 +32,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 195
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end

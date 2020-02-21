@@ -1263,9 +1263,7 @@ type
     procedure PrevMRUAdd(S : string);
     procedure NextMRUAdd(S : string);
   private
-    OldScreenPPI : Integer;
-    OldDesktopSize : string;
-    LoadLayoutError : Boolean;
+    OldMonitorProfile : string;
     // IIDELayouts implementation
     function LayoutExists(const Layout: string): Boolean;
     procedure LoadLayout(const Layout : string);
@@ -1606,15 +1604,17 @@ begin
   if FileExists(LocalAppStorage.IniFile.FileName) then
   begin
     RestoreLocalApplicationData;
-    if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) then
-      JvFormStorage.RestoreFormPlacement;
+    if OldMonitorProfile = MonitorProfile then
+      JvFormStorage.RestoreFormPlacement
+    else
+      WindowState := wsMaximized;
   end;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
   RegisterDSACheckMarkText(ctkRemember, _(SDSActkRememberText));
   RegisterDSA(dsaSearchFromStart, 'SearchFromStart', 'Search from start question', DSAAppStorage, ctkRemember);
-  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace srom start question', DSAAppStorage, ctkRemember);
+  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace from start question', DSAAppStorage, ctkRemember);
   RegisterDSA(dsaReplaceNumber, 'ReplaceNumber', 'Information about number of replacements', DSAAppStorage, ctkShow);
   RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
   RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
@@ -1623,7 +1623,7 @@ begin
   if not AppStorage.PathExists(FactoryToolbarItems) then
     SaveToolbarItems(FactoryToolbarItems);
 
-  if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) and
+  if (OldMonitorProfile = MonitorProfile) and
      LocalAppStorage.PathExists('Layouts\Default\Forms') and
      LocalAppStorage.PathExists('Layouts\Current\Forms') then
   begin
@@ -1632,7 +1632,6 @@ begin
       LoadLayout('Current');
       //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
     except
-      LoadLayoutError := True;
       LocalAppStorage.DeleteSubTree('Layouts\Default');
       if Layouts.IndexOf('Default') >= 0 then
         Layouts.Delete(Layouts.IndexOf('Default'));
@@ -1643,8 +1642,6 @@ begin
   end
   else
   begin
-    WindowState := wsMaximized;
-
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := PPIScaled(200);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
@@ -3264,7 +3261,7 @@ begin
   try
     LocalAppStorage.WriteString('PyScripter Version', ApplicationVersion);
     LocalAppStorage.WriteInteger('Screen PPI', Screen.PixelsPerInch);
-    LocalAppStorage.WriteString('Desktop size', DeskTopSizeString);
+    LocalAppStorage.WriteString('Monitor profile', MonitorProfile);
 
     LocalAppStorage.WriteStringList('Layouts', Layouts);
 
@@ -3448,11 +3445,15 @@ end;
 
 procedure TPyIDEMainForm.RestoreLocalApplicationData;
 begin
-  OldScreenPPI := LocalAppStorage.ReadInteger('Screen PPI', 96);
-  OldDesktopSize := LocalAppStorage.ReadString('Desktop size');
+  OldMonitorProfile := LocalAppStorage.ReadString('Monitor profile');
 
-  if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) then
-    LocalAppStorage.ReadStringList('Layouts', Layouts, True);
+  LocalAppStorage.ReadStringList('Layouts', Layouts, True);
+  if OldMonitorProfile <> MonitorProfile then begin
+    LocalAppStorage.DeleteSubTree('Layouts\Default');
+    if Layouts.IndexOf('Default') >= 0 then
+      Layouts.Delete(Layouts.IndexOf('Default'));
+    LocalAppStorage.DeleteSubTree('Layouts\Current');
+  end;
 end;
 
 function TPyIDEMainForm.EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
@@ -4749,11 +4750,6 @@ begin
   // Repeat here to make sure it is set right
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
-  if not LoadLayoutError and (Layouts.IndexOf('Default') < 0) then begin
-    SaveLayout('Default');
-    Layouts.Add('Default');
-  end;
-
   // fix for staturbar appearing above interpreter
   if StatusBar.Visible then StatusBar.Top := MaxInt;
 
@@ -4795,6 +4791,11 @@ begin
 
     // Open initial files after loading Python (#879)
     OpenInitialFiles;
+
+    if Layouts.IndexOf('Default') < 0 then begin
+      SaveLayout('Default');
+      Layouts.Add('Default');
+    end;
 
     if PyIDEOptions.AutoCheckForUpdates and
       (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=

@@ -240,11 +240,8 @@ function PPIScaled(I : Integer): Integer;
 (* Reverse PPI Scaling  *)
 function PPIUnScaled(I : Integer): Integer;
 
-(* Returns string with Monitor information *)
-function MonitorProfile: string;
-
 (* Returns string with Desktop size *)
-function DesktopSizeString: string;
+function MonitorProfile: string;
 
 (* Downlads a file from the Interent *)
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
@@ -2135,23 +2132,21 @@ begin
   Result := MulDiv(I, 96, Screen.PixelsPerInch);
 end;
 
-function DesktopSizeString: string;
-begin
-  Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
-end;
-
 function MonitorProfile: string;
+
+  function DesktopSizeString: string;
+  begin
+    Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
+  end;
 Const
-  strMask = '%d=%dDPI(%s,%d,%d,%d,%d)';
+  strMask = '%d:%dDPI(%s,%d,%d,%d,%d)';
 Var
   iMonitor: Integer;
   M: TMonitor;
 Begin
-  Result := '';
-  For iMonitor := 0 To Screen.MonitorCount - 1 Do
-    Begin
-      If Result <> '' Then
-        Result := Result + ':';
+  Result := DesktopSizeString;
+  for iMonitor := 0 To Screen.MonitorCount - 1 Do
+    begin
         M := Screen.Monitors[iMonitor];
         Result := Result + Format(strMask, [
         M.MonitorNum,
@@ -2162,7 +2157,7 @@ Begin
         M.Width,
         M.Height
       ]);
-    End;
+    end;
 End;
 
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
