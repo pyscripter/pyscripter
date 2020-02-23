@@ -20,6 +20,7 @@ Uses
   Vcl.Controls,
   Vcl.ComCtrls,
   Vcl.Graphics,
+  Vcl.Forms,
   SynEditTypes,
   SynUnicode,
   SynEdit,
@@ -234,12 +235,6 @@ procedure ScaleImageList(const ImgList: TImageList; M, D: Integer);
 (* Resize Bitmap *)
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 
-(* Scale a value according to the Screen.PixelperInch *)
-function PPIScaled(I : Integer): Integer;
-
-(* Reverse PPI Scaling  *)
-function PPIUnScaled(I : Integer): Integer;
-
 (* Returns string with Desktop size *)
 function MonitorProfile: string;
 
@@ -289,6 +284,15 @@ type
     function GroupIndex(Index: integer): integer;
     function GroupLength(Index: integer): integer;
     function GroupValue(Index: integer): string;
+  end;
+
+  (*  Helper method for forms *)
+  TFormHelper = class helper for TCustomForm
+  public
+    (* Scale a value according to the FCurrentPPI *)
+    function PPIScale(ASize: integer): integer;
+    (* Reverse PPI Scaling  *)
+    function PPIUnScale(ASize: integer): integer;
   end;
 
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
@@ -345,7 +349,6 @@ Uses
   System.UITypes,
   System.IOUtils,
   System.Math,
-  Vcl.Forms,
   Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.Themes,
@@ -2122,16 +2125,6 @@ begin
   end;
 end;
 
-function PPIScaled(I : Integer): Integer;
-begin
-  Result := MulDiv(I, Screen.PixelsPerInch, 96);
-end;
-
-function PPIUnScaled(I : Integer): Integer;
-begin
-  Result := MulDiv(I, 96, Screen.PixelsPerInch);
-end;
-
 function MonitorProfile: string;
 
   function DesktopSizeString: string;
@@ -2560,6 +2553,18 @@ end;
 
 var
   OldGetCursorPos: function(var lpPoint: TPoint): BOOL; stdcall = nil;
+
+{ TFormHelper }
+
+function TFormHelper.PPIScale(ASize: integer): integer;
+begin
+   Result := MulDiv(ASize, FCurrentPPI, 96);
+end;
+
+function TFormHelper.PPIUnScale(ASize: integer): integer;
+begin
+   Result := MulDiv(ASize, 96, FCurrentPPI);
+end;
 
 initialization
   StopWatch := TStopWatch.StartNew;

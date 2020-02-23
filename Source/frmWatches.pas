@@ -485,9 +485,9 @@ procedure TWatchesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
 begin
   AppStorage.WriteObjectList(BasePath, fWatchesList, 'Watch');
   AppStorage.WriteInteger(BasePath + '\WatchesWidth',
-    PPIUnScaled(WatchesView.Header.Columns[0].Width));
+    PPIUnScale(WatchesView.Header.Columns[0].Width));
   AppStorage.WriteInteger(BasePath+'\Types Width',
-    PPIUnScaled(WatchesView.Header.Columns[1].Width));
+    PPIUnScale(WatchesView.Header.Columns[1].Width));
 end;
 
 procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
@@ -497,9 +497,9 @@ begin
   AppStorage.ReadObjectList(BasePath, fWatchesList, CreateWatch, True,
     'Watch');
   WatchesView.Header.Columns[0].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath + '\WatchesWidth', 200));
+    PPIScale(AppStorage.ReadInteger(BasePath + '\WatchesWidth', 200));
   WatchesView.Header.Columns[1].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Types Width', 100));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Types Width', 100));
   UpdateWindow(PyControl.DebuggerState);
 end;
 

@@ -492,22 +492,22 @@ procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteInteger(BasePath+'\Threads Width',
-   PPIUnScaled(ThreadView.Width));
+   PPIUnScale(ThreadView.Width));
   AppStorage.WriteInteger(BasePath+'\Function Width',
-   PPIUnScaled(CallStackView.Header.Columns[0].Width));
+   PPIUnScale(CallStackView.Header.Columns[0].Width));
   AppStorage.WriteInteger(BasePath+'\Line Width',
-    PPIUnScaled(CallStackView.Header.Columns[2].Width));
+    PPIUnScale(CallStackView.Header.Columns[2].Width));
 end;
 
 procedure TCallStackWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   ThreadView.Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Threads Width', 140));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Threads Width', 140));
   CallStackView.Header.Columns[0].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Function Width', 100));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Function Width', 100));
   CallStackView.Header.Columns[2].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
 end;
 
 procedure TCallStackWindow.SetActiveThread(const Value: TThreadInfo);

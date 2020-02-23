@@ -839,7 +839,7 @@ begin
   PyIDEOptions := TPythonIDEOptions.Create;
   // DefaultOptions
   PyIDEOptions.CodeFolding.GutterShapeSize :=
-    PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
+    MulDiv(PyIDEOptions.CodeFolding.GutterShapeSize, Screen.PixelsPerInch, 96);
   // Register AppStorage handlers
   RegisterAppStoragePropertyEngine(TJvAppStorageFontPropertyEngine);
   RegisterAppStoragePropertyEngine(TJvAppStorageGutterPropertyEngine);

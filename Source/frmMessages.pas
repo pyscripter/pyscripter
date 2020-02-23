@@ -419,22 +419,22 @@ procedure TMessagesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   MessagesView.Header.Columns[1].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
   MessagesView.Header.Columns[2].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
   MessagesView.Header.Columns[3].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Position Width', 60));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Position Width', 60));
 end;
 
 procedure TMessagesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteInteger(BasePath+'\FileName Width',
-    PPIUnScaled(MessagesView.Header.Columns[1].Width));
+    PPIUnScale(MessagesView.Header.Columns[1].Width));
   AppStorage.WriteInteger(BasePath+'\Line Width',
-    PPIUnScaled(MessagesView.Header.Columns[2].Width));
+    PPIUnScale(MessagesView.Header.Columns[2].Width));
   AppStorage.WriteInteger(BasePath+'\Position Width',
-    PPIUnScaled(MessagesView.Header.Columns[3].Width));
+    PPIUnScale(MessagesView.Header.Columns[3].Width));
 end;
 
 procedure TMessagesWindow.TBXPopupMenuPopup(Sender: TObject);

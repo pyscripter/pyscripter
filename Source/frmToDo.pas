@@ -561,9 +561,9 @@ begin
       end;
     end;
     ToDoWindow.ToDoView.Header.Columns[2].Width :=
-      PPIScaled(AppStorage.ReadInteger(BasePath+'\FileName Width', 150));
+      ToDoWindow.PPIScale(AppStorage.ReadInteger(BasePath+'\FileName Width', 150));
     ToDoWindow.ToDoView.Header.Columns[3].Width :=
-      PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+      ToDoWindow.PPIScale(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
   end;
 end;
 
@@ -594,9 +594,9 @@ begin
         TypeInfo(TToDoPriority), TTokenInfo(FTokenList.Objects[i]).Priority);
     end;
     AppStorage.WriteInteger(BasePath+'\FileName Width',
-      PPIUnScaled(TodoWindow.TodoView.Header.Columns[2].Width));
+      ToDoWindow.PPIUnScale(TodoWindow.TodoView.Header.Columns[2].Width));
     AppStorage.WriteInteger(BasePath+'\Line Width',
-      PPIUnScaled(TodoWindow.TodoView.Header.Columns[3].Width));
+      ToDoWindow.PPIUnScale(TodoWindow.TodoView.Header.Columns[3].Width));
   end;
 end;
 

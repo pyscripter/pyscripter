@@ -110,18 +110,18 @@ procedure TBreakPointsWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   BreakPointsView.Header.Columns[0].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
   BreakPointsView.Header.Columns[1].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
 end;
 
 procedure TBreakPointsWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteInteger(BasePath+'\FileName Width',
-    PPIUnScaled(BreakPointsView.Header.Columns[0].Width));
+    PPIUnScale(BreakPointsView.Header.Columns[0].Width));
   AppStorage.WriteInteger(BasePath+'\Line Width',
-    PPIUnScaled(BreakPointsView.Header.Columns[1].Width));
+    PPIUnScale(BreakPointsView.Header.Columns[1].Width));
 end;
 
 procedure TBreakPointsWindow.BreakPointLVDblClick(Sender: TObject);

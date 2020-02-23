@@ -850,10 +850,10 @@ begin
   with eKeyShort1 do
   begin
     Parent := gbKeystrokes;
-    Left := MulDiv(185, Screen.PixelsPerInch, 96);
-    Top := MulDiv(55, Screen.PixelsPerInch, 96);
-    Width := MulDiv(185, Screen.PixelsPerInch, 96);
-    Height := MulDiv(21, Screen.PixelsPerInch, 96);
+    Left := PPIScale(185);
+    Top := PPIScale(55);
+    Width := PPIScale(185);
+    Height := PPIScale(21);
     InvalidKeys := [];
     Modifiers := [];
     HotKey := 0;
@@ -866,10 +866,10 @@ begin
   with eKeyShort2 do
   begin
     Parent := gbKeystrokes;
-    Left := MulDiv(185, Screen.PixelsPerInch, 96);
-    Top := MulDiv(87, Screen.PixelsPerInch, 96);
-    Width := MulDiv(185, Screen.PixelsPerInch, 96);
-    Height := MulDiv(21, Screen.PixelsPerInch, 96);
+    Left := PPIScale(185);
+    Top := PPIScale(87);
+    Width := PPIScale(185);
+    Height := PPIScale(21);
     InvalidKeys := [];
     Modifiers := [];
     HotKey := 0;
@@ -878,8 +878,8 @@ begin
     Color := StyleServices.GetSystemColor(clWindow);
   end;
 
-  StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, Screen.PixelsPerInch, 96);
-  StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, Screen.PixelsPerInch, 96);
+  StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, FCurrentPPI, 96);
+  StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, FCurrentPPI, 96);
 end;
 
 

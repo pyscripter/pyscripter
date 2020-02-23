@@ -206,9 +206,9 @@ begin
   AppStorage.WriteBoolean(BasePath+'\VERBOSE', CI_VERBOSE.Checked);
   AppStorage.WriteInteger(BasePath+'\SearchType', SearchType);
   AppStorage.WriteBoolean(BasePath+'\AutoExec', CI_AutoExecute.Checked);
-  AppStorage.WriteInteger(BasePath+'\RegExpHeight', PPIUnScaled(dpRegExpText.Height));
-  AppStorage.WriteInteger(BasePath+'\GroupsHeight', PPIUnScaled(dpGroupsView.Height));
-  AppStorage.WriteInteger(BasePath+'\SearchHeight', PPIUnScaled(dpSearchText.Height));
+  AppStorage.WriteInteger(BasePath+'\RegExpHeight', PPIUnScale(dpRegExpText.Height));
+  AppStorage.WriteInteger(BasePath+'\GroupsHeight', PPIUnScale(dpGroupsView.Height));
+  AppStorage.WriteInteger(BasePath+'\SearchHeight', PPIUnScale(dpSearchText.Height));
   TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
 end;
 
@@ -240,11 +240,11 @@ begin
     RI_findall.Checked := True;
   end;
   dpRegExpText.Height :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height));
   dpGroupsView.Height :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height));
   dpSearchText.Height :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.Height));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.Height));
   CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', False);
 end;
 

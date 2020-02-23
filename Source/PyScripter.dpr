@@ -128,8 +128,6 @@ begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
 
   TStyleManager.SystemHooks := TStyleManager.SystemHooks - [shMenus, shDialogs];
-//  if Screen.PixelsPerInch <> 96 then
-//    TStyleManager.FormBorderStyle := fbsSystemStyle;
 
   Application.Initialize;
   SetDefaultUIFont(Application.DefaultFont);

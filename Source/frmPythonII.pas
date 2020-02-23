@@ -501,9 +501,6 @@ begin
 
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
   SynParamCompletion.EndOfTokenChr := WordBreakString;
-  // Scale
-  SynCodeCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-  SynParamCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);

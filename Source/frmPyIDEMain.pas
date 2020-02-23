@@ -1232,7 +1232,6 @@ type
     procedure OpenInitialFiles;
   protected
     fCurrentBrowseInfo : string;
-    procedure ScaleForCurrentDpi; override;
     function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
     function OpenCmdLineFile(FileName : string) : Boolean;
@@ -1290,6 +1289,7 @@ type
     MenuHelpRequested : Boolean;
     Layouts : TStringList;
     fLanguageList : TStringList;
+    procedure ScaleForPPI(NewPPI: Integer); override;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
     procedure StoreLocalApplicationData;
@@ -1643,12 +1643,12 @@ begin
   else
   begin
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
-    DockServer.LeftDockPanel.Width := PPIScaled(200);
+    DockServer.LeftDockPanel.Width := PPIScale(200);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
     ShowDockForm(FileExplorerWindow);
 
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
-    DockServer.BottomDockPanel.Height := PPIScaled(150);
+    DockServer.BottomDockPanel.Height := PPIScale(150);
     ManualTabDockAddPage(TabHost, WatchesWindow);
     ManualTabDockAddPage(TabHost, BreakPointsWindow);
     ManualTabDockAddPage(TabHost, OutputWindow);
@@ -3148,10 +3148,10 @@ begin
 
     // UnScale and Scale back
     PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIUnScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
+      PPIUnScale(PyIDEOptions.CodeFolding.GutterShapeSize);
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
     PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
+      PPIScale(PyIDEOptions.CodeFolding.GutterShapeSize);
 
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');
@@ -3260,7 +3260,6 @@ begin
   LocalAppStorage.BeginUpdate;
   try
     LocalAppStorage.WriteString('PyScripter Version', ApplicationVersion);
-    LocalAppStorage.WriteInteger('Screen PPI', Screen.PixelsPerInch);
     LocalAppStorage.WriteString('Monitor profile', MonitorProfile);
 
     LocalAppStorage.WriteStringList('Layouts', Layouts);
@@ -3298,7 +3297,7 @@ begin
   if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', PyIDEOptions);
     PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
+      PPIScale(PyIDEOptions.CodeFolding.GutterShapeSize);
     PyIDEOptions.Changed;
     AppStorage.DeleteSubTree('IDE Options');
   end;
@@ -3651,30 +3650,22 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.ScaleForCurrentDpi;
-Var
-  M, D: Integer;
+procedure TPyIDEMainForm.ScaleForPPI(NewPPI: Integer);
 begin
-  inherited;
-  M := Screen.PixelsPerInch;
-  D := 96;
-  if M <> D then begin
-    // Status bar
-    StatusBar.Toolbar.Items.ViewBeginUpdate;
-    try
-      lbPythonVersion.MinWidth := PPIScaled(lbPythonVersion.MinWidth);
-      lbPythonEngine.MinWidth := PPIScaled(lbPythonEngine.MinWidth);
-      lbStatusCaret.CustomWidth := PPIScaled(lbStatusCaret.CustomWidth);
-      lbStatusModified.CustomWidth := PPIScaled(lbStatusModified.CustomWidth);
-      lbStatusOverwrite.CustomWidth := PPIScaled(lbStatusOverwrite.CustomWidth);
-      lbStatusCaps.CustomWidth := PPIScaled(lbStatusCaps.CustomWidth);
-    finally
-      StatusBar.ToolBar.Items.ViewEndUpdate;
-    end;
-    // Completion
-    CommandsDataModule.ParameterCompletion.ChangeScale(M, D);
-    CommandsDataModule.ModifierCompletion.ChangeScale(M, D);
+  // FCurrentPPI is changed to the NewPPI in the inherited method
+  // Status bar
+  StatusBar.Toolbar.Items.ViewBeginUpdate;
+  try
+    lbPythonVersion.MinWidth := MulDiv(lbPythonVersion.MinWidth, NewPPI, FCurrentPPI);
+    lbPythonEngine.MinWidth := MulDiv(lbPythonEngine.MinWidth, NewPPI, FCurrentPPI);
+    lbStatusCaret.CustomWidth := MulDiv(lbStatusCaret.CustomWidth, NewPPI, FCurrentPPI);
+    lbStatusModified.CustomWidth := MulDiv(lbStatusModified.CustomWidth, NewPPI, FCurrentPPI);
+    lbStatusOverwrite.CustomWidth := MulDiv(lbStatusOverwrite.CustomWidth, NewPPI, FCurrentPPI);
+    lbStatusCaps.CustomWidth := MulDiv(lbStatusCaps.CustomWidth, NewPPI, FCurrentPPI);
+  finally
+    StatusBar.ToolBar.Items.ViewEndUpdate;
   end;
+  inherited;
 end;
 
 procedure TPyIDEMainForm.LoadToolbarItems(const Path : string);
@@ -4517,7 +4508,7 @@ begin
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
-    DrawGlyphPattern(ACanvas.Handle, ARect, PPIScaled(8), PPIScaled(8), ModClosePattern, PatternColor)
+    DrawGlyphPattern(ACanvas.Handle, ARect, PPIScale(8), PPIScale(8), ModClosePattern, PatternColor)
   else
     SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor);
 end;

@@ -2325,11 +2325,6 @@ begin
   SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
   SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
 
-  // Scale
-  SynCodeCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-  SynParamCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-  SynWebCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-
   // Add Python Version Change Notifier
   PyControl.OnPythonVersionChange.AddHandler(HandlePythonVersionChange);
 
