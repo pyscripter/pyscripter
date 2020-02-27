@@ -287,7 +287,7 @@ type
   end;
 
   (*  Helper method for forms *)
-  TFormHelper = class helper for TCustomForm
+  TControlHelper = class helper for TControl
   public
     (* Scale a value according to the FCurrentPPI *)
     function PPIScale(ASize: integer): integer;
@@ -2556,12 +2556,12 @@ var
 
 { TFormHelper }
 
-function TFormHelper.PPIScale(ASize: integer): integer;
+function TControlHelper.PPIScale(ASize: integer): integer;
 begin
    Result := MulDiv(ASize, FCurrentPPI, 96);
 end;
 
-function TFormHelper.PPIUnScale(ASize: integer): integer;
+function TControlHelper.PPIUnScale(ASize: integer): integer;
 begin
    Result := MulDiv(ASize, 96, FCurrentPPI);
 end;

@@ -345,6 +345,9 @@
         <DCCReference Include="cPySSHDebugger.pas"/>
         <DCCReference Include="JclSysUtils.pas"/>
         <DCCReference Include="RtlVclFixes.pas"/>
+        <DCCReference Include="JvDockAdvTree.pas"/>
+        <DCCReference Include="JvDockSupportProc.pas"/>
+        <DCCReference Include="JvDockTree.pas"/>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
         <BuildConfiguration Include="Debug">

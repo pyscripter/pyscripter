@@ -53,7 +53,6 @@ Type
     FSelectHotIndex: Integer;
     procedure CMMouseLeave(var Msg: TMessage); message CM_MOUSELEAVE;
   protected
-    FontHeight : Integer;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure Paint; override;
@@ -91,7 +90,6 @@ Type
 
   TJvDockVSChannelSpTBX = class(TJvDockVSChannel)
   protected
-    FontHeight : Integer;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure Paint; override;
     procedure PopupPaneChanged; override;
@@ -134,7 +132,7 @@ implementation
 
 Uses
   Forms, JvDockVIDStyle, SpTBXDkPanels, SpTBXItem, JvDockGlobals,
-  SpTBXTabs, TB2Item, Math, Types;
+  JvDockSupportProc, SpTBXTabs, TB2Item, Math, Types;
 
 procedure Register;
 begin
@@ -143,11 +141,6 @@ end;
 
 const
   TabSheetBorderSize = 2;  // to match SpTBX TabSheet border size
-
-function Scaled(i : Integer): Integer;
-begin
-  Result := MulDiv(i, Screen.PixelsPerInch, 96);
-end;
 
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 var
@@ -207,17 +200,17 @@ constructor TJvDockVSNETTreeSpTBX.Create(DockSite: TWinControl;
   DockZoneClass: TJvDockZoneClass; ADockStyle: TJvDockObservableStyle);
 begin
   inherited Create(DockSite, DockZoneClass, ADockStyle);;
-  GrabberSize := Scaled(22);
-  SplitterWidth := Scaled(5);
-  ButtonHeight := Scaled(14);
-  ButtonWidth := Scaled(14); //15
+  GrabberSize := 22;
+  SplitterWidth := 5;
+  ButtonHeight := 14;
+  ButtonWidth := 14; //15
   LeftOffset := 0; //0
-  RightOffset := Scaled(3);
-  TopOffset := Scaled(2); //4
-  BottomOffset := Scaled(2);
-  ButtonSplitter := Scaled(2);
-  CaptionLeftOffset := Scaled(5);
-  CaptionRightOffset := Scaled(5);
+  RightOffset := 3;
+  TopOffset := 2; //4
+  BottomOffset := 2;
+  ButtonSplitter := 2;
+  CaptionLeftOffset := 5;
+  CaptionRightOffset := 5;
   GrabberBottomEdgeColor := clNone;
   SkinManager.AddSkinNotification(Self);
 end;
@@ -256,7 +249,7 @@ begin
     AZone := TCrackJvDockVSNETZone(Zone);
     R := Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight);
     if AZone.AutoHideBtnState = bsDown then
-      R.Offset(Scaled(1), Scaled(1));
+      R.Offset(PPIScale(1), PPIScale(1));
 
     if AZone.AutoHideBtnState = TJvDockBtnState.bsNormal then begin
       PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal);
@@ -272,11 +265,11 @@ begin
     end;
 
     if DockSite.Align in [alLeft, alRight, alTop, alBottom] then
-      DrawGlyphPattern(Canvas.Handle, R, Scaled(8),
-        Scaled(8), AutoHidePattern1[0], PatternColor)
+      DrawGlyphPattern(Canvas.Handle, R, PPIScale(8),
+        PPIScale(8), AutoHidePattern1[0], PatternColor)
     else if DockSite.Align in [alNone] then
-      DrawGlyphPattern(Canvas.Handle, R, Scaled(8),
-        Scaled(8), AutoHidePattern2[0], PatternColor);
+      DrawGlyphPattern(Canvas.Handle, R, PPIScale(8),
+        PPIScale(8), AutoHidePattern2[0], PatternColor);
   end;
 end;
 
@@ -308,7 +301,7 @@ begin
     AZone := TCrackJvDockVSNETZone(Zone);
     R := Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight);
     if AZone.CloseBtnState = bsDown then
-      R.Offset(Scaled(1), Scaled(1));
+      R.Offset(PPIScale(1), PPIScale(1));
 
     if AZone.CloseBtnState = TJvDockBtnState.bsNormal then begin
       PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal);
@@ -369,8 +362,8 @@ begin
   end;
 
   DrawRect := ARect;
-  Inc(DrawRect.Top, Scaled(1));
-  DrawRect.Bottom := DrawRect.Top + GrabberSize - Scaled(2);
+  Inc(DrawRect.Top, PPIScale(1));
+  DrawRect.Bottom := DrawRect.Top + GrabberSize - PPIScale(2);
   CRect := DrawRect;
 
   // Draw Background
@@ -379,7 +372,7 @@ begin
 
   if ShowCloseButtonOnGrabber then
     DrawCloseButton(Canvas, FindControlZone(Control),
-     ARect.Right - RightOffset - ButtonWidth - Scaled(1),
+     ARect.Right - RightOffset - ButtonWidth - PPIScale(1),
      ARect.Top + TopOffset);
 
   if DockSite.Align <> alClient then
@@ -391,6 +384,7 @@ begin
 
   //  Now Draw Caption
   Canvas.Font.Assign(SmCaptionFont);
+  Canvas.Font.Height := MulDiv(SmCaptionFont.Height, FCurrentPPI, SmCaptionFont.PixelsPerInch);
   GetCaptionRect( CRect );
   PanelCaption := TForm(Control).Caption;
 
@@ -403,8 +397,10 @@ begin
     TextColor := clCaptionText;
   Canvas.Font.Color := TextColor;
 
-  DrawText(Canvas.Handle, PChar(PanelCaption), Length(PanelCaption), CRect,
-    DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS);
+  JvDrawTextWithMiddleEllipsis(Canvas, PanelCaption,
+    CRect, DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX);
+//  DrawText(Canvas.Handle, PChar(PanelCaption), Length(PanelCaption), CRect,
+//    DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS);
 end;
 
 procedure PaintSplitterFrame(Canvas : TCanvas; IsVertical: Boolean; var R: TRect);
@@ -516,10 +512,6 @@ procedure TJvDockVSNETTreeSpTBX.WMSpSkinChange(var Message: TMessage);
 begin
   UpdateAll;
   DockSite.Invalidate;
-  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then
-    ButtonWidth := Scaled(16)
-  else
-    ButtonWidth := Scaled(14);
 end;
 
 { TJvDockVSNetStyleSpTBX }
@@ -533,8 +525,6 @@ begin
   DockPanelClass := TJvDockVSNETPanelSpTBX;
   DockSplitterClass := TJvDockVSNETSplitterSpTBX;
   ConjoinServerOptionClass := TJvDockVSNETSpTBXConjoinServerOption;
-
-  TJvDockVSNetStyle.SetAnimationMoveWidth(MulDiv(20, Screen.PixelsPerInch, 96));
 end;
 
 
@@ -578,33 +568,20 @@ begin
   TabPanelClass := TJvDockVSNETTabPanelSpTBX;
   TabSheetClass := TJvDockVSNETTabSheetSpTBX;
   SkinManager.AddSkinNotification(Self);
-  if Assigned(Images) then begin
-    Images.SetSize(Scaled(Images.Width), Scaled(Images.Height));
-  end;
 end;
 
 procedure TJvDockVSNETTabPageControlSpTBX.CreatePanel;
-Var
-  TM: TTextMetric;
 begin
   inherited;
   with Panel as TJvDockVSNETTabPanelSpTBX do begin
-    TabBottomOffset := Scaled(2); // changed from 3
-    TabTopOffset := Scaled(2);
-    TabLeftOffset := Scaled(2);
-    TabRightOffset := Scaled(2);
+    TabBottomOffset := 2;; // changed from 3
+    TabTopOffset := 2;
+    TabLeftOffset := 2;
+    TabRightOffset := 2;
     TabSplitterWidth := 0;
-
     Canvas.Font.Assign(ToolbarFont);
-    if GetTextMetrics(Canvas.Handle, TM) then
-      FontHeight := TM.tmHeight
-    else begin
-      FontHeight := Abs(ToolbarFont.Height);
-      if ToolbarFont.Height < 0 then
-        Inc(FontHeight, Scaled(3)); //tmInternalLeading
-    end;
-    TabHeight := Max(TJvDockVSNETTabPanelSpTBX(Panel).FontHeight +
-      Scaled(10), Scaled(25));
+    TabHeight :=
+      Max(MulDiv(Abs(ToolbarFont.Height), 96, ToolbarFont.PixelsPerInch) +  10, 25);
   end;
 end;
 
@@ -649,14 +626,14 @@ begin
   BorderWidth := 0;
 
   FSelectHotIndex := -11;
-  CaptionTopOffset := Scaled(5);
-  CaptionLeftOffset := Scaled(5);
-  CaptionRightOffset := Scaled(5);
+  CaptionTopOffset := 5;
+  CaptionLeftOffset := 5;
+  CaptionRightOffset := 5;
 
   SkinManager.AddSkinNotification(Self);
   ControlStyle := ControlStyle + [csOpaque];
   DoubleBuffered := True;  // To avoid flicker
-  TabLeftOffset := Scaled(2);
+  TabLeftOffset := 2;
 end;
 
 destructor TJvDockVSNETTabPanelSpTBX.Destroy;
@@ -685,12 +662,15 @@ var
   I, CompleteWidth: Integer;
   ImageWidth: Integer;
   CaptionString: string;
-//  Edge: TSpTBXTabEdge;
+  //  Edge: TSpTBXTabEdge;
   Position: TSpTBXTabPosition;
   IsActive, IsHot : Boolean;
-  State : TSpTBXSkinStatesType;
+  State: TSpTBXSkinStatesType;
   TextColor: TColor;
-  Format : UINT;
+  Format: UINT;
+  FontHeight : Integer;
+  TM: TTextMetric;
+  ShowImage: Boolean;
 begin
   if Page = nil then
     Exit;
@@ -719,6 +699,16 @@ begin
     Dec(DockRect.Bottom, TabSheetBorderSize);
   end;
 
+  // Set and scale Canvas font
+  Canvas.Font.Height := MulDiv(ToolbarFont.Height, FCurrentPPI, ToolbarFont.PixelsPerInch);
+  if GetTextMetrics(Canvas.Handle, TM) then
+    FontHeight := TM.tmHeight
+  else begin
+    FontHeight := Abs(Canvas.Font.Height);
+    if Canvas.Font.Height < 0 then
+      Inc(FontHeight, Page.PPIScale(3)); //tmInternalLeading
+  end;
+
   // Paint the toolbar background
   //CurrentSkin.PaintBackground(Canvas, DockRect, skncDock, sknsNormal, True, False);
   //CurrentSkin.PaintBackground(Canvas, DockRect, skncToolbar, sknsNormal, True, False);
@@ -727,8 +717,7 @@ begin
   CompleteWidth := TabLeftOffset;
 
   // Paint all the tabs
-  Canvas.Font.Assign(ToolbarFont);
-//  Edge := tedLeft;  // Only for the first visible tab
+  //  Edge := tedLeft;  // Only for the first visible tab
 
   for I := 0 to Page.Count - 1 do
   begin
@@ -736,6 +725,9 @@ begin
       Continue;
 
     CurrTabWidth := TCrackJvDockVIDTabSheet(Page.Pages[I]).ShowTabWidth;
+    ShowImage :=  ShowTabImages and (Page.Images <> nil) and
+        (Page.Pages[I].ImageIndex >= 0) and
+        (CurrTabWidth > ImageWidth + 2 * CaptionLeftOffset);
 
     //  Calculate Button area
     case Page.TabPosition of
@@ -758,19 +750,20 @@ begin
       case Position of
         ttpTop:
           begin
-            Inc(R.Bottom, Scaled(5));
+            Inc(R.Bottom, Page.PPIScale(5));
             // maintain background border
             if IsActive then begin
               SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone);
-              ExcludeClipRect(Canvas.Handle, R.Left+1, ARect.Bottom - TabSheetBorderSize, R.Right-1, ARect.Bottom);
+              ExcludeClipRect(Canvas.Handle, R.Left + 1,
+              ARect.Bottom - TabSheetBorderSize, R.Right - 1, ARect.Bottom);
             end;
           end;
         ttpBottom:
           begin
-            Dec(R.Top, Scaled(5));
+            Dec(R.Top, Page.PPIScale(5));
             if IsActive then begin
               SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone);
-              ExcludeClipRect(Canvas.Handle, R.Left+1, 0, R.Right-1, TabSheetBorderSize);
+              ExcludeClipRect(Canvas.Handle, R.Left + 1, 0, R.Right - 1, TabSheetBorderSize);
             end;
           end;
       end;
@@ -782,33 +775,33 @@ begin
          (I < Page.Count - 1)
       then
         SpDrawXPMenuSeparator(Canvas,
-              Rect(CompleteWidth + CurrTabWidth - Scaled(4),
+              Rect(CompleteWidth + CurrTabWidth - Page.PPIScale(4),
               TabTopOffset,
-              CompleteWidth + CurrTabWidth + Scaled(4),
+              CompleteWidth + CurrTabWidth + Page.PPIScale(4),
               PanelHeight - TabBottomOffset), False, True);
     end;
 //    Edge := tedNone;
 
     // now paint the caption
-    Format := DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS;
+    Format := DT_LEFT or DT_SINGLELINE{ or DT_END_ELLIPSIS};
     case Page.TabPosition of
       tpTop:
         begin
           R := Rect(CompleteWidth + CaptionLeftOffset +
-            Integer(ShowTabImages) * (ImageWidth + CaptionLeftOffset),
+            Integer(ShowImage) * (ImageWidth + CaptionLeftOffset),
             TabTopOffset + CaptionTopOffset,
             CompleteWidth + CurrTabWidth - CaptionRightOffset,
             PanelHeight);
-          if IsActive then OffsetRect(R, 0, -Scaled(2));
+          if IsActive then OffsetRect(R, 0, - Page.PPIScale(2));
           Format := Format or DT_TOP;
         end;
       tpBottom:
         begin
           R := Rect(CompleteWidth + CaptionLeftOffset +
-            Integer(ShowTabImages) * (ImageWidth + CaptionLeftOffset),
+            Integer(ShowImage) * (ImageWidth + CaptionLeftOffset),
             0, CompleteWidth + CurrTabWidth - CaptionRightOffset,
             PanelHeight - TabTopOffset - CaptionTopOffset);
-          if IsActive then OffsetRect(R, 0, Scaled(2));
+          if IsActive then OffsetRect(R, 0, Page.PPIScale(2));
           Format := Format or DT_BOTTOM;
         end;
     end;
@@ -820,11 +813,12 @@ begin
       TextColor := clBtnText;
     Canvas.Font.Color := TextColor;
     Canvas.Brush.Style := bsClear;
-    DrawText(Canvas.Handle, PChar(CaptionString), Length(CaptionString),
-      R, Format);
+//    DrawText(Canvas.Handle, PChar(CaptionString), Length(CaptionString),
+//      R, Format);
+    JvDrawTextWithMiddleEllipsis(Canvas, CaptionString, R, Format);
 
     // finally paint the image
-    if ShowTabImages and (Page.Images <> nil) and (CurrTabWidth > ImageWidth + 2 * CaptionLeftOffset) then
+    if ShowImage then
     begin
       case Page.TabPosition of
         tpTop:
@@ -833,7 +827,7 @@ begin
               TabTopOffset + CaptionTopOffset,
               CompleteWidth + CaptionLeftOffset + ImageWidth,
               TabTopOffset + CaptionTopOffset + FontHeight);
-            if IsActive then OffsetRect(R, 0, -Scaled(2));
+            if IsActive then OffsetRect(R, 0, - Page.PPIScale(2));
           end;
         tpBottom:
           begin
@@ -841,7 +835,7 @@ begin
               PanelHeight - TabTopOffset - CaptionTopOffset - FontHeight + 1,
               CompleteWidth + CaptionLeftOffset + ImageWidth,
               PanelHeight - TabTopOffset - CaptionTopOffset);
-            if IsActive then OffsetRect(R, 0, Scaled(2));
+            if IsActive then OffsetRect(R, 0, Page.PPIScale(2));
           end;
       end;
       R := SpCenterRectVert(R, Page.Images.Height);
@@ -868,7 +862,7 @@ begin
   inherited;
   if Assigned(VSChannel) then begin
     VSChannel.VSPopupPanelSplitter.ResizeStyle := rsUpdate;
-    VSChannel.VSPopupPanelSplitter.SplitWidth := Scaled(5);
+    VSChannel.VSPopupPanelSplitter.SplitWidth := PPIScale(5);
     VSChannel.VSPopupPanelSplitter.OnPaint := OnPaintSplitter;
   end;
 end;
@@ -908,19 +902,14 @@ end;
 { TJvDockVSChannelSpTBX }
 
 constructor TJvDockVSChannelSpTBX.Create(AOwner: TComponent);
-var
-  NonClientMetrics: TNonClientMetrics;
 begin
   inherited;
   ControlStyle := ControlStyle + [csOpaque];
   DoubleBuffered := True;
   SkinManager.AddSkinNotification(Self);
   Canvas.Font.Assign(ToolbarFont);
-  NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
-  if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
-    PInteger(@(Self.ChannelWidth))^ :=
-      Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) +
-        Scaled(10), Scaled(22));  // Access private property
+  ChannelWidth :=  // unscaled
+     Max(MulDiv(Abs(ToolbarFont.Height), 96, ToolbarFont.PixelsPerInch) +  10, 22);
 end;
 
 destructor TJvDockVSChannelSpTBX.Destroy;
@@ -933,6 +922,8 @@ procedure TJvDockVSChannelSpTBX.Paint;
 var
   I: Integer;
   IsVertical : Boolean;
+  FontHeight : Integer;
+  TM: TTextMetric;
 
   procedure DrawSingleBlock(Block: TJvDockVSBlock);
   var
@@ -949,11 +940,11 @@ var
     begin
       R := DrawRect;
       if Align in [alLeft, alRight] then begin
-        Inc(R.Top, Scaled(4));
+        Inc(R.Top, PPIScale(4));
         R.Bottom := R.Top + Block.ImageList.Height;
         R := SpCenterRectHoriz(R, Block.ImageList.Width);
       end else begin
-        Inc(R.Left, Scaled(4));
+        Inc(R.Left, PPIScale(4));
         R.Right := R.Left + Block.ImageList.Width;
         R := SpCenterRectVert(R, Block.ImageList.Height);
       end;
@@ -1005,15 +996,15 @@ var
         Flags := DT_END_ELLIPSIS or DT_NOCLIP or DT_SINGLELINE;
         // draw the Caption
         if Align in [alTop, alBottom] then begin
-          Inc(DrawRect.Left, Scaled(2) + TCrackJvDockVSBlock(Block).InactiveBlockWidth);
-          Dec(DrawRect.Right, Scaled(2));
+          Inc(DrawRect.Left, PPIScale(2) + TCrackJvDockVSBlock(Block).InactiveBlockWidth);
+          Dec(DrawRect.Right, PPIScale(2));
           Flags := Flags or DT_VCENTER;
         end else
         if Align in [alLeft, alRight] then
         begin
-          Inc(DrawRect.Top, Scaled(2) + TCrackJvDockVSBlock(Block).InactiveBlockWidth);
-          DrawRect.Left := DrawRect.Right + Scaled(1) - ((ChannelWidth - FontHeight) div 2);
-          Dec(DrawRect.Bottom, Scaled(2));
+          Inc(DrawRect.Top, PPIScale(2) + TCrackJvDockVSBlock(Block).InactiveBlockWidth);
+          DrawRect.Left := DrawRect.Right + PPIScale(1) - ((ChannelWidth - FontHeight) div 2);
+          Dec(DrawRect.Bottom, PPIScale(2));
           DrawRect.Right := DrawRect.Left + (DrawRect.Bottom - DrawRect.Top);
         end;
 
@@ -1036,10 +1027,15 @@ var
   end;
 
 begin
-//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
-//    inherited;
-//    Exit;
-//  end;
+  // Scale Canvas font
+  Canvas.Font.Height := MulDiv(ToolbarFont.Height, FCurrentPPI, ToolbarFont.PixelsPerInch);
+  if GetTextMetrics(Canvas.Handle, TM) then
+    FontHeight := TM.tmHeight
+  else begin
+    FontHeight := Abs(Canvas.Font.Height);
+    if Canvas.Font.Height < 0 then
+      Inc(FontHeight, PPIScale(3)); //tmInternalLeading
+  end;
 
   IsVertical := Align in [alLeft, alRight];
   SpDrawXPDock(Canvas, ClientRect, IsVertical);
@@ -1057,16 +1053,7 @@ begin
 end;
 
 procedure TJvDockVSChannelSpTBX.ResetFontAngle;
-Var
-  TM: TTextMetric;
 begin
-  if GetTextMetrics(Canvas.Handle, TM) then
-    FontHeight := TM.tmHeight
-  else begin
-    FontHeight := Abs(Canvas.Font.Height);
-    if Canvas.Font.Height < 0 then
-      Inc(FontHeight, Scaled(3)); //tmInternalLeading
-  end;
   if Align in [alLeft, alRight] then
     Canvas.Font.Handle := SpCreateRotatedFont(Canvas.Handle);
 end;
@@ -1146,9 +1133,9 @@ procedure TJvDockVSNETSplitterSpTBX.Paint;
   begin
     Result := Rect(0, 0, 0, 0);
     if IsVertical then
-      Result := Bounds(0, (Height - Scaled(GripSize)) div 2, Width, Scaled(GripSize))
+      Result := Bounds(0, (Height - PPIScale(GripSize)) div 2, Width, PPIScale(GripSize))
     else
-      Result := Bounds((Width - Scaled(GripSize)) div 2, 0, Scaled(GripSize), Height);
+      Result := Bounds((Width - PPIScale(GripSize)) div 2, 0, PPIScale(GripSize), Height);
   end;
 
 var
@@ -1178,9 +1165,9 @@ begin
   R := GetGripRect(IsVertical);
   DragHandleR := R;
   if IsVertical then
-    InflateRect(DragHandleR, -Scaled(1), -Scaled(10))
+    InflateRect(DragHandleR, -PPIScale(1), -PPIScale(10))
   else
-    InflateRect(DragHandleR, -Scaled(10), -Scaled(1));
+    InflateRect(DragHandleR, -PPIScale(10), -PPIScale(1));
 
     if SkinManager.GetSkinType = sknSkin then begin
       if FMouseLoc in [mlOver, mlDown]  then
@@ -1243,9 +1230,10 @@ begin
   inherited;
   SplitterWidth := 5;
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
-  if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
-    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) +
-      Scaled(8), Scaled(18));
+  if SystemParametersInfoForDpi(SPI_GETNONCLIENTMETRICS,
+    NonClientMetrics.cbSize, @NonClientMetrics, 0, 96)
+  then
+    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 8, 18);
 end;
 
 { TJvDockVSNETTabSheetSpTBX }

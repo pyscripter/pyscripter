@@ -115,7 +115,10 @@ uses
   dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog},
   cPySSHDebugger in 'cPySSHDebugger.pas',
   JclSysUtils in 'JclSysUtils.pas',
-  RtlVclFixes in 'RtlVclFixes.pas';
+  RtlVclFixes in 'RtlVclFixes.pas',
+  JvDockAdvTree in 'JvDockAdvTree.pas',
+  JvDockSupportProc in 'JvDockSupportProc.pas',
+  JvDockTree in 'JvDockTree.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

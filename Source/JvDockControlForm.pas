@@ -1122,8 +1122,6 @@ begin
 	end;
   end;
 
-
-
   if DockForm is TJvDockableForm then
   begin
     with TJvDockableForm(DockForm).DockableControl do
@@ -2941,8 +2939,8 @@ begin
   ParentForm.UseDockManager := False;
   if not (ParentForm is TJvDockableForm) then
     SetDockSite(ParentForm, True);
-  LRDockWidth := 100;
-  TBDockHeight := 100;
+  LRDockWidth := MulDiv(100, ParentForm.CurrentPPI, 96);
+  TBDockHeight := MulDiv(100, ParentForm.CurrentPPI, 96);
   if JvGlobalDockClient = nil then
     JvGlobalDockClient := Self;
   FDirectDrag := False;
@@ -2996,6 +2994,8 @@ begin
     DirectDrag := TJvDockClient(Source).DirectDrag;
     ShowHint := TJvDockClient(Source).ShowHint;
     CanFloat := TJvDockClient(Source).CanFloat;
+    TBDockHeight := TJvDockClient(Source).TBDockHeight;
+    LRDockWidth := TJvDockClient(Source).LRDockWidth;
     // (rom) either bug or needs comment
     FDockLevel := TJvDockClient(Source).DockLevel;
     CustomDock := TJvDockClient(Source).CustomDock; {NEW!}
@@ -3119,6 +3119,7 @@ begin
   Control2.TBDockHeight := OldDockHeight;
 
   SetDockSite(Result, False);
+
   //TJvDockTabHostFormCreatedEvent:
   if Assigned(FOnTabHostFormCreated) then
     FOnTabHostFormCreated(Self, {TabHost:TJvDockTabHostForm} Result);
@@ -3714,7 +3715,9 @@ begin
         Two forms left, one is freed. Call originates from TControl.Destroy or
         TJvDockManager.DoUnDock etc.
   }
-  if (DockClientCount <= 1) or ((DockClientCount = 2) and (VisibleDockClientCount = 1)) then
+  if Assigned(ParentForm) and ParentForm.HandleAllocated and
+    ((DockClientCount <= 1) or ((DockClientCount = 2) and (VisibleDockClientCount = 1)))
+  then
     PostMessage(ParentForm.Handle, WM_CLOSE, 0, 0);
   if VisibleDockClientCount <= 2 then
     JvDockControlForm.UpdateCaption(Self, Msg.Client);
@@ -4687,12 +4690,13 @@ procedure TJvDockSplitterStyle.AssignToSplitter(Dest: TJvDockSplitter);
 begin
   Dest.Color := Color;
   Dest.Cursor := Cursor;
+  Dest.MinSize := MinSize;
   Dest.ParentColor := ParentColor;
   Dest.ResizeStyle := ResizeStyle;
   if Dest.Align in [alTop, alBottom] then
-    Dest.Height := Size
+    Dest.Height := MulDiv(Size, Dest.FCurrentPPI, 96)
   else
-    Dest.Width := Size;
+    Dest.Width := MulDiv(Size, Dest.FCurrentPPI, 96);
 end;
 
 procedure TJvDockSplitterStyle.SetColor(const Value: TColor);

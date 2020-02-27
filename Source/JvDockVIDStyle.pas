@@ -233,6 +233,8 @@ type
     FAlwaysShowGrabber: Boolean;
     procedure LockDropDockSize;
     procedure UnlockDropDockSize;
+    function GetCaptionLeftOffset: Integer;
+    function GetCaptionRightOffset: Integer;
     procedure SetCaptionLeftOffset(const Value: Integer);
     procedure SetCaptionRightOffset(const Value: Integer);
     procedure SetShowCloseButtonOnGrabber(const Value: Boolean);
@@ -275,8 +277,8 @@ type
     procedure RemoveZone(Zone: TJvDockZone; Hide: Boolean = True); override;
     procedure GetCaptionRect(var Rect: TRect); override;
     procedure SyncWithStyle; override;
-    property CaptionLeftOffset: Integer read FCaptionLeftOffset write SetCaptionLeftOffset;
-    property CaptionRightOffset: Integer read FCaptionRightOffset write SetCaptionRightOffset;
+    property CaptionLeftOffset: Integer read GetCaptionLeftOffset write SetCaptionLeftOffset;
+    property CaptionRightOffset: Integer read GetCaptionRightOffset write SetCaptionRightOffset;
   public
     constructor Create(DockSite: TWinControl; DockZoneClass: TJvDockZoneClass;
       ADockStyle: TJvDockObservableStyle); override;
@@ -366,6 +368,14 @@ type
     procedure SetTotalTabWidth(const Value: Integer);
     function GetMinTabWidth: TJvDockTabSheet;
     function GetMaxTabWidth: TJvDockTabSheet;
+    function GetTabBottomOffset: Integer;
+    function GetTabLeftOffset: Integer;
+    function GetTabRightOffset: Integer;
+    function GetTabTopOffset: Integer;
+    function GetCaptionLeftOffset: Integer;
+    function GetCaptionRightOffset: Integer;
+    function GetCaptionTopOffset: Integer;
+    function GetTabSplitterWidth: Integer;
     procedure SetTabBottomOffset(const Value: Integer);
     procedure SetTabLeftOffset(const Value: Integer);
     procedure SetTabRightOffset(const Value: Integer);
@@ -384,6 +394,7 @@ type
     procedure SetShowTabImages(const Value: Boolean);
     procedure SetShowTabHints(const Value: Boolean);
     procedure SetTabHeight(const Value: Integer);
+    function GetTabHeight: Integer;
   protected
     procedure Paint; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
@@ -396,18 +407,18 @@ type
     property TotalTabWidth: Integer read GetTotalTabWidth write SetTotalTabWidth;
     property MinTabWidth: TJvDockTabSheet read GetMinTabWidth;
     property MaxTabWidth: TJvDockTabSheet read GetMaxTabWidth;
-    property TabLeftOffset: Integer read FTabLeftOffset write SetTabLeftOffset default 5;
-    property TabRightOffset: Integer read FTabRightOffset write SetTabRightOffset default 5;
-    property TabTopOffset: Integer read FTabTopOffset write SetTabTopOffset default 2;
-    property TabBottomOffset: Integer read FTabBottomOffset write SetTabBottomOffset default 3;
-    property TabSplitterWidth: Integer read FTabSplitterWidth write SetTabSplitterWidth default 2;
-    property CaptionTopOffset: Integer read FCaptionTopOffset write SetCaptionTopOffset default 0;
-    property CaptionLeftOffset: Integer read FCaptionLeftOffset write SetCaptionLeftOffset default 5;
-    property CaptionRightOffset: Integer read FCaptionRightOffset write SetCaptionRightOffset default 5;
+    property TabLeftOffset: Integer read GetTabLeftOffset write SetTabLeftOffset default 5;
+    property TabRightOffset: Integer read GetTabRightOffset write SetTabRightOffset default 5;
+    property TabTopOffset: Integer read GetTabTopOffset write SetTabTopOffset default 2;
+    property TabBottomOffset: Integer read GetTabBottomOffset write SetTabBottomOffset default 3;
+    property TabSplitterWidth: Integer read GetTabSplitterWidth write SetTabSplitterWidth default 2;
+    property CaptionTopOffset: Integer read GetCaptionTopOffset write SetCaptionTopOffset default 0;
+    property CaptionLeftOffset: Integer read GetCaptionLeftOffset write SetCaptionLeftOffset default 5;
+    property CaptionRightOffset: Integer read GetCaptionRightOffset write SetCaptionRightOffset default 5;
     property Sorts[Index: Integer]: TJvDockVIDTabSheet read GetSorts;
     property PanelHeight: Integer read GetPanelHeight write SetPanelHeight;
     property PanelWidth: Integer read GetPanelWidth;
-    property TabHeight: Integer read FTabHeight write SetTabHeight;
+    property TabHeight: Integer read GetTabHeight write SetTabHeight;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -481,6 +492,7 @@ type
     procedure SetHotTrack(Value: Boolean); override;
     procedure SetImages(Value: TCustomImageList); override;
     procedure SyncWithStyle; override;
+    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override;
     property TabPanelClass: TJvDockTabPanelClass read FTabPanelClass write FTabPanelClass;
   public
     constructor Create(AOwner: TComponent); override;
@@ -1142,7 +1154,7 @@ begin
     {$ENDIF !COMPILER9_UP}
     if (Source.Control is TWinControl) and TWinControl(Source.Control).CanFocus then
       TWinControl(Source.Control).SetFocus;
-    if (ControlCount > 0) and Assigned(Controls[0]) and (Controls[0] is TJvDockTabHostForm) then 
+    if (ControlCount > 0) and Assigned(Controls[0]) and (Controls[0] is TJvDockTabHostForm) then
     begin
       with TJvDockTabHostForm(Controls[0]) do
         if (GetActiveDockForm <> nil) and GetActiveDockForm.CanFocus then
@@ -1712,8 +1724,8 @@ begin
           Control.ContainsControl(Screen.ActiveControl);
         DrawRect := ARect;
 
-        Inc(DrawRect.Top, 2);
-        DrawRect.Bottom := DrawRect.Top + GrabberSize - 3;
+        Inc(DrawRect.Top, PPIScale(2));
+        DrawRect.Bottom := DrawRect.Top + GrabberSize - PPIScale(3);
         if IsActive then
           PaintGradientBackground(Canvas, DrawRect, Option.ActiveTitleStartColor,
             Option.ActiveTitleEndColor, Option.ActiveTitleVerticalGradient)
@@ -1727,6 +1739,9 @@ begin
           Canvas.Font.Assign(Option.ActiveFont)
         else
           Canvas.Font.Assign(Option.InactiveFont);
+        // Scale font
+        Canvas.Font.Height := MulDiv(Canvas.Font.Height, FCurrentPPI, Canvas.Font.PixelsPerInch);
+
         Canvas.Brush.Style := bsClear;
         GetCaptionRect(DrawRect);
         uFormat := DT_VCENTER or DT_SINGLELINE or
@@ -2315,12 +2330,22 @@ begin
   end;
 end;
 
+function TJvDockVIDTree.GetCaptionLeftOffset: Integer;
+begin
+  Result := PPIScale(FCaptionLeftOffset);
+end;
+
 procedure TJvDockVIDTree.GetCaptionRect(var Rect: TRect);
 begin
-  Inc(Rect.Left, 2 + CaptionLeftOffset);
-  Inc(Rect.Top, 1);
-  Dec(Rect.Right, ButtonWidth + CaptionRightOffset - 1);
-  Dec(Rect.Bottom, 2);
+  Inc(Rect.Left, PPIScale(2) + CaptionLeftOffset);
+  Inc(Rect.Top, PPIScale(1));
+  Dec(Rect.Right, ButtonWidth + CaptionRightOffset - PPIScale(1));
+  Dec(Rect.Bottom, PPIScale(2));
+end;
+
+function TJvDockVIDTree.GetCaptionRightOffset: Integer;
+begin
+  Result := PPIScale(FCaptionRightOffset);
 end;
 
 { Adjust docking area rectangle to compensante for Grabber control }
@@ -2465,7 +2490,7 @@ begin
 
   if AOwner is TJvDockTabHostForm then
   begin
-    FTabImageList := TCustomImageList.Create(AOwner);
+    FTabImageList := TImageList.CreateSize(PPIScale(16), PPIScale(16));
     {$IFDEF RTL200_UP}
     FTabImageList.ColorDepth := cd32Bit;
     {$ENDIF RTL200_UP}
@@ -2599,7 +2624,7 @@ begin
   end;
   FPanel.SelectSheet := nil;
   with ActivePage do
-    if not JvGlobalDockIsLoading and (ControlCount > 0) and Assigned(Controls[0]) then 
+    if not JvGlobalDockIsLoading and (ControlCount > 0) and Assigned(Controls[0]) then
     begin
       if Visible and (Controls[0] <> nil) and (Controls[0] as TWinControl).CanFocus then
           (Controls[0] as TWinControl).SetFocus;
@@ -2697,6 +2722,14 @@ begin
   //      ActivePage.SetFocus;
 end;
 
+procedure TJvDockVIDTabPageControl.ChangeScale(M, D: Integer;
+  isDpiChange: Boolean);
+begin
+  inherited;
+  if Assigned(FTabImageList) then
+    JvScaleImageList(FTabImageList, M, D);
+end;
+
 procedure TJvDockVIDTabPageControl.AdjustClientRect(var Rect: TRect);
 begin
   Rect := ClientRect;
@@ -2704,13 +2737,13 @@ begin
     Exit;
   case TabPosition of
     tpTop:
-      Inc(Rect.Top, Panel.FTabHeight - 1);
+      Inc(Rect.Top, Panel.TabHeight - PPIScale(1));
     tpBottom:
-      Dec(Rect.Bottom, Panel.FTabHeight - 1);
+      Dec(Rect.Bottom, Panel.TabHeight - PPIScale(1));
     tpLeft:
-      Inc(Rect.Left, Panel.FTabHeight - 1);
+      Inc(Rect.Left, Panel.TabHeight - PPIScale(1));
     tpRight:
-      Dec(Rect.Right, Panel.FTabHeight - 1);
+      Dec(Rect.Right, Panel.TabHeight - PPIScale(1));
   end;
 end;
 
@@ -2776,10 +2809,10 @@ begin
   if FPanel = nil then
     Exit;
   case TabPosition of
-    tpLeft: FPanel.SetBounds(0, 0, Panel.FTabHeight, Height);
-    tpRight: FPanel.SetBounds(Width - Panel.FTabHeight, 0, Panel.FTabHeight, Height);
-    tpTop: FPanel.SetBounds(0, 0, Width, Panel.FTabHeight);
-    tpBottom: FPanel.SetBounds(0, Height - Panel.FTabHeight, Width, Panel.FTabHeight);
+    tpLeft: FPanel.SetBounds(0, 0, Panel.TabHeight, Height);
+    tpRight: FPanel.SetBounds(Width - Panel.TabHeight, 0, Panel.TabHeight, Height);
+    tpTop: FPanel.SetBounds(0, 0, Width, Panel.TabHeight);
+    tpBottom: FPanel.SetBounds(0, Height - Panel.TabHeight, Width, Panel.TabHeight);
   end;
 end;
 
@@ -3237,6 +3270,36 @@ begin
   Result := FSortList[Index];
 end;
 
+function TJvDockTabPanel.GetTabBottomOffset: Integer;
+begin
+  Result := FPage.PPIScale(FTabBottomOffset);
+end;
+
+function TJvDockTabPanel.GetTabHeight: Integer;
+begin
+  Result := FPage.PPIScale(FTabHeight);
+end;
+
+function TJvDockTabPanel.GetTabLeftOffset: Integer;
+begin
+  Result := FPage.PPIScale(FTabLeftOffset);
+end;
+
+function TJvDockTabPanel.GetTabRightOffset: Integer;
+begin
+  Result := FPage.PPIScale(FTabRightOffset);
+end;
+
+function TJvDockTabPanel.GetTabSplitterWidth: Integer;
+begin
+  Result := FPage.PPIScale(FTabSplitterWidth);
+end;
+
+function TJvDockTabPanel.GetTabTopOffset: Integer;
+begin
+  Result := FPage.PPIScale(FTabTopOffset);
+end;
+
 function TJvDockTabPanel.GetTotalTabWidth: Integer;
 var
   I: Integer;
@@ -3276,7 +3339,7 @@ begin
     if Assigned(Page.ActivePage) and Page.ActivePage.CanFocus then
     begin
       AParentForm := GetParentForm(Page);
-      if Assigned(AParentForm) then 
+      if Assigned(AParentForm) then
       begin
         Page.SelectFirst;
         AParentForm.SetFocus;
@@ -3548,32 +3611,34 @@ begin
         case Page.TabPosition of
           tpLeft, tpRight:
             begin
-              Canvas.MoveTo(PanelHeight - FTabBottomOffset - 3, CompleteWidth + FTabLeftOffset + CurrTabWidth);
-              Canvas.LineTo(FTabTopOffset + 2, CompleteWidth + FTabLeftOffset + CurrTabWidth);
+              Canvas.MoveTo(PanelHeight - FTabBottomOffset - FPage.PPIScale(3), CompleteWidth + FTabLeftOffset + CurrTabWidth);
+              Canvas.LineTo(FTabTopOffset + FPage.PPIScale(2), CompleteWidth + FTabLeftOffset + CurrTabWidth);
             end;
           tpTop, tpBottom:
             begin
-              Canvas.MoveTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, PanelHeight - FTabBottomOffset - 3);
-              Canvas.LineTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, FTabTopOffset + 2);
+              Canvas.MoveTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, PanelHeight - FTabBottomOffset - FPage.PPIScale(3));
+              Canvas.LineTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, FTabTopOffset + FPage.PPIScale(2));
             end;
         end;
       end;
       Canvas.Brush.Color := Page.InactiveSheetColor;
       Canvas.Font.Assign(FInactiveFont);
     end;
+    // Scale Font
+    Canvas.Font.Height := MulDiv(Canvas.Font.Height, FCurrentPPI, Canvas.Font.PixelsPerInch);
 
     if FSelectHotIndex = I then
       Canvas.Font.Color := FHotTrackColor;
 
     case Page.TabPosition of
       tpLeft:
-        ARect := Rect(FTabTopOffset + FCaptionTopOffset + 1,
+        ARect := Rect(FTabTopOffset + FCaptionTopOffset + FPage.PPIScale(1),
           CompleteWidth + FTabLeftOffset + FCaptionLeftOffset,
           PanelHeight,
           CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset);
 
       tpRight:
-        ARect := Rect(FTabBottomOffset + FCaptionTopOffset + 1,
+        ARect := Rect(FTabBottomOffset + FCaptionTopOffset + FPage.PPIScale(1),
           CompleteWidth + FTabLeftOffset + FCaptionLeftOffset,
           PanelHeight,
           CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset);
@@ -3581,25 +3646,27 @@ begin
       tpTop:
         ARect := Rect(CompleteWidth + FTabLeftOffset + FCaptionLeftOffset +
           Integer(FShowTabImages) * (ImageWidth + FCaptionLeftOffset),
-          FTabTopOffset + FCaptionTopOffset + 1,
+          FTabTopOffset + FCaptionTopOffset + FPage.PPIScale(1),
           CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset,
           PanelHeight);
 
       tpBottom:
         ARect := Rect(CompleteWidth + FTabLeftOffset + FCaptionLeftOffset +
           Integer(FShowTabImages) * (ImageWidth + FCaptionLeftOffset),
-          FTabBottomOffset + FCaptionTopOffset + 1,
+          FTabBottomOffset + FCaptionTopOffset + FPage.PPIScale(1),
           CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset,
           PanelHeight);
     end;
 
     CaptionString := Page.Pages[I].Caption;
-    DrawText(Canvas.Handle, PChar(CaptionString), Length(CaptionString),
-      ARect, DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS);
+
+//    DrawText(Canvas.Handle, PChar(CaptionString), Length(CaptionString),
+//      ARect, DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS);
+    JvDrawTextWithMiddleEllipsis(Canvas, CaptionString, ARect, DT_LEFT or DT_SINGLELINE);
 
     if FShowTabImages and (Page.Images <> nil) and (CurrTabWidth > ImageWidth + 2 * FCaptionLeftOffset) then
       Page.Images.Draw(Canvas, CompleteWidth + FTabLeftOffset + FCaptionLeftOffset,
-        FTabBottomOffset + FCaptionTopOffset + 1, Page.Pages[I].ImageIndex, True);
+        FTabBottomOffset + FCaptionTopOffset + FPage.PPIScale(1), Page.Pages[I].ImageIndex, True);
 
     Inc(CompleteWidth, CurrTabWidth + FTabSplitterWidth);
   end;
@@ -3710,6 +3777,21 @@ procedure TJvDockTabPanel.SetTotalTabWidth(const Value: Integer);
 begin
 end;
 
+function TJvDockTabPanel.GetCaptionLeftOffset: Integer;
+begin
+  Result := FPage.PPIScale(FCaptionLeftOffset);
+end;
+
+function TJvDockTabPanel.GetCaptionRightOffset: Integer;
+begin
+  Result := FPage.PPIScale(FCaptionRightOffset);
+end;
+
+function TJvDockTabPanel.GetCaptionTopOffset: Integer;
+begin
+  Result := FPage.PPIScale(FCaptionTopOffset);
+end;
+
 function TJvDockTabPanel.GetDockClientFromPageIndex(Index: Integer): TControl;
 begin
   Result := nil;
@@ -3794,7 +3876,7 @@ end;
 procedure TJvDockTabPanel.SetTabHeight(const Value: Integer);
 begin
   FTabHeight := Value;
-  Height := FTabHeight + FTabTopOffset + FTabBottomOffset;
+  //Height := TabHeight + TabTopOffset + TabBottomOffset;
 end;
 
 //=== { TJvDockVIDTabSheet } =================================================

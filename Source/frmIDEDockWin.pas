@@ -46,6 +46,7 @@ type
   public
     { Public declarations }
     HasFocus : Boolean;
+    procedure ScaleForPPI(NewPPI: Integer); override;
   end;
 
 var
@@ -115,6 +116,13 @@ end;
 procedure TIDEDockWindow.FormDestroy(Sender: TObject);
 begin
   SkinManager.RemoveSkinNotification(Self);
+end;
+
+procedure TIDEDockWindow.ScaleForPPI(NewPPI: Integer);
+begin
+  DockClient.LRDockWidth := MulDiv(DockClient.LRDockWidth, NewPPI, FCurrentPPI);
+  DockClient.TBDockHeight := MulDiv(DockClient.TBDockHeight, NewPPI, FCurrentPPI);
+  inherited;
 end;
 
 procedure TIDEDockWindow.DockClientTabHostFormCreated(

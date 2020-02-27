@@ -1608,7 +1608,8 @@ begin
       JvFormStorage.RestoreFormPlacement
     else
       WindowState := wsMaximized;
-  end;
+  end else
+    WindowState := wsMaximized;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
