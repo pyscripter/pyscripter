@@ -4022,6 +4022,7 @@ var
   LeftOffset: Integer;
   BottomOffset: Integer;
   MaxTabWidth: Integer;
+  PPI: Integer;
 begin
   FErase := Erase;
   GetBrush_PenSize_DrawRect(ABrush, PenSize, DrawRect, Erase);
@@ -4044,6 +4045,13 @@ begin
 
   if not ShowTab then
   begin
+    if (DropAlign = alNone) and (DragTarget = nil) then
+    begin
+      PPI := Screen.MonitorFromPoint(DragPos).PixelsPerInch;
+      DockRect.Width := MulDiv(Control.Width, PPI, Control.CurrentPPI);
+      DockRect.Height := MulDiv(Control.Height, PPI, Control.CurrentPPI);
+      DrawRect := DockRect;
+    end;
     AlphaBlendedForm.Visible := True;
     AlphaBlendedForm.BoundsRect := DrawRect;
     AlphaBlendedTab.Visible := False;

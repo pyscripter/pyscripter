@@ -516,7 +516,7 @@ begin
     ImgList.SetSize(MulDiv(ImgList.Width, M, D), MulDiv(ImgList.Height, M, D));
 
     //add images back to original ImageList stretched (if DPI scaling > 150%) or centered (if DPI scaling <= 150%)
-    for ii := 0 to -1 + TmpImgList.Count do
+    for ii := 0 to TmpImgList.Count - 1 do
     begin
       ib := TBitmap.Create;
       mb := TBitmap.Create;
@@ -538,7 +538,7 @@ begin
           smb.SetSize(ImgList.Width, ImgList.Height);
           smb.Canvas.FillRect(smb.Canvas.ClipRect);
 
-          if M * 100 / D >= 150 then //stretch if >= 150%
+          if (M < D) or (M * 100 / D >= 150) then //stretch if >= 150%
           begin
             sib.Canvas.StretchDraw(Rect(0, 0, sib.Width, sib.Width), ib);
             smb.Canvas.StretchDraw(Rect(0, 0, smb.Width, smb.Width), mb);

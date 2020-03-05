@@ -97,6 +97,7 @@ type
     constructor Create(ABlock: TJvDockVSBlock; AForm: TCustomForm; AWidth: Integer; AIndex: Integer); virtual;
     destructor Destroy; override;
     // KV added
+    property PopUpPanelWidth: Integer read FWidth write FWidth;
     property Active: Boolean read GetActive;
     property Visible: Boolean read FVisible;
     property DockForm: TCustomForm read FDockForm;
@@ -225,6 +226,7 @@ type
       X, Y: Integer); override;
     procedure SetVSPopupPanelSplitterPosition;
     procedure SyncWithStyle; virtual;
+    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override;
     property ChannelWidth: Integer read GetChannelWidth write FChannelWidth;
     property BlockStartOffset: Integer read GetBlockStartOffset write SetBlockStartOffset;
     property BlockUpOffset: Integer read GetBlockUpOffset;
@@ -345,7 +347,6 @@ type
     //KV
     property VSChannelClass: TJvDockVSChannelClass
       read FVSChannelClass write FVSChannelClass;
-    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override;
   public
     constructor Create(AOwner: TComponent); override;
     procedure CreateVSChannel;
@@ -1140,6 +1141,21 @@ begin
     InvalidateDockHostSiteOfControl(ActiveDockForm, False);
     {$ENDIF !COMPILER9_UP}
   end;
+end;
+
+procedure TJvDockVSChannel.ChangeScale(M, D: Integer; isDpiChange: Boolean);
+Var
+  I, J : integer;
+begin
+  inherited;
+  for I := 0 to FBlocks.Count - 1 do
+  begin
+    JvScaleImageList(Block[I].FImageList, M, D);
+    for J := 0 to Block[I].VSPaneCount - 1 do
+      Block[I].VSPane[J].PopUpPanelWidth := MulDiv(Block[I].VSPane[J].PopUpPanelWidth, M, D);
+  end;
+  ResetPosition;
+  Invalidate;
 end;
 
 procedure TJvDockVSChannel.CMMouseLeave(var Msg: TMessage);
@@ -2081,17 +2097,6 @@ begin
 end;
 
 //=== { TJvDockVSNETPanel } ==================================================
-
-procedure TJvDockVSNETPanel.ChangeScale(M, D: Integer; isDpiChange: Boolean);
-Var
-  I : integer;
-begin
-  inherited;
-
-  if not Assigned(FVSChannel) then Exit;
-  for I := 0 to FVSChannel.FBlocks.Count - 1 do
-    JvScaleImageList(FVSChannel.Block[I].FImageList, M, D);
-end;
 
 constructor TJvDockVSNETPanel.Create(AOwner: TComponent);
 begin

@@ -628,6 +628,8 @@ begin
   inherited;
   if Assigned(JvDockManager) and isDpiChange then
     JvDockManager.CurrentPPI := M;
+  LRDockWidth := MulDiv(LRDockWidth, M, D);
+  TBDockHeight := MulDiv(TBDockHeight, M, D);
   Invalidate;
 end;
 
@@ -1836,8 +1838,15 @@ Var
   DrawRect: TRect;
   PenSize: Integer;
   ABrush: TBrush;
+  PPI: Integer;
 begin
   GetBrush_PenSize_DrawRect(ABrush, PenSize, DrawRect, Erase);
+  if (DropAlign = alNone) and (DragTarget = nil) then
+  begin
+    PPI := Screen.MonitorFromPoint(DragPos).PixelsPerInch;
+    DockRect.Width := MulDiv(FControl.Width, PPI, FControl.CurrentPPI);
+    DockRect.Height := MulDiv(FControl.Height, PPI, FControl.CurrentPPI);
+  end;
   AlphaBlendedForm.Visible := True;
   AlphaBlendedForm.BoundsRect := DrawRect;
 end;
@@ -1992,7 +2001,7 @@ var
           DF := nil;
           if Assigned(DC) then begin
             if Assigned(DC.OnCheckIsDockable) then begin
-                DC.OnCheckIsDockable( DC, DF, DS, DP, DropFlag );
+                DC.OnCheckIsDockable(DC, DF, DS, DP, DropFlag);
             end;
           end;}
       end
@@ -2310,12 +2319,8 @@ begin
                result := false;
                exit;
          end;
-
       end;
-
   end;
-
-
 
   if Client.HostDockSite is TJvDockCustomControl then
     Result := TJvDockCustomControl(Client.HostDockSite).CustomUnDock(Source, Target, Client)
@@ -2351,7 +2356,12 @@ var
       WasVisible := Control.Visible;
       try
         if Assigned(DragObject.AlphaBlendedForm) then
-        DragObject.AlphaBlendedForm.Hide;
+          DragObject.AlphaBlendedForm.Hide;
+        // PPI Unscale DockRect
+        if Control.HostDockSite = nil then begin
+          DragObject.DockRect.Width := Control.Width;
+          DragObject.DockRect.Height := Control.Height;
+        end;
         Control.Dock(nil, DragObject.DockRect);
         if (Control.Left <> DragObject.DockRect.Left) or (Control.Top <> DragObject.DockRect.Top) then
         begin

@@ -48,6 +48,9 @@ uses
   {$IFDEF UNITVERSIONING}
   JclUnitVersioning,
   {$ENDIF UNITVERSIONING}
+  {$IFDEF RTL330_UP}
+  System.Messaging,
+  {$ENDIF RTL330_UP}
   Windows, Messages, Classes, Graphics, Controls, Forms, Menus,
   ExtCtrls, ComCtrls,
   JvComponentBase, JvComponent, JvAppStorage, JvConsts,
@@ -117,8 +120,8 @@ type
     // GetDockedControls:  NEW! -WPostma.
     // base class doesn't have this capability.
     // see TJvDockAdvPanel for override that implements this!
-	procedure GetDockedControls(WinControls: TList); virtual;  { not supported in base! }
-	function FindTabHostForm:TWinControl; virtual;
+	  procedure GetDockedControls(WinControls: TList); virtual;  { not supported in base! }
+	  function FindTabHostForm:TWinControl; virtual;
 
     property PanelIndex: Integer read GetPanelIndex;
     property DockServer: TJvDockServer read FDockServer write SetDockServer;
@@ -470,6 +473,9 @@ type
     FUnDockLeft: Integer;
     FUnDockTop: Integer;
     FVSPaneWidth: Integer;
+    {$IFDEF RTL330_UP}
+    FDPIChangedMessageID: Integer;
+    {$ENDIF RTL330_UP}
     procedure SetParentVisible(const Value: Boolean);
     function GetLRDockWidth: Integer;
     function GetTBDockHeight: Integer;
@@ -496,6 +502,9 @@ type
     procedure SetCanFloat(const Value: Boolean);
     procedure SetDockLevel(const Value: Integer);
     procedure SetEnableCloseButton(const Value: Boolean);
+    {$IFDEF RTL330_UP}
+    procedure DPIChangedMessageHandler(const Sender: TObject; const Msg: System.Messaging.TMessage);
+    {$ENDIF RTL330_UP}
   protected
     procedure DoMenuPopup(X, Y: Integer); virtual;
     procedure Deactivate; virtual;
@@ -2939,8 +2948,8 @@ begin
   ParentForm.UseDockManager := False;
   if not (ParentForm is TJvDockableForm) then
     SetDockSite(ParentForm, True);
-  LRDockWidth := MulDiv(100, ParentForm.CurrentPPI, 96);
-  TBDockHeight := MulDiv(100, ParentForm.CurrentPPI, 96);
+  LRDockWidth := 100;
+  TBDockHeight := 100;
   if JvGlobalDockClient = nil then
     JvGlobalDockClient := Self;
   FDirectDrag := False;
@@ -2948,10 +2957,16 @@ begin
   FCanFloat := True;
   FDockLevel := 0;
   EnableCloseButton := True;
+  {$IFDEF RTL330_UP}
+  FDPIChangedMessageID := TMessageManager.DefaultManager.SubscribeToMessage(TChangeScaleMessage, DPIChangedMessageHandler);
+  {$ENDIF RTL330_UP}
 end;
 
 destructor TJvDockClient.Destroy;
 begin
+  {$IFDEF RTL330_UP}
+  TMessageManager.DefaultManager.Unsubscribe(TChangeScaleMessage, FDPIChangedMessageID);
+  {$ENDIF RTL330_UP}
   if not (ParentForm is TJvDockableForm) then
     SetDockSite(ParentForm, False);
   ParentForm.DragKind := dkDrag;
@@ -3222,6 +3237,18 @@ begin
   if Assigned(FOnPaintDockSplitter) then
     FOnPaintDockSplitter(Canvas, Control, ARect);
 end;
+
+{$IFDEF RTL330_UP}
+procedure TJvDockClient.DPIChangedMessageHandler(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
+begin
+  if FindDockClient(TControl(Sender)) = Self then
+  begin
+    LRDockWidth := MulDiv(LRDockWidth, TChangeScaleMessage(Msg).M, TChangeScaleMessage(Msg).D);
+    TBDockHeight := MulDiv(TBDockHeight, TChangeScaleMessage(Msg).M, TChangeScaleMessage(Msg).D);
+  end;
+end;
+{$ENDIF RTL330_UP}
 
 // return nil if not found, otherwise, get currently docked parent tabhost form if there is one.
 
