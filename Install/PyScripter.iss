@@ -106,6 +106,7 @@ Source: ..\locale\kab\LC_MESSAGES\default.po; DestDir: {app}\locale\kab\LC_MESSA
 Source: ..\locale\kab\LC_MESSAGES\languages.mo; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\locale\kab\LC_MESSAGES\languages.po; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\locale\uk\LC_MESSAGES\default.po; DestDir: {app}\locale\uk\LC_MESSAGES\
+Source: ..\locale\uk\LC_MESSAGES\default.mo; DestDir: {app}\locale\uk\LC_MESSAGES\
 Source: ..\locale\uk\LC_MESSAGES\languages.mo; DestDir: {app}\locale\uk\LC_MESSAGES\
 Source: ..\locale\uk\LC_MESSAGES\languages.po; DestDir: {app}\locale\uk\LC_MESSAGES\
 ;Ini Files
