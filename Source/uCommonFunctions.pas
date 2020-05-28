@@ -37,7 +37,7 @@ const
   AnsiLineFeed       = AnsiChar(#10);
   AnsiCarriageReturn = AnsiChar(#13);
   AnsiCrLf           = AnsiString(#13#10);
-  WordBreakString = ',.;:"´`°^!?&$@§%#~[](){}<>-=+*/\| ';
+  WordBreakString = ',.;:"ï¿½`ï¿½^!?&$@ï¿½%#~[](){}<>-=+*/\| ';
 
 (* returns the System ImageList index of the icon of a given file *)
 function GetIconIndexFromFile(const AFileName: string;
@@ -333,6 +333,16 @@ type
   end;
 
   function NewTimer(Interval: Cardinal): ITimer;
+
+type
+(*
+  Minimalist SmartPointer implementation based on a blog post by Barry Kelly:
+  http://blog.barrkel.com/2008/11/reference-counted-pointers-revisited.html,
+  https://stackoverflow.com/questions/30153682/why-does-this-optimization-of-a-smartpointer-not-work
+*)
+  TSmartPointer = record
+    class function Make<T: class>(AValue: T): TFunc<T>; static;
+  end;
 
 Var
   StopWatch : TStopWatch;
@@ -2565,6 +2575,44 @@ function TControlHelper.PPIUnScale(ASize: integer): integer;
 begin
    Result := MulDiv(ASize, 96, FCurrentPPI);
 end;
+
+type
+  TObjectHandle<T: class> = class(TInterfacedObject, TFunc<T>)
+  // used by TSmartPointer
+  private
+    FValue:  T;
+  public
+    constructor  Create(AValue:  T);
+    destructor  Destroy;  override;
+    function  Invoke:  T;
+  end;
+
+{ TObjectHandle }
+
+constructor  TObjectHandle<T>.Create(AValue:  T);
+begin
+  FValue  :=  AValue;
+end;
+
+destructor  TObjectHandle<T>.Destroy;
+begin
+  FValue.Free;
+end;
+
+function  TObjectHandle<T>.Invoke:  T;
+begin
+  Result  :=  FValue;
+end;
+
+
+{ TSmartPointer }
+
+class function TSmartPointer.Make<T>(AValue: T): TFunc<T>;
+begin
+  Result := TObjectHandle<T>.Create(AValue);
+end;
+
+
 
 initialization
   StopWatch := TStopWatch.StartNew;
