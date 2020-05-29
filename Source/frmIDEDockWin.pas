@@ -92,9 +92,7 @@ end;
 
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
-  //FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
-
-  //FGPanelExit(Self);
+  DockClient.DockStyle := PyIDEMainForm.DockServer.DockStyle;
   BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
   BorderNormal := StyleServices.GetSystemColor(clBtnShadow);
 

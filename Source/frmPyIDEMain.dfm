@@ -32,7 +32,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 195
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -1371,7 +1371,6 @@ object PyIDEMainForm: TPyIDEMainForm
     BottomSplitterStyle.ParentColor = False
     BottomSplitterStyle.ResizeStyle = rsUpdate
     BottomSplitterStyle.Size = 5
-    DockStyle = JvDockVSNetStyleSpTBX
     Left = 37
     Top = 158
   end
@@ -2263,23 +2262,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 161
       OnExecute = actRemoteFileOpenExecute
     end
-  end
-  object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
-    AlwaysShowGrabber = False
-    TabServerOption.HotTrack = True
-    TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
-    TabServerOption.ActiveFont.Color = clWindowText
-    TabServerOption.ActiveFont.Height = -11
-    TabServerOption.ActiveFont.Name = 'Tahoma'
-    TabServerOption.ActiveFont.Style = []
-    TabServerOption.InactiveFont.Charset = DEFAULT_CHARSET
-    TabServerOption.InactiveFont.Color = 5395794
-    TabServerOption.InactiveFont.Height = -11
-    TabServerOption.InactiveFont.Name = 'Tahoma'
-    TabServerOption.InactiveFont.Style = []
-    TabServerOption.ShowCloseButtonOnTabs = False
-    Left = 136
-    Top = 158
   end
   object LocalAppStorage: TJvAppIniFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'

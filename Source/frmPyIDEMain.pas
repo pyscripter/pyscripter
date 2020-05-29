@@ -1022,7 +1022,6 @@ type
     actVariablesWin: TAction;
     actCallStackWin: TAction;
     actViewMainMenu: TAction;
-    JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
     tbiRecentFileList: TSpTBXMRUListItem;
     mnPreviousList: TSpTBXMRUListItem;
     mnNextList: TSpTBXMRUListItem;
@@ -1283,6 +1282,7 @@ type
     function GetAppStorage: TJvCustomAppStorage;
     function GetLocalAppStorage: TJvCustomAppStorage;
   public
+    JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
     StyleDPIAwareness : TStyleDPIAwareness;
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
@@ -1509,6 +1509,12 @@ begin
   TStyleDPIAwareness.RoundScalingFactor := False;
   StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
   StyleDPIAwareness.Parent := Self;
+
+  // Create JvDockVSNetStyleSpTBX
+  JvDockVSNetStyleSpTBX := TJvDockVSNetStyleSpTBX.Create(Self);
+  JvDockVSNetStyleSpTBX.Name := 'JvDockVSNetStyleSpTBX';
+  JvDockVSNetStyleSpTBX.AlwaysShowGrabber := False;
+  DockServer.DockStyle := JvDockVSNetStyleSpTBX;
 
   // App Instances
   ShellExtensionFiles := TStringList.Create;
