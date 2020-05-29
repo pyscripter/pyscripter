@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------------
+﻿{-----------------------------------------------------------------------------
  Unit Name: uCommonFunctions
  Author:    Kiriakos Vlahos
  Date:      23-Jun-2005
@@ -340,6 +340,16 @@ type
   http://blog.barrkel.com/2008/11/reference-counted-pointers-revisited.html,
   https://stackoverflow.com/questions/30153682/why-does-this-optimization-of-a-smartpointer-not-work
 *)
+  TObjectHandle<T: class> = class(TInterfacedObject, TFunc<T>)
+  // used by TSmartPointer
+  private
+    FValue:  T;
+  public
+    constructor  Create(AValue:  T);
+    destructor  Destroy;  override;
+    function  Invoke:  T;
+  end;
+
   TSmartPointer = record
     class function Make<T: class>(AValue: T): TFunc<T>; static;
   end;
@@ -2575,17 +2585,6 @@ function TControlHelper.PPIUnScale(ASize: integer): integer;
 begin
    Result := MulDiv(ASize, 96, FCurrentPPI);
 end;
-
-type
-  TObjectHandle<T: class> = class(TInterfacedObject, TFunc<T>)
-  // used by TSmartPointer
-  private
-    FValue:  T;
-  public
-    constructor  Create(AValue:  T);
-    destructor  Destroy;  override;
-    function  Invoke:  T;
-  end;
 
 { TObjectHandle }
 
