@@ -350,7 +350,7 @@ type
     function  Invoke:  T;
   end;
 
-  TSmartPointer = record
+  TSmartPtr = record
     class function Make<T: class>(AValue: T): TFunc<T>; static;
   end;
 
@@ -2606,11 +2606,10 @@ end;
 
 { TSmartPointer }
 
-class function TSmartPointer.Make<T>(AValue: T): TFunc<T>;
+class function TSmartPtr.Make<T>(AValue: T): TFunc<T>;
 begin
   Result := TObjectHandle<T>.Create(AValue);
 end;
-
 
 
 initialization
