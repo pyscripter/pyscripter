@@ -506,7 +506,7 @@
           New Features
             Removed support for Python 2.6
           Issues addressed
-
+            #1001
 
 }
 { TODO : Review Search and Replace }

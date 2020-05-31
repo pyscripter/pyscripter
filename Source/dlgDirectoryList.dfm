@@ -39,9 +39,10 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Width = 28
       Height = 24
       Hint = 'Move up'
-      Anchors = [akTop]
+      Anchors = [akTop, akRight]
       ImageAlignment = iaCenter
       ImageIndex = 1
+      ImageName = 'Item48'
       Images = vilImages
       TabOrder = 1
       OnClick = btnMoveUpClick
@@ -52,9 +53,10 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Width = 28
       Height = 24
       Hint = 'Move down'
-      Anchors = [akTop]
+      Anchors = [akTop, akRight]
       ImageAlignment = iaCenter
       ImageIndex = 2
+      ImageName = 'Item49'
       Images = vilImages
       TabOrder = 2
       OnClick = btnMoveDownClick
