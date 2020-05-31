@@ -27,6 +27,7 @@ Uses
   DDetours;
 
 {$REGION 'Fix TWICImage - https://quality.embarcadero.com/browse/RSP-26621'}
+{$IF CompilerVersion < 34}
 type
   TCreateWICBitmap = procedure of object;
 
@@ -89,6 +90,7 @@ begin
   with Self do MethodPtr := CreateWICBitmap;
   Result := TMethod(MethodPtr).Code;
 end;
+{$ENDIF}
 {$ENDREGION}
 
 {$REGION 'Fix InputQuery - https://quality.embarcadero.com/browse/RSP-27077'}
@@ -304,17 +306,166 @@ begin
 end;
 {$ENDREGION}
 
-initialization
- Detour_TWICImage_CreateWICBitmap := TWICImage(nil).Detour_CreateWICBitmap;
- TMethod(Trampoline_TWICImage_CreateWICBitmap).Code :=
-   InterceptCreate(TWICImage(nil).GetCreateWICBitmapAddr,
-   TMethod(Detour_TWICImage_CreateWICBitmap).Code);
+{$REGION 'Fix TMonitorSupport - https://quality.embarcadero.com/browse/RSP-28632}
+{
+  Fixes TMonitor event stack
+  See https://en.delphipraxis.net/topic/2824-revisiting-tthreadedqueue-and-tmonitor/
+  for discussion.
+}
+{====================== Patched TMonitorSupport below =========================}
+{ This section provides the required support to the TMonitor record in System. }
+type
+  PEventItemHolder = ^TEventItemHolder;
+  TEventItemHolder = record
+    Next: PEventItemHolder;
+    Event: Pointer;
+  end align {$IFDEF CPUX64}16{$ELSE CPUX64}8{$ENDIF CPUX64};
 
+  TEventStack = record
+    Head: PEventItemHolder;
+    Counter: NativeInt;
+    procedure Push(EventItem: PEventItemHolder);
+    function Pop: PEventItemHolder;
+  end align {$IFDEF CPUX64}16{$ELSE CPUX64}8{$ENDIF CPUX64};
+
+{$IFDEF Win64}
+function InterlockedCompareExchange128(Destination: Pointer; ExchangeHigh, ExchangeLow: Int64; ComparandResult: Pointer): boolean;
+// The parameters are in the RCX, RDX, R8 and R9 registers per the MS x64 calling convention:
+//   RCX        Destination
+//   RDX        ExchangeHigh
+//   R8         ExchangeLow
+//   R9         ComparandResult
+//
+// CMPXCHG16B requires the following register setup:
+//   RDX:RAX    ComparandResult.High:ComparandResult.Low
+//   RCX:RBX    ExchangeHigh:ExchangeLow
+// See: https://www.felixcloutier.com/x86/cmpxchg8b:cmpxchg16b
+asm
+      .PUSHNV RBX
+      MOV   R10,Destination             // RCX
+      MOV   RBX,ExchangeLow             // R8
+      MOV   RCX,ExchangeHigh            // RDX
+      MOV   RDX,[ComparandResult+8]     // R9
+      MOV   RAX,[ComparandResult]       // R9
+ LOCK CMPXCHG16B [R10]
+      MOV   [ComparandResult+8],RDX     // R9
+      MOV   [ComparandResult],RAX       // R9
+      SETZ  AL
+ end;
+{$ENDIF Win64}
+
+function InterlockedCompareExchange(var Dest: TEventStack; const NewValue, CurrentValue: TEventStack): Boolean;
+begin
+  //Result := CAS(CurrentValue.Head, CurrentValue.Counter, NewValue.Head, NewValue.Counter, Dest);
+  {$IFDEF CPUX64}
+  Result := InterlockedCompareExchange128(@Dest, NewValue.Counter, Int64(NewValue.Head), @CurrentValue);
+  {$ELSE CPUX64}
+  Result := InterlockedCompareExchange64(Int64(Dest), Int64(NewValue), Int64(CurrentValue)) = Int64(CurrentValue);
+  {$ENDIF CPUX64}
+end;
+
+procedure TEventStack.Push(EventItem: PEventItemHolder);
+var
+  Current, Next: TEventStack;
+begin
+  repeat
+    Current := Self;
+    EventItem.Next := Current.Head;
+    Next.Head := EventItem;
+    Next.Counter := Current.Counter + 1;
+  until InterlockedCompareExchange(Self, Next, Current);
+end;
+
+function TEventStack.Pop: PEventItemHolder;
+var
+  Current, Next: TEventStack;
+begin
+  repeat
+    Current := Self;
+    if (Current.Head = nil) then
+      Exit(nil);
+    Next.Head := Current.Head.Next;
+    Next.Counter := Current.Counter + 1;
+  until InterlockedCompareExchange(Self, Next, Current);
+  Result := Current.Head;
+end;
+
+var
+  EventCache: TEventStack = (Head: nil; Counter: 0);
+  EventItemHolders: TEventStack = (Head: nil; Counter: 0);
+  MonitorSupportShutDown: Boolean = False;
+
+function NewWaitObj: Pointer;
+var
+  EventItem: PEventItemHolder;
+begin
+  if MonitorSupportShutDown then
+    EventItem := nil
+  else
+    EventItem := EventCache.Pop;
+
+  if EventItem <> nil then
+  begin
+    Result := EventItem.Event;
+    EventItem.Event := nil;
+    EventItemHolders.Push(EventItem);
+  end else
+    Result := Pointer(CreateEvent(nil, False, False, nil));
+  ResetEvent(THandle(Result));
+end;
+
+procedure FreeWaitObj(WaitObject: Pointer);
+var
+  EventItem: PEventItemHolder;
+begin
+  if MonitorSupportShutDown then begin
+    CloseHandle(THandle(WaitObject));
+    Exit;
+  end;
+
+  EventItem := EventItemHolders.Pop;
+  if EventItem = nil then
+    New(EventItem);
+  EventItem.Event := WaitObject;
+  EventCache.Push(EventItem);
+end;
+
+procedure CleanStack(Stack: PEventItemHolder);
+var
+  Walker: PEventItemHolder;
+begin
+  Walker := Stack;
+  while Walker <> nil do
+  begin
+    Stack := Walker.Next;
+    if Walker.Event <> nil then
+      CloseHandle(THandle(Walker.Event));
+    Dispose(Walker);
+    Walker := Stack;
+  end;
+end;
+{$ENDREGION}
+
+initialization
+ {$IF CompilerVersion < 34}
+  Detour_TWICImage_CreateWICBitmap := TWICImage(nil).Detour_CreateWICBitmap;
+  TMethod(Trampoline_TWICImage_CreateWICBitmap).Code :=
+    InterceptCreate(TWICImage(nil).GetCreateWICBitmapAddr,
+    TMethod(Detour_TWICImage_CreateWICBitmap).Code);
+ {$ENDIF}
   Original_InputQuery := Vcl.Dialogs.InputQuery;
   Detour_InputQuery := FixedInputQuery;
   Trampoline_InputQuery := TInputQuery(InterceptCreate(@Original_InputQuery, @Detour_InputQuery));
 
+  System.MonitorSupport.NewWaitObject := NewWaitObj;
+  System.MonitorSupport.FreeWaitObject := FreeWaitObj;
 finalization
- InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
- InterceptRemove(@Trampoline_InputQuery);
+  {$IF CompilerVersion < 34}
+  InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
+  {$ENDIF}
+  InterceptRemove(@Trampoline_InputQuery);
+
+  MonitorSupportShutDown := True;
+  CleanStack(AtomicExchange(Pointer(EventCache.Head), nil));
+  CleanStack(AtomicExchange(Pointer(EventItemHolders.Head), nil));
 end.
