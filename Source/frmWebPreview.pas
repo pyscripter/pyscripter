@@ -32,7 +32,6 @@ uses
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
-  JclSysUtils,
   dmCommands,
   uEditAppIntfs,
   cTools;
@@ -66,7 +65,7 @@ type
     { Private declarations }
     fEditor: IEditor;
     SaveFileName : string;
-    IExternalToolGuard : ISafeGuard;
+    ExternalToolPtr : TFunc<TExternalTool>;
     procedure UpdateView(Editor : IEditor);
   public
     { Public declarations }
@@ -233,10 +232,9 @@ begin
     OutputWindow.ExecuteTool(ExternalTool);
   end;
 
-
   Result := TWebPreviewForm.Create(AOwner);
   if Assigned(ExternalTool) then
-    Guard(ExternalTool, TWebPreviewForm(Result).IExternalToolGuard);
+    TWebPreviewForm(Result).ExternalToolPtr := TSmartPtr.Make(ExternalTool);
 end;
 
 function TWebPreviewView.GetImageIndex: Integer;

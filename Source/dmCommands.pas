@@ -1804,7 +1804,6 @@ Var
   ModifiedCount : integer;
   Editor : IEditor;
   ChangedFiles : TStringList;
-  SafeGuard: ISafeGuard;
   NS: TNamespace;
   Dir : string;
   FTime : TDateTime;
@@ -1832,8 +1831,7 @@ begin
 
   if Dir = '' then Exit;
 
-  ChangedFiles := TStringList.Create;
-  Guard(ChangedFiles, SafeGuard);
+  ChangedFiles := TSmartPtr.Make(TStringList.Create)();
 
   for i := 0 to GI_EditorFactory.Count -1 do begin
     Editor := GI_EditorFactory.Editor[i];

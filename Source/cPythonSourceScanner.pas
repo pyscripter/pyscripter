@@ -267,7 +267,6 @@ uses
   System.Math,
   VarPyth,
   JclStrings,
-  JclSysUtils,
   JvGnugettext,
   SynCompletionProposal,
   StringResources,
@@ -507,12 +506,11 @@ function TPythonScanner.ScanModule(Module : TParsedModule): boolean;
 Var
   UseModifiedSource : boolean;
   SourceLines : TStringList;
-  SourceLinesSafeGuard: ISafeGuard;
 
   function GetNthSourceLine(LineNo : integer) : string;
   begin
     if not Assigned(SourceLines) then begin
-      SourceLines := TStringList(Guard(TStringList.Create, SourceLinesSafeGuard));
+      SourceLines := TSmartPtr.Make(TStringList.Create)();
       SourceLines.Text := Module.Source;
     end;
 
@@ -723,13 +721,11 @@ var
   Variable : TVariable;
   Klass : TParsedClass;
   LineStarts: TList;
-  LineStartsGuard: ISafeGuard;
   GlobalList : TStringList;
-  GlobalListGuard : ISafeGuard;
   AsgnTargetCount : integer;
 begin
-  LineStarts := TList(Guard(TList.Create, LineStartsGuard));
-  GlobalList := TStringList(Guard(TStringList.Create, GlobalListGuard));
+  LineStarts := TSmartPtr.Make(TList.Create)();
+  GlobalList := TSmartPtr.Make(TStringList.Create)();
   GlobalList.CaseSensitive := True;
   UseModifiedSource := True;
 
