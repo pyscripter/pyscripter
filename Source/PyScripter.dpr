@@ -104,7 +104,6 @@ uses
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
   VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
-  VCL.Styles.DPIAware in 'VCL.Styles.DPIAware.pas',
   cPyScripterSettings in 'cPyScripterSettings.pas',
   cPySupportTypes in 'cPySupportTypes.pas',
   cPyControl in 'cPyControl.pas',

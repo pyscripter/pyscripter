@@ -327,7 +327,6 @@
         <DCCReference Include="VCL.Styles.PyScripter.pas">
             <Form>/  Vcl.Styles.Utils.Forms;</Form>
         </DCCReference>
-        <DCCReference Include="VCL.Styles.DPIAware.pas"/>
         <DCCReference Include="cPyScripterSettings.pas"/>
         <DCCReference Include="cPySupportTypes.pas"/>
         <DCCReference Include="cPyControl.pas"/>

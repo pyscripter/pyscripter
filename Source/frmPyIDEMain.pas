@@ -552,7 +552,6 @@ uses
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
   VCL.Styles,
-  Vcl.Styles.DPIAware,
   AMHLEDVecStd,
   JvAppInst,
   JvComponentBase,
@@ -1283,7 +1282,6 @@ type
     function GetLocalAppStorage: TJvCustomAppStorage;
   public
     JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
-    StyleDPIAwareness : TStyleDPIAwareness;
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
     MenuHelpRequested : Boolean;
@@ -1505,11 +1503,6 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
-  // Style DPI awareness
-  TStyleDPIAwareness.RoundScalingFactor := False;
-  StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
-  StyleDPIAwareness.Parent := Self;
-
   // Create JvDockVSNetStyleSpTBX
   JvDockVSNetStyleSpTBX := TJvDockVSNetStyleSpTBX.Create(Self);
   JvDockVSNetStyleSpTBX.Name := 'JvDockVSNetStyleSpTBX';
@@ -2967,7 +2960,6 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
-  FreeAndNil(StyleDPIAwareness);
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);

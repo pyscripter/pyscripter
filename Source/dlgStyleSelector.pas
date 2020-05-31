@@ -61,8 +61,7 @@ implementation
 
 uses
   System.IOUtils,
-  cPyScripterSettings,
-  frmPyIDEMain;
+  cPyScripterSettings;
 
 type
  TVclStylesPreviewClass = class(TVclStylesPreview);
@@ -137,7 +136,6 @@ begin
 
   if Assigned(LStyle) and not Loading  then
   begin
-    PyIDEMainForm.StyleDPIAwareness.ScaleStyle(LStyle);
     FPreview.Caption:=StyleName;
     FPreview.Style:=LStyle;
     TVclStylesPreviewClass(FPreview).Paint;
