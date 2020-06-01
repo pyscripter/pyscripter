@@ -191,7 +191,6 @@ end;
 procedure TDirectoryListDialog.FormShow(Sender: TObject);
 begin
   vilImages.GetIcon(3, Icon);
-  edPath.Color := StyleServices.GetSystemColor(clWindow);  // RSP-26633
   CheckButtons;
 end;
 

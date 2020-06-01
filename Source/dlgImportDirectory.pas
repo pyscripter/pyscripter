@@ -80,7 +80,6 @@ begin
     cbRecursive.Checked := Recursive;
     SHAutoComplete(DirectoryEdit.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
       SHACF_AUTOSUGGEST_FORCE_OFF);
-    DirectoryEdit.Color := StyleServices.GetSystemColor(clWindow); //RSP-26633
     if ShowModal = mrOK then begin
       Result := True;
       FileMasks := ebMask.Text;

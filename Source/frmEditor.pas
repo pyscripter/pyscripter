@@ -1521,7 +1521,6 @@ procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
   if PyControl.ErrorPos.Editor = GetEditor then
     PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
-  fSyntaxErrorPos.Clear;
   fNeedToCheckSyntax := True;
 
   if Assigned(SourceScanner) then
@@ -3253,8 +3252,10 @@ begin
   then
   begin
     TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, True);
+    if HasSyntaxError then
+      SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
     fSyntaxErrorPos := PyControl.ErrorPos;
-    PyControl.ErrorPos.Clear;
+    PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
     fNeedToCheckSyntax := False;
   end;
   if HasSyntaxError then
