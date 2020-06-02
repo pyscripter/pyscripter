@@ -3308,7 +3308,7 @@ begin
   if FSortList = nil then
     Exit;
   for I := 0 to FSortList.Count - 1 do
-    Inc(Result, Sorts[I].TabWidth + Integer(I <> FSortList.Count - 1) * FTabSplitterWidth);
+    Inc(Result, Sorts[I].TabWidth + Integer(I <> FSortList.Count - 1) * TabSplitterWidth);
 end;
 
 procedure TJvDockTabPanel.MouseDown(Button: TMouseButton; Shift: TShiftState;
@@ -3415,13 +3415,13 @@ begin
     begin
       case Page.TabPosition of
         tpTop:
-          ARect := Rect(0, 0, Width, Height - FTabBottomOffset);
+          ARect := Rect(0, 0, Width, Height - TabBottomOffset);
         tpBottom:
-          ARect := Rect(0, FTabBottomOffset, Width, Height);
+          ARect := Rect(0, TabBottomOffset, Width, Height);
         tpLeft:
-          ARect := Rect(0, 0, Width - FTabBottomOffset, Height);
+          ARect := Rect(0, 0, Width - TabBottomOffset, Height);
         tpRight:
-          ARect := Rect(FTabBottomOffset, 0, Width, Height);
+          ARect := Rect(TabBottomOffset, 0, Width, Height);
       else
         ARect := Rect(0, 0, 0, 0);
       end;
@@ -3497,13 +3497,13 @@ begin
   Canvas.Brush.Color := Page.ActiveSheetColor;
   case Page.TabPosition of
     tpLeft:
-      Canvas.FillRect(Rect(PanelHeight - FTabBottomOffset, 0, PanelHeight, PanelWidth));
+      Canvas.FillRect(Rect(PanelHeight - TabBottomOffset, 0, PanelHeight, PanelWidth));
     tpRight:
-      Canvas.FillRect(Rect(0, 0, FTabBottomOffset, PanelWidth));
+      Canvas.FillRect(Rect(0, 0, TabBottomOffset, PanelWidth));
     tpTop:
-      Canvas.FillRect(Rect(0, PanelHeight - FTabBottomOffset, PanelWidth, PanelHeight));
+      Canvas.FillRect(Rect(0, PanelHeight - TabBottomOffset, PanelWidth, PanelHeight));
     tpBottom:
-      Canvas.FillRect(Rect(0, 0, PanelWidth, FTabBottomOffset));
+      Canvas.FillRect(Rect(0, 0, PanelWidth, TabBottomOffset));
   end;
 
   case Page.TabPosition of
@@ -3516,23 +3516,23 @@ begin
   case Page.TabPosition of
     tpLeft:
       begin
-        Canvas.MoveTo(PanelHeight - FTabBottomOffset, 0);
-        Canvas.LineTo(PanelHeight - FTabBottomOffset, PanelWidth);
+        Canvas.MoveTo(PanelHeight - TabBottomOffset, 0);
+        Canvas.LineTo(PanelHeight - TabBottomOffset, PanelWidth);
       end;
     tpRight:
       begin
-        Canvas.MoveTo(FTabBottomOffset, 0);
-        Canvas.LineTo(FTabBottomOffset, PanelWidth);
+        Canvas.MoveTo(TabBottomOffset, 0);
+        Canvas.LineTo(TabBottomOffset, PanelWidth);
       end;
     tpTop:
       begin
-        Canvas.MoveTo(0, PanelHeight - FTabBottomOffset);
-        Canvas.LineTo(PanelWidth, PanelHeight - FTabBottomOffset);
+        Canvas.MoveTo(0, PanelHeight - TabBottomOffset);
+        Canvas.LineTo(PanelWidth, PanelHeight - TabBottomOffset);
       end;
     tpBottom:
       begin
-        Canvas.MoveTo(0, FTabBottomOffset);
-        Canvas.LineTo(PanelWidth, FTabBottomOffset);
+        Canvas.MoveTo(0, TabBottomOffset);
+        Canvas.LineTo(PanelWidth, TabBottomOffset);
       end;
   end;
 
@@ -3552,52 +3552,52 @@ begin
       Canvas.Brush.Color := Page.ActiveSheetColor;
       case Page.TabPosition of
         tpLeft:
-          Canvas.FillRect(Rect(FTabTopOffset, CompleteWidth + FTabLeftOffset,
-            PanelHeight, CompleteWidth + FTabLeftOffset + CurrTabWidth));
+          Canvas.FillRect(Rect(TabTopOffset, CompleteWidth + TabLeftOffset,
+            PanelHeight, CompleteWidth + TabLeftOffset + CurrTabWidth));
         tpRight:
-          Canvas.FillRect(Rect(FTabBottomOffset, CompleteWidth + FTabLeftOffset,
-            PanelHeight - FTabTopOffset, CompleteWidth + FTabLeftOffset + CurrTabWidth));
+          Canvas.FillRect(Rect(TabBottomOffset, CompleteWidth + TabLeftOffset,
+            PanelHeight - TabTopOffset, CompleteWidth + TabLeftOffset + CurrTabWidth));
         tpTop:
-          Canvas.FillRect(Rect(CompleteWidth + FTabLeftOffset, FTabTopOffset,
-            CompleteWidth + FTabLeftOffset + CurrTabWidth, PanelHeight));
+          Canvas.FillRect(Rect(CompleteWidth + TabLeftOffset, TabTopOffset,
+            CompleteWidth + TabLeftOffset + CurrTabWidth, PanelHeight));
         tpBottom:
-          Canvas.FillRect(Rect(CompleteWidth + FTabLeftOffset, FTabBottomOffset,
-            CompleteWidth + FTabLeftOffset + CurrTabWidth, PanelHeight - FTabTopOffset));
+          Canvas.FillRect(Rect(CompleteWidth + TabLeftOffset, TabBottomOffset,
+            CompleteWidth + TabLeftOffset + CurrTabWidth, PanelHeight - TabTopOffset));
       end;
 
       Canvas.Pen.Color := clWhite;
       case Page.TabPosition of
         tpLeft:
           begin
-            Canvas.MoveTo(PanelHeight - FTabBottomOffset, CompleteWidth + FTabLeftOffset);
-            Canvas.LineTo(FTabTopOffset, CompleteWidth + FTabLeftOffset);
-            Canvas.LineTo(FTabTopOffset, CompleteWidth + FTabLeftOffset + CurrTabWidth);
+            Canvas.MoveTo(PanelHeight - TabBottomOffset, CompleteWidth + TabLeftOffset);
+            Canvas.LineTo(TabTopOffset, CompleteWidth + TabLeftOffset);
+            Canvas.LineTo(TabTopOffset, CompleteWidth + TabLeftOffset + CurrTabWidth);
             Canvas.Pen.Color := clBlack;
-            Canvas.LineTo(PanelHeight - FTabBottomOffset, CompleteWidth + FTabLeftOffset + CurrTabWidth);
+            Canvas.LineTo(PanelHeight - TabBottomOffset, CompleteWidth + TabLeftOffset + CurrTabWidth);
           end;
         tpRight:
           begin
-            Canvas.MoveTo(FTabTopOffset, CompleteWidth + FTabLeftOffset);
-            Canvas.LineTo(PanelHeight - FTabBottomOffset, CompleteWidth + FTabLeftOffset);
+            Canvas.MoveTo(TabTopOffset, CompleteWidth + TabLeftOffset);
+            Canvas.LineTo(PanelHeight - TabBottomOffset, CompleteWidth + TabLeftOffset);
             Canvas.Pen.Color := clBlack;
-            Canvas.LineTo(PanelHeight - FTabBottomOffset, CompleteWidth + FTabLeftOffset + CurrTabWidth);
-            Canvas.LineTo(FTabTopOffset, CompleteWidth + FTabLeftOffset + CurrTabWidth);
+            Canvas.LineTo(PanelHeight - TabBottomOffset, CompleteWidth + TabLeftOffset + CurrTabWidth);
+            Canvas.LineTo(TabTopOffset, CompleteWidth + TabLeftOffset + CurrTabWidth);
           end;
         tpTop:
           begin
-            Canvas.MoveTo(CompleteWidth + FTabLeftOffset, PanelHeight - FTabBottomOffset);
-            Canvas.LineTo(CompleteWidth + FTabLeftOffset, FTabTopOffset);
-            Canvas.LineTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, FTabTopOffset);
+            Canvas.MoveTo(CompleteWidth + TabLeftOffset, PanelHeight - TabBottomOffset);
+            Canvas.LineTo(CompleteWidth + TabLeftOffset, TabTopOffset);
+            Canvas.LineTo(CompleteWidth + TabLeftOffset + CurrTabWidth, TabTopOffset);
             Canvas.Pen.Color := clBlack;
-            Canvas.LineTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, PanelHeight - FTabTopOffset);
+            Canvas.LineTo(CompleteWidth + TabLeftOffset + CurrTabWidth, PanelHeight - TabTopOffset);
           end;
         tpBottom:
           begin
-            Canvas.MoveTo(CompleteWidth + FTabLeftOffset, FTabBottomOffset);
-            Canvas.LineTo(CompleteWidth + FTabLeftOffset, PanelHeight - FTabTopOffset);
+            Canvas.MoveTo(CompleteWidth + TabLeftOffset, TabBottomOffset);
+            Canvas.LineTo(CompleteWidth + TabLeftOffset, PanelHeight - TabTopOffset);
             Canvas.Pen.Color := clBlack;
-            Canvas.LineTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, PanelHeight - FTabTopOffset);
-            Canvas.LineTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, FTabBottomOffset);
+            Canvas.LineTo(CompleteWidth + TabLeftOffset + CurrTabWidth, PanelHeight - TabTopOffset);
+            Canvas.LineTo(CompleteWidth + TabLeftOffset + CurrTabWidth, TabBottomOffset);
           end;
       end;
 
@@ -3611,13 +3611,13 @@ begin
         case Page.TabPosition of
           tpLeft, tpRight:
             begin
-              Canvas.MoveTo(PanelHeight - FTabBottomOffset - FPage.PPIScale(3), CompleteWidth + FTabLeftOffset + CurrTabWidth);
-              Canvas.LineTo(FTabTopOffset + FPage.PPIScale(2), CompleteWidth + FTabLeftOffset + CurrTabWidth);
+              Canvas.MoveTo(PanelHeight - TabBottomOffset - FPage.PPIScale(3), CompleteWidth + TabLeftOffset + CurrTabWidth);
+              Canvas.LineTo(TabTopOffset + FPage.PPIScale(2), CompleteWidth + TabLeftOffset + CurrTabWidth);
             end;
           tpTop, tpBottom:
             begin
-              Canvas.MoveTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, PanelHeight - FTabBottomOffset - FPage.PPIScale(3));
-              Canvas.LineTo(CompleteWidth + FTabLeftOffset + CurrTabWidth, FTabTopOffset + FPage.PPIScale(2));
+              Canvas.MoveTo(CompleteWidth + TabLeftOffset + CurrTabWidth, PanelHeight - TabBottomOffset - FPage.PPIScale(3));
+              Canvas.LineTo(CompleteWidth + TabLeftOffset + CurrTabWidth, TabTopOffset + FPage.PPIScale(2));
             end;
         end;
       end;
@@ -3632,29 +3632,29 @@ begin
 
     case Page.TabPosition of
       tpLeft:
-        ARect := Rect(FTabTopOffset + FCaptionTopOffset + FPage.PPIScale(1),
-          CompleteWidth + FTabLeftOffset + FCaptionLeftOffset,
+        ARect := Rect(TabTopOffset + CaptionTopOffset + FPage.PPIScale(1),
+          CompleteWidth + TabLeftOffset + CaptionLeftOffset,
           PanelHeight,
-          CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset);
+          CompleteWidth + TabLeftOffset + CurrTabWidth - CaptionRightOffset);
 
       tpRight:
-        ARect := Rect(FTabBottomOffset + FCaptionTopOffset + FPage.PPIScale(1),
-          CompleteWidth + FTabLeftOffset + FCaptionLeftOffset,
+        ARect := Rect(TabBottomOffset + CaptionTopOffset + FPage.PPIScale(1),
+          CompleteWidth + TabLeftOffset + CaptionLeftOffset,
           PanelHeight,
-          CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset);
+          CompleteWidth + TabLeftOffset + CurrTabWidth - CaptionRightOffset);
 
       tpTop:
-        ARect := Rect(CompleteWidth + FTabLeftOffset + FCaptionLeftOffset +
-          Integer(FShowTabImages) * (ImageWidth + FCaptionLeftOffset),
-          FTabTopOffset + FCaptionTopOffset + FPage.PPIScale(1),
-          CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset,
+        ARect := Rect(CompleteWidth + TabLeftOffset + CaptionLeftOffset +
+          Integer(FShowTabImages) * (ImageWidth + CaptionLeftOffset),
+          TabTopOffset + CaptionTopOffset + FPage.PPIScale(1),
+          CompleteWidth + TabLeftOffset + CurrTabWidth - CaptionRightOffset,
           PanelHeight);
 
       tpBottom:
-        ARect := Rect(CompleteWidth + FTabLeftOffset + FCaptionLeftOffset +
-          Integer(FShowTabImages) * (ImageWidth + FCaptionLeftOffset),
-          FTabBottomOffset + FCaptionTopOffset + FPage.PPIScale(1),
-          CompleteWidth + FTabLeftOffset + CurrTabWidth - FCaptionRightOffset,
+        ARect := Rect(CompleteWidth + TabLeftOffset + CaptionLeftOffset +
+          Integer(FShowTabImages) * (ImageWidth + CaptionLeftOffset),
+          TabBottomOffset + CaptionTopOffset + FPage.PPIScale(1),
+          CompleteWidth + TabLeftOffset + CurrTabWidth - CaptionRightOffset,
           PanelHeight);
     end;
 
@@ -3664,11 +3664,11 @@ begin
 //      ARect, DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS);
     JvDrawTextWithMiddleEllipsis(Canvas, CaptionString, ARect, DT_LEFT or DT_SINGLELINE);
 
-    if FShowTabImages and (Page.Images <> nil) and (CurrTabWidth > ImageWidth + 2 * FCaptionLeftOffset) then
-      Page.Images.Draw(Canvas, CompleteWidth + FTabLeftOffset + FCaptionLeftOffset,
-        FTabBottomOffset + FCaptionTopOffset + FPage.PPIScale(1), Page.Pages[I].ImageIndex, True);
+    if FShowTabImages and (Page.Images <> nil) and (CurrTabWidth > ImageWidth + 2 * CaptionLeftOffset) then
+      Page.Images.Draw(Canvas, CompleteWidth + TabLeftOffset + CaptionLeftOffset,
+        TabBottomOffset + CaptionTopOffset + FPage.PPIScale(1), Page.Pages[I].ImageIndex, True);
 
-    Inc(CompleteWidth, CurrTabWidth + FTabSplitterWidth);
+    Inc(CompleteWidth, CurrTabWidth + TabSplitterWidth);
   end;
 
   Canvas.Brush.Color := Page.ActiveSheetColor;
@@ -3822,9 +3822,9 @@ begin
       PanelWidth := Height;
   end;
 
-  TempWidth := PanelWidth - FCaptionLeftOffset - FCaptionRightOffset;
+  TempWidth := PanelWidth - CaptionLeftOffset - CaptionRightOffset;
   if Page.ShowTabImages then
-    ImageWidth := Page.Images.Width + FCaptionLeftOffset
+    ImageWidth := Page.Images.Width + CaptionLeftOffset
   else
     ImageWidth := 0;
   VisibleCount := Page.VisibleSheetCount;
@@ -3833,11 +3833,11 @@ begin
   begin
     if not Sorts[I].TabVisible then
       Continue;
-    if (VisibleCount - J) * (Sorts[I].TabWidth + FTabSplitterWidth + ImageWidth) > TempWidth then
-      Sorts[I].FShowTabWidth := TempWidth div (VisibleCount - J) - FTabSplitterWidth
+    if (VisibleCount - J) * (Sorts[I].TabWidth + TabSplitterWidth + ImageWidth) > TempWidth then
+      Sorts[I].FShowTabWidth := TempWidth div (VisibleCount - J) - TabSplitterWidth
     else
       Sorts[I].FShowTabWidth := Sorts[I].TabWidth + ImageWidth;
-    Dec(TempWidth, Sorts[I].FShowTabWidth + FTabSplitterWidth);
+    Dec(TempWidth, Sorts[I].FShowTabWidth + TabSplitterWidth);
     Inc(J);
   end;
 end;

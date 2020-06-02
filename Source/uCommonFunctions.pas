@@ -241,10 +241,6 @@ function MonitorProfile: string;
 (* Downlads a file from the Interent *)
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 
-(* From SpTBXLib - left out in v2.5.4 *)
-procedure DrawGlyphPattern(DC: HDC; const R: TRect; Width, Height: Integer;
-  const PatternBits; PatternColor: TColor);
-
 (* ExtracFileName that works with both Windows and Unix file names *)
 function XtractFileName(const FileName: string): string;
 
@@ -2125,7 +2121,7 @@ var
   Scaler: IWICBitmapScaler;
   Source : TWICImage;
 begin
-  Bitmap.AlphaFormat := afDefined;
+  //Bitmap.AlphaFormat := afDefined;
   Source := TWICImage.Create;
   try
     Source.Assign(Bitmap);
@@ -2280,42 +2276,6 @@ end;
 function NewTimer(Interval: Cardinal): ITimer;
 begin
   Result := TTimer.Create(Interval);
-end;
-
-procedure DrawGlyphPattern(DC: HDC; const R: TRect; Width, Height: Integer;
-  const PatternBits; PatternColor: TColor);
-const
-  ROP_DSPDxax = $00E20746;
-var
-  B: TBitmap;
-  OldTextColor, OldBkColor: Longword;
-  OldBrush, Brush: HBrush;
-  BitmapWidth, BitmapHeight: Integer;
-begin
-  OldTextColor := SetTextColor(DC, clBlack);
-  OldBkColor := SetBkColor(DC, clWhite);
-  B := TBitmap.Create;
-  try
-    BitmapWidth := 8;
-//    if Width > BitmapWidth then BitmapWidth := Width;
-    BitmapHeight := 8;
-//    if Height > BitmapHeight then BitmapHeight := Height;
-    B.Handle := CreateBitmap(BitmapWidth, BitmapHeight, 1, 1, @PatternBits);
-
-    if (Width > 8) or (Height > 8) then
-      ResizeBitmap(B, Max(Width, Height), Max(Width, Height));
-    if PatternColor < 0 then Brush := GetSysColorBrush(PatternColor and $FF)
-    else Brush := CreateSolidBrush(PatternColor);
-    OldBrush := SelectObject(DC, Brush);
-    BitBlt(DC, (R.Left + R.Right + 1 - Width) div 2, (R.Top + R.Bottom  + 1 - Height) div 2,
-      Width, Height, B.Canvas.Handle, 0, 0, ROP_DSPDxax);
-    SelectObject(DC, OldBrush);
-    if PatternColor >= 0 then DeleteObject(Brush);
-  finally
-    SetTextColor(DC, OldTextColor);
-    SetBkColor(DC, OldBkColor);
-    B.Free;
-  end;
 end;
 
 function XtractFileName(const FileName: string): string;

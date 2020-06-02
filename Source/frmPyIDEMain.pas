@@ -504,9 +504,9 @@
             #983, #985
   History:   v 3.6.4
           New Features
-            Removed support for Python 2.6
+            Added support for Python 3.9 (and removed support for Python 2.6)
           Issues addressed
-            #1001
+            #998, #1001
 
 }
 { TODO : Review Search and Replace }
@@ -4487,8 +4487,6 @@ procedure TPyIDEMainForm.DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
   State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
   var AImageList: TCustomImageList; var AImageIndex: Integer; var ARect: TRect;
   var PaintDefault: Boolean);
-Const
-  ModClosePattern: array [0..15] of Byte    = ($C6, 0, $EE, 0, $6C, 0, 0, 0, $6C, 0, $EE, 0, $C6, 0, 0, 0);
 Var
   Editor : IEditor;
   PatternColor: TColor;
@@ -4507,9 +4505,13 @@ begin
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
-    DrawGlyphPattern(ACanvas.Handle, ARect, PPIScale(8), PPIScale(8), ModClosePattern, PatternColor)
-  else
-    SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor);
+  begin
+    R := SpCenterRect(ARect, PPIScale(2), PPIScale(2));
+    ExcludeClipRect(ACanvas.Handle,R.Left, R.Top, R.Right, R.Bottom);
+  end;
+  SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor);
+  if Editor.Modified then
+    SelectClipRgn(ACanvas.Handle, 0);
 end;
 
 procedure TPyIDEMainForm.PrevClickHandler(Sender: TObject);
