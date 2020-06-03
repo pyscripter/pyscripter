@@ -1034,96 +1034,13 @@ begin
 end;
 
 function CleanEOLs(S: AnsiString): AnsiString;
-
-  function AnsiAdjustLineBreaks(const S: AnsiString; Style: TTextLineBreakStyle): AnsiString;
-  {From AnsiStrings units which forgot to export it}
-  var
-    Source, SourceEnd, Dest: PAnsiChar;
-    DestLen: Integer;
-    L: Integer;
-  begin
-    Source := Pointer(S);
-    SourceEnd := Source + Length(S);
-    DestLen := Length(S);
-    while Source < SourceEnd do
-    begin
-      case Source^ of
-        #10:
-          if Style = tlbsCRLF then
-            Inc(DestLen);
-        #13:
-          if Style = tlbsCRLF then
-            if Source[1] = #10 then
-              Inc(Source)
-            else
-              Inc(DestLen)
-          else
-            if Source[1] = #10 then
-              Dec(DestLen);
-      else
-        if Source^ in LeadBytes then
-        begin
-          Source := System.AnsiStrings.StrNextChar(Source);
-          continue;
-        end;
-      end;
-      Inc(Source);
-    end;
-    if DestLen = Length(Source) then
-      Result := S
-    else
-    begin
-      Source := Pointer(S);
-      SetString(Result, nil, DestLen);
-      Dest := Pointer(Result);
-      while Source < SourceEnd do
-        case Source^ of
-          #10:
-            begin
-              if Style = tlbsCRLF then
-              begin
-                Dest^ := #13;
-                Inc(Dest);
-              end;
-              Dest^ := #10;
-              Inc(Dest);
-              Inc(Source);
-            end;
-          #13:
-            begin
-              if Style = tlbsCRLF then
-              begin
-                Dest^ := #13;
-                Inc(Dest);
-              end;
-              Dest^ := #10;
-              Inc(Dest);
-              Inc(Source);
-              if Source^ = #10 then Inc(Source);
-            end;
-        else
-          if Source^ in LeadBytes then
-          begin
-            L := System.AnsiStrings.StrCharLength(Source);
-            Move(Source^, Dest^, L);
-            Inc(Dest, L);
-            Inc(Source, L);
-            continue;
-          end;
-          Dest^ := Source^;
-          Inc(Dest);
-          Inc(Source);
-        end;
-    end;
-  end;
-
 begin
-  Result := AnsiAdjustLineBreaks(S, System.tlbsLF)
+  Result := System.AnsiStrings.AdjustLineBreaks(S, System.tlbsLF)
 end;
 
 function CleanEOLs(S: string): string;
 begin
-  Result := AdjustLineBreaks(S, System.tlbsLF)
+  Result := System.SysUtils.AdjustLineBreaks(S, System.tlbsLF)
 end;
 
 function SortedIdentToInt(const Ident: string; var Int: Longint;
