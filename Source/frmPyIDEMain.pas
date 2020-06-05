@@ -507,7 +507,7 @@
           New Features
             Added support for Python 3.9 (and removed support for Python 2.6)
           Issues addressed
-            #998, #1001
+            #998, #1001, #1003
 
 }
 { TODO : Review Search and Replace }
@@ -3426,11 +3426,10 @@ begin
     for I := 0 to TempStringList.Count - 1 do
       PythonIIForm.CommandHistory.Add(StrEscapedToString(TempStringList[i]));
     PythonIIForm.CommandHistoryPointer := TempStringList.Count;  // one after the last one
-
   finally
     TempStringList.Free;
   end;
-                                                               // Project Filename
+  // Project Filename
   if CmdLineReader.readString('PROJECT') = '' then begin
     FName := AppStorage.ReadString('Active Project');
     if FName <> '' then
