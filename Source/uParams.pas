@@ -197,9 +197,14 @@ begin
 end;
 
 function SelectDir(const ATitle: string): string;
+var
+  Directories : TArray<string>;
 begin
-  if SelectDirectory(ATitle, '', Result) then
-      Parameters.ChangeParameter('SelectedDir', Result);
+  if SelectDirectory('', Directories, [], ATitle) then
+  begin
+    Result := Directories[0];
+    Parameters.ChangeParameter('SelectedDir', Result);
+  end;
 end;
 
 function StrDefQuote(const AText: string): string;

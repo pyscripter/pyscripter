@@ -132,10 +132,11 @@ end;
 procedure TFindInFilesDialog.btnBrowseClick(Sender: TObject);
 var
   NewDir : string;
+  Directories : TArray<string>;
 begin
   NewDir := cbDirectory.Text;
-  if SelectDirectory(_('Directory To Search:'), '', NewDir) then
-    cbDirectory.Text := NewDir;
+  if SelectDirectory(NewDir, Directories, [], _('Directory To Search:')) then
+    cbDirectory.Text := Directories[0];
 end;
 
 procedure TFindInFilesDialog.EnableDirectoryControls(New: Boolean);

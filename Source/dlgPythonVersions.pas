@@ -141,13 +141,13 @@ end;
 
 procedure TPythonVersionsDialog.actPVAddExecute(Sender: TObject);
 Var
-  Folder: string;
   PythonVersion: TPythonVersion;
+  Directories: TArray<string>;
 begin
-  if SelectDirectory(_('Select folder with Python installation (inlcuding virtualenv and venv)'), '', Folder, [sdNewUI], Self)
+  if SelectDirectory('', Directories, [], _('Select folder with Python installation (inlcuding virtualenv and venv)'))
   then begin
-    if PythonVersionFromPath(Folder, PythonVersion) then
-      begin
+    if PythonVersionFromPath(Directories[0], PythonVersion) then
+    begin
       SetLength(PyControl.CustomPythonVersions, Length(PyControl.CustomPythonVersions) + 1);
       PyControl.CustomPythonVersions[Length(PyControl.CustomPythonVersions)-1] := PythonVersion;
       vtPythonVersions.ReinitChildren(nil, True);

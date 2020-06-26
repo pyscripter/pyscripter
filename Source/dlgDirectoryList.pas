@@ -124,10 +124,11 @@ end;
 procedure TDirectoryListDialog.BtnPathClick(Sender: TObject);
 var
   NewDir: string;
+  Directories : TArray<string>;
 begin
   NewDir := edPath.Text;
-  if SelectDirectory(_('Select directory')+':', '', NewDir) then
-    edPath.Text := NewDir;
+  if SelectDirectory(NewDir, Directories, [], _('Select directory')+':') then
+    edPath.Text := Directories[0];
 end;
 
 procedure TDirectoryListDialog.btnDeleteClick(Sender: TObject);

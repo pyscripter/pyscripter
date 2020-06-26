@@ -59,10 +59,11 @@ uses
 procedure TImportDirectoryForm.DirectoryEditBtnClick(Sender: TObject);
 var
   NewDir: string;
+  Directories : TArray<string>;
 begin
   NewDir := DirectoryEdit.Text;
-  if SelectDirectory(_('Select directory')+':', '', NewDir) then
-    DirectoryEdit.Text := NewDir;
+  if SelectDirectory(NewDir, Directories, [], _('Select directory')+':') then
+    DirectoryEdit.Text := Directories[0];
 end;
 
 class function TImportDirectoryForm.Execute: Boolean;

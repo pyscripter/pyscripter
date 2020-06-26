@@ -507,7 +507,7 @@
           New Features
             Added support for Python 3.9 (and removed support for Python 2.6)
           Issues addressed
-            #998, #1001, #1003
+            #998, #1001, #1003, #1008
 
 }
 { TODO : Review Search and Replace }

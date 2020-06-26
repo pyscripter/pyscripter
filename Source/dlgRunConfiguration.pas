@@ -190,12 +190,14 @@ end;
 procedure TRunConfigurationForm.btnWorkDirClick(Sender: TObject);
 var
   S: string;
+  Directories : TArray<string>;
 begin
   if ActiveProject.FileName <> '' then
     S := ExtractFileDir(ActiveProject.FileName);
-  if SelectDirectory(_('Select working directory:'), '', S, [], Self) then begin
+  if SelectDirectory(S, Directories, [], _('Select working directory:')) then
+  begin
     SynWorkDir.SelectAll;
-    SynWorkDir.SelText := S;
+    SynWorkDir.SelText := Directories[0];
     SynWorkDir.SetFocus;
   end;
 end;
