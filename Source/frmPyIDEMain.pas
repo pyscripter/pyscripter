@@ -506,6 +506,7 @@
   History:   v 3.6.4
           New Features
             Added support for Python 3.9 (and removed support for Python 2.6)
+            Added support for virtualenv v20+.  Dropped support for earlier versions.
           Issues addressed
             #998, #1001, #1003, #1008
 
