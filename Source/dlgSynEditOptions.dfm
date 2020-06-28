@@ -438,7 +438,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
                 Value = 50.000000000000000000
               end
               item
-                Value = 50.000000000000000000
+                Value = 50.091074681238620000
               end>
             ControlCollection = <
               item
@@ -1208,7 +1208,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     Font.Height = -11
     Font.Name = 'MS Shell Dlg 2'
     Font.Style = []
-    Options = [fdEffects, fdFixedPitchOnly]
+    Options = [fdEffects, fdFixedPitchOnly, fdScalableOnly]
     Left = 386
     Top = 5
   end
