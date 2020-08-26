@@ -104,7 +104,6 @@ uses
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
   VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
-  VCL.Styles.DPIAware in 'VCL.Styles.DPIAware.pas',
   cPyScripterSettings in 'cPyScripterSettings.pas',
   cPySupportTypes in 'cPySupportTypes.pas',
   cPyControl in 'cPyControl.pas',
@@ -115,7 +114,10 @@ uses
   dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog},
   cPySSHDebugger in 'cPySSHDebugger.pas',
   JclSysUtils in 'JclSysUtils.pas',
-  RtlVclFixes in 'RtlVclFixes.pas';
+  RtlVclFixes in 'RtlVclFixes.pas',
+  JvDockAdvTree in 'JvDockAdvTree.pas',
+  JvDockSupportProc in 'JvDockSupportProc.pas',
+  JvDockTree in 'JvDockTree.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
@@ -130,12 +132,8 @@ begin
   TStyleManager.SystemHooks := TStyleManager.SystemHooks - [shMenus, shDialogs];
 
   Application.Initialize;
+  SetDefaultUIFont(Application.DefaultFont);
 
-  if CheckWin32Version(6) then // at least Vista
-    begin
-      Application.DefaultFont.Name := 'Segoe UI';
-      Application.DefaultFont.Size := 9;
-    end;
   Application.MainFormOnTaskbar := True;
 
   if TStyleManager.TrySetStyle('Windows10 Dark') then

@@ -113,7 +113,9 @@ var
 
 implementation
 uses
-  Vcl.Themes, JvGnugettext;
+  Vcl.Themes,
+  JvGnugettext,
+  uCommonFunctions;
 
 {$R *.DFM}
 
@@ -195,10 +197,10 @@ begin
   begin
     Name := 'edNewShortcut';
     Parent := Panel1;
-    Left := MulDiv(8, Screen.PixelsPerInch, 96);
-    Top := MulDiv(224, Screen.PixelsPerInch, 96);
-    Width := MulDiv(169, Screen.PixelsPerInch, 96);
-    Height := MulDiv(21, Screen.PixelsPerInch, 96);
+    Left := PPIScale(8);
+    Top := PPIScale(224);
+    Width := PPIScale(169);
+    Height := PPIScale(21);
     TabOrder := 4;
     InvalidKeys := [];
     Modifiers := [];

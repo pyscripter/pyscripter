@@ -8,11 +8,14 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.ImageList,
   Vcl.Controls,
   Vcl.ExtCtrls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   dlgPyIDEBase;
 
 type
@@ -25,6 +28,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     DirectoryEdit: TButtonedEdit;
+    vilImages: TVirtualImageList;
     procedure DirectoryEditBtnClick(Sender: TObject);
   private
     { Private declarations }
@@ -55,10 +59,11 @@ uses
 procedure TImportDirectoryForm.DirectoryEditBtnClick(Sender: TObject);
 var
   NewDir: string;
+  Directories : TArray<string>;
 begin
   NewDir := DirectoryEdit.Text;
-  if SelectDirectory(_('Select directory')+':', '', NewDir) then
-    DirectoryEdit.Text := NewDir;
+  if SelectDirectory(NewDir, Directories, [], _('Select directory')+':') then
+    DirectoryEdit.Text := Directories[0];
 end;
 
 class function TImportDirectoryForm.Execute: Boolean;
@@ -76,7 +81,6 @@ begin
     cbRecursive.Checked := Recursive;
     SHAutoComplete(DirectoryEdit.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
       SHACF_AUTOSUGGEST_FORCE_OFF);
-    DirectoryEdit.Color := StyleServices.GetSystemColor(clWindow); //RSP-26633
     if ShowModal = mrOK then begin
       Result := True;
       FileMasks := ebMask.Text;

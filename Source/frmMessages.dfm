@@ -169,10 +169,10 @@ inherited MessagesWindow: TMessagesWindow
     Top = 12
   end
   object TBXPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnPopup = TBXPopupMenuPopup
-    Left = 10
-    Top = 82
+    Left = 106
+    Top = 71
     object mnPreviousMessage: TSpTBXItem
       Action = actPreviousMsgs
     end
@@ -191,32 +191,64 @@ inherited MessagesWindow: TMessagesWindow
     end
   end
   object MsgsActionList: TActionList
-    Images = CommandsDataModule.Images
-    Left = 9
-    Top = 47
+    Images = vilImages
+    Left = 25
+    Top = 71
     object actClearAll: TAction
       Caption = '&Clear all'
       Hint = 'Clear all messages'
-      ImageIndex = 14
+      ImageIndex = 1
       OnExecute = ClearAllExecute
     end
     object actPreviousMsgs: TAction
       Caption = '&Previous Messages'
       Hint = 'Show previous messages'
-      ImageIndex = 96
+      ImageIndex = 2
       OnExecute = actPreviousMsgsExecute
     end
     object actNextMsgs: TAction
       Caption = '&Next Messages'
       Hint = 'Show next messages'
-      ImageIndex = 97
+      ImageIndex = 3
       OnExecute = actNextMsgsExecute
     end
     object actCopyToClipboard: TAction
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy contents to Clipboard'
-      ImageIndex = 12
+      ImageIndex = 0
       OnExecute = actCopyToClipboardExecute
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 96
+        CollectionName = 'Item97'
+        Disabled = False
+        Name = 'Item97'
+      end
+      item
+        CollectionIndex = 97
+        CollectionName = 'Item98'
+        Disabled = False
+        Name = 'Item98'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 187
+    Top = 70
   end
 end

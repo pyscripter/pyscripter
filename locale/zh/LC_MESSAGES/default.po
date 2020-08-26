@@ -4,10 +4,10 @@
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # Edwin Yip <edwin.yip@innovationgear.com>, 2018
-# Bob Cao <yongbo_cao@163.com>, 2019
 # forest Ren <rzg_cn@163.com>, 2019
+# Bob Cao <yongbo_cao@163.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: forest Ren <rzg_cn@163.com>, 2019\n"
+"Last-Translator: Bob Cao <yongbo_cao@163.com>, 2019\n"
 "Language-Team: Chinese (https://www.transifex.com/luebbe/teams/82736/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8807,7 +8807,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyAttrNumericValue
 #: SynHighlighterYAML.pas
 msgid "Numeric Value"
-msgstr ""
+msgstr "数值"
 
 #. Programmer's name for it: SYNS_FriendlyAttrTextValue
 #: SynHighlighterYAML.pas
@@ -8817,7 +8817,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyAttrTag
 #: SynHighlighterYAML.pas
 msgid "Tag"
-msgstr ""
+msgstr "标签"
 
 #. Programmer's name for it: SYNS_FriendlyAttrAnchor
 #: SynHighlighterYAML.pas

@@ -26,7 +26,6 @@ uses JvGnugettext;
 
 procedure TPyIDEDlgBase.FormCreate(Sender: TObject);
 begin
-  //SetDesktopIconFonts(Self.Font);
   TranslateComponent(Self);
 end;
 

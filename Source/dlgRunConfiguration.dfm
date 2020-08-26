@@ -121,6 +121,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Height = -11
         Font.Name = 'Courier New'
         Font.Style = []
+        Font.Quality = fqClearTypeNatural
         TabOrder = 0
         OnEnter = SynEditEnter
         CodeFolding.GutterShapeSize = 11
@@ -152,6 +153,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Height = -11
         Font.Name = 'Courier New'
         Font.Style = []
+        Font.Quality = fqClearTypeNatural
         TabOrder = 2
         OnEnter = SynEditEnter
         CodeFolding.GutterShapeSize = 11
@@ -183,6 +185,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Height = -11
         Font.Name = 'Courier New'
         Font.Style = []
+        Font.Quality = fqClearTypeNatural
         TabOrder = 3
         OnEnter = SynEditEnter
         CodeFolding.GutterShapeSize = 11
@@ -209,8 +212,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Top = 14
         Width = 19
         Height = 20
-        ImageIndex = 1
-        Images = CommandsDataModule.Images
+        ImageIndex = 0
+        Images = vilImages
         TabOrder = 1
         OnClick = btnFileNameClick
       end
@@ -219,8 +222,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Top = 62
         Width = 19
         Height = 20
-        ImageIndex = 45
-        Images = CommandsDataModule.Images
+        ImageIndex = 1
+        Images = vilImages
         TabOrder = 4
         OnClick = btnWorkDirClick
       end
@@ -229,8 +232,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Top = 14
         Width = 19
         Height = 20
-        ImageIndex = 161
-        Images = CommandsDataModule.Images
+        ImageIndex = 2
+        Images = vilImages
         TabOrder = 5
         OnClick = btnRemoteFileNameClick
       end
@@ -334,6 +337,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Height = -11
         Font.Name = 'Courier New'
         Font.Style = []
+        Font.Quality = fqClearTypeNatural
         TabOrder = 1
         OnEnter = SynEditEnter
         CodeFolding.GutterShapeSize = 11
@@ -360,8 +364,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Top = 43
         Width = 19
         Height = 20
-        ImageIndex = 1
-        Images = CommandsDataModule.Images
+        ImageIndex = 0
+        Images = vilImages
         TabOrder = 2
         OnClick = btnOutputFileNameClick
       end
@@ -419,5 +423,31 @@ inherited RunConfigurationForm: TRunConfigurationForm
       TabOrder = 7
       OnClick = btnHelpClick
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 1
+        CollectionName = 'Item2'
+        Disabled = False
+        Name = 'Item2'
+      end
+      item
+        CollectionIndex = 45
+        CollectionName = 'Item46'
+        Disabled = False
+        Name = 'Item46'
+      end
+      item
+        CollectionIndex = 161
+        CollectionName = 'Item162'
+        Disabled = False
+        Name = 'Item162'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 24
+    Top = 384
   end
 end

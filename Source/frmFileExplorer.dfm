@@ -102,7 +102,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
           AutoResize = False
           DockMode = dmCannotFloat
           FullSize = True
-          Images = CommandsDataModule.Images
+          Images = vilImages
           TabOrder = 0
           Caption = 'ExplorerToolbar'
           Customizable = False
@@ -122,7 +122,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
           object TBXSeparatorItem1: TSpTBXSeparatorItem
           end
           object TBXSubmenuItem1: TSpTBXSubmenuItem
-            ImageIndex = 84
+            ImageIndex = 5
             Options = [tboDropdownArrow]
             object tbiBrowsePath: TSpTBXSubmenuItem
               Caption = 'Browse Path'
@@ -130,7 +130,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
             end
             object mnFavorites: TSpTBXSubmenuItem
               Caption = '&Favorites'
-              ImageIndex = 114
+              ImageIndex = 7
               OnPopup = mnFavoritesPopup
               object TBXSeparatorItem5: TSpTBXSeparatorItem
               end
@@ -157,6 +157,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
             object tbiPythonPath: TSpTBXItem
               Caption = 'Manage Python &Path...'
               Action = CommandsDataModule.actPythonPath
+              ImageIndex = 9
             end
             object TBXSeparatorItem2: TSpTBXSeparatorItem
             end
@@ -186,7 +187,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     Top = 200
   end
   object ExplorerPopUp: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 30
     Top = 91
     object mnBack: TSpTBXItem
@@ -238,6 +239,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     object mnManagePythonPath: TSpTBXItem
       Caption = 'Manage Python &Path...'
       Action = CommandsDataModule.actPythonPath
+      ImageIndex = 9
     end
     object TBXSeparatorItem6: TSpTBXSeparatorItem
     end
@@ -260,7 +262,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     end
   end
   object ShellContextPopUp: TPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 30
     Top = 148
     object ExploreHere: TMenuItem
@@ -286,7 +288,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     end
   end
   object FileExplorerActions: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnUpdate = FileExplorerActionsUpdate
     Left = 35
     Top = 258
@@ -295,7 +297,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = '&Back'
       HelpContext = 420
       Hint = 'Go Back'
-      ImageIndex = 35
+      ImageIndex = 0
       OnExecute = actGoBackExecute
     end
     object actGoForward: TAction
@@ -303,7 +305,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = '&Forward'
       HelpContext = 420
       Hint = 'Go Forward'
-      ImageIndex = 36
+      ImageIndex = 1
       OnExecute = actGoForwardExecute
     end
     object actGoUp: TAction
@@ -311,7 +313,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = '&Up'
       HelpContext = 420
       Hint = 'Up|Show the parent folder'
-      ImageIndex = 45
+      ImageIndex = 3
       OnExecute = actGoUpExecute
     end
     object actRefresh: TAction
@@ -319,7 +321,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = '&Refresh'
       HelpContext = 420
       Hint = 'Refresh|Refresh File Explorer'
-      ImageIndex = 39
+      ImageIndex = 2
       ShortCut = 116
       OnExecute = actRefreshExecute
     end
@@ -330,7 +332,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Checked = True
       HelpContext = 420
       Hint = 'Enable Filter|Select to show only Python files'
-      ImageIndex = 46
+      ImageIndex = 4
       OnExecute = actEnableFilterExecute
     end
     object actSearchPath: TAction
@@ -338,7 +340,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = '&Search Path...'
       HelpContext = 420
       Hint = 'Search selected path'
-      ImageIndex = 86
+      ImageIndex = 6
       OnExecute = actSearchPathExecute
     end
     object actExploreHere: TAction
@@ -367,8 +369,76 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = 'Create &New Folder'
       HelpContext = 420
       Hint = 'Create new folder'
-      ImageIndex = 115
+      ImageIndex = 8
       OnExecute = actNewFolderExecute
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 35
+        CollectionName = 'Item36'
+        Disabled = False
+        Name = 'Item36'
+      end
+      item
+        CollectionIndex = 36
+        CollectionName = 'Item37'
+        Disabled = False
+        Name = 'Item37'
+      end
+      item
+        CollectionIndex = 39
+        CollectionName = 'Item40'
+        Disabled = False
+        Name = 'Item40'
+      end
+      item
+        CollectionIndex = 45
+        CollectionName = 'Item46'
+        Disabled = False
+        Name = 'Item46'
+      end
+      item
+        CollectionIndex = 46
+        CollectionName = 'Item47'
+        Disabled = False
+        Name = 'Item47'
+      end
+      item
+        CollectionIndex = 84
+        CollectionName = 'Item85'
+        Disabled = False
+        Name = 'Item85'
+      end
+      item
+        CollectionIndex = 86
+        CollectionName = 'Item87'
+        Disabled = False
+        Name = 'Item87'
+      end
+      item
+        CollectionIndex = 114
+        CollectionName = 'Item115'
+        Disabled = False
+        Name = 'Item115'
+      end
+      item
+        CollectionIndex = 115
+        CollectionName = 'Item116'
+        Disabled = False
+        Name = 'Item116'
+      end
+      item
+        CollectionIndex = 25
+        CollectionName = 'Item26'
+        Disabled = False
+        Name = 'Item26'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 37
+    Top = 310
   end
 end

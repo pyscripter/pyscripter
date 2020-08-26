@@ -49,6 +49,7 @@ uses
   WinApi.Windows,
   System.Classes,
   System.Actions,
+  System.ImageList,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
@@ -56,6 +57,8 @@ uses
   Vcl.Controls,
   Vcl.ComCtrls,
   Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   SpTBXControls,
   Vcl.Graphics,
   SpTBXEditors,
@@ -63,7 +66,7 @@ uses
   TB2Toolbar,
   SpTBXItem,
   TB2Item,
-  dlgPyIDEBase, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
+  dlgPyIDEBase;
 
 const
   UM_RESIZECOLS = WM_USER + 523;
@@ -123,7 +126,8 @@ type
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     RightStatusLabel: TSpTBXLabelItem;
     lvProcs: TListview;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtMethodsChange(Sender: TObject);
     procedure edtMethodsKeyPress(Sender: TObject; var Key: Char);

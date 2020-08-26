@@ -552,7 +552,7 @@ begin
   fIdentifierAttri.Foreground := clBlack;
   AddAttribute(fIdentifierAttri);
   fKeyAttri := TSynHighlighterAttributes.Create(SYNS_AttrReservedWord, SYNS_FriendlyAttrReservedWord);
-  fKeyAttri.Style := [fsBold];
+  fKeyAttri.Foreground := clNavy;
   fKeyAttri.Style := [fsBold];
   AddAttribute(fKeyAttri);
   fNonKeyAttri := TSynHighlighterAttributes.Create (SYNS_AttrNonReservedKeyword, SYNS_FriendlyAttrNonReservedKeyword);

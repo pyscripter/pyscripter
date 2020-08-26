@@ -68,7 +68,8 @@ type
     OKButton: TButton;
     BitBtn2: TButton;
     HelpButton: TButton;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,

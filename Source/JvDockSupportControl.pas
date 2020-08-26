@@ -139,7 +139,9 @@ type
     procedure CustomEndDock(Target: TObject; X, Y: Integer); virtual;
     function CustomUnDock(Source: TJvDockDragDockObject; NewTarget: TWinControl; Client: TControl): Boolean; virtual;
     procedure CustomGetDockEdge(Source: TJvDockDragDockObject; MousePos: TPoint; var DropAlign: TAlign); virtual;
+    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override;
   public
+    function PPIScale(Value: Integer): Integer;
     procedure UpdateCaption(Exclude: TControl); virtual;
     property DockManager;
     property JvDockManager: IJvDockManager read GetJvDockManager{ write SetJvDockManager};
@@ -487,6 +489,7 @@ type
     procedure SetBeveled(Value: Boolean);
     procedure UpdateControlSize;
     procedure UpdateSize(X, Y: Integer);
+    function GetMinSize: NaturalNumber;
   protected
     function CanResize(var NewSize: Integer): Boolean; reintroduce; virtual;
     function DoCanResize(var NewSize: Integer): Boolean; virtual;
@@ -500,6 +503,7 @@ type
     procedure RequestAlign; override;
     procedure StopSizing; dynamic;
   public
+    function PPIScale(Value: Integer): Integer;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property Canvas;
@@ -509,7 +513,7 @@ type
     property Beveled: Boolean read FBeveled write SetBeveled default False;
     property Color;
     property Constraints;
-    property MinSize: NaturalNumber read FMinSize write FMinSize default 30;
+    property MinSize: NaturalNumber read GetMinSize write FMinSize default 30;
     property ParentColor;
     property ResizeStyle: TResizeStyle read FResizeStyle write FResizeStyle
       default rsPattern;
@@ -619,6 +623,16 @@ end;
 
 //=== { TJvDockCustomControl } ===============================================
 
+procedure TJvDockCustomControl.ChangeScale(M, D: Integer; isDpiChange: Boolean);
+begin
+  inherited;
+  if Assigned(JvDockManager) and isDpiChange then
+    JvDockManager.CurrentPPI := M;
+  LRDockWidth := MulDiv(LRDockWidth, M, D);
+  TBDockHeight := MulDiv(TBDockHeight, M, D);
+  Invalidate;
+end;
+
 procedure TJvDockCustomControl.CustomDockDrop(Source: TJvDockDragDockObject;
   X, Y: Integer);
 var
@@ -718,6 +732,11 @@ function TJvDockCustomControl.CustomUnDock(Source: TJvDockDragDockObject;
   NewTarget: TWinControl; Client: TControl): Boolean;
 begin
   Result := (Perform(CM_UNDOCKCLIENT, WPARAM(NewTarget), LPARAM(Client)) = 0);
+end;
+
+function TJvDockCustomControl.PPIScale(Value: Integer): Integer;
+begin
+   Result := MulDiv(Value, FCurrentPPI, 96);
 end;
 
 function TJvDockCustomControl.GetJvDockManager: IJvDockManager;
@@ -874,8 +893,8 @@ begin
       S := FControl.Height - Split;
   end;
   NewSize := S;
-  if S < FMinSize then
-    NewSize := FMinSize
+  if S < MinSize then
+    NewSize := MinSize
   else
   if S > FMaxSize then
     NewSize := FMaxSize;
@@ -969,6 +988,11 @@ begin
     FOldKeyDown(Sender, Key, Shift);
 end;
 
+function TJvDockCustomPanelSplitter.GetMinSize: NaturalNumber;
+begin
+  Result := PPIScale(FMinSize);
+end;
+
 procedure TJvDockCustomPanelSplitter.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 var
@@ -983,7 +1007,7 @@ begin
     begin
       if Align in [alLeft, alRight] then
       begin
-        FMaxSize := Parent.ClientWidth - FMinSize;
+        FMaxSize := Parent.ClientWidth - MinSize;
         for I := 0 to Parent.ControlCount - 1 do
           with Parent.Controls[I] do
             if Visible and (Align in [alLeft, alRight]) then
@@ -992,7 +1016,7 @@ begin
       end
       else
       begin
-        FMaxSize := Parent.ClientHeight - FMinSize;
+        FMaxSize := Parent.ClientHeight - MinSize;
         for I := 0 to Parent.ControlCount - 1 do
           with Parent.Controls[I] do
             if Align in [alTop, alBottom] then
@@ -1085,6 +1109,11 @@ begin
 
   if Assigned(FOnPaint) then
     FOnPaint(Self);
+end;
+
+function TJvDockCustomPanelSplitter.PPIScale(Value: Integer): Integer;
+begin
+  Result := MulDiv(Value, FCurrentPPI, 96);
 end;
 
 procedure TJvDockCustomPanelSplitter.ReleaseLineDC;
@@ -1809,8 +1838,15 @@ Var
   DrawRect: TRect;
   PenSize: Integer;
   ABrush: TBrush;
+  PPI: Integer;
 begin
   GetBrush_PenSize_DrawRect(ABrush, PenSize, DrawRect, Erase);
+  if (DropAlign = alNone) and (DragTarget = nil) then
+  begin
+    PPI := Screen.MonitorFromPoint(DragPos).PixelsPerInch;
+    DockRect.Width := MulDiv(FControl.Width, PPI, FControl.CurrentPPI);
+    DockRect.Height := MulDiv(FControl.Height, PPI, FControl.CurrentPPI);
+  end;
   AlphaBlendedForm.Visible := True;
   AlphaBlendedForm.BoundsRect := DrawRect;
 end;
@@ -1965,7 +2001,7 @@ var
           DF := nil;
           if Assigned(DC) then begin
             if Assigned(DC.OnCheckIsDockable) then begin
-                DC.OnCheckIsDockable( DC, DF, DS, DP, DropFlag );
+                DC.OnCheckIsDockable(DC, DF, DS, DP, DropFlag);
             end;
           end;}
       end
@@ -2283,12 +2319,8 @@ begin
                result := false;
                exit;
          end;
-
       end;
-
   end;
-
-
 
   if Client.HostDockSite is TJvDockCustomControl then
     Result := TJvDockCustomControl(Client.HostDockSite).CustomUnDock(Source, Target, Client)
@@ -2324,7 +2356,12 @@ var
       WasVisible := Control.Visible;
       try
         if Assigned(DragObject.AlphaBlendedForm) then
-        DragObject.AlphaBlendedForm.Hide;
+          DragObject.AlphaBlendedForm.Hide;
+        // PPI Unscale DockRect
+        if Control.HostDockSite = nil then begin
+          DragObject.DockRect.Width := Control.Width;
+          DragObject.DockRect.Height := Control.Height;
+        end;
         Control.Dock(nil, DragObject.DockRect);
         if (Control.Left <> DragObject.DockRect.Left) or (Control.Top <> DragObject.DockRect.Top) then
         begin
@@ -3524,7 +3561,7 @@ var
 begin
   TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading];
   TCItem.pszText := Buffer;
-  TCItem.cchTextMax := SizeOf(Buffer);
+  TCItem.cchTextMax := Length(Buffer);
   if SendMessage(FTabControl.Handle, TCM_GETITEM, Index, LPARAM(@TCItem)) = 0 then
     TabControlError(Format(sTabFailRetrieve, [Index]));
   Result := Buffer;

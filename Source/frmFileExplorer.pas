@@ -6,7 +6,7 @@
 -----------------------------------------------------------------------------}
 
 
-unit frmFileExplorer; 
+unit frmFileExplorer;
 
 interface
 
@@ -17,6 +17,7 @@ uses
   System.Variants,
   System.Classes,
   System.Actions,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.ActnList,
@@ -24,6 +25,8 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
@@ -36,9 +39,6 @@ uses
   VirtualShellHistory,
   MPShellUtilities,
   frmIDEDockWin;
-
-const
-  WM_EXPLOREHERE = WM_USER + 1000;
 
 type
   TFileExplorerWindow = class(TIDEDockWindow)
@@ -103,6 +103,7 @@ type
     actGoUp: TAction;
     actGoForward: TAction;
     actGoBack: TAction;
+    vilImages: TVirtualImageList;
     procedure VirtualShellHistoryChange(Sender: TBaseVirtualShellPersistent;
       ItemIndex: Integer; ChangeType: TVSHChangeType);
     procedure FileExplorerTreeKeyPress(Sender: TObject; var Key: Char);
@@ -141,7 +142,6 @@ type
     fFavorites: TStringList;
     { Private declarations }
     procedure PathItemClick(Sender: TObject);
-    procedure WMExploreHere(var Message: TMessage); message WM_EXPLOREHERE;
     function GetExplorerPath: string;
     procedure SetExplorerPath(const Value: string);
   public
@@ -227,7 +227,7 @@ end;
 procedure TFileExplorerWindow.mnChangeFilterClick(Sender: TObject);
 begin
   PyIDEOptions.FileExplorerFilter :=
-    InputBox('File Explorer Filter', 'Enter Filter:', PyIDEOptions.FileExplorerFilter);
+    InputBox(_('File Explorer Filter'), _('Enter Filter:'), PyIDEOptions.FileExplorerFilter);
   FileExplorerTree.RefreshTree;
 end;
 
@@ -252,10 +252,12 @@ Var
   NameSpace : TNameSpace;
 begin
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
-    NameSpace.Folder
-  then begin
-    PostMessage(Handle, WM_EXPLOREHERE, 0, LPARAM(NameSpace.AbsolutePIDL));
-  end;
+    NameSpace.Folder and Assigned(NameSpace.AbsolutePIDL)
+  then
+    TThread.ForceQueue(nil, procedure
+      begin
+        FileExplorerTree.RootFolderCustomPIDL := NameSpace.AbsolutePIDL;
+      end);
 end;
 
 procedure TFileExplorerWindow.actSearchPathExecute(Sender: TObject);
@@ -270,17 +272,6 @@ begin
        FindResultsWindow.FindInFilesExpert.DirList, True);
     FindResultsWindow.FindInFilesExpert.GrepSearch := 3;  //Directory
     FindResultsWindow.Execute(False)
-  end;
-end;
-
-procedure TFileExplorerWindow.WMExploreHere(var Message: TMessage);
-Var
-  PIDL: PItemIDList;
-begin
-  PIDL := PItemIDList(Message.LParam);
-  if Assigned(PIDL) then begin
-    FileExplorerTree.RootFolderCustomPIDL := PIDL;
-    //VirtualShellHistory.Clear;
   end;
 end;
 

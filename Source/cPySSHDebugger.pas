@@ -111,7 +111,7 @@ Var
     try
     {$ENDIF CPUX86}
       ReturnCode := ExecuteCmd(Format('"%s" %s %s %s -c ' +
-        '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
+        '"''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''"',
         [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]),
         CommandOutput, ErrorOutput);
       fServerIsAvailable :=  ReturnCode = 0;

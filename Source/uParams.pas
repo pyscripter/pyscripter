@@ -197,9 +197,14 @@ begin
 end;
 
 function SelectDir(const ATitle: string): string;
+var
+  Directories : TArray<string>;
 begin
-  if SelectDirectory(ATitle, '', Result) then
-      Parameters.ChangeParameter('SelectedDir', Result);
+  if SelectDirectory('', Directories, [], ATitle) then
+  begin
+    Result := Directories[0];
+    Parameters.ChangeParameter('SelectedDir', Result);
+  end;
 end;
 
 function StrDefQuote(const AText: string): string;
@@ -246,11 +251,7 @@ function GetFileDate(const AFileName: string): string;
 begin
   Result:= '';
   if FileExists(AFileName) then begin
-{$IF CompilerVersion >= 21}
     FileAge(AFileName, DateTime);
-{$ELSE}
-    DateTime := FileDateToDateTime(FileAge(AFileName));
-{$IFEND}
     Result:= DateTimeToStr(DateTime);
   end;
 end;
@@ -604,7 +605,6 @@ begin
 
     (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
-    RegisterParameter('Python26Dir', GetPythonDir('2.6'), nil);
     RegisterParameter('Python27Dir', GetPythonDir('2.7'), nil);
     RegisterParameter('Python32Dir', GetPythonDir('3.2'), nil);
     RegisterParameter('Python33Dir', GetPythonDir('3.3'), nil);
@@ -613,7 +613,7 @@ begin
     RegisterParameter('Python36Dir', GetPythonDir('3.6'), nil);
     RegisterParameter('Python37Dir', GetPythonDir('3.7'), nil);
     RegisterParameter('Python38Dir', GetPythonDir('3.8'), nil);
-    RegisterParameter('Python26Exe', '$[PYTHON26DIR]python.exe', nil);
+    RegisterParameter('Python39Dir', GetPythonDir('3.9'), nil);
     RegisterParameter('Python27Exe', '$[PYTHON27DIR]python.exe', nil);
     RegisterParameter('Python32Exe', '$[PYTHON32DIR]python.exe', nil);
     RegisterParameter('Python33Exe', '$[PYTHON33DIR]python.exe', nil);
@@ -622,6 +622,7 @@ begin
     RegisterParameter('Python36Exe', '$[PYTHON36DIR]python.exe', nil);
     RegisterParameter('Python37Exe', '$[PYTHON37DIR]python.exe', nil);
     RegisterParameter('Python38Exe', '$[PYTHON38DIR]python.exe', nil);
+    RegisterParameter('Python39Exe', '$[PYTHON39DIR]python.exe', nil);
     RegisterParameter('PythonDir', _('Directory of active Python version'), GetActivePythonDir);
     RegisterParameter('PythonExe', _('Executable of active Python'), GetActivePythonExe);
     RegisterParameter('PythonwExe', _('Executable of active Python'), GetActivePythonwExe);
@@ -710,7 +711,6 @@ begin
   with Parameters do begin
     (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
-    UnRegisterParameter('Python26Dir');
     UnRegisterParameter('Python27Dir');
     UnRegisterParameter('Python32Dir');
     UnRegisterParameter('Python33Dir');
@@ -719,7 +719,7 @@ begin
     UnRegisterParameter('Python36Dir');
     UnRegisterParameter('Python37Dir');
     UnRegisterParameter('Python38Dir');
-    UnRegisterParameter('Python26Exe');
+    UnRegisterParameter('Python39Dir');
     UnRegisterParameter('Python27Exe');
     UnRegisterParameter('Python32Exe');
     UnRegisterParameter('Python33Exe');
@@ -728,6 +728,7 @@ begin
     UnRegisterParameter('Python36Exe');
     UnRegisterParameter('Python37Exe');
     UnRegisterParameter('Python38Exe');
+    UnRegisterParameter('Python39Exe');
     UnRegisterParameter('PythonDir');
     UnRegisterParameter('PythonExe');
     UnRegisterParameter('PythonwExe');

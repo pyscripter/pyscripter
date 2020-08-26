@@ -238,7 +238,7 @@ public
     function GetParsedModule : TParsedModule;
     procedure StopScanning;
   public
-    constructor Create(const FileName : string; const Source : String);
+    constructor Create(const FileName : string; const Source : string);
     destructor Destroy; override;
   end;
 
@@ -250,7 +250,7 @@ public
     constructor Create;
     destructor Destroy; override;
     procedure ReleaseScanner(Scanner : IAsyncSourceScanner);
-    function CreateAsynchSourceScanner(const FileName : string; const Source : String): IAsyncSourceScanner;
+    function CreateAsynchSourceScanner(const FileName : string; const Source : string): IAsyncSourceScanner;
   end;
 
   Var
@@ -267,7 +267,6 @@ uses
   System.Math,
   VarPyth,
   JclStrings,
-  JclSysUtils,
   JvGnugettext,
   SynCompletionProposal,
   StringResources,
@@ -507,12 +506,11 @@ function TPythonScanner.ScanModule(Module : TParsedModule): boolean;
 Var
   UseModifiedSource : boolean;
   SourceLines : TStringList;
-  SourceLinesSafeGuard: ISafeGuard;
 
   function GetNthSourceLine(LineNo : integer) : string;
   begin
     if not Assigned(SourceLines) then begin
-      SourceLines := TStringList(Guard(TStringList.Create, SourceLinesSafeGuard));
+      SourceLines := TSmartPtr.Make(TStringList.Create)();
       SourceLines.Text := Module.Source;
     end;
 
@@ -723,13 +721,11 @@ var
   Variable : TVariable;
   Klass : TParsedClass;
   LineStarts: TList;
-  LineStartsGuard: ISafeGuard;
   GlobalList : TStringList;
-  GlobalListGuard : ISafeGuard;
   AsgnTargetCount : integer;
 begin
-  LineStarts := TList(Guard(TList.Create, LineStartsGuard));
-  GlobalList := TStringList(Guard(TStringList.Create, GlobalListGuard));
+  LineStarts := TSmartPtr.Make(TList.Create)();
+  GlobalList := TSmartPtr.Make(TStringList.Create)();
   GlobalList.CaseSensitive := True;
   UseModifiedSource := True;
 
@@ -1690,7 +1686,7 @@ end;
 
 { TAsynchSourceScanner }
 
-constructor TAsynchSourceScanner.Create(const FileName, Source: String);
+constructor TAsynchSourceScanner.Create(const FileName, Source: string);
 begin
   inherited Create;
   fParsedModule := TParsedModule.Create(FileName, Source);
@@ -1766,7 +1762,7 @@ begin
 end;
 
 function TAsynchSourceScannerFactory.CreateAsynchSourceScanner(const FileName,
-  Source: String): IAsyncSourceScanner;
+  Source: string): IAsyncSourceScanner;
 begin
   ClearFinished;
   Result := TAsynchSourceScanner.Create(FileName, Source);

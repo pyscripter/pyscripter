@@ -14,7 +14,8 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
   dlgPyIDEBase,
-  dmCommands, Vcl.StdCtrls, Vcl.ExtCtrls;
+  dmCommands, Vcl.StdCtrls, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList,
+  Vcl.VirtualImageList;
 
 type
   TRemoteFileDialog = class(TPyIDEDlgBase)
@@ -28,6 +29,7 @@ type
     CancelButton: TButton;
     HelpButton: TButton;
     btnSSHServersSetup: TButton;
+    vilImages: TVirtualImageList;
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure btnSSHServersSetupClick(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);

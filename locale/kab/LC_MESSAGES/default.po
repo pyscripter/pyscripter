@@ -4,7 +4,8 @@
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
+# Muḥend Belqasem <belkacem77@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: Muḥend Belqasem <belkacem77@gmail.com>, 2019\n"
 "Language-Team: Kabyle (https://www.transifex.com/luebbe/teams/82736/kab/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +47,7 @@ msgstr "Iseɣwan"
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
 msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr ""
+msgstr "(C) Kiriakos Vlahos  2005-2018"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -474,12 +475,12 @@ msgstr "&Sukki"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr ""
+msgstr "Cudd anegzum ɣer tladna"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Kkes anegzum"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -586,7 +587,7 @@ msgstr "&Surligneur:"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr ""
+msgstr "Taggayt"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
@@ -683,7 +684,7 @@ msgstr "Ikarame&n:"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
 #: dlgImportDirectory.pas uParams.pas
 msgid "Select directory"
-msgstr ""
+msgstr "Frene akaram"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -785,17 +786,17 @@ msgstr "Sefrek tineɣrufin n ufaylu..."
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
 msgid "Inspector"
-msgstr ""
+msgstr "Amaswaḍ"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Ayen-nniḍen"
 
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm
 msgid "Property"
-msgstr ""
+msgstr "Timeẓli"
 
 #. PickListDialog..Panel2..btnSelectAll..Caption
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
@@ -826,22 +827,22 @@ msgstr "Désélectionner toutes les occurences"
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr ""
+msgstr "Lqem n Python"
 
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
-msgstr ""
+msgstr "Akaram"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
 msgid "Activate"
-msgstr ""
+msgstr "Rmed"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected Python version"
-msgstr ""
+msgstr "Rmed lqem n Python yettwafernen"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #: dlgPythonVersions.dfm
@@ -851,7 +852,7 @@ msgstr ""
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new Python version"
-msgstr ""
+msgstr "Rnu lqem n Python amaynut"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
@@ -935,7 +936,7 @@ msgstr ""
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
-msgstr ""
+msgstr "Abrid n ufaylu:"
 
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
@@ -1094,7 +1095,7 @@ msgstr ""
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
 msgid "Available Styles"
-msgstr ""
+msgstr "Iɛunab yellan"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
@@ -4591,12 +4592,12 @@ msgstr "Débugger la configuration sélectionnée"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr ""
+msgstr "Rnu afaylu anmeggag"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr ""
+msgstr "Rnu afaylu anmeggag ɣer ukaram"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
@@ -6237,7 +6238,7 @@ msgstr ""
 
 #: cTools.pas
 msgid "Advanced Replace"
-msgstr ""
+msgstr "Asemselsi leqqayen"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
@@ -6293,7 +6294,7 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Chinese: %s"
-msgstr ""
+msgstr "Tawinwat %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationFrench
 #: dlgAboutPyScripter.pas
@@ -6452,7 +6453,7 @@ msgstr ""
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
-msgstr ""
+msgstr "Abrid n unadi 'Ad yettwag'"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
@@ -6810,7 +6811,7 @@ msgstr ""
 
 #: frmCodeExplorer.pas
 msgid "Class attributes"
-msgstr ""
+msgstr "Imyerren n usmil"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6942,6 +6943,7 @@ msgstr ""
 msgid ""
 "XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
 msgstr ""
+"Ifuyla XML (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
 
 #. Programmer's name for it: sCSSFileFilter
 #: StringResources.pas
@@ -6954,6 +6956,8 @@ msgid ""
 "C/C++ Files "
 "(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
 msgstr ""
+"Ifuyla C/C++ "
+"(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
 
 #. Programmer's name for it: sYAMLFileFilter
 #: StringResources.pas
@@ -7054,17 +7058,17 @@ msgstr ""
 #. Programmer's name for it: SEdCmdDeleteLastWord
 #: StringResources.pas
 msgid "Delete Last Word"
-msgstr ""
+msgstr "Kkes awal aneggaru"
 
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
 msgid "Delete Line"
-msgstr ""
+msgstr "Kkes izirig"
 
 #. Programmer's name for it: SEdCmdDeleteWord
 #: StringResources.pas
 msgid "Delete Word"
-msgstr ""
+msgstr "Kkes awal"
 
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
@@ -7484,12 +7488,12 @@ msgstr ""
 #. Programmer's name for it: SEdCmdWordLeft
 #: StringResources.pas
 msgid "Word Left"
-msgstr ""
+msgstr "Awal ayeffus"
 
 #. Programmer's name for it: SEdCmdWordRight
 #: StringResources.pas
 msgid "Word Right"
-msgstr ""
+msgstr "Awal azelmaḍ"
 
 #. Programmer's name for it: SEdCmdParameterCompletion
 #: StringResources.pas
@@ -7505,7 +7509,7 @@ msgstr ""
 #. Programmer's name for it: srNone
 #: StringResources.pas
 msgid "(None)"
-msgstr ""
+msgstr "(Ula yiwen)"
 
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
@@ -7653,7 +7657,7 @@ msgstr "Ligne de Commande : %s\n"
 #: StringResources.pas
 #, object-pascal-format
 msgid "*** %s Python engine is active ***"
-msgstr ""
+msgstr "*** Amsedday %s   Python yermed ***"
 
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
@@ -8770,7 +8774,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyClassName
 #: SynHighlighterPython.pas
 msgid "Class Name"
-msgstr ""
+msgstr "Isem n usmil"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
@@ -8791,7 +8795,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyAttrBanner
 #: SynHighlighterPython.pas
 msgid "Banner"
-msgstr ""
+msgstr "Aγarrac"
 
 #. Programmer's name for it: SYNS_AttrTraceback
 #. Programmer's name for it: SYNS_FriendlyAttrTraceback
@@ -9027,7 +9031,7 @@ msgstr ""
 
 #: uParams.pas
 msgid "Active document name"
-msgstr ""
+msgstr "Isem n yismli urmid"
 
 #: uParams.pas
 msgid "The name or last run script"

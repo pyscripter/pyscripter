@@ -174,7 +174,7 @@ Const
   SPythonLoadError =
   'PyScripter could not load a Python engine' + SLineBreak +
   '**Before** using PyScripter, you must ensure that a version of Python' + SLineBreak +
-  'greater or equal to 2.6 is installed on your machine. If you do not have one' + SLineBreak +
+  'greater or equal to 2.7 is installed on your machine. If you do not have one' + SLineBreak +
   'installed, you can download one from http://www.python.org/.' + SLineBreak +  SLineBreak +
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
   'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + SLineBreak +
@@ -207,14 +207,14 @@ Const
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
   SCouldNotConnectRemoteEngine = 'Could not connect to the remote Python engine server. '+
         'The remote interpreter and debugger is not available.';
-  SRemoteInterpreterInit = '*** Remote Interpreter Reinitialized  ***';
+  SRemoteInterpreterInit = '*** Remote Interpreter Reinitialized ***';
   SSameName = 'Another item has the same name';
   SCodeTemplateModified = 'The template has been modified.' + SLineBreak +
                           'Do you want to update it with the new definition?';
   SInvalidNumber = 'Invalid number!';
   SEmptyTokenTextError = 'You cannot insert a token that only consists of white space.';
   SAccessAppDataDir = 'Pyscripter needs access to the User Application Data directory: "%s". '+
-                      'Certain features such as remote debugging  will not function properly otherwise.';
+                      'Certain features such as remote debugging will not function properly otherwise.';
   SNotAValidNumber = '"%s" is not a valid integer';
   SGoToLineNumber = 'Go to line number';
   SEnterLineNumber = 'Enter line number:';
@@ -241,17 +241,17 @@ Const
   SChangedFilesReloaded = 'Changed files have been reloaded';
   SFileChangeNotification = 'File Change Notification';
   SFileReloadWarning = 'The following files have been changed on disk.'+
-      ' Select the files that you wish to reload and press the OK button. '+
+      ' Select the files that you wish to reload and press the OK button.'+
       ' Please note that you will lose all changes to these files.';
   StrScriptRunOK = 'Script run OK';
   SDebuggingAborted = 'Debugging Aborted';
   SSyntaxError = 'Syntax Error';
-  StrCertainty = '  Certainty %s%%';
-  SReferencesNotFound = '  References not found';
+  StrCertainty = ' Certainty %s%%';
+  SReferencesNotFound = ' References not found';
   SReferencesOf = 'References of "';
   SDefinitionsOf = 'Definition(s) of "';
-  SDefinitionFound = '  Definition found';
-  SDefinitionNotFound = '  Definition not found';
+  SDefinitionFound = ' Definition found';
+  SDefinitionNotFound = ' Definition not found';
   SSyntaxIsOK = 'Syntax of %s is OK!';
   SModuleImportedOK = 'Module %s was imported successfully!';
   SResumeCaption = 'Resume';
@@ -356,7 +356,7 @@ Const
   SPrintCommandLine          = 'Command line: %s';
   SPrintWorkingDir           = 'Working directory: ';
   SPrintTimeOut              = 'Timeout: %d ms';
-  SExternalToolStillRunning  = 'The External Tool "%s" is still running  Do you want to terminate it?';
+  SExternalToolStillRunning  = 'The External Tool "%s" is still running. Do you want to terminate it?';
 
   // Editor
   SInsert = 'Insert';

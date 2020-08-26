@@ -139,6 +139,7 @@ end;
 
 procedure TVclStylesPreview.Paint;
 var
+  DPI             : Integer;
   LDetails        : TThemedElementDetails;
   CaptionDetails  : TThemedElementDetails;
   IconDetails     : TThemedElementDetails;
@@ -156,6 +157,22 @@ var
   LRegion         : HRgn;
   i               : Integer;
 
+    procedure ScaleLeftContentRect(var R: TRect);
+    begin
+      R.Top := MulDiv(R.Top, DPI, 96);
+      R.Left := MulDiv(R.Left, DPI, 96);
+      R.Right := MulDiv(R.Right, DPI, 96);
+      R.Bottom := MulDiv(R.Bottom, DPI, 96);
+    end;
+
+    procedure ScaleRightContentRect(var R: TRect; const OutsideR: TRect);
+      begin
+      R.Top := MulDiv(R.Top, DPI, 96);
+      R.Left := OutsideR.Right - MulDiv(OutsideR.Right - R.Left, DPI, 96);
+      R.Right := OutsideR.Right - MulDiv(OutsideR.Right - R.Right, DPI, 96);
+      R.Bottom := MulDiv(R.Bottom, DPI, 96);
+    end;
+
     function GetBorderSize: TRect;
     var
       Size: TSize;
@@ -165,19 +182,19 @@ var
       Result  := Rect(0, 0, 0, 0);
       Detail  := twCaptionActive;
       Details := Style.GetElementDetails(Detail);
-      Style.GetElementSize(0, Details, esActual, Size);
+      Style.GetElementSize(0, Details, esActual, Size, DPI);
       Result.Top := Size.cy;
       Detail := twFrameLeftActive;
       Details := Style.GetElementDetails(Detail);
-      Style.GetElementSize(0, Details, esActual, Size);
+      Style.GetElementSize(0, Details, esActual, Size, DPI);
       Result.Left := Size.cx;
       Detail := twFrameRightActive;
       Details := Style.GetElementDetails(Detail);
-      Style.GetElementSize(0, Details, esActual, Size);
+      Style.GetElementSize(0, Details, esActual, Size, DPI);
       Result.Right := Size.cx;
       Detail := twFrameBottomActive;
       Details := Style.GetElementDetails(Detail);
-      Style.GetElementSize(0, Details, esActual, Size);
+      Style.GetElementSize(0, Details, esActual, Size, DPI);
       Result.Bottom := Size.cy;
     end;
 
@@ -192,12 +209,13 @@ var
 begin
   if FStyle=nil then Exit;
 
+  DPI := CurrentPPI;
   BorderRect := GetBorderSize;
   ARect:=ClientRect;
   CaptionBitmap := TBitmap.Create;
   try
     CaptionBitmap.SetSize(ARect.Width, BorderRect.Top);
-        {
+    {
     LBitmap:=TBitmap.Create;
     LBitmap.PixelFormat:=pf32bit;
     }
@@ -206,7 +224,7 @@ begin
     //Draw background
     LDetails.Element := teWindow;
     LDetails.Part := 0;
-    Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ARect);
+    Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ARect, ARect, DPI);
 
     //Draw caption border
     CaptionRect := Rect(0, 0, CaptionBitmap.Width, CaptionBitmap.Height);
@@ -221,12 +239,12 @@ begin
         DeleteObject(LRegion);
     end;
 
-         {
+    {
     Style.GetElementRegion(LDetails, ARect, Region);
     SetWindowRgn(Handle, Region, True);
-        }
+    }
 
-    Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, CaptionRect);
+    Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, CaptionRect, CaptionRect,DPI);
     TextRect := CaptionRect;
     CaptionDetails := LDetails;
 
@@ -234,44 +252,51 @@ begin
     IconDetails := Style.GetElementDetails(twSysButtonNormal);
     if not Style.GetElementContentRect(0, IconDetails, CaptionRect, ButtonRect) then
       ButtonRect := Rect(0, 0, 0, 0);
+    ScaleLeftContentRect(ButtonRect);
     IconRect := Rect(0, 0, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON));
     RectVCenter(IconRect, ButtonRect);
-    if ButtonRect.Width > 0 then
-     if FIcon <> 0 then
+    if (ButtonRect.Width > 0) and (FIcon <> 0) then
       DrawIconEx(CaptionBitmap.Canvas.Handle, IconRect.Left, IconRect.Top, FIcon,
         IconRect.Right - IconRect.Left, IconRect.Bottom - IconRect.Top,
         0, 0, DI_NORMAL);
 
-    Inc(TextRect.Left, ButtonRect.Width + 5);
+    Inc(TextRect.Left, ButtonRect.Width + MulDiv(5, DPI, 96));
 
     //Draw buttons
 
     //Close button
     LDetails := Style.GetElementDetails(twCloseButtonNormal);
     if Style.GetElementContentRect(0, LDetails, CaptionRect, ButtonRect) then
-     Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect);
-
+    begin
+      ScaleRightContentRect(ButtonRect, CaptionRect);
+      Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect,DPI);
+    end;
     //Maximize button
     LDetails := Style.GetElementDetails(twMaxButtonNormal);
-    if Style.GetElementContentRect(0, LDetails, CaptionRect, ButtonRect) then
-      Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect);
-
+    if Style.GetElementContentRect(0, LDetails, CaptionRect, ButtonRect) then begin
+      ScaleRightContentRect(ButtonRect, CaptionRect);
+      Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect,DPI);
+    end;
     //Minimize button
     LDetails := Style.GetElementDetails(twMinButtonNormal);
 
-    if Style.GetElementContentRect(0, LDetails, CaptionRect, ButtonRect) then
-      Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect);
-
+    if Style.GetElementContentRect(0, LDetails, CaptionRect, ButtonRect) then begin
+      ScaleRightContentRect(ButtonRect, CaptionRect);
+      Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect,  ButtonRect,DPI);
+    end;
     //Help button
     LDetails := Style.GetElementDetails(twHelpButtonNormal);
-    if Style.GetElementContentRect(0, LDetails, CaptionRect, ButtonRect) then
-      Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect);
+    if Style.GetElementContentRect(0, LDetails, CaptionRect, ButtonRect) then begin
+      ScaleRightContentRect(ButtonRect, CaptionRect);
+      Style.DrawElement(CaptionBitmap.Canvas.Handle, LDetails, ButtonRect,  ButtonRect,DPI);
+    end;
 
     if ButtonRect.Left > 0 then
       TextRect.Right := ButtonRect.Left;
 
     //Draw text
-    Style.DrawText(CaptionBitmap.Canvas.Handle, CaptionDetails, FCaption, TextRect, [tfLeft, tfSingleLine, tfVerticalCenter]);
+    Style.DrawText(CaptionBitmap.Canvas.Handle, CaptionDetails, FCaption,
+      TextRect, [tfLeft, tfSingleLine, tfVerticalCenter], clNone, DPI);
 
     //Draw caption
     FBitmap.Canvas.Draw(0, 0, CaptionBitmap);
@@ -284,22 +309,22 @@ begin
   CaptionRect := Rect(0, BorderRect.Top, BorderRect.Left, ARect.Height - BorderRect.Bottom);
   LDetails := Style.GetElementDetails(twFrameLeftActive);
   if CaptionRect.Bottom - CaptionRect.Top > 0 then
-    Style.DrawElement(FBitmap.Canvas.Handle, LDetails, CaptionRect);
+    Style.DrawElement(FBitmap.Canvas.Handle, LDetails, CaptionRect, CaptionRect, DPI);
 
   //Draw right border
   CaptionRect := Rect(ARect.Width - BorderRect.Right, BorderRect.Top, ARect.Width, ARect.Height - BorderRect.Bottom);
   LDetails := Style.GetElementDetails(twFrameRightActive);
-  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, CaptionRect);
+  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, CaptionRect, CaptionRect, DPI);
 
   //Draw Bottom border
   CaptionRect := Rect(0, ARect.Height - BorderRect.Bottom, ARect.Width, ARect.Height);
   LDetails := Style.GetElementDetails(twFrameBottomActive);
-  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, CaptionRect);
+  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, CaptionRect, CaptionRect, DPI);
 
   //Draw Main Menu
   LDetails:= Style.GetElementDetails(tmMenuBarBackgroundActive);
   LRect:=Rect(BorderRect.Left, BorderRect.Top+1, ARect.Width-BorderRect.Left,BorderRect.Top + 1 + FMenuHeight);
-  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, LRect);
+  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, LRect, LRect, DPI);
 
   LDetails := Style.GetElementDetails(tmMenuBarItemNormal);
   Style.GetElementColor(LDetails, ecTextColor, ThemeTextColor);
@@ -310,14 +335,13 @@ begin
 //      const S: string; var R: TRect; Flags: TTextFormat; Options: TStyleTextOptions): Boolean; overload;
 
   CaptionRect := Rect(LRect.Left + FMargin,LRect.Top+3, LRect.Right ,LRect.Bottom);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'File', CaptionRect, [tfLeft], ThemeTextColor);
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'File', CaptionRect, [tfLeft], ThemeTextColor, DPI);
   CaptionRect := Rect(LRect.Left + FMargin + FMenuCaptionWidth,LRect.Top+3, LRect.Right ,LRect.Bottom);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Edit', CaptionRect,  [tfLeft], ThemeTextColor);
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Edit', CaptionRect,  [tfLeft], ThemeTextColor, DPI);
   CaptionRect := Rect(LRect.Left + FMargin + FMenuCaptionWidth*2,LRect.Top+3, LRect.Right ,LRect.Bottom);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'View', CaptionRect,  [tfLeft], ThemeTextColor);
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'View', CaptionRect,  [tfLeft], ThemeTextColor, DPI);
   CaptionRect := Rect(LRect.Left + FMargin + FMenuCaptionWidth*3,LRect.Top+3, LRect.Right ,LRect.Bottom);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Help', CaptionRect,  [tfLeft], ThemeTextColor);
-
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Help', CaptionRect,  [tfLeft], ThemeTextColor, DPI);
 
   //Draw ToolButtons
   for i := 1 to 3 do
@@ -327,10 +351,11 @@ begin
     ButtonRect.Top:=LRect.Top+FMenuHeight + FMargin;
     ButtonRect.Width:= FButtonWidth;
     ButtonRect.Height:=FButtonHeight;
-    Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect);
+    Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect, DPI);
 
     Style.GetElementColor(LDetails, ecTextColor, ThemeTextColor);
-    Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'ToolButton'+IntToStr(i), ButtonRect, TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor);
+    Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'ToolButton'+IntToStr(i),
+      ButtonRect, TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor, DPI);
   end;
 
   //Draw Normal
@@ -339,10 +364,11 @@ begin
   ButtonRect.Top:=ARect.Height- 2 * FButtonHeight;
   ButtonRect.Width:=FButtonWidth;
   ButtonRect.Height:=FButtonHeight;
-  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect);
+  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect, DPI);
 
   Style.GetElementColor(LDetails, ecTextColor, ThemeTextColor);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Normal', ButtonRect, TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor);
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Normal', ButtonRect,
+    TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor, DPI);
 
   //Draw Hot
   LDetails := Style.GetElementDetails(tbPushButtonHot);
@@ -350,10 +376,11 @@ begin
   ButtonRect.Top:=ARect.Height - 2 * FButtonHeight;
   ButtonRect.Width:=FButtonWidth;
   ButtonRect.Height:=FButtonHeight;
-  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect);
+  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect, DPI);
 
   Style.GetElementColor(LDetails, ecTextColor, ThemeTextColor);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Hot', ButtonRect, TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor);
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Hot', ButtonRect,
+    TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor, DPI);
 
   //Draw Pressed
   LDetails := Style.GetElementDetails(tbPushButtonPressed);
@@ -361,10 +388,11 @@ begin
   ButtonRect.Top:=ARect.Height- 2 * FButtonHeight;
   ButtonRect.Width:=FButtonWidth;
   ButtonRect.Height:=FButtonHeight;
-  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect);
+  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect, DPI);
 
   Style.GetElementColor(LDetails, ecTextColor, ThemeTextColor);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Pressed', ButtonRect, TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor);
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Pressed', ButtonRect,
+    TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor, DPI);
 
   //Draw Disabled
   LDetails := Style.GetElementDetails(tbPushButtonDisabled);
@@ -372,10 +400,11 @@ begin
   ButtonRect.Top:=ARect.Height-2*FButtonHeight;
   ButtonRect.Width:=FButtonWidth;
   ButtonRect.Height:=FButtonHeight;
-  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect);
+  Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect, DPI);
 
   Style.GetElementColor(LDetails, ecTextColor, ThemeTextColor);
-  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Disabled', ButtonRect, TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor);
+  Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Disabled', ButtonRect,
+    TTextFormatFlags(DT_VCENTER or DT_CENTER), ThemeTextColor, DPI);
 
   Canvas.Draw(0,0,FBitmap);
 end;

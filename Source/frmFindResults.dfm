@@ -89,7 +89,7 @@ inherited FindResultsWindow: TFindResultsWindow
             Top = 0
             DockPos = 0
             FullSize = True
-            Images = CommandsDataModule.Images
+            Images = vilImages
             TabOrder = 0
             Customizable = False
             object tbiSearch: TSpTBXItem
@@ -213,9 +213,9 @@ inherited FindResultsWindow: TFindResultsWindow
     Top = 44
   end
   object TBXPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
-    Left = 26
-    Top = 118
+    Images = vilImages
+    Left = 98
+    Top = 94
     object mitFileSearch1: TSpTBXItem
       Action = actFileSearch
     end
@@ -264,15 +264,15 @@ inherited FindResultsWindow: TFindResultsWindow
     end
   end
   object Actions: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnUpdate = ActionsUpdate
-    Left = 24
-    Top = 80
+    Left = 28
+    Top = 95
     object actReplaceSelected: TAction
       Category = 'Replace'
       Caption = 'Replace Selected Item...'
       Hint = 'Replace selected item...'
-      ImageIndex = 17
+      ImageIndex = 4
       ShortCut = 24659
       OnExecute = actReplaceSelectedExecute
     end
@@ -280,7 +280,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'File'
       Caption = '&Search...'
       Hint = 'New search...'
-      ImageIndex = 15
+      ImageIndex = 3
       ShortCut = 24646
       OnExecute = actFileSearchExecute
     end
@@ -288,7 +288,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'File'
       Caption = '&Refresh'
       Hint = 'Refresh search'
-      ImageIndex = 42
+      ImageIndex = 12
       ShortCut = 116
       OnExecute = actFileRefreshExecute
     end
@@ -296,7 +296,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'File'
       Caption = '&Abort'
       Hint = 'Abort search'
-      ImageIndex = 40
+      ImageIndex = 11
       ShortCut = 16449
       OnExecute = actFileAbortExecute
     end
@@ -304,7 +304,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'File'
       Caption = '&Print...'
       Hint = 'Print results...'
-      ImageIndex = 8
+      ImageIndex = 1
       ShortCut = 16464
       OnExecute = actFilePrintExecute
     end
@@ -312,14 +312,14 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'List'
       Caption = 'Goto Selected'
       Hint = 'Goto match'
-      ImageIndex = 32
+      ImageIndex = 9
       OnExecute = actListGotoSelectedExecute
     end
     object actListContract: TAction
       Category = 'List'
       Caption = '&Contract'
       Hint = 'Contract all'
-      ImageIndex = 29
+      ImageIndex = 8
       ShortCut = 16462
       OnExecute = actListContractExecute
     end
@@ -327,7 +327,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'List'
       Caption = '&Expand'
       Hint = 'Expand all'
-      ImageIndex = 28
+      ImageIndex = 7
       ShortCut = 16453
       OnExecute = actListExpandExecute
     end
@@ -335,7 +335,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'Help'
       Caption = '&Help'
       Hint = 'Help'
-      ImageIndex = 33
+      ImageIndex = 10
       OnExecute = actHelpHelpExecute
     end
     object actViewShowContext: TAction
@@ -349,7 +349,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'File'
       Caption = '&Save...'
       Hint = 'Save results to file...'
-      ImageIndex = 4
+      ImageIndex = 0
       ShortCut = 49235
       OnExecute = actFileSaveExecute
     end
@@ -357,7 +357,7 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'File'
       Caption = '&Copy'
       Hint = 'Copy results to clipboard'
-      ImageIndex = 12
+      ImageIndex = 2
       ShortCut = 16451
       OnExecute = actFileCopyExecute
     end
@@ -379,16 +379,102 @@ inherited FindResultsWindow: TFindResultsWindow
       Category = 'View'
       Caption = 'Options...'
       Hint = 'Configure Find in Files'
-      ImageIndex = 24
+      ImageIndex = 6
       OnExecute = actViewOptionsExecute
     end
     object actReplaceAll: TAction
       Category = 'Replace'
       Caption = 'Replace All Items...'
       Hint = 'Replace all items...'
-      ImageIndex = 18
+      ImageIndex = 5
       ShortCut = 24641
       OnExecute = actReplaceAllExecute
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 4
+        CollectionName = 'Item5'
+        Disabled = False
+        Name = 'Item5'
+      end
+      item
+        CollectionIndex = 8
+        CollectionName = 'Item9'
+        Disabled = False
+        Name = 'Item9'
+      end
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 15
+        CollectionName = 'Item16'
+        Disabled = False
+        Name = 'Item16'
+      end
+      item
+        CollectionIndex = 17
+        CollectionName = 'Item18'
+        Disabled = False
+        Name = 'Item18'
+      end
+      item
+        CollectionIndex = 18
+        CollectionName = 'Item19'
+        Disabled = False
+        Name = 'Item19'
+      end
+      item
+        CollectionIndex = 24
+        CollectionName = 'Item25'
+        Disabled = False
+        Name = 'Item25'
+      end
+      item
+        CollectionIndex = 28
+        CollectionName = 'Item29'
+        Disabled = False
+        Name = 'Item29'
+      end
+      item
+        CollectionIndex = 29
+        CollectionName = 'Item30'
+        Disabled = False
+        Name = 'Item30'
+      end
+      item
+        CollectionIndex = 32
+        CollectionName = 'Item33'
+        Disabled = False
+        Name = 'Item33'
+      end
+      item
+        CollectionIndex = 33
+        CollectionName = 'Item34'
+        Disabled = False
+        Name = 'Item34'
+      end
+      item
+        CollectionIndex = 40
+        CollectionName = 'Item41'
+        Disabled = False
+        Name = 'Item41'
+      end
+      item
+        CollectionIndex = 42
+        CollectionName = 'Item43'
+        Disabled = False
+        Name = 'Item43'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 173
+    Top = 96
   end
 end

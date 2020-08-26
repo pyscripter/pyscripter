@@ -11,7 +11,6 @@ object PyIDEMainForm: TPyIDEMainForm
   OldCreateOrder = False
   Position = poDefault
   ShowHint = True
-  WindowState = wsMaximized
   StyleElements = [seFont, seClient]
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -26,13 +25,14 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 512
     Width = 780
     Height = 25
+    ExplicitTop = 527
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 195
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -53,8 +53,9 @@ object PyIDEMainForm: TPyIDEMainForm
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
     object lbStatusCaret: TSpTBXLabelItem
+      Hint = 'Text position'
       Wrapping = twEndEllipsis
-      Options = [tboNoAutoHint]
+      OnClick = lbStatusCaretClick
       Alignment = taCenter
       CustomWidth = 84
     end
@@ -256,11 +257,11 @@ object PyIDEMainForm: TPyIDEMainForm
     Height = 77
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
-      Left = 8
+      Left = 0
       Top = 0
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 8
+      DockPos = 0
       Images = vilImages
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
@@ -760,9 +761,11 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = '&Project'
         object mnProjectNew: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectNew
+          ImageIndex = 133
         end
         object mnProjectOpen: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectOpen
+          ImageIndex = 134
         end
         object SpTBXSubmenuItem1: TSpTBXSubmenuItem
           Caption = '&Recent Projects'
@@ -776,6 +779,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnProjectSave: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSave
+          ImageIndex = 140
         end
         object mnProjectSaveAs: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSaveAs
@@ -1367,7 +1371,6 @@ object PyIDEMainForm: TPyIDEMainForm
     BottomSplitterStyle.ParentColor = False
     BottomSplitterStyle.ResizeStyle = rsUpdate
     BottomSplitterStyle.Size = 5
-    DockStyle = JvDockVSNetStyleSpTBX
     Left = 37
     Top = 158
   end
@@ -1481,6 +1484,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       Hint = 'Next Editor|Move to the next editor'
       ImageIndex = 79
+      ImageName = 'Item80'
       ShortCut = 16393
       OnExecute = actNextEditorExecute
     end
@@ -1490,6 +1494,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       Hint = 'Previous editor|Move to the previous editor'
       ImageIndex = 80
+      ImageName = 'Item81'
       ShortCut = 24585
       OnExecute = actPreviousEditorExecute
     end
@@ -1515,6 +1520,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Show/Hide Call Stack window'
       ImageIndex = 63
+      ImageName = 'Item64'
       OnExecute = actCallStackWinExecute
     end
     object actVariablesWin: TAction
@@ -1525,6 +1531,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Show/Hide Variables window'
       ImageIndex = 65
+      ImageName = 'Item66'
       OnExecute = actVariablesWinExecute
     end
     object actSyntaxCheck: TAction
@@ -1534,6 +1541,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Syntax Check|Perform syntax check and load scripts'
       ImageIndex = 20
+      ImageName = 'Item21'
       OnExecute = actSyntaxCheckExecute
     end
     object actRun: TAction
@@ -1543,6 +1551,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Run|Run active module'
       ImageIndex = 51
+      ImageName = 'Item52'
       ShortCut = 16504
       OnExecute = actRunExecute
     end
@@ -1553,6 +1562,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Set command line parameters'
       ImageIndex = 23
+      ImageName = 'Item24'
       OnExecute = actCommandLineExecute
     end
     object actImportModule: TAction
@@ -1562,6 +1572,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Import module'
       ImageIndex = 34
+      ImageName = 'Item35'
       OnExecute = actImportModuleExecute
     end
     object actFileNewModule: TAction
@@ -1571,6 +1582,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'New Python module'
       ImageIndex = 0
+      ImageName = 'Item1'
       ShortCut = 16462
       OnExecute = actFileNewModuleExecute
     end
@@ -1581,6 +1593,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Select a file to open'
       ImageIndex = 1
+      ImageName = 'Item2'
       ShortCut = 16463
       OnExecute = actFileOpenExecute
     end
@@ -1592,6 +1605,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Close all files'
       ImageIndex = 150
+      ImageName = 'Item151'
       ShortCut = 24691
       OnExecute = actFileCloseAllExecute
     end
@@ -1602,6 +1616,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Exit'
       ImageIndex = 44
+      ImageName = 'Item45'
       ShortCut = 32883
       OnExecute = actFileExitExecute
     end
@@ -1620,6 +1635,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'External Run|Run active module in external Python interpreter'
       ImageIndex = 27
+      ImageName = 'Item28'
       ShortCut = 32888
       OnExecute = actExternalRunExecute
     end
@@ -1630,6 +1646,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Configure External Run'
       ImageIndex = 88
+      ImageName = 'Item89'
       OnExecute = actExternalRunConfigureExecute
     end
     object actRunDebugLastScript: TAction
@@ -1638,6 +1655,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Debug last script'
       ImageIndex = 145
+      ImageName = 'Item146'
       ShortCut = 8312
       OnExecute = actRunDebugLastScriptExecute
     end
@@ -1648,6 +1666,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Debug|Debug active script'
       ImageIndex = 53
+      ImageName = 'Item54'
       ShortCut = 120
       OnExecute = actDebugExecute
     end
@@ -1658,6 +1677,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Restore editor window'
       ImageIndex = 119
+      ImageName = 'Item120'
       ShortCut = 41050
       OnExecute = actRestoreEditorExecute
     end
@@ -1668,6 +1688,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Run to cursor'
       ImageIndex = 54
+      ImageName = 'Item55'
       ShortCut = 115
       OnExecute = actRunToCursorExecute
     end
@@ -1678,6 +1699,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Step into subroutine '
       ImageIndex = 56
+      ImageName = 'Item57'
       ShortCut = 118
       OnExecute = actStepIntoExecute
     end
@@ -1688,6 +1710,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Step over next function call'
       ImageIndex = 57
+      ImageName = 'Item58'
       ShortCut = 119
       OnExecute = actStepOverExecute
     end
@@ -1698,6 +1721,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Step out of the current subroutine'
       ImageIndex = 58
+      ImageName = 'Item59'
       ShortCut = 8311
       OnExecute = actStepOutExecute
     end
@@ -1708,6 +1732,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Pause running program'
       ImageIndex = 116
+      ImageName = 'Item117'
       OnExecute = actDebugPauseExecute
     end
     object actDebugAbort: TAction
@@ -1717,6 +1742,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Abort debugging'
       ImageIndex = 59
+      ImageName = 'Item60'
       ShortCut = 49272
       OnExecute = actDebugAbortExecute
     end
@@ -1726,6 +1752,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Run last script externally'
       ImageIndex = 146
+      ImageName = 'Item147'
       ShortCut = 41080
       OnExecute = actRunLastScriptExternalExecute
     end
@@ -1735,6 +1762,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Run last script'
       ImageIndex = 144
+      ImageName = 'Item145'
       ShortCut = 24696
       OnExecute = actRunLastScriptExecute
     end
@@ -1745,6 +1773,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Toggle breakpoint'
       ImageIndex = 60
+      ImageName = 'Item61'
       ShortCut = 116
       OnExecute = actToggleBreakPointExecute
     end
@@ -1755,6 +1784,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Clear all breakpoints'
       ImageIndex = 61
+      ImageName = 'Item62'
       OnExecute = actClearAllBreakpointsExecute
     end
     object actBreakPointsWin: TAction
@@ -1765,6 +1795,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Show/Hide Breakpoints window'
       ImageIndex = 67
+      ImageName = 'Item68'
       OnExecute = actBreakPointsWinExecute
     end
     object actWatchesWin: TAction
@@ -1775,6 +1806,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Show/Hide Watches window'
       ImageIndex = 66
+      ImageName = 'Item67'
       OnExecute = actWatchesWinExecute
     end
     object actMessagesWin: TAction
@@ -1785,6 +1817,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Show/Hide Messages window'
       ImageIndex = 75
+      ImageName = 'Item76'
       OnExecute = actMessagesWinExecute
     end
     object actViewII: TAction
@@ -1795,6 +1828,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide Interactive Interpreter'
       ImageIndex = 128
+      ImageName = 'Item129'
       OnExecute = actViewIIExecute
     end
     object actViewCodeExplorer: TAction
@@ -1805,6 +1839,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide Code Explorer'
       ImageIndex = 76
+      ImageName = 'Item77'
       OnExecute = actViewCodeExplorerExecute
     end
     object actViewFileExplorer: TAction
@@ -1815,6 +1850,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide File Explorer'
       ImageIndex = 84
+      ImageName = 'Item85'
       OnExecute = actViewFileExplorerExecute
     end
     object actViewToDoList: TAction
@@ -1824,6 +1860,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide To Do List'
       ImageIndex = 85
+      ImageName = 'Item86'
       OnExecute = actViewToDoListExecute
     end
     object actViewFindResults: TAction
@@ -1833,6 +1870,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide Find in Files Results'
       ImageIndex = 87
+      ImageName = 'Item88'
       ShortCut = 49222
       OnExecute = actViewFindResultsExecute
     end
@@ -1843,6 +1881,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide Output Window'
       ImageIndex = 89
+      ImageName = 'Item90'
       OnExecute = actViewOutputExecute
     end
     object actViewUnitTests: TAction
@@ -1851,6 +1890,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide Unit Tests Window'
       ImageIndex = 103
+      ImageName = 'Item104'
       OnExecute = actViewUnitTestsExecute
     end
     object actFindDefinition: TAction
@@ -1877,6 +1917,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Browse back'
       ImageIndex = 96
+      ImageName = 'Item97'
       ShortCut = 32805
       OnExecute = tbiBrowsePreviousClick
     end
@@ -1887,6 +1928,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Browse forward'
       ImageIndex = 97
+      ImageName = 'Item98'
       ShortCut = 32807
       OnExecute = tbiBrowseNextClick
     end
@@ -1897,6 +1939,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide Regular Expression Tester'
       ImageIndex = 101
+      ImageName = 'Item102'
       OnExecute = actViewRegExpTesterExecute
     end
     object actLayoutSave: TAction
@@ -1927,6 +1970,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Maximize editor window'
       ImageIndex = 118
+      ImageName = 'Item119'
       ShortCut = 32858
       OnExecute = actMaximizeEditorExecute
     end
@@ -1936,6 +1980,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Increase the font size of the editor'
       ImageIndex = 112
+      ImageName = 'Item113'
       ShortCut = 32875
       OnExecute = actEditorZoomInExecute
     end
@@ -1945,6 +1990,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Decrease the font size of the editor'
       ImageIndex = 113
+      ImageName = 'Item114'
       ShortCut = 32877
       OnExecute = actEditorZoomOutExecute
     end
@@ -1955,6 +2001,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Split the editor Windows vertically'
       ImageIndex = 125
+      ImageName = 'Item126'
       OnExecute = actViewSplitEditorVerExecute
     end
     object actAddWatchAtCursor: TAction
@@ -1964,6 +2011,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Add the expression at the editor current position as a watch'
       ImageIndex = 66
+      ImageName = 'Item67'
       ShortCut = 32855
       OnExecute = actAddWatchAtCursorExecute
     end
@@ -2032,6 +2080,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Watches window'
       ImageIndex = 66
+      ImageName = 'Item67'
       ShortCut = 49239
       OnExecute = actNavWatchesExecute
     end
@@ -2041,6 +2090,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Breakpoints window'
       ImageIndex = 67
+      ImageName = 'Item68'
       ShortCut = 49218
       OnExecute = actNavBreakpointsExecute
     end
@@ -2050,6 +2100,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Interpreter window'
       ImageIndex = 128
+      ImageName = 'Item129'
       ShortCut = 49225
       OnExecute = actNavInterpreterExecute
     end
@@ -2059,6 +2110,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Variables window'
       ImageIndex = 65
+      ImageName = 'Item66'
       ShortCut = 49238
       OnExecute = actNavVariablesExecute
     end
@@ -2068,6 +2120,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Call Stack window'
       ImageIndex = 63
+      ImageName = 'Item64'
       ShortCut = 49235
       OnExecute = actNavCallStackExecute
     end
@@ -2077,6 +2130,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Messages window'
       ImageIndex = 75
+      ImageName = 'Item76'
       ShortCut = 49229
       OnExecute = actNavMessagesExecute
     end
@@ -2086,6 +2140,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the File Explorer window'
       ImageIndex = 84
+      ImageName = 'Item85'
       ShortCut = 49240
       OnExecute = actNavFileExplorerExecute
     end
@@ -2095,6 +2150,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Code Explorer window'
       ImageIndex = 76
+      ImageName = 'Item77'
       ShortCut = 49219
       OnExecute = actNavCodeExplorerExecute
     end
@@ -2104,6 +2160,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Todo List window'
       ImageIndex = 85
+      ImageName = 'Item86'
       ShortCut = 49236
       OnExecute = actNavTodoExecute
     end
@@ -2113,6 +2170,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Todo List window'
       ImageIndex = 103
+      ImageName = 'Item104'
       ShortCut = 49237
       OnExecute = actNavUnitTestsExecute
     end
@@ -2122,6 +2180,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Command Output window'
       ImageIndex = 89
+      ImageName = 'Item90'
       ShortCut = 49231
       OnExecute = actNavOutputExecute
     end
@@ -2131,6 +2190,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Editor'
       ImageIndex = 117
+      ImageName = 'Item118'
       ShortCut = 123
       OnExecute = actNavEditorExecute
     end
@@ -2152,6 +2212,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Execute the editor selection'
       ImageIndex = 19
+      ImageName = 'Item20'
       ShortCut = 16502
       OnExecute = actExecSelectionExecute
     end
@@ -2162,6 +2223,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Split the editor Windows horizontally'
       ImageIndex = 126
+      ImageName = 'Item127'
       OnExecute = actViewSplitEditorHorExecute
     end
     object actViewHideSecondEditor: TAction
@@ -2179,6 +2241,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Enter post mortem analysis'
       ImageIndex = 127
+      ImageName = 'Item128'
       OnExecute = actPostMortemExecute
     end
     object actViewCustomizeToolbars: TAction
@@ -2196,6 +2259,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide Project Explorer'
       ImageIndex = 131
+      ImageName = 'Item132'
       OnExecute = actViewProjectExplorerExecute
     end
     object actNavProjectExplorer: TAction
@@ -2205,6 +2269,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Activate the Project Explorer window'
       ImageIndex = 131
+      ImageName = 'Item132'
       ShortCut = 49232
       OnExecute = actNavProjectExplorerExecute
     end
@@ -2217,6 +2282,7 @@ object PyIDEMainForm: TPyIDEMainForm
         'Split workspace vertically|Show secondary editor tabset vertical' +
         'ly aligned'
       ImageIndex = 125
+      ImageName = 'Item126'
       OnExecute = actViewSplitWorkspaceVerExecute
     end
     object actViewSplitWorkspaceHor: TAction
@@ -2228,6 +2294,7 @@ object PyIDEMainForm: TPyIDEMainForm
         'Split workspace horizontally|Show secondary workspace horizontal' +
         'ly aligned'
       ImageIndex = 126
+      ImageName = 'Item127'
       OnExecute = actViewSplitWorkspaceHorExecute
     end
     object actViewHideSecondaryWorkspace: TAction
@@ -2243,6 +2310,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Styles...'
       Hint = 'Select Style'
       ImageIndex = 107
+      ImageName = 'Item108'
       OnExecute = actSelectStyleExecute
     end
     object actPythonSetup: TAction
@@ -2250,6 +2318,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Setup Python Versions...'
       Hint = 'Setup Python engine'
       ImageIndex = 154
+      ImageName = 'Item155'
       OnExecute = actPythonSetupExecute
     end
     object actRemoteFileOpen: TAction
@@ -2257,25 +2326,9 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Open Remote File'
       Hint = 'Open Remote File with SSH'
       ImageIndex = 161
+      ImageName = 'Item162'
       OnExecute = actRemoteFileOpenExecute
     end
-  end
-  object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
-    AlwaysShowGrabber = False
-    TabServerOption.HotTrack = True
-    TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
-    TabServerOption.ActiveFont.Color = clWindowText
-    TabServerOption.ActiveFont.Height = -11
-    TabServerOption.ActiveFont.Name = 'Tahoma'
-    TabServerOption.ActiveFont.Style = []
-    TabServerOption.InactiveFont.Charset = DEFAULT_CHARSET
-    TabServerOption.InactiveFont.Color = 5395794
-    TabServerOption.InactiveFont.Height = -11
-    TabServerOption.InactiveFont.Name = 'Tahoma'
-    TabServerOption.InactiveFont.Style = []
-    TabServerOption.ShowCloseButtonOnTabs = False
-    Left = 136
-    Top = 158
   end
   object LocalAppStorage: TJvAppIniFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'

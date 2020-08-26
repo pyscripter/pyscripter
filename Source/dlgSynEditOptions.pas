@@ -70,7 +70,7 @@ uses
 
 type
   TSynEditorOptionsUserCommand = procedure(AUserCommand: Integer;
-                                           var ADescription: String) of object;
+                                           var ADescription: string) of object;
 
   //NOTE: in order for the user commands to be recorded correctly, you must
   //      put the command itself in the object property.
@@ -313,7 +313,7 @@ type
     FKeystrokes: TSynEditKeyStrokes;
     FOptions: TSynEditorOptions;
     FSynGutter: TSynGutter;
-    FWordBreakChars: String;
+    FWordBreakChars: string;
     FColor: TColor;
     FActiveLineColor : TColor;
     procedure SetBookMarks(const Value: TSynBookMarkOpt);
@@ -343,7 +343,7 @@ type
     property MaxUndo : Integer read FMaxUndo write FMaxUndo;
     property SelectedColor : TSynSelectedColor read FSelectedColor write FSelectedColor;
     property TabWidth : Integer read FTabWidth write FTabWidth;
-    property WordBreakChars : String read FWordBreakChars write FWordBreakChars;
+    property WordBreakChars : string read FWordBreakChars write FWordBreakChars;
     property Keystrokes : TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
     property ActiveLineColor : TColor read FActiveLineColor write FActiveLineColor;
   end;
@@ -582,7 +582,7 @@ begin
   begin
     TCustomSynEdit(Dest).BeginUpdate;
     try
-      TCustomSynEdit(Dest).Font.Assign(Self.Font);
+      TCustomSynEdit(Dest).Font := Self.Font;
       TCustomSynEdit(Dest).BookmarkOptions.Assign(Self.BookmarkOptions);
       TCustomSynEdit(Dest).Gutter.Assign(Self.Gutter);
       TCustomSynEdit(Dest).Keystrokes.Assign(Self.Keystrokes);
@@ -850,10 +850,10 @@ begin
   with eKeyShort1 do
   begin
     Parent := gbKeystrokes;
-    Left := MulDiv(185, Screen.PixelsPerInch, 96);
-    Top := MulDiv(55, Screen.PixelsPerInch, 96);
-    Width := MulDiv(185, Screen.PixelsPerInch, 96);
-    Height := MulDiv(21, Screen.PixelsPerInch, 96);
+    Left := PPIScale(185);
+    Top := PPIScale(55);
+    Width := PPIScale(185);
+    Height := PPIScale(21);
     InvalidKeys := [];
     Modifiers := [];
     HotKey := 0;
@@ -866,10 +866,10 @@ begin
   with eKeyShort2 do
   begin
     Parent := gbKeystrokes;
-    Left := MulDiv(185, Screen.PixelsPerInch, 96);
-    Top := MulDiv(87, Screen.PixelsPerInch, 96);
-    Width := MulDiv(185, Screen.PixelsPerInch, 96);
-    Height := MulDiv(21, Screen.PixelsPerInch, 96);
+    Left := PPIScale(185);
+    Top := PPIScale(87);
+    Width := PPIScale(185);
+    Height := PPIScale(21);
     InvalidKeys := [];
     Modifiers := [];
     HotKey := 0;
@@ -878,8 +878,8 @@ begin
     Color := StyleServices.GetSystemColor(clWindow);
   end;
 
-  StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, Screen.PixelsPerInch, 96);
-  StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, Screen.PixelsPerInch, 96);
+  StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, FCurrentPPI, 96);
+  StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, FCurrentPPI, 96);
 end;
 
 
@@ -915,7 +915,7 @@ procedure TfmEditorOptionsDialog.btnUpdateKeyClick(Sender: TObject);
 var
 //  Cmd          : Integer;
 //  KeyLoc       : Integer;
-//  TmpCommand   : String;
+//  TmpCommand   : string;
   OldShortcut  : TShortcut;
   OldShortcut2 : TShortcut;
   Key : TSynEditKeyStroke;
@@ -956,9 +956,16 @@ begin
       AppStorage.Location := flCustom;
       AppStorage.FileName := FileName;
       for i := 0 to cbHighlighters.Items.Count - 1 do
+      begin
+        TSynCustomHighlighter(cbHighlighters.Items.Objects[i]).BeginUpdate;
+        try
           AppStorage.ReadPersistent('Highlighters\'+
             TSynCustomHighlighter(cbHighlighters.Items.Objects[i]).FriendlyLanguageName,
             TPersistent(cbHighlighters.Items.Objects[i]));
+        finally
+          TSynCustomHighlighter(cbHighlighters.Items.Objects[i]).EndUpdate;
+        end;
+      end;
     finally
         AppStorage.Free;
     end;
@@ -968,7 +975,7 @@ end;
 procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var
   Item : TListItem;
-  S : String;
+  S : string;
 begin
   if cKeyCommand.ItemIndex < 0 then Exit;
   Item:= KeyList.Items.Add;
@@ -1083,7 +1090,7 @@ end;
 
 procedure TfmEditorOptionsDialog.FillInKeystrokeInfo(
   AKey: TSynEditKeystroke; AItem: TListItem);
-var TmpString: String;      begin
+var TmpString: string;      begin
   with AKey do
   begin
     if Command >= ecUserFirst then
@@ -1167,8 +1174,13 @@ begin
       AppStorage.FlushOnDestroy := False;
       AppStorage.Location := flCustom;
       AppStorage.FileName := FileName;
-      AppStorage.ReadPersistent('Highlighters\'+SynThemeSample.Highlighter.FriendlyLanguageName,
-          SynThemeSample.Highlighter);
+      SynThemeSample.Highlighter.BeginUpdate;
+      try
+        AppStorage.ReadPersistent('Highlighters\'+SynThemeSample.Highlighter.FriendlyLanguageName,
+            SynThemeSample.Highlighter);
+      finally
+        SynThemeSample.Highlighter.EndUpdate;
+      end;
     finally
       AppStorage.Free;
     end;

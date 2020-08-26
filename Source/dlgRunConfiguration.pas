@@ -18,7 +18,7 @@ uses
   SynEdit,
   cPySupportTypes,
   cPyBaseDebugger,
-  dlgPyIDEBase;
+  dlgPyIDEBase, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
 
 type
   TRunConfigurationForm = class(TPyIDEDlgBase)
@@ -53,6 +53,7 @@ type
     btnCancel: TButton;
     btnHelp: TButton;
     btnExternalRun: TButton;
+    vilImages: TVirtualImageList;
     procedure btnExternalRunClick(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -189,12 +190,14 @@ end;
 procedure TRunConfigurationForm.btnWorkDirClick(Sender: TObject);
 var
   S: string;
+  Directories : TArray<string>;
 begin
   if ActiveProject.FileName <> '' then
     S := ExtractFileDir(ActiveProject.FileName);
-  if SelectDirectory(_('Select working directory:'), '', S, [], Self) then begin
+  if SelectDirectory(S, Directories, [], _('Select working directory:')) then
+  begin
     SynWorkDir.SelectAll;
-    SynWorkDir.SelText := S;
+    SynWorkDir.SelText := Directories[0];
     SynWorkDir.SetFocus;
   end;
 end;

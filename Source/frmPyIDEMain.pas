@@ -488,14 +488,32 @@
           New Features
             Improved compatibility with venv virtual environments
             Restore code folding state when you start PyScripter (#973)
-            Improve DPI scaling
+            Syntax for adding and removing parameters (#971)
+              $[proc=?Question] adds parameter proc and $[proc=] removes it
+            Highlighters and styles are now installed under ProgramData
+            Improved DPI scaling
+            Two new styles added (Calypso and Stellar)
           Issues addressed
-            #962, #948, #966, #967, #968, #972
+            #948, #962, #966, #967, #968, #972
 
-            { TODO : Review Search and Replace }
-            { TODO : Auto PEP8 tool }
-            { TODO: Interpreter raw_input #311 }
-            { TODO: LiveTemplates features for Code Templates }
+  History:   v 3.6.3
+          New Features
+            The status panel with text position info can now be clicked to
+            show the "Go to line" dialog.
+          Issues addressed
+            #983, #985
+
+  History:   v 3.6.4
+          New Features
+            Added support for Python 3.9 (and removed support for Python 2.6)
+            Added support for virtualenv v20+.  Dropped support for earlier versions.
+          Issues addressed
+            #998, #1001, #1003, #1008, #1009
+
+}
+{ TODO : Review Search and Replace }
+{ TODO : Auto PEP8 tool }
+{ TODO: LiveTemplates features for Code Templates }
 
 
 {------------------------------------------------------------------------------}
@@ -536,7 +554,6 @@ uses
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
   VCL.Styles,
-  Vcl.Styles.DPIAware,
   AMHLEDVecStd,
   JvAppInst,
   JvComponentBase,
@@ -1006,7 +1023,6 @@ type
     actVariablesWin: TAction;
     actCallStackWin: TAction;
     actViewMainMenu: TAction;
-    JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
     tbiRecentFileList: TSpTBXMRUListItem;
     mnPreviousList: TSpTBXMRUListItem;
     mnNextList: TSpTBXMRUListItem;
@@ -1196,6 +1212,7 @@ type
     procedure actRemoteFileOpenExecute(Sender: TObject);
     procedure lbPythonVersionClick(Sender: TObject);
     procedure lbPythonEngineClick(Sender: TObject);
+    procedure lbStatusCaretClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1215,7 +1232,6 @@ type
     procedure OpenInitialFiles;
   protected
     fCurrentBrowseInfo : string;
-    procedure ScaleForCurrentDpi; override;
     function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
     function OpenCmdLineFile(FileName : string) : Boolean;
@@ -1246,9 +1262,7 @@ type
     procedure PrevMRUAdd(S : string);
     procedure NextMRUAdd(S : string);
   private
-    OldScreenPPI : Integer;
-    OldDesktopSize : string;
-    LoadLayoutError : Boolean;
+    OldMonitorProfile : string;
     // IIDELayouts implementation
     function LayoutExists(const Layout: string): Boolean;
     procedure LoadLayout(const Layout : string);
@@ -1269,12 +1283,13 @@ type
     function GetAppStorage: TJvCustomAppStorage;
     function GetLocalAppStorage: TJvCustomAppStorage;
   public
-    StyleDPIAwareness : TStyleDPIAwareness;
+    JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
     MenuHelpRequested : Boolean;
     Layouts : TStringList;
     fLanguageList : TStringList;
+    procedure ScaleForPPI(NewPPI: Integer); override;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
     procedure StoreLocalApplicationData;
@@ -1488,13 +1503,13 @@ type
 procedure TPyIDEMainForm.FormCreate(Sender: TObject);
 Var
   TabHost : TJvDockTabHostForm;
-  OptionsFileName: string;
   LocalOptionsFileName: string;
 begin
-  // Style DPI awareness
-  TStyleDPIAwareness.RoundScalingFactor := False;
-  StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
-  StyleDPIAwareness.Parent := Self;
+  // Create JvDockVSNetStyleSpTBX
+  JvDockVSNetStyleSpTBX := TJvDockVSNetStyleSpTBX.Create(Self);
+  JvDockVSNetStyleSpTBX.Name := 'JvDockVSNetStyleSpTBX';
+  JvDockVSNetStyleSpTBX.AlwaysShowGrabber := False;
+  DockServer.DockStyle := JvDockVSNetStyleSpTBX;
 
   // App Instances
   ShellExtensionFiles := TStringList.Create;
@@ -1522,23 +1537,13 @@ begin
   GI_PyIDEServices := Self;
 
   // Application Storage
-  OptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.ini');
   AppStorage.Encoding := TEncoding.UTF8;
-  if FileExists(ChangeFileExt(Application.ExeName, '.ini')) then begin
-    AppStorage.Location := flExeFile;
-    AppStorage.FileName := OptionsFileName;
-  end else if FileExists(IncludeTrailingPathDelimiter(GetHomePath) + OptionsFileName) then begin
-    AppStorage.Location := flUserFolder;
-    AppStorage.FileName := OptionsFileName;
-  end else  // default location
-    AppStorage.FileName :=
-      TPyScripterSettings.UserDataPath + OptionsFileName;
+  AppStorage.FileName := TPyScripterSettings.OptionsFileName;
 
   // LocalAppStorage
   LocalOptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.local.ini');
-  LocalAppStorage.Location := flCustom;
   LocalAppStorage.FileName :=
-      TPyScripterSettings.UserDataPath + LocalOptionsFileName;
+    TPyScripterSettings.UserDataPath + LocalOptionsFileName;
 
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before All Forms', StopWatch.ElapsedMilliseconds])));
   // Create and layout IDE windows
@@ -1600,15 +1605,18 @@ begin
   if FileExists(LocalAppStorage.IniFile.FileName) then
   begin
     RestoreLocalApplicationData;
-    if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) then
-      JvFormStorage.RestoreFormPlacement;
-  end;
+    if OldMonitorProfile = MonitorProfile then
+      JvFormStorage.RestoreFormPlacement
+    else
+      WindowState := wsMaximized;
+  end else
+    WindowState := wsMaximized;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
   RegisterDSACheckMarkText(ctkRemember, _(SDSActkRememberText));
   RegisterDSA(dsaSearchFromStart, 'SearchFromStart', 'Search from start question', DSAAppStorage, ctkRemember);
-  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace srom start question', DSAAppStorage, ctkRemember);
+  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace from start question', DSAAppStorage, ctkRemember);
   RegisterDSA(dsaReplaceNumber, 'ReplaceNumber', 'Information about number of replacements', DSAAppStorage, ctkShow);
   RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
   RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
@@ -1617,7 +1625,7 @@ begin
   if not AppStorage.PathExists(FactoryToolbarItems) then
     SaveToolbarItems(FactoryToolbarItems);
 
-  if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) and
+  if (OldMonitorProfile = MonitorProfile) and
      LocalAppStorage.PathExists('Layouts\Default\Forms') and
      LocalAppStorage.PathExists('Layouts\Current\Forms') then
   begin
@@ -1626,7 +1634,6 @@ begin
       LoadLayout('Current');
       //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
     except
-      LoadLayoutError := True;
       LocalAppStorage.DeleteSubTree('Layouts\Default');
       if Layouts.IndexOf('Default') >= 0 then
         Layouts.Delete(Layouts.IndexOf('Default'));
@@ -1637,15 +1644,13 @@ begin
   end
   else
   begin
-    WindowState := wsMaximized;
-
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
-    DockServer.LeftDockPanel.Width := PPIScaled(200);
+    DockServer.LeftDockPanel.Width := PPIScale(200);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
     ShowDockForm(FileExplorerWindow);
 
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
-    DockServer.BottomDockPanel.Height := PPIScaled(150);
+    DockServer.BottomDockPanel.Height := PPIScale(150);
     ManualTabDockAddPage(TabHost, WatchesWindow);
     ManualTabDockAddPage(TabHost, BreakPointsWindow);
     ManualTabDockAddPage(TabHost, OutputWindow);
@@ -2815,7 +2820,7 @@ begin
   if Editor <> nil then begin
     ptCaret := Editor.GetCaretPos;
     if (ptCaret.X > 0) and (ptCaret.Y > 0) then
-      lbStatusCaret.Caption := Format(' %6d:%3d ', [ptCaret.Y, ptCaret.X])
+      lbStatusCaret.Caption := Format('%d:%d', [ptCaret.Y, ptCaret.X])
     else
       lbStatusCaret.Caption := '';
     if GI_ActiveEditor.GetModified then
@@ -2957,7 +2962,6 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
-  FreeAndNil(StyleDPIAwareness);
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -3145,10 +3149,10 @@ begin
 
     // UnScale and Scale back
     PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIUnScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
+      PPIUnScale(PyIDEOptions.CodeFolding.GutterShapeSize);
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
     PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
+      PPIScale(PyIDEOptions.CodeFolding.GutterShapeSize);
 
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');
@@ -3257,8 +3261,7 @@ begin
   LocalAppStorage.BeginUpdate;
   try
     LocalAppStorage.WriteString('PyScripter Version', ApplicationVersion);
-    LocalAppStorage.WriteInteger('Screen PPI', Screen.PixelsPerInch);
-    LocalAppStorage.WriteString('Desktop size', DeskTopSizeString);
+    LocalAppStorage.WriteString('Monitor profile', MonitorProfile);
 
     LocalAppStorage.WriteStringList('Layouts', Layouts);
 
@@ -3295,7 +3298,7 @@ begin
   if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', PyIDEOptions);
     PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
+      PPIScale(PyIDEOptions.CodeFolding.GutterShapeSize);
     PyIDEOptions.Changed;
     AppStorage.DeleteSubTree('IDE Options');
   end;
@@ -3322,13 +3325,26 @@ begin
       end;
 
       for i := 0 to Highlighters.Count - 1 do
-        AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
-          TPersistent(Highlighters.Objects[i]));
+      begin
+        TSynCustomHighlighter(Highlighters.Objects[i]).BeginUpdate;
+        try
+          AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
+            TPersistent(Highlighters.Objects[i]));
+        finally
+          TSynCustomHighlighter(Highlighters.Objects[i]).EndUpdate;
+        end;
+      end;
       CommandsDataModule.ApplyEditorOptions;
       if AppStorage.PathExists('Highlighters\Intepreter') then
-        AppStorage.ReadPersistent('Highlighters\Intepreter',
-          PythonIIForm.SynEdit.Highlighter);
-
+      begin
+        PythonIIForm.SynEdit.Highlighter.BeginUpdate;
+        try
+          AppStorage.ReadPersistent('Highlighters\Intepreter',
+            PythonIIForm.SynEdit.Highlighter);
+        finally
+          PythonIIForm.SynEdit.Highlighter.EndUpdate;
+        end;
+      end;
       AppStorage.DeleteSubTree('Highlighters');
 
       if AppStorage.PathExists('Interpreter Editor Options') then begin
@@ -3411,11 +3427,10 @@ begin
     for I := 0 to TempStringList.Count - 1 do
       PythonIIForm.CommandHistory.Add(StrEscapedToString(TempStringList[i]));
     PythonIIForm.CommandHistoryPointer := TempStringList.Count;  // one after the last one
-
   finally
     TempStringList.Free;
   end;
-                                                               // Project Filename
+  // Project Filename
   if CmdLineReader.readString('PROJECT') = '' then begin
     FName := AppStorage.ReadString('Active Project');
     if FName <> '' then
@@ -3429,11 +3444,15 @@ end;
 
 procedure TPyIDEMainForm.RestoreLocalApplicationData;
 begin
-  OldScreenPPI := LocalAppStorage.ReadInteger('Screen PPI', 96);
-  OldDesktopSize := LocalAppStorage.ReadString('Desktop size');
+  OldMonitorProfile := LocalAppStorage.ReadString('Monitor profile');
 
-  if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) then
-    LocalAppStorage.ReadStringList('Layouts', Layouts, True);
+  LocalAppStorage.ReadStringList('Layouts', Layouts, True);
+  if OldMonitorProfile <> MonitorProfile then begin
+    LocalAppStorage.DeleteSubTree('Layouts\Default');
+    if Layouts.IndexOf('Default') >= 0 then
+      Layouts.Delete(Layouts.IndexOf('Default'));
+    LocalAppStorage.DeleteSubTree('Layouts\Current');
+  end;
 end;
 
 function TPyIDEMainForm.EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
@@ -3631,30 +3650,22 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.ScaleForCurrentDpi;
-Var
-  M, D: Integer;
+procedure TPyIDEMainForm.ScaleForPPI(NewPPI: Integer);
 begin
-  inherited;
-  M := Screen.PixelsPerInch;
-  D := 96;
-  if M <> D then begin
-    // Status bar
-    StatusBar.Toolbar.Items.ViewBeginUpdate;
-    try
-      lbPythonVersion.MinWidth := PPIScaled(lbPythonVersion.MinWidth);
-      lbPythonEngine.MinWidth := PPIScaled(lbPythonEngine.MinWidth);
-      lbStatusCaret.CustomWidth := PPIScaled(lbStatusCaret.CustomWidth);
-      lbStatusModified.CustomWidth := PPIScaled(lbStatusModified.CustomWidth);
-      lbStatusOverwrite.CustomWidth := PPIScaled(lbStatusOverwrite.CustomWidth);
-      lbStatusCaps.CustomWidth := PPIScaled(lbStatusCaps.CustomWidth);
-    finally
-      StatusBar.ToolBar.Items.ViewEndUpdate;
-    end;
-    // Completion
-    CommandsDataModule.ParameterCompletion.ChangeScale(M, D);
-    CommandsDataModule.ModifierCompletion.ChangeScale(M, D);
+  // FCurrentPPI is changed to the NewPPI in the inherited method
+  // Status bar
+  StatusBar.Toolbar.Items.ViewBeginUpdate;
+  try
+    lbPythonVersion.MinWidth := MulDiv(lbPythonVersion.MinWidth, NewPPI, FCurrentPPI);
+    lbPythonEngine.MinWidth := MulDiv(lbPythonEngine.MinWidth, NewPPI, FCurrentPPI);
+    lbStatusCaret.CustomWidth := MulDiv(lbStatusCaret.CustomWidth, NewPPI, FCurrentPPI);
+    lbStatusModified.CustomWidth := MulDiv(lbStatusModified.CustomWidth, NewPPI, FCurrentPPI);
+    lbStatusOverwrite.CustomWidth := MulDiv(lbStatusOverwrite.CustomWidth, NewPPI, FCurrentPPI);
+    lbStatusCaps.CustomWidth := MulDiv(lbStatusCaps.CustomWidth, NewPPI, FCurrentPPI);
+  finally
+    StatusBar.ToolBar.Items.ViewEndUpdate;
   end;
+  inherited;
 end;
 
 procedure TPyIDEMainForm.LoadToolbarItems(const Path : string);
@@ -3903,6 +3914,10 @@ begin
     mnPythonVersions.Items[i].Checked := PythonLoaded and
       (PyControl.PythonVersionIndex = mnPythonVersions.Items[i].Tag);
   end;
+  case Sender.Tag of
+    0: mnPythonVersions.Items[mnPythonVersions.Count-1].ImageIndex := 154;
+    1: mnPythonVersions.Items[mnPythonVersions.Count-1].ImageIndex := 6;  // from Interpreter
+  end;
 end;
 
 procedure TPyIDEMainForm.SetupSyntaxMenu;
@@ -4103,6 +4118,11 @@ end;
 procedure TPyIDEMainForm.lbPythonVersionClick(Sender: TObject);
 begin
   actPythonSetup.Execute;
+end;
+
+procedure TPyIDEMainForm.lbStatusCaretClick(Sender: TObject);
+begin
+   CommandsDataModule.actSearchGoToLineExecute(Self);
 end;
 
 procedure TPyIDEMainForm.actLayoutSaveExecute(Sender: TObject);
@@ -4468,8 +4488,6 @@ procedure TPyIDEMainForm.DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
   State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
   var AImageList: TCustomImageList; var AImageIndex: Integer; var ARect: TRect;
   var PaintDefault: Boolean);
-Const
-  ModClosePattern: array [0..15] of Byte    = ($C6, 0, $EE, 0, $6C, 0, 0, 0, $6C, 0, $EE, 0, $C6, 0, 0, 0);
 Var
   Editor : IEditor;
   PatternColor: TColor;
@@ -4488,9 +4506,13 @@ begin
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
-    DrawGlyphPattern(ACanvas.Handle, ARect, PPIScaled(8), PPIScaled(8), ModClosePattern, PatternColor)
-  else
-    SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor);
+  begin
+    R := SpCenterRect(ARect, PPIScale(2), PPIScale(2));
+    ExcludeClipRect(ACanvas.Handle,R.Left, R.Top, R.Right, R.Bottom);
+  end;
+  SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor);
+  if Editor.Modified then
+    SelectClipRgn(ACanvas.Handle, 0);
 end;
 
 procedure TPyIDEMainForm.PrevClickHandler(Sender: TObject);
@@ -4721,11 +4743,6 @@ begin
   // Repeat here to make sure it is set right
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
-  if not LoadLayoutError and (Layouts.IndexOf('Default') < 0) then begin
-    SaveLayout('Default');
-    Layouts.Add('Default');
-  end;
-
   // fix for staturbar appearing above interpreter
   if StatusBar.Visible then StatusBar.Top := MaxInt;
 
@@ -4767,6 +4784,11 @@ begin
 
     // Open initial files after loading Python (#879)
     OpenInitialFiles;
+
+    if Layouts.IndexOf('Default') < 0 then begin
+      SaveLayout('Default');
+      Layouts.Add('Default');
+    end;
 
     if PyIDEOptions.AutoCheckForUpdates and
       (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=

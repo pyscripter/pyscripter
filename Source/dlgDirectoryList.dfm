@@ -39,10 +39,11 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Width = 28
       Height = 24
       Hint = 'Move up'
-      Anchors = [akTop]
+      Anchors = [akTop, akRight]
       ImageAlignment = iaCenter
-      ImageIndex = 47
-      Images = CommandsDataModule.Images
+      ImageIndex = 1
+      ImageName = 'Item48'
+      Images = vilImages
       TabOrder = 1
       OnClick = btnMoveUpClick
     end
@@ -52,10 +53,11 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Width = 28
       Height = 24
       Hint = 'Move down'
-      Anchors = [akTop]
+      Anchors = [akTop, akRight]
       ImageAlignment = iaCenter
-      ImageIndex = 48
-      Images = CommandsDataModule.Images
+      ImageIndex = 2
+      ImageName = 'Item49'
+      Images = vilImages
       TabOrder = 2
       OnClick = btnMoveDownClick
     end
@@ -154,12 +156,44 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Hint = 'Enter file path here'
       Anchors = [akLeft, akTop, akRight]
       Color = clBtnFace
-      Images = CommandsDataModule.Images
-      RightButton.ImageIndex = 45
+      Images = vilImages
+      RightButton.ImageIndex = 0
       RightButton.Visible = True
       TabOrder = 3
       OnChange = edPathChange
       OnRightButtonClick = BtnPathClick
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 45
+        CollectionName = 'Item46'
+        Disabled = False
+        Name = 'Item46'
+      end
+      item
+        CollectionIndex = 47
+        CollectionName = 'Item48'
+        Disabled = False
+        Name = 'Item48'
+      end
+      item
+        CollectionIndex = 48
+        CollectionName = 'Item49'
+        Disabled = False
+        Name = 'Item49'
+      end
+      item
+        CollectionIndex = 84
+        CollectionName = 'Item85'
+        Disabled = False
+        Name = 'Item85'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 40
+    Top = 120
   end
 end

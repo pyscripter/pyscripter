@@ -136,7 +136,7 @@ inherited PythonIIForm: TPythonIIForm
     TitleFont.Style = [fsBold]
     Columns = <>
     Resizeable = False
-    Images = vicCodeImages
+    Images = vilCodeImages
     OnClose = SynCodeCompletionClose
     OnExecute = SynCodeCompletionExecute
     ShortCut = 0
@@ -162,7 +162,7 @@ inherited PythonIIForm: TPythonIIForm
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
     Columns = <>
-    Images = vicCodeImages
+    Images = vilCodeImages
     OnExecute = SynParamCompletionExecute
     ShortCut = 0
     Editor = SynEdit
@@ -170,12 +170,13 @@ inherited PythonIIForm: TPythonIIForm
     Left = 625
   end
   object InterpreterPopUp: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 37
     Top = 60
     object mnPythonVersions: TSpTBXSubmenuItem
+      Tag = 1
       Caption = 'Python Versions'
-      ImageIndex = 128
+      ImageIndex = 5
       LinkSubitems = PyIDEMainForm.mnPythonVersions
     end
     object TBXPythonEngines: TSpTBXSubmenuItem
@@ -186,12 +187,15 @@ inherited PythonIIForm: TPythonIIForm
     end
     object mnEditCut: TSpTBXItem
       Action = CommandsDataModule.actEditCut
+      ImageIndex = 0
     end
     object mnEditCopy: TSpTBXItem
       Action = CommandsDataModule.actEditCopy
+      ImageIndex = 1
     end
     object mnEditPaste: TSpTBXItem
       Action = CommandsDataModule.actEditPaste
+      ImageIndex = 2
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
@@ -213,10 +217,11 @@ inherited PythonIIForm: TPythonIIForm
     end
     object mnInterpreterEditorOptions: TSpTBXItem
       Action = CommandsDataModule.actInterpreterEditorOptions
+      ImageIndex = 4
     end
   end
   object InterpreterActionList: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 40
     Top = 109
     object actCopyHistory: TAction
@@ -224,7 +229,7 @@ inherited PythonIIForm: TPythonIIForm
       Caption = 'Copy &History'
       HelpContext = 410
       Hint = 'Copy history to Clipboard'
-      ImageIndex = 12
+      ImageIndex = 1
       OnExecute = actCopyHistoryExecute
     end
     object actClearContents: TAction
@@ -232,7 +237,7 @@ inherited PythonIIForm: TPythonIIForm
       Caption = 'Clear &All'
       HelpContext = 410
       Hint = 'Clear all interpreter output'
-      ImageIndex = 14
+      ImageIndex = 3
       OnExecute = actClearContentsExecute
     end
     object actCopyWithoutPrompts: TAction
@@ -240,7 +245,7 @@ inherited PythonIIForm: TPythonIIForm
       Caption = 'Copy (&No Prompts)'
       HelpContext = 410
       Hint = 'Copy selected text without the interpreter prompts'
-      ImageIndex = 12
+      ImageIndex = 1
       ShortCut = 24643
       OnExecute = actCopyWithoutPromptsExecute
     end
@@ -249,12 +254,12 @@ inherited PythonIIForm: TPythonIIForm
       Caption = 'Paste && E&xecute'
       HelpContext = 410
       Hint = 'Paste clipboard text with added interpreter prompts'
-      ImageIndex = 13
+      ImageIndex = 2
       ShortCut = 24662
       OnExecute = actPasteAndExecuteExecute
     end
   end
-  object vicCodeImages: TVirtualImageList
+  object vilCodeImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <
@@ -321,5 +326,55 @@ inherited PythonIIForm: TPythonIIForm
     ImageCollection = CommandsDataModule.icCodeImages
     Left = 40
     Top = 160
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 11
+        CollectionName = 'Item12'
+        Disabled = False
+        Name = 'Item12'
+      end
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 13
+        CollectionName = 'Item14'
+        Disabled = False
+        Name = 'Item14'
+      end
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 22
+        CollectionName = 'Item23'
+        Disabled = False
+        Name = 'Item23'
+      end
+      item
+        CollectionIndex = 128
+        CollectionName = 'Item129'
+        Disabled = False
+        Name = 'Item129'
+      end
+      item
+        CollectionIndex = 154
+        CollectionName = 'Item155'
+        Disabled = False
+        Name = 'Item155'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 40
+    Top = 216
   end
 end

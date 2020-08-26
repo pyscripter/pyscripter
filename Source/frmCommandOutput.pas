@@ -18,6 +18,7 @@ uses
   System.Variants,
   System.Classes,
   System.Actions,
+  System.ImageList,
   System.RegularExpressions,
   Vcl.Graphics,
   Vcl.Controls,
@@ -27,6 +28,8 @@ uses
   Vcl.StdCtrls,
   Vcl.Menus,
   Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   TB2Item,
   SpTBXItem,
   SpTBXControls,
@@ -62,9 +65,10 @@ type
     actClearOutput: TAction;
     actOutputFont: TAction;
     actCopy: TAction;
+    vilImages: TVirtualImageList;
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);
-    procedure JvCreateProcessRead(Sender: TObject; const S: String;
+    procedure JvCreateProcessRead(Sender: TObject; const S: string;
       const StartsOnNewLine: Boolean);
     procedure JvCreateProcessTerminate(Sender: TObject;
       ExitCode: Cardinal);
@@ -181,7 +185,7 @@ begin
 end;
 
 procedure TOutputWindow.JvCreateProcessRead(Sender: TObject;
-  const S: String; const StartsOnNewLine: Boolean);
+  const S: string; const StartsOnNewLine: Boolean);
 begin
   // $0C is the Form Feed char.
   if S = #$C then

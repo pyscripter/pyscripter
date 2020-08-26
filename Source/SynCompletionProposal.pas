@@ -193,6 +193,7 @@ type
     procedure CreateParams(var Params: TCreateParams); override;
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure ShowCodeItemInfo(Info: string);
+    function GetCurrentPPI: Integer; override;
   public
     constructor Create(AOwner: Tcomponent); override;
     destructor Destroy; override;
@@ -328,7 +329,6 @@ type
     procedure ExecuteEx(s: string; x, y: Integer; Kind: SynCompletionType = ctCode); virtual;
     procedure Activate;
     procedure Deactivate;
-    procedure ChangeScale(M, D: Integer); virtual;
 
     procedure ClearList;
     function DisplayItem(AIndex: Integer): string;
@@ -523,9 +523,9 @@ type
   end;
 
 
-procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
+procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;  PPI: Integer;
   const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TCustomImageList);
-function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
+function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;  PPI: Integer;
   Columns: TProposalColumns; Images: TCustomImageList): Integer;
 function PrettyTextToFormattedString(const APrettyText: string;
   AlternateBoldStyle: Boolean = False): string;
@@ -857,7 +857,7 @@ begin
 end;
 
 
-function PaintChunks(TargetCanvas: TCanvas; const Rect: TRect;
+function PaintChunks(TargetCanvas: TCanvas; const Rect: TRect; PPI : integer;
   ChunkList: TFormatChunkList; Columns: TProposalColumns; Images: TCustomImageList;
   Invisible: Boolean): Integer;
 var
@@ -933,7 +933,7 @@ begin
         begin
           if CurrentColumnIndex <= Columns.Count -1 then
           begin
-            inc(LastColumnStart, CurrentColumn.FColumnWidth);
+            inc(LastColumnStart, MulDiv(CurrentColumn.FColumnWidth, PPI, 96));
             X := LastColumnStart;
 
             inc(CurrentColumnIndex);
@@ -972,7 +972,7 @@ begin
   end;
 end;
 
-procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
+procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect; PPI: Integer;
   const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TCustomImageList);
 var
   Chunks: TFormatChunkList;
@@ -986,13 +986,13 @@ begin
       StripCommands := [];
 
     ParseFormatChunks(Text, Chunks, StripCommands);
-    PaintChunks(TargetCanvas, Rect, Chunks, Columns, Images, False);
+    PaintChunks(TargetCanvas, Rect, PPI, Chunks, Columns, Images, False);
   finally
     Chunks.Free;
   end;
 end;
 
-function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
+function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string; PPI: Integer;
   Columns: TProposalColumns; Images: TCustomImageList): Integer;
 var
   Chunks: TFormatChunkList;
@@ -1003,7 +1003,7 @@ begin
     TmpRect := Rect(0, 0, MaxInt, MaxInt);
 
     ParseFormatChunks(Text, Chunks, [fcColor]);
-    Result := PaintChunks(TargetCanvas, TmpRect, Chunks, Columns, Images, True);
+    Result := PaintChunks(TargetCanvas, TmpRect, PPI, Chunks, Columns, Images, True);
   finally
     Chunks.Free;
   end;
@@ -1584,7 +1584,7 @@ begin
             FormattedTextOut(Canvas, Rect(FMargin,
               FEffectiveItemHeight * i  + ((FEffectiveItemHeight - FFontHeight) div 2),
               Bitmap.Width, FEffectiveItemHeight * (i + 1)),
-              FAssignedList[FScrollbar.Position + i],
+              CurrentPPI, FAssignedList[FScrollbar.Position + i],
               (i + FScrollbar.Position = Position), FColumns, FImages);
           end
           else
@@ -1660,7 +1660,7 @@ begin
 
           FormattedTextOut(Canvas, Rect(FMargin + 1,
             FEffectiveItemHeight * i + ((FEffectiveItemHeight-FFontHeight) div 2) + FMargin,
-            Bitmap.Width - 1, FEffectiveItemHeight * (i + 1) + FMargin), TmpString,
+            Bitmap.Width - 1, FEffectiveItemHeight * (i + 1) + FMargin), CurrentPPI, TmpString,
             False, nil, FImages);
         end;
       end;
@@ -1904,7 +1904,6 @@ begin
   end;
 end;
 
-
 procedure TSynBaseCompletionProposalForm.RecalcItemHeight;
 begin
   Canvas.Font.Assign(FFont);
@@ -1997,7 +1996,8 @@ begin
 //    (CurrentEditor as TCustomSynEdit).UpdateCaret;
     if DisplayType = ctCode then
     begin
-      (Owner as TSynBaseCompletionProposal).FWidth := Width;
+      // Save after removing the PPI scaling
+      (Owner as TSynBaseCompletionProposal).FWidth := MulDiv(Width, 96, CurrentPPI);
       (Owner as TSynBaseCompletionProposal).FNbLinesInWindow := FLinesInWindow;
     end;
   end;
@@ -2040,7 +2040,7 @@ begin
   if DisplayType = ctCode then
   begin
     if FTitle <> '' then
-      FHeightBuffer := FTitleFontHeight +  PPIScaled(4) {Margin}
+      FHeightBuffer := FTitleFontHeight +  MulDiv(4, CurrentPPI, 96) {Margin}
     else
       FHeightBuffer := 0;
 
@@ -2170,6 +2170,14 @@ begin
     FCodeItemInfoWindow.Canvas.Font.Assign(FFont);
 end;
 
+function TSynBaseCompletionProposalForm.GetCurrentPPI: Integer;
+begin
+  if Assigned(FCurrentEditor) then
+    Result := FCurrentEditor.CurrentPPI
+  else
+    Result := Screen.PixelsPerInch;
+end;
+
 procedure TSynBaseCompletionProposalForm.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -2231,7 +2239,7 @@ Var
       for i := -1 to List.Count -1 do
       begin
         NewWidth := FormattedTextWidth(Form.Canvas,
-        FormatParamList(S, i), Columns, FForm.Images);
+        FormatParamList(S, i), Form.CurrentPPI, Columns, FForm.Images);
 
         if NewWidth > Result then
           Result := NewWidth;
@@ -2251,8 +2259,11 @@ Var
     tmpStr: string;
     BorderWidth: Integer;
     NewWidth: Integer;
+    PPIScaledMargin: Integer;
+    PPIScaledWidth: Integer;
   begin
-
+    PPIScaledMargin := MulDiv(Form.Margin, Form.CurrentPPI, 96);
+    PPIScaledWidth := MulDiv(FWidth, Form.CurrentPPI, 96);
     tmpX := x;
     tmpY := Y + 2;
     tmpWidth := 0;
@@ -2265,31 +2276,32 @@ Var
         else
           BorderWidth := 2 * GetSystemMetrics(SM_CYFIXEDFRAME);
 
-        tmpWidth := FWidth;
+        tmpWidth := PPIScaledWidth;
         tmpHeight := Form.FHeightBuffer + Form.FEffectiveItemHeight * FNbLinesInWindow + BorderWidth;
       end;
     ctHint:
       begin
         BorderWidth := 2;
         tmpHeight := Form.FEffectiveItemHeight * ItemList.Count + BorderWidth
-          + 2 * Form.Margin;
+          + 2 * PPIScaledMargin;
 
         Form.Canvas.Font.Assign(Font);
         for i := 0 to ItemList.Count -1 do
         begin
           tmpStr := ItemList[i];
-          NewWidth := FormattedTextWidth(Form.Canvas, tmpStr, nil, FForm.Images);
+          NewWidth := FormattedTextWidth(Form.Canvas, tmpStr,
+            Form.CurrentPPI, nil, FForm.Images);
           if NewWidth > tmpWidth then
             tmpWidth := NewWidth;
         end;
 
-        inc(tmpWidth, 2 * FForm.Margin +BorderWidth);
+        inc(tmpWidth, 2 * PPIScaledMargin + BorderWidth);
       end;
     ctParams:
       begin
         BorderWidth := 2;
         tmpHeight := Form.FEffectiveItemHeight * ItemList.Count + BorderWidth
-          + 2 * Form.Margin;
+          + 2 * PPIScaledMargin;
 
         Form.Canvas.Font.Assign(Font);
         for i := 0 to ItemList.Count -1 do
@@ -2297,7 +2309,8 @@ Var
           if (i = 0) and FFormatParams then  //KV
             NewWidth := GetParamWidth(StripFormatCommands(ItemList[i]))
           else
-            NewWidth := FormattedTextWidth(Form.Canvas, ItemList[i], nil, FForm.Images);
+            NewWidth := FormattedTextWidth(Form.Canvas, ItemList[i],
+              Form.CurrentPPI, nil, FForm.Images);
 
           if Assigned(Form.OnMeasureItem) then
             Form.OnMeasureItem(Self, i, Form.Canvas, NewWidth);
@@ -2306,10 +2319,9 @@ Var
             tmpWidth := NewWidth;
         end;
 
-        inc(tmpWidth, 2 * FForm.Margin +BorderWidth);
+        inc(tmpWidth, 2 * PPIScaledMargin +BorderWidth);
       end;
     end;
-
 
     if tmpX + tmpWidth > GetWorkAreaWidth then
     begin
@@ -2384,7 +2396,7 @@ begin
 
       RecalcFormPlacement;
 
-//      ShowWindow(Form.Handle, SW_SHOWNOACTIVATE);
+      //ShowWindow(Form.Handle, SW_SHOWNOACTIVATE);
       ShowWindow(Form.Handle, SW_SHOWNA);
       Form.Visible := True;
       Form.Repaint;
@@ -2556,16 +2568,6 @@ begin
   except
     raise Exception.Create('Cannot insert item at position ' + IntToStr(Where) + '.');
   end;
-end;
-
-procedure TSynBaseCompletionProposal.ChangeScale(M, D: Integer);
-Var
-  Col : TCollectionItem;
-begin
-  Self.FWidth := PPIScaled(Self.FWidth);
-  Self.Margin := PPIScaled(Self.Margin);
-  for Col in Columns do
-    TProposalColumn(Col).ColumnWidth := PPIScaled(TProposalColumn(Col).ColumnWidth);
 end;
 
 procedure TSynBaseCompletionProposal.ClearList;
@@ -3653,7 +3655,6 @@ begin
   FInternalCompletion.OnAfterCodeCompletion := DoInternalAutoCompletion;
   FInternalCompletion.Columns.Add;
   FInternalCompletion.Width := 350;
-  FInternalCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 end;
 
 function TSynAutoComplete.GetOptions: TSynCompletionOptions;

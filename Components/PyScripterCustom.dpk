@@ -3,6 +3,8 @@
 // JCL_DEBUG_EXPERT_DELETEMAPFILE ON
 package PyScripterCustom;
 
+{$R *.res}
+{$R *.otares}
 {$R 'JvDockVSNetStyleSpTBX.dcr'}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
@@ -15,12 +17,12 @@ package PyScripterCustom;
 {$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
+{$OPTIMIZATION OFF}
 {$OVERFLOWCHECKS OFF}
 {$RANGECHECKS OFF}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
@@ -34,20 +36,11 @@ package PyScripterCustom;
 requires
   vcl,
   rtl,
-  vclx,
-  SpTBXLib,
-  tb2k_D12,
-  vclactnband,
-  vcldb,
-  dbrtl,
-  vclimg,
-  JvDocking,
-  JvCore,
-  Jcl;
+  vclx;
 
 contains
-  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas',
   AMHLEDVecStd in 'AMHLEDVecStd.pas';
+
 end.
 
 

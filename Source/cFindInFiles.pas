@@ -645,7 +645,7 @@ begin
   FMaskList := TStringList.Create;
   FDirList := TStringList.Create;
   FListFont := TFont.Create;
-  SetVistaContentFonts(FListFont);
+  FListFont.Assign(Application.DefaultFont);
   FContextFont := TFont.Create;
   FContextFont.Name := DefaultCodeFontName;
   FContextFont.Size := 9;

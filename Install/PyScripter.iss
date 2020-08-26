@@ -1,6 +1,6 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
-#define MyAppVersion "3.6.1"
+#define MyAppVersion "3.6.3"
 #define OSPlatform "x64"
 #define MyAppPublisherURL="https://sourceforge.net/projects/pyscripter/"
 #define MyAppSupportURL="https://github.com/pyscripter/pyscripter"
@@ -15,7 +15,7 @@ AppPublisher={#MyAppName}
 AppPublisherURL={#MyAppPublisherURL}
 AppSupportURL={#MyAppSupportURL}
 AppUpdatesURL={#MyAppUpdatesURL}
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={commonpf}\{#MyAppName}
 DefaultGroupName={#MyAppName}-{#OSPlatform}
 OutputDir=Output
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}-{#OSPlatform}-Setup
@@ -25,17 +25,18 @@ ChangesAssociations=true
 UninstallDisplayIcon={app}\{#MyAppName}.exe
 PrivilegesRequired=poweruser
 AppCopyright=(C) Kiriakos Vlahos
+;WizardStyle = modern
 #if OSPlatform == "x64"
 ArchitecturesAllowed={#OSPlatform}
 ArchitecturesInstallIn64BitMode={#OSPlatform}
 #endif
 
 [Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"; InfoBeforeFile: "locale\en\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoBeforeFile: "locale\de\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "el"; MessagesFile: "compiler:\Languages\Greek.isl"; InfoBeforeFile: "locale\el\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoBeforeFile: "locale\it\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "ja"; MessagesFile: "compiler:\Languages\Japanese.isl"; InfoBeforeFile: "locale\ja\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\ja\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "en"; MessagesFile: "compiler:Default.isl"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
+;Name: "el"; MessagesFile: "compiler:\Languages\Greek.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "ja"; MessagesFile: "compiler:\Languages\Japanese.isl"; InfoAfterFile: "locale\ja\AfterInstallPyScripter-{#OSPlatform}.txt"
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
@@ -104,121 +105,127 @@ Source: ..\locale\kab\LC_MESSAGES\default.mo; DestDir: {app}\locale\kab\LC_MESSA
 Source: ..\locale\kab\LC_MESSAGES\default.po; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\locale\kab\LC_MESSAGES\languages.mo; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\locale\kab\LC_MESSAGES\languages.po; DestDir: {app}\locale\kab\LC_MESSAGES\
+Source: ..\locale\uk\LC_MESSAGES\default.po; DestDir: {app}\locale\uk\LC_MESSAGES\
+Source: ..\locale\uk\LC_MESSAGES\default.mo; DestDir: {app}\locale\uk\LC_MESSAGES\
+Source: ..\locale\uk\LC_MESSAGES\languages.mo; DestDir: {app}\locale\uk\LC_MESSAGES\
+Source: ..\locale\uk\LC_MESSAGES\languages.po; DestDir: {app}\locale\uk\LC_MESSAGES\
 ;Ini Files
-Source: "PyScripter.ini"; DestDir: "{userappdata}\PyScripter"; Flags: uninsneveruninstall onlyifdoesntexist
+Source: "PyScripter.ini"; DestDir: "{commonappdata}\PyScripter"
 ; Startup scripts
-Source: ..\Scripts\pyscripter_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
-Source: ..\Scripts\python_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
+Source: ..\Scripts\pyscripter_init.py; DestDir: {commonappdata}\PyScripter
+Source: ..\Scripts\python_init.py; DestDir: {commonappdata}\PyScripter
 ; Highlighters
-Source: "..\Highlighters\Autumn_dark.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Black Pastel.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_1.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_2.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_3.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_4.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_5.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_eos.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_gedit.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_muted.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_oblivion.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_obsidian.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_terminal.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_waher.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_zenburn.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\DarkHighlight.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\DarkHighlight2.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Darthy_sand_light.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Default.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Frontenddev.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Gedit Original Oblivion.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Greyish_dark.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Havenjark.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\IDLEHighlighting.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\IDLEHighlightingv2.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\IDLEHighlightingv3.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Lnkpot.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Minimal.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\MochaHighlight.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Monokai.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Mr.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\NightLion Aptana Theme.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Notepad++ Like.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Oblivion.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Obsidian.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Pastel.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\RecognEyes.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Retta.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Schuss.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Skycool_light.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Solarized Dark.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Solarized Light.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Solarized_dark_edit.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Solarized_light_edit.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Sublime Text 2.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Sunburst.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Tango.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Vibrant Ink.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Wombat.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Zenburn.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Autumn_dark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Black Pastel.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_1.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_2.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_3.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_4.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_5.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_eos.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_gedit.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_muted.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_oblivion.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_obsidian.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_terminal.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_waher.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Dark_zenburn.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\DarkHighlight.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\DarkHighlight2.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Darthy_sand_light.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Default.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Frontenddev.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Gedit Original Oblivion.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Greyish_dark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Havenjark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\IDLEHighlighting.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\IDLEHighlightingv2.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\IDLEHighlightingv3.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Lnkpot.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Minimal.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\MochaHighlight.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Monokai.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Mr.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\NightLion Aptana Theme.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Notepad++ Like.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Oblivion.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Obsidian.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Pastel.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\RecognEyes.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Retta.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Schuss.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Skycool_light.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Solarized Dark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Solarized Light.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Solarized_dark_edit.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Solarized_light_edit.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Sublime Text 2.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Sunburst.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Tango.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Vibrant Ink.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Wombat.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Zenburn.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 ; Styles
-Source: "..\Styles\Amakrits.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\AmethystKamri.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\AquaGraphite.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\AquaLightSlate.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\AquaLightSlate2.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Auric.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Carbon.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\CharcoalDarkSlate.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\CobaltXEMedia.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Copper.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\CopperDark.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Coral.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\CyanDusk.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\CyanNight.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Diamond.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Emerald.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\EmeraldLightSlate.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Glossy.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Glossy2.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Glow.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\GoldenGraphite.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\IcebergClassico.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\LavenderClassico.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Luna.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\MetropolisUIBlack.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\MetropolisUIBlue.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\MetropolisUIDark.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\MetropolisUIGreen.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Obsidian.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\OnyxBlue.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Radiant.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\RubyGraphite.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\SapphireKamri.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Silver.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Sky.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Sky2.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\SlateClassico.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\SmokeyQuartzKamri.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\TabletDark.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\TabletLight.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\TurquoiseGray.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Vapor.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10BlackPearl.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10Blue.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10BlueWhale.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10ClearDay.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10Dark.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10Green.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10Purple.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
+Source: "..\Styles\Amakrits.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\AmethystKamri.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\AquaGraphite.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\AquaLightSlate.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\AquaLightSlate2.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Auric.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Carbon.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\CalypsoSE.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\CharcoalDarkSlate.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\CobaltXEMedia.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Copper.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\CopperDark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Coral.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\CyanDusk.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\CyanNight.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Diamond.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Emerald.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\EmeraldLightSlate.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Glossy.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Glossy2.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Glow.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\GoldenGraphite.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\IcebergClassico.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\LavenderClassico.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Luna.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\MetropolisUIBlack.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\MetropolisUIBlue.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\MetropolisUIDark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\MetropolisUIGreen.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Obsidian.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\OnyxBlue.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Radiant.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\RubyGraphite.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\SapphireKamri.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Silver.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Sky.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Sky2.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\SlateClassico.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\SmokeyQuartzKamri.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Stellar.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\TabletDark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\TabletLight.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\TurquoiseGray.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Vapor.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10BlackPearl.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10Blue.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10BlueWhale.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10ClearDay.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10Dark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10Green.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10Purple.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 
 [Icons]
 Name: {group}\PyScripter; Filename: {app}\PyScripter.exe
 Name: {group}\{cm:PyScripterHelp}; Filename: {app}\PyScripter.chm
 Name: {group}\{cm:UninstallProgram,PyScripter}; Filename: {uninstallexe}
-Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
+Name: {commondesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopicon
+Name: {commonappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
 
 [Registry]
 Root: HKCR; Subkey: Python.File\shell\Edit with PyScripter; ValueType: string; ValueData: {cm:EditwithPyScripter}; Flags: deletekey uninsdeletekey; Tasks: fileexplorercontextmenu
@@ -228,7 +235,9 @@ Root: HKCR; SubKey: PyScripter project; ValueType: string; ValueData: PyScripter
 Root: HKCR; SubKey: PyScripter project\Shell\Open\Command; ValueType: string; ValueData: """{app}\PyScripter.exe"" --PROJECT ""%1"""; Flags: uninsdeletekey
 Root: HKCR; Subkey: PyScripter project\DefaultIcon; ValueType: string; ValueData: {app}\PyProject.ico,-1; Flags: uninsdeletevalue
 ; IE 11 mode (https://weblog.west-wind.com/posts/2011/may/21/web-browser-control-specifying-the-ie-version)
-Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "PyScripter.exe"; ValueData: "11001"; Flags: createvalueifdoesntexist
+Root: HKLM; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "PyScripter.exe"; ValueData: "11001"; Flags: uninsdeletekey createvalueifdoesntexist
+; IE DPI aware (https://stackoverflow.com/questions/38754354/wpf-web-browser-control-and-dpi-scaling/40657760)
+Root: HKLM; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_96DPI_PIXEL"; ValueType: dword; ValueName: "PyScripter.exe"; ValueData: "1"; Flags: uninsdeletekey createvalueifdoesntexist
 
 [Run]
 Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flags: nowait postinstall skipifsilent
@@ -236,7 +245,7 @@ Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flag
 [CustomMessages]
 #include "locale\en\InstallMessages.txt"
 #include "locale\de\InstallMessages.txt"
-#include "locale\el\InstallMessages.txt"
+;#include "locale\el\InstallMessages.txt"
 #include "locale\it\InstallMessages.txt"
 #include "locale\ja\InstallMessages.txt"
 

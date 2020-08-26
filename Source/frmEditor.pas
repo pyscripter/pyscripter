@@ -132,7 +132,7 @@ type
     mnUnfoldClasses: TSpTBXItem;
     vilGutterGlyphs: TVirtualImageList;
     icGutterGlyphs: TImageCollection;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -1521,7 +1521,6 @@ procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
   if PyControl.ErrorPos.Editor = GetEditor then
     PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
-  fSyntaxErrorPos.Clear;
   fNeedToCheckSyntax := True;
 
   if Assigned(SourceScanner) then
@@ -2325,11 +2324,6 @@ begin
   SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
   SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
 
-  // Scale
-  SynCodeCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-  SynParamCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-  SynWebCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-
   // Add Python Version Change Notifier
   PyControl.OnPythonVersionChange.AddHandler(HandlePythonVersionChange);
 
@@ -3130,7 +3124,7 @@ procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
 Var
     SynEdit: TCustomSynEdit;
 
-  function CaretBetween(AStr: String): boolean;
+  function CaretBetween(AStr: string): boolean;
   var
     i: Integer;
   begin
@@ -3258,8 +3252,10 @@ begin
   then
   begin
     TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, True);
+    if HasSyntaxError then
+      SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
     fSyntaxErrorPos := PyControl.ErrorPos;
-    PyControl.ErrorPos.Clear;
+    PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
     fNeedToCheckSyntax := False;
   end;
   if HasSyntaxError then

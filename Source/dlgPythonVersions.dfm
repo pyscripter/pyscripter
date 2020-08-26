@@ -22,17 +22,13 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Align = alClient
       Header.AutoSizeIndex = 0
       Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabOrder = 0
       OnDblClick = actPVActivateExecute
       OnGetCellText = vtPythonVersionsGetCellText
       OnGetImageIndex = vtPythonVersionsGetImageIndex
       OnInitChildren = vtPythonVersionsInitChildren
       OnInitNode = vtPythonVersionsInitNode
-      ExplicitLeft = 2
-      ExplicitTop = 15
-      ExplicitWidth = 618
-      ExplicitHeight = 264
       Columns = <
         item
           MinWidth = 250
@@ -62,7 +58,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       DockPos = 0
       DragHandleStyle = dhNone
       FullSize = True
-      Images = CommandsDataModule.Images
+      Images = vilImages
       Options = [tboShowHint, tboToolbarStyle]
       ParentShowHint = False
       ShowHint = True
@@ -102,7 +98,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     end
   end
   object actlPythonVersions: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnUpdate = actlPythonVersionsUpdate
     Left = 560
     Top = 64
@@ -110,57 +106,119 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Activate'
       HelpContext = 880
       Hint = 'Activate selected Python version'
-      ImageIndex = 159
+      ImageIndex = 7
       OnExecute = actPVActivateExecute
     end
     object actPVAdd: TAction
       Caption = 'Add'
       HelpContext = 880
       Hint = 'Add a new Python version'
-      ImageIndex = 49
+      ImageIndex = 1
       OnExecute = actPVAddExecute
     end
     object actPVRemove: TAction
       Caption = 'Remove'
       HelpContext = 880
       Hint = 'Remove selected Python version'
-      ImageIndex = 52
+      ImageIndex = 3
       OnExecute = actPVRemoveExecute
     end
     object actPVTest: TAction
       Caption = 'Test'
       HelpContext = 880
       Hint = 'Test selected Python version'
-      ImageIndex = 130
+      ImageIndex = 6
       OnExecute = actPVTestExecute
     end
     object actPVShow: TAction
       Caption = 'Show'
       HelpContext = 880
       Hint = 'Show selected Python version in Explorer'
-      ImageIndex = 2
+      ImageIndex = 0
       OnExecute = actPVShowExecute
     end
     object actPVCommandShell: TAction
       Caption = 'Shell'
       HelpContext = 880
       Hint = 'Open command prompt for the selected Python version'
-      ImageIndex = 89
+      ImageIndex = 5
       OnExecute = actPVCommandShellExecute
     end
     object actPVHelp: TAction
       Caption = 'Help'
       HelpContext = 880
       Hint = 'Show Help'
-      ImageIndex = 71
+      ImageIndex = 4
       OnExecute = actPVHelpExecute
     end
     object actPVRename: TAction
       Caption = 'Rename'
       HelpContext = 880
       Hint = 'Rename selected Python version'
-      ImageIndex = 160
+      ImageIndex = 8
       OnExecute = actPVRenameExecute
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 2
+        CollectionName = 'Item3'
+        Disabled = False
+        Name = 'Item3'
+      end
+      item
+        CollectionIndex = 49
+        CollectionName = 'Item50'
+        Disabled = False
+        Name = 'Item50'
+      end
+      item
+        CollectionIndex = 51
+        CollectionName = 'Item52'
+        Disabled = False
+        Name = 'Item52'
+      end
+      item
+        CollectionIndex = 52
+        CollectionName = 'Item53'
+        Disabled = False
+        Name = 'Item53'
+      end
+      item
+        CollectionIndex = 71
+        CollectionName = 'Item72'
+        Disabled = False
+        Name = 'Item72'
+      end
+      item
+        CollectionIndex = 89
+        CollectionName = 'Item90'
+        Disabled = False
+        Name = 'Item90'
+      end
+      item
+        CollectionIndex = 130
+        CollectionName = 'Item131'
+        Disabled = False
+        Name = 'Item131'
+      end
+      item
+        CollectionIndex = 159
+        CollectionName = 'Item160'
+        Disabled = False
+        Name = 'Item160'
+      end
+      item
+        CollectionIndex = 160
+        CollectionName = 'Item161'
+        Disabled = False
+        Name = 'Item161'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 457
+    Top = 65
   end
 end

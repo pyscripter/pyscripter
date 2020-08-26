@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------------
+ï»¿{-----------------------------------------------------------------------------
  Unit Name: uCommonFunctions
  Author:    Kiriakos Vlahos
  Date:      23-Jun-2005
@@ -20,6 +20,7 @@ Uses
   Vcl.Controls,
   Vcl.ComCtrls,
   Vcl.Graphics,
+  Vcl.Forms,
   SynEditTypes,
   SynUnicode,
   SynEdit,
@@ -36,7 +37,7 @@ const
   AnsiLineFeed       = AnsiChar(#10);
   AnsiCarriageReturn = AnsiChar(#13);
   AnsiCrLf           = AnsiString(#13#10);
-  WordBreakString = ',.;:"´`°^!?&$@§%#~[](){}<>-=+*/\| ';
+  WordBreakString = ',.;:"ï¿½`ï¿½^!?&$@ï¿½%#~[](){}<>-=+*/\| ';
 
 (* returns the System ImageList index of the icon of a given file *)
 function GetIconIndexFromFile(const AFileName: string;
@@ -133,9 +134,8 @@ function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Intege
 
 (* Used to get Vista and code fonts *)
 function DefaultCodeFontName: string;
-procedure SetDefaultFonts(const AFont: TFont);
-procedure SetDesktopIconFonts(const AFont: TFont);
-procedure SetVistaContentFonts(const AFont: TFont);
+procedure SetDefaultUIFont(const AFont: TFont);
+procedure SetContentFont(const AFont: TFont);
 
 (* Visual Studio replacement for SynEdits NextWord *)
 function VSNextWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
@@ -165,7 +165,7 @@ function SaveWideStringsToFile(const AFileName: string;
   DoBackup : Boolean = True) : boolean;
 
 (* Read File contents. Allows reading of locked files *)
-function FileToAnsiStr(const FileName: String): AnsiString;
+function FileToAnsiStr(const FileName: string): AnsiString;
 
 (* Read File contents into encoded string. Takes into account Python encodings *)
 function FileToEncodedStr(const AFileName : string) : AnsiString;
@@ -204,7 +204,7 @@ function StrTrimCharsLeft(const S: string; const Chars: TSysCharSet): string;
 function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
 
 (* Extracts a token and returns the remainder of a string *)
-function StrToken(var S: String; Separator: Char): string;
+function StrToken(var S: string; Separator: Char): string;
 
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
@@ -235,21 +235,11 @@ procedure ScaleImageList(const ImgList: TImageList; M, D: Integer);
 (* Resize Bitmap *)
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 
-(* Scale a value according to the Screen.PixelperInch *)
-function PPIScaled(I : Integer): Integer;
-
-(* Reverse PPI Scaling  *)
-function PPIUnScaled(I : Integer): Integer;
-
 (* Returns string with Desktop size *)
-function DesktopSizeString: string;
+function MonitorProfile: string;
 
 (* Downlads a file from the Interent *)
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
-
-(* From SpTBXLib - left out in v2.5.4 *)
-procedure DrawGlyphPattern(DC: HDC; const R: TRect; Width, Height: Integer;
-  const PatternBits; PatternColor: TColor);
 
 (* ExtracFileName that works with both Windows and Unix file names *)
 function XtractFileName(const FileName: string): string;
@@ -292,6 +282,15 @@ type
     function GroupValue(Index: integer): string;
   end;
 
+  (*  Helper method for forms *)
+  TControlHelper = class helper for TControl
+  public
+    (* Scale a value according to the FCurrentPPI *)
+    function PPIScale(ASize: integer): integer;
+    (* Reverse PPI Scaling  *)
+    function PPIUnScale(ASize: integer): integer;
+  end;
+
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
   TLineBreakStringList = class(TStringList)
   protected
@@ -331,6 +330,26 @@ type
 
   function NewTimer(Interval: Cardinal): ITimer;
 
+type
+(*
+  Minimalist SmartPointer implementation based on a blog post by Barry Kelly:
+  http://blog.barrkel.com/2008/11/reference-counted-pointers-revisited.html,
+  https://stackoverflow.com/questions/30153682/why-does-this-optimization-of-a-smartpointer-not-work
+*)
+  TObjectHandle<T: class> = class(TInterfacedObject, TFunc<T>)
+  // used by TSmartPointer
+  private
+    FValue:  T;
+  public
+    constructor  Create(AValue:  T);
+    destructor  Destroy;  override;
+    function  Invoke:  T;
+  end;
+
+  TSmartPtr = record
+    class function Make<T: class>(AValue: T): TFunc<T>; static;
+  end;
+
 Var
   StopWatch : TStopWatch;
 
@@ -346,7 +365,6 @@ Uses
   System.UITypes,
   System.IOUtils,
   System.Math,
-  Vcl.Forms,
   Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.Themes,
@@ -615,6 +633,7 @@ end;
 function GetWordAtPos(const LineText : string; Start : Integer; WordChars : TSysCharSet;
   ScanBackwards : boolean = True; ScanForward : boolean = True;
   HandleBrackets : Boolean = False) : string;
+{ TODO : Replace WordChars with IsLetterOrDigit to properly deal with Unicode }
 Var
   i : integer;
   L, WordStart, WordEnd, ParenCounter, NewStart : integer;
@@ -627,7 +646,9 @@ begin
   L := Length(LineText);
   WordStart := Start;
   WordEnd := Start;
-  if (Start <= 0) or (Start > L) or not CharInSet(LineText[Start], WordChars) then
+  if (Start <= 0) or (Start > L) then
+    Exit('')
+  else if not CharInSet(LineText[Start], WordChars) then
     Result := ''
   else begin
     if ScanBackwards then begin
@@ -991,9 +1012,9 @@ var
   SyncInputQuery : TSyncInputQuery;
   SaveThreadState: PPyThreadState;
 begin
-  if GetCurrentThreadId = MainThreadId then begin
-    Result := InputQuery(ACaption, APrompt, Value);
-  end else begin
+  if GetCurrentThreadId = MainThreadId then
+    Result := InputQuery(ACaption, APrompt, Value)
+  else begin
     SyncInputQuery := TSyncInputQuery.Create(ACaption, APrompt, Value);
     try
       with GetPythonEngine do begin
@@ -1013,96 +1034,13 @@ begin
 end;
 
 function CleanEOLs(S: AnsiString): AnsiString;
-
-  function AnsiAdjustLineBreaks(const S: AnsiString; Style: TTextLineBreakStyle): AnsiString;
-  {From AnsiStrings units which forgot to export it}
-  var
-    Source, SourceEnd, Dest: PAnsiChar;
-    DestLen: Integer;
-    L: Integer;
-  begin
-    Source := Pointer(S);
-    SourceEnd := Source + Length(S);
-    DestLen := Length(S);
-    while Source < SourceEnd do
-    begin
-      case Source^ of
-        #10:
-          if Style = tlbsCRLF then
-            Inc(DestLen);
-        #13:
-          if Style = tlbsCRLF then
-            if Source[1] = #10 then
-              Inc(Source)
-            else
-              Inc(DestLen)
-          else
-            if Source[1] = #10 then
-              Dec(DestLen);
-      else
-        if Source^ in LeadBytes then
-        begin
-          Source := System.AnsiStrings.StrNextChar(Source);
-          continue;
-        end;
-      end;
-      Inc(Source);
-    end;
-    if DestLen = Length(Source) then
-      Result := S
-    else
-    begin
-      Source := Pointer(S);
-      SetString(Result, nil, DestLen);
-      Dest := Pointer(Result);
-      while Source < SourceEnd do
-        case Source^ of
-          #10:
-            begin
-              if Style = tlbsCRLF then
-              begin
-                Dest^ := #13;
-                Inc(Dest);
-              end;
-              Dest^ := #10;
-              Inc(Dest);
-              Inc(Source);
-            end;
-          #13:
-            begin
-              if Style = tlbsCRLF then
-              begin
-                Dest^ := #13;
-                Inc(Dest);
-              end;
-              Dest^ := #10;
-              Inc(Dest);
-              Inc(Source);
-              if Source^ = #10 then Inc(Source);
-            end;
-        else
-          if Source^ in LeadBytes then
-          begin
-            L := System.AnsiStrings.StrCharLength(Source);
-            Move(Source^, Dest^, L);
-            Inc(Dest, L);
-            Inc(Source, L);
-            continue;
-          end;
-          Dest^ := Source^;
-          Inc(Dest);
-          Inc(Source);
-        end;
-    end;
-  end;
-
 begin
-  Result := AnsiAdjustLineBreaks(S, System.tlbsLF)
+  Result := System.AnsiStrings.AdjustLineBreaks(S, System.tlbsLF)
 end;
 
 function CleanEOLs(S: string): string;
 begin
-  Result := AdjustLineBreaks(S, System.tlbsLF)
+  Result := System.SysUtils.AdjustLineBreaks(S, System.tlbsLF)
 end;
 
 function SortedIdentToInt(const Ident: string; var Int: Longint;
@@ -1164,23 +1102,20 @@ begin
       Result := 'Courier New';
 end;
 
-procedure SetDefaultFonts(const AFont: TFont);
+procedure SetDefaultUIFont(const AFont: TFont);
+Const
+  UIFont = 'Segoe UI';
 begin
-  AFont.Handle := GetStockObject(DEFAULT_GUI_FONT);
+  if CheckWin32Version(6)
+    and not SameText(AFont.Name, UIFont)
+    and (Screen.Fonts.IndexOf(UIFont) >= 0) then
+  begin
+    AFont.Size := 9;
+    AFont.Name := UIFont;
+  end;
 end;
 
-procedure SetDesktopIconFonts(const AFont: TFont);
-var
-  LogFont: TLogFont;
-begin
-  if SystemParametersInfo(SPI_GETICONTITLELOGFONT, SizeOf(LogFont),
-    @LogFont, 0) then
-    AFont.Handle := CreateFontIndirect(LogFont)
-  else
-    SetDefaultFonts(AFont);
-end;
-
-procedure SetVistaContentFonts(const AFont: TFont);
+procedure SetContentFont(const AFont: TFont);
 Const
   VistaContentFont = 'Calibri';
 begin
@@ -1188,7 +1123,7 @@ begin
     and not SameText(AFont.Name, VistaContentFont)
     and (Screen.Fonts.IndexOf(VistaContentFont) >= 0) then
   begin
-    AFont.Size := AFont.Size + 1;
+    AFont.Size := 9;
     AFont.Name := VistaContentFont;
   end;
 end;
@@ -1631,7 +1566,7 @@ begin
   end;
 end;
 
-function FileToAnsiStr(const FileName: String): AnsiString;
+function FileToAnsiStr(const FileName: string): AnsiString;
 (* allows reading of locked files *)
 var
   fs: TFileStream;
@@ -2103,7 +2038,7 @@ var
   Scaler: IWICBitmapScaler;
   Source : TWICImage;
 begin
-  Bitmap.AlphaFormat := afDefined;
+  //Bitmap.AlphaFormat := afDefined;
   Source := TWICImage.Create;
   try
     Source.Assign(Bitmap);
@@ -2123,26 +2058,38 @@ begin
   end;
 end;
 
-function PPIScaled(I : Integer): Integer;
-begin
-  Result := MulDiv(I, Screen.PixelsPerInch, 96);
-end;
+function MonitorProfile: string;
 
-function PPIUnScaled(I : Integer): Integer;
-begin
-  Result := MulDiv(I, 96, Screen.PixelsPerInch);
-end;
-
-function DesktopSizeString: string;
-begin
-  Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
-end;
+  function DesktopSizeString: string;
+  begin
+    Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
+  end;
+Const
+  strMask = '%d:%dDPI(%s,%d,%d,%d,%d)';
+Var
+  iMonitor: Integer;
+  M: TMonitor;
+Begin
+  Result := DesktopSizeString;
+  for iMonitor := 0 To Screen.MonitorCount - 1 Do
+    begin
+        M := Screen.Monitors[iMonitor];
+        Result := Result + Format(strMask, [
+        M.MonitorNum,
+        M.PixelsPerInch,
+        BoolToStr(M.Primary, True),
+        M.Left,
+        M.Top,
+        M.Width,
+        M.Height
+      ]);
+    end;
+End;
 
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 begin
   Result := Succeeded(URLDownloadToFile(nil, PWideChar(URL), PWideChar(Filename), 0, nil));
 end;
-
 
 { TSMREWSync }
 
@@ -2246,42 +2193,6 @@ end;
 function NewTimer(Interval: Cardinal): ITimer;
 begin
   Result := TTimer.Create(Interval);
-end;
-
-procedure DrawGlyphPattern(DC: HDC; const R: TRect; Width, Height: Integer;
-  const PatternBits; PatternColor: TColor);
-const
-  ROP_DSPDxax = $00E20746;
-var
-  B: TBitmap;
-  OldTextColor, OldBkColor: Longword;
-  OldBrush, Brush: HBrush;
-  BitmapWidth, BitmapHeight: Integer;
-begin
-  OldTextColor := SetTextColor(DC, clBlack);
-  OldBkColor := SetBkColor(DC, clWhite);
-  B := TBitmap.Create;
-  try
-    BitmapWidth := 8;
-//    if Width > BitmapWidth then BitmapWidth := Width;
-    BitmapHeight := 8;
-//    if Height > BitmapHeight then BitmapHeight := Height;
-    B.Handle := CreateBitmap(BitmapWidth, BitmapHeight, 1, 1, @PatternBits);
-
-    if (Width > 8) or (Height > 8) then
-      ResizeBitmap(B, Max(Width, Height), Max(Width, Height));
-    if PatternColor < 0 then Brush := GetSysColorBrush(PatternColor and $FF)
-    else Brush := CreateSolidBrush(PatternColor);
-    OldBrush := SelectObject(DC, Brush);
-    BitBlt(DC, (R.Left + R.Right + 1 - Width) div 2, (R.Top + R.Bottom  + 1 - Height) div 2,
-      Width, Height, B.Canvas.Handle, 0, 0, ROP_DSPDxax);
-    SelectObject(DC, OldBrush);
-    if PatternColor >= 0 then DeleteObject(Brush);
-  finally
-    SetTextColor(DC, OldTextColor);
-    SetBkColor(DC, OldBkColor);
-    B.Free;
-  end;
 end;
 
 function XtractFileName(const FileName: string): string;
@@ -2539,6 +2450,44 @@ end;
 
 var
   OldGetCursorPos: function(var lpPoint: TPoint): BOOL; stdcall = nil;
+
+{ TFormHelper }
+
+function TControlHelper.PPIScale(ASize: integer): integer;
+begin
+   Result := MulDiv(ASize, FCurrentPPI, 96);
+end;
+
+function TControlHelper.PPIUnScale(ASize: integer): integer;
+begin
+   Result := MulDiv(ASize, 96, FCurrentPPI);
+end;
+
+{ TObjectHandle }
+
+constructor  TObjectHandle<T>.Create(AValue:  T);
+begin
+  FValue  :=  AValue;
+end;
+
+destructor  TObjectHandle<T>.Destroy;
+begin
+  FValue.Free;
+end;
+
+function  TObjectHandle<T>.Invoke:  T;
+begin
+  Result  :=  FValue;
+end;
+
+
+{ TSmartPointer }
+
+class function TSmartPtr.Make<T>(AValue: T): TFunc<T>;
+begin
+  Result := TObjectHandle<T>.Create(AValue);
+end;
+
 
 initialization
   StopWatch := TStopWatch.StartNew;

@@ -26,6 +26,8 @@ uses
   Vcl.ActnList,
   Vcl.StdActns,
   Vcl.ImgList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
   SynEdit,
   SynEditPrint,
   SynUnicode,
@@ -54,7 +56,7 @@ uses
   dlgSynEditOptions,
   dlgOptionsEditor,
   uEditAppIntfs,
-  cPyBaseDebugger, Vcl.BaseImageCollection, Vcl.ImageCollection;
+  cPyBaseDebugger;
 
 type
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -122,7 +124,6 @@ type
   end;
 
   TCommandsDataModule = class(TDataModule)
-    SynPythonSyn: TSynPythonSyn;
     SynEditPrint: TSynEditPrint;
     PrintDialog: TPrintDialog;
     PrinterSetupDialog: TPrinterSetupDialog;
@@ -152,7 +153,6 @@ type
     actEditPaste: TEditPaste;
     actEditCopy: TEditCopy;
     actEditCut: TEditCut;
-    Images: TImageList;
     actFileCloseAllOther: TAction;
     actHelpWebGroupSupport: TAction;
     actHelpWebProjectHome: TAction;
@@ -370,6 +370,7 @@ type
   protected
     procedure Loaded; override;
   public
+    SynPythonSyn: TSynPythonSyn;
     SynYAMLSyn: TSynYAMLSyn;
     SynCythonSyn: TSynCythonSyn;
     function GetHighlighterForFile(AFileName: string): TSynCustomHighlighter;
@@ -395,7 +396,7 @@ type
     function ShowPythonKeywordHelp(KeyWord : string) : Boolean;
     procedure PrepareParameterCompletion;
     procedure PrepareModifierCompletion;
-    procedure GetEditorUserCommand(AUserCommand: Integer; var ADescription: String);
+    procedure GetEditorUserCommand(AUserCommand: Integer; var ADescription: string);
     procedure GetEditorAllUserCommands(ACommands: TStrings);
     function DoSearchReplaceText(SynEdit : TSynEdit;
       AReplace, ABackwards : Boolean ; IsIncremental : Boolean = False) : integer;
@@ -631,18 +632,13 @@ end;
 
 { TCommandsDataModule }
 
-type
-  TCrackSynCustomHighlighter = class(TSynCustomHighlighter)
-  end;
-
 procedure TCommandsDataModule.DataModuleCreate(Sender: TObject);
 var
-  i: Integer;
-  Highlighter : TSynCustomHighlighter;
   SHFileInfo: TSHFileInfo;
   Index : integer;
 begin
   // Setup Highlighters
+  SynPythonSyn := TSynPythonSyn.Create(Self);
   SynYAMLSyn := TSynYAMLSyn.Create(Self);
   SynCythonSyn := TSynCythonSyn.Create(Self);
   SynCythonSyn.Assign(SynPythonSyn);
@@ -665,15 +661,6 @@ begin
   if Index >= 0 then fHighlighters.Delete(Index);
   fHighlighters.AddObject(SynGeneralSyn.FriendlyLanguageName, SynGeneralSyn);
 
-  // this is to save the internal state of highlighter attributes
-  // Work around for the reported bug according to which some
-  // highlighter attributes were not saved
-  for i := 0 to Highlighters.Count - 1 do begin
-    Highlighter := Highlighters.Objects[i] as TSynCustomHighlighter;
-    with TCrackSynCustomHighlighter(Highlighter) do
-        SetAttributesOnChange(DefHighlightChange);
-  end;
-
   // SynWeb Highlighters do not provide default filters
   SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
   SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
@@ -689,7 +676,6 @@ begin
 
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 
-  TPyScripterSettings.Images := Images;
   TPyScripterSettings.ShellImages := ShellImages;
 
   // Translate
@@ -1084,8 +1070,8 @@ end;
 
 procedure TCommandsDataModule.actToolsEditStartupScriptsExecute(Sender: TObject);
 begin
-  PyIDEMainForm.DoOpenFile(TPyScripterSettings.UserDataPath + PyScripterInitFile);
-  PyIDEMainForm.DoOpenFile(TPyScripterSettings.UserDataPath + EngineInitFile);
+  PyIDEMainForm.DoOpenFile(TPyScripterSettings.PyScripterInitFile);
+  PyIDEMainForm.DoOpenFile(TPyScripterSettings.EngineInitFile);
 end;
 
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
@@ -1241,7 +1227,7 @@ begin
   end;
 
   InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
-  InterpreterEditorOptions.Font.Assign(EditorOptions.Font);
+  InterpreterEditorOptions.Font := EditorOptions.Font;
   PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
   PythonIIForm.RegisterHistoryCommands;
   PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);
@@ -1818,7 +1804,6 @@ Var
   ModifiedCount : integer;
   Editor : IEditor;
   ChangedFiles : TStringList;
-  SafeGuard: ISafeGuard;
   NS: TNamespace;
   Dir : string;
   FTime : TDateTime;
@@ -1846,8 +1831,7 @@ begin
 
   if Dir = '' then Exit;
 
-  ChangedFiles := TStringList.Create;
-  Guard(ChangedFiles, SafeGuard);
+  ChangedFiles := TSmartPtr.Make(TStringList.Create)();
 
   for i := 0 to GI_EditorFactory.Count -1 do begin
     Editor := GI_EditorFactory.Editor[i];
@@ -2663,7 +2647,7 @@ procedure TCommandsDataModule.actFindNextReferenceExecute(
   Sender: TObject);
 var
   SearchOptions: TSynSearchOptions;
-  SearchText : String;
+  SearchText : string;
   OldCaret : TBufferCoord;
 begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
@@ -2783,7 +2767,7 @@ begin
 end;
 
 procedure TCommandsDataModule.GetEditorUserCommand(AUserCommand: Integer;
-  var ADescription: String);
+  var ADescription: string);
 begin
   if AUserCommand = ecCodeCompletion then
     ADescription := _(SEdCmdCodeCompletion)

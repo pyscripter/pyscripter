@@ -45,8 +45,18 @@ unit dlgFindInFiles;
 interface
 
 uses
-  System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, Vcl.StdCtrls,
-  cFindInFiles, dlgPyIDEBase, Vcl.ExtCtrls;
+  System.Classes,
+  System.ImageList,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  cFindInFiles,
+  dmCommands,
+  dlgPyIDEBase;
 
 type
   TFindInFilesDialog = class(TPyIDEDlgBase)
@@ -73,6 +83,7 @@ type
     lblMasks: TLabel;
     lblDirectory: TLabel;
     Panel1: TPanel;
+    vilImages: TVirtualImageList;
     procedure btnBrowseClick(Sender: TObject);
     procedure rbProjectClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
@@ -121,10 +132,11 @@ end;
 procedure TFindInFilesDialog.btnBrowseClick(Sender: TObject);
 var
   NewDir : string;
+  Directories : TArray<string>;
 begin
   NewDir := cbDirectory.Text;
-  if SelectDirectory(_('Directory To Search:'), '', NewDir) then
-    cbDirectory.Text := NewDir;
+  if SelectDirectory(NewDir, Directories, [], _('Directory To Search:')) then
+    cbDirectory.Text := Directories[0];
 end;
 
 procedure TFindInFilesDialog.EnableDirectoryControls(New: Boolean);

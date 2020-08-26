@@ -111,7 +111,7 @@ inherited VariablesWindow: TVariablesWindow
           Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
           Header.PopupMenu = VTHeaderPopupMenu
           HintMode = hmTooltip
-          Images = vicCodeImages
+          Images = vilCodeImages
           IncrementalSearch = isVisibleOnly
           TabOrder = 0
           TreeOptions.AnimationOptions = [toAnimatedToggle]
@@ -156,7 +156,7 @@ inherited VariablesWindow: TVariablesWindow
     Left = 20
     Top = 75
   end
-  object vicCodeImages: TVirtualImageList
+  object vilCodeImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <

@@ -51,7 +51,6 @@ object IDEDockWindow: TIDEDockWindow
     LRDockWidth = 220
     TBDockHeight = 220
     DirectDrag = False
-    DockStyle = PyIDEMainForm.JvDockVSNetStyleSpTBX
     OnTabHostFormCreated = DockClientTabHostFormCreated
     Left = 8
     Top = 10

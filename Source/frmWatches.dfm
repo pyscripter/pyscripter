@@ -74,7 +74,7 @@ inherited WatchesWindow: TWatchesWindow
           Header.AutoSizeIndex = -1
           Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
           HintMode = hmTooltip
-          Images = vicCodeImages
+          Images = vilCodeImages
           PopupMenu = TBXPopupMenu
           TabOrder = 0
           TreeOptions.AnimationOptions = [toAnimatedToggle]
@@ -92,8 +92,6 @@ inherited WatchesWindow: TWatchesWindow
           OnInitChildren = WatchesViewInitChildren
           OnInitNode = WatchesViewInitNode
           OnKeyDown = WatchesViewKeyDown
-          ExplicitLeft = 0
-          ExplicitTop = 0
           Columns = <
             item
               Position = 0
@@ -119,26 +117,27 @@ inherited WatchesWindow: TWatchesWindow
     Top = 26
   end
   object TBXPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnPopup = TBXPopupMenuPopup
     Left = 24
     Top = 85
     object mnAddWatch: TSpTBXItem
       Caption = '&Add Watch'
-      ImageIndex = 49
+      ImageIndex = 2
       OnClick = mnAddWatchClick
     end
     object TBXItem1: TSpTBXItem
       Action = PyIDEMainForm.actAddWatchAtCursor
+      ImageIndex = 4
     end
     object mnRemoveWatch: TSpTBXItem
       Caption = '&Remove Watch'
-      ImageIndex = 50
+      ImageIndex = 3
       OnClick = mnRemoveWatchClick
     end
     object mnEditWatch: TSpTBXItem
       Caption = '&Edit Watch'
-      ImageIndex = 92
+      ImageIndex = 5
       OnClick = mnEditWatchClick
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
@@ -146,7 +145,7 @@ inherited WatchesWindow: TWatchesWindow
     object mnClearall: TSpTBXItem
       Caption = '&Clear all'
       Hint = 'Clear all watches'
-      ImageIndex = 14
+      ImageIndex = 1
       OnClick = mnClearAllClick
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem
@@ -154,11 +153,11 @@ inherited WatchesWindow: TWatchesWindow
     object mnCopyToClipboard: TSpTBXItem
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy to clipboard'
-      ImageIndex = 12
+      ImageIndex = 0
       OnClick = mnCopyToClipboardClick
     end
   end
-  object vicCodeImages: TVirtualImageList
+  object vilCodeImages: TVirtualImageList
     DisabledGrayscale = False
     DisabledSuffix = '_Disabled'
     Images = <
@@ -224,6 +223,50 @@ inherited WatchesWindow: TWatchesWindow
       end>
     ImageCollection = CommandsDataModule.icCodeImages
     Left = 24
+    Top = 136
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 49
+        CollectionName = 'Item50'
+        Disabled = False
+        Name = 'Item50'
+      end
+      item
+        CollectionIndex = 50
+        CollectionName = 'Item51'
+        Disabled = False
+        Name = 'Item51'
+      end
+      item
+        CollectionIndex = 66
+        CollectionName = 'Item67'
+        Disabled = False
+        Name = 'Item67'
+      end
+      item
+        CollectionIndex = 92
+        CollectionName = 'Item93'
+        Disabled = False
+        Name = 'Item93'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 88
     Top = 136
   end
 end

@@ -17,23 +17,27 @@ uses
   System.Classes,
   System.Generics.Collections,
   System.Actions,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
   SpTBXSkins,
   SpTBXItem,
   SpTBXControls,
+  SpTBXDkPanels,
   VirtualTrees,
   frmIDEDockWin,
   dmCommands,
   cPyControl,
-  cPyBaseDebugger, SpTBXDkPanels;
+  cPyBaseDebugger;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -45,6 +49,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Splitter1: TSpTBXSplitter;
+    vilImages: TVirtualImageList;
     procedure CallStackViewDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -324,7 +329,7 @@ procedure TCallStackWindow.CallStackViewGetImageIndex(Sender: TBaseVirtualTree;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
   if (Kind = ikState) and (vsSelected in Node.States) and (Column = 0) then
-    ImageIndex := 41;
+    ImageIndex := 0;
 end;
 
 procedure TCallStackWindow.CallStackViewInitNode(Sender: TBaseVirtualTree;
@@ -476,33 +481,33 @@ begin
   Assert(Integer(Node.Index) < fThreads.Count);
   if Kind in [ikNormal, ikSelected] then begin
     if fThreads[Node.Index].Status = thrdRunning then
-      ImageIndex := 152
+      ImageIndex := 1
     else
-      ImageIndex := 153
+      ImageIndex := 2
   end else if (Kind = ikState) and (fThreads[Node.Index] = fActiveThread) then
-    ImageIndex := 41;
+    ImageIndex := 0;
 end;
 
 procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteInteger(BasePath+'\Threads Width',
-   PPIUnScaled(ThreadView.Width));
+   PPIUnScale(ThreadView.Width));
   AppStorage.WriteInteger(BasePath+'\Function Width',
-   PPIUnScaled(CallStackView.Header.Columns[0].Width));
+   PPIUnScale(CallStackView.Header.Columns[0].Width));
   AppStorage.WriteInteger(BasePath+'\Line Width',
-    PPIUnScaled(CallStackView.Header.Columns[2].Width));
+    PPIUnScale(CallStackView.Header.Columns[2].Width));
 end;
 
 procedure TCallStackWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   ThreadView.Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Threads Width', 140));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Threads Width', 140));
   CallStackView.Header.Columns[0].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Function Width', 100));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Function Width', 100));
   CallStackView.Header.Columns[2].Width :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
 end;
 
 procedure TCallStackWindow.SetActiveThread(const Value: TThreadInfo);

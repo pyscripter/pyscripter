@@ -21,7 +21,7 @@ interface
   {$mode objfpc}{$H+}
 {$ENDIF}
 
-uses sysutils, JclStrings; //for exceptions
+uses sysutils; //for exceptions
 type
   TStringArray=array of string;
   TLongintArray=array of longint;
@@ -76,7 +76,7 @@ type
     procedure declareFlag(const name,description:string;default:boolean=false);overload;
 
 
-    //DeclareFlag allows the use of a file name
+    //declareFile allows the use of a file name
     //Example:
     //   declareFile('file');
     //  Following command-line options are  possible
@@ -88,11 +88,11 @@ type
     //    --file C:\Eigene Dateien\a.bmp  =>     file:=C:\Eigene
     //                                           or file:=C:\Eigene Dateien\a.bmp,
     //                                             if C:\Eigene does not exist
-    procedure declareFile(const name,description:string;default:string='');overload;
+    procedure declareFile(const name,description:string;default:string='');
 
     //DeclareXXXX allows the use of string, int, float, ...
     //Example:
-    //   declareFlag('property');
+    //   declareString('property');
     //  Following command-line options are  possible
     //    --file 123                  =>     file:=123
     //    --file '123'                =>     file:=123
@@ -100,9 +100,9 @@ type
     //    --file='123'                =>     file:=123
     //    --file="123"                =>     file:=123
 
-    procedure declareString(const name,description:string;value: string='');overload;
-    procedure declareInt(const name,description:string;value: longint=0);overload;
-    procedure declareFloat(const name,description:string;value: extended=0);overload;
+    procedure declareString(const name,description:string;value: string='');
+    procedure declareInt(const name,description:string;value: longint=0);
+    procedure declareFloat(const name,description:string;value: extended=0);
 
     function readString(const name:string):string; overload;
     function readInt(const name:string):longint;overload;
@@ -174,9 +174,9 @@ begin
   if params = '' then exit;
   if params[1] = Quote then begin
     params[1] := 'X';
-    delete(params, 1 , CharPos(params, Quote));
+    delete(params, 1 , Pos(params, Quote));
   end else
-    delete(params, 1, CharPos(params, Space));
+    delete(params, 1, Pos(params, Space));
   parse(params);
 end;
 
@@ -488,7 +488,6 @@ initialization
   CmdLineReader.automaticalShowError  :=  True;
   CmdLineReader.declareFlag('HELP','Show PyScripter command line options', Char('H'),False);
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', Char('N'),False);
-  CmdLineReader.declareFlag('PYTHON26','Use Python version 2.6',False);
   CmdLineReader.declareFlag('PYTHON27','Use Python version 2.7',False);
   CmdLineReader.declareFlag('PYTHON32','Use Python version 3.2',False);
   CmdLineReader.declareFlag('PYTHON33','Use Python version 3.3',False);
@@ -497,8 +496,9 @@ initialization
   CmdLineReader.declareFlag('PYTHON36','Use Python version 3.6',False);
   CmdLineReader.declareFlag('PYTHON37','Use Python version 3.7',False);
   CmdLineReader.declareFlag('PYTHON38','Use Python version 3.8',False);
-  CmdLineReader.declareFile('PROJECT','Specify a project file to open');
-  CmdLineReader.declareFile('PYTHONDLLPATH','Use a specific Pythonxx.dll');
+  CmdLineReader.declareFlag('PYTHON39','Use Python version 3.9',False);
+  CmdLineReader.declareString('PROJECT','Specify a project file to open');
+  CmdLineReader.declareString('PYTHONDLLPATH','Use a specific Pythonxx.dll');
 
   try
       CmdLineReader.parse;

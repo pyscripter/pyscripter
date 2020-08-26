@@ -15,7 +15,7 @@ uses
   System.UITypes, Dialogs, cTools, StdCtrls, SynEdit, Menus,
   ActnList, SpTBXControls, SpTBXEditors, SpTBXItem, SpTBXTabs, TB2Item, 
   dlgPyIDEBase, ComCtrls, System.Actions, Vcl.Samples.Spin, Vcl.ExtCtrls,
-  SynEditMiscClasses;
+  SynEditMiscClasses, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
 
 type
   TToolProperties = class(TPyIDEDlgBase)
@@ -84,6 +84,7 @@ type
     tabEnvironment: TSpTBXTabSheet;
     lvItems: TListview;
     seTimeout: TSpTBXSpinEdit;
+    vilImages: TVirtualImageList;
     procedure FormShow(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
     procedure SynApplicationEnter(Sender: TObject);
@@ -122,6 +123,7 @@ uses
   dmCommands,
   JclSysInfo,
   JvGnugettext,
+  uCommonFunctions,
   StringResources;
 
 {$R *.dfm}
@@ -239,10 +241,10 @@ begin
   begin
     Name := 'hkShortCut';
     Parent := GroupBox4;
-    Left := MulDiv(86, Screen.PixelsPerInch, 96);
-    Top := MulDiv(15, Screen.PixelsPerInch, 96);
-    Width := MulDiv(125, Screen.PixelsPerInch, 96);
-    Height := MulDiv(19, Screen.PixelsPerInch, 96);
+    Left := PPIScale(86);
+    Top := PPIScale(15);
+    Width := PPIScale(125);
+    Height := PPIScale(19);
     Hint := 'Allows you to specify a menu shortcut for the tool';
     HotKey := 0;
     InvalidKeys := [hcNone];
@@ -269,12 +271,12 @@ end;
 
 procedure TToolProperties.btnWorkDirClick(Sender: TObject);
 var
-  S: string;
+  Directories : TArray<string>;
 begin
-  S := '';
-  if SelectDirectory(_('Select working directory:'), '', S, [], Self) then begin
+  if SelectDirectory('', Directories, [], _('Select working directory:')) then
+  begin
     SynWorkDir.SelectAll;
-    SynWorkDir.SelText := S;
+    SynWorkDir.SelText := Directories[0];
     SynWorkDir.SetFocus;
   end;
 end;

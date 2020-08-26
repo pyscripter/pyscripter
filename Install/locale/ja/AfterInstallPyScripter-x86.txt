@@ -2,11 +2,15 @@
 もし64-bitバージョンのWindowsを使っているのであればこのPyScripterは32-bit
 バージョンのPythonがインストールされている環境でのみ動くことに注意してください。
 
-注意:Python 2.6, 2.7 と 3.xの互換性を維持するために,このバージョンのPyScripter
-は最新の、再頒布可能なパッケージの C++ を必要とします。 Python 2.6, 2.7 と 3.x.
-はC++パッケージを自動でインストールします。もし、必要なC++パッケージが
-インストールされていない場合は以下のリンクから手動でダウンロードしてください。
-https://www.microsoft.com/en-us/download/details.aspx?id=29.
+PyScripterを使う前に、あなたの端末に 2.6 以降のバージョンのPythonが
+インストールされていることを確認してください。
+もしインストールされていないのならば http://www.python.org/
+からダウンロードできます。
 
 https://github.com/pyscripter/pyscripter/wiki を訪れると、リモートデバッグや
 その他のPyScripterに関する項目についての情報が手に入ります。
+
+PyScripter の最新バージョンは以下をチェックしてください。
+https://sourceforge.net/projects/pyscripter/files/
+
+PyScripterを使ってくれてありがとう！

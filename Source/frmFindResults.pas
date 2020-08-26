@@ -53,6 +53,7 @@ uses
   System.Variants,
   System.Classes,
   System.Actions,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -62,6 +63,8 @@ uses
   Vcl.ActnList,
   Vcl.ComCtrls,
   Vcl.StdCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   JvAppStorage,
   JvDockControlForm,
   TB2Item,
@@ -143,6 +146,7 @@ type
     actFileSearch: TAction;
     actReplaceSelected: TAction;
     reContext: TRichEdit;
+    vilImages: TVirtualImageList;
     procedure FormResize(Sender: TObject);
     procedure lbResultsMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -369,18 +373,18 @@ begin
     ResultsCanvas.Brush.Style := bsClear;
     i := ResultsCanvas.TextWidth('+');
     FileString := FileResult.RelativeFileName;
-    ResultsCanvas.TextOut(ARect.Left + i + PPIScaled(8), ARect.Top, FileString);
+    ResultsCanvas.TextOut(ARect.Left + i + PPIScale(8), ARect.Top, FileString);
     //c:=ARect.Top+((ARect.Bottom-ARect.Top) div 2);
 
     if FileResult.Expanded then
-      ResultsCanvas.TextOut(ARect.Left + PPIScaled(3), ARect.Top, '-')
+      ResultsCanvas.TextOut(ARect.Left + PPIScale(3), ARect.Top, '-')
     else
-      ResultsCanvas.TextOut(ARect.Left + PPIScaled(3), ARect.Top, '+');
+      ResultsCanvas.TextOut(ARect.Left + PPIScale(3), ARect.Top, '+');
 
     TempString := Format(_(SItemMatch), [FileResult.TotalMatches]);
 
-    p := ResultsCanvas.TextWidth(TempString) + PPIScaled(10);
-    if (ResultsCanvas.TextWidth(FileString) + i + PPIScaled(10)) <= ARect.Right - p then
+    p := ResultsCanvas.TextWidth(TempString) + PPIScale(10);
+    if (ResultsCanvas.TextWidth(FileString) + i + PPIScale(10)) <= ARect.Right - p then
       ResultsCanvas.TextOut(lbResults.ClientWidth - p, ARect.Top, TempString);
   end
   else
@@ -406,25 +410,25 @@ begin
     ResultsCanvas.Brush.Color := nb;
     ResultsCanvas.Font.Color := nf;
     ResultsCanvas.FillRect(ARect);
-    ResultsCanvas.TextOut(ARect.Left + PPIScaled(10), ARect.Top + PPIScaled(1), IntToStr(ALineResult.LineNo));
+    ResultsCanvas.TextOut(ARect.Left + PPIScale(10), ARect.Top + PPIScale(1), IntToStr(ALineResult.LineNo));
 
     TempString := lbResults.Items[Index];
     c := LeftTrimChars(TempString);
 
-    p := ARect.Left + PPIScaled(60);
+    p := ARect.Left + PPIScale(60);
     i := 1;
     for MIndx := 0 to ALineResult.Matches.Count-1 do begin
       AMatchResult := ALineResult.Matches[MIndx];
       ResultsCanvas.Font.Color := nf;
       ResultsCanvas.Brush.Color := nb;
       S := Copy(TempString, i, AMatchResult.SPos - c - i);
-      ResultsCanvas.TextOut(p, ARect.Top + PPIScaled(1), S);
+      ResultsCanvas.TextOut(p, ARect.Top + PPIScale(1), S);
       p := ResultsCanvas.PenPos.X;
 
       ResultsCanvas.Font.Color := sf;
       ResultsCanvas.Brush.Color := sb;
       S := Copy(TempString, AMatchResult.SPos - c, AMatchResult.EPos - AMatchResult.SPos + 1);
-      ResultsCanvas.TextOut(p, ARect.Top + PPIScaled(1), S);
+      ResultsCanvas.TextOut(p, ARect.Top + PPIScale(1), S);
       p := ResultsCanvas.PenPos.X;
 
       i := AMatchResult.EPos - c + 1;
@@ -432,7 +436,7 @@ begin
     ResultsCanvas.Font.Color := nf;
     ResultsCanvas.Brush.Color := nb;
     S := Copy(TempString, i, Length(TempString) -  i + 1);
-    ResultsCanvas.TextOut(p, ARect.Top + PPIScaled(1), S);
+    ResultsCanvas.TextOut(p, ARect.Top + PPIScale(1), S);
   end;
 end;
 
@@ -1289,7 +1293,7 @@ procedure TFindResultsWindow.ReadFromAppStorage(
   AppStorage: TJvCustomAppStorage; const BasePath: string);
 begin
   lbResults.Height :=
-    PPIScaled(AppStorage.ReadInteger(BasePath+'\ResultsHeight', lbResults.Height));
+    PPIScale(AppStorage.ReadInteger(BasePath+'\ResultsHeight', lbResults.Height));
   ToolBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
   StatusBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
   ShowContext := AppStorage.ReadBoolean(BasePath+'\ShowContext', True);
@@ -1298,7 +1302,7 @@ end;
 procedure TFindResultsWindow.WriteToAppStorage(
   AppStorage: TJvCustomAppStorage; const BasePath: string);
 begin
-  AppStorage.WriteInteger(BasePath+'\ResultsHeight', PPIUnScaled(lbResults.Height));
+  AppStorage.WriteInteger(BasePath+'\ResultsHeight', PPIUnScale(lbResults.Height));
   AppStorage.WriteBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
   AppStorage.WriteBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
   AppStorage.WriteBoolean(BasePath+'\ShowContext', ShowContext);

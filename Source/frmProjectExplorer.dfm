@@ -84,7 +84,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           OnInitNode = ExplorerTreeInitNode
           OnKeyPress = ExplorerTreeKeyPress
           OnNewText = ExplorerTreeNewText
-          ExplicitTop = 32
           Columns = <>
         end
         object SpTBXDock1: TSpTBXDock
@@ -101,7 +100,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
             AutoResize = False
             DockMode = dmCannotFloat
             FullSize = True
-            Images = CommandsDataModule.Images
+            Images = vilImages
             TabOrder = 0
             Caption = 'Project Explorer Toolbar'
             Customizable = False
@@ -118,12 +117,15 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
             end
             object tbiRunLast: TSpTBXItem
               Action = PyIDEMainForm.actRunLastScript
+              ImageIndex = 17
             end
             object tbiDebugLast: TSpTBXItem
               Action = PyIDEMainForm.actRunDebugLastScript
+              ImageIndex = 18
             end
             object tbiRunLastExternal: TSpTBXItem
               Action = PyIDEMainForm.actRunLastScriptExternal
+              ImageIndex = 19
             end
             object SpTBXSeparatorItem11: TSpTBXSeparatorItem
             end
@@ -139,7 +141,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
   end
   object ProjectActionList: TActionList [1]
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 41
     Top = 76
     object actProjectNew: TAction
@@ -148,7 +150,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       HelpType = htContext
       Hint = 'Start a new project'
-      ImageIndex = 133
+      ImageIndex = 6
       OnExecute = actProjectNewExecute
     end
     object actProjectOpen: TAction
@@ -157,7 +159,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       HelpType = htContext
       Hint = 'Open a project file'
-      ImageIndex = 134
+      ImageIndex = 7
       OnExecute = actProjectOpenExecute
     end
     object actProjectSave: TAction
@@ -166,7 +168,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       HelpType = htContext
       Hint = 'Save the project'
-      ImageIndex = 140
+      ImageIndex = 12
       OnExecute = actProjectSaveExecute
     end
     object actProjectSaveAs: TAction
@@ -200,7 +202,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = 'Extra Python &Path...'
       HelpKeyword = '435'
       HelpType = htContext
-      ImageIndex = 25
+      ImageIndex = 0
       OnExecute = actProjectExtraPythonPathExecute
     end
     object actProjectExpandAll: TAction
@@ -209,7 +211,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       HelpType = htContext
       Hint = 'Expand all project nodes'
-      ImageIndex = 28
+      ImageIndex = 2
       OnExecute = actProjectExpandAllExecute
     end
     object actProjectCollapseAll: TAction
@@ -218,12 +220,12 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       HelpType = htContext
       Hint = 'Collapse all project nodes'
-      ImageIndex = 29
+      ImageIndex = 3
       OnExecute = actProjectCollapseAllExecute
     end
   end
   object ImmutableProjectActionList: TActionList [2]
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 8
     Top = 76
     object actProjectAddFiles: TAction
@@ -231,7 +233,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = '&Add File(s)...'
       HelpContext = 435
       Hint = 'Add file(s) to a project folder'
-      ImageIndex = 135
+      ImageIndex = 8
       OnExecute = actProjectAddFilesExecute
     end
     object actProjectAddFolder: TAction
@@ -239,15 +241,15 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = 'Add &Subfolder'
       HelpContext = 435
       Hint = 'Add a new subfolder'
-      ImageIndex = 137
+      ImageIndex = 10
       OnExecute = actProjectAddFolderExecute
     end
     object actProjectRemove: TAction
       Category = 'Project'
       Caption = '&Remove'
       HelpContext = 435
-      Hint = 'Remove a file,  folder or run configuration from the project'
-      ImageIndex = 136
+      Hint = 'Remove a file, folder or run configuration from the project'
+      ImageIndex = 9
       OnExecute = actProjectRemoveExecute
     end
     object actProjectRename: TAction
@@ -262,7 +264,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = '&Edit'
       HelpContext = 435
       Hint = 'Open the selected file in the editor'
-      ImageIndex = 139
+      ImageIndex = 11
       OnExecute = actProjectFileEditExecute
     end
     object actProjectAddActiveFile: TAction
@@ -284,7 +286,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = 'Add Run Configuration'
       HelpContext = 435
       Hint = 'Add run configuration'
-      ImageIndex = 141
+      ImageIndex = 13
       OnExecute = actProjectAddRunConfigExecute
     end
     object actProjectEditRunConfig: TAction
@@ -292,7 +294,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = '&Edit Run Configuration'
       HelpContext = 435
       Hint = 'Edit run configuration'
-      ImageIndex = 142
+      ImageIndex = 14
       OnExecute = actProjectEditRunConfigExecute
     end
     object actProjectFileProperties: TAction
@@ -300,7 +302,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = '&Properties'
       HelpContext = 435
       Hint = 'Show file properties'
-      ImageIndex = 143
+      ImageIndex = 15
       OnExecute = actProjectFilePropertiesExecute
     end
     object actProjectRun: TAction
@@ -308,7 +310,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = '&Run'
       HelpContext = 435
       Hint = 'Run the selected configuration'
-      ImageIndex = 51
+      ImageIndex = 4
       OnExecute = actProjectRunExecute
     end
     object actProjectExternalRun: TAction
@@ -316,7 +318,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = 'E&xternal Run'
       HelpContext = 435
       Hint = 'Run configuration using an external Python interpreter'
-      ImageIndex = 27
+      ImageIndex = 1
       OnExecute = actProjectExternalRunExecute
     end
     object actProjectDebug: TAction
@@ -324,7 +326,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = '&Debug'
       HelpContext = 435
       Hint = 'Debug the selected configuration'
-      ImageIndex = 53
+      ImageIndex = 5
       OnExecute = actProjectDebugExecute
     end
     object actProjectAddRemoteFile: TAction
@@ -332,7 +334,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = 'Add Remote File'
       HelpContext = 435
       Hint = 'Add a remote file to the folder'
-      ImageIndex = 161
+      ImageIndex = 16
       OnExecute = actProjectAddRemoteFileExecute
     end
   end
@@ -340,7 +342,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Top = 46
   end
   object ProjectMainPopUpMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnPopup = ProjectMainPopUpMenuPopup
     Left = 8
     Top = 108
@@ -379,7 +381,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
   end
   object ProjectFolderPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 40
     Top = 109
     object mnAddFiles: TSpTBXItem
@@ -409,7 +411,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
   end
   object ProjectFilePopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 72
     Top = 108
     object mnFileEdit: TSpTBXItem
@@ -427,7 +429,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
   end
   object ProjectRunSettingsPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 104
     Top = 109
     object mnAddRunConfig: TSpTBXItem
@@ -435,7 +437,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
   end
   object ProjectRunConfigPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 135
     Top = 109
     object mnRun: TSpTBXItem
@@ -921,6 +923,134 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       end>
     ImageCollection = ilProjects
     Left = 56
+    Top = 160
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 25
+        CollectionName = 'Item26'
+        Disabled = False
+        Name = 'Item26'
+      end
+      item
+        CollectionIndex = 27
+        CollectionName = 'Item28'
+        Disabled = False
+        Name = 'Item28'
+      end
+      item
+        CollectionIndex = 28
+        CollectionName = 'Item29'
+        Disabled = False
+        Name = 'Item29'
+      end
+      item
+        CollectionIndex = 29
+        CollectionName = 'Item30'
+        Disabled = False
+        Name = 'Item30'
+      end
+      item
+        CollectionIndex = 51
+        CollectionName = 'Item52'
+        Disabled = False
+        Name = 'Item52'
+      end
+      item
+        CollectionIndex = 53
+        CollectionName = 'Item54'
+        Disabled = False
+        Name = 'Item54'
+      end
+      item
+        CollectionIndex = 133
+        CollectionName = 'Item134'
+        Disabled = False
+        Name = 'Item134'
+      end
+      item
+        CollectionIndex = 134
+        CollectionName = 'Item135'
+        Disabled = False
+        Name = 'Item135'
+      end
+      item
+        CollectionIndex = 135
+        CollectionName = 'Item136'
+        Disabled = False
+        Name = 'Item136'
+      end
+      item
+        CollectionIndex = 136
+        CollectionName = 'Item137'
+        Disabled = False
+        Name = 'Item137'
+      end
+      item
+        CollectionIndex = 137
+        CollectionName = 'Item138'
+        Disabled = False
+        Name = 'Item138'
+      end
+      item
+        CollectionIndex = 139
+        CollectionName = 'Item140'
+        Disabled = False
+        Name = 'Item140'
+      end
+      item
+        CollectionIndex = 140
+        CollectionName = 'Item141'
+        Disabled = False
+        Name = 'Item141'
+      end
+      item
+        CollectionIndex = 141
+        CollectionName = 'Item142'
+        Disabled = False
+        Name = 'Item142'
+      end
+      item
+        CollectionIndex = 142
+        CollectionName = 'Item143'
+        Disabled = False
+        Name = 'Item143'
+      end
+      item
+        CollectionIndex = 143
+        CollectionName = 'Item144'
+        Disabled = False
+        Name = 'Item144'
+      end
+      item
+        CollectionIndex = 161
+        CollectionName = 'Item162'
+        Disabled = False
+        Name = 'Item162'
+      end
+      item
+        CollectionIndex = 144
+        CollectionName = 'Item145'
+        Disabled = False
+        Name = 'Item145'
+      end
+      item
+        CollectionIndex = 145
+        CollectionName = 'Item146'
+        Disabled = False
+        Name = 'Item146'
+      end
+      item
+        CollectionIndex = 146
+        CollectionName = 'Item147'
+        Disabled = False
+        Name = 'Item147'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 106
     Top = 160
   end
 end

@@ -46,6 +46,7 @@ type
   public
     { Public declarations }
     HasFocus : Boolean;
+    procedure ScaleForPPI(NewPPI: Integer); override;
   end;
 
 var
@@ -91,10 +92,7 @@ end;
 
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
-  //SetVistaContentFonts(FGPanel.Font);
-  //FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
-
-  //FGPanelExit(Self);
+  DockClient.DockStyle := PyIDEMainForm.DockServer.DockStyle;
   BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
   BorderNormal := StyleServices.GetSystemColor(clBtnShadow);
 
@@ -116,6 +114,13 @@ end;
 procedure TIDEDockWindow.FormDestroy(Sender: TObject);
 begin
   SkinManager.RemoveSkinNotification(Self);
+end;
+
+procedure TIDEDockWindow.ScaleForPPI(NewPPI: Integer);
+begin
+  DockClient.LRDockWidth := MulDiv(DockClient.LRDockWidth, NewPPI, FCurrentPPI);
+  DockClient.TBDockHeight := MulDiv(DockClient.TBDockHeight, NewPPI, FCurrentPPI);
+  inherited;
 end;
 
 procedure TIDEDockWindow.DockClientTabHostFormCreated(

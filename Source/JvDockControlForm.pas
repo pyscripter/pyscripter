@@ -48,6 +48,9 @@ uses
   {$IFDEF UNITVERSIONING}
   JclUnitVersioning,
   {$ENDIF UNITVERSIONING}
+  {$IFDEF RTL330_UP}
+  System.Messaging,
+  {$ENDIF RTL330_UP}
   Windows, Messages, Classes, Graphics, Controls, Forms, Menus,
   ExtCtrls, ComCtrls,
   JvComponentBase, JvComponent, JvAppStorage, JvConsts,
@@ -117,8 +120,8 @@ type
     // GetDockedControls:  NEW! -WPostma.
     // base class doesn't have this capability.
     // see TJvDockAdvPanel for override that implements this!
-	procedure GetDockedControls(WinControls: TList); virtual;  { not supported in base! }
-	function FindTabHostForm:TWinControl; virtual;
+	  procedure GetDockedControls(WinControls: TList); virtual;  { not supported in base! }
+	  function FindTabHostForm:TWinControl; virtual;
 
     property PanelIndex: Integer read GetPanelIndex;
     property DockServer: TJvDockServer read FDockServer write SetDockServer;
@@ -470,6 +473,9 @@ type
     FUnDockLeft: Integer;
     FUnDockTop: Integer;
     FVSPaneWidth: Integer;
+    {$IFDEF RTL330_UP}
+    FDPIChangedMessageID: Integer;
+    {$ENDIF RTL330_UP}
     procedure SetParentVisible(const Value: Boolean);
     function GetLRDockWidth: Integer;
     function GetTBDockHeight: Integer;
@@ -496,6 +502,9 @@ type
     procedure SetCanFloat(const Value: Boolean);
     procedure SetDockLevel(const Value: Integer);
     procedure SetEnableCloseButton(const Value: Boolean);
+    {$IFDEF RTL330_UP}
+    procedure DPIChangedMessageHandler(const Sender: TObject; const Msg: System.Messaging.TMessage);
+    {$ENDIF RTL330_UP}
   protected
     procedure DoMenuPopup(X, Y: Integer); virtual;
     procedure Deactivate; virtual;
@@ -1121,8 +1130,6 @@ begin
 	  exit;
 	end;
   end;
-
-
 
   if DockForm is TJvDockableForm then
   begin
@@ -2950,10 +2957,16 @@ begin
   FCanFloat := True;
   FDockLevel := 0;
   EnableCloseButton := True;
+  {$IFDEF RTL330_UP}
+  FDPIChangedMessageID := TMessageManager.DefaultManager.SubscribeToMessage(TChangeScaleMessage, DPIChangedMessageHandler);
+  {$ENDIF RTL330_UP}
 end;
 
 destructor TJvDockClient.Destroy;
 begin
+  {$IFDEF RTL330_UP}
+  TMessageManager.DefaultManager.Unsubscribe(TChangeScaleMessage, FDPIChangedMessageID);
+  {$ENDIF RTL330_UP}
   if not (ParentForm is TJvDockableForm) then
     SetDockSite(ParentForm, False);
   ParentForm.DragKind := dkDrag;
@@ -2996,6 +3009,8 @@ begin
     DirectDrag := TJvDockClient(Source).DirectDrag;
     ShowHint := TJvDockClient(Source).ShowHint;
     CanFloat := TJvDockClient(Source).CanFloat;
+    TBDockHeight := TJvDockClient(Source).TBDockHeight;
+    LRDockWidth := TJvDockClient(Source).LRDockWidth;
     // (rom) either bug or needs comment
     FDockLevel := TJvDockClient(Source).DockLevel;
     CustomDock := TJvDockClient(Source).CustomDock; {NEW!}
@@ -3119,6 +3134,7 @@ begin
   Control2.TBDockHeight := OldDockHeight;
 
   SetDockSite(Result, False);
+
   //TJvDockTabHostFormCreatedEvent:
   if Assigned(FOnTabHostFormCreated) then
     FOnTabHostFormCreated(Self, {TabHost:TJvDockTabHostForm} Result);
@@ -3221,6 +3237,18 @@ begin
   if Assigned(FOnPaintDockSplitter) then
     FOnPaintDockSplitter(Canvas, Control, ARect);
 end;
+
+{$IFDEF RTL330_UP}
+procedure TJvDockClient.DPIChangedMessageHandler(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
+begin
+  if FindDockClient(TControl(Sender)) = Self then
+  begin
+    LRDockWidth := MulDiv(LRDockWidth, TChangeScaleMessage(Msg).M, TChangeScaleMessage(Msg).D);
+    TBDockHeight := MulDiv(TBDockHeight, TChangeScaleMessage(Msg).M, TChangeScaleMessage(Msg).D);
+  end;
+end;
+{$ENDIF RTL330_UP}
 
 // return nil if not found, otherwise, get currently docked parent tabhost form if there is one.
 
@@ -3714,7 +3742,9 @@ begin
         Two forms left, one is freed. Call originates from TControl.Destroy or
         TJvDockManager.DoUnDock etc.
   }
-  if (DockClientCount <= 1) or ((DockClientCount = 2) and (VisibleDockClientCount = 1)) then
+  if Assigned(ParentForm) and ParentForm.HandleAllocated and
+    ((DockClientCount <= 1) or ((DockClientCount = 2) and (VisibleDockClientCount = 1)))
+  then
     PostMessage(ParentForm.Handle, WM_CLOSE, 0, 0);
   if VisibleDockClientCount <= 2 then
     JvDockControlForm.UpdateCaption(Self, Msg.Client);
@@ -4687,12 +4717,13 @@ procedure TJvDockSplitterStyle.AssignToSplitter(Dest: TJvDockSplitter);
 begin
   Dest.Color := Color;
   Dest.Cursor := Cursor;
+  Dest.MinSize := MinSize;
   Dest.ParentColor := ParentColor;
   Dest.ResizeStyle := ResizeStyle;
   if Dest.Align in [alTop, alBottom] then
-    Dest.Height := Size
+    Dest.Height := MulDiv(Size, Dest.FCurrentPPI, 96)
   else
-    Dest.Width := Size;
+    Dest.Width := MulDiv(Size, Dest.FCurrentPPI, 96);
 end;
 
 procedure TJvDockSplitterStyle.SetColor(const Value: TColor);

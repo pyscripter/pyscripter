@@ -49,8 +49,8 @@ inherited RemoteFileDialog: TRemoteFileDialog
       Width = 24
       Height = 24
       ImageAlignment = iaCenter
-      ImageIndex = 82
-      Images = CommandsDataModule.Images
+      ImageIndex = 0
+      Images = vilImages
       TabOrder = 2
       OnClick = btnSSHServersSetupClick
     end
@@ -101,5 +101,19 @@ inherited RemoteFileDialog: TRemoteFileDialog
       TabOrder = 2
       OnClick = HelpButtonClick
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 82
+        CollectionName = 'Item83'
+        Disabled = False
+        Name = 'Item83'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 16
+    Top = 80
   end
 end

@@ -282,9 +282,7 @@ begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
 
-  if CmdLineReader.readFlag('PYTHON26') then
-    expectedVersion := '2.6'
-  else if CmdLineReader.readFlag('PYTHON27') then
+  if CmdLineReader.readFlag('PYTHON27') then
     expectedVersion := '2.7'
   else if CmdLineReader.readFlag('PYTHON32') then
     expectedVersion := '3.2'
@@ -299,7 +297,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON37') then
     expectedVersion := '3.7'
   else if CmdLineReader.readFlag('PYTHON38') then
-    expectedVersion := '3.8';
+    expectedVersion := '3.8'
+  else if CmdLineReader.readFlag('PYTHON39') then
+    expectedVersion := '3.9';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);
@@ -689,7 +689,6 @@ end;
 procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
 Var
   II : Variant;   // wrapping sys and code modules
-  FileName : String;
 begin
   if InternalPython.Loaded then
   begin
@@ -717,13 +716,12 @@ begin
     fInternalInterpreter.Initialize;
 
     // Execute pyscripter_init.py
-    FileName := TPyScripterSettings.UserDataPath + PyScripterInitFile;
     try
-      fInternalInterpreter.RunScript(FileName);
+      fInternalInterpreter.RunScript(TPyScripterSettings.PyScripterInitFile);
     except
       on E: Exception do
         Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
-          [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
+          [TPyScripterSettings.PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
     end;
 
     // Notify Python Version Change

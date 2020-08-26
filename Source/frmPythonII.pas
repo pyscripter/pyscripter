@@ -91,7 +91,8 @@ type
     actClearContents: TAction;
     actCopyHistory: TAction;
     mnPythonVersions: TSpTBXSubmenuItem;
-    vicCodeImages: TVirtualImageList;
+    vilCodeImages: TVirtualImageList;
+    vilImages: TVirtualImageList;
     procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
       TransientType: TTransientType);
     procedure FormCreate(Sender: TObject);
@@ -500,9 +501,6 @@ begin
 
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
   SynParamCompletion.EndOfTokenChr := WordBreakString;
-  // Scale
-  SynCodeCompletion.ChangeScale(Screen.PixelsPerInch, 96);
-  SynParamCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);

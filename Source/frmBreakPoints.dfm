@@ -110,10 +110,10 @@ inherited BreakPointsWindow: TBreakPointsWindow
     Top = 18
   end
   object TBXPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnPopup = TBXPopupMenuPopup
-    Left = 13
-    Top = 50
+    Left = 21
+    Top = 66
     object mnSetCondition: TSpTBXItem
       Caption = 'Set &Condition...'
       OnClick = mnSetConditionClick
@@ -127,14 +127,35 @@ inherited BreakPointsWindow: TBreakPointsWindow
     end
     object Breakpoints1: TSpTBXItem
       Action = PyIDEMainForm.actClearAllBreakpoints
+      ImageIndex = 1
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
     object mnCopyToClipboard: TSpTBXItem
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy to clipboard'
-      ImageIndex = 12
+      ImageIndex = 0
       OnClick = mnCopyToClipboardClick
     end
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 61
+        CollectionName = 'Item62'
+        Disabled = False
+        Name = 'Item62'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 16
+    Top = 120
   end
 end

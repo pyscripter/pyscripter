@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Vincenzo Campanella <vinz65@gmail.com>, 2018
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # bovirus <roberto.boriotti@canon-europe.com>, 2019
 # 
 #, fuzzy
@@ -2454,7 +2454,7 @@ msgstr "|Commenti codifica file"
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Sheband"
-msgstr ""
+msgstr "|Sheband"
 
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
@@ -6480,7 +6480,7 @@ msgstr "Percorso ricerca 'Da fare'"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
-msgstr ""
+msgstr "Proprietà esecuzione esterna"
 
 #: dmCommands.pas
 msgid "IDE"
@@ -7537,7 +7537,7 @@ msgstr "Seleziona fino alla parentesi"
 #. Programmer's name for it: srNone
 #: StringResources.pas
 msgid "(None)"
-msgstr ""
+msgstr "(nessuno)"
 
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
@@ -8839,12 +8839,12 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
 msgid "Commented Code"
-msgstr ""
+msgstr "Codice commentato"
 
 #. Programmer's name for it: SYNS_FriendlyClassName
 #: SynHighlighterPython.pas
 msgid "Class Name"
-msgstr ""
+msgstr "Nome classe"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
@@ -8865,19 +8865,19 @@ msgstr "Stringa multi-linea"
 #. Programmer's name for it: SYNS_FriendlyAttrBanner
 #: SynHighlighterPython.pas
 msgid "Banner"
-msgstr ""
+msgstr "Banner"
 
 #. Programmer's name for it: SYNS_AttrTraceback
 #. Programmer's name for it: SYNS_FriendlyAttrTraceback
 #: SynHighlighterPython.pas
 msgid "Traceback"
-msgstr ""
+msgstr "Tracciatura"
 
 #. Programmer's name for it: SYNS_AttrPrompt
 #. Programmer's name for it: SYNS_FriendlyAttrPrompt
 #: SynHighlighterPython.pas
 msgid "Prompt"
-msgstr ""
+msgstr "Prompt"
 
 #. Programmer's name for it: SYNS_AttrSystemCmd
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
@@ -8908,12 +8908,12 @@ msgstr "Valore testo"
 #. Programmer's name for it: SYNS_FriendlyAttrTag
 #: SynHighlighterYAML.pas
 msgid "Tag"
-msgstr ""
+msgstr "Tag"
 
 #. Programmer's name for it: SYNS_FriendlyAttrAnchor
 #: SynHighlighterYAML.pas
 msgid "Anchor"
-msgstr ""
+msgstr "Ancoraggio"
 
 #. Python Paths etc.
 #: uParams.pas
@@ -9143,7 +9143,7 @@ msgstr "Testo selezionato nel documento attivo"
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
 #: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
 msgid "Toolbars"
-msgstr ""
+msgstr "Barre strumenti"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
 #: SpTBXCustomizerForm.dfm:125
@@ -9152,33 +9152,35 @@ msgid ""
 "command buttons, drag them off the toolbar and drop them on the commands "
 "list."
 msgstr ""
+"Per aggiungere oi pulsanti comandi. trascina e rilascia i comandi nella barra strumenti.\n"
+"Per rimuovere i pulsanti comandi trascinali fruroi dalla barra comandi e rilasciali nell'elenco comandi."
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:174
 msgid "Icons + Selective Text"
-msgstr ""
+msgstr "Icone + testo selettivo"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:175
 msgid "Icons"
-msgstr ""
+msgstr "icone"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:176
 msgid "Icons + Text"
-msgstr ""
+msgstr "Icone + testo"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:177
 msgid "Text"
-msgstr ""
+msgstr "Testo"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
 msgid "T&ext Options"
-msgstr ""
+msgstr "Opzioni t&esto"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
 #: SpTBXCustomizerForm.dfm:212
 msgid "&Visible"
-msgstr ""
+msgstr "&Visibile"

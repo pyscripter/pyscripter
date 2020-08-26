@@ -97,6 +97,7 @@ type
     constructor Create(ABlock: TJvDockVSBlock; AForm: TCustomForm; AWidth: Integer; AIndex: Integer); virtual;
     destructor Destroy; override;
     // KV added
+    property PopUpPanelWidth: Integer read FWidth write FWidth;
     property Active: Boolean read GetActive;
     property Visible: Boolean read FVisible;
     property DockForm: TCustomForm read FDockForm;
@@ -118,16 +119,19 @@ type
     function GetVSPaneCount: Integer;
     function GetActiveDockControl: TWinControl;
     procedure SetActivePane(APane: TJvDockVSPane);
+    function GetActiveBlockWidth: Integer;
+    function GetInactiveBlockWidth: Integer;
   protected
     procedure ResetActiveBlockWidth;
     function AddPane(AControl: TControl; const AWidth: Integer): TJvDockVSPane;
     procedure DeletePane(Index: Integer);
     procedure UpdateActivePane(StartIndex: Integer);
+    function PPIScale(Value: Integer): Integer;
     { Following names should be ActivePaneWidth, InactivePaneWidth }
     { ActivePane has size ActiveBlockWidth.. }
-    property ActiveBlockWidth: Integer read FActiveBlockWidth write FActiveBlockWidth;
+    property ActiveBlockWidth: Integer read GetActiveBlockWidth write FActiveBlockWidth;
     { ..other panes have size InactiveBlockWidth }
-    property InactiveBlockWidth: Integer read FInactiveBlockWidth write FInactiveBlockWidth;
+    property InactiveBlockWidth: Integer read GetInactiveBlockWidth write FInactiveBlockWidth;
     { The popup dock form of ActivePane }
     property ActiveDockControl: TWinControl read GetActiveDockControl;
     { Pane that last displayed its popup dock form. A block always has an
@@ -197,6 +201,11 @@ type
     function GetDockServer: TJvDockServer;
     function GetDockStyle: TJvDockObservableStyle;
     function GetActiveDockForm: TCustomForm;
+    function GetChannelWidth: Integer;
+    function GetBlockStartOffset: Integer;
+    function GetBlockUpOffset: Integer;
+    function GetBlockInterval: Integer;
+    function GetActivePaneSize: Integer;
   protected
     // KV move GetBlockRect to protected
     procedure GetBlockRect(Block: TJvDockVSBlock; Index: Integer; var ARect: TRect);
@@ -217,10 +226,11 @@ type
       X, Y: Integer); override;
     procedure SetVSPopupPanelSplitterPosition;
     procedure SyncWithStyle; virtual;
-    property ChannelWidth: Integer read FChannelWidth;
-    property BlockStartOffset: Integer read FBlockStartOffset write SetBlockStartOffset;
-    property BlockUpOffset: Integer read FBlockUpOffset;
-    property BlockInterval: Integer read FBlockInterval;
+    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override;
+    property ChannelWidth: Integer read GetChannelWidth write FChannelWidth;
+    property BlockStartOffset: Integer read GetBlockStartOffset write SetBlockStartOffset;
+    property BlockUpOffset: Integer read GetBlockUpOffset;
+    property BlockInterval: Integer read GetBlockInterval;
     property DockServer: TJvDockServer read GetDockServer;
     // KV property added
     property CurrentPos: Integer read FCurrentPos write FCurrentPos;
@@ -229,6 +239,7 @@ type
     destructor Destroy; override;
     procedure AfterConstruction; override;
     { Same as FindPane? }
+    function PPIScale(Value: Integer): Integer;
     function GetPaneWithControl(AControl: TControl): TJvDockVSPane;
     procedure CreateVSPopupPanel;
     procedure DestroyVSPopupPanel;
@@ -260,7 +271,7 @@ type
     { Popup dock form that is visible; nil if no popup form is visible }
     property ActiveDockForm: TCustomForm read GetActiveDockForm;
     { Maximum size of a block's active pane }
-    property ActivePaneSize: Integer read FActivePaneSize write SetActivePaneSize;
+    property ActivePaneSize: Integer read GetActivePaneSize write SetActivePaneSize;
     { Pane that has a visible popup dock form; nil if no popup dock form is visible }
     property PopupPane: TJvDockVSPane read FPopupPane;
     property TabColor: TColor read FTabColor write SetTabColor;
@@ -490,6 +501,8 @@ type
     procedure SetVSPopupPanel(Value: TJvDockVSPopupPanel);
     function GetVSChannelAlign: TAlign;
     procedure SetSplitWidth(const Value: Integer);
+    function GetMinSize: NaturalNumber;
+    function GetSplitWidth: Integer;
   protected
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
@@ -503,13 +516,14 @@ type
     procedure Paint; override;
     procedure RequestAlign; override;
     procedure StopSizing; dynamic;
+    function PPIScale(Value: Integer): Integer;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property Canvas;
     { Owner of the Owner }
     property VSPopupPanel: TJvDockVSPopupPanel read FVSPopupPanel write SetVSPopupPanel;
-    property SplitWidth: Integer read FSplitWidth write SetSplitWidth;
+    property SplitWidth: Integer read GetSplitWidth write SetSplitWidth;
   published
     property Align default alLeft;
     property VSChannelAlign: TAlign read GetVSChannelAlign;
@@ -517,7 +531,7 @@ type
     property Beveled: Boolean read FBeveled write SetBeveled default False;
     property Color;
     property Constraints;
-    property MinSize: NaturalNumber read FMinSize write FMinSize default 30;
+    property MinSize: NaturalNumber read GetMinSize write FMinSize default 30;
     property ParentColor;
     property ResizeStyle: TResizeStyle read FResizeStyle write FResizeStyle default rsPattern;
     property Visible;
@@ -619,7 +633,7 @@ begin
         if Current.Align in [alTop, alBottom] then
         begin
           OldOffset := Current.BlockStartOffset;
-          Current.BlockStartOffset := 2 + LeftAlignArea;
+          Current.BlockStartOffset := Channel.PPIScale(2) + LeftAlignArea;
           if OldOffset <> Current.BlockStartOffset then
             Current.Invalidate;
         end;
@@ -747,13 +761,12 @@ begin
   inherited Create;
   FVSChannel := AOwner;
   FVSPanes := TObjectList.Create;
-  FImageList := TImageList.CreateSize(MulDiv(16, Screen.PixelsPerInch, 96),
-    MulDiv(16, Screen.PixelsPerInch, 96));
+  FImageList := TImageList.CreateSize(PPIScale(16), PPIScale(16));
   {$IFDEF RTL200_UP}
   FImageList.ColorDepth := cd32Bit;
   {$ENDIF RTL200_UP}
-  FInactiveBlockWidth := MulDiv(24, Screen.PixelsPerInch, 96);
-  FActiveBlockWidth := MulDiv(24, Screen.PixelsPerInch, 96);
+  FInactiveBlockWidth := 24;
+  FActiveBlockWidth := 24;
 end;
 
 destructor TJvDockVSBlock.Destroy;
@@ -763,13 +776,18 @@ begin
   inherited Destroy;
 end;
 
+function TJvDockVSBlock.PPIScale(Value: Integer): Integer;
+begin
+  Result := VSChannel.PPIScale(Value);
+end;
+
 procedure TJvDockVSBlock.AddDockControl(Control: TWinControl);
 var
   I, PaneWidth, FirstIndex: Integer;
 
   function GetPaneWidth: Integer;
   begin
-    Result := MulDiv(100, Screen.PixelsPerInch, 96);
+    Result := PPIScale(100);
     if Control = nil then
       Exit;
     case VSChannel.Align of
@@ -877,8 +895,8 @@ begin
   begin
     Icon := TIcon.Create;
     try
-      Icon.Width := MulDiv(16, Screen.PixelsPerInch, 96);
-      Icon.Height := MulDiv(16, Screen.PixelsPerInch, 96);
+      Icon.Width := PPIScale(16);
+      Icon.Height := PPIScale(16);
       //2. Adding an Icon without real bitmap does nothing,
       //so transparent icon needed
       Icon.Handle := CreateIcon(hInstance,16,16,1,1,@ANDbits,@XORbits);
@@ -934,6 +952,11 @@ begin
   end;
 end;
 
+function TJvDockVSBlock.GetActiveBlockWidth: Integer;
+begin
+  Result := PPIScale(FActiveBlockWidth);
+end;
+
 function TJvDockVSBlock.GetActiveDockControl: TWinControl;
 begin
   if Assigned(ActivePane) then
@@ -942,10 +965,15 @@ begin
     Result := nil;
 end;
 
+function TJvDockVSBlock.GetInactiveBlockWidth: Integer;
+begin
+  Result := PPIScale(FInactiveBlockWidth);
+end;
+
 function TJvDockVSBlock.GetTotalWidth: Integer;
 begin
   // 1 pane is active, the rest is inactive
-  Result := (VSPaneCount - 1) * FInactiveBlockWidth + FActiveBlockWidth;
+  Result := (VSPaneCount - 1) * InactiveBlockWidth + ActiveBlockWidth;
 end;
 
 function TJvDockVSBlock.GetVSPane(Index: Integer): TJvDockVSPane;
@@ -964,6 +992,16 @@ begin
 end;
 
 procedure TJvDockVSBlock.ResetActiveBlockWidth;
+{
+  FActiveBlockWidth stores the unscaled value
+  Here it is calculating with the CurrentPPI settings and
+  needs to be unscaled.
+}
+  function PPIUnScale(Value: Integer): Integer;
+  begin
+    Result := MulDiv(Value, FInactiveBlockWidth, InactiveBlockWidth);
+  end;
+
 var
   I: Integer;
   TextWidth: Integer;
@@ -985,10 +1023,10 @@ begin
       for I := 0 to VSPaneCount - 1 do
       begin
         TextWidth := Canvas.TextWidth(VSPane[I].FDockForm.Caption) +
-          InactiveBlockWidth + MulDiv(10, Screen.PixelsPerInch, 96);
+          InactiveBlockWidth + PPIScale(10);
         if TextWidth >= VSChannel.ActivePaneSize then
         begin
-          FActiveBlockWidth := VSChannel.ActivePaneSize;
+          FActiveBlockWidth := VSChannel.FActivePaneSize; //unscaled!
           Exit;
         end;
 
@@ -999,6 +1037,7 @@ begin
 
   if FActiveBlockWidth = 0 then
     FActiveBlockWidth := VSChannel.ActivePaneSize;
+  FActiveBlockWidth := PPIUnScale(FActiveBlockWidth); //unscale
 end;
 
 procedure TJvDockVSBlock.SetActivePane(APane: TJvDockVSPane);
@@ -1032,10 +1071,10 @@ begin
   FBlocks := TObjectList.Create;
   FActivePaneSize := MaxActivePaneWidth;
   FTabColor := clBtnFace;
-  FChannelWidth := MulDiv(22, Screen.PixelsPerInch, 96);
-  FBlockStartOffset := MulDiv(2, Screen.PixelsPerInch, 96);
-  FBlockUpOffset := MulDiv(2, Screen.PixelsPerInch, 96);
-  FBlockInterval := MulDiv(13, Screen.PixelsPerInch, 96);
+  FChannelWidth := 22;
+  FBlockStartOffset := 2;
+  FBlockUpOffset := 2;
+  FBlockInterval := 13;
   if AOwner is TJvDockVSNETPanel then
   begin
     FVSNETDockPanel := TJvDockVSNETPanel(AOwner);
@@ -1104,6 +1143,21 @@ begin
   end;
 end;
 
+procedure TJvDockVSChannel.ChangeScale(M, D: Integer; isDpiChange: Boolean);
+Var
+  I, J : integer;
+begin
+  inherited;
+  for I := 0 to FBlocks.Count - 1 do
+  begin
+    JvScaleImageList(Block[I].FImageList, M, D);
+    for J := 0 to Block[I].VSPaneCount - 1 do
+      Block[I].VSPane[J].PopUpPanelWidth := MulDiv(Block[I].VSPane[J].PopUpPanelWidth, M, D);
+  end;
+  ResetPosition;
+  Invalidate;
+end;
+
 procedure TJvDockVSChannel.CMMouseLeave(var Msg: TMessage);
 begin
   inherited;
@@ -1168,6 +1222,14 @@ begin
   SyncWithStyle;
 end;
 
+function TJvDockVSChannel.PPIScale(Value: Integer): Integer;
+begin
+  if FVSNETDockPanel <> nil then
+    Result := FVSNETDockPanel.PPIScale(Value)
+  else
+    Result := MulDiv(Value, Screen.PixelsPerInch, 96);
+end;
+
 function TJvDockVSChannel.FindDockControl(Control: TWinControl;
   var BlockIndex: Integer; var PaneIndex: Integer): Boolean;
 var
@@ -1210,6 +1272,11 @@ begin
     Result := nil;
 end;
 
+function TJvDockVSChannel.GetActivePaneSize: Integer;
+begin
+  Result := PPIScale(FActivePaneSize);
+end;
+
 function TJvDockVSChannel.GetBlock(Index: Integer): TJvDockVSBlock;
 begin
   Result := TJvDockVSBlock(FBlocks[Index]);
@@ -1218,6 +1285,11 @@ end;
 function TJvDockVSChannel.GetBlockCount: Integer;
 begin
   Result := FBlocks.Count;
+end;
+
+function TJvDockVSChannel.GetBlockInterval: Integer;
+begin
+  Result := PPIScale(FBlockInterval);
 end;
 
 procedure TJvDockVSChannel.GetBlockRect(Block: TJvDockVSBlock; Index: Integer;
@@ -1233,35 +1305,50 @@ begin
   case Align of
     alLeft:
       begin
-        ARect.Left := -MulDiv(1, Screen.PixelsPerInch, 96);
+        ARect.Left := -PPIScale(1);
         ARect.Top := FCurrentPos;
-        ARect.Right := Width - FBlockUpOffset;
+        ARect.Right := Width - BlockUpOffset;
         ARect.Bottom := ARect.Top + BlockWidth;
       end;
     alRight:
       begin
-        ARect.Left := FBlockUpOffset;
+        ARect.Left := BlockUpOffset;
         ARect.Top := FCurrentPos;
-        ARect.Right := Width + MulDiv(1, Screen.PixelsPerInch, 96);
+        ARect.Right := Width + PPIScale(1);
         ARect.Bottom := ARect.Top + BlockWidth;
       end;
     alTop:
       begin
         ARect.Left := FCurrentPos;
-        ARect.Top := -MulDiv(1, Screen.PixelsPerInch, 96);
+        ARect.Top := -PPIScale(1);
         ARect.Right := ARect.Left + BlockWidth;
-        ARect.Bottom := Height - FBlockUpOffset;
+        ARect.Bottom := Height - BlockUpOffset;
       end;
     alBottom:
       begin
         ARect.Left := FCurrentPos;
-        ARect.Top := FBlockUpOffset;
+        ARect.Top := BlockUpOffset;
         ARect.Right := ARect.Left + BlockWidth;
-        ARect.Bottom := Height + MulDiv(1, Screen.PixelsPerInch, 96);
+        ARect.Bottom := Height + PPIScale(1);
       end;
   end;
 
-  Inc(FCurrentPos, BlockWidth - MulDiv(1, Screen.PixelsPerInch, 96));
+  Inc(FCurrentPos, BlockWidth - PPIScale(1));
+end;
+
+function TJvDockVSChannel.GetBlockStartOffset: Integer;
+begin
+  Result := PPIScale(FBlockStartOffset);
+end;
+
+function TJvDockVSChannel.GetBlockUpOffset: Integer;
+begin
+  Result := PPIScale(FBlockUpOffset)
+end;
+
+function TJvDockVSChannel.GetChannelWidth: Integer;
+begin
+  Result := PPIScale(FChannelWidth);
 end;
 
 function TJvDockVSChannel.GetDockServer: TJvDockServer;
@@ -1442,26 +1529,26 @@ var
     begin
       if Align = alLeft then
       begin
-        Inc(DrawRect.Left, MulDiv(3, Screen.PixelsPerInch, 96));
-        Inc(DrawRect.Top, MulDiv(4, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Left, PPIScale(3));
+        Inc(DrawRect.Top, PPIScale(4));
       end
       else
       if Align = alTop then
       begin
-        Inc(DrawRect.Left, MulDiv(4, Screen.PixelsPerInch, 96));
-        Inc(DrawRect.Top, MulDiv(2, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Left, PPIScale(4));
+        Inc(DrawRect.Top, PPIScale(2));
       end
       else
       if Align = alRight then
       begin
-        Inc(DrawRect.Left, MulDiv(4, Screen.PixelsPerInch, 96));
-        Inc(DrawRect.Top, MulDiv(4, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Left, PPIScale(4));
+        Inc(DrawRect.Top, PPIScale(4));
       end
       else
       if Align = alBottom then
       begin
-        Inc(DrawRect.Left, MulDiv(4, Screen.PixelsPerInch, 96));
-        Inc(DrawRect.Top, MulDiv(3, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Left, PPIScale(4));
+        Inc(DrawRect.Top, PPIScale(3));
       end;
     end;
 
@@ -1490,31 +1577,34 @@ var
         begin
           Inc(DrawRect.Top, Block.InactiveBlockWidth);
           if Align = alLeft then
-            DrawRect.Left := MulDiv(15, Screen.PixelsPerInch, 96)
+            DrawRect.Left := PPIScale(15)
           else
-            DrawRect.Left := MulDiv(20, Screen.PixelsPerInch, 96);
+            DrawRect.Left := PPIScale(20);
           DrawRect.Right := DrawRect.Left + (DrawRect.Bottom - DrawRect.Top);
         end;
         Canvas.Brush.Color := TabColor;
         Canvas.Pen.Color := clBlack;
 
-        Dec(DrawRect.Right, MulDiv(3, Screen.PixelsPerInch, 96));
+        Dec(DrawRect.Right, PPIScale(3));
 
         OldGraphicsMode := SetGraphicsMode(Canvas.Handle, GM_ADVANCED);
         Canvas.Brush.Style := bsClear;
+
+        // Scale Font
+        Canvas.Font.Height := MulDiv(Canvas.Font.Height, FCurrentPPI, Canvas.Font.PixelsPerInch);
         DrawText(Canvas.Handle, PChar(Block.VSPane[I].FDockForm.Caption), -1, DrawRect, DT_END_ELLIPSIS or DT_NOCLIP);
         SetGraphicsMode(Canvas.Handle, OldGraphicsMode);
       end;
       Inc(VisiblePaneCount);
     end;
     if VisiblePaneCount > 0 then
-      Inc(FCurrentPos, FBlockInterval);
+      Inc(FCurrentPos, BlockInterval);
   end;
 
 begin
   inherited Paint;
 
-  FCurrentPos := FBlockStartOffset;
+  FCurrentPos := BlockStartOffset;
   for I := 0 to BlockCount - 1 do
     DrawSingleBlock(Block[I]);
 end;
@@ -1525,7 +1615,7 @@ var
   ARect: TRect;
 begin
   Result := nil;
-  FCurrentPos := FBlockStartOffset;
+  FCurrentPos := BlockStartOffset;
   for I := 0 to BlockCount - 1 do
   begin
     for J := 0 to Block[I].VSPaneCount - 1 do
@@ -1539,7 +1629,7 @@ begin
         Exit;
       end;
     end;
-    Inc(FCurrentPos, FBlockInterval);
+    Inc(FCurrentPos, BlockInterval);
   end;
 end;
 
@@ -1641,9 +1731,9 @@ var
 begin
   if BlockCount > 0 then
   begin
-    Block[0].FBlockStartPos := FBlockStartOffset;
+    Block[0].FBlockStartPos := BlockStartOffset;
     for I := 1 to BlockCount - 1 do
-      Block[I].FBlockStartPos := Block[I - 1].FBlockStartPos + Block[I - 1].GetTotalWidth + FBlockInterval;
+      Block[I].FBlockStartPos := Block[I - 1].FBlockStartPos + Block[I - 1].GetTotalWidth + BlockInterval;
   end;
 end;
 
@@ -1686,23 +1776,23 @@ begin
   case Align of
     alLeft:
       begin
-        Width := FChannelWidth;
+        Width := ChannelWidth;
         Left := GetClientAlignControlArea(Parent, Align, Self);
       end;
     alRight:
       begin
-        Width := FChannelWidth;
-        Left := Parent.ClientWidth - GetClientAlignControlArea(Parent, Align, Self) - FChannelWidth + 1;
+        Width := ChannelWidth;
+        Left := Parent.ClientWidth - GetClientAlignControlArea(Parent, Align, Self) - ChannelWidth + PPIScale(1);
       end;
     alTop:
       begin
-        Height := FChannelWidth;
+        Height := ChannelWidth;
         Top := GetClientAlignControlArea(Parent, Align, Self);
       end;
     alBottom:
       begin
-        Height := FChannelWidth;
-        Top := Parent.ClientHeight - GetClientAlignControlArea(Parent, Align, Self) - FChannelWidth + 1;
+        Height := ChannelWidth;
+        Top := Parent.ClientHeight - GetClientAlignControlArea(Parent, Align, Self) - ChannelWidth + PPIScale(1);
       end;
   end;
 end;
@@ -1904,7 +1994,7 @@ end;
 constructor TJvDockVSNETChannelOption.Create(ADockStyle: TJvDockObservableStyle);
 begin
   inherited Create(ADockStyle);
-  FActivePaneSize := MulDiv(100, Screen.PixelsPerInch, 96);
+  FActivePaneSize := 100;
   FShowImage := True;
   FMouseleaveHide := True;
   FHideHoldTime := 1000;
@@ -1938,7 +2028,6 @@ end;
 
 procedure TJvDockVSNETChannelOption.SetActivePaneSize(Value: Integer);
 begin
-  Value := Max(MulDiv(24, Screen.PixelsPerInch, 96), Value);
   if FActivePaneSize <> Value then
   begin
     FActivePaneSize := Value;
@@ -2027,7 +2116,6 @@ end;
 procedure TJvDockVSNETPanel.CreateVSChannel;
 begin
   if (FVSChannelClass <> nil) and
-    { (rb) ??? }
     (FVSChannelClass <> TJvDockVSChannelClass(ClassType)) then
   begin
     FVSChannel := FVSChannelClass.Create(Self);
@@ -2643,8 +2731,8 @@ end;
 constructor TJvDockVSNETTabPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  TabHeight := MulDiv(25, Screen.PixelsPerInch, 96);
-  CaptionTopOffset := MulDiv(1, Screen.PixelsPerInch, 96);
+  TabHeight := 25;
+  CaptionTopOffset := 1;
 end;
 
 //=== { TJvDockVSNETTabServerOption } ========================================
@@ -2677,15 +2765,15 @@ constructor TJvDockVSNETTree.Create(DockSite: TWinControl;
 begin
   inherited Create(DockSite, DockZoneClass, ADockStyle);
 
-  ButtonHeight := MulDiv(12, Screen.PixelsPerInch, 96);
-  ButtonWidth := MulDiv(16, Screen.PixelsPerInch, 96);
-  LeftOffset := MulDiv(2, Screen.PixelsPerInch, 96);
-  RightOffset := MulDiv(3, Screen.PixelsPerInch, 96);
-  TopOffset := MulDiv(4, Screen.PixelsPerInch, 96);
-  BottomOffset := MulDiv(3, Screen.PixelsPerInch, 96);
-  ButtonSplitter := MulDiv(2, Screen.PixelsPerInch, 96);
-  CaptionLeftOffset := MulDiv(5, Screen.PixelsPerInch, 96);
-  CaptionRightOffset := MulDiv(5, Screen.PixelsPerInch, 96);
+  ButtonHeight := 12;
+  ButtonWidth := 16;
+  LeftOffset := 2;
+  RightOffset := 3;
+  TopOffset := 4;
+  BottomOffset := 3;
+  ButtonSplitter := 2;
+  CaptionLeftOffset := 5;
+  CaptionRightOffset := 5;
 end;
 
 procedure TJvDockVSNETTree.BeginDrag(Control: TControl; Immediate: Boolean;
@@ -2920,8 +3008,8 @@ begin
 
     if AZone.AutoHideBtnState = bsDown then
     begin
-      Inc(Left);
-      Inc(Top);
+      Inc(Left, PPIScale(1));
+      Inc(Top, PPIScale(1));
     end;
 
     if IsActive then
@@ -2930,30 +3018,30 @@ begin
       Canvas.Pen.Color := clBlack;
     if DockSite.Align in [alLeft, alRight, alTop, alBottom] then
     begin
-      Canvas.MoveTo(Left + 9, Top + 10);
-      Canvas.LineTo(Left + 9, Top + 7);
-      Canvas.MoveTo(Left + 6, Top + 7);
-      Canvas.LineTo(Left + 13, Top + 7);
-      Canvas.MoveTo(Left + 7, Top + 6);
-      Canvas.LineTo(Left + 7, Top + 2);
-      Canvas.LineTo(Left + 10, Top + 2);
-      Canvas.LineTo(Left + 10, Top + 6);
-      Canvas.LineTo(Left + 11, Top + 6);
-      Canvas.LineTo(Left + 11, Top + 1);
+      Canvas.MoveTo(Left + PPIScale(9), Top + PPIScale(10));
+      Canvas.LineTo(Left + PPIScale(9), Top + PPIScale(7));
+      Canvas.MoveTo(Left + PPIScale(6), Top + PPIScale(7));
+      Canvas.LineTo(Left + PPIScale(13), Top + PPIScale(7));
+      Canvas.MoveTo(Left + PPIScale(7), Top + PPIScale(6));
+      Canvas.LineTo(Left + PPIScale(7), Top + PPIScale(2));
+      Canvas.LineTo(Left + PPIScale(10), Top + PPIScale(2));
+      Canvas.LineTo(Left + PPIScale(10), Top + PPIScale(6));
+      Canvas.LineTo(Left + PPIScale(11), Top + PPIScale(6));
+      Canvas.LineTo(Left + PPIScale(11), Top + PPIScale(1));
     end
     else
     if DockSite.Align in [alNone] then
     begin
-      Canvas.MoveTo(Left + 5, Top + 6);
-      Canvas.LineTo(Left + 8, Top + 6);
-      Canvas.MoveTo(Left + 8, Top + 3);
-      Canvas.LineTo(Left + 8, Top + 10);
-      Canvas.MoveTo(Left + 9, Top + 4);
-      Canvas.LineTo(Left + 12, Top + 4);
-      Canvas.LineTo(Left + 12, Top + 7);
-      Canvas.LineTo(Left + 9, Top + 7);
-      Canvas.LineTo(Left + 9, Top + 8);
-      Canvas.LineTo(Left + 13, Top + 8);
+      Canvas.MoveTo(Left + PPIScale(5), Top + PPIScale(6));
+      Canvas.LineTo(Left + PPIScale(8), Top + PPIScale(6));
+      Canvas.MoveTo(Left + PPIScale(8), Top + PPIScale(3));
+      Canvas.LineTo(Left + PPIScale(8), Top + PPIScale(10));
+      Canvas.MoveTo(Left + PPIScale(9), Top + PPIScale(4));
+      Canvas.LineTo(Left + PPIScale(12), Top + PPIScale(4));
+      Canvas.LineTo(Left + PPIScale(12), Top + PPIScale(7));
+      Canvas.LineTo(Left + PPIScale(9), Top + PPIScale(7));
+      Canvas.LineTo(Left + PPIScale(9), Top + PPIScale(8));
+      Canvas.LineTo(Left + PPIScale(13), Top + PPIScale(8));
     end;
   end;
 end;
@@ -2988,10 +3076,10 @@ begin
     IsActive := Assigned(Screen.ActiveControl) and Screen.ActiveControl.Focused and
       AZone.ChildControl.ContainsControl(Screen.ActiveControl);
 
-    DrawRect.Left := Left + 6;
-    DrawRect.Right := DrawRect.Left + 7;
-    DrawRect.Top := Top + 3;
-    DrawRect.Bottom := DrawRect.Top + 7;
+    DrawRect.Left := Left + PPIScale(6);
+    DrawRect.Right := DrawRect.Left + PPIScale(7);
+    DrawRect.Top := Top + PPIScale(3);
+    DrawRect.Bottom := DrawRect.Top + PPIScale(7);
 
     if AZone.CloseBtnState <> bsNormal then
     begin
@@ -3019,7 +3107,7 @@ begin
     end;
 
     if AZone.CloseBtnState = bsDown then
-      OffsetRect(DrawRect, 1, 1);
+      OffsetRect(DrawRect, PPIScale(1), PPIScale(1));
 
     if IsActive then
       Canvas.Pen.Color := clWhite
@@ -3027,7 +3115,7 @@ begin
       Canvas.Pen.Color := clBlack;
     OrgPenWidth := Canvas.Pen.Width;
     try
-      Canvas.Pen.Width := 2;
+      Canvas.Pen.Width := PPIScale(2);
       Dec(DrawRect.Left);
       Dec(DrawRect.Right);
       Canvas.MoveTo(DrawRect.Left, DrawRect.Top);
@@ -3059,14 +3147,14 @@ begin
     inherited GetCaptionRect(Rect)
   else
   begin
-    Inc(Rect.Left, 2 + CaptionLeftOffset);
+    Inc(Rect.Left, PPIScale(2) + CaptionLeftOffset);
     ADockClient := FindDockClient(DockSite);
-    Inc(Rect.Top, 1);
+    Inc(Rect.Top, PPIScale(1));
     if (ADockClient = nil) or ADockClient.EnableCloseButton then
-      Dec(Rect.Right, 2 * ButtonWidth + ButtonSplitter + CaptionRightOffset - 1)
+      Dec(Rect.Right, 2 * ButtonWidth + ButtonSplitter + CaptionRightOffset - PPIScale(1))
     else
-      Dec(Rect.Right, 1 * ButtonWidth + ButtonSplitter + CaptionRightOffset - 1);
-    Dec(Rect.Bottom, 2);
+      Dec(Rect.Right, 1 * ButtonWidth + ButtonSplitter + CaptionRightOffset - PPIScale(1));
+    Dec(Rect.Bottom, PPIScale(2));
   end;
 end;
 
@@ -3118,8 +3206,8 @@ begin
   begin
     Canvas.Pen.Color := clGray;
     DrawRect := ARect;
-    Inc(DrawRect.Left);
-    Canvas.RoundRect(DrawRect.Left, DrawRect.Top, DrawRect.Right, DrawRect.Bottom, 2, 2);
+    Inc(DrawRect.Left, PPIScale(1));
+    Canvas.RoundRect(DrawRect.Left, DrawRect.Top, DrawRect.Right, DrawRect.Bottom, PPIScale(2), PPIScale(2));
   end;
 end;
 
@@ -3350,8 +3438,8 @@ begin
       S := FControl.Height - Split;
   end;
   NewSize := S;
-  if S < FMinSize then
-    NewSize := FMinSize
+  if S < MinSize then
+    NewSize := MinSize
   else
   if S > FMaxSize then
     NewSize := FMaxSize;
@@ -3407,6 +3495,16 @@ begin
     FOldKeyDown(Sender, Key, Shift);
 end;
 
+function TJvDockVSPopupPanelSplitter.GetMinSize: NaturalNumber;
+begin
+  Result := PPIScale(FMinSize);
+end;
+
+function TJvDockVSPopupPanelSplitter.GetSplitWidth: Integer;
+begin
+  Result := PPIScale(FSplitWidth);
+end;
+
 function TJvDockVSPopupPanelSplitter.GetVSChannelAlign: TAlign;
 begin
   Result := alNone;
@@ -3428,7 +3526,7 @@ begin
     begin
       if VSChannelAlign in [alLeft, alRight] then
       begin
-        FMaxSize := Parent.ClientWidth - FMinSize;
+        FMaxSize := Parent.ClientWidth - MinSize;
         for I := 0 to Parent.ControlCount - 1 do
           with Parent.Controls[I] do
             if Align in [alLeft, alRight] then
@@ -3437,7 +3535,7 @@ begin
       end
       else
       begin
-        FMaxSize := Parent.ClientHeight - FMinSize;
+        FMaxSize := Parent.ClientHeight - MinSize;
         for I := 0 to Parent.ControlCount - 1 do
           with Parent.Controls[I] do
             if Align in [alTop, alBottom] then
@@ -3510,30 +3608,30 @@ var
 begin
   R := ClientRect;
   Canvas.Brush.Color := Color;
-  InflateRect(R, 2, 2);
+  InflateRect(R, PPIScale(2), PPIScale(2));
   case VSChannelAlign of
     alLeft:
-      Dec(R.Right, 2);
+      Dec(R.Right, PPIScale(2));
     alRight:
-      Inc(R.Left, 3);
+      Inc(R.Left, PPIScale(3));
     alTop:
-      Dec(R.Bottom, 2);
+      Dec(R.Bottom, PPIScale(2));
     alBottom:
-      Inc(R.Top, 3);
+      Inc(R.Top, PPIScale(3));
   end;
   DrawFrameControl(Canvas.Handle, R, DFC_BUTTON, DFCS_BUTTONPUSH or DFCS_ADJUSTRECT);
   R := ClientRect;
   if Beveled then
   begin
     if VSChannelAlign in [alLeft, alRight] then
-      InflateRect(R, -1, 2)
+      InflateRect(R, -PPIScale(1), PPIScale(2))
     else
-      InflateRect(R, 2, -1);
+      InflateRect(R, PPIScale(2), -PPIScale(1));
     OffsetRect(R, 1, 1);
     FrameBrush := CreateSolidBrush(ColorToRGB(clBtnHighlight));
     FrameRect(Canvas.Handle, R, FrameBrush);
     DeleteObject(FrameBrush);
-    OffsetRect(R, -2, -2);
+    OffsetRect(R, -PPIScale(2), -PPIScale(2));
     FrameBrush := CreateSolidBrush(ColorToRGB(clBtnShadow));
     FrameRect(Canvas.Handle, R, FrameBrush);
     DeleteObject(FrameBrush);
@@ -3551,6 +3649,11 @@ begin
 
   if Assigned(FOnPaint) then
     FOnPaint(Self);
+end;
+
+function TJvDockVSPopupPanelSplitter.PPIScale(Value: Integer): Integer;
+begin
+  Result := MulDiv(Value, FCurrentPPI, 96);
 end;
 
 procedure TJvDockVSPopupPanelSplitter.ReleaseLineDC;
@@ -3855,7 +3958,7 @@ begin
     FMaxWidth := 0;
   end
   else
-    Inc(FCurrentWidth, MulDiv(TJvDockVSNetStyle.GetAnimationMoveWidth, Screen.PixelsPerInch, 96));
+    Inc(FCurrentWidth, FActiveChannel.PPIScale(TJvDockVSNetStyle.GetAnimationMoveWidth));
 end;
 
 initialization
