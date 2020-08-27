@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   viewBox="0 0 8.4666665 8.4666669"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0 (1.0+r73+1)"
+   sodipodi:docname="tool53.svg">
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       lpeversion="0"
+       effect="bspline"
+       id="path-effect8657"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       lpeversion="0"
+       effect="bspline"
+       id="path-effect5573"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       lpeversion="0"
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
+       id="path-effect5569"
+       effect="bspline" />
+    <inkscape:path-effect
+       lpeversion="0"
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
+       id="path-effect8548"
+       effect="bspline" />
+    <inkscape:path-effect
+       lpeversion="0"
+       effect="bspline"
+       id="path-effect8543"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       lpeversion="0"
+       effect="bspline"
+       id="path-effect5525"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5623"
+       id="linearGradient5615"
+       gradientUnits="userSpaceOnUse"
+       x1="7.0070367"
+       y1="0.25011131"
+       x2="31.749889"
+       y2="25.215469"
+       gradientTransform="matrix(0.26455472,0,0,0.26458297,4.5777027e-4,5.2658723e-6)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient5623">
+      <stop
+         style="stop-color:#ff5959;stop-opacity:1"
+         offset="0"
+         id="stop5617" />
+      <stop
+         id="stop5619"
+         offset="0.49705938"
+         style="stop-color:#ff0000;stop-opacity:1" />
+      <stop
+         style="stop-color:#cf0000;stop-opacity:1"
+         offset="1"
+         id="stop5621" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4"
+     inkscape:cx="13.891414"
+     inkscape:cy="-4.654002"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="925"
+     inkscape:window-height="704"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:url(#linearGradient5615);fill-opacity:1;stroke:#ffffff;stroke-width:0.132349;stroke-linecap:round;stroke-linejoin:round"
+       inkscape:connector-curvature="0"
+       d="M 0.14093104,1.794936 C 0.71206235,1.2186735 1.283199,0.64241361 1.8542007,0.0661511 c 0.6566381,0.66251671 1.3134082,1.3252953 1.970049,1.9880765 0.2768063,-0.0508 0.5410965,-0.0508 0.8179001,0 C 5.2987904,1.3914464 5.9555608,0.72866781 6.6121987,0.0661511 7.1833328,0.64241361 7.7544669,1.2186735 8.3254684,1.794936 7.6949182,2.4312589 7.0642303,3.0678438 6.4336772,3.7041667 6.5281446,4.0507709 6.5414489,4.376473 6.4758393,4.7296917 7.1171941,5.3771245 7.7586838,6.0242953 8.4000412,6.6714662 7.8289071,7.2479906 7.2579056,7.8239885 6.6867689,8.4005156 6.066494,7.7745114 5.4460839,7.1485073 4.8256767,6.5225058 c -0.4069752,0.109802 -0.7777167,0.109802 -1.1846893,0 C 3.0205776,7.1482427 2.4003025,7.7742469 1.7798926,8.4005156 1.2087613,7.8239885 0.63762725,7.2479906 0.06662555,6.6714662 0.70798025,6.0242953 1.3494673,5.3771245 1.9908247,4.7296917 1.9250828,4.376473 1.9385222,4.0507709 2.0329841,3.7041667 1.4021693,3.0675792 0.77161625,2.4312589 0.14093104,1.794936 Z"
+       id="path5645" />
+  </g>
+</svg>
