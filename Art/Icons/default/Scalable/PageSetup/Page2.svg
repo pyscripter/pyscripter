@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   viewBox="0 0 8.4666665 8.4666669"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0 (1.0+r73+1)"
+   sodipodi:docname="Page2.svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5093"
+       id="linearGradient8559"
+       gradientUnits="userSpaceOnUse"
+       x1="-1229.079"
+       y1="-490.61426"
+       x2="-1161.802"
+       y2="-490.61426" />
+    <linearGradient
+       id="linearGradient5093"
+       inkscape:collect="always">
+      <stop
+         id="stop5089"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         id="stop5091"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8539"
+       id="linearGradient8555"
+       gradientUnits="userSpaceOnUse"
+       x1="-475.34381"
+       y1="290.64554"
+       x2="-537.25702"
+       y2="214.88901" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient8539">
+      <stop
+         style="stop-color:#cccccc;stop-opacity:1"
+         offset="0"
+         id="stop8535" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="1"
+         id="stop8537" />
+    </linearGradient>
+    <filter
+       height="1.0480022"
+       y="-0.024001131"
+       width="1.0479996"
+       x="-0.023999823"
+       id="filter5130"
+       style="color-interpolation-filters:sRGB"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur5132"
+         stdDeviation="0.18358864"
+         inkscape:collect="always" />
+    </filter>
+    <linearGradient
+       y2="-490.61426"
+       x2="-1161.802"
+       y1="-490.61426"
+       x1="-1229.079"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient987"
+       xlink:href="#linearGradient5093"
+       inkscape:collect="always" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.959798"
+     inkscape:cx="14.704655"
+     inkscape:cy="5.0911293"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="925"
+     inkscape:window-height="704"
+     inkscape:window-x="20"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       style="display:inline"
+       id="g702"
+       transform="matrix(0.96930795,0,0,0.96930795,-8.0768754,16.542525)">
+      <g
+         id="g8553"
+         transform="matrix(-0.10311169,0,0,0.10182625,-114.99881,70.354287)"
+         style="fill:url(#linearGradient8559);fill-opacity:1">
+        <g
+           id="g8551"
+           style="fill:url(#linearGradient987)"
+           transform="translate(-43.010777,-325.02157)">
+          <polygon
+             points="-537.257,297.035 -470.98,297.035 -470.98,233.247 -489.339,214.889 -537.257,214.889 "
+             id="polygon8545"
+             transform="matrix(0.99999983,0,0,1.0000232,-691.32212,-746.58316)"
+             style="fill:url(#linearGradient8555);fill-opacity:1;stroke:#000000;stroke-linecap:round;stroke-linejoin:round" />
+          <polygon
+             style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;filter:url(#filter5130)"
+             transform="matrix(0.99999983,0,0,1.0000232,-691.45668,-745.9019)"
+             id="polygon8547"
+             points="-470.98,233.247 -489.339,233.247 -489.339,214.889 " />
+          <polygon
+             points="-489.339,233.247 -489.339,214.889 -470.98,233.247 "
+             id="polygon8549"
+             transform="matrix(0.99999983,0,0,1.0000232,-691.32212,-746.58316)"
+             style="fill:#808080;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round" />
+        </g>
+      </g>
+      <g
+         transform="matrix(0.77327378,0,0,0.77327378,-0.11355356,14.032788)"
+         id="g8573">
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.72651px;line-height:1.25;font-family:Wingdings;-inkscape-font-specification:Wingdings;letter-spacing:0px;word-spacing:0px;fill:#000080;fill-opacity:1;stroke:none;stroke-width:0.193163"
+           x="13.213382"
+           y="-33.317352"
+           id="text8563"><tspan
+             sodipodi:role="line"
+             id="tspan8561"
+             x="13.213382"
+             y="-33.317352"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:consolas;-inkscape-font-specification:consolas;fill:#000080;stroke-width:0.193163">+</tspan></text>
+        <text
+           id="text8567"
+           y="-30.718765"
+           x="15.433991"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.72651px;line-height:1.25;font-family:Wingdings;-inkscape-font-specification:Wingdings;letter-spacing:0px;word-spacing:0px;fill:#000080;fill-opacity:1;stroke:none;stroke-width:0.193163"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:consolas;-inkscape-font-specification:consolas;fill:#000080;stroke-width:0.193163"
+             y="-30.718765"
+             x="15.433991"
+             id="tspan8565"
+             sodipodi:role="line">+</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>
