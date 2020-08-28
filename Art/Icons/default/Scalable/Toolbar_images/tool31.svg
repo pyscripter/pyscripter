@@ -8,125 +8,125 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
-   viewBox="0 0 8.4666665 8.4666669"
-   version="1.1"
-   id="svg8"
+   sodipodi:docname="tool31.svg"
    inkscape:version="1.0 (1.0+r73+1)"
-   sodipodi:docname="tool31.svg">
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 8.4666665 8.4666669"
+   height="32"
+   width="32">
   <defs
      id="defs2">
     <inkscape:path-effect
-       lpeversion="0"
-       effect="bspline"
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect8657"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect5573"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
-       only_selected="false"
-       apply_with_weight="true"
-       apply_no_weight="true"
-       helper_size="0"
-       steps="2"
-       weight="33.333333"
-       is_visible="true"
-       id="path-effect5569"
-       effect="bspline" />
-    <inkscape:path-effect
-       lpeversion="0"
-       only_selected="false"
-       apply_with_weight="true"
-       apply_no_weight="true"
-       helper_size="0"
-       steps="2"
-       weight="33.333333"
-       is_visible="true"
-       id="path-effect8548"
-       effect="bspline" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
-       id="path-effect8543"
+       lpeversion="0" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect5569"
        is_visible="true"
        weight="33.333333"
        steps="2"
        helper_size="0"
        apply_no_weight="true"
        apply_with_weight="true"
-       only_selected="false" />
+       only_selected="false"
+       lpeversion="0" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect8548"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
+       id="path-effect8543"
+       effect="bspline"
+       lpeversion="0" />
     <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter5259"
-       x="-0.016002566"
-       width="1.0320051"
+       height="1.0353622"
        y="-0.017681077"
-       height="1.0353622">
+       width="1.0320051"
+       x="-0.016002566"
+       id="filter5259"
+       style="color-interpolation-filters:sRGB"
+       inkscape:collect="always">
       <feGaussianBlur
-         inkscape:collect="always"
+         id="feGaussianBlur5261"
          stdDeviation="0.21076081"
-         id="feGaussianBlur5261" />
+         inkscape:collect="always" />
     </filter>
     <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient5241"
-       id="linearGradient5243"
-       x1="23.688086"
-       y1="21.429359"
-       x2="5.8370452"
+       gradientUnits="userSpaceOnUse"
        y2="10.292427"
-       gradientUnits="userSpaceOnUse" />
+       x2="5.8370452"
+       y1="21.429359"
+       x1="23.688086"
+       id="linearGradient5243"
+       xlink:href="#linearGradient5241"
+       inkscape:collect="always" />
     <linearGradient
-       inkscape:collect="always"
-       id="linearGradient5241">
+       id="linearGradient5241"
+       inkscape:collect="always">
       <stop
-         style="stop-color:#81b1dc;stop-opacity:1"
+         id="stop5237"
          offset="0"
-         id="stop5237" />
+         style="stop-color:#81b1dc;stop-opacity:1" />
       <stop
-         style="stop-color:#fafcff;stop-opacity:1"
+         id="stop5239"
          offset="1"
-         id="stop5239" />
+         style="stop-color:#fafcff;stop-opacity:1" />
     </linearGradient>
   </defs>
   <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="8"
-     inkscape:cx="17.563086"
-     inkscape:cy="13.562456"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="false"
-     units="px"
-     inkscape:window-width="925"
-     inkscape:window-height="704"
-     inkscape:window-x="0"
+     inkscape:window-maximized="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-x="0"
+     inkscape:window-height="704"
+     inkscape:window-width="925"
+     units="px"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="g5267"
+     inkscape:document-units="px"
+     inkscape:cy="13.562456"
+     inkscape:cx="17.563086"
+     inkscape:zoom="8"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -135,39 +135,39 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
+     id="layer1"
      inkscape:groupmode="layer"
-     id="layer1">
+     inkscape:label="Layer 1">
     <g
-       id="g5267"
-       transform="matrix(0.26197595,0,0,0.25921128,-0.01067603,-0.10955741)">
+       transform="matrix(0.26197595,0,0,0.25921128,-0.01067603,-0.10955741)"
+       id="g5267">
       <path
-         d="m 9.0373782,24.566345 c 0,2.329052 0,4.658499 0,6.987564 1.9326488,-1.929322 3.8652978,-3.858643 5.7979328,-5.787964 4.094959,0.256699 8.557746,-0.64859 12.05009,-2.969418 3.52336,-2.341213 6.058226,-6.273519 4.785496,-10.732153 C 30.471189,7.8616536 26.450828,5.1743979 22.660514,3.9453967 18.702568,2.6619283 14.206408,2.6164771 10.220599,3.7956897 10.165228,6.4449372 7.1216148,7.9118113 5.0087668,6.3077628 1.7582556,8.6677893 -0.45508105,12.430405 0.7100754,16.62803 c 1.1043177,3.98052 4.765472,6.627415 8.3273028,7.938315 z"
+         style="fill:#314678;fill-opacity:1;stroke:none;stroke-width:0.392237;stroke-linecap:round;stroke-linejoin:round;filter:url(#filter5259)"
+         inkscape:connector-curvature="0"
          id="path5245"
-         inkscape:connector-curvature="0"
-         style="fill:#314678;fill-opacity:1;stroke:none;stroke-width:0.392237;stroke-linecap:round;stroke-linejoin:round;filter:url(#filter5259)" />
+         d="m 9.0373782,24.566345 c 0,2.329052 0,4.658499 0,6.987564 1.9326488,-1.929322 3.8652978,-3.858643 5.7979328,-5.787964 4.094959,0.256699 8.557746,-0.64859 12.05009,-2.969418 3.52336,-2.341213 6.058226,-6.273519 4.785496,-10.732153 C 30.471189,7.8616536 26.450828,5.1743979 22.660514,3.9453967 18.702568,2.6619283 14.206408,2.6164771 10.220599,3.7956897 10.165228,6.4449372 7.1216148,7.9118113 5.0087668,6.3077628 1.7582556,8.6677893 -0.45508105,12.430405 0.7100754,16.62803 c 1.1043177,3.98052 4.765472,6.627415 8.3273028,7.938315 z" />
       <path
-         style="fill:url(#linearGradient5243);fill-opacity:1;stroke:#1a1a1a;stroke-width:0.392237;stroke-linecap:round;stroke-linejoin:round"
-         inkscape:connector-curvature="0"
+         d="m 8.8373864,23.266145 c 0,2.329052 0,4.658499 0,6.987564 1.9326486,-1.929322 3.8652976,-3.858643 5.7979326,-5.787964 4.094959,0.256699 8.557746,-0.64859 12.05009,-2.969418 3.52336,-2.341213 6.058226,-6.273519 4.785496,-10.732153 C 30.271197,6.5614466 26.250836,3.8741909 22.460522,2.6451897 18.502576,1.3617211 14.006416,1.3162699 10.020607,2.4954827 9.9652365,5.1447302 6.921623,6.6116043 4.808775,5.0075558 1.5582638,7.3675823 -0.65507274,11.130205 0.51008358,15.32783 1.6144013,19.30835 5.2755556,21.955245 8.8373864,23.266145 Z"
          id="path274"
-         d="m 8.8373864,23.266145 c 0,2.329052 0,4.658499 0,6.987564 1.9326486,-1.929322 3.8652976,-3.858643 5.7979326,-5.787964 4.094959,0.256699 8.557746,-0.64859 12.05009,-2.969418 3.52336,-2.341213 6.058226,-6.273519 4.785496,-10.732153 C 30.271197,6.5614466 26.250836,3.8741909 22.460522,2.6451897 18.502576,1.3617211 14.006416,1.3162699 10.020607,2.4954827 9.9652365,5.1447302 6.921623,6.6116043 4.808775,5.0075558 1.5582638,7.3675823 -0.65507274,11.130205 0.51008358,15.32783 1.6144013,19.30835 5.2755556,21.955245 8.8373864,23.266145 Z" />
-      <polygon
-         style="fill:#000080;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+         inkscape:connector-curvature="0"
+         style="fill:url(#linearGradient5243);fill-opacity:1;stroke:#1a1a1a;stroke-width:0.392237;stroke-linecap:round;stroke-linejoin:round" />
+      <path
+         d="m -176.735,432.977 h 19.864 v -4.019 h -5.223 v -18.373 h -14.641 v 6.89 h 4.881 v 11.483 h -4.881 z"
          transform="matrix(0.39257497,0,0,0.39189909,82.02514,-150.40198)"
-         id="polygon272"
-         points="-176.735,432.977 -156.871,432.977 -156.871,428.958 -162.094,428.958 -162.094,410.585 -176.735,410.585 -176.735,417.475 -171.854,417.475 -171.854,428.958 -176.735,428.958 " />
+         style="fill:#000080;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+         id="polygon272" />
       <rect
-         style="fill:#000080;stroke:none;stroke-width:0.392237;stroke-linecap:round;stroke-linejoin:round"
-         id="rect276"
-         height="3.375035"
-         width="3.8315318"
+         x="14.559538"
          y="4.3182173"
-         x="14.559538" />
+         width="3.8315318"
+         height="3.375035"
+         id="rect276"
+         style="fill:#000080;stroke:none;stroke-width:0.392237;stroke-linecap:round;stroke-linejoin:round" />
     </g>
   </g>
 </svg>

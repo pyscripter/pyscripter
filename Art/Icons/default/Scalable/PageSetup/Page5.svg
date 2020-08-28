@@ -7,49 +7,49 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="Page5.svg"
-   inkscape:version="1.0 (1.0+r73+1)"
-   id="svg8"
-   version="1.1"
-   viewBox="0 0 8.4666665 8.4666669"
+   width="32"
    height="32"
-   width="32">
+   viewBox="0 0 8.4666665 8.4666669"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0 (1.0+r73+1)"
+   sodipodi:docname="Page5.svg">
   <defs
      id="defs2">
     <filter
-       height="1.0696917"
-       y="-0.034845843"
-       width="1.0792005"
-       x="-0.039600234"
-       id="filter952"
+       inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       inkscape:collect="always">
+       id="filter952"
+       x="-0.039600234"
+       width="1.0792005"
+       y="-0.034845843"
+       height="1.0696917">
       <feGaussianBlur
-         id="feGaussianBlur954"
+         inkscape:collect="always"
          stdDeviation="0.10061429"
-         inkscape:collect="always" />
+         id="feGaussianBlur954" />
     </filter>
   </defs>
   <sodipodi:namedview
-     inkscape:window-maximized="1"
-     inkscape:window-y="0"
-     inkscape:window-x="0"
-     inkscape:window-height="704"
-     inkscape:window-width="1366"
-     units="px"
-     showgrid="false"
-     inkscape:document-rotation="0"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="px"
-     inkscape:cy="4.7605394"
-     inkscape:cx="7.4383101"
-     inkscape:zoom="15.839192"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
+     id="base"
      pagecolor="#ffffff"
-     id="base" />
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="15.839192"
+     inkscape:cx="7.4383101"
+     inkscape:cy="4.7605394"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1366"
+     inkscape:window-height="704"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -63,30 +63,26 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
+     inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     inkscape:label="Layer 1">
-    <text
-       xml:space="preserve"
+     id="layer1">
+    <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:consolas;-inkscape-font-specification:consolas;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583;filter:url(#filter952)"
-       x="0.70352489"
-       y="7.6982269"
-       id="text11"><tspan
-         sodipodi:role="line"
-         id="tspan9"
-         x="0.70352489"
-         y="7.6982269"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';fill:#ffffff;stroke-width:0.264583;fill-opacity:1;">T</tspan></text>
-    <text
-       id="text8577"
-       y="7.6982269"
-       x="0.99323136"
+       id="text11"
+       aria-label="T">
+      <path
+         id="path839"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+         d="M 2.3313273,7.6982269 V 7.4243427 L 3.4320318,7.2848168 V 1.2128553 H 3.1684829 q -1.3074096,0 -1.7879989,0.1033526 L 1.2409581,2.3962419 H 0.89472708 V 0.76843942 H 6.9925267 V 2.3962419 H 6.6411281 L 6.5016021,1.3162079 Q 6.3465733,1.2800345 5.824643,1.2541963 5.3027127,1.2231906 4.6825975,1.2231906 H 4.4293838 v 6.0616262 l 1.1007045,0.1395259 v 0.2738842 z" />
+    </g>
+    <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:consolas;-inkscape-font-specification:consolas;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       xml:space="preserve"><tspan
+       id="text8577"
+       aria-label="T">
+      <path
+         id="path836"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:0.264583"
-         y="7.6982269"
-         x="0.99323136"
-         id="tspan8575"
-         sodipodi:role="line">T</tspan></text>
+         d="M 2.6210338,7.6982269 V 7.4243427 L 3.7217383,7.2848168 V 1.2128553 h -0.263549 q -1.3074095,0 -1.7879988,0.1033526 l -0.139526,1.080034 H 1.1844335 V 0.76843942 H 7.2822331 V 2.3962419 H 6.9308345 L 6.7913086,1.3162079 Q 6.6362798,1.2800345 6.1143495,1.2541963 5.5924192,1.2231906 4.972304,1.2231906 H 4.7190903 v 6.0616262 l 1.1007045,0.1395259 v 0.2738842 z" />
+    </g>
   </g>
 </svg>

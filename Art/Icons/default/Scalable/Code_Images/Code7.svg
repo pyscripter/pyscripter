@@ -8,178 +8,178 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
-   viewBox="0 0 8.4666665 8.4666669"
-   version="1.1"
-   id="svg8"
+   sodipodi:docname="Code7.svg"
    inkscape:version="1.0 (1.0+r73+1)"
-   sodipodi:docname="Code7.svg">
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 8.4666665 8.4666669"
+   height="32"
+   width="32">
   <defs
      id="defs2">
     <inkscape:path-effect
-       lpeversion="0"
-       effect="bspline"
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4570-0"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4574-6"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4578-0"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4582-11"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4595-6-31"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4599-3"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4607-1"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
        id="path-effect4603-1"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
-       apply_with_weight="true"
-       only_selected="false" />
-    <inkscape:path-effect
-       lpeversion="0"
        effect="bspline"
-       id="path-effect4611-0"
-       is_visible="true"
-       weight="33.333333"
-       steps="2"
-       helper_size="0"
-       apply_no_weight="true"
+       lpeversion="0" />
+    <inkscape:path-effect
+       only_selected="false"
        apply_with_weight="true"
-       only_selected="false" />
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       is_visible="true"
+       id="path-effect4611-0"
+       effect="bspline"
+       lpeversion="0" />
     <linearGradient
        id="linearGradient4689">
       <stop
-         style="stop-color:#5a9fd4;stop-opacity:1"
+         id="stop4691"
          offset="0"
-         id="stop4691" />
+         style="stop-color:#5a9fd4;stop-opacity:1" />
       <stop
-         style="stop-color:#306998;stop-opacity:1"
+         id="stop4693"
          offset="1"
-         id="stop4693" />
+         style="stop-color:#306998;stop-opacity:1" />
     </linearGradient>
     <linearGradient
        id="linearGradient4671">
       <stop
-         style="stop-color:#ffd43b;stop-opacity:1"
+         id="stop4673"
          offset="0"
-         id="stop4673" />
+         style="stop-color:#ffd43b;stop-opacity:1" />
       <stop
-         style="stop-color:#ffe873;stop-opacity:1"
+         id="stop4675"
          offset="1"
-         id="stop4675" />
+         style="stop-color:#ffe873;stop-opacity:1" />
     </linearGradient>
     <radialGradient
-       cx="61.518883"
-       cy="132.28575"
-       r="29.036913"
-       fx="61.518883"
-       fy="132.28575"
-       id="radialGradient1480-7"
-       xlink:href="#linearGradient2795"
+       gradientTransform="matrix(2.382716e-8,-0.296405,1.43676,4.683673e-7,-128.544,150.5202)"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(2.382716e-8,-0.296405,1.43676,4.683673e-7,-128.544,150.5202)" />
+       xlink:href="#linearGradient2795"
+       id="radialGradient1480-7"
+       fy="132.28575"
+       fx="61.518883"
+       r="29.036913"
+       cy="132.28575"
+       cx="61.518883" />
     <linearGradient
        id="linearGradient2795">
       <stop
-         style="stop-color:#b8b8b8;stop-opacity:0.49803922"
+         id="stop2797"
          offset="0"
-         id="stop2797" />
+         style="stop-color:#b8b8b8;stop-opacity:0.49803922" />
       <stop
-         style="stop-color:#7f7f7f;stop-opacity:0"
+         id="stop2799"
          offset="1"
-         id="stop2799" />
+         style="stop-color:#7f7f7f;stop-opacity:0" />
     </linearGradient>
   </defs>
   <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="29.478136"
-     inkscape:cy="8.1538505"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="false"
-     units="px"
-     inkscape:window-width="925"
-     inkscape:window-height="704"
-     inkscape:window-x="20"
+     inkscape:window-maximized="1"
      inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-x="0"
+     inkscape:window-height="704"
+     inkscape:window-width="1366"
+     units="px"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="text15554"
+     inkscape:document-units="px"
+     inkscape:cy="-3.6049492"
+     inkscape:cx="43.46349"
+     inkscape:zoom="2.8"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -188,39 +188,35 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
+     id="layer1"
      inkscape:groupmode="layer"
-     id="layer1">
+     inkscape:label="Layer 1">
     <g
-       id="g15564"
-       transform="translate(-30.298662,31.69964)">
-      <text
+       transform="translate(-30.298662,31.69964)"
+       id="g15564">
+      <g
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:7.51413px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1;stroke:#ffffff;stroke-width:0.188149;stroke-miterlimit:4;stroke-dasharray:none"
          id="text15554"
-         y="-25.224543"
-         x="30.203642"
-         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:7.51413px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1;stroke:#ffffff;stroke-width:0.188149;stroke-miterlimit:4;stroke-dasharray:none"
-         xml:space="preserve"><tspan
+         aria-label="{">
+        <path
+           id="path857"
            style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:7.51413px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;stroke:#ffffff;stroke-width:0.188149;stroke-miterlimit:4;stroke-dasharray:none"
-           y="-25.224543"
-           x="30.203642"
-           id="tspan15552"
-           sodipodi:role="line">{</tspan></text>
-      <text
-         xml:space="preserve"
+           d="m 34.613791,-24.824621 v 0.825527 h -0.796175 q -0.799844,0 -1.166745,-0.322872 -0.366901,-0.322873 -0.366901,-1.030992 v -0.70445 q 0,-0.550351 -0.198127,-0.763153 -0.198126,-0.216472 -0.719125,-0.216472 h -0.22381 v -0.818189 h 0.22381 q 0.520999,0 0.719125,-0.212802 0.198127,-0.212803 0.198127,-0.763154 v -0.752147 q 0,-0.708119 0.366901,-1.027323 0.366901,-0.322872 1.166745,-0.322872 h 0.796175 v 0.825527 h -0.253162 q -0.51733,0 -0.675098,0.161436 -0.154098,0.157767 -0.154098,0.678767 v 0.609055 q 0,0.576034 -0.165105,0.836534 -0.165106,0.2605 -0.568697,0.352225 0.40726,0.09906 0.568697,0.359563 0.165105,0.260499 0.165105,0.832865 v 0.609055 q 0,0.524669 0.154098,0.682436 0.157768,0.161436 0.675098,0.161436 z" />
+      </g>
+      <g
          style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:7.51413px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1;stroke:#ffffff;stroke-width:0.188149;stroke-miterlimit:4;stroke-dasharray:none"
-         x="33.510933"
-         y="-25.224543"
-         id="text15558"><tspan
-           sodipodi:role="line"
-           id="tspan15556"
-           x="33.510933"
-           y="-25.224543"
-           style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:7.51413px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;stroke:#ffffff;stroke-width:0.188149;stroke-miterlimit:4;stroke-dasharray:none">}</tspan></text>
+         id="text15558"
+         aria-label="}">
+        <path
+           id="path854"
+           style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:7.51413px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;stroke:#ffffff;stroke-width:0.188149;stroke-miterlimit:4;stroke-dasharray:none"
+           d="m 34.450199,-24.824621 h 0.256831 q 0.513661,0 0.667759,-0.161436 0.157768,-0.157767 0.157768,-0.682436 v -0.609055 q 0,-0.572366 0.165105,-0.832865 0.165106,-0.2605 0.572366,-0.359563 -0.40726,-0.09173 -0.572366,-0.352225 -0.165105,-0.2605 -0.165105,-0.836534 v -0.609055 q 0,-0.521 -0.157768,-0.678767 -0.154098,-0.161436 -0.667759,-0.161436 h -0.256831 v -0.825527 h 0.796175 q 0.799844,0 1.166745,0.322872 0.366901,0.319204 0.366901,1.027323 v 0.752147 q 0,0.550351 0.198126,0.763154 0.198127,0.212802 0.719126,0.212802 h 0.22381 v 0.818189 h -0.22381 q -0.520999,0 -0.719126,0.216472 -0.198126,0.212802 -0.198126,0.763153 v 0.70445 q 0,0.708119 -0.366901,1.030992 -0.366901,0.322872 -1.166745,0.322872 h -0.796175 z" />
+      </g>
     </g>
   </g>
 </svg>
