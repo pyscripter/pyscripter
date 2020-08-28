@@ -84,6 +84,16 @@
        apply_with_weight="true"
        only_selected="false" />
     <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8532"
+       id="linearGradient8691"
+       x1="258.6178"
+       y1="176.5014"
+       x2="285.33841"
+       y2="176.5014"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.29155404,0,0,0.29155403,-74.431436,-46.88153)" />
+    <linearGradient
        id="linearGradient8532"
        inkscape:collect="always">
       <stop
@@ -116,37 +126,67 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient8532"
-       id="linearGradient8546"
+       id="linearGradient854"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.1019365,0,0,1.1019365,4.2588943,-18.502137)"
+       gradientTransform="matrix(0.29155404,0,0,0.29155403,-74.431436,-46.88153)"
        x1="258.6178"
        y1="176.5014"
        x2="285.33841"
        y2="176.5014" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient5321"
-       id="linearGradient6141"
+       xlink:href="#linearGradient8532"
+       id="linearGradient856"
        gradientUnits="userSpaceOnUse"
-       x1="-463.48499"
-       y1="358.20251"
-       x2="-383.70105"
-       y2="305.70251" />
+       gradientTransform="matrix(0.29155404,0,0,0.29155403,-74.431436,-46.88153)"
+       x1="258.6178"
+       y1="176.5014"
+       x2="285.33841"
+       y2="176.5014" />
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient5321">
+       xlink:href="#linearGradient8532"
+       id="linearGradient864"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.29155404,0,0,0.29155403,-74.431436,-46.88153)"
+       x1="258.6178"
+       y1="176.5014"
+       x2="285.33841"
+       y2="176.5014" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8532"
+       id="linearGradient866"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.29155404,0,0,0.29155403,-74.431436,-46.88153)"
+       x1="258.6178"
+       y1="176.5014"
+       x2="285.33841"
+       y2="176.5014" />
+    <linearGradient
+       y2="305.70251"
+       x2="-383.70105"
+       y1="358.20251"
+       x1="-463.48499"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient6141"
+       xlink:href="#linearGradient5321"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient5321"
+       inkscape:collect="always">
       <stop
-         style="stop-color:#d40000;stop-opacity:1"
+         id="stop5317"
          offset="0"
-         id="stop5317" />
+         style="stop-color:#d40000;stop-opacity:1" />
       <stop
-         id="stop5325"
+         style="stop-color:#ff0000;stop-opacity:1"
          offset="0.49129358"
-         style="stop-color:#ff0000;stop-opacity:1" />
+         id="stop5325" />
       <stop
-         style="stop-color:#d40000;stop-opacity:1"
+         id="stop5319"
          offset="1"
-         id="stop5319" />
+         style="stop-color:#d40000;stop-opacity:1" />
     </linearGradient>
   </defs>
   <sodipodi:namedview
@@ -156,9 +196,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568543"
-     inkscape:cx="18.190742"
-     inkscape:cy="6.7335287"
+     inkscape:zoom="8.0000001"
+     inkscape:cx="15.246572"
+     inkscape:cy="14.16168"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -186,25 +226,33 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       transform="matrix(0.26458333,0,0,0.26458333,-75.343708,-42.656837)"
-       id="g6534">
-      <text
-         id="text8544"
-         y="185.57986"
-         x="288.85233"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.3517px;line-height:1.25;font-family:calibri;-inkscape-font-specification:calibri;letter-spacing:0px;word-spacing:0px;fill:url(#linearGradient8546);fill-opacity:1;stroke:#ffffff;stroke-width:0.293115;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         xml:space="preserve"
-         transform="scale(0.99994659,1.0000534)"><tspan
-           style="fill:url(#linearGradient8546);fill-opacity:1;stroke:#ffffff;stroke-width:0.293115;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           y="185.57986"
-           x="288.85233"
-           id="tspan8542"
-           sodipodi:role="line">#</tspan></text>
-      <polygon
-         style="fill:url(#linearGradient6141);fill-opacity:1;stroke:#ffffff;stroke-width:1.71189;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-         transform="matrix(0.26581322,0,0,0.26690199,412.82863,88.567666)"
-         id="polygon6139"
-         points="-423.087,335.755 -391.991,311.909 -389.133,316.4 -415.924,343.01 -377.701,381.728 -387.5,382.136 -422.776,349.815 -449.562,376.42 -458.136,376.829 -458.544,362.946 -431.271,342.032 -465.485,310.684 -462.916,303.269 -455.158,303.269 " />
+       id="g862"
+       transform="matrix(0.72485053,0,0,0.72485053,-0.85588063,1.1647995)">
+      <g
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.03055px;line-height:1.25;font-family:calibri;-inkscape-font-specification:calibri;letter-spacing:0px;word-spacing:0px;fill:url(#linearGradient866);fill-opacity:1;stroke:#ffffff;stroke-width:0.132285;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="text6133"
+         transform="scale(0.9999466,1.0000534)"
+         aria-label="#">
+        <path
+           id="path845"
+           style="fill:url(#linearGradient864);fill-opacity:1;stroke:#ffffff;stroke-width:0.132285;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 4.9726994,3.5821938 H 3.8316398 L 3.5022618,4.8918635 H 4.6511637 Z M 4.3845244,1.3510498 3.976723,2.9783341 H 5.1217038 L 5.5334263,1.3510498 H 6.160813 L 5.7569328,2.9783341 H 6.9803369 V 3.5821938 H 5.6040073 L 5.2824716,4.8918635 H 6.5294027 V 5.4918021 H 5.1295461 L 4.7217447,7.1151652 H 4.094358 L 4.4982382,5.4918021 H 3.3493363 L 2.9454561,7.1151652 H 2.3141482 L 2.7219496,5.4918021 H 1.486782 V 4.8918635 H 2.8670327 L 3.1964108,3.5821938 H 1.933795 V 2.9783341 h 1.4155413 l 0.399959,-1.6272843 z" />
+      </g>
+      <g
+         aria-label="#"
+         transform="matrix(0.9999466,0,0,1.0000534,5.5754391,0)"
+         id="g852"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.03055px;line-height:1.25;font-family:calibri;-inkscape-font-specification:calibri;letter-spacing:0px;word-spacing:0px;fill:url(#linearGradient856);fill-opacity:1;stroke:#ffffff;stroke-width:0.132285;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">
+        <path
+           d="M 4.9726994,3.5821938 H 3.8316398 L 3.5022618,4.8918635 H 4.6511637 Z M 4.3845244,1.3510498 3.976723,2.9783341 H 5.1217038 L 5.5334263,1.3510498 H 6.160813 L 5.7569328,2.9783341 H 6.9803369 V 3.5821938 H 5.6040073 L 5.2824716,4.8918635 H 6.5294027 V 5.4918021 H 5.1295461 L 4.7217447,7.1151652 H 4.094358 L 4.4982382,5.4918021 H 3.3493363 L 2.9454561,7.1151652 H 2.3141482 L 2.7219496,5.4918021 H 1.486782 V 4.8918635 H 2.8670327 L 3.1964108,3.5821938 H 1.933795 V 2.9783341 h 1.4155413 l 0.399959,-1.6272843 z"
+           style="fill:url(#linearGradient854);fill-opacity:1;stroke:#ffffff;stroke-width:0.132285;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path850" />
+      </g>
     </g>
+    <polygon
+       style="fill:url(#linearGradient6141);fill-opacity:1;stroke:#ffffff;stroke-width:1.71189;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       transform="matrix(0.0435455,0,0,0.04372385,20.516114,-9.8519701)"
+       id="polygon6139"
+       points="-462.916,303.269 -455.158,303.269 -423.087,335.755 -391.991,311.909 -389.133,316.4 -415.924,343.01 -377.701,381.728 -387.5,382.136 -422.776,349.815 -449.562,376.42 -458.136,376.829 -458.544,362.946 -431.271,342.032 -465.485,310.684 " />
   </g>
 </svg>
