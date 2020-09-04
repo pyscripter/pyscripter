@@ -22,9 +22,10 @@ inherited CommandLineDlg: TCommandLineDlg
     object Label1: TLabel
       Left = 13
       Top = 43
-      Width = 349
-      Height = 26
+      Width = 460
+      Height = 35
       Anchors = [akLeft, akRight, akBottom]
+      AutoSize = False
       Caption = 
         'Please enter parameters to be appended to the command line:'#13#10'Not' +
         'e that the script name is automatically inserted as the first ar' +
@@ -54,6 +55,7 @@ inherited CommandLineDlg: TCommandLineDlg
       Font.Height = -11
       Font.Name = 'Consolas'
       Font.Style = []
+      Font.Quality = fqClearTypeNatural
       TabOrder = 0
       OnEnter = SynParametersEnter
       CodeFolding.GutterShapeSize = 11
@@ -90,7 +92,7 @@ inherited CommandLineDlg: TCommandLineDlg
     object cbUseCommandLine: TCheckBox
       Left = 13
       Top = 16
-      Width = 177
+      Width = 395
       Height = 21
       Caption = 'Use Command Line Parameters?'
       TabOrder = 4

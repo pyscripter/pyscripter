@@ -1569,7 +1569,7 @@ begin
   IsBuiltIn := False;
 
   Expr := Trim(Expr);
-  if (Expr = '') or (Expr[1] > #$FF) then Exit;
+  if (Expr = '') or (Word(Expr[1]) > $FF) then Exit;
 
   IsBuiltIn := True;
   case Expr[1] of
