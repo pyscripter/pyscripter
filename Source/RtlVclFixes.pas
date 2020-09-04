@@ -94,7 +94,6 @@ end;
 {$ENDREGION}
 
 {$REGION 'Fix InputQuery - https://quality.embarcadero.com/browse/RSP-27077'}
-{$IF CompilerVersion < 34}
 type
   TInputQuery = function (const ACaption: string; const APrompts: array of string; var AValues: array of string; CloseQueryFunc: TInputCloseQueryFunc = nil): Boolean;
 
@@ -305,7 +304,6 @@ begin
       Form.Free;
     end;
 end;
-{$ENDIF}
 {$ENDREGION}
 
 {$REGION 'Fix TMonitorSupport - https://quality.embarcadero.com/browse/RSP-28632}
@@ -456,18 +454,22 @@ initialization
   TMethod(Trampoline_TWICImage_CreateWICBitmap).Code :=
     InterceptCreate(TWICImage(nil).GetCreateWICBitmapAddr,
     TMethod(Detour_TWICImage_CreateWICBitmap).Code);
+ {$ENDIF}
   Original_InputQuery := Vcl.Dialogs.InputQuery;
   Detour_InputQuery := FixedInputQuery;
   Trampoline_InputQuery := TInputQuery(InterceptCreate(@Original_InputQuery, @Detour_InputQuery));
 
+ {$IF CompilerVersion < 34}
   System.MonitorSupport.NewWaitObject := NewWaitObj;
   System.MonitorSupport.FreeWaitObject := FreeWaitObj;
  {$ENDIF}
 finalization
   {$IF CompilerVersion < 34}
   InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
+  {$ENDIF}
   InterceptRemove(@Trampoline_InputQuery);
 
+  {$IF CompilerVersion < 34}
   MonitorSupportShutDown := True;
   CleanStack(AtomicExchange(Pointer(EventCache.Head), nil));
   CleanStack(AtomicExchange(Pointer(EventItemHolders.Head), nil));
