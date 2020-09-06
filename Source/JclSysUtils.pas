@@ -1,4 +1,4 @@
-{**************************************************************************************************}
+﻿{**************************************************************************************************}
 {                                                                                                  }
 { Project JEDI Code Library (JCL)                                                                  }
 {                                                                                                  }
@@ -2366,7 +2366,7 @@ begin
   FSignChars[False] := '-';
   FSignChars[True] := '+';
   FPaddingChar := ' ';
-  FMultiplier := '�';
+  FMultiplier := '×';
   FFractionalPartSeparator := JclFormatSettings.DecimalSeparator;
   FDigitBlockSeparator := JclFormatSettings.ThousandSeparator;
 end;
