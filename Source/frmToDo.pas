@@ -741,7 +741,6 @@ Var
   Editor : IEditor;
   i, Index : integer;
   TokenString : string;
-  Encoding : TFileSaveFormat;
   Info, OldInfo : TToDoInfo;
   PStart : PWideChar;
 begin
@@ -752,7 +751,7 @@ begin
     if Assigned(Editor) then
       SourceCode.Assign(Editor.SynEdit.Lines)
     else begin
-      if not LoadFileIntoWideStrings(FileName, SourceCode, Encoding) then Exit;
+      if not LoadFileIntoWideStrings(FileName, SourceCode) then Exit;
     end;
 
     // scan source code

@@ -130,13 +130,11 @@ end;
 procedure TSearcher.SetFileName(const Value: string);
 
   function GetFileInterface: Boolean;
-  var
-    Encoding : TFileSaveFormat;
   begin
     Result := False;
     if not FileExists(FFileName) then
       Exit;
-    Result := LoadFileIntoWideStrings(fFileName, fSearchLines, Encoding);
+    Result := LoadFileIntoWideStrings(fFileName, fSearchLines);
   end;
 
   function GetModuleInterface: Boolean;

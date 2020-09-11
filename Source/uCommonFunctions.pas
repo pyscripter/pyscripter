@@ -108,11 +108,6 @@ function HTMLSafe(const S : string): string;
 // From Delphi's system.pas unit! Need to rewrite
 function GetParamStr(P: PChar; var Param: string): PChar;
 
-(* ReadLn that works with Sreams *)
-// Adapted from Indy
-function ReadLnFromStream(Stream : TStream; AMaxLineLength: Integer = -1;
-  AExceptionIfEOF: Boolean = FALSE): AnsiString;
-
 (* Parse a line for a Python encoding spec *)
 function ParsePySourceEncoding(Textline : string): string;
 
@@ -157,12 +152,11 @@ function WideStringsToEncodedText(const AFileName: string;
 
 (* Load file into WideStrings taking into account Python file encodings *)
 function LoadFileIntoWideStrings(const AFileName: string;
-  Lines : TStrings; var Encoding : TFileSaveFormat): boolean;
+  Lines : TStrings): boolean;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: string;
-  Lines : TStrings; Encoding : TFileSaveFormat;
-  DoBackup : Boolean = True) : boolean;
+  Lines : TStrings;  DoBackup : Boolean = True) : boolean;
 
 (* Read File contents. Allows reading of locked files *)
 function FileToAnsiStr(const FileName: string): AnsiString;
@@ -291,12 +285,33 @@ type
     function PPIUnScale(ASize: integer): integer;
   end;
 
-  (*  TStringlist that preserves the LineBreak and BOM of a read File *)
-  TLineBreakStringList = class(TStringList)
-  protected
-    procedure SetTextStr(const Value: string); override;
+  (*
+     TSynStringList is a general purpose TStringList descendent that adds
+     the following features:
+     - LoadFromFile followed by SaveToFile results in an identical file
+     - Detects the LineBreak in the read stream and uses it in SaveToStream
+     - UseBOM is set when reading a stream depending on whether BOM exists
+     - When reading a file without a BOM it tries to detect whether the e
+       encoding is UTF8
+     - Event handler for dealing with information loss in Unicode to ANSI
+       conversion
+  *)
+  TXStringList = class(TStringList)
+  private
+    fUTF8CheckLen: Integer;
+    fFileFormat: TSynEditFileFormat;
+    fOnInfoLoss: TSynInfoLossEvent;
+    fDetectUTF8: Boolean;
   public
-    procedure LoadFromStream(Stream: TStream); override;
+    constructor Create; overload;
+    procedure SetTextAndFileFormat(const Value: string);
+    procedure LoadFromStream(Stream: TStream; Encoding: TEncoding); override;
+    procedure SaveToStream(Stream: TStream; Encoding: TEncoding); override;
+    property FileFormat: TSynEditFileFormat read FFileFormat write fFileFormat;
+  published
+    property UTF8CheckLen: Integer read fUTF8CheckLen write fUTF8CheckLen default -1;
+    property DetectUTF8: Boolean read fDetectUTF8 write fDetectUTF8 default True;
+    property OnInfoLoss: TSynInfoLossEvent read fOnInfoLoss write fOnInfoLoss;
   end;
 
   (*
@@ -864,91 +879,6 @@ begin
   Result := P;
 end;
 
-function ReadLnFromStream(Stream : TStream; AMaxLineLength: Integer = -1;
-  AExceptionIfEOF: Boolean = FALSE): AnsiString;
-
-  function FindEOL(ABuf: PAnsiChar; var VLineBufSize: Integer; var VCrEncountered: Boolean): Integer;
-  var
-    i: Integer;
-  begin
-    Result := VLineBufSize; //EOL not found => use all
-    i := 0; //[0..ALineBufSize-1]
-    while i < VLineBufSize do begin
-      case ABuf[i] of
-        AnsiLineFeed:
-          begin
-            Result := i; {string size}
-            VCrEncountered := TRUE;
-            VLineBufSize := i+1;
-            BREAK;
-          end;//LF
-        AnsiCarriageReturn:
-          begin
-            Result := i; {string size}
-            VCrEncountered := TRUE;
-            inc(i); //crLF?
-            if (i < VLineBufSize) and (ABuf[i] = AnsiLineFeed) then begin
-              VLineBufSize := i+1;
-            end
-            else begin
-              VLineBufSize := i;
-            end;
-            BREAK;
-          end;//CR
-      end;//case
-      Inc(i);
-    end;//while
-  End;//FindEOL
-
-const
-  LBUFMAXSIZE = 2048;
-var
-  LBufSize, LStringLen, LResultLen: Integer;
-  LBuf: packed array [0..LBUFMAXSIZE] of AnsiChar;
-  LStrmPos, LStrmSize: Integer; //LBytesToRead = stream size - Position
-  LCrEncountered: Boolean;
-begin
-  if AMaxLineLength < 0 then begin
-    AMaxLineLength := MaxInt;
-  end;//if
-  LCrEncountered := FALSE;
-  Result := '';
-  { we store the stream size for the whole routine to prevent
-  so do not incur a performance penalty with TStream.Size.  It has
-  to use something such as Seek each time the size is obtained}
-  {LStrmPos := SrcStream.Position; LStrmSize:= SrcStream.Size; 4 seek vs 3 seek}
-  LStrmPos := Stream.Seek(0, soFromCurrent); //Position
-  LStrmSize:= Stream.Seek(0, soFromEnd); //Size
-  Stream.Seek(LStrmPos, soFromBeginning); //return position
-
-  if (LStrmSize - LStrmPos) > 0 then begin
-
-    while (LStrmPos < LStrmSize) and NOT LCrEncountered do begin
-      LBufSize := Min(LStrmSize - LStrmPos, LBUFMAXSIZE);
-      Stream.ReadBuffer(LBuf, LBufSize);
-      LStringLen := FindEOL(LBuf,LBufSize,LCrEncountered);
-      Inc(LStrmPos,LBufSize);
-
-      LResultLen := Length(Result);
-      if (LResultLen + LStringLen) > AMaxLineLength then begin
-        LStringLen := AMaxLineLength - LResultLen;
-        LCrEncountered := TRUE;
-        Dec(LStrmPos,LBufSize);
-        Inc(LStrmPos,LStringLen);
-      end;//if
-      SetLength(Result, LResultLen + LStringLen);
-      Move(LBuf[0], PAnsiChar(Result)[LResultLen], LStringLen);
-    end;//while
-    Stream.Position := LStrmPos;
-  end
-  else begin
-    if AExceptionIfEOF then begin
-      raise Exception.Create(Format('End of stream at %d',[LStrmPos])); //LOCALIZE
-    end;
-  end;//if NOT EOF
-End;//ReadLn
-
-
 function ParsePySourceEncoding(Textline : string): string;
 begin
   Result := '';
@@ -1365,128 +1295,118 @@ begin
   end;
 end;
 
-function LoadFileIntoWideStrings(const AFileName: string;
-  Lines : TStrings; var Encoding : TFileSaveFormat): boolean;
+function LoadFileIntoWideStrings(const AFileName: string; Lines : TStrings): boolean;
+
+  procedure LoadFromString(S: string);
+  begin
+    if Lines is TSynEditStringList then begin
+      TSynEditStringList(Lines).SetTextAndFileFormat(S);
+      TSynEditStringList(Lines).SetEncoding(TEncoding.ANSI);
+    end else if Lines is TXStringList then begin
+      TXStringList(Lines).SetTextAndFileFormat(S);
+      TXStringList(Lines).SetEncoding(TEncoding.ANSI);
+    end else
+      Lines.Text := S;
+  end;
+
 Var
-  FileStream : TFileStream;
-  FileText, S, PyEncoding : AnsiString;
+  Reader : TStreamReader;
+  FileStream: TFileStream;
+  FileText, PyEncoding : AnsiString;
+  S: String;
   Len : integer;
-  IsPythonFile : boolean;
-  FileEncoding : TSynEncoding;
-  HasBOM : Boolean;
   PyWstr : PPyObject;
 begin
   Result := True;
-  if (AFileName <> '') and FileExists(AFileName) then begin
-    IsPythonFile :=  FileIsPythonSource(AFileName);
+  if (AFileName = '') or not FileExists(AFileName) then Exit(False);
+
+  try
+    if not FileIsPythonSource(AFileName) then
+    begin
+      Lines.LoadFromFile(AFileName);
+      Exit(True);
+    end;
+
+    // Special processing for python files
+    // Try to use an encoding comment if present
+    Reader := TStreamReader.Create(AFileName, TEncoding.Default, True, 128);
     try
-      FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
-      try
-        // Read the file into FileText
-        Len := FileStream.Size;
-        SetLength(FileText, Len);
-        FileStream.ReadBuffer(FileText[1], Len);
-        FileStream.Seek(0, soFromBeginning);
+      // Reads the first Line - Also sets the CurrentEncoding
+      S := Reader.ReadLine;
+      if Reader.CurrentEncoding <> TEncoding.ANSI then
+      begin
+          // BOM found
+        Lines.LoadFromFile(AFileName);
+        Exit(True);
+      end;
 
-        // This routine detects UTF8 text even if there is no BOM
-        FileEncoding := GetEncoding(FileStream, HasBOM);
-        case FileEncoding of
-          seAnsi :
-            // if it is a Pytyhon file detect an encoding spec
-            if IsPythonFile then
-            begin
-              PyEncoding := '';
-              S := ReadLnFromStream(FileStream);
-              PyEncoding := AnsiString(ParsePySourceEncoding(string(S)));
-              if PyEncoding = '' then begin
-                S := ReadLnFromStream(FileStream);
-                PyEncoding := AnsiString(ParsePySourceEncoding(string(S)));
-              end;
-              FileStream.Seek(0, soFromBeginning);
-              if PyEncoding <> '' then
-              begin
-                if (LowerCase(PyEncoding) = 'utf-8') or (LowerCase(PyEncoding) = 'utf8')
-                then
-                  Encoding := sf_UTF8_NoBOM
-                else
-                  Encoding := sf_Ansi;
-              end
-              else
-              begin
-                if not GI_PyControl.PythonLoaded or GetPythonEngine.IsPython3000 then
-                  Encoding := sf_UTF8_NoBOM
-                else
-                  Encoding := sf_Ansi;
-              end;
-            end else
-              Encoding := sf_Ansi;
+      // Detect an encoding spec
+      PyEncoding := AnsiString(ParsePySourceEncoding(S));
+      if PyEncoding = '' then begin
+        S := Reader.ReadLine;
+        PyEncoding := AnsiString(ParsePySourceEncoding(S));
+      end;
+    finally
+      Reader.Free;
+    end;
 
-          seUTF8 :
-            begin
-              if not HasBOM then begin
-//                PEP8 states that in Python 3 the default encoding is UTF8 without BOM
-//                if IsPythonFile then
-//                  // Ignore detected UTF8 if it is Python and does not have BOM
-//                  // File will still be read as UTF8 if it has an encoding comment
-//                  Encoding := sf_Ansi
-//                else begin
-                  if PyIDEOptions.DetectUTF8Encoding then
-                    Encoding := sf_UTF8_NoBOM
-                  else
-                    Encoding := sf_Ansi;
-//                end;
-              end else
-                Encoding := sf_UTF8;
-            end;
-          seUTF16LE : Encoding := sf_UTF16LE;
-          seUTF16BE : Encoding := sf_UTF16BE;
-        else
-          Raise Exception.Create(Format(_(SInternalError), ['LoadFileIntoWideStrings']));
+    if PyEncoding = '' then
+    begin
+      // Use default encoding: ANSI for python 2 UTF8 otherwise
+      Lines.LoadFromFile(AFileName);
+      Exit(True);
+    end;
+
+    // PyEncoding <> ''
+    if (LowerCase(PyEncoding) = 'utf-8') or (LowerCase(PyEncoding) = 'utf8') then
+    begin
+      Lines.LoadFromFile(AFileName, TEncoding.UTF8);
+      Exit(True);
+    end;
+
+    if not GI_PyControl.PythonLoaded then
+    begin
+      // Use default encoding: ANSI for python 2 UTF8 otherwise
+      Lines.LoadFromFile(AFileName);
+      Exit(True);
+    end;
+
+    // we have an encoding we can use with python
+    FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
+    // Read the file into FileText
+    try
+      Len := FileStream.Size;
+      SetLength(FileText, Len);
+      FileStream.ReadBuffer(FileText[1], Len);
+    finally
+      FileStream.Free;
+    end;
+
+    PyWstr := nil;
+    try
+      with GetPythonEngine do begin
+        try
+            PyWstr := PyUnicode_Decode(PAnsiChar(FileText),
+              Length(FileText),
+              PAnsiChar(PyEncoding), 'replace');
+            CheckError;
+            LoadFromString(PyUnicode_AsWideString(PyWstr));
+        finally
+          Py_XDECREF(PyWstr);
         end;
-
-        case Encoding of
-          sf_Ansi :
-            // if it is a Pytyhon file detect an encoding spec
-            if GI_PyControl.PythonLoaded and IsPythonFile and (PyEncoding <> '') then
-            begin
-              PyWstr := nil;
-              try
-                with GetPythonEngine do begin
-                  try
-                      PyWstr := PyUnicode_Decode(PAnsiChar(FileText),
-                        Length(FileText),
-                        PAnsiChar(PyEncoding), 'replace');
-                      CheckError;
-                      Lines.Text := PyUnicode_AsWideString(PyWstr);
-                  finally
-                    Py_XDECREF(PyWstr);
-                  end;
-                end;
-              except
-                Vcl.Dialogs.MessageDlg(Format(_(SDecodingError),
-                   [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
-                Lines.Text := string(FileText);
-              end;
-            end else
-              Lines.LoadFromStream(FileStream);
-          sf_UTF8, sf_UTF8_NoBOM :
-            LoadFromStream(Lines, FileStream, seUTF8, HasBOM);
-          sf_UTF16LE:
-            LoadFromStream(Lines, FileStream, seUTF16LE, HasBOM);
-          sf_UTF16BE:
-            LoadFromStream(Lines, FileStream, seUTF16BE, HasBOM);
-        end;
-      finally
-        FileStream.Free;
       end;
     except
-      on E: Exception do begin
-        Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [AFileName, E.Message]), mtError, [mbOK], 0);
-        Result := False;
-      end;
+      Vcl.Dialogs.MessageDlg(Format(_(SDecodingError),
+         [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
+      LoadFromString(string(FileText));
+    end
+
+  except
+    on E: Exception do begin
+      Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [AFileName, E.Message]), mtError, [mbOK], 0);
+      Result := False;
     end;
-  end else
-    Result := False;
+  end;
 end;
 
 type
@@ -1494,12 +1414,11 @@ type
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: string;
-  Lines : TStrings; Encoding : TFileSaveFormat;
-  DoBackup : Boolean = True) : boolean;
+  Lines : TStrings;  DoBackup : Boolean = True) : boolean;
 Var
   FileStream : TFileStream;
   S : AnsiString;
-  SaveFStreaming: Boolean;
+  OldLineBreak: string;
 begin
   try
     // Create Backup
@@ -1514,36 +1433,30 @@ begin
       end;
     end;
 
-    Result := True;
-
-    if Encoding = sf_Ansi then begin
-      SaveFStreaming := False;  // to keep compiler happy
-      if Lines is TSynEditStringList then
-      begin
-        SaveFStreaming := TSynEditStringListAccess(Lines).FStreaming;
-        TSynEditStringListAccess(Lines).FStreaming := True;
-      end;
-
-      Result := WideStringsToEncodedText(AFileName, Lines, S, True);
-
-      if Lines is TSynEditStringList then
-        TSynEditStringListAccess(Lines).FStreaming := SaveFStreaming;
+    if not FileIsPythonSource(AFileName) or (Lines.Encoding <> TEncoding.Ansi) then
+    begin
+      Lines.SaveToFile(AFileName);
+      Exit(True);
     end;
+
+    // For Ansi encoded Python files you have deal with coding comments
+    OldLineBreak := Lines.LineBreak;
+    if Lines is TSynEditStringList then
+      Lines.LineBreak := LineBreakFromFileFormat(TSynEditStringListAccess(Lines).FileFormat)
+    else if Lines is TXStringList then
+      Lines.LineBreak := LineBreakFromFileFormat(TXStringList(Lines).FileFormat);
+
+    Result := WideStringsToEncodedText(AFileName, Lines, S, True);
+
+    Lines.LineBreak := OldLineBreak;
 
     if Result then begin
       FileStream := TFileStream.Create(AFileName, fmCreate);
       try
-        case Encoding of
-          sf_Ansi : FileStream.WriteBuffer(S[1], Length(S));
-          sf_UTF8 : SaveToStream(Lines, FileStream, seUTF8, True);
-          sf_UTF8_NoBOM : SaveToStream(Lines, FileStream, seUTF8, False);
-          sf_UTF16LE: SaveToStream(Lines, FileStream, seUTF16LE, True);
-          sf_UTF16BE: SaveToStream(Lines, FileStream, seUTF16BE, True);
-        end;
+        FileStream.WriteBuffer(S[1], Length(S))
       finally
         FileStream.Free;
       end;
-
     end;
   except
     on E: Exception do begin
@@ -1573,7 +1486,6 @@ end;
 function FileToEncodedStr(const AFileName : string) : AnsiString;
 Var
   SL : TStrings;
-  Encoding: TFileSaveFormat;
   Server, FName, TempFileName, ErrorMsg : string;
 begin
   if TSSHFileName.Parse(AFileName, Server, FName) then
@@ -1590,7 +1502,7 @@ begin
 
   SL := TStringList.Create;
   try
-    if not LoadFileIntoWideStrings(TempFileName, SL, Encoding) then Abort;
+    if not LoadFileIntoWideStrings(TempFileName, SL) then Abort;
     WideStringsToEncodedText(AFileName, SL, Result, False);
   finally
     SL.Free;
@@ -1602,7 +1514,6 @@ end;
 function FileToStr(const AFileName : string) : string;
 Var
   SL : TStrings;
-  Encoding : TFileSaveFormat;
   Server, FName, TempFileName, ErrorMsg : string;
 begin
   if TSSHFileName.Parse(AFileName, Server, FName) then
@@ -1619,7 +1530,7 @@ begin
 
   SL := TStringList.Create;
   try
-    if not LoadFileIntoWideStrings(TempFileName, SL, Encoding) then Abort;
+    if not LoadFileIntoWideStrings(TempFileName, SL) then Abort;
     Result := SL.Text;
   finally
     SL.Free;
@@ -1838,28 +1749,85 @@ begin
   Result := IsColorDark(StyleServices.GetSystemColor(clWindow));
 end;
 
-{ TLineBreakeStingList }
+{ TXStringList }
 
-procedure TLineBreakStringList.LoadFromStream(Stream: TStream);
-Var
-  HasBOM : Boolean;
+constructor TXStringList.Create;
 begin
-  if IsUTF8(Stream, HasBOM) then begin
-    WriteBOM := HasBOM;
-    LoadFromStream(Stream, Encoding.UTF8);
-  end
-  else
-    inherited;
+  inherited Create;
+  fUTF8CheckLen := -1;
+  Options := Options - [soWriteBOM, soTrailingLineBreak];
+  fDetectUTF8 := True;
+  fFileFormat := sffDos;
 end;
 
-procedure TLineBreakStringList.SetTextStr(const Value: string);
+procedure TXStringList.LoadFromStream(Stream: TStream; Encoding: TEncoding);
+var
+  Size: Integer;
+  Buffer: TBytes;
+begin
+  BeginUpdate;
+  try
+    Size := Stream.Size - Stream.Position;
+    SetLength(Buffer, Size);
+    Stream.Read(Buffer, 0, Size);
+    Size := TEncoding.GetBufferEncoding(Buffer, Encoding, DefaultEncoding);
+    WriteBOM := Size > 0; // Keep WriteBom in case the stream is saved
+    // If the encoding is ANSI and DetectUtf8 is True try to Detect UTF8
+    if (Encoding = TEncoding.ANSI) and DetectUTF8 and IsUTF8(Buffer, Size) then
+      Encoding := TEncoding.UTF8;
+    SetEncoding(Encoding); // Keep Encoding in case the stream is saved
+    SetTextAndFileFormat(Encoding.GetString(Buffer, Size, Length(Buffer) - Size));
+  finally
+    EndUpdate;
+  end;
+end;
+
+procedure TXStringList.SaveToStream(Stream: TStream; Encoding: TEncoding);
+Var
+  Cancel: Boolean;
+  OldLineBreak: string;
+  S: string;
+  Buffer, Preamble: TBytes;
+begin
+  if Encoding = nil then
+    Encoding := DefaultEncoding;
+
+  OldLineBreak := LineBreak;
+  try
+    LineBreak := LineBreakFromFileFormat(fFileFormat);
+    S := GetTextStr;
+  finally
+    LineBreak := OldLineBreak;
+  end;
+
+  Cancel := False;
+  if (Encoding = TEncoding.ANSI) and Assigned(fOnInfoLoss) and not IsAnsiOnly(S) then
+  begin
+    fOnInfoLoss(Encoding, Cancel);
+    if Cancel then
+      Exit;
+    if Encoding <> TEncoding.ANSI then
+      SetEncoding(Encoding);
+  end;
+
+  Buffer := Encoding.GetBytes(S);
+  if WriteBOM then
+  begin
+    Preamble := Encoding.GetPreamble;
+    if Length(Preamble) > 0 then
+      Stream.WriteBuffer(Preamble, Length(Preamble));
+  end;
+  Stream.WriteBuffer(Buffer, Length(Buffer));
+end;
+
+procedure TXStringList.SetTextAndFileFormat(const Value: string);
 var
   S: string;
   Size: Integer;
   P, Start, Pmax: PWideChar;
-  fCR, fLF, fWideLineSeparater: Boolean;
+  fCR, fLF, fLINESEPARATOR: Boolean;
 begin
-  fWideLineSeparater := False;
+  fLINESEPARATOR := False;
   fCR := False;
   fLF := False;
   BeginUpdate;
@@ -1873,18 +1841,18 @@ begin
       while (P <= Pmax) do
       begin
         Start := P;
-        while (P^ <> WideCR) and (P^ <> WideLF) and (P^ <> WideLineSeparator) and (P <= Pmax) do
+        while not (Ord(P^) in [0, $A, $D]) and (P^ <> WideLineSeparator) do
         begin
           Inc(P);
         end;
         if P<>Start then
         begin
           SetString(S, Start, P - Start);
-          InsertItem(Count, S, nil);
-        end else InsertItem(Count, '', nil);
+          Insert(Count, S);
+        end else Insert(Count, '');
         if P^ = WideLineSeparator then
         begin
-          fWideLineSeparater := True;
+          fLINESEPARATOR := True;
           Inc(P);
         end;
         if P^ = WideCR then
@@ -1899,21 +1867,22 @@ begin
         end;
       end;
       // keep the old format of the file
-      if (CharInSet(Value[Size], [#10, #13]) or (Value[Size] = WideLineSeparator))
+      if not TrailingLineBreak and
+        (CharInSet(Value[Size], [#10, #13]) or (Value[Size] = WideLineSeparator))
       then
-        InsertItem(Count, '', nil);
+        Insert(Count, '');
     end;
   finally
     EndUpdate;
   end;
-  if fWideLineSeparater then
-    LineBreak := WideLineSeparator
+  if fLINESEPARATOR then
+    FileFormat := sffUnicode
   else if fCR and not fLF then
-    LineBreak := WideCR
+    FileFormat := sffMac
   else if fLF and not fCR then
-    LineBreak := WideLF
+    FileFormat := sffUnix
   else
-    LineBreak := sLineBreak;
+    FileFormat := sffDos;
 end;
 
 procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];

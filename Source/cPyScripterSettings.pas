@@ -15,7 +15,7 @@ Uses
   Vcl.Graphics,
   JclNotify,
   SpTBXTabs,
-  SynEditTextBuffer,
+  SynEditTypes,
   SynEditCodeFolding,
   SynEditKeyCmds,
   WrapDelphi,

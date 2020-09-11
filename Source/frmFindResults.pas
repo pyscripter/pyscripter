@@ -891,8 +891,7 @@ begin
   end;
 end;
 
-function GetFileAsText(const FileName: string; Lines: TStrings;
-                       var Encoding : TFileSaveFormat): Boolean;
+function GetFileAsText(const FileName: string; Lines: TStrings): Boolean;
 Var
   Editor : IEditor;
 begin
@@ -901,7 +900,7 @@ begin
     Lines.Assign(Editor.SynEdit.Lines);
     Result := True;
   end else
-    Result := LoadFileIntoWideStrings(FileName, Lines, Encoding);
+    Result := LoadFileIntoWideStrings(FileName, Lines);
 end;
 
 procedure TFindResultsWindow.RefreshContextLines;
@@ -911,7 +910,6 @@ var
   FileLines: TStringList;
   FileName: string;
   i: Integer;
-  Encoding : TFileSaveFormat;
 begin
   if not ShowContext then
     Exit;
@@ -931,7 +929,7 @@ begin
 
         FileLines := TStringList.Create;
         try
-          if not GetFileAsText(FileName, FileLines, Encoding) then
+          if not GetFileAsText(FileName, FileLines) then
           begin
             reContext.Lines.Text := _(SMatchContextNotAvail);
             Exit;
@@ -1089,7 +1087,6 @@ var
   MatchFile: string;
   TempFile: TStrings;
   LineResult : TLineResult;
-  Encoding : TFileSaveFormat;
   RegEx: TRegEx;
   Options: TRegExOptions;
 
@@ -1155,7 +1152,7 @@ var
           else
             Exit;
         end;
-      SaveWideStringsToFile(MatchFile, TempFile, Encoding, False);
+      SaveWideStringsToFile(MatchFile, TempFile, False);
     end;
   end;
 
@@ -1169,7 +1166,7 @@ begin
   else
     MatchFile := AFileResult.FileName;
 
-  TempFile := TLineBreakStringList.Create;
+  TempFile := TXStringList.Create;
   try
     if GrepSettings.RegEx then
     begin
@@ -1179,7 +1176,7 @@ begin
       RegEx := CompiledRegEx(GrepSettings.Pattern, Options);
     end;
 
-    if not GetFileAsText(MatchFile, TempFile, Encoding) then begin
+    if not GetFileAsText(MatchFile, TempFile) then begin
       if Vcl.Dialogs.MessageDlg(_(SFileSkipped) + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
         Abort
       else

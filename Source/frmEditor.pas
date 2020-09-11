@@ -330,7 +330,6 @@ type
     fForm: TEditorForm;
     fHasSelection: boolean;
     fUntitledNumber: Integer;
-    fFileEncoding: TFileSaveFormat;
     fCodeExplorerData: ICodeExplorerData;
     function IsEmpty: boolean;
     constructor Create(AForm: TEditorForm);
@@ -539,8 +538,8 @@ begin
   inherited Create;
   fForm := AForm;
   fUntitledNumber := -1;
-  fFileEncoding := sf_Ansi;
   fCodeExplorerData := TCodeExplorerData.Create;
+  SetFileEncoding(PyIDEOptions.NewFileEncoding);
 end;
 
 procedure TEditor.Activate(Primary: boolean = True);
@@ -761,12 +760,41 @@ end;
 
 function TEditor.GetFileEncoding: TFileSaveFormat;
 begin
-  Result := fFileEncoding;
+  with fForm.SynEdit.Lines do
+  begin
+    if Encoding = nil then Exit(sf_Ansi);
+
+    if Encoding = TEncoding.UTF8 then
+    begin
+      if WriteBOM then
+        Result := sf_UTF8
+      else
+        Result := sf_UTF8_NoBOM;
+    end else if Encoding = TEncoding.Unicode then
+      Result := sf_UTF16LE
+    else if Encoding = TEncoding.BigEndianUnicode then
+      Result := sf_UTF16BE
+    else
+      Result := sf_Ansi;
+  end;
 end;
 
 procedure TEditor.SetFileEncoding(FileEncoding: TFileSaveFormat);
 begin
-  fFileEncoding := FileEncoding;
+  with TSynEditStringList(fForm.SynEdit.Lines) do
+  begin
+    case FileEncoding of
+      sf_Ansi: SetEncoding(Encoding.ANSI);
+      sf_UTF8,
+      sf_UTF8_NoBOM: SetEncoding(TEncoding.UTF8);
+      sf_UTF16LE: SetEncoding(TEncoding.Unicode);
+      sf_UTF16BE: SetEncoding(TEncoding.BigEndianUnicode);
+    end;
+    if FileEncoding = sf_UTF8_NoBOM then
+      WriteBOM := False
+    else
+      WriteBom := True;
+  end;
 end;
 
 procedure TEditor.SetReadOnly(Value: Boolean);
@@ -812,8 +840,7 @@ begin
   begin
     if (AFileName <> '') and FileExists(AFileName) then
     begin
-        if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines,
-          fFileEncoding) then
+        if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines) then
         begin
           if not FileAge(AFileName, fForm.FileTime) then
             fForm.FileTime := 0;
@@ -830,8 +857,6 @@ begin
         if PyIDEOptions.NewFileLineBreaks <> sffUnicode then
           (fForm.SynEdit.Lines as TSynEditStringList).FileFormat :=
             PyIDEOptions.NewFileLineBreaks;
-
-        fFileEncoding := PyIDEOptions.NewFileEncoding;
       end;
     end;
 
@@ -858,7 +883,7 @@ begin
     Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
     Abort;
   end else begin
-    if not LoadFileIntoWideStrings(TempFileName, fForm.SynEdit.Lines, fFileEncoding) then
+    if not LoadFileIntoWideStrings(TempFileName, fForm.SynEdit.Lines) then
       Abort
     else
       DeleteFile(TempFileName);
@@ -884,7 +909,7 @@ begin
   if (fForm = nil)  or (FileName = '') or (ServerName = '') then  Abort;
 
   TempFileName := FileGetTempName('PyScripter');
-  Result := SaveWideStringsToFile(TempFileName, fForm.SynEdit.Lines, fFileEncoding, False);
+  Result := SaveWideStringsToFile(TempFileName, fForm.SynEdit.Lines, False);
   if Result then begin
     Result := ScpUpload(ServerName, TempFileName, FileName, ErrorMsg);
     DeleteFile(TempFileName);
@@ -1765,7 +1790,7 @@ begin
   Result := False;
   if fEditor.fFileName <> '' then begin
     Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines,
-      fEditor.fFileEncoding, PyIDEOptions.CreateBackupFiles);
+      PyIDEOptions.CreateBackupFiles);
     if Result then
       if not FileAge(fEditor.fFileName, FileTime) then
         FileTime := 0;
