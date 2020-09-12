@@ -33,6 +33,7 @@
 *.rc
 *.res
 *.local
+*.prjmgc
 
 # Output Folders  #
 ###################

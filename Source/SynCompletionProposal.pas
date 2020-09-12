@@ -1257,10 +1257,7 @@ begin
     Style := WS_POPUP;
     ExStyle := WS_EX_TOOLWINDOW;
 
-    if ((Win32Platform and VER_PLATFORM_WIN32_NT) <> 0)
-      and (Win32MajorVersion > 4)
-      and (Win32MinorVersion > 0) {Windows XP} then
-      Params.WindowClass.style := Params.WindowClass.style or CS_DROPSHADOW;
+   Params.WindowClass.style := Params.WindowClass.style or CS_DROPSHADOW;
 
     if DisplayType = ctCode then
       if FResizeable then
@@ -1285,7 +1282,6 @@ begin
     if Assigned(FCodeItemInfoWindow) then
       FCodeItemInfoWindow.ReleaseHandle;
   end;
-  //Visible := False;  // KV
 end;
 
 destructor TSynBaseCompletionProposalForm.Destroy;
@@ -1491,7 +1487,6 @@ begin
 
       if FEffectiveItemHeight <> 0 then
       begin
-        //KV Subtracted BorderWidth
         NewLinesInWindow := (NewHeight - BorderWidth - FHeightBuffer) div FEffectiveItemHeight;
         if NewLinesInWindow < 1 then
           NewLinesInWindow := 1;
@@ -1515,7 +1510,6 @@ begin
   inherited;
 
   if FEffectiveItemHeight <> 0 then
-    //KV Replaced Height with ClientHeight
     FLinesInWindow := (ClientHeight - FHeightBuffer) div FEffectiveItemHeight;
 
   if not(csCreating in ControlState) then
@@ -2830,7 +2824,7 @@ begin
       ((CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
     end;
 
-    if (CurrentEditor as TCustomSynEdit).CanFocus then //KV added line
+    if (CurrentEditor as TCustomSynEdit).CanFocus then
       (CurrentEditor as TCustomSynEdit).SetFocus;
 
     if Assigned(OnCancelled) then
@@ -2904,12 +2898,11 @@ begin
 
         with (F.CurrentEditor as TCustomSynEdit) do
         begin
-          //GBN 25/02/2002
           //This replaces the previous way of cancelling the completion by
           //sending a WM_MOUSEDOWN message. The problem with the mouse down is
           //that the editor would bounce back to the left margin, very irritating
           InternalCancelCompletion;
-          if CanFocus then  // KV added
+          if CanFocus then
             SetFocus;
           EnsureCursorPosVisible; //GBN 25/02/2002
           CaretXY := BlockEnd;
@@ -3078,8 +3071,7 @@ begin
     DeactivateTimer;
     if Pos(Key, TriggerChars) <> 0 then
       ActivateTimer(Sender as TCustomSynEdit);
-//    else
-//      DeactivateTimer;
+
   end;
 end;
 
@@ -3122,7 +3114,7 @@ end;
 procedure TSynCompletionProposal.TimerExecute(Sender: TObject);
 begin
   if not Assigned(FTimer) then exit;
-  FTimer.Enabled := False; //GBN 13/11/2001
+  FTimer.Enabled := False;
   if Application.Active then
   begin
     DoExecute(Form.CurrentEditor as TCustomSynEdit);
@@ -3170,9 +3162,9 @@ end;
 procedure TSynCompletionProposal.ExecuteEx(s: string; x, y: integer;
   Kind: SynCompletionType);
 begin
-    inherited;
-    if Assigned(FTimer) then
-      FTimer.Enabled := False;
+  inherited;
+  if Assigned(FTimer) then
+    FTimer.Enabled := False;
 end;
 
 procedure TSynCompletionProposal.AddEditor(AEditor: TCustomSynEdit);
@@ -3295,9 +3287,9 @@ begin
     ctParams:
       begin
         case Command of
-//        KV So that param completion is not hidden when you display code completion
-//        ecGotFocus, ecLostFocus:
-//          CancelCompletion;
+        // So that param completion is not hidden when you display code completion
+        //ecGotFocus, ecLostFocus:
+        //  CancelCompletion;
         ecLineBreak:
           DoExecute(Sender as TCustomSynEdit);
         ecChar:
