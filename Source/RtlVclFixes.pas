@@ -24,6 +24,7 @@ Uses
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
+  Vcl.ImgList,
   DDetours;
 
 {$REGION 'Fix TWICImage - https://quality.embarcadero.com/browse/RSP-26621'}
@@ -448,6 +449,24 @@ end;
 {$ENDIF}
 {$ENDREGION}
 
+{$REGION 'Fix TCustomImageList.SetSize - https://quality.embarcadero.com/browse/RSP-30931}
+type
+  TCustomImageList_SetSize = procedure(const Self: TCustomImageList; AWidth, AHeight: Integer);
+var
+  Trampoline_TCustomImageList_SetSize : TCustomImageList_SetSize = nil;
+
+procedure Detour_TCustomImageList_SetSize(const Self: TCustomImageList; AWidth, AHeight: Integer);
+begin
+   Self.BeginUpdate;
+   try
+     if Assigned(Trampoline_TCustomImageList_SetSize) then
+       Trampoline_TCustomImageList_SetSize(Self, AWidth, AHeight);
+   finally
+     Self.EndUpdate;
+   end;
+end;
+{$ENDREGION}
+
 initialization
  {$IF CompilerVersion < 34}
   Detour_TWICImage_CreateWICBitmap := TWICImage(nil).Detour_CreateWICBitmap;
@@ -463,11 +482,16 @@ initialization
   System.MonitorSupport.NewWaitObject := NewWaitObj;
   System.MonitorSupport.FreeWaitObject := FreeWaitObj;
  {$ENDIF}
+
+ Trampoline_TCustomImageList_SetSize :=
+   InterceptCreate(@TCustomImageList.SetSize, @Detour_TCustomImageList_SetSize);
+
 finalization
   {$IF CompilerVersion < 34}
   InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
   {$ENDIF}
   InterceptRemove(@Trampoline_InputQuery);
+  InterceptRemove(@Trampoline_TCustomImageList_SetSize);
 
   {$IF CompilerVersion < 34}
   MonitorSupportShutDown := True;
