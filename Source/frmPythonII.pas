@@ -1251,6 +1251,7 @@ begin
   with TSynCompletionProposal(Sender) do
     if CanExecute then begin
       Font := PyIDEOptions.AutoCompletionFont;
+      FontsAreScaled := True;
       ItemList.Text := DisplayText;
       InsertList.Text := InsertText;
       NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
@@ -1383,6 +1384,7 @@ begin
   if CanExecute then begin
     with TSynCompletionProposal(Sender) do begin
       Font := PyIDEOptions.AutoCompletionFont;
+      FontsAreScaled := True;
       FormatParams := not (DisplayText = '');
       if not FormatParams then
         DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';

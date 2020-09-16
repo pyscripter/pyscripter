@@ -28,10 +28,8 @@ interface
 uses
   Winapi.Windows,
   Winapi.Messages,
-  System.Types,
   System.SysUtils,
   System.Classes,
-  System.UITypes,
   Vcl.Graphics,
   Vcl.Forms,
   Vcl.Controls,
@@ -176,6 +174,7 @@ type
     procedure FontChange(Sender: TObject);
     procedure RecalcItemHeight;
     function IsWordBreakChar(AChar: WideChar): Boolean;
+    procedure WMNCHitTest(var Message: TWMNCHitTest); message WM_NCHITTEST;
   protected
     FCodeItemInfoWindow : THintWindow;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -191,7 +190,6 @@ type
     procedure WMEraseBackgrnd(var Message: TMessage); message WM_ERASEBKGND;
     procedure WMGetDlgCode(var Message: TWMGetDlgCode); message WM_GETDLGCODE;
     procedure CreateParams(var Params: TCreateParams); override;
-    function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure ShowCodeItemInfo(Info: string);
     function GetCurrentPPI: Integer; override;
   public
@@ -238,7 +236,7 @@ type
     property TitleFont: TFont read fTitleFont write SetTitleFont;
     property Font: TFont read fFont write SetFont;
     property Columns: TProposalColumns read FColumns write SetColumns;
-    property Resizeable: Boolean read FResizeable write SetResizeable default True;
+    property Resizeable: Boolean read FResizeable write SetResizeable;
     property Images: TCustomImageList read FImages write SetImages;
   end;
 
@@ -253,6 +251,7 @@ type
     FDotOffset: Integer;
     FOptions: TSynCompletionOptions;
     FNbLinesInWindow: Integer;
+    FFontsAreScaled: Boolean;
     FFormatParams : Boolean;
 
     FCanExecute: Boolean;
@@ -324,7 +323,7 @@ type
       var Handled: Boolean; var Command: TSynEditorCommand; var AChar: WideChar;
       Data: Pointer; HandlerData: Pointer); virtual;
   public
-    constructor Create(Aowner: TComponent); override;
+    constructor Create(AOwner: TComponent); override;
     procedure Execute(s: string; x, y: Integer);
     procedure ExecuteEx(s: string; x, y: Integer; Kind: SynCompletionType = ctCode); virtual;
     procedure Activate;
@@ -346,6 +345,7 @@ type
     property Form: TSynBaseCompletionProposalForm read FForm;
     property PreviousToken: string read FPreviousToken;
     property Position: Integer read GetPosition write SetPosition;
+    property FontsAreScaled: Boolean read fFontsAreScaled write fFontsAreScaled;
     property FormatParams : boolean read fFormatParams write fFormatParams;
   published
     property DefaultType: SynCompletionType read GetDefaultKind write SetDefaultKind default ctCode;
@@ -365,7 +365,7 @@ type
     property Font: TFont read GetFont write SetFont;
     property TitleFont: TFont read GetTitleFont write SetTitleFont;
     property Columns: TProposalColumns read GetColumns write SetColumns;
-    property Resizeable: Boolean read GetResizeable write SetResizeable default True;
+    property Resizeable: Boolean read GetResizeable write SetResizeable default False;
     property ItemHeight: Integer read GetItemHeight write SetItemHeight default 0;
     property Images: TCustomImageList read GetImages write SetImages default nil;
     property Margin: Integer read GetMargin write SetMargin default 2;
@@ -542,6 +542,8 @@ implementation
 uses
   System.Math,
   Vcl.Themes,
+  System.Types,
+  System.UITypes,
   SynEditTextBuffer,
   SynEditMiscProcs,
   SynEditKeyConst,
@@ -1187,7 +1189,6 @@ end;
 
 constructor TSynBaseCompletionProposalForm.Create(AOwner: TComponent);
 begin
-  FResizeable := False;
   CreateNew(AOwner);
   Bitmap := TBitmap.Create;
   TitleBitmap := TBitmap.Create;
@@ -1203,7 +1204,6 @@ begin
   FScrollbar.OnScroll := ScrollbarOnScroll;
   FScrollbar.OnEnter := ScrollbarOnEnter;
   FScrollbar.Parent := Self;
-  Visible := False;
 
   FTitleFont := TFont.Create;
   FTitleFont.Name := 'MS Shell Dlg 2';
@@ -1245,11 +1245,13 @@ begin
   OnDblClick := DoDoubleClick;
   OnShow := DoFormShow;
   OnHide := DoFormHide;
+
+  StyleElements := [seClient];
+  Resizeable := False;
+  Visible := False;
 end;
 
 procedure TSynBaseCompletionProposalForm.CreateParams(var Params: TCreateParams);
-const
-  CS_DROPSHADOW = $20000;
 begin
   inherited;
   with Params do
@@ -1259,11 +1261,17 @@ begin
 
    Params.WindowClass.style := Params.WindowClass.style or CS_DROPSHADOW;
 
+    {
+      WS_THICKFRAME causes Windows 10 to display a 6 pixel title bar
+      Also with VCL Styles the window is not resizable
+      So we use WS_DLGFRAME (could instead use WS_SBORDER)
+      and make the window sizeable by handling WM_NCHITTEST
+    }
     if DisplayType = ctCode then
-      if FResizeable then
-        Style := Style or WS_THICKFRAME
-      else
-       Style := Style or WS_DLGFRAME;
+      //if FResizeable then
+      //  Style := Style or WS_THICKFRAME
+      //else
+        Style := Style or WS_DLGFRAME;
   end;
 end;
 
@@ -1438,9 +1446,9 @@ begin
         begin
           if IsWordBreakChar(Key) and Assigned(OnValidate) then
           begin
-//            if Key = #32 then
-//              OnValidate(Self, [], #0)
-//            else
+            //if Key = #32 then
+            //  OnValidate(Self, [], #0)
+            //else
               OnValidate(Self, [], Key);
           end;
 
@@ -1471,40 +1479,6 @@ begin
 //  (CurrentEditor as TCustomSynEdit).UpdateCaret;
 end;
 
-function TSynBaseCompletionProposalForm.CanResize(var NewWidth, NewHeight: Integer): Boolean;
-var
-  NewLinesInWindow: Integer;
-  BorderWidth: Integer;
-begin
-  Result := True;
-  case FDisplayKind of
-  ctCode:
-    begin
-      if Resizeable then
-        BorderWidth := 2 * GetSystemMetrics(SM_CYSIZEFRAME)
-      else
-        BorderWidth := 2 * GetSystemMetrics(SM_CYFIXEDFRAME);
-
-      if FEffectiveItemHeight <> 0 then
-      begin
-        NewLinesInWindow := (NewHeight - BorderWidth - FHeightBuffer) div FEffectiveItemHeight;
-        if NewLinesInWindow < 1 then
-          NewLinesInWindow := 1;
-      end else
-        NewLinesInWindow := 0;
-
-      FLinesInWindow := NewLinesInWindow;
-
-      NewHeight := FEffectiveItemHeight * FLinesInWindow + FHeightBuffer + BorderWidth;
-
-      if (NewWidth-BorderWidth) < FScrollbar.Width then
-        NewWidth := FScrollbar.Width + BorderWidth;
-    end;
-  ctHint:;
-  ctParams:;
-  end;
-end;
-
 procedure TSynBaseCompletionProposalForm.Resize;
 begin
   inherited;
@@ -1519,7 +1493,6 @@ begin
   Invalidate;
 end;
 
-
 procedure TSynBaseCompletionProposalForm.Paint;
 
   procedure ResetCanvas;
@@ -1533,15 +1506,15 @@ procedure TSynBaseCompletionProposalForm.Paint;
     end;
   end;
 
-const
-  TitleMargin = 2;
 var
   TmpRect: TRect;
   TmpX: Integer;
-  AlreadyDrawn: boolean;
+  AlreadyDrawn: Boolean;
   TmpString: string;
   i: Integer;
+  ScaledMargin: Integer;
 begin
+  ScaledMargin := MulDiv((Owner as TSynBaseCompletionProposal).Margin, CurrentPPI, 96);
   if FDisplayKind = ctCode then
   begin
     with Bitmap do
@@ -1575,7 +1548,7 @@ begin
         begin
           if FFormattedText then
           begin
-            FormattedTextOut(Canvas, Rect(FMargin,
+            FormattedTextOut(Canvas, Rect(ScaledMargin,
               FEffectiveItemHeight * i  + ((FEffectiveItemHeight - FFontHeight) div 2),
               Bitmap.Width, FEffectiveItemHeight * (i + 1)),
               CurrentPPI, FAssignedList[FScrollbar.Position + i],
@@ -1583,13 +1556,18 @@ begin
           end
           else
           begin
-            Canvas.TextOut(FMargin, FEffectiveItemHeight * i,
+            Canvas.TextOut(ScaledMargin, FEffectiveItemHeight * i,
               FAssignedList[FScrollbar.Position + i]);
           end;
 
           if i + FScrollbar.Position = Position then
             ResetCanvas;
         end;
+      end;
+      if TStyleManager.IsCustomStyleActive then
+      begin
+        TmpRect := ClientRect;
+        DrawStyleEdge(Canvas, TmpRect, [eeRaisedOuter], [efRect, efFlat]);
       end;
     end;
     Canvas.Draw(0, FHeightBuffer, Bitmap);
@@ -1613,13 +1591,13 @@ begin
         if CenterTitle then
         begin
           TmpX := (Width - Canvas.TextWidth(Title)) div 2;
-          if TmpX < TitleMargin then
-            TmpX := TitleMargin;  //We still want to be able to read it, even if it does go over the edge
+          if TmpX < ScaledMargin then
+            TmpX := ScaledMargin;  //We still want to be able to read it, even if it does go over the edge
         end else
         begin
-          TmpX := TitleMargin;
+          TmpX := ScaledMargin;
         end;
-        Canvas.TextRect(TmpRect, TmpX, TitleMargin - 1, FTitle); // -1 because TmpRect.Top is already 1
+        Canvas.TextRect(TmpRect, TmpX, ScaledMargin - 1, FTitle); // -1 because TmpRect.Top is already 1
       end;
       Canvas.Draw(0, 0, TitleBitmap);
     end;
@@ -1631,30 +1609,30 @@ begin
       ResetCanvas;
       tmpRect := Rect(0, 0, ClientWidth, ClientHeight);
       Canvas.FillRect(tmpRect);
-      Frame3D(Canvas, tmpRect, cl3DLight, cl3DDkShadow, 1);
+      if StyleServices.IsSystemStyle then
+        Frame3D(Canvas, tmpRect, cl3DLight, cl3DDkShadow, 1);
 
       for i := 0 to FAssignedList.Count - 1 do
       begin
         AlreadyDrawn := False;
         if Assigned(OnPaintItem) then
-          OnPaintItem(Self, i, Canvas, Rect(0, FEffectiveItemHeight * i + FMargin,
-            ClientWidth, FEffectiveItemHeight * (i + 1) + FMargin), AlreadyDrawn);
+          OnPaintItem(Self, i, Canvas, Rect(0, FEffectiveItemHeight * i + ScaledMargin,
+            ClientWidth, FEffectiveItemHeight * (i + 1) + ScaledMargin), AlreadyDrawn);
 
         if AlreadyDrawn then
           ResetCanvas
         else
         begin
-//KV          if FDisplayKind = ctParams then
           if (FDisplayKind = ctParams) and (i = 0) and
-             (Owner as TSynBaseCompletionProposal).FormatParams
+            (Owner as TSynBaseCompletionProposal).FormatParams
           then
             TmpString := FormatParamList(FAssignedList[i], CurrentIndex)
           else
             TmpString := FAssignedList[i];
 
-          FormattedTextOut(Canvas, Rect(FMargin + 1,
-            FEffectiveItemHeight * i + ((FEffectiveItemHeight-FFontHeight) div 2) + FMargin,
-            Bitmap.Width - 1, FEffectiveItemHeight * (i + 1) + FMargin), CurrentPPI, TmpString,
+          FormattedTextOut(Canvas, Rect(ScaledMargin + 1,
+            FEffectiveItemHeight * i + ((FEffectiveItemHeight-FFontHeight) div 2) + ScaledMargin,
+            Bitmap.Width - 1, FEffectiveItemHeight * (i + 1) + ScaledMargin), CurrentPPI, TmpString,
             False, nil, FImages);
         end;
       end;
@@ -1940,6 +1918,51 @@ begin
 //  (CurrentEditor as TCustomSynEdit).UpdateCaret;
 end;
 
+procedure TSynBaseCompletionProposalForm.WMNCHitTest(var Message: TWMNCHitTest);
+var
+  D: Integer;
+  P: TPoint;
+begin
+  if not FResizeable then
+  begin
+    inherited;
+    Exit;
+  end;
+
+  D := GetSystemMetrics(SM_CXSIZEFRAME);
+
+  P := Self.ScreenToClient(Message.Pos);
+
+  if P.Y < D then
+  begin
+    if P.X < D then
+      Message.Result := HTTOPLEFT
+    else if P.X > ClientWidth - D then
+      Message.Result := HTTOPRIGHT
+    else
+      Message.Result := HTTOP;
+  end
+  else if P.Y > ClientHeight - D then
+  begin
+    if P.X < D then
+      Message.Result := HTBOTTOMLEFT
+    else if P.X > ClientWidth - D then
+      Message.Result := HTBOTTOMRIGHT
+    else
+      Message.Result := HTBOTTOM;
+  end
+  else
+  begin
+    if P.X < D then
+      Message.Result := HTLEFT
+    else if P.X > ClientWidth - D then
+      Message.Result := HTRIGHT
+  end;
+
+  if Message.Result = 0 then
+    inherited;
+end;
+
 function GetMDIParent (const Form: TSynForm): TSynForm;
 { Returns the parent of the specified MDI child form. But, if Form isn't a
   MDI child, it simply returns Form. }
@@ -1988,10 +2011,16 @@ begin
   begin
     (CurrentEditor as TCustomSynEdit).AlwaysShowCaret := OldShowCaret;
 //    (CurrentEditor as TCustomSynEdit).UpdateCaret;
+    if (Owner as TSynBaseCompletionProposal).FontsAreScaled then
+    begin
+      TitleFont.Height := MulDiv(TitleFont.Height, 96, CurrentEditor.CurrentPPI);
+      Font.Height := MulDiv(Font.Height, 96, CurrentEditor.CurrentPPI);
+      TSynBaseCompletionProposal(Owner).FontsAreScaled := False;
+    end;
     if DisplayType = ctCode then
     begin
       // Save after removing the PPI scaling
-      (Owner as TSynBaseCompletionProposal).FWidth := MulDiv(Width, 96, CurrentPPI);
+      (Owner as TSynBaseCompletionProposal).FWidth := MulDiv(ClientWidth, 96, CurrentPPI);
       (Owner as TSynBaseCompletionProposal).FNbLinesInWindow := FLinesInWindow;
     end;
   end;
@@ -2034,7 +2063,7 @@ begin
   if DisplayType = ctCode then
   begin
     if FTitle <> '' then
-      FHeightBuffer := FTitleFontHeight +  MulDiv(4, CurrentPPI, 96) {Margin}
+      FHeightBuffer := FTitleFontHeight + MulDiv(2 * FMargin, CurrentPPI, 96)
     else
       FHeightBuffer := 0;
 
@@ -2187,7 +2216,7 @@ end;
 
 { TSynBaseCompletionProposal }
 
-constructor TSynBaseCompletionProposal.Create(Aowner: TComponent);
+constructor TSynBaseCompletionProposal.Create(AOwner: TComponent);
 begin
   FWidth := 260;
   FNbLinesInWindow := 8;
@@ -2195,7 +2224,7 @@ begin
   FForm := TSynBaseCompletionProposalForm.Create(Self);
   EndOfTokenChr := DefaultEndOfTokenChr;
   FDotOffset := 0;
-  FFormatParams := True;  // KV
+  FFormatParams := True;
   DefaultType := ctCode;
 end;
 
@@ -2251,13 +2280,22 @@ Var
     tmpX: Integer;
     tmpY: Integer;
     tmpStr: string;
-    BorderWidth: Integer;
     NewWidth: Integer;
-    PPIScaledMargin: Integer;
-    PPIScaledWidth: Integer;
+    ScaledMargin: Integer;
+    ActivePPI: integer;
   begin
-    PPIScaledMargin := MulDiv(Form.Margin, Form.CurrentPPI, 96);
-    PPIScaledWidth := MulDiv(FWidth, Form.CurrentPPI, 96);
+    if Assigned(FForm.CurrentEditor) then
+      ActivePPI := FForm.CurrentEditor.CurrentPPI
+    else
+      ActivePPI := 96;
+    ScaledMargin := MulDiv(Form.Margin, ActivePPI, 96);
+    if not FFontsAreScaled then
+    begin
+      TitleFont.Height := MulDiv(TitleFont.Height, ActivePPI, 96);
+      Font.Height := MulDiv(Font.Height, ActivePPI, 96);
+      FFontsAreScaled := True;
+    end;
+
     tmpX := x;
     tmpY := Y + 2;
     tmpWidth := 0;
@@ -2265,19 +2303,12 @@ Var
     case Kind of
     ctCode:
       begin
-        if Resizeable then
-          BorderWidth := 2 * GetSystemMetrics(SM_CYSIZEFRAME)
-        else
-          BorderWidth := 2 * GetSystemMetrics(SM_CYFIXEDFRAME);
-
-        tmpWidth := PPIScaledWidth;
-        tmpHeight := Form.FHeightBuffer + Form.FEffectiveItemHeight * FNbLinesInWindow + BorderWidth;
+        tmpWidth := MulDiv(FWidth, ActivePPI, 96);
+        tmpHeight := Form.FHeightBuffer + Form.FEffectiveItemHeight * FNbLinesInWindow;
       end;
     ctHint:
       begin
-        BorderWidth := 2;
-        tmpHeight := Form.FEffectiveItemHeight * ItemList.Count + BorderWidth
-          + 2 * PPIScaledMargin;
+        tmpHeight := Form.FEffectiveItemHeight * ItemList.Count +  2 * ScaledMargin;
 
         Form.Canvas.Font.Assign(Font);
         for i := 0 to ItemList.Count -1 do
@@ -2289,18 +2320,16 @@ Var
             tmpWidth := NewWidth;
         end;
 
-        inc(tmpWidth, 2 * PPIScaledMargin + BorderWidth);
+        inc(tmpWidth, 2 * ScaledMargin);
       end;
     ctParams:
       begin
-        BorderWidth := 2;
-        tmpHeight := Form.FEffectiveItemHeight * ItemList.Count + BorderWidth
-          + 2 * PPIScaledMargin;
+        tmpHeight := Form.FEffectiveItemHeight * ItemList.Count + 2 * ScaledMargin;
 
         Form.Canvas.Font.Assign(Font);
         for i := 0 to ItemList.Count -1 do
         begin
-          if (i = 0) and FFormatParams then  //KV
+          if (i = 0) and FFormatParams then
             NewWidth := GetParamWidth(StripFormatCommands(ItemList[i]))
           else
             NewWidth := FormattedTextWidth(Form.Canvas, ItemList[i],
@@ -2313,25 +2342,28 @@ Var
             tmpWidth := NewWidth;
         end;
 
-        inc(tmpWidth, 2 * PPIScaledMargin +BorderWidth);
+        inc(tmpWidth, 2 * ScaledMargin);
       end;
     end;
 
     if tmpX + tmpWidth > GetWorkAreaWidth then
     begin
-      tmpX := GetWorkAreaWidth - tmpWidth - 5;  //small space buffer
+      tmpX := GetWorkAreaWidth - tmpWidth - MulDiv(5, FForm.CurrentPPI, 96);  //small space buffer
       if tmpX < 0 then
         tmpX := 0;
     end;
 
     if tmpY + tmpHeight > GetWorkAreaHeight then
     begin
-      tmpY := tmpY - tmpHeight - (Form.CurrentEditor  as TCustomSynEdit).LineHeight -4;
+      tmpY := tmpY - tmpHeight - (Form.CurrentEditor  as TCustomSynEdit).LineHeight -
+        MulDiv(4, FForm.CurrentPPI, 96);
       if tmpY < 0 then
         tmpY := 0;
     end;
 
-    Form.SetBounds(tmpX, tmpY, tmpWidth, tmpHeight);
+    Form.ClientWidth := tmpWidth;
+    Form.ClientHeight := tmpHeight;
+    Form.SetBounds(tmpX, tmpY, Form.Width, Form.Height)
   end;
 
 var
@@ -2850,17 +2882,17 @@ begin
         if FAdjustCompletionStart then
           FCompletionStart := BufferCoord(FCompletionStart, CaretY).Char;
         BlockBegin := BufferCoord(FCompletionStart, CaretY);
-        if EndToken = #0 then
-          BlockEnd := BufferCoord(WordEnd.Char, CaretY)
-        else
-          BlockEnd := BufferCoord(CaretX, CaretY);
+        //if EndToken = #0 then
+          BlockEnd := BufferCoord(WordEnd.Char, CaretY);
+        //else
+        //  BlockEnd := BufferCoord(CaretX, CaretY);
 
         if scoUseInsertList in FOptions then
         begin
           if scoLimitToMatchedText in FOptions then
           begin
             if (Form.FAssignedList.Count > Position) then
-              //GBN 15/01/2002 - Added check to make sure item is only used when no EndChar
+              // Added check to make sure item is only used when no EndChar
               if (InsertList.Count > Integer(Form.FAssignedList.Objects[position])) and
                  ((scoEndCharCompletion in fOptions) or (EndToken = #0)) then
                 Value := InsertList[Integer(Form.FAssignedList.Objects[position])]
@@ -2870,7 +2902,7 @@ begin
               Value := SelText;
           end else
           begin
-            //GBN 15/01/2002 - Added check to make sure item is only used when no EndChar
+            // Added check to make sure item is only used when no EndChar
             if (InsertList.Count > Position) and
                ((scoEndCharCompletion in FOptions) or (EndToken = #0)) then
               Value := InsertList[position]
@@ -2879,16 +2911,15 @@ begin
           end;
         end else
         begin
-          //GBN 15/01/2002 - Added check to make sure item is only used when no EndChar
+          // Added check to make sure item is only used when no EndChar
           if (Form.FAssignedList.Count > Position) and
              ((scoEndCharCompletion in FOptions) or (EndToken = #0)) then
             Value := Form.FAssignedList[Position]
           else
             Value := SelText;
         end;
-        Index := Position; //GBN 15/11/2001, need to assign position to temp var since it changes later
+        Index := Position; // Need to assign position to temp var since it changes later
 
-        //GBN 15/01/2002 - Cleaned this code up a bit
         if Assigned(FOnCodeCompletion) then
           FOnCodeCompletion(Self, Value, Shift,
             F.LogicalToPhysicalIndex(Index), EndToken); //GBN 15/11/2001
@@ -2904,11 +2935,10 @@ begin
           InternalCancelCompletion;
           if CanFocus then
             SetFocus;
-          EnsureCursorPosVisible; //GBN 25/02/2002
+          EnsureCursorPosVisible;
           CaretXY := BlockEnd;
           BlockBegin := CaretXY;
         end;
-        //GBN 15/11/2001
         if Assigned(FOnAfterCodeCompletion) then
           FOnAfterCodeCompletion(Self, Value, Shift,
             F.LogicalToPhysicalIndex(Index), EndToken);

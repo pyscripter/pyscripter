@@ -1065,7 +1065,7 @@ object EditorForm: TEditorForm
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
     Columns = <>
-    Resizeable = False
+    Resizeable = True
     Images = vilCodeImages
     OnClose = SynCodeCompletionClose
     OnExecute = SynCodeCompletionExecute
@@ -1074,7 +1074,7 @@ object EditorForm: TEditorForm
     TimerInterval = 300
     OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
     Left = 452
-    Top = 33
+    Top = 41
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams

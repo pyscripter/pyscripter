@@ -3083,11 +3083,16 @@ begin
   ParameterCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
   ParameterCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
   ParameterCompletion.TitleFont.Style := [fsBold];
+  ParameterCompletion.FontsAreScaled := True;
   ModifierCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
   ModifierCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
   ModifierCompletion.TitleFont.Style := [fsBold];
+  ModifierCompletion.FontsAreScaled := True;
   if Assigned(CodeTemplatesCompletion.GetCompletionProposal()) then
+  begin
     CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(PyIDEOptions.AutoCompletionFont);
+    CodeTemplatesCompletion.GetCompletionProposal().FontsAreScaled := True;
+  end;
 end;
 
 { TSynGeneralSyn }

@@ -80,13 +80,6 @@ inherited PythonIIForm: TPythonIIForm
         OnMouseDown = SynEditMouseDown
         OnMouseWheelDown = SynEditMouseWheelDown
         OnMouseWheelUp = SynEditMouseWheelUp
-        CodeFolding.GutterShapeSize = 11
-        CodeFolding.CollapsedLineColor = clGrayText
-        CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.IndentGuidesColor = clGray
-        CodeFolding.IndentGuides = True
-        CodeFolding.ShowCollapsedLine = False
-        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         BorderStyle = bsNone
         Gutter.BorderStyle = gbsNone
@@ -230,6 +223,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Copy history to Clipboard'
       ImageIndex = 1
+      ImageName = 'Item13'
       OnExecute = actCopyHistoryExecute
     end
     object actClearContents: TAction
@@ -238,6 +232,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Clear all interpreter output'
       ImageIndex = 3
+      ImageName = 'Item15'
       OnExecute = actClearContentsExecute
     end
     object actCopyWithoutPrompts: TAction
@@ -246,6 +241,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Copy selected text without the interpreter prompts'
       ImageIndex = 1
+      ImageName = 'Item13'
       ShortCut = 24643
       OnExecute = actCopyWithoutPromptsExecute
     end
@@ -255,6 +251,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Paste clipboard text with added interpreter prompts'
       ImageIndex = 2
+      ImageName = 'Item14'
       ShortCut = 24662
       OnExecute = actPasteAndExecuteExecute
     end

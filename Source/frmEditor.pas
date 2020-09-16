@@ -2886,6 +2886,7 @@ begin
     if CanExecute then
     begin
       Font := PyIDEOptions.AutoCompletionFont;
+      FontsAreScaled := True;
       ItemList.Text := DisplayText;
       InsertList.Text := InsertText;
       NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
@@ -3104,6 +3105,7 @@ begin
     with TSynCompletionProposal(Sender) do
     begin
       Font := PyIDEOptions.AutoCompletionFont;
+      FontsAreScaled := True;
       FormatParams := not (DisplayText = '');
       if not FormatParams then
         DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
@@ -3179,8 +3181,8 @@ begin
   SynEdit := TSynCompletionProposal(Sender).Editor;
   SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHTMLSyn,
     SynWebCompletion, CurrentInput);
-  TSynCompletionProposal(Sender).Font :=
-    PyIDEOptions.AutoCompletionFont;
+  TSynCompletionProposal(Sender).Font := PyIDEOptions.AutoCompletionFont;
+  TSynCompletionProposal(Sender).FontsAreScaled := True;
 end;
 
 procedure TEditorForm.ViewsTabControlActiveTabChange(Sender: TObject;
