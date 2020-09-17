@@ -148,6 +148,7 @@ var
   PromptCount, CurPrompt: Integer;
   MaxPromptWidth: Integer;
   ButtonTop, ButtonWidth, ButtonHeight: Integer;
+  ButtonsRightOffset: Integer;
 
   function GetPromptCaption(const ACaption: string): string;
   begin
@@ -227,16 +228,19 @@ begin
       else
         if Application.MainForm <> nil then
           LPPI := Application.MainForm.CurrentPPI;
+      OutputDebugString(PChar(Font.Height.ToString));
       ScaleForPPI(LPPI);
       Font.Assign(Screen.MessageFont);
-      Font.Height := Muldiv(Font.Height, CurrentPPI, Screen.PixelsPerInch);
+      Font.Height := Muldiv(Font.Height, LPPI, Screen.PixelsPerInch);
       //KV
       Canvas.Font := Font;
       DialogUnits := GetAveCharSize(Canvas);
       MaxPromptWidth := GetMaxPromptWidth(Canvas);
       BorderStyle := bsDialog;
       Caption := ACaption;
-      ClientWidth := MulDiv(180 + MaxPromptWidth, DialogUnits.X, 4);
+      ClientWidth := MulDiv(180 , DialogUnits.X, 4) + MaxPromptWidth;  //KV
+      if IsCustomStyleActive then
+        ClientWidth := ClientWidth + 4;
       PopupMode := pmAuto;
       Position := poScreenCenter;
       CurPrompt := MulDiv(8, DialogUnits.Y, 8);
@@ -262,23 +266,29 @@ begin
           Top := Prompt.Top + Prompt.Height - DialogUnits.Y -
             (GetTextBaseline(Edit, Canvas) - GetTextBaseline(Prompt, Canvas));
           Width := Form.ClientWidth - Left - MulDiv(8, DialogUnits.X, 4);
+          if IsCustomStyleActive then
+            Width := Width - 4;
           MaxLength := 255;
           Text := AValues[I];
           SelectAll;
           Prompt.FocusControl := Edit;
         end;
-        CurPrompt := Edit.Top + Edit.Height + 5;
+        CurPrompt := Edit.Top + Edit.Height + MulDiv(5, LPPI, 96); // KV
       end;
-      ButtonTop := Edit.Top + Edit.Height + 15;
+      ButtonTop := Edit.Top + Edit.Height + MulDiv(15, LPPI, 96); //KV
       ButtonWidth := MulDiv(50, DialogUnits.X, 4);
-      ButtonHeight := MulDiv(14, DialogUnits.Y, 8);
+      ButtonHeight := DialogUnits.Y + MulDiv(6, LPPI, 96);  //MulDiv(14, DialogUnits.Y, 8);
+      if IsCustomStyleActive then
+        ButtonsRightOffset := 4
+      else
+        ButtonsRightOffset := 0;
       with TButton.Create(Form) do
       begin
         Parent := Form;
         Caption := SMsgDlgOK;
         ModalResult := mrOk;
         Default := True;
-        SetBounds(Form.ClientWidth - (ButtonWidth + MulDiv(8, DialogUnits.X, 4)) * 2, ButtonTop, ButtonWidth, ButtonHeight);
+        SetBounds(Form.ClientWidth - (ButtonWidth + MulDiv(8, DialogUnits.X, 4)) * 2 - ButtonsRightOffset, ButtonTop, ButtonWidth, ButtonHeight);
       end;
       with TButton.Create(Form) do
       begin
@@ -286,8 +296,8 @@ begin
         Caption := SMsgDlgCancel;
         ModalResult := mrCancel;
         Cancel := True;
-        SetBounds(Form.ClientWidth - (ButtonWidth + MulDiv(8, DialogUnits.X, 4)), ButtonTop, ButtonWidth, ButtonHeight);
-        Form.ClientHeight := Top + Height + MulDiv(13, LPPI, 96);
+        SetBounds(Form.ClientWidth - (ButtonWidth + MulDiv(8, DialogUnits.X, 4)) - ButtonsRightOffset, ButtonTop, ButtonWidth, ButtonHeight);
+        Form.ClientHeight := Top + Height + MulDiv(13 + 2 * ButtonsRightOffset, LPPI, 96);
       end;
       if ShowModal = mrOk then
       begin
