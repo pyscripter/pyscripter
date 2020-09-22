@@ -196,6 +196,7 @@ type
     btnOk: TButton;
     btnCancel: TButton;
     btnHelp: TButton;
+    ckShowLigatures: TCheckBox;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
@@ -752,6 +753,7 @@ begin
   ckDisableScrollArrows.Checked := eoDisableScrollArrows in FSynEdit.Options;
   ckHideShowScrollbars.Checked := eoHideShowScrollbars in FSynEdit.Options;
   ckShowSpecialChars.Checked := eoShowSpecialChars in FSynEdit.Options;
+  ckShowLigatures.Checked := eoShowLigatures in FSynEdit.Options;
   //Caret
   cInsertCaret.ItemIndex:= ord(FSynEdit.InsertCaret);
   cOverwriteCaret.ItemIndex:= ord(FSynEdit.OverwriteCaret);
@@ -832,6 +834,7 @@ begin
   SetFlag(eoDisableScrollArrows, ckDisableScrollArrows.Checked);
   SetFlag(eoHideShowScrollbars, ckHideShowScrollbars.Checked);
   SetFlag(eoShowSpecialChars, ckShowSpecialChars.Checked);
+  SetFlag(eoShowLigatures, ckShowLigatures.Checked);
   FSynEdit.Options := vOptions;
   //Caret
   FSynEdit.InsertCaret:= TSynEditCaretType(cInsertCaret.ItemIndex);

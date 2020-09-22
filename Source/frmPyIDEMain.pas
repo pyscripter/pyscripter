@@ -507,6 +507,7 @@
           New Features
             Added support for Python 3.9 (and removed support for Python 2.6)
             Added support for virtualenv v20+.  Dropped support for earlier versions.
+            Added support for font ligatures
           Issues addressed
             #998, #1001, #1003, #1008, #1009
 
@@ -4510,7 +4511,7 @@ begin
     R := SpCenterRect(ARect, PPIScale(2), PPIScale(2));
     ExcludeClipRect(ACanvas.Handle,R.Left, R.Top, R.Right, R.Bottom);
   end;
-  SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor);
+  SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor, PPIScale);
   if Editor.Modified then
     SelectClipRgn(ACanvas.Handle, 0);
 end;
