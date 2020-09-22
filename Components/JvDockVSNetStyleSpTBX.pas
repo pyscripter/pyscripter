@@ -316,7 +316,7 @@ begin
       PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, SkinState);
     end;
 
-    SpDrawGlyphPattern(Canvas, R, gptClose, PatternColor);
+    SpDrawGlyphPattern(Canvas, R, gptClose, PatternColor, PPIScale);
   end;
 end;
 
@@ -477,7 +477,7 @@ begin
     C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
     C2 := CurrentSkin.GetThemedSystemColor(clWindow);
   end;
-  SpDrawXPGrip(Canvas, DragHandleR, C1, C2);
+  SpDrawXPGrip(Canvas, DragHandleR, C1, C2, PPIScale);
 
 end;
 
@@ -1179,7 +1179,7 @@ begin
       C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
       C2 := CurrentSkin.GetThemedSystemColor(clWindow);
     end;
-    SpDrawXPGrip(Canvas, DragHandleR, C1, C2);
+    SpDrawXPGrip(Canvas, DragHandleR, C1, C2, PPIScale);
 
 //  //uncomment this is you want the dotted frame drawn at designtime
 //  if csDesigning in ComponentState then
