@@ -2361,7 +2361,10 @@ var
         if Control.HostDockSite = nil then begin
           DragObject.DockRect.Width := Control.Width;
           DragObject.DockRect.Height := Control.Height;
-        end;
+        end
+        else
+          Control.ScaleForPPI(Screen.MonitorFromRect(DragObject.DockRect).PixelsPerInch);
+
         Control.Dock(nil, DragObject.DockRect);
         if (Control.Left <> DragObject.DockRect.Left) or (Control.Top <> DragObject.DockRect.Top) then
         begin
@@ -2430,7 +2433,11 @@ begin
           TargetPos.Y := 0;
         end
         else
+        begin
+          if Assigned(DragSave.Control) then
+            DragSave.Control.ScaleforPPI(Screen.MonitorFromPoint(DragSave.DragPos).PixelsPerInch);
           DoDockDrop(DragSave, DragSave.DragPos);
+        end;
       end;
       DragObject := nil;
     finally

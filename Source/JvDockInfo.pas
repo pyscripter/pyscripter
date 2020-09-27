@@ -976,8 +976,23 @@ begin
 end;
 
 procedure TJvDockInfoZone.SetDockInfoFromControlToNode(Control: TControl);
+Var
+  ControlPPI: integer;
 begin
-  DockRect := Control.BoundsRect;
+   ControlPPI := Control.CurrentPPI;
+   if (Control is TJvDockPanel) and (ControlPPI <> 96) and (ControlPPI <> 0) then
+   begin
+    // Get DockRect unscaled.  It will be scaled on loading back
+    with Control.BoundsRect do
+    begin
+      FDockRect.Left := MulDiv(Left, 96, ControlPPI);
+      FDockRect.Right := MulDiv(Right, 96, ControlPPI);
+      FDockRect.Top := MulDiv(Top, 96, ControlPPI);
+      FDockRect.Bottom := MulDiv(Bottom, 96, ControlPPI);
+    end;
+   end else
+     DockRect := Control.BoundsRect;
+
   UnDockWidth := Control.UnDockWidth;
   UnDockHeight := Control.UnDockHeight;
   if Control is TJvDockVSPopupPanel then
@@ -1057,11 +1072,14 @@ begin
       if Control is TForm then
       begin
         TForm(Control).BorderStyle := BorderStyle;
-        TForm(Control).FormStyle := FormStyle;
-        if WindowState = wsNormal then begin
+        if WindowState <> wsMinimized then
+        begin
+          TForm(Control).FormStyle := FormStyle;
           //https://stackoverflow.com/questions/3118751/how-can-i-display-a-form-on-a-secondary-monitor
+          Control.ScaleForPPI(Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch);
           Control.Visible := Visible;
-          Control.BoundsRect := DockRect;
+          // When Windows state is wsMaximized setting the BoundsRect would maximize the form in the correct Monitor
+          Control.BoundsRect := DockRect;  // is this useful for minimized forms?
         end;
         TForm(Control).WindowState := WindowState;
       end

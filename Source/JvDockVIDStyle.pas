@@ -3367,7 +3367,8 @@ begin
         begin
           JvGlobalDockClient.DoNCButtonDblClk(Page.DoMouseEvent(Msg, Page), Button, msTabPage);
           if (Button = mbLeft) and JvGlobalDockClient.CanFloat then
-            Ctrl.ManualDock(nil, nil, alNone);
+            JvGlobalDockClient.RestoreChild;
+            //Ctrl.ManualDock(nil, nil, alNone);
         end;
       end;
     end;

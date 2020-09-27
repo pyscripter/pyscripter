@@ -693,6 +693,7 @@ type
     procedure DockDrop(Source: TDragDockObject; X, Y: Integer); override;
     procedure LoadFromStream(Stream: TStream); virtual;
     procedure SaveToStream(Stream: TStream); virtual;
+    procedure ScaleForPPI(NewPPI: Integer); override;
 
     property ActiveDockForm: TCustomForm read GetActiveDockForm;
     property DockForm[Index: Integer]: TCustomForm read GetDockForm;
@@ -2203,8 +2204,10 @@ begin
   if (DockClient <> nil) and (Msg.Msg = WM_NCLBUTTONDBLCLK) then
     //KV
     if DockClient.DockState = JvDockState_Floating then begin
-      if Assigned(DockClient.LastDockSite) then
+      if Assigned(DockClient.LastDockSite) then begin
+        DockClient.ParentForm.ScaleForPPI(DockClient.LastDockSite.CurrentPPI);
         DockClient.ParentForm.ManualDock(DockClient.LastDockSite);
+      end;
     end else begin
       if DockClient.CanFloat then
         DockClient.RestoreChild;
@@ -2830,6 +2833,8 @@ var
       begin
         ARect := Bounds(TmpUnDockLeft, TmpUnDockTop, ParentForm.UndockWidth, ParentForm.UndockHeight);
         ParentForm.ManualFloat(ARect);
+        ParentForm.ScaleForPPI(Screen.MonitorFromPoint(Point(TmpUnDockLeft, TmpUnDockTop)).PixelsPerInch);
+
         if (ParentForm.Left <> ARect.Left) or (ParentForm.Top <> ARect.Top) then
         begin
           ParentForm.Left := ARect.Left;
@@ -3954,6 +3959,12 @@ begin
 end;
 
 procedure TJvDockPanel.CustomPositionDockRect(Source: TJvDockDragDockObject; X, Y: Integer);
+
+  function Scale(AValue: Integer): Integer;
+  begin
+    Result := MulDiv(AValue, FCurrentPPI, Source.Control.CurrentPPI);
+  end;
+
 var
   ARect: TRect;
 begin
@@ -3964,21 +3975,21 @@ begin
       alTop:
         begin
           ARect.TopLeft := ClientToScreen(Point(0, 0));
-          ARect.BottomRight := ClientToScreen(Point(Width, Source.Control.TBDockHeight));
+          ARect.BottomRight := ClientToScreen(Point(Width, Scale(Source.Control.TBDockHeight)));
         end;
       alBottom:
         begin
-          ARect.TopLeft := ClientToScreen(Point(0, -Source.Control.TBDockHeight));
+          ARect.TopLeft := ClientToScreen(Point(0, -Scale(Source.Control.TBDockHeight)));
           ARect.BottomRight := ClientToScreen(Point(Width, 0));
         end;
       alLeft:
         begin
           ARect.TopLeft := ClientToScreen(Point(0, 0));
-          ARect.BottomRight := ClientToScreen(Point(Source.Control.LRDockWidth, Height));
+          ARect.BottomRight := ClientToScreen(Point(Scale(Source.Control.LRDockWidth), Height));
         end;
       alRight:
         begin
-          ARect.TopLeft := ClientToScreen(Point(-Source.Control.LRDockWidth, 0));
+          ARect.TopLeft := ClientToScreen(Point(-Scale(Source.Control.LRDockWidth), 0));
           ARect.BottomRight := ClientToScreen(Point(Width, Height));
         end;
       alClient:
@@ -5175,6 +5186,23 @@ begin
 
   TabPageStreamEndFlag := -10;
   Stream.Write(TabPageStreamEndFlag, SizeOf(TabPageStreamEndFlag));
+end;
+
+procedure TJvDockTabPageControl.ScaleForPPI(NewPPI: Integer);
+// This is to work around the fact that TForm.ScaleForPPIRect
+// does not scale parented forms with not allocated handle
+Var
+  I: integer;
+  Form : TCustomForm;
+begin
+  for I := 0 to Count - 1 do
+  begin
+    Form := DockForm[I];
+    if Assigned(Form) then
+      Form.HandleNeeded;
+  end;
+
+  inherited;
 end;
 
 procedure TJvDockTabPageControl.SyncWithStyle;
