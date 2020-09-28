@@ -807,7 +807,7 @@ end;
 constructor TJvDockCustomPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  // csParentBackground will be removed after the initial drawaing of the control
+  // csParentBackground will be removed after the initial drawing of the control
   ControlStyle := [csAcceptsControls, csCaptureMouse, csClickEvents,
     csSetCaption, csParentBackground, csOpaque, csDoubleClicks, csReplicatable];
   Color := clBtnFace;

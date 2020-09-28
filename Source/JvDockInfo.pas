@@ -172,6 +172,7 @@ const
 implementation
 
 uses
+  Winapi.Messages,
   SysUtils,
   JvDockGlobals, JvDockVSNetStyle;
 
@@ -1072,16 +1073,17 @@ begin
       if Control is TForm then
       begin
         TForm(Control).BorderStyle := BorderStyle;
+        TForm(Control).FormStyle := FormStyle;
+        //https://stackoverflow.com/questions/3118751/how-can-i-display-a-form-on-a-secondary-monitor
+        Control.ScaleForPPI(Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch);
+        Control.Visible := Visible;
+        // When Windows state is wsMaximized setting the BoundsRect would maximize the form in the correct Monitor
+        Control.BoundsRect := DockRect;  // is this useful for minimized forms?
         if WindowState <> wsMinimized then
-        begin
-          TForm(Control).FormStyle := FormStyle;
-          //https://stackoverflow.com/questions/3118751/how-can-i-display-a-form-on-a-secondary-monitor
-          Control.ScaleForPPI(Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch);
-          Control.Visible := Visible;
-          // When Windows state is wsMaximized setting the BoundsRect would maximize the form in the correct Monitor
-          Control.BoundsRect := DockRect;  // is this useful for minimized forms?
-        end;
-        TForm(Control).WindowState := WindowState;
+          TForm(Control).WindowState := WindowState
+        else
+          // setting WindowState to wsMinimized leads to crashes
+          PostMessage(TForm(Control).Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
       end
       else
       begin
@@ -1102,8 +1104,6 @@ begin
       TWinControl(Control).EnableAlign;
     end;
   end;
-//  //  KV to avoid flickering in Vista
-//  if not ((Control is TForm) and (ParentName <> '')) then
   Control.Visible := Visible;
   Control.LRDockWidth := LRDockWidth;
   Control.TBDockHeight := TBDockHeight;
