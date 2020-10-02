@@ -505,12 +505,12 @@ function TPythonScanner.ScanModule(Module : TParsedModule): boolean;
 { TODO 2 : Optimize out calls to Trim }
 Var
   UseModifiedSource : boolean;
-  SourceLines : TStringList;
+  SourceLines : TFunc<TStringList>;
 
   function GetNthSourceLine(LineNo : integer) : string;
   begin
     if not Assigned(SourceLines) then begin
-      SourceLines := TSmartPtr.Make(TStringList.Create)();
+      SourceLines := TSmartPtr.Make(TStringList.Create);
       SourceLines.Text := Module.Source;
     end;
 
@@ -636,7 +636,6 @@ Var
     pRes, pSource : PWideChar;
     ParseState : TParseState;
   begin
-    SourceLines := nil;
     if Length(Source) = 0 then Exit;
     pRes := PWideChar(Source);
     pSource := PWideChar(Source);
@@ -724,6 +723,8 @@ var
   GlobalList : TStringList;
   AsgnTargetCount : integer;
 begin
+  SourceLines := nil;
+
   LineStarts := TSmartPtr.Make(TList.Create)();
   GlobalList := TSmartPtr.Make(TStringList.Create)();
   GlobalList.CaseSensitive := True;
