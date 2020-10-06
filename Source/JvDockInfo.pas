@@ -983,14 +983,14 @@ begin
    ControlPPI := Control.CurrentPPI;
    if (Control is TJvDockPanel) and (ControlPPI <> 96) and (ControlPPI <> 0) then
    begin
-    // Get DockRect unscaled.  It will be scaled on loading back
-    with Control.BoundsRect do
-    begin
-      FDockRect.Left := MulDiv(Left, 96, ControlPPI);
-      FDockRect.Right := MulDiv(Right, 96, ControlPPI);
-      FDockRect.Top := MulDiv(Top, 96, ControlPPI);
-      FDockRect.Bottom := MulDiv(Bottom, 96, ControlPPI);
-    end;
+     // Get DockRect unscaled.  It will be scaled on loading back
+     with Control.BoundsRect do
+     begin
+       FDockRect.Left := MulDiv(Left, 96, ControlPPI);
+       FDockRect.Right := MulDiv(Right, 96, ControlPPI);
+       FDockRect.Top := MulDiv(Top, 96, ControlPPI);
+       FDockRect.Bottom := MulDiv(Bottom, 96, ControlPPI);
+     end;
    end else
      DockRect := Control.BoundsRect;
 
@@ -1057,11 +1057,15 @@ var
   end;
 
   procedure SetDockSiteSize(DockSite: TJvDockPanel);
+  // DockPanel DockRect is unscaled
+  Var
+    LCurrentPPI: Integer;
   begin
+    LCurrentPPI := DockSite.CurrentPPI;
     if DockSite.Align in [alTop, alBottom] then
-      DockSite.JvDockManager.DockSiteSize := DockRect.Bottom - DockRect.Top
+      DockSite.JvDockManager.DockSiteSize := MulDiv(DockRect.Bottom - DockRect.Top, LCurrentPPI, 96)
     else
-      DockSite.JvDockManager.DockSiteSize := DockRect.Right - DockRect.Left;
+      DockSite.JvDockManager.DockSiteSize := MulDiv(DockRect.Right - DockRect.Left, LCurrentPPI, 96);
   end;
 
 begin

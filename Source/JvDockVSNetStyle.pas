@@ -1168,7 +1168,6 @@ begin
   FVSPopupPanel := TJvDockVSPopupPanel.Create(Parent, FVSNETDockPanel);
 
   { Channel is maintainer/Creator }
-  FVSPopupPanel.FreeNotification(Self);
   FVSPopupPanel.Name := FVSNETDockPanel.Name + '_PopupPanel';
   FVSPopupPanel.Visible := False;
   if Parent is TCustomForm then
@@ -1177,6 +1176,7 @@ begin
     FVSPopupPanel.Align := alNone;
     FVSPopupPanel.BringToFront;
   end;
+  FVSPopupPanel.FreeNotification(Self);
   FVSPopupPanelSplitter := TJvDockVSPopupPanelSplitter.Create(Parent);
   { Channel is maintainer/Creator }
   FVSPopupPanelSplitter.FreeNotification(Self);
@@ -1227,7 +1227,7 @@ begin
   if FVSNETDockPanel <> nil then
     Result := FVSNETDockPanel.PPIScale(Value)
   else
-    Result := MulDiv(Value, Screen.PixelsPerInch, 96);
+    Result := MulDiv(Value, FCurrentPPI, 96);
 end;
 
 function TJvDockVSChannel.FindDockControl(Control: TWinControl;
