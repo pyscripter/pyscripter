@@ -380,8 +380,8 @@ initialization
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := _('Install Packages with pip');
     Description := _('Install Python packages');
-    ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[PythonDir-Short]Lib\site-packages\pip install $[Package?Package Name]';
+    ApplicationName := '$[PythonDir-Short]\Scripts\pip.exe';
+    Parameters := 'install -U $[Package?Package Name]';
     ParseMessages := False;
     CaptureOutput := True;
     ConsoleHidden := True;
@@ -443,9 +443,9 @@ initialization
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := 'Py&lint';
-    Description := _('PyLint tool (www.logilab.org/projects/pylint)');
-    ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[PythonDir-Short]Lib\site-packages\pylint\lint.py $[ActiveDoc-Short] -f parseable';
+    Description := _('PyLint tool (www.pylint.org)');
+    ApplicationName :=  '$[PythonDir-Short]\Scripts\pylint.exe';
+    Parameters := '-f parseable $[ActiveDoc-Short]';
     ShortCut := Vcl.Menus.Shortcut(Ord('L'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
     SaveFiles := sfAll;
