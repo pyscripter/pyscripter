@@ -380,7 +380,7 @@ initialization
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := _('Install Packages with pip');
     Description := _('Install Python packages');
-    ApplicationName := '$[PythonDir-Short]\Scripts\pip.exe';
+    ApplicationName := '$[PythonDir-Short]Scripts\pip.exe';
     Parameters := 'install -U $[Package?Package Name]';
     ParseMessages := False;
     CaptureOutput := True;
@@ -444,7 +444,7 @@ initialization
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := 'Py&lint';
     Description := _('PyLint tool (www.pylint.org)');
-    ApplicationName :=  '$[PythonDir-Short]\Scripts\pylint.exe';
+    ApplicationName :=  '$[PythonDir-Short]Scripts\pylint.exe';
     Parameters := '-f parseable $[ActiveDoc-Short]';
     ShortCut := Vcl.Menus.Shortcut(Ord('L'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
