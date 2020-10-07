@@ -18,7 +18,6 @@ inherited CollectionEditor: TCollectionEditor
     Width = 301
     Height = 267
     Align = alClient
-    Caption = 'Panel1'
     UseDockManager = False
     ParentColor = True
     ShowCaption = False
