@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2020-02-11 13:48\n"
+"POT-Creation-Date: 2020-10-07 05:50\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -315,167 +315,6 @@ msgstr ""
 msgid "Update item"
 msgstr ""
 
-#. CodeTemplates..vilImages..DisabledSuffix
-#. CustomizeParams..vilImages..DisabledSuffix
-#. DirectoryListDialog..vilImages..DisabledSuffix
-#. FileTemplatesDialog..vilImages..DisabledSuffix
-#. FindInFilesDialog..vilImages..DisabledSuffix
-#. ImportDirectoryForm..vilImages..DisabledSuffix
-#. PickListDialog..vilImages..DisabledSuffix
-#. PythonVersionsDialog..vilImages..DisabledSuffix
-#. RemoteFileDialog..vilImages..DisabledSuffix
-#. RunConfigurationForm..vilImages..DisabledSuffix
-#. PageSetupDlg..vilPageSetup..DisabledSuffix
-#. PrintPreviewDlg..vilPrintPreview..DisabledSuffix
-#. ToolProperties..vilImages..DisabledSuffix
-#. UnitTestWizard..vilCodeImages..DisabledSuffix
-#. UnitTestWizard..vilImages..DisabledSuffix
-#. BreakPointsWindow..vilImages..DisabledSuffix
-#. CallStackWindow..vilImages..DisabledSuffix
-#. CodeExplorerWindow..vilCodeImages..DisabledSuffix
-#. CodeExplorerWindow..vilImages..DisabledSuffix
-#. OutputWindow..vilImages..DisabledSuffix
-#. DocForm..BrowserImages..DisabledSuffix
-#. EditorForm..vilGutterGlyphs..DisabledSuffix
-#. EditorForm..vilCodeImages..DisabledSuffix
-#. FileExplorerWindow..vilImages..DisabledSuffix
-#. FindResultsWindow..vilImages..DisabledSuffix
-#. FunctionListWindow..vilCodeImages..DisabledSuffix
-#. FunctionListWindow..vilImages..DisabledSuffix
-#. MessagesWindow..vilImages..DisabledSuffix
-#. ProjectExplorerWindow..vilProjects..DisabledSuffix
-#. ProjectExplorerWindow..vilImages..DisabledSuffix
-#. PyIDEMainForm..vilImages..DisabledSuffix
-#. PythonIIForm..vilCodeImages..DisabledSuffix
-#. PythonIIForm..vilImages..DisabledSuffix
-#. RegExpTesterWindow..vilImages..DisabledSuffix
-#. ToDoWindow..ToDoImages..DisabledSuffix
-#. ToDoWindow..vicImages..DisabledSuffix
-#. UnitTestWindow..vilRunImages..DisabledSuffix
-#. UnitTestWindow..vilImages..DisabledSuffix
-#. VariablesWindow..vilCodeImages..DisabledSuffix
-#. WatchesWindow..vilCodeImages..DisabledSuffix
-#. WatchesWindow..vilImages..DisabledSuffix
-#. WebPreviewForm..BrowserImages..DisabledSuffix
-#: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgDirectoryList.dfm
-#: dlgFileTemplates.dfm dlgFindInFiles.dfm dlgImportDirectory.dfm
-#: dlgPickList.dfm dlgPythonVersions.dfm dlgRemoteFile.dfm
-#: dlgRunConfiguration.dfm dlgSynPageSetup.dfm dlgSynPrintPreview.dfm
-#: dlgToolProperties.dfm dlgUnitTestWizard.dfm frmBreakPoints.dfm
-#: frmCallStack.dfm frmCodeExplorer.dfm frmCommandOutput.dfm frmDocView.dfm
-#: frmEditor.dfm frmFileExplorer.dfm frmFindResults.dfm frmFunctionList.dfm
-#: frmMessages.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm frmPythonII.dfm
-#: frmRegExpTester.dfm frmToDo.dfm frmUnitTests.dfm frmVariables.dfm
-#: frmWatches.dfm frmWebPreview.dfm
-msgid "_Disabled"
-msgstr ""
-
-#. CodeTemplates..vilImages......CollectionName
-#. CodeTemplates..vilImages......Name
-#. CustomizeParams..vilImages......CollectionName
-#. CustomizeParams..vilImages......Name
-#. FileTemplatesDialog..vilImages......CollectionName
-#. FileTemplatesDialog..vilImages......Name
-#. ToolProperties..vilImages......CollectionName
-#. ToolProperties..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. OutputWindow..vilImages......CollectionName
-#. OutputWindow..vilImages......Name
-#. MessagesWindow..vilImages......CollectionName
-#. MessagesWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilImages......CollectionName
-#. PythonIIForm..vilImages......Name
-#. RegExpTesterWindow..vilImages......CollectionName
-#. RegExpTesterWindow..vilImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#. WatchesWindow..vilImages......CollectionName
-#. WatchesWindow..vilImages......Name
-#: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
-#: dlgToolProperties.dfm dmCommands.dfm frmCommandOutput.dfm frmMessages.dfm
-#: frmPyIDEMain.dfm frmPythonII.dfm frmRegExpTester.dfm frmUnitTests.dfm
-#: frmWatches.dfm
-msgid "Item15"
-msgstr ""
-
-#. CodeTemplates..vilImages......CollectionName
-#. CodeTemplates..vilImages......Name
-#. CustomizeParams..vilImages......CollectionName
-#. CustomizeParams..vilImages......Name
-#. FileTemplatesDialog..vilImages......CollectionName
-#. FileTemplatesDialog..vilImages......Name
-#. ToolProperties..vilImages......CollectionName
-#. ToolProperties..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. ToDoWindow..vicImages......CollectionName
-#. ToDoWindow..vicImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
-#: dlgToolProperties.dfm dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-#: frmToDo.dfm frmUnitTests.dfm
-msgid "Item40"
-msgstr ""
-
-#. CodeTemplates..vilImages......CollectionName
-#. CodeTemplates..vilImages......Name
-#. CustomizeParams..vilImages......CollectionName
-#. CustomizeParams..vilImages......Name
-#. DirectoryListDialog..vilImages......CollectionName
-#. DirectoryListDialog..vilImages......Name
-#. FileTemplatesDialog..vilImages......CollectionName
-#. FileTemplatesDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgDirectoryList.dfm
-#: dlgFileTemplates.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item48"
-msgstr ""
-
-#. CodeTemplates..vilImages......CollectionName
-#. CodeTemplates..vilImages......Name
-#. CustomizeParams..vilImages......CollectionName
-#. CustomizeParams..vilImages......Name
-#. DirectoryListDialog..vilImages......CollectionName
-#. DirectoryListDialog..vilImages......Name
-#. FileTemplatesDialog..vilImages......CollectionName
-#. FileTemplatesDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgDirectoryList.dfm
-#: dlgFileTemplates.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item49"
-msgstr ""
-
-#. CodeTemplates..vilImages......CollectionName
-#. CodeTemplates..vilImages......Name
-#. CustomizeParams..vilImages......CollectionName
-#. CustomizeParams..vilImages......Name
-#. FileTemplatesDialog..vilImages......CollectionName
-#. FileTemplatesDialog..vilImages......Name
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. ToolProperties..vilImages......CollectionName
-#. ToolProperties..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. WatchesWindow..vilImages......CollectionName
-#. WatchesWindow..vilImages......Name
-#: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
-#: dlgPythonVersions.dfm dlgToolProperties.dfm dmCommands.dfm frmPyIDEMain.dfm
-#: frmWatches.dfm
-msgid "Item50"
-msgstr ""
-
 #. CollectionEditor..Panel1..AddBtn..Caption
 #. DirectoryListDialog..Panel2..btnAdd..Caption
 #: dlgCollectionEditor.dfm dlgDirectoryList.dfm
@@ -674,35 +513,6 @@ msgstr ""
 #. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
-msgstr ""
-
-#. DirectoryListDialog..vilImages......CollectionName
-#. DirectoryListDialog..vilImages......Name
-#. FindInFilesDialog..vilImages......CollectionName
-#. FindInFilesDialog..vilImages......Name
-#. ImportDirectoryForm..vilImages......CollectionName
-#. ImportDirectoryForm..vilImages......Name
-#. RunConfigurationForm..vilImages......CollectionName
-#. RunConfigurationForm..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgDirectoryList.dfm dlgFindInFiles.dfm dlgImportDirectory.dfm
-#: dlgRunConfiguration.dfm dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item46"
-msgstr ""
-
-#. DirectoryListDialog..vilImages......CollectionName
-#. DirectoryListDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgDirectoryList.dfm dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item85"
 msgstr ""
 
 #. ExceptionDialogMail..TextMemo..Hint
@@ -992,34 +802,6 @@ msgstr ""
 msgid "Deselect all items"
 msgstr ""
 
-#. PickListDialog..vilImages......CollectionName
-#. PickListDialog..vilImages......Name
-#. UnitTestWizard..vilImages......CollectionName
-#. UnitTestWizard..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dlgPickList.dfm dlgUnitTestWizard.dfm dmCommands.dfm frmPyIDEMain.dfm
-#: frmUnitTests.dfm
-msgid "Item105"
-msgstr ""
-
-#. PickListDialog..vilImages......CollectionName
-#. PickListDialog..vilImages......Name
-#. UnitTestWizard..vilImages......CollectionName
-#. UnitTestWizard..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dlgPickList.dfm dlgUnitTestWizard.dfm dmCommands.dfm frmPyIDEMain.dfm
-#: frmUnitTests.dfm
-msgid "Item106"
-msgstr ""
-
 #. PythonVersionsDialog..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiSelectPythonVersion..Caption
@@ -1132,100 +914,6 @@ msgstr ""
 msgid "Rename selected Python version"
 msgstr ""
 
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. PageSetupDlg..vilPageSetup......Name
-#. PrintPreviewDlg..vilPrintPreview......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilGutterGlyphs......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. ProjectExplorerWindow..vilProjects......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. UnitTestWindow..vilRunImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgPythonVersions.dfm dlgSynPageSetup.dfm dlgSynPrintPreview.dfm
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm frmPythonII.dfm
-#: frmUnitTests.dfm frmVariables.dfm frmWatches.dfm
-msgid "Item3"
-msgstr ""
-
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dlgPythonVersions.dfm dmCommands.dfm frmProjectExplorer.dfm
-#: frmPyIDEMain.dfm frmUnitTests.dfm
-msgid "Item52"
-msgstr ""
-
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. OutputWindow..vilImages......CollectionName
-#. OutputWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgPythonVersions.dfm dmCommands.dfm frmCommandOutput.dfm frmPyIDEMain.dfm
-msgid "Item53"
-msgstr ""
-
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgPythonVersions.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item72"
-msgstr ""
-
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgPythonVersions.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item90"
-msgstr ""
-
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgPythonVersions.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item131"
-msgstr ""
-
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgPythonVersions.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item160"
-msgstr ""
-
-#. PythonVersionsDialog..vilImages......CollectionName
-#. PythonVersionsDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgPythonVersions.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item161"
-msgstr ""
-
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
@@ -1234,15 +922,6 @@ msgstr ""
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
 msgid "SSH Server:"
-msgstr ""
-
-#. RemoteFileDialog..vilImages......CollectionName
-#. RemoteFileDialog..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgRemoteFile.dfm dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item83"
 msgstr ""
 
 #. ReplaceInFilesDialog..Caption
@@ -1388,42 +1067,6 @@ msgstr ""
 msgid "Save Output"
 msgstr ""
 
-#. RunConfigurationForm..vilImages......CollectionName
-#. RunConfigurationForm..vilImages......Name
-#. PageSetupDlg..vilPageSetup......Name
-#. PrintPreviewDlg..vilPrintPreview......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilGutterGlyphs......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. ProjectExplorerWindow..vilProjects......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. UnitTestWindow..vilRunImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgRunConfiguration.dfm dlgSynPageSetup.dfm dlgSynPrintPreview.dfm
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm frmPythonII.dfm
-#: frmUnitTests.dfm frmVariables.dfm frmWatches.dfm
-msgid "Item2"
-msgstr ""
-
-#. RunConfigurationForm..vilImages......CollectionName
-#. RunConfigurationForm..vilImages......Name
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dlgRunConfiguration.dfm dmCommands.dfm frmProjectExplorer.dfm
-#: frmPyIDEMain.dfm
-msgid "Item162"
-msgstr ""
-
 #. StyleSelectorForm..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
@@ -1436,9 +1079,7 @@ msgid "Available Styles"
 msgstr ""
 
 #. StyleSelectorForm..Label2..Caption
-#. DocForm..BrowserImages......Name
-#. WebPreviewForm..BrowserImages......Name
-#: dlgStyleSelector.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgStyleSelector.dfm
 msgid "Preview"
 msgstr ""
 
@@ -1571,6 +1212,120 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right Edge"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge Column:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Gutter"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#: dlgSynEditOptions.dfm
+msgid "Autosize"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show line numbers"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show leading zeros"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Visible"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#: dlgSynEditOptions.dfm
+msgid "Start at zero"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#: dlgSynEditOptions.dfm
+msgid "Gutter gradient visible"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter Gradient"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Hint
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Font"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmark keys"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks visible"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Font"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Line spacing / Tab spacing"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#: dlgSynEditOptions.dfm
+msgid "Extra Lines:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Width:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Active Line Color"
 msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
@@ -1823,6 +1578,12 @@ msgstr ""
 msgid "Scroll hint follows mouse"
 msgstr ""
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show font ligatures"
+msgstr ""
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
 msgid "Caret"
@@ -1860,120 +1621,6 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Block"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right Edge"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge Column:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Gutter"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm
-msgid "Autosize"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show line numbers"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show leading zeros"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Visible"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm
-msgid "Start at zero"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm
-msgid "Gutter gradient visible"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter Gradient"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Font"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmark keys"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks visible"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Font"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Line spacing / Tab spacing"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Width:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Active Line Color"
 msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
@@ -2189,205 +1836,6 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item1"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item2"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item3"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item4"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item5"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item6"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item7"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item8"
-msgstr ""
-
-#. PageSetupDlg..ic_PageSetup......Name
-#. PageSetupDlg..vilPageSetup......CollectionName
-#: dlgSynPageSetup.dfm
-msgid "PageSetup\\Item9"
-msgstr ""
-
-#. PageSetupDlg..vilPageSetup......Name
-#. PrintPreviewDlg..vilPrintPreview......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilGutterGlyphs......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. ProjectExplorerWindow..vilProjects......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. UnitTestWindow..vilRunImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgSynPageSetup.dfm dlgSynPrintPreview.dfm dlgUnitTestWizard.dfm
-#: dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm frmFunctionList.dfm
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm frmPythonII.dfm frmUnitTests.dfm
-#: frmVariables.dfm frmWatches.dfm
-msgid "Item1"
-msgstr ""
-
-#. PageSetupDlg..vilPageSetup......Name
-#. PrintPreviewDlg..vilPrintPreview......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilGutterGlyphs......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. ProjectExplorerWindow..vilProjects......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. UnitTestWindow..vilRunImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgSynPageSetup.dfm dlgSynPrintPreview.dfm dlgUnitTestWizard.dfm
-#: dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm frmFunctionList.dfm
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm frmPythonII.dfm frmUnitTests.dfm
-#: frmVariables.dfm frmWatches.dfm
-msgid "Item4"
-msgstr ""
-
-#. PageSetupDlg..vilPageSetup......Name
-#. PrintPreviewDlg..vilPrintPreview......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilGutterGlyphs......Name
-#. EditorForm..vilCodeImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. UnitTestWindow..vilRunImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgSynPageSetup.dfm dlgSynPrintPreview.dfm dlgUnitTestWizard.dfm
-#: dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm frmFindResults.dfm
-#: frmFunctionList.dfm frmPyIDEMain.dfm frmPythonII.dfm frmUnitTests.dfm
-#: frmVariables.dfm frmWatches.dfm
-msgid "Item5"
-msgstr ""
-
-#. PageSetupDlg..vilPageSetup......Name
-#. PrintPreviewDlg..vilPrintPreview......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilGutterGlyphs......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. UnitTestWindow..vilRunImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgSynPageSetup.dfm dlgSynPrintPreview.dfm dlgUnitTestWizard.dfm
-#: dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm frmFunctionList.dfm
-#: frmPyIDEMain.dfm frmPythonII.dfm frmUnitTests.dfm frmVariables.dfm
-#: frmWatches.dfm
-msgid "Item6"
-msgstr ""
-
-#. PageSetupDlg..vilPageSetup......Name
-#. PrintPreviewDlg..vilPrintPreview......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgSynPageSetup.dfm dlgSynPrintPreview.dfm dlgUnitTestWizard.dfm
-#: dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm frmFunctionList.dfm
-#: frmPyIDEMain.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "Item7"
-msgstr ""
-
-#. PageSetupDlg..vilPageSetup......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgSynPageSetup.dfm dlgUnitTestWizard.dfm dmCommands.dfm
-#: frmCodeExplorer.dfm frmEditor.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-#: frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "Item8"
-msgstr ""
-
-#. PageSetupDlg..vilPageSetup......Name
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. EditorForm..vilCodeImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. ToDoWindow..vicImages......CollectionName
-#. ToDoWindow..vicImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#: dlgSynPageSetup.dfm dlgUnitTestWizard.dfm dmCommands.dfm
-#: frmCodeExplorer.dfm frmEditor.dfm frmFindResults.dfm frmFunctionList.dfm
-#: frmPyIDEMain.dfm frmPythonII.dfm frmToDo.dfm frmVariables.dfm
-#: frmWatches.dfm
-msgid "Item9"
-msgstr ""
-
 #. PrintPreviewDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
@@ -2497,9 +1945,7 @@ msgstr ""
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
-#. DocForm..BrowserImages......Name
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
-#. WebPreviewForm..BrowserImages......Name
 #. Programmer's name for it: SPrint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
 #: dlgSynPrintPreview.pas
@@ -2519,48 +1965,6 @@ msgstr ""
 #. PrintPreviewDlg..ActionList..CloseCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Close|Close Print Preview"
-msgstr ""
-
-#. PrintPreviewDlg..icPrintPreview......Name
-#. PrintPreviewDlg..vilPrintPreview......CollectionName
-#: dlgSynPrintPreview.dfm
-msgid "PrintPreview\\Item1"
-msgstr ""
-
-#. PrintPreviewDlg..icPrintPreview......Name
-#. PrintPreviewDlg..vilPrintPreview......CollectionName
-#: dlgSynPrintPreview.dfm
-msgid "PrintPreview\\Item2"
-msgstr ""
-
-#. PrintPreviewDlg..icPrintPreview......Name
-#. PrintPreviewDlg..vilPrintPreview......CollectionName
-#: dlgSynPrintPreview.dfm
-msgid "PrintPreview\\Item3"
-msgstr ""
-
-#. PrintPreviewDlg..icPrintPreview......Name
-#. PrintPreviewDlg..vilPrintPreview......CollectionName
-#: dlgSynPrintPreview.dfm
-msgid "PrintPreview\\Item4"
-msgstr ""
-
-#. PrintPreviewDlg..icPrintPreview......Name
-#. PrintPreviewDlg..vilPrintPreview......CollectionName
-#: dlgSynPrintPreview.dfm
-msgid "PrintPreview\\Item5"
-msgstr ""
-
-#. PrintPreviewDlg..icPrintPreview......Name
-#. PrintPreviewDlg..vilPrintPreview......CollectionName
-#: dlgSynPrintPreview.dfm
-msgid "PrintPreview\\Item6"
-msgstr ""
-
-#. PrintPreviewDlg..icPrintPreview......Name
-#. PrintPreviewDlg..vilPrintPreview......CollectionName
-#: dlgSynPrintPreview.dfm
-msgid "PrintPreview\\Item7"
 msgstr ""
 
 #. fmToDoOptions..Caption
@@ -2941,199 +2345,6 @@ msgstr ""
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Deselect all nodes"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item1"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item2"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item3"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item4"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item5"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item6"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item7"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item8"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item9"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......CollectionName
-#. CommandsDataModule..icCodeImages......Name
-#. CodeExplorerWindow..vilCodeImages......CollectionName
-#. EditorForm..vilCodeImages......CollectionName
-#. FunctionListWindow..vilCodeImages......CollectionName
-#. PythonIIForm..vilCodeImages......CollectionName
-#. VariablesWindow..vilCodeImages......CollectionName
-#. WatchesWindow..vilCodeImages......CollectionName
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmEditor.dfm
-#: frmFunctionList.dfm frmPythonII.dfm frmVariables.dfm frmWatches.dfm
-msgid "CodeImages\\Item10"
-msgstr ""
-
-#. UnitTestWizard..vilCodeImages......Name
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilCodeImages......Name
-#. DocForm..BrowserImages......Name
-#. EditorForm..vilCodeImages......Name
-#. FunctionListWindow..vilCodeImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilCodeImages......Name
-#. VariablesWindow..vilCodeImages......Name
-#. WatchesWindow..vilCodeImages......Name
-#. WebPreviewForm..BrowserImages......Name
-#: dlgUnitTestWizard.dfm dmCommands.dfm frmCodeExplorer.dfm frmDocView.dfm
-#: frmEditor.dfm frmFunctionList.dfm frmPyIDEMain.dfm frmPythonII.dfm
-#: frmVariables.dfm frmWatches.dfm frmWebPreview.dfm
-msgid "Item10"
-msgstr ""
-
-#. CommandsDataModule..ParameterCompletion..Title
-#. CommandsDataModule..actlMain..actParameterCompletion..Category
-#. CommandsDataModule..actlMain..actModifierCompletion..Category
-#. CommandsDataModule..actlMain..actReplaceParameters..Category
-#. CommandsDataModule..actlMain..actCustomizeParameters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
-msgid "Parameters"
-msgstr ""
-
-#. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm dmCommands.pas
-msgid "Modifiers"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python Module header"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Comment Line"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python application"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python class"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|File encoding comment"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Sheband"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -3602,6 +2813,15 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actParameterCompletion..Category
+#. CommandsDataModule..actlMain..actModifierCompletion..Category
+#. CommandsDataModule..actlMain..actReplaceParameters..Category
+#. CommandsDataModule..actlMain..actCustomizeParameters..Category
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
+msgid "Parameters"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
@@ -4198,1190 +3418,6 @@ msgstr ""
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr ""
 
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\Open"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\GoForward"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\GoBackword"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\Stop"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\PageSetup"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\Preview"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\Print"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\Save"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\Home"
-msgstr ""
-
-#. CommandsDataModule..icBrowserImages......Name
-#. DocForm..BrowserImages......CollectionName
-#. WebPreviewForm..BrowserImages......CollectionName
-#: dmCommands.dfm frmDocView.dfm frmWebPreview.dfm
-msgid "Browser\\Item10"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item11"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilImages......CollectionName
-#. PythonIIForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmPythonII.dfm
-msgid "Item12"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. BreakPointsWindow..vilImages......CollectionName
-#. BreakPointsWindow..vilImages......Name
-#. OutputWindow..vilImages......CollectionName
-#. OutputWindow..vilImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. FunctionListWindow..vilImages......CollectionName
-#. FunctionListWindow..vilImages......Name
-#. MessagesWindow..vilImages......CollectionName
-#. MessagesWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilImages......CollectionName
-#. PythonIIForm..vilImages......Name
-#. ToDoWindow..vicImages......CollectionName
-#. ToDoWindow..vicImages......Name
-#. WatchesWindow..vilImages......CollectionName
-#. WatchesWindow..vilImages......Name
-#: dmCommands.dfm frmBreakPoints.dfm frmCommandOutput.dfm frmFindResults.dfm
-#: frmFunctionList.dfm frmMessages.dfm frmPyIDEMain.dfm frmPythonII.dfm
-#: frmToDo.dfm frmWatches.dfm
-msgid "Item13"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilImages......CollectionName
-#. PythonIIForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmPythonII.dfm
-msgid "Item14"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm
-msgid "Item16"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item17"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm
-msgid "Item18"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm
-msgid "Item19"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. RegExpTesterWindow..vilImages......CollectionName
-#. RegExpTesterWindow..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmRegExpTester.dfm
-msgid "Item20"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. RegExpTesterWindow..vilImages......CollectionName
-#. RegExpTesterWindow..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmRegExpTester.dfm
-msgid "Item21"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. OutputWindow..vilImages......CollectionName
-#. OutputWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. RegExpTesterWindow..vilImages......CollectionName
-#. RegExpTesterWindow..vilImages......Name
-#: dmCommands.dfm frmCommandOutput.dfm frmPyIDEMain.dfm frmRegExpTester.dfm
-msgid "Item22"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilImages......CollectionName
-#. PythonIIForm..vilImages......Name
-#. RegExpTesterWindow..vilImages......CollectionName
-#. RegExpTesterWindow..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmPythonII.dfm frmRegExpTester.dfm
-msgid "Item23"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item24"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. ToDoWindow..vicImages......CollectionName
-#. ToDoWindow..vicImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm frmToDo.dfm
-msgid "Item25"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFileExplorer.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item26"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item27"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item28"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilImages......CollectionName
-#. CodeExplorerWindow..vilImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dmCommands.dfm frmCodeExplorer.dfm frmFindResults.dfm
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
-msgid "Item29"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilImages......CollectionName
-#. CodeExplorerWindow..vilImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dmCommands.dfm frmCodeExplorer.dfm frmFindResults.dfm
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
-msgid "Item30"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item31"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item32"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. FunctionListWindow..vilImages......CollectionName
-#. FunctionListWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. ToDoWindow..vicImages......CollectionName
-#. ToDoWindow..vicImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-#: frmToDo.dfm
-msgid "Item33"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. FunctionListWindow..vilImages......CollectionName
-#. FunctionListWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. RegExpTesterWindow..vilImages......CollectionName
-#. RegExpTesterWindow..vilImages......Name
-#. ToDoWindow..vicImages......CollectionName
-#. ToDoWindow..vicImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-#: frmRegExpTester.dfm frmToDo.dfm
-msgid "Item34"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item35"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item36"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item37"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item38"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item39"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. ToDoWindow..vicImages......CollectionName
-#. ToDoWindow..vicImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm frmToDo.dfm
-#: frmUnitTests.dfm
-msgid "Item41"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. CallStackWindow..vilImages......CollectionName
-#. CallStackWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmCallStack.dfm frmPyIDEMain.dfm
-msgid "Item42"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FindResultsWindow..vilImages......CollectionName
-#. FindResultsWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm
-msgid "Item43"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item44"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. OutputWindow..vilImages......CollectionName
-#. OutputWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmCommandOutput.dfm frmPyIDEMain.dfm
-msgid "Item45"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item47"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. WatchesWindow..vilImages......CollectionName
-#. WatchesWindow..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmWatches.dfm
-msgid "Item51"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item54"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item55"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item56"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item57"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item58"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item59"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item60"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item61"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. BreakPointsWindow..vilImages......CollectionName
-#. BreakPointsWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmBreakPoints.dfm frmPyIDEMain.dfm
-msgid "Item62"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item63"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item64"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item65"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item66"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. WatchesWindow..vilImages......CollectionName
-#. WatchesWindow..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmWatches.dfm
-msgid "Item67"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item68"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item69"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item70"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item71"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item73"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item74"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item75"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item76"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item77"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item78"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item79"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item80"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item81"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item82"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item84"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item86"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item87"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item88"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item89"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item91"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. OutputWindow..vilImages......CollectionName
-#. OutputWindow..vilImages......Name
-#. FunctionListWindow..vilImages......CollectionName
-#. FunctionListWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmCommandOutput.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-msgid "Item92"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. WatchesWindow..vilImages......CollectionName
-#. WatchesWindow..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmWatches.dfm
-msgid "Item93"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FunctionListWindow..vilImages......CollectionName
-#. FunctionListWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-msgid "Item94"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FunctionListWindow..vilImages......CollectionName
-#. FunctionListWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-msgid "Item95"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item96"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. MessagesWindow..vilImages......CollectionName
-#. MessagesWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmMessages.dfm frmPyIDEMain.dfm
-msgid "Item97"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. MessagesWindow..vilImages......CollectionName
-#. MessagesWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmMessages.dfm frmPyIDEMain.dfm
-msgid "Item98"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item99"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item100"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item101"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item102"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item103"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item104"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. UnitTestWindow..vilImages......CollectionName
-#. UnitTestWindow..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmUnitTests.dfm
-msgid "Item107"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item108"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item109"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item110"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item111"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item112"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item113"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item114"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item115"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. FileExplorerWindow..vilImages......CollectionName
-#. FileExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmFileExplorer.dfm frmPyIDEMain.dfm
-msgid "Item116"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item117"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item118"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item119"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item120"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item121"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item122"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. CodeExplorerWindow..vilImages......CollectionName
-#. CodeExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmCodeExplorer.dfm frmPyIDEMain.dfm
-msgid "Item123"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item124"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item125"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item126"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item127"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item128"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilImages......CollectionName
-#. PythonIIForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmPythonII.dfm
-msgid "Item129"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item130"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item132"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item133"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item134"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item135"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item136"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item137"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item138"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item139"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item140"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item141"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item142"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item143"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item144"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item145"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item146"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. ProjectExplorerWindow..vilImages......CollectionName
-#. ProjectExplorerWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "Item147"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item148"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item149"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item150"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item151"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item152"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. CallStackWindow..vilImages......CollectionName
-#. CallStackWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmCallStack.dfm frmPyIDEMain.dfm
-msgid "Item153"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. CallStackWindow..vilImages......CollectionName
-#. CallStackWindow..vilImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmCallStack.dfm frmPyIDEMain.dfm
-msgid "Item154"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#. PythonIIForm..vilImages......CollectionName
-#. PythonIIForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm frmPythonII.dfm
-msgid "Item155"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item156"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item157"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item158"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item159"
-msgstr ""
-
-#. CommandsDataModule..icImages......Name
-#. PyIDEMainForm..vilImages......CollectionName
-#. PyIDEMainForm..vilImages......Name
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Item163"
-msgstr ""
-
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
 msgid "Breakpoints"
@@ -5686,49 +3722,15 @@ msgid "Go Forward"
 msgstr ""
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
-#. DocForm..BrowserImages......Name
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
-#. WebPreviewForm..BrowserImages......Name
 #: frmDocView.dfm frmWebPreview.dfm
 msgid "Stop"
 msgstr ""
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem7..Hint
-#. DocForm..BrowserImages......Name
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem7..Hint
-#. WebPreviewForm..BrowserImages......Name
 #: frmDocView.dfm frmWebPreview.dfm
 msgid "Save"
-msgstr ""
-
-#. DocForm..BrowserImages......Name
-#. WebPreviewForm..BrowserImages......Name
-#: frmDocView.dfm frmWebPreview.dfm
-msgid "Open"
-msgstr ""
-
-#. DocForm..BrowserImages......Name
-#. WebPreviewForm..BrowserImages......Name
-#: frmDocView.dfm frmWebPreview.dfm
-msgid "GoForward"
-msgstr ""
-
-#. DocForm..BrowserImages......Name
-#. WebPreviewForm..BrowserImages......Name
-#: frmDocView.dfm frmWebPreview.dfm
-msgid "GoBackword"
-msgstr ""
-
-#. DocForm..BrowserImages......Name
-#. WebPreviewForm..BrowserImages......Name
-#: frmDocView.dfm frmWebPreview.dfm
-msgid "PageSetup"
-msgstr ""
-
-#. DocForm..BrowserImages......Name
-#. WebPreviewForm..BrowserImages......Name
-#: frmDocView.dfm frmWebPreview.dfm
-msgid "Home"
 msgstr ""
 
 #. EditorForm..BGPanel..ViewsTabControl..tabSource..Caption
@@ -5770,42 +3772,6 @@ msgstr ""
 #. EditorForm..pmnuEditor..mnUnfold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Unfold"
-msgstr ""
-
-#. EditorForm..vilGutterGlyphs......CollectionName
-#. EditorForm..icGutterGlyphs......Name
-#: frmEditor.dfm
-msgid "EditorGutter\\Item1"
-msgstr ""
-
-#. EditorForm..vilGutterGlyphs......CollectionName
-#. EditorForm..icGutterGlyphs......Name
-#: frmEditor.dfm
-msgid "EditorGutter\\Item2"
-msgstr ""
-
-#. EditorForm..vilGutterGlyphs......CollectionName
-#. EditorForm..icGutterGlyphs......Name
-#: frmEditor.dfm
-msgid "EditorGutter\\Item3"
-msgstr ""
-
-#. EditorForm..vilGutterGlyphs......CollectionName
-#. EditorForm..icGutterGlyphs......Name
-#: frmEditor.dfm
-msgid "EditorGutter\\Item4"
-msgstr ""
-
-#. EditorForm..vilGutterGlyphs......CollectionName
-#. EditorForm..icGutterGlyphs......Name
-#: frmEditor.dfm
-msgid "EditorGutter\\Item5"
-msgstr ""
-
-#. EditorForm..vilGutterGlyphs......CollectionName
-#. EditorForm..icGutterGlyphs......Name
-#: frmEditor.dfm
-msgid "EditorGutter\\Item6"
 msgstr ""
 
 #. FileExplorerWindow..Caption
@@ -6533,30 +4499,6 @@ msgstr ""
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr ""
-
-#. ProjectExplorerWindow..ilProjects......Name
-#. ProjectExplorerWindow..vilProjects......CollectionName
-#: frmProjectExplorer.dfm
-msgid "Projects\\Item1"
-msgstr ""
-
-#. ProjectExplorerWindow..ilProjects......Name
-#. ProjectExplorerWindow..vilProjects......CollectionName
-#: frmProjectExplorer.dfm
-msgid "Projects\\Item2"
-msgstr ""
-
-#. ProjectExplorerWindow..ilProjects......Name
-#. ProjectExplorerWindow..vilProjects......CollectionName
-#: frmProjectExplorer.dfm
-msgid "Projects\\Item3"
-msgstr ""
-
-#. ProjectExplorerWindow..ilProjects......Name
-#. ProjectExplorerWindow..vilProjects......CollectionName
-#: frmProjectExplorer.dfm
-msgid "Projects\\Item4"
 msgstr ""
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
@@ -7917,52 +5859,6 @@ msgstr ""
 msgid "Abort search for todo items"
 msgstr ""
 
-#. ToDoWindow..ToDoImageCollection......Name
-#. ToDoWindow..ToDoImages......CollectionName
-#: frmToDo.dfm
-msgid "ToDo\\HighPriority"
-msgstr ""
-
-#. ToDoWindow..ToDoImageCollection......Name
-#. ToDoWindow..ToDoImages......CollectionName
-#: frmToDo.dfm
-msgid "ToDo\\MediumPriority"
-msgstr ""
-
-#. ToDoWindow..ToDoImageCollection......Name
-#. ToDoWindow..ToDoImages......CollectionName
-#: frmToDo.dfm
-msgid "ToDo\\LowPriority"
-msgstr ""
-
-#. ToDoWindow..ToDoImageCollection......Name
-#. ToDoWindow..ToDoImages......CollectionName
-#: frmToDo.dfm
-msgid "ToDo\\Done"
-msgstr ""
-
-#. ToDoWindow..ToDoImages......Name
-#: frmToDo.dfm
-msgid "HighPriority"
-msgstr ""
-
-#. ToDoWindow..ToDoImages......Name
-#: frmToDo.dfm
-msgid "MediumPriority"
-msgstr ""
-
-#. ToDoWindow..ToDoImages......Name
-#: frmToDo.dfm
-msgid "LowPriority"
-msgstr ""
-
-#. ToDoWindow..ToDoImages......Name
-#. Programmer's name for it: SDone
-#. Programmer's name for it: SDoneTodoDesignation
-#: frmToDo.dfm frmToDo.pas
-msgid "Done"
-msgstr ""
-
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
 msgid "Unit Tests"
@@ -8064,42 +5960,6 @@ msgstr ""
 #. UnitTestWindow..DialogActions..actClearAll..Hint
 #: frmUnitTests.dfm
 msgid "Clear all tests"
-msgstr ""
-
-#. UnitTestWindow..icRunImages......Name
-#. UnitTestWindow..vilRunImages......CollectionName
-#: frmUnitTests.dfm
-msgid "UnitTests\\Item1"
-msgstr ""
-
-#. UnitTestWindow..icRunImages......Name
-#. UnitTestWindow..vilRunImages......CollectionName
-#: frmUnitTests.dfm
-msgid "UnitTests\\Item2"
-msgstr ""
-
-#. UnitTestWindow..icRunImages......Name
-#. UnitTestWindow..vilRunImages......CollectionName
-#: frmUnitTests.dfm
-msgid "UnitTests\\Item3"
-msgstr ""
-
-#. UnitTestWindow..icRunImages......Name
-#. UnitTestWindow..vilRunImages......CollectionName
-#: frmUnitTests.dfm
-msgid "UnitTests\\Item4"
-msgstr ""
-
-#. UnitTestWindow..icRunImages......Name
-#. UnitTestWindow..vilRunImages......CollectionName
-#: frmUnitTests.dfm
-msgid "UnitTests\\Item5"
-msgstr ""
-
-#. UnitTestWindow..icRunImages......Name
-#. UnitTestWindow..vilRunImages......CollectionName
-#: frmUnitTests.dfm
-msgid "UnitTests\\Item6"
 msgstr ""
 
 #. VariablesWindow..Caption
@@ -8271,7 +6131,7 @@ msgid "Profile active file"
 msgstr ""
 
 #: cTools.pas
-msgid "PyLint tool (www.logilab.org/projects/pylint)"
+msgid "PyLint tool (www.pylint.org)"
 msgstr ""
 
 #: cTools.pas
@@ -8790,6 +6650,10 @@ msgid "Disable Variables Window with SSH"
 msgstr ""
 
 #: dmCommands.pas
+msgid "Modifiers"
+msgstr ""
+
+#: dmCommands.pas
 msgid "Configure Tools"
 msgstr ""
 
@@ -8956,6 +6820,12 @@ msgstr ""
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
+msgstr ""
+
+#. Programmer's name for it: SDone
+#. Programmer's name for it: SDoneTodoDesignation
+#: frmToDo.pas
+msgid "Done"
 msgstr ""
 
 #. Programmer's name for it: STodoItems
