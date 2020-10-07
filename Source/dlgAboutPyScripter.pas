@@ -227,6 +227,7 @@ begin
   winplatform := 'x86';
   {$ENDIF}
   inherited;
+  Copyright.Caption := #$00A9' Kiriakos Vlahos 2005-' + CurrentYear.ToString;
   Version.Caption := Format('Version %s %s', [ApplicationVersion, winplatform]);
 
   AddFormatText(reLinks, _('Links') + SLineBreak, [fsBold]);
