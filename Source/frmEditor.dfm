@@ -1119,6 +1119,7 @@ object EditorForm: TEditorForm
       item
         ColumnWidth = 100
       end>
+    Resizeable = True
     OnExecute = SynWebCompletionExecute
     ShortCut = 0
     OnAfterCodeCompletion = SynWebCompletionAfterCodeCompletion
