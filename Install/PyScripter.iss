@@ -202,7 +202,6 @@ Source: "..\Styles\RubyGraphite.vsf"; DestDir: "{commonappdata}\PyScripter\Style
 Source: "..\Styles\SapphireKamri.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Silver.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Sky.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
-Source: "..\Styles\Sky2.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\SlateClassico.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\SmokeyQuartzKamri.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Stellar.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
