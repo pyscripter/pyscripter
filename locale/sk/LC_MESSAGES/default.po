@@ -1,18 +1,18 @@
 # PyScripter GUI translation.
 # 
-# Copyright (C) Kiriakos Vlahos  2005-2018
+# Copyright (C) Kiriakos Vlahos  2005-2020
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-07-16 02:38\n"
+"POT-Creation-Date: 2020-10-07 05:50\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: Slovak (https://www.transifex.com/luebbe/teams/82736/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +45,7 @@ msgstr "Odkazy"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
-msgid "(C) Kiriakos Vlahos  2005-2018"
+msgid "(C) Kiriakos Vlahos 2005-2019"
 msgstr ""
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
@@ -76,16 +76,16 @@ msgstr "Zadajte hodnotu pre parameter"
 #. CommandLineDlg..Panel..OKButton..Caption
 #. CustomizeParams..Panel..btnOK..Caption
 #. frmCustomKeyboard..Panel1..btnOK..Caption
-#. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..OKBtn..Caption
+#. DirectoryListDialog..Panel2..Panel3..OKBtn..Caption
 #. ExceptionDialogMail..OkBtn..Caption
 #. FileTemplatesDialog..Panel..btnOK..Caption
 #. FindInFilesDialog..Panel1..btnOK..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnOK..Caption
+#. FindResultsOptionsDialog..Panel1..btnOK..Caption
 #. ImportDirectoryForm..Panel1..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
 #. RemoteFileDialog..Panel2..OKButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnOK..Caption
+#. ReplaceInFilesDialog..Panel1..btnOK..Caption
 #. RunConfigurationForm..Panel1..btnOK..Caption
 #. fmEditorOptionsDialog..Panel1..btnOk..Caption
 #. PageSetupDlg..OKBtn..Caption
@@ -106,20 +106,20 @@ msgstr "&OK"
 #. AskParamForm..Panel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
 #. CollectionEditor..Panel1..CancelBtn..Caption
-#. CommandLineDlg..Panel..BitBtn2..Caption
-#. ConfirmReplaceDialog..SpTBXPanel1..btnCancel..Caption
+#. CommandLineDlg..Panel..btnCancel..Caption
+#. ConfirmReplaceDialog..Panel1..btnCancel..Caption
 #. CustomizeParams..Panel..btnCancel..Caption
 #. frmCustomKeyboard..Panel1..btnCancel..Caption
-#. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..CancelBtn..Caption
+#. DirectoryListDialog..Panel2..Panel3..CancelBtn..Caption
 #. FileTemplatesDialog..Panel..btnCancel..Caption
 #. FindInFilesDialog..Panel1..btnCancel..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnCancel..Caption
+#. FindResultsOptionsDialog..Panel1..btnCancel..Caption
 #. ImportDirectoryForm..Panel1..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
 #. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
 #. RemoteFileDialog..Panel2..CancelButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnCancel..Caption
+#. ReplaceInFilesDialog..Panel1..btnCancel..Caption
 #. RunConfigurationForm..Panel1..btnCancel..Caption
 #. StyleSelectorForm..Button2..Caption
 #. fmEditorOptionsDialog..Panel1..btnCancel..Caption
@@ -149,14 +149,14 @@ msgid "Code Templates"
 msgstr "Šablóny kódu"
 
 #. CodeTemplates..Panel..btnHelp..Caption
-#. CommandLineDlg..Panel..HelpButton..Caption
+#. CommandLineDlg..Panel..btnHelp..Caption
 #. frmCustomKeyboard..Panel1..btnHelp..Caption
 #. FileTemplatesDialog..Panel..btnHelp..Caption
 #. FindInFilesDialog..Panel1..btnHelp..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnHelp..Caption
+#. FindResultsOptionsDialog..Panel1..btnHelp..Caption
 #. OptionsInspector..Panel2..HelpButton..Caption
 #. RemoteFileDialog..Panel2..HelpButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnHelp..Caption
+#. ReplaceInFilesDialog..Panel1..btnHelp..Caption
 #. RunConfigurationForm..Panel1..btnHelp..Caption
 #. fmEditorOptionsDialog..Panel1..btnHelp..Caption
 #. fmToDoOptions..pnlBG..btnHelp..Caption
@@ -256,7 +256,7 @@ msgstr "Pridať položku"
 
 #. CodeTemplates..ActionList..actDeleteItem..Caption
 #. CustomizeParams..ActionList..actDeleteItem..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnDelete..Caption
+#. DirectoryListDialog..Panel2..btnDelete..Caption
 #. FileTemplatesDialog..ActionList..actDeleteItem..Caption
 #. ToolProperties..ActionList..actDeleteItem..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgDirectoryList.dfm
@@ -326,7 +326,7 @@ msgid "Update item"
 msgstr "Aktualizovať položku"
 
 #. CollectionEditor..Panel1..AddBtn..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Caption
+#. DirectoryListDialog..Panel2..btnAdd..Caption
 #: dlgCollectionEditor.dfm dlgDirectoryList.dfm
 msgid "&Add..."
 msgstr "&Pridať"
@@ -351,16 +351,6 @@ msgstr "&Zmeniť..."
 msgid "Command Line Parameters"
 msgstr "Parametre príkazového riadka"
 
-#. CommandLineDlg..Panel..TBXButton1..Hint
-#: dlgCommandLine.dfm
-msgid "History"
-msgstr "História"
-
-#. CommandLineDlg..Panel..cbUseCommandLine..Caption
-#: dlgCommandLine.dfm
-msgid "Use Command Line Parameters?"
-msgstr "Použiť parametre príkazového riadka"
-
 #. CommandLineDlg..Panel..Label1....Caption
 #: dlgCommandLine.dfm
 msgid ""
@@ -377,6 +367,16 @@ msgstr ""
 msgid "Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
 msgstr "Parametre : Shift+Ctrl+P, Modifikátory : Shift+Ctrl+M "
 
+#. CommandLineDlg..Panel..TBXButton1..Hint
+#: dlgCommandLine.dfm
+msgid "History"
+msgstr "História"
+
+#. CommandLineDlg..Panel..cbUseCommandLine..Caption
+#: dlgCommandLine.dfm
+msgid "Use Command Line Parameters?"
+msgstr "Použiť parametre príkazového riadka"
+
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
 msgid "(Empty History)"
@@ -387,19 +387,19 @@ msgstr "(Niet histórie)"
 msgid "Confirm replace"
 msgstr "Potvrdiť nahradenie"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnReplace..Caption
+#. ConfirmReplaceDialog..Panel1..btnReplace..Caption
 #. Programmer's name for it: SDlgYes
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&Yes"
 msgstr "Án&o"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnSkip..Caption
+#. ConfirmReplaceDialog..Panel1..btnSkip..Caption
 #. Programmer's name for it: SDlgNo
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&No"
 msgstr "&Nie"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnReplaceAll..Caption
+#. ConfirmReplaceDialog..Panel1..btnReplaceAll..Caption
 #: dlgConfirmReplace.dfm
 msgid "Yes to &all"
 msgstr "Áno pre &všetky"
@@ -487,50 +487,50 @@ msgstr ""
 msgid "Directory list"
 msgstr "Zoznam priečinkov"
 
-#. DirectoryListDialog..SpTBXPanel1..btnMoveUp..Hint
-#: dlgDirectoryList.dfm
-msgid "Move up"
-msgstr "Presunúť nahor"
-
-#. DirectoryListDialog..SpTBXPanel1..btnMoveDown..Hint
-#: dlgDirectoryList.dfm
-msgid "Move down"
-msgstr "Presunúť nadol"
-
-#. DirectoryListDialog..SpTBXPanel1..SpTBXLabel1..Caption
+#. DirectoryListDialog..Panel1..Label1..Caption
 #: dlgDirectoryList.dfm
 msgid "Ordered list of file paths:"
 msgstr "Usporiadaný zoznam súborových ciest:"
 
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Hint
+#. DirectoryListDialog..Panel1..btnMoveUp..Hint
+#: dlgDirectoryList.dfm
+msgid "Move up"
+msgstr "Presunúť nahor"
+
+#. DirectoryListDialog..Panel1..btnMoveDown..Hint
+#: dlgDirectoryList.dfm
+msgid "Move down"
+msgstr "Presunúť nadol"
+
+#. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
 msgid "Add file path to the list"
 msgstr "Pridať cestu k súboru do zoznamu"
 
-#. DirectoryListDialog..SpTBXPanel2..btnReplace..Hint
+#. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
 msgstr "Nahradiť označenú cestu k súboru"
 
-#. DirectoryListDialog..SpTBXPanel2..btnReplace..Caption
+#. DirectoryListDialog..Panel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
 msgid "&Replace"
 msgstr "&Nahradiť"
 
-#. DirectoryListDialog..SpTBXPanel2..edPath..Hint
+#. DirectoryListDialog..Panel2..btnDelete..Hint
+#: dlgDirectoryList.dfm
+msgid "Delete the selected file path"
+msgstr "Zmazať zvolenú cestu k súborom"
+
+#. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
 msgstr "Tu zadajte cestu na súbor"
 
-#. DirectoryListDialog..SpTBXPanel2..edPath..EditButton.Hint
-#: dlgDirectoryList.dfm
-msgid "Select file path"
-msgstr "Zvoľte cestu k súboru"
-
-#. DirectoryListDialog..SpTBXPanel2..btnDelete..Hint
-#: dlgDirectoryList.dfm
-msgid "Delete the selected file path"
-msgstr "Zmazať zvolenú cestu k súborom"
+#. ExceptionDialogMail..TextMemo..Hint
+#: dlgExceptionMail.dfm
+msgid "Use Ctrl+C to copy the report to the clipboard"
+msgstr "Použite Ctrl+C na kopírovanie výpisu do schránky"
 
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
@@ -551,11 +551,6 @@ msgstr "Zobraziť / skryť doplnkové informácie"
 #: dlgExceptionMail.dfm
 msgid "&Details"
 msgstr "&Podrobnosti"
-
-#. ExceptionDialogMail..TextMemo..Hint
-#: dlgExceptionMail.dfm
-msgid "Use Ctrl+C to copy the report to the clipboard"
-msgstr "Použite Ctrl+C na kopírovanie výpisu do schránky"
 
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
@@ -695,42 +690,42 @@ msgstr "Zahrnúť aj &podpriečinky"
 msgid "Find in Files Options"
 msgstr "Voľby pre hľadanie v súboroch"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
 msgstr "Zoznam výsledných zhôd"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepMiddle..Caption
-#: dlgFindResultsOptions.dfm
-msgid "Jump to matches in the &middle of the editor"
-msgstr "Ísť na zhody do vnútra editora"
-
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepExpandAll..Caption
-#: dlgFindResultsOptions.dfm
-msgid "&Expand all matches after searching"
-msgstr "&Rozbaliť všetky zhody po skončení hľadania"
-
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..pnlListFont..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
 msgstr "Písmo pre zoznam zhôd..."
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepMiddle..Caption
+#: dlgFindResultsOptions.dfm
+msgid "Jump to matches in the &middle of the editor"
+msgstr "Ísť na zhody do vnútra editora"
+
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepExpandAll..Caption
+#: dlgFindResultsOptions.dfm
+msgid "&Expand all matches after searching"
+msgstr "&Rozbaliť všetky zhody po skončení hľadania"
+
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Context Display"
 msgstr "Zobraziť kontext zhôd"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..lblContextLines..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Number of context lines"
 msgstr "Počet kontextových riadkov"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlContextFont..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Context Font..."
 msgstr "Písmo kontextu..."
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlMatchLineColor..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Font Color..."
 msgstr "Farba písma pre zhodu..."
@@ -739,11 +734,6 @@ msgstr "Farba písma pre zhodu..."
 #: dlgImportDirectory.dfm
 msgid "Import Directory"
 msgstr "Importovať priečinok"
-
-#. ImportDirectoryForm..Panel1..cbRecursive..Caption
-#: dlgImportDirectory.dfm
-msgid "Recursive?"
-msgstr "Rekurzívne?"
 
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
@@ -754,6 +744,11 @@ msgstr "Priečinok, ktorý sa má importovať:"
 #: dlgImportDirectory.dfm
 msgid "File Masks (e.g. *.py;*.pyw):"
 msgstr "Masky súborov (napr. *.py;*.pyw):"
+
+#. ImportDirectoryForm..Panel1..cbRecursive..Caption
+#: dlgImportDirectory.dfm
+msgid "Recursive?"
+msgstr "Rekurzívne?"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -946,28 +941,28 @@ msgstr ""
 msgid "Replace Matches"
 msgstr "Nahradiť zhody"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..cbBackup..Caption
-#: dlgReplaceInFiles.dfm
-msgid "Backup Modified Files"
-msgstr "Zálohovať zmenené súbory"
-
-#. ReplaceInFilesDialog..SpTBXPanel1..lblWith..Caption
+#. ReplaceInFilesDialog..Panel1..lblWith..Caption
 #: dlgReplaceInFiles.dfm
 msgid "&With"
 msgstr "Čí&m"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..lblIn..Caption
+#. ReplaceInFilesDialog..Panel1..lblIn..Caption
 #: dlgReplaceInFiles.dfm
 msgid "In"
 msgstr "V"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..lblReplace..Caption
+#. ReplaceInFilesDialog..Panel1..lblReplace..Caption
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Caption
 #. FindResultsWindow..Actions..actReplaceSelected..Category
 #. FindResultsWindow..Actions..actReplaceAll..Category
 #: dlgReplaceInFiles.dfm dmCommands.dfm frmFindResults.dfm
 msgid "Replace"
 msgstr "Nahradiť"
+
+#. ReplaceInFilesDialog..Panel1..cbBackup..Caption
+#: dlgReplaceInFiles.dfm
+msgid "Backup Modified Files"
+msgstr "Zálohovať zmenené súbory"
 
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
@@ -1015,15 +1010,15 @@ msgstr ""
 msgid "Python Engine"
 msgstr "Motor Pythonu"
 
-#. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
-#: dlgRunConfiguration.dfm
-msgid "Reinitiali&ze Before Run"
-msgstr "Znovu @inicializovať pred spustením"
-
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
 msgstr "&Typ motora:"
+
+#. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
+#: dlgRunConfiguration.dfm
+msgid "Reinitiali&ze Before Run"
+msgstr "Znovu @inicializovať pred spustením"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
@@ -1069,6 +1064,11 @@ msgstr ""
 msgid "Output"
 msgstr "Výstup príkazov"
 
+#. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
+#: dlgRunConfiguration.dfm
+msgid "File &Name:"
+msgstr "&Meno súboru:"
+
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Append to file"
@@ -1078,11 +1078,6 @@ msgstr "&Pridať za koniec súboru"
 #: dlgRunConfiguration.dfm
 msgid "Save Output"
 msgstr "Uložiť výstup"
-
-#. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
-#: dlgRunConfiguration.dfm
-msgid "File &Name:"
-msgstr "&Meno súboru:"
 
 #. StyleSelectorForm..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
@@ -1138,6 +1133,212 @@ msgstr ""
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Farby pre zvýraznenie syntaxe"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Vzorový kód"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Prvok"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&Farba písma:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "Farba pozadia:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Jazyk syntaxe editora"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Štýl"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Tučné"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Kurzíva"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Podčiarknuté"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Preškrtnuté"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Nastavenie klávesov / kombinácií"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Príkaz:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Príkaz"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right Edge"
+msgstr "Ohraničujúca čiara pre šírku textu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge color:"
+msgstr "Farba:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge Column:"
+msgstr "Za stĺpcom"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Gutter"
+msgstr "Dodatočný pruh"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter color:"
+msgstr "Farba pruhu:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#: dlgSynEditOptions.dfm
+msgid "Autosize"
+msgstr "Automatická šírka"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show line numbers"
+msgstr "Zobraziť čísla riadkov"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show leading zeros"
+msgstr "Zobraziť úvodné nuly"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Visible"
+msgstr "Viditeľný"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#: dlgSynEditOptions.dfm
+msgid "Start at zero"
+msgstr "Číslovať od nuly"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "Použiť písmo pruhu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#: dlgSynEditOptions.dfm
+msgid "Gutter gradient visible"
+msgstr "Viditeľná gradácia farby pruhu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter Gradient"
+msgstr "Gradácia farby  pruhu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Hint
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Font"
+msgstr "Písmo"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks"
+msgstr "Záložky"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmark keys"
+msgstr "Klávesy pre záložky"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks visible"
+msgstr "Viditeľné záložky"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Font"
+msgstr "Písmo editora"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Line spacing / Tab spacing"
+msgstr "Riadkovanie / Tabulátor"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#: dlgSynEditOptions.dfm
+msgid "Extra Lines:"
+msgstr "Riadkov navyše:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Width:"
+msgstr "Śírka tabulátora:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Active Line Color"
+msgstr "Farba aktívneho riadka"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1405,6 +1606,12 @@ msgstr "Pri zvislom rolovaní sleduje okienko s Informáciou myš"
 msgid "Scroll hint follows mouse"
 msgstr "Rolovacia informácia sleduje myš"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show font ligatures"
+msgstr ""
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
 msgid "Caret"
@@ -1443,212 +1650,6 @@ msgstr "Polovičný blok"
 #: dlgSynEditOptions.dfm
 msgid "Block"
 msgstr "Blok"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Vzorový kód"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Prvok"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Farba písma:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Farba pozadia:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Jazyk syntaxe editora"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Štýl"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Tučné"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Kurzíva"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Podčiarknuté"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Preškrtnuté"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Nastavenie klávesov / kombinácií"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Príkaz:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Príkaz"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right Edge"
-msgstr "Ohraničujúca čiara pre šírku textu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge color:"
-msgstr "Farba:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge Column:"
-msgstr "Za stĺpcom"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Gutter"
-msgstr "Dodatočný pruh"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter color:"
-msgstr "Farba pruhu:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Font"
-msgstr "Písmo"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm
-msgid "Autosize"
-msgstr "Automatická šírka"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show line numbers"
-msgstr "Zobraziť čísla riadkov"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show leading zeros"
-msgstr "Zobraziť úvodné nuly"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Visible"
-msgstr "Viditeľný"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm
-msgid "Start at zero"
-msgstr "Číslovať od nuly"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "Použiť písmo pruhu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm
-msgid "Gutter gradient visible"
-msgstr "Viditeľná gradácia farby pruhu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter Gradient"
-msgstr "Gradácia farby  pruhu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks"
-msgstr "Záložky"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmark keys"
-msgstr "Klávesy pre záložky"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks visible"
-msgstr "Viditeľné záložky"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Font"
-msgstr "Písmo editora"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Line spacing / Tab spacing"
-msgstr "Riadkovanie / Tabulátor"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr "Riadkov navyše:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Width:"
-msgstr "Śírka tabulátora:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Active Line Color"
-msgstr "Farba aktívneho riadka"
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -2004,15 +2005,15 @@ msgstr "Možnosti pre \"Čo urobiť\""
 msgid "To Do Tokens"
 msgstr "Symboly \"Čo urobiť\""
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
 #: dlgToDoOptions.dfm
-msgid "&Insert"
-msgstr "&Vložiť"
+msgid "&Priority"
+msgstr "&Priorita"
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnApply..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
 #: dlgToDoOptions.dfm
-msgid "&Apply"
-msgstr "&Použiť"
+msgid "To&ken"
+msgstr "&Symbol"
 
 #. fmToDoOptions..pnlBG..gbxTokens..cboPriority....Items.Strings
 #. Programmer's name for it: SHigh
@@ -2032,15 +2033,15 @@ msgstr "Normálny"
 msgid "Low"
 msgstr "Nízka"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
 #: dlgToDoOptions.dfm
-msgid "&Priority"
-msgstr "&Priorita"
+msgid "&Insert"
+msgstr "&Vložiť"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnApply..Caption
 #: dlgToDoOptions.dfm
-msgid "To&ken"
-msgstr "&Symbol"
+msgid "&Apply"
+msgstr "&Použiť"
 
 #. fmToDoOptions..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
@@ -2388,58 +2389,6 @@ msgstr "Nič neoznačiť"
 msgid "Deselect all nodes"
 msgstr "Zmazať všetky uzly"
 
-#. CommandsDataModule..SynPythonSyn..DefaultFilter
-#. File Filters
-#. Programmer's name for it: sPythonFileFilter
-#: dmCommands.dfm StringResources.pas
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr ""
-
-#. CommandsDataModule..ParameterCompletion..Title
-#. CommandsDataModule..actlMain..actParameterCompletion..Category
-#. CommandsDataModule..actlMain..actModifierCompletion..Category
-#. CommandsDataModule..actlMain..actReplaceParameters..Category
-#. CommandsDataModule..actlMain..actCustomizeParameters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
-msgid "Parameters"
-msgstr "Parametre"
-
-#. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm dmCommands.pas
-msgid "Modifiers"
-msgstr "Modifikátory"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python Module header"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Comment Line"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python application"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python class"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|File encoding comment"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Sheband"
-msgstr ""
-
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
 #. CommandsDataModule..actlMain..actFileClose..Category
@@ -2671,8 +2620,8 @@ msgstr "&Nahradiť..."
 
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
-msgid "Replace|Search  & Replace"
-msgstr "Nahradiť|Nájsť a nahradiť"
+msgid "Replace|Search & Replace"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2907,6 +2856,15 @@ msgstr "&Hľadať v súboroch..."
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
 msgstr "Hľadať v súboroch|Hľadať zadaný reťazec v súboroch"
+
+#. CommandsDataModule..actlMain..actParameterCompletion..Category
+#. CommandsDataModule..actlMain..actModifierCompletion..Category
+#. CommandsDataModule..actlMain..actReplaceParameters..Category
+#. CommandsDataModule..actlMain..actCustomizeParameters..Category
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
+msgid "Parameters"
+msgstr "Parametre"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3218,8 +3176,8 @@ msgstr "Exportovať zvýrazňovače syntaxe"
 
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
-msgid "Replace with existing  settings"
-msgstr "Nahradenie použitím aktuálnych nastavení"
+msgid "Replace with existing settings"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -4478,9 +4436,8 @@ msgstr "Pridať nový podpriečinok"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
-msgid "Remove a file,  folder or run configuration from the project"
+msgid "Remove a file, folder or run configuration from the project"
 msgstr ""
-"Odstrániť súbor, priečinok alebo konfiguráciu pre spustenie z projektu"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4596,6 +4553,11 @@ msgstr ""
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
 #: frmPyIDEMain.dfm dmCommands.pas
 msgid "Python engine type"
+msgstr ""
+
+#. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
+#: frmPyIDEMain.dfm
+msgid "Text position"
 msgstr ""
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
@@ -6099,6 +6061,13 @@ msgstr ""
 msgid "Run Configurations"
 msgstr ""
 
+#: cPyScripterSettings.pas
+#, object-pascal-format
+msgid ""
+"Error in copying file \"%s\" to \"%s\"\n"
+"Error Message: "
+msgstr ""
+
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
@@ -6206,7 +6175,7 @@ msgid "Profile active file"
 msgstr ""
 
 #: cTools.pas
-msgid "PyLint tool (www.logilab.org/projects/pylint)"
+msgid "PyLint tool (www.pylint.org)"
 msgstr ""
 
 #: cTools.pas
@@ -6720,6 +6689,10 @@ msgid "Disable Variables Window with SSH"
 msgstr ""
 
 #: dmCommands.pas
+msgid "Modifiers"
+msgstr "Modifikátory"
+
+#: dmCommands.pas
 msgid "Configure Tools"
 msgstr "Konfigurovať externé nástroje"
 
@@ -6803,6 +6776,14 @@ msgstr ""
 msgid ""
 "Method %s defined at line %d\n"
 "Arguments: %s"
+msgstr ""
+
+#: frmFileExplorer.pas
+msgid "File Explorer Filter"
+msgstr ""
+
+#: frmFileExplorer.pas
+msgid "Enter Filter:"
 msgstr ""
 
 #: frmFileExplorer.pas
@@ -6897,6 +6878,20 @@ msgstr ""
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr ""
+
+#: frmWatches.pas
+msgid "Edit Watch"
+msgstr ""
+
+#: frmWatches.pas
+msgid "Enter new expression:"
+msgstr ""
+
+#. File Filters
+#. Programmer's name for it: sPythonFileFilter
+#: StringResources.pas
+msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
 msgstr ""
 
 #. Programmer's name for it: sCythonFileFilter
@@ -7737,8 +7732,8 @@ msgstr ""
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
-msgid "*** Remote Interpreter Reinitialized  ***"
-msgstr "*** Vzdialený interpret sa znou inicioval ***"
+msgid "*** Remote Interpreter Reinitialized ***"
+msgstr ""
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas
@@ -7767,12 +7762,9 @@ msgstr "Nemôžete vložiť hodnotu pozostávajúcu len z prázdnych znakov"
 #, object-pascal-format
 msgid ""
 "Pyscripter needs access to the User Application Data directory: \"%s\". "
-"Certain features such as remote debugging  will not function properly "
+"Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
-"Pyscripter potrebuje prístup do priečinka User Application Data: \"%s\". Bez"
-" toho nebudú niekktoré zložky programu - napríklad vzdialené ladenie - "
-"správne fungovať."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -7897,12 +7889,9 @@ msgstr "Zmenené súbory boli znovu načítané"
 #: StringResources.pas
 msgid ""
 "The following files have been changed on disk. Select the files that you "
-"wish to reload and press the OK button.  Please note that you will lose all "
+"wish to reload and press the OK button. Please note that you will lose all "
 "changes to these files."
 msgstr ""
-"Nasledujúce súbory sa na disku zmenili. Označte súbory, ktoré chcete znovu "
-"načítať a klopnite na tlačidlo OK. Uvedomte si však, že prídete o všetky "
-"zmeny v týchto súboroch."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -7922,13 +7911,13 @@ msgstr "Syntaktická chyba"
 #. Programmer's name for it: StrCertainty
 #: StringResources.pas
 #, object-pascal-format
-msgid "  Certainty %s%%"
-msgstr " Určitosť %s%%"
+msgid " Certainty %s%%"
+msgstr ""
 
 #. Programmer's name for it: SReferencesNotFound
 #: StringResources.pas
-msgid "  References not found"
-msgstr " Odkazy sa nenašli"
+msgid " References not found"
+msgstr ""
 
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
@@ -7942,13 +7931,13 @@ msgstr "Definícia(e) \""
 
 #. Programmer's name for it: SDefinitionFound
 #: StringResources.pas
-msgid "  Definition found"
-msgstr " Definícia sa našla"
+msgid " Definition found"
+msgstr ""
 
 #. Programmer's name for it: SDefinitionNotFound
 #: StringResources.pas
-msgid "  Definition not found"
-msgstr " Definícia sa nenašla"
+msgid " Definition not found"
+msgstr ""
 
 #. Programmer's name for it: SSyntaxIsOK
 #: StringResources.pas
@@ -8404,8 +8393,8 @@ msgstr "Čas vypršania: %d ms"
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
 #, object-pascal-format
-msgid "The External Tool \"%s\" is still running  Do you want to terminate it?"
-msgstr "Externý nástroj \"%s\" stále beží. Chcete ho zastaviť?"
+msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
+msgstr ""
 
 #. Editor
 #. Programmer's name for it: SInsert
@@ -8574,6 +8563,18 @@ msgstr ""
 #, object-pascal-format
 msgid "Could not find identifier \"%s\" in scope \"%s\""
 msgstr "Meno premennej \"%s\" sa v rozsahu platnosti \"%s\" nenachádza"
+
+#. Programmer's name for it: SCouldNotInferType
+#: StringResources.pas
+#, object-pascal-format
+msgid "Could not infer type from expresson \"%s\""
+msgstr ""
+
+#. Programmer's name for it: SCouldInferFunctionReturnType
+#: StringResources.pas
+#, object-pascal-format
+msgid "Could not infer return type of function \"%s\""
+msgstr ""
 
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas

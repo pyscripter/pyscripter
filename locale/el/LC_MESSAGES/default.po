@@ -1,17 +1,17 @@
 # PyScripter GUI translation.
 # 
-# Copyright (C) Kiriakos Vlahos  2005-2018
+# Copyright (C) Kiriakos Vlahos  2005-2020
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# luebbe <luebbe.opensource@gmail.com>, 2018
+# Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # Kiriakos Vlahos <pyscripter@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-01-08 03:51\n"
+"POT-Creation-Date: 2020-10-07 05:50\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2019\n"
 "Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
@@ -46,8 +46,8 @@ msgstr "Σχετικοί δικτυακοί τόποι"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
-msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr "(C) Κυριάκος Βλάχος  2005-2018"
+msgid "(C) Kiriakos Vlahos 2005-2019"
+msgstr ""
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -77,16 +77,16 @@ msgstr "Εισάγετε τιμή για την παράμετρο "
 #. CommandLineDlg..Panel..OKButton..Caption
 #. CustomizeParams..Panel..btnOK..Caption
 #. frmCustomKeyboard..Panel1..btnOK..Caption
-#. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..OKBtn..Caption
+#. DirectoryListDialog..Panel2..Panel3..OKBtn..Caption
 #. ExceptionDialogMail..OkBtn..Caption
 #. FileTemplatesDialog..Panel..btnOK..Caption
 #. FindInFilesDialog..Panel1..btnOK..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnOK..Caption
+#. FindResultsOptionsDialog..Panel1..btnOK..Caption
 #. ImportDirectoryForm..Panel1..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
 #. RemoteFileDialog..Panel2..OKButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnOK..Caption
+#. ReplaceInFilesDialog..Panel1..btnOK..Caption
 #. RunConfigurationForm..Panel1..btnOK..Caption
 #. fmEditorOptionsDialog..Panel1..btnOk..Caption
 #. PageSetupDlg..OKBtn..Caption
@@ -107,20 +107,20 @@ msgstr "&Εντάξει"
 #. AskParamForm..Panel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
 #. CollectionEditor..Panel1..CancelBtn..Caption
-#. CommandLineDlg..Panel..BitBtn2..Caption
-#. ConfirmReplaceDialog..SpTBXPanel1..btnCancel..Caption
+#. CommandLineDlg..Panel..btnCancel..Caption
+#. ConfirmReplaceDialog..Panel1..btnCancel..Caption
 #. CustomizeParams..Panel..btnCancel..Caption
 #. frmCustomKeyboard..Panel1..btnCancel..Caption
-#. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..CancelBtn..Caption
+#. DirectoryListDialog..Panel2..Panel3..CancelBtn..Caption
 #. FileTemplatesDialog..Panel..btnCancel..Caption
 #. FindInFilesDialog..Panel1..btnCancel..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnCancel..Caption
+#. FindResultsOptionsDialog..Panel1..btnCancel..Caption
 #. ImportDirectoryForm..Panel1..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
 #. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
 #. RemoteFileDialog..Panel2..CancelButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnCancel..Caption
+#. ReplaceInFilesDialog..Panel1..btnCancel..Caption
 #. RunConfigurationForm..Panel1..btnCancel..Caption
 #. StyleSelectorForm..Button2..Caption
 #. fmEditorOptionsDialog..Panel1..btnCancel..Caption
@@ -150,14 +150,14 @@ msgid "Code Templates"
 msgstr "Πρότυπα κώδικα"
 
 #. CodeTemplates..Panel..btnHelp..Caption
-#. CommandLineDlg..Panel..HelpButton..Caption
+#. CommandLineDlg..Panel..btnHelp..Caption
 #. frmCustomKeyboard..Panel1..btnHelp..Caption
 #. FileTemplatesDialog..Panel..btnHelp..Caption
 #. FindInFilesDialog..Panel1..btnHelp..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnHelp..Caption
+#. FindResultsOptionsDialog..Panel1..btnHelp..Caption
 #. OptionsInspector..Panel2..HelpButton..Caption
 #. RemoteFileDialog..Panel2..HelpButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnHelp..Caption
+#. ReplaceInFilesDialog..Panel1..btnHelp..Caption
 #. RunConfigurationForm..Panel1..btnHelp..Caption
 #. fmEditorOptionsDialog..Panel1..btnHelp..Caption
 #. fmToDoOptions..pnlBG..btnHelp..Caption
@@ -257,7 +257,7 @@ msgstr "Προσθήκη αντικειμένου"
 
 #. CodeTemplates..ActionList..actDeleteItem..Caption
 #. CustomizeParams..ActionList..actDeleteItem..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnDelete..Caption
+#. DirectoryListDialog..Panel2..btnDelete..Caption
 #. FileTemplatesDialog..ActionList..actDeleteItem..Caption
 #. ToolProperties..ActionList..actDeleteItem..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgDirectoryList.dfm
@@ -327,7 +327,7 @@ msgid "Update item"
 msgstr "Ενημέρωση του προτύπου"
 
 #. CollectionEditor..Panel1..AddBtn..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Caption
+#. DirectoryListDialog..Panel2..btnAdd..Caption
 #: dlgCollectionEditor.dfm dlgDirectoryList.dfm
 msgid "&Add..."
 msgstr "&Προσθήκη..."
@@ -352,16 +352,6 @@ msgstr "&Αλλαγή..."
 msgid "Command Line Parameters"
 msgstr "Παράμετροι Γραμμής Εντολής"
 
-#. CommandLineDlg..Panel..TBXButton1..Hint
-#: dlgCommandLine.dfm
-msgid "History"
-msgstr "Ιστορία"
-
-#. CommandLineDlg..Panel..cbUseCommandLine..Caption
-#: dlgCommandLine.dfm
-msgid "Use Command Line Parameters?"
-msgstr "Να χρησιμοποιηθούν οι παράμετροι της γραμμής εντολών;"
-
 #. CommandLineDlg..Panel..Label1....Caption
 #: dlgCommandLine.dfm
 msgid ""
@@ -378,6 +368,16 @@ msgstr ""
 msgid "Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
 msgstr "Παράμετροι: Shift+Ctrl+P, Mετατροπείς Shift+Ctrl+M"
 
+#. CommandLineDlg..Panel..TBXButton1..Hint
+#: dlgCommandLine.dfm
+msgid "History"
+msgstr "Ιστορία"
+
+#. CommandLineDlg..Panel..cbUseCommandLine..Caption
+#: dlgCommandLine.dfm
+msgid "Use Command Line Parameters?"
+msgstr "Να χρησιμοποιηθούν οι παράμετροι της γραμμής εντολών;"
+
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
 msgid "(Empty History)"
@@ -388,19 +388,19 @@ msgstr "(Άδεια Ιστορία)"
 msgid "Confirm replace"
 msgstr "Επιβεβαίωση αντικατάστασης"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnReplace..Caption
+#. ConfirmReplaceDialog..Panel1..btnReplace..Caption
 #. Programmer's name for it: SDlgYes
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&Yes"
 msgstr "&Ναι"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnSkip..Caption
+#. ConfirmReplaceDialog..Panel1..btnSkip..Caption
 #. Programmer's name for it: SDlgNo
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&No"
 msgstr "&Όχι"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnReplaceAll..Caption
+#. ConfirmReplaceDialog..Panel1..btnReplaceAll..Caption
 #: dlgConfirmReplace.dfm
 msgid "Yes to &all"
 msgstr "Ναι σε &Όλα"
@@ -488,50 +488,50 @@ msgstr "Αφαίρεση Πλήκτρου Συντ."
 msgid "Directory list"
 msgstr "Λίστα καταλόγων"
 
-#. DirectoryListDialog..SpTBXPanel1..btnMoveUp..Hint
-#: dlgDirectoryList.dfm
-msgid "Move up"
-msgstr "Μετακίνηση πάνω"
-
-#. DirectoryListDialog..SpTBXPanel1..btnMoveDown..Hint
-#: dlgDirectoryList.dfm
-msgid "Move down"
-msgstr "Μετακίνηση κάτω"
-
-#. DirectoryListDialog..SpTBXPanel1..SpTBXLabel1..Caption
+#. DirectoryListDialog..Panel1..Label1..Caption
 #: dlgDirectoryList.dfm
 msgid "Ordered list of file paths:"
 msgstr "Διατεταγμένη λιστα φακέλων:"
 
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Hint
+#. DirectoryListDialog..Panel1..btnMoveUp..Hint
+#: dlgDirectoryList.dfm
+msgid "Move up"
+msgstr "Μετακίνηση πάνω"
+
+#. DirectoryListDialog..Panel1..btnMoveDown..Hint
+#: dlgDirectoryList.dfm
+msgid "Move down"
+msgstr "Μετακίνηση κάτω"
+
+#. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
 msgid "Add file path to the list"
 msgstr "Πρόσθεση καταλόγου στη λίστα"
 
-#. DirectoryListDialog..SpTBXPanel2..btnReplace..Hint
+#. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
 msgstr "Αντικατάσταση επιλεγμένου φακέλου"
 
-#. DirectoryListDialog..SpTBXPanel2..btnReplace..Caption
+#. DirectoryListDialog..Panel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
 msgid "&Replace"
 msgstr "&Αντικατάσταση"
 
-#. DirectoryListDialog..SpTBXPanel2..edPath..Hint
+#. DirectoryListDialog..Panel2..btnDelete..Hint
+#: dlgDirectoryList.dfm
+msgid "Delete the selected file path"
+msgstr "Διαγραφή επιλεγμένου καταλόγου"
+
+#. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
 msgstr "Εισάγετε όνομα φακέλου εδώ"
 
-#. DirectoryListDialog..SpTBXPanel2..edPath..EditButton.Hint
-#: dlgDirectoryList.dfm
-msgid "Select file path"
-msgstr "Επιλογή καταλόγου αρχείων"
-
-#. DirectoryListDialog..SpTBXPanel2..btnDelete..Hint
-#: dlgDirectoryList.dfm
-msgid "Delete the selected file path"
-msgstr "Διαγραφή επιλεγμένου καταλόγου"
+#. ExceptionDialogMail..TextMemo..Hint
+#: dlgExceptionMail.dfm
+msgid "Use Ctrl+C to copy the report to the clipboard"
+msgstr "Πιέστε Ctrl+C για αντιγραφή της αναφοράς"
 
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
@@ -552,11 +552,6 @@ msgstr "Εμφάνιση ή απόκρυψη επιπλέον πληροφορι
 #: dlgExceptionMail.dfm
 msgid "&Details"
 msgstr "&Λεπτομέρειες"
-
-#. ExceptionDialogMail..TextMemo..Hint
-#: dlgExceptionMail.dfm
-msgid "Use Ctrl+C to copy the report to the clipboard"
-msgstr "Πιέστε Ctrl+C για αντιγραφή της αναφοράς"
 
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
@@ -696,42 +691,42 @@ msgstr "Συμπερίληψη Υποκαταλόγων"
 msgid "Find in Files Options"
 msgstr "Ιδιότητες εύρεσης σε Αρχεία"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
 msgstr "Λίστα Αποτελεσμάτων Αναζήτησης"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepMiddle..Caption
-#: dlgFindResultsOptions.dfm
-msgid "Jump to matches in the &middle of the editor"
-msgstr "Εμφάνιση ταιριασμάτων στη &μέση του κειμενογράφου"
-
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepExpandAll..Caption
-#: dlgFindResultsOptions.dfm
-msgid "&Expand all matches after searching"
-msgstr "&Ανάπτυξη όλων των ταιριασμάτων μετά την αναζήτηση"
-
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..pnlListFont..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
 msgstr "Γραμματοσειρά λίστας"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepMiddle..Caption
+#: dlgFindResultsOptions.dfm
+msgid "Jump to matches in the &middle of the editor"
+msgstr "Εμφάνιση ταιριασμάτων στη &μέση του κειμενογράφου"
+
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepExpandAll..Caption
+#: dlgFindResultsOptions.dfm
+msgid "&Expand all matches after searching"
+msgstr "&Ανάπτυξη όλων των ταιριασμάτων μετά την αναζήτηση"
+
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Context Display"
 msgstr "Προβολή Συμφραζομένων"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..lblContextLines..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Number of context lines"
 msgstr "Αριθμός γραμμών συμφραζομένων"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlContextFont..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Context Font..."
 msgstr "Γραμματοσειρά Συμφραζομένων..."
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlMatchLineColor..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Font Color..."
 msgstr "Γραμματοσειρά Ταιριάσματος..."
@@ -740,11 +735,6 @@ msgstr "Γραμματοσειρά Ταιριάσματος..."
 #: dlgImportDirectory.dfm
 msgid "Import Directory"
 msgstr "Εισαγωγή Καταλόγου"
-
-#. ImportDirectoryForm..Panel1..cbRecursive..Caption
-#: dlgImportDirectory.dfm
-msgid "Recursive?"
-msgstr "Αναδρομικά;"
 
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
@@ -755,6 +745,11 @@ msgstr "Κατάλογος αρχείων προς εισαγωγή"
 #: dlgImportDirectory.dfm
 msgid "File Masks (e.g. *.py;*.pyw):"
 msgstr "Μάσκα Αρχείων (π.χ. *.py;*.pyw):"
+
+#. ImportDirectoryForm..Panel1..cbRecursive..Caption
+#: dlgImportDirectory.dfm
+msgid "Recursive?"
+msgstr "Αναδρομικά;"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -947,28 +942,28 @@ msgstr ""
 msgid "Replace Matches"
 msgstr "Αντικατάσταση Κειμένου"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..cbBackup..Caption
-#: dlgReplaceInFiles.dfm
-msgid "Backup Modified Files"
-msgstr "Δημιουργία Αντιγράφων Ασφαλείας"
-
-#. ReplaceInFilesDialog..SpTBXPanel1..lblWith..Caption
+#. ReplaceInFilesDialog..Panel1..lblWith..Caption
 #: dlgReplaceInFiles.dfm
 msgid "&With"
 msgstr "&Με:"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..lblIn..Caption
+#. ReplaceInFilesDialog..Panel1..lblIn..Caption
 #: dlgReplaceInFiles.dfm
 msgid "In"
 msgstr "Σε"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..lblReplace..Caption
+#. ReplaceInFilesDialog..Panel1..lblReplace..Caption
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Caption
 #. FindResultsWindow..Actions..actReplaceSelected..Category
 #. FindResultsWindow..Actions..actReplaceAll..Category
 #: dlgReplaceInFiles.dfm dmCommands.dfm frmFindResults.dfm
 msgid "Replace"
 msgstr "Αντικατάσταση"
+
+#. ReplaceInFilesDialog..Panel1..cbBackup..Caption
+#: dlgReplaceInFiles.dfm
+msgid "Backup Modified Files"
+msgstr "Δημιουργία Αντιγράφων Ασφαλείας"
 
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
@@ -1016,15 +1011,15 @@ msgstr ""
 msgid "Python Engine"
 msgstr "Μηχανή Python"
 
-#. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
-#: dlgRunConfiguration.dfm
-msgid "Reinitiali&ze Before Run"
-msgstr "&Επαναρχικοποίηση Πριν την Εκτέλεση"
-
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
 msgstr "&Τύπος Μηχανής:"
+
+#. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
+#: dlgRunConfiguration.dfm
+msgid "Reinitiali&ze Before Run"
+msgstr "&Επαναρχικοποίηση Πριν την Εκτέλεση"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
@@ -1070,6 +1065,11 @@ msgstr ""
 msgid "Output"
 msgstr "Έξοδος"
 
+#. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
+#: dlgRunConfiguration.dfm
+msgid "File &Name:"
+msgstr "&Όνομα Αρχείου:"
+
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Append to file"
@@ -1079,11 +1079,6 @@ msgstr "&Προσθήκη σε Αρχείο"
 #: dlgRunConfiguration.dfm
 msgid "Save Output"
 msgstr "Αποθήκευση Εξόδου"
-
-#. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
-#: dlgRunConfiguration.dfm
-msgid "File &Name:"
-msgstr "&Όνομα Αρχείου:"
 
 #. StyleSelectorForm..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
@@ -1116,11 +1111,6 @@ msgstr "&Εφαρμογή Στυλ"
 msgid "Editor Options"
 msgstr "Επιλογές Κειμενογράφου"
 
-#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply to all editors"
-msgstr "Εφαρμογή σε όλους τους κειμενογράφους"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..Caption
 #: dlgSynEditOptions.dfm
@@ -1144,6 +1134,212 @@ msgstr "Χρωματικό Θέμα"
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Χρώματα Τονισμού"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Δείγμα Πηγαίου Κώδικα:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "Διαθέσιμα Θέματα"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "Εφαρμογή Θέματος"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Στοιχείο:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "Χρώμα &Κειμένου"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "Χρώμα &Φόντου:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Γλώσσα Τονισμού Σύνταξης"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Ιδιότητες κειμένου"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Έντονο"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Πλάγια"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Υπογράμμιση"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Διαγραφή"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Επιλογές Πλήκτρων Συντόμευσης"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Εντολή:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr "Πλήκτρο Συντόμευσης 2"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr "Πλήκτρο Συντόμευσης 1"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Εντολή"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr "Πλήκτρο Συντόμευσης"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right Edge"
+msgstr "Δεξιά Ακμή"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge color:"
+msgstr "Χρώμα ακμής:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge Column:"
+msgstr "Στήλη ακμής:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Gutter"
+msgstr "Περιθώριο"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter color:"
+msgstr "Χρώμα Περιθωρίου:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#: dlgSynEditOptions.dfm
+msgid "Autosize"
+msgstr "Αυτόματο μέγεθος"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show line numbers"
+msgstr "Προβολή αριθμών &γραμμής"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show leading zeros"
+msgstr "Αρχικά μηδενικά"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Visible"
+msgstr "Ορατό"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#: dlgSynEditOptions.dfm
+msgid "Start at zero"
+msgstr "Εκκίνηση από το μηδέν"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "Χρήση Γραμματοσειράς "
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#: dlgSynEditOptions.dfm
+msgid "Gutter gradient visible"
+msgstr "Ορατή διαβάθμιση περιθωρίου"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter Gradient"
+msgstr "Διαβάθμιση Περιθωρίου"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Hint
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Font"
+msgstr "Γραμματοσειρά:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks"
+msgstr "Σελιδοδείκτες"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmark keys"
+msgstr "Πλήκτρα σελιδοδεικτών"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks visible"
+msgstr "Ορατοί σελιδοδείκτες"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Font"
+msgstr "Γραμματοσειρά Κειμενογράφου:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Line spacing / Tab spacing"
+msgstr "Αραίωση / Στηλοθεσία"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#: dlgSynEditOptions.dfm
+msgid "Extra Lines:"
+msgstr "Επιπλέον Γραμμές:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Width:"
+msgstr "Πλάτος στηλοθέτη:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Active Line Color"
+msgstr "Χρώμα ενεργούς γραμμής"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1412,6 +1608,12 @@ msgstr ""
 msgid "Scroll hint follows mouse"
 msgstr "Η υπόδειξη ακολουθεί το ποντίκι"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show font ligatures"
+msgstr ""
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
 msgid "Caret"
@@ -1451,211 +1653,10 @@ msgstr "Μισό μπλοκ"
 msgid "Block"
 msgstr "Μπλόκ"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Δείγμα Πηγαίου Κώδικα:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "Διαθέσιμα Θέματα"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "Εφαρμογή Θέματος"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Στοιχείο:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "Χρώμα &Κειμένου"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Χρώμα &Φόντου:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Γλώσσα Τονισμού Σύνταξης"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Ιδιότητες κειμένου"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Έντονο"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Πλάγια"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Υπογράμμιση"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Διαγραφή"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Επιλογές Πλήκτρων Συντόμευσης"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Εντολή:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr "Πλήκτρο Συντόμευσης 2"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr "Πλήκτρο Συντόμευσης 1"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Εντολή"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr "Πλήκτρο Συντόμευσης"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right Edge"
-msgstr "Δεξιά Ακμή"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge color:"
-msgstr "Χρώμα ακμής:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge Column:"
-msgstr "Στήλη ακμής:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Gutter"
-msgstr "Περιθώριο"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter color:"
-msgstr "Χρώμα Περιθωρίου:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Font"
-msgstr "Γραμματοσειρά:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm
-msgid "Autosize"
-msgstr "Αυτόματο μέγεθος"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show line numbers"
-msgstr "Προβολή αριθμών &γραμμής"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show leading zeros"
-msgstr "Αρχικά μηδενικά"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Visible"
-msgstr "Ορατό"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "Χρήση Γραμματοσειράς "
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm
-msgid "Start at zero"
-msgstr "Εκκίνηση από το μηδέν"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm
-msgid "Gutter gradient visible"
-msgstr "Ορατή διαβάθμιση περιθωρίου"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter Gradient"
-msgstr "Διαβάθμιση Περιθωρίου"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks"
-msgstr "Σελιδοδείκτες"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmark keys"
-msgstr "Πλήκτρα σελιδοδεικτών"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks visible"
-msgstr "Ορατοί σελιδοδείκτες"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Font"
-msgstr "Γραμματοσειρά Κειμενογράφου:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Line spacing / Tab spacing"
-msgstr "Αραίωση / Στηλοθεσία"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr "Επιπλέον Γραμμές:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Width:"
-msgstr "Πλάτος στηλοθέτη:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Active Line Color"
-msgstr "Χρώμα ενεργούς γραμμής"
+msgid "Apply to all editors"
+msgstr "Εφαρμογή σε όλους τους κειμενογράφους"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -1675,6 +1676,71 @@ msgstr "Περιθώρια && Ρυθμίσεις"
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
 msgstr "Κεφαλίδα && Υποσέλιδο"
+
+#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left:"
+msgstr "Αριστερά:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right:"
+msgstr "Δεξιά:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
+#: dlgSynPageSetup.dfm
+msgid "Top:"
+msgstr "Πάνω:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
+#: dlgSynPageSetup.dfm
+msgid "Bottom:"
+msgstr "Κάτω:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
+#: dlgSynPageSetup.dfm
+msgid "Units:"
+msgstr "Μονάδες:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
+#: dlgSynPageSetup.dfm
+msgid "Header:"
+msgstr "Κεφαλίδα:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
+#: dlgSynPageSetup.dfm
+msgid "Footer:"
+msgstr "Υποσέλιδο:"
+
+#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
+#: dlgSynPageSetup.dfm
+msgid "Mirror margins"
+msgstr "Κατοπτρικά περιθώρια"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
+#: dlgSynPageSetup.dfm
+msgid "Line numbers"
+msgstr "Αριθμοί γραμμών"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
+#: dlgSynPageSetup.dfm
+msgid "Print line numbers in margin"
+msgstr "Αριθμοί γραμμών στο περιθώριο"
+
+#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
+#: dlgSynPageSetup.dfm
+msgid "Syntax print"
+msgstr "Εκτύπωση με συντακτικο τονισμό"
+
+#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
+#: dlgSynPageSetup.dfm
+msgid "Use colors"
+msgstr "Έγχρωμη εκτύπωση"
+
+#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
+#: dlgSynPageSetup.dfm
+msgid "Wrap lines"
+msgstr "Αναδίπλωση γραμμών"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1751,71 +1817,6 @@ msgstr "Υποσέλιδο"
 #: dlgSynPageSetup.dfm
 msgid "Line above"
 msgstr "Γραμμή πάνω"
-
-#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
-#: dlgSynPageSetup.dfm
-msgid "Left:"
-msgstr "Αριστερά:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
-#: dlgSynPageSetup.dfm
-msgid "Right:"
-msgstr "Δεξιά:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
-#: dlgSynPageSetup.dfm
-msgid "Top:"
-msgstr "Πάνω:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
-#: dlgSynPageSetup.dfm
-msgid "Bottom:"
-msgstr "Κάτω:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
-#: dlgSynPageSetup.dfm
-msgid "Units:"
-msgstr "Μονάδες:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
-#: dlgSynPageSetup.dfm
-msgid "Header:"
-msgstr "Κεφαλίδα:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
-#: dlgSynPageSetup.dfm
-msgid "Footer:"
-msgstr "Υποσέλιδο:"
-
-#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
-#: dlgSynPageSetup.dfm
-msgid "Mirror margins"
-msgstr "Κατοπτρικά περιθώρια"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
-#: dlgSynPageSetup.dfm
-msgid "Line numbers"
-msgstr "Αριθμοί γραμμών"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
-#: dlgSynPageSetup.dfm
-msgid "Print line numbers in margin"
-msgstr "Αριθμοί γραμμών στο περιθώριο"
-
-#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
-#: dlgSynPageSetup.dfm
-msgid "Syntax print"
-msgstr "Εκτύπωση με συντακτικο τονισμό"
-
-#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
-#: dlgSynPageSetup.dfm
-msgid "Use colors"
-msgstr "Έγχρωμη εκτύπωση"
-
-#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
-#: dlgSynPageSetup.dfm
-msgid "Wrap lines"
-msgstr "Αναδίπλωση γραμμών"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -1975,7 +1976,9 @@ msgstr "Ζουμ|Αύξηση/ελάττωση ζουμ"
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
+#. Programmer's name for it: SPrint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPrintPreview.pas
 msgid "Print"
 msgstr "Εκτύπωση"
 
@@ -2004,15 +2007,15 @@ msgstr "Εμφάνιση του διαλόγου επιλογών εργασιώ
 msgid "To Do Tokens"
 msgstr "Κουπόνια Ορισμού Εργασιών"
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
 #: dlgToDoOptions.dfm
-msgid "&Insert"
-msgstr "&Εισαγωγή"
+msgid "&Priority"
+msgstr "&Προτεραιότητα"
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnApply..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
 #: dlgToDoOptions.dfm
-msgid "&Apply"
-msgstr "&Εφαρμογή"
+msgid "To&ken"
+msgstr "Κου&πόνια"
 
 #. fmToDoOptions..pnlBG..gbxTokens..cboPriority....Items.Strings
 #. Programmer's name for it: SHigh
@@ -2032,15 +2035,15 @@ msgstr "Κανονικό"
 msgid "Low"
 msgstr "Χαμηλή"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
 #: dlgToDoOptions.dfm
-msgid "&Priority"
-msgstr "&Προτεραιότητα"
+msgid "&Insert"
+msgstr "&Εισαγωγή"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnApply..Caption
 #: dlgToDoOptions.dfm
-msgid "To&ken"
-msgstr "Κου&πόνια"
+msgid "&Apply"
+msgstr "&Εφαρμογή"
 
 #. fmToDoOptions..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
@@ -2387,52 +2390,6 @@ msgstr "Αποεπιλογή Όλων"
 msgid "Deselect all nodes"
 msgstr "Αποεπιλογή όλων των κόμβων"
 
-#. CommandsDataModule..SynPythonSyn..DefaultFilter
-#. 5000;
-#: dmCommands.dfm cPyScripterSettings.pas
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr "Αρχεία Python (*.py;*.pyw)|*.py;*.pyw"
-
-#. CommandsDataModule..ParameterCompletion..Title
-#. CommandsDataModule..actlMain..actParameterCompletion..Category
-#. CommandsDataModule..actlMain..actModifierCompletion..Category
-#. CommandsDataModule..actlMain..actReplaceParameters..Category
-#. CommandsDataModule..actlMain..actCustomizeParameters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Parameters"
-msgstr "Παράμετροι"
-
-#. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm
-msgid "Modifiers"
-msgstr "Μετατροπείς"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python Module header"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Comment Line"
-msgstr "|Σχόλιο κώδικα"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python application"
-msgstr "Εφαρμογή IPython"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python class"
-msgstr "|Τάξη python"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|File encoding comment"
-msgstr "|Σχόλιο κωδικοποίησης αρχείου"
-
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
 #. CommandsDataModule..actlMain..actFileClose..Category
@@ -2664,8 +2621,8 @@ msgstr "&Αντικατάσταση..."
 
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
-msgid "Replace|Search  & Replace"
-msgstr "Αντικατάσταση|Αναζήτηση και αντικατάσταση"
+msgid "Replace|Search & Replace"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2901,6 +2858,15 @@ msgstr "&Εύρεση σε Αρχεία..."
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
 msgstr "Αναζήτηση σε αρχεία|Αναζήτηση κειμένου σε αρχεία"
+
+#. CommandsDataModule..actlMain..actParameterCompletion..Category
+#. CommandsDataModule..actlMain..actModifierCompletion..Category
+#. CommandsDataModule..actlMain..actReplaceParameters..Category
+#. CommandsDataModule..actlMain..actCustomizeParameters..Category
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
+msgid "Parameters"
+msgstr "Παράμετροι"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3213,8 +3179,8 @@ msgstr "Εξαγωγή Τονιστών Σύνταξης"
 
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
-msgid "Replace with existing  settings"
-msgstr "Αντικατάσταση σύμφωνα με τις επιλεγμένες ρυθμίσεις"
+msgid "Replace with existing settings"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -3494,7 +3460,8 @@ msgid "Donate to the PyScripter project"
 msgstr "Προσφέρετε χορηγία στο έργο PyScripter"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
-#: dmCommands.dfm cPyScripterSettings.pas
+#. Programmer's name for it: sGeneralFileFilter
+#: dmCommands.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr "Αρχεία Κειμένου(*.txt,*.*)|*.txt;*.*"
 
@@ -4475,8 +4442,8 @@ msgstr "Πρόσθεση νέου υποκαταλόγου"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
-msgid "Remove a file,  folder or run configuration from the project"
-msgstr "Αφαίρεση αρχείου, καταλόγου ή ρύθμισης εκτέλεσης από το έργο"
+msgid "Remove a file, folder or run configuration from the project"
+msgstr ""
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4593,6 +4560,11 @@ msgstr "Έκδοση Python"
 #: frmPyIDEMain.dfm dmCommands.pas
 msgid "Python engine type"
 msgstr "Τύπος μηχανής Python"
+
+#. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
+#: frmPyIDEMain.dfm
+msgid "Text position"
+msgstr ""
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
@@ -5880,11 +5852,6 @@ msgstr "Δεν εκτελέστηκε"
 msgid "Groups:"
 msgstr "Ομάδες:"
 
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
-#: frmRegExpTester.dfm
-msgid "Node"
-msgstr ""
-
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expression"
@@ -6109,7 +6076,10 @@ msgid "Run Configurations"
 msgstr ""
 
 #: cPyScripterSettings.pas
-msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+#, object-pascal-format
+msgid ""
+"Error in copying file \"%s\" to \"%s\"\n"
+"Error Message: "
 msgstr ""
 
 #: cSSHSupport.pas
@@ -6219,7 +6189,7 @@ msgid "Profile active file"
 msgstr ""
 
 #: cTools.pas
-msgid "PyLint tool (www.logilab.org/projects/pylint)"
+msgid "PyLint tool (www.pylint.org)"
 msgstr ""
 
 #: cTools.pas
@@ -6440,8 +6410,22 @@ msgstr "Το παράθυρο αποτελεσμάτων της Αναζήτησ
 msgid "Select working directory:"
 msgstr "Επιλογή φακέλου εργασίας;"
 
+#. Programmer's name for it: SPrintDoc
+#: dlgSynPrintPreview.pas
+msgid "Print the document on"
+msgstr ""
+
+#. Programmer's name for it: SPage
+#: dlgSynPrintPreview.pas
+msgid "Page"
+msgstr ""
+
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
+msgstr ""
+
+#: dlgToolProperties.pas
+msgid "External Run Properties"
 msgstr ""
 
 #: dmCommands.pas
@@ -6732,6 +6716,10 @@ msgid "Disable Variables Window with SSH"
 msgstr ""
 
 #: dmCommands.pas
+msgid "Modifiers"
+msgstr "Μετατροπείς"
+
+#: dmCommands.pas
 msgid "Configure Tools"
 msgstr "Διαμόρφωση Εργαλείων"
 
@@ -6818,6 +6806,14 @@ msgid ""
 msgstr ""
 
 #: frmFileExplorer.pas
+msgid "File Explorer Filter"
+msgstr ""
+
+#: frmFileExplorer.pas
+msgid "Enter Filter:"
+msgstr ""
+
+#: frmFileExplorer.pas
 msgid "File Explorer favorites"
 msgstr ""
 
@@ -6841,6 +6837,11 @@ msgstr "Ανάλυση module σε %g δεύτερα"
 #: frmFunctionList.pas
 msgid "Invalid index number"
 msgstr ""
+
+#. Programmer's name for it: SFileTemplateCategoryOther
+#: frmModSpTBXCustomize.pas StringResources.pas
+msgid "Other"
+msgstr "Άλλα"
 
 #: frmModSpTBXCustomize.pas
 msgid ""
@@ -6904,6 +6905,68 @@ msgstr ""
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr ""
+
+#: frmWatches.pas
+msgid "Edit Watch"
+msgstr ""
+
+#: frmWatches.pas
+msgid "Enter new expression:"
+msgstr ""
+
+#. File Filters
+#. Programmer's name for it: sPythonFileFilter
+#: StringResources.pas
+msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
+msgstr ""
+
+#. Programmer's name for it: sCythonFileFilter
+#: StringResources.pas
+msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
+msgstr ""
+
+#. Programmer's name for it: sHTMLFileFilter
+#: StringResources.pas
+msgid "HTML Documents (*.htm;*.html)|*.htm;*.html"
+msgstr ""
+
+#. Programmer's name for it: sXMLFileFilter
+#: StringResources.pas
+msgid ""
+"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
+msgstr ""
+
+#. Programmer's name for it: sCSSFileFilter
+#: StringResources.pas
+msgid "Cascading Stylesheets (*.css)|*.css"
+msgstr ""
+
+#. Programmer's name for it: sCPPFileFilter
+#: StringResources.pas
+msgid ""
+"C/C++ Files "
+"(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
+msgstr ""
+
+#. Programmer's name for it: sYAMLFileFilter
+#: StringResources.pas
+msgid "YAML files (*.yaml)|*.yaml"
+msgstr "Αρχεία YAML (*.yaml)|*.yaml"
+
+#. Programmer's name for it: sJSFileFilter
+#: StringResources.pas
+msgid "Javascript Files (*.js)|*.js"
+msgstr ""
+
+#. Programmer's name for it: sPHPFileFilter
+#: StringResources.pas
+msgid "PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
+msgstr ""
+
+#. Programmer's name for it: sJSONFileFilter
+#: StringResources.pas
+msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr ""
 
 #. Needs to be manually updated as new editor commands are added
@@ -7433,6 +7496,11 @@ msgid "Select to Bracket"
 msgstr ""
 
 #. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: srNone
+#: StringResources.pas
+msgid "(None)"
+msgstr ""
+
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
 msgid "Warning"
@@ -7694,8 +7762,8 @@ msgstr ""
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
-msgid "*** Remote Interpreter Reinitialized  ***"
-msgstr "*** Επαναρχικοποιήθηκε ο Απομακρυσμένος  Διερμηνευτής ***"
+msgid "*** Remote Interpreter Reinitialized ***"
+msgstr ""
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas
@@ -7725,12 +7793,9 @@ msgstr ""
 #, object-pascal-format
 msgid ""
 "Pyscripter needs access to the User Application Data directory: \"%s\". "
-"Certain features such as remote debugging  will not function properly "
+"Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
-"Ο Pyscripter χρειάζεται πρόσβαση στον κατάλογο User Application Data: "
-"\"%s\".  Διαφορετικά, κάποια χαρακτηριστικά όπως η απομακρυσμένη "
-"αποσφαλμάτωση δεν θα λειτουργείσουν."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -7856,12 +7921,9 @@ msgstr "Αλλαγμένα αρχεία έπαναφορτώθηκαν"
 #: StringResources.pas
 msgid ""
 "The following files have been changed on disk. Select the files that you "
-"wish to reload and press the OK button.  Please note that you will lose all "
+"wish to reload and press the OK button. Please note that you will lose all "
 "changes to these files."
 msgstr ""
-"Τα ακόλουθα αρχεία έχουν αλλάξει.  Επιλέξτε τα αρχεία που επιθυμείτε να "
-"επαναφορτώσετε και πατείστε το κουμπί Εντάξει.  Ας σημειωθεί ότι θα χάσατε "
-"τυχόν αλλαγές σε αυτά τα αρχεία."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -7881,13 +7943,13 @@ msgstr "Σφάλμα σύνταξης"
 #. Programmer's name for it: StrCertainty
 #: StringResources.pas
 #, object-pascal-format
-msgid "  Certainty %s%%"
-msgstr "  Βεβαιότητα %s%%"
+msgid " Certainty %s%%"
+msgstr ""
 
 #. Programmer's name for it: SReferencesNotFound
 #: StringResources.pas
-msgid "  References not found"
-msgstr "  Δεν βρέθηκαν αναφορές"
+msgid " References not found"
+msgstr ""
 
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
@@ -7901,13 +7963,13 @@ msgstr "Ορισμός του \""
 
 #. Programmer's name for it: SDefinitionFound
 #: StringResources.pas
-msgid "  Definition found"
-msgstr "  Ο ορισμός βρέθηκε"
+msgid " Definition found"
+msgstr ""
 
 #. Programmer's name for it: SDefinitionNotFound
 #: StringResources.pas
-msgid "  Definition not found"
-msgstr "  Δεν βρέθηκε ο ορισμός"
+msgid " Definition not found"
+msgstr ""
 
 #. Programmer's name for it: SSyntaxIsOK
 #: StringResources.pas
@@ -8368,8 +8430,8 @@ msgstr "Χρόνος αναμονής: %d ms"
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
 #, object-pascal-format
-msgid "The External Tool \"%s\" is still running  Do you want to terminate it?"
-msgstr "Το Εξωτερικό Εργαλείο \"%s\" είναι ενεργό. Θέλετε να το τερματίσετε;"
+msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
+msgstr ""
 
 #. Editor
 #. Programmer's name for it: SInsert
@@ -8539,6 +8601,18 @@ msgstr ""
 msgid "Could not find identifier \"%s\" in scope \"%s\""
 msgstr "Δεν βρέθηκε το αναγνωριστικό \"%s\" στο περιεχόμενο του \"%s\""
 
+#. Programmer's name for it: SCouldNotInferType
+#: StringResources.pas
+#, object-pascal-format
+msgid "Could not infer type from expresson \"%s\""
+msgstr ""
+
+#. Programmer's name for it: SCouldInferFunctionReturnType
+#: StringResources.pas
+#, object-pascal-format
+msgid "Could not infer return type of function \"%s\""
+msgstr ""
+
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas
 msgid "Refactoring engine is busy"
@@ -8554,11 +8628,6 @@ msgstr "Λέξη-κλειδί Python"
 #: StringResources.pas
 msgid "Internet"
 msgstr "Διαδίκτυο"
-
-#. Programmer's name for it: SFileTemplateCategoryOther
-#: StringResources.pas
-msgid "Other"
-msgstr "Άλλα"
 
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
@@ -8584,6 +8653,16 @@ msgstr "Αρχείο Κειμένου"
 #: StringResources.pas
 msgid "XML Document"
 msgstr "Αρχείο XML"
+
+#. Programmer's name for it: SJSONTemplateName
+#: StringResources.pas
+msgid "JSON File"
+msgstr ""
+
+#. Programmer's name for it: SYAMLTemplateName
+#: StringResources.pas
+msgid "YAML File"
+msgstr ""
 
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
@@ -8686,6 +8765,16 @@ msgid ""
 "server please switch to Python version %1:s."
 msgstr ""
 
+#. Programmer's name for it: SYNS_FriendlyCommentedCode
+#: SynHighlighterPython.pas
+msgid "Commented Code"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyClassName
+#: SynHighlighterPython.pas
+msgid "Class Name"
+msgstr ""
+
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
 msgid "Matching Brace"
@@ -8701,16 +8790,59 @@ msgstr "Αταίριαστη Παρέθενση"
 msgid "Multi-Line String"
 msgstr ""
 
+#. Programmer's name for it: SYNS_AttrBanner
+#. Programmer's name for it: SYNS_FriendlyAttrBanner
+#: SynHighlighterPython.pas
+msgid "Banner"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrTraceback
+#. Programmer's name for it: SYNS_FriendlyAttrTraceback
+#: SynHighlighterPython.pas
+msgid "Traceback"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrPrompt
+#. Programmer's name for it: SYNS_FriendlyAttrPrompt
+#: SynHighlighterPython.pas
+msgid "Prompt"
+msgstr ""
+
 #. Programmer's name for it: SYNS_AttrSystemCmd
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
 #: SynHighlighterPython.pas
 msgid "System Command"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FilterYAML
+#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
 #: SynHighlighterYAML.pas
-msgid "YAML files (*.yaml)|*.yaml"
-msgstr "Αρχεία YAML (*.yaml)|*.yaml"
+msgid "Document Delimiter"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrKey
+#: SynHighlighterYAML.pas
+msgid "Key"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
+#: SynHighlighterYAML.pas
+msgid "Numeric Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTextValue
+#: SynHighlighterYAML.pas
+msgid "Text Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTag
+#: SynHighlighterYAML.pas
+msgid "Tag"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrAnchor
+#: SynHighlighterYAML.pas
+msgid "Anchor"
+msgstr ""
 
 #. Python Paths etc.
 #: uParams.pas
@@ -8934,4 +9066,48 @@ msgstr ""
 
 #: uParams.pas
 msgid "Selected text in the active document"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
+#: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
+msgid "Toolbars"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
+#: SpTBXCustomizerForm.dfm:125
+msgid ""
+"To add command buttons, drag and drop commands onto a toolbar. To remove "
+"command buttons, drag them off the toolbar and drop them on the commands "
+"list."
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:174
+msgid "Icons + Selective Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:175
+msgid "Icons"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:176
+msgid "Icons + Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:177
+msgid "Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
+#: SpTBXCustomizerForm.dfm:196
+msgid "T&ext Options"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
+#: SpTBXCustomizerForm.dfm:212
+msgid "&Visible"
 msgstr ""

@@ -1,6 +1,6 @@
 # PyScripter GUI translation.
 # 
-# Copyright (C) Kiriakos Vlahos  2005-2018
+# Copyright (C) Kiriakos Vlahos  2005-2020
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-07-16 02:38\n"
+"POT-Creation-Date: 2020-10-07 05:50\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Muḥend Belqasem <belkacem77@gmail.com>, 2019\n"
 "Language-Team: Kabyle (https://www.transifex.com/luebbe/teams/82736/kab/)\n"
@@ -46,8 +46,8 @@ msgstr "Iseɣwan"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
-msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr "(C) Kiriakos Vlahos  2005-2018"
+msgid "(C) Kiriakos Vlahos 2005-2019"
+msgstr ""
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -76,16 +76,16 @@ msgstr "Sekcem azal n uɣewwaṛ"
 #. CommandLineDlg..Panel..OKButton..Caption
 #. CustomizeParams..Panel..btnOK..Caption
 #. frmCustomKeyboard..Panel1..btnOK..Caption
-#. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..OKBtn..Caption
+#. DirectoryListDialog..Panel2..Panel3..OKBtn..Caption
 #. ExceptionDialogMail..OkBtn..Caption
 #. FileTemplatesDialog..Panel..btnOK..Caption
 #. FindInFilesDialog..Panel1..btnOK..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnOK..Caption
+#. FindResultsOptionsDialog..Panel1..btnOK..Caption
 #. ImportDirectoryForm..Panel1..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
 #. RemoteFileDialog..Panel2..OKButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnOK..Caption
+#. ReplaceInFilesDialog..Panel1..btnOK..Caption
 #. RunConfigurationForm..Panel1..btnOK..Caption
 #. fmEditorOptionsDialog..Panel1..btnOk..Caption
 #. PageSetupDlg..OKBtn..Caption
@@ -106,20 +106,20 @@ msgstr "&Ih"
 #. AskParamForm..Panel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
 #. CollectionEditor..Panel1..CancelBtn..Caption
-#. CommandLineDlg..Panel..BitBtn2..Caption
-#. ConfirmReplaceDialog..SpTBXPanel1..btnCancel..Caption
+#. CommandLineDlg..Panel..btnCancel..Caption
+#. ConfirmReplaceDialog..Panel1..btnCancel..Caption
 #. CustomizeParams..Panel..btnCancel..Caption
 #. frmCustomKeyboard..Panel1..btnCancel..Caption
-#. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..CancelBtn..Caption
+#. DirectoryListDialog..Panel2..Panel3..CancelBtn..Caption
 #. FileTemplatesDialog..Panel..btnCancel..Caption
 #. FindInFilesDialog..Panel1..btnCancel..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnCancel..Caption
+#. FindResultsOptionsDialog..Panel1..btnCancel..Caption
 #. ImportDirectoryForm..Panel1..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
 #. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
 #. RemoteFileDialog..Panel2..CancelButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnCancel..Caption
+#. ReplaceInFilesDialog..Panel1..btnCancel..Caption
 #. RunConfigurationForm..Panel1..btnCancel..Caption
 #. StyleSelectorForm..Button2..Caption
 #. fmEditorOptionsDialog..Panel1..btnCancel..Caption
@@ -149,14 +149,14 @@ msgid "Code Templates"
 msgstr "Tineɣrufin n tengalt"
 
 #. CodeTemplates..Panel..btnHelp..Caption
-#. CommandLineDlg..Panel..HelpButton..Caption
+#. CommandLineDlg..Panel..btnHelp..Caption
 #. frmCustomKeyboard..Panel1..btnHelp..Caption
 #. FileTemplatesDialog..Panel..btnHelp..Caption
 #. FindInFilesDialog..Panel1..btnHelp..Caption
-#. FindResultsOptionsDialog..SpTBXPanel1..btnHelp..Caption
+#. FindResultsOptionsDialog..Panel1..btnHelp..Caption
 #. OptionsInspector..Panel2..HelpButton..Caption
 #. RemoteFileDialog..Panel2..HelpButton..Caption
-#. ReplaceInFilesDialog..SpTBXPanel1..btnHelp..Caption
+#. ReplaceInFilesDialog..Panel1..btnHelp..Caption
 #. RunConfigurationForm..Panel1..btnHelp..Caption
 #. fmEditorOptionsDialog..Panel1..btnHelp..Caption
 #. fmToDoOptions..pnlBG..btnHelp..Caption
@@ -256,7 +256,7 @@ msgstr "Rnu aferdis"
 
 #. CodeTemplates..ActionList..actDeleteItem..Caption
 #. CustomizeParams..ActionList..actDeleteItem..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnDelete..Caption
+#. DirectoryListDialog..Panel2..btnDelete..Caption
 #. FileTemplatesDialog..ActionList..actDeleteItem..Caption
 #. ToolProperties..ActionList..actDeleteItem..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgDirectoryList.dfm
@@ -326,7 +326,7 @@ msgid "Update item"
 msgstr "Mettre à jour l'occurence"
 
 #. CollectionEditor..Panel1..AddBtn..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Caption
+#. DirectoryListDialog..Panel2..btnAdd..Caption
 #: dlgCollectionEditor.dfm dlgDirectoryList.dfm
 msgid "&Add..."
 msgstr "&Rnu..."
@@ -351,16 +351,6 @@ msgstr "&Modifier..."
 msgid "Command Line Parameters"
 msgstr "Iɣewwaṛen n izirigen n tladna"
 
-#. CommandLineDlg..Panel..TBXButton1..Hint
-#: dlgCommandLine.dfm
-msgid "History"
-msgstr "Amazray"
-
-#. CommandLineDlg..Panel..cbUseCommandLine..Caption
-#: dlgCommandLine.dfm
-msgid "Use Command Line Parameters?"
-msgstr "Seqdec iɣewwaṛen n izirig n tladna?"
-
 #. CommandLineDlg..Panel..Label1....Caption
 #: dlgCommandLine.dfm
 msgid ""
@@ -377,6 +367,16 @@ msgstr ""
 msgid "Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
 msgstr "Paramètre: Shift+Ctrl+P, Modificateur: Shit+Ctrl+M"
 
+#. CommandLineDlg..Panel..TBXButton1..Hint
+#: dlgCommandLine.dfm
+msgid "History"
+msgstr "Amazray"
+
+#. CommandLineDlg..Panel..cbUseCommandLine..Caption
+#: dlgCommandLine.dfm
+msgid "Use Command Line Parameters?"
+msgstr "Seqdec iɣewwaṛen n izirig n tladna?"
+
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
 msgid "(Empty History)"
@@ -387,19 +387,19 @@ msgstr "(Amazray d ilem)"
 msgid "Confirm replace"
 msgstr "Sentem asemselsi"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnReplace..Caption
+#. ConfirmReplaceDialog..Panel1..btnReplace..Caption
 #. Programmer's name for it: SDlgYes
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&Yes"
 msgstr "&Ih"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnSkip..Caption
+#. ConfirmReplaceDialog..Panel1..btnSkip..Caption
 #. Programmer's name for it: SDlgNo
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&No"
 msgstr "&Ala"
 
-#. ConfirmReplaceDialog..SpTBXPanel1..btnReplaceAll..Caption
+#. ConfirmReplaceDialog..Panel1..btnReplaceAll..Caption
 #: dlgConfirmReplace.dfm
 msgid "Yes to &all"
 msgstr "Ih ima&ṛṛa"
@@ -487,50 +487,50 @@ msgstr "Kkes anegzum"
 msgid "Directory list"
 msgstr "Liste des répertoires"
 
-#. DirectoryListDialog..SpTBXPanel1..btnMoveUp..Hint
-#: dlgDirectoryList.dfm
-msgid "Move up"
-msgstr "Déplacer vers le haut"
-
-#. DirectoryListDialog..SpTBXPanel1..btnMoveDown..Hint
-#: dlgDirectoryList.dfm
-msgid "Move down"
-msgstr "Déplacer vers le bas"
-
-#. DirectoryListDialog..SpTBXPanel1..SpTBXLabel1..Caption
+#. DirectoryListDialog..Panel1..Label1..Caption
 #: dlgDirectoryList.dfm
 msgid "Ordered list of file paths:"
 msgstr "Liste ordonnée des chemins de fichier:"
 
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Hint
+#. DirectoryListDialog..Panel1..btnMoveUp..Hint
+#: dlgDirectoryList.dfm
+msgid "Move up"
+msgstr "Déplacer vers le haut"
+
+#. DirectoryListDialog..Panel1..btnMoveDown..Hint
+#: dlgDirectoryList.dfm
+msgid "Move down"
+msgstr "Déplacer vers le bas"
+
+#. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
 msgid "Add file path to the list"
 msgstr "Ajouter le chemin de fichier à la liste"
 
-#. DirectoryListDialog..SpTBXPanel2..btnReplace..Hint
+#. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
 msgstr "Remplacer le chemin du fichier sélectionné"
 
-#. DirectoryListDialog..SpTBXPanel2..btnReplace..Caption
+#. DirectoryListDialog..Panel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
 msgid "&Replace"
 msgstr "&Semselsi"
 
-#. DirectoryListDialog..SpTBXPanel2..edPath..Hint
+#. DirectoryListDialog..Panel2..btnDelete..Hint
+#: dlgDirectoryList.dfm
+msgid "Delete the selected file path"
+msgstr "Kkes abrid n ufaylu ittufernen"
+
+#. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
 msgstr "Sekcem abrid n ufaylu dagi"
 
-#. DirectoryListDialog..SpTBXPanel2..edPath..EditButton.Hint
-#: dlgDirectoryList.dfm
-msgid "Select file path"
-msgstr "Fren abrid n ufaylu"
-
-#. DirectoryListDialog..SpTBXPanel2..btnDelete..Hint
-#: dlgDirectoryList.dfm
-msgid "Delete the selected file path"
-msgstr "Kkes abrid n ufaylu ittufernen"
+#. ExceptionDialogMail..TextMemo..Hint
+#: dlgExceptionMail.dfm
+msgid "Use Ctrl+C to copy the report to the clipboard"
+msgstr "Ctrl+C pour copier le rapport dans le presse-papiers"
 
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
@@ -553,11 +553,6 @@ msgstr "Afficher ou cacher les infomations complémentaires|"
 #: dlgExceptionMail.dfm
 msgid "&Details"
 msgstr "&Talqayt:"
-
-#. ExceptionDialogMail..TextMemo..Hint
-#: dlgExceptionMail.dfm
-msgid "Use Ctrl+C to copy the report to the clipboard"
-msgstr "Ctrl+C pour copier le rapport dans le presse-papiers"
 
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
@@ -697,42 +692,42 @@ msgstr "Inclure les sous-&répertoires"
 msgid "Find in Files Options"
 msgstr "Options de recherche"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
 msgstr "Liste des correspondances"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepMiddle..Caption
-#: dlgFindResultsOptions.dfm
-msgid "Jump to matches in the &middle of the editor"
-msgstr "Aller aux correspondances en les centrant au &milieu de l'éditeur"
-
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepExpandAll..Caption
-#: dlgFindResultsOptions.dfm
-msgid "&Expand all matches after searching"
-msgstr "&Développer les correspondances après recherche"
-
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..pnlListFont..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
 msgstr "Tasefsit..."
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepMiddle..Caption
+#: dlgFindResultsOptions.dfm
+msgid "Jump to matches in the &middle of the editor"
+msgstr "Aller aux correspondances en les centrant au &milieu de l'éditeur"
+
+#. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepExpandAll..Caption
+#: dlgFindResultsOptions.dfm
+msgid "&Expand all matches after searching"
+msgstr "&Développer les correspondances après recherche"
+
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Context Display"
 msgstr "Aska n tenmeɣṛuḍin"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..lblContextLines..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Number of context lines"
 msgstr "Amḍan n izirigen"
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlContextFont..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Context Font..."
 msgstr "Tasefsit..."
 
-#. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlMatchLineColor..Caption
+#. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Font Color..."
 msgstr "Ini n tseftit..."
@@ -741,11 +736,6 @@ msgstr "Ini n tseftit..."
 #: dlgImportDirectory.dfm
 msgid "Import Directory"
 msgstr "Kter akaram"
-
-#. ImportDirectoryForm..Panel1..cbRecursive..Caption
-#: dlgImportDirectory.dfm
-msgid "Recursive?"
-msgstr "Recursif?"
 
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
@@ -756,6 +746,11 @@ msgstr "Répertoire à importer:"
 #: dlgImportDirectory.dfm
 msgid "File Masks (e.g. *.py;*.pyw):"
 msgstr "Extensions de fichiers (par exemple *.py; *.pyw)"
+
+#. ImportDirectoryForm..Panel1..cbRecursive..Caption
+#: dlgImportDirectory.dfm
+msgid "Recursive?"
+msgstr "Recursif?"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -948,28 +943,28 @@ msgstr ""
 msgid "Replace Matches"
 msgstr "Semselsi akk timeqruḍin"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..cbBackup..Caption
-#: dlgReplaceInFiles.dfm
-msgid "Backup Modified Files"
-msgstr "Restaurer les fichiers modifiés"
-
-#. ReplaceInFilesDialog..SpTBXPanel1..lblWith..Caption
+#. ReplaceInFilesDialog..Panel1..lblWith..Caption
 #: dlgReplaceInFiles.dfm
 msgid "&With"
 msgstr "&Avec"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..lblIn..Caption
+#. ReplaceInFilesDialog..Panel1..lblIn..Caption
 #: dlgReplaceInFiles.dfm
 msgid "In"
 msgstr "Dans"
 
-#. ReplaceInFilesDialog..SpTBXPanel1..lblReplace..Caption
+#. ReplaceInFilesDialog..Panel1..lblReplace..Caption
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Caption
 #. FindResultsWindow..Actions..actReplaceSelected..Category
 #. FindResultsWindow..Actions..actReplaceAll..Category
 #: dlgReplaceInFiles.dfm dmCommands.dfm frmFindResults.dfm
 msgid "Replace"
 msgstr "Semselsi"
+
+#. ReplaceInFilesDialog..Panel1..cbBackup..Caption
+#: dlgReplaceInFiles.dfm
+msgid "Backup Modified Files"
+msgstr "Restaurer les fichiers modifiés"
 
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
@@ -1017,15 +1012,15 @@ msgstr ""
 msgid "Python Engine"
 msgstr "Moteur Python"
 
-#. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
-#: dlgRunConfiguration.dfm
-msgid "Reinitiali&ze Before Run"
-msgstr "Ré&initialiser avant exécution."
-
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
 msgstr "Tawsit n umsed&day:"
+
+#. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
+#: dlgRunConfiguration.dfm
+msgid "Reinitiali&ze Before Run"
+msgstr "Ré&initialiser avant exécution."
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
@@ -1071,6 +1066,11 @@ msgstr ""
 msgid "Output"
 msgstr "Tuffɣiwin"
 
+#. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
+#: dlgRunConfiguration.dfm
+msgid "File &Name:"
+msgstr "Isem n ufa&ylu:"
+
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Append to file"
@@ -1080,11 +1080,6 @@ msgstr "&Rnu ɣer ufaylu"
 #: dlgRunConfiguration.dfm
 msgid "Save Output"
 msgstr "Sekles tuffɣa"
-
-#. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
-#: dlgRunConfiguration.dfm
-msgid "File &Name:"
-msgstr "Isem n ufa&ylu:"
 
 #. StyleSelectorForm..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
@@ -1140,6 +1135,212 @@ msgstr ""
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Initen n tseddast"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Amedya n tengalt"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Iferdisen:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&Couleur du surlignement"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "&Ini"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Ẓreg tutlayt n tseddast"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Imyerren"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Zur"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Italique"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Derrer"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Ittujerreḍ"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Options des raccourcis clavier"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Taladna:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Taladna"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right Edge"
+msgstr "Bord droit"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge color:"
+msgstr "Ini:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge Column:"
+msgstr "Largeur:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Gutter"
+msgstr "Bordure"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter color:"
+msgstr "Ini n rrif:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#: dlgSynEditOptions.dfm
+msgid "Autosize"
+msgstr "Redimensionnement automatique"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show line numbers"
+msgstr "Sken uṭṭunen n izirig"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show leading zeros"
+msgstr "Afficher zéros non significatifs"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Visible"
+msgstr "Uman"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#: dlgSynEditOptions.dfm
+msgid "Start at zero"
+msgstr "Bdu si tazwara"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "Tasefsit n yiran"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#: dlgSynEditOptions.dfm
+msgid "Gutter gradient visible"
+msgstr "Dégradé de la bordure visible"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter Gradient"
+msgstr "Dégradé de la bordure"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Hint
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Font"
+msgstr "Tasefsit"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks"
+msgstr "Ticraḍ"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmark keys"
+msgstr "Anegzum anasiw n tecṛeṭ n usebtar"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks visible"
+msgstr "Signets visibles"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Font"
+msgstr "Police de l'éditeur"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Line spacing / Tab spacing"
+msgstr "Espacement de ligne / Espacement de tabulation"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#: dlgSynEditOptions.dfm
+msgid "Extra Lines:"
+msgstr "Lignes suppl.:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Width:"
+msgstr "Largeur de Tab:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Active Line Color"
+msgstr "Rmed tiɣmi n izirigen."
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1416,6 +1617,12 @@ msgstr "L'indication de défilement suit la souris lors du défilement vertical"
 msgid "Scroll hint follows mouse"
 msgstr "L'indication de déliment suit la souris"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show font ligatures"
+msgstr ""
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
 msgid "Caret"
@@ -1454,212 +1661,6 @@ msgstr "Demi bloc"
 #: dlgSynEditOptions.dfm
 msgid "Block"
 msgstr "Iḥder"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Amedya n tengalt"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Iferdisen:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Couleur du surlignement"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "&Ini"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Ẓreg tutlayt n tseddast"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Imyerren"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Zur"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Italique"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Derrer"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Ittujerreḍ"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Options des raccourcis clavier"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Taladna:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Taladna"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right Edge"
-msgstr "Bord droit"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge color:"
-msgstr "Ini:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge Column:"
-msgstr "Largeur:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Gutter"
-msgstr "Bordure"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter color:"
-msgstr "Ini n rrif:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Font"
-msgstr "Tasefsit"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm
-msgid "Autosize"
-msgstr "Redimensionnement automatique"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show line numbers"
-msgstr "Sken uṭṭunen n izirig"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show leading zeros"
-msgstr "Afficher zéros non significatifs"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Visible"
-msgstr "Uman"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm
-msgid "Start at zero"
-msgstr "Bdu si tazwara"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "Tasefsit n yiran"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm
-msgid "Gutter gradient visible"
-msgstr "Dégradé de la bordure visible"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter Gradient"
-msgstr "Dégradé de la bordure"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks"
-msgstr "Ticraḍ"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmark keys"
-msgstr "Anegzum anasiw n tecṛeṭ n usebtar"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks visible"
-msgstr "Signets visibles"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Font"
-msgstr "Police de l'éditeur"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Line spacing / Tab spacing"
-msgstr "Espacement de ligne / Espacement de tabulation"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr "Lignes suppl.:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Width:"
-msgstr "Largeur de Tab:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Active Line Color"
-msgstr "Rmed tiɣmi n izirigen."
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -2015,15 +2016,15 @@ msgstr "Options de la liste d'attente"
 msgid "To Do Tokens"
 msgstr "Marqueurs de la liste d'attente"
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
 #: dlgToDoOptions.dfm
-msgid "&Insert"
-msgstr "&Ger"
+msgid "&Priority"
+msgstr "&Priorité"
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnApply..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
 #: dlgToDoOptions.dfm
-msgid "&Apply"
-msgstr "&Snes"
+msgid "To&ken"
+msgstr "Mar&queur"
 
 #. fmToDoOptions..pnlBG..gbxTokens..cboPriority....Items.Strings
 #. Programmer's name for it: SHigh
@@ -2043,15 +2044,15 @@ msgstr "Amagnu"
 msgid "Low"
 msgstr "Basse"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
 #: dlgToDoOptions.dfm
-msgid "&Priority"
-msgstr "&Priorité"
+msgid "&Insert"
+msgstr "&Ger"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnApply..Caption
 #: dlgToDoOptions.dfm
-msgid "To&ken"
-msgstr "Mar&queur"
+msgid "&Apply"
+msgstr "&Snes"
 
 #. fmToDoOptions..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
@@ -2400,58 +2401,6 @@ msgstr "Kkes akk tafrant"
 msgid "Deselect all nodes"
 msgstr "Désélectionner tous les noeuds"
 
-#. CommandsDataModule..SynPythonSyn..DefaultFilter
-#. File Filters
-#. Programmer's name for it: sPythonFileFilter
-#: dmCommands.dfm StringResources.pas
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr ""
-
-#. CommandsDataModule..ParameterCompletion..Title
-#. CommandsDataModule..actlMain..actParameterCompletion..Category
-#. CommandsDataModule..actlMain..actModifierCompletion..Category
-#. CommandsDataModule..actlMain..actReplaceParameters..Category
-#. CommandsDataModule..actlMain..actCustomizeParameters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
-msgid "Parameters"
-msgstr "Iɣewwaṛen"
-
-#. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm dmCommands.pas
-msgid "Modifiers"
-msgstr "Modificateurs"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python Module header"
-msgstr "Ula d yiwen n uzegrir ur d-yuli"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Comment Line"
-msgstr "Izirig n tladna : %s"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python application"
-msgstr "&Asnas:"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Python class"
-msgstr "Abrid Python"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|File encoding comment"
-msgstr "|Awennit n usenttengel n ufaylu"
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm
-msgid "|Sheband"
-msgstr ""
-
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
 #. CommandsDataModule..actlMain..actFileClose..Category
@@ -2683,8 +2632,8 @@ msgstr "&Semselsi"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
-msgid "Replace|Search  & Replace"
-msgstr "Semselsi|Nadi & Semselsi"
+msgid "Replace|Search & Replace"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2920,6 +2869,15 @@ msgstr "&Nadi"
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
 msgstr "Nadi|Nadi tanfalit"
+
+#. CommandsDataModule..actlMain..actParameterCompletion..Category
+#. CommandsDataModule..actlMain..actModifierCompletion..Category
+#. CommandsDataModule..actlMain..actReplaceParameters..Category
+#. CommandsDataModule..actlMain..actCustomizeParameters..Category
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
+msgid "Parameters"
+msgstr "Iɣewwaṛen"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3229,8 +3187,8 @@ msgstr "Exporter les surligneurs de syntaxe"
 
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
-msgid "Replace with existing  settings"
-msgstr "Remplacer par le texte choisi"
+msgid "Replace with existing settings"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -4489,9 +4447,8 @@ msgstr "Rnu adakaram amaynut"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
-msgid "Remove a file,  folder or run configuration from the project"
+msgid "Remove a file, folder or run configuration from the project"
 msgstr ""
-"Supprimer un fichier, un dossier ou une configuration d'exécution du projet"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4607,6 +4564,11 @@ msgstr ""
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
 #: frmPyIDEMain.dfm dmCommands.pas
 msgid "Python engine type"
+msgstr ""
+
+#. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
+#: frmPyIDEMain.dfm
+msgid "Text position"
 msgstr ""
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
@@ -6126,6 +6088,13 @@ msgstr ""
 msgid "Run Configurations"
 msgstr ""
 
+#: cPyScripterSettings.pas
+#, object-pascal-format
+msgid ""
+"Error in copying file \"%s\" to \"%s\"\n"
+"Error Message: "
+msgstr ""
+
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
@@ -6233,7 +6202,7 @@ msgid "Profile active file"
 msgstr ""
 
 #: cTools.pas
-msgid "PyLint tool (www.logilab.org/projects/pylint)"
+msgid "PyLint tool (www.pylint.org)"
 msgstr ""
 
 #: cTools.pas
@@ -6747,6 +6716,10 @@ msgid "Disable Variables Window with SSH"
 msgstr ""
 
 #: dmCommands.pas
+msgid "Modifiers"
+msgstr "Modificateurs"
+
+#: dmCommands.pas
 msgid "Configure Tools"
 msgstr "Swel ifecka"
 
@@ -6830,6 +6803,14 @@ msgstr ""
 msgid ""
 "Method %s defined at line %d\n"
 "Arguments: %s"
+msgstr ""
+
+#: frmFileExplorer.pas
+msgid "File Explorer Filter"
+msgstr ""
+
+#: frmFileExplorer.pas
+msgid "Enter Filter:"
 msgstr ""
 
 #: frmFileExplorer.pas
@@ -6926,6 +6907,20 @@ msgstr ""
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr ""
+
+#: frmWatches.pas
+msgid "Edit Watch"
+msgstr ""
+
+#: frmWatches.pas
+msgid "Enter new expression:"
+msgstr ""
+
+#. File Filters
+#. Programmer's name for it: sPythonFileFilter
+#: StringResources.pas
+msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
 msgstr ""
 
 #. Programmer's name for it: sCythonFileFilter
@@ -7771,8 +7766,8 @@ msgstr ""
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
-msgid "*** Remote Interpreter Reinitialized  ***"
-msgstr "*** Tadiwent n ukala anmeggag tettuwennez *** "
+msgid "*** Remote Interpreter Reinitialized ***"
+msgstr ""
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas
@@ -7802,12 +7797,9 @@ msgstr ""
 #, object-pascal-format
 msgid ""
 "Pyscripter needs access to the User Application Data directory: \"%s\". "
-"Certain features such as remote debugging  will not function properly "
+"Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
-"Pyscripter a besoin d'avoir accès au répertoire Application Data de "
-"l'utilisateur: \"%s\". Certaines fonctions comme le débuggage distant "
-"pourrait ne pas fonctionner correctement."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -7931,12 +7923,9 @@ msgstr "Les fichiers modifiés ont été rechargé"
 #: StringResources.pas
 msgid ""
 "The following files have been changed on disk. Select the files that you "
-"wish to reload and press the OK button.  Please note that you will lose all "
+"wish to reload and press the OK button. Please note that you will lose all "
 "changes to these files."
 msgstr ""
-"Les fichiers suivants ont été modifiés. Sélectionner les fichiers que vous "
-"voulez recharger et appuyer sur OK. Toutes les modifications de ces fichiers"
-" seront perdus."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -7956,13 +7945,13 @@ msgstr "Erreur de Syntaxe"
 #. Programmer's name for it: StrCertainty
 #: StringResources.pas
 #, object-pascal-format
-msgid "  Certainty %s%%"
-msgstr "Certitude %s%%"
+msgid " Certainty %s%%"
+msgstr ""
 
 #. Programmer's name for it: SReferencesNotFound
 #: StringResources.pas
-msgid "  References not found"
-msgstr "Tamsisɣelt tettwaf"
+msgid " References not found"
+msgstr ""
 
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
@@ -7976,13 +7965,13 @@ msgstr "Définition(s) de \""
 
 #. Programmer's name for it: SDefinitionFound
 #: StringResources.pas
-msgid "  Definition found"
-msgstr "Tabadut tettwaf"
+msgid " Definition found"
+msgstr ""
 
 #. Programmer's name for it: SDefinitionNotFound
 #: StringResources.pas
-msgid "  Definition not found"
-msgstr "Tabadut ur tettwaf ara"
+msgid " Definition not found"
+msgstr ""
 
 #. Programmer's name for it: SSyntaxIsOK
 #: StringResources.pas
@@ -8441,10 +8430,8 @@ msgstr "Temps écoulé: %d ms"
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
 #, object-pascal-format
-msgid "The External Tool \"%s\" is still running  Do you want to terminate it?"
+msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
 msgstr ""
-"L'outil externe \"%s\" est toujours en cours d'exécution. Voulez-vous "
-"l'interrompre?"
 
 #. Editor
 #. Programmer's name for it: SInsert
@@ -8613,6 +8600,18 @@ msgstr ""
 #, object-pascal-format
 msgid "Could not find identifier \"%s\" in scope \"%s\""
 msgstr "Asulay ulac-it \"%s\" di  \"%s\""
+
+#. Programmer's name for it: SCouldNotInferType
+#: StringResources.pas
+#, object-pascal-format
+msgid "Could not infer type from expresson \"%s\""
+msgstr ""
+
+#. Programmer's name for it: SCouldInferFunctionReturnType
+#: StringResources.pas
+#, object-pascal-format
+msgid "Could not infer return type of function \"%s\""
+msgstr ""
 
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas
