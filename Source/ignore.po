@@ -62,12 +62,6 @@ msgstr ""
 msgid "cm"
 msgstr ""
 
-msgid "Inches"
-msgstr ""
-
-msgid "(1/1000) Inches"
-msgstr ""
-
 # Other non-translatable stuff
 msgid "..."
 msgstr ""
