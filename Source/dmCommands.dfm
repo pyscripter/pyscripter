@@ -70,7 +70,6 @@ object CommandsDataModule: TCommandsDataModule
       item
         ColumnWidth = 230
       end>
-    Resizeable = False
     OnExecute = ParameterCompletionExecute
     ShortCut = 24656
     OnCodeCompletion = ParameterCompletionCodeCompletion
@@ -101,7 +100,6 @@ object CommandsDataModule: TCommandsDataModule
       item
         ColumnWidth = 280
       end>
-    Resizeable = False
     OnExecute = ModifierCompletionExecute
     ShortCut = 24653
     OnCodeCompletion = ModifierCompletionCodeCompletion

@@ -1581,6 +1581,8 @@ begin
   // They will be translated as well
   TP_GlobalIgnoreClass(TJvFormStorage);
   TP_GlobalIgnoreClass(TJvAppIniFileStorage);
+  TP_GlobalIgnoreClass(TVirtualImageList);
+  TP_GlobalIgnoreClassProperty(TButton,'ImageName');
   TranslateComponent(Self);
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
 

@@ -3110,6 +3110,7 @@ initialization
   EditorSearchOptions.InitSearch;
   // gettext stuff
   // Classes that should not be translated
+  TP_GlobalIgnoreClass(TImageCollection);
   TP_GlobalIgnoreClass(TJvMultiStringHolder);
   TP_GlobalIgnoreClass(TSynEdit);
   TP_GlobalIgnoreClass(TSynCompletionProposal);
@@ -3123,6 +3124,7 @@ initialization
   TP_GlobalIgnoreClass(TPythonModule);
   // VCL stuff
   TP_GlobalIgnoreClassProperty(TAction,'Category');
+  TP_GlobalIgnoreClassProperty(TAction,'ImageName');
   TP_GlobalIgnoreClassProperty(TControl,'HelpKeyword');
   TP_GlobalIgnoreClass(TFont);
 

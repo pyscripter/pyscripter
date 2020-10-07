@@ -27,16 +27,18 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Width = 565
       Height = 353
       Align = alTop
-      ActiveTabIndex = 1
+      ActiveTabIndex = 0
       TabAutofit = True
+      ExplicitLeft = 2
+      ExplicitTop = 7
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
+        Checked = True
         CustomWidth = 112
       end
       object SpTBXTabItem2: TSpTBXTabItem
         Caption = 'Options'
-        Checked = True
         CustomWidth = 112
       end
       object SpTBXTabItem3: TSpTBXTabItem
@@ -390,314 +392,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             SortType = stText
             TabOrder = 0
             ViewStyle = vsReport
-          end
-        end
-      end
-      object Display: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 565
-        Height = 328
-        Caption = 'Display'
-        ImageIndex = -1
-        DesignSize = (
-          565
-          328)
-        TabItem = 'SpTBXTabItem1'
-        object gbRightEdge: TGroupBox
-          Left = 290
-          Top = 116
-          Width = 266
-          Height = 80
-          Anchors = [akTop, akRight]
-          Caption = 'Right Edge'
-          TabOrder = 1
-          DesignSize = (
-            266
-            80)
-          object Label3: TLabel
-            Left = 9
-            Top = 45
-            Width = 54
-            Height = 13
-            Caption = 'Edge color:'
-          end
-          object Label10: TLabel
-            Left = 9
-            Top = 19
-            Width = 66
-            Height = 13
-            Caption = 'Edge Column:'
-          end
-          object eRightEdge: TEdit
-            Left = 123
-            Top = 18
-            Width = 51
-            Height = 21
-            Anchors = [akTop, akRight]
-            TabOrder = 0
-            Text = '0'
-          end
-          object cbRightEdgeColor: TSpTBXColorEdit
-            Left = 123
-            Top = 45
-            Width = 129
-            Height = 21
-            Anchors = [akTop, akRight]
-            TabOrder = 1
-            SelectedColor = clBlack
-            SelectedFormat = cttHTML
-          end
-        end
-        object gbGutter: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 197
-          Width = 553
-          Height = 124
-          Align = alBottom
-          Caption = 'Gutter'
-          TabOrder = 0
-          DesignSize = (
-            553
-            124)
-          object Label1: TLabel
-            Left = 285
-            Top = 78
-            Width = 61
-            Height = 13
-            Caption = 'Gutter color:'
-          end
-          object pnlGutterFontDisplay: TPanel
-            Left = 361
-            Top = 44
-            Width = 181
-            Height = 27
-            Anchors = [akTop, akRight]
-            TabOrder = 6
-            object lblGutterFont: TLabel
-              Left = 1
-              Top = 1
-              Width = 179
-              Height = 25
-              Align = alClient
-              Alignment = taCenter
-              Caption = 'Terminal 8pt'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Terminal'
-              Font.Style = []
-              ParentFont = False
-              ExplicitWidth = 72
-              ExplicitHeight = 8
-            end
-          end
-          object cbGutterColor: TSpTBXColorEdit
-            Left = 399
-            Top = 76
-            Width = 137
-            Height = 21
-            TabOrder = 7
-            SelectedColor = clBlack
-            SelectedFormat = cttHTML
-          end
-          object ckGutterAutosize: TCheckBox
-            Left = 24
-            Top = 38
-            Width = 230
-            Height = 21
-            Caption = 'Autosize'
-            TabOrder = 1
-          end
-          object ckGutterShowLineNumbers: TCheckBox
-            Left = 24
-            Top = 58
-            Width = 230
-            Height = 21
-            Caption = 'Show line numbers'
-            TabOrder = 2
-          end
-          object ckGutterShowLeaderZeros: TCheckBox
-            Left = 24
-            Top = 99
-            Width = 230
-            Height = 21
-            Caption = 'Show leading zeros'
-            TabOrder = 3
-          end
-          object ckGutterVisible: TCheckBox
-            Left = 24
-            Top = 18
-            Width = 230
-            Height = 21
-            Caption = 'Visible'
-            Checked = True
-            State = cbChecked
-            TabOrder = 0
-          end
-          object ckGutterStartAtZero: TCheckBox
-            Left = 24
-            Top = 78
-            Width = 230
-            Height = 21
-            Caption = 'Start at zero'
-            TabOrder = 8
-          end
-          object cbGutterFont: TCheckBox
-            Left = 285
-            Top = 18
-            Width = 156
-            Height = 21
-            Caption = 'Use Gutter Font'
-            TabOrder = 4
-            OnClick = cbGutterFontClick
-          end
-          object ckGutterGradient: TCheckBox
-            Left = 285
-            Top = 99
-            Width = 230
-            Height = 21
-            Hint = 'Gutter gradient visible'
-            Caption = 'Gutter Gradient'
-            TabOrder = 9
-          end
-          object btnGutterFont: TButton
-            Left = 447
-            Top = 15
-            Width = 89
-            Height = 25
-            Caption = 'Font'
-            TabOrder = 5
-            OnClick = btnGutterFontClick
-          end
-        end
-        object gbBookmarks: TGroupBox
-          Left = 290
-          Top = 50
-          Width = 266
-          Height = 62
-          Anchors = [akTop, akRight]
-          Caption = 'Bookmarks'
-          TabOrder = 3
-          object ckBookmarkKeys: TCheckBox
-            Left = 23
-            Top = 16
-            Width = 230
-            Height = 21
-            Caption = 'Bookmark keys'
-            TabOrder = 0
-          end
-          object ckBookmarkVisible: TCheckBox
-            Left = 23
-            Top = 35
-            Width = 230
-            Height = 21
-            Caption = 'Bookmarks visible'
-            TabOrder = 1
-          end
-        end
-        object gbEditorFont: TGroupBox
-          Left = 6
-          Top = 10
-          Width = 266
-          Height = 92
-          Caption = 'Editor Font'
-          TabOrder = 4
-          object Panel3: TPanel
-            Left = 35
-            Top = 21
-            Width = 190
-            Height = 30
-            TabOrder = 1
-            object labFont: TLabel
-              Left = 1
-              Top = 1
-              Width = 188
-              Height = 28
-              Align = alClient
-              Alignment = taCenter
-              Caption = 'Courier New 10pt'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -13
-              Font.Name = 'Courier New'
-              Font.Style = []
-              ParentFont = False
-              ExplicitWidth = 128
-              ExplicitHeight = 16
-            end
-          end
-          object btnFont: TButton
-            Left = 78
-            Top = 57
-            Width = 92
-            Height = 25
-            Caption = 'Font'
-            TabOrder = 0
-            OnClick = btnFontClick
-          end
-        end
-        object gbLineSpacing: TGroupBox
-          Left = 7
-          Top = 108
-          Width = 266
-          Height = 88
-          Anchors = [akTop]
-          Caption = 'Line spacing / Tab spacing'
-          TabOrder = 2
-          DesignSize = (
-            266
-            88)
-          object Label8: TLabel
-            Left = 23
-            Top = 27
-            Width = 57
-            Height = 13
-            Caption = 'Extra Lines:'
-          end
-          object Label9: TLabel
-            Left = 23
-            Top = 56
-            Width = 53
-            Height = 13
-            Caption = 'Tab Width:'
-          end
-          object eLineSpacing: TEdit
-            Left = 208
-            Top = 23
-            Width = 36
-            Height = 21
-            Anchors = [akLeft, akTop, akRight]
-            TabOrder = 0
-            Text = '0'
-          end
-          object eTabWidth: TEdit
-            Left = 208
-            Top = 53
-            Width = 36
-            Height = 21
-            Anchors = [akLeft, akTop, akRight]
-            TabOrder = 1
-            Text = '8'
-          end
-        end
-        object GroupBox2: TGroupBox
-          Left = 290
-          Top = 7
-          Width = 266
-          Height = 43
-          Anchors = [akTop, akRight]
-          Caption = 'Active Line Color'
-          TabOrder = 5
-          object cbActiveLineColor: TSpTBXColorEdit
-            Left = 48
-            Top = 16
-            Width = 177
-            Height = 21
-            TabOrder = 0
-            SelectedColor = clBlack
-            SelectedFormat = cttHTML
           end
         end
       end
@@ -1151,6 +845,314 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               'Horizontal Line'
               'Half Block'
               'Block')
+          end
+        end
+      end
+      object Display: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 565
+        Height = 328
+        Caption = 'Display'
+        ImageIndex = -1
+        DesignSize = (
+          565
+          328)
+        TabItem = 'SpTBXTabItem1'
+        object gbRightEdge: TGroupBox
+          Left = 290
+          Top = 116
+          Width = 266
+          Height = 80
+          Anchors = [akTop, akRight]
+          Caption = 'Right Edge'
+          TabOrder = 1
+          DesignSize = (
+            266
+            80)
+          object Label3: TLabel
+            Left = 9
+            Top = 45
+            Width = 54
+            Height = 13
+            Caption = 'Edge color:'
+          end
+          object Label10: TLabel
+            Left = 9
+            Top = 19
+            Width = 66
+            Height = 13
+            Caption = 'Edge Column:'
+          end
+          object eRightEdge: TEdit
+            Left = 123
+            Top = 18
+            Width = 51
+            Height = 21
+            Anchors = [akTop, akRight]
+            TabOrder = 0
+            Text = '0'
+          end
+          object cbRightEdgeColor: TSpTBXColorEdit
+            Left = 123
+            Top = 45
+            Width = 129
+            Height = 21
+            Anchors = [akTop, akRight]
+            TabOrder = 1
+            SelectedColor = clBlack
+            SelectedFormat = cttHTML
+          end
+        end
+        object gbGutter: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 197
+          Width = 553
+          Height = 124
+          Align = alBottom
+          Caption = 'Gutter'
+          TabOrder = 0
+          DesignSize = (
+            553
+            124)
+          object Label1: TLabel
+            Left = 285
+            Top = 78
+            Width = 61
+            Height = 13
+            Caption = 'Gutter color:'
+          end
+          object pnlGutterFontDisplay: TPanel
+            Left = 361
+            Top = 44
+            Width = 181
+            Height = 27
+            Anchors = [akTop, akRight]
+            TabOrder = 6
+            object lblGutterFont: TLabel
+              Left = 1
+              Top = 1
+              Width = 179
+              Height = 25
+              Align = alClient
+              Alignment = taCenter
+              Caption = 'Terminal 8pt'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Terminal'
+              Font.Style = []
+              ParentFont = False
+              ExplicitWidth = 72
+              ExplicitHeight = 8
+            end
+          end
+          object cbGutterColor: TSpTBXColorEdit
+            Left = 399
+            Top = 76
+            Width = 137
+            Height = 21
+            TabOrder = 7
+            SelectedColor = clBlack
+            SelectedFormat = cttHTML
+          end
+          object ckGutterAutosize: TCheckBox
+            Left = 24
+            Top = 38
+            Width = 230
+            Height = 21
+            Caption = 'Autosize'
+            TabOrder = 1
+          end
+          object ckGutterShowLineNumbers: TCheckBox
+            Left = 24
+            Top = 58
+            Width = 230
+            Height = 21
+            Caption = 'Show line numbers'
+            TabOrder = 2
+          end
+          object ckGutterShowLeaderZeros: TCheckBox
+            Left = 24
+            Top = 99
+            Width = 230
+            Height = 21
+            Caption = 'Show leading zeros'
+            TabOrder = 3
+          end
+          object ckGutterVisible: TCheckBox
+            Left = 24
+            Top = 18
+            Width = 230
+            Height = 21
+            Caption = 'Visible'
+            Checked = True
+            State = cbChecked
+            TabOrder = 0
+          end
+          object ckGutterStartAtZero: TCheckBox
+            Left = 24
+            Top = 78
+            Width = 230
+            Height = 21
+            Caption = 'Start at zero'
+            TabOrder = 8
+          end
+          object cbGutterFont: TCheckBox
+            Left = 285
+            Top = 18
+            Width = 156
+            Height = 21
+            Caption = 'Use Gutter Font'
+            TabOrder = 4
+            OnClick = cbGutterFontClick
+          end
+          object ckGutterGradient: TCheckBox
+            Left = 285
+            Top = 99
+            Width = 230
+            Height = 21
+            Hint = 'Gutter gradient visible'
+            Caption = 'Gutter Gradient'
+            TabOrder = 9
+          end
+          object btnGutterFont: TButton
+            Left = 447
+            Top = 15
+            Width = 89
+            Height = 25
+            Caption = 'Font'
+            TabOrder = 5
+            OnClick = btnGutterFontClick
+          end
+        end
+        object gbBookmarks: TGroupBox
+          Left = 290
+          Top = 50
+          Width = 266
+          Height = 62
+          Anchors = [akTop, akRight]
+          Caption = 'Bookmarks'
+          TabOrder = 3
+          object ckBookmarkKeys: TCheckBox
+            Left = 23
+            Top = 16
+            Width = 230
+            Height = 21
+            Caption = 'Bookmark keys'
+            TabOrder = 0
+          end
+          object ckBookmarkVisible: TCheckBox
+            Left = 23
+            Top = 35
+            Width = 230
+            Height = 21
+            Caption = 'Bookmarks visible'
+            TabOrder = 1
+          end
+        end
+        object gbEditorFont: TGroupBox
+          Left = 6
+          Top = 10
+          Width = 266
+          Height = 92
+          Caption = 'Editor Font'
+          TabOrder = 4
+          object Panel3: TPanel
+            Left = 35
+            Top = 21
+            Width = 190
+            Height = 30
+            TabOrder = 1
+            object labFont: TLabel
+              Left = 1
+              Top = 1
+              Width = 188
+              Height = 28
+              Align = alClient
+              Alignment = taCenter
+              Caption = 'Courier New 10pt'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Courier New'
+              Font.Style = []
+              ParentFont = False
+              ExplicitWidth = 128
+              ExplicitHeight = 16
+            end
+          end
+          object btnFont: TButton
+            Left = 78
+            Top = 57
+            Width = 92
+            Height = 25
+            Caption = 'Font'
+            TabOrder = 0
+            OnClick = btnFontClick
+          end
+        end
+        object gbLineSpacing: TGroupBox
+          Left = 7
+          Top = 108
+          Width = 266
+          Height = 88
+          Anchors = [akTop]
+          Caption = 'Line spacing / Tab spacing'
+          TabOrder = 2
+          DesignSize = (
+            266
+            88)
+          object Label8: TLabel
+            Left = 23
+            Top = 27
+            Width = 57
+            Height = 13
+            Caption = 'Extra Lines:'
+          end
+          object Label9: TLabel
+            Left = 23
+            Top = 56
+            Width = 53
+            Height = 13
+            Caption = 'Tab Width:'
+          end
+          object eLineSpacing: TEdit
+            Left = 208
+            Top = 23
+            Width = 36
+            Height = 21
+            Anchors = [akLeft, akTop, akRight]
+            TabOrder = 0
+            Text = '0'
+          end
+          object eTabWidth: TEdit
+            Left = 208
+            Top = 53
+            Width = 36
+            Height = 21
+            Anchors = [akLeft, akTop, akRight]
+            TabOrder = 1
+            Text = '8'
+          end
+        end
+        object GroupBox2: TGroupBox
+          Left = 290
+          Top = 7
+          Width = 266
+          Height = 43
+          Anchors = [akTop, akRight]
+          Caption = 'Active Line Color'
+          TabOrder = 5
+          object cbActiveLineColor: TSpTBXColorEdit
+            Left = 48
+            Top = 16
+            Width = 177
+            Height = 21
+            TabOrder = 0
+            SelectedColor = clBlack
+            SelectedFormat = cttHTML
           end
         end
       end

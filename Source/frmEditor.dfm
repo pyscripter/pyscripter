@@ -1166,6 +1166,8 @@ object EditorForm: TEditorForm
         Name = 'Item6'
       end>
     ImageCollection = icGutterGlyphs
+    Width = 11
+    Height = 14
     Left = 168
     Top = 80
   end
