@@ -249,7 +249,6 @@ inherited UnitTestWindow: TUnitTestWindow
           Height = 87
           Align = alBottom
           Anchors = [akLeft, akTop, akRight, akBottom]
-          Caption = 'SpTBXPanel1'
           TabOrder = 0
           object ErrorText: TRichEdit
             Left = 1
@@ -289,6 +288,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Refresh'
       Hint = 'Refresh tests|Extract tests from active module'
       ImageIndex = 3
+      ImageName = 'Item40'
       OnExecute = actRefreshExecute
     end
     object actRun: TAction
@@ -296,6 +296,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Run'
       Hint = 'Run selected tests'
       ImageIndex = 5
+      ImageName = 'Item52'
       OnExecute = actRunExecute
     end
     object actStop: TAction
@@ -303,6 +304,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Stop'
       Hint = 'Stop Testing'
       ImageIndex = 4
+      ImageName = 'Item41'
       OnExecute = actStopExecute
     end
     object actSelectAll: TAction
@@ -310,6 +312,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = 'Select &All'
       Hint = 'Select all tests'
       ImageIndex = 6
+      ImageName = 'Item105'
       OnExecute = actSelectAllExecute
     end
     object actDeselectAll: TAction
@@ -317,6 +320,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Deselect All'
       Hint = 'Deselect all tests'
       ImageIndex = 7
+      ImageName = 'Item106'
       OnExecute = actDeselectAllExecute
     end
     object actSelectFailed: TAction
@@ -324,6 +328,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = 'Select Fai&led'
       Hint = 'Select all failed tests'
       ImageIndex = 8
+      ImageName = 'Item107'
       OnExecute = actSelectFailedExecute
     end
     object actExpandAll: TAction
@@ -331,6 +336,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = 'Ex&pand All'
       Hint = 'Expand all test nodes'
       ImageIndex = 1
+      ImageName = 'Item29'
       OnExecute = actExpandAllExecute
     end
     object actCollapseAll: TAction
@@ -338,6 +344,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Collapse All'
       Hint = 'Collapse all test nodes'
       ImageIndex = 2
+      ImageName = 'Item30'
       OnExecute = actCollapseAllExecute
     end
     object actClearAll: TAction
@@ -345,6 +352,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Clear All'
       Hint = 'Clear all tests'
       ImageIndex = 0
+      ImageName = 'Item15'
       OnExecute = actClearAllExecute
     end
   end

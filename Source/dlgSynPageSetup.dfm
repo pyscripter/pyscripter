@@ -18,15 +18,386 @@ inherited PageSetupDlg: TPageSetupDlg
     Width = 632
     Height = 397
     Align = alClient
-    ActiveTabIndex = 1
+    ActiveTabIndex = 0
     OnActiveTabChange = TabControlActiveTabChange
     HiddenItems = <>
     object SpTBXTabItem1: TSpTBXTabItem
       Caption = 'Margins && Options'
+      Checked = True
     end
     object SpTBXTabItem2: TSpTBXTabItem
       Caption = 'Header && Footer'
-      Checked = True
+    end
+    object tbHeaderFooter: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 632
+      Height = 372
+      Caption = 'Header && Footer'
+      ImageIndex = -1
+      TabItem = 'SpTBXTabItem2'
+      object ToolbarDock: TSpTBXDock
+        Left = 2
+        Top = 0
+        Width = 626
+        Height = 26
+        AllowDrag = False
+        LimitToOneRow = True
+        object Toolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          DockMode = dmCannotFloatOrChangeDocks
+          FullSize = True
+          Images = vilPageSetup
+          TabOrder = 0
+          Customizable = False
+          object tbiPgNumber: TSpTBXItem
+            Action = PageNumCmd
+          end
+          object tbiPages: TSpTBXItem
+            Action = PagesCmd
+          end
+          object tbiTime: TSpTBXItem
+            Action = TimeCmd
+          end
+          object tbiDate: TSpTBXItem
+            Action = DateCmd
+          end
+          object tbiTitle: TSpTBXItem
+            Action = TitleCmd
+          end
+          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object tbiFont: TSpTBXItem
+            Action = FontCmd
+          end
+          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object tbiBold: TSpTBXItem
+            Action = BoldCmd
+          end
+          object tbiItalic: TSpTBXItem
+            Action = ItalicCmd
+          end
+          object tbiUdnerline: TSpTBXItem
+            Action = UnderlineCmd
+          end
+        end
+      end
+      object GroupBox1: TGroupBox
+        Left = 5
+        Top = 30
+        Width = 611
+        Height = 161
+        Caption = 'Header'
+        TabOrder = 0
+        object Label12: TLabel
+          Left = 10
+          Top = 15
+          Width = 19
+          Height = 13
+          Caption = 'Left'
+        end
+        object Label13: TLabel
+          Left = 210
+          Top = 15
+          Width = 33
+          Height = 13
+          Caption = 'Center'
+        end
+        object Label14: TLabel
+          Left = 410
+          Top = 15
+          Width = 25
+          Height = 13
+          Caption = 'Right'
+        end
+        object GroupBox2: TGroupBox
+          Left = 10
+          Top = 95
+          Width = 391
+          Height = 61
+          Caption = 'Appearance'
+          TabOrder = 3
+          object PBHeaderLine: TPaintBox
+            Left = 96
+            Top = 39
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object PBHeaderShadow: TPaintBox
+            Left = 281
+            Top = 39
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object HeaderLineColorBtn: TButton
+            Left = 96
+            Top = 10
+            Width = 95
+            Height = 25
+            Caption = 'Line color'
+            TabOrder = 3
+            OnClick = HeaderLineColorBtnClick
+          end
+          object HeaderShadowColorBtn: TButton
+            Left = 281
+            Top = 12
+            Width = 96
+            Height = 25
+            Caption = 'Shadow color'
+            TabOrder = 4
+            OnClick = HeaderShadowColorBtnClick
+          end
+          object CBHeaderLine: TCheckBox
+            Left = 8
+            Top = 19
+            Width = 87
+            Height = 21
+            Caption = 'Line under'
+            TabOrder = 0
+          end
+          object CBHeaderBox: TCheckBox
+            Left = 8
+            Top = 39
+            Width = 87
+            Height = 21
+            Caption = 'Box'
+            TabOrder = 1
+          end
+          object CBHeaderShadow: TCheckBox
+            Left = 209
+            Top = 27
+            Width = 62
+            Height = 21
+            Caption = 'Shadow'
+            TabOrder = 2
+          end
+        end
+        object CBHeaderMirror: TCheckBox
+          Left = 410
+          Top = 95
+          Width = 191
+          Height = 21
+          Caption = 'Mirror position'
+          TabOrder = 4
+        end
+        object REHeaderLeft: TRichEdit
+          Left = 10
+          Top = 32
+          Width = 191
+          Height = 56
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 0
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REHeaderCenter: TRichEdit
+          Left = 210
+          Top = 32
+          Width = 191
+          Height = 56
+          Alignment = taCenter
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REHeaderRight: TRichEdit
+          Left = 410
+          Top = 32
+          Width = 191
+          Height = 56
+          Alignment = taRightJustify
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 2
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+      end
+      object GroupBox3: TGroupBox
+        Left = 5
+        Top = 200
+        Width = 611
+        Height = 161
+        Caption = 'Footer'
+        TabOrder = 1
+        object Label15: TLabel
+          Left = 10
+          Top = 15
+          Width = 19
+          Height = 13
+          Caption = 'Left'
+        end
+        object Label16: TLabel
+          Left = 210
+          Top = 15
+          Width = 33
+          Height = 13
+          Caption = 'Center'
+        end
+        object Label17: TLabel
+          Left = 410
+          Top = 15
+          Width = 25
+          Height = 13
+          Caption = 'Right'
+        end
+        object GroupBox4: TGroupBox
+          Left = 10
+          Top = 92
+          Width = 391
+          Height = 61
+          Caption = 'Appearance'
+          TabOrder = 3
+          object PBFooterLine: TPaintBox
+            Left = 96
+            Top = 38
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object PBFooterShadow: TPaintBox
+            Left = 281
+            Top = 38
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object FooterLineColorBtn: TButton
+            Left = 96
+            Top = 10
+            Width = 95
+            Height = 25
+            Caption = 'Line color'
+            TabOrder = 3
+            OnClick = FooterLineColorBtnClick
+          end
+          object FooterShadowColorBtn: TButton
+            Left = 281
+            Top = 10
+            Width = 96
+            Height = 25
+            Caption = 'Shadow color'
+            TabOrder = 4
+            OnClick = FooterShadowColorBtnClick
+          end
+          object CBFooterLine: TCheckBox
+            Left = 8
+            Top = 19
+            Width = 88
+            Height = 21
+            Caption = 'Line above'
+            TabOrder = 0
+          end
+          object CBFooterBox: TCheckBox
+            Left = 8
+            Top = 39
+            Width = 82
+            Height = 21
+            Caption = 'Box'
+            TabOrder = 1
+          end
+          object CBFooterShadow: TCheckBox
+            Left = 209
+            Top = 24
+            Width = 62
+            Height = 21
+            Caption = 'Shadow'
+            TabOrder = 2
+          end
+        end
+        object CBFooterMirror: TCheckBox
+          Left = 407
+          Top = 94
+          Width = 194
+          Height = 21
+          Caption = 'Mirror position'
+          TabOrder = 4
+        end
+        object REFooterLeft: TRichEdit
+          Left = 10
+          Top = 32
+          Width = 191
+          Height = 56
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 0
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REFooterCenter: TRichEdit
+          Left = 210
+          Top = 32
+          Width = 191
+          Height = 56
+          Alignment = taCenter
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REFooterRight: TRichEdit
+          Left = 410
+          Top = 32
+          Width = 191
+          Height = 56
+          Alignment = taRightJustify
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 2
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+      end
     end
     object tbMargins: TSpTBXTabSheet
       Left = 0
@@ -1128,23 +1499,23 @@ inherited PageSetupDlg: TPageSetupDlg
       object Label8: TLabel
         Left = 10
         Top = 224
-        Width = 87
+        Width = 77
         Height = 13
-        Caption = 'HFInternalMargin:'
+        Caption = 'Internal Margin:'
       end
       object Label9: TLabel
         Left = 10
         Top = 249
-        Width = 90
+        Width = 83
         Height = 13
-        Caption = 'LeftHFTextIndent:'
+        Caption = 'Left Text Indent:'
       end
       object Label10: TLabel
         Left = 10
         Top = 274
-        Width = 96
+        Width = 89
         Height = 13
-        Caption = 'RightHFTextIndent:'
+        Caption = 'Right Text Indent:'
       end
       object Label11: TLabel
         Left = 10
@@ -1284,378 +1655,7 @@ inherited PageSetupDlg: TPageSetupDlg
           'mm'
           'cm'
           'Inches'
-          'Thousandths Of Inches')
-      end
-    end
-    object tbHeaderFooter: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 632
-      Height = 372
-      Caption = 'Header && Footer'
-      ImageIndex = -1
-      TabItem = 'SpTBXTabItem2'
-      object ToolbarDock: TSpTBXDock
-        Left = 2
-        Top = 0
-        Width = 626
-        Height = 26
-        AllowDrag = False
-        LimitToOneRow = True
-        object Toolbar: TSpTBXToolbar
-          Left = 0
-          Top = 0
-          DockMode = dmCannotFloatOrChangeDocks
-          FullSize = True
-          Images = vilPageSetup
-          TabOrder = 0
-          Customizable = False
-          object tbiPgNumber: TSpTBXItem
-            Action = PageNumCmd
-          end
-          object tbiPages: TSpTBXItem
-            Action = PagesCmd
-          end
-          object tbiTime: TSpTBXItem
-            Action = TimeCmd
-          end
-          object tbiDate: TSpTBXItem
-            Action = DateCmd
-          end
-          object tbiTitle: TSpTBXItem
-            Action = TitleCmd
-          end
-          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object tbiFont: TSpTBXItem
-            Action = FontCmd
-          end
-          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
-          end
-          object tbiBold: TSpTBXItem
-            Action = BoldCmd
-          end
-          object tbiItalic: TSpTBXItem
-            Action = ItalicCmd
-          end
-          object tbiUdnerline: TSpTBXItem
-            Action = UnderlineCmd
-          end
-        end
-      end
-      object GroupBox1: TGroupBox
-        Left = 5
-        Top = 30
-        Width = 611
-        Height = 161
-        Caption = 'Header'
-        TabOrder = 0
-        object Label12: TLabel
-          Left = 10
-          Top = 15
-          Width = 19
-          Height = 13
-          Caption = 'Left'
-        end
-        object Label13: TLabel
-          Left = 210
-          Top = 15
-          Width = 33
-          Height = 13
-          Caption = 'Center'
-        end
-        object Label14: TLabel
-          Left = 410
-          Top = 15
-          Width = 25
-          Height = 13
-          Caption = 'Right'
-        end
-        object GroupBox2: TGroupBox
-          Left = 10
-          Top = 95
-          Width = 391
-          Height = 61
-          Caption = 'Appearance'
-          TabOrder = 3
-          object PBHeaderLine: TPaintBox
-            Left = 96
-            Top = 39
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object PBHeaderShadow: TPaintBox
-            Left = 281
-            Top = 39
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object HeaderLineColorBtn: TButton
-            Left = 96
-            Top = 10
-            Width = 95
-            Height = 25
-            Caption = 'Line color'
-            TabOrder = 3
-            OnClick = HeaderLineColorBtnClick
-          end
-          object HeaderShadowColorBtn: TButton
-            Left = 281
-            Top = 12
-            Width = 96
-            Height = 25
-            Caption = 'Shadow color'
-            TabOrder = 4
-            OnClick = HeaderShadowColorBtnClick
-          end
-          object CBHeaderLine: TCheckBox
-            Left = 8
-            Top = 19
-            Width = 87
-            Height = 21
-            Caption = 'Line under'
-            TabOrder = 0
-          end
-          object CBHeaderBox: TCheckBox
-            Left = 8
-            Top = 39
-            Width = 87
-            Height = 21
-            Caption = 'Box'
-            TabOrder = 1
-          end
-          object CBHeaderShadow: TCheckBox
-            Left = 209
-            Top = 27
-            Width = 62
-            Height = 21
-            Caption = 'Shadow'
-            TabOrder = 2
-          end
-        end
-        object CBHeaderMirror: TCheckBox
-          Left = 410
-          Top = 95
-          Width = 191
-          Height = 21
-          Caption = 'Mirror position'
-          TabOrder = 4
-        end
-        object REHeaderLeft: TRichEdit
-          Left = 10
-          Top = 32
-          Width = 191
-          Height = 56
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 0
-          WordWrap = False
-          Zoom = 100
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REHeaderCenter: TRichEdit
-          Left = 210
-          Top = 32
-          Width = 191
-          Height = 56
-          Alignment = taCenter
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-          Zoom = 100
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REHeaderRight: TRichEdit
-          Left = 410
-          Top = 32
-          Width = 191
-          Height = 56
-          Alignment = taRightJustify
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 2
-          WordWrap = False
-          Zoom = 100
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-      end
-      object GroupBox3: TGroupBox
-        Left = 5
-        Top = 200
-        Width = 611
-        Height = 161
-        Caption = 'Footer'
-        TabOrder = 1
-        object Label15: TLabel
-          Left = 10
-          Top = 15
-          Width = 19
-          Height = 13
-          Caption = 'Left'
-        end
-        object Label16: TLabel
-          Left = 210
-          Top = 15
-          Width = 33
-          Height = 13
-          Caption = 'Center'
-        end
-        object Label17: TLabel
-          Left = 410
-          Top = 15
-          Width = 25
-          Height = 13
-          Caption = 'Right'
-        end
-        object GroupBox4: TGroupBox
-          Left = 10
-          Top = 92
-          Width = 391
-          Height = 61
-          Caption = 'Appearance'
-          TabOrder = 3
-          object PBFooterLine: TPaintBox
-            Left = 96
-            Top = 38
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object PBFooterShadow: TPaintBox
-            Left = 281
-            Top = 38
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object FooterLineColorBtn: TButton
-            Left = 96
-            Top = 10
-            Width = 95
-            Height = 25
-            Caption = 'Line color'
-            TabOrder = 3
-            OnClick = FooterLineColorBtnClick
-          end
-          object FooterShadowColorBtn: TButton
-            Left = 281
-            Top = 10
-            Width = 96
-            Height = 25
-            Caption = 'Shadow color'
-            TabOrder = 4
-            OnClick = FooterShadowColorBtnClick
-          end
-          object CBFooterLine: TCheckBox
-            Left = 8
-            Top = 19
-            Width = 88
-            Height = 21
-            Caption = 'Line above'
-            TabOrder = 0
-          end
-          object CBFooterBox: TCheckBox
-            Left = 8
-            Top = 39
-            Width = 82
-            Height = 21
-            Caption = 'Box'
-            TabOrder = 1
-          end
-          object CBFooterShadow: TCheckBox
-            Left = 209
-            Top = 24
-            Width = 62
-            Height = 21
-            Caption = 'Shadow'
-            TabOrder = 2
-          end
-        end
-        object CBFooterMirror: TCheckBox
-          Left = 407
-          Top = 94
-          Width = 194
-          Height = 21
-          Caption = 'Mirror position'
-          TabOrder = 4
-        end
-        object REFooterLeft: TRichEdit
-          Left = 10
-          Top = 32
-          Width = 191
-          Height = 56
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 0
-          WordWrap = False
-          Zoom = 100
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REFooterCenter: TRichEdit
-          Left = 210
-          Top = 32
-          Width = 191
-          Height = 56
-          Alignment = taCenter
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-          Zoom = 100
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REFooterRight: TRichEdit
-          Left = 410
-          Top = 32
-          Width = 191
-          Height = 56
-          Alignment = taRightJustify
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 2
-          WordWrap = False
-          Zoom = 100
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
+          '(1/1000) Inches')
       end
     end
   end
@@ -1700,54 +1700,63 @@ inherited PageSetupDlg: TPageSetupDlg
       Caption = 'Page number'
       Hint = 'Page number'
       ImageIndex = 0
+      ImageName = 'Item1'
       OnExecute = PageNumCmdExecute
     end
     object PagesCmd: TAction
       Caption = 'Num. pages'
       Hint = 'Num. pages'
       ImageIndex = 1
+      ImageName = 'Item2'
       OnExecute = PagesCmdExecute
     end
     object TimeCmd: TAction
       Caption = 'Time'
       Hint = 'Time'
       ImageIndex = 2
+      ImageName = 'Item3'
       OnExecute = TimeCmdExecute
     end
     object DateCmd: TAction
       Caption = 'Date'
       Hint = 'Date'
       ImageIndex = 3
+      ImageName = 'Item4'
       OnExecute = DateCmdExecute
     end
     object TitleCmd: TAction
       Caption = 'Title'
       Hint = 'Title'
       ImageIndex = 4
+      ImageName = 'Item5'
       OnExecute = TitleCmdExecute
     end
     object FontCmd: TAction
       Caption = 'Font'
       Hint = 'Font'
       ImageIndex = 5
+      ImageName = 'Item6'
       OnExecute = FontCmdExecute
     end
     object BoldCmd: TAction
       Caption = 'Bold'
       Hint = 'Bold'
       ImageIndex = 6
+      ImageName = 'Item7'
       OnExecute = BoldCmdExecute
     end
     object ItalicCmd: TAction
       Caption = 'Italic'
       Hint = 'Italic'
       ImageIndex = 7
+      ImageName = 'Item8'
       OnExecute = ItalicCmdExecute
     end
     object UnderlineCmd: TAction
       Caption = 'Underline'
       Hint = 'Underline'
       ImageIndex = 8
+      ImageName = 'Item9'
       OnExecute = UnderlineCmdExecute
     end
   end

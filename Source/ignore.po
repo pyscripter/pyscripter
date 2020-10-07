@@ -12,6 +12,9 @@ msgstr ""
 msgid "Courier New"
 msgstr ""
 
+msgid "Courier New 10pt"
+msgstr ""
+
 msgid "Marlett"
 msgstr ""
 
@@ -25,6 +28,9 @@ msgid "Tahoma"
 msgstr ""
 
 msgid "Terminal"
+msgstr ""
+
+msgid "Terminal 8pt"
 msgstr ""
 
 msgid "Webdings"
@@ -49,6 +55,19 @@ msgstr ""
 msgid "400%"
 msgstr ""
 
+#Units
+msgid "mm"
+msgstr ""
+
+msgid "cm"
+msgstr ""
+
+msgid "Inches"
+msgstr ""
+
+msgid "(1/1000) Inches"
+msgstr ""
+
 # Other non-translatable stuff
 msgid "..."
 msgstr ""
@@ -66,4 +85,140 @@ msgid "#"
 msgstr ""
 
 msgid "!"
+msgstr ""
+
+msgid "Version 1.3"
+msgstr ""
+
+msgid "PyScripter"
+msgstr ""
+
+msgid "lblAssignedTo"
+msgstr ""
+
+msgid "Options Inspector"
+msgstr ""
+
+msgid "PickListDialog"
+msgstr ""
+
+msgid "TestString"
+msgstr ""
+
+msgid "SpTBXToolbar1"
+msgstr ""
+
+msgid "&DOS/Windows"
+msgstr ""
+
+msgid "&UNIX"
+msgstr ""
+
+msgid "&Mac"
+msgstr ""
+
+msgid "UTF-8"
+msgstr ""
+
+msgid "UTF-8 (No BOM)"
+msgstr ""
+
+msgid "UTF-16LE"
+msgstr ""
+
+msgid "UTF-16BE"
+msgstr ""
+
+msgid "TBXToolbar1"
+msgstr ""
+
+msgid "ExplorerToolbar"
+msgstr ""
+
+msgid "IDE Dock Window"
+msgstr ""
+
+msgid "TBToolbar1"
+msgstr ""
+
+msgid "Python Scripter"
+msgstr ""
+
+msgid "DOTALL"
+msgstr ""
+
+msgid "IGNORECASE"
+msgstr ""
+
+msgid "LOCALE"
+msgstr ""
+
+msgid "MULTILINE"
+msgstr ""
+
+msgid "UNICODE"
+msgstr ""
+
+msgid "VERBOSE"
+msgstr ""
+
+msgid "TestTree"
+msgstr ""
+
+msgid "_RPI"
+msgstr ""
+
+msgid "Cython"
+msgstr ""
+
+msgid "YAML"
+msgstr ""
+
+msgid "WebCopy.avi"
+msgstr ""
+
+#: dlgExceptionMail.pas
+msgid "%s - application error"
+msgstr ""
+
+msgid "Exception class: %s"
+msgstr ""
+
+msgid "Exception message: %s"
+msgstr ""
+
+msgid "Exception address: %p"
+msgstr ""
+
+msgid "Stack list, generated %s"
+msgstr ""
+
+msgid "List of loaded modules:"
+msgstr ""
+
+msgid "System   : %s %s, Version: %d.%d, Build: %x, \"%s\""
+msgstr ""
+
+msgid "Processor: %s, %s, %d MHz"
+msgstr ""
+
+msgid "Memory: %d; free %d"
+msgstr ""
+
+msgid "Display  : %dx%d pixels, %d bpp"
+msgstr ""
+
+msgid "Active Controls hierarchy:"
+msgstr ""
+
+msgid "Thread: %s"
+msgstr ""
+
+msgid "(no module version info)"
+msgstr ""
+
+msgid "Unit versioning information:"
+msgstr ""
+
+msgid "pyscripter@gmail.com"
 msgstr ""
