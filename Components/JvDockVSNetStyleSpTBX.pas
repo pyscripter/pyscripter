@@ -1230,10 +1230,13 @@ begin
   inherited;
   SplitterWidth := 5;
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
-  if SystemParametersInfoForDpi(SPI_GETNONCLIENTMETRICS,
+  if (TOSVersion.Major >= 10) and (TOSVersion.Build >= 14393) and
+    SystemParametersInfoForDpi(SPI_GETNONCLIENTMETRICS,
     NonClientMetrics.cbSize, @NonClientMetrics, 0, 96)
   then
-    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 8, 18);
+    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 8, 18)
+  else
+    GrabbersSize := 20;
 end;
 
 { TJvDockVSNETTabSheetSpTBX }
