@@ -4510,8 +4510,8 @@ begin
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
   begin
-    R := SpCenterRect(ARect, PPIScale(2), PPIScale(2));
-    ExcludeClipRect(ACanvas.Handle,R.Left, R.Top, R.Right, R.Bottom);
+    R := SpCenterRect(ARect, PPIScale(3), PPIScale(3));
+    ExcludeClipRect(ACanvas.Handle, R.Left, R.Top, R.Right, R.Bottom);
   end;
   SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor, PPIScale);
   if Editor.Modified then
