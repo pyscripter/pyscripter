@@ -211,10 +211,6 @@ begin
   fTerminateProc := TerminateProc;
   FreeOnTerminate := True;
   ThreadExecMode := AThreadExecMode;
-  with GetPythonEngine do
-  begin
-   fMainThreadState := PyEval_SaveThread;
-  end;
   inherited Create;
 end;
 
@@ -229,11 +225,11 @@ end;
 
 procedure TAnonymousPythonThread.DoTerminate;
 begin
-  with GetPythonEngine do begin
-    PyEval_RestoreThread(fMainThreadState);
-  end;
   if Assigned(fTerminateProc) then
-    fTerminateProc();
+    TThread.Synchronize(nil, procedure
+    begin
+        fTerminateProc();
+    end);
 end;
 
 { ThreadPythonExec }
