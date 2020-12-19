@@ -40,6 +40,10 @@ msgstr ""
 msgid "Italian"
 msgstr ""
 
+#. Language of Iran
+msgid "Persian"
+msgstr ""
+
 #. Language of Japan, Asia
 msgid "Japanese"
 msgstr ""
