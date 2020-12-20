@@ -1,0 +1,4 @@
+﻿fa.PyScripterHelp=PyScripter کمک
+fa.EditwithPyScripter=PyScripter ویرایش در
+fa.ShellIntegrationEditwithPyScripter=به منوی کاوشگر محتوای فایل 'PyScripter افزودن گزینه ی ' ویرایش در 
+fa.ShellIntegration=ادغام در پوسته

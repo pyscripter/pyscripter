@@ -34,7 +34,8 @@ ArchitecturesInstallIn64BitMode={#OSPlatform}
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "el"; MessagesFile: "compiler:\Languages\Greek.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "el"; MessagesFile: "locale\el\Greek.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "fa"; MessagesFile: "locale\el\Farsi.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "ja"; MessagesFile: "compiler:\Languages\Japanese.isl"; InfoAfterFile: "locale\ja\AfterInstallPyScripter-{#OSPlatform}.txt"
 
@@ -249,6 +250,7 @@ Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flag
 #include "locale\en\InstallMessages.txt"
 #include "locale\de\InstallMessages.txt"
 #include "locale\el\InstallMessages.txt"
+#include "locale\fa\InstallMessages.txt"
 #include "locale\it\InstallMessages.txt"
 #include "locale\ja\InstallMessages.txt"
 
