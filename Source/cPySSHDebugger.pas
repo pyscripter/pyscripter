@@ -53,7 +53,6 @@ type
     TempDir : string;
     PythonVersion : string;
     RemotePlatform : string;
-    function IsPython3000 : Boolean; override;
     function ToPythonFileName(const FileName: string): string; override;
     function FromPythonFileName(const FileName: string): string; override;
 
@@ -170,10 +169,9 @@ begin
   end;
 
   // Check for version mismatch
-  if IsPython3000 <> GetPythonEngine.IsPython3000 then
+  if not fIs3K then
   begin
-    Vcl.Dialogs.MessageDlg(Format(_(SSHVersionMismatch),
-      [IfThen(GetPythonEngine.IsPython3000, '3.x', '2,x'), IfThen(IsPython3000, '3.x', '2,x')]),
+    Vcl.Dialogs.MessageDlg(Format(_(SSHVersionMismatch), ['3.x', '2,x']),
       mtError, [mbAbort], 0);
     Exit;
   end;
@@ -274,11 +272,6 @@ destructor TPySSHInterpreter.Destroy;
 begin
   inherited;
   FreeAndNil(TunnelProcessOptions);
-end;
-
-function TPySSHInterpreter.IsPython3000: Boolean;
-begin
-  Result := fIs3K;
 end;
 
 function TPySSHInterpreter.ProcessPlatformInfo(Info: string; out Is3k: Boolean;

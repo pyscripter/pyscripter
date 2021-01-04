@@ -201,8 +201,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 26
         Images = vilImages
         SizeGrip = False
-        ExplicitLeft = 1
-        ExplicitTop = 452
         object lbStatusBar: TSpTBXLabelItem
           Caption = 'Not executed'
           ImageIndex = 3

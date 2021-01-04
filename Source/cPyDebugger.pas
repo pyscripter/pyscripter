@@ -285,7 +285,7 @@ begin
         PyFullInfoTuple := ExtractPythonObjectFrom(FullInfoTuple);
         for i := 0 to fChildCount - 1 do with GetPythonEngine do begin
           PyMemberInfo := PyTuple_GetItem(PyFullInfoTuple, i);
-          ObjName :=  PyString_AsWideString(PyTuple_GetItem(PyMemberInfo, 0));
+          ObjName :=  PyUnicodeAsString(PyTuple_GetItem(PyMemberInfo, 0));
           PyFullInfo := PyTuple_GetItem(PyMemberInfo, 1);
           APyObject := VarPythonCreate(PyTuple_GetItem(PyFullInfo, 0));
 
@@ -295,8 +295,8 @@ begin
 
           //NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
           //NameSpaceItem.GotBufferedValue := True;
-          NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
-          NameSpaceItem.fObjectInfo := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 2));
+          NameSpaceItem.fObjectType := PyUnicodeAsString(PyTuple_GetItem(PyFullInfo, 1));
+          NameSpaceItem.fObjectInfo := PyLong_AsLong(PyTuple_GetItem(PyFullInfo, 2));
           //NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
 
           fChildNodes.AddObject(ObjName, NameSpaceItem);
@@ -899,10 +899,7 @@ begin
       if SFName.StartsWith('<') then
       begin
         FName := SFName;
-        if InternalInterpreter.IsPython3000 then
-          Source := CleanEOLs(SynEdit.Text)+WideLF
-        else
-          Source := CleanEOLs(EncodedText)+#10;
+        Source := CleanEOLs(SynEdit.Text)+WideLF;
         LineList := VarPythonCreate(Source);
         LineList := LineList.splitlines(True);
         fLineCache.cache.SetItem(VarPythonCreate(FName),
@@ -1198,10 +1195,7 @@ begin
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
   S := ToPythonFileName(ARunConfig.ScriptName);
-  if IsPython3000 then        // Issue 425
-    SysMod.argv.append(VarPythonCreate(S))
-  else
-    SysMod.argv.append(VarPythonCreate(AnsiString(S)));
+  SysMod.argv.append(VarPythonCreate(S));
 
   S := Trim(ARunConfig.Parameters);
   if S <> '' then begin
@@ -1209,10 +1203,7 @@ begin
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      if IsPython3000 then        // Issue 425
-       SysMod.argv.append(VarPythonCreate(Param))
-      else
-       SysMod.argv.append(VarPythonCreate(AnsiString(Param)));
+      SysMod.argv.append(VarPythonCreate(Param))
     end;
     GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [S]));
   end;
@@ -1393,32 +1384,31 @@ begin
             // Sometimes there's a tuple instead of instance...
               if PyTuple_Check( PyErrValue )  and (PyTuple_Size( PyErrValue) >= 2) then
               begin
-                ErrorPos.ErrorMsg := PyString_AsDelphiString(PyTuple_GetItem( PyErrValue, 0));
+                ErrorPos.ErrorMsg := PyObjectAsString(PyTuple_GetItem( PyErrValue, 0));
                 PyErrValueTuple := PyTuple_GetItem( PyErrValue, 1);
                 if PyTuple_Check( PyErrValueTuple )  and (PyTuple_Size( PyErrValueTuple) >= 4) then
                 begin
-                  ErrorPos.Line := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 1));
-                  ErrorPos.Char := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 2));
+                  ErrorPos.Line := PyLong_AsLong(PyTuple_GetItem( PyErrValueTuple, 1));
+                  ErrorPos.Char := PyLong_AsLong(PyTuple_GetItem( PyErrValueTuple, 2));
                 end;
               end else
                 // Is it an instance of the SyntaxError class ?
-              if PyInstance_Check( PyErrValue ) or (PyType_IsSubtype(PyErrValue^.ob_type,
-                PPyTypeObject(GetPythonEngine.PyExc_SyntaxError^)) = 1) then
+              if PyObject_IsInstance(PyErrValue, GetPythonEngine.PyExc_SyntaxError^) = 1 then
               begin
                 // Get the text containing the error, cut of carriage return
                 tmp := PyObject_GetAttrString(PyErrValue, 'text');
-                if Assigned(tmp) and PyString_Check(tmp) then
-                  ErrorPos.ErrorMsg := Trim(PyString_AsDelphiString(tmp));
+                if Assigned(tmp) and PyUnicode_Check(tmp) then
+                  ErrorPos.ErrorMsg := Trim(PyUnicodeAsString(tmp));
                 Py_XDECREF(tmp);
                 // Get the offset where the error should appear
                 tmp := PyObject_GetAttrString(PyErrValue, 'offset' );
-                if Assigned(tmp) and PyInt_Check(tmp) then
-                  ErrorPos.Char := PyInt_AsLong(tmp);
+                if Assigned(tmp) and PyLong_Check(tmp) then
+                  ErrorPos.Char := PyLong_AsLong(tmp);
                 Py_XDECREF(tmp);
                 // Get the line number of the error
                 tmp := PyObject_GetAttrString(PyErrValue, 'lineno' );
-                if Assigned(tmp) and PyInt_Check(tmp) then
-                  ErrorPos.Line := PyInt_AsLong(tmp);
+                if Assigned(tmp) and PyLong_Check(tmp) then
+                  ErrorPos.Line := PyLong_AsLong(tmp);
                 Py_XDECREF(tmp);
                 PyErr_Clear;
               end;

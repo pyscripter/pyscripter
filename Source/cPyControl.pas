@@ -282,11 +282,7 @@ begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
 
-  if CmdLineReader.readFlag('PYTHON27') then
-    expectedVersion := '2.7'
-  else if CmdLineReader.readFlag('PYTHON32') then
-    expectedVersion := '3.2'
-  else if CmdLineReader.readFlag('PYTHON33') then
+  if CmdLineReader.readFlag('PYTHON33') then
     expectedVersion := '3.3'
   else if CmdLineReader.readFlag('PYTHON34') then
     expectedVersion := '3.4'
@@ -299,7 +295,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON38') then
     expectedVersion := '3.8'
   else if CmdLineReader.readFlag('PYTHON39') then
-    expectedVersion := '3.9';
+    expectedVersion := '3.9'
+  else if CmdLineReader.readFlag('PYTHON310') then
+    expectedVersion := '3.10';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);

@@ -178,7 +178,7 @@ begin
     // Draw the separator
     R := ARect;
     InflateRect(R, -20, -4);
-    SpDrawXPMenuSeparator(ACanvas, R, False, False);
+    SpDrawXPMenuSeparator(ACanvas, R, False, False, FCurrentPPI);
     PaintDefault := False;
   end
   else

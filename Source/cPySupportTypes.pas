@@ -196,7 +196,6 @@ TAnonymousPythonThread = class(TPythonThread)
 private
   fTerminateProc : TProc;
   fExecuteProc : TProc;
-  fMainThreadState : PPyThreadState;
   procedure DoTerminate; override;
 public
   procedure ExecuteWithPython; override;

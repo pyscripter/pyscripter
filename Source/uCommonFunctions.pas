@@ -1250,7 +1250,7 @@ begin
             try
               EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'strict');
               CheckError;
-              EncodedText := PyString_AsAnsiString(EncodedString);
+              EncodedText := PyBytesAsAnsiString(EncodedString);
               CheckError;
             except
               on UnicodeEncodeError do begin
@@ -1261,7 +1261,7 @@ begin
                   EncodedString := PyUnicode_AsEncodedString(UniPy,
                     PAnsiChar(AnsiString(PyEncoding)), PAnsiChar(AnsiString('replace')));
                   CheckError;
-                  EncodedText := PyString_AsAnsiString(EncodedString);
+                  EncodedText := PyBytesAsAnsiString(EncodedString);
                   CheckError;
                 end;
               end;
@@ -1269,7 +1269,7 @@ begin
           end else begin
             EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'replace');
             CheckError;
-            EncodedText := PyString_AsAnsiString(EncodedString);
+            EncodedText := PyBytesAsAnsiString(EncodedString);
             CheckError;
           end;
         finally
@@ -1390,7 +1390,7 @@ begin
               Length(FileText),
               PAnsiChar(PyEncoding), 'replace');
             CheckError;
-            LoadFromString(PyUnicode_AsWideString(PyWstr));
+            LoadFromString(PyUnicodeAsString(PyWstr));
         finally
           Py_XDECREF(PyWstr);
         end;

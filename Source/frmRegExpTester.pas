@@ -350,10 +350,7 @@ begin
       FindIter := RegExp.finditer(AdjSearchText);
       try
         while True do begin
-          if GetPythonEngine.IsPython3000 then
-            MatchObject := FindIter.__next__()
-          else
-            MatchObject := FindIter.next();
+          MatchObject := FindIter.__next__();
           GetPythonEngine.CheckError(True);
           MatchList.Add(MatchObject);
         end;
@@ -419,9 +416,7 @@ begin
     1:  begin
           CellText := '';
           GroupDict := RegExp.groupindex;
-          Keys := Groupdict.keys(); 
-          if GetPythonEngine.IsPython3000 then
-            Keys := BuiltinModule.list(Keys);
+          Keys := BuiltinModule.list(Groupdict.keys());
 
           for i := 0 to len(Keys) - 1 do
             if Groupdict.__getitem__(Keys.__getitem__(i)) = Node.Index + 1 then begin

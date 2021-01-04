@@ -260,7 +260,7 @@ begin
         PyFullInfoTuple := ExtractPythonObjectFrom(FullInfoTuple);
         for i := 0 to fChildCount - 1 do with GetPythonEngine do begin
           PyMemberInfo := PyTuple_GetItem(PyFullInfoTuple, i);
-          ObjName :=  PyString_AsWideString(PyTuple_GetItem(PyMemberInfo, 0));
+          ObjName :=  PyUnicodeAsString(PyTuple_GetItem(PyMemberInfo, 0));
           PyFullInfo := PyTuple_GetItem(PyMemberInfo, 1);
           APyObject := VarPythonCreate(PyTuple_GetItem(PyFullInfo, 0));
 
@@ -270,8 +270,8 @@ begin
 
 //          NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
 //          NameSpaceItem.GotBufferedValue := True;
-          NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
-          NameSpaceItem.fObjectInfo := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 2));
+          NameSpaceItem.fObjectType := PyUnicodeAsString(PyTuple_GetItem(PyFullInfo, 1));
+          NameSpaceItem.fObjectInfo := PyLong_AsLong(PyTuple_GetItem(PyFullInfo, 2));
 //          if NameSpaceItem.IsProxy then
 //            NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3))
 //          else
@@ -420,28 +420,21 @@ begin
   GI_PyIDEServices.Messages.ClearMessages;
 
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
-  if Assigned(Editor) then begin
-    if IsPython3000 then
-      Source := CleanEOLs(Editor.SynEdit.Text) + WideLF
-    else
-      Source := CleanEOLs(Editor.EncodedText)+#10;
-  end else begin
+  if Assigned(Editor) then
+    Source := CleanEOLs(Editor.SynEdit.Text) + WideLF
+  else
     try
-      if IsPython3000 then
-        Source := CleanEOLs(FileToStr(ARunConfig.ScriptName)) + WideLF
-      else
-        Source := CleanEOLs(FileToEncodedStr(ARunConfig.ScriptName)) + AnsiChar(#10);
+      Source := CleanEOLs(FileToStr(ARunConfig.ScriptName)) + WideLF
     except
       on E: Exception do begin
         Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [ARunConfig.ScriptName, E.Message]), mtError, [mbOK], 0);
         System.SysUtils.Abort;
       end;
     end;
-  end;
   FName := ToPythonFileName(ARunConfig.ScriptName);
 
   try
-    // if IsPython3000 then Source is a WideStrings else it is an encoded string
+    // Source is a UnicodeString
     Result := RPI.rem_compile(VarPythonCreate(Source), VarPythonCreate(FName));
 
     GetPythonEngine.CheckError;
@@ -1081,10 +1074,7 @@ begin
 /////////////////////////////////////////////////////
 //    Conn.namespace.__name__ := '__main__';
     // Create the remote interpreter
-    if IsPython3000 then
-      InitScriptName := 'Rpyc_Init3000'
-    else
-      InitScriptName := 'Rpyc_Init';
+    InitScriptName := 'Rpyc_Init';
 
     Source := CleanEOLs(GI_PyIDEServices.GetStoredScript(InitScriptName).Text)+#10;
     PySource := VarPythonCreate(Source);
@@ -1143,10 +1133,7 @@ begin
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
   S :=  ToPythonFileName(ARunConfig.ScriptName);
-  if IsPython3000 then        // Issue 425
-    Argv.append(VarPythonCreate(S))
-  else
-    Argv.append(VarPythonCreate(AnsiString(S)));
+  Argv.append(VarPythonCreate(S));
 
   S := Trim(ARunConfig.Parameters);
   if S <> '' then begin
@@ -1154,10 +1141,7 @@ begin
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      if IsPython3000 then
-        Argv.append(VarPythonCreate(Param))
-      else
-        Argv.append(VarPythonCreate(AnsiString(Param)))
+      Argv.append(VarPythonCreate(Param));
     end;
     GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [S]));
   end;
@@ -1494,10 +1478,7 @@ begin
       then
       begin
         FName := SFName;
-        if fRemotePython.IsPython3000 then
-          Source := CleanEOLs(SynEdit.Text)+WideLF
-        else
-          Source := CleanEOLs(EncodedText)+#10;
+        Source := CleanEOLs(SynEdit.Text)+WideLF;
         LineList := VarPythonCreate(Source);
         LineList := fRemotePython.Rpyc.classic.deliver(fRemotePython.Conn, LineList.splitlines(True));
         fLineCache.cache.__setitem__(VarPythonCreate(FName),
@@ -1915,7 +1896,7 @@ end;
 procedure TPyRemDebugger.UserYield(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-  Result := GetPythonEngine.PyInt_FromLong(Ord(fDebuggerCommand));
+  Result := GetPythonEngine.PyLong_FromLong(Ord(fDebuggerCommand));
 end;
 
 end.

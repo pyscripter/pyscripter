@@ -511,6 +511,14 @@
           Issues addressed
             #998, #1001, #1003, #1008, #1009
 
+  History:   v 3.6.5
+          New Features
+            Added support for Python 3.10
+            Removed support for Python 2.7, 3.2
+            Installer is now code signed
+            Persian translatin added
+          Issues addressed
+
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
@@ -4505,7 +4513,7 @@ begin
   if State = sknsHotTrack then begin
     R := ARect;
     InflateRect(R, -1, -1);
-    SpDrawXPButton(ACanvas, R, True, False, True, False, False, False);
+    SpDrawXPButton(ACanvas, R, True, False, True, False, False, False, FCurrentPPI);
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
@@ -4513,7 +4521,7 @@ begin
     R := SpCenterRect(ARect, PPIScale(3), PPIScale(3));
     ExcludeClipRect(ACanvas.Handle, R.Left, R.Top, R.Right, R.Bottom);
   end;
-  SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor, PPIScale);
+  SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor, FCurrentPPI);
   if Editor.Modified then
     SelectClipRgn(ACanvas.Handle, 0);
 end;

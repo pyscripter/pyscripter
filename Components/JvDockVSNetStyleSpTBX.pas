@@ -260,7 +260,7 @@ begin
     end else begin
       SkinState := CurrentSkin.GetState(True, AZone.AutoHideBtnState = bsDown, AZone.AutoHideBtnState = bsUp, False);
       //CurrentSkin.PaintBackground(Canvas, R, skncToolbarItem, SkinState, True, True);
-      SpDrawXPToolbarButton(Canvas, R, SkinState);
+      SpDrawXPToolbarButton(Canvas, R, SkinState, cpNone, FCurrentPPI);
       PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, SkinState);
     end;
 
@@ -311,12 +311,12 @@ begin
         PatternColor := clCaptionText;
     end else begin
       SkinState := CurrentSkin.GetState(True, AZone.CloseBtnState = bsDown, AZone.CloseBtnState = bsUp, False);
-      SpDrawXPToolbarButton(Canvas, R, SkinState);
+      SpDrawXPToolbarButton(Canvas, R, SkinState, cpNone, FCurrentPPI);
       //CurrentSkin.PaintBackground(Canvas, R, skncToolbarItem, SkinState, True, True);
       PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, SkinState);
     end;
 
-    SpDrawGlyphPattern(Canvas, R, gptClose, PatternColor, PPIScale);
+    SpDrawGlyphPattern(Canvas, R, gptClose, PatternColor, FCurrentPPI);
   end;
 end;
 
@@ -367,8 +367,8 @@ begin
   CRect := DrawRect;
 
   // Draw Background
-  SpDrawXPDock(Canvas, ARect);
-  SpDrawXPDockablePanelTitleBar(Canvas, DrawRect, False, False);
+  SpDrawXPDock(Canvas, ARect, False, FCurrentPPI);
+  SpDrawXPDockablePanelTitleBar(Canvas, DrawRect, False, False, FCurrentPPI);
 
   if ShowCloseButtonOnGrabber then
     DrawCloseButton(Canvas, FindControlZone(Control),
@@ -477,7 +477,7 @@ begin
     C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
     C2 := CurrentSkin.GetThemedSystemColor(clWindow);
   end;
-  SpDrawXPGrip(Canvas, DragHandleR, C1, C2, PPIScale);
+  SpDrawXPGrip(Canvas, DragHandleR, C1, C2, FCurrentPPI);
 
 end;
 
@@ -753,7 +753,7 @@ begin
             Inc(R.Bottom, Page.PPIScale(5));
             // maintain background border
             if IsActive then begin
-              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone);
+              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone, FCurrentPPI);
               ExcludeClipRect(Canvas.Handle, R.Left + 1,
               ARect.Bottom - TabSheetBorderSize, R.Right - 1, ARect.Bottom);
             end;
@@ -762,12 +762,12 @@ begin
           begin
             Dec(R.Top, Page.PPIScale(5));
             if IsActive then begin
-              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone);
+              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone, FCurrentPPI);
               ExcludeClipRect(Canvas.Handle, R.Left + 1, 0, R.Right - 1, TabSheetBorderSize);
             end;
           end;
       end;
-      SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, tedNone);
+      SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, tedNone, FCurrentPPI);
     end
     else begin
       // Draw the separators
@@ -778,7 +778,7 @@ begin
               Rect(CompleteWidth + CurrTabWidth - Page.PPIScale(4),
               TabTopOffset,
               CompleteWidth + CurrTabWidth + Page.PPIScale(4),
-              PanelHeight - TabBottomOffset), False, True);
+              PanelHeight - TabBottomOffset), False, True, FCurrentPPI);
     end;
 //    Edge := tedNone;
 
@@ -840,7 +840,7 @@ begin
       end;
       R := SpCenterRectVert(R, Page.Images.Height);
 
-      SpDrawImageList(Canvas, R, Page.Images, Page.Pages[I].ImageIndex, True, False);
+      SpDrawImageList(Canvas, R, Page.Images, Page.Pages[I].ImageIndex, True);
     end;
 
     Inc(CompleteWidth, CurrTabWidth + TabSplitterWidth);
@@ -986,10 +986,10 @@ var
       IsHot := TCrackJvDockVSBlock(Block).ActiveDockControl = Block.VSPane[I].DockForm;
       IsChecked := Block.VSPane[I].Active;
       State := CurrentSkin.GetState(True, False, IsHot, IsChecked);
-      SpDrawXPButton(Canvas, DrawRect, True, False, IsHot, IsChecked, False, False);
+      SpDrawXPButton(Canvas, DrawRect, True, False, IsHot, IsChecked, False, False, FCurrentPPI);
 
       AdjustImagePos;
-      SpDrawImageList(Canvas, R, Block.ImageList, I, True, False);
+      SpDrawImageList(Canvas, R, Block.ImageList, I, True);
 
       if IsHot then
       begin
@@ -1038,7 +1038,7 @@ begin
   end;
 
   IsVertical := Align in [alLeft, alRight];
-  SpDrawXPDock(Canvas, ClientRect, IsVertical);
+  SpDrawXPDock(Canvas, ClientRect, IsVertical, FCurrentPPI);
   //CurrentSkin.PaintBackground(Canvas, ClientRect, skncDock, sknsNormal, True, True, IsVertical);
 
   CurrentPos := BlockStartOffset;
@@ -1179,7 +1179,7 @@ begin
       C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
       C2 := CurrentSkin.GetThemedSystemColor(clWindow);
     end;
-    SpDrawXPGrip(Canvas, DragHandleR, C1, C2, PPIScale);
+    SpDrawXPGrip(Canvas, DragHandleR, C1, C2, FCurrentPPI);
 
 //  //uncomment this is you want the dotted frame drawn at designtime
 //  if csDesigning in ComponentState then

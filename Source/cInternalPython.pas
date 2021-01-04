@@ -176,9 +176,9 @@ begin
 
   fPythonEngine.Name := 'PythonEngine';
   fPythonEngine.AutoLoad := False;
-  fPythonEngine.DllName := 'python27.dll';
-  fPythonEngine.APIVersion := 1012;
-  fPythonEngine.RegVersion := '2.7';
+  fPythonEngine.DllName := 'python39.dll';
+  fPythonEngine.APIVersion := 1013;
+  fPythonEngine.RegVersion := '3.9';
   fPythonEngine.FatalAbort := False;
   fPythonEngine.FatalMsgDlg := False;
   fPythonEngine.UseLastKnownVersion := False;
@@ -356,12 +356,7 @@ end;
 procedure TInternalPython.PythonEngineAfterInit(Sender: TObject);
 begin
   // Execute initialization script
-  with PythonEngine do begin
-    if IsPython3000 then
-      ExecStrings(GI_PyIDEServices.GetStoredScript('InitScript3000'))
-    else
-      ExecStrings(GI_PyIDEServices.GetStoredScript('InitScript'));
-  end;
+  PythonEngine.ExecStrings(GI_PyIDEServices.GetStoredScript('InitScript'));
 
   // Update Highlighter keywords
   GI_PyInterpreter.UpdatePythonKeywords;

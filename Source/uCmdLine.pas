@@ -488,8 +488,6 @@ initialization
   CmdLineReader.automaticalShowError  :=  True;
   CmdLineReader.declareFlag('HELP','Show PyScripter command line options', Char('H'),False);
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', Char('N'),False);
-  CmdLineReader.declareFlag('PYTHON27','Use Python version 2.7',False);
-  CmdLineReader.declareFlag('PYTHON32','Use Python version 3.2',False);
   CmdLineReader.declareFlag('PYTHON33','Use Python version 3.3',False);
   CmdLineReader.declareFlag('PYTHON34','Use Python version 3.4',False);
   CmdLineReader.declareFlag('PYTHON35','Use Python version 3.5',False);
@@ -497,6 +495,7 @@ initialization
   CmdLineReader.declareFlag('PYTHON37','Use Python version 3.7',False);
   CmdLineReader.declareFlag('PYTHON38','Use Python version 3.8',False);
   CmdLineReader.declareFlag('PYTHON39','Use Python version 3.9',False);
+  CmdLineReader.declareFlag('PYTHON310','Use Python version 3.10',False);
   CmdLineReader.declareString('PROJECT','Specify a project file to open');
   CmdLineReader.declareString('PYTHONDLLPATH','Use a specific Pythonxx.dll');
 

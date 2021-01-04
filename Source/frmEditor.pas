@@ -1078,19 +1078,11 @@ begin
   // RunSource
   case PyControl.DebuggerState of
     dsInactive:
-      if GetPythonEngine.IsPython3000 then
-        PyControl.ActiveInterpreter.RunSource(Source, '<editor selection>',
-          ExecType)
-      else
-        PyControl.ActiveInterpreter.RunSource(EncodedSource,
-          '<editor selection>', ExecType);
+      PyControl.ActiveInterpreter.RunSource(Source, '<editor selection>',
+        ExecType);
     dsPaused, dsPostMortem:
-      if GetPythonEngine.IsPython3000 then
-        PyControl.ActiveDebugger.RunSource(Source, '<editor selection>',
-          ExecType)
-      else
-        PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>',
-          ExecType);
+      PyControl.ActiveDebugger.RunSource(Source, '<editor selection>',
+        ExecType);
   end;
 
   GI_PyInterpreter.WritePendingMessages;

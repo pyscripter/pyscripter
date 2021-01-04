@@ -686,19 +686,11 @@ begin
                 begin
                   case PyControl.DebuggerState of
                     dsInactive :
-                      if GetPythonEngine.IsPython3000 then
-                        NeedIndent :=
-                          PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>')
-                      else
-                        NeedIndent :=
-                          PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
+                      NeedIndent :=
+                        PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>');
                     dsPaused, dsPostMortem :
-                      if GetPythonEngine.IsPython3000 then
-                        NeedIndent :=
-                          PyControl.ActiveDebugger.RunSource(Source, '<interactive input>')
-                      else
-                        NeedIndent :=
-                          PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
+                      NeedIndent :=
+                        PyControl.ActiveDebugger.RunSource(Source, '<interactive input>');
                   end;
                 end;
               end;

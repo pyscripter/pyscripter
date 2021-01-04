@@ -107,7 +107,6 @@ type
   public
     destructor Destroy; override;
     procedure Initialize; virtual;
-    function IsPython3000 : Boolean; virtual;
     // Python Path
     function SysPathAdd(const Path : string) : boolean; virtual; abstract;
     function SysPathRemove(const Path : string) : boolean; virtual; abstract;
@@ -406,11 +405,6 @@ begin
   end;
 end;
 
-function TPyBaseInterpreter.IsPython3000: Boolean;
-begin
-  Result := GetPythonEngine.IsPython3000;
-end;
-
 procedure TPyBaseInterpreter.ReInitialize;
 begin
   raise Exception.Create(_(SNotImplented));
@@ -419,16 +413,10 @@ end;
 procedure TPyBaseInterpreter.RunScript(FileName: string);
 Var
   Source : string;
-  AnsiSource : AnsiString;
 begin
   if FileExists(FileName) then begin
-    if IsPython3000 then begin
-      Source := CleanEOLs(FileToStr(FileName))+#10;
-      RunSource(Source, FileName, 'exec');
-    end else begin
-      AnsiSource := CleanEOLs(FileToEncodedStr(FileName))+#10;
-      RunSource(AnsiSource, FileName, 'exec');
-    end;
+    Source := CleanEOLs(FileToStr(FileName))+#10;
+    RunSource(Source, FileName, 'exec');
   end;
 end;
 
@@ -727,19 +715,7 @@ begin
   fIsExpanded := True;
 
   // Arguments and Locals
-  if BuiltinModule.hasattr(fPyFunction, 'func_code') then begin
-    NoOfArgs := fPyFunction.func_code.co_argcount;
-    for i := 0 to len(fPyFunction.func_code.co_varnames) - 1 do begin
-      Variable := TVariable.Create;
-      Variable.Name := fPyFunction.func_code.co_varnames[i];
-      Variable.Parent := Self;
-      if i < NoOfArgs then begin
-        Variable.Attributes := [vaArgument];
-        Arguments.Add(Variable);
-      end else
-        Locals.Add(Variable);
-    end;
-  end else if BuiltinModule.hasattr(fPyFunction, '__code__') then begin  //Python 3000
+  if BuiltinModule.hasattr(fPyFunction, '__code__') then begin
     NoOfArgs := fPyFunction.__code__.co_argcount;
     for i := 0 to len(fPyFunction.__code__.co_varnames) - 1 do begin
       Variable := TVariable.Create;

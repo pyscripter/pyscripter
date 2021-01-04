@@ -25,14 +25,13 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 512
     Width = 780
     Height = 25
-    ExplicitTop = 527
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 195
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end

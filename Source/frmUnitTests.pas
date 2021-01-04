@@ -687,19 +687,11 @@ begin
       if InspectModule.ismethod(PythonObject) then begin
         FileName := InspectModule.getsourcefile(PythonObject);
         if FileName = 'None' then begin
-          if GetPythonEngine.IsPython3000 then begin
-            FileName := PythonObject.__func__.__code__.co_filename;
-            if ExtractFileExt(FileName) <> '' then
-              Exit;
-            // otherwise it should be an unsaved file
-            LineNo := PythonObject.__func__.__code__.co_firstlineno-1;
-          end else begin
-            FileName := PythonObject.im_func.func_code.co_filename;
-            if ExtractFileExt(FileName) <> '' then
-              Exit;
-            // otherwise it should be an unsaved file
-            LineNo := PythonObject.im_func.func_code.co_firstlineno-1;
-          end;
+          FileName := PythonObject.__func__.__code__.co_filename;
+          if ExtractFileExt(FileName) <> '' then
+            Exit;
+          // otherwise it should be an unsaved file
+          LineNo := PythonObject.__func__.__code__.co_firstlineno-1;
         end else
           LineNo := InspectModule.findsource(PythonObject).__getitem__(1);
         GI_PyIDEServices.ShowFilePosition(FileName, Succ(LineNo), 1);
