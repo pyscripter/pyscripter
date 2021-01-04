@@ -518,7 +518,7 @@
             Installer is now code signed
             Persian translatin added
           Issues addressed
-
+            #1031
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
@@ -2217,18 +2217,18 @@ begin
 end;
 
 procedure TPyIDEMainForm.UpdateCaption;
-Var
-  Editor : IEditor;
 begin
-  if TabControl1.Toolbar.IsUpdating or TabControl2.Toolbar.IsUpdating then
-    Exit;
+  if csDestroying in ComponentState then Exit;
 
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then
-    Caption := Format('PyScripter - %s%s', [Editor.GetFileNameOrTitle,
-                         iff(Editor.Modified, '*', '')])
-  else
-    Caption := 'PyScripter';
+  TThread.ForceQueue(nil, procedure
+    begin
+      var Editor := GetActiveEditor;
+      if Assigned(Editor) then
+        Caption := Format('PyScripter - %s%s', [Editor.GetFileNameOrTitle,
+                             iff(Editor.Modified, '*', '')])
+      else
+        Caption := 'PyScripter';
+    end);
 end;
 
 procedure TPyIDEMainForm.SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
