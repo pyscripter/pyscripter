@@ -1,33 +1,37 @@
 inherited PickListDialog: TPickListDialog
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSizeable
   Caption = 'PickListDialog'
-  ClientHeight = 333
-  ClientWidth = 484
-  ExplicitWidth = 490
+  ClientHeight = 323
+  ClientWidth = 461
+  ExplicitWidth = 477
   ExplicitHeight = 362
   PixelsPerInch = 96
   TextHeight = 13
   object Panel2: TPanel
     Left = 0
-    Top = 249
-    Width = 484
+    Top = 239
+    Width = 461
     Height = 84
     Align = alBottom
     Anchors = [akLeft, akBottom]
     TabOrder = 1
+    ExplicitTop = 241
+    ExplicitWidth = 474
     DesignSize = (
-      484
+      461
       84)
     object Bevel1: TBevel
       Left = 0
       Top = 36
-      Width = 519
+      Width = 496
       Height = 2
-      Anchors = [akLeft, akTop, akRight]
+      Anchors = [akLeft, akTop, akRight, akBottom]
       Shape = bsTopLine
       ExplicitWidth = 404
     end
     object btnSelectAll: TButton
-      Left = 109
+      Left = 85
       Top = 6
       Width = 130
       Height = 24
@@ -39,10 +43,11 @@ inherited PickListDialog: TPickListDialog
       OnClick = mnSelectAllClick
     end
     object btnDeselectAll: TButton
-      Left = 245
+      Left = 240
       Top = 6
       Width = 130
       Height = 24
+      Anchors = [akRight, akBottom]
       Caption = '&Deselect All'
       ImageIndex = 1
       ImageName = 'Item106'
@@ -51,36 +56,42 @@ inherited PickListDialog: TPickListDialog
       OnClick = mnDeselectAllClick
     end
     object btnOk: TButton
-      Left = 151
-      Top = 47
-      Width = 75
+      Left = 275
+      Top = 48
+      Width = 80
       Height = 25
+      Anchors = [akRight, akBottom]
       Caption = '&OK'
       Default = True
       ModalResult = 1
       TabOrder = 2
+      ExplicitLeft = 288
     end
     object btnCancel: TButton
-      Left = 258
-      Top = 47
-      Width = 75
+      Left = 372
+      Top = 48
+      Width = 80
       Height = 25
+      Anchors = [akRight, akBottom]
       Cancel = True
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 3
+      ExplicitLeft = 385
     end
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 484
-    Height = 249
+    Width = 461
+    Height = 239
     Align = alClient
     TabOrder = 0
+    ExplicitLeft = -1
+    ExplicitWidth = 474
     DesignSize = (
-      484
-      249)
+      461
+      239)
     object imgIcon: TImage
       Left = 8
       Top = 12
@@ -89,10 +100,10 @@ inherited PickListDialog: TPickListDialog
       Transparent = True
     end
     object lbMessage: TLabel
-      Left = 56
-      Top = 8
-      Width = 417
-      Height = 54
+      Left = 58
+      Top = 14
+      Width = 394
+      Height = 52
       Anchors = [akLeft, akTop, akRight]
       AutoSize = False
       Color = clNone
@@ -102,10 +113,11 @@ inherited PickListDialog: TPickListDialog
     object CheckListBox: TCheckListBox
       AlignWithMargins = True
       Left = 4
-      Top = 68
-      Width = 476
-      Height = 177
+      Top = 72
+      Width = 453
+      Height = 163
       Align = alBottom
+      Anchors = [akLeft, akTop, akRight, akBottom]
       BevelInner = bvNone
       BevelOuter = bvNone
       BevelKind = bkSoft
