@@ -71,7 +71,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           TreeOptions.SelectionOptions = [toMultiSelect, toRightClickSelect, toSiblingSelectConstraint]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnContextPopup = ExplorerTreeContextPopup
-          OnDblClick = ExplorerTreeDblClick
           OnDragAllowed = ExplorerTreeDragAllowed
           OnDragOver = ExplorerTreeDragOver
           OnDragDrop = ExplorerTreeDragDrop
@@ -84,6 +83,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           OnInitNode = ExplorerTreeInitNode
           OnKeyPress = ExplorerTreeKeyPress
           OnNewText = ExplorerTreeNewText
+          OnNodeDblClick = ExplorerTreeNodeDblClick
           Columns = <>
         end
         object SpTBXDock1: TSpTBXDock
@@ -151,6 +151,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Start a new project'
       ImageIndex = 6
+      ImageName = 'Item134'
       OnExecute = actProjectNewExecute
     end
     object actProjectOpen: TAction
@@ -160,6 +161,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Open a project file'
       ImageIndex = 7
+      ImageName = 'Item135'
       OnExecute = actProjectOpenExecute
     end
     object actProjectSave: TAction
@@ -169,6 +171,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Save the project'
       ImageIndex = 12
+      ImageName = 'Item141'
       OnExecute = actProjectSaveExecute
     end
     object actProjectSaveAs: TAction
@@ -203,6 +206,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpKeyword = '435'
       HelpType = htContext
       ImageIndex = 0
+      ImageName = 'Item26'
       OnExecute = actProjectExtraPythonPathExecute
     end
     object actProjectExpandAll: TAction
@@ -212,6 +216,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Expand all project nodes'
       ImageIndex = 2
+      ImageName = 'Item29'
       OnExecute = actProjectExpandAllExecute
     end
     object actProjectCollapseAll: TAction
@@ -221,6 +226,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Collapse all project nodes'
       ImageIndex = 3
+      ImageName = 'Item30'
       OnExecute = actProjectCollapseAllExecute
     end
   end
@@ -234,6 +240,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add file(s) to a project folder'
       ImageIndex = 8
+      ImageName = 'Item136'
       OnExecute = actProjectAddFilesExecute
     end
     object actProjectAddFolder: TAction
@@ -242,6 +249,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add a new subfolder'
       ImageIndex = 10
+      ImageName = 'Item138'
       OnExecute = actProjectAddFolderExecute
     end
     object actProjectRemove: TAction
@@ -250,6 +258,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Remove a file, folder or run configuration from the project'
       ImageIndex = 9
+      ImageName = 'Item137'
       OnExecute = actProjectRemoveExecute
     end
     object actProjectRename: TAction
@@ -265,6 +274,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Open the selected file in the editor'
       ImageIndex = 11
+      ImageName = 'Item140'
       OnExecute = actProjectFileEditExecute
     end
     object actProjectAddActiveFile: TAction
@@ -287,6 +297,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add run configuration'
       ImageIndex = 13
+      ImageName = 'Item142'
       OnExecute = actProjectAddRunConfigExecute
     end
     object actProjectEditRunConfig: TAction
@@ -295,6 +306,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Edit run configuration'
       ImageIndex = 14
+      ImageName = 'Item143'
       OnExecute = actProjectEditRunConfigExecute
     end
     object actProjectFileProperties: TAction
@@ -303,6 +315,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Show file properties'
       ImageIndex = 15
+      ImageName = 'Item144'
       OnExecute = actProjectFilePropertiesExecute
     end
     object actProjectRun: TAction
@@ -311,6 +324,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Run the selected configuration'
       ImageIndex = 4
+      ImageName = 'Item52'
       OnExecute = actProjectRunExecute
     end
     object actProjectExternalRun: TAction
@@ -319,6 +333,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Run configuration using an external Python interpreter'
       ImageIndex = 1
+      ImageName = 'Item28'
       OnExecute = actProjectExternalRunExecute
     end
     object actProjectDebug: TAction
@@ -327,6 +342,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Debug the selected configuration'
       ImageIndex = 5
+      ImageName = 'Item54'
       OnExecute = actProjectDebugExecute
     end
     object actProjectAddRemoteFile: TAction
@@ -335,6 +351,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add a remote file to the folder'
       ImageIndex = 16
+      ImageName = 'Item162'
       OnExecute = actProjectAddRemoteFileExecute
     end
   end

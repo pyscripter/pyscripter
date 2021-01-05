@@ -154,7 +154,6 @@ type
     procedure actProjectOpenExecute(Sender: TObject);
     procedure actProjectRemoveExecute(Sender: TObject);
     procedure actProjectFileEditExecute(Sender: TObject);
-    procedure ExplorerTreeDblClick(Sender: TObject);
     procedure ExplorerTreeKeyPress(Sender: TObject; var Key: Char);
     procedure actProjectAddActiveFileExecute(Sender: TObject);
     procedure actProjectImportDirectoryExecute(Sender: TObject);
@@ -190,6 +189,8 @@ type
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: TImageIndex;
       var ImageList: TCustomImageList);
+    procedure ExplorerTreeNodeDblClick(Sender: TBaseVirtualTree; const HitInfo:
+        THitInfo);
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
@@ -912,21 +913,6 @@ begin
   Handled := True;
 end;
 
-procedure TProjectExplorerWindow.ExplorerTreeDblClick(Sender: TObject);
-var
-  Data : PNodeDataRec;
-  Node: PVirtualNode;
-begin
-  Node := ExplorerTree.GetFirstSelected;
-  if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    if Data.ProjectNode is TProjectFileNode then
-      ProjectFileNodeEdit(ExplorerTree.HotNode)
-    else if Data.ProjectNode is TProjectRunConfiguationNode then
-      actProjectEditRunConfigExecute(Sender);
-  end;
-end;
-
 procedure TProjectExplorerWindow.ExplorerTreeDragAllowed(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
   var Allowed: Boolean);
@@ -1119,7 +1105,7 @@ begin
   else if Data.ProjectNode is TProjectRunConfiguationNode then
     ImageIndex := 3
   else if Data.ProjectNode is TProjectFileNode then begin
-    FileName := TProjectFileNode(Data.ProjectNode).FileName;
+    FileName := Parameters.ReplaceInText(TProjectFileNode(Data.ProjectNode).FileName);
     Extension := ExtractFileExt(FileName);
     if Extension <> '' then begin
       Index := FileImageList.IndexOf(Extension);
@@ -1228,6 +1214,23 @@ begin
     finally
       ExplorerTree.EndUpdate;
     end;
+  end;
+end;
+
+procedure TProjectExplorerWindow.ExplorerTreeNodeDblClick(Sender:
+    TBaseVirtualTree; const HitInfo: THitInfo);
+var
+  Data : PNodeDataRec;
+  Node: PVirtualNode;
+begin
+  Node := HitInfo.HitNode;
+  if Assigned(Node) and (hiOnItem in HitInfo.HitPositions) then begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if Data.ProjectNode is TProjectFileNode then
+      ProjectFileNodeEdit(Node)
+    else if Data.ProjectNode is TProjectRunConfiguationNode then
+      if EditRunConfiguration(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig) then
+        Data.ProjectNode.Modified:= True;
   end;
 end;
 
