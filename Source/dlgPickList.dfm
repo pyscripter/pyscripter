@@ -33,6 +33,7 @@ inherited PickListDialog: TPickListDialog
       Height = 24
       Caption = '&Select All'
       ImageIndex = 0
+      ImageName = 'Item105'
       Images = vilImages
       TabOrder = 0
       OnClick = mnSelectAllClick
@@ -44,6 +45,7 @@ inherited PickListDialog: TPickListDialog
       Height = 24
       Caption = '&Deselect All'
       ImageIndex = 1
+      ImageName = 'Item106'
       Images = vilImages
       TabOrder = 1
       OnClick = mnDeselectAllClick
@@ -89,11 +91,13 @@ inherited PickListDialog: TPickListDialog
     object lbMessage: TLabel
       Left = 56
       Top = 8
-      Width = 3
-      Height = 13
+      Width = 417
+      Height = 54
       Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
       Color = clNone
       ParentColor = False
+      WordWrap = True
     end
     object CheckListBox: TCheckListBox
       AlignWithMargins = True

@@ -518,7 +518,7 @@
             Installer is now code signed
             Persian translatin added
           Issues addressed
-            #1031
+            #1031, #1039
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
