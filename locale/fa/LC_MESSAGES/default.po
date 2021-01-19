@@ -4,7 +4,8 @@
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# Hadi Fadakar <h_adi_f@yahoo.com>, 2020
+# Hadi F <h_adi_f@yahoo.com>, 2020
+# Kiriakos Vlahos <pyscripter@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2020-10-07 17:44\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Hadi Fadakar <h_adi_f@yahoo.com>, 2020\n"
-"Language-Team: Persian (Iran) (https://www.transifex.com/luebbe/teams/82736/fa_IR/)\n"
+"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2021\n"
+"Language-Team: Persian (Iran) (https://www.transifex.com/pyscripter/teams/116142/fa_IR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
