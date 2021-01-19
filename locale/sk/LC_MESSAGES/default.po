@@ -10,10 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2020-10-07 05:50\n"
+"POT-Creation-Date: 2020-10-07 17:44\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
-"Language-Team: Slovak (https://www.transifex.com/luebbe/teams/82736/sk/)\n"
+"Language-Team: Slovak (https://www.transifex.com/pyscripter/teams/116142/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,11 +42,6 @@ msgstr "Poďakovanie"
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Links"
 msgstr "Odkazy"
-
-#. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
-#: dlgAboutPyScripter.dfm
-msgid "(C) Kiriakos Vlahos 2005-2019"
-msgstr ""
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -1226,120 +1221,6 @@ msgstr "Príkaz"
 msgid "Keystroke"
 msgstr ""
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right Edge"
-msgstr "Ohraničujúca čiara pre šírku textu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge color:"
-msgstr "Farba:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge Column:"
-msgstr "Za stĺpcom"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Gutter"
-msgstr "Dodatočný pruh"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter color:"
-msgstr "Farba pruhu:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm
-msgid "Autosize"
-msgstr "Automatická šírka"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show line numbers"
-msgstr "Zobraziť čísla riadkov"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show leading zeros"
-msgstr "Zobraziť úvodné nuly"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Visible"
-msgstr "Viditeľný"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm
-msgid "Start at zero"
-msgstr "Číslovať od nuly"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "Použiť písmo pruhu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm
-msgid "Gutter gradient visible"
-msgstr "Viditeľná gradácia farby pruhu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter Gradient"
-msgstr "Gradácia farby  pruhu"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Font"
-msgstr "Písmo"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks"
-msgstr "Záložky"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmark keys"
-msgstr "Klávesy pre záložky"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks visible"
-msgstr "Viditeľné záložky"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Font"
-msgstr "Písmo editora"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Line spacing / Tab spacing"
-msgstr "Riadkovanie / Tabulátor"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr "Riadkov navyše:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Width:"
-msgstr "Śírka tabulátora:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Active Line Color"
-msgstr "Farba aktívneho riadka"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
@@ -1651,6 +1532,120 @@ msgstr "Polovičný blok"
 msgid "Block"
 msgstr "Blok"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right Edge"
+msgstr "Ohraničujúca čiara pre šírku textu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge color:"
+msgstr "Farba:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge Column:"
+msgstr "Za stĺpcom"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Gutter"
+msgstr "Dodatočný pruh"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter color:"
+msgstr "Farba pruhu:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#: dlgSynEditOptions.dfm
+msgid "Autosize"
+msgstr "Automatická šírka"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show line numbers"
+msgstr "Zobraziť čísla riadkov"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show leading zeros"
+msgstr "Zobraziť úvodné nuly"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Visible"
+msgstr "Viditeľný"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#: dlgSynEditOptions.dfm
+msgid "Start at zero"
+msgstr "Číslovať od nuly"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "Použiť písmo pruhu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#: dlgSynEditOptions.dfm
+msgid "Gutter gradient visible"
+msgstr "Viditeľná gradácia farby pruhu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter Gradient"
+msgstr "Gradácia farby  pruhu"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Hint
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Font"
+msgstr "Písmo"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks"
+msgstr "Záložky"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmark keys"
+msgstr "Klávesy pre záložky"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks visible"
+msgstr "Viditeľné záložky"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Font"
+msgstr "Písmo editora"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Line spacing / Tab spacing"
+msgstr "Riadkovanie / Tabulátor"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#: dlgSynEditOptions.dfm
+msgid "Extra Lines:"
+msgstr "Riadkov navyše:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Width:"
+msgstr "Śírka tabulátora:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Active Line Color"
+msgstr "Farba aktívneho riadka"
+
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply to all editors"
@@ -1674,71 +1669,6 @@ msgstr "Okraje a možnosti"
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
 msgstr "Hlavička a päta"
-
-#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
-#: dlgSynPageSetup.dfm
-msgid "Left:"
-msgstr "Ľavý okraj:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
-#: dlgSynPageSetup.dfm
-msgid "Right:"
-msgstr "Pravý okraj:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
-#: dlgSynPageSetup.dfm
-msgid "Top:"
-msgstr "Horný okraj:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
-#: dlgSynPageSetup.dfm
-msgid "Bottom:"
-msgstr "Dolný okraj:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
-#: dlgSynPageSetup.dfm
-msgid "Units:"
-msgstr "Jednotky:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
-#: dlgSynPageSetup.dfm
-msgid "Header:"
-msgstr "Hlavička:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
-#: dlgSynPageSetup.dfm
-msgid "Footer:"
-msgstr "Päta:"
-
-#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
-#: dlgSynPageSetup.dfm
-msgid "Mirror margins"
-msgstr "Zrkadlové okraje"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
-#: dlgSynPageSetup.dfm
-msgid "Line numbers"
-msgstr "Čísla riadkov"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
-#: dlgSynPageSetup.dfm
-msgid "Print line numbers in margin"
-msgstr "Tlačiť čísla strán na okraji"
-
-#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
-#: dlgSynPageSetup.dfm
-msgid "Syntax print"
-msgstr "Zvýraznenie syntaxe"
-
-#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
-#: dlgSynPageSetup.dfm
-msgid "Use colors"
-msgstr "Použiť farby"
-
-#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
-#: dlgSynPageSetup.dfm
-msgid "Wrap lines"
-msgstr "Zalomiť riadky"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1815,6 +1745,96 @@ msgstr "Päta"
 #: dlgSynPageSetup.dfm
 msgid "Line above"
 msgstr "Čiara nad"
+
+#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left:"
+msgstr "Ľavý okraj:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right:"
+msgstr "Pravý okraj:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
+#: dlgSynPageSetup.dfm
+msgid "Top:"
+msgstr "Horný okraj:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
+#: dlgSynPageSetup.dfm
+msgid "Bottom:"
+msgstr "Dolný okraj:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
+#: dlgSynPageSetup.dfm
+msgid "Units:"
+msgstr "Jednotky:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
+#: dlgSynPageSetup.dfm
+msgid "Header:"
+msgstr "Hlavička:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
+#: dlgSynPageSetup.dfm
+msgid "Footer:"
+msgstr "Päta:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label8..Caption
+#: dlgSynPageSetup.dfm
+msgid "Internal Margin:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..Label9..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left Text Indent:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..Label10..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right Text Indent:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
+#: dlgSynPageSetup.dfm
+msgid "Mirror margins"
+msgstr "Zrkadlové okraje"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
+#: dlgSynPageSetup.dfm
+msgid "Line numbers"
+msgstr "Čísla riadkov"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
+#: dlgSynPageSetup.dfm
+msgid "Print line numbers in margin"
+msgstr "Tlačiť čísla strán na okraji"
+
+#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
+#: dlgSynPageSetup.dfm
+msgid "Syntax print"
+msgstr "Zvýraznenie syntaxe"
+
+#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
+#: dlgSynPageSetup.dfm
+msgid "Use colors"
+msgstr "Použiť farby"
+
+#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
+#: dlgSynPageSetup.dfm
+msgid "Wrap lines"
+msgstr "Zalomiť riadky"
+
+#. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
+#: dlgSynPageSetup.dfm
+msgid "Inches"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
+#: dlgSynPageSetup.dfm
+msgid "(1/1000) Inches"
+msgstr ""
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
