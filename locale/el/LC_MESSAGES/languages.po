@@ -5,8 +5,8 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Kiriakos Vlahos <pyscripter@gmail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2018
+# Kiriakos Vlahos <pyscripter@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: PyScripter Languages\n"
 "POT-Creation-Date: 2018-01-23 16:26\n"
 "PO-Revision-Date: 2018-01-24 09:24+0000\n"
-"Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
-"Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
+"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2021\n"
+"Language-Team: Greek (https://www.transifex.com/pyscripter/teams/116142/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,6 +47,10 @@ msgstr "Ελληνικά"
 msgid "Italian"
 msgstr "Ιταλικά"
 
+#. Language of Iran
+msgid "Persian"
+msgstr "Περσικά"
+
 #. Language of Japan, Asia
 msgid "Japanese"
 msgstr "Ιαπωνικά"
@@ -57,7 +61,7 @@ msgstr "Γλώσσα Kabyle"
 
 #. Language of Portugal, Europe
 msgid "Polish"
-msgstr ""
+msgstr "Πολωνικά"
 
 #. Language of Portugal, Europe
 msgid "Portuguese (Portugal)"
@@ -81,4 +85,4 @@ msgstr "Ισπανικά"
 
 #. Language of Ukraine
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ουκρανικά"
