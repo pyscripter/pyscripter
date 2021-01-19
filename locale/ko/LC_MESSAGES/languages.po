@@ -1,0 +1,87 @@
+# PyScripter Languages.
+# 
+# Copyright (C) Kiriakos Vlahos  2005-2018
+# This file is distributed under the same license as PyScripter
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# heogeon <akffod2525@gmail.com>, 2020
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PyScripter Languages\n"
+"POT-Creation-Date: 2018-01-23 16:26\n"
+"PO-Revision-Date: 2018-01-24 09:24+0000\n"
+"Last-Translator: heogeon <akffod2525@gmail.com>, 2020\n"
+"Language-Team: Korean (https://www.transifex.com/pyscripter/teams/116142/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Arabic"
+msgstr "아랍어"
+
+msgid "Chinese"
+msgstr "중국어"
+
+msgid "English"
+msgstr "영어"
+
+#. Language of France
+msgid "French"
+msgstr "프랑스어"
+
+#. Language of Germany, Austria
+msgid "German"
+msgstr "독일어"
+
+#. Language of Greece
+msgid "Greek"
+msgstr "그리스어"
+
+#. Language of Italy
+msgid "Italian"
+msgstr "이탈리아어"
+
+#. Language of Iran
+msgid "Persian"
+msgstr "페르시아어"
+
+#. Language of Japan, Asia
+msgid "Japanese"
+msgstr "일본어"
+
+#. Language of Kabyle people
+msgid "Taqbaylit"
+msgstr "커바일어"
+
+#. Language of Portugal, Europe
+msgid "Polish"
+msgstr "폴란드어"
+
+#. Language of Portugal, Europe
+msgid "Portuguese (Portugal)"
+msgstr "포르투갈어 (포르투갈)"
+
+#. Language of Portugal, Brazil
+msgid "Portuguese (Brazil)"
+msgstr "포르투갈어 (브라질)"
+
+#. Language of Russia
+msgid "Russian"
+msgstr "러시아어"
+
+#. Language of Slovakia
+msgid "Slovak"
+msgstr "슬로바키아어"
+
+#. Language of Spain
+msgid "Spanish"
+msgstr "스페인어"
+
+#. Language of Ukraine
+msgid "Ukrainian"
+msgstr "우크라이나어"
