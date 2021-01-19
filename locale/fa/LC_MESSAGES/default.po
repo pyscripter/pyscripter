@@ -4,7 +4,6 @@
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# Hadi F <h_adi_f@yahoo.com>, 2020
 # Kiriakos Vlahos <pyscripter@gmail.com>, 2021
 # 
 #, fuzzy
@@ -14,11 +13,11 @@ msgstr ""
 "POT-Creation-Date: 2020-10-07 17:44\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2021\n"
-"Language-Team: Persian (Iran) (https://www.transifex.com/pyscripter/teams/116142/fa_IR/)\n"
+"Language-Team: Persian (https://www.transifex.com/pyscripter/teams/116142/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa_IR\n"
+"Language: fa\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. AboutBox..Caption
