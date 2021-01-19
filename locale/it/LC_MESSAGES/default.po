@@ -6,16 +6,16 @@
 # Translators:
 # Vincenzo Campanella <vinz65@gmail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2018
-# bovirus <roberto.boriotti@canon-europe.com>, 2020
+# ROBERTO BORIOTTI <roberto.boriotti@canon-europe.com>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2020-10-07 05:50\n"
+"POT-Creation-Date: 2020-10-07 17:44\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: bovirus <roberto.boriotti@canon-europe.com>, 2020\n"
-"Language-Team: Italian (https://www.transifex.com/luebbe/teams/82736/it/)\n"
+"Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon-europe.com>, 2020\n"
+"Language-Team: Italian (https://www.transifex.com/pyscripter/teams/116142/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,11 +44,6 @@ msgstr "Ringraziamenti"
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Links"
 msgstr "Collegamenti"
-
-#. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
-#: dlgAboutPyScripter.dfm
-msgid "(C) Kiriakos Vlahos 2005-2019"
-msgstr ""
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -1228,120 +1223,6 @@ msgstr "Comando"
 msgid "Keystroke"
 msgstr "Combinazione"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right Edge"
-msgstr "Margine destro"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge color:"
-msgstr "Colore margine:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge Column:"
-msgstr "Colonna del margine:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Gutter"
-msgstr "Righello"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter color:"
-msgstr "Colore righello:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm
-msgid "Autosize"
-msgstr "Dimensione automatica"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show line numbers"
-msgstr "Visualizza numeri di riga"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show leading zeros"
-msgstr "Visualizza zeri non significativi"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Visible"
-msgstr "Visibile"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm
-msgid "Start at zero"
-msgstr "Inizia da zero"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "Usa il carattere del righello"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm
-msgid "Gutter gradient visible"
-msgstr "Gradiente del righello visibile"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter Gradient"
-msgstr "Gradiente del righello"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Font"
-msgstr "Carattere"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks"
-msgstr "Segnalibri"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmark keys"
-msgstr "Tasti segnalibro"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks visible"
-msgstr "Segnalibri visibili"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Font"
-msgstr "Font dell'editor"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Line spacing / Tab spacing"
-msgstr "Spaziatura riga/tabulazione"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr "Righe extra:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Width:"
-msgstr "Larghezza tabulazione:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Active Line Color"
-msgstr "Colore riga attuale"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
@@ -1623,7 +1504,7 @@ msgstr "Suggerimento su scorrimento segue il mouse"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr ""
+msgstr "Visualizza legature caratteri"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -1664,6 +1545,120 @@ msgstr "Mezzo blocco"
 msgid "Block"
 msgstr "Blocco"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right Edge"
+msgstr "Margine destro"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge color:"
+msgstr "Colore margine:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge Column:"
+msgstr "Colonna del margine:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Gutter"
+msgstr "Righello"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter color:"
+msgstr "Colore righello:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#: dlgSynEditOptions.dfm
+msgid "Autosize"
+msgstr "Dimensione automatica"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show line numbers"
+msgstr "Visualizza numeri di riga"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show leading zeros"
+msgstr "Visualizza zeri non significativi"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Visible"
+msgstr "Visibile"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#: dlgSynEditOptions.dfm
+msgid "Start at zero"
+msgstr "Inizia da zero"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "Usa il carattere del righello"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#: dlgSynEditOptions.dfm
+msgid "Gutter gradient visible"
+msgstr "Gradiente del righello visibile"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter Gradient"
+msgstr "Gradiente del righello"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Hint
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Font"
+msgstr "Carattere"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks"
+msgstr "Segnalibri"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmark keys"
+msgstr "Tasti segnalibro"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks visible"
+msgstr "Segnalibri visibili"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Font"
+msgstr "Font dell'editor"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Line spacing / Tab spacing"
+msgstr "Spaziatura riga/tabulazione"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#: dlgSynEditOptions.dfm
+msgid "Extra Lines:"
+msgstr "Righe extra:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Width:"
+msgstr "Larghezza tabulazione:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Active Line Color"
+msgstr "Colore riga attuale"
+
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply to all editors"
@@ -1687,71 +1682,6 @@ msgstr "Margini e opzioni"
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
 msgstr "Intestazione && piè di pagina"
-
-#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
-#: dlgSynPageSetup.dfm
-msgid "Left:"
-msgstr "Sinistro:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
-#: dlgSynPageSetup.dfm
-msgid "Right:"
-msgstr "Destro:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
-#: dlgSynPageSetup.dfm
-msgid "Top:"
-msgstr "In alto:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
-#: dlgSynPageSetup.dfm
-msgid "Bottom:"
-msgstr "Inferiore:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
-#: dlgSynPageSetup.dfm
-msgid "Units:"
-msgstr "Unità:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
-#: dlgSynPageSetup.dfm
-msgid "Header:"
-msgstr "Intestazione:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
-#: dlgSynPageSetup.dfm
-msgid "Footer:"
-msgstr "Piè di pagina:"
-
-#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
-#: dlgSynPageSetup.dfm
-msgid "Mirror margins"
-msgstr "Margini speculari"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
-#: dlgSynPageSetup.dfm
-msgid "Line numbers"
-msgstr "Numeri linee"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
-#: dlgSynPageSetup.dfm
-msgid "Print line numbers in margin"
-msgstr "Stampa numeri riga nei margini"
-
-#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
-#: dlgSynPageSetup.dfm
-msgid "Syntax print"
-msgstr "Stampa sintassi"
-
-#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
-#: dlgSynPageSetup.dfm
-msgid "Use colors"
-msgstr "Usa colori"
-
-#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
-#: dlgSynPageSetup.dfm
-msgid "Wrap lines"
-msgstr "Dividi righe"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1828,6 +1758,96 @@ msgstr "Piè di pagina"
 #: dlgSynPageSetup.dfm
 msgid "Line above"
 msgstr "Riga sopra"
+
+#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left:"
+msgstr "Sinistro:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right:"
+msgstr "Destro:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
+#: dlgSynPageSetup.dfm
+msgid "Top:"
+msgstr "In alto:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
+#: dlgSynPageSetup.dfm
+msgid "Bottom:"
+msgstr "Inferiore:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
+#: dlgSynPageSetup.dfm
+msgid "Units:"
+msgstr "Unità:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
+#: dlgSynPageSetup.dfm
+msgid "Header:"
+msgstr "Intestazione:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
+#: dlgSynPageSetup.dfm
+msgid "Footer:"
+msgstr "Piè di pagina:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label8..Caption
+#: dlgSynPageSetup.dfm
+msgid "Internal Margin:"
+msgstr "Margine interno:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label9..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left Text Indent:"
+msgstr "Rientro testo sinistro:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label10..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right Text Indent:"
+msgstr "Rientro testo destro:"
+
+#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
+#: dlgSynPageSetup.dfm
+msgid "Mirror margins"
+msgstr "Margini speculari"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
+#: dlgSynPageSetup.dfm
+msgid "Line numbers"
+msgstr "Numeri linee"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
+#: dlgSynPageSetup.dfm
+msgid "Print line numbers in margin"
+msgstr "Stampa numeri riga nei margini"
+
+#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
+#: dlgSynPageSetup.dfm
+msgid "Syntax print"
+msgstr "Stampa sintassi"
+
+#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
+#: dlgSynPageSetup.dfm
+msgid "Use colors"
+msgstr "Usa colori"
+
+#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
+#: dlgSynPageSetup.dfm
+msgid "Wrap lines"
+msgstr "Dividi righe"
+
+#. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
+#: dlgSynPageSetup.dfm
+msgid "Inches"
+msgstr "Pollici"
+
+#. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
+#: dlgSynPageSetup.dfm
+msgid "(1/1000) Inches"
+msgstr "(1/1000) pollici"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -2637,7 +2657,7 @@ msgstr "&Sostituisci..."
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr ""
+msgstr "Sostituisci|Cerca e sostituisci"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -3193,7 +3213,7 @@ msgstr "Esporta evidenziatori di sintassi"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr ""
+msgstr "Sostituisci con le impostazioni esistenti"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -4453,7 +4473,7 @@ msgstr "Aggiungi una nuova sottocartella"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr ""
+msgstr "Rimuovi un file, una cartella o esegui l'impostazione dal progetto"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4574,7 +4594,7 @@ msgstr "Tipo di engine Python"
 #. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
 #: frmPyIDEMain.dfm
 msgid "Text position"
-msgstr ""
+msgstr "Posizione testo"
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
@@ -6093,6 +6113,8 @@ msgid ""
 "Error in copying file \"%s\" to \"%s\"\n"
 "Error Message: "
 msgstr ""
+"Errore durante la copia del file \"%s\" in \"%s\"\n"
+"Messaggio di errore: "
 
 #: cSSHSupport.pas
 #, object-pascal-format
@@ -6202,7 +6224,7 @@ msgstr "File profilo attivo"
 
 #: cTools.pas
 msgid "PyLint tool (www.pylint.org)"
-msgstr ""
+msgstr "Strumento PyLint (www.pylint.org)"
 
 #: cTools.pas
 msgid "Advanced Replace"
@@ -6834,11 +6856,11 @@ msgstr ""
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
-msgstr ""
+msgstr "Filtro Esplora file"
 
 #: frmFileExplorer.pas
 msgid "Enter Filter:"
-msgstr ""
+msgstr "Inserisci filtro:"
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
@@ -6938,11 +6960,11 @@ msgstr "DocString"
 
 #: frmWatches.pas
 msgid "Edit Watch"
-msgstr ""
+msgstr "Monitora modifiche"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr ""
+msgstr "Inserisci nuova espressione:"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
@@ -7802,7 +7824,7 @@ msgstr ""
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
 msgid "*** Remote Interpreter Reinitialized ***"
-msgstr ""
+msgstr "*** Interprete remoto re-inizializzato ***"
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas
@@ -7836,6 +7858,8 @@ msgid ""
 "Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
+"Pyscripter richiede l'accesso alla cartella dei dati dell'applicazione utente: \"%s\". \n"
+"Altrimenti alcune funzionalità come il debug remoto non funzioneranno correttamente."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -7971,6 +7995,9 @@ msgid ""
 "wish to reload and press the OK button. Please note that you will lose all "
 "changes to these files."
 msgstr ""
+"I seguenti file sono stati modificati su disco.  \n"
+"Seleziona i file che desideri ricaricare e quindi seleziona il pulsante 'OK'.  \n"
+"Tieni presente che perderai tutte le modifiche a questi file."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -7991,12 +8018,12 @@ msgstr "Errore di sintassi"
 #: StringResources.pas
 #, object-pascal-format
 msgid " Certainty %s%%"
-msgstr ""
+msgstr " Affidabilità %s%%"
 
 #. Programmer's name for it: SReferencesNotFound
 #: StringResources.pas
 msgid " References not found"
-msgstr ""
+msgstr " Referenze non trovate"
 
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
@@ -8011,12 +8038,12 @@ msgstr "Definizione/i di \""
 #. Programmer's name for it: SDefinitionFound
 #: StringResources.pas
 msgid " Definition found"
-msgstr ""
+msgstr " Definizione trovata"
 
 #. Programmer's name for it: SDefinitionNotFound
 #: StringResources.pas
 msgid " Definition not found"
-msgstr ""
+msgstr " Definizione non trovata"
 
 #. Programmer's name for it: SSyntaxIsOK
 #: StringResources.pas
@@ -8486,6 +8513,8 @@ msgstr "Timeout: %d ms"
 #, object-pascal-format
 msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
 msgstr ""
+"Lo strumento esterno \"%s\" è ancora in esecuzione. \n"
+"Vuoi chiudere lo strumento esterno?"
 
 #. Editor
 #. Programmer's name for it: SInsert
@@ -8663,13 +8692,13 @@ msgstr "Impossibile trovare l'identificatore \"%s\" nel contesto \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not infer type from expresson \"%s\""
-msgstr ""
+msgstr "Impossibile dedurre il tipo dall'espressione \"%s\""
 
 #. Programmer's name for it: SCouldInferFunctionReturnType
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not infer return type of function \"%s\""
-msgstr ""
+msgstr "Impossibile dedurre il tipo restituito della funzione \"%s\""
 
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas
