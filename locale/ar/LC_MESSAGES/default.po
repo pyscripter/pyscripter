@@ -12,10 +12,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2020-10-07 05:50\n"
+"POT-Creation-Date: 2020-10-07 17:44\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Mohammed Nasman <mnasman@gmail.com>, 2020\n"
-"Language-Team: Arabic (https://www.transifex.com/luebbe/teams/82736/ar/)\n"
+"Language-Team: Arabic (https://www.transifex.com/pyscripter/teams/116142/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,11 +44,6 @@ msgstr "الشكر إلى:"
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Links"
 msgstr "الروابط"
-
-#. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
-#: dlgAboutPyScripter.dfm
-msgid "(C) Kiriakos Vlahos 2005-2019"
-msgstr "(C) كيرياكوس فلاهوس 2005-2019"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -1225,120 +1220,6 @@ msgstr ""
 msgid "Keystroke"
 msgstr ""
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right Edge"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm
-msgid "Edge Column:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Gutter"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm
-msgid "Autosize"
-msgstr "حجم تلقائي"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show line numbers"
-msgstr "عرض أرقام الأسطر"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show leading zeros"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Visible"
-msgstr "ظاهر"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm
-msgid "Start at zero"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm
-msgid "Gutter gradient visible"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm
-msgid "Gutter Gradient"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Caption
-#. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-msgid "Font"
-msgstr "الخط"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks"
-msgstr "إشارات مرجعية"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmark keys"
-msgstr "مفاتيح الإشارات المرجعية"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm
-msgid "Bookmarks visible"
-msgstr "الإشارات المرجعية ظاهرة"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Font"
-msgstr "خط المحرر"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Line spacing / Tab spacing"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Width:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Active Line Color"
-msgstr ""
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
@@ -1634,6 +1515,120 @@ msgstr ""
 msgid "Block"
 msgstr ""
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right Edge"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#: dlgSynEditOptions.dfm
+msgid "Edge Column:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Gutter"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#: dlgSynEditOptions.dfm
+msgid "Autosize"
+msgstr "حجم تلقائي"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show line numbers"
+msgstr "عرض أرقام الأسطر"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show leading zeros"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Visible"
+msgstr "ظاهر"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#: dlgSynEditOptions.dfm
+msgid "Start at zero"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#: dlgSynEditOptions.dfm
+msgid "Gutter gradient visible"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#: dlgSynEditOptions.dfm
+msgid "Gutter Gradient"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Caption
+#. PageSetupDlg..ActionList1..FontCmd..Hint
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+msgid "Font"
+msgstr "الخط"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks"
+msgstr "إشارات مرجعية"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmark keys"
+msgstr "مفاتيح الإشارات المرجعية"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#: dlgSynEditOptions.dfm
+msgid "Bookmarks visible"
+msgstr "الإشارات المرجعية ظاهرة"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Font"
+msgstr "خط المحرر"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Line spacing / Tab spacing"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#: dlgSynEditOptions.dfm
+msgid "Extra Lines:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Width:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Active Line Color"
+msgstr ""
+
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply to all editors"
@@ -1656,71 +1651,6 @@ msgstr "الهوامش والخيارات"
 #. PageSetupDlg..TabControl..tbHeaderFooter..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
-msgstr ""
-
-#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
-#: dlgSynPageSetup.dfm
-msgid "Left:"
-msgstr "يسار:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
-#: dlgSynPageSetup.dfm
-msgid "Right:"
-msgstr "يمين:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
-#: dlgSynPageSetup.dfm
-msgid "Top:"
-msgstr "فوق:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
-#: dlgSynPageSetup.dfm
-msgid "Bottom:"
-msgstr "تحت:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
-#: dlgSynPageSetup.dfm
-msgid "Units:"
-msgstr "الوحدات:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
-#: dlgSynPageSetup.dfm
-msgid "Header:"
-msgstr ""
-
-#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
-#: dlgSynPageSetup.dfm
-msgid "Footer:"
-msgstr ""
-
-#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
-#: dlgSynPageSetup.dfm
-msgid "Mirror margins"
-msgstr "عكس الهامش"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
-#: dlgSynPageSetup.dfm
-msgid "Line numbers"
-msgstr "أرقام الأسطر"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
-#: dlgSynPageSetup.dfm
-msgid "Print line numbers in margin"
-msgstr "طباعة أرقام الأسطر في الهامش"
-
-#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
-#: dlgSynPageSetup.dfm
-msgid "Syntax print"
-msgstr "طباعة تركيب الجمل"
-
-#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
-#: dlgSynPageSetup.dfm
-msgid "Use colors"
-msgstr ""
-
-#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
-#: dlgSynPageSetup.dfm
-msgid "Wrap lines"
 msgstr ""
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
@@ -1797,6 +1727,96 @@ msgstr ""
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line above"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left:"
+msgstr "يسار:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right:"
+msgstr "يمين:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
+#: dlgSynPageSetup.dfm
+msgid "Top:"
+msgstr "فوق:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
+#: dlgSynPageSetup.dfm
+msgid "Bottom:"
+msgstr "تحت:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
+#: dlgSynPageSetup.dfm
+msgid "Units:"
+msgstr "الوحدات:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
+#: dlgSynPageSetup.dfm
+msgid "Header:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
+#: dlgSynPageSetup.dfm
+msgid "Footer:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..Label8..Caption
+#: dlgSynPageSetup.dfm
+msgid "Internal Margin:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..Label9..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left Text Indent:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..Label10..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right Text Indent:"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
+#: dlgSynPageSetup.dfm
+msgid "Mirror margins"
+msgstr "عكس الهامش"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
+#: dlgSynPageSetup.dfm
+msgid "Line numbers"
+msgstr "أرقام الأسطر"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
+#: dlgSynPageSetup.dfm
+msgid "Print line numbers in margin"
+msgstr "طباعة أرقام الأسطر في الهامش"
+
+#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
+#: dlgSynPageSetup.dfm
+msgid "Syntax print"
+msgstr "طباعة تركيب الجمل"
+
+#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
+#: dlgSynPageSetup.dfm
+msgid "Use colors"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
+#: dlgSynPageSetup.dfm
+msgid "Wrap lines"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
+#: dlgSynPageSetup.dfm
+msgid "Inches"
+msgstr ""
+
+#. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
+#: dlgSynPageSetup.dfm
+msgid "(1/1000) Inches"
 msgstr ""
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
