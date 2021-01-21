@@ -25,6 +25,7 @@ Uses
   Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.ImgList,
+  Vcl.Themes,
   DDetours;
 
 {$REGION 'Fix TWICImage - https://quality.embarcadero.com/browse/RSP-26621'}
@@ -239,7 +240,7 @@ begin
       BorderStyle := bsDialog;
       Caption := ACaption;
       ClientWidth := MulDiv(180 , DialogUnits.X, 4) + MaxPromptWidth;  //KV
-      if IsCustomStyleActive then
+      if TStyleManager.IsCustomStyleActive then
         ClientWidth := ClientWidth + 4;
       PopupMode := pmAuto;
       Position := poScreenCenter;
@@ -266,7 +267,7 @@ begin
           Top := Prompt.Top + Prompt.Height - DialogUnits.Y -
             (GetTextBaseline(Edit, Canvas) - GetTextBaseline(Prompt, Canvas));
           Width := Form.ClientWidth - Left - MulDiv(8, DialogUnits.X, 4);
-          if IsCustomStyleActive then
+          if TStyleManager.IsCustomStyleActive then
             Width := Width - 4;
           MaxLength := 255;
           Text := AValues[I];
@@ -278,7 +279,7 @@ begin
       ButtonTop := Edit.Top + Edit.Height + MulDiv(15, LPPI, 96); //KV
       ButtonWidth := MulDiv(50, DialogUnits.X, 4);
       ButtonHeight := DialogUnits.Y + MulDiv(6, LPPI, 96);  //MulDiv(14, DialogUnits.Y, 8);
-      if IsCustomStyleActive then
+      if TStyleManager.IsCustomStyleActive then
         ButtonsRightOffset := 4
       else
         ButtonsRightOffset := 0;
