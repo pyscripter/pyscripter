@@ -38,7 +38,6 @@ uses
   SpTBXControls,
   SpTBXItem,
   VirtualTrees,
-  PythonEngine,
   cPyControl;
 
 type

@@ -93,7 +93,6 @@ uses
   System.Math,
   Vcl.Themes,
   JvJVCLUtils,
-  PythonEngine,
   JvGnugettext,
   StringResources,
   uEditAppIntfs,

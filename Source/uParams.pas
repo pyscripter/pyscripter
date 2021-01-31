@@ -66,7 +66,6 @@ uses
   JclSysInfo,
   MPShellUtilities,
   PythonVersions,
-  VarPyth,
   JvGnugettext,
   StringResources,
   dmCommands,

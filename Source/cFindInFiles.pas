@@ -249,7 +249,6 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   uEditAppIntfs,
-  VarPyth,
   dlgFindResultsOptions,
   cProjectClasses,
   dmCommands,

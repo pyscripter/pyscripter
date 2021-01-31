@@ -1381,7 +1381,6 @@ uses
   SynCompletionProposal,
   PythonEngine,
   PythonVersions,
-  VarPyth,
   JvGnugettext,
   StringResources,
   uCmdLine,
