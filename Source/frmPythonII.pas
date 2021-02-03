@@ -269,22 +269,15 @@ end;
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;
   var Data: string);
 Var
-  SaveThreadState: PPyThreadState;
   Res : Boolean;
 begin
   with GetPythonEngine do begin
-    SaveThreadState := PyEval_SaveThread();
-    try
-      Res := SyncWideInputQuery('PyScripter - Input requested', 'Input:', Data);
-    finally
-      PyEval_RestoreThread(SaveThreadState);
-    end;
-  end;
-  if not Res then
-    with GetPythonEngine do
+    Res := SyncWideInputQuery('PyScripter - Input requested', 'Input:', Data);
+    if not Res then
       PyErr_SetString(PyExc_KeyboardInterrupt^, 'Operation cancelled')
-  else
-    Data := Data + #10;
+    else
+      Data := Data + #10;
+  end;
 end;
 
 procedure TPythonIIForm.PythonIOSendData(Sender: TObject; const Data: string);
