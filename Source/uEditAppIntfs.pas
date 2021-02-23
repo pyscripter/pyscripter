@@ -128,6 +128,8 @@ type
     function GetViewFactory(Index: integer): IEditorViewFactory;
     procedure SetupEditorViewMenu;
     procedure UpdateEditorViewMenu;
+    procedure LockList;
+    procedure UnlockList;
     //procedure GetRegisteredViewFactory(ViewName : string):IEditorViewFactory;
     property Count : integer read GetEditorCount;
     property Editor[Index: integer]: IEditor read GetEditor;  default;
@@ -189,8 +191,7 @@ type
     procedure AddMessage(const Msg: string; const FileName : string = '';
        Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback(SkipFrames : integer = 1; ShowWindow : Boolean = False);
-    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0; ShowWindow : Boolean = False);
+    procedure ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames : integer = 1; ShowWindow : Boolean = False);
   end;
 
   IUnitTestServices = interface
@@ -263,7 +264,10 @@ type
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
     procedure ReinitInterpreter;
     function GetPythonIO: TPythonInputOutput;
+    function GetShowOutput: boolean;
+    procedure SetShowOutput(const Value: boolean);
     property PythonIO: TPythonInputOutput read GetPythonIO;
+    property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
   end;
 
 var

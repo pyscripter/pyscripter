@@ -102,6 +102,7 @@ type
     fInterpreterCapabilities : TInterpreterCapabilities;
     fEngineType : TPythonEngineType;
     fMainModule : TModuleProxy;
+    fCanDoPostMortem : Boolean;
     procedure CreateMainModule; virtual; abstract;
     function SystemTempFolder: string; virtual;
   public
@@ -115,12 +116,12 @@ type
     procedure StringsToSysPath(Strings : TStrings); virtual; abstract;
     // NameSpace
     function GetGlobals : TBaseNameSpaceItem; virtual; abstract;
-    procedure GetModulesOnPath(Path : Variant; SL : TStrings); virtual; abstract;
+    procedure GetModulesOnPath(const Path : Variant; SL : TStrings); virtual; abstract;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; virtual; abstract;
     // Service routines
-    procedure HandlePyException(E : EPythonError; SkipFrames : integer = 1); virtual;
+    procedure HandlePyException(Traceback: TPythonTraceback; ErrorMsg : string; SkipFrames : integer = 1); virtual;
     procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure ReInitialize; virtual;
@@ -140,6 +141,7 @@ type
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
     property MainModule : TModuleProxy read GetMainModule;
+    property CanDoPostMortem: Boolean read fCanDoPostMortem write fCanDoPostMortem;
   end;
 
   TThreadChangeType = (tctAdded, tctRemoved, tctStatusChange);
@@ -194,7 +196,7 @@ type
     function GetDocString: string; override;
     function GetCodeHint : string; override;
   public
-    constructor CreateFromModule(AModule : Variant; aPyInterpreter : TPyBaseInterpreter);
+    constructor CreateFromModule(const AModule : Variant; aPyInterpreter : TPyBaseInterpreter);
     procedure Expand;
     procedure GetNameSpace(SList : TStringList); override;
     property PyModule : Variant read fPyModule;
@@ -209,7 +211,7 @@ type
   protected
     function GetDocString: string; override;
   public
-    constructor CreateFromClass(AName : string; AClass : Variant);
+    constructor CreateFromClass(AName : string; const AClass : Variant);
     function GetConstructor : TParsedFunction; override;
     procedure Expand;
     procedure GetNameSpace(SList : TStringList); override;
@@ -224,7 +226,7 @@ type
   protected
     function GetDocString: string; override;
   public
-    constructor CreateFromFunction(AName : string; AFunction : Variant);
+    constructor CreateFromFunction(AName : string; const AFunction : Variant);
     procedure Expand;
     function ArgumentsString : string; override;
     procedure GetNameSpace(SList : TStringList); override;
@@ -240,7 +242,7 @@ type
     function GetDocString: string; override;
     function GetCodeHint : string; override;
   public
-    constructor CreateFromPyObject(const AName : string; AnObject : Variant);
+    constructor CreateFromPyObject(const AName : string; const AnObject : Variant);
     procedure Expand;
     procedure GetNameSpace(SList : TStringList); override;
     property PyObject : Variant read fPyObject;
@@ -292,6 +294,7 @@ uses
   StringResources,
   uCommonFunctions,
   cPyControl,
+  cInternalPython,
   cPyDebugger,
   cPyScripterSettings,
   cSSHSupport;
@@ -367,15 +370,15 @@ begin
   Result := fMainModule;
 end;
 
-procedure TPyBaseInterpreter.HandlePyException(E: EPythonError; SkipFrames : integer = 1);
+procedure TPyBaseInterpreter.HandlePyException(Traceback: TPythonTraceback; ErrorMsg : string; SkipFrames : integer = 1);
 Var
   TI : TTracebackItem;
   FileName : string;
   Editor : IEditor;
 begin
-  GI_PyIDEServices.Messages.ShowPythonTraceback(SkipFrames);
-  GI_PyIDEServices.Messages.AddMessage(E.Message);
-  with GetPythonEngine.Traceback do begin
+  GI_PyIDEServices.Messages.ShowPythonTraceback(Traceback, SkipFrames);
+  GI_PyIDEServices.Messages.AddMessage(ErrorMsg);
+  with Traceback do begin
     if ItemCount > 0 then begin
       TI := Items[ItemCount -1];
       FileName := FromPythonFileName(TI.FileName);
@@ -387,7 +390,7 @@ begin
         if GI_PyIDEServices.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
           Assigned(GI_ActiveEditor)
         then
-          PyControl.DoErrorPosChanged(TEditorPos.NPos(GI_ActiveEditor, TI.LineNo));
+          PyControl.ErrorPos := TEditorPos.NPos(GI_ActiveEditor, TI.LineNo);
       end;
     end;
   end;
@@ -400,7 +403,7 @@ begin
     RunScript(TPyScripterSettings.EngineInitFile);
   except
     on E: Exception do
-      Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
+      StyledMessageDlg(Format(_(SErrorInitScript),
         [TPyScripterSettings.EngineInitFile, E.Message]), mtError, [mbOK], 0);
   end;
 end;
@@ -493,11 +496,13 @@ end;
 { TModuleProxy }
 
 procedure TModuleProxy.Expand;
-Var
+var
+  Py: IPyEngineAndGIL;
   i : integer;
   VariableProxy : TVariableProxy;
   NS, ChildNS : TBaseNameSpaceItem;
 begin
+  Py := SafePyEngine;
   if Name = '__main__' then begin
     if Assigned(fChildren) then fChildren.Clear;
     fGlobals.Clear;
@@ -524,9 +529,12 @@ begin
   fIsExpanded := True;
 end;
 
-constructor TModuleProxy.CreateFromModule(AModule: Variant; aPyInterpreter : TPyBaseInterpreter);
+constructor TModuleProxy.CreateFromModule(const AModule: Variant; aPyInterpreter : TPyBaseInterpreter);
+var
+  Py: IPyEngineAndGIL;
 begin
   inherited Create;
+  Py := SafePyEngine;
   if not VarIsPython(AModule) or (AModule.__class__.__name__ <> 'module') then
     Raise Exception.Create('TModuleProxy creation error');
   Name := AModule.__name__;
@@ -561,9 +569,11 @@ begin
 end;
 
 function TModuleProxy.GetDocString: string;
-Var
+var
+  Py: IPyEngineAndGIL;
   PyDocString : Variant;
 begin
+  Py := SafePyEngine;
   PyDocString := Import('inspect').getdoc(fPyModule);
   if not VarIsNone(PyDocString) then
     Result := PyDocString
@@ -582,13 +592,15 @@ end;
 { TClassProxy }
 
 procedure TClassProxy.Expand;
-Var
+var
+  Py: IPyEngineAndGIL;
   i : integer;
   VariableProxy : TVariableProxy;
   NS, ChildNS : TBaseNameSpaceItem;
 begin
   if fIsExpanded then Exit;
 
+  Py := SafePyEngine;
   NS := (GetModule as TModuleProxy).Interpreter.NameSpaceItemFromPyObject(Name, fPyClass);
   NS.ExpandCommonTypes := True;
   NS.ExpandSequences := False;
@@ -620,8 +632,11 @@ begin
   fIsExpanded := True;
 end;
 
-constructor TClassProxy.CreateFromClass(AName : string; AClass: Variant);
+constructor TClassProxy.CreateFromClass(AName : string; const AClass: Variant);
+var
+  Py: IPyEngineAndGIL;
 begin
+  Py := SafePyEngine;
   inherited Create;
   if not VarIsPythonClass(AClass) then
     Raise Exception.Create('TClassProxy creation error');
@@ -645,9 +660,11 @@ begin
 end;
 
 function TClassProxy.GetDocString: string;
-Var
+var
+  Py: IPyEngineAndGIL;
   PyDocString : Variant;
 begin
+  Py := SafePyEngine;
   PyDocString := Import('inspect').getdoc(fPyClass);
   if not VarIsNone(PyDocString) then
     Result := PyDocString
@@ -664,15 +681,20 @@ end;
 { TFunctionProxy }
 
 function TFunctionProxy.ArgumentsString: string;
+var
+  Py: IPyEngineAndGIL;
 begin
+  Py := SafePyEngine;
   Result := TPyInternalInterpreter(PyControl.InternalInterpreter).
     PyInteractiveInterpreter.get_arg_text(fPyFunction).__getitem__(0);
 end;
 
-constructor TFunctionProxy.CreateFromFunction(AName : string; AFunction: Variant);
+constructor TFunctionProxy.CreateFromFunction(AName : string; const AFunction: Variant);
 var
+  Py: IPyEngineAndGIL;
   InspectModule : Variant;
 begin
+  Py := SafePyEngine;
   inherited Create;
   InspectModule := Import('inspect');
   if InspectModule.isroutine(AFunction) then begin
@@ -686,7 +708,8 @@ begin
 end;
 
 procedure TFunctionProxy.Expand;
-Var
+var
+  Py: IPyEngineAndGIL;
   i : integer;
   NoOfArgs : integer;
   Variable : TVariable;
@@ -694,6 +717,7 @@ Var
 begin
   if fIsExpanded then Exit;
 
+  Py := SafePyEngine;
   NS := (GetModule as TModuleProxy).Interpreter.NameSpaceItemFromPyObject(Name, fPyFunction);
   NS.ExpandCommonTypes := True;
   NS.ExpandSequences := False;
@@ -731,9 +755,11 @@ begin
 end;
 
 function TFunctionProxy.GetDocString: string;
-Var
+var
+  Py: IPyEngineAndGIL;
   PyDocString : Variant;
 begin
+  Py := SafePyEngine;
   PyDocString := Import('inspect').getdoc(fPyFunction);
   if not VarIsNone(PyDocString) then
     Result := PyDocString
@@ -749,8 +775,11 @@ end;
 
 { TVariableProxy }
 
-constructor TVariableProxy.CreateFromPyObject(const AName: string; AnObject: Variant);
+constructor TVariableProxy.CreateFromPyObject(const AName: string; const AnObject: Variant);
+var
+  Py: IPyEngineAndGIL;
 begin
+  Py := SafePyEngine;
   inherited Create;
   Name := AName;
   fPyObject := AnObject;
@@ -765,12 +794,14 @@ begin
 end;
 
 procedure TVariableProxy.Expand;
-Var
+var
+  Py: IPyEngineAndGIL;
   i : integer;
   NS, ChildNS : TBaseNameSpaceItem;
 begin
   if fIsExpanded then Exit;
 
+  Py := SafePyEngine;
   NS := (GetModule as TModuleProxy).Interpreter.NameSpaceItemFromPyObject(Name, fPyObject);
   NS.ExpandCommonTypes := True;
   NS.ExpandSequences := False;
@@ -795,9 +826,11 @@ begin
 end;
 
 function TVariableProxy.GetDocString: string;
-Var
+var
+  Py: IPyEngineAndGIL;
   PyDocString : Variant;
 begin
+  Py := SafePyEngine;
   PyDocString := Import('inspect').getdoc(fPyObject);
   if not VarIsNone(PyDocString) then
     Result := PyDocString
@@ -806,7 +839,8 @@ begin
 end;
 
 function TVariableProxy.GetCodeHint: string;
-Var
+var
+  Py: IPyEngineAndGIL;
   Fmt, ObjType : string;
 begin
   if Parent is TParsedFunction then
@@ -818,6 +852,7 @@ begin
   else
     Fmt := '';
   if Fmt <> '' then begin
+    Py := SafePyEngine;
     Result := Format(Fmt,
       [Name, Parent.Name, '']);
 

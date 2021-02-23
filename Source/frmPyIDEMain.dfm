@@ -205,6 +205,7 @@ object PyIDEMainForm: TPyIDEMainForm
       OnActiveTabChange = TabControlActiveTabChange
       HiddenItems = <>
       object SpTBXRightAlignSpacerItem2: TSpTBXRightAlignSpacerItem
+        CustomWidth = 0
       end
       object SpTBXSeparatorItem13: TSpTBXSeparatorItem
       end
@@ -423,12 +424,12 @@ object PyIDEMainForm: TPyIDEMainForm
             Action = CommandsDataModule.actEditAnsi
             RadioItem = True
           end
-          object mnEditUtf8: TSpTBXItem
-            Action = CommandsDataModule.actEditUTF8
-            RadioItem = True
-          end
           object mnEditUtf8NoBom: TSpTBXItem
             Action = CommandsDataModule.actEditUTF8NoBOM
+            RadioItem = True
+          end
+          object mnEditUtf8: TSpTBXItem
+            Action = CommandsDataModule.actEditUTF8
             RadioItem = True
           end
           object mnEditUtf16LE: TSpTBXItem

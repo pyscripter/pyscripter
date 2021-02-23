@@ -34,7 +34,8 @@ type
     fGetTypeCache : TStringList;
     fSpecialPackages : TStringList;
     fSourceScanners : TInterfaceList;
-    fIsProcessingQuery : Boolean;
+    fCancelled: Boolean;
+    fProcessingLock: TRTLCriticalSection;
   public
     constructor Create;
     destructor Destroy; override;
@@ -42,6 +43,7 @@ type
     procedure ClearProxyModules;
     function InitializeQuery : Boolean;
     procedure FinalizeQuery;
+    procedure Cancel;
     function GetSource(const FName : string; var Source : string): Boolean;
     function GetParsedModule(const ModuleName : string; PythonPath : Variant) : TParsedModule;
     { given the coordates to a reference, tries to find the
@@ -72,8 +74,6 @@ type
       List : TStringList);
     function GetBuiltInName(AName : string) : TCodeElement;
     function GetFuncReturnType(FunctionCE: TParsedFunction; var ErrMsg: string): TCodeElement;
-    property
-    IsProcessingQuery : Boolean read fIsProcessingQuery write fIsProcessingQuery;
   end;
 
 var
@@ -89,6 +89,7 @@ uses
   System.Math,
   System.StrUtils,
   System.DateUtils,
+  System.SyncObjs,
   PythonEngine,
   VarPyth,
   JclStrings,
@@ -100,6 +101,7 @@ uses
   cPyScripterSettings,
   cPyDebugger,
   cPyControl,
+  cInternalPython,
   cSSHSupport;
 
 { TPyScripterRefactor }
@@ -133,12 +135,14 @@ begin
   fSpecialPackages.CaseSensitive := true;
 
   fSourceScanners := TInterfaceList.Create;
+
+  fProcessingLock.Initialize;
 end;
 
 procedure TPyScripterRefactor.FinalizeQuery;
 begin
   fSourceScanners.Clear;
-  IsProcessingQuery := False;
+  fProcessingLock.Leave;;
 end;
 
 function TPyScripterRefactor.FindDefinitionByCoordinates(const Filename: string; Line,
@@ -201,19 +205,26 @@ begin
 
 destructor TPyScripterRefactor.Destroy;
 begin
-  fPythonScanner.Free;
+  Cancel;
+  fProcessingLock.Enter;
+  try
+    fPythonScanner.Free;
 
-  ClearParsedModules;
-  fParsedModules.Free;
+    ClearParsedModules;
+    fParsedModules.Free;
 
-  ClearProxyModules;
-  fProxyModules.Free;
+    ClearProxyModules;
+    fProxyModules.Free;
 
-  fImportResolverCache.Free;
-  fGetTypeCache.Free;
+    fImportResolverCache.Free;
+    fGetTypeCache.Free;
 
-  fSpecialPackages.Free;
-  fSourceScanners.Free;
+    fSpecialPackages.Free;
+    fSourceScanners.Free;
+  finally
+    fProcessingLock.Leave;
+  end;
+  fProcessingLock.Destroy;
   inherited;
 end;
 
@@ -225,6 +236,30 @@ function TPyScripterRefactor.GetParsedModule(const ModuleName: string;
      - a possibly dotted module name existing in the Python path
 }
 { TODO : Deal Source residing in zip file etc. }
+
+  function GetProxyFromSysModule(Name: string): TParsedModule;
+  var
+    Py: IPyEngineAndGIL;
+    InSysModules : Boolean;
+    Index : integer;
+  begin
+    Result := nil;
+    Py := SafePyEngine;
+    InSysModules := SysModule.modules.__contains__(Name);
+    if InSysModules and VarIsPythonModule(SysModule.modules.__getitem__(Name)) then begin
+      // If the source file does not exist look at sys.modules to see whether it
+      // is available in the interpreter.  If yes then create a proxy module
+      Index := fProxyModules.IndexOf(Name);
+      if Index < 0 then begin
+        Index := fProxyModules.AddObject(Name,
+          TModuleProxy.CreateFromModule(SysModule.modules.__getitem__(Name),
+          PyControl.InternalInterpreter));
+        Result := fProxyModules.Objects[Index] as TParsedModule;
+      end else
+        Result := fProxyModules.Objects[Index] as TParsedModule;
+    end;
+  end;
+
 var
   Index, SpecialPackagesIndex : integer;
   FName : string;
@@ -233,12 +268,12 @@ var
   DottedModuleName : string;
   ParsedModule : TParsedModule;
   Editor : IEditor;
-  SuppressOutput : IInterface;
-  InSysModules : Boolean;
   SourceScanner : IAsyncSourceScanner;
   FAge : TDateTime;
 begin
   Result := nil;
+
+  if fCancelled then Exit;
 
   if FileExists(ModuleName) then begin
     FName := ModuleName;
@@ -255,7 +290,8 @@ begin
   if SpecialPackagesIndex >= 0 then
     // only import if it is not available
     try
-      SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+      var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+      var Py := SafePyEngine;
       if SysModule.modules.__contains__(DottedModuleName) then
       else
         Import(AnsiString(DottedModuleName));
@@ -269,6 +305,7 @@ begin
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(DottedModuleName);
     // Find the source file
     if FName = '' then begin  // No filename was provided
+      var Py := SafePyEngine;
       FNameVar := TPyInternalInterpreter(PyControl.InternalInterpreter).
         PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PythonPath);
       if not VarIsNone(FNameVar) then
@@ -277,11 +314,14 @@ begin
     if not Assigned(Editor) and (FName <> '') then
       Editor := GI_EditorFactory.GetEditorByName(FName);
 
-    if Assigned(Editor) and Editor.HasPythonFile and Assigned(Editor.SourceScanner) then
+    if Assigned(Editor) and Editor.HasPythonFile then
     begin
       SourceScanner := Editor.SourceScanner as IAsyncSourceScanner;
-      fSourceScanners.Add(SourceScanner);
-      Result := SourceScanner.ParsedModule;
+      if Assigned(SourceScanner) then
+      begin
+        fSourceScanners.Add(SourceScanner);
+        Result := SourceScanner.ParsedModule;
+      end;
     end;
   end;
 
@@ -313,21 +353,8 @@ begin
   if Result = nil then begin
     if DottedModuleName = '__main__' then
       Result := PyControl.ActiveInterpreter.MainModule
-    else begin
-      InSysModules := SysModule.modules.__contains__(DottedModuleName);
-      if InSysModules and VarIsPythonModule(SysModule.modules.__getitem__(DottedModuleName)) then begin
-        // If the source file does not exist look at sys.modules to see whether it
-        // is available in the interpreter.  If yes then create a proxy module
-        Index := fProxyModules.IndexOf(DottedModuleName);
-        if Index < 0 then begin
-          Index := fProxyModules.AddObject(DottedModuleName,
-            TModuleProxy.CreateFromModule(SysModule.modules.__getitem__(DottedModuleName),
-            PyControl.InternalInterpreter));
-          Result := fProxyModules.Objects[Index] as TParsedModule;
-        end else
-          Result := fProxyModules.Objects[Index] as TParsedModule;
-      end;
-    end;
+    else
+      Result := GetProxyFromSysModule(DottedModuleName);
   end;
 end;
 
@@ -335,11 +362,16 @@ function TPyScripterRefactor.GetSource(const FName: string;
   var Source: string): Boolean;
 var
   Editor : IEditor;
+  S: string;
 begin
   Result := False;
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
   if Assigned(Editor) then begin
-    Source := Editor.SynEdit.Text;
+    TThread.Synchronize(nil, procedure
+    begin
+      S := Editor.SynEdit.Text;
+    end);
+    Source := S;
     Result := True;
   end;
   if not Result then begin
@@ -355,6 +387,11 @@ begin
   end;
 end;
 
+procedure TPyScripterRefactor.Cancel;
+begin
+  fCancelled := True;
+end;
+
 procedure TPyScripterRefactor.ClearParsedModules;
 var
   i : integer;
@@ -368,9 +405,14 @@ procedure TPyScripterRefactor.ClearProxyModules;
 var
   i : integer;
 begin
-  for i := 0 to fProxyModules.Count - 1 do
-    fProxyModules.Objects[i].Free;
-  fProxyModules.Clear;
+  fProcessingLock.Enter;
+  try
+    for i := 0 to fProxyModules.Count - 1 do
+      fProxyModules.Objects[i].Free;
+    fProxyModules.Clear;
+  finally
+    fProcessingLock.Leave;
+  end;
 end;
 
 function TPyScripterRefactor.FindDottedDefinition(const DottedIdent: string;
@@ -744,15 +786,13 @@ end;
 
 function TPyScripterRefactor.InitializeQuery : Boolean;
 begin
-  Result :=  not IsProcessingQuery;
-  if Result then
-  begin
-    IsProcessingQuery := True;
-    //ClearParsedModules;  // Do not clear.  A check is made if Source has changed
-    fImportResolverCache.Clear;  // fresh start
-    fGetTypeCache.Clear;  // fresh start
-    Result := True;
-  end;
+  if not fProcessingLock.TryEnter then Exit(False);
+
+  //ClearParsedModules;  // Do not clear.  A check is made if Source has changed
+  fImportResolverCache.Clear;  // fresh start
+  fGetTypeCache.Clear;  // fresh start
+  fCancelled := False;
+  Result := True;
 end;
 
 procedure TPyScripterRefactor.FindReferencesByCoordinates(Filename: string;

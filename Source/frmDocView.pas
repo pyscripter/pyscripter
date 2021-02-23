@@ -96,6 +96,7 @@ uses
   StringResources,
   uCommonFunctions,
   cPyBaseDebugger,
+  cInternalPython,
   cPyControl;
 
 {$R *.dfm}
@@ -152,12 +153,14 @@ end;
 
 procedure TDocForm.UpdateView(Editor: IEditor);
 var
+  Py: IPyEngineAndGIL;
   HTML : string;
   pydoc, HTMLDoc, module : Variant;
   Cursor : IInterface;
 begin
   if not Assigned(Editor) then Exit;
 
+  Py := SafePyEngine;
   Cursor := WaitCursor;
   Application.ProcessMessages;
 

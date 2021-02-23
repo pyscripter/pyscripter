@@ -58,6 +58,7 @@ uses
   StringResources,
   dmCommands,
   cPyScripterSettings,
+  cInternalPython,
   cPyControl;
 
 {$R *.dfm}
@@ -72,6 +73,7 @@ end;
 
 procedure TDisForm.UpdateView(Editor: IEditor);
 var
+  Py: IPyEngineAndGIL;
   getdis, module : Variant;
   Cursor : IInterface;
 Const
@@ -100,6 +102,7 @@ begin
   Cursor := WaitCursor;
   Application.ProcessMessages;
 
+  Py := SafePyEngine;
   module := PyControl.ActiveInterpreter.ImportModule(Editor);
   PyControl.ActiveInterpreter.RunSource(Code, '<Getdis>', 'exec');
   getdis := PyControl.ActiveInterpreter.EvalCode('GetDis');

@@ -76,7 +76,6 @@ type
     fDaysBetweenChecks : integer;
     fMaskFPUExceptions : boolean;
     fSpecialPackages : string;
-    fUTF8inInterpreter : boolean;
     fShowCodeHints : boolean;
     fShowDebuggerHints : boolean;
     fAutoCompleteBrackets : boolean;
@@ -197,8 +196,6 @@ type
     property MaskFPUExceptions : Boolean read fMaskFPUExceptions
       write fMaskFPUExceptions default True;
     property SpecialPackages : string read fSpecialPackages write fSpecialPackages;
-    property UTF8inInterpreter : boolean read fUTF8inInterpreter
-      write fUTF8inInterpreter default True;
     property ShowCodeHints : boolean read fShowCodeHints
       write fShowCodeHints default True;
     property ShowDebuggerHints : boolean read fShowDebuggerHints
@@ -392,7 +389,6 @@ begin
       Self.fDaysBetweenChecks := DaysBetweenChecks;
       Self.fMaskFPUExceptions := MaskFPUExceptions;
       Self.fSpecialPackages := SpecialPackages;
-      Self.fUTF8inInterpreter := UTF8inInterpreter;
       Self.fShowCodeHints := ShowCodeHints;
       Self.fShowDebuggerHints := ShowDebuggerHints;
       Self.fAutoCompleteBrackets := AutoCompleteBrackets;
@@ -489,7 +485,6 @@ begin
   fDaysBetweenChecks := 7;
   fMaskFPUExceptions := True;
   fSpecialPackages := 'os';
-  fUTF8inInterpreter := True;
   fShowCodeHints := True;
   fShowDebuggerHints := True;
   fAutoCompleteBrackets := True;
@@ -874,7 +869,7 @@ begin
     UserDataPath := TPath.Combine(GetHomePath,  'PyScripter\');
     OptionsFileName := TPath.Combine(UserDataPath, 'PyScripter.ini');
     if not ForceDirectories(UserDataPath) then
-      Vcl.Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]),
+      StyledMessageDlg(Format(SAccessAppDataDir, [UserDataPath]),
       mtWarning, [mbOK], 0);
     PublicPath := TPath.Combine(TPath.GetPublicPath, 'PyScripter\');
     ColorThemesFilesDir := TPath.Combine(PublicPath, 'Highlighters');

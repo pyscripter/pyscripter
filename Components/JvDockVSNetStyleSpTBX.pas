@@ -132,7 +132,7 @@ implementation
 
 Uses
   Forms, JvDockVIDStyle, SpTBXDkPanels, SpTBXItem, JvDockGlobals,
-  JvDockSupportProc, SpTBXTabs, TB2Item, Math, Types;
+  JvDockSupportProc, SpTBXTabs, TB2Common, TB2Item, Math, Types;
 
 procedure Register;
 begin
@@ -840,7 +840,7 @@ begin
       end;
       R := SpCenterRectVert(R, Page.Images.Height);
 
-      SpDrawImageList(Canvas, R, Page.Images, Page.Pages[I].ImageIndex, True);
+      SpDrawVirtualImageList(Canvas, R, Page.Images, Page.Pages[I].ImageIndex, True);
     end;
 
     Inc(CompleteWidth, CurrTabWidth + TabSplitterWidth);
@@ -989,7 +989,7 @@ var
       SpDrawXPButton(Canvas, DrawRect, True, False, IsHot, IsChecked, False, False, FCurrentPPI);
 
       AdjustImagePos;
-      SpDrawImageList(Canvas, R, Block.ImageList, I, True);
+      SpDrawVirtualImageList(Canvas, R, Block.ImageList, I, True);
 
       if IsHot then
       begin

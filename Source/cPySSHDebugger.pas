@@ -138,14 +138,14 @@ begin
       SSHServer.ExtractHostKey(ErrorOutput) then
     begin
       // Unknown hostkey failure
-      if Vcl.Dialogs.MessageDlg(Format(_(SSHUnknownServerQuery), [SSHServer.HostKey]),
+      if StyledMessageDlg(Format(_(SSHUnknownServerQuery), [SSHServer.HostKey]),
         mtConfirmation, [mbYes, mbCancel], 0) = mrYes then
       begin
         fSSHOptions := SSHServer.SSHOptionsPW;
         CreatePythonTask;
         if not Task.Wait(SSHTimeout) then begin
           // Timeout
-          Vcl.Dialogs.MessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
+          StyledMessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
           Exit;
         end;
       end else begin
@@ -157,13 +157,13 @@ begin
       fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
   end else begin
     // Timeout
-    Vcl.Dialogs.MessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
+    StyledMessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
     Exit;
   end;
 
   if not fServerIsAvailable then begin
     SSHServer.ExtractHostKey(ErrorOutput);
-    Vcl.Dialogs.MessageDlg(Format(_(SSHPythonError),
+    StyledMessageDlg(Format(_(SSHPythonError),
       [PythonCommand, ReturnCode, CommandOutput, ErrorOutput]), mtError, [mbAbort], 0);
     Exit;
   end;
@@ -171,7 +171,7 @@ begin
   // Check for version mismatch
   if not fIs3K then
   begin
-    Vcl.Dialogs.MessageDlg(Format(_(SSHVersionMismatch), ['3.x', '2,x']),
+    StyledMessageDlg(Format(_(SSHVersionMismatch), ['3.x', '2,x']),
       mtError, [mbAbort], 0);
     Exit;
   end;
@@ -211,7 +211,7 @@ begin
 
   if (fRemServerFile = '') or (fRemRpycFile = '') then
   begin
-    Vcl.Dialogs.MessageDlg(ErrorMsg, mtError, [mbAbort], 0);
+    StyledMessageDlg(ErrorMsg, mtError, [mbAbort], 0);
     Exit;
   end;
 
@@ -376,7 +376,7 @@ begin
   case PyControl.DebuggerState of
     dsPostMortem: ExitPostMortem;
     dsDebugging,
-    dsRunning: 
+    dsRunning:
       begin
         if not TPySSHInterpreter(fRemotePython).fShuttingDown then
           TThread.ForceQueue(nil, procedure

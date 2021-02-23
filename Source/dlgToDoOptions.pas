@@ -104,6 +104,7 @@ uses
   Vcl.Dialogs,
   Vcl.Graphics,
   JvGnugettext,
+  uCommonFunctions,
   frmToDo,
   dlgDirectoryList,
   StringResources;
@@ -166,7 +167,7 @@ begin
   else
   begin
     // Warning message that an empty token is inserted
-    Vcl.Dialogs.MessageDlg(_(SEmptyTokenTextError), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SEmptyTokenTextError), mtError, [mbOK], 0);
   end;
   UpdateButtonState;
 end;

@@ -142,6 +142,7 @@ uses
   VarPyth,
   StringResources,
   uCommonFunctions,
+  cInternalPython,
   cPyBaseDebugger,
   cPyDebugger,
   cPyControl;
@@ -176,6 +177,7 @@ Var
   PyTestCase : PPyObject;
   TestCount : integer;
 begin
+  var Py := SafePyEngine;
   ClearAll;
   Editor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(Editor) then begin
@@ -206,7 +208,7 @@ begin
           Index := TestClasses.AddObject(ClassName, SL);
         end;
         PyTestCase := ExtractPythonObjectFrom(TestCase); // Store the TestCase PPyObject
-        GetPythonEngine.Py_XINCREF(PyTestCase);
+        Py.PythonEngine.Py_XINCREF(PyTestCase);
         TestName := TestCase._testMethodName;
 
         TStringList(TestClasses.Objects[Index]).AddObject(TestName, TObject(PyTestCase));
@@ -215,7 +217,7 @@ begin
     end;
 
     if TestCount = 0 then begin
-      Vcl.Dialogs.MessageDlg(_(SNoTestsFound), mtWarning, [mbOK], 0);
+      StyledMessageDlg(_(SNoTestsFound), mtWarning, [mbOK], 0);
       ClearAll;
     end else begin
       UnitTests.RootNodeCount := TestClasses.Count;
@@ -225,6 +227,10 @@ begin
       actSelectAllExecute(Self);
     end;
   end;
+  VarClear(UnitTest);
+  VarClear(Module);
+  VarClear(InnerTestSuite);
+  VarClear(TestCase);
 end;
 
 procedure TUnitTestWindow.FormActivate(Sender: TObject);
@@ -261,11 +267,12 @@ Var
   PyTestCase : PPyObject;
 begin
   UnitTests.Clear;
+  Var Py := SafePyEngine;
   for i := 0 to TestClasses.Count - 1 do begin
     SL := TStringList(TestClasses.Objects[i]);
-    for j := 0 to SL.Count - 1 do with GetPythonEngine do begin
+    for j := 0 to SL.Count - 1 do begin
       PyTestCase := PPyObject(SL.Objects[j]);
-      Py_XDECREF(PyTestCase);
+      Py.PythonEngine.Py_XDECREF(PyTestCase);
     end;
     SL.Free;
   end;
@@ -334,7 +341,7 @@ begin
       ImageIndex := 5
     else
       ImageIndex := 6;
-  end else with GetPythonEngine do begin
+  end else with SafePyEngine.PythonEngine do begin
     PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     PytestStatus := PyObject_GetAttrString(PyTestCase, 'testStatus');
     CheckError;
@@ -351,6 +358,7 @@ var
   TestCase : Variant;
 begin
   HintText := '';
+  var Py := SafePyEngine;
   if UnitTests.GetNodeLevel(Node) = 0 then begin
     if Assigned(Node.FirstChild) then begin
       PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Index]).Objects[0]);
@@ -358,12 +366,13 @@ begin
       if not VarIsNone(TestCase.__doc__) then
         HintText := FormatDocString(TestCase.__doc__);
     end;
-  end else with GetPythonEngine do begin
+  end else with Py.PythonEngine do begin
     PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     TestCase := VarPythonCreate(PyTestCase);
     if not VarIsNone(TestCase.shortDescription()) then
       HintText := TestCase.shortDescription();
   end;
+  VarClear(TestCase);
 end;
 
 procedure TUnitTestWindow.UnitTestsChecked(Sender: TBaseVirtualTree;
@@ -436,6 +445,7 @@ end;
 
 procedure TUnitTestWindow.actRunExecute(Sender: TObject);
 Var
+  Py: IPyEngineAndGIL;
   UnitTestModule, TempTestSuite : Variant;
   PyTestCase : PPyObject;
   TestCase : Variant;
@@ -445,6 +455,7 @@ begin
   // Only allow when PyControl.ActiveDebugger is inactive
   if not GI_PyControl.Inactive then Exit;
 
+  Py := SafePyEngine;
   UnitTestModule := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
 
   //  Create a TempTestSuite that contains only the checked tests
@@ -475,7 +486,7 @@ begin
 
   Status := utwRunning;
   UpdateActions;
-  PyControl.DoStateChange(dsRunning);
+  PyControl.DebuggerState := dsRunning;
   Application.ProcessMessages;
 
   TestResult := PyControl.ActiveInterpreter.UnitTestResult();
@@ -490,8 +501,10 @@ begin
       ElapsedTime := 0;
     VarClear(TestResult);
     VarClear(TempTestSuite);
+    VarClear(UnitTestModule);
+    VarClear(TestCase);
     Status := utwRun;
-    PyControl.DoStateChange(dsInactive);
+    PyControl.DebuggerState := dsInactive;
     lblRunTests.Caption := Format(RunTestsLabel,
       [TestsRun, Iff(TestsRun=1, '', 's'), Format(ElapsedTimeFormat, [ElapsedTime])]);
   end;

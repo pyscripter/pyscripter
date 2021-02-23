@@ -29,8 +29,8 @@ uses
   Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.Menus,
-  Vcl.ImgList, 
-  Vcl.VirtualImageList, 
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
   Vcl.ImageCollection,
   TB2Item,
@@ -669,7 +669,7 @@ function TProjectExplorerWindow.CanClose: boolean;
 begin
   Result := not ActiveProject.Modified;
   if not Result then begin
-    case Vcl.Dialogs.MessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
+    case StyledMessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
       mrYes : Result := DoSave;
       mrNo  : Result := True;
       mrCancel :  Result := False;
@@ -725,7 +725,7 @@ begin
     end;
   except
     on E: Exception do begin
-      Vcl.Dialogs.MessageDlg(Format(_(SErrorInOpeningProject) + sLineBreak +
+      StyledMessageDlg(Format(_(SErrorInOpeningProject) + sLineBreak +
           'Error: %s', [ActiveProject.FileName, E.Message]), mtError, [mbOK], 0);
     end;
   end;
@@ -787,7 +787,7 @@ begin
     try
       FileBackup(ActiveProject.FileName);
     except
-      Vcl.Dialogs.MessageDlg(Format(_(SFailedToBackupProject), [ActiveProject.FileName]),
+      StyledMessageDlg(Format(_(SFailedToBackupProject), [ActiveProject.FileName]),
         mtWarning, [mbOK], 0);
     end;
   end;
@@ -811,7 +811,7 @@ begin
     ExplorerTree.ReinitNode(ExplorerTree.RootNode, False);
   except
     on E: Exception do begin
-      Vcl.Dialogs.MessageDlg(Format(_(SErrorInSavingProject) + sLineBreak +
+      StyledMessageDlg(Format(_(SErrorInSavingProject) + sLineBreak +
           'Error: %s', [ActiveProject.FileName, E.Message]), mtError, [mbOK], 0);
       Result := False;
     end;
@@ -1110,7 +1110,7 @@ begin
     if Extension <> '' then begin
       Index := FileImageList.IndexOf(Extension);
       if Index < 0 then begin
-        if FileExists(FileName) then begin        
+        if FileExists(FileName) then begin
           ImageIndex := GetIconIndexFromFile(FileName, True);
           FileImageList.AddObject(Extension, TObject(ImageIndex));
         end;

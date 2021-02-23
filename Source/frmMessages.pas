@@ -83,8 +83,7 @@ type
     procedure AddMessage(const Msg: string; const FileName : string = '';
        Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback(SkipFrames : integer = 1; ShowWindow : Boolean = False);
-    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0; ShowWindow : Boolean = False);
+    procedure ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames : integer = 1; ShowWindow : Boolean = False);
   protected
     procedure StoreTopNodeIndex;
     procedure RestoreTopNodeIndex;
@@ -102,12 +101,10 @@ type
 var
   MessagesWindow: TMessagesWindow;
 
-
 implementation
 
 uses
   Vcl.Clipbrd,
-  VarPyth,
   dmCommands,
   frmPyIDEMain,
   uCommonFunctions,
@@ -200,11 +197,11 @@ begin
   Clipboard.AsText := string(MessagesView.ContentToText(tstAll, #9));
 end;
 
-procedure TMessagesWindow.ShowPythonTraceback(SkipFrames : integer; ShowWindow : Boolean);
+procedure TMessagesWindow.ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames : integer; ShowWindow : Boolean);
 Var
   i : integer;
 begin
-  with GetPythonEngine.TraceBack do begin
+  with TraceBack do begin
     if ItemCount > 0 then begin
       AddMessage('Traceback');
       for i := SkipFrames {don't show base frame} to ItemCount-1 do
@@ -213,38 +210,6 @@ begin
       end;
       if ShowWindow then ShowDockForm(Self);
     end;
-end;
-
-procedure TMessagesWindow.ShowTraceback(Traceback: Variant;
-  SkipFrames: integer; ShowWindow : Boolean);
-Var
-  i : integer;
-  CurrentTraceback : Variant;
-  CodeObject : Variant;
-  LineNo: Integer;
-begin
-  if VarIsPython(Traceback) and not VarIsNone(Traceback) then begin
-    CurrentTraceback := Traceback;
-    for i  := 1 to SkipFrames do begin
-      CurrentTraceback := CurrentTraceback.tb_next;
-      if VarIsNone(Traceback) then break;
-    end;
-    if not VarIsNone(CurrentTraceback) then begin
-      AddMessage('Traceback');
-      while not VarIsNone(CurrentTraceback) do begin
-        try
-          LineNo := CurrentTraceback.tb_lineno;
-        except
-          LineNo := 0;
-        end;
-        CodeObject := CurrentTraceback.tb_frame.f_code;
-        AddMessage('    '+CodeObject.co_name,
-          PyControl.ActiveInterpreter.FromPythonFileName(CodeObject.co_filename), LineNo);
-        CurrentTraceback := CurrentTraceback.tb_next;
-      end;
-      if ShowWindow then ShowDockForm(Self);
-    end;
-  end;
 end;
 
 procedure TMessagesWindow.ShowPythonSyntaxError(E: EPySyntaxError);

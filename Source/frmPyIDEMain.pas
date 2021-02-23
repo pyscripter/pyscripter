@@ -1415,6 +1415,7 @@ uses
   cPythonSourceScanner,
   cFilePersist,
   cCodeHint,
+  cInternalPython,
   cPyRemoteDebugger,
   cProjectClasses,
   dlgPythonVersions,
@@ -1647,7 +1648,7 @@ begin
       LocalAppStorage.DeleteSubTree('Layouts\Default');
       if Layouts.IndexOf('Default') >= 0 then
         Layouts.Delete(Layouts.IndexOf('Default'));
-      Vcl.Dialogs.MessageDlg(Format(_(SErrorLoadLayout),
+      StyledMessageDlg(Format(_(SErrorLoadLayout),
         [LocalAppStorage.IniFile.FileName]), mtError, [mbOK], 0);
     end;
     LocalAppStorage.DeleteSubTree('Layouts\Current');
@@ -1714,7 +1715,7 @@ begin
     CloseTimer.Enabled := True;
     Exit;
   end else if PyControl.DebuggerState <> dsInactive then begin
-    if Vcl.Dialogs.MessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
+    if StyledMessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
     begin
       if (PyControl.DebuggerState in [dsPaused, dsPostMortem]) or
         (PyControl.ActiveDebugger is TPyInternalDebugger) then
@@ -1736,7 +1737,7 @@ begin
   end;
 
   if OutputWindow.JvCreateProcess.State <> psReady then
-    if Vcl.Dialogs.MessageDlg(_(SKillExternalTool), mtConfirmation, [mbYes, mbCancel], 0) = mrYes
+    if StyledMessageDlg(_(SKillExternalTool), mtConfirmation, [mbYes, mbCancel], 0) = mrYes
     then begin
       OutputWindow.actToolTerminateExecute(Self);
       CanClose := True;
@@ -1782,7 +1783,7 @@ begin
       SaveEnvironment;
     except
       on E: EFileStreamError do
-        Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [AppStorage.FullFileName, E.Message]), mtError, [mbOK], 0);
+        StyledMessageDlg(Format(_(SFileSaveError), [AppStorage.FullFileName, E.Message]), mtError, [mbOK], 0);
     end;
 
     TabControl1.Toolbar.BeginUpdate;
@@ -1859,6 +1860,7 @@ begin
   VariablesWindow.ClearAll;
   UnitTestWindow.ClearAll;
   CallStackWindow.ClearAll;
+  RegExpTesterWindow.Clear;
 end;
 
 procedure TPyIDEMainForm.actNavFileExplorerExecute(Sender: TObject);
@@ -2018,7 +2020,7 @@ end;
 procedure TPyIDEMainForm.actPythonReinitializeExecute(Sender: TObject);
 begin
   if not GI_PyControl.Inactive then begin
-    if Vcl.Dialogs.MessageDlg(_(STerminateInterpreter),
+    if StyledMessageDlg(_(STerminateInterpreter),
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
   PyControl.ActiveInterpreter.ReInitialize;
@@ -2057,7 +2059,9 @@ begin
   ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
 
-  PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
+  var Py := SafePyEngine;
+  var PyModule := PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
+  VarClear(PyModule);
 
   GI_PyIDEServices.Messages.AddMessage(Format(_(SModuleImportedOK), [ActiveEditor.FileTitle]));
   ShowDockForm(MessagesWindow);
@@ -4308,7 +4312,7 @@ begin
         Ord(tkFunctionName), Ord(tkClassName):
           begin
             if not Silent then
-              Vcl.Dialogs.MessageDlg(Format(_(SFindDefinitionWarning), [Token]),
+              StyledMessageDlg(Format(_(SFindDefinitionWarning), [Token]),
                 mtInformation, [mbOK], 0);
             Exit;
           end;
@@ -4351,7 +4355,7 @@ begin
             end;
           end;
       else if not Silent then
-        Vcl.Dialogs.MessageDlg(_(SPlaceCursorOnName),
+        StyledMessageDlg(_(SPlaceCursorOnName),
           mtError, [mbOK], 0);
       end;
     end;
@@ -4427,7 +4431,7 @@ begin
             end;
           end;
       else
-        Vcl.Dialogs.MessageDlg(_(SPlaceCursorOnName), mtError, [mbOK], 0);
+        StyledMessageDlg(_(SPlaceCursorOnName), mtError, [mbOK], 0);
       end;
     end;
   end;
@@ -4790,7 +4794,7 @@ begin
     end;
 
     // This is needed to update the variables window
-    PyControl.DoStateChange(dsInactive);
+    PyControl.DebuggerState := dsInactive;
 
     // Open initial files after loading Python (#879)
     OpenInitialFiles;

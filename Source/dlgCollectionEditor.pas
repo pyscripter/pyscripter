@@ -75,7 +75,8 @@ uses
   System.Math,
   Vcl.Dialogs,
   JVBoxProcs,
-  JvGnugettext;
+  JvGnugettext,
+  uCommonFunctions;
 
 {$R *.dfm}
 
@@ -205,7 +206,7 @@ procedure TCollectionEditor.FormCloseQuery(Sender: TObject;
 begin
    CanClose := (DialogType = cetEdit) or (ModalResult = mrCancel) or (ItemList.ItemIndex >= 0);
    if not CanClose then
-      Vcl.Dialogs.MessageDlg(_('Please make a selection'), mtError, [mbOK], 0);
+      StyledMessageDlg(_('Please make a selection'), mtError, [mbOK], 0);
 end;
 
 procedure TCollectionEditor.FormDestroy(Sender: TObject);

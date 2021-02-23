@@ -9,13 +9,17 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   dlgPyIDEBase,
-  dmCommands, Vcl.StdCtrls, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList,
-  Vcl.VirtualImageList;
+  dmCommands;
 
 type
   TRemoteFileDialog = class(TPyIDEDlgBase)
@@ -49,7 +53,8 @@ implementation
 Uses
   StringResources,
   cSSHSupport,
-  JvGnugettext;
+  JvGnugettext,
+  uCommonFunctions;
 
 {$R *.dfm}
 
@@ -92,9 +97,9 @@ procedure TRemoteFileDialog.FormCloseQuery(Sender: TObject;
 begin
   CanClose := False;
   if (ModalResult = mrOK) and (edFileName.Text = '') then
-    Vcl.Dialogs.MessageDlg(_(SErrorEmptyPath), mtError, [mbAbort], 0)
+    StyledMessageDlg(_(SErrorEmptyPath), mtError, [mbAbort], 0)
   else if (ModalResult = mrOK) and (cbSSHConfigs.ItemIndex < 0) then
-    Vcl.Dialogs.MessageDlg(_(SErrorEmptySSH), mtError, [mbAbort], 0)
+    StyledMessageDlg(_(SErrorEmptySSH), mtError, [mbAbort], 0)
   else
     CanClose := True;
 end;

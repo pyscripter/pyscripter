@@ -102,6 +102,7 @@ uses
   cVirtualStringTreeHelper,
   cPyControl,
   cPySupportTypes,
+  cInternalPython,
   cPyScripterSettings;
 
 {$R *.dfm}
@@ -129,7 +130,10 @@ var
 begin
   Data := Node.GetData;
   if Assigned(Data.NameSpaceItem) then
+  begin
+    var Py := SafePyEngine;
     ChildCount := Data.NameSpaceItem.ChildCount;
+  end;
 end;
 
 procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
@@ -138,6 +142,7 @@ procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
 var
   Data, ParentData: PNodeData;
 begin
+  var Py := SafePyEngine;
   Data := Node.GetData;
   if not VariablesTree.Enabled then begin
     Data.NameSpaceItem := nil;
@@ -307,6 +312,8 @@ begin
   end else
     VariablesTree.Enabled := True;
 
+  var Py := SafePyEngine;
+
   // Get the selected frame
   CurrentFrame := CallStackWindow.GetSelectedStackFrame;
 
@@ -381,8 +388,12 @@ end;
 procedure TVariablesWindow.ClearAll;
 begin
   VariablesTree.Clear;
-  FreeAndNil(GlobalsNameSpace);
-  FreeAndNil(LocalsNameSpace);
+  if Assigned(GlobalsNameSpace) or Assigned(LocalsNameSpace) then
+  begin
+    var Py := SafePyEngine;
+    FreeAndNil(GlobalsNameSpace);
+    FreeAndNil(LocalsNameSpace);
+  end;
 end;
 
 procedure TVariablesWindow.FormActivate(Sender: TObject);

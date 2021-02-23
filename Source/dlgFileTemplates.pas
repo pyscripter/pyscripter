@@ -92,6 +92,7 @@ implementation
 uses
   SynEditHighlighter,
   JvGnugettext,
+  uCommonFunctions,
   dmCommands,
   StringResources;
 
@@ -216,7 +217,7 @@ begin
          (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
+        StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin

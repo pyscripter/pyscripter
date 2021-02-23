@@ -175,6 +175,8 @@ type
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
     procedure ReinitInterpreter;
     function GetPythonIO: TPythonInputOutput;
+    function GetShowOutput: boolean;
+    procedure SetShowOutput(const Value: boolean);
   protected
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
@@ -191,7 +193,7 @@ type
     procedure RegisterHistoryCommands;
     procedure UpdateInterpreterActions;
     procedure DoOnIdle;
-    property ShowOutput : boolean read fShowOutput write fShowOutput;
+    property ShowOutput : boolean read GetShowOutput write SetShowOutput;
     property CommandHistory : TStringList read fCommandHistory;
     property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
     property CommandHistorySize : integer read fCommandHistorySize write SetCommandHistorySize;
@@ -216,6 +218,7 @@ Uses
   frmUnitTests,
   uCommonFunctions,
   uCmdLine,
+  cInternalPython,
   cPyDebugger,
   cPyScripterSettings,
   cParameters,
@@ -386,6 +389,7 @@ procedure TPythonIIForm.PrintInterpreterBanner(AVersion: string = ''; APlatform:
 var
   S: string;
 begin
+  var Py := SafePyEngine;
   if AVersion = '' then AVersion := SysModule.version;
   if APlatform = '' then APlatform := SysModule.platform;
   AVersion := AVersion.Replace(Char($A), ' ');
@@ -602,6 +606,11 @@ begin
   Result := SynEdit;
 end;
 
+function TPythonIIForm.GetShowOutput: boolean;
+begin
+  Result := fShowOutput;
+end;
+
 procedure TPythonIIForm.SynEditProcessCommand(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
 Var
@@ -630,8 +639,6 @@ begin
 
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
-        // If we are in a code-block, but it isnt at the end of the buffer
-        // then copy it to the end ready for editing and subsequent execution
         if not IsCode then begin
            SetLength(Buffer, 0);
            AppendToPrompt(Buffer);
@@ -655,82 +662,85 @@ begin
             else
               break;
 
-            if PyIDEOptions.UTF8inInterpreter then
-              EncodedSource := UTF8BOMString + Utf8Encode(Source)
-            else
-              EncodedSource := AnsiString(Source);
-
+            EncodedSource := Utf8Encode(Source);
             // RunSource
-            NeedIndent := False;  // True denotes an incomplete statement
-            if GI_PyControl.PythonLoaded then
-            begin
-              if GI_PyControl.Running then
-                // it is dangerous to execute code while running scripts
-                // so just beep and do nothing
-                MessageBeep(MB_ICONERROR)
-              else begin
-                Match := TRegEx.Match(Source, '^\s*!(.+)');
-                if Match.Success and (EndLineN = StartLineN) then
+            ThreadPythonExec(
+              procedure
+              begin
+                NeedIndent := False;  // True denotes an incomplete statement
+                if GI_PyControl.PythonLoaded then
                 begin
-                  // System Command
-                  PyControl.ActiveInterpreter.SystemCommand(Parameters.ReplaceInText( Match.Groups[1].Value));
-                end
-                else
-                begin
-                  case PyControl.DebuggerState of
-                    dsInactive :
-                      NeedIndent :=
-                        PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>');
-                    dsPaused, dsPostMortem :
-                      NeedIndent :=
-                        PyControl.ActiveDebugger.RunSource(Source, '<interactive input>');
+                  if GI_PyControl.Running then
+                    // it is dangerous to execute code while running scripts
+                    // so just beep and do nothing
+                    MessageBeep(MB_ICONERROR)
+                  else begin
+                    Match := TRegEx.Match(Source, '^\s*!(.+)');
+                    if Match.Success and (EndLineN = StartLineN) then
+                    begin
+                      // System Command
+                      PyControl.ActiveInterpreter.SystemCommand(Parameters.ReplaceInText( Match.Groups[1].Value));
+                    end
+                    else
+                    begin
+                      case PyControl.DebuggerState of
+                        dsInactive :
+                          NeedIndent :=
+                            PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>');
+                        dsPaused, dsPostMortem :
+                          NeedIndent :=
+                            PyControl.ActiveDebugger.RunSource(Source, '<interactive input>');
+                      end;
+                    end;
                   end;
                 end;
-              end;
-            end;
+              end,
+              procedure
+              begin
+                if not NeedIndent then begin
+                  // The source code has been executed
+                  WritePendingMessages;
+                  // If the last line isnt empty, append a newline
+                  SetLength(Buffer, 0);
+                  AppendToPrompt(Buffer);
 
-            if not NeedIndent then begin
-              // The source code has been executed
-              WritePendingMessages;
-              // If the last line isnt empty, append a newline
-              SetLength(Buffer, 0);
-              AppendToPrompt(Buffer);
+                  //  Add the command executed to History
+                  Index := fCommandHistory.IndexOf(Source);
+                  if Index >= 0  then
+                    fCommandHistory.Delete(Index);
+                  FCommandHistory.Add(Source);
+                  SetCommandHistorySize(fCommandHistorySize);
+                  fCommandHistoryPointer := fCommandHistory.Count;
+                  SynEdit.Refresh;
+                end else begin
+                  // Now attempt to correct indentation
+                  CurLine := Copy(SynEdit.Lines[lineN], Length(PS2)+1, MaxInt); //!!
+                  Position := 1;
+                  Indent := '';
+                  while (Length(CurLine)>=Position) and
+                       CharInSet(CurLine[Position], [#09, #32]) do begin
+                    Indent := Indent + CurLine[Position];
+                    Inc(Position);
+                  end;
 
-              //  Add the command executed to History
-              Index := fCommandHistory.IndexOf(Source);
-              if Index >= 0  then
-                fCommandHistory.Delete(Index);
-              FCommandHistory.Add(Source);
-              SetCommandHistorySize(fCommandHistorySize);
-              fCommandHistoryPointer := fCommandHistory.Count;
-              SynEdit.Refresh;
-            end else begin
-              // Now attempt to correct indentation
-              CurLine := Copy(SynEdit.Lines[lineN], Length(PS2)+1, MaxInt); //!!
-              Position := 1;
-              Indent := '';
-              while (Length(CurLine)>=Position) and
-                   CharInSet(CurLine[Position], [#09, #32]) do begin
-                Indent := Indent + CurLine[Position];
-                Inc(Position);
-              end;
-
-              if TPyRegExpr.IsBlockOpener(CurLine) then begin
-                if eoTabsToSpaces in SynEdit.Options then
-                  Indent := Indent + StringOfChar(' ', SynEdit.TabWidth)
-                else
-                  Indent := indent + #9;
-              end else if TPyRegExpr.IsBlockCloser(CurLine) then begin
-                if (eoTabsToSpaces in SynEdit.Options) and (Length(Indent) > 0) and
-                  (Indent[Length(Indent)] <> #9)
-                then
-                  Delete(Indent, Length(Indent) - SynEdit.TabWidth + 1, SynEdit.TabWidth)
-                else
-                  Delete(Indent, Length(Indent), 1);
-              end;
-              // use ReplaceSel to ensure it goes at the cursor rather than end of buffer.
-              SynEdit.SelText := PS2 + Indent;
-            end;
+                  if TPyRegExpr.IsBlockOpener(CurLine) then begin
+                    if eoTabsToSpaces in SynEdit.Options then
+                      Indent := Indent + StringOfChar(' ', SynEdit.TabWidth)
+                    else
+                      Indent := indent + #9;
+                  end else if TPyRegExpr.IsBlockCloser(CurLine) then begin
+                    if (eoTabsToSpaces in SynEdit.Options) and (Length(Indent) > 0) and
+                      (Indent[Length(Indent)] <> #9)
+                    then
+                      Delete(Indent, Length(Indent) - SynEdit.TabWidth + 1, SynEdit.TabWidth)
+                    else
+                      Delete(Indent, Length(Indent), 1);
+                  end;
+                  // use ReplaceSel to ensure it goes at the cursor rather than end of buffer.
+                  SynEdit.SelText := PS2 + Indent;
+                end;
+                SynEdit.EnsureCursorPosVisible;
+              end);
           end;
         end;
         SynEdit.EnsureCursorPosVisible;
@@ -1140,6 +1150,11 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.SetShowOutput(const Value: boolean);
+begin
+  fShowOutput := Value;
+end;
+
 procedure TPythonIIForm.ShowWindow;
 begin
   PyIDEMainForm.ShowIDEDockForm(Self);
@@ -1440,7 +1455,7 @@ begin
       else
         fOutputMirror.Write(UTF8BOMString[1], Length(UTF8BomString));  // save in utf8 encoding
     except
-      Vcl.Dialogs.MessageDlg(Format(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
+      StyledMessageDlg(Format(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
     end;
   finally
     fCriticalSection.Leave;

@@ -693,7 +693,7 @@ var
   //Cursor: IInterface;
 begin
   if DoingSearchOrReplace then begin
-    Vcl.Dialogs.MessageDlg(_(SGrepActive), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SGrepActive), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -1101,7 +1101,7 @@ var
         Assert(TempFile.Count >= (LineResult.LineNo - 1));
       FileLine := TempFile[LineResult.LineNo - 1];
       if LineResult.Line <> FileLine then begin
-        Vcl.Dialogs.MessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
+        StyledMessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
           mtError, [mbAbort], 0);
         Abort;
       end;
@@ -1119,7 +1119,7 @@ var
         Assert(TempFile.Count >= (LineResult.LineNo - 1));
         FileLine := TempFile[LineResult.LineNo - 1];
         if LineResult.Line <> FileLine then begin
-          Vcl.Dialogs.MessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
+          StyledMessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
             mtError, [mbAbort], 0);
           Abort;
         end;
@@ -1147,7 +1147,7 @@ var
         try
           FileBackup(MatchFile);
         except
-          if Vcl.Dialogs.MessageDlg(Format(_(SCouldNotBackup), [MatchFile]), mtWarning, [mbOK, mbCancel], 0) = mrCancel then
+          if StyledMessageDlg(Format(_(SCouldNotBackup), [MatchFile]), mtWarning, [mbOK, mbCancel], 0) = mrCancel then
             Abort
           else
             Exit;
@@ -1177,7 +1177,7 @@ begin
     end;
 
     if not GetFileAsText(MatchFile, TempFile) then begin
-      if Vcl.Dialogs.MessageDlg(_(SFileSkipped) + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
+      if StyledMessageDlg(_(SFileSkipped) + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
         Abort
       else
         Exit;

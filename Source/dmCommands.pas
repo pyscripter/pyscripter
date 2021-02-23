@@ -1093,7 +1093,7 @@ begin
         GI_ActiveEditor.ActiveSynEdit.CaretXY := BufferCoord(1, LineNo);
       except
         on E: EConvertError do begin
-          Vcl.Dialogs.MessageDlg(Format(_(SNotAValidNumber), [Line]), mtError,
+          StyledMessageDlg(Format(_(SNotAValidNumber), [Line]), mtError,
             [mbAbort], 0);
         end;
       end;
@@ -1843,7 +1843,7 @@ begin
           Editor.SynEdit.Modified := True;
           // Set FileTime to zero to prevent further notifications
           TEditorForm(Editor.Form).FileTime := 0;
-          Vcl.Dialogs.MessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
+          StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
         end;
       end else if not SameDateTime(TEditorForm(Editor.Form).FileTime, FTime) then begin
         ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
@@ -1959,37 +1959,35 @@ begin
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
-    SetLength(Options, 15);
+    SetLength(Options, 14);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := _('Save files before run');
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
     Options[1].DisplayName := _('Save environment before run');
     Options[2].PropertyName := 'TimeOut';
     Options[2].DisplayName := _('Timeout for running scripts in ms');
-    Options[3].PropertyName := 'UTF8inInterpreter';
-    Options[3].DisplayName := _('UTF8 in interactive interpreter');
-    Options[4].PropertyName := 'PythonEngineType';
-    Options[4].DisplayName := _('Python engine type');
-    Options[5].PropertyName := 'PrettyPrintOutput';
-    Options[5].DisplayName := _('Pretty print output');
-    Options[6].PropertyName := 'ClearOutputBeforeRun';
-    Options[6].DisplayName := _('Clear output before run');
-    Options[7].PropertyName := 'PostMortemOnException';
-    Options[7].DisplayName := _('Post-mortem on exception');
-    Options[8].PropertyName := 'InterpreterHistorySize';
-    Options[8].DisplayName := _('Interpreter history size');
-    Options[9].PropertyName := 'SaveInterpreterHistory';
-    Options[9].DisplayName := _('Save interpreter history');
-    Options[10].PropertyName := 'ReinitializeBeforeRun';
-    Options[10].DisplayName := _('Reinitialize before run');
-    Options[11].PropertyName := 'JumpToErrorOnException';
-    Options[11].DisplayName := _('Jump to error on exception');
-    Options[12].PropertyName := 'InternalInterpreterHidden';
-    Options[12].DisplayName := _('Internal Interpreter hidden');
-    Options[13].PropertyName := 'AlwaysUseSockets';
-    Options[13].DisplayName := _('Always use sockets');
-    Options[14].PropertyName := 'TraceOnlyIntoOpenFiles';
-    Options[14].DisplayName := _('Step into open files only');
+    Options[3].PropertyName := 'PythonEngineType';
+    Options[3].DisplayName := _('Python engine type');
+    Options[4].PropertyName := 'PrettyPrintOutput';
+    Options[4].DisplayName := _('Pretty print output');
+    Options[5].PropertyName := 'ClearOutputBeforeRun';
+    Options[5].DisplayName := _('Clear output before run');
+    Options[6].PropertyName := 'PostMortemOnException';
+    Options[6].DisplayName := _('Post-mortem on exception');
+    Options[7].PropertyName := 'InterpreterHistorySize';
+    Options[7].DisplayName := _('Interpreter history size');
+    Options[8].PropertyName := 'SaveInterpreterHistory';
+    Options[8].DisplayName := _('Save interpreter history');
+    Options[9].PropertyName := 'ReinitializeBeforeRun';
+    Options[9].DisplayName := _('Reinitialize before run');
+    Options[10].PropertyName := 'JumpToErrorOnException';
+    Options[10].DisplayName := _('Jump to error on exception');
+    Options[11].PropertyName := 'InternalInterpreterHidden';
+    Options[11].DisplayName := _('Internal Interpreter hidden');
+    Options[12].PropertyName := 'AlwaysUseSockets';
+    Options[12].DisplayName := _('Always use sockets');
+    Options[13].PropertyName := 'TraceOnlyIntoOpenFiles';
+    Options[13].DisplayName := _('Step into open files only');
   end;
   with Categories[2] do begin
     DisplayName := _('Code Explorer');
@@ -2164,7 +2162,7 @@ begin
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
       except
-        Vcl.Dialogs.MessageDlg(_(SRegistryAccessDenied), mtError, [mbOK], 0);
+        StyledMessageDlg(_(SRegistryAccessDenied), mtError, [mbOK], 0);
       end;
       FreeAndNil(Reg);
     end;
@@ -2759,10 +2757,10 @@ begin
 
   if Assigned(Sender) and not ProgramVersionCheck.IsRemoteProgramVersionNewer then
     if ProgramVersionCheck.DownloadError <> '' then
-      Vcl.Dialogs.MessageDlg(_(SErrorWhileDownload) +
+      StyledMessageDlg(_(SErrorWhileDownload) +
         ProgramVersionCheck.DownloadError, mtError, [mbOK], 0)
     else
-      Vcl.Dialogs.MessageDlg(_(SCurrentVersionUptodate), mtInformation, [mbOK], 0);
+      StyledMessageDlg(_(SCurrentVersionUptodate), mtInformation, [mbOK], 0);
   PyIDEOptions.DateLastCheckedForUpdates := Now;
 end;
 

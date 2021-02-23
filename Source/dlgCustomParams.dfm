@@ -140,13 +140,6 @@ inherited CustomizeParams: TCustomizeParams
         Font.Style = []
         Font.Quality = fqClearTypeNatural
         TabOrder = 1
-        CodeFolding.GutterShapeSize = 11
-        CodeFolding.CollapsedLineColor = clGrayText
-        CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.IndentGuidesColor = clGray
-        CodeFolding.IndentGuides = True
-        CodeFolding.ShowCollapsedLine = False
-        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -201,30 +194,35 @@ inherited CustomizeParams: TCustomizeParams
       Caption = '&Add'
       Hint = 'Add item'
       ImageIndex = 4
+      ImageName = 'Item50'
       OnExecute = actAddItemExecute
     end
     object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
       ImageIndex = 0
+      ImageName = 'Item15'
       OnExecute = actDeleteItemExecute
     end
     object actMoveUp: TAction
       Caption = '&Up'
       Hint = 'Move item up'
       ImageIndex = 2
+      ImageName = 'Item48'
       OnExecute = actMoveUpExecute
     end
     object actMoveDown: TAction
       Caption = '&Down'
       Hint = 'Move item down'
       ImageIndex = 3
+      ImageName = 'Item49'
       OnExecute = actMoveDownExecute
     end
     object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
       ImageIndex = 4
+      ImageName = 'Item50'
       OnExecute = actUpdateItemExecute
     end
   end

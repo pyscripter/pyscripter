@@ -93,6 +93,7 @@ Uses
   JvGnuGetText,
   StringResources,
   uEditAppIntfs,
+  uCommonFunctions,
   cPyControl,
   PythonVersions;
 
@@ -153,7 +154,7 @@ begin
       vtPythonVersions.ReinitChildren(nil, True);
       vtPythonVersions.Selected[vtPythonVersions.GetLast] := True;
     end else
-      Vcl.Dialogs.MessageDlg(_(SPythonFindError), mtError, [mbOK], 0);
+      StyledMessageDlg(_(SPythonFindError), mtError, [mbOK], 0);
   end;
 end;
 

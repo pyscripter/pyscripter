@@ -103,7 +103,9 @@ uses
   frmVariables,
   frmWatches,
   uCommonFunctions,
-  uEditAppIntfs, cPySupportTypes;
+  uEditAppIntfs,
+  cPySupportTypes,
+  cInternalPython;
 
 {$R *.dfm}
 
@@ -122,7 +124,6 @@ procedure TCallStackWindow.UpdateCallStack;
 Var
   FirstNode : PVirtualNode;
   FrameData : PFrameData;
-  FileName : string;
   Editor : IEditor;
 begin
   if Assigned(fActiveThread) and (fActiveThread.CallStack.Count > 0) then begin
@@ -144,10 +145,9 @@ begin
 
       // Now Show the Current debugger position
       FrameData := FirstNode.GetData;
-      FileName := PyControl.ActiveInterpreter.FromPythonFileName(FrameData.FileName);
-      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FrameData.FileName);
       if Assigned(Editor) then
-        PyControl.DoCurrentPosChanged(TEditorPos.NPos(Editor, FrameData.Line));
+        PyControl.CurrentPos := TEditorPos.NPos(Editor, FrameData.Line);
     end;
   end else
     ClearAll(False);
@@ -390,6 +390,7 @@ Var
   T : TThreadInfo;
 begin
   // OutputDebugString(PChar(Format('status: %d change: %d', [Ord(Thread.Status), Ord(ChangeType)])));
+  var Py := SafePyEngine;
   case ChangeType of
     tctAdded:
       begin

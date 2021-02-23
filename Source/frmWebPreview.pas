@@ -201,17 +201,17 @@ begin
     if Editor.FileName = '' then
       (Editor as IFileCommands).ExecSave;
     if LowerCase(ExtractFileExt(Editor.FileName)) <> '.ipynb' then begin
-      MessageDlg(_(SOnlyJupyterFiles), mtError, [mbOK], 0);
+      StyledMessageDlg(_(SOnlyJupyterFiles), mtError, [mbOK], 0);
       Abort;
     end;
     try
       Import('jupyter');
     except
-      MessageDlg(_(SNoJupyter), mtError, [mbOK], 0);
+      StyledMessageDlg(_(SNoJupyter), mtError, [mbOK], 0);
       Abort;
     end;
     if OutputWindow.JvCreateProcess.State <> psReady then begin
-      MessageDlg(_(SExternalProcessRunning), mtError, [mbOK], 0);
+      StyledMessageDlg(_(SExternalProcessRunning), mtError, [mbOK], 0);
       Abort;
     end;
 

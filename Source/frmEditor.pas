@@ -19,6 +19,7 @@ uses
   System.Classes,
   System.Contnrs,
   System.ImageList,
+  System.Threading,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Menus,
@@ -195,6 +196,7 @@ type
     fCloseBracketChar: WideChar;
     fCompletionHandler : TBaseCodeCompletionHandler;
     fOldCaretY : Integer;
+    fSyntaxTask: ITask;
     procedure HandlePythonVersionChange(Sender: TObject);
     procedure CleanupCodeCompletion;
     function DoAskSaveChanges: boolean;
@@ -230,6 +232,7 @@ type
     DefaultExtension: string;
     ParentTabItem: TSpTBXTabItem;
     ParentTabControl: TSpTBXCustomTabControl;
+    [Align(8)]
     SourceScanner: IAsyncSourceScanner;
     procedure DoActivate;
     procedure DoActivateEditor(Primary: boolean = True);
@@ -366,7 +369,7 @@ uses
   frmWatches,
   frmIDEDockWin,
   uSearchHighlighter,
-
+  cInternalPython,
   cPyDebugger,
   cRefactoring,
   cCodeHint,
@@ -880,7 +883,7 @@ begin
 
   TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(FileName));
   if not ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
-    Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
+    StyledMessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
     Abort;
   end else begin
     if not LoadFileIntoWideStrings(TempFileName, fForm.SynEdit.Lines) then
@@ -914,7 +917,7 @@ begin
     Result := ScpUpload(ServerName, TempFileName, FileName, ErrorMsg);
     DeleteFile(TempFileName);
     if not Result then
-      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
+      StyledMessageDlg(Format(_(SFileSaveError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
   end;
 end;
 
@@ -1004,7 +1007,7 @@ procedure TEditor.ExecReload(Quiet: boolean = False);
 Var
   P: TBufferCoord;
 begin
-  if Quiet or not GetModified or (Vcl.Dialogs.MessageDlg(_(SFileReloadingWarning),
+  if Quiet or not GetModified or (StyledMessageDlg(_(SFileReloadingWarning),
       mtWarning, [mbYes, mbNo], 0) = mrYes) then
   begin
     P := GetSynEdit.CaretXY;
@@ -1241,6 +1244,8 @@ type
     procedure UpdateEditorViewMenu;
     function GetViewFactoryCount: Integer;
     function GetViewFactory(Index: Integer): IEditorViewFactory;
+    procedure LockList;
+    procedure UnlockList;
   private
     fEditors: TInterfaceList;
     fEditorViewFactories: TInterfaceList;
@@ -1362,6 +1367,11 @@ begin
   Result := fEditorViewFactories.Count;
 end;
 
+procedure TEditorFactory.LockList;
+begin
+  fEditors.Lock;
+end;
+
 function TEditorFactory.GetEditorByName(const Name: string): IEditor;
 Var
   i: Integer;
@@ -1369,12 +1379,17 @@ Var
 begin
   Result := nil;
   FullName := GetLongFileName(ExpandFileName(Name));
-  for i := 0 to fEditors.Count - 1 do
-    if AnsiSameText(IEditor(fEditors[i]).GetFileName, FullName) then
-    begin
-      Result := IEditor(fEditors[i]);
-      break;
-    end;
+  fEditors.Lock;
+  try
+    for i := 0 to fEditors.Count - 1 do
+      if AnsiSameText(IEditor(fEditors[i]).GetFileName, FullName) then
+      begin
+        Result := IEditor(fEditors[i]);
+        break;
+      end;
+  finally
+    fEditors.Unlock;
+  end;
 end;
 
 function TEditorFactory.GetEditorByNameOrTitle(const Name: string): IEditor;
@@ -1382,15 +1397,20 @@ Var
   i: Integer;
   Editor : IEditor;
 begin
-  Result := GetEditorByName(Name);
-  if not Assigned(Result) then
-    for i := 0 to fEditors.Count - 1 do begin
-      Editor := IEditor(fEditors[i]);
-      if (Editor.FileName = '') and AnsiSameText(Editor.GetFileTitle, Name) then
-      begin
-        Result := Editor;
-        break;
-      end;
+  fEditors.Lock;
+  try
+    Result := GetEditorByName(Name);
+    if not Assigned(Result) then
+      for i := 0 to fEditors.Count - 1 do begin
+        Editor := IEditor(fEditors[i]);
+        if (Editor.FileName = '') and AnsiSameText(Editor.GetFileTitle, Name) then
+        begin
+          Result := Editor;
+          break;
+        end;
+     end;
+   finally
+     fEditors.Unlock;
    end;
 end;
 
@@ -1461,6 +1481,11 @@ begin
   finally
     fEditorViewFactories.UnLock;
   end;
+end;
+
+procedure TEditorFactory.UnlockList;
+begin
+  fEditors.UnLock;
 end;
 
 procedure TEditorFactory.UpdateEditorViewMenu;
@@ -1537,7 +1562,7 @@ end;
 procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
   if PyControl.ErrorPos.Editor = GetEditor then
-    PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
+    PyControl.ErrorPos := TEditorPos.EmptyPos;
   fNeedToCheckSyntax := True;
 
   if Assigned(SourceScanner) then
@@ -1718,7 +1743,7 @@ begin
     Assert(fEditor <> nil);
     S := Format(_(SAskSaveChanges), [XtractFileName(fEditor.GetFileTitle)]);
 
-    case Vcl.Dialogs.MessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0,
+    case StyledMessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0,
       mbYes) of
       mrYes:
         Result := DoSave;
@@ -1812,7 +1837,7 @@ begin
     Edit := GI_EditorFactory.GetEditorByName(NewName);
     if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then
     begin
-      Vcl.Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
+      StyledMessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
       Result := False;
       Exit;
     end;
@@ -1837,7 +1862,7 @@ begin
     Edit := GI_EditorFactory.GetEditorByName(TSSHFileName.Format(Server, FileName));
     if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then
     begin
-      Vcl.Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
+      StyledMessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
       Result := False;
       Exit;
     end;
@@ -2416,7 +2441,7 @@ begin
   Result :=
     PyIDEOptions.CheckSyntaxAsYouType and fEditor.HasPythonFile and
     fSyntaxErrorPos.IsSyntax and (fSyntaxErrorPos.Editor = GetEditor) and
-    (fSyntaxErrorPos.Line < SynEdit.Lines.Count);
+    (fSyntaxErrorPos.Line <= SynEdit.Lines.Count);
 end;
 
 procedure TEditorForm.SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
@@ -2612,7 +2637,7 @@ procedure TEditorForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;
 begin
   EditorSearchOptions.InitSearch;
   if PyControl.ErrorPos.Editor = GetEditor then
-    PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
+    PyControl.ErrorPos := TEditorPos.EmptyPos;
 
   if fHotIdentInfo.HaveHotIdent then
   begin
@@ -3264,19 +3289,26 @@ begin
     SyncCodeExplorer;
 
   if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    fNeedToCheckSyntax and  PyIDEOptions.CheckSyntaxAsYouType and
+    fNeedToCheckSyntax and PyIDEOptions.CheckSyntaxAsYouType and
     (SynEdit.Lines.Count <= PyIDEOptions.CheckSyntaxLineLimit) and
-    GI_PyControl.Inactive
+    GI_PyControl.Inactive and not Assigned(fSyntaxTask)
   // do not syntax check very long files
   then
-  begin
-    TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, True);
-    if HasSyntaxError then
-      SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
-    fSyntaxErrorPos := PyControl.ErrorPos;
-    PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
-    fNeedToCheckSyntax := False;
-  end;
+    fSyntaxTask := TTask.Create(procedure
+    begin
+      Sleep(1000); // introduce a delay
+      TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, True);
+      TThread.Synchronize(nil, procedure
+      begin
+        if HasSyntaxError then
+          SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
+        fSyntaxErrorPos := PyControl.ErrorPos;
+        PyControl.ErrorPos := TEditorPos.EmptyPos;
+        fNeedToCheckSyntax := False;
+      end);
+      fSyntaxTask := nil;
+    end).Start;
+
   if HasSyntaxError then
     ParentTabItem.ImageIndex := 123
   else

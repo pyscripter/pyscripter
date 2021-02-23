@@ -116,6 +116,8 @@ uses
   dmCommands,
   frmPyIDEMain,
   frmCallStack,
+  cPySupportTypes,
+  cInternalPython,
   cPyBaseDebugger,
   cVirtualStringTreeHelper;
 
@@ -143,7 +145,11 @@ Type
 
 destructor TWatchInfo.Destroy;
 begin
-  FreeAndNil(fNS);
+  if Assigned(fNS) then
+  begin
+    var Py := SafePyEngine;
+    FreeAndNil(fNS);
+  end;
   inherited;
 end;
 
@@ -168,14 +174,17 @@ begin
   if WatchesView.GetNodeLevel(Node) = 0 then
   begin
     Assert(Integer(Node.Index) < fWatchesList.Count);
-    //Data.NS := TWatchInfo(fWatchesList[Node.Index]).fNS;
     if Assigned(Data.NS) then
+    begin
+      var Py := SafePyEngine;
       ChildCount := Data.NS.ChildCount
+    end
     else
       ChildCount := 0;
   end
   else
   begin
+    var Py := SafePyEngine;
     ParentData := Node.Parent.GetData;
     Assert(Assigned(ParentData.NS));
     Data.NS := ParentData.NS.ChildNode[Node.Index];
@@ -202,12 +211,15 @@ begin
     Assert(Integer(Node.Index) < fWatchesList.Count);
     Data.NS := TWatchInfo(fWatchesList[Node.Index]).fNS;
     if Assigned(Data.NS) then
+    begin
+      var Py := SafePyEngine;
       ChildCount := Data.NS.ChildCount
-    else
+    end else
       ChildCount := 0;
   end
   else
   begin
+    var Py := SafePyEngine;
     ParentData := ParentNode.GetData;
     Assert(Assigned(ParentData.NS));
     Data.NS := ParentData.NS.ChildNode[Node.Index];
@@ -220,6 +232,7 @@ begin
 
   // Node Text
   if Assigned(Data.NS) then begin
+     var Py := SafePyEngine;
      Data.Name := Data.NS.Name;
      Data.ObjectType := Data.NS.ObjectType;
      Data.Value := Data.NS.Value;
@@ -440,6 +453,7 @@ begin
   end else
     WatchesView.Enabled := True;
 
+  var Py := SafePyEngine;
   // Clear NameSpace Items
   for i := 0 to fWatchesList.Count - 1 do
     with TWatchInfo(fWatchesList[i]) do

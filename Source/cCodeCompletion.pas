@@ -67,6 +67,7 @@ uses
   PythonEngine,
   cPyScripterSettings,
   cPySupportTypes,
+  cInternalPython,
   cPyControl,
   cSSHSupport;
 
@@ -268,6 +269,7 @@ begin
 
   if PyScripterRefactor.InitializeQuery then
   begin
+    var Py := SafePyEngine;
     ParsedModule :=
       PyScripterRefactor.ResolveModuleImport(Module, fFileName, fPathDepth);
     if Assigned(ParsedModule) then
@@ -281,6 +283,7 @@ function TImportStatementHandler.HandleCodeCompletion(const Line,
   HighlighterAttr: TSynHighlighterAttributes; out InsertText,
   DisplayText: string): Boolean;
 Var
+  Py: IPyEngineAndGIL;
   FNameVar : Variant;
   Dir, DottedModName, Server : string;
   Match : TMatch;
@@ -289,6 +292,7 @@ begin
   Result := Match.Success;
   if Result then
   begin
+    Py := SafePyEngine;
     // autocomplete import statement
     fFileName := FileName;
     // Add the file path to the Python path - Will be automatically removed
@@ -528,8 +532,7 @@ Var
   ParsedModule, ParsedBuiltInModule: TParsedModule;
   Scope: TCodeElement;
   Def: TBaseCodeElement;
-  NameSpace, KeywordList: TStringList;
-  Keywords: Variant;
+  NameSpace: TStringList;
   PythonPathAdder : IInterface;
 begin
   fFileName := FileName;
@@ -586,19 +589,15 @@ begin
               // Class namespace not visible to class functions and nested classes  #672
               Scope := Scope.Parent as TCodeElement;
           end;
-          // builtins (could add keywords as well)
+          // builtins
           ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
           ParsedBuiltInModule.GetNamespace(NameSpace);
           if PyIDEOptions.CompleteKeywords then
           begin
-            Keywords := Import('keyword').kwlist;
-            Keywords := BuiltinModule.tuple(Keywords);
-            KeywordList := TStringList.Create;
-            try
-              GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
-              NameSpace.AddStrings(KeywordList);
-            finally
-              KeywordList.Free;
+            for var I := 0 to (Highlighter as TSynPythonSyn).Keywords.Count - 1 do
+            begin
+              if TtkTokenKind(TSynPythonSyn(Highlighter).Keywords.Objects[I]) = tkKey then
+                NameSpace.Add(TSynPythonSyn(Highlighter).Keywords[I]);
             end;
           end
         end;
@@ -735,7 +734,11 @@ type
 procedure TLiveNamespaceCompletionHandler.Finalize;
 begin
   FreeAndNil(fNameSpace);
-  FreeAndNil(fPyNameSpace);
+  if Assigned(fPyNameSpace) then
+  begin
+    var Py := SafePyEngine;
+    FreeAndNil(fPyNameSpace);
+  end;
 end;
 
 function TLiveNamespaceCompletionHandler.GetInfo(CCItem: string): string;
@@ -750,7 +753,10 @@ begin
     if not Assigned(NameSpaceItem) then
       Result := _(SPythonKeyword)
     else
+    begin
+      var Py := SafePyEngine;
       Result := GetLineRange(NameSpaceItem.DocString, 1, 20);
+    end;
   end;
 end;
 
@@ -759,11 +765,9 @@ function TLiveNamespaceCompletionHandler.HandleCodeCompletion(const Line,
   HighlighterAttr: TSynHighlighterAttributes; out InsertText,
   DisplayText: string): Boolean;
 Var
-  i, TmpX, Index, ImageIndex : integer;
+  I, TmpX, Index, ImageIndex : integer;
   lookup : string;
   NameSpaceItem : TBaseNameSpaceItem;
-  KeywordList : TStringList;
-  Keywords : Variant;
 begin
   // Clean-up of FNameSpace and FNameSpaceDict takes place in the Close event
   TmpX := Caret.Char;
@@ -782,6 +786,8 @@ begin
       lookup := ''  // Issue 478  User is typing a number
   end else
     lookup := '';  // Completion from global namespace
+
+  var Py := SafePyEngine;
   if (Index <= 0) or (lookup <> '') then begin
     if GI_PyControl.Inactive then
       fPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
@@ -799,33 +805,29 @@ begin
       fPyNameSpace.ExpandCommonTypes := True;
       fPyNameSpace.ExpandSequences := False;
     end;
-    for i := 0 to fPyNameSpace.ChildCount - 1 do begin
-      NameSpaceItem := fPyNameSpace.ChildNode[i];
+    for I := 0 to fPyNameSpace.ChildCount - 1 do begin
+      NameSpaceItem := fPyNameSpace.ChildNode[I];
       fNameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
     end;
   end;
   if (lookup = '') and PyIDEOptions.CompleteKeywords then begin
     // only add keywords to the completion of the global namespace
-    Keywords := Import('keyword').kwlist;
-    Keywords := BuiltinModule.tuple(Keywords);
-    KeywordList := TStringList.Create;
-    try
-      GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
-      fNameSpace.AddStrings(KeywordList);
-    finally
-      KeywordList.Free;
+    for I := 0 to (Highlighter as TSynPythonSyn).Keywords.Count - 1 do
+    begin
+      if TtkTokenKind(TSynPythonSyn(Highlighter).Keywords.Objects[I]) = tkKey then
+        fNameSpace.Add(TSynPythonSyn(Highlighter).Keywords[I]);
     end;
   end;
 
   fNameSpace.CustomSort(ComparePythonIdents);
 
-  for i := 0 to fNameSpace.Count - 1 do begin
-    InsertText := InsertText + fNameSpace[i];
+  for I := 0 to fNameSpace.Count - 1 do begin
+    InsertText := InsertText + fNameSpace[I];
 
-    NameSpaceItem := fNameSpace.Objects[i] as TBaseNameSpaceItem;
+    NameSpaceItem := fNameSpace.Objects[I] as TBaseNameSpaceItem;
     if not Assigned(NameSpaceItem) then
        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clHotlight}%s',
-         [Integer(TCodeImages.Keyword), fNameSpace[i]])
+         [Integer(TCodeImages.Keyword), fNameSpace[I]])
     else
     begin
       if NameSpaceItem.IsModule then
@@ -846,7 +848,7 @@ begin
       end;
       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
     end;
-    if i < fNameSpace.Count - 1 then begin
+    if I < fNameSpace.Count - 1 then begin
       DisplayText := DisplayText + #10;
       InsertText := InsertText + #10;
     end;

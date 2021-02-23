@@ -118,6 +118,7 @@ uses
   Vcl.Dialogs,
   JvGnugettext,
   uEditAppIntfs,
+  uCommonFunctions,
   frmFindResults,
   StringResources,
   cPyScripterSettings,
@@ -202,7 +203,7 @@ begin
       if Dir = '' then continue;
       DirName := ExpandFileName(Parameters.ReplaceInText(Dir));
       if not System.SysUtils.DirectoryExists(DirName) then begin
-        Vcl.Dialogs.MessageDlg(Format(_(SSearchDirectoryDoesNotExist), [DirName]), mtError, [mbOK], 0);
+        StyledMessageDlg(Format(_(SSearchDirectoryDoesNotExist), [DirName]), mtError, [mbOK], 0);
         Abort;
       end;
     end;

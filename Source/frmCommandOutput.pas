@@ -396,7 +396,7 @@ const
 begin
   // Check whether a process is still running
   if IsRunning then begin
-    Vcl.Dialogs.MessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -406,7 +406,7 @@ begin
   WorkDir := PrepareCommandLine(Tool.WorkingDirectory);
 
   if (Workdir <> '') and not DirectoryExists(WorkDir) then begin
-    Vcl.Dialogs.MessageDlg(Format(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
+    StyledMessageDlg(Format(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -666,7 +666,7 @@ procedure TOutputWindow.TimeoutTimerTimer(Sender: TObject);
 begin
   if (JvCreateProcess.State <> psReady) and Assigned(fTool) then begin
     TimeoutTimer.Enabled := False;
-    if Vcl.Dialogs.MessageDlg(Format(_(SExternalToolStillRunning),
+    if StyledMessageDlg(Format(_(SExternalToolStillRunning),
       [fTool.Caption]), mtConfirmation, [mbYes, mbNo], 0) = mrYes
     then
       actToolTerminateExecute(Sender)

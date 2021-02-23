@@ -46,7 +46,12 @@ unit cParameters;
 interface
 
 uses
-  System.UITypes, Windows, Classes, SysUtils, Dialogs, Controls;
+  Winapi.Windows,
+  System.UITypes,
+  System.Classes,
+  System.SysUtils,
+  Vcl.Dialogs,
+  Vcl.Controls;
 
 type
   (* function, that returns value of a system parameter *)
@@ -170,8 +175,12 @@ var
 implementation
 
 uses
-  TypInfo, Variants, JvGnugettext,
-  StringResources, uCommonFunctions, JclStrings;
+  System.TypInfo,
+  System.Variants,
+  JvGnugettext,
+  StringResources,
+  uCommonFunctions,
+  JclStrings;
 
 const
   WhiteSpaces: TSysCharSet = [#1..' '];
@@ -184,7 +193,7 @@ var
 begin
   AValue:= GetPropValue(AObject, APropertyName, True);
   if VarIsNull(AValue) then begin
-    Dialogs.MessageDlg(Format(_(SInvalidObjectProperty),
+    StyledMessageDlg(Format(_(SInvalidObjectProperty),
                                     [AObjectName, APropertyName]), mtError, [mbOK], 0);
     Abort;
   end else Result:= AValue;
@@ -336,7 +345,7 @@ begin
   P:= PChar(ACondition);
   Result:= ReadCondition(P);
   if P^ <> #0 then begin
-    Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
     Abort;
   end;
 end;
@@ -467,7 +476,7 @@ begin
       Inc(AText, 11);
     end
     else begin
-      Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+      StyledMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
       Abort;
     end;
     ARight:= '';
@@ -475,7 +484,7 @@ begin
   while CharInSet(AText^, WhiteSpaces) do Inc(AText);
   (* evalute condition *)
   if AOperation = '' then begin
-    Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
     Abort;
   end;
   (* compare numbers *)
@@ -506,7 +515,7 @@ var
     (* find the result *)
     IsTrue:= ReadCondition(AText);
     if AText^ <> ')' then begin
-      Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+      StyledMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
       Abort;
     end;
 
@@ -579,7 +588,7 @@ var
       (* check if someone can help us *)
       if not (ValueExists or HasQuestion or HasValue) then
         if not Assigned(FOnUnknownParameter) then begin
-          Dialogs.MessageDlg(_(SParameterNotFound), mtError, [mbOK], 0);
+          StyledMessageDlg(_(SParameterNotFound), mtError, [mbOK], 0);
           Abort;
         end else if not FOnUnknownParameter(Self, AName, Result) then
           Abort; // quiet exit after helper event
@@ -601,7 +610,7 @@ var
         Result:= TParameterFunction(Modifiers.Objects[i])(Result)
       (* check if someone can help us *)
       else if not Assigned(FOnUnknownModifier) then begin
-        Dialogs.MessageDlg(Format(_(SModifierNotFound), [AModifier]), mtError, [mbOK], 0);
+        StyledMessageDlg(Format(_(SModifierNotFound), [AModifier]), mtError, [mbOK], 0);
         Abort;
       end else if not FOnUnknownModifier(Self, AModifier, Result) then
         Abort; // quiet exit after helper event
@@ -647,7 +656,7 @@ var
           AObject:= nil
         else if Assigned(FOnUnknownObject) then Abort // quiet exit after helper event
         else begin
-          Dialogs.MessageDlg(Format(_(SPropertyNotFound),
+          StyledMessageDlg(Format(_(SPropertyNotFound),
             [AObjectName, APropertyName]), mtError, [mbOK], 0);
           Abort;
         end;
@@ -656,7 +665,7 @@ var
     end
     else if Assigned(FOnUnknownProperty) then Abort // quiet exit after helper event
     else begin
-      Dialogs.MessageDlg(Format(_(SPropertyNotFound),
+      StyledMessageDlg(Format(_(SPropertyNotFound),
         [AObjectName, APropertyName]), mtError, [mbOK], 0);
       Abort;
     end;
@@ -712,7 +721,7 @@ begin
               AObject:= nil
             else if Assigned(FOnUnknownObject) then Abort // quiet exit after helper event
             else begin
-              Dialogs.MessageDlg(Format(_(SObjectNotFound), [AObjectName]), mtError, [mbOK], 0);
+              StyledMessageDlg(Format(_(SObjectNotFound), [AObjectName]), mtError, [mbOK], 0);
               Abort;
             end;
           end

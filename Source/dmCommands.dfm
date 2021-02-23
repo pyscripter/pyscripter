@@ -2623,7 +2623,7 @@ object CommandsDataModule: TCommandsDataModule
     object actEditUTF8: TAction
       Tag = 1
       Category = 'Edit'
-      Caption = 'UTF-8'
+      Caption = 'UTF-8 with BOM'
       HelpContext = 320
       Hint = 'Use UTF-8 encoding when saving the file'
       OnExecute = actEditFileEncodingExecute
@@ -2631,7 +2631,7 @@ object CommandsDataModule: TCommandsDataModule
     object actEditUTF8NoBOM: TAction
       Tag = 2
       Category = 'Edit'
-      Caption = 'UTF-8 (No BOM)'
+      Caption = 'UTF-8'
       HelpContext = 320
       Hint = 'Use UTF-8 encoding without BOM'
       OnExecute = actEditFileEncodingExecute

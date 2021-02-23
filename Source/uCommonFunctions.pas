@@ -21,6 +21,7 @@ Uses
   Vcl.ComCtrls,
   Vcl.Graphics,
   Vcl.Forms,
+  Vcl.Dialogs,
   SynEditTypes,
   SynUnicode,
   SynEdit,
@@ -260,6 +261,12 @@ function FileIsPythonSource(FileName: string): Boolean;
 (* Simple routine to hook/detour a function *)
 procedure RedirectFunction(OrgProc, NewProc: Pointer);
 
+{ Styled MessageDlg (do not use TaskDialog) }
+function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint): Integer; overload;
+function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint; DefaultButton: TMsgDlgBtn): Integer; overload;
+
 type
   (*  Extends System.RegularExperssions.TRegEx *)
   TRegExHelper = record helper for TRegEx
@@ -367,7 +374,6 @@ Uses
   System.UITypes,
   System.IOUtils,
   System.Math,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.Themes,
   JclFileUtils,
@@ -384,6 +390,7 @@ Uses
   SynEditTextBuffer,
   VarPyth,
   PythonEngine,
+  cInternalPython,
   StringResources,
   cPyScripterSettings,
   cParameters,
@@ -1236,7 +1243,7 @@ begin
     if (PyEncoding = '') and (Lines.Count > 1) then
       PyEncoding := ParsePySourceEncoding(Lines[1]);
 
-    with GetPythonEngine do begin
+    with SafePyEngine.PythonEngine do begin
       if PyEncoding = '' then
         PyEncoding := SysModule.getdefaultencoding();
       SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
@@ -1255,7 +1262,7 @@ begin
             except
               on UnicodeEncodeError do begin
                 Result :=
-                  Vcl.Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+                  StyledMessageDlg(Format(_(SFileEncodingWarning),
                     [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
                 if Result then begin
                   EncodedString := PyUnicode_AsEncodedString(UniPy,
@@ -1281,7 +1288,7 @@ begin
         EncodedText := AnsiString(wStr);
         if InformationLossWarning then
           Result :=
-            Vcl.Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+            StyledMessageDlg(Format(_(SFileEncodingWarning),
               [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
       end;
     end;
@@ -1289,7 +1296,7 @@ begin
     EncodedText := AnsiString(wStr);
     if InformationLossWarning and not IsAnsiOnly(wStr) then begin
       Result :=
-        Vcl.Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+        StyledMessageDlg(Format(_(SFileEncodingWarning),
         [AFileName, 'ANSI']), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
     end;
   end;
@@ -1350,24 +1357,12 @@ begin
       Reader.Free;
     end;
 
-    if PyEncoding = '' then
-    begin
-      // Use default encoding: ANSI for python 2 UTF8 otherwise
-      Lines.LoadFromFile(AFileName);
-      Exit(True);
-    end;
-
-    // PyEncoding <> ''
-    if (LowerCase(PyEncoding) = 'utf-8') or (LowerCase(PyEncoding) = 'utf8') then
+    // if there is no encoding line or Python is not loaded use default encoding UTF8
+    if not GI_PyControl.PythonLoaded or (PyEncoding = '') or
+      (LowerCase(PyEncoding) = 'utf-8') or (LowerCase(PyEncoding) = 'utf8')
+    then
     begin
       Lines.LoadFromFile(AFileName, TEncoding.UTF8);
-      Exit(True);
-    end;
-
-    if not GI_PyControl.PythonLoaded then
-    begin
-      // Use default encoding: ANSI for python 2 UTF8 otherwise
-      Lines.LoadFromFile(AFileName);
       Exit(True);
     end;
 
@@ -1384,7 +1379,8 @@ begin
 
     PyWstr := nil;
     try
-      with GetPythonEngine do begin
+      var Py := SafePyEngine;
+      with Py.PythonEngine do begin
         try
             PyWstr := PyUnicode_Decode(PAnsiChar(FileText),
               Length(FileText),
@@ -1396,14 +1392,14 @@ begin
         end;
       end;
     except
-      Vcl.Dialogs.MessageDlg(Format(_(SDecodingError),
+      StyledMessageDlg(Format(_(SDecodingError),
          [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
       LoadFromString(string(FileText));
     end
 
   except
     on E: Exception do begin
-      Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [AFileName, E.Message]), mtError, [mbOK], 0);
+      StyledMessageDlg(Format(_(SFileOpenError), [AFileName, E.Message]), mtError, [mbOK], 0);
       Result := False;
     end;
   end;
@@ -1428,7 +1424,7 @@ begin
       try
         FileBackup(AFileName);
       except
-        Vcl.Dialogs.MessageDlg(Format(_(SFailedToBackupFile), [AFileName]),
+        StyledMessageDlg(Format(_(SFailedToBackupFile), [AFileName]),
           mtWarning, [mbOK], 0);
       end;
     end;
@@ -1460,7 +1456,7 @@ begin
     end;
   except
     on E: Exception do begin
-      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [AFileName, E.Message]), mtError, [mbOK], 0);
+      StyledMessageDlg(Format(_(SFileSaveError), [AFileName, E.Message]), mtError, [mbOK], 0);
       Result := False;
     end;
   end;
@@ -1493,7 +1489,7 @@ begin
     TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
     if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
     begin
-      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
+      StyledMessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
       Abort;
     end;
   end
@@ -1521,7 +1517,7 @@ begin
     TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
     if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
     begin
-      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
+      StyledMessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
       Abort;
     end;
   end
@@ -1726,7 +1722,7 @@ begin
   except
     on E: ERegularExpressionError do
       begin
-        Vcl.Dialogs.MessageDlg(Format(_(SInvalidRegularExpression), [E.Message]),
+        StyledMessageDlg(Format(_(SInvalidRegularExpression), [E.Message]),
           mtError, [mbOK], 0);
         Abort;
       end
@@ -2261,6 +2257,22 @@ begin
   if Ext = '' then
     Exit(False);
   Result := FileExtInFileFilter(Ext, PyIDEOptions.PythonFileFilter);
+end;
+
+function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint): Integer;
+begin
+  UseLatestCommonDialogs := False;
+  Result := Vcl.Dialogs.MessageDlg(Msg, DlgType, Buttons, HelpCtx);
+  UseLatestCommonDialogs := True;
+end;
+
+function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint; DefaultButton: TMsgDlgBtn): Integer;
+begin
+  UseLatestCommonDialogs := False;
+  Result := Vcl.Dialogs.MessageDlg(Msg, DlgType, Buttons, HelpCtx, DefaultButton);
+  UseLatestCommonDialogs := True;
 end;
 
 //  Regular Expressions Start

@@ -305,12 +305,10 @@
         <DCCReference Include="cInternalPython.pas"/>
         <DCCReference Include="dlgPythonVersions.pas">
             <Form>PythonVersionsDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="cSSHSupport.pas"/>
         <DCCReference Include="dlgRemoteFile.pas">
             <Form>RemoteFileDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="cPySSHDebugger.pas"/>
         <DCCReference Include="JclSysUtils.pas"/>

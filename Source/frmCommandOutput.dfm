@@ -49,7 +49,6 @@ inherited OutputWindow: TOutputWindow
   inherited BGPanel: TPanel
     Width = 552
     Height = 331
-    ExplicitLeft = -16
     ExplicitWidth = 552
     ExplicitHeight = 331
     inherited FGPanel: TPanel
@@ -130,36 +129,42 @@ inherited OutputWindow: TOutputWindow
       Caption = 'Co&py'
       Hint = 'Copy contents to Clipboard'
       ImageIndex = 0
+      ImageName = 'Item13'
       OnExecute = actCopyExecute
     end
     object actOutputFont: TAction
       Caption = 'Font...'
       Hint = 'Select font'
       ImageIndex = 5
+      ImageName = 'Item92'
       OnExecute = actOutputFontExecute
     end
     object actClearOutput: TAction
       Caption = 'Clear'
       Hint = 'Clear output'
       ImageIndex = 1
+      ImageName = 'Item15'
       OnExecute = actClearOutputExecute
     end
     object actToolTerminate: TAction
       Caption = '&Terminate'
       Hint = 'Terminate running tool (unsafe)'
       ImageIndex = 2
+      ImageName = 'Item22'
       OnExecute = actToolTerminateExecute
     end
     object actToolClose: TAction
       Caption = '&Close'
       Hint = 'Close running tool'
       ImageIndex = 3
+      ImageName = 'Item45'
       OnExecute = actToolCloseExecute
     end
     object actToolQuit: TAction
       Caption = '&Quit'
       Hint = 'Post quit message to running tool'
       ImageIndex = 4
+      ImageName = 'Item53'
       OnExecute = actToolQuitExecute
     end
     object actToolStopWaiting: TAction

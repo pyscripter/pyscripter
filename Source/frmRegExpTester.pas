@@ -110,6 +110,7 @@ type
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
+    procedure Clear;
     procedure HighlightMatches;
     procedure ClearHighlight;
   end;
@@ -126,8 +127,9 @@ uses
   JvAppIniStorage,
   VarPyth,
   dmCommands,
-  frmPythonII,
   PythonEngine,
+  uEditAppIntfs,
+  cInternalPython,
   uCommonFunctions;
 
 {$R *.dfm}
@@ -157,6 +159,31 @@ begin
   RE_SetSelBgColor(SearchText, False, SearchText.Color);
 end;
 
+procedure TRegExpTesterWindow.Clear;
+begin
+  if not (csDestroying in ComponentState) then
+  begin
+    ClearHighlight;
+    MatchText.Clear;
+    GroupsView.Clear;
+    lblMatch.Caption := _('Match');
+    SpinMatches.Value := 1;
+    SpinMatches.Enabled := False;
+    with lbStatusBar do
+    begin
+      ImageIndex := 3;
+      Caption := 'Not executed';
+    end;
+  end;
+  if GI_PyControl.PythonLoaded then
+  begin
+    var Py := SafePyEngine;
+    VarClear(RegExp);
+    VarClear(MatchObject);
+    MatchList.Clear;
+  end;
+end;
+
 procedure TRegExpTesterWindow.FormActivate(Sender: TObject);
 begin
   inherited;
@@ -175,9 +202,9 @@ end;
 
 procedure TRegExpTesterWindow.FormDestroy(Sender: TObject);
 begin
-  inherited;
-  GroupsView.Clear;
+  Clear;
   FreeAndNil(MatchList);
+  inherited;
 end;
 
 procedure TRegExpTesterWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
@@ -265,8 +292,10 @@ end;
 
 procedure TRegExpTesterWindow.SpinMatchesValueChanged(Sender: TObject);
 Var
+  Py: IPyEngineAndGIL;
   Index : Integer;
 begin
+  Py := SafePyEngine;
   Index := Trunc(SpinMatches.Value);
   if (Index > 0) and (Index <= MatchList.Count) then begin
     GroupsView.Clear;
@@ -285,21 +314,20 @@ end;
 
 procedure TRegExpTesterWindow.TIExecuteClick(Sender: TObject);
 Var
+  Py: IPyEngineAndGIL;
   re: Variant;
-  Flags : integer;
-  FindIter : Variant;
-  AdjSearchText : string;
+  Flags: integer;
+  FindIter: Variant;
+  AdjSearchText: string;
+  OutputSuppressor: IInterface;
 begin
-  MatchText.Clear;
-  GroupsView.Clear;
-  VarClear(RegExp);
-  VarClear(MatchObject);
-  MatchList.Clear;
-  ClearHighlight;
-  lblMatch.Caption := _('Match');
+  Clear;
 
   if RegExpText.Text = '' then Exit;
   if SearchText.Text = '' then Exit;
+
+  Py := SafePyEngine;
+  if not GI_PyControl.Inactive then Exit;
 
   re := Import('re');
   Flags := 0;
@@ -322,7 +350,7 @@ begin
 
   // Compile Regular Expression
   try
-    PythonIIForm.ShowOutput := false;
+    OutputSuppressor := GI_PyInterpreter.OutputSuppressor;
     RegExp := re.compile(RegExpText.Text, Flags);
   except
     on E: Exception do begin
@@ -330,7 +358,6 @@ begin
         ImageIndex := 3;
         Caption := E.Message;
       end;
-      PythonIIForm.ShowOutput := True;
       Exit;
     end;
   end;
@@ -351,7 +378,7 @@ begin
       try
         while True do begin
           MatchObject := FindIter.__next__();
-          GetPythonEngine.CheckError(True);
+          Py.PythonEngine.CheckError(True);
           MatchList.Add(MatchObject);
         end;
       except
@@ -364,7 +391,6 @@ begin
         ImageIndex := 3;
         Caption := E.Message;
       end;
-      PythonIIForm.ShowOutput := True;
       Exit;
     end;
   end;
@@ -397,8 +423,6 @@ begin
     GroupsView.RootNodeCount := len(MatchObject.groups());
     HighlightMatches;
   end;
-
-  PythonIIForm.ShowOutput := True;
 end;
 
 procedure TRegExpTesterWindow.GroupsViewGetText(Sender: TBaseVirtualTree;
@@ -406,9 +430,10 @@ procedure TRegExpTesterWindow.GroupsViewGetText(Sender: TBaseVirtualTree;
   var CellText: string);
 Var
   GroupDict, Keys : Variant;
-  var
-    i : integer;
+  i : integer;
+  Py: IPyEngineAndGIL;
 begin
+  Py := SafePyEngine;
   Assert(VarIsPython(MatchObject) and not VarIsNone(MatchObject));
   Assert(Integer(Node.Index) < len(MatchObject.groups()));
   case Column of
@@ -441,6 +466,7 @@ begin
   OldSelLen := SearchText.SelLength;
   SearchText.Lines.BeginUpdate;
   try
+    var Py := SafePyEngine;
     for VMatch in MatchList do
     begin
       SearchText.SelStart := VMatch.start();
@@ -458,19 +484,7 @@ procedure TRegExpTesterWindow.TiClearClick(Sender: TObject);
 begin
   RegExpText.Clear;
   SearchText.Clear;
-  ClearHighlight;
-  MatchText.Clear;
-  GroupsView.Clear;
-  VarClear(RegExp);
-  VarClear(MatchObject);
-  MatchList.Clear;
-  lblMatch.Caption := _('Match');
-  SpinMatches.Value := 1;
-  SpinMatches.Enabled := False;
-  with lbStatusBar do begin
-    ImageIndex := 3;
-    Caption := 'Not executed';
-  end;
+  Clear;
 end;
 
 end.

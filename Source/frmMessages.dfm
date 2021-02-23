@@ -198,24 +198,28 @@ inherited MessagesWindow: TMessagesWindow
       Caption = '&Clear all'
       Hint = 'Clear all messages'
       ImageIndex = 1
+      ImageName = 'Item15'
       OnExecute = ClearAllExecute
     end
     object actPreviousMsgs: TAction
       Caption = '&Previous Messages'
       Hint = 'Show previous messages'
       ImageIndex = 2
+      ImageName = 'Item97'
       OnExecute = actPreviousMsgsExecute
     end
     object actNextMsgs: TAction
       Caption = '&Next Messages'
       Hint = 'Show next messages'
       ImageIndex = 3
+      ImageName = 'Item98'
       OnExecute = actNextMsgsExecute
     end
     object actCopyToClipboard: TAction
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy contents to Clipboard'
       ImageIndex = 0
+      ImageName = 'Item13'
       OnExecute = actCopyToClipboardExecute
     end
   end

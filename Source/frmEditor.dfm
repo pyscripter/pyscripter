@@ -59,11 +59,13 @@ object EditorForm: TEditorForm
       end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 26
+        Top = 25
         Width = 578
-        Height = 392
+        Height = 393
         Caption = 'Source'
         ImageIndex = -1
+        ExplicitTop = 26
+        ExplicitHeight = 392
         TabItem = 'tabSource'
         object SynEdit: TSynEdit
           Left = 2

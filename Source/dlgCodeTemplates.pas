@@ -89,7 +89,8 @@ uses
   Vcl.Graphics,
   JvGnugettext,
   dmCommands,
-  StringResources;
+  StringResources,
+  uCommonFunctions;
 
 {$R *.dfm}
 
@@ -225,7 +226,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
+        StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
@@ -312,7 +313,7 @@ procedure TCodeTemplates.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if (edShortcut.Text <> '') and SynTemplate.Modified then
   begin
-    if (Vcl.Dialogs.MessageDlg(_(SCodeTemplateModified),
+    if (StyledMessageDlg(_(SCodeTemplateModified),
       mtConfirmation, [mbYes, mbNo], 0) = mrYes)
     then
       actUpdateItemExecute(Sender);

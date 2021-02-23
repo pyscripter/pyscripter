@@ -107,6 +107,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Activate selected Python version'
       ImageIndex = 7
+      ImageName = 'Item160'
       OnExecute = actPVActivateExecute
     end
     object actPVAdd: TAction
@@ -114,6 +115,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Add a new Python version'
       ImageIndex = 1
+      ImageName = 'Item50'
       OnExecute = actPVAddExecute
     end
     object actPVRemove: TAction
@@ -121,6 +123,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Remove selected Python version'
       ImageIndex = 3
+      ImageName = 'Item53'
       OnExecute = actPVRemoveExecute
     end
     object actPVTest: TAction
@@ -128,6 +131,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Test selected Python version'
       ImageIndex = 6
+      ImageName = 'Item131'
       OnExecute = actPVTestExecute
     end
     object actPVShow: TAction
@@ -135,6 +139,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Show selected Python version in Explorer'
       ImageIndex = 0
+      ImageName = 'Item3'
       OnExecute = actPVShowExecute
     end
     object actPVCommandShell: TAction
@@ -142,6 +147,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Open command prompt for the selected Python version'
       ImageIndex = 5
+      ImageName = 'Item90'
       OnExecute = actPVCommandShellExecute
     end
     object actPVHelp: TAction
@@ -149,6 +155,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Show Help'
       ImageIndex = 4
+      ImageName = 'Item72'
       OnExecute = actPVHelpExecute
     end
     object actPVRename: TAction
@@ -156,6 +163,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Rename selected Python version'
       ImageIndex = 8
+      ImageName = 'Item161'
       OnExecute = actPVRenameExecute
     end
   end

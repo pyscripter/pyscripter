@@ -74,7 +74,8 @@ uses
   Vcl.Graphics,
   JvGnugettext,
   dmCommands,
-  StringResources;
+  StringResources,
+  uCommonFunctions;
 
 {$R *.dfm}
 
@@ -178,7 +179,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
+        StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin

@@ -446,7 +446,7 @@ begin
       RightHFTextIndent := StringToFloat(EditRightHFTextIndent);
       HFInternalMargin := StringToFloat(EditHFInternalMargin);
     except
-      Vcl.Dialogs.MessageDlg(_(SInvalidNumber), mtError, [mbOk], 0);
+      StyledMessageDlg(_(SInvalidNumber), mtError, [mbOk], 0);
       CurEdit.SetFocus;
     end;
     MirrorMargins := CBMirrorMargins.Checked;

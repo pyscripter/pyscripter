@@ -331,7 +331,7 @@ begin
         Exit('');
       end
     else begin
-      Vcl.Dialogs.MessageDlg(Format(_(SInvalidParameterFormat),
+      StyledMessageDlg(Format(_(SInvalidParameterFormat),
         [Concat(AText, '-', 'DateFormat')]), mtError, [mbOK], 0);
       Abort;
     end;

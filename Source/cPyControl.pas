@@ -42,6 +42,8 @@ type
     Holds information Breakpoints, ErrorPos, CurrentPos
   }
   private
+    fCurrentPos: TEditorPos;
+    fErrorPos: TEditorPos;
     fFinalizing: Boolean;
     fBreakPointsChanged: Boolean;
     fDebuggerState: TDebuggerState;
@@ -64,6 +66,9 @@ type
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
+    procedure SetDebuggerState(NewState : TDebuggerState);
+    procedure SetCurrentPos(const NewPos : TEditorPos);
+    procedure SetErrorPos(const NewPos : TEditorPos);
     function GetPythonEngineType: TPythonEngineType;
     procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
@@ -79,8 +84,6 @@ type
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
-    ErrorPos: TEditorPos;
-    CurrentPos: TEditorPos;
     CustomPythonVersions: TPythonVersions;
 
     constructor Create(AOwner: TComponent); override;
@@ -97,9 +100,6 @@ type
       var Disabled : boolean): boolean;
     function IsExecutableLine(Editor: IEditor; ALine: integer): boolean;
     // Event processing
-    procedure DoCurrentPosChanged(NewPos : TEditorPos);
-    procedure DoErrorPosChanged(NewPos : TEditorPos);
-    procedure DoStateChange(NewState : TDebuggerState);
     procedure DoYield(DoIdle : Boolean);
     // Running Python Scripts
     procedure Run(ARunConfig : TRunConfiguration);
@@ -128,9 +128,11 @@ type
     property PythonHelpFile: string read fPythonHelpFile;
     property ActiveDebugger: TPyBaseDebugger read fActiveDebugger
       write SetActiveDebugger;
+    property CurrentPos: TEditorPos read fCurrentPos write SetCurrentPos;
+    property ErrorPos: TEditorPos read fErrorPos write SetErrorPos;
     property BreakPointsChanged : Boolean read fBreakPointsChanged
       write fBreakPointsChanged;
-    property DebuggerState: TDebuggerState read fDebuggerState;
+    property DebuggerState: TDebuggerState read fDebuggerState write SetDebuggerState;
     property RunConfig: TRunConfiguration read fRunConfig;
     property Finalizing: Boolean read fFinalizing;
     property OnBreakpointChange: TBreakpointChangeEvent read fOnBreakpointChange
@@ -159,9 +161,11 @@ uses
   Vcl.Dialogs,
   JvGnugettext,
   JvJVCLUtils,
+  PythonEngine,
   VarPyth,
   StringResources,
   uCmdLine,
+  uCommonFunctions,
   cPyScripterSettings,
   cParameters,
   cPyDebugger,
@@ -178,8 +182,8 @@ begin
   inherited;
   GI_PyControl := Self;
   fDebuggerState := dsInactive;
-  CurrentPos.Clear;
-  ErrorPos.Clear;
+  fCurrentPos.Clear;
+  fErrorPos.Clear;
   fRunConfig := TRunConfiguration.Create;
   fInternalPython := TInternalPython.Create;
   fRegPythonVersions := GetRegisteredPythonVersions;
@@ -221,7 +225,7 @@ begin
   Result := fInternalInterpreter;
   if not (InternalPython.Loaded and Assigned(fInternalInterpreter)) then
   begin
-    Vcl.Dialogs.MessageDlg(_(SInterpreterNA), mtError, [mbAbort], 0);
+    StyledMessageDlg(_(SInterpreterNA), mtError, [mbAbort], 0);
     Abort;
   end;
 end;
@@ -232,9 +236,9 @@ Var
 begin
   Result := [];
   if ALine > 0 then begin
-    if (Editor = PyControl.CurrentPos.Editor) and (ALine = PyControl.CurrentPos.Line) then
+    if (Editor = CurrentPos.Editor) and (ALine = CurrentPos.Line) then
       Include(Result, dlCurrentLine);
-    if (Editor = PyControl.ErrorPos.Editor) and (ALine = PyControl.ErrorPos.Line) then
+    if (Editor = ErrorPos.Editor) and (ALine = ErrorPos.Line) then
       Include(Result, dlErrorLine);
     if IsExecutableLine(Editor, ALine) then
       Include(Result, dlExecutableLine);
@@ -412,7 +416,10 @@ procedure TPythonControl.SetActiveDebugger(const Value: TPyBaseDebugger);
 begin
   if fActiveDebugger <> Value then begin
     if Assigned(fActiveDebugger) then
+    begin
+      var Py := SafePyEngine;
       FreeAndNil(fActiveDebugger);
+    end;
     fActiveDebugger := Value;
   end;
 end;
@@ -423,7 +430,10 @@ begin
     if Assigned(fActiveInterpreter) and
       (fActiveInterpreter <> fInternalInterpreter)
     then
+    begin
+      var Py := SafePyEngine;
       FreeAndNil(fActiveInterpreter);
+    end;
     fActiveInterpreter := Value;
   end;
 end;
@@ -475,8 +485,10 @@ begin
   then
     Exit;
 
+  var Py := SafePyEngine;
+
   if DebuggerState <> dsInactive then begin
-    Vcl.Dialogs.MessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
+    StyledMessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
     Exit;
   end;
 
@@ -500,7 +512,7 @@ begin
           SSHServer := ServerFromName(ActiveSSHServerName);
           if not Assigned(SSHServer) then
           begin
-            Vcl.Dialogs.MessageDlg(Format(_(SSHUnknownServer), [ActiveSSHServerName]),
+            StyledMessageDlg(Format(_(SSHUnknownServer), [ActiveSSHServerName]),
               mtError, [mbAbort],0);
             Exit;
           end;
@@ -553,7 +565,7 @@ begin
     GI_PyInterpreter.PrintInterpreterBanner(PythonVersion, RemotePlatform);
   GI_PyInterpreter.AppendPrompt;
 
-  DoStateChange(dsInactive);
+  DebuggerState := dsInactive;
 end;
 
 procedure TPythonControl.SetPythonVersionIndex(const Value: integer);
@@ -580,39 +592,78 @@ begin
     end;
 end;
 
-procedure TPythonControl.DoCurrentPosChanged(NewPos : TEditorPos);
+procedure TPythonControl.SetCurrentPos(const NewPos : TEditorPos);
 begin
   if Assigned(fOnCurrentPosChange) then
-    fOnCurrentPosChange(Self, CurrentPos, NewPos);
-  CurrentPos := NewPos;
+  begin
+    if (GetCurrentThreadId = MainThreadId) then
+      fOnCurrentPosChange(Self, fCurrentPos, NewPos)
+    else
+      TThread.Synchronize(nil, procedure
+      begin
+        fOnCurrentPosChange(Self, fCurrentPos, NewPos);
+      end);
+  end;
+  fCurrentPos := NewPos;
 end;
 
-procedure TPythonControl.DoErrorPosChanged(NewPos : TEditorPos);
+procedure TPythonControl.SetErrorPos(const NewPos : TEditorPos);
 begin
   if Assigned(fOnErrorPosChange) then
-    fOnErrorPosChange(Self, ErrorPos, NewPos);
-  ErrorPos := NewPos;
+  begin
+    if (GetCurrentThreadId = MainThreadId) then
+      fOnErrorPosChange(Self, fErrorPos, NewPos)
+    else
+      TThread.Synchronize(nil, procedure
+      begin
+        fOnErrorPosChange(Self, fErrorPos, NewPos);
+      end);
+  end;
+  fErrorPos := NewPos;
 end;
 
 procedure TPythonControl.DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
 begin
   fBreakPointsChanged := True;
   if Assigned(fOnBreakpointChange) then
-    fOnBreakpointChange(Self, Editor, ALine);
+  begin
+    if (GetCurrentThreadId = MainThreadId) then
+      fOnBreakpointChange(Self, Editor, ALine)
+    else
+      TThread.Synchronize(nil, procedure
+      begin
+        fOnBreakpointChange(Self, Editor, ALine);
+      end);
+  end;
 end;
 
-procedure TPythonControl.DoStateChange(NewState : TDebuggerState);
+procedure TPythonControl.SetDebuggerState(NewState : TDebuggerState);
 Var
   OldDebuggerState: TDebuggerState;
 begin
   OldDebuggerState := fDebuggerState;
   if NewState in [dsInactive, dsDebugging, dsRunning] then
-    DoCurrentPosChanged(TEditorPos.EmptyPos)
+    CurrentPos := TEditorPos.EmptyPos
   else
-    DoErrorPosChanged(TEditorPos.EmptyPos);
+    ErrorPos := TEditorPos.EmptyPos;
   fDebuggerState := NewState;
   if Assigned(fOnStateChange) then
-    fOnStateChange(Self, OldDebuggerState, NewState);
+  begin
+    if (GetCurrentThreadId = MainThreadId) then
+      fOnStateChange(Self, OldDebuggerState, NewState)
+    else
+    begin
+      TPythonThread.Py_Begin_Allow_Threads;
+      try
+        TThread.Synchronize(nil, procedure
+        begin
+          fOnStateChange(Self, OldDebuggerState, NewState);
+        end);
+      finally
+        TPythonThread.Py_End_Allow_Threads;
+      end;
+    end;
+  end;
 end;
 
 procedure TPythonControl.DoYield(DoIdle : Boolean);
@@ -681,7 +732,7 @@ begin
   if InitPythonVersions then
     LoadPythonEngine(PythonVersion)
   else
-    Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
 end;
 
 procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
@@ -691,6 +742,7 @@ begin
   if InternalPython.Loaded then
   begin
     GI_PyIDEServices.ClearPythonWindows;
+    PyScripterRefactor.Cancel;
     PyScripterRefactor.ClearProxyModules;
   end;
 
@@ -711,6 +763,11 @@ begin
     fInternalInterpreter := TPyInternalInterpreter.Create(II);
     fActiveInterpreter := fInternalInterpreter;
     fActiveDebugger := TPyInternalDebugger.Create;
+
+    // Allow threads
+    TPythonThread.Py_Begin_Allow_Threads;
+
+    // Execute python_init.py
     fInternalInterpreter.Initialize;
 
     // Execute pyscripter_init.py
@@ -718,7 +775,7 @@ begin
       fInternalInterpreter.RunScript(TPyScripterSettings.PyScripterInitFile);
     except
       on E: Exception do
-        Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
+        StyledMessageDlg(Format(_(SErrorInitScript),
           [TPyScripterSettings.PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
     end;
 
@@ -727,8 +784,9 @@ begin
 
     //  Set the current PythonEngine
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
+
   end else
-    Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
 end;
 
 procedure TPythonControl.Run(ARunConfig: TRunConfiguration);
