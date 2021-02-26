@@ -1180,11 +1180,12 @@ end;
 
 procedure TPyRemoteInterpreter.StringsToSysPath(Strings: TStrings);
 var
+  Py: IPyEngineAndGIL;
   i: Integer;
   PythonPath: Variant;
 begin
   CheckConnected;
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   // could have used Conn.deliver
   Conn.execute('__import__("sys").path = []');
   PythonPath := Conn.modules.sys.path;
@@ -1224,12 +1225,13 @@ end;
 
 procedure TPyRemoteInterpreter.SysPathToStrings(Strings: TStrings);
 var
+  Py: IPyEngineAndGIL;
   i: Integer;
   RemPath : Variant;
 begin
   CheckConnected;
 
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   RemPath := Rpyc.classic.obtain(Conn.modules.sys.path);
   for i := 0 to Len(RemPath) - 1  do
     Strings.Add(RemPath.__getitem__(i));
@@ -1300,9 +1302,10 @@ end;
 
 procedure TPyRemDebugger.EnterPostMortem;
 Var
+  Py: IPyEngineAndGIL;
   Frame, BotFrame, TraceBack : Variant;
 begin
-  var Py:= SafePyEngine;
+  Py := SafePyEngine;
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
     Exit;
 
@@ -1326,6 +1329,7 @@ end;
 
 function TPyRemDebugger.Evaluate(const Expr: string): TBaseNamespaceItem;
 Var
+  Py: IPyEngineAndGIL;
   SuppressOutput : IInterface;
   V : Variant;
 begin
@@ -1333,7 +1337,7 @@ begin
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      var Py := SafePyEngine;
+      Py := SafePyEngine;
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := fRemotePython.RPI.evalcode(Expr);
       Result := TNameSpaceItem.Create(Expr, V);
@@ -1346,6 +1350,7 @@ end;
 procedure TPyRemDebugger.Evaluate(const Expr: string; out ObjType,
   Value: string);
 Var
+  Py: IPyEngineAndGIL;
   SuppressOutput : IInterface;
   V : Variant;
 begin
@@ -1354,7 +1359,7 @@ begin
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      var Py := SafePyEngine;
+      Py := SafePyEngine;
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := fRemotePython.RPI.evalcode(Expr);
       ObjType := fRemotePython.RPI.objecttype(V);

@@ -477,9 +477,10 @@ end;
 
 procedure TPyInternalDebugger.EnterPostMortem;
 Var
+  Py: IPyEngineAndGIL;
   Frame, BotFrame, TraceBack : Variant;
 begin
-  var Py:= SafePyEngine;
+  Py:= SafePyEngine;
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
     Exit;
 
@@ -503,6 +504,7 @@ end;
 
 function TPyInternalDebugger.Evaluate(const Expr: string): TBaseNamespaceItem;
 Var
+  Py: IPyEngineAndGIL;
   SuppressOutput : IInterface;
   V : Variant;
 begin
@@ -510,7 +512,7 @@ begin
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      var Py := SafePyEngine;
+      Py := SafePyEngine;
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
       Result := TNameSpaceItem.Create(Expr, V);
@@ -522,6 +524,7 @@ end;
 
 procedure TPyInternalDebugger.Evaluate(const Expr : string; out ObjType, Value : string);
 Var
+  Py: IPyEngineAndGIL;
   SuppressOutput : IInterface;
   V : Variant;
 begin
@@ -530,7 +533,7 @@ begin
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      var Py := SafePyEngine;
+      Py := SafePyEngine;
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
       ObjType := InternalInterpreter.PyInteractiveInterpreter.objecttype(V);
@@ -1257,18 +1260,21 @@ begin
 end;
 
 procedure TPyInternalInterpreter.RestoreCommandLine;
+var
+  Py: IPyEngineAndGIL;
 begin
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   SysModule.argv := fOldargv;
 end;
 
 procedure TPyInternalInterpreter.SetCommandLine(ARunConfig : TRunConfiguration);
 var
+  Py: IPyEngineAndGIL;
   SysMod : Variant;
   S, Param : string;
   P : PChar;
 begin
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   SysMod := SysModule;
   fOldargv := SysMod.argv;
   SysMod.argv := NewPythonList;
@@ -1291,10 +1297,11 @@ end;
 
 procedure TPyInternalInterpreter.StringsToSysPath(Strings: TStrings);
 var
+  Py: IPyEngineAndGIL;
   i: Integer;
   PythonPath: Variant;
 begin
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   PythonPath := NewPythonList;
   for i := 0 to Strings.Count - 1 do
     PythonPath.append(Strings[i]);
@@ -1537,8 +1544,10 @@ begin
 end;
 
 function TPyInternalInterpreter.SysPathAdd(const Path: string): boolean;
+Var
+  Py: IPyEngineAndGIL;
 begin
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   if SysModule.path.__contains__(Path) then
     Result := false
   else begin
@@ -1548,8 +1557,10 @@ begin
 end;
 
 function TPyInternalInterpreter.SysPathRemove(const Path: string): boolean;
+Var
+  Py: IPyEngineAndGIL;
 begin
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   if SysModule.path.__contains__(Path) then begin
     Result := True;
     SysModule.path.remove(Path);
@@ -1559,9 +1570,10 @@ end;
 
 procedure TPyInternalInterpreter.SysPathToStrings(Strings: TStrings);
 var
+  Py: IPyEngineAndGIL;
   i: Integer;
 begin
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   for i := 0 to Len(SysModule.path) - 1  do
     Strings.Add(SysModule.path.__getitem__(i));
 end;

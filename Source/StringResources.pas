@@ -443,34 +443,34 @@ Const
   // do not localize further
 
 {gnugettext: reset }
-  SDebuggerHintFormat  = '<b>Name: </b> <font color="clHotlight">%s</font><br>'+
-                         '<b>Type: </b> <font color="clHotlight">%s</font><br>'+
+  SDebuggerHintFormat  = '<b>Name: </b> <font color="$FF8844">%s</font><br>'+
+                         '<b>Type: </b> <font color="$FF8844">%s</font><br>'+
                          '<b>Value:</b><br>%s<br>';
   SNamespaceFormat = 'Frame(Function: "%s" of module: "%s")';
-  SFilePosInfoCodeHint = '<br>Defined in module <a href="%s (%d:%d)"><u>%s (%d)</u></a>';
-  SDefinedInModuleCodeHint = '<br>Defined in module <font color="clHotlight">%s</font>';
-  SParsedClassCodeHint =  '<b>class <font color="clHotlight">%s</font></b>%s';
-  SInheritsFromCodeHint = '<br>Inherits from: <font color="clHotlight">%s</font>';
-  SParsedFunctionCodeHint = '<b>function <font color="clHotlight">%s</font>(%s)</b>%s';
-  SParsedMethodCodeHint =  '<b>Method <font color="clHotlight">%s.%s(%s)</font></b>%s';
-  SFunctionParameterCodeHint = '<b>Function Parameter <font color="clHotlight">%s</font>'+
-                          '</b> of function <font color="clHotlight">%s</font>%s';
-  SLocalVariableCodeHint = '<b>Local variable <font color="clHotlight">%s</font>'+
-                          '</b> of function <font color="clHotlight">%s</font>%s';
-  SGlobalVariableCodeHint = '<b>Global variable <font color="clHotlight">%s</font>'+
-                          '</b> of module <font color="clHotlight">%s</font>%s';
-  SClassVariableCodeHint = '<b>Class variable <font color="clHotlight">%s</font>' +
-                           '</b> of class <font color="clHotlight">%s</font>%s';
-  SInstanceVariableCodeHint = '<b>Instance variable <font color="clHotlight">%s</font>' +
-                           '</b> of class <font color="clHotlight">%s</font>%s';
-  SImportedVariableCodeHint = '<b>Imported variable <b><font color="clHotlight">%s</font>' +
-                           '</b> from module <font color="clHotlight">%s</font>%s';
-  SVariableTypeCodeHint = '<br><b>Type:</b> <font color="clHotlight">%s</font>';
-  SParsedModuleCodeHint = '<b>Module <a href="%s (1:1)"><u>%s</u></a></b>';
-  SParsedPackageCodeHint = '<b>Package <a href="%s (1:1)"><u>%s</u></a></b>';
-  SModuleProxyCodeHint = '<b>Module <font color="clHotlight">%s</font></b>';
-  SPackageProxyCodeHint = '<b>Package <font color="clHotlight">%s</font></b>';
-  SModuleImportCodeHint = '<b>Imported module <font color="clHotlight">%s</font></b>';
+  SFilePosInfoCodeHint = '<br>Defined in module <a href="%s (%d:%d)"><font color="$FF8844"><u>%s (%d)</u></font></a>';
+  SDefinedInModuleCodeHint = '<br>Defined in module <font color="$FF8844">%s</font>';
+  SParsedClassCodeHint =  '<b>class <font color="$FF8844">%s</font></b>%s';
+  SInheritsFromCodeHint = '<br>Inherits from: <font color="$FF8844">%s</font>';
+  SParsedFunctionCodeHint = '<b>function <font color="$FF8844">%s</font>(%s)</b>%s';
+  SParsedMethodCodeHint =  '<b>Method <font color="$FF8844">%s.%s(%s)</font></b>%s';
+  SFunctionParameterCodeHint = '<b>Function Parameter <font color="$FF8844">%s</font>'+
+                          '</b> of function <font color="$FF8844">%s</font>%s';
+  SLocalVariableCodeHint = '<b>Local variable <font color="$FF8844">%s</font>'+
+                          '</b> of function <font color="$FF8844">%s</font>%s';
+  SGlobalVariableCodeHint = '<b>Global variable <font color="$FF8844">%s</font>'+
+                          '</b> of module <font color="$FF8844">%s</font>%s';
+  SClassVariableCodeHint = '<b>Class variable <font color="$FF8844">%s</font>' +
+                           '</b> of class <font color="$FF8844">%s</font>%s';
+  SInstanceVariableCodeHint = '<b>Instance variable <font color="$FF8844">%s</font>' +
+                           '</b> of class <font color="$FF8844">%s</font>%s';
+  SImportedVariableCodeHint = '<b>Imported variable <b><font color="$FF8844">%s</font>' +
+                           '</b> from module <font color="$FF8844">%s</font>%s';
+  SVariableTypeCodeHint = '<br><b>Type:</b> <font color="$FF8844">%s</font>';
+  SParsedModuleCodeHint = '<b>Module <a href="%s (1:1)"><font color="$FF8844"><u>%s</u></font></a></b>';
+  SParsedPackageCodeHint = '<b>Package <a href="%s (1:1)"><font color="$FF8844"><u>%s</u></font></a></b>';
+  SModuleProxyCodeHint = '<b>Module <font color="$FF8844">%s</font></b>';
+  SPackageProxyCodeHint = '<b>Package <font color="$FF8844">%s</font></b>';
+  SModuleImportCodeHint = '<b>Imported module <font color="$FF8844">%s</font></b>';
 
   SPythonFileTemplate =
     '#-------------------------------------------------------------------------------' + sLineBreak +

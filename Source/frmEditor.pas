@@ -62,7 +62,7 @@ type
 
   THotIdentInfo = record
     SynEdit: TSynEdit;
-    Editor : TEditor;
+    [weak] Editor : TEditor;
     HaveHotIdent: boolean;
     IdentArea: TRect;
     Ident: string;
@@ -2524,59 +2524,59 @@ begin
       fHintIdentInfo.Editor := fEditor;
       CodeHint.ActivateHintAt(fHintIdentInfo.IdentArea, Pix);
     end
-    else if fEditor.HasPythonFile and (HiWord(GetAsyncKeyState(VK_CONTROL))
-        = 0) and not ASynEdit.IsPointInSelection(aLineCharPos) and
-    // (FindVCLWindow(ASynedit.ClientToScreen(Point(X,Y))) = ASynedit) and
-      (((PyControl.DebuggerState in [dsPaused, dsPostMortem])
-           and PyIDEOptions.ShowDebuggerHints) or
-        (GI_PyControl.Inactive and PyIDEOptions.ShowCodeHints)) then
-      with ASynEdit do
+  else if fEditor.HasPythonFile and (HiWord(GetAsyncKeyState(VK_CONTROL))
+      = 0) and not ASynEdit.IsPointInSelection(aLineCharPos) and
+  // (FindVCLWindow(ASynedit.ClientToScreen(Point(X,Y))) = ASynedit) and
+    (((PyControl.DebuggerState in [dsPaused, dsPostMortem])
+         and PyIDEOptions.ShowDebuggerHints) or
+      (GI_PyControl.Inactive and PyIDEOptions.ShowCodeHints)) then
+    with ASynEdit do
+    begin
+      // Code and debugger hints
+      GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
+        Attri);
+      if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
+        (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
+        (Attri = TSynPythonSyn(Highlighter).SystemAttri) or
+        ((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
+          ((Token = ')') or (Token = ']'))) then
       begin
-        // Code and debugger hints
-        GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
-          Attri);
-        if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
-          (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
-          (Attri = TSynPythonSyn(Highlighter).SystemAttri) or
-          ((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
-            ((Token = ')') or (Token = ']'))) then
+        with fHintIdentInfo do
         begin
-          with fHintIdentInfo do
-          begin
-            LineTxt := Lines[aLineCharPos.Line - 1];
-            SynToken := '';
-            Ident := Token;
-            DottedIdent := GetWordAtPos(LineTxt, aLineCharPos.Char,
-              IdentChars + ['.'], True, False, True);
-            ExpStart := aLineCharPos.Char - Length(DottedIdent) + 1;
-            DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
-              aLineCharPos.Char + 1, IdentChars, False, True);
-            // Determine the hint area
-            StartCoord := BufferCoord(Start, aLineCharPos.Line);
-            Pix := ClientToScreen
-              (RowColumnToPixels(BufferToDisplayPos(StartCoord)));
-            IdentArea.TopLeft := Pix;
-            aLineCharPos := WordEndEx(aLineCharPos);
-            if (Token = ']') or (Token = ')') then
-              Inc(aLineCharPos.Char);
-            Pix := ClientToScreen
-              (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-            IdentArea.Right := Pix.X;
-            IdentArea.Bottom := Pix.Y + LineHeight + 3;
-            // Determine where the hint should be shown (beginning of the expression)
-            if PyControl.DebuggerState in [dsPaused, dsPostMortem] then
-              aLineCharPos := BufferCoord(ExpStart, aLineCharPos.Line)
-            else
-              aLineCharPos := StartCoord;
-            Pix := ClientToScreen
-              (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-            Pix.Y := Pix.Y + LineHeight;
-            Editor := fEditor;
-            // Activate the hint
-            CodeHint.ActivateHintAt(IdentArea, Pix);
-          end;
+          LineTxt := Lines[aLineCharPos.Line - 1];
+          SynToken := '';
+          Ident := Token;
+          DottedIdent := GetWordAtPos(LineTxt, aLineCharPos.Char,
+            IdentChars + ['.'], True, False, True);
+          ExpStart := aLineCharPos.Char - Length(DottedIdent) + 1;
+          DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
+            aLineCharPos.Char + 1, IdentChars, False, True);
+          // Determine the hint area
+          StartCoord := BufferCoord(Start, aLineCharPos.Line);
+          Pix := ClientToScreen
+            (RowColumnToPixels(BufferToDisplayPos(StartCoord)));
+          IdentArea.TopLeft := Pix;
+          aLineCharPos := WordEndEx(aLineCharPos);
+          if (Token = ']') or (Token = ')') then
+            Inc(aLineCharPos.Char);
+          Pix := ClientToScreen
+            (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
+          IdentArea.Right := Pix.X;
+          IdentArea.Bottom := Pix.Y + LineHeight + 3;
+          // Determine where the hint should be shown (beginning of the expression)
+          if PyControl.DebuggerState in [dsPaused, dsPostMortem] then
+            aLineCharPos := BufferCoord(ExpStart, aLineCharPos.Line)
+          else
+            aLineCharPos := StartCoord;
+          Pix := ClientToScreen
+            (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
+          Pix.Y := Pix.Y + LineHeight;
+          Editor := fEditor;
+          // Activate the hint
+          CodeHint.ActivateHintAt(IdentArea, Pix);
         end;
       end;
+    end;
 end;
 
 procedure TEditorForm.SynEditMouseWheelDown(Sender: TObject;
@@ -3251,8 +3251,8 @@ begin
       begin
         ObjectValue := HTMLSafe(ObjectValue);
         ObjectType := HTMLSafe(ObjectType);
-        CodeHint := Format(_(SDebuggerHintFormat), [fHintIdentInfo.DottedIdent,
-          ObjectType, ObjectValue]);
+        CodeHint := Format(_(SDebuggerHintFormat),
+          [fHintIdentInfo.DottedIdent, ObjectType, ObjectValue]);
       end
       else
         CodeHint := '';

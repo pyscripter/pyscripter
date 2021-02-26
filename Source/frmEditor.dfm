@@ -64,8 +64,6 @@ object EditorForm: TEditorForm
         Height = 393
         Caption = 'Source'
         ImageIndex = -1
-        ExplicitTop = 26
-        ExplicitHeight = 392
         TabItem = 'tabSource'
         object SynEdit: TSynEdit
           Left = 2
