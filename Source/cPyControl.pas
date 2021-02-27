@@ -585,11 +585,16 @@ procedure TPythonControl.ClearAllBreakpoints;
 Var
   i : integer;
 begin
-  for i := 0 to GI_EditorFactory.Count -1 do
-    if GI_EditorFactory.Editor[i].Breakpoints.Count > 0 then begin
-      GI_EditorFactory.Editor[i].Breakpoints.Clear;
-      DoOnBreakpointChanged(GI_EditorFactory.Editor[i], -1);
-    end;
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count -1 do
+      if GI_EditorFactory.Editor[i].Breakpoints.Count > 0 then begin
+        GI_EditorFactory.Editor[i].Breakpoints.Clear;
+        DoOnBreakpointChanged(GI_EditorFactory.Editor[i], -1);
+      end;
+  finally
+    GI_EditorFactory.UnlockList;
+  end;
 end;
 
 procedure TPythonControl.SetCurrentPos(const NewPos : TEditorPos);

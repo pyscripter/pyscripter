@@ -2433,14 +2433,19 @@ var
   i : integer;
   FileCommands : IFileCommands;
 begin
-  for i := 0 to GI_EditorFactory.Count -1 do
-    if ((GI_EditorFactory[i].FileName <> '') or (GI_EditorFactory[i].RemoteFileName <> ''))
-      and GI_EditorFactory[i].Modified then
-    begin
-      FileCommands := GI_EditorFactory[i] as IFileCommands;
-      if Assigned(FileCommands) then
-        FileCommands.ExecSave;
-    end;
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count -1 do
+      if ((GI_EditorFactory[i].FileName <> '') or (GI_EditorFactory[i].RemoteFileName <> ''))
+        and GI_EditorFactory[i].Modified then
+      begin
+        FileCommands := GI_EditorFactory[i] as IFileCommands;
+        if Assigned(FileCommands) then
+          FileCommands.ExecSave;
+      end;
+  finally
+    GI_EditorFactory.UnlockList;
+  end;
 end;
 
 procedure TPyIDEMainForm.ApplicationOnIdle(Sender: TObject; var Done: Boolean);
@@ -3047,6 +3052,7 @@ var
   CaseSensitive,
   CompleteAsYouType,
   CompleteWithWordBreakChars : Boolean;
+  ViewTabControlPosition: TSpTBXTabPosition;
 begin
   if PyIDEOptions.StyleMainWindowBorder then
     Self.StyleElements := Self.StyleElements + [seBorder]
@@ -3095,22 +3101,29 @@ begin
     TabControl2.TabCloseButton := tcbNone;
   end;
   if TabControl1.TabPosition <> PyIDEOptions.EditorsTabPosition then
+  begin
     case PyIDEOptions.EditorsTabPosition of
       ttpTop:
         begin
           TabControl1.TabPosition := ttpTop;
           TabControl2.TabPosition := ttpTop;
-          for i  := 0 to GI_EditorFactory.Count - 1 do
-            TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpBottom;
+          ViewTabControlPosition := ttpBottom;
         end;
-      ttpBottom:
-        begin
-          TabControl1.TabPosition := ttpBottom;
-          TabControl2.TabPosition := ttpBottom;
-          for i  := 0 to GI_EditorFactory.Count - 1 do
-            TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpTop;
-        end;
+    else  //ttpBottom:
+      begin
+        TabControl1.TabPosition := ttpBottom;
+        TabControl2.TabPosition := ttpBottom;
+        ViewTabControlPosition := ttpTop;
+      end;
     end;
+    GI_EditorFactory.LockList;
+    try
+      for i  := 0 to GI_EditorFactory.Count - 1 do
+        TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ViewTabControlPosition;
+    finally
+      GI_EditorFactory.UnlockList;
+    end;
+  end;
 
   // Code completion
   CaseSensitive := PyIDEOptions.CodeCompletionCaseSensitive;
@@ -3135,9 +3148,14 @@ begin
     end;
   end;
 
-  for i := 0 to GI_EditorFactory.Count - 1 do begin
-    Editor := GI_EditorFactory.Editor[i];
-    ApplyIDEOptionsToEditor(Editor);
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count - 1 do begin
+      Editor := GI_EditorFactory.Editor[i];
+      ApplyIDEOptionsToEditor(Editor);
+    end;
+  finally
+    GI_EditorFactory.UnlockList;
   end;
 
   tbiRecentFileList.MaxItems :=  PyIDEOptions.NoOfRecentFiles;
@@ -3657,8 +3675,13 @@ begin
     SetupLanguageMenu;
     GI_EditorFactory.SetupEditorViewMenu;
 
-    for i := 0 to GI_EditorFactory.Count - 1 do
-      GI_EditorFactory.Editor[i].Retranslate;
+    GI_EditorFactory.LockList;
+    try
+      for i := 0 to GI_EditorFactory.Count - 1 do
+        GI_EditorFactory.Editor[i].Retranslate;
+    finally
+      GI_EditorFactory.UnlockList;
+    end;
 
     RegisterCustomParams;  // To get tranlations of descriptions
   end;
@@ -4938,9 +4961,14 @@ begin
   List.Duplicates := dupAccept;
   List.Sorted := True;
   try
+    GI_EditorFactory.LockList;
+    try
     for i := 0 to GI_EditorFactory.Count - 1 do
       List.AddObject(GI_EditorFactory.Editor[i].GetFileNameOrTitle,
         TObject(GI_EditorFactory.Editor[i].Form));
+    finally
+      GI_EditorFactory.UnlockList;
+    end;
     for i:= 0 to List.Count - 1 do begin
       Editor := TEditorForm(List.Objects[i]).GetEditor;
       MenuItem := TSpTBXItem.Create(Self);

@@ -1464,23 +1464,28 @@ Var
 begin
   // inject unsaved code into LineCache
   fLineCache.cache.clear();
-  for i := 0 to GI_EditorFactory.Count - 1 do
-    with GI_EditorFactory.Editor[i] do begin
-      if not HasPythonFile then continue;
-      SFName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
-      if SFName.StartsWith('<') and
-        // so that we do not push to ssh engine linecache all local open files
-        (PyControl.RunConfig.ScriptName = GetFileNameOrTitle)
-      then
-      begin
-        FName := SFName;
-        Source := CleanEOLs(SynEdit.Text)+WideLF;
-        LineList := VarPythonCreate(Source);
-        LineList := fRemotePython.Rpyc.classic.deliver(fRemotePython.Conn, LineList.splitlines(True));
-        fLineCache.cache.__setitem__(VarPythonCreate(FName),
-          VarPythonCreate([0, None, LineList, FName], stTuple));
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count - 1 do
+      with GI_EditorFactory.Editor[i] do begin
+        if not HasPythonFile then continue;
+        SFName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
+        if SFName.StartsWith('<') and
+          // so that we do not push to ssh engine linecache all local open files
+          (PyControl.RunConfig.ScriptName = GetFileNameOrTitle)
+        then
+        begin
+          FName := SFName;
+          Source := CleanEOLs(SynEdit.Text)+WideLF;
+          LineList := VarPythonCreate(Source);
+          LineList := fRemotePython.Rpyc.classic.deliver(fRemotePython.Conn, LineList.splitlines(True));
+          fLineCache.cache.__setitem__(VarPythonCreate(FName),
+            VarPythonCreate([0, None, LineList, FName], stTuple));
+        end;
       end;
-    end;
+  finally
+    GI_EditorFactory.UnlockList;
+  end;
 end;
 
 procedure TPyRemDebugger.MakeFrameActive(Frame: TBaseFrameInfo);
@@ -1743,21 +1748,26 @@ begin
   var Py := SafePyEngine;
   LoadLineCache;
   fMainDebugger.clear_all_breaks();
-  for i := 0 to GI_EditorFactory.Count - 1 do
-    with GI_EditorFactory.Editor[i] do begin
-      FName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
-      for j := 0 to BreakPoints.Count - 1 do begin
-        if not TBreakPoint(BreakPoints[j]).Disabled then begin
-          if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
-            fMainDebugger.set_break(VarPythonCreate(FName),
-              TBreakPoint(BreakPoints[j]).LineNo,
-              0, VarPythonCreate(TBreakPoint(BreakPoints[j]).Condition));
-          end else
-            fMainDebugger.set_break(VarPythonCreate(FName),
-              TBreakPoint(BreakPoints[j]).LineNo);
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count - 1 do
+      with GI_EditorFactory.Editor[i] do begin
+        FName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
+        for j := 0 to BreakPoints.Count - 1 do begin
+          if not TBreakPoint(BreakPoints[j]).Disabled then begin
+            if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
+              fMainDebugger.set_break(VarPythonCreate(FName),
+                TBreakPoint(BreakPoints[j]).LineNo,
+                0, VarPythonCreate(TBreakPoint(BreakPoints[j]).Condition));
+            end else
+              fMainDebugger.set_break(VarPythonCreate(FName),
+                TBreakPoint(BreakPoints[j]).LineNo);
+          end;
         end;
       end;
-    end;
+  finally
+    GI_EditorFactory.UnlockList;
+  end;
   PyControl.BreakPointsChanged := False;
 end;
 

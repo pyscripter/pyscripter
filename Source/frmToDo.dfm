@@ -206,6 +206,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Refresh'
       Hint = 'Refresh to do items'
       ImageIndex = 5
+      ImageName = 'Item40'
       ShortCut = 116
       OnExecute = actFileRefreshExecute
     end
@@ -214,6 +215,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Goto'
       Hint = 'Goto source line'
       ImageIndex = 3
+      ImageName = 'Item33'
       OnExecute = actEditGotoExecute
     end
     object actFilePrint: TAction
@@ -221,6 +223,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Print'
       Hint = 'Print to do items'
       ImageIndex = 0
+      ImageName = 'Item9'
       ShortCut = 16464
       OnExecute = actFilePrintExecute
       OnUpdate = actFilePrintUpdate
@@ -230,6 +233,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Options...'
       Hint = 'Options...'
       ImageIndex = 2
+      ImageName = 'Item25'
       OnExecute = actOptionsConfigureExecute
     end
     object actHelpHelp: TAction
@@ -237,6 +241,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Help'
       Hint = 'Help'
       ImageIndex = 4
+      ImageName = 'Item34'
       OnExecute = actHelpHelpExecute
     end
     object actEditCopy: TAction
@@ -244,6 +249,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Copy All'
       Hint = 'Copy all'
       ImageIndex = 1
+      ImageName = 'Item13'
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
@@ -253,6 +259,7 @@ inherited ToDoWindow: TToDoWindow
       Enabled = False
       Hint = 'Abort search for todo items'
       ImageIndex = 6
+      ImageName = 'Item41'
       ShortCut = 16449
       OnExecute = actFileAbortExecute
     end

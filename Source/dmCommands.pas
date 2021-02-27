@@ -843,10 +843,15 @@ var
   i : integer;
   FileCommands : IFileCommands;
 begin
-  for i := 0 to GI_EditorFactory.Count -1 do begin
-    FileCommands := GI_EditorFactory[i] as IFileCommands;
-    if Assigned(FileCommands) and FileCommands.CanSave then
-      FileCommands.ExecSave;
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count -1 do begin
+      FileCommands := GI_EditorFactory[i] as IFileCommands;
+      if Assigned(FileCommands) and FileCommands.CanSave then
+        FileCommands.ExecSave;
+    end;
+  finally
+    GI_EditorFactory.UnlockList;
   end;
 end;
 
@@ -1221,9 +1226,14 @@ procedure TCommandsDataModule.ApplyEditorOptions;
 var
   i : integer;
 begin
-  for i := 0 to GI_EditorFactory.Count - 1 do begin
-    GI_EditorFactory.Editor[i].SynEdit.Assign(EditorOptions);
-    GI_EditorFactory.Editor[i].SynEdit2.Assign(EditorOptions);
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count - 1 do begin
+      GI_EditorFactory.Editor[i].SynEdit.Assign(EditorOptions);
+      GI_EditorFactory.Editor[i].SynEdit2.Assign(EditorOptions);
+    end;
+  finally
+    GI_EditorFactory.UnlockList;
   end;
 
   InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
@@ -1589,8 +1599,13 @@ begin
         end;
         if AppStorage.PathExists('Editor Shortcuts') then begin
           AppStorage.ReadCollection('Editor Shortcuts', EditorOptions.Keystrokes, True);
-          for i := 0 to GI_EditorFactory.Count - 1 do
-            GI_EditorFactory.Editor[i].SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
+          GI_EditorFactory.LockList;
+          try
+            for i := 0 to GI_EditorFactory.Count - 1 do
+              GI_EditorFactory.Editor[i].SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
+          finally
+            GI_EditorFactory.UnlockList;
+          end;
           InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
           PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
           PythonIIForm.RegisterHistoryCommands;
@@ -1833,24 +1848,29 @@ begin
 
   ChangedFiles := TSmartPtr.Make(TStringList.Create)();
 
-  for i := 0 to GI_EditorFactory.Count -1 do begin
-    Editor := GI_EditorFactory.Editor[i];
-    if (Editor.FileName <> '') and (ExtractFileDir(Editor.FileName) = Dir) then begin
-      if not FileAge(Editor.FileName, FTime) then begin
-        if not FileExists(Editor.FileName)then begin
-          // File or directory has been moved or deleted
-          // Mark as modified so that we try to save it
-          Editor.SynEdit.Modified := True;
-          // Set FileTime to zero to prevent further notifications
-          TEditorForm(Editor.Form).FileTime := 0;
-          StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count -1 do begin
+      Editor := GI_EditorFactory.Editor[i];
+      if (Editor.FileName <> '') and (ExtractFileDir(Editor.FileName) = Dir) then begin
+        if not FileAge(Editor.FileName, FTime) then begin
+          if not FileExists(Editor.FileName)then begin
+            // File or directory has been moved or deleted
+            // Mark as modified so that we try to save it
+            Editor.SynEdit.Modified := True;
+            // Set FileTime to zero to prevent further notifications
+            TEditorForm(Editor.Form).FileTime := 0;
+            StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
+          end;
+        end else if not SameDateTime(TEditorForm(Editor.Form).FileTime, FTime) then begin
+          ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
+          // Prevent further notifications on this file
+          TEditorForm(Editor.Form).FileTime := FTime;
         end;
-      end else if not SameDateTime(TEditorForm(Editor.Form).FileTime, FTime) then begin
-        ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
-        // Prevent further notifications on this file
-        TEditorForm(Editor.Form).FileTime := FTime;
       end;
     end;
+  finally
+    GI_EditorFactory.UnlockList;
   end;
 
   ModifiedCount := 0;
@@ -2338,11 +2358,16 @@ begin
   // Therefore I introduced here a new boolean variable.
   // actFileSaveAll.Enabled := False;
   SaveAll := False;
-  for i := 0 to GI_EditorFactory.Count -1 do
-    if (GI_EditorFactory[i] as IFileCommands).CanSave then begin
-      SaveAll := True;
-      break;
-    end;
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count -1 do
+      if (GI_EditorFactory[i] as IFileCommands).CanSave then begin
+        SaveAll := True;
+        break;
+      end;
+  finally
+    GI_EditorFactory.UnlockList;
+  end;
   actFileSaveAll.Enabled := SaveAll;
 
   // Search Actions

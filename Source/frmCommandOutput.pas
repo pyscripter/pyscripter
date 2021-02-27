@@ -211,11 +211,16 @@ Var
     i : integer;
   begin
     Result := False;
-    for i := 0 to GI_EditorFactory.Count - 1 do
-      if GI_EditorFactory.Editor[i] = Editor then begin
-        Result := True;
-        Exit;
-      end;
+    GI_EditorFactory.LockList;
+    try
+      for i := 0 to GI_EditorFactory.Count - 1 do
+        if GI_EditorFactory.Editor[i] = Editor then begin
+          Result := True;
+          Exit;
+        end;
+    finally
+      GI_EditorFactory.UnlockList;
+    end;
   end;
 
   function ReplacePos(var S : string; const FromText, ToText: string): integer;

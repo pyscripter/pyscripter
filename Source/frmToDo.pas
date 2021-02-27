@@ -842,14 +842,19 @@ var
   FileName : string;
   Editor : IEditor;
 begin
-  for i := 0 to GI_EditorFactory.Count - 1 do begin
-    Editor := GI_EditorFactory.Editor[i];
-    FileName := Editor.GetFileNameOrTitle;
-    if FAbortSignalled then
-      Exit
-    else
-      Application.ProcessMessages;
-    LoadFile(FileName);
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count - 1 do begin
+      Editor := GI_EditorFactory.Editor[i];
+      FileName := Editor.GetFileNameOrTitle;
+      if FAbortSignalled then
+        Exit
+      else
+        Application.ProcessMessages;
+      LoadFile(FileName);
+    end;
+  finally
+    GI_EditorFactory.UnlockList;
   end;
 end;
 

@@ -428,12 +428,17 @@ Var
   Editor : IEditor;
   FileName: string;
 begin
-  for i := 0 to GI_EditorFactory.Count -1 do begin
-    if FAbortSignalled then break;
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count -1 do begin
+      if FAbortSignalled then break;
 
-    Editor := GI_EditorFactory.Editor[i];
-    FileName := Editor.GetFileNameOrTitle;
-    GrepFile(FileName);
+      Editor := GI_EditorFactory.Editor[i];
+      FileName := Editor.GetFileNameOrTitle;
+      GrepFile(FileName);
+    end;
+  finally
+    GI_EditorFactory.UnlockList;
   end;
 end;
 

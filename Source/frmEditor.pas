@@ -2218,8 +2218,7 @@ begin
             end;
           end;
       ecSelWord:
-        if ASynEdit.SelAvail and PyIDEOptions.
-          HighlightSelectedWord then
+        if ASynEdit.SelAvail and PyIDEOptions.HighlightSelectedWord then
           CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
       ecLostFocus:
         if not (SynCodeCompletion.Form.Visible or SynEdit.Focused) then

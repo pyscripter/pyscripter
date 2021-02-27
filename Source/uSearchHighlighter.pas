@@ -158,13 +158,18 @@ var
   i: Integer;
   Editor : IEditor;
 begin
-  for i := 0 to GI_EditorFactory.Count - 1 do begin
-    Editor := GI_EditorFactory.Editor[i];
-    InvalidateHighlightedTerms(Editor.SynEdit,
-      TEditorForm(Editor.Form).FoundSearchItems);
-    InvalidateHighlightedTerms(Editor.SynEdit2,
-      TEditorForm(Editor.Form).FoundSearchItems);
-    TEditorForm(Editor.Form).FoundSearchItems.Clear;
+  GI_EditorFactory.LockList;
+  try
+    for i := 0 to GI_EditorFactory.Count - 1 do begin
+      Editor := GI_EditorFactory.Editor[i];
+      InvalidateHighlightedTerms(Editor.SynEdit,
+        TEditorForm(Editor.Form).FoundSearchItems);
+      InvalidateHighlightedTerms(Editor.SynEdit2,
+        TEditorForm(Editor.Form).FoundSearchItems);
+      TEditorForm(Editor.Form).FoundSearchItems.Clear;
+    end;
+  finally
+    GI_EditorFactory.UnlockList;
   end;
 end;
 
