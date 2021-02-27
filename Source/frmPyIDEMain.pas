@@ -2429,23 +2429,17 @@ begin
 end;
 
 procedure TPyIDEMainForm.SaveFileModules;
-var
-  i : integer;
-  FileCommands : IFileCommands;
 begin
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count -1 do
-      if ((GI_EditorFactory[i].FileName <> '') or (GI_EditorFactory[i].RemoteFileName <> ''))
-        and GI_EditorFactory[i].Modified then
-      begin
-        FileCommands := GI_EditorFactory[i] as IFileCommands;
-        if Assigned(FileCommands) then
-          FileCommands.ExecSave;
-      end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    if ((Editor.FileName <> '') or (Editor.RemoteFileName <> ''))
+      and Editor.Modified then
+    begin
+      var FileCommands := Editor as IFileCommands;
+      if Assigned(FileCommands) then
+        FileCommands.ExecSave;
+    end;
+  end);
 end;
 
 procedure TPyIDEMainForm.ApplicationOnIdle(Sender: TObject; var Done: Boolean);
@@ -3116,13 +3110,10 @@ begin
         ViewTabControlPosition := ttpTop;
       end;
     end;
-    GI_EditorFactory.LockList;
-    try
-      for i  := 0 to GI_EditorFactory.Count - 1 do
-        TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ViewTabControlPosition;
-    finally
-      GI_EditorFactory.UnlockList;
-    end;
+    GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+    begin
+      TEditorForm(Editor.Form).ViewsTabControl.TabPosition := ViewTabControlPosition;
+    end);
   end;
 
   // Code completion
@@ -3148,15 +3139,10 @@ begin
     end;
   end;
 
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count - 1 do begin
-      Editor := GI_EditorFactory.Editor[i];
-      ApplyIDEOptionsToEditor(Editor);
-    end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
+  begin
+      ApplyIDEOptionsToEditor(Ed);
+  end);
 
   tbiRecentFileList.MaxItems :=  PyIDEOptions.NoOfRecentFiles;
 
@@ -3663,8 +3649,6 @@ begin
 end;
 
 procedure TPyIDEMainForm.ChangeLanguage(LangCode: string);
-Var
-  i : integer;
 begin
   if CompareText(GetCurrentLanguage, LangCode) <> 0 then begin
      UseLanguage(LangCode);
@@ -3675,13 +3659,10 @@ begin
     SetupLanguageMenu;
     GI_EditorFactory.SetupEditorViewMenu;
 
-    GI_EditorFactory.LockList;
-    try
-      for i := 0 to GI_EditorFactory.Count - 1 do
-        GI_EditorFactory.Editor[i].Retranslate;
-    finally
-      GI_EditorFactory.UnlockList;
-    end;
+    GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+    begin
+      Editor.Retranslate;
+    end);
 
     RegisterCustomParams;  // To get tranlations of descriptions
   end;
@@ -4951,7 +4932,6 @@ procedure TPyIDEMainForm.mnFilesClick(Sender: TObject);
 //Fill in the Files submenu of the Tabs popup menu
 Var
   Editor, ActiveEditor : IEditor;
-  i : integer;
   List : TStringList;
   MenuItem : TSpTBXItem;
 begin
@@ -4961,19 +4941,15 @@ begin
   List.Duplicates := dupAccept;
   List.Sorted := True;
   try
-    GI_EditorFactory.LockList;
-    try
-    for i := 0 to GI_EditorFactory.Count - 1 do
-      List.AddObject(GI_EditorFactory.Editor[i].GetFileNameOrTitle,
-        TObject(GI_EditorFactory.Editor[i].Form));
-    finally
-      GI_EditorFactory.UnlockList;
-    end;
-    for i:= 0 to List.Count - 1 do begin
-      Editor := TEditorForm(List.Objects[i]).GetEditor;
+    GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
+    begin
+      List.AddObject(Ed.GetFileNameOrTitle, TObject(Ed.Form));
+    end);
+    for var I:= 0 to List.Count - 1 do begin
+      Editor := TEditorForm(List.Objects[I]).GetEditor;
       MenuItem := TSpTBXItem.Create(Self);
       mnFiles.Add(MenuItem);
-      MenuItem.Caption := List[i];
+      MenuItem.Caption := List[I];
       MenuItem.GroupIndex := 3;
       MenuItem.Hint := Editor.GetFileNameOrTitle;
       MenuItem.Checked := Editor = ActiveEditor;

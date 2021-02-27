@@ -154,23 +154,15 @@ begin
 end;
 
 procedure ClearAllHighlightedTerms;
-var
-  i: Integer;
-  Editor : IEditor;
 begin
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count - 1 do begin
-      Editor := GI_EditorFactory.Editor[i];
-      InvalidateHighlightedTerms(Editor.SynEdit,
-        TEditorForm(Editor.Form).FoundSearchItems);
-      InvalidateHighlightedTerms(Editor.SynEdit2,
-        TEditorForm(Editor.Form).FoundSearchItems);
-      TEditorForm(Editor.Form).FoundSearchItems.Clear;
-    end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    InvalidateHighlightedTerms(Editor.SynEdit,
+      TEditorForm(Editor.Form).FoundSearchItems);
+    InvalidateHighlightedTerms(Editor.SynEdit2,
+      TEditorForm(Editor.Form).FoundSearchItems);
+    TEditorForm(Editor.Form).FoundSearchItems.Clear;
+  end);
 end;
 
 end.

@@ -207,20 +207,12 @@ Var
  FilePos, LinePos, ColPos: Integer;
 
   function IsEditorValid(Editor : IEditor) : boolean;
-  Var
-    i : integer;
   begin
-    Result := False;
-    GI_EditorFactory.LockList;
-    try
-      for i := 0 to GI_EditorFactory.Count - 1 do
-        if GI_EditorFactory.Editor[i] = Editor then begin
-          Result := True;
-          Exit;
-        end;
-    finally
-      GI_EditorFactory.UnlockList;
-    end;
+    Result := Assigned(GI_EditorFactory.FirstEditorCond(
+    function(Ed: IEditor): Boolean
+    begin
+      Result := Ed = Editor;
+    end));
   end;
 
   function ReplacePos(var S : string; const FromText, ToText: string): integer;

@@ -839,20 +839,13 @@ begin
 end;
 
 procedure TCommandsDataModule.actFileSaveAllExecute(Sender: TObject);
-var
-  i : integer;
-  FileCommands : IFileCommands;
 begin
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count -1 do begin
-      FileCommands := GI_EditorFactory[i] as IFileCommands;
-      if Assigned(FileCommands) and FileCommands.CanSave then
-        FileCommands.ExecSave;
-    end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    var FileCommands := Editor as IFileCommands;
+    if Assigned(FileCommands) and FileCommands.CanSave then
+      FileCommands.ExecSave;
+  end);
 end;
 
 procedure TCommandsDataModule.actFilePrintExecute(Sender: TObject);
@@ -1223,18 +1216,12 @@ end;
 
 procedure TCommandsDataModule.ApplyEditorOptions;
 // Assign Editor Options to all open editors
-var
-  i : integer;
 begin
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count - 1 do begin
-      GI_EditorFactory.Editor[i].SynEdit.Assign(EditorOptions);
-      GI_EditorFactory.Editor[i].SynEdit2.Assign(EditorOptions);
-    end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+      Editor.SynEdit.Assign(EditorOptions);
+      Editor.SynEdit2.Assign(EditorOptions);
+  end);
 
   InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
   InterpreterEditorOptions.Font := EditorOptions.Font;
@@ -1574,7 +1561,6 @@ end;
 
 procedure TCommandsDataModule.actImportShortcutsExecute(Sender: TObject);
 Var
-  i : integer;
   AppStorage : TJvAppIniFileStorage;
   ActionProxyCollection: TActionProxyCollection;
 begin
@@ -1599,13 +1585,11 @@ begin
         end;
         if AppStorage.PathExists('Editor Shortcuts') then begin
           AppStorage.ReadCollection('Editor Shortcuts', EditorOptions.Keystrokes, True);
-          GI_EditorFactory.LockList;
-          try
-            for i := 0 to GI_EditorFactory.Count - 1 do
-              GI_EditorFactory.Editor[i].SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
-          finally
-            GI_EditorFactory.UnlockList;
-          end;
+          GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+          begin
+            Editor.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
+          end);
+
           InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
           PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
           PythonIIForm.RegisterHistoryCommands;
@@ -1815,7 +1799,7 @@ end;
 procedure TCommandsDataModule.ProcessShellNotify(Sender: TCustomVirtualExplorerTree;
   ShellEvent: TVirtualShellEvent);
 Var
-  i : integer;
+  I : integer;
   ModifiedCount : integer;
   Editor : IEditor;
   ChangedFiles : TStringList;
@@ -1848,34 +1832,29 @@ begin
 
   ChangedFiles := TSmartPtr.Make(TStringList.Create)();
 
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count -1 do begin
-      Editor := GI_EditorFactory.Editor[i];
-      if (Editor.FileName <> '') and (ExtractFileDir(Editor.FileName) = Dir) then begin
-        if not FileAge(Editor.FileName, FTime) then begin
-          if not FileExists(Editor.FileName)then begin
-            // File or directory has been moved or deleted
-            // Mark as modified so that we try to save it
-            Editor.SynEdit.Modified := True;
-            // Set FileTime to zero to prevent further notifications
-            TEditorForm(Editor.Form).FileTime := 0;
-            StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
-          end;
-        end else if not SameDateTime(TEditorForm(Editor.Form).FileTime, FTime) then begin
-          ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
-          // Prevent further notifications on this file
-          TEditorForm(Editor.Form).FileTime := FTime;
+  GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
+  begin
+    if (Ed.FileName <> '') and (ExtractFileDir(Ed.FileName) = Dir) then begin
+      if not FileAge(Ed.FileName, FTime) then begin
+        if not FileExists(Ed.FileName)then begin
+          // File or directory has been moved or deleted
+          // Mark as modified so that we try to save it
+          Ed.SynEdit.Modified := True;
+          // Set FileTime to zero to prevent further notifications
+          TEditorForm(Ed.Form).FileTime := 0;
+          StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [Ed.FileName]) , mtWarning, [mbOK], 0);
         end;
+      end else if not SameDateTime(TEditorForm(Ed.Form).FileTime, FTime) then begin
+        ChangedFiles.AddObject(Ed.GetFileNameOrTitle, Ed.Form);
+        // Prevent further notifications on this file
+        TEditorForm(Ed.Form).FileTime := FTime;
       end;
     end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  end);
 
   ModifiedCount := 0;
   for I := 0 to ChangedFiles.Count - 1 do begin
-    Editor := TEditorForm(ChangedFiles.Objects[i]).GetEditor;
+    Editor := TEditorForm(ChangedFiles.Objects[I]).GetEditor;
     if Editor.Modified then
       Inc(ModifiedCount);
     Editor.SynEdit.Modified := True;  //So that we are prompted to save changes
@@ -1884,7 +1863,7 @@ begin
   if ChangedFiles.Count > 0 then
     if PyIDEOptions.AutoReloadChangedFiles and (ModifiedCount = 0) then begin
       for I := 0 to ChangedFiles.Count - 1 do begin
-        Editor := TEditorForm(ChangedFiles.Objects[i]).GetEditor;
+        Editor := TEditorForm(ChangedFiles.Objects[I]).GetEditor;
         (Editor as IFileCommands).ExecReload(True);
       end;
       MessageBeep(MB_ICONASTERISK);
@@ -1897,9 +1876,9 @@ begin
       SetScrollWidth;
       mnSelectAllClick(nil);
       if ShowModal = IdOK then
-        for i := CheckListBox.Count - 1 downto 0 do begin
-          if CheckListBox.Checked[i] then begin
-            Editor := TEditorForm(CheckListBox.Items.Objects[i]).GetEditor;
+        for I := CheckListBox.Count - 1 downto 0 do begin
+          if CheckListBox.Checked[I] then begin
+            Editor := TEditorForm(CheckListBox.Items.Objects[I]).GetEditor;
             (Editor as IFileCommands).ExecReload(True);
           end;
         end;
@@ -2259,9 +2238,7 @@ end;
 
 procedure TCommandsDataModule.UpdateMainActions;
 Var
-  i : integer;
   SelAvail : Boolean;
-  SaveAll : Boolean;
   Editor : IEditor;
   SearchCommands : ISearchCommands;
 begin
@@ -2354,21 +2331,12 @@ begin
   actFileSaveAs.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanSaveAs;
   actFileSaveToRemote.Enabled := actFileSaveAs.Enabled;
   // Lesson to remember do not change the Enabled state of an Action from false to true
-  // within an Update or OnIdle handler. The result is 100% CPU utilisation.
-  // Therefore I introduced here a new boolean variable.
-  // actFileSaveAll.Enabled := False;
-  SaveAll := False;
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count -1 do
-      if (GI_EditorFactory[i] as IFileCommands).CanSave then begin
-        SaveAll := True;
-        break;
-      end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
-  actFileSaveAll.Enabled := SaveAll;
+  // and back within an Update or OnIdle handler. The result is 100% CPU utilisation.
+  actFileSaveAll.Enabled := Assigned(GI_EditorFactory.FirstEditorCond(
+  function(Ed: IEditor): Boolean
+  begin
+    Result := (Ed as IFileCommands).CanSave;
+  end));
 
   // Search Actions
   SearchCommands := FindSearchTarget;

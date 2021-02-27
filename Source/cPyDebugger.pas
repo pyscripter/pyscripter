@@ -930,66 +930,58 @@ begin
 end;
 
 procedure TPyInternalDebugger.SetDebuggerBreakpoints;
-var
-  i, j : integer;
-  FName : string;
 begin
   if not PyControl.BreakPointsChanged then Exit;
 
   var Py := SafePyEngine;
   LoadLineCache;
   InternalInterpreter.Debugger.clear_all_breaks();
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count - 1 do
-      with GI_EditorFactory.Editor[i] do begin
-        FName := InternalInterpreter.ToPythonFileName(GetFileNameOrTitle);
-        for j := 0 to BreakPoints.Count - 1 do begin
-          if not TBreakPoint(BreakPoints[j]).Disabled then begin
-            if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
-              InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
-                TBreakPoint(BreakPoints[j]).LineNo,
-                0, VarPythonCreate(TBreakPoint(BreakPoints[j]).Condition));
-            end else begin
-              InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
-                TBreakPoint(BreakPoints[j]).LineNo);
-            end;
-          end;
+
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  var
+    FName : string;
+  begin
+    FName := InternalInterpreter.ToPythonFileName(Editor.GetFileNameOrTitle);
+    for var I := 0 to Editor.BreakPoints.Count - 1 do begin
+      var BreakPoint := TBreakPoint(Editor.BreakPoints[I]);
+      if not BreakPoint.Disabled then begin
+        if BreakPoint.Condition <> '' then begin
+          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
+            BreakPoint.LineNo, 0, VarPythonCreate(BreakPoint.Condition));
+        end else begin
+          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
+            BreakPoint.LineNo);
         end;
       end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+    end;
+  end);
+
   PyControl.BreakPointsChanged := False;
 end;
 
 procedure TPyInternalDebugger.LoadLineCache;
-Var
-  i: integer;
-  FName, Source, LineList: Variant;
-  SFName: string;
 begin
   // inject unsaved code into LineCache
   fLineCache.cache.clear();
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count - 1 do
-      with GI_EditorFactory.Editor[i] do begin
-        if not HasPythonFile then continue;
-        SFName := InternalInterpreter.ToPythonFileName(GetFileNameOrTitle);
-        if SFName.StartsWith('<') then
-        begin
-          FName := SFName;
-          Source := CleanEOLs(SynEdit.Text)+WideLF;
-          LineList := VarPythonCreate(Source);
-          LineList := LineList.splitlines(True);
-          fLineCache.cache.SetItem(VarPythonCreate(FName),
-            VarPythonCreate([Length(Source), None, LineList, FName], stTuple));
-        end;
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  var
+    FName, Source, LineList: Variant;
+    SFName: string;
+  begin
+    with Editor do begin
+      if not HasPythonFile then Exit;
+      SFName := InternalInterpreter.ToPythonFileName(GetFileNameOrTitle);
+      if SFName.StartsWith('<') then
+      begin
+        FName := SFName;
+        Source := CleanEOLs(SynEdit.Text)+WideLF;
+        LineList := VarPythonCreate(Source);
+        LineList := LineList.splitlines(True);
+        fLineCache.cache.SetItem(VarPythonCreate(FName),
+          VarPythonCreate([Length(Source), None, LineList, FName], stTuple));
       end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+    end;
+  end);
 end;
 
 procedure TPyInternalDebugger.MakeFrameActive(Frame: TBaseFrameInfo);

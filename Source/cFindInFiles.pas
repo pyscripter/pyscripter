@@ -423,23 +423,17 @@ begin
 end;
 
 procedure TGrepSearchRunner.GrepOpenFiles;
-Var
-  i : integer;
-  Editor : IEditor;
-  FileName: string;
 begin
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count -1 do begin
-      if FAbortSignalled then break;
+  GI_EditorFactory.FirstEditorCond(function(Editor: IEditor):boolean
+  begin
+      if FAbortSignalled then
+        Exit(True)
+      else
+        Result := False;
 
-      Editor := GI_EditorFactory.Editor[i];
-      FileName := Editor.GetFileNameOrTitle;
+      var FileName := Editor.GetFileNameOrTitle;
       GrepFile(FileName);
-    end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  end);
 end;
 
 function GrepProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;

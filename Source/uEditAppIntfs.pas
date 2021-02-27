@@ -13,6 +13,7 @@ interface
 uses
   Winapi.Windows,
   System.Classes,
+  System.SysUtils,
   System.Contnrs,
   Vcl.Forms,
   JvAppStorage,
@@ -130,6 +131,8 @@ type
     procedure UpdateEditorViewMenu;
     procedure LockList;
     procedure UnlockList;
+    procedure ApplyToEditors(const Proc: TProc<IEditor>);
+    function FirstEditorCond(const Predicate: TPredicate<IEditor>): IEditor;
     //procedure GetRegisteredViewFactory(ViewName : string):IEditorViewFactory;
     property Count : integer read GetEditorCount;
     property Editor[Index: integer]: IEditor read GetEditor;  default;

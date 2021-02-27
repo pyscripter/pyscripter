@@ -1246,6 +1246,8 @@ type
     function GetViewFactory(Index: Integer): IEditorViewFactory;
     procedure LockList;
     procedure UnlockList;
+    procedure ApplyToEditors(const Proc: TProc<IEditor>);
+    function FirstEditorCond(const Predicate: TPredicate<IEditor>): IEditor;
   private
     fEditors: TInterfaceList;
     fEditorViewFactories: TInterfaceList;
@@ -1268,19 +1270,47 @@ begin
   inherited Destroy;
 end;
 
+procedure TEditorFactory.ApplyToEditors(const Proc: TProc<IEditor>);
+begin
+  fEditors.Lock;
+  try
+    for var I := 0 to fEditors.Count - 1 do
+      Proc(IEditor(fEditors[I]));
+  finally
+    fEditors.Unlock;
+  end;
+end;
+
+function TEditorFactory.FirstEditorCond(const Predicate: TPredicate<IEditor>): IEditor;
+Var
+  Editor: IEditor;
+begin
+  fEditors.Lock;
+  try
+    Result := nil;
+    for var I := 0 to fEditors.Count - 1 do
+    begin
+      Editor := IEditor(fEditors[I]);
+      if Predicate(Editor) then
+        Exit(Editor);
+    end;
+  finally
+    fEditors.Unlock;
+  end;
+end;
+
 function TEditorFactory.CanCloseAll: boolean;
-var
-  i: Integer;
 begin
   Result := False;
   with TPickListDialog.Create(Application.MainForm) do
   begin
     Caption := _(SSaveModifiedFiles);
     lbMessage.Caption := _(SSelectModifiedFiles);
-    for i := 0 to fEditors.Count - 1 do
-      if IEditor(fEditors[i]).Modified then
-        CheckListBox.Items.AddObject(IEditor(fEditors[i]).GetFileNameOrTitle,
-          IEditor(fEditors[i]).Form);
+    ApplyToEditors(procedure(Editor: IEditor)
+    begin
+      if Editor.Modified then
+        CheckListBox.Items.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
+    end);
     SetScrollWidth;
     mnSelectAllClick(nil);
     if CheckListBox.Items.Count = 0 then
@@ -1290,11 +1320,11 @@ begin
     else if ShowModal = IdOK then
     begin
       Result := True;
-      for i := CheckListBox.Count - 1 downto 0 do
+      for var I := CheckListBox.Count - 1 downto 0 do
       begin
-        if CheckListBox.Checked[i] then
+        if CheckListBox.Checked[I] then
         begin
-          if not TEditorForm(CheckListBox.Items.Objects[i]).DoSave then
+          if not TEditorForm(CheckListBox.Items.Objects[I]).DoSave then
           begin
             Result := False;
             break;
@@ -1310,11 +1340,16 @@ procedure TEditorFactory.CloseAll;
 var
   i: Integer;
 begin
-  i := fEditors.Count - 1;
-  while i >= 0 do
-  begin
-    IEditor(fEditors[i]).Close;
-    Dec(i);
+  fEditors.Lock;
+  try
+    i := fEditors.Count - 1;
+    while i >= 0 do
+    begin
+      IEditor(fEditors[i]).Close;
+      Dec(i);
+    end;
+  finally
+    fEditors.Unlock;
   end;
 end;
 
@@ -1374,44 +1409,23 @@ end;
 
 function TEditorFactory.GetEditorByName(const Name: string): IEditor;
 Var
-  i: Integer;
   FullName: string;
 begin
-  Result := nil;
   FullName := GetLongFileName(ExpandFileName(Name));
-  fEditors.Lock;
-  try
-    for i := 0 to fEditors.Count - 1 do
-      if AnsiSameText(IEditor(fEditors[i]).GetFileName, FullName) then
-      begin
-        Result := IEditor(fEditors[i]);
-        break;
-      end;
-  finally
-    fEditors.Unlock;
-  end;
+  Result := FirstEditorCond(function(Editor: IEditor): boolean
+  begin
+    Result := AnsiSameText(Editor.GetFileName, FullName);
+  end);
 end;
 
 function TEditorFactory.GetEditorByNameOrTitle(const Name: string): IEditor;
-Var
-  i: Integer;
-  Editor : IEditor;
 begin
-  fEditors.Lock;
-  try
-    Result := GetEditorByName(Name);
-    if not Assigned(Result) then
-      for i := 0 to fEditors.Count - 1 do begin
-        Editor := IEditor(fEditors[i]);
-        if (Editor.FileName = '') and AnsiSameText(Editor.GetFileTitle, Name) then
-        begin
-          Result := Editor;
-          break;
-        end;
-     end;
-   finally
-     fEditors.Unlock;
-   end;
+  Result := GetEditorByName(Name);
+  if not Assigned(Result) then
+    Result := FirstEditorCond(function(Editor: IEditor): Boolean
+    begin
+      Result := (Editor.FileName = '') and AnsiSameText(Editor.GetFileTitle, Name);
+    end);
 end;
 
 function TEditorFactory.GetEditor(Index: Integer): IEditor;

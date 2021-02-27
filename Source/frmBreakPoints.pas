@@ -85,29 +85,22 @@ Type
   end;
 
 procedure TBreakPointsWindow.UpdateWindow;
-Var
-  i, j : integer;
-  BL : TList;
-  BreakPoint : TBreakPointInfo;
 begin
   BreakPointsView.Clear;
   fBreakPointsList.Clear;
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count - 1 do begin
-       BL := GI_EditorFactory.Editor[i].BreakPoints;
-       for j := 0 to BL.Count -1 do begin
-         BreakPoint := TBreakPointInfo.Create;
-         BreakPoint.FileName := GI_EditorFactory.Editor[i].GetFileNameOrTitle;
-         BreakPoint.Line := TBreakPoint(BL[j]).LineNo;
-         BreakPoint.Disabled := TBreakPoint(BL[j]).Disabled;
-         BreakPoint.Condition := TBreakPoint(BL[j]).Condition;
-         fBreakPointsList.Add(BreakPoint);
-       end;
+
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    for var BP in Editor.BreakPoints do begin
+      var BPInfo := TBreakPointInfo.Create;
+      BPInfo.FileName := Editor.GetFileNameOrTitle;
+      BPInfo.Line := TBreakPoint(BP).LineNo;
+      BPInfo.Disabled := TBreakPoint(BP).Disabled;
+      BPInfo.Condition := TBreakPoint(BP).Condition;
+      fBreakPointsList.Add(BPInfo);
     end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  end);
+
   BreakPointsView.RootNodeCount := fBreakPointsList.Count;
 end;
 

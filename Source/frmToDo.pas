@@ -837,25 +837,17 @@ begin
 end;
 
 procedure TToDoWindow.EnumerateOpenFiles;
-var
-  i : integer;
-  FileName : string;
-  Editor : IEditor;
 begin
-  GI_EditorFactory.LockList;
-  try
-    for i := 0 to GI_EditorFactory.Count - 1 do begin
-      Editor := GI_EditorFactory.Editor[i];
-      FileName := Editor.GetFileNameOrTitle;
-      if FAbortSignalled then
-        Exit
-      else
-        Application.ProcessMessages;
-      LoadFile(FileName);
-    end;
-  finally
-    GI_EditorFactory.UnlockList;
-  end;
+  GI_EditorFactory.FirstEditorCond(function(Editor: IEditor): Boolean
+  begin
+    if FAbortSignalled then
+      Exit(True)
+    else
+      Result := False;
+    var FileName := Editor.GetFileNameOrTitle;
+    // Application.ProcessMessages; // dangerous the user may close files
+    LoadFile(FileName);
+  end);
 end;
 
 function ProcessProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
