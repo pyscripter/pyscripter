@@ -64,7 +64,6 @@ procedure THighlightSearchPlugin.AfterPaint(ACanvas: TCanvas;
     end;
   end;
 
-
 var
   i : Integer;
   FoundItem : TFoundItem;
@@ -157,11 +156,7 @@ procedure ClearAllHighlightedTerms;
 begin
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   begin
-    InvalidateHighlightedTerms(Editor.SynEdit,
-      TEditorForm(Editor.Form).FoundSearchItems);
-    InvalidateHighlightedTerms(Editor.SynEdit2,
-      TEditorForm(Editor.Form).FoundSearchItems);
-    TEditorForm(Editor.Form).FoundSearchItems.Clear;
+    TEditorForm(Editor.Form).ClearSearchItems;
   end);
 end;
 

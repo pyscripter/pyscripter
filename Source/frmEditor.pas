@@ -234,6 +234,7 @@ type
     ParentTabControl: TSpTBXCustomTabControl;
     [Align(8)]
     SourceScanner: IAsyncSourceScanner;
+    procedure ClearSearchItems;
     procedure DoActivate;
     procedure DoActivateEditor(Primary: boolean = True);
     function DoActivateView(ViewFactory: IEditorViewFactory): IEditorView;
@@ -1583,9 +1584,7 @@ begin
     SourceScanner.StopScanning;
   fNeedToParseModule := True;
 
-  InvalidateHighlightedTerms(SynEdit, FoundSearchItems);
-  InvalidateHighlightedTerms(SynEdit2, FoundSearchItems);
-  FoundSearchItems.Clear;
+  ClearSearchItems;
 end;
 
 procedure TEditorForm.SynEditDblClick(Sender: TObject);
@@ -1597,8 +1596,8 @@ begin
   GetCursorPos(ptMouse);
   ptMouse := ASynEdit.ScreenToClient(ptMouse);
   if (ptMouse.X >= ASynEdit.Gutter.Width + 2)
-    and ASynEdit.SelAvail and PyIDEOptions.
-    HighlightSelectedWord then
+    and ASynEdit.SelAvail and PyIDEOptions.HighlightSelectedWord
+  then
     CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
 end;
 
@@ -2831,6 +2830,16 @@ begin
   if Assigned(fCompletionHandler) then
     fCompletionHandler.Finalize;
   fCompletionHandler := nil;
+end;
+
+procedure TEditorForm.ClearSearchItems;
+begin
+  if FoundSearchItems.Count > 0 then
+  begin
+    InvalidateHighlightedTerms(SynEdit, FoundSearchItems);
+    InvalidateHighlightedTerms(SynEdit2, FoundSearchItems);
+    FoundSearchItems.Clear;
+  end;
 end;
 
 procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
