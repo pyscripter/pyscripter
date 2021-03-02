@@ -104,7 +104,7 @@ type
     procedure RestoreCommandLine; override;
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
     procedure Run(ARunConfig : TRunConfiguration); override;
-    function SyntaxCheck(Editor : IEditor; Quiet : Boolean = False) : Boolean;
+    function SyntaxCheck(Editor : IEditor; out ErrorPos: TEditorPos; Quiet : Boolean = False) : Boolean;
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
     procedure SystemCommand(const Cmd : string); override;
@@ -1452,16 +1452,15 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; Quiet : Boolean = False): Boolean;
+function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; out ErrorPos: TEditorPos; Quiet : Boolean = False): Boolean;
 Var
   FName: string;
   Source: AnsiString;
   tmp:PPyObject;
   PyErrType, PyErrValue, PyErrTraceback, PyErrValueTuple: PPyObject;
-  ErrorPos: TEditorPos;
   SuppressOutput: IInterface;
 begin
-  PyControl.ErrorPos := TEditorPos.EmptyPos;
+  ErrorPos := TEditorPos.EmptyPos;
 
   TThread.Synchronize(nil, procedure
   begin
@@ -1477,7 +1476,7 @@ begin
       if Quiet then begin
         if Assigned(PyErr_Occurred()) then begin
           if (PyErr_ExceptionMatches(PyExc_SyntaxError^) = 1) then begin
-            PyErr_Fetch(@PyErrType, @PyErrValue, @PyErrTraceback);  // Clears the Error
+            PyErr_Fetch(PyErrType, PyErrValue, PyErrTraceback);  // Clears the Error
             if Assigned(PyErrValue) then begin
             // Sometimes there's a tuple instead of instance...
               if PyTuple_Check( PyErrValue )  and (PyTuple_Size( PyErrValue) >= 2) then
@@ -1512,7 +1511,6 @@ begin
               end;
               ErrorPos.Editor := Editor;
               ErrorPos.IsSyntax := True;
-              PyControl.ErrorPos := ErrorPos;
             end;
             Py_XDECREF(PyErrType);
             Py_XDECREF(PyErrValue);
@@ -1520,7 +1518,9 @@ begin
           end else
             PyErr_Clear;
         end;
-      end else begin
+      end
+      else
+      begin
         // Display error
         // New Line for output
         GI_PyIDEServices.Messages.ClearMessages;
@@ -1535,8 +1535,10 @@ begin
             if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
               Assigned(GI_ActiveEditor)
             then
-              PyControl.ErrorPos := TEditorPos.NPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
-            if not Quiet then StyledMessageDlg(E.Message, mtError, [mbOK], 0);
+            begin
+              ErrorPos := TEditorPos.NPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
+              PyControl.ErrorPos := ErrorPos;
+            end;
           end;
         end;
         GI_PyInterpreter.AppendPrompt;

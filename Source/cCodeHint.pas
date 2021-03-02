@@ -4,7 +4,7 @@
  Date:      08-Dec-2005
  Purpose:   Classes to support code hints based on JvHint.pas of the JVCL
             library
- History:
+ History:   Modified to get the hints asynchronously
 -----------------------------------------------------------------------------}
 {-----------------------------------------------------------------------------
 The contents of this file are subject to the Mozilla Public License
@@ -56,7 +56,7 @@ type
   end;
   TCodeHintWindowClass = class of TCodeHintWindow;
 
-  TCodeHintState = (tmBeginShow, tmShowing, tmStopped, tmProcessing);
+  TCodeHintState = (tmBeginShow, tmShow, tmShowing, tmStopped, tmProcessing);
   TGetCodeHintEvent = procedure(Sender : TObject; AArea : TRect;
     var CodeHint : string) of object;
 
@@ -66,7 +66,7 @@ type
     FAutoHide: Boolean;
     FOldCursorPos : TPoint;
     fOnGetCodeHint: TGetCodeHintEvent;
-    fScreenPos : TPoint;
+    FScreenPos : TPoint;
     procedure SetOnGetCodeHint(const Value: TGetCodeHintEvent);
     function GetHyperLinkClick: TJvHyperLinkClickEvent;
     procedure SetHyperLinkClick(const Value: TJvHyperLinkClickEvent);
@@ -77,6 +77,8 @@ type
     HintWindow: TCodeHintWindow;
     TimerHint: TTimer;
     FDelay: Integer;
+    FTaskId: Integer;
+    FHintText: string;
     procedure TimerHintTimer(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
@@ -99,10 +101,10 @@ var
 implementation
 
 uses
+  System.Threading,
   Vcl.Graphics,
   Vcl.Themes,
   uCommonFunctions;
-
 
 
 //=== { TCodeHint } ============================================================
@@ -142,13 +144,14 @@ begin
   fOldCursorPos := P;
 
   if (CompareMem(@Area, @AArea, SizeOf(TRect)) and
-    (State in [tmBeginShow, tmShowing])) or (State = tmProcessing) or
+    (State in [tmBeginShow, tmProcessing, tmShow, tmShowing])) or
     ((State = tmShowing) and PtInRect(Area, P))
   then
     Exit;  //  already showing this hint
 
   Area := AArea;
-  fScreenPos := ScreenPos;
+  FScreenPos := ScreenPos;
+  FTaskId := 0;
   State := tmBeginShow;
   TimerHint.Enabled := True;
 end;
@@ -159,9 +162,7 @@ var
   bPoint, bDelay: Boolean;
   Delay: Integer;
   HintPause: Integer;
-  Txt : string;
 begin
-  //HintWindow.Color := Application.HintColor;
   Delay := FDelay * Integer(TimerHint.Interval);
   case State of
     tmProcessing : Exit;  // still working
@@ -185,27 +186,42 @@ begin
           HintPause := Application.HintPause;
         if Delay >= HintPause then
         begin
-          Txt := '';
           // Get the text to display
           if Assigned(fOnGetCodeHint) then begin
             State := tmProcessing;
-            fOnGetCodeHint(Self, Area, Txt);
+            var TaskId := 0;
+            var Task: ITask := TTask.Create(procedure
+            begin
+              var Txt := '';
+              fOnGetCodeHint(Self, Area, Txt);
+              if (Txt <> '') and (TaskId = FTaskId) then
+              begin
+                State := tmShow;
+                FHintText := Txt;
+              end
+            end);
+            FTaskId := Task.id;
+            TaskId := FTaskid;
+            Task.Start;
           end;
-          if Txt = '' then begin
-            State := tmStopped;
-            Exit;
-          end;
-          R := HintWindow.CalcHintRect(Screen.Width, Txt, nil);
-          R.Top := fScreenPos.Y;
-          R.Left := fScreenPos.X;
-          Inc(R.Bottom, R.Top);
-          Inc(R.Right, R.Left);
-          State := tmShowing;
-          HintWindow.ActivateHint(R, '');
-          FDelay := 0;
         end
         else
           Inc(FDelay);
+      end;
+    tmShow:
+      begin
+        if fHintText = '' then begin
+          State := tmStopped;
+          Exit;
+        end;
+        R := HintWindow.CalcHintRect(Screen.Width, fHintText, nil);
+        R.Top := fScreenPos.Y;
+        R.Left := fScreenPos.X;
+        Inc(R.Bottom, R.Top);
+        Inc(R.Right, R.Left);
+        State := tmShowing;
+        HintWindow.ActivateHint(R, '');
+        FDelay := 0;
       end;
     tmShowing:
       begin
@@ -232,6 +248,7 @@ end;
 procedure TCodeHint.CancelHint;
 begin
   FDelay := 0;
+  FTaskId := 0;
   if IsWindowVisible(HintWindow.Handle) then
     ShowWindow(HintWindow.Handle, SW_HIDE);
   State := tmStopped;

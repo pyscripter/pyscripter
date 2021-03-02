@@ -2042,14 +2042,16 @@ end;
 procedure TPyIDEMainForm.actSyntaxCheckExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
+  ErrorPos: TEditorPos;
 begin
   ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
 
-  if TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(ActiveEditor) then begin
+  if TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(ActiveEditor, ErrorPos) then begin
     GI_PyIDEServices.Messages.AddMessage(Format(_(SSyntaxIsOK), [ActiveEditor.FileTitle]));
     ShowDockForm(MessagesWindow);
-  end;
+  end else
+    ShowDockForm(PythonIIForm);
 end;
 
 procedure TPyIDEMainForm.actImportModuleExecute(Sender: TObject);

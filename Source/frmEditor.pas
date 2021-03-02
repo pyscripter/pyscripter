@@ -1584,6 +1584,9 @@ begin
     SourceScanner.StopScanning;
   fNeedToParseModule := True;
 
+  if Assigned(fSyntaxTask) then
+    fSyntaxTask.Cancel;
+
   ClearSearchItems;
 end;
 
@@ -2529,8 +2532,7 @@ begin
             (BufferCoord(fSyntaxErrorPos.Char, aLineCharPos.Line))));
       fHintIdentInfo.IdentArea.Right := Pix.X;
       fHintIdentInfo.IdentArea.Bottom := Pix.Y + LineHeight + 3;
-      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos))
-        );
+      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
       Pix.Y := Pix.Y + LineHeight;
       fHintIdentInfo.SynToken := 'Syntax Error';
       fHintIdentInfo.Editor := fEditor;
@@ -3251,12 +3253,14 @@ end;
 
 class procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
   var CodeHint: string);
+//  This procedure is executed inside a thread and needs to be threadsafe!
 Var
   ObjectValue, ObjectType: string;
   ErrMsg: string;
   CE: TBaseCodeElement;
 begin
-  if CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then
+  if Assigned(fHintIdentInfo.Editor) and
+    CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then
   begin
     if (fHintIdentInfo.SynToken = 'Syntax Error') and fHintIdentInfo.Editor.fForm.HasSyntaxError then
     begin
@@ -3319,16 +3323,22 @@ begin
     fSyntaxTask := TTask.Create(procedure
     begin
       Sleep(1000); // introduce a delay
-      TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, True);
+      var ErrorPos: TEditorPos;
+      TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, ErrorPos, True);
+      var Cancelled :=  TTask.CurrentTask.Status = TTaskStatus.Canceled;
       TThread.Synchronize(nil, procedure
       begin
-        if HasSyntaxError then
-          SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
-        fSyntaxErrorPos := PyControl.ErrorPos;
-        PyControl.ErrorPos := TEditorPos.EmptyPos;
-        fNeedToCheckSyntax := False;
+        if not Cancelled then
+        begin
+          if HasSyntaxError then
+            SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
+          fSyntaxErrorPos := ErrorPos;
+          if HasSyntaxError then
+            SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
+          fNeedToCheckSyntax := False;
+        end;
+        fSyntaxTask := nil;
       end);
-      fSyntaxTask := nil;
     end).Start;
 
   if HasSyntaxError then
