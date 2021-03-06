@@ -33,15 +33,12 @@ inherited FileExplorerWindow: TFileExplorerWindow
     000000000000000000000000000000000000000000000000000000000000FBC1
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
-  ExplicitHeight = 478
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Height = 439
-    ExplicitHeight = 439
     inherited FGPanel: TPanel
       Height = 435
-      ExplicitHeight = 435
       object FileExplorerTree: TVirtualExplorerTree
         Left = 0
         Top = 26
@@ -298,6 +295,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Go Back'
       ImageIndex = 0
+      ImageName = 'Item36'
       OnExecute = actGoBackExecute
     end
     object actGoForward: TAction
@@ -306,6 +304,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Go Forward'
       ImageIndex = 1
+      ImageName = 'Item37'
       OnExecute = actGoForwardExecute
     end
     object actGoUp: TAction
@@ -314,6 +313,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Up|Show the parent folder'
       ImageIndex = 3
+      ImageName = 'Item46'
       OnExecute = actGoUpExecute
     end
     object actRefresh: TAction
@@ -322,6 +322,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Refresh|Refresh File Explorer'
       ImageIndex = 2
+      ImageName = 'Item40'
       ShortCut = 116
       OnExecute = actRefreshExecute
     end
@@ -333,6 +334,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Enable Filter|Select to show only Python files'
       ImageIndex = 4
+      ImageName = 'Item47'
       OnExecute = actEnableFilterExecute
     end
     object actSearchPath: TAction
@@ -341,6 +343,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Search selected path'
       ImageIndex = 6
+      ImageName = 'Item87'
       OnExecute = actSearchPathExecute
     end
     object actExploreHere: TAction
@@ -370,6 +373,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Create new folder'
       ImageIndex = 8
+      ImageName = 'Item116'
       OnExecute = actNewFolderExecute
     end
   end

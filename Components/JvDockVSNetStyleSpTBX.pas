@@ -1234,9 +1234,9 @@ begin
     SystemParametersInfoForDpi(SPI_GETNONCLIENTMETRICS,
     NonClientMetrics.cbSize, @NonClientMetrics, 0, 96)
   then
-    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 8, 18)
+    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 12, 24)
   else
-    GrabbersSize := 20;
+    GrabbersSize := 24;
 end;
 
 { TJvDockVSNETTabSheetSpTBX }

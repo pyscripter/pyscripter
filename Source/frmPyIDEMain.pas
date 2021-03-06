@@ -600,7 +600,9 @@ uses
   cPyDebugger,
   cRefactoring,
   cPyScripterSettings,
-  cPyControl, System.ImageList, Vcl.VirtualImageList;
+  cPyControl,
+  System.ImageList,
+  Vcl.VirtualImageList;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
