@@ -59,9 +59,9 @@ object EditorForm: TEditorForm
       end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 26
+        Top = 25
         Width = 578
-        Height = 392
+        Height = 393
         Caption = 'Source'
         ImageIndex = -1
         TabItem = 'tabSource'

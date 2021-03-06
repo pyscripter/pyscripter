@@ -10,8 +10,6 @@ inherited AboutBox: TAboutBox
   Position = poScreenCenter
   StyleElements = [seFont, seBorder]
   OnKeyPress = FormKeyPress
-  ExplicitWidth = 388
-  ExplicitHeight = 290
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXTabControl: TSpTBXTabControl
@@ -1513,11 +1511,12 @@ inherited AboutBox: TAboutBox
           Height = 16
           Caption = ' '
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clHotLight
+          Font.Color = 16746564
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsItalic]
           ParentFont = False
+          StyleElements = [seClient, seBorder]
           OnClick = Panel1Click
         end
         object Version: TLabel
@@ -1527,11 +1526,12 @@ inherited AboutBox: TAboutBox
           Height = 18
           Caption = 'Version 1.3'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clHotLight
+          Font.Color = 16746564
           Font.Height = -16
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
           ParentFont = False
+          StyleElements = [seClient, seBorder]
           OnClick = Panel1Click
         end
         object ProductName: TLabel
@@ -1541,12 +1541,13 @@ inherited AboutBox: TAboutBox
           Height = 24
           Caption = 'PyScripter'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clHotLight
+          Font.Color = 16746564
           Font.Height = -21
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
           ParentFont = False
           Transparent = True
+          StyleElements = [seClient, seBorder]
           OnClick = Panel1Click
         end
         object Comments: TLabel

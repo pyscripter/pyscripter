@@ -1887,7 +1887,7 @@ begin
     InsertList.Clear;
     for i := 0 to Parameters.Count - 1 do begin
       Parameters.Split(i, ParamName, ParamValue, False);
-      ItemList.Add(Format('\color{clHotlight}%s\color{clWindowText}\column{}%s',
+      ItemList.Add(Format('\color{$FF8844}%s\color{clWindowText}\column{}%s',
          [ParamName, StringReplace(ParamValue, '\', '\\', [rfReplaceAll])]));
       InsertList.Add(ParamName);
     end;
@@ -1905,7 +1905,7 @@ begin
     for i := 0 to Parameters.Modifiers.Count - 1 do begin
       ModName := Parameters.Modifiers.Names[i];
       ModComment := Parameters.Modifiers.Values[ModName];
-      ItemList.Add(Format('\color{clHotlight}%s\color{clWindowText}\column{}%s', [ModName, ModComment]));
+      ItemList.Add(Format('\color{$FF8844}%s\color{clWindowText}\column{}%s', [ModName, ModComment]));
       InsertList.Add(ModName);
     end;
   end;

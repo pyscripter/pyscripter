@@ -222,7 +222,7 @@ begin
     if nsaChanged in Data.NameSpaceItem.Attributes then
       TargetCanvas.Font.Color := clRed
     else if nsaNew in Data.NameSpaceItem.Attributes then
-      TargetCanvas.Font.Color := StyleServices.GetSystemColor(clHotlight);
+      TargetCanvas.Font.Color := $FF8844;
 end;
 
 procedure TVariablesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;

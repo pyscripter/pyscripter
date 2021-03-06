@@ -40,20 +40,14 @@ inherited VariablesWindow: TVariablesWindow
     3EE0D9983EE0D9983EE0D9983EE0D9983EE0D9983EE0D3953FCDC28A455C0000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  ExplicitWidth = 595
-  ExplicitHeight = 286
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 579
     Height = 247
-    ExplicitWidth = 579
-    ExplicitHeight = 247
     inherited FGPanel: TPanel
       Width = 575
       Height = 243
-      ExplicitWidth = 575
-      ExplicitHeight = 243
       object DocPanel: TSpTBXPageScroller
         Left = 200
         Top = 0

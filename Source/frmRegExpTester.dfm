@@ -237,7 +237,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ParentFont = False
             Wrapping = twEndEllipsis
             Underline = True
-            UnderlineColor = clHotLight
+            UnderlineColor = $FF8844
           end
           object GroupsView: TVirtualStringTree
             Left = 1
@@ -342,7 +342,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               ParentFont = False
               Wrapping = twEndEllipsis
               Underline = True
-              UnderlineColor = clHotLight
+              UnderlineColor = $FF8844
             end
           end
         end
@@ -415,7 +415,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 ParentFont = False
                 Wrapping = twEndEllipsis
                 Underline = True
-                UnderlineColor = clHotLight
+                UnderlineColor = $FF8844
               end
             end
           end
@@ -483,7 +483,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 ParentFont = False
                 Wrapping = twEndEllipsis
                 Underline = True
-                UnderlineColor = clHotLight
+                UnderlineColor = $FF8844
               end
               object SpinMatches: TSpTBXSpinEdit
                 Left = 335

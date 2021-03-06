@@ -132,7 +132,7 @@ begin
     begin
       // Keyword
       ImageIndex := Integer(TCodeImages.Keyword);
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clHotlight}%s', [ImageIndex, S]);
+      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{$FF8844}%s', [ImageIndex, S]);
     end
     else
     begin
@@ -846,7 +846,7 @@ begin
 
     NameSpaceItem := fNameSpace.Objects[I] as TBaseNameSpaceItem;
     if not Assigned(NameSpaceItem) then
-       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clHotlight}%s',
+       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{$FF8844}%s',
          [Integer(TCodeImages.Keyword), fNameSpace[I]])
     else
     begin

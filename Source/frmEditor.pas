@@ -2491,7 +2491,7 @@ begin
         (fHotIdentInfo.StartCoord));
     Canvas.Font.Assign(ASynEdit.Font);
     Canvas.Font.Style := fHotIdentInfo.SynAttri.Style + [fsUnderline];
-    Canvas.Font.Color := clHotlight;
+    Canvas.Font.Color := $FF8844;
     if fHotIdentInfo.SynAttri.Background <> clNone then
       Canvas.Brush.Color := fHotIdentInfo.SynAttri.Background
     else
