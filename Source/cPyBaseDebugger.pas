@@ -384,7 +384,7 @@ begin
       FileName := FromPythonFileName(TI.FileName);
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       // Check whether the error occurred in the active editor
-      if (Assigned(Editor) and (Editor = GI_PyIDEServices.GetActiveEditor)) or
+      if (Assigned(Editor) and (Editor = GI_PyIDEServices.ActiveEditor)) or
         PyIDEOptions.JumpToErrorOnException then
       begin
         if GI_PyIDEServices.ShowFilePosition(TI.FileName, TI.LineNo, 1) and

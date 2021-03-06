@@ -82,7 +82,7 @@ Var
   Editor : IEditor;
 begin
   Result:= '';
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then
     Result:= Editor.GetFileNameOrTitle;
 end;

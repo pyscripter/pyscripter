@@ -179,7 +179,7 @@ Var
 begin
   var Py := SafePyEngine;
   ClearAll;
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
     Cursor := WaitCursor;
 

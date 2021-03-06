@@ -400,7 +400,7 @@ var
   CurrentFile: string;
   Editor : IEditor;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
     CurrentFile := Editor.FileName;
     if CurrentFile = '' then

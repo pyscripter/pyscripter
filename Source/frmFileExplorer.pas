@@ -216,7 +216,7 @@ var
   Editor : IEditor;
   FileName : string;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
     FileName := Editor.FileName;
     if FileName <> '' then

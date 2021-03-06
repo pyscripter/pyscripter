@@ -384,7 +384,7 @@ begin
   finally
     PersistFileInfo.Free;
   end;
-  ActiveEditor := GI_PyIDEServices.GetActiveEditor;
+  ActiveEditor := GI_PyIDEServices.ActiveEditor;
   if Assigned(ActiveEditor) then
     FName := ActiveEditor.FileName
   else

@@ -397,7 +397,7 @@ procedure TScanCodeThread.GetEditorData;
 Var
   Editor : IEditor;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
     fNewCEData := Editor.CodeExplorerData as ICodeExplorerData;
     fNewCEData.NewSourceScanner := Editor.SourceScanner as IAsyncSourceScanner;
@@ -712,7 +712,7 @@ Var
 begin
   if not mnFollowEditor.Checked then Exit;
 
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if not Assigned(Editor) then Exit;
 
   if (TScanCodeThread(WorkerThread).fOldCEData = Editor.CodeExplorerData) and
@@ -772,7 +772,7 @@ begin
     end else
       Exit;
 
-    Editor := GI_PyIDEServices.GetActiveEditor;
+    Editor := GI_PyIDEServices.ActiveEditor;
     if Assigned(Editor) and (CodePos.LineNo >= 0) then begin
       with Editor.ActiveSynEdit do
       begin

@@ -896,7 +896,7 @@ procedure TCommandsDataModule.actFileCloseWorkspaceTabsExecute(Sender: TObject);
 Var
   Editor : IEditor;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if not Assigned(Editor) then Exit;
 
   WorkspaceCloseOtherTabs(Editor, False);
@@ -910,7 +910,7 @@ procedure TCommandsDataModule.actFileCloseExecute(Sender: TObject);
 Var
   Editor : IEditor;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then
     (Editor as IFileCommands).ExecClose;
 end;
@@ -1101,7 +1101,7 @@ Var
   SearchOptions : TSynSearchOptions;
   Editor : IEditor;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
     if actSearchHighlight.Checked and (EditorSearchOptions.SearchText <> '') then
     begin
@@ -2233,7 +2233,7 @@ Var
   Editor : IEditor;
   SearchCommands : ISearchCommands;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   // Edit actions
 //  actEditCut.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCut;
 //  actEditCopy.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCopy;
@@ -2592,7 +2592,7 @@ procedure TCommandsDataModule.actEditCopyFileNameExecute(Sender: TObject);
 Var
   Editor : IEditor;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then
     Clipboard.AsText := Editor.GetFileNameOrTitle;
 end;
@@ -2940,7 +2940,7 @@ begin
     if EditorSearchOptions.InterpreterIsSearchTarget and CanActuallyFocus(PythonIIForm.SynEdit) then
       Result := PythonIIForm
     else begin
-      Editor := GI_PyIDEServices.GetActiveEditor;
+      Editor := GI_PyIDEServices.ActiveEditor;
       if Assigned(Editor) then
         Result := Editor as ISearchCommands
     end;

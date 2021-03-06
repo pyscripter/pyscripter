@@ -283,7 +283,7 @@ Var
   FName : string;
 begin
   Node := ExplorerTree.GetFirstSelected;
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if not Assigned(Node) or not Assigned(Editor) then Exit;
 
   if Editor.FileName <> '' then
@@ -324,7 +324,7 @@ begin
         Title := _(SAddFilesToProject);
         FileName := '';
         Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
-        Editor := GI_PyIDEServices.GetActiveEditor;
+        Editor := GI_PyIDEServices.ActiveEditor;
         if Assigned(Editor) and (Editor.FileName <> '') and
           (ExtractFileDir(Editor.FileName) <> '')
         then
@@ -556,7 +556,7 @@ begin
       Title := _(SOpenProject);
       FileName := '';
       Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
-      Editor := GI_PyIDEServices.GetActiveEditor;
+      Editor := GI_PyIDEServices.ActiveEditor;
       if Assigned(Editor) and (Editor.FileName <> '') and
         (ExtractFileDir(Editor.FileName) <> '')
       then

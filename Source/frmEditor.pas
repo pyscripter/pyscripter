@@ -1455,7 +1455,7 @@ Var
   Editor: IEditor;
   Index: Integer;
 begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
+  Editor := GI_PyIDEServices.ActiveEditor;
   if not Assigned(Editor) then
     Exit;
   Index := (Sender as TSpTBXItem).Tag;
@@ -1516,7 +1516,7 @@ begin
   try
     for i := 0 to fEditorViewFactories.Count - 1 do
     begin
-      Editor := GI_PyIDEServices.GetActiveEditor;
+      Editor := GI_PyIDEServices.ActiveEditor;
       Enabled := Assigned(Editor);
       if Enabled then
       begin
