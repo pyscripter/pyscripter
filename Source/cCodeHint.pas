@@ -149,6 +149,13 @@ begin
   then
     Exit;  //  already showing this hint
 
+  if State = tmProcessing then
+  begin
+     // Do not run multiple tasks
+     FTaskId := 0;
+     Exit;
+  end;
+
   Area := AArea;
   FScreenPos := ScreenPos;
   FTaskId := 0;
@@ -189,19 +196,23 @@ begin
           // Get the text to display
           if Assigned(fOnGetCodeHint) then begin
             State := tmProcessing;
-            var TaskId := 0;
             var Task: ITask := TTask.Create(procedure
             begin
               var Txt := '';
               fOnGetCodeHint(Self, Area, Txt);
-              if (Txt <> '') and (TaskId = FTaskId) then
-              begin
-                State := tmShow;
-                FHintText := Txt;
-              end
+              if (Txt <> '') and (TTask.CurrentTask.Id = FTaskId) then
+                TThread.Synchronize(nil, procedure
+                begin
+                  State := tmShow;
+                  FHintText := Txt;
+                end)
+              else
+                TThread.Synchronize(nil, procedure
+                begin
+                  State := tmStopped;
+                end);
             end);
             FTaskId := Task.id;
-            TaskId := FTaskid;
             Task.Start;
           end;
         end
@@ -210,7 +221,7 @@ begin
       end;
     tmShow:
       begin
-        if fHintText = '' then begin
+        if FHintText = '' then begin
           State := tmStopped;
           Exit;
         end;
@@ -249,6 +260,7 @@ procedure TCodeHint.CancelHint;
 begin
   FDelay := 0;
   FTaskId := 0;
+  FHintText := '';
   if IsWindowVisible(HintWindow.Handle) then
     ShowWindow(HintWindow.Handle, SW_HIDE);
   State := tmStopped;

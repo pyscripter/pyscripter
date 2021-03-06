@@ -234,6 +234,7 @@ type
     function GetIDELayouts: IIDELayouts;
     function GetAppStorage: TJvCustomAppStorage;
     function GetLocalAppStorage: TJvCustomAppStorage;
+    property ActiveEditor: IEditor read GetActiveEditor;
     property Messages: IMessageServices read GetMessageServices;
     property UnitTests: IUnitTestServices read GetUnitTestServices;
     property Layouts: IIDELayouts read GetIDELayouts;

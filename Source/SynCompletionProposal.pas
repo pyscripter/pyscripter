@@ -2882,7 +2882,7 @@ begin
         if FAdjustCompletionStart then
           FCompletionStart := BufferCoord(FCompletionStart, CaretY).Char;
         BlockBegin := BufferCoord(FCompletionStart, CaretY);
-        if (scoEndCharCompletion in fOptions) or (EndToken = #0) then
+        if EndToken = #0 then
           BlockEnd := BufferCoord(WordEnd.Char, CaretY)
         else
           BlockEnd := BufferCoord(CaretX, CaretY);

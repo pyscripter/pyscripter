@@ -59,9 +59,9 @@ object EditorForm: TEditorForm
       end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 25
+        Top = 26
         Width = 578
-        Height = 393
+        Height = 392
         Caption = 'Source'
         ImageIndex = -1
         TabItem = 'tabSource'
@@ -1050,7 +1050,7 @@ object EditorForm: TEditorForm
     end
   end
   object SynCodeCompletion: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
     Width = 200
     EndOfTokenChr = '()[]{}. =:'
     TriggerChars = '.'

@@ -270,7 +270,7 @@ type
     property CompleteAsYouType : Boolean read fCompleteAsYouType
       write fCompleteAsYouType default True;
     property CompleteWithWordBreakChars : Boolean read fCompleteWithWordBreakChars
-      write fCompleteWithWordBreakChars default False;
+      write fCompleteWithWordBreakChars default True;
     property CompleteWithOneEntry : Boolean read fCompleteWithOneEntry
       write fCompleteWithOneEntry default False;
     property DisplayPackageNames : Boolean read fDisplayPackageNames
@@ -322,7 +322,7 @@ type
   end;
 
 Const
-  // Additional Sysnedit commands
+  // Additional Synedit commands
   ecRecallCommandPrev = ecUserFirst + 100;
   ecRecallCommandNext = ecUserFirst + 101;
   ecRecallCommandEsc = ecUserFirst + 102;
@@ -521,7 +521,7 @@ begin
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
-  fCompleteWithWordBreakChars := False;
+  fCompleteWithWordBreakChars := True;
   fCompleteWithOneEntry := False;
   fDisplayPackageNames := True;
   fCheckSyntaxLineLimit := 1000;

@@ -139,14 +139,13 @@ type
     fOutputStream : TMemoryStream;
     fCloseBracketChar: WideChar;
     fOutputMirror : TFileStream;
-    fCompletionHandler : TBaseCodeCompletionHandler;
-    procedure CleanupCodeCompletion;
     procedure GetBlockBoundary(LineN: integer; var StartLineN,
               EndLineN: integer; var IsCode: Boolean);
     function GetPromptPrefix(line: string): string;
     procedure SetCommandHistorySize(const Value: integer);
     procedure GetBlockCode(var Source: string;
       var Buffer: array of string; EndLineN: Integer; StartLineN: Integer);
+    procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     // ISearchCommands implementation
     function CanFind: boolean;
     function CanFindNext: boolean;
@@ -208,6 +207,7 @@ Uses
   System.Math,
   System.Win.Registry,
   System.RegularExpressions,
+  System.Threading,
   VarPyth,
   JclStrings,
   JvJVCLUtils,
@@ -853,8 +853,24 @@ Var
   CharLeft: WideChar;
   Attr: TSynHighlighterAttributes;
   DummyToken : string;
-  BC : TBufferCoord;
+  Caret, BC : TBufferCoord;
 begin
+  // Should AutoCompletion be trigerred?
+  if (Command = ecChar) and  PyIDEOptions.InterpreterCodeCompletion then
+  begin
+    if (TIDECompletion.InterpreterCodeCompletion.CompletionInfo.Editor = nil)
+      and (Pos(AChar, SynCodeCompletion.TriggerChars) > 0)
+    then
+    begin
+      Caret := SynEdit.CaretXY;
+      TThread.ForceQueue(nil, procedure
+      begin
+        DoCodeCompletion(SynEdit, Caret);
+      end,
+      SynCodeCompletion.TimerInterval);
+    end;
+  end;
+
   if (Command = ecChar) and PyIDEOptions.AutoCompleteBrackets then
   with SynEdit do begin
     Line := LineText;
@@ -988,14 +1004,13 @@ begin
       begin
         if SynCodeCompletion.Form.Visible then
           SynCodeCompletion.CancelCompletion;
-        //SynCodeCompletion.DefaultType := ctCode;
-        SynCodeCompletion.ActivateCompletion;
+        DoCodeCompletion(SynEdit, SynEdit.CaretXY);
+        //SynCodeCompletion.ActivateCompletion;
       end;
     ecParamCompletion:
       begin
         if SynParamCompletion.Form.Visible then
           SynParamCompletion.CancelCompletion;
-        //SynCodeCompletion.DefaultType := ctParams;
         SynParamCompletion.ActivateCompletion;
       end;
     ecSelMatchBracket :
@@ -1167,121 +1182,172 @@ begin
     PostMessage(Handle, WM_PARAMCOMPLETION, 0, 0);
 end;
 
-procedure TPythonIIForm.CleanupCodeCompletion;
-begin
-  if Assigned(fCompletionHandler) then
-    fCompletionHandler.Finalize;
-  fCompletionHandler := nil;
-end;
-
 procedure TPythonIIForm.SynCodeCompletionClose(Sender: TObject);
 begin
   PyIDEOptions.CodeCompletionListSize :=
     SynCodeCompletion.NbLinesInWindow;
   //  Clean-up
-  CleanupCodeCompletion;
+  TIDECompletion.InterpreterCodeCompletion.CleanUp;
 end;
 
-procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var x, y: Integer;
-  var CanExecute: Boolean);
-Var
-  i : integer;
-  Skipped, Handled : Boolean;
+procedure TPythonIIForm.DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
+var
   locline: string;
-  DisplayText, InsertText: string;
-  FileName : string;
   Attr: TSynHighlighterAttributes;
+  Highlighter: TSynCustomHighlighter;
   Prompt, DummyToken: string;
-  BC: TBufferCoord;
-  SkipHandler : TBaseCodeCompletionSkipHandler;
 begin
-  CanExecute := False;
   // No code completion while Python is running
   if not (GI_PyControl.PythonLoaded and not GI_PyControl.Running and
     PyIDEOptions.InterpreterCodeCompletion)
   then
     Exit;
 
-  with TSynCompletionProposal(Sender).Editor do
-  begin
-    locLine := StrPadRight(LineText, CaretX - 1, ' '); // to deal with trim trailing spaces
-    Prompt := GetPromptPrefix(locLine);
-    if Prompt <> '' then begin
-      locLine := Copy(locLine, Length(Prompt) + 1, MaxInt);
-      // Exit if it is a system command
-      if TRegEx.IsMatch(locLine, '^\s*!') then
-        Exit;
-    end else
-      Exit;  // This is not a code line
+  //Exit if cursor has moved
+  if Caret <> Editor.CaretXY then Exit;
 
-    BC := CaretXY;
-    Dec(BC.Char);
-    GetHighlighterAttriAtRowCol(BC, DummyToken, Attr);
+  Highlighter := SynEdit.Highlighter;
+  Dec(Caret.Char);
+  SynEdit.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
+  locLine := StrPadRight(SynEdit.LineText, Caret.Char, ' '); // to deal with trim trailing spaces
+  Inc(Caret.Char);
 
-    BC := CaretXY;
-    BC.Char := BC.Char - Length(Prompt);
-    FileName := '';
+  Prompt := GetPromptPrefix(locLine);
+  if Prompt <> '' then begin
+    // Replace prompt with spaces
+    for var I := 1 to Length(Prompt) do
+      locline[I] := ' ';
+    // Exit if it is a system command
+    if TRegEx.IsMatch(locLine, '^\s*!') then
+      Exit;
+  end else
+    Exit;  // This is not a code line
 
-    Skipped := False;
-    for I := 0 to TIDECompletion.InterpreterCodeCompletion.SkipHandlers.Count -1 do
-    begin
-      SkipHandler := TIDECompletion.InterpreterCodeCompletion.SkipHandlers[i] as
-        TBaseCodeCompletionSkipHandler;
-      Skipped := SkipHandler.SkipCodeCompletion(locline, FileName, BC, Highlighter, Attr);
-      if Skipped then Break;
-    end;
-
-    Handled := False;
-    if not Skipped then
-    begin
-      for I := 0 to TIDECompletion.InterpreterCodeCompletion.CompletionHandlers.Count -1 do
-      begin
-        fCompletionHandler := TIDECompletion.InterpreterCodeCompletion.CompletionHandlers[i] as
-          TBaseCodeCompletionHandler;
-        Handled := fCompletionHandler.HandleCodeCompletion(locline, FileName,
-          BC, Highlighter, Attr, InsertText, DisplayText);
-        if Handled then Break;
-      end;
-    end;
-
-    CanExecute := not Skipped and Handled and (InsertText <> '');
+  var CC := TIDECompletion.InterpreterCodeCompletion;
+  if not CC.Lock.TryEnter then Exit;
+  try
+    // Exit if busy
+    if CC.CompletionInfo.Editor <> nil then Exit;
+    CC.CleanUp;
+    CC.CompletionInfo.Editor := SynEdit;
+    CC.CompletionInfo.CaretXY := Caret;
+  finally
+    CC.Lock.Leave;
   end;
 
-  with TSynCompletionProposal(Sender) do
-    if CanExecute then begin
-      Font := PyIDEOptions.AutoCompletionFont;
-      FontsAreScaled := True;
-      ItemList.Text := DisplayText;
-      InsertList.Text := InsertText;
-      NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
-      CurrentString := CurrentInput;
+  TTask.Create(procedure
+  var
+    DisplayText, InsertText: string;
+  begin
+    var CC := TIDECompletion.InterpreterCodeCompletion;
+    if not CC.Lock.TryEnter then Exit;
+    try
+      var Skipped := False;
+      for var I := 0 to CC.SkipHandlers.Count -1 do
+      begin
+        var SkipHandler := CC.SkipHandlers[I] as TBaseCodeCompletionSkipHandler;
+        Skipped := SkipHandler.SkipCodeCompletion(locline, '', Caret, Highlighter, Attr);
+        if Skipped then Break;
+      end;
 
-      if Form.AssignedList.Count = 0 then
+      var Handled := False;
+      if not Skipped then
+      begin
+        for var I := 0 to CC.CompletionHandlers.Count -1 do
+        begin
+          var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
+          Handled := CompletionHandler.HandleCodeCompletion(locline, '',
+            Caret, Highlighter, Attr, InsertText, DisplayText);
+          if Handled then begin
+            CC.CompletionInfo.CompletionHandler := CompletionHandler;
+            CC.CompletionInfo.InsertText := InsertText;
+            CC.CompletionInfo.DisplayText := DisplayText;
+            Break;
+          end;
+        end;
+      end;
+
+      if not Skipped and Handled and (InsertText <> '') then
+        TThread.Queue(nil, procedure
+        begin
+          SynCodeCompletion.ActivateCompletion;
+        end)
+      else
+        CC.CleanUp;
+    finally
+      CC.Lock.Leave;
+    end;
+  end).Start;
+end;
+
+procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
+  Sender: TObject; var CurrentInput: string; var x, y: Integer;
+  var CanExecute: Boolean);
+begin
+  var CC := TIDECompletion.InterpreterCodeCompletion;
+  var CP := TSynCompletionProposal(Sender);
+
+  if not CC.Lock.TryEnter then
+  begin
+    CanExecute := False;
+    Exit;
+  end;
+  try
+    CanExecute := SynEdit.Focused and (CC.CompletionInfo.CaretXY = SynEdit.CaretXY);
+  finally
+    cc.Lock.Leave;
+  end;
+
+  if CanExecute then
+  begin
+    if not CC.Lock.TryEnter then
+    begin
+      CanExecute := False;
+      Exit;
+    end;
+    try
+      CP.Font := PyIDEOptions.AutoCompletionFont;
+      CP.FontsAreScaled := True;
+      CP.ItemList.Text := CC.CompletionInfo.DisplayText;
+      CP.InsertList.Text := CC.CompletionInfo.InsertText;
+      CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
+      CP.CurrentString := CurrentInput;
+
+      if CP.Form.AssignedList.Count = 0 then
       begin
         CanExecute := False;
-        CleanupCodeCompletion;
+        CC.CleanUp;
       end
       else
-      if PyIDEOptions.CompleteWithOneEntry and (Form.AssignedList.Count = 1) then
+      if PyIDEOptions.CompleteWithOneEntry and (CP.Form.AssignedList.Count = 1) then
       begin
         // Auto-complete with one entry without showing the form
         CanExecute := False;
-        OnValidate(Form, [], #0);
-        CleanupCodeCompletion;
+        CP.OnValidate(CP.Form, [], ' ');
+        CC.CleanUp;
       end;
-    end else begin
-      ItemList.Clear;
-      InsertList.Clear;
-      CleanupCodeCompletion;
+    finally
+      CC.Lock.Leave;
     end;
+  end else begin
+    CP.ItemList.Clear;
+    CP.InsertList.Clear;
+    CC.CleanUp;
+  end;
 end;
 
 procedure TPythonIIForm.SynCodeCompletionCodeItemInfo(Sender: TObject;
   AIndex: Integer; var Info: string);
 begin
-  if Assigned(fCompletionHandler) then
-    Info := fCompletionHandler.GetInfo((Sender as TSynCompletionProposal).InsertList[AIndex]);
+  var CC := TIDECompletion.InterpreterCodeCompletion;
+  if not CC.Lock.TryEnter then Exit;
+  try
+    if Assigned(CC.CompletionInfo.CompletionHandler) then
+      Info := CC.CompletionInfo.CompletionHandler.GetInfo(
+        (Sender as TSynCompletionProposal).InsertList[AIndex]);
+  finally
+    CC.Lock.Leave;
+  end;
 end;
 
 procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;

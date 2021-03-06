@@ -426,16 +426,7 @@ type
   );
 {$SCOPEDENUMS OFF}
 
-
-Const
-  ecRecallCommandPrev = ecUserFirst + 100;
-  ecRecallCommandNext = ecUserFirst + 101;
-  ecRecallCommandEsc = ecUserFirst + 102;
-  ecCodeCompletion = ecUserFirst + 103;
-  ecParamCompletion = ecUserFirst + 104;
-  ecSelMatchBracket = ecUserFirst + 105;
-
-  function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
+function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
 
 var
   CommandsDataModule: TCommandsDataModule = nil;

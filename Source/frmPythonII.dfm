@@ -113,7 +113,7 @@ inherited PythonIIForm: TPythonIIForm
     Top = 53
   end
   object SynCodeCompletion: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
     Width = 200
     EndOfTokenChr = '()[]{}. =:'
     TriggerChars = '.'

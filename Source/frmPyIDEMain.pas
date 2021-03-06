@@ -1702,6 +1702,7 @@ begin
   ViewToolbar.DoubleBuffered := True;
   EditorToolbar.DoubleBuffered := True;
   UserToolbar.DoubleBuffered := True;
+  FindToolbar.DoubleBuffered := True;
 
   SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;

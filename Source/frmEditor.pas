@@ -198,7 +198,6 @@ type
     fOldCaretY : Integer;
     fSyntaxTask: ITask;
     procedure HandlePythonVersionChange(Sender: TObject);
-    procedure CleanupCodeCompletion;
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
     function DoSave: boolean;
@@ -212,6 +211,7 @@ type
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
+    procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     class var fOldEditorForm: TEditorForm;
     class var fHintIdentInfo: THotIdentInfo;
     class procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
@@ -1991,7 +1991,7 @@ var
   CharRight, CharLeft: WideChar;
   Attr: TSynHighlighterAttributes;
   DummyToken: string;
-  BC: TBufferCoord;
+  Caret, BC: TBufferCoord;
 begin
   ASynEdit := Sender as TSynEdit;
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
@@ -2044,7 +2044,7 @@ begin
           if SynCodeCompletion.Form.Visible then
             SynCodeCompletion.CancelCompletion;
           // SynCodeCompletion.DefaultType := ctCode;
-          SynCodeCompletion.ActivateCompletion;
+          DoCodeCompletion(ASynEdit, ASynEdit.CaretXY);
           Handled := True;
         end else if ASynEdit.Highlighter is TSynWebBase then
           SynWebCompletion.ActivateCompletion;
@@ -2146,89 +2146,105 @@ begin
           //end;
         end;
       ecChar: // Autocomplete brackets
-        if not fAutoCompleteActive and PyIDEOptions.
-          AutoCompleteBrackets then
-          with ASynEdit do
+        begin
+          if PyIDEOptions.EditorCodeCompletion then
           begin
-            if ASynEdit.Highlighter is TSynPythonSyn then
+            if (TIDECompletion.EditorCodeCompletion.CompletionInfo.Editor = nil)
+              and (Pos(AChar, SynCodeCompletion.TriggerChars) > 0)
+            then
             begin
-              OpenBrackets := '([{"''';
-              CloseBrackets := ')]}"''';
-            end
-            else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn)
-              or (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
-              (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
-            begin
-              OpenBrackets := '<"''';
-              CloseBrackets := '>"''';
-            end
-            else
-              Exit;
-
-            Line := LineText;
-            Len := Length(LineText);
-
-            if AChar = fCloseBracketChar then
-            begin
-              if InsertMode and (CaretX <= Len) and
-                (Line[CaretX] = fCloseBracketChar) then
-                ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
-              fCloseBracketChar := #0;
-            end
-            else if CharInSet(AChar, [')', ']', '}']) then
-            begin
-              fCloseBracketChar := #0;
-              Position := CaretX;
-              if Position <= Len then
-                CharRight := Line[Position]
-              else
-                CharRight := WideNull;
-              if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
-                ExecuteCommand(ecDeleteChar, #0, nil);
-            end
-            else
-            begin
-              //fCloseBracketChar := #0;
-              OpenBracketPos := Pos(AChar, OpenBrackets);
-
-              BC := CaretXY;
-              Dec(BC.Char, 2);
-              if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken,
-                Attr) and ((Attr = Highlighter.StringAttribute) or
-                  (Attr = Highlighter.CommentAttribute) or
-                  ((Highlighter is TSynPythonSyn) and
-                    (Attr = TSynPythonSyn(Highlighter).CodeCommentAttri) or
-                    (Attr = TSynPythonSyn(Highlighter).MultiLineStringAttri) or
-                    (Attr = TSynPythonSyn(Highlighter).DocStringAttri))) then
-                OpenBracketPos := 0; // Do not auto complete brakets inside strings or comments
-
-              if (OpenBracketPos > 0) then
+              Caret := ASynEdit.CaretXY;
+              TThread.ForceQueue(nil, procedure
               begin
-                CharRight := WideNull;
+                DoCodeCompletion(ASynEdit, Caret);
+              end,
+              SynCodeCompletion.TimerInterval);
+            end;
+          end;
+
+          if not fAutoCompleteActive and PyIDEOptions.AutoCompleteBrackets then
+            with ASynEdit do
+            begin
+              if ASynEdit.Highlighter is TSynPythonSyn then
+              begin
+                OpenBrackets := '([{"''';
+                CloseBrackets := ')]}"''';
+              end
+              else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn)
+                or (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
+                (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
+              begin
+                OpenBrackets := '<"''';
+                CloseBrackets := '>"''';
+              end
+              else
+                Exit;
+
+              Line := LineText;
+              Len := Length(LineText);
+
+              if AChar = fCloseBracketChar then
+              begin
+                if InsertMode and (CaretX <= Len) and
+                  (Line[CaretX] = fCloseBracketChar) then
+                  ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
+                fCloseBracketChar := #0;
+              end
+              else if CharInSet(AChar, [')', ']', '}']) then
+              begin
+                fCloseBracketChar := #0;
                 Position := CaretX;
-                while (Position <= Len) and Highlighter.IsWhiteChar
-                  (LineText[Position]) do
-                  Inc(Position);
                 if Position <= Len then
-                  CharRight := Line[Position];
+                  CharRight := Line[Position]
+                else
+                  CharRight := WideNull;
+                if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
+                  ExecuteCommand(ecDeleteChar, #0, nil);
+              end
+              else
+              begin
+                //fCloseBracketChar := #0;
+                OpenBracketPos := Pos(AChar, OpenBrackets);
 
-                CharLeft := WideNull;
-                Position := CaretX - 2;
-                while (Position >= 1) and Highlighter.IsWhiteChar
-                  (LineText[Position]) do
-                  Dec(Position);
-                if Position >= 1 then
-                  CharLeft := Line[Position];
+                BC := CaretXY;
+                Dec(BC.Char, 2);
+                if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken,
+                  Attr) and ((Attr = Highlighter.StringAttribute) or
+                    (Attr = Highlighter.CommentAttribute) or
+                    ((Highlighter is TSynPythonSyn) and
+                      (Attr = TSynPythonSyn(Highlighter).CodeCommentAttri) or
+                      (Attr = TSynPythonSyn(Highlighter).MultiLineStringAttri) or
+                      (Attr = TSynPythonSyn(Highlighter).DocStringAttri))) then
+                  OpenBracketPos := 0; // Do not auto complete brakets inside strings or comments
 
-                if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and not
-                  (CharInSet(AChar, ['"', '''']) and
-                    (Highlighter.IsIdentChar(CharLeft) or (CharLeft = AChar)))
-                then
+                if (OpenBracketPos > 0) then
                 begin
-                  SelText := CloseBrackets[OpenBracketPos];
-                  CaretX := CaretX - 1;
-                  if not CharInSet(AChar, [')', ']', '}']) then
-                    fCloseBracketChar := CloseBrackets[OpenBracketPos];
+                  CharRight := WideNull;
+                  Position := CaretX;
+                  while (Position <= Len) and Highlighter.IsWhiteChar
+                    (LineText[Position]) do
+                    Inc(Position);
+                  if Position <= Len then
+                    CharRight := Line[Position];
+
+                  CharLeft := WideNull;
+                  Position := CaretX - 2;
+                  while (Position >= 1) and Highlighter.IsWhiteChar
+                    (LineText[Position]) do
+                    Dec(Position);
+                  if Position >= 1 then
+                    CharLeft := Line[Position];
+
+                  if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and not
+                    (CharInSet(AChar, ['"', '''']) and
+                      (Highlighter.IsIdentChar(CharLeft) or (CharLeft = AChar)))
+                  then
+                  begin
+                    SelText := CloseBrackets[OpenBracketPos];
+                    CaretX := CaretX - 1;
+                    if not CharInSet(AChar, [')', ']', '}']) then
+                      fCloseBracketChar := CloseBrackets[OpenBracketPos];
+                  end;
                 end;
               end;
             end;
@@ -2827,13 +2843,6 @@ begin
     PostMessage(Handle, WM_PARAMCOMPLETION, 0, 0);
 end;
 
-procedure TEditorForm.CleanupCodeCompletion;
-begin
-  if Assigned(fCompletionHandler) then
-    fCompletionHandler.Finalize;
-  fCompletionHandler := nil;
-end;
-
 procedure TEditorForm.ClearSearchItems;
 begin
   if FoundSearchItems.Count > 0 then
@@ -2848,7 +2857,7 @@ procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
 begin
   PyIDEOptions.CodeCompletionListSize :=
     SynCodeCompletion.NbLinesInWindow;
-  CleanupCodeCompletion;
+  TIDECompletion.EditorCodeCompletion.CleanUp;
 end;
 
 procedure TEditorForm.SynCodeCompletionCodeItemInfo(Sender: TObject;
@@ -2858,101 +2867,149 @@ begin
     Info := fCompletionHandler.GetInfo((Sender as TSynCompletionProposal).InsertList[AIndex]);
 end;
 
-procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
-  var CanExecute: boolean);
-Var
-  i : integer;
-  Skipped, Handled : Boolean;
+procedure TEditorForm.DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
+var
   locline: string;
-  DisplayText, InsertText: string;
-  FileName : string;
   Attr: TSynHighlighterAttributes;
-  DummyToken: string;
-  BC: TBufferCoord;
-  SkipHandler : TBaseCodeCompletionSkipHandler;
+  Highlighter: TSynCustomHighlighter;
+  FileName, DummyToken: string;
 begin
   if not (fEditor.HasPythonFile and
     GI_PyControl.PythonLoaded and not GI_PyControl.Running and
-    PyIDEOptions.EditorCodeCompletion) then
+    PyIDEOptions.EditorCodeCompletion)
+  then
+    Exit;
+
+  //Exit if cursor has moved
+  if not Assigned(GI_ActiveEditor) or (GI_ActiveEditor.ActiveSynEdit <> Editor)
+    or(Caret <> Editor.CaretXY)
+  then
+    Exit;
+
+  Highlighter := Editor.Highlighter;
+  FileName := GI_ActiveEditor.GetFileNameOrTitle;
+
+  Dec(Caret.Char);
+  Editor.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
+  // to deal with trim trailing spaces
+  locline := StrPadRight(Editor.LineText, Caret.Char, ' ');
+  Inc(Caret.Char);
+
+  var CC := TIDECompletion.EditorCodeCompletion;
+  if not CC.Lock.TryEnter then Exit;
+  try
+    // Exit if busy
+    if CC.CompletionInfo.Editor <> nil then Exit;
+    CC.CleanUp;
+    CC.CompletionInfo.Editor := SynEdit;
+    CC.CompletionInfo.CaretXY := Caret;
+  finally
+    CC.Lock.Leave;
+  end;
+
+  TTask.Create(procedure
+  var
+    DisplayText, InsertText: string;
+  begin
+    var CC := TIDECompletion.EditorCodeCompletion;
+    if not CC.Lock.TryEnter then Exit;
+    try
+      var Skipped := False;
+      for var I := 0 to CC.SkipHandlers.Count -1 do
+      begin
+        var SkipHandler := CC.SkipHandlers[I] as TBaseCodeCompletionSkipHandler;
+        Skipped := SkipHandler.SkipCodeCompletion(locline, '', Caret, Highlighter, Attr);
+        if Skipped then Break;
+      end;
+
+      var Handled := False;
+      if not Skipped then
+      begin
+        for var I := 0 to CC.CompletionHandlers.Count -1 do
+        begin
+          var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
+          Handled := CompletionHandler.HandleCodeCompletion(locline, '',
+            Caret, Highlighter, Attr, InsertText, DisplayText);
+          if Handled then begin
+            CC.CompletionInfo.CompletionHandler := CompletionHandler;
+            CC.CompletionInfo.InsertText := InsertText;
+            CC.CompletionInfo.DisplayText := DisplayText;
+            Break;
+          end;
+        end;
+      end;
+
+      if not Skipped and Handled and (InsertText <> '') then
+        TThread.Queue(nil, procedure
+        begin
+          SynCodeCompletion.ActivateCompletion;
+        end)
+      else
+        CC.CleanUp;
+    finally
+      CC.Lock.Leave;
+    end;
+  end).Start;
+end;
+
+procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
+  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
+  var CanExecute: boolean);
+begin
+  var CC := TIDECompletion.EditorCodeCompletion;
+  var CP := TSynCompletionProposal(Sender);
+
+  if not CC.Lock.TryEnter then
   begin
     CanExecute := False;
     Exit;
   end;
-
-  with TSynCompletionProposal(Sender).Editor do
-  begin
-    BC := CaretXY;
-    Dec(BC.Char);
-    GetHighlighterAttriAtRowCol(BC, DummyToken, Attr);
-
-    FileName := GetEditor.GetFileNameOrTitle;
-    locline := StrPadRight(LineText, CaretX - 1, ' ');
-    // to deal with trim trailing spaces
-
-    Skipped := False;
-    for I := 0 to TIDECompletion.EditorCodeCompletion.SkipHandlers.Count -1 do
-    begin
-      SkipHandler := TIDECompletion.EditorCodeCompletion.SkipHandlers[i] as
-        TBaseCodeCompletionSkipHandler;
-      try
-        Skipped := SkipHandler.SkipCodeCompletion(locline, FileName, CaretXY, Highlighter, Attr);
-      except
-        Skipped := False;
-      end;
-      if Skipped then Break;
-    end;
-
-    Handled := False;
-    if not Skipped then
-    begin
-      for I := 0 to TIDECompletion.EditorCodeCompletion.CompletionHandlers.Count -1 do
-      begin
-        fCompletionHandler := TIDECompletion.EditorCodeCompletion.CompletionHandlers[i] as
-          TBaseCodeCompletionHandler;
-        try
-          Handled := fCompletionHandler.HandleCodeCompletion(locline, FileName,
-            CaretXY, Highlighter, Attr, InsertText, DisplayText);
-        except
-          Handled := False;
-        end;
-        if Handled then Break;
-      end;
-    end;
-
-    CanExecute := not Skipped and Handled and (InsertText <> '');
+  try
+    CanExecute := Assigned(GI_ActiveEditor) and
+      (GI_ActiveEditor.ActiveSynEdit = CC.CompletionInfo.Editor) and
+      CC.CompletionInfo.Editor.Focused and
+      (CC.CompletionInfo.CaretXY = CC.CompletionInfo.Editor.CaretXY);
+  finally
+    cc.Lock.Leave;
   end;
 
-  with TSynCompletionProposal(Sender) do
-    if CanExecute then
+  if CanExecute then
+  begin
+    if not CC.Lock.TryEnter then
     begin
-      Font := PyIDEOptions.AutoCompletionFont;
-      FontsAreScaled := True;
-      ItemList.Text := DisplayText;
-      InsertList.Text := InsertText;
-      NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
-      CurrentString := CurrentInput;
+      CanExecute := False;
+      Exit;
+    end;
+    try
+      CP.Font := PyIDEOptions.AutoCompletionFont;
+      CP.FontsAreScaled := True;
+      CP.ItemList.Text := CC.CompletionInfo.DisplayText;
+      CP.InsertList.Text := CC.CompletionInfo.InsertText;
+      CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
+      CP.CurrentString := CurrentInput;
 
-      if Form.AssignedList.Count = 0 then
+      if CP.Form.AssignedList.Count = 0 then
       begin
         CanExecute := False;
-        CleanupCodeCompletion;
+        CC.CleanUp;
       end
       else
-      if PyIDEOptions.CompleteWithOneEntry and (Form.AssignedList.Count = 1) then
+      if PyIDEOptions.CompleteWithOneEntry and (CP.Form.AssignedList.Count = 1) then
       begin
         // Auto-complete with one entry without showing the form
         CanExecute := False;
-        OnValidate(Form, [], #0);
-        CleanupCodeCompletion;
+        CP.OnValidate(CP.Form, [], ' ');
+        CC.CleanUp;
       end;
-    end
-    else
-    begin
-      ItemList.Clear;
-      InsertList.Clear;
-      CleanupCodeCompletion;
+    finally
+      CC.Lock.Leave;
     end;
+  end else begin
+    CP.ItemList.Clear;
+    CP.InsertList.Clear;
+    CC.CleanUp;
+  end;
+
 end;
 
 type

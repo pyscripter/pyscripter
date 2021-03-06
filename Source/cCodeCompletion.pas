@@ -9,9 +9,12 @@ unit cCodeCompletion;
 
 interface
 Uses
+  Winapi.Windows,
   System.Types,
   System.Classes,
   System.Contnrs,
+  System.SyncObjs,
+  SynEdit,
   SynEditTypes,
   SynEditHighlighter;
 
@@ -30,11 +33,23 @@ type
     function GetInfo(CCItem: string) : string; virtual; abstract;
   end;
 
+  TCompletionInfo = record
+    Editor: TSynEdit;
+    CaretXY: TBufferCoord;
+    InsertText,
+    DisplayText : string;
+    CompletionHandler: TBaseCodeCompletionHandler;
+  end;
+
   TCodeCompletion = class
+  public
     SkipHandlers : TObjectList;
     CompletionHandlers : TObjectList;
+    CompletionInfo: TCompletionInfo;
+    Lock: TRTLCriticalSection;
     constructor Create;
     destructor Destroy; override;
+    procedure CleanUp;
     procedure RegisterSkipHandler(Handler : TBaseCodeCompletionSkipHandler);
     procedure RegisterCompletionHandler(Handler : TBaseCodeCompletionHandler);
   end;
@@ -268,12 +283,13 @@ begin
     Module := fModulePrefix + '.' + Module;
 
   if PyScripterRefactor.InitializeQuery then
-  begin
+  try
     var Py := SafePyEngine;
     ParsedModule :=
       PyScripterRefactor.ResolveModuleImport(Module, fFileName, fPathDepth);
     if Assigned(ParsedModule) then
       Result := GetLineRange(ParsedModule.DocString, 1, 20);
+  finally
     PyScripterRefactor.FinalizeQuery;
   end;
 end;
@@ -338,6 +354,7 @@ function TFromStatementHandler.HandleCodeCompletion(const Line,
   HighlighterAttr: TSynHighlighterAttributes; out InsertText,
   DisplayText: string): Boolean;
 Var
+  Py: IPyEngineAndGIL;
   i : integer;
   FNameVar : Variant;
   Dir, DottedModName, Server : string;
@@ -349,6 +366,7 @@ begin
 
   if Result then
   begin
+    Py := SafePyEngine;
     // autocomplete from statement
     fModulePrefix := '';
     fFileName := FileName;
@@ -414,6 +432,7 @@ function TFromImportModuleHandler.HandleCodeCompletion(const Line,
   HighlighterAttr: TSynHighlighterAttributes; out InsertText,
   DisplayText: string): Boolean;
 Var
+  Py: IPyEngineAndGIL;
   Dir : string;
   i : integer;
   ParsedModule : TParsedModule;
@@ -424,6 +443,7 @@ begin
 
   if Result then
   begin
+    Py := SafePyEngine;
     // autocomplete from statement
     fPathDepth := Match.GroupLength(1);
     if Match.GroupLength(2) > 0 then
@@ -858,14 +878,36 @@ end;
 
 { TCodeCompletion }
 
+procedure TCodeCompletion.CleanUp;
+begin
+  Lock.Enter;
+  try
+    CompletionInfo.InsertText := '';
+    CompletionInfo.DisplayText := '';
+    CompletionInfo.Editor := nil;
+    CompletionInfo.CaretXY := BufferCoord(0,9);
+    if Assigned(CompletionInfo.CompletionHandler) then
+    begin
+      CompletionInfo.CompletionHandler.Finalize;
+      CompletionInfo.CompletionHandler := nil;
+    end;
+  finally
+    Lock.Leave;
+  end;
+end;
+
 constructor TCodeCompletion.Create;
 begin
   SkipHandlers := TObjectList.Create(True);
   CompletionHandlers := TObjectList.Create(True);
+  Lock.Initialize;
 end;
 
 destructor TCodeCompletion.Destroy;
 begin
+  Lock.Enter;
+  Lock.Leave;
+  Lock.Free;
   SkipHandlers.Free;
   CompletionHandlers.Free;
 end;
