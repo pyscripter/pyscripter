@@ -54,9 +54,44 @@ type
     procedure RegisterCompletionHandler(Handler : TBaseCodeCompletionHandler);
   end;
 
+  TBaseParamCompletion = class
+  private type
+    TCachedResults = record
+      Editor: TSynEdit;
+      StartX: Integer;
+      Lookup, DisplayString, DocString: string;
+    end;
+  private
+    FCachedResults: TCachedResults;
+  protected
+    AllowFunctionCalls: Boolean;
+   function CallTipFromExpression(const Expr, FileName : string;
+      const Line: integer; var DisplayString, DocString : string): Boolean; virtual; abstract;
+  public
+    function HandleParamCompletion(const FileName : string;
+      Editor: TSynEdit; out DisplayString, DocString : string;
+      out StartX: Integer): Boolean;
+  end;
+
+  TInterpreterParamCompletion = class(TBaseParamCompletion)
+  protected
+    function CallTipFromExpression(const Expr, FileName : string;
+        const Line: integer; var DisplayString, DocString : string): Boolean; override;
+  public
+    constructor Create;
+  end;
+
+  TEditorParamCompletion = class(TBaseParamCompletion)
+  protected
+   function CallTipFromExpression(const Expr, FileName : string;
+      const Line: integer; var DisplayString, DocString : string): Boolean; override;
+  end;
+
   TIDECompletion = class
-    class var EditorCodeCompletion : TCodeCompletion;
-    class var InterpreterCodeCompletion : TCodeCompletion;
+    class var EditorCodeCompletion: TCodeCompletion;
+    class var InterpreterCodeCompletion: TCodeCompletion;
+    class var InterpreterParamCompletion: TBaseParamCompletion;
+    class var EditorParamCompletion: TBaseParamCompletion;
     class constructor Create;
     class destructor Destroy;
   end;
@@ -66,6 +101,7 @@ implementation
 uses
   System.SysUtils,
   System.StrUtils,
+  System.Threading,
   System.RegularExpressions,
   VarPyth,
   JclStrings,
@@ -451,7 +487,7 @@ begin
       // from ...module import identifiers
       fFileName := FileName;
       if PyScripterRefactor.InitializeQuery then
-      begin
+      try
         ParsedModule := PyScripterRefactor.ResolveModuleImport
           (Match.GroupValue(2), fFileName, fPathDepth);
         if Assigned(ParsedModule) then
@@ -466,6 +502,7 @@ begin
             // will be handled by FromImportNamespace
             Result := False
         end;
+      finally
         PyScripterRefactor.FinalizeQuery;
       end;
     end
@@ -493,8 +530,9 @@ end;
 type
   TNamespaceCompletionHandler = class(TBaseCodeCompletionHandler)
   protected
-    fFileName : string;
-    fSortedNameSpace : TStringList;
+    FFileName : string;
+    FSortedNameSpace : TStringList;
+    FRefactorInitialized: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -507,23 +545,25 @@ type
 
 constructor TNamespaceCompletionHandler.Create;
 begin
-  fSortedNameSpace := TStringList.Create;
-  fSortedNameSpace.CaseSensitive := True;
-  fSortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
+  FSortedNameSpace := TStringList.Create;
+  FSortedNameSpace.CaseSensitive := True;
+  FSortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
 end;
 
 destructor TNamespaceCompletionHandler.Destroy;
 begin
-  fSortedNameSpace.Free;
+  FSortedNameSpace.Free;
   inherited;
 end;
 
 procedure TNamespaceCompletionHandler.Finalize;
 begin
   inherited;
-  fFileName := '';
-  fSortedNameSpace.Clear;
-  PyScripterRefactor.FinalizeQuery;
+  FFileName := '';
+  FSortedNameSpace.Clear;
+  if FRefactorInitialized then
+    PyScripterRefactor.FinalizeQuery;
+  FRefactorInitialized := False;
 end;
 
 function TNamespaceCompletionHandler.GetInfo(CCItem: string): string;
@@ -531,10 +571,10 @@ Var
   Index : integer;
   CE : TBaseCodeElement;
 begin
-  Index := fSortedNameSpace.IndexOf(CCItem);
+  Index := FSortedNameSpace.IndexOf(CCItem);
   if Index >=0  then
   begin
-    CE := fSortedNameSpace.Objects[Index] as TBaseCodeElement;
+    CE := FSortedNameSpace.Objects[Index] as TBaseCodeElement;
     if not Assigned(CE) then
       Result := _(SPythonKeyword)
     else if Assigned(CE) and (CE is TCodeElement) then
@@ -555,7 +595,7 @@ Var
   NameSpace: TStringList;
   PythonPathAdder : IInterface;
 begin
-  fFileName := FileName;
+  FFileName := FileName;
   InsertText := '';
   DisplayText := '';
 
@@ -569,8 +609,8 @@ begin
   Index := CharLastPos(lookup, WideChar('.'));
 
   // Add the file path to the Python path - Will be automatically removed
-  if not TSSHFileName.Parse(fFileName, Server, Dir) then
-    Dir := ExtractFileDir(fFileName)
+  if not TSSHFileName.Parse(FFileName, Server, Dir) then
+    Dir := ExtractFileDir(FFileName)
   else
     Dir := '';
   if Length(Dir) > 1 then
@@ -580,8 +620,9 @@ begin
 
   if PyScripterRefactor.InitializeQuery then
   begin
+    FRefactorInitialized := True;
     // GetParsedModule
-    ParsedModule := PyScripterRefactor.GetParsedModule(fFileName, None);
+    ParsedModule := PyScripterRefactor.GetParsedModule(FFileName, None);
     Scope := nil;
     if Assigned(ParsedModule) then
       Scope := ParsedModule.GetScopeForLine(Caret.Line);
@@ -621,7 +662,7 @@ begin
             end;
           end
         end;
-        ProcessNamespace(fSortedNameSpace, NameSpace, InsertText, DisplayText);
+        ProcessNamespace(FSortedNameSpace, NameSpace, InsertText, DisplayText);
       finally
         NameSpace.Free;
       end;
@@ -653,6 +694,7 @@ begin
   if Result then begin
     if PyScripterRefactor.InitializeQuery then
     begin
+      FRefactorInitialized := True;
       // GetParsedModule
       ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
       if Assigned(ParsedBuiltInModule) then begin
@@ -665,7 +707,7 @@ begin
             CE := NameSpace.Objects[Index] as TCodeElement;
             NameSpace.Clear;
             CE.GetNameSpace(NameSpace);
-            ProcessNamespace(fSortedNameSpace, NameSpace, InsertText, DisplayText);
+            ProcessNamespace(FSortedNameSpace, NameSpace, InsertText, DisplayText);
           end;
         finally
           NameSpace.Free;
@@ -707,11 +749,12 @@ begin
     if Match.GroupLength(2) > 0 then
     begin
       // from ...module import identifiers
-      fFileName := FileName;
+      FFileName := FileName;
       if PyScripterRefactor.InitializeQuery then
       begin
+        FRefactorInitialized := True;
         ParsedModule := PyScripterRefactor.ResolveModuleImport
-          (Match.GroupValue(2), fFileName, fPathDepth);
+          (Match.GroupValue(2), FFileName, fPathDepth);
         if Assigned(ParsedModule) then
         begin
           if (fPathDepth > 0) and ParsedModule.IsPackage then
@@ -722,7 +765,7 @@ begin
             NameSpace := TStringList.Create;
             try
               ParsedModule.GetNamespace(NameSpace);
-              ProcessNamespace(fSortedNameSpace, NameSpace, InsertText, DisplayText);
+              ProcessNamespace(FSortedNameSpace, NameSpace, InsertText, DisplayText);
             finally
               NameSpace.Free;
             end;
@@ -922,10 +965,230 @@ begin
   SkipHandlers.Add(Handler);
 end;
 
+{ TBaseCodeCompletionHandler }
+
+procedure TBaseCodeCompletionHandler.Finalize;
+begin
+end;
+
+procedure TBaseCodeCompletionHandler.Initialize;
+begin
+end;
+
+{ TBaseParamCompletion }
+
+function TBaseParamCompletion.HandleParamCompletion(const FileName: string;
+  Editor: TSynEdit; out DisplayString, DocString: string;
+  out StartX: Integer): Boolean;
+const
+  ParamCompletionWaitTime = 2000;  //ms
+var
+  LocLine, Lookup: string;
+  TmpX, ParenCounter: Integer;
+  FoundMatch : Boolean;
+  DummyToken: string;
+  Attr: TSynHighlighterAttributes;
+  Caret: TBufferCoord;
+  Highlighter: TSynPythonSyn;
+begin
+  DisplayString := '';
+  DocString := '';
+  Caret := Editor.CaretXY;
+  Result := False;
+
+  Highlighter := Editor.Highlighter as TSynPythonSyn;
+  if Editor.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr) and
+   ({(attr = Highlighter.StringAttribute) or} (attr = Highlighter.CommentAttribute) or
+    (Attr = Highlighter.CodeCommentAttri) or (Attr = Highlighter.MultiLineStringAttri) or
+    (Attr = Highlighter.DocStringAttri))
+   then
+    // Do not code complete inside doc strings, code or multiline comments
+    Exit;
+
+  LocLine := Editor.LineText;
+
+  //go back from the cursor and find the first open paren
+  StartX := Caret.Char;
+  TmpX := Caret.Char;
+  if TmpX > length(LocLine)
+  then
+    TmpX := length(LocLine)
+  else
+    dec(TmpX);
+
+  FoundMatch := False;
+  while (TmpX > 0) and not(FoundMatch) do
+  begin
+    Editor.GetHighlighterAttriAtRowCol(BufferCoord(TmpX, Caret.Line), DummyToken, Attr);
+    if (Attr = Highlighter.StringAttri) or (Attr = Highlighter.SpaceAttri)
+    then
+      Dec(TmpX)
+    else if LocLine[TmpX] = ')' then
+    begin
+      //We found a close, go till it's opening paren
+      ParenCounter := 1;
+      dec(TmpX);
+      while (TmpX > 0) and (ParenCounter > 0) do
+      begin
+        if LocLine[TmpX] = ')' then inc(ParenCounter)
+        else if LocLine[TmpX] = '(' then dec(ParenCounter);
+        dec(TmpX);
+      end;
+    end else if LocLine[TmpX] = '(' then
+    begin
+      //we have a valid open paren, lets see what the word before it is
+      StartX := TmpX;
+      Dec(TmpX);
+      while (TmpX > 0) and (LocLine[TmpX] = ' ') do
+        Dec(TmpX);
+      if TmpX > 0 then
+      begin
+        Lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
+
+        if (Lookup <> '') and (Lookup[1] = '.') and
+           (TmpX > Length(Lookup)) and
+           CharInSet(LocLine[TmpX - Length(Lookup)], ['''', '"'])
+        then
+          Lookup := 'str' + Lookup;
+
+        FoundMatch :=
+          (AllowFunctionCalls or (CharPos(Lookup, ')') <= 0)) // Issue 422  Do not evaluate functions
+          and (Lookup <> '');
+
+        if FoundMatch then
+        begin
+          // Use CachedResults
+          if (Editor = FCachedResults.Editor) and (Lookup = FCachedResults.Lookup)
+            and (StartX = FCachedResults.StartX)  then
+          begin
+            DisplayString := FCachedResults.DisplayString;
+            DocString := FCachedResults.DocString;
+          end
+          else
+          begin
+            var DispS, DocS: string;
+            var Task := TTask.Create(procedure
+            begin
+              FoundMatch := CallTipFromExpression(Lookup, FileName, Caret.Line, DispS, DocS);
+            end).Start;
+            if Task.Wait(ParamCompletionWaitTime) then
+            begin
+              if FoundMatch then
+              begin
+                DisplayString := DispS;
+                DocString := DocS;
+                // cache the results
+                FCachedResults.Editor := Editor;
+                FCachedResults.StartX := StartX;
+                FCachedResults.Lookup := Lookup;
+                FCachedResults.DisplayString := DisplayString;
+                FCachedResults.DocString := DocString;
+              end;
+            end
+            else
+            begin
+              if Self is TEditorParamCompletion then
+                PyScripterRefactor.Cancel;
+              Exit; // We got stuck!
+            end;
+          end;
+        end;
+
+        if not(FoundMatch) then
+        begin
+          TmpX := StartX;
+          dec(TmpX);
+        end;
+      end;
+    end
+    else
+      dec(TmpX)
+  end;
+  Result := FoundMatch;
+end;
+
+
+{ TInterpreterParamCompletion }
+
+function TInterpreterParamCompletion.CallTipFromExpression(const Expr, FileName : string;
+  const Line: integer; var DisplayString, DocString : string): Boolean;
+begin
+  Result := PyControl.ActiveInterpreter.CallTipFromExpression(
+    Expr, DisplayString, DocString);
+end;
+
+constructor TInterpreterParamCompletion.Create;
+begin
+  inherited;
+  AllowFunctionCalls := True;
+end;
+
+{ TEditorParamCompletion }
+
+function TEditorParamCompletion.CallTipFromExpression(const Expr,
+  FileName: string; const Line: integer; var DisplayString,
+  DocString: string): Boolean;
+var
+  Scope: TCodeElement;
+  Def: TBaseCodeElement;
+  ParsedModule: TParsedModule;
+  PythonPathAdder: IInterface;
+  ErrMsg: string;
+begin
+  DisplayString := '';
+  DocString := '';
+  Result := False;
+  // Add the file path to the Python path - Will be automatically removed
+  if FileExists(FileName) then
+    PythonPathAdder := GI_PyControl.AddPathToInternalPythonPath
+      (ExtractFileDir(FileName));
+
+  if PyScripterRefactor.InitializeQuery then
+  try
+    // GetParsedModule
+    ParsedModule := PyScripterRefactor.GetParsedModule(FileName, None);
+    Scope := nil;
+    if Assigned(ParsedModule) then
+      Scope := ParsedModule.GetScopeForLine(Line);
+    if Assigned(ParsedModule) and Assigned(Scope) then
+    begin
+      Def := PyScripterRefactor.FindDottedDefinition(Expr,
+        ParsedModule, Scope, ErrMsg);
+
+      if Assigned(Def) and (Def is TParsedClass) and
+        not (Def.GetModule.Name = GetPythonEngine.BuiltInModuleName)
+      then
+        Def := TParsedClass(Def).GetConstructor;
+
+      if Assigned(Def) and ((Def is TParsedFunction) or (Def is TParsedClass)) then
+      begin
+        Result := True;
+        if Def is TParsedFunction then begin
+          DisplayString := TParsedFunction(Def).ArgumentsString;
+          // Remove self arguments from methods
+          if StrIsLeft(PWideChar(DisplayString), 'self') then
+            Delete(DisplayString, 1, 4);
+          if StrIsLeft(PWideChar(DisplayString), ', ') then
+            Delete(DisplayString, 1, 2);
+          DocString := TParsedFunction(Def).DocString;
+        end else if Def is TParsedClass then begin
+           DisplayString := '';
+           DocString := TParsedClass(Def).DocString;
+        end;
+      end;
+    end;
+  finally
+    PyScripterRefactor.FinalizeQuery;
+  end;
+end;
+
 { TIDECompletion }
 
 class constructor TIDECompletion.Create;
 begin
+  InterpreterParamCompletion := TInterpreterParamCompletion.Create;
+  EditorParamCompletion := TEditorParamCompletion.Create;
+
   EditorCodeCompletion := TCodeCompletion.Create;
   InterpreterCodeCompletion := TCodeCompletion.Create;
 
@@ -957,17 +1220,9 @@ class destructor TIDECompletion.Destroy;
 begin
   EditorCodeCompletion.Free;
   InterpreterCodeCompletion.Free;
+  InterpreterParamCompletion.Free;
+  EditorParamCompletion.Free;
 end;
 
-
-{ TBaseCodeCompletionHandler }
-
-procedure TBaseCodeCompletionHandler.Finalize;
-begin
-end;
-
-procedure TBaseCodeCompletionHandler.Initialize;
-begin
-end;
 
 end.

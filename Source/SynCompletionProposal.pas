@@ -1167,7 +1167,7 @@ end;
 
 function FormatParamList(const Params: string; CurrentIndex: Integer): string;
 var
-  S, Param: string;
+  S, Param, TrimmedParam: string;
   i: Integer;
 begin
   Result := '';
@@ -1175,12 +1175,20 @@ begin
   S := Params.Trim;
   Repeat
     Param := GetParameter(S);
+    TrimmedParam := Param.Trim;
+    if (TrimmedParam = '*') or (TrimmedParam = '/') then
+    begin
+      // Deal with keyword only or positional only python arguments
+      Result := Result + Param + ',';
+      Continue;
+    end
+    else
     if i = CurrentIndex then
       Result := Result + '\style{~B}' + Param + '\style{~B}'
     else
       Result := Result + Param;
-      if S.Length > 0 then
-        Result := Result + ',';
+    if S.Length > 0 then
+      Result := Result + ',';
     Inc(i);
   Until S.Length = 0;
 end;
@@ -3323,7 +3331,7 @@ begin
             #32..'z':
               with Form do
               begin
-{                if Pos(AChar, FTriggerChars) > 0 then
+                {if Pos(AChar, FTriggerChars) > 0 then
                 begin
                   if Assigned(FParameterToken) then
                   begin

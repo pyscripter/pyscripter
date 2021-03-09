@@ -236,7 +236,7 @@ type
     property InterpreterCodeCompletion : Boolean read fInterpreterCodeCompletion
       write fInterpreterCodeCompletion default True;
     property CodeCompletionListSize : integer read fCodeCompletionListSize
-      write fCodeCompletionListSize default 8;
+      write fCodeCompletionListSize default 10;
     property ShowTabCloseButton : Boolean read fShowTabCloseButton
       write fShowTabCloseButton default True;
     property PostMortemOnException : Boolean read fPostMortemOnException
@@ -503,7 +503,7 @@ begin
   fAutoHideFindToolbar := False;
   fEditorCodeCompletion := True;
   fInterpreterCodeCompletion := True;
-  fCodeCompletionListSize := 8;
+  fCodeCompletionListSize := 10;
   fShowTabCloseButton := True;
   fPostMortemOnException := False;
   fDockAnimationInterval := 20;

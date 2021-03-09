@@ -62,10 +62,8 @@ uses
 const
   WM_APPENDTEXT = WM_USER + 1020;
   WM_REINITINTERPRETER = WM_USER + 1030;
-  WM_PARAMCOMPLETION = WM_USER +1040;
 
 type
-
   TPythonIIForm = class(TIDEDockWindow, ISearchCommands, IPyInterpreter)
     SynEdit: TSynEdit;
     PythonIO: TPythonInputOutput;
@@ -182,7 +180,6 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure WMAPPENDTEXT(var Message: TMessage); message WM_APPENDTEXT;
     procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
-    procedure WMPARAMCOMPLETION(var Message: TMessage); message WM_PARAMCOMPLETION;
   public
     { Public declarations }
     PS1, PS2 : string;
@@ -1179,7 +1176,10 @@ procedure TPythonIIForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
   const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
 begin
   if EndToken = '(' then
-    PostMessage(Handle, WM_PARAMCOMPLETION, 0, 0);
+    TThread.ForceQueue(nil, procedure
+    begin
+      SynParamCompletion.ActivateCompletion;
+    end);
 end;
 
 procedure TPythonIIForm.SynCodeCompletionClose(Sender: TObject);
@@ -1256,14 +1256,21 @@ begin
         for var I := 0 to CC.CompletionHandlers.Count -1 do
         begin
           var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
-          Handled := CompletionHandler.HandleCodeCompletion(locline, '',
-            Caret, Highlighter, Attr, InsertText, DisplayText);
+          CompletionHandler.Initialize;
+          try
+            Handled := CompletionHandler.HandleCodeCompletion(locline, '',
+              Caret, Highlighter, Attr, InsertText, DisplayText);
+          except
+          end;
           if Handled then begin
+            //CompletionHandler will be finalized in the Cleanup call
             CC.CompletionInfo.CompletionHandler := CompletionHandler;
             CC.CompletionInfo.InsertText := InsertText;
             CC.CompletionInfo.DisplayText := DisplayText;
             Break;
-          end;
+          end
+          else
+            CompletionHandler.Finalize;
         end;
       end;
 
@@ -1293,7 +1300,9 @@ begin
     Exit;
   end;
   try
-    CanExecute := SynEdit.Focused and (CC.CompletionInfo.CaretXY = SynEdit.CaretXY);
+    CanExecute := Application.Active and
+      (GetParentForm(SynEdit).ActiveControl = SynEdit) and
+      (CC.CompletionInfo.CaretXY = SynEdit.CaretXY);
   finally
     cc.Lock.Leave;
   end;
@@ -1354,123 +1363,48 @@ procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: string; var x, y: Integer;
   var CanExecute: Boolean);
 var
-  locline, lookup: string;
-  TmpX, StartX,
-  ParenCounter,
+  StartX,
   ArgIndex : Integer;
-  FoundMatch : Boolean;
-  DisplayText, DocString : string;
+  DisplayString, DocString : string;
   p : TPoint;
-  Attr: TSynHighlighterAttributes;
-  DummyToken : string;
-  BC : TBufferCoord;
-  Attri: TSynHighlighterAttributes;
-  Token: string;
+  ParamString : string;
 begin
+  CanExecute := False;
   if not GI_PyControl.PythonLoaded or GI_PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
   then
     Exit;
-  with TSynCompletionProposal(Sender).Editor do
-  begin
-    BC := CaretXY;
-    Dec(BC.Char);
-    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-     ({(attr = Highlighter.StringAttribute) or} (attr = Highlighter.CommentAttribute) or
-      (attr = TSynPythonInterpreterSyn(Highlighter).CodeCommentAttri) or
-      (attr = TSynPythonInterpreterSyn(Highlighter).MultiLineStringAttri) or
-      (attr = TSynPythonInterpreterSyn(Highlighter).DocStringAttri)) then
-    begin
-      // Do not code complete inside strings or comments
-      CanExecute := False;
-      Exit;
-    end;
 
-    locLine := LineText;
+  CanExecute := TIDECompletion.InterpreterParamCompletion.HandleParamCompletion('',
+    SynEdit, DisplayString, DocString, StartX) and Application.Active and
+    (GetParentForm(SynEdit).ActiveControl = SynEdit);
 
-    //go back from the cursor and find the first open paren
-    TmpX := CaretX;
-    StartX := CaretX;
-    if TmpX > length(locLine) then
-      TmpX := length(locLine)
-    else dec(TmpX);
-    FoundMatch := False;
-
-    while (TmpX > 0) and not(FoundMatch) do
-    begin
-      GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
-      if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
-        (Attri = TSynPythonSyn(Highlighter).SpaceAttri)
-      then
-        Dec(TmpX)
-      else if LocLine[TmpX] = ')' then
-      begin
-        //We found a close, go till it's opening paren
-        ParenCounter := 1;
-        dec(TmpX);
-        while (TmpX > 0) and (ParenCounter > 0) do
-        begin
-          if LocLine[TmpX] = ')' then inc(ParenCounter)
-          else if LocLine[TmpX] = '(' then dec(ParenCounter);
-          dec(TmpX);
-        end;
-      end else if locLine[TmpX] = '(' then
-      begin
-        //we have a valid open paren, lets see what the word before it is
-        StartX := TmpX;
-        Dec(TmpX);
-        while (TmpX > 0) and (locLine[TmpX] = ' ') do
-          Dec(TmpX);
-        if TmpX > 0 then
-        begin
-          lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
-
-          if (lookup <> '') and (lookup[1] = '.') and
-             (TmpX > Length(lookup)) and
-             CharInSet(locline[TmpX - Length(lookup)], ['''', '"'])
-          then
-            lookup := 'str' + lookup;
-
-          FoundMatch := (CharPos(lookup, ')') <= 0) // Issue 422  Do not evaluate functions
-            and (lookup <> '')
-            and PyControl.ActiveInterpreter.CallTipFromExpression(
-            lookup, DisplayText, DocString);
-
-          if not(FoundMatch) then
-          begin
-            TmpX := StartX;
-            dec(TmpX);
-          end;
-        end;
-      end else dec(TmpX)
-    end;
-  end;
-
-  CanExecute := FoundMatch;
-
+  var CP := Sender as TSynCompletionProposal;
   if CanExecute then begin
-    with TSynCompletionProposal(Sender) do begin
-      Font := PyIDEOptions.AutoCompletionFont;
-      FontsAreScaled := True;
-      FormatParams := not (DisplayText = '');
-      if not FormatParams then
-        DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
+    CP.Font := PyIDEOptions.AutoCompletionFont;
+    CP.FontsAreScaled := True;
+    CP.FormatParams := not (DisplayString = '');
+    if not CP.FormatParams then
+      DisplayString :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
 
-      if (DocString <> '') then
-        DisplayText := DisplayText + sLineBreak;
-
-      // Determine active argument
-      DummyToken := Copy(locline, Succ(StartX),
-        TSynCompletionProposal(Sender).Editor.CaretX - Succ(StartX));
-      ArgIndex := IfThen(DummyToken.EndsWith(','), 1, 0);
-      GetParameter(DummyToken);
-      While DummyToken <> '' do begin
-        Inc(ArgIndex);
-        GetParameter(DummyToken);
-      end;
-
-      Form.CurrentIndex := ArgIndex;
-      ItemList.Text := DisplayText + DocString;
+    if (DocString <> '') then
+    begin
+      DisplayString := DisplayString + sLineBreak;
+      DocString := GetLineRange(DocString, 1, 20) // 20 lines max
     end;
+
+    // Determine active argument
+    ParamString := Copy(SynEdit.LineText, Succ(StartX),
+      TSynCompletionProposal(Sender).Editor.CaretX - Succ(StartX));
+    ParamString := ParamString + ' ';  // To deal with for instance '1,'
+    ArgIndex := 0;
+    GetParameter(ParamString);
+    While ParamString <> '' do begin
+      Inc(ArgIndex);
+      GetParameter(ParamString);
+    end;
+
+    CP.Form.CurrentIndex := ArgIndex;
+    CP.ItemList.Text := DisplayString + DocString;
 
     //  position the hint window at and just below the opening bracket
     p := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels(
@@ -1479,8 +1413,8 @@ begin
     x := p.X;
     y := p.Y;
   end else begin
-    TSynCompletionProposal(Sender).ItemList.Clear;
-    TSynCompletionProposal(Sender).InsertList.Clear;
+    CP.ItemList.Clear;
+    CP.InsertList.Clear;
   end;
 end;
 
@@ -1604,11 +1538,6 @@ begin
   while PeekMessage(Msg, 0, WM_APPENDTEXT, WM_APPENDTEXT, PM_REMOVE) do
     ; // do nothing
   WritePendingMessages;
-end;
-
-procedure TPythonIIForm.WMPARAMCOMPLETION(var Message: TMessage);
-begin
-  SynParamCompletion.ActivateCompletion;
 end;
 
 procedure TPythonIIForm.WMREINITINTERPRETER(var Message: TMessage);

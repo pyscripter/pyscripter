@@ -54,9 +54,6 @@ uses
   cPySupportTypes,
   Vcl.VirtualImageList;
 
-const
-  WM_PARAMCOMPLETION = WM_USER +1040;
-
 type
   TEditor = class;
 
@@ -194,7 +191,6 @@ type
     fNeedToSyncCodeExplorer: boolean;
     fSyntaxErrorPos: TEditorPos;
     fCloseBracketChar: WideChar;
-    fCompletionHandler : TBaseCodeCompletionHandler;
     fOldCaretY : Integer;
     fSyntaxTask: ITask;
     procedure HandlePythonVersionChange(Sender: TObject);
@@ -223,7 +219,6 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure EditorZoom(theZoom: Integer);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState);
-    procedure WMPARAMCOMPLETION(var Message: TMessage); message WM_PARAMCOMPLETION;
   public
     BreakPoints: TObjectList;
     FoundSearchItems: TObjectList;
@@ -2704,11 +2699,6 @@ begin
   end;
 end;
 
-procedure TEditorForm.WMPARAMCOMPLETION(var Message: TMessage);
-begin
-  SynParamCompletion.ActivateCompletion;
-end;
-
 procedure TEditorForm.WMShellNotify(var Msg: TMessage);
 {
   Does nothing except for releasing the ShellEventList
@@ -2840,7 +2830,10 @@ procedure TEditorForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
   const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
 begin
   if EndToken = '(' then
-    PostMessage(Handle, WM_PARAMCOMPLETION, 0, 0);
+    TThread.ForceQueue(nil, procedure
+    begin
+      SynParamCompletion.ActivateCompletion;
+    end);
 end;
 
 procedure TEditorForm.ClearSearchItems;
@@ -2863,8 +2856,15 @@ end;
 procedure TEditorForm.SynCodeCompletionCodeItemInfo(Sender: TObject;
   AIndex: Integer; var Info: string);
 begin
-  if Assigned(fCompletionHandler) then
-    Info := fCompletionHandler.GetInfo((Sender as TSynCompletionProposal).InsertList[AIndex]);
+  var CC := TIDECompletion.EditorCodeCompletion;
+  if not CC.Lock.TryEnter then Exit;
+  try
+    if Assigned(CC.CompletionInfo.CompletionHandler) then
+      Info := CC.CompletionInfo.CompletionHandler.GetInfo(
+        (Sender as TSynCompletionProposal).InsertList[AIndex]);
+  finally
+    CC.Lock.Leave;
+  end;
 end;
 
 procedure TEditorForm.DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
@@ -2882,7 +2882,7 @@ begin
 
   //Exit if cursor has moved
   if not Assigned(GI_ActiveEditor) or (GI_ActiveEditor.ActiveSynEdit <> Editor)
-    or(Caret <> Editor.CaretXY)
+    or (Editor.ReadOnly) or (Caret <> Editor.CaretXY)
   then
     Exit;
 
@@ -2918,24 +2918,31 @@ begin
       for var I := 0 to CC.SkipHandlers.Count -1 do
       begin
         var SkipHandler := CC.SkipHandlers[I] as TBaseCodeCompletionSkipHandler;
-        Skipped := SkipHandler.SkipCodeCompletion(locline, '', Caret, Highlighter, Attr);
+        Skipped := SkipHandler.SkipCodeCompletion(locline, FileName, Caret, Highlighter, Attr);
         if Skipped then Break;
       end;
 
       var Handled := False;
       if not Skipped then
       begin
-        for var I := 0 to CC.CompletionHandlers.Count -1 do
+        for var I := 0 to CC.CompletionHandlers.Count - 1 do
         begin
           var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
-          Handled := CompletionHandler.HandleCodeCompletion(locline, '',
-            Caret, Highlighter, Attr, InsertText, DisplayText);
+          CompletionHandler.Initialize;
+          try
+            Handled := CompletionHandler.HandleCodeCompletion(locline, FileName,
+              Caret, Highlighter, Attr, InsertText, DisplayText);
+          except
+          end;
           if Handled then begin
+            //CompletionHandler will be finalized in the Cleanup call
             CC.CompletionInfo.CompletionHandler := CompletionHandler;
             CC.CompletionInfo.InsertText := InsertText;
             CC.CompletionInfo.DisplayText := DisplayText;
             Break;
-          end;
+          end
+          else
+            CompletionHandler.Finalize;
         end;
       end;
 
@@ -2967,7 +2974,8 @@ begin
   try
     CanExecute := Assigned(GI_ActiveEditor) and
       (GI_ActiveEditor.ActiveSynEdit = CC.CompletionInfo.Editor) and
-      CC.CompletionInfo.Editor.Focused and
+      Application.Active and
+      (GetParentForm(CC.CompletionInfo.Editor).ActiveControl = CC.CompletionInfo.Editor) and
       (CC.CompletionInfo.CaretXY = CC.CompletionInfo.Editor.CaretXY);
   finally
     cc.Lock.Leave;
@@ -3012,234 +3020,74 @@ begin
 
 end;
 
-type
-  TParamCompletionData = record
-    lookup, DisplayText, Doc: string;
-  end;
-
-Var
-  OldParamCompetionData: TParamCompletionData;
-
 procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: string; var X, Y: Integer;
   var CanExecute: boolean);
-Var
-  locline, lookup: string;
-  TmpX, StartX, ParenCounter, ArgIndex: Integer;
-  FoundMatch: boolean;
-  FName, DisplayText, ErrMsg, DocString: string;
-  P: TPoint;
-  Scope: TCodeElement;
-  Def: TBaseCodeElement;
-  ParsedModule: TParsedModule;
-  PythonPathAdder: IInterface;
-  Token: string;
-  Attri: TSynHighlighterAttributes;
-  AlreadyActive: boolean;
-  Attr: TSynHighlighterAttributes;
-  DummyToken: string;
-  BC: TBufferCoord;
+var
+  StartX,
+  ArgIndex : Integer;
+  FileName, DisplayString, DocString : string;
+  p : TPoint;
+  ParamString : string;
+  CP: TSynCompletionProposal;
+  Editor: TSynEdit;
 begin
+  CanExecute := False;
+
+  CP := Sender as TSynCompletionProposal;
+  Editor := CP.Editor as TSynEdit;
   if not fEditor.HasPythonFile or not GI_PyControl.PythonLoaded or
-    GI_PyControl.Running or not PyIDEOptions.EditorCodeCompletion then
-  begin
-    CanExecute := False;
+    GI_PyControl.Running or not PyIDEOptions.EditorCodeCompletion or
+    (CP.Editor <> fEditor.GetActiveSynEdit)
+  then
     Exit;
-  end;
 
-  with TSynCompletionProposal(Sender).Editor do
-  begin
-    BC := CaretXY;
-    Dec(BC.Char);
-    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and (
-      { (attr = Highlighter.StringAttribute) or }
-      (Attr = Highlighter.CommentAttribute) or
-        (Attr = TSynPythonSyn(Highlighter).CodeCommentAttri) or
-        (Attr = TSynPythonSyn(Highlighter).DocStringAttri)) then
-    begin
-      // Do not code complete inside strings or comments
-      CanExecute := False;
-      Exit;
-    end;
-
-    AlreadyActive := TSynCompletionProposal(Sender).Form.Visible;
-
-    locline := LineText;
-
-    // go back from the cursor and find the first open paren
-    TmpX := CaretX;
-    StartX := CaretX;
-    if TmpX > Length(locline) then
-      TmpX := Length(locline)
-    else
-      Dec(TmpX);
-    FoundMatch := False;
-
-    while (TmpX > 0) and not(FoundMatch) do
-    begin
-      GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
-      if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
-        (Attri = TSynPythonSyn(Highlighter).SpaceAttri)
-      then
-        Dec(TmpX)
-      else if locline[TmpX] = ')' then
-      begin
-        // We found a close, go till it's opening paren
-        ParenCounter := 1;
-        Dec(TmpX);
-        while (TmpX > 0) and (ParenCounter > 0) do
-        begin
-          if locline[TmpX] = ')' then
-            Inc(ParenCounter)
-          else if locline[TmpX] = '(' then
-            Dec(ParenCounter);
-          Dec(TmpX);
-        end;
-      end
-      else if locline[TmpX] = '(' then
-      begin
-        // we have a valid open paren, lets see what the word before it is
-        StartX := TmpX;
-        while (TmpX > 0) and not CharInSet(locline[TmpX], IdentChars + ['.'])
-          do // added [.]
-          Dec(TmpX);
-        if TmpX > 0 then
-        begin
-          DisplayText := '';
-
-          GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
-          if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
-            (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
-            (Attri = TSynPythonSyn(Highlighter).SystemAttri) then
-          begin
-            lookup := GetWordAtPos(locline, TmpX, IdentChars + ['.'], True,
-              False, True);
-            // string constant completion
-            if (lookup <> '') and (lookup[1] = '.') and
-               (TmpX > Length(lookup)) and
-               CharInSet(locline[TmpX - Length(lookup)], ['''', '"'])
-            then
-              lookup := 'str' + lookup;
-
-            if AlreadyActive and (lookup = OldParamCompetionData.lookup) then
-            begin
-              DisplayText := OldParamCompetionData.DisplayText;
-              DocString := OldParamCompetionData.Doc;
-              FoundMatch := True;
-            end
-            else
-            begin
-              FName := GetEditor.GetFileNameOrTitle;
-              // Add the file path to the Python path - Will be automatically removed
-              if GetEditor.FileName <> '' then
-                PythonPathAdder := GI_PyControl.AddPathToInternalPythonPath
-                  (ExtractFileDir(FName));
-
-              if PyScripterRefactor.InitializeQuery then
-              begin
-                // GetParsedModule
-                ParsedModule := PyScripterRefactor.GetParsedModule(FName, None);
-                Scope := nil;
-                if Assigned(ParsedModule) then
-                  Scope := ParsedModule.GetScopeForLine(CaretY);
-                if Assigned(ParsedModule) and Assigned(Scope) then
-                begin
-                  Def := PyScripterRefactor.FindDottedDefinition(lookup,
-                    ParsedModule, Scope, ErrMsg);
-
-                  if Assigned(Def) and (Def is TParsedClass) and
-                    not (Def.GetModule.Name = GetPythonEngine.BuiltInModuleName)
-                  then
-                    Def := TParsedClass(Def).GetConstructor;
-
-                  if Assigned(Def) and ((Def is TParsedFunction) or (Def is TParsedClass)) then
-                  begin
-                    if Def is TParsedFunction then begin
-                      DisplayText := TParsedFunction(Def).ArgumentsString;
-                      // Remove self arguments from methods
-                      if StrIsLeft(PWideChar(DisplayText), 'self') then
-                        Delete(DisplayText, 1, 4);
-                      if StrIsLeft(PWideChar(DisplayText), ', ') then
-                        Delete(DisplayText, 1, 2);
-                      DocString := TParsedFunction(Def).DocString;
-                    end else if Def is TParsedClass then begin
-                       DisplayText := '';
-                       DocString := TParsedClass(Def).DocString;
-                    end;
-
-                    OldParamCompetionData.lookup := lookup;
-                    OldParamCompetionData.DisplayText := DisplayText;
-                    OldParamCompetionData.Doc := DocString;
-                    FoundMatch := True;
-                  end;
-                end;
-                PyScripterRefactor.FinalizeQuery;
-              end;
-            end;
-          end;
-
-          if not(FoundMatch) then
-          begin
-            TmpX := StartX;
-            Dec(TmpX);
-          end;
-        end;
-      end
-      else
-        Dec(TmpX)
-    end;
-  end;
-
-  if FoundMatch then
-  begin
-    // CanExecute := (DisplayText <> '') or (Doc <> '');
-    CanExecute := True;
-  end
-  else
-    CanExecute := False;
+  FileName := fEditor.GetFileNameOrTitle;
+  CanExecute := TIDECompletion.EditorParamCompletion.HandleParamCompletion(FileName,
+    Editor, DisplayString, DocString, StartX) and
+    (GI_ActiveEditor.ActiveSynEdit = Editor) and Application.Active and
+    (GetParentForm(Editor).ActiveControl = Editor);
 
   if CanExecute then
   begin
-    with TSynCompletionProposal(Sender) do
+    CP.Font := PyIDEOptions.AutoCompletionFont;
+    CP.FontsAreScaled := True;
+    CP.FormatParams := not (DisplayString = '');
+    if not CP.FormatParams then
+      DisplayString :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
+
+    if (DocString <> '') then
     begin
-      Font := PyIDEOptions.AutoCompletionFont;
-      FontsAreScaled := True;
-      FormatParams := not (DisplayText = '');
-      if not FormatParams then
-        DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
-
-      if (DocString <> '') then
-      begin
-        DisplayText := DisplayText + sLineBreak;
-        DocString := GetLineRange(DocString, 1, 20) // 20 lines max
-      end;
-
-      // Determine active argument
-      DummyToken := Copy(locline, Succ(StartX),
-        TSynCompletionProposal(Sender).Editor.CaretX - Succ(StartX));
-      ArgIndex := IfThen(DummyToken.EndsWith(','), 1, 0);
-      GetParameter(DummyToken);
-      While DummyToken <> '' do begin
-        Inc(ArgIndex);
-        GetParameter(DummyToken);
-      end;
-
-      Form.CurrentIndex := ArgIndex;
-      ItemList.Text := DisplayText + DocString;
+      DisplayString := DisplayString + sLineBreak;
+      DocString := GetLineRange(DocString, 1, 20) // 20 lines max
     end;
 
+    // Determine active argument
+    ParamString := Copy(Editor.LineText, Succ(StartX),
+      TSynCompletionProposal(Sender).Editor.CaretX - Succ(StartX));
+    ParamString := ParamString + ' ';  // To deal with for instance '1,'
+    ArgIndex := 0;
+    GetParameter(ParamString);
+    While ParamString <> '' do begin
+      Inc(ArgIndex);
+      GetParameter(ParamString);
+    end;
+
+    CP.Form.CurrentIndex := ArgIndex;
+    CP.ItemList.Text := DisplayString + DocString;
+
     // position the hint window at and just below the opening bracket
-    P := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels
-        (SynEdit.BufferToDisplayPos(BufferCoord(Succ(StartX), SynEdit.CaretY)))
+    P := Editor.ClientToScreen(Editor.RowColumnToPixels
+        (Editor.BufferToDisplayPos(BufferCoord(Succ(StartX), Editor.CaretY)))
       );
-    Inc(P.Y, SynEdit.LineHeight);
+    Inc(P.Y, Editor.LineHeight);
     X := P.X;
     Y := P.Y;
   end
   else
   begin
-    TSynCompletionProposal(Sender).ItemList.Clear;
-    TSynCompletionProposal(Sender).InsertList.Clear;
+    CP.ItemList.Clear;
+    CP.InsertList.Clear;
   end;
 end;
 

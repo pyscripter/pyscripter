@@ -44,21 +44,15 @@ inherited PythonIIForm: TPythonIIForm
     9C4100009C4100009C4180019C41F00F9C41F00F9C41F00F9C41F81F9C41}
   Position = poDefault
   OnHelp = FormHelp
-  ExplicitWidth = 717
-  ExplicitHeight = 490
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 701
     Height = 451
-    ExplicitWidth = 701
-    ExplicitHeight = 451
     inherited FGPanel: TPanel
       Width = 697
       Height = 447
       Color = clInactiveBorder
-      ExplicitWidth = 697
-      ExplicitHeight = 447
       object SynEdit: TSynEdit
         Left = 0
         Top = 0
