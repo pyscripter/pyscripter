@@ -518,7 +518,7 @@
             Installer is now code signed
             Persian translatin added
           Issues addressed
-            #1031, #1038, #1039
+            #824, #1031, #1038, #1039
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
@@ -1267,6 +1267,11 @@ type
     procedure SyntaxClick(Sender : TObject);
     procedure SelectEditor(Sender : TObject);
     procedure mnLanguageClick(Sender: TObject);
+    // Remote Desktop
+    // See https://blogs.embarcadero.com/how-to-speed-up-remote-desktop-applications/
+    procedure CreateWnd; override;
+    procedure WMDestroy(var Message: TWMDestroy); message WM_DESTROY;
+    procedure WMWTSSessionChange (var Message: TMessage); message WM_WTSSESSION_CHANGE;
     // Browse MRU stuff
     procedure PrevClickHandler(Sender: TObject);
     procedure NextClickHandler(Sender: TObject);
@@ -2919,6 +2924,12 @@ begin
     FileExplorerWindow.FileExplorerTree.RefreshTree;
 end;
 
+procedure TPyIDEMainForm.CreateWnd;
+begin
+  inherited;
+  WTSRegisterSessionNotification(Handle, NOTIFY_FOR_THIS_SESSION);
+end;
+
 procedure TPyIDEMainForm.OpenInitialFiles;
 begin
   TabControl1.Toolbar.BeginUpdate;
@@ -4455,6 +4466,20 @@ begin
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;
 
+procedure TPyIDEMainForm.WMWTSSessionChange(var Message: TMessage);
+begin
+  case Message.wParam of
+    WTS_SESSION_LOCK,
+    WTS_REMOTE_DISCONNECT: Application.UpdateMetricSettings := False;
+    WTS_REMOTE_CONNECT,
+    WTS_SESSION_UNLOCK:
+      TThread.ForceQueue(nil, procedure
+      begin
+        Application.UpdateMetricSettings := True;
+      end, 30000);
+  end;
+end;
+
 procedure TPyIDEMainForm.CMStyleChanged(var Message: TMessage);
 begin
   SkinManager.BroadcastSkinNotification;
@@ -4755,6 +4780,12 @@ begin
   except
     // fail silently
   end;
+end;
+
+procedure TPyIDEMainForm.WMDestroy(var Message: TWMDestroy);
+begin
+  inherited;
+  WTSUnRegisterSessionNotification(Handle);
 end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
