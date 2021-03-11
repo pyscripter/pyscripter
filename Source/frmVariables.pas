@@ -435,6 +435,7 @@ begin
   AddFormatText(reInfo, _('Namespace') + ': ', [fsBold]);
   AddFormatText(reInfo, NameSpace, [fsItalic]);
   if Assigned(Node) then begin
+    var Py := SafePyEngine;
     Data := Node.GetData;
     ObjectName := Data.Name;
     ObjectType := Data.ObjectType;
