@@ -40,20 +40,14 @@ inherited WatchesWindow: TWatchesWindow
     72FFCF9971FFCE986FFFCB956EFFC9936BFFC39679F4A670516B000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  ExplicitWidth = 776
-  ExplicitHeight = 268
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 760
     Height = 229
-    ExplicitWidth = 760
-    ExplicitHeight = 229
     inherited FGPanel: TPanel
       Width = 756
       Height = 225
-      ExplicitWidth = 756
-      ExplicitHeight = 225
       object Panel1: TPanel
         Left = 0
         Top = 0

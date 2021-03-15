@@ -112,7 +112,7 @@ type
     function GetDocString : string; override;
     function GetChildCount : integer; override;
   public
-    constructor Create(aName : string; aPyObject : Variant;
+    constructor Create(aName : string; const aPyObject : Variant;
       RemotePython : TPyRemoteInterpreter);
     procedure GetChildNodes; override;
     property IsProxy : Boolean read fIsProxy;
@@ -198,7 +198,7 @@ uses
   cSSHSupport;
 
 { TRemNameSpaceItem }
-constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
+constructor TRemNameSpaceItem.Create(aName : string; const aPyObject : Variant;
   RemotePython : TPyRemoteInterpreter);
 begin
   inherited Create(aName, aPyObject);
@@ -863,16 +863,21 @@ end;
 
 procedure TPyRemoteInterpreter.Run(ARunConfig: TRunConfiguration);
 Var
+  Py: IPyEngineAndGIL;
   Code: Variant;
+  AsyncRun : Variant;
+  AsyncResult : Variant;
+  AsyncReady : boolean;
   Path, OldPath: string;
   PythonPathAdder: IInterface;
   ReturnFocusToEditor: Boolean;
+  Timer : ITimer;
   [weak] Editor: IEditor;
 begin
   CheckConnected;
   CanDoPostMortem := False;
 
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
 
   //Compile
   Code := Compile(ARunConfig);
@@ -911,57 +916,76 @@ begin
   ReturnFocusToEditor := Assigned(Editor);
   GI_PyInterpreter.ShowWindow;
 
-  Py := nil;  // release the GIL
-
-  ThreadPythonExec(procedure
+  AsyncRun := Rpyc.async_(RPI.run_nodebug);
+  AsyncResult := AsyncRun.__call__(Code);
+  GetPythonEngine.CheckError;
+  Timer := NewTimer(50);
+  Timer.Start(procedure
   begin
+    // Do not reenter
+    Timer.Stop;
+
+    var Py := SafePyEngine;
     try
-      RPI.run_nodebug(Code);
-      if Connected then begin
-        var ExcInfo: Variant := RPI.exc_info;
-        if not VarIsNone(ExcInfo) then begin
-          HandleRemoteException(ExcInfo);
-          ReturnFocusToEditor := False;
-          CanDoPostMortem := True;
+      if Connected then ServeConnection(500);
+    except
+      fConnected := False;
+      GI_PyInterpreter.ClearPendingMessages;
+    end;
+    if Connected then
+    try
+      AsyncReady := AsyncResult._is_ready;
+    except
+      fConnected := False;
+    end;
+    if not Connected or AsyncReady then
+    try
+      try
+        if Connected then begin
+          var ExcInfo := RPI.exc_info;
+          if not VarIsNone(ExcInfo) then begin
+            HandleRemoteException(ExcInfo);
+            ReturnFocusToEditor := False;
+            CanDoPostMortem := True;
+          end;
+        end;
+      except
+        // CheckError already called by VarPyth
+        on E: EPythonError do begin
+          // should not happen
+          CheckConnected(True, False);
+          if Connected then HandlePyException(GetPythonEngine.Traceback,E.Message);
         end;
       end;
-    except
-      on E: EPythonError do begin
-        CheckConnected(True, False);
-        if Connected then
-          TThread.Synchronize(nil, procedure
-          begin
-            HandlePyException(GetPythonEngine.Traceback, E.Message);
-          end);
+    finally
+      VarClear(AsyncResult);
+      GI_PyInterpreter.WritePendingMessages;
+      GI_PyInterpreter.AppendPrompt;
+      CheckConnected(True, False);
+
+      if Connected then begin
+        // Restore the command line parameters
+        RestoreCommandLine;
+
+        //  Add again the empty path
+        SysPathAdd('');
+
+        // Change the back current path
+        RPI.rem_chdir(OldPath);
       end;
-    end;
-    VarClear(Code);
-  end,
-  procedure
-  begin
-    GI_PyInterpreter.WritePendingMessages;
-    GI_PyInterpreter.AppendPrompt;
-    CheckConnected(True, False);
-    if Connected then begin
-      var Py := SafePyEngine;
-      // Restore the command line parameters
-      RestoreCommandLine;
-
-      //  Add again the empty path
-      SysPathAdd('');
-
-      // Change the back current path
-      RPI.rem_chdir(OldPath);
-    end;
-    PyControl.DebuggerState := dsInactive;
-    if ReturnFocusToEditor and Assigned(Editor) then
-      Editor.Activate;
-    if not Connected then begin
-      PythonPathAdder := nil;
-      GI_PyInterpreter.ClearPendingMessages;
-      GI_PyInterpreter.ReinitInterpreter;
-    end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
-      PyControl.ActiveDebugger.EnterPostMortem;
+      PyControl.DebuggerState := dsInactive;
+      if ReturnFocusToEditor and Assigned(Editor) then
+        Editor.Activate;
+      if not Connected then begin
+        PythonPathAdder := nil;
+        GI_PyInterpreter.ClearPendingMessages;
+        GI_PyInterpreter.ReinitInterpreter;
+      end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
+        PyControl.ActiveDebugger.EnterPostMortem;
+      Timer := nil;
+    end
+    else
+      Timer.Restart;
   end);
 end;
 
@@ -969,7 +993,8 @@ function TPyRemoteInterpreter.RunSource(Const Source, FileName : Variant; symbol
 Var
   OldDebuggerState : TDebuggerState;
   OldPos : TEditorPos;
-begin
+
+  begin
   CheckConnected;
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
@@ -1036,6 +1061,7 @@ begin
   end;
 
   if fConnected then begin
+    Conn._config.__setitem__('sync_request_timeout', None);
     // Redirect Output
     OutputRedirector := Rpyc.classic.redirected_stdio(Conn);
     OutputRedirector.__enter__();
@@ -1375,6 +1401,7 @@ begin
   GI_PyInterpreter.SetPyInterpreterPrompt(pipNormal);
   GI_PyInterpreter.AppendPrompt;
 
+  var Py := SafePyEngine;
   fMainThread.Status := thrdRunning;
   fMainThread.CallStack.Clear;
   TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
@@ -1610,15 +1637,9 @@ begin
 
   fMainDebugger.InitStepIn := InitStepIn;
 
-//  try
-    AsyncRun := fRemotePython.Rpyc.async_(fMainDebugger.run);
-    AsyncResult := AsyncRun.__call__(Code);
-    GetPythonEngine.CheckError;
-//  finally
-//    VarClear(Code);
-//    VarClear(AsyncRun);
-//    Py := nil;
-//  end;
+  AsyncRun := fRemotePython.Rpyc.async_(fMainDebugger.run);
+  AsyncResult := AsyncRun.__call__(Code);
+  GetPythonEngine.CheckError;
 
   Timer := NewTimer(50);
   Timer.Start(procedure
@@ -1631,6 +1652,7 @@ begin
       if fRemotePython.Connected then fRemotePython.ServeConnection(500);
     except
       fRemotePython.fConnected := False;
+      GI_PyInterpreter.ClearPendingMessages;
     end;
     if fRemotePython.Connected then
     try
@@ -1810,14 +1832,16 @@ Var
   BotFrame : Variant;
 begin
   Py := SafePyEngine;
-  Result := Py.PythonEngine.ReturnNone;
 
   fRemotePython.CheckConnected;
 
   Arguments := VarPythonCreate(Args);
   Thread_ID := Arguments.__getitem__(0);
   if not fThreads.TryGetValue(Thread_ID, ThreadInfo) then
+  begin
+    Result := Py.PythonEngine.ReturnFalse;
     Exit;  // Should not happen
+  end;
 
   Frame := Arguments.__getitem__(1);
   BotFrame := Arguments.__getitem__(2);
@@ -1841,11 +1865,10 @@ begin
     FDebuggerCommand := dcNone;
 
     // Return true if broken
-    with GetPythonEngine do begin
-      Result := PPyObject(Py_True);
-      Py_INCREF(Result);
-    end;
-  end;
+    Result := Py.PythonEngine.ReturnTrue;
+  end
+  else
+    Result := Py.PythonEngine.ReturnFalse;
 end;
 
 procedure TPyRemDebugger.UserThread(Sender: TObject; PSelf, Args: PPyObject;

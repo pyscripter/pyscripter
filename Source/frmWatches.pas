@@ -283,8 +283,7 @@ begin
 end;
 
 procedure TWatchesWindow.mnAddWatchClick(Sender: TObject);
-
-Var
+var
   S: string;
 begin
   S := InputBox('Add Watch', 'Enter watch expression:', '');
@@ -295,8 +294,7 @@ begin
 end;
 
 procedure TWatchesWindow.mnEditWatchClick(Sender: TObject);
-
-Var
+var
   Node: PVirtualNode;
   WatchInfo: TWatchInfo;
 begin
@@ -315,8 +313,7 @@ begin
 end;
 
 procedure TWatchesWindow.mnRemoveWatchClick(Sender: TObject);
-
-Var
+var
   Node: PVirtualNode;
   WatchInfo: TWatchInfo;
 begin
@@ -340,8 +337,7 @@ begin
 end;
 
 procedure TWatchesWindow.WatchesViewDblClick(Sender: TObject);
-
-Var
+var
   Pt: TPoint;
   HitInfo: THitInfo;
 begin

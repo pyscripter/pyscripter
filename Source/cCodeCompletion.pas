@@ -622,7 +622,7 @@ begin
   begin
     FRefactorInitialized := True;
     // GetParsedModule
-    ParsedModule := PyScripterRefactor.GetParsedModule(FFileName, None);
+    ParsedModule := PyScripterRefactor.GetParsedModule(FFileName, []);
     Scope := nil;
     if Assigned(ParsedModule) then
       Scope := ParsedModule.GetScopeForLine(Caret.Line);
@@ -651,7 +651,7 @@ begin
               Scope := Scope.Parent as TCodeElement;
           end;
           // builtins
-          ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
+          ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, []);
           ParsedBuiltInModule.GetNamespace(NameSpace);
           if PyIDEOptions.CompleteKeywords then
           begin
@@ -696,7 +696,7 @@ begin
     begin
       FRefactorInitialized := True;
       // GetParsedModule
-      ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
+      ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, []);
       if Assigned(ParsedBuiltInModule) then begin
         NameSpace := TStringList.Create;
         try
@@ -1146,7 +1146,7 @@ begin
   if PyScripterRefactor.InitializeQuery then
   try
     // GetParsedModule
-    ParsedModule := PyScripterRefactor.GetParsedModule(FileName, None);
+    ParsedModule := PyScripterRefactor.GetParsedModule(FileName, []);
     Scope := nil;
     if Assigned(ParsedModule) then
       Scope := ParsedModule.GetScopeForLine(Line);

@@ -2472,8 +2472,12 @@ begin
   then
     with(TPyRemoteInterpreter(PyControl.ActiveInterpreter)) do begin
       if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
+      try
         // Ignore exceptions here
-          ServeConnection;
+        var Py := SafePyEngine;
+        ServeConnection;
+      except
+      end;
     end;
 
   if ShellExtensionFiles.Count > 0 then begin

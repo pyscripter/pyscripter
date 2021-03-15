@@ -66,7 +66,7 @@ type
     function GetObjectInfo : integer;
     procedure FillObjectInfo; virtual;
   public
-    constructor Create(aName : string; aPyObject : Variant);
+    constructor Create(aName : string; const aPyObject : Variant);
     destructor Destroy; override;
     function IsClass : Boolean; override;
     function IsDict : Boolean; override;
@@ -213,7 +213,7 @@ end;
 
 { TNameSpaceItem }
 
-constructor TNameSpaceItem.Create(aName : string; aPyObject: Variant);
+constructor TNameSpaceItem.Create(aName : string; const aPyObject: Variant);
 begin
   Assert(VarIsPython(aPyObject));
   fName := aName;

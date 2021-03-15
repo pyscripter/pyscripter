@@ -40,20 +40,14 @@ inherited BreakPointsWindow: TBreakPointsWindow
     3EE0D9983EE0D9983EE0D9983EE0D9983EE0D9983EE0D3953FCDC28A455C0000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  ExplicitWidth = 395
-  ExplicitHeight = 283
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 379
     Height = 244
-    ExplicitWidth = 379
-    ExplicitHeight = 244
     inherited FGPanel: TPanel
       Width = 375
       Height = 240
-      ExplicitWidth = 375
-      ExplicitHeight = 240
       object Panel1: TPanel
         Left = 0
         Top = 0
@@ -85,6 +79,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
           OnDblClick = BreakPointLVDblClick
           OnGetText = BreakPointsViewGetText
           OnInitNode = BreakPointsViewInitNode
+          OnKeyDown = BreakPointsViewKeyDown
           Columns = <
             item
               Position = 0

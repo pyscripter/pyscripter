@@ -45,7 +45,7 @@ type
     procedure FinalizeQuery;
     procedure Cancel;
     function GetSource(const FName : string; var Source : string): Boolean;
-    function GetParsedModule(const ModuleName : string; PythonPath : Variant) : TParsedModule;
+    function GetParsedModule(const ModuleName : string; const PythonPath: array of string) : TParsedModule;
     { given the coordates to a reference, tries to find the
         definition of that reference - Returns TCodeElement, TVariable or nil}
     function FindDefinitionByCoordinates(const Filename : string; Line, Col: integer;
@@ -172,7 +172,7 @@ begin
   end;
 
   // GetParsedModule
-  ParsedModule := GetParsedModule(FileName, None);
+  ParsedModule := GetParsedModule(FileName, []);
   if not Assigned(ParsedModule) then begin
     ErrMsg := Format(_(SCouldNotLoadModule), [FileName]);
     if Initialize then FinalizeQuery;
@@ -229,7 +229,7 @@ begin
 end;
 
 function TPyScripterRefactor.GetParsedModule(const ModuleName: string;
-  PythonPath : Variant): TParsedModule;
+  const PythonPath: array of string): TParsedModule;
 {
    ModuleName can be either
      - a fully qualified file name
@@ -263,7 +263,6 @@ function TPyScripterRefactor.GetParsedModule(const ModuleName: string;
 var
   Index, SpecialPackagesIndex : integer;
   FName : string;
-  FNameVar : Variant;
   ModuleSource  : string;
   DottedModuleName : string;
   ParsedModule : TParsedModule;
@@ -306,8 +305,18 @@ begin
     // Find the source file
     if FName = '' then begin  // No filename was provided
       var Py := SafePyEngine;
-      FNameVar := TPyInternalInterpreter(PyControl.InternalInterpreter).
-        PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PythonPath);
+      var PyPath: Variant;
+      if Length(PythonPath) > 0 then
+      begin
+        PyPath := NewPythonList;
+        for var S In PythonPath do
+          PyPath.append(S)
+      end
+      else
+        PyPath := None;
+
+      var FNameVar: Variant := TPyInternalInterpreter(PyControl.InternalInterpreter).
+        PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PyPath);
       if not VarIsNone(FNameVar) then
          FName := FNameVar;
     end;
@@ -535,10 +544,10 @@ function TPyScripterRefactor.ResolveModuleImport(const ModuleName,
         SourceFileName : string; PrefixDotCount : integer) : TParsedModule;
 var
   ModulePath : string;
-  PythonPath : Variant;
+  PythonPath : array of string;
   i : integer;
 begin
-  PythonPath := None;
+  PythonPath := [];
   // Deal with relative imports
   if (PrefixDotCount > 0)and (SourceFileName <> '') then begin
     ModulePath := ExtractFileDir(SourceFileName);
@@ -552,7 +561,7 @@ begin
     if (i = PrefixDotCount) and (ModulePath <> '') and
        (DirectoryExists(ModulePath))
     then
-      PythonPath := VarPythonCreate([ModulePath]);
+      PythonPath := [ModulePath];
   end;
 
   Result := GetParsedModule(ModuleName, PythonPath);
@@ -560,7 +569,7 @@ begin
     // try a relative import
     if FileIsPythonPackage(SourceFileName) then
       Result := GetParsedModule(FileNameToModuleName(SourceFileName)
-        + '.' + ModuleName, None);
+        + '.' + ModuleName, []);
   end;
 end;
 
@@ -588,7 +597,7 @@ Var
   Index : integer;
   ParentModule : TParsedModule;
   ModulePath : string;
-  PythonPath : Variant;
+  PythonPath : array of string;
   i : integer;
 begin
   Result := nil;
@@ -597,6 +606,7 @@ begin
     ErrMsg := _(SCyclicImports)
   else if (ModuleImport.RealName = '') then begin
     //  from .. import modulename
+    PythonPath := [];
     if ModuleImport.PrefixDotCount > 0 then begin
       ParentModule := ModuleImport.GetModule;
       if Assigned(ParentModule) then begin
@@ -611,7 +621,7 @@ begin
         if (i = ModuleImport.PrefixDotCount) and (ModulePath <> '') and
            (DirectoryExists(ModulePath)) then
         begin
-          PythonPath := VarPythonCreate([ModulePath]);
+          PythonPath := [ModulePath];
           Result := GetParsedModule(Ident, PythonPath);
         end;
       end;
@@ -643,7 +653,7 @@ begin
         end;
         { Check whether Ident is a sub-packages }
         if not Assigned(Result) and ImportedModule.IsPackage then
-          Result := GetParsedModule(ImportedModule.Name + '.' + Ident, None);
+          Result := GetParsedModule(ImportedModule.Name + '.' + Ident, []);
 
         if not Assigned(Result) then
           ErrMsg := Format(_(SCouldNotFindIdent),
@@ -766,7 +776,7 @@ begin
         Def := ResolveModuleImport(TModuleImport(Def));
     end else if (Scope is TParsedModule) and TParsedModule(Scope).IsPackage then
       // check for submodules of packages
-      Def := GetParsedModule(TParsedModule(Scope).Name + '.' + Prefix, None);
+      Def := GetParsedModule(TParsedModule(Scope).Name + '.' + Prefix, []);
   finally
     NameSpace.Free;
   end;
@@ -821,7 +831,7 @@ begin
   end;
 
   // GetParsedModule
-  ParsedModule := GetParsedModule(FileName, None);
+  ParsedModule := GetParsedModule(FileName, []);
   if not Assigned(ParsedModule) then begin
     ErrMsg := Format(_(SCouldNotLoadModule), [FileName]);
     FinalizeQuery;
@@ -928,7 +938,7 @@ begin
       if GetSource(FindRefFileList[i], ModuleSource) and
         (Pos(CEName, ModuleSource) > 0) then
       begin
-        ParsedModule := GetParsedModule(FindRefFileList[i], None);
+        ParsedModule := GetParsedModule(FindRefFileList[i], []);
         if Assigned(ParsedModule) then
           FindReferencesInModule(CE, ParsedModule, ParsedModule.CodeBlock,
             ErrMsg, List);
@@ -943,7 +953,7 @@ function TPyScripterRefactor.GetBuiltInName(AName : string) : TCodeElement;
 var
   ParsedBuiltInModule: TParsedModule;
 begin
-  ParsedBuiltInModule := GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
+  ParsedBuiltInModule := GetParsedModule(GetPythonEngine.BuiltInModuleName, []);
   if not Assigned(ParsedBuiltInModule) then
     raise ERefactoringException.Create(
       'Internal Error in FindUnDottedDefinition: Could not get the Builtin module');
@@ -963,7 +973,7 @@ begin
   if FunctionCE.Name = 'open' then begin
     Result := GetBuiltInName('file');
     if (Result = nil) then begin
-      Result := GetParsedModule('_io', None);
+      Result := GetParsedModule('_io', []);
       if Assigned(Result) then begin
         if Result is TModuleProxy then
           TModuleProxy(Result).Expand;

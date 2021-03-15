@@ -1210,7 +1210,7 @@ begin
     if ModuleImport.ImportAll then
     begin
       // from "module import *" imports
-      ParsedModule := PyScripterRefactor.GetParsedModule(ModuleImport.Name, None);
+      ParsedModule := PyScripterRefactor.GetParsedModule(ModuleImport.Name, []);
       //  Deal with modules imported themselves (yes it can happen!)
       if not Assigned(ParsedModule) or (ParsedModule = Self) then
         break;
@@ -1239,7 +1239,7 @@ begin
         PackageRootName := Copy(ModuleImport.Name, 1, Index - 1);
         if SList.IndexOf(PackageRootName) < 0 then
         begin
-          ParsedModule := PyScripterRefactor.GetParsedModule(PackageRootName, None);
+          ParsedModule := PyScripterRefactor.GetParsedModule(PackageRootName, []);
           if Assigned(ParsedModule) then
             SList.AddObject(PackageRootName, ParsedModule);
         end;

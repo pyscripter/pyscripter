@@ -42,6 +42,8 @@ type
     procedure BreakPointsViewGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
       var CellText: string);
+    procedure BreakPointsViewKeyDown(Sender: TObject; var Key: Word; Shift:
+        TShiftState);
     procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
@@ -123,7 +125,7 @@ begin
 end;
 
 procedure TBreakPointsWindow.BreakPointLVDblClick(Sender: TObject);
-Var
+var
   Node : PVirtualNode;
   BreakPoint : TBreakPointInfo;
 begin
@@ -137,7 +139,7 @@ begin
 end;
 
 procedure TBreakPointsWindow.mnClearClick(Sender: TObject);
-Var
+var
   Editor : IEditor;
   Node : PVirtualNode;
 begin
@@ -152,7 +154,7 @@ begin
 end;
 
 procedure TBreakPointsWindow.mnSetConditionClick(Sender: TObject);
-Var
+var
   Editor : IEditor;
   Node : PVirtualNode;
 begin
@@ -238,6 +240,17 @@ begin
     PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
   end;
 
+end;
+
+procedure TBreakPointsWindow.BreakPointsViewKeyDown(Sender: TObject; var Key:
+    Word; Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_Delete then
+  begin
+    mnClearClick(Sender);
+    Key := 0;
+  end;
 end;
 
 procedure TBreakPointsWindow.TBXPopupMenuPopup(Sender: TObject);
