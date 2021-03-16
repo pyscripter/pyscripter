@@ -857,9 +857,6 @@ object CommandsDataModule: TCommandsDataModule
           '            for i in numberlist:'
           '                self.clear_bpbynumber(i)'
           ''
-          '        def isTraceable(self, frame):'
-          '            return frame.f_globals.get('#39'__traceable__'#39', 1)'
-          ''
           '        def stop_here(self, frame):'
           '            if not self.InitStepIn:'
           '                self.InitStepIn = True'
@@ -952,7 +949,9 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '            res = super().dispatch_call(frame, arg)'
           '            if res:'
-          '                if self.isTraceable(frame) == 0:'
+          
+            '                if not frame.f_globals.get('#39'__traceable__'#39', True' +
+            '):'
           '                    return'
           
             '                #logging.debug("dispatch_call " + frame.f_code.c' +

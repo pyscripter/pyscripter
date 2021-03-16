@@ -1674,6 +1674,8 @@ begin
     ASynEdit.InvalidateGutterLine(NewCaretY);
     fOldCaretY := NewCaretY;
   end;
+  if scTopLine in Changes then
+    CodeHint.CancelHint;
 end;
 
 procedure TEditorForm.DoActivate;
