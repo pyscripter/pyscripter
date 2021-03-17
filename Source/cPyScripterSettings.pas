@@ -55,6 +55,7 @@ type
     fSaveFilesBeforeRun : Boolean;
     fSaveEnvironmentBeforeRun : Boolean;
     fRestoreOpenFiles : Boolean;
+    fRestoreOpenProject : Boolean;
     fCreateBackupFiles : Boolean;
     fExporerInitiallyExpanded : Boolean;
     fProjectExporerInitiallyExpanded : Boolean;
@@ -155,6 +156,8 @@ type
       write fSaveEnvironmentBeforeRun default False;
     property RestoreOpenFiles : Boolean read fRestoreOpenFiles
       write fRestoreOpenFiles default True;
+    property RestoreOpenProject : Boolean read fRestoreOpenProject
+      write fRestoreOpenProject default True;
     property CreateBackupFiles : boolean read fCreateBackupFiles
       write fCreateBackupFiles default False;
     property ExporerInitiallyExpanded : boolean read fExporerInitiallyExpanded
@@ -368,6 +371,7 @@ begin
       Self.fSaveFilesBeforeRun := SaveFilesBeforeRun;
       Self.fSaveEnvironmentBeforeRun := SaveEnvironmentBeforeRun;
       Self.fRestoreOpenFiles := fRestoreOpenFiles;
+      Self.fRestoreOpenProject := fRestoreOpenProject;
       Self.fCreateBackUpFiles := CreateBackUpFiles;
       Self.fExporerInitiallyExpanded := ExporerInitiallyExpanded;
       Self.fProjectExporerInitiallyExpanded := ProjectExporerInitiallyExpanded;
@@ -480,6 +484,7 @@ begin
   fFileExplorerFilter := '*.py;*.pyw';
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
+  fRestoreOpenProject := True;
   fDateLastCheckedForUpdates := MinDateTime;
   fAutoCheckForUpdates := True;
   fDaysBetweenChecks := 7;

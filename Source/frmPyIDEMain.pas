@@ -517,6 +517,7 @@
             Removed support for Python 2.7, 3.2
             Installer is now code signed
             Persian translatin added
+            New IDE option "Restore open project"
           Issues addressed
             #824, #1031, #1038, #1039
 }
@@ -3469,7 +3470,7 @@ begin
     TempStringList.Free;
   end;
   // Project Filename
-  if CmdLineReader.readString('PROJECT') = '' then begin
+  if (CmdLineReader.readString('PROJECT') = '') and PyIDEOptions.RestoreOpenProject then begin
     FName := AppStorage.ReadString('Active Project');
     if FName <> '' then
       ProjectExplorerWindow.DoOpenProjectFile(FName);
