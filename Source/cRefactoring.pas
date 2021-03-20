@@ -412,10 +412,14 @@ end;
 
 procedure TPyScripterRefactor.ClearProxyModules;
 var
-  i : integer;
+  i: integer;
+  Py: IPyEngineAndGIL;
 begin
   fProcessingLock.Enter;
   try
+    if GI_PyControl.PythonLoaded then
+      Py:= SafePyEngine;
+
     for i := 0 to fProxyModules.Count - 1 do
       fProxyModules.Objects[i].Free;
     fProxyModules.Clear;

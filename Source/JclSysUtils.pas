@@ -493,6 +493,7 @@ function IntToStrZeroPad(Value, Count: Integer): string;
 type
   // e.g. TStrings.Append
   TTextHandler = procedure(const Text: string) of object;
+  TProcessBuffer = procedure(const Bytes: TBytes; BytesRead: Cardinal) of object;
   TJclProcessPriority = (ppIdle, ppNormal, ppHigh, ppRealTime, ppBelowNormal, ppAboveNormal);
 
 const
@@ -526,20 +527,24 @@ function Execute(const CommandLine: string; AbortEvent: TJclEvent;
 
 type
   {$IFDEF MSWINDOWS}
-  TJclExecuteCmdProcessOptionBeforeResumeEvent = procedure(const ProcessInfo: TProcessInformation) of object;
+  TJclExecuteCmdProcessOptionBeforeResumeEvent =
+    procedure(const ProcessInfo: TProcessInformation; InWritePipe: THandle) of object;
   TStartupVisibility = (svHide, svShow, svNotSet);
   {$ENDIF MSWINDOWS}
 
   TJclExecuteCmdProcessOptions = {record} class(TObject)
   private
+    FBufferSize: Cardinal;
     FCommandLine: string;
     FAbortPtr: PBoolean;
     FAbortEvent: TJclEvent;
 
     FOutputLineCallback: TTextHandler;
+    FOutputBufferCallback: TProcessBuffer;
     FRawOutput: Boolean;
     FMergeError: Boolean;
     FErrorLineCallback: TTextHandler;
+    FErrorBufferCallback: TProcessBuffer;
     FRawError: Boolean;
     FProcessPriority: TJclProcessPriority;
 
@@ -559,10 +564,13 @@ type
     property AbortPtr: PBoolean read FAbortPtr write FAbortPtr;
     property AbortEvent: TJclEvent read FAbortEvent write FAbortEvent;
 
+    property BufferSize: Cardinal read FBufferSize write FBufferSize;
     property OutputLineCallback: TTextHandler read FOutputLineCallback write FOutputLineCallback;
+    property OutputBufferCallback: TProcessBuffer read FOutputBufferCallback write FOutputBufferCallback;
     property RawOutput: Boolean read FRawOutput write FRawOutput default False;
     property MergeError: Boolean read FMergeError write FMergeError default False;
     property ErrorLineCallback: TTextHandler read FErrorLineCallback write FErrorLineCallback;
+    property ErrorBufferCallback: TProcessBuffer read FErrorBufferCallback write FErrorBufferCallback;
     property RawError: Boolean read FRawError write FRawError default False;
     property ProcessPriority: TJclProcessPriority read FProcessPriority write FProcessPriority default ppNormal;
 
@@ -2735,17 +2743,13 @@ begin
 end;
 
 //=== Child processes ========================================================
-
-const
-  BufferSize = 255;
 type
-  TBuffer = array [0..BufferSize] of AnsiChar;
-
   TPipeInfo = record
     PipeRead, PipeWrite: THandle;
-    Buffer: TBuffer;
+    Buffer: TBytes;
     Line: string;
     TextHandler: TTextHandler;
+    BufferHandler: TProcessBuffer;
     RawOutput: Boolean;
     AutoConvertOem: Boolean;
     Event: TJclEvent;
@@ -2810,27 +2814,32 @@ var
   {$ENDIF MSWINDOWS}
   S: AnsiString;
 begin
+  if Assigned(PipeInfo.BufferHandler) then
+  begin
+    PipeInfo.BufferHandler(PipeInfo.Buffer, PipeBytesRead);
+    Exit
+  end;
   {$IFDEF MSWINDOWS}
   if PipeInfo.AutoConvertOem then
   begin
     {$IFDEF UNICODE}
-    Len := MultiByteToWideChar(CP_OEMCP, 0, PipeInfo.Buffer, PipeBytesRead, nil, 0);
+    Len := MultiByteToWideChar(CP_OEMCP, 0, PAnsiChar(PipeInfo.Buffer), PipeBytesRead, nil, 0);
     LineLen := Length(PipeInfo.Line);
     // Convert directly into the PipeInfo.Line string
     SetLength(PipeInfo.Line, LineLen + Len);
-    MultiByteToWideChar(CP_OEMCP, 0, PipeInfo.Buffer, PipeBytesRead, PChar(PipeInfo.Line) + LineLen, Len);
+    MultiByteToWideChar(CP_OEMCP, 0, PAnsiChar(PipeInfo.Buffer), PipeBytesRead, PChar(PipeInfo.Line) + LineLen, Len);
     {$ELSE}
     Len := PipeBytesRead;
     LineLen := Length(PipeInfo.Line);
     // Convert directly into the PipeInfo.Line string
     SetLength(PipeInfo.Line, LineLen + Len);
-    OemToAnsiBuff(PipeInfo.Buffer, PAnsiChar(PipeInfo.Line) + LineLen, PipeBytesRead);
+    OemToAnsiBuff(PAnsiChar(PipeInfo.Buffer), PAnsiChar(PipeInfo.Line) + LineLen, PipeBytesRead);
     {$ENDIF UNICODE}
   end
   else
   {$ENDIF MSWINDOWS}
   begin
-    SetString(S, PipeInfo.Buffer, PipeBytesRead); // interpret as ANSI
+    SetString(S, PAnsiChar(PipeInfo.Buffer), PipeBytesRead); // interpret as ANSI
     {$IFDEF UNICODE}
     PipeInfo.Line := PipeInfo.Line + string(S); // ANSI => UNICODE
     {$ELSE}
@@ -2859,7 +2868,7 @@ var
   Res: DWORD;
 begin
   NullDWORD := nil;
-  if not ReadFile(PipeInfo.PipeRead, PipeInfo.Buffer[0], BufferSize, NullDWORD^, @Overlapped) then
+  if not ReadFile(PipeInfo.PipeRead, PipeInfo.Buffer[0], Length(PipeInfo.Buffer), NullDWORD^, @Overlapped) then
   begin
     Res := GetLastError;
     case Res of
@@ -2910,8 +2919,8 @@ begin
     InternalExecuteProcessBuffer(PipeInfo, PipeBytesRead);
   while PeekNamedPipe(PipeInfo.PipeRead, nil, 0, nil, @PipeBytesRead, nil) and (PipeBytesRead > 0) do
   begin
-    if PipeBytesRead > BufferSize then
-      PipeBytesRead := BufferSize;
+    if PipeBytesRead > Length(PipeInfo.Buffer) then
+      PipeBytesRead := Length(PipeInfo.Buffer);
     if not ReadFile(PipeInfo.PipeRead, PipeInfo.Buffer[0], PipeBytesRead, PipeBytesRead, nil) then
       RaiseLastOSError;
     InternalExecuteProcessBuffer(PipeInfo, PipeBytesRead);
@@ -2988,6 +2997,7 @@ begin
   FCommandLine := ACommandLine;
   FAutoConvertOem := True;
   FProcessPriority := ppNormal;
+  FBufferSize := 4096;
 end;
 
 function ExecuteCmdProcess(Options: TJclExecuteCmdProcessOptions): Boolean;
@@ -3009,9 +3019,7 @@ var
   CommandLine: string;
   AbortPtr: PBoolean;
   Flags: DWORD;
-  // for stdin
-  StdInSA:TSecurityAttributes;
-  ReadHandle, WriteHandle: THandle;
+  InReadPipe, InWritePipe, InputWriteTmp: THandle;
 begin
   Result := False;
 
@@ -3022,13 +3030,30 @@ begin
   SecurityAttr.lpSecurityDescriptor := nil;
   SecurityAttr.bInheritHandle := True;
 
-  ResetMemory(OutPipeInfo, SizeOf(OutPipeInfo));
-  OutPipeInfo.TextHandler := Options.OutputLineCallback;
-  OutPipeInfo.RawOutput := Options.RawOutput;
-  OutPipeInfo.AutoConvertOem := Options.AutoConvertOem;
-  if not CreateAsyncPipe(OutPipeInfo.PipeRead, OutPipeInfo.PipeWrite, @SecurityAttr, 0) then
+  if not CreatePipe(InReadPipe, InputWriteTmp, @SecurityAttr, 0) then
   begin
     Options.FExitCode := GetLastError;
+    Exit;
+  end;
+  if not  DuplicateHandle(GetCurrentProcess, InputWritetmp, GetCurrentProcess,
+    @InWritePipe, 0, False, DUPLICATE_SAME_ACCESS or DUPLICATE_CLOSE_SOURCE) then
+  begin
+    CloseHandle(InReadPipe);
+    CloseHandle(InputWriteTmp);
+    Options.FExitCode := GetLastError;
+    Exit;
+  end;
+  ResetMemory(OutPipeInfo, SizeOf(OutPipeInfo));
+  OutPipeInfo.TextHandler := Options.OutputLineCallback;
+  OutPipeInfo.BufferHandler := Options.OutputBufferCallback;
+  OutPipeInfo.RawOutput := Options.RawOutput;
+  OutPipeInfo.AutoConvertOem := Options.AutoConvertOem;
+  SetLength(OutPipeInfo.Buffer, Options.BufferSize);
+  if not CreateAsyncPipe(OutPipeInfo.PipeRead, OutPipeInfo.PipeWrite, @SecurityAttr, Options.BufferSize) then
+  begin
+    Options.FExitCode := GetLastError;
+    CloseHandle(InReadPipe);
+    CloseHandle(InWritePipe);
     Exit;
   end;
   OutPipeInfo.Event := TJclEvent.Create(@SecurityAttr, False {automatic reset}, False {not flagged}, '' {anonymous});
@@ -3036,11 +3061,15 @@ begin
   if not Options.MergeError then
   begin
     ErrorPipeInfo.TextHandler := Options.ErrorLineCallback;
+    ErrorPipeInfo.BufferHandler := Options.ErrorBufferCallback;
     ErrorPipeInfo.RawOutput := Options.RawError;
     ErrorPipeInfo.AutoConvertOem := Options.AutoConvertOem;
-    if not CreateAsyncPipe(ErrorPipeInfo.PipeRead, ErrorPipeInfo.PipeWrite, @SecurityAttr, 0) then
+    SetLength(ErrorPipeInfo.Buffer, Options.BufferSize);
+    if not CreateAsyncPipe(ErrorPipeInfo.PipeRead, ErrorPipeInfo.PipeWrite, @SecurityAttr, Options.BufferSize) then
     begin
       Options.FExitCode := GetLastError;
+      CloseHandle(InReadPipe);
+      CloseHandle(InWritePipe);
       CloseHandle(OutPipeInfo.PipeWrite);
       CloseHandle(OutPipeInfo.PipeRead);
       OutPipeInfo.Event.Free;
@@ -3057,16 +3086,7 @@ begin
     StartupInfo.dwFlags := StartupInfo.dwFlags or STARTF_USESHOWWINDOW;
     StartupInfo.wShowWindow := StartupVisibilityFlags[Options.StartupVisibility];
   end;
-  WriteHandle := 0;  // initialize so that we know whether it was created
-  ReadHandle := GetStdHandle(STD_INPUT_HANDLE);
-  if (ReadHandle=INVALID_HANDLE_VALUE) or (ReadHandle=0) then
-  begin
-    StdInSA.lpSecurityDescriptor := nil;
-    StdInSA.nLength := sizeof(SECURITY_ATTRIBUTES);
-    StdInSA.bInheritHandle := true;
-    CreatePipe(ReadHandle, WriteHandle, @StdInSA,0);
-  end;
-  StartupInfo.hStdInput :=  ReadHandle;
+  StartupInfo.hStdInput :=  InReadPipe;
   StartupInfo.hStdOutput := OutPipeInfo.PipeWrite;
   if Options.MergeError then
     StartupInfo.hStdError := OutPipeInfo.PipeWrite
@@ -3090,7 +3110,7 @@ begin
       try
         try
           if Assigned(Options.BeforeResume) then
-            Options.BeforeResume(ProcessInfo);
+            Options.BeforeResume(ProcessInfo, InWritePipe);
         finally
           if Flags and CREATE_SUSPENDED <> 0 then // CREATE_SUSPENDED may also have come from CreateProcessFlags
             ResumeThread(ProcessInfo.hThread);
@@ -3206,9 +3226,9 @@ begin
   finally
     LastError := GetLastError;
     try
-      if WriteHandle <>0  then begin
-        CloseHandle(ReadHandle);
-        CloseHandle(WriteHandle);
+      if InWritePipe <>0  then begin
+        CloseHandle(InReadPipe);
+        CloseHandle(InWritePipe);
       end;
       if OutPipeInfo.PipeRead <> 0 then
         CloseHandle(OutPipeInfo.PipeRead);
@@ -3244,7 +3264,7 @@ begin
     Pipe := Libc.popen(PChar(Cmd), 'r');
     { TODO : handle Abort }
     repeat
-      PipeBytesRead := fread_unlocked(@OutBuffer, 1, BufferSize, Pipe);
+      PipeBytesRead := fread_unlocked(@OutBuffer, 1, Options.BufferSize, Pipe);
       if PipeBytesRead > 0 then
         ProcessBuffer(OutBuffer, OutLine, PipeBytesRead);
     until PipeBytesRead = 0;

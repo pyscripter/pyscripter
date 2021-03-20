@@ -88,6 +88,7 @@ type
     procedure CreateMainModule; override;
   public
     constructor Create(II : Variant);
+    function CreateDebugger: TPyBaseDebugger; override;
 
     procedure Initialize; override;
     function SysPathAdd(const Path : string) : boolean; override;
@@ -1017,6 +1018,11 @@ begin
   // sys.displayhook
   if PyIDEOptions.PrettyPrintOutput then
     fII.setupdisplayhook()
+end;
+
+function TPyInternalInterpreter.CreateDebugger: TPyBaseDebugger;
+begin
+  Result := TPyInternalDebugger.Create;
 end;
 
 procedure TPyInternalInterpreter.CreateMainModule;

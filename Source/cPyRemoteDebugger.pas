@@ -38,7 +38,7 @@ type
     fUseNamedPipes : boolean;
     fNamedPipeStream : Variant;
     procedure CreateAndConnectToServer;
-    procedure StoreServerProcessInfo(const ProcessInfo: TProcessInformation);
+    procedure StoreServerProcessInfo(const ProcessInfo: TProcessInformation; InWritePipe: THandle);
   protected
     const RemoteServerBaseName = 'remserver.py';
     const RpycZipModule = 'rpyc.zip';
@@ -54,18 +54,19 @@ type
     fSocketPort: integer;
     fServerFile: string;
     fRpycPath : string;
-    DebuggerClass : TRemoteDebuggerClass;
     ServerProcessOptions : TJclExecuteCmdProcessOptions;
     ServerProcessInfo: TProcessInformation;
     ServerTask : ITask;
+    DebuggerClass : TRemoteDebuggerClass;
     procedure CreateAndRunServerProcess; virtual;
     procedure ConnectToServer;
     procedure ShutDownServer;  virtual;
     procedure CreateMainModule; override;
-    procedure ProcessServerOutput(const S: string);
+    procedure ProcessServerOutput(const Bytes: TBytes; BytesRead: Cardinal);
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
+    function CreateDebugger: TPyBaseDebugger; override;
     function Compile(ARunConfig : TRunConfiguration) : Variant;
     procedure HandleRemoteException(const ExcInfo : Variant; SkipFrames : integer = 1);
     procedure ReInitialize; override;
@@ -549,7 +550,8 @@ begin
   end;
 
   ServerProcessOptions := TJclExecuteCmdProcessOptions.Create('');
-  ServerProcessOptions.OutputLineCallback := ProcessServerOutput;
+  ServerProcessOptions.OutputBufferCallback := ProcessServerOutput;
+  ServerProcessOptions.ErrorBufferCallback := ProcessServerOutput;
   ServerProcessOptions.BeforeResume := StoreServerProcessInfo;
   ServerProcessOptions.CreateProcessFlags :=
     ServerProcessOptions.CreateProcessFlags or CREATE_NO_WINDOW or CREATE_UNICODE_ENVIRONMENT;
@@ -576,6 +578,11 @@ begin
   ServerProcessOptions.Free;
   PyControl.InternalInterpreter.SysPathRemove(fRpycPath);
   inherited;
+end;
+
+function TPyRemoteInterpreter.CreateDebugger: TPyBaseDebugger;
+begin
+  Result := DebuggerClass.Create(Self);
 end;
 
 function TPyRemoteInterpreter.EvalCode(const Expr: string): Variant;
@@ -787,14 +794,12 @@ begin
   end;
 end;
 
-procedure TPyRemoteInterpreter.ProcessServerOutput(const S: string);
+procedure TPyRemoteInterpreter.ProcessServerOutput(const Bytes: TBytes; BytesRead: Cardinal);
+var
+   S: string;
 begin
-//  TThread.Queue(nil, procedure
-//  begin
-    GI_PyInterpreter.PythonIO.OnSendUniData(Self, S + sLineBreak);
-//    CheckConnected(True);
-//    Conn.modules('sys').stdout.write(S);
-//  end);
+   S := TEncoding.UTF8.GetString(Bytes, 0, BytesRead);
+   GI_PyInterpreter.PythonIO.OnSendUniData(Self, S);
 end;
 
 procedure TPyRemoteInterpreter.CreateAndRunServerProcess;
@@ -805,7 +810,7 @@ begin
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
   ServerProcessOptions.CommandLine := AddQuotesUnless(PrepareCommandLine('$[PythonExe]')) +
-        Format(' "%s" %d "%s"', [fServerFile, fSocketPort, fRpycPath]);
+        Format(' -u -X utf8 "%s" %d "%s"', [fServerFile, fSocketPort, fRpycPath]);
   ServerTask := TTask.Create(procedure
     begin
       ExecuteCmdProcess(ServerProcessOptions);
@@ -1009,6 +1014,7 @@ Var
       Result := False;
     end;
 
+    CheckConnected(True, False);
     if not Connected then
     begin
       Result := False;
@@ -1062,9 +1068,9 @@ begin
 
   if fConnected then begin
     Conn._config.__setitem__('sync_request_timeout', None);
-    // Redirect Output
-    OutputRedirector := Rpyc.classic.redirected_stdio(Conn);
-    OutputRedirector.__enter__();
+//    // Redirect Output
+//    OutputRedirector := Rpyc.classic.redirected_stdio(Conn);
+//    OutputRedirector.__enter__();
 /////////////////////////////////////////////////////
 //    Conn.modules('sys').modules.__setitem__('__oldmain__', Conn.modules('sys').modules.__getitem__('__main__'));
 //    Conn.modules('sys').modules.__setitem__('__main__', Conn.modules('imp').new_module('__main__'));
@@ -1083,7 +1089,7 @@ begin
     Conn.namespace.__delitem__('_RPI');
 
     // make sys.stdout etc asynchronous when writing
-    RPI.asyncIO();
+//    RPI.asyncIO();
 //    // Install Rpyc excepthook gets automatically installed
 //    Rpyc.install_rpyc_excepthook;
 
@@ -1199,7 +1205,7 @@ begin
 end;
 
 procedure TPyRemoteInterpreter.StoreServerProcessInfo(
-  const ProcessInfo: TProcessInformation);
+  const ProcessInfo: TProcessInformation; InWritePipe: THandle);
 begin
   ServerProcessInfo := ProcessInfo;
 end;

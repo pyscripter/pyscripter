@@ -498,7 +498,7 @@ begin
     peInternal:
       begin
         ActiveInterpreter := fInternalInterpreter;
-        ActiveDebugger := TPyInternalDebugger.Create;
+        ActiveDebugger := ActiveInterpreter.CreateDebugger;
         PyIDEOptions.PythonEngineType := peInternal;
       end;
     peRemote, peRemoteTk, peRemoteWx, peSSH:
@@ -533,10 +533,7 @@ begin
         end;
         if Connected then begin
           ActiveInterpreter := RemoteInterpreter;
-          if Value = peSSH then
-            ActiveDebugger := TPySSHDebugger.Create(RemoteInterpreter)
-          else
-            ActiveDebugger := TPyRemDebugger.Create(RemoteInterpreter);
+          ActiveDebugger := ActiveInterpreter.CreateDebugger;
           PyIDEOptions.PythonEngineType := Value;
 
           // Add extra project paths

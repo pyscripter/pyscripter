@@ -93,6 +93,7 @@ type
   end;
 
   TModuleProxy = class;
+  TPyBaseDebugger = class;
 
   TPyBaseInterpreter = class(TObject)
   //  Base (abstract) class for implementing Python Interpreters
@@ -108,6 +109,8 @@ type
   public
     destructor Destroy; override;
     procedure Initialize; virtual;
+    // Create matching debugger
+    function CreateDebugger: TPyBaseDebugger; virtual; abstract;
     // Python Path
     function SysPathAdd(const Path : string) : boolean; virtual; abstract;
     function SysPathRemove(const Path : string) : boolean; virtual; abstract;

@@ -40,7 +40,7 @@ type
     fSSHOptions : string;
     function ProcessPlatformInfo(Info: string; out Is3k: Boolean;
       out Sep: Char; out TempDir: string): boolean;
-    procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation);
+    procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation; InWritePipe: THandle);
   protected
     function SystemTempFolder: string; override;
     procedure CreateAndRunServerProcess; override;
@@ -60,11 +60,6 @@ type
     destructor Destroy; override;
   end;
 
-  TPySSHDebugger = class(TPyRemDebugger)
-  { Rpyc based remote Python Debugger running on an SSH server }
-  public
-    procedure Abort; override;
-  end;
 
 implementation
 
@@ -186,7 +181,7 @@ begin
      CREATE_UNICODE_ENVIRONMENT or CREATE_NO_WINDOW or CREATE_NEW_CONSOLE;
 
   inherited Create(peSSH);
-  DebuggerClass := TPySSHDebugger;
+  DebuggerClass := TPyRemDebugger;
   if fConnected then begin
     PythonVersion := Conn.modules.sys.version;
     RemotePlatform := Conn.modules.sys.platform;
@@ -220,7 +215,7 @@ begin
   fSocketPort := 18000 + Random(1000);
 
   // Create and Run Server process
-  ServerProcessOptions.CommandLine := Format('"%s" %s %s %s ',
+  ServerProcessOptions.CommandLine := Format('"%s" %s %s %s -u -X utf8 ',
     [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]) +
     Format('"%s" %d "%s"', [fRemServerFile, fSocketPort, fRemRpycFile]);
   ServerTask := TTask.Create(procedure
@@ -339,7 +334,7 @@ begin
 end;
 
 procedure TPySSHInterpreter.StoreTunnelProcessInfo(
-  const ProcessInfo: TProcessInformation);
+  const ProcessInfo: TProcessInformation; InWritePipe: THandle);
 begin
   TunnelProcessInfo := ProcessInfo;
 end;
@@ -369,27 +364,5 @@ begin
     Result := TSSHFileName.Format(SSHServerName, FileName);
 end;
 
-{ TPySSHDebugger }
-
-procedure TPySSHDebugger.Abort;
-begin
-  case PyControl.DebuggerState of
-    dsPostMortem: ExitPostMortem;
-    dsDebugging,
-    dsRunning:
-      begin
-        if not TPySSHInterpreter(fRemotePython).fShuttingDown then
-          TThread.ForceQueue(nil, procedure
-          begin
-            TPySSHInterpreter(fRemotePython).Reinitialize;
-          end);
-      end;
-    dsPaused:
-      begin
-        fDebuggerCommand := dcAbort;
-        DoDebuggerCommand;
-      end;
-  end;
-end;
 
 end.

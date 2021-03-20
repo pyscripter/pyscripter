@@ -283,10 +283,16 @@ end;
 procedure TPythonIIForm.PythonIOSendData(Sender: TObject; const Data: string);
 Var
   S : AnsiString;
+  IsPending: Boolean;
 begin
+  if Data.Length = 0 then Exit;
+
+
   if fShowOutput then begin
     fCriticalSection.Enter;
     try
+      IsPending := fOutputStream.Size > 0;
+
       fOutputStream.Write(Data[1], Length (Data) * 2);
       //fOutputStream.Write(sLineBreak[1], Length (sLineBreak) * 2);  RawOutput
       if Assigned(fOutputMirror) then begin
@@ -294,10 +300,22 @@ begin
         fOutputMirror.Write(S[1], Length(S));
       end;
 
-      if (GetCurrentThreadId = MainThreadId) and (PyControl.PythonEngineType = peInternal) then
-        WritePendingMessages
-      else
-        PostMessage(Handle, WM_APPENDTEXT, 0, 0);
+//      if (GetCurrentThreadId = MainThreadId) and (PyControl.PythonEngineType = peInternal) then
+//        WritePendingMessages
+//      else
+//        PostMessage(Handle, WM_APPENDTEXT, 0, 0);
+
+      if not IsPending then
+        TThread.ForceQueue(nil, procedure
+        begin
+          WritePendingMessages;
+        end, 100);
+//      else if fOutputStream.Size > 500 then
+//        TThread.ForceQueue(nil, procedure
+//        begin
+//          WritePendingMessages;
+//        end);
+
     finally
       fCriticalSection.Leave;
     end;
@@ -1644,7 +1662,12 @@ end;
 
 procedure TPythonIIForm.ReinitInterpreter;
 begin
-  PostMessage(Handle, WM_REINITINTERPRETER, 0, 0);
+  if Assigned(PyControl.ActiveInterpreter) then
+    TThread.ForceQueue(nil,
+    procedure
+    begin
+      PyControl.ActiveInterpreter.ReInitialize;
+    end, 500);
 end;
 
 procedure TPythonIIForm.GetBlockCode(var Source: string;
