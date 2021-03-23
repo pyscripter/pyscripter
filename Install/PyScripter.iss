@@ -122,8 +122,6 @@ Source: ..\Scripts\python_init.py; DestDir: {commonappdata}\PyScripter
 ; Highlighters
 Source: "..\Highlighters\Autumn_dark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Black Pastel.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_1.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Dark_2.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Dark_3.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Dark_4.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Dark_5.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
@@ -147,7 +145,7 @@ Source: "..\Highlighters\IDLEHighlighting.ini"; DestDir: "{commonappdata}\PyScri
 Source: "..\Highlighters\IDLEHighlightingv2.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\IDLEHighlightingv3.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Lnkpot.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
-Source: "..\Highlighters\Minimal.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Meadow.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\MochaHighlight.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Monokai.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Mr.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
@@ -160,6 +158,7 @@ Source: "..\Highlighters\RecognEyes.ini"; DestDir: "{commonappdata}\PyScripter\H
 Source: "..\Highlighters\Retta.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Schuss.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Skycool_light.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Ski.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Solarized Dark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Solarized Light.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Solarized_dark_edit.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
@@ -168,6 +167,7 @@ Source: "..\Highlighters\Sublime Text 2.ini"; DestDir: "{commonappdata}\PyScript
 Source: "..\Highlighters\Sunburst.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Tango.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Vibrant Ink.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Wasp_night.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Wombat.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Zenburn.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 ; Styles
