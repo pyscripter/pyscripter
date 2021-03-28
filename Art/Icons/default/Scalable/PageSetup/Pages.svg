@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="Page2.svg"
+   inkscape:version="1.0 (1.0+r73+1)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 8.4666665 8.4666669"
+   height="32"
+   width="32">
+  <defs
+     id="defs2">
+    <linearGradient
+       y2="-490.61426"
+       x2="-1161.802"
+       y1="-490.61426"
+       x1="-1229.079"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient8559"
+       xlink:href="#linearGradient5093"
+       inkscape:collect="always" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient5093">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop5089" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop5091" />
+    </linearGradient>
+    <linearGradient
+       y2="214.88901"
+       x2="-537.25702"
+       y1="290.64554"
+       x1="-475.34381"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient8555"
+       xlink:href="#linearGradient8539"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient8539"
+       inkscape:collect="always">
+      <stop
+         id="stop8535"
+         offset="0"
+         style="stop-color:#cccccc;stop-opacity:1" />
+      <stop
+         id="stop8537"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:1" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter5130"
+       x="-0.023999823"
+       width="1.0479996"
+       y="-0.024001131"
+       height="1.0480022">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.18358864"
+         id="feGaussianBlur5132" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5093"
+       id="linearGradient987"
+       gradientUnits="userSpaceOnUse"
+       x1="-1229.079"
+       y1="-490.61426"
+       x2="-1161.802"
+       y2="-490.61426" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="0"
+     inkscape:window-x="20"
+     inkscape:window-height="704"
+     inkscape:window-width="925"
+     units="px"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="5.0911293"
+     inkscape:cx="14.704655"
+     inkscape:zoom="3.959798"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <g
+       transform="matrix(0.96930795,0,0,0.96930795,-8.0768754,16.542525)"
+       id="g702"
+       style="display:inline">
+      <g
+         style="fill:url(#linearGradient8559);fill-opacity:1"
+         transform="matrix(-0.10311169,0,0,0.10182625,-114.99881,70.354287)"
+         id="g8553">
+        <g
+           transform="translate(-43.010777,-325.02157)"
+           style="fill:url(#linearGradient987)"
+           id="g8551">
+          <polygon
+             style="fill:url(#linearGradient8555);fill-opacity:1;stroke:#000000;stroke-linecap:round;stroke-linejoin:round"
+             transform="matrix(0.99999983,0,0,1.0000232,-691.32212,-746.58316)"
+             id="polygon8545"
+             points="-537.257,297.035 -470.98,297.035 -470.98,233.247 -489.339,214.889 -537.257,214.889 " />
+          <polygon
+             points="-470.98,233.247 -489.339,233.247 -489.339,214.889 "
+             id="polygon8547"
+             transform="matrix(0.99999983,0,0,1.0000232,-691.45668,-745.9019)"
+             style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;filter:url(#filter5130)" />
+          <polygon
+             style="fill:#808080;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+             transform="matrix(0.99999983,0,0,1.0000232,-691.32212,-746.58316)"
+             id="polygon8549"
+             points="-489.339,233.247 -489.339,214.889 -470.98,233.247 " />
+        </g>
+      </g>
+      <g
+         id="g8573"
+         transform="matrix(0.77327378,0,0,0.77327378,-0.11355356,14.032788)">
+        <g
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.72651px;line-height:1.25;font-family:Wingdings;-inkscape-font-specification:Wingdings;letter-spacing:0px;word-spacing:0px;fill:#000080;fill-opacity:1;stroke:none;stroke-width:0.193163"
+           id="text8563"
+           aria-label="+">
+          <path
+             id="path852"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:consolas;-inkscape-font-specification:consolas;fill:#000080;stroke-width:0.193163"
+             d="m 17.144546,-35.086753 h -1.482675 v 1.539265 h -0.648907 v -1.539265 h -1.482675 v -0.573452 h 1.482675 v -1.527948 h 0.648907 v 1.527948 h 1.482675 z" />
+        </g>
+        <g
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.72651px;line-height:1.25;font-family:Wingdings;-inkscape-font-specification:Wingdings;letter-spacing:0px;word-spacing:0px;fill:#000080;fill-opacity:1;stroke:none;stroke-width:0.193163"
+           id="text8567"
+           aria-label="+">
+          <path
+             id="path855"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:consolas;-inkscape-font-specification:consolas;fill:#000080;stroke-width:0.193163"
+             d="M 19.365155,-32.488166 H 17.88248 v 1.539265 h -0.648906 v -1.539265 h -1.482675 v -0.573452 h 1.482675 v -1.527948 h 0.648906 v 1.527948 h 1.482675 z" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
