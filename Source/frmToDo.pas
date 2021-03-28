@@ -67,9 +67,11 @@ uses
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
   Vcl.ImageCollection,
+  SVGIconImageCollection,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
+  SpTBXSkins,
   SpTBXItem,
   SpTBXControls,
   JvDockControlForm,
@@ -146,9 +148,9 @@ type
     actFilePrint: TAction;
     actEditGoto: TAction;
     actFileRefresh: TAction;
-    ToDoImageCollection: TImageCollection;
     ToDoImages: TVirtualImageList;
     vicImages: TVirtualImageList;
+    icTodo: TSVGIconImageCollection;
     procedure actEditCopyExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -192,6 +194,7 @@ type
      TokenString: string; LineNumber: Integer): TToDoInfo;
     function GetPreCallback: TDirectoryWalkProc;
   protected
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     procedure RefreshTodoList;
@@ -223,6 +226,7 @@ implementation
 
 uses
   System.Math,
+  Vcl.Themes,
   Vcl.Clipbrd,
   MPCommonUtilities,
   uEditAppIntfs,
@@ -904,6 +908,18 @@ begin
     Result := ShortenStringEx(TargetCanvas.Handle, S, TextSpace,
       Application.UseRightToLeftReading, sseFilePathMiddle);
     Done := True
+  end;
+end;
+
+procedure TToDoWindow.WMSpSkinChange(var Message: TMessage);
+begin
+  inherited;
+  icTodo.SVGIconItems.BeginUpdate;
+  try
+    icTodo.FixedColor := StyleServices.GetSystemColor(clWindowText);
+    icTodo.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
+  finally
+    icTodo.SVGIconItems.EndUpdate;
   end;
 end;
 
