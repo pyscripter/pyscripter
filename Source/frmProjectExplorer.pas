@@ -32,7 +32,7 @@ uses
   Vcl.ImgList,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
+  SVGIconImageCollection,
   TB2Item,
   SpTBXItem,
   ActnList,
@@ -43,7 +43,6 @@ uses
   JvComponentBase,
   JvDockControlForm,
   VirtualTrees,
-  SVGIconImageCollection,
   frmIDEDockWin,
   cProjectClasses;
 

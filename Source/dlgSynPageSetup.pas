@@ -59,7 +59,7 @@ uses
   Vcl.Dialogs,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
+  SVGIconImageCollection,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
@@ -71,8 +71,7 @@ uses
   SynEditPrint,
   SynEditPrintMargins,
   SynEditPrintHeaderFooter,
-  dlgPyIDEBase,
-  SVGIconImageCollection;
+  dlgPyIDEBase;
 
 type
   TPageSetupDlg = class(TPyIDEDlgBase)

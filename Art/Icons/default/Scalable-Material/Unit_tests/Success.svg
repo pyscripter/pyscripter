@@ -1,0 +1,10 @@
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="cp" clipPathUnits="userSpaceOnUse">
+      <path d="M0 0 v 16 h 16 v -16 z M4 4 v 8 h 8 v -8  z" clip-rule="evenodd"/>
+	</clipPath>
+  </defs>
+
+  <rect clip-path="url(#cp)" x="3" y="3" rx="1" width="10" height="10"/>
+  <rect fill="#73E529" x="4" y="4" width="8" height="8"/>
+</svg>

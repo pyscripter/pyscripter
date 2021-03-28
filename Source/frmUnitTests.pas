@@ -22,7 +22,7 @@ uses
   Vcl.ActnList,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
+  SVGIconImageCollection,
   JvComponentBase,
   JvDockControlForm,
   VirtualTrees,
@@ -77,9 +77,9 @@ type
     lblFailures: TLabel;
     SpTBXPanel1: TPanel;
     ErrorText: TRichEdit;
-    icRunImages: TImageCollection;
     vilRunImages: TVirtualImageList;
     vilImages: TVirtualImageList;
+    icRunImages: TSVGIconImageCollection;
     procedure UnitTestsDblClick(Sender: TObject);
     procedure actStopExecute(Sender: TObject);
     procedure actClearAllExecute(Sender: TObject);
@@ -118,6 +118,7 @@ type
     procedure AddFailure(Test, Err: Variant);
     procedure AddSuccess(Test: Variant);
   protected
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure UpdateActions; override;
   public
     { Public declarations }
@@ -135,6 +136,7 @@ var
 implementation
 
 uses
+  Vcl.Themes,
   JclSysUtils,
   JvJVCLUtils,
   JvGnugettext,
@@ -167,6 +169,7 @@ Const
 
 procedure TUnitTestWindow.actRefreshExecute(Sender: TObject);
 Var
+  Py: IPyEngineAndGIL;
   i, j, Index : integer;
   Editor : IEditor;
   UnitTest, Module, InnerTestSuite,
@@ -177,7 +180,7 @@ Var
   PyTestCase : PPyObject;
   TestCount : integer;
 begin
-  var Py := SafePyEngine;
+  Py := SafePyEngine;
   ClearAll;
   Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
@@ -338,9 +341,9 @@ begin
   if not (Kind in [ikNormal, ikSelected]) then exit;
   if UnitTests.GetNodeLevel(Node) = 0 then begin
     if vsExpanded in Node.States then
-      ImageIndex := 5
+      ImageIndex := 6
     else
-      ImageIndex := 6;
+      ImageIndex := 5;
   end else with SafePyEngine.PythonEngine do begin
     PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     PytestStatus := PyObject_GetAttrString(PyTestCase, 'testStatus');
@@ -377,14 +380,13 @@ end;
 
 procedure TUnitTestWindow.UnitTestsChecked(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-var
-  PyTestCase : PPyObject;
-  TestCase : Variant;
 begin
   if (UnitTests.GetNodeLevel(Node) = 1) and (vsInitialized in Node.States) then begin
-    PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
-    TestCase := VarPythonCreate(PyTestCase);
+    var Py := SafePyEngine;
+    var PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
+    var TestCase: Variant := VarPythonCreate(PyTestCase);
     TestCase.enabled := Node.CheckState in [csCheckedNormal, csCheckedPressed];
+    VarClear(TestCase);
   end;
 end;
 
@@ -412,19 +414,18 @@ end;
 
 procedure TUnitTestWindow.actSelectFailedExecute(Sender: TObject);
 Var
-  PyTestCase : PPyObject;
-  TestCase : Variant;
   ClassNode, TestCaseNode : PVirtualNode;
 begin
   actDeselectAllExecute(Sender);
 
+  var Py := SafePyEngine;
   ClassNode := UnitTests.RootNode^.FirstChild;
   while Assigned(ClassNode) do begin
     TestCaseNode := ClassNode.FirstChild;
     while Assigned(TestCaseNode) do begin
-      PyTestCase :=
+      var PyTestCase :=
         PPyObject(TStringList(TestClasses.Objects[TestCaseNode.Parent.Index]).Objects[TestCaseNode.Index]);
-      TestCase := VarPythonCreate(PyTestCase);
+      var TestCase: Variant := VarPythonCreate(PyTestCase);
       if TTestStatus(TestCase.testStatus) in [tsFailed, tsError] then
          UnitTests.CheckState[TestCaseNode] := csCheckedNormal;
       TestCaseNode := TestCaseNode.NextSibling;
@@ -606,17 +607,17 @@ end;
 
 procedure TUnitTestWindow.UnitTestsChange(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-Var
-  PyTestCase : PPyObject;
-  TestCase : Variant;
 begin
   if Assigned(Node) and (vsSelected in Node.States) and
     (UnitTests.GetNodeLevel(Node) = 1) then
   begin
-    PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
-    TestCase := VarPythonCreate(PyTestCase);
+    var Py := SafePyEngine;
+    var PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
+    var TestCase: Variant := VarPythonCreate(PyTestCase);
     ErrorText.Text := TestCase.errMsg;
-  end else
+    VarClear(TestCase);
+  end
+  else
     ErrorText.Text := '';
 end;
 
@@ -666,6 +667,20 @@ begin
   inherited;
 end;
 
+procedure TUnitTestWindow.WMSpSkinChange(var Message: TMessage);
+begin
+  inherited;
+  icRunImages.SVGIconItems.BeginUpdate;
+  try
+    for var Item in icRunImages.SvgIconItems do
+      TSvgIconItem(Item).Svg.ApplyFixedColorToRootOnly := True;
+    icRunImages.FixedColor := StyleServices.GetSystemColor(clWindowText);
+    icRunImages.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
+  finally
+    icRunImages.SVGIconItems.EndUpdate;
+  end;
+end;
+
 procedure TUnitTestWindow.actStopExecute(Sender: TObject);
 begin
   if VarIsPython(TestResult) then
@@ -674,6 +689,7 @@ end;
 
 procedure TUnitTestWindow.UnitTestsDblClick(Sender: TObject);
 var
+  Py: IPyEngineAndGIL;
   InspectModule : Variant;
   Node : PVirtualNode;
   PyTestCase : PPyObject;
@@ -687,6 +703,8 @@ begin
     if NodeLevel = 0 then
       Node := Node.FirstChild;
     if (NodeLevel > 1)  or not Assigned(Node) then Exit;
+
+    Py := SafePyEngine;
     PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     TestCase := VarPythonCreate(PyTestCase);
     if NodeLevel = 0 then

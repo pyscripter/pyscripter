@@ -66,7 +66,6 @@ uses
   Vcl.Menus,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
   SVGIconImageCollection,
   TB2Item,
   TB2Dock,

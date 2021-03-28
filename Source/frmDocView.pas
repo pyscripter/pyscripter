@@ -25,7 +25,6 @@ uses
   Vcl.OleCtrls,
   Vcl.ImgList,
   Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
   Vcl.VirtualImageList,
   SHDocVw,
   TB2Item,

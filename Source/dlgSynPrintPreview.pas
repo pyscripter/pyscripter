@@ -56,12 +56,11 @@ uses
   Vcl.Printers,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
+  SVGIconImageCollection,
   SpTBXItem,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
-  SVGIconImageCollection,
   SynEditPrintPreview,
   dlgPyIDEBase;
 
