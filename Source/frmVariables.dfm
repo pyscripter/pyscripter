@@ -155,66 +155,67 @@ inherited VariablesWindow: TVariablesWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 0
-        CollectionName = 'CodeImages\Item1'
-        Disabled = False
-        Name = 'Item1'
-      end
-      item
-        CollectionIndex = 1
-        CollectionName = 'CodeImages\Item2'
-        Disabled = False
-        Name = 'Item2'
-      end
-      item
-        CollectionIndex = 2
-        CollectionName = 'CodeImages\Item3'
-        Disabled = False
-        Name = 'Item3'
-      end
-      item
-        CollectionIndex = 3
-        CollectionName = 'CodeImages\Item4'
-        Disabled = False
-        Name = 'Item4'
-      end
-      item
-        CollectionIndex = 4
-        CollectionName = 'CodeImages\Item5'
-        Disabled = False
-        Name = 'Item5'
-      end
-      item
-        CollectionIndex = 5
-        CollectionName = 'CodeImages\Item6'
-        Disabled = False
-        Name = 'Item6'
-      end
-      item
-        CollectionIndex = 6
-        CollectionName = 'CodeImages\Item7'
-        Disabled = False
-        Name = 'Item7'
-      end
-      item
-        CollectionIndex = 7
-        CollectionName = 'CodeImages\Item8'
-        Disabled = False
-        Name = 'Item8'
-      end
-      item
         CollectionIndex = 8
-        CollectionName = 'CodeImages\Item9'
+        CollectionName = 'CodeImages\Python'
         Disabled = False
-        Name = 'Item9'
+        Name = 'Python'
       end
       item
         CollectionIndex = 9
-        CollectionName = 'CodeImages\Item10'
+        CollectionName = 'CodeImages\Variable'
         Disabled = False
-        Name = 'Item10'
+        Name = 'Variable'
+      end
+      item
+        CollectionIndex = 1
+        CollectionName = 'CodeImages\Field'
+        Disabled = False
+        Name = 'Field'
+      end
+      item
+        CollectionIndex = 2
+        CollectionName = 'CodeImages\Function'
+        Disabled = False
+        Name = 'Function'
+      end
+      item
+        CollectionIndex = 5
+        CollectionName = 'CodeImages\Method'
+        Disabled = False
+        Name = 'Method'
+      end
+      item
+        CollectionIndex = 0
+        CollectionName = 'CodeImages\Class'
+        Disabled = False
+        Name = 'Class'
+      end
+      item
+        CollectionIndex = 7
+        CollectionName = 'CodeImages\Namespace'
+        Disabled = False
+        Name = 'Namespace'
+      end
+      item
+        CollectionIndex = 4
+        CollectionName = 'CodeImages\List'
+        Disabled = False
+        Name = 'List'
+      end
+      item
+        CollectionIndex = 6
+        CollectionName = 'CodeImages\Module'
+        Disabled = False
+        Name = 'Module'
+      end
+      item
+        CollectionIndex = 3
+        CollectionName = 'CodeImages\Keyword'
+        Disabled = False
+        Name = 'Keyword'
       end>
     ImageCollection = CommandsDataModule.icCodeImages
+    PreserveItems = True
     Left = 22
     Top = 123
   end

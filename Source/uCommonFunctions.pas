@@ -2209,6 +2209,7 @@ begin
     ProcessOptions.MergeError := False;
     ProcessOptions.RawOutput := True;
     ProcessOptions.RawError := True;
+    ProcessOptions.AutoConvertOEM := False;
     ProcessOptions.CreateProcessFlags :=
       ProcessOptions.CreateProcessFlags or
        CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;

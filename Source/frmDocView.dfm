@@ -13,17 +13,15 @@ object DocForm: TDocForm
   TextHeight = 13
   object WebBrowser: TWebBrowser
     Left = 0
-    Top = 26
+    Top = 34
     Width = 463
-    Height = 420
+    Height = 412
     HelpContext = 850
     Align = alClient
     TabOrder = 0
     OnCommandStateChange = WebBrowserCommandStateChange
-    ExplicitLeft = 8
-    ExplicitTop = 32
     ControlData = {
-      4C000000DA2F0000692B00000000000000000000000000000000000000000000
+      4C000000DA2F0000952A00000000000000000000000000000000000000000000
       000000004C000000000000000000000001000000E0D057007335CF11AE690800
       2B2E126208000000000000004C0000000114020000000000C000000000000046
       8000000000000000000000000000000000000000000000000000000000000000
@@ -33,7 +31,7 @@ object DocForm: TDocForm
     Left = 0
     Top = 0
     Width = 463
-    Height = 26
+    Height = 34
     AllowDrag = False
     DoubleBuffered = True
     object TBXToolbar1: TSpTBXToolbar
@@ -93,67 +91,70 @@ object DocForm: TDocForm
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 0
-        CollectionName = 'Browser\Open'
-        Disabled = False
-        Name = 'Open'
-      end
-      item
         CollectionIndex = 1
-        CollectionName = 'Browser\GoForward'
+        CollectionName = 'Browser\BookOpen'
         Disabled = False
-        Name = 'GoForward'
+        Name = 'BookOpen'
       end
       item
-        CollectionIndex = 2
-        CollectionName = 'Browser\GoBackword'
+        CollectionIndex = 0
+        CollectionName = 'Browser\Back'
         Disabled = False
-        Name = 'GoBackword'
+        Name = 'Back'
       end
       item
         CollectionIndex = 3
-        CollectionName = 'Browser\Stop'
+        CollectionName = 'Browser\Forward'
         Disabled = False
-        Name = 'Stop'
+        Name = 'Forward'
       end
       item
-        CollectionIndex = 4
+        CollectionIndex = 2
+        CollectionName = 'Browser\Cancel'
+        Disabled = False
+        Name = 'Cancel'
+      end
+      item
+        CollectionIndex = 6
         CollectionName = 'Browser\PageSetup'
         Disabled = False
         Name = 'PageSetup'
       end
       item
-        CollectionIndex = 5
+        CollectionIndex = 7
         CollectionName = 'Browser\Preview'
         Disabled = False
         Name = 'Preview'
       end
       item
-        CollectionIndex = 6
+        CollectionIndex = 8
         CollectionName = 'Browser\Print'
         Disabled = False
         Name = 'Print'
       end
       item
-        CollectionIndex = 7
+        CollectionIndex = 9
         CollectionName = 'Browser\Save'
         Disabled = False
         Name = 'Save'
       end
       item
-        CollectionIndex = 8
+        CollectionIndex = 5
         CollectionName = 'Browser\Home'
         Disabled = False
         Name = 'Home'
       end
       item
-        CollectionIndex = 9
-        CollectionName = 'Browser\Item10'
+        CollectionIndex = 4
+        CollectionName = 'Browser\Help'
         Disabled = False
-        Name = 'Item10'
+        Name = 'Help'
       end>
     ImageCollection = CommandsDataModule.icBrowserImages
+    PreserveItems = True
+    Width = 24
+    Height = 24
     Left = 40
-    Top = 72
+    Top = 88
   end
 end

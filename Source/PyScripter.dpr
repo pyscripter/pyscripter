@@ -13,10 +13,10 @@ program PyScripter;
 {$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
 
 uses
-  //LeakCheck.Report, // Me first! - I don't have any dependencies but LeakCheck so I finalize after all other units
-  //LeakCheck.Setup.Trace, // (Optional) Then me - Run setup to configure stack tracing for us
-  //LeakCheck.MapFile,
-  //LeakCheck.Trace.Map,
+//  LeakCheck.Report, // Me first! - I don't have any dependencies but LeakCheck so I finalize after all other units
+//  LeakCheck.Setup.Trace, // (Optional) Then me - Run setup to configure stack tracing for us
+//  LeakCheck.MapFile,
+//  LeakCheck.Trace.Map,
   WinApi.Windows,
   System.SysUtils,
   Vcl.HTMLHelpViewer,
@@ -131,7 +131,7 @@ uses
   or IMAGE_FILE_NET_RUN_FROM_SWAP}
 
 begin
-  ReportMemoryLeaksOnShutdown := DebugHook <> 0;
+  ReportMemoryLeaksOnShutdown :=  DebugHook <> 0;
 
   TStyleManager.SystemHooks := TStyleManager.SystemHooks - [shMenus, shDialogs];
 

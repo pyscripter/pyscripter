@@ -176,6 +176,7 @@ begin
   TunnelProcessOptions.MergeError := False;
   TunnelProcessOptions.RawOutput := True;
   TunnelProcessOptions.RawError := True;
+  TunnelProcessOptions.AutoConvertOEM := False;
   TunnelProcessOptions.CreateProcessFlags :=
     TunnelProcessOptions.CreateProcessFlags or
      CREATE_UNICODE_ENVIRONMENT or CREATE_NO_WINDOW or CREATE_NEW_CONSOLE;
@@ -330,6 +331,7 @@ begin
   // shut down tunnel
   if Assigned(TunnelTask) and (TunnelTask.Status = TTaskStatus.Running) then
     TerminateProcessTree(TunnelProcessInfo.dwProcessId);
+  TunnelTask.Wait;
   TunnelTask := nil;
 end;
 

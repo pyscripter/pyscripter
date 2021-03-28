@@ -43,6 +43,7 @@ uses
   JvComponentBase,
   JvDockControlForm,
   VirtualTrees,
+  SVGIconImageCollection,
   frmIDEDockWin,
   cProjectClasses;
 
@@ -128,9 +129,9 @@ type
     mnExtraPythonPath: TSpTBXItem;
     actProjectAddRemoteFile: TAction;
     SpTBXItem1: TSpTBXItem;
-    ilProjects: TImageCollection;
     vilProjects: TVirtualImageList;
     vilImages: TVirtualImageList;
+    icProjects: TSVGIconImageCollection;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
@@ -194,6 +195,8 @@ type
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
+  protected
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     FileImageList: TStringList;
@@ -215,6 +218,7 @@ var
 implementation
 
 uses
+  Vcl.Themes,
   MPDataObject,
   JclShell,
   JclFileUtils,
@@ -864,6 +868,18 @@ begin
      actProjectExternalRun.Enabled := False;
      actProjectDebug.Enabled := False;
    end;
+end;
+
+procedure TProjectExplorerWindow.WMSpSkinChange(var Message: TMessage);
+begin
+  inherited;
+  icProjects.SVGIconItems.BeginUpdate;
+  try
+    icProjects.FixedColor := StyleServices.GetSystemColor(clWindowText);
+    icProjects.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
+  finally
+    icProjects.SVGIconItems.EndUpdate;
+  end;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;

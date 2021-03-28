@@ -1535,10 +1535,6 @@ begin
     JvAppInstances.Check;
   end;
 
-  // Notifications
-  SkinManager.AddSkinNotification(Self);
-  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
-
   // JvDocking Fonts
   with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
     ActiveFont.Assign(ToolbarFont);
@@ -1613,6 +1609,11 @@ begin
      PythonIIForm.InterpreterActionList,
      ProjectExplorerWindow.ProjectActionList,
      CallStackWindow.actlCallStack];
+
+  // Notifications
+  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
+  SkinManager.AddSkinNotification(Self);
+  SkinManager.BroadcastSkinNotification;
 
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then
@@ -1712,7 +1713,7 @@ begin
   UserToolbar.DoubleBuffered := True;
   FindToolbar.DoubleBuffered := True;
 
-  SkinManager.AddSkinNotification(Self);
+  //SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;
 end;
 
@@ -4467,6 +4468,7 @@ begin
   // Update EditorOptions
   ThemeEditorGutter(EditorOptions.Gutter);
   PyIDEOptions.CodeFolding.FolderBarLinesColor := EditorOptions.Gutter.Font.Color;
+  CommandsDataModule.UpdateImageCollections;
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;

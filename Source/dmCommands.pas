@@ -56,7 +56,7 @@ uses
   dlgSynEditOptions,
   dlgOptionsEditor,
   uEditAppIntfs,
-  cPyBaseDebugger;
+  cPyBaseDebugger, SVGIconImageCollection;
 
 type
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -249,9 +249,9 @@ type
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
     actDonate: TAction;
-    icBrowserImages: TImageCollection;
-    icCodeImages: TImageCollection;
     icImages: TImageCollection;
+    icBrowserImages: TSVGIconImageCollection;
+    icCodeImages: TSVGIconImageCollection;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -408,6 +408,7 @@ type
     procedure ProcessShellNotify(Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
     function FindSearchTarget : ISearchCommands;
     procedure HighlightWordInActiveEditor(SearchWord : string);
+    procedure UpdateImageCollections;
     property Highlighters : TStrings read fHighlighters;
   end;
 
@@ -447,6 +448,7 @@ uses
   System.IOUtils,
   System.IniFiles,
   Vcl.Clipbrd,
+  Vcl.Themes,
   MPShellUtilities,
   MPCommonUtilities,
   SpTBXMDIMRU,
@@ -2226,6 +2228,21 @@ begin
       PyIDEMainForm.PythonKeywordHelpRequested := False;
       Application.HelpFile := OldHelpFile;
     end;
+  end;
+end;
+
+procedure TCommandsDataModule.UpdateImageCollections;
+begin
+  icBrowserImages.FixedColor := StyleServices.GetSystemColor(clBtnText);
+
+  icCodeImages.SVGIconItems.BeginUpdate;
+  try
+    for var Item in icCodeImages.SvgIconItems do
+      TSvgIconItem(Item).Svg.ApplyFixedColorToRootOnly := True;
+    icCodeImages.FixedColor := StyleServices.GetSystemColor(clWindowText);
+    icCodeImages.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
+  finally
+    icCodeImages.SVGIconItems.EndUpdate;
   end;
 end;
 

@@ -61,6 +61,7 @@ uses
   TB2Item,
   TB2Dock,
   TB2Toolbar,
+  SVGIconImageCollection,
   SynEditPrintPreview,
   dlgPyIDEBase;
 
@@ -100,9 +101,10 @@ type
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     LeftStatusLabel: TSpTBXLabelItem;
     SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
-    icPrintPreview: TImageCollection;
     vilPrintPreview: TVirtualImageList;
+    icPrintPreview: TSVGIconImageCollection;
 
+    procedure FormCreate(Sender: TObject);
     procedure FirstCmdExecute(Sender: TObject);
     procedure PrevCmdExecute(Sender: TObject);
     procedure NextCmdExecute(Sender: TObject);
@@ -129,6 +131,7 @@ var
 implementation
 
 uses
+  Vcl.Themes,
   uCommonFunctions;
 
 {$R *.DFM}
@@ -137,6 +140,12 @@ resourcestring
   SPrint = 'Print';
   SPrintDoc = 'Print the document on';
   SPage = 'Page';
+
+procedure TPrintPreviewDlg.FormCreate(Sender: TObject);
+begin
+  inherited;
+  icPrintPreview.FixedColor := StyleServices.GetSystemColor(clBtnText);
+end;
 
 procedure TPrintPreviewDlg.FormShow(Sender: TObject);
 begin

@@ -52,8 +52,6 @@ inherited FunctionListWindow: TFunctionListWindow
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
   OnResize = FormResize
-  ExplicitWidth = 552
-  ExplicitHeight = 356
   PixelsPerInch = 96
   TextHeight = 13
   object pnHolder: TPanel
@@ -246,6 +244,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Edit'
       Hint = 'Copy procedures to clipboard'
       ImageIndex = 0
+      ImageName = 'Item13'
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
@@ -254,6 +253,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Font..'
       Hint = 'Configure font'
       ImageIndex = 3
+      ImageName = 'Item92'
       OnExecute = actOptionsFontExecute
     end
     object actViewStart: TAction
@@ -261,6 +261,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = 'S&tart'
       Hint = 'Match only from the start'
       ImageIndex = 5
+      ImageName = 'Item95'
       OnExecute = actViewStartExecute
     end
     object actViewAny: TAction
@@ -268,6 +269,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Any'
       Hint = 'Match anywhere'
       ImageIndex = 4
+      ImageName = 'Item94'
       OnExecute = actViewAnyExecute
     end
     object actViewGoto: TAction
@@ -275,6 +277,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Goto'
       Hint = 'Goto implementation'
       ImageIndex = 1
+      ImageName = 'Item33'
       OnExecute = actViewGotoExecute
     end
     object actHelpHelp: TAction
@@ -282,6 +285,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Help'
       Hint = 'Help'
       ImageIndex = 2
+      ImageName = 'Item34'
       OnExecute = actHelpHelpExecute
     end
   end
@@ -290,68 +294,69 @@ inherited FunctionListWindow: TFunctionListWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 0
-        CollectionName = 'CodeImages\Item1'
-        Disabled = False
-        Name = 'Item1'
-      end
-      item
-        CollectionIndex = 1
-        CollectionName = 'CodeImages\Item2'
-        Disabled = False
-        Name = 'Item2'
-      end
-      item
-        CollectionIndex = 2
-        CollectionName = 'CodeImages\Item3'
-        Disabled = False
-        Name = 'Item3'
-      end
-      item
-        CollectionIndex = 3
-        CollectionName = 'CodeImages\Item4'
-        Disabled = False
-        Name = 'Item4'
-      end
-      item
-        CollectionIndex = 4
-        CollectionName = 'CodeImages\Item5'
-        Disabled = False
-        Name = 'Item5'
-      end
-      item
-        CollectionIndex = 5
-        CollectionName = 'CodeImages\Item6'
-        Disabled = False
-        Name = 'Item6'
-      end
-      item
-        CollectionIndex = 6
-        CollectionName = 'CodeImages\Item7'
-        Disabled = False
-        Name = 'Item7'
-      end
-      item
-        CollectionIndex = 7
-        CollectionName = 'CodeImages\Item8'
-        Disabled = False
-        Name = 'Item8'
-      end
-      item
         CollectionIndex = 8
-        CollectionName = 'CodeImages\Item9'
+        CollectionName = 'CodeImages\Python'
         Disabled = False
-        Name = 'Item9'
+        Name = 'Python'
       end
       item
         CollectionIndex = 9
-        CollectionName = 'CodeImages\Item10'
+        CollectionName = 'CodeImages\Variable'
         Disabled = False
-        Name = 'Item10'
+        Name = 'Variable'
+      end
+      item
+        CollectionIndex = 1
+        CollectionName = 'CodeImages\Field'
+        Disabled = False
+        Name = 'Field'
+      end
+      item
+        CollectionIndex = 2
+        CollectionName = 'CodeImages\Function'
+        Disabled = False
+        Name = 'Function'
+      end
+      item
+        CollectionIndex = 5
+        CollectionName = 'CodeImages\Method'
+        Disabled = False
+        Name = 'Method'
+      end
+      item
+        CollectionIndex = 0
+        CollectionName = 'CodeImages\Class'
+        Disabled = False
+        Name = 'Class'
+      end
+      item
+        CollectionIndex = 7
+        CollectionName = 'CodeImages\Namespace'
+        Disabled = False
+        Name = 'Namespace'
+      end
+      item
+        CollectionIndex = 4
+        CollectionName = 'CodeImages\List'
+        Disabled = False
+        Name = 'List'
+      end
+      item
+        CollectionIndex = 6
+        CollectionName = 'CodeImages\Module'
+        Disabled = False
+        Name = 'Module'
+      end
+      item
+        CollectionIndex = 3
+        CollectionName = 'CodeImages\Keyword'
+        Disabled = False
+        Name = 'Keyword'
       end>
     ImageCollection = CommandsDataModule.icCodeImages
+    PreserveItems = True
     Left = 32
-    Top = 184
+    Top = 192
   end
   object vilImages: TVirtualImageList
     DisabledGrayscale = False
@@ -395,6 +400,6 @@ inherited FunctionListWindow: TFunctionListWindow
       end>
     ImageCollection = CommandsDataModule.icImages
     Left = 33
-    Top = 230
+    Top = 238
   end
 end

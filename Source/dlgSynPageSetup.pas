@@ -71,7 +71,8 @@ uses
   SynEditPrint,
   SynEditPrintMargins,
   SynEditPrintHeaderFooter,
-  dlgPyIDEBase;
+  dlgPyIDEBase,
+  SVGIconImageCollection;
 
 type
   TPageSetupDlg = class(TPyIDEDlgBase)
@@ -168,8 +169,8 @@ type
     REFooterLeft: TRichEdit;
     REFooterCenter: TRichEdit;
     REFooterRight: TRichEdit;
-    ic_PageSetup: TImageCollection;
     vilPageSetup: TVirtualImageList;
+    icPageSetup: TSVGIconImageCollection;
     procedure PageNumCmdExecute(Sender: TObject);
     procedure PagesCmdExecute(Sender: TObject);
     procedure TimeCmdExecute(Sender: TObject);
@@ -219,7 +220,12 @@ var
 implementation
 
 uses
-  Winapi.RichEdit, Winapi.Messages, JvGnugettext, StringResources, uCommonFunctions;
+  Winapi.RichEdit,
+  Winapi.Messages,
+  Vcl.Themes,
+  JvGnugettext,
+  StringResources,
+  uCommonFunctions;
 
 {$R *.DFM}
 
@@ -229,6 +235,7 @@ begin
   inherited;
   FMargins := TSynEditPrintMargins.Create;
   FInternalCall := False;
+  icPageSetup.FixedColor := StyleServices.GetSystemColor(clBtnText);
 end;
 
 procedure TPageSetupDlg.FormDestroy(Sender: TObject);
