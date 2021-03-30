@@ -252,6 +252,7 @@ type
     icImages: TImageCollection;
     icBrowserImages: TSVGIconImageCollection;
     icCodeImages: TSVGIconImageCollection;
+    icGutterGlyphs: TSVGIconImageCollection;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -2243,6 +2244,14 @@ begin
     icCodeImages.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
   finally
     icCodeImages.SVGIconItems.EndUpdate;
+  end;
+  icGutterGlyphs.SVGIconItems.BeginUpdate;
+  try
+    for var Item in icGutterGlyphs.SvgIconItems do
+      TSvgIconItem(Item).Svg.ApplyFixedColorToRootOnly := True;
+    icGutterGlyphs.FixedColor := StyleServices.GetSystemColor(clWindowText);
+  finally
+    icGutterGlyphs.SVGIconItems.EndUpdate;
   end;
 end;
 

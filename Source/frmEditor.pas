@@ -28,8 +28,7 @@ uses
   Vcl.ExtCtrls,
   Vcl.ImgList,
   Vcl.Dialogs,
-  Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
+  Vcl.VirtualImageList,
   TB2Item,
   SpTBXItem,
   SpTBXSkins,
@@ -51,8 +50,7 @@ uses
   cPythonSourceScanner,
   cCodeCompletion,
   cPyBaseDebugger,
-  cPySupportTypes,
-  Vcl.VirtualImageList;
+  cPySupportTypes;
 
 type
   TEditor = class;
@@ -129,7 +127,6 @@ type
     mnUnfoldFunctions: TSpTBXItem;
     mnUnfoldClasses: TSpTBXItem;
     vilGutterGlyphs: TVirtualImageList;
-    icGutterGlyphs: TImageCollection;
     vilCodeImages: TVirtualImageList;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);

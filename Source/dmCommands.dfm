@@ -21383,4 +21383,51 @@ object CommandsDataModule: TCommandsDataModule
     Left = 109
     Top = 264
   end
+  object icGutterGlyphs: TSVGIconImageCollection
+    SVGIconItems = <
+      item
+        IconName = 'EditorGutter\Break'
+        SVGText = 
+          '<svg viewBox="0 0 11 14" stroke="black">'#13#10'  <circle stroke-width' +
+          '="0.5" fill="#E24444" cx="5.5" cy="7" r="4"/>'#13#10'</svg>'#13#10
+      end
+      item
+        IconName = 'EditorGutter\BreakDisabled'
+        SVGText = 
+          '<svg viewBox="0 0 11 14" stroke="black">'#13#10'  <circle stroke-width' +
+          '="0.5" fill="#8E8E8E" cx="5.5" cy="7" r="4"/>'#13#10'</svg>'
+      end
+      item
+        IconName = 'EditorGutter\BreakInvalid'
+        SVGText = 
+          '<svg viewBox="0 0 11 14" stroke="black">'#13#10'  <circle stroke-width' +
+          '="0.5" fill="#E24444" cx="5.5" cy="7" r="4"/>'#13#10'  <line stroke="#' +
+          'FFCE00" x1="3.5" x2="7.5" y1="5" y2="9" />'#13#10'  <line stroke="#FFC' +
+          'E00" x1="3.5" x2="7.5" y1="9" y2="5" />'#13#10'</svg>'
+      end
+      item
+        IconName = 'EditorGutter\Current'
+        SVGText = 
+          '<svg viewBox="0 0 11 14" stroke="black">'#13#10'  <path stroke-width="' +
+          '0.5" fill="#4488FF" d="M 0.5 5 h 4 v -3.5 l 5 5.5 l -5 5.5 v-3.5' +
+          ' h -4z"/>'#13#10'</svg>'
+      end
+      item
+        IconName = 'EditorGutter\CurrentBreak'
+        SVGText = 
+          '<svg viewBox="0 0 11 14" stroke="black">'#13#10'  <circle stroke-width' +
+          '="0.5" fill="#E24444" cx="5.5" cy="7" r="4"/>'#13#10'  <path stroke-wi' +
+          'dth="0.5" fill="#4488FF" d="M 0.5 5 h 4 v -3.5 l 5 5.5 l -5 5.5 ' +
+          'v-3.5 h -4z"/>'#13#10'</svg>'
+      end
+      item
+        IconName = 'EditorGutter\Executable'
+        SVGText = 
+          '<svg  viewBox="0 0 11 14" width="11" height="14" stroke="black" ' +
+          '>'#13#10'  <circle stroke-width="0.5" fill="#4488FF" cx="5.5" cy="7" r' +
+          '="2"/>'#13#10'</svg>'
+      end>
+    Left = 176
+    Top = 264
+  end
 end
