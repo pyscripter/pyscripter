@@ -226,41 +226,42 @@ inherited WatchesWindow: TWatchesWindow
     Images = <
       item
         CollectionIndex = 12
-        CollectionName = 'Item13'
+        CollectionName = 'Copy'
         Disabled = False
-        Name = 'Item13'
+        Name = 'Copy'
       end
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 49
-        CollectionName = 'Item50'
+        CollectionName = 'Plus'
         Disabled = False
-        Name = 'Item50'
+        Name = 'Plus'
       end
       item
         CollectionIndex = 50
-        CollectionName = 'Item51'
+        CollectionName = 'Minus'
         Disabled = False
-        Name = 'Item51'
+        Name = 'Minus'
       end
       item
         CollectionIndex = 66
-        CollectionName = 'Item67'
+        CollectionName = 'WatchesWin'
         Disabled = False
-        Name = 'Item67'
+        Name = 'WatchesWin'
       end
       item
         CollectionIndex = 92
-        CollectionName = 'Item93'
+        CollectionName = 'Edit'
         Disabled = False
-        Name = 'Item93'
+        Name = 'Edit'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 88
     Top = 136
   end

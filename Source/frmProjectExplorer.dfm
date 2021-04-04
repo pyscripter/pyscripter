@@ -151,7 +151,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Start a new project'
       ImageIndex = 6
-      ImageName = 'Item134'
+      ImageName = 'ProjectFile'
       OnExecute = actProjectNewExecute
     end
     object actProjectOpen: TAction
@@ -161,7 +161,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Open a project file'
       ImageIndex = 7
-      ImageName = 'Item135'
+      ImageName = 'ProjectOpen'
       OnExecute = actProjectOpenExecute
     end
     object actProjectSave: TAction
@@ -171,7 +171,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Save the project'
       ImageIndex = 12
-      ImageName = 'Item141'
+      ImageName = 'ProjectSave'
       OnExecute = actProjectSaveExecute
     end
     object actProjectSaveAs: TAction
@@ -206,7 +206,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpKeyword = '435'
       HelpType = htContext
       ImageIndex = 0
-      ImageName = 'Item26'
+      ImageName = 'Folders'
       OnExecute = actProjectExtraPythonPathExecute
     end
     object actProjectExpandAll: TAction
@@ -216,7 +216,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Expand all project nodes'
       ImageIndex = 2
-      ImageName = 'Item29'
+      ImageName = 'Expand'
       OnExecute = actProjectExpandAllExecute
     end
     object actProjectCollapseAll: TAction
@@ -226,7 +226,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpType = htContext
       Hint = 'Collapse all project nodes'
       ImageIndex = 3
-      ImageName = 'Item30'
+      ImageName = 'Collapse'
       OnExecute = actProjectCollapseAllExecute
     end
   end
@@ -240,7 +240,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add file(s) to a project folder'
       ImageIndex = 8
-      ImageName = 'Item136'
+      ImageName = 'ProjectAdd'
       OnExecute = actProjectAddFilesExecute
     end
     object actProjectAddFolder: TAction
@@ -249,7 +249,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add a new subfolder'
       ImageIndex = 10
-      ImageName = 'Item138'
+      ImageName = 'FolderAdd'
       OnExecute = actProjectAddFolderExecute
     end
     object actProjectRemove: TAction
@@ -258,7 +258,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Remove a file, folder or run configuration from the project'
       ImageIndex = 9
-      ImageName = 'Item137'
+      ImageName = 'ProjectRemove'
       OnExecute = actProjectRemoveExecute
     end
     object actProjectRename: TAction
@@ -274,7 +274,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Open the selected file in the editor'
       ImageIndex = 11
-      ImageName = 'Item140'
+      ImageName = 'Editor'
       OnExecute = actProjectFileEditExecute
     end
     object actProjectAddActiveFile: TAction
@@ -297,7 +297,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add run configuration'
       ImageIndex = 13
-      ImageName = 'Item142'
+      ImageName = 'RunConfigAdd'
       OnExecute = actProjectAddRunConfigExecute
     end
     object actProjectEditRunConfig: TAction
@@ -306,7 +306,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Edit run configuration'
       ImageIndex = 14
-      ImageName = 'Item143'
+      ImageName = 'RunConfigEdit'
       OnExecute = actProjectEditRunConfigExecute
     end
     object actProjectFileProperties: TAction
@@ -315,7 +315,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Show file properties'
       ImageIndex = 15
-      ImageName = 'Item144'
+      ImageName = 'FileProperties'
       OnExecute = actProjectFilePropertiesExecute
     end
     object actProjectRun: TAction
@@ -324,7 +324,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Run the selected configuration'
       ImageIndex = 4
-      ImageName = 'Item52'
+      ImageName = 'Run'
       OnExecute = actProjectRunExecute
     end
     object actProjectExternalRun: TAction
@@ -333,7 +333,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Run configuration using an external Python interpreter'
       ImageIndex = 1
-      ImageName = 'Item28'
+      ImageName = 'ExternalRun'
       OnExecute = actProjectExternalRunExecute
     end
     object actProjectDebug: TAction
@@ -342,7 +342,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Debug the selected configuration'
       ImageIndex = 5
-      ImageName = 'Item54'
+      ImageName = 'Debug'
       OnExecute = actProjectDebugExecute
     end
     object actProjectAddRemoteFile: TAction
@@ -351,7 +351,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       HelpContext = 435
       Hint = 'Add a remote file to the folder'
       ImageIndex = 16
-      ImageName = 'Item162'
+      ImageName = 'Download'
       OnExecute = actProjectAddRemoteFileExecute
     end
   end
@@ -523,125 +523,126 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Images = <
       item
         CollectionIndex = 25
-        CollectionName = 'Item26'
+        CollectionName = 'Folders'
         Disabled = False
-        Name = 'Item26'
+        Name = 'Folders'
       end
       item
         CollectionIndex = 27
-        CollectionName = 'Item28'
+        CollectionName = 'ExternalRun'
         Disabled = False
-        Name = 'Item28'
+        Name = 'ExternalRun'
       end
       item
         CollectionIndex = 28
-        CollectionName = 'Item29'
+        CollectionName = 'Expand'
         Disabled = False
-        Name = 'Item29'
+        Name = 'Expand'
       end
       item
         CollectionIndex = 29
-        CollectionName = 'Item30'
+        CollectionName = 'Collapse'
         Disabled = False
-        Name = 'Item30'
+        Name = 'Collapse'
       end
       item
         CollectionIndex = 51
-        CollectionName = 'Item52'
+        CollectionName = 'Run'
         Disabled = False
-        Name = 'Item52'
+        Name = 'Run'
       end
       item
         CollectionIndex = 53
-        CollectionName = 'Item54'
+        CollectionName = 'Debug'
         Disabled = False
-        Name = 'Item54'
+        Name = 'Debug'
       end
       item
         CollectionIndex = 133
-        CollectionName = 'Item134'
+        CollectionName = 'ProjectFile'
         Disabled = False
-        Name = 'Item134'
+        Name = 'ProjectFile'
       end
       item
         CollectionIndex = 134
-        CollectionName = 'Item135'
+        CollectionName = 'ProjectOpen'
         Disabled = False
-        Name = 'Item135'
+        Name = 'ProjectOpen'
       end
       item
         CollectionIndex = 135
-        CollectionName = 'Item136'
+        CollectionName = 'ProjectAdd'
         Disabled = False
-        Name = 'Item136'
+        Name = 'ProjectAdd'
       end
       item
         CollectionIndex = 136
-        CollectionName = 'Item137'
+        CollectionName = 'ProjectRemove'
         Disabled = False
-        Name = 'Item137'
+        Name = 'ProjectRemove'
       end
       item
-        CollectionIndex = 137
-        CollectionName = 'Item138'
+        CollectionIndex = 115
+        CollectionName = 'FolderAdd'
         Disabled = False
-        Name = 'Item138'
+        Name = 'FolderAdd'
       end
       item
         CollectionIndex = 139
-        CollectionName = 'Item140'
+        CollectionName = 'Editor'
         Disabled = False
-        Name = 'Item140'
+        Name = 'Editor'
       end
       item
         CollectionIndex = 140
-        CollectionName = 'Item141'
+        CollectionName = 'ProjectSave'
         Disabled = False
-        Name = 'Item141'
+        Name = 'ProjectSave'
       end
       item
         CollectionIndex = 141
-        CollectionName = 'Item142'
+        CollectionName = 'RunConfigAdd'
         Disabled = False
-        Name = 'Item142'
+        Name = 'RunConfigAdd'
       end
       item
         CollectionIndex = 142
-        CollectionName = 'Item143'
+        CollectionName = 'RunConfigEdit'
         Disabled = False
-        Name = 'Item143'
+        Name = 'RunConfigEdit'
       end
       item
         CollectionIndex = 143
-        CollectionName = 'Item144'
+        CollectionName = 'FileProperties'
         Disabled = False
-        Name = 'Item144'
+        Name = 'FileProperties'
       end
       item
         CollectionIndex = 161
-        CollectionName = 'Item162'
+        CollectionName = 'Download'
         Disabled = False
-        Name = 'Item162'
+        Name = 'Download'
       end
       item
         CollectionIndex = 144
-        CollectionName = 'Item145'
+        CollectionName = 'RunLast'
         Disabled = False
-        Name = 'Item145'
+        Name = 'RunLast'
       end
       item
         CollectionIndex = 145
-        CollectionName = 'Item146'
+        CollectionName = 'DebugLast'
         Disabled = False
-        Name = 'Item146'
+        Name = 'DebugLast'
       end
       item
         CollectionIndex = 146
-        CollectionName = 'Item147'
+        CollectionName = 'ExternalRunLast'
         Disabled = False
-        Name = 'Item147'
+        Name = 'ExternalRunLast'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 106
     Top = 160
   end
@@ -650,46 +651,50 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       item
         IconName = 'Projects\Folder'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><pat' +
-          'h d="m28 7h-12l-3-3h-9c-1.7 0-3 1.4-3 3v18c0 1.7 1.3 3 3 3h24c1.' +
-          '7 0 3-1.3 3-3v-15c0-1.7-1.4-3-3-3zm0 18h-24v-15h24z" transform="' +
-          'matrix(1.1 0 0 1.2 -1.1 -2.4)"/><path d="m12 12h10v12h-10z" fill' +
-          '="none" stroke="#000" stroke-width="3"/></svg>'
+          '<svg viewBox="0 0 32 32" >'#13#10'    <path transform="scale(1.1,1.2) ' +
+          'translate(-1,-2)" d="M28,7H16l-3-3H4C2.3,4,1,5.4,1,7v18c0,1.7,1.' +
+          '3,3,3,3h24c1.7,0,3-1.3,3-3V10C31,8.3,29.6,7,28,7z M28,25H4V10h24' +
+          'V25z"/>'#13#10'    <rect fill="none" stroke="black" stroke-width="3" w' +
+          'idth="10" height="12" x="12" y="12" />'#13#10'</svg>'#13#10
       end
       item
         IconName = 'Projects\Project'
         SVGText = 
-          '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://ww' +
-          'w.w3.org/2000/svg"><path d="m19 14.87v-5.74c0-.72-.38-1.38-1-1.7' +
-          '3l-5-2.88c-.31-.18-.65-.27-1-.27s-.69.09-1 .27l-5 2.87c-.62.36-1' +
-          ' 1.02-1 1.74v5.74c0 .72.38 1.38 1 1.73l5 2.88c.31.18.65.27 1 .27' +
-          's.69-.09 1-.27l5-2.88c.62-.35 1-1.01 1-1.73zm-8 2.3-4-2.3v-4.63l' +
-          '4 2.33zm1-6.33-3.96-2.31 3.96-2.28 3.96 2.28zm5 4.03-4 2.3v-4.6l' +
-          '4-2.33z" transform="matrix(1.5 0 0 1.5 -6 -6)"/></svg>'
+          #65279'<svg viewBox="0 0 24 24">'#13#10'<g transform="scale(1.5) translate(-' +
+          '4,-4)">'#13#10'<path d="M19,14.87V9.13c0-0.72-0.38-1.38-1-1.73l-5-2.88' +
+          'c-0.31-0.18-0.65-0.27-1-0.27s-0.69,0.09-1,0.27L6,7.39 C5.38,7.75' +
+          ',5,8.41,5,9.13v5.74c0,0.72,0.38,1.38,1,1.73l5,2.88c0.31,0.18,0.6' +
+          '5,0.27,1,0.27s0.69-0.09,1-0.27l5-2.88 C18.62,16.25,19,15.59,19,1' +
+          '4.87z M11,17.17l-4-2.3v-4.63l4,2.33V17.17z M12,10.84L8.04,8.53L1' +
+          '2,6.25l3.96,2.28L12,10.84z M17,14.87l-4,2.3v-4.6l4-2.33V14.87z"/' +
+          '>'#13#10'</g>'#13#10'</svg>'
       end
       item
         IconName = 'Projects\RunConfig'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" xmln' +
-          's:xlink="http://www.w3.org/1999/xlink"><clipPath id="a"><path d=' +
-          '"m0 0v32h20v-16h12v-16z"/></clipPath><path d="m30.7 23.6-6 6-2.1' +
-          '-2.1 2.4-2.4h-6.3v-3h6.3l-2.4-2.4 2.1-2.1 2.9 2.8 2.6 2.7z" tran' +
-          'sform="matrix(1.1 0 0 1.1 -2.2 -3.3)"/><g clip-path="url(#a)"><p' +
-          'ath d="m19 14.87v-5.74c0-.72-.38-1.38-1-1.73l-5-2.88c-.31-.18-.6' +
-          '5-.27-1-.27s-.69.09-1 .27l-5 2.87c-.62.36-1 1.02-1 1.74v5.74c0 .' +
-          '72.38 1.38 1 1.73l5 2.88c.31.18.65.27 1 .27s.69-.09 1-.27l5-2.88' +
-          'c.62-.35 1-1.01 1-1.73zm-8 2.3-4-2.3v-4.63l4 2.33zm1-6.33-3.96-2' +
-          '.31 3.96-2.28 3.96 2.28zm5 4.03-4 2.3v-4.6l4-2.33z" transform="m' +
-          'atrix(2 0 0 2 -8 -8)"/></g></svg>'
+          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'#13#10'  ' +
+          '<defs>'#13#10'    <clipPath id="cp" clipPathUnits="userSpaceOnUse">'#13#10' ' +
+          '     <path  d="M0 0 v 32 h 20 v -16 h12 v -16 z"/>'#13#10#9'</clipPath>' +
+          #13#10'  </defs>'#13#10#13#10'  <path transform="scale(1.1) translate(-2,-3)" d' +
+          '="m30.7 23.6-6 6-2.1-2.1 2.4-2.4h-6.3v-3h6.3l-2.4-2.4 2.1-2.1 2.' +
+          '9 2.8 2.6 2.7z" />'#13#10'  <g clip-path="url(#cp)"> '#13#10'    <path trans' +
+          'form="scale(2) translate(-4,-4)" d="M19,14.87V9.13c0-0.72-0.38-1' +
+          '.38-1-1.73l-5-2.88c-0.31-0.18-0.65-0.27-1-0.27s-0.69,0.09-1,0.27' +
+          'L6,7.39 C5.38,7.75,5,8.41,5,9.13v5.74c0,0.72,0.38,1.38,1,1.73l5,' +
+          '2.88c0.31,0.18,0.65,0.27,1,0.27s0.69-0.09,1-0.27l5-2.88 C18.62,1' +
+          '6.25,19,15.59,19,14.87z M11,17.17l-4-2.3v-4.63l4,2.33V17.17z M12' +
+          ',10.84L8.04,8.53L12,6.25l3.96,2.28L12,10.84z M17,14.87l-4,2.3v-4' +
+          '.6l4-2.33V14.87z"/>'#13#10'  </g>'#13#10#13#10'</svg>'
       end
       item
         IconName = 'Projects\RunConfigs'
         SVGText = 
-          '<svg viewBox="0 0 32 32"><path d="m28 7h-12l-3-3h-9c-1.7 0-3 1.4' +
-          '-3 3v18c0 1.7 1.3 3 3 3h24c1.7 0 3-1.3 3-3v-15c0-1.7-1.4-3-3-3zm' +
-          '0 18h-24v-15h24z" transform="matrix(1.1 0 0 1.2 -1.1 -2.4)"/>'#13#10'.' +
-          '...<path d="m16.3 16h-6.3v3h6.3l-2.4 2.4 2.1 2.1 6-6-6-6-2.1 2.1' +
-          'z" transform="matrix(1.2 0 0 1.2 -2.4 -2.4)"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10'    <path transform="scale(1.1,1.2) t' +
+          'ranslate(-1,-2)" d="M28,7H16l-3-3H4C2.3,4,1,5.4,1,7v18c0,1.7,1.3' +
+          ',3,3,3h24c1.7,0,3-1.3,3-3V10C31,8.3,29.6,7,28,7z M28,25H4V10h24V' +
+          '25z"/>'#13#10'....<path transform="scale(1.2,1.2) translate(-2,-2)" d=' +
+          '"M16.3,16H10v3h6.3l-2.4,2.4l2.1,2.1l6-6l-6-6l-2.1,2.1L16.3,16z"/' +
+          '>'#9#13#10'</svg>'
       end>
     Left = 10
     Top = 160

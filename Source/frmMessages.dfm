@@ -40,20 +40,14 @@ inherited MessagesWindow: TMessagesWindow
     E9BDDAC3ABBDB78757800000000000000000000000000000000000000000B885
     5928B786568EB88756B1B88756B1B88756B1B88756B1B88756B1B88756B1B886
     57A9B6855763BB88551E0000000000000000000000000000000000000000}
-  ExplicitWidth = 709
-  ExplicitHeight = 225
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 693
     Height = 186
-    ExplicitWidth = 693
-    ExplicitHeight = 186
     inherited FGPanel: TPanel
       Width = 689
       Height = 182
-      ExplicitWidth = 689
-      ExplicitHeight = 182
       DesignSize = (
         689
         182)
@@ -198,28 +192,28 @@ inherited MessagesWindow: TMessagesWindow
       Caption = '&Clear all'
       Hint = 'Clear all messages'
       ImageIndex = 1
-      ImageName = 'Item15'
+      ImageName = 'Delete'
       OnExecute = ClearAllExecute
     end
     object actPreviousMsgs: TAction
       Caption = '&Previous Messages'
       Hint = 'Show previous messages'
       ImageIndex = 2
-      ImageName = 'Item97'
+      ImageName = 'ArrowLeft'
       OnExecute = actPreviousMsgsExecute
     end
     object actNextMsgs: TAction
       Caption = '&Next Messages'
       Hint = 'Show next messages'
       ImageIndex = 3
-      ImageName = 'Item98'
+      ImageName = 'ArrowRight'
       OnExecute = actNextMsgsExecute
     end
     object actCopyToClipboard: TAction
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy contents to Clipboard'
       ImageIndex = 0
-      ImageName = 'Item13'
+      ImageName = 'Copy'
       OnExecute = actCopyToClipboardExecute
     end
   end
@@ -229,30 +223,31 @@ inherited MessagesWindow: TMessagesWindow
     Images = <
       item
         CollectionIndex = 12
-        CollectionName = 'Item13'
+        CollectionName = 'Copy'
         Disabled = False
-        Name = 'Item13'
+        Name = 'Copy'
       end
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 96
-        CollectionName = 'Item97'
+        CollectionName = 'ArrowLeft'
         Disabled = False
-        Name = 'Item97'
+        Name = 'ArrowLeft'
       end
       item
         CollectionIndex = 97
-        CollectionName = 'Item98'
+        CollectionName = 'ArrowRight'
         Disabled = False
-        Name = 'Item98'
+        Name = 'ArrowRight'
       end>
     ImageCollection = CommandsDataModule.icImages
-    Left = 187
+    PreserveItems = True
+    Left = 179
     Top = 70
   end
 end

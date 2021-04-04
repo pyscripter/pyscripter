@@ -3,8 +3,6 @@ inherited RemoteFileDialog: TRemoteFileDialog
   ClientHeight = 130
   ClientWidth = 434
   OnCloseQuery = FormCloseQuery
-  ExplicitWidth = 440
-  ExplicitHeight = 159
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -50,6 +48,7 @@ inherited RemoteFileDialog: TRemoteFileDialog
       Height = 24
       ImageAlignment = iaCenter
       ImageIndex = 0
+      ImageName = 'Setup'
       Images = vilImages
       TabOrder = 2
       OnClick = btnSSHServersSetupClick
@@ -107,12 +106,13 @@ inherited RemoteFileDialog: TRemoteFileDialog
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 82
-        CollectionName = 'Item83'
+        CollectionIndex = 23
+        CollectionName = 'Setup'
         Disabled = False
-        Name = 'Item83'
+        Name = 'Setup'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 16
     Top = 80
   end

@@ -44,7 +44,7 @@ type
     function GetTabCaption : string;
     function GetMenuCaption : string;
     function GetHint : string;
-    function GetImageIndex : integer;
+    function GetImageName : string;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
   end;
@@ -128,9 +128,9 @@ begin
   Result := _(SDisassemblyHint);
 end;
 
-function TDisView.GetImageIndex: integer;
+function TDisView.GetImageName: string;
 begin
-  Result := 110;
+  Result := 'Assembly';
 end;
 
 function TDisView.GetMenuCaption: string;

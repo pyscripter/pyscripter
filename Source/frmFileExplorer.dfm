@@ -295,7 +295,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Go Back'
       ImageIndex = 0
-      ImageName = 'Item36'
+      ImageName = 'Back'
       OnExecute = actGoBackExecute
     end
     object actGoForward: TAction
@@ -304,7 +304,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Go Forward'
       ImageIndex = 1
-      ImageName = 'Item37'
+      ImageName = 'Forward'
       OnExecute = actGoForwardExecute
     end
     object actGoUp: TAction
@@ -313,7 +313,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Up|Show the parent folder'
       ImageIndex = 3
-      ImageName = 'Item46'
+      ImageName = 'OpenFolder'
       OnExecute = actGoUpExecute
     end
     object actRefresh: TAction
@@ -322,7 +322,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Refresh|Refresh File Explorer'
       ImageIndex = 2
-      ImageName = 'Item40'
+      ImageName = 'Refresh'
       ShortCut = 116
       OnExecute = actRefreshExecute
     end
@@ -334,7 +334,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Enable Filter|Select to show only Python files'
       ImageIndex = 4
-      ImageName = 'Item47'
+      ImageName = 'Filter'
       OnExecute = actEnableFilterExecute
     end
     object actSearchPath: TAction
@@ -343,7 +343,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Search selected path'
       ImageIndex = 6
-      ImageName = 'Item87'
+      ImageName = 'SearchFolder'
       OnExecute = actSearchPathExecute
     end
     object actExploreHere: TAction
@@ -373,7 +373,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Create new folder'
       ImageIndex = 8
-      ImageName = 'Item116'
+      ImageName = 'FolderAdd'
       OnExecute = actNewFolderExecute
     end
   end
@@ -383,65 +383,66 @@ inherited FileExplorerWindow: TFileExplorerWindow
     Images = <
       item
         CollectionIndex = 35
-        CollectionName = 'Item36'
+        CollectionName = 'Back'
         Disabled = False
-        Name = 'Item36'
+        Name = 'Back'
       end
       item
         CollectionIndex = 36
-        CollectionName = 'Item37'
+        CollectionName = 'Forward'
         Disabled = False
-        Name = 'Item37'
+        Name = 'Forward'
       end
       item
         CollectionIndex = 39
-        CollectionName = 'Item40'
+        CollectionName = 'Refresh'
         Disabled = False
-        Name = 'Item40'
+        Name = 'Refresh'
       end
       item
         CollectionIndex = 45
-        CollectionName = 'Item46'
+        CollectionName = 'OpenFolder'
         Disabled = False
-        Name = 'Item46'
+        Name = 'OpenFolder'
       end
       item
         CollectionIndex = 46
-        CollectionName = 'Item47'
+        CollectionName = 'Filter'
         Disabled = False
-        Name = 'Item47'
+        Name = 'Filter'
       end
       item
         CollectionIndex = 84
-        CollectionName = 'Item85'
+        CollectionName = 'FileExplorer'
         Disabled = False
-        Name = 'Item85'
+        Name = 'FileExplorer'
       end
       item
         CollectionIndex = 86
-        CollectionName = 'Item87'
+        CollectionName = 'SearchFolder'
         Disabled = False
-        Name = 'Item87'
+        Name = 'SearchFolder'
       end
       item
         CollectionIndex = 114
-        CollectionName = 'Item115'
+        CollectionName = 'Favorite'
         Disabled = False
-        Name = 'Item115'
+        Name = 'Favorite'
       end
       item
         CollectionIndex = 115
-        CollectionName = 'Item116'
+        CollectionName = 'FolderAdd'
         Disabled = False
-        Name = 'Item116'
+        Name = 'FolderAdd'
       end
       item
         CollectionIndex = 25
-        CollectionName = 'Item26'
+        CollectionName = 'Folders'
         Disabled = False
-        Name = 'Item26'
+        Name = 'Folders'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 37
     Top = 310
   end

@@ -244,7 +244,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Edit'
       Hint = 'Copy procedures to clipboard'
       ImageIndex = 0
-      ImageName = 'Item13'
+      ImageName = 'Copy'
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
@@ -253,7 +253,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Font..'
       Hint = 'Configure font'
       ImageIndex = 3
-      ImageName = 'Item92'
+      ImageName = 'Font'
       OnExecute = actOptionsFontExecute
     end
     object actViewStart: TAction
@@ -261,7 +261,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = 'S&tart'
       Hint = 'Match only from the start'
       ImageIndex = 5
-      ImageName = 'Item95'
+      ImageName = 'ViewStart'
       OnExecute = actViewStartExecute
     end
     object actViewAny: TAction
@@ -269,7 +269,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Any'
       Hint = 'Match anywhere'
       ImageIndex = 4
-      ImageName = 'Item94'
+      ImageName = 'ViewAny'
       OnExecute = actViewAnyExecute
     end
     object actViewGoto: TAction
@@ -277,7 +277,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Goto'
       Hint = 'Goto implementation'
       ImageIndex = 1
-      ImageName = 'Item33'
+      ImageName = 'GoToLine'
       OnExecute = actViewGotoExecute
     end
     object actHelpHelp: TAction
@@ -285,7 +285,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Caption = '&Help'
       Hint = 'Help'
       ImageIndex = 2
-      ImageName = 'Item34'
+      ImageName = 'Help'
       OnExecute = actHelpHelpExecute
     end
   end
@@ -364,41 +364,42 @@ inherited FunctionListWindow: TFunctionListWindow
     Images = <
       item
         CollectionIndex = 12
-        CollectionName = 'Item13'
+        CollectionName = 'Copy'
         Disabled = False
-        Name = 'Item13'
+        Name = 'Copy'
       end
       item
         CollectionIndex = 32
-        CollectionName = 'Item33'
+        CollectionName = 'GoToLine'
         Disabled = False
-        Name = 'Item33'
+        Name = 'GoToLine'
       end
       item
         CollectionIndex = 33
-        CollectionName = 'Item34'
+        CollectionName = 'Help'
         Disabled = False
-        Name = 'Item34'
+        Name = 'Help'
       end
       item
         CollectionIndex = 91
-        CollectionName = 'Item92'
+        CollectionName = 'Font'
         Disabled = False
-        Name = 'Item92'
+        Name = 'Font'
       end
       item
         CollectionIndex = 93
-        CollectionName = 'Item94'
+        CollectionName = 'ViewAny'
         Disabled = False
-        Name = 'Item94'
+        Name = 'ViewAny'
       end
       item
         CollectionIndex = 94
-        CollectionName = 'Item95'
+        CollectionName = 'ViewStart'
         Disabled = False
-        Name = 'Item95'
+        Name = 'ViewStart'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 33
     Top = 238
   end

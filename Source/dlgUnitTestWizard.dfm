@@ -219,6 +219,7 @@ inherited UnitTestWizard: TUnitTestWizard
         Name = 'Item106'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 128
     Top = 184
   end

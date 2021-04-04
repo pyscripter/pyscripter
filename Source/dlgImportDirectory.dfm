@@ -4,8 +4,6 @@ inherited ImportDirectoryForm: TImportDirectoryForm
   ClientWidth = 469
   PopupMode = pmAuto
   Position = poOwnerFormCenter
-  ExplicitWidth = 475
-  ExplicitHeight = 174
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -90,6 +88,7 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       Anchors = [akLeft, akTop, akRight]
       Images = vilImages
       RightButton.ImageIndex = 0
+      RightButton.ImageName = 'OpenFolder'
       RightButton.Visible = True
       TabOrder = 4
       OnRightButtonClick = DirectoryEditBtnClick
@@ -101,11 +100,12 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     Images = <
       item
         CollectionIndex = 45
-        CollectionName = 'Item46'
+        CollectionName = 'OpenFolder'
         Disabled = False
-        Name = 'Item46'
+        Name = 'OpenFolder'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 24
     Top = 93
   end

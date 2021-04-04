@@ -1233,8 +1233,8 @@ type
     function GetEditor(Index: Integer): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
-    procedure SetupEditorViewMenu;
-    procedure UpdateEditorViewMenu;
+    procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; IL: TCustomImageList);
+    procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
     function GetViewFactoryCount: Integer;
     function GetViewFactory(Index: Integer): IEditorViewFactory;
     procedure LockList;
@@ -1460,30 +1460,30 @@ begin
   end;
 end;
 
-procedure TEditorFactory.SetupEditorViewMenu;
+procedure TEditorFactory.SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; IL: TCustomImageList);
 Var
   MenuItem: TSpTBXItem;
   i: Integer;
   ViewFactory: IEditorViewFactory;
 begin
-  PyIDEMainForm.EditorViewsMenu.Clear;
+  ViewsMenu.Clear;
   fEditorViewFactories.Lock;
   try
-    PyIDEMainForm.EditorViewsMenu.Enabled := fEditorViewFactories.Count > 0;
+    ViewsMenu.Enabled := fEditorViewFactories.Count > 0;
     for i := 0 to fEditorViewFactories.Count - 1 do
     begin
       ViewFactory := fEditorViewFactories[i] as IEditorViewFactory;
 
       // Add MenuItem
-      MenuItem := TSpTBXItem.Create(PyIDEMainForm);
+      MenuItem := TSpTBXItem.Create(nil); // will be freed by the Parent Item
       MenuItem.Hint := ViewFactory.Hint;
-      MenuItem.ImageIndex := ViewFactory.ImageIndex;
+      MenuItem.ImageIndex := IL.GetIndexByName(ViewFactory.ImageName);
       MenuItem.Caption := ViewFactory.MenuCaption;
       MenuItem.ShortCut := ViewFactory.ShortCut;
       MenuItem.OnClick := OnEditorViewClick;
       MenuItem.Tag := i;
 
-      PyIDEMainForm.EditorViewsMenu.Add(MenuItem);
+      ViewsMenu.Add(MenuItem);
     end;
   finally
     fEditorViewFactories.UnLock;
@@ -1495,7 +1495,7 @@ begin
   fEditors.UnLock;
 end;
 
-procedure TEditorFactory.UpdateEditorViewMenu;
+procedure TEditorFactory.UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
 Var
   i, j: Integer;
   Editor: IEditor;
@@ -1528,7 +1528,7 @@ begin
         end;
         List.Clear;
       end;
-      PyIDEMainForm.EditorViewsMenu.Items[i].Enabled := Enabled;
+      ViewsMenu.Items[i].Enabled := Enabled;
     end;
   finally
     List.Free;

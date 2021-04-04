@@ -1102,6 +1102,7 @@ type
     SpTBXSeparatorItem23: TSpTBXSeparatorItem;
     lbPythonEngine: TSpTBXLabelItem;
     vilImages: TVirtualImageList;
+    vilImagesByIndex: TVirtualImageList;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1511,7 +1512,7 @@ end;
 
 procedure TPyIDEMainForm.EditorViewsMenuClick(Sender: TObject);
 begin
-  GI_EditorFactory.UpdateEditorViewMenu;
+  GI_EditorFactory.UpdateEditorViewsMenu(EditorViewsMenu);
 end;
 
 type
@@ -1688,7 +1689,7 @@ begin
   Application.OnActionExecute := ApplicationActionExecute;
 
   //  Editor Views Menu
-  GI_EditorFactory.SetupEditorViewMenu;
+  GI_EditorFactory.SetupEditorViewsMenu(EditorViewsMenu, vilImages);
 
   //Update;
 
@@ -3679,7 +3680,7 @@ begin
     RetranslateComponent(CommandsDataModule);
 
     SetupLanguageMenu;
-    GI_EditorFactory.SetupEditorViewMenu;
+    GI_EditorFactory.SetupEditorViewsMenu(EditorViewsMenu, vilImages);
 
     GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
     begin

@@ -217,7 +217,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Copy history to Clipboard'
       ImageIndex = 1
-      ImageName = 'Item13'
+      ImageName = 'Copy'
       OnExecute = actCopyHistoryExecute
     end
     object actClearContents: TAction
@@ -226,7 +226,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Clear all interpreter output'
       ImageIndex = 3
-      ImageName = 'Item15'
+      ImageName = 'Delete'
       OnExecute = actClearContentsExecute
     end
     object actCopyWithoutPrompts: TAction
@@ -235,7 +235,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Copy selected text without the interpreter prompts'
       ImageIndex = 1
-      ImageName = 'Item13'
+      ImageName = 'Copy'
       ShortCut = 24643
       OnExecute = actCopyWithoutPromptsExecute
     end
@@ -245,7 +245,7 @@ inherited PythonIIForm: TPythonIIForm
       HelpContext = 410
       Hint = 'Paste clipboard text with added interpreter prompts'
       ImageIndex = 2
-      ImageName = 'Item14'
+      ImageName = 'Paste'
       ShortCut = 24662
       OnExecute = actPasteAndExecuteExecute
     end
@@ -325,47 +325,47 @@ inherited PythonIIForm: TPythonIIForm
     Images = <
       item
         CollectionIndex = 11
-        CollectionName = 'Item12'
+        CollectionName = 'Cut'
         Disabled = False
-        Name = 'Item12'
+        Name = 'Cut'
       end
       item
         CollectionIndex = 12
-        CollectionName = 'Item13'
+        CollectionName = 'Copy'
         Disabled = False
-        Name = 'Item13'
+        Name = 'Copy'
       end
       item
         CollectionIndex = 13
-        CollectionName = 'Item14'
+        CollectionName = 'Paste'
         Disabled = False
-        Name = 'Item14'
+        Name = 'Paste'
       end
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 22
-        CollectionName = 'Item23'
+        CollectionName = 'Options'
         Disabled = False
-        Name = 'Item23'
+        Name = 'Options'
       end
       item
-        CollectionIndex = 128
-        CollectionName = 'Item129'
+        CollectionIndex = -1
         Disabled = False
         Name = 'Item129'
       end
       item
         CollectionIndex = 154
-        CollectionName = 'Item155'
+        CollectionName = 'PySetup'
         Disabled = False
-        Name = 'Item155'
+        Name = 'PySetup'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 40
     Top = 216
   end

@@ -10,8 +10,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
   Constraints.MinWidth = 358
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitWidth = 395
-  ExplicitHeight = 381
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -42,21 +40,21 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Anchors = [akTop, akRight]
       ImageAlignment = iaCenter
       ImageIndex = 1
-      ImageName = 'Item48'
+      ImageName = 'Up'
       Images = vilImages
       TabOrder = 1
       OnClick = btnMoveUpClick
     end
     object btnMoveDown: TButton
       Left = 345
-      Top = 134
+      Top = 126
       Width = 28
       Height = 24
       Hint = 'Move down'
       Anchors = [akTop, akRight]
       ImageAlignment = iaCenter
       ImageIndex = 2
-      ImageName = 'Item49'
+      ImageName = 'Down'
       Images = vilImages
       TabOrder = 2
       OnClick = btnMoveDownClick
@@ -158,6 +156,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Color = clBtnFace
       Images = vilImages
       RightButton.ImageIndex = 0
+      RightButton.ImageName = 'OpenFolder'
       RightButton.Visible = True
       TabOrder = 3
       OnChange = edPathChange
@@ -170,29 +169,24 @@ inherited DirectoryListDialog: TDirectoryListDialog
     Images = <
       item
         CollectionIndex = 45
-        CollectionName = 'Item46'
+        CollectionName = 'OpenFolder'
         Disabled = False
-        Name = 'Item46'
+        Name = 'OpenFolder'
       end
       item
         CollectionIndex = 47
-        CollectionName = 'Item48'
+        CollectionName = 'Up'
         Disabled = False
-        Name = 'Item48'
+        Name = 'Up'
       end
       item
         CollectionIndex = 48
-        CollectionName = 'Item49'
+        CollectionName = 'Down'
         Disabled = False
-        Name = 'Item49'
-      end
-      item
-        CollectionIndex = 84
-        CollectionName = 'Item85'
-        Disabled = False
-        Name = 'Item85'
+        Name = 'Down'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 40
     Top = 120
   end

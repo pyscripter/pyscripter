@@ -139,17 +139,18 @@ inherited BreakPointsWindow: TBreakPointsWindow
     Images = <
       item
         CollectionIndex = 12
-        CollectionName = 'Item13'
+        CollectionName = 'Copy'
         Disabled = False
-        Name = 'Item13'
+        Name = 'Copy'
       end
       item
         CollectionIndex = 61
-        CollectionName = 'Item62'
+        CollectionName = 'BreakpointsRemove'
         Disabled = False
-        Name = 'Item62'
+        Name = 'BreakpointsRemove'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 16
     Top = 120
   end

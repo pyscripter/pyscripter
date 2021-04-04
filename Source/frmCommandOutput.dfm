@@ -42,20 +42,14 @@ inherited OutputWindow: TOutputWindow
     000000000000000000000000000000000000000000000000000000000000FFFF
     0000FFFF00000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000FFFF0000}
-  ExplicitWidth = 568
-  ExplicitHeight = 370
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 552
     Height = 331
-    ExplicitWidth = 552
-    ExplicitHeight = 331
     inherited FGPanel: TPanel
       Width = 548
       Height = 327
-      ExplicitWidth = 548
-      ExplicitHeight = 327
       object lsbConsole: TListBox
         Left = 0
         Top = 0
@@ -129,42 +123,42 @@ inherited OutputWindow: TOutputWindow
       Caption = 'Co&py'
       Hint = 'Copy contents to Clipboard'
       ImageIndex = 0
-      ImageName = 'Item13'
+      ImageName = 'Copy'
       OnExecute = actCopyExecute
     end
     object actOutputFont: TAction
       Caption = 'Font...'
       Hint = 'Select font'
       ImageIndex = 5
-      ImageName = 'Item92'
+      ImageName = 'Font'
       OnExecute = actOutputFontExecute
     end
     object actClearOutput: TAction
       Caption = 'Clear'
       Hint = 'Clear output'
       ImageIndex = 1
-      ImageName = 'Item15'
+      ImageName = 'Delete'
       OnExecute = actClearOutputExecute
     end
     object actToolTerminate: TAction
       Caption = '&Terminate'
       Hint = 'Terminate running tool (unsafe)'
       ImageIndex = 2
-      ImageName = 'Item22'
+      ImageName = 'Stop'
       OnExecute = actToolTerminateExecute
     end
     object actToolClose: TAction
       Caption = '&Close'
       Hint = 'Close running tool'
       ImageIndex = 3
-      ImageName = 'Item45'
+      ImageName = 'Exit'
       OnExecute = actToolCloseExecute
     end
     object actToolQuit: TAction
       Caption = '&Quit'
       Hint = 'Post quit message to running tool'
       ImageIndex = 4
-      ImageName = 'Item53'
+      ImageName = 'Quit'
       OnExecute = actToolQuitExecute
     end
     object actToolStopWaiting: TAction
@@ -179,41 +173,42 @@ inherited OutputWindow: TOutputWindow
     Images = <
       item
         CollectionIndex = 12
-        CollectionName = 'Item13'
+        CollectionName = 'Copy'
         Disabled = False
-        Name = 'Item13'
+        Name = 'Copy'
       end
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 21
-        CollectionName = 'Item22'
+        CollectionName = 'Stop'
         Disabled = False
-        Name = 'Item22'
+        Name = 'Stop'
       end
       item
         CollectionIndex = 44
-        CollectionName = 'Item45'
+        CollectionName = 'Exit'
         Disabled = False
-        Name = 'Item45'
+        Name = 'Exit'
       end
       item
         CollectionIndex = 52
-        CollectionName = 'Item53'
+        CollectionName = 'Quit'
         Disabled = False
-        Name = 'Item53'
+        Name = 'Quit'
       end
       item
         CollectionIndex = 91
-        CollectionName = 'Item92'
+        CollectionName = 'Font'
         Disabled = False
-        Name = 'Item92'
+        Name = 'Font'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 24
     Top = 240
   end

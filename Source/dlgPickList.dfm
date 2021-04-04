@@ -4,8 +4,6 @@ inherited PickListDialog: TPickListDialog
   Caption = 'PickListDialog'
   ClientHeight = 323
   ClientWidth = 461
-  ExplicitWidth = 477
-  ExplicitHeight = 362
   PixelsPerInch = 96
   TextHeight = 13
   object Panel2: TPanel
@@ -16,8 +14,6 @@ inherited PickListDialog: TPickListDialog
     Align = alBottom
     Anchors = [akLeft, akBottom]
     TabOrder = 1
-    ExplicitTop = 241
-    ExplicitWidth = 474
     DesignSize = (
       461
       84)
@@ -28,7 +24,6 @@ inherited PickListDialog: TPickListDialog
       Height = 2
       Anchors = [akLeft, akTop, akRight, akBottom]
       Shape = bsTopLine
-      ExplicitWidth = 404
     end
     object btnSelectAll: TButton
       Left = 85
@@ -37,7 +32,7 @@ inherited PickListDialog: TPickListDialog
       Height = 24
       Caption = '&Select All'
       ImageIndex = 0
-      ImageName = 'Item105'
+      ImageName = 'TreeSelectAll'
       Images = vilImages
       TabOrder = 0
       OnClick = mnSelectAllClick
@@ -50,7 +45,7 @@ inherited PickListDialog: TPickListDialog
       Anchors = [akRight, akBottom]
       Caption = '&Deselect All'
       ImageIndex = 1
-      ImageName = 'Item106'
+      ImageName = 'TreeDeselectAll'
       Images = vilImages
       TabOrder = 1
       OnClick = mnDeselectAllClick
@@ -65,7 +60,6 @@ inherited PickListDialog: TPickListDialog
       Default = True
       ModalResult = 1
       TabOrder = 2
-      ExplicitLeft = 288
     end
     object btnCancel: TButton
       Left = 372
@@ -77,7 +71,6 @@ inherited PickListDialog: TPickListDialog
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 3
-      ExplicitLeft = 385
     end
   end
   object Panel1: TPanel
@@ -87,8 +80,6 @@ inherited PickListDialog: TPickListDialog
     Height = 239
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -1
-    ExplicitWidth = 474
     DesignSize = (
       461
       239)
@@ -134,12 +125,14 @@ inherited PickListDialog: TPickListDialog
       Caption = '&Select All'
       Hint = 'Select all items'
       ImageIndex = 0
+      ImageName = 'TreeSelectAll'
       OnClick = mnSelectAllClick
     end
     object mnDeselectAll: TMenuItem
       Caption = '&Deselect All'
       Hint = 'Deselect all items'
       ImageIndex = 1
+      ImageName = 'TreeDeselectAll'
       OnClick = mnDeselectAllClick
     end
   end
@@ -149,17 +142,18 @@ inherited PickListDialog: TPickListDialog
     Images = <
       item
         CollectionIndex = 104
-        CollectionName = 'Item105'
+        CollectionName = 'TreeSelectAll'
         Disabled = False
-        Name = 'Item105'
+        Name = 'TreeSelectAll'
       end
       item
         CollectionIndex = 105
-        CollectionName = 'Item106'
+        CollectionName = 'TreeDeselectAll'
         Disabled = False
-        Name = 'Item106'
+        Name = 'TreeDeselectAll'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 224
     Top = 112
   end

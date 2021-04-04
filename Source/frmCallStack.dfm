@@ -40,20 +40,14 @@ inherited CallStackWindow: TCallStackWindow
     3EE0D9983EE0D9983EE0D9983EE0D9983EE0D9983EE0D3953FCDC28A455C0000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  ExplicitWidth = 620
-  ExplicitHeight = 207
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 604
     Height = 168
-    ExplicitWidth = 604
-    ExplicitHeight = 168
     inherited FGPanel: TPanel
       Width = 600
       Height = 164
-      ExplicitWidth = 600
-      ExplicitHeight = 164
       object Panel1: TPanel
         Left = 190
         Top = 0
@@ -190,23 +184,24 @@ inherited CallStackWindow: TCallStackWindow
     Images = <
       item
         CollectionIndex = 41
-        CollectionName = 'Item42'
+        CollectionName = 'Pin'
         Disabled = False
-        Name = 'Item42'
+        Name = 'Pin'
       end
       item
         CollectionIndex = 152
-        CollectionName = 'Item153'
+        CollectionName = 'ThreadRunning'
         Disabled = False
-        Name = 'Item153'
+        Name = 'ThreadRunning'
       end
       item
         CollectionIndex = 153
-        CollectionName = 'Item154'
+        CollectionName = 'ThreadPaused'
         Disabled = False
-        Name = 'Item154'
+        Name = 'ThreadPaused'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 423
     Top = 32
   end

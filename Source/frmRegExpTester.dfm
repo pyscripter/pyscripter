@@ -48,21 +48,15 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     000000000000000000F77E7E1023000000000000000000000000F77D7E11FFFF
     0000E00F00008003000000010000000100000001000000010000000100000003
     00000007000080030000E0010000FF800000FFC00000FFE00000FFF00000}
-  ExplicitWidth = 400
-  ExplicitHeight = 517
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
     Width = 384
     Height = 478
-    ExplicitWidth = 384
-    ExplicitHeight = 478
     inherited FGPanel: TPanel
       Width = 380
       Height = 474
       ParentBackground = False
-      ExplicitWidth = 380
-      ExplicitHeight = 474
       object TBXDock: TSpTBXDock
         Left = 0
         Top = 0
@@ -237,7 +231,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ParentFont = False
             Wrapping = twEndEllipsis
             Underline = True
-            UnderlineColor = $FF8844
+            UnderlineColor = 16746564
           end
           object GroupsView: TVirtualStringTree
             Left = 1
@@ -342,7 +336,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               ParentFont = False
               Wrapping = twEndEllipsis
               Underline = True
-              UnderlineColor = $FF8844
+              UnderlineColor = 16746564
             end
           end
         end
@@ -415,7 +409,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 ParentFont = False
                 Wrapping = twEndEllipsis
                 Underline = True
-                UnderlineColor = $FF8844
+                UnderlineColor = 16746564
               end
             end
           end
@@ -483,7 +477,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 ParentFont = False
                 Wrapping = twEndEllipsis
                 Underline = True
-                UnderlineColor = $FF8844
+                UnderlineColor = 16746564
               end
               object SpinMatches: TSpTBXSpinEdit
                 Left = 335
@@ -526,42 +520,43 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     Images = <
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 19
-        CollectionName = 'Item20'
+        CollectionName = 'Execute'
         Disabled = False
-        Name = 'Item20'
+        Name = 'Execute'
       end
       item
         CollectionIndex = 20
-        CollectionName = 'Item21'
+        CollectionName = 'Check'
         Disabled = False
-        Name = 'Item21'
+        Name = 'Check'
       end
       item
         CollectionIndex = 21
-        CollectionName = 'Item22'
+        CollectionName = 'Stop'
         Disabled = False
-        Name = 'Item22'
+        Name = 'Stop'
       end
       item
         CollectionIndex = 22
-        CollectionName = 'Item23'
+        CollectionName = 'Options'
         Disabled = False
-        Name = 'Item23'
+        Name = 'Options'
       end
       item
         CollectionIndex = 33
-        CollectionName = 'Item34'
+        CollectionName = 'Help'
         Disabled = False
-        Name = 'Item34'
+        Name = 'Help'
       end>
     ImageCollection = CommandsDataModule.icImages
-    Left = 32
+    PreserveItems = True
+    Left = 40
     Top = 376
   end
 end

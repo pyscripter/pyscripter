@@ -77,7 +77,7 @@ type
     function GetTabCaption : string;
     function GetMenuCaption : string;
     function GetHint : string;
-    function GetImageIndex : integer;
+    function GetImageName : string;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
   end;
@@ -189,9 +189,9 @@ begin
   Result := TDocForm.Create(AOwner);
 end;
 
-function TDocView.GetImageIndex: Integer;
+function TDocView.GetImageName: string;
 begin
-  Result := 31;
+  Result := 'PyDoc';
 end;
 
 procedure TDocView.GetContextHighlighters(List: TList);

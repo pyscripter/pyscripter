@@ -7,8 +7,6 @@ inherited ToolProperties: TToolProperties
   ClientWidth = 444
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ExplicitWidth = 450
-  ExplicitHeight = 527
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -62,7 +60,6 @@ inherited ToolProperties: TToolProperties
       Height = 453
       Align = alTop
       ActiveTabIndex = 0
-      ExplicitLeft = 2
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = '&Properties'
@@ -308,13 +305,6 @@ inherited ToolProperties: TToolProperties
             Font.Quality = fqClearTypeNatural
             TabOrder = 0
             OnEnter = SynApplicationEnter
-            CodeFolding.GutterShapeSize = 11
-            CodeFolding.CollapsedLineColor = clGrayText
-            CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.IndentGuidesColor = clGray
-            CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = False
-            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -341,13 +331,6 @@ inherited ToolProperties: TToolProperties
             Font.Quality = fqClearTypeNatural
             TabOrder = 2
             OnEnter = SynParametersEnter
-            CodeFolding.GutterShapeSize = 11
-            CodeFolding.CollapsedLineColor = clGrayText
-            CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.IndentGuidesColor = clGray
-            CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = False
-            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -374,13 +357,6 @@ inherited ToolProperties: TToolProperties
             Font.Quality = fqClearTypeNatural
             TabOrder = 3
             OnEnter = SynWorkDirEnter
-            CodeFolding.GutterShapeSize = 11
-            CodeFolding.CollapsedLineColor = clGrayText
-            CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.IndentGuidesColor = clGray
-            CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = False
-            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -448,7 +424,6 @@ inherited ToolProperties: TToolProperties
             Anchors = [akTop, akRight]
             Caption = 'Sa&ve files:'
             FocusControl = cbSaveFiles
-            ExplicitLeft = 232
           end
           object cbContext: TComboBox
             Left = 86
@@ -632,7 +607,6 @@ inherited ToolProperties: TToolProperties
             Anchors = [akTop, akRight]
             Caption = '&Timeout (ms):'
             FocusControl = seTimeout
-            ExplicitLeft = 240
           end
           object cbHideConsole: TCheckBox
             Left = 8
@@ -710,18 +684,21 @@ inherited ToolProperties: TToolProperties
       Caption = '&Add'
       Hint = 'Add item'
       ImageIndex = 2
+      ImageName = 'Plus'
       OnExecute = actAddItemExecute
     end
     object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
       ImageIndex = 0
+      ImageName = 'Delete'
       OnExecute = actDeleteItemExecute
     end
     object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
       ImageIndex = 1
+      ImageName = 'Refresh'
       OnExecute = actUpdateItemExecute
     end
   end
@@ -731,23 +708,24 @@ inherited ToolProperties: TToolProperties
     Images = <
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 39
-        CollectionName = 'Item40'
+        CollectionName = 'Refresh'
         Disabled = False
-        Name = 'Item40'
+        Name = 'Refresh'
       end
       item
         CollectionIndex = 49
-        CollectionName = 'Item50'
+        CollectionName = 'Plus'
         Disabled = False
-        Name = 'Item50'
+        Name = 'Plus'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 141
     Top = 452
   end

@@ -7,8 +7,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
   ClientWidth = 388
   Position = poScreenCenter
   OnShow = FormShow
-  ExplicitWidth = 394
-  ExplicitHeight = 330
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -150,6 +148,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Hint = 'Select directory'
         Anchors = [akTop, akRight]
         ImageIndex = 0
+        ImageName = 'OpenFolder'
         Images = vilImages
         ParentShowHint = False
         ShowHint = True
@@ -235,11 +234,12 @@ inherited FindInFilesDialog: TFindInFilesDialog
     Images = <
       item
         CollectionIndex = 45
-        CollectionName = 'Item46'
+        CollectionName = 'OpenFolder'
         Disabled = False
-        Name = 'Item46'
+        Name = 'OpenFolder'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 24
     Top = 248
   end

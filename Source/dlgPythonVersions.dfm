@@ -3,8 +3,6 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
   Caption = 'Python Versions'
   ClientHeight = 315
   ClientWidth = 630
-  ExplicitWidth = 636
-  ExplicitHeight = 344
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -107,7 +105,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Activate selected Python version'
       ImageIndex = 7
-      ImageName = 'Item160'
+      ImageName = 'PyActivate'
       OnExecute = actPVActivateExecute
     end
     object actPVAdd: TAction
@@ -115,7 +113,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Add a new Python version'
       ImageIndex = 1
-      ImageName = 'Item50'
+      ImageName = 'PySetupAdd'
       OnExecute = actPVAddExecute
     end
     object actPVRemove: TAction
@@ -123,7 +121,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Remove selected Python version'
       ImageIndex = 3
-      ImageName = 'Item53'
+      ImageName = 'PySetupRemove'
       OnExecute = actPVRemoveExecute
     end
     object actPVTest: TAction
@@ -131,7 +129,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Test selected Python version'
       ImageIndex = 6
-      ImageName = 'Item131'
+      ImageName = 'ExternalRun'
       OnExecute = actPVTestExecute
     end
     object actPVShow: TAction
@@ -139,7 +137,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Show selected Python version in Explorer'
       ImageIndex = 0
-      ImageName = 'Item3'
+      ImageName = 'OpenFolder'
       OnExecute = actPVShowExecute
     end
     object actPVCommandShell: TAction
@@ -147,7 +145,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Open command prompt for the selected Python version'
       ImageIndex = 5
-      ImageName = 'Item90'
+      ImageName = 'CmdOuputWin'
       OnExecute = actPVCommandShellExecute
     end
     object actPVHelp: TAction
@@ -155,7 +153,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Show Help'
       ImageIndex = 4
-      ImageName = 'Item72'
+      ImageName = 'Help'
       OnExecute = actPVHelpExecute
     end
     object actPVRename: TAction
@@ -163,7 +161,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       HelpContext = 880
       Hint = 'Rename selected Python version'
       ImageIndex = 8
-      ImageName = 'Item161'
+      ImageName = 'Rename'
       OnExecute = actPVRenameExecute
     end
   end
@@ -172,60 +170,61 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 2
-        CollectionName = 'Item3'
+        CollectionIndex = 45
+        CollectionName = 'OpenFolder'
         Disabled = False
-        Name = 'Item3'
+        Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 49
-        CollectionName = 'Item50'
+        CollectionIndex = 155
+        CollectionName = 'PySetupAdd'
         Disabled = False
-        Name = 'Item50'
+        Name = 'PySetupAdd'
       end
       item
         CollectionIndex = 51
-        CollectionName = 'Item52'
+        CollectionName = 'Run'
         Disabled = False
-        Name = 'Item52'
+        Name = 'Run'
       end
       item
-        CollectionIndex = 52
-        CollectionName = 'Item53'
+        CollectionIndex = 156
+        CollectionName = 'PySetupRemove'
         Disabled = False
-        Name = 'Item53'
+        Name = 'PySetupRemove'
       end
       item
-        CollectionIndex = 71
-        CollectionName = 'Item72'
+        CollectionIndex = 33
+        CollectionName = 'Help'
         Disabled = False
-        Name = 'Item72'
+        Name = 'Help'
       end
       item
         CollectionIndex = 89
-        CollectionName = 'Item90'
+        CollectionName = 'CmdOuputWin'
         Disabled = False
-        Name = 'Item90'
+        Name = 'CmdOuputWin'
       end
       item
-        CollectionIndex = 130
-        CollectionName = 'Item131'
+        CollectionIndex = 27
+        CollectionName = 'ExternalRun'
         Disabled = False
-        Name = 'Item131'
+        Name = 'ExternalRun'
       end
       item
         CollectionIndex = 159
-        CollectionName = 'Item160'
+        CollectionName = 'PyActivate'
         Disabled = False
-        Name = 'Item160'
+        Name = 'PyActivate'
       end
       item
         CollectionIndex = 160
-        CollectionName = 'Item161'
+        CollectionName = 'Rename'
         Disabled = False
-        Name = 'Item161'
+        Name = 'Rename'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 457
     Top = 65
   end

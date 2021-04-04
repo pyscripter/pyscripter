@@ -242,23 +242,24 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     Images = <
       item
         CollectionIndex = 28
-        CollectionName = 'Item29'
+        CollectionName = 'Expand'
         Disabled = False
-        Name = 'Item29'
+        Name = 'Expand'
       end
       item
         CollectionIndex = 29
-        CollectionName = 'Item30'
+        CollectionName = 'Collapse'
         Disabled = False
-        Name = 'Item30'
+        Name = 'Collapse'
       end
       item
         CollectionIndex = 122
-        CollectionName = 'Item123'
+        CollectionName = 'Highlight'
         Disabled = False
-        Name = 'Item123'
+        Name = 'Highlight'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 24
     Top = 232
   end

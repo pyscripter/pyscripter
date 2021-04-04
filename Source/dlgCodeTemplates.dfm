@@ -9,8 +9,6 @@ inherited CodeTemplates: TCodeTemplates
   OnClose = FormClose
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ExplicitWidth = 560
-  ExplicitHeight = 455
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TPanel
@@ -235,35 +233,35 @@ inherited CodeTemplates: TCodeTemplates
       Caption = '&Add'
       Hint = 'Add item'
       ImageIndex = 4
-      ImageName = 'Item50'
+      ImageName = 'Plus'
       OnExecute = actAddItemExecute
     end
     object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
       ImageIndex = 0
-      ImageName = 'Item15'
+      ImageName = 'Delete'
       OnExecute = actDeleteItemExecute
     end
     object actMoveUp: TAction
       Caption = '&Up'
       Hint = 'Move item up'
       ImageIndex = 2
-      ImageName = 'Item48'
+      ImageName = 'Up'
       OnExecute = actMoveUpExecute
     end
     object actMoveDown: TAction
       Caption = '&Down'
       Hint = 'Move item down'
       ImageIndex = 3
-      ImageName = 'Item49'
+      ImageName = 'Down'
       OnExecute = actMoveDownExecute
     end
     object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
       ImageIndex = 1
-      ImageName = 'Item40'
+      ImageName = 'Refresh'
       OnExecute = actUpdateItemExecute
     end
   end
@@ -273,35 +271,36 @@ inherited CodeTemplates: TCodeTemplates
     Images = <
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 39
-        CollectionName = 'Item40'
+        CollectionName = 'Refresh'
         Disabled = False
-        Name = 'Item40'
+        Name = 'Refresh'
       end
       item
         CollectionIndex = 47
-        CollectionName = 'Item48'
+        CollectionName = 'Up'
         Disabled = False
-        Name = 'Item48'
+        Name = 'Up'
       end
       item
         CollectionIndex = 48
-        CollectionName = 'Item49'
+        CollectionName = 'Down'
         Disabled = False
-        Name = 'Item49'
+        Name = 'Down'
       end
       item
         CollectionIndex = 49
-        CollectionName = 'Item50'
+        CollectionName = 'Plus'
         Disabled = False
-        Name = 'Item50'
+        Name = 'Plus'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 320
     Top = 27
   end

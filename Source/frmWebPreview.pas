@@ -77,7 +77,7 @@ type
     function GetTabCaption : string;
     function GetMenuCaption : string;
     function GetHint : string;
-    function GetImageIndex : integer;
+    function GetImageName : string;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
   end;
@@ -94,7 +94,8 @@ uses
   uCommonFunctions,
   StringResources,
   VarPyth,
-  frmCommandOutput, cParameters,
+  frmCommandOutput,
+  cParameters,
   JvCreateProcess;
 
 {$R *.dfm}
@@ -236,11 +237,10 @@ begin
     TWebPreviewForm(Result).ExternalToolPtr := TSmartPtr.Make(ExternalTool);
 end;
 
-function TWebPreviewView.GetImageIndex: Integer;
+function TWebPreviewView.GetImageName: string;
 begin
-  Result := 148;
+  Result := 'Web';
 end;
-
 
 procedure TWebPreviewView.GetContextHighlighters(List: TList);
 begin

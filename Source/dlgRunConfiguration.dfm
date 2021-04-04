@@ -4,8 +4,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
   ClientHeight = 436
   ClientWidth = 399
   OnDestroy = FormDestroy
-  ExplicitWidth = 405
-  ExplicitHeight = 465
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -25,8 +23,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Height = 4
       Anchors = [akLeft, akRight, akBottom]
       Shape = bsBottomLine
-      ExplicitTop = 458
-      ExplicitWidth = 418
     end
     object GroupBox1: TGroupBox
       Left = 8
@@ -124,13 +120,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Quality = fqClearTypeNatural
         TabOrder = 0
         OnEnter = SynEditEnter
-        CodeFolding.GutterShapeSize = 11
-        CodeFolding.CollapsedLineColor = clGrayText
-        CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.IndentGuidesColor = clGray
-        CodeFolding.IndentGuides = True
-        CodeFolding.ShowCollapsedLine = False
-        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -156,13 +145,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Quality = fqClearTypeNatural
         TabOrder = 2
         OnEnter = SynEditEnter
-        CodeFolding.GutterShapeSize = 11
-        CodeFolding.CollapsedLineColor = clGrayText
-        CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.IndentGuidesColor = clGray
-        CodeFolding.IndentGuides = True
-        CodeFolding.ShowCollapsedLine = False
-        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -188,13 +170,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Quality = fqClearTypeNatural
         TabOrder = 3
         OnEnter = SynEditEnter
-        CodeFolding.GutterShapeSize = 11
-        CodeFolding.CollapsedLineColor = clGrayText
-        CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.IndentGuidesColor = clGray
-        CodeFolding.IndentGuides = True
-        CodeFolding.ShowCollapsedLine = False
-        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -213,6 +188,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Width = 19
         Height = 20
         ImageIndex = 0
+        ImageName = 'FileOpen'
         Images = vilImages
         TabOrder = 1
         OnClick = btnFileNameClick
@@ -223,6 +199,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Width = 19
         Height = 20
         ImageIndex = 1
+        ImageName = 'OpenFolder'
         Images = vilImages
         TabOrder = 4
         OnClick = btnWorkDirClick
@@ -233,6 +210,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Width = 19
         Height = 20
         ImageIndex = 2
+        ImageName = 'Download'
         Images = vilImages
         TabOrder = 5
         OnClick = btnRemoteFileNameClick
@@ -340,13 +318,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Quality = fqClearTypeNatural
         TabOrder = 1
         OnEnter = SynEditEnter
-        CodeFolding.GutterShapeSize = 11
-        CodeFolding.CollapsedLineColor = clGrayText
-        CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.IndentGuidesColor = clGray
-        CodeFolding.IndentGuides = True
-        CodeFolding.ShowCollapsedLine = False
-        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -365,6 +336,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Width = 19
         Height = 20
         ImageIndex = 0
+        ImageName = 'FileOpen'
         Images = vilImages
         TabOrder = 2
         OnClick = btnOutputFileNameClick
@@ -430,23 +402,24 @@ inherited RunConfigurationForm: TRunConfigurationForm
     Images = <
       item
         CollectionIndex = 1
-        CollectionName = 'Item2'
+        CollectionName = 'FileOpen'
         Disabled = False
-        Name = 'Item2'
+        Name = 'FileOpen'
       end
       item
         CollectionIndex = 45
-        CollectionName = 'Item46'
+        CollectionName = 'OpenFolder'
         Disabled = False
-        Name = 'Item46'
+        Name = 'OpenFolder'
       end
       item
         CollectionIndex = 161
-        CollectionName = 'Item162'
+        CollectionName = 'Download'
         Disabled = False
-        Name = 'Item162'
+        Name = 'Download'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 24
     Top = 384
   end

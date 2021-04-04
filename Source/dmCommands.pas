@@ -253,6 +253,7 @@ type
     icBrowserImages: TSVGIconImageCollection;
     icCodeImages: TSVGIconImageCollection;
     icGutterGlyphs: TSVGIconImageCollection;
+    SVGIconImageCollection1: TSVGIconImageCollection;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;

@@ -200,7 +200,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Refresh'
       Hint = 'Refresh to do items'
       ImageIndex = 5
-      ImageName = 'Item40'
+      ImageName = 'Refresh'
       ShortCut = 116
       OnExecute = actFileRefreshExecute
     end
@@ -209,7 +209,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Goto'
       Hint = 'Goto source line'
       ImageIndex = 3
-      ImageName = 'Item33'
+      ImageName = 'GoToLine'
       OnExecute = actEditGotoExecute
     end
     object actFilePrint: TAction
@@ -217,7 +217,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Print'
       Hint = 'Print to do items'
       ImageIndex = 0
-      ImageName = 'Item9'
+      ImageName = 'Print'
       ShortCut = 16464
       OnExecute = actFilePrintExecute
       OnUpdate = actFilePrintUpdate
@@ -227,7 +227,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Options...'
       Hint = 'Options...'
       ImageIndex = 2
-      ImageName = 'Item25'
+      ImageName = 'Options'
       OnExecute = actOptionsConfigureExecute
     end
     object actHelpHelp: TAction
@@ -235,7 +235,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Help'
       Hint = 'Help'
       ImageIndex = 4
-      ImageName = 'Item34'
+      ImageName = 'Help'
       OnExecute = actHelpHelpExecute
     end
     object actEditCopy: TAction
@@ -243,7 +243,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Copy All'
       Hint = 'Copy all'
       ImageIndex = 1
-      ImageName = 'Item13'
+      ImageName = 'Copy'
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
@@ -253,7 +253,7 @@ inherited ToDoWindow: TToDoWindow
       Enabled = False
       Hint = 'Abort search for todo items'
       ImageIndex = 6
-      ImageName = 'Item41'
+      ImageName = 'Abort'
       ShortCut = 16449
       OnExecute = actFileAbortExecute
     end
@@ -297,47 +297,48 @@ inherited ToDoWindow: TToDoWindow
     Images = <
       item
         CollectionIndex = 8
-        CollectionName = 'Item9'
+        CollectionName = 'Print'
         Disabled = False
-        Name = 'Item9'
+        Name = 'Print'
       end
       item
         CollectionIndex = 12
-        CollectionName = 'Item13'
+        CollectionName = 'Copy'
         Disabled = False
-        Name = 'Item13'
+        Name = 'Copy'
       end
       item
-        CollectionIndex = 24
-        CollectionName = 'Item25'
+        CollectionIndex = 22
+        CollectionName = 'Options'
         Disabled = False
-        Name = 'Item25'
+        Name = 'Options'
       end
       item
         CollectionIndex = 32
-        CollectionName = 'Item33'
+        CollectionName = 'GoToLine'
         Disabled = False
-        Name = 'Item33'
+        Name = 'GoToLine'
       end
       item
         CollectionIndex = 33
-        CollectionName = 'Item34'
+        CollectionName = 'Help'
         Disabled = False
-        Name = 'Item34'
+        Name = 'Help'
       end
       item
         CollectionIndex = 39
-        CollectionName = 'Item40'
+        CollectionName = 'Refresh'
         Disabled = False
-        Name = 'Item40'
+        Name = 'Refresh'
       end
       item
         CollectionIndex = 40
-        CollectionName = 'Item41'
+        CollectionName = 'Abort'
         Disabled = False
-        Name = 'Item41'
+        Name = 'Abort'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 201
     Top = 64
   end
@@ -346,21 +347,20 @@ inherited ToDoWindow: TToDoWindow
       item
         IconName = 'ToDo\Done'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><pat' +
-          'h d="m11.2 21.8-6.3-6.3-2.1 2.1 8.4 8.4 18-18-2.1-2z"/></svg>'
+          '<svg viewBox="0 0 32 32" >'#13#10#9'<path d="M11.2,21.8l-6.3-6.3l-2.1,2' +
+          '.1l8.4,8.4l18-18L27.1,6L11.2,21.8z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'ToDo\Exclamation'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><cir' +
-          'cle cx="16" cy="26.5" r="3"/><path d="m13 2.5h6v18h-6z"/></svg>'
+          '<svg viewBox="0 0 32 32" >'#13#10#9'<circle cx="16" cy="26.5" r="3"/>'#13#10 +
+          #9'<path d="M13,2.5h6v18h-6V2.5z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'ToDo\LowPriority'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m28 17.5-2.1-2.1-8.4 8.4v' +
-          '-21.3h-3v21.3l-8.4-8.4-2.1 2.1 12 12z"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M28,17.5l-2.1-2.1l-8.4,8.4V' +
+          '2.5h-3v21.3l-8.4-8.4L4,17.5l12,12L28,17.5z"/>'#13#10'</svg>'#13#10
       end>
     Left = 40
     Top = 64

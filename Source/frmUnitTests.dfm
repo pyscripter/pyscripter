@@ -282,7 +282,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Refresh'
       Hint = 'Refresh tests|Extract tests from active module'
       ImageIndex = 3
-      ImageName = 'Item40'
+      ImageName = 'Refresh'
       OnExecute = actRefreshExecute
     end
     object actRun: TAction
@@ -290,7 +290,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Run'
       Hint = 'Run selected tests'
       ImageIndex = 5
-      ImageName = 'Item52'
+      ImageName = 'Run'
       OnExecute = actRunExecute
     end
     object actStop: TAction
@@ -298,7 +298,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Stop'
       Hint = 'Stop Testing'
       ImageIndex = 4
-      ImageName = 'Item41'
+      ImageName = 'Abort'
       OnExecute = actStopExecute
     end
     object actSelectAll: TAction
@@ -306,7 +306,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = 'Select &All'
       Hint = 'Select all tests'
       ImageIndex = 6
-      ImageName = 'Item105'
+      ImageName = 'TreeSelectAll'
       OnExecute = actSelectAllExecute
     end
     object actDeselectAll: TAction
@@ -314,7 +314,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Deselect All'
       Hint = 'Deselect all tests'
       ImageIndex = 7
-      ImageName = 'Item106'
+      ImageName = 'TreeDeselectAll'
       OnExecute = actDeselectAllExecute
     end
     object actSelectFailed: TAction
@@ -322,7 +322,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = 'Select Fai&led'
       Hint = 'Select all failed tests'
       ImageIndex = 8
-      ImageName = 'Item107'
+      ImageName = 'TestsFailed'
       OnExecute = actSelectFailedExecute
     end
     object actExpandAll: TAction
@@ -330,7 +330,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = 'Ex&pand All'
       Hint = 'Expand all test nodes'
       ImageIndex = 1
-      ImageName = 'Item29'
+      ImageName = 'Expand'
       OnExecute = actExpandAllExecute
     end
     object actCollapseAll: TAction
@@ -338,7 +338,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Collapse All'
       Hint = 'Collapse all test nodes'
       ImageIndex = 2
-      ImageName = 'Item30'
+      ImageName = 'Collapse'
       OnExecute = actCollapseAllExecute
     end
     object actClearAll: TAction
@@ -346,7 +346,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Caption = '&Clear All'
       Hint = 'Clear all tests'
       ImageIndex = 0
-      ImageName = 'Item15'
+      ImageName = 'Delete'
       OnExecute = actClearAllExecute
     end
   end
@@ -407,59 +407,60 @@ inherited UnitTestWindow: TUnitTestWindow
     Images = <
       item
         CollectionIndex = 14
-        CollectionName = 'Item15'
+        CollectionName = 'Delete'
         Disabled = False
-        Name = 'Item15'
+        Name = 'Delete'
       end
       item
         CollectionIndex = 28
-        CollectionName = 'Item29'
+        CollectionName = 'Expand'
         Disabled = False
-        Name = 'Item29'
+        Name = 'Expand'
       end
       item
         CollectionIndex = 29
-        CollectionName = 'Item30'
+        CollectionName = 'Collapse'
         Disabled = False
-        Name = 'Item30'
+        Name = 'Collapse'
       end
       item
         CollectionIndex = 39
-        CollectionName = 'Item40'
+        CollectionName = 'Refresh'
         Disabled = False
-        Name = 'Item40'
+        Name = 'Refresh'
       end
       item
         CollectionIndex = 40
-        CollectionName = 'Item41'
+        CollectionName = 'Abort'
         Disabled = False
-        Name = 'Item41'
+        Name = 'Abort'
       end
       item
         CollectionIndex = 51
-        CollectionName = 'Item52'
+        CollectionName = 'Run'
         Disabled = False
-        Name = 'Item52'
+        Name = 'Run'
       end
       item
         CollectionIndex = 104
-        CollectionName = 'Item105'
+        CollectionName = 'TreeSelectAll'
         Disabled = False
-        Name = 'Item105'
+        Name = 'TreeSelectAll'
       end
       item
         CollectionIndex = 105
-        CollectionName = 'Item106'
+        CollectionName = 'TreeDeselectAll'
         Disabled = False
-        Name = 'Item106'
+        Name = 'TreeDeselectAll'
       end
       item
         CollectionIndex = 106
-        CollectionName = 'Item107'
+        CollectionName = 'TestsFailed'
         Disabled = False
-        Name = 'Item107'
+        Name = 'TestsFailed'
       end>
     ImageCollection = CommandsDataModule.icImages
+    PreserveItems = True
     Left = 152
     Top = 112
   end

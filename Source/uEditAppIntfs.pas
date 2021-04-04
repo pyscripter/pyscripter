@@ -16,9 +16,11 @@ uses
   System.SysUtils,
   System.Contnrs,
   Vcl.Forms,
+  Vcl.ImgList,
   JvAppStorage,
   PythonEngine,
   SynEdit,
+  SpTBXItem,
   SpTBXTabs;
 
 type
@@ -42,14 +44,14 @@ type
     function GetTabCaption : string;
     function GetMenuCaption : string;
     function GetHint : string;
-    function GetImageIndex : integer;
+    function GetImageName : string;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
     property Name : string read GetName;
     property TabCaption : string read GetTabCaption;
     property MenuCaption : string read GetMenuCaption;
     property Hint : string read GetHint;
-    property ImageIndex : integer read GetImageIndex;
+    property ImageName : string read GetImageName;
     property ShortCut : TShortCut read GetShortCut;
   end;
 
@@ -127,8 +129,8 @@ type
     function RegisterViewFactory(ViewFactory : IEditorViewFactory): integer;
     function GetViewFactoryCount: integer;
     function GetViewFactory(Index: integer): IEditorViewFactory;
-    procedure SetupEditorViewMenu;
-    procedure UpdateEditorViewMenu;
+    procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; IL: TCustomImageList);
+    procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
     procedure LockList;
     procedure UnlockList;
     procedure ApplyToEditors(const Proc: TProc<IEditor>);

@@ -2038,6 +2038,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 310
       Hint = 'Save|Save active file'
       ImageIndex = 4
+      ImageName = 'Save'
       ShortCut = 16467
       OnExecute = actFileSaveExecute
     end
@@ -2056,6 +2057,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 310
       Hint = 'Close|Close active file'
       ImageIndex = 149
+      ImageName = 'TabClose'
       ShortCut = 16499
       OnExecute = actFileCloseExecute
     end
@@ -2067,6 +2069,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
       ImageIndex = 11
+      ImageName = 'Cut'
       ShortCut = 16472
     end
     object actEditCopy: TEditCopy
@@ -2077,6 +2080,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Copy|Copies the selection and puts it on the Clipboard'
       ImageIndex = 12
+      ImageName = 'Copy'
       ShortCut = 16451
     end
     object actEditPaste: TEditPaste
@@ -2086,6 +2090,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Paste|Inserts Clipboard contents'
       ImageIndex = 13
+      ImageName = 'Paste'
       ShortCut = 16470
     end
     object actEditDelete: TEditDelete
@@ -2096,6 +2101,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Delete|Delete selection'
       ImageIndex = 14
+      ImageName = 'Delete'
     end
     object actEditUndo: TEditUndo
       Category = 'Edit'
@@ -2105,6 +2111,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Undo|Reverts the last action'
       ImageIndex = 9
+      ImageName = 'Undo'
       ShortCut = 16474
     end
     object actEditRedo: TAction
@@ -2114,6 +2121,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Redo| Redo last action'
       ImageIndex = 10
+      ImageName = 'Redo'
       ShortCut = 24666
       OnExecute = actEditRedoExecute
     end
@@ -2139,6 +2147,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Search|Search for a string'
       ImageIndex = 15
+      ImageName = 'Search'
       ShortCut = 16454
       OnExecute = actSearchFindExecute
     end
@@ -2149,6 +2158,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Find next|Find next match'
       ImageIndex = 16
+      ImageName = 'FindNext'
       ShortCut = 114
       OnExecute = actSearchFindNextExecute
     end
@@ -2159,6 +2169,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Find previous|Find Previous match'
       ImageIndex = 121
+      ImageName = 'FindPrevious'
       ShortCut = 8306
       OnExecute = actSearchFindPrevExecute
     end
@@ -2169,6 +2180,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Replace|Search & Replace'
       ImageIndex = 17
+      ImageName = 'Replace'
       ShortCut = 16456
       OnExecute = actSearchReplaceExecute
     end
@@ -2178,6 +2190,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 310
       Hint = 'Save all|Save project and all open files'
       ImageIndex = 5
+      ImageName = 'SaveAll'
       OnExecute = actFileSaveAllExecute
     end
     object actFilePrint: TAction
@@ -2187,6 +2200,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 310
       Hint = 'Print|Print active file'
       ImageIndex = 8
+      ImageName = 'Print'
       ShortCut = 16464
       OnExecute = actFilePrintExecute
     end
@@ -2196,6 +2210,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 310
       Hint = 'Printer setup'
       ImageIndex = 6
+      ImageName = 'PrintSetup'
       OnExecute = actPrinterSetupExecute
     end
     object actPrintPreview: TAction
@@ -2204,6 +2219,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 310
       Hint = 'Print preview'
       ImageIndex = 7
+      ImageName = 'PrintPreview'
       OnExecute = actPrintPreviewExecute
     end
     object actPageSetup: TAction
@@ -2212,6 +2228,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 310
       Hint = 'Page setup'
       ImageIndex = 78
+      ImageName = 'PageSetup'
       OnExecute = actPageSetupExecute
     end
     object actEditorOptions: TAction
@@ -2220,6 +2237,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 620
       Hint = 'Set Editor Options'
       ImageIndex = 22
+      ImageName = 'Options'
       OnExecute = actEditorOptionsExecute
     end
     object actIDEOptions: TAction
@@ -2228,6 +2246,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 610
       Hint = 'Set IDE Options'
       ImageIndex = 24
+      ImageName = 'AppSettings'
       OnExecute = actIDEOptionsExecute
     end
     object actEditIndent: TAction
@@ -2236,6 +2255,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Indent block|Indent selected block of code'
       ImageIndex = 69
+      ImageName = 'Indent'
       ShortCut = 24649
       OnExecute = actEditIndentExecute
     end
@@ -2245,6 +2265,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Unindent|Unindent selected block of code'
       ImageIndex = 70
+      ImageName = 'Dedent'
       ShortCut = 24661
       OnExecute = actEditDedentExecute
     end
@@ -2254,6 +2275,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Comment out| Comment out block of code'
       ImageIndex = 73
+      ImageName = 'CodeComment'
       ShortCut = 49342
       OnExecute = actEditCommentOutExecute
     end
@@ -2263,6 +2285,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Uncomment| Uncomment block of code'
       ImageIndex = 74
+      ImageName = 'UnCodeComment'
       ShortCut = 49340
       OnExecute = actEditUncommentExecute
     end
@@ -2296,6 +2319,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 870
       Hint = 'Python Path|View or edit the Python path'
       ImageIndex = 25
+      ImageName = 'Folders'
       OnExecute = actPythonPathExecute
     end
     object actHelpContents: THelpContents
@@ -2305,7 +2329,8 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       HelpType = htContext
       Hint = 'Help Contents'
-      ImageIndex = 71
+      ImageIndex = 33
+      ImageName = 'Help'
       OnExecute = actHelpContentsExecute
     end
     object actPythonManuals: THelpContents
@@ -2315,6 +2340,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Show Python Manuals'
       ImageIndex = 77
+      ImageName = 'PyDoc'
       OnExecute = actPythonManualsExecute
     end
     object actAbout: TAction
@@ -2323,6 +2349,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       Hint = 'About|Info about the application'
       ImageIndex = 30
+      ImageName = 'Info'
       OnExecute = actAboutExecute
     end
     object actSearchGoToLine: TAction
@@ -2331,6 +2358,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Go to line number'
       ImageIndex = 32
+      ImageName = 'GoToLine'
       ShortCut = 32839
       OnExecute = actSearchGoToLineExecute
     end
@@ -2340,6 +2368,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Jump to the position of the first syntax error'
       ImageIndex = 123
+      ImageName = 'GoToError'
       ShortCut = 24645
       OnExecute = actSearchGoToSyntaxErrorExecute
     end
@@ -2349,6 +2378,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Search in Files|Search for a string in Files'
       ImageIndex = 86
+      ImageName = 'SearchFolder'
       ShortCut = 24646
       OnExecute = actFindInFilesExecute
     end
@@ -2404,6 +2434,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 615
       Hint = 'Customize IDE shortcuts'
       ImageIndex = 102
+      ImageName = 'Keyboard'
       OnExecute = actIDEShortcutsExecute
     end
     object actCodeTemplates: TAction
@@ -2419,6 +2450,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 710
       Hint = 'Configure Tools|Add/remove/edit command-line tools'
       ImageIndex = 83
+      ImageName = 'ToolsSetup'
       OnExecute = actConfigureToolsExecute
     end
     object actHelpExternalTools: TAction
@@ -2434,6 +2466,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Find Function|Find function from function list'
       ImageIndex = 26
+      ImageName = 'Function'
       ShortCut = 16455
       OnExecute = actFindFunctionExecute
     end
@@ -2443,6 +2476,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Show/Hide line numbers'
       ImageIndex = 43
+      ImageName = 'LineNumbers'
       OnExecute = actEditLineNumbersExecute
     end
     object actEditShowSpecialChars: TAction
@@ -2451,6 +2485,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Show/Hide special characters'
       ImageIndex = 95
+      ImageName = 'SpecialChars'
       OnExecute = actEditShowSpecialCharsExecute
     end
     object actFindPreviousReference: TAction
@@ -2522,6 +2557,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 930
       Hint = 'Unit test wizard|Create unit test for active module'
       ImageIndex = 103
+      ImageName = 'UnitTestWin'
       OnExecute = actUnitTestWizardExecute
     end
     object actInterpreterEditorOptions: TAction
@@ -2530,6 +2566,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 620
       Hint = 'Set Interpreter Editor Options'
       ImageIndex = 22
+      ImageName = 'Options'
       OnExecute = actInterpreterEditorOptionsExecute
     end
     object actEditToggleComment: TAction
@@ -2538,6 +2575,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Toggle Comment| Comment/Uncomment block of code'
       ImageIndex = 73
+      ImageName = 'CodeComment'
       ShortCut = 16606
       OnExecute = actEditToggleCommentExecute
     end
@@ -2586,7 +2624,8 @@ object CommandsDataModule: TCommandsDataModule
       Enabled = False
       HelpContext = 310
       Hint = 'Reload|Reload active file'
-      ImageIndex = 120
+      ImageIndex = 39
+      ImageName = 'Refresh'
       OnExecute = actFileReloadExecute
     end
     object actImportShortcuts: TAction
@@ -2620,6 +2659,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Replace with existing settings'
       ImageIndex = 17
+      ImageName = 'Replace'
       OnExecute = actSearchReplaceNowExecute
     end
     object actSearchHighlight: TAction
@@ -2629,6 +2669,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 330
       Hint = 'Highlight the search text in the current editor'
       ImageIndex = 122
+      ImageName = 'Highlight'
       ShortCut = 24648
       OnExecute = actSearchHighlightExecute
     end
@@ -2638,6 +2679,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       Hint = 'Turn word wrap on/off'
       ImageIndex = 124
+      ImageName = 'WordWrap'
       OnExecute = actEditWordWrapExecute
     end
     object actSearchGoToDebugLine: TAction
@@ -2653,6 +2695,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       Hint = 'Go to the project home page'
       ImageIndex = 147
+      ImageName = 'Link'
       OnExecute = actHelpWebProjectHomeExecute
     end
     object actHelpWebGroupSupport: TAction
@@ -2661,6 +2704,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       Hint = 'Go to the PyScripter Internet group'
       ImageIndex = 147
+      ImageName = 'Link'
       OnExecute = actHelpWebGroupSupportExecute
     end
     object actFileCloseAllOther: TAction
@@ -2685,6 +2729,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Copy file name of active file to clipboard'
       ImageIndex = 12
+      ImageName = 'Copy'
       OnExecute = actEditCopyFileNameExecute
     end
     object actToolsEditStartupScripts: TAction
@@ -2701,6 +2746,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       Hint = 'Go to the PyScripter Blog'
       ImageIndex = 147
+      ImageName = 'Link'
       OnExecute = actHelpWebBlogExecute
     end
     object actFoldVisible: TAction
@@ -2714,6 +2760,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'All'
       Hint = 'Fold all'
       ImageIndex = 29
+      ImageName = 'Collapse'
       OnExecute = actFoldAllExecute
     end
     object actUnfoldAll: TAction
@@ -2721,6 +2768,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'All'
       Hint = 'Unfold all'
       ImageIndex = 28
+      ImageName = 'Expand'
       OnExecute = actUnfoldAllExecute
     end
     object actFoldNearest: TAction
@@ -2812,6 +2860,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Save to Remote File'
       Hint = 'Save to remote file with SSH'
       ImageIndex = 162
+      ImageName = 'Upload'
       OnExecute = actFileSaveToRemoteExecute
     end
     object actDonate: TAction
@@ -2820,6 +2869,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       Hint = 'Donate to the PyScripter project'
       ImageIndex = 147
+      ImageName = 'Link'
       OnExecute = actDonateExecute
     end
   end
@@ -2855,7 +2905,7 @@ object CommandsDataModule: TCommandsDataModule
   object icImages: TImageCollection
     Images = <
       item
-        Name = 'Item1'
+        Name = 'FileNew'
         SourceImages = <
           item
             Image.Data = {
@@ -2926,7 +2976,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item2'
+        Name = 'FileOpen'
         SourceImages = <
           item
             Image.Data = {
@@ -3061,7 +3111,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item3'
+        Name = 'FileClose'
         SourceImages = <
           item
             Image.Data = {
@@ -3280,7 +3330,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item5'
+        Name = 'Save'
         SourceImages = <
           item
             Image.Data = {
@@ -3360,7 +3410,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item6'
+        Name = 'SaveAll'
         SourceImages = <
           item
             Image.Data = {
@@ -3474,7 +3524,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item7'
+        Name = 'PrintSetup'
         SourceImages = <
           item
             Image.Data = {
@@ -3606,7 +3656,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item8'
+        Name = 'PrintPreview'
         SourceImages = <
           item
             Image.Data = {
@@ -3739,7 +3789,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item9'
+        Name = 'Print'
         SourceImages = <
           item
             Image.Data = {
@@ -3864,7 +3914,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item10'
+        Name = 'Undo'
         SourceImages = <
           item
             Image.Data = {
@@ -3951,7 +4001,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item11'
+        Name = 'Redo'
         SourceImages = <
           item
             Image.Data = {
@@ -4042,7 +4092,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item12'
+        Name = 'Cut'
         SourceImages = <
           item
             Image.Data = {
@@ -4180,7 +4230,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item13'
+        Name = 'Copy'
         SourceImages = <
           item
             Image.Data = {
@@ -4297,7 +4347,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item14'
+        Name = 'Paste'
         SourceImages = <
           item
             Image.Data = {
@@ -4418,7 +4468,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item15'
+        Name = 'Delete'
         SourceImages = <
           item
             Image.Data = {
@@ -4533,7 +4583,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item16'
+        Name = 'Search'
         SourceImages = <
           item
             Image.Data = {
@@ -4667,7 +4717,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item17'
+        Name = 'FindNext'
         SourceImages = <
           item
             Image.Data = {
@@ -4815,7 +4865,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item18'
+        Name = 'Replace'
         SourceImages = <
           item
             Image.Data = {
@@ -4987,7 +5037,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item19'
+        Name = 'ReplaceAll'
         SourceImages = <
           item
             Image.Data = {
@@ -5173,7 +5223,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item20'
+        Name = 'Execute'
         SourceImages = <
           item
             Image.Data = {
@@ -5279,7 +5329,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item21'
+        Name = 'Check'
         SourceImages = <
           item
             Image.Data = {
@@ -5367,7 +5417,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item22'
+        Name = 'Stop'
         SourceImages = <
           item
             Image.Data = {
@@ -5499,7 +5549,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item23'
+        Name = 'Options'
         SourceImages = <
           item
             Image.Data = {
@@ -5623,7 +5673,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item24'
+        Name = 'Setup'
         SourceImages = <
           item
             Image.Data = {
@@ -5762,7 +5812,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item25'
+        Name = 'AppSettings'
         SourceImages = <
           item
             Image.Data = {
@@ -5814,7 +5864,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item26'
+        Name = 'Folders'
         SourceImages = <
           item
             Image.Data = {
@@ -5907,7 +5957,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item27'
+        Name = 'Function'
         SourceImages = <
           item
             Image.Data = {
@@ -6022,7 +6072,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item28'
+        Name = 'ExternalRun'
         SourceImages = <
           item
             Image.Data = {
@@ -6100,7 +6150,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item29'
+        Name = 'Expand'
         SourceImages = <
           item
             Image.Data = {
@@ -6200,7 +6250,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item30'
+        Name = 'Collapse'
         SourceImages = <
           item
             Image.Data = {
@@ -6304,7 +6354,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item31'
+        Name = 'Info'
         SourceImages = <
           item
             Image.Data = {
@@ -6562,7 +6612,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item33'
+        Name = 'GoToLine'
         SourceImages = <
           item
             Image.Data = {
@@ -6667,7 +6717,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item34'
+        Name = 'Help'
         SourceImages = <
           item
             Image.Data = {
@@ -6829,7 +6879,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item35'
+        Name = 'RunScript'
         SourceImages = <
           item
             Image.Data = {
@@ -6972,7 +7022,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item36'
+        Name = 'Back'
         SourceImages = <
           item
             Image.Data = {
@@ -7102,7 +7152,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item37'
+        Name = 'Forward'
         SourceImages = <
           item
             Image.Data = {
@@ -7511,7 +7561,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item40'
+        Name = 'Refresh'
         SourceImages = <
           item
             Image.Data = {
@@ -7623,7 +7673,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item41'
+        Name = 'Abort'
         SourceImages = <
           item
             Image.Data = {
@@ -7708,7 +7758,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item42'
+        Name = 'Pin'
         SourceImages = <
           item
             Image.Data = {
@@ -7821,7 +7871,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item43'
+        Name = 'FindRefresh'
         SourceImages = <
           item
             Image.Data = {
@@ -7978,7 +8028,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item44'
+        Name = 'LineNumbers'
         SourceImages = <
           item
             Image.Data = {
@@ -8095,7 +8145,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item45'
+        Name = 'Exit'
         SourceImages = <
           item
             Image.Data = {
@@ -8208,7 +8258,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item46'
+        Name = 'OpenFolder'
         SourceImages = <
           item
             Image.Data = {
@@ -8350,7 +8400,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item47'
+        Name = 'Filter'
         SourceImages = <
           item
             Image.Data = {
@@ -8423,7 +8473,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item48'
+        Name = 'Up'
         SourceImages = <
           item
             Image.Data = {
@@ -8558,7 +8608,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item49'
+        Name = 'Down'
         SourceImages = <
           item
             Image.Data = {
@@ -8690,7 +8740,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item50'
+        Name = 'Plus'
         SourceImages = <
           item
             Image.Data = {
@@ -8750,7 +8800,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item51'
+        Name = 'Minus'
         SourceImages = <
           item
             Image.Data = {
@@ -8781,7 +8831,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item52'
+        Name = 'Run'
         SourceImages = <
           item
             Image.Data = {
@@ -8848,7 +8898,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item53'
+        Name = 'Quit'
         SourceImages = <
           item
             Image.Data = {
@@ -8959,7 +9009,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item54'
+        Name = 'Debug'
         SourceImages = <
           item
             Image.Data = {
@@ -9104,7 +9154,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item55'
+        Name = 'RunToCursor'
         SourceImages = <
           item
             Image.Data = {
@@ -9317,7 +9367,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item57'
+        Name = 'StepIn'
         SourceImages = <
           item
             Image.Data = {
@@ -9401,7 +9451,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item58'
+        Name = 'StepOver'
         SourceImages = <
           item
             Image.Data = {
@@ -9526,7 +9576,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item59'
+        Name = 'StepOut'
         SourceImages = <
           item
             Image.Data = {
@@ -9686,7 +9736,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item61'
+        Name = 'Breakpoint'
         SourceImages = <
           item
             Image.Data = {
@@ -9802,7 +9852,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item62'
+        Name = 'BreakpointsRemove'
         SourceImages = <
           item
             Image.Data = {
@@ -10028,7 +10078,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item64'
+        Name = 'CallStack'
         SourceImages = <
           item
             Image.Data = {
@@ -10173,7 +10223,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item66'
+        Name = 'VariablesWin'
         SourceImages = <
           item
             Image.Data = {
@@ -10284,7 +10334,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item67'
+        Name = 'WatchesWin'
         SourceImages = <
           item
             Image.Data = {
@@ -10371,7 +10421,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item68'
+        Name = 'BreakpointsWin'
         SourceImages = <
           item
             Image.Data = {
@@ -10604,7 +10654,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item70'
+        Name = 'Indent'
         SourceImages = <
           item
             Image.Data = {
@@ -10691,7 +10741,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item71'
+        Name = 'Dedent'
         SourceImages = <
           item
             Image.Data = {
@@ -11009,7 +11059,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item74'
+        Name = 'CodeComment'
         SourceImages = <
           item
             Image.Data = {
@@ -11146,7 +11196,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item75'
+        Name = 'UnCodeComment'
         SourceImages = <
           item
             Image.Data = {
@@ -11305,7 +11355,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item76'
+        Name = 'MessageWin'
         SourceImages = <
           item
             Image.Data = {
@@ -11411,7 +11461,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item77'
+        Name = 'CodeExplorer'
         SourceImages = <
           item
             Image.Data = {
@@ -11534,7 +11584,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item78'
+        Name = 'PyDoc'
         SourceImages = <
           item
             Image.Data = {
@@ -11660,7 +11710,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item79'
+        Name = 'PageSetup'
         SourceImages = <
           item
             Image.Data = {
@@ -11768,7 +11818,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item80'
+        Name = 'TabNext'
         SourceImages = <
           item
             Image.Data = {
@@ -11861,7 +11911,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item81'
+        Name = 'TabPrevious'
         SourceImages = <
           item
             Image.Data = {
@@ -12108,7 +12158,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item83'
+        Name = 'Tools'
         SourceImages = <
           item
             Image.Data = {
@@ -12195,7 +12245,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item84'
+        Name = 'ToolsSetup'
         SourceImages = <
           item
             Image.Data = {
@@ -12294,7 +12344,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item85'
+        Name = 'FileExplorer'
         SourceImages = <
           item
             Image.Data = {
@@ -12393,7 +12443,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item86'
+        Name = 'TodoWin'
         SourceImages = <
           item
             Image.Data = {
@@ -12529,7 +12579,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item87'
+        Name = 'SearchFolder'
         SourceImages = <
           item
             Image.Data = {
@@ -12654,7 +12704,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item88'
+        Name = 'FindResults'
         SourceImages = <
           item
             Image.Data = {
@@ -12759,7 +12809,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item89'
+        Name = 'ExternalRunSetup'
         SourceImages = <
           item
             Image.Data = {
@@ -12853,7 +12903,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item90'
+        Name = 'CmdOuputWin'
         SourceImages = <
           item
             Image.Data = {
@@ -13051,7 +13101,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item92'
+        Name = 'Font'
         SourceImages = <
           item
             Image.Data = {
@@ -13183,7 +13233,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item93'
+        Name = 'Edit'
         SourceImages = <
           item
             Image.Data = {
@@ -13304,7 +13354,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item94'
+        Name = 'ViewAny'
         SourceImages = <
           item
             Image.Data = {
@@ -13399,7 +13449,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item95'
+        Name = 'ViewStart'
         SourceImages = <
           item
             Image.Data = {
@@ -13492,7 +13542,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item96'
+        Name = 'SpecialChars'
         SourceImages = <
           item
             Image.Data = {
@@ -13610,7 +13660,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item97'
+        Name = 'ArrowLeft'
         SourceImages = <
           item
             Image.Data = {
@@ -13688,7 +13738,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item98'
+        Name = 'ArrowRight'
         SourceImages = <
           item
             Image.Data = {
@@ -14063,7 +14113,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item102'
+        Name = 'RegExp'
         SourceImages = <
           item
             Image.Data = {
@@ -14167,7 +14217,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item103'
+        Name = 'Keyboard'
         SourceImages = <
           item
             Image.Data = {
@@ -14252,7 +14302,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item104'
+        Name = 'UnitTestWin'
         SourceImages = <
           item
             Image.Data = {
@@ -14415,7 +14465,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item105'
+        Name = 'TreeSelectAll'
         SourceImages = <
           item
             Image.Data = {
@@ -14517,7 +14567,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item106'
+        Name = 'TreeDeselectAll'
         SourceImages = <
           item
             Image.Data = {
@@ -14605,7 +14655,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item107'
+        Name = 'TestsFailed'
         SourceImages = <
           item
             Image.Data = {
@@ -14660,7 +14710,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item108'
+        Name = 'Styles'
         SourceImages = <
           item
             Image.Data = {
@@ -14767,7 +14817,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item109'
+        Name = 'Layouts'
         SourceImages = <
           item
             Image.Data = {
@@ -14969,7 +15019,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item111'
+        Name = 'Assembly'
         SourceImages = <
           item
             Image.Data = {
@@ -15190,7 +15240,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item113'
+        Name = 'ZoomIn'
         SourceImages = <
           item
             Image.Data = {
@@ -15310,7 +15360,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item114'
+        Name = 'ZoomOut'
         SourceImages = <
           item
             Image.Data = {
@@ -15427,7 +15477,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item115'
+        Name = 'Favorite'
         SourceImages = <
           item
             Image.Data = {
@@ -15554,7 +15604,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item116'
+        Name = 'FolderAdd'
         SourceImages = <
           item
             Image.Data = {
@@ -15690,7 +15740,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item117'
+        Name = 'Pause'
         SourceImages = <
           item
             Image.Data = {
@@ -15968,7 +16018,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item119'
+        Name = 'EditorMax'
         SourceImages = <
           item
             Image.Data = {
@@ -16068,7 +16118,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item120'
+        Name = 'EditorMin'
         SourceImages = <
           item
             Image.Data = {
@@ -16277,7 +16327,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item122'
+        Name = 'FindPrevious'
         SourceImages = <
           item
             Image.Data = {
@@ -16422,7 +16472,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item123'
+        Name = 'Highlight'
         SourceImages = <
           item
             Image.Data = {
@@ -16523,7 +16573,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item124'
+        Name = 'GoToError'
         SourceImages = <
           item
             Image.Data = {
@@ -16656,7 +16706,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item125'
+        Name = 'WordWrap'
         SourceImages = <
           item
             Image.Data = {
@@ -16755,7 +16805,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item126'
+        Name = 'SplitVertical'
         SourceImages = <
           item
             Image.Data = {
@@ -16833,7 +16883,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item127'
+        Name = 'SplitHorizontal'
         SourceImages = <
           item
             Image.Data = {
@@ -16883,7 +16933,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item128'
+        Name = 'PostMortem'
         SourceImages = <
           item
             Image.Data = {
@@ -17023,7 +17073,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item129'
+        Name = 'Python'
         SourceImages = <
           item
             Image.Data = {
@@ -17142,7 +17192,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item130'
+        Name = 'PythonScript'
         SourceImages = <
           item
             Image.Data = {
@@ -17393,7 +17443,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item132'
+        Name = 'ProjectExplorer'
         SourceImages = <
           item
             Image.Data = {
@@ -17597,7 +17647,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item134'
+        Name = 'ProjectFile'
         SourceImages = <
           item
             Image.Data = {
@@ -17701,7 +17751,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item135'
+        Name = 'ProjectOpen'
         SourceImages = <
           item
             Image.Data = {
@@ -17830,7 +17880,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item136'
+        Name = 'ProjectAdd'
         SourceImages = <
           item
             Image.Data = {
@@ -17966,7 +18016,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item137'
+        Name = 'ProjectRemove'
         SourceImages = <
           item
             Image.Data = {
@@ -18333,7 +18383,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item140'
+        Name = 'Editor'
         SourceImages = <
           item
             Image.Data = {
@@ -18484,7 +18534,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item141'
+        Name = 'ProjectSave'
         SourceImages = <
           item
             Image.Data = {
@@ -18579,7 +18629,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item142'
+        Name = 'RunConfigAdd'
         SourceImages = <
           item
             Image.Data = {
@@ -18717,7 +18767,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item143'
+        Name = 'RunConfigEdit'
         SourceImages = <
           item
             Image.Data = {
@@ -18862,7 +18912,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item144'
+        Name = 'FileProperties'
         SourceImages = <
           item
             Image.Data = {
@@ -18993,7 +19043,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item145'
+        Name = 'RunLast'
         SourceImages = <
           item
             Image.Data = {
@@ -19087,7 +19137,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item146'
+        Name = 'DebugLast'
         SourceImages = <
           item
             Image.Data = {
@@ -19236,7 +19286,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item147'
+        Name = 'ExternalRunLast'
         SourceImages = <
           item
             Image.Data = {
@@ -19334,7 +19384,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item148'
+        Name = 'Link'
         SourceImages = <
           item
             Image.Data = {
@@ -19507,7 +19557,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item149'
+        Name = 'Web'
         SourceImages = <
           item
             Image.Data = {
@@ -19630,7 +19680,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item150'
+        Name = 'TabCLose'
         SourceImages = <
           item
             Image.Data = {
@@ -19703,7 +19753,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item151'
+        Name = 'TabsClose'
         SourceImages = <
           item
             Image.Data = {
@@ -19795,7 +19845,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item152'
+        Name = 'Tabs'
         SourceImages = <
           item
             Image.Data = {
@@ -19882,7 +19932,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item153'
+        Name = 'ThreadRunning'
         SourceImages = <
           item
             Image.Data = {
@@ -20018,7 +20068,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item154'
+        Name = 'ThreadPaused'
         SourceImages = <
           item
             Image.Data = {
@@ -20085,7 +20135,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item155'
+        Name = 'PySetup'
         SourceImages = <
           item
             Image.Data = {
@@ -20211,7 +20261,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item156'
+        Name = 'PySetupAdd'
         SourceImages = <
           item
             Image.Data = {
@@ -20348,7 +20398,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item157'
+        Name = 'PySetupRemove'
         SourceImages = <
           item
             Image.Data = {
@@ -20760,7 +20810,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item160'
+        Name = 'PyActivate'
         SourceImages = <
           item
             Image.Data = {
@@ -20892,7 +20942,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item161'
+        Name = 'Rename'
         SourceImages = <
           item
             Image.Data = {
@@ -20935,7 +20985,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item162'
+        Name = 'Download'
         SourceImages = <
           item
             Image.Data = {
@@ -21031,7 +21081,7 @@ object CommandsDataModule: TCommandsDataModule
           end>
       end
       item
-        Name = 'Item163'
+        Name = 'Upload'
         SourceImages = <
           item
             Image.Data = {
@@ -21125,7 +21175,7 @@ object CommandsDataModule: TCommandsDataModule
               7C0000000049454E44AE426082}
           end>
       end>
-    Left = 113
+    Left = 105
     Top = 209
   end
   object icBrowserImages: TSVGIconImageCollection
@@ -21133,120 +21183,72 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'Browser\Back'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m28 16c0 6.6-5.4 12-12 12' +
-          's-12-5.4-12-12 5.4-12 12-12 12 5.4 12 12m3 0c0-8.3-6.7-15-15-15s' +
-          '-15 6.7-15 15 6.7 15 15 15 15-6.7 15-15zm-15 1.5h6v-3h-6v-4.5l-6' +
-          ' 6 6 6z"/></svg>'
-      end
-      item
-        IconName = 'Browser\BookOpen'
-        SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m29.2 4c-1.6-.6-3.5-.8-5.' +
-          '3-.8-3 0-6.1.6-8.3 2.3-2.1-1.6-5.3-2.2-8.1-2.2-3 0-6.1.6-8.3 2.3' +
-          'v21.9c0 .4.5.8.8.8h.5c2-1.1 5-1.7 7.2-1.7 2.9 0 6 .6 8.3 2.3 2-1' +
-          '.3 5.7-2.3 8.3-2.3 2.4 0 5 .4 7.2 1.5h.5c.5 0 .8-.4.8-.8v-21.9c-' +
-          '1.5-.5-2.5-.9-3.6-1.4zm0 20.3c-1.6-.6-3.5-.8-5.3-.8-2.5 0-6.3.9-' +
-          '8.3 2.3v-17.3c2-1.3 5.7-2.3 8.3-2.3 1.8 0 3.6.2 5.3.8z"/><path d' +
-          '="m24 12.3c1.4 0 2.5.2 3.8.4v-2.3c-1.2-.2-2.4-.3-3.8-.3-2.5 0-4.' +
-          '8.4-6.8 1.2v2.6c1.7-1 4.1-1.6 6.8-1.6z"/><path d="m17.2 15.3v2.6' +
-          'c1.6-.9 4-1.5 6.8-1.5 1.4 0 2.5.2 3.8.4v-2.3c-1.2-.2-2.4-.3-3.8-' +
-          '.3-2.6-.1-4.8.3-6.8 1.1z"/><path d="m24 18.1c-2.5 0-4.8.4-6.8 1.' +
-          '2v2.6c1.6-.9 4-1.5 6.8-1.5 1.4 0 2.5.2 3.8.4v-2.3c-1.3-.2-2.5-.4' +
-          '-3.8-.4z"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M28,16c0,6.6-5.4,12-12,12S4' +
+          ',22.6,4,16S9.4,4,16,4S28,9.4,28,16 M31,16c0-8.3-6.7-15-15-15S1,7' +
+          '.7,1,16s6.7,15,15,15'#13#10#9#9'S31,24.3,31,16L31,16z M16,17.5h6v-3h-6V1' +
+          '0l-6,6l6,6V17.5z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'Browser\Cancel'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m19.8 10.1-3.9 3.9-3.9-3.' +
-          '9-2.1 2.1 3.9 3.9-3.9 3.9 2.1 2.1 3.9-3.9 3.9 3.9 2.1-2.1-3.9-3.' +
-          '9 3.9-3.9zm-3.9-9c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-' +
-          '6.7-15-15-15zm0 27c-6.6 0-12-5.4-12-12s5.4-12 12-12 12 5.4 12 12' +
-          '-5.4 12-12 12z"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M19.8,10.1L15.9,14L12,10.1l' +
+          '-2.1,2.1l3.9,3.9L9.9,20l2.1,2.1l3.9-3.9l3.9,3.9l2.1-2.1L18,16.1l' +
+          '3.9-3.9L19.8,10.1z'#13#10#9#9' M15.9,1.1c-8.3,0-15,6.7-15,15s6.7,15,15,1' +
+          '5s15-6.7,15-15S24.2,1.1,15.9,1.1z M15.9,28.1c-6.6,0-12-5.4-12-12' +
+          's5.4-12,12-12'#13#10#9#9's12,5.4,12,12S22.5,28.1,15.9,28.1z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'Browser\Forward'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m4 16c0-6.6 5.4-12 12-12s' +
-          '12 5.4 12 12-5.4 12-12 12-12-5.3-12-12m-3 0c0 8.3 6.7 15 15 15s1' +
-          '5-6.7 15-15-6.7-15-15-15-15 6.8-15 15zm15-1.5h-6v3h6v4.5l6-6-6-6' +
-          'z"/></svg>'
-      end
-      item
-        IconName = 'Browser\Help'
-        SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m17.4 13.4-2.1-1.4 2-.7c1' +
-          '.2-.4 2-.9 2.4-1.3.4-.5.3-.9-.3-1.2-.3-.2-.8-.3-1.4-.4s-1.3-.1-2' +
-          ' 0c-.8.1-1.5.2-2.3.5l-4.2 1.4 5.6 3.9zm-4.7-3.1 2-.7c.5-.2 1-.3 ' +
-          '1.5-.3s.8.1 1.1.3c.3.1.3.3.2.5-.2.2-.5.4-1.1.6l-2 .7z"/><path d=' +
-          '"m11.8 19.2c.1 0 .3 0 .4-.1.1-.1.2-.1.3-.2s.1-.1.1-.2.1-.1.1-.2 ' +
-          '0-.1 0-.2 0-.1 0-.2v-.1c0-.1 0-.2-.1-.3-.1-.1-.1-.2-.2-.3l-7.5-6' +
-          '.3c-.4-.3-1-.3-1.4.1-.3.4-.3 1 .1 1.4l.1.1s0 .1.1.1l7.1 6.1.2.1c' +
-          '.3.1.5.2.7.2z"/><path d="m32.1 16.9-1.7-.9c-.1 0-.2-.1-.3-.1v-1l' +
-          '1.8-.8c.5-.2.8-.7.8-1.2s-.3-1-.7-1.3l-14.9-7.7c-.3-.2-.7-.2-1-.1' +
-          'l-12.9 3.8-.9.3c-1.7.5-2.8 1.8-3 3.4-.2 1.5.4 3 1.9 4.5l12 11.9c' +
-          '.1.1.2.2.3.2.3.2.6.4.9.4.2 0 .4 0 .6-.2l17-8.8c.5-.2.7-.7.7-1.2.' +
-          '2-.5-.1-1-.6-1.2zm-3.9 1.3-13.3 6.9c0-.2-.1-.5-.1-1v-.6c.1-1.1.7' +
-          '-2 1.7-2.4l11.7-5.3zm-26.1-6.7c0-.5.5-.9 1.1-1l13.2-3.9 11.8 6.1' +
-          '-12.8 5.8c-1.7.7-2.9 2.3-3.2 4.2l-9-8.9c-1.2-1.3-1.2-2-1.1-2.3z"' +
-          '/></svg>'
-      end
-      item
-        IconName = 'Browser\Home'
-        SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m16 7.3 7.5 6.8v11.7h-3v-' +
-          '9h-9v9h-3v-11.8zm0-4-15 13.5h4.5v12h9v-9h3v9h9v-12h4.5z"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M4,16C4,9.4,9.4,4,16,4s12,5' +
+          '.4,12,12s-5.4,12-12,12S4,22.7,4,16 M1,16c0,8.3,6.7,15,15,15s15-6' +
+          '.7,15-15S24.3,1,16,1'#13#10#9#9'S1,7.8,1,16L1,16z M16,14.5h-6v3h6V22l6-6' +
+          'l-6-6V14.5z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'Browser\PageSetup'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m19 1h-12c-1.7 0-3 1.3-3 ' +
-          '3v24c0 1.7 1.3 3 3 3h18c1.7 0 3-1.3 3-3v-18zm6 22.9h-2.3v-12.4h2' +
-          '.3zm-13.4 0v-15.7h5.9v3.3h3v12.4zm8.9 2.2v1.9h-8.9v-1.9zm-3-20.1' +
-          'h-5.9v-2h5.9zm-8.1-2v2h-2.4v-2zm-2.4 4.2h2.4v15.7h-2.4v2.2h2.4v1' +
-          '.9h-2.4zm15.7 19.8v-1.9h2.3v1.9z"/></svg>'
-      end
-      item
-        IconName = 'Browser\Print'
-        SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m26.5 10h-1.5v-7.5h-18v7.' +
-          '5h-1.5c-2.5 0-4.5 1.9-4.5 4.5v9h6v6h18v-6h6v-9c0-2.6-2.1-4.5-4.5' +
-          '-4.5zm-16.5-4.5h12v4.5h-12zm12 18v3h-12v-6h12zm3-3v-3h-18v3h-3v-' +
-          '6c0-.8.8-1.5 1.5-1.5h21c.9 0 1.5.8 1.5 1.5v6z"/><circle cx="25" ' +
-          'cy="15.2" r="1.5"/></svg>'
-      end
-      item
-        IconName = 'Browser\Save'
-        SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m23.5 2.5h-18c-1.7 0-3 1.' +
-          '4-3 3v21c0 1.6 1.3 3 3 3h21c1.6 0 3-1.4 3-3v-18zm3 24h-21v-21h16' +
-          '.8l4.2 4.2zm-10.5-10.5c-2.5 0-4.5 1.9-4.5 4.5s2 4.5 4.5 4.5 4.5-' +
-          '1.9 4.5-4.5-1.9-4.5-4.5-4.5zm-9-9h13.5v6h-13.5z"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10'<path d="M19,1H7C5.3,1,4,2.3,4,4v24c0' +
+          ',1.7,1.3,3,3,3h18c1.7,0,3-1.3,3-3V10L19,1z M25,23.9h-2.3V11.5H25' +
+          'V23.9z M11.6,23.9V8.2h5.9'#13#10#9'v3.3h3v12.4C20.5,23.9,11.6,23.9,11.6' +
+          ',23.9z M20.5,26.1V28h-8.9v-1.9H20.5z M17.5,6h-5.9V4h5.9V6z M9.4,' +
+          '4v2H7V4H9.4z M7,8.2h2.4'#13#10#9'v15.7H7v2.2h2.4V28H7V8.2z M22.7,28v-1.' +
+          '9H25V28H22.7z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'Browser\Preview'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><pat' +
-          'h d="m7.5 25.6 2.1 2.1 3.6-3.6c1 .6 2.3 1.1 3.6 1.1 3.8 0 6.8-3 ' +
-          '6.8-6.8s-3-6.8-6.8-6.8-6.8 3-6.8 6.8c0 1.3.5 2.5 1 3.6zm5.5-7.2c' +
-          '0-2.1 1.7-3.8 3.8-3.8s3.8 1.6 3.8 3.8c0 2.1-1.7 3.8-3.8 3.8s-3.8' +
-          '-1.7-3.8-3.8zm-5.5 7.2 2.1 2.1 3.6-3.6c1 .6 2.3 1.1 3.6 1.1 3.8 ' +
-          '0 6.8-3 6.8-6.8s-3-6.8-6.8-6.8-6.8 3-6.8 6.8c0 1.3.5 2.5 1 3.6zm' +
-          '5.5-7.2c0-2.1 1.7-3.8 3.8-3.8s3.8 1.6 3.8 3.8c0 2.1-1.7 3.8-3.8 ' +
-          '3.8s-3.8-1.7-3.8-3.8zm-5.5 7.2 2.1 2.1 3.6-3.6c1 .6 2.3 1.1 3.6 ' +
-          '1.1 3.8 0 6.8-3 6.8-6.8s-3-6.8-6.8-6.8-6.8 3-6.8 6.8c0 1.3.5 2.5' +
-          ' 1 3.6zm5.5-7.2c0-2.1 1.7-3.8 3.8-3.8s3.8 1.6 3.8 3.8c0 2.1-1.7 ' +
-          '3.8-3.8 3.8s-3.8-1.7-3.8-3.8z"/><path d="m19 1h-12c-1.7 0-3 1.3-' +
-          '3 3v24c0 1.7 1.3 3 3 3h18c1.7 0 3-1.3 3-3v-18zm6 27h-18v-24h10.5' +
-          'v7.5h7.5z"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M7.5,25.6l2.1,2.1l3.6-3.6c1' +
+          ',0.6,2.3,1.1,3.6,1.1c3.8,0,6.8-3,6.8-6.8s-3-6.8-6.8-6.8s-6.8,3-6' +
+          '.8,6.8c0,1.3,0.5,2.5,1,3.6'#13#10#9#9'L7.5,25.6z M13,18.4c0-2.1,1.7-3.8,' +
+          '3.8-3.8s3.8,1.6,3.8,3.8c0,2.1-1.7,3.8-3.8,3.8S13,20.5,13,18.4z M' +
+          '7.5,25.6l2.1,2.1l3.6-3.6'#13#10#9#9'c1,0.6,2.3,1.1,3.6,1.1c3.8,0,6.8-3,6' +
+          '.8-6.8s-3-6.8-6.8-6.8s-6.8,3-6.8,6.8c0,1.3,0.5,2.5,1,3.6L7.5,25.' +
+          '6z M13,18.4'#13#10#9#9'c0-2.1,1.7-3.8,3.8-3.8s3.8,1.6,3.8,3.8c0,2.1-1.7,' +
+          '3.8-3.8,3.8S13,20.5,13,18.4z M7.5,25.6l2.1,2.1l3.6-3.6c1,0.6,2.3' +
+          ',1.1,3.6,1.1'#13#10#9#9'c3.8,0,6.8-3,6.8-6.8s-3-6.8-6.8-6.8s-6.8,3-6.8,6' +
+          '.8c0,1.3,0.5,2.5,1,3.6L7.5,25.6z M13,18.4c0-2.1,1.7-3.8,3.8-3.8'#13 +
+          #10#9#9's3.8,1.6,3.8,3.8c0,2.1-1.7,3.8-3.8,3.8S13,20.5,13,18.4z"/>'#13#10#9 +
+          '<path d="M19,1H7C5.3,1,4,2.3,4,4v24c0,1.7,1.3,3,3,3h18c1.7,0,3-1' +
+          '.3,3-3V10L19,1z M25,28H7V4h10.5v7.5H25V28z"/>'#13#10'</svg>'#13#10
+      end
+      item
+        IconName = 'Browser\Print'
+        SVGText = 
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M26.5,10H25V2.5H7V10H5.5C3,' +
+          '10,1,11.9,1,14.5v9h6v6h18v-6h6v-9C31,11.9,28.9,10,26.5,10z M10,5' +
+          '.5h12V10H10V5.5z M22,23.5v3'#13#10#9#9'H10v-6h12V23.5z M25,20.5v-3H7v3H4' +
+          'v-6C4,13.7,4.8,13,5.5,13h21c0.9,0,1.5,0.8,1.5,1.5v6H25z"/>'#13#10#9'<ci' +
+          'rcle cx="25" cy="15.2" r="1.5"/>'#13#10'</svg>'#13#10
+      end
+      item
+        IconName = 'Browser\Save'
+        SVGText = 
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M23.5,2.5h-18c-1.7,0-3,1.4-' +
+          '3,3v21c0,1.6,1.3,3,3,3h21c1.6,0,3-1.4,3-3v-18L23.5,2.5z M26.5,26' +
+          '.5h-21v-21h16.8l4.2,4.2'#13#10#9#9'C26.5,9.7,26.5,26.5,26.5,26.5z M16,16' +
+          'c-2.5,0-4.5,1.9-4.5,4.5s2,4.5,4.5,4.5s4.5-1.9,4.5-4.5S18.6,16,16' +
+          ',16z M7,7h13.5v6H7V7z"/>'#13#10'</svg>'#13#10
       end>
     Left = 32
     Top = 264
@@ -21256,129 +21258,143 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'CodeImages\Class'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><pat' +
-          'h d="m23.5 23.1c0 .8-.7 1.5-1.5 1.5h-8.2c-.8 0-1.5-.7-1.5-1.5v-1' +
-          '0.4h-3.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h12c.8 0 1.5.7 1.5 1' +
-          '.5s-.7 1.5-1.5 1.5h-5.5v8.9h6.7c.8 0 1.5.7 1.5 1.5z"/><path d="m' +
-          '23.5 18.7c-.4 0-.9-.2-1.2-.5l-3.8-3.8c-.7-.7-.7-1.8 0-2.5l6.5-6.' +
-          '6c.7-.7 1.8-.7 2.5 0l3.8 3.8c.7.7.7 1.8 0 2.5l-6.6 6.6c-.3.3-.7.' +
-          '5-1.2.5zm-1.4-5.6 1.4 1.4 4.1-4.1-1.4-1.4z" fill="#48f"/><path d' +
-          '="m6.3 15.7c-.4 0-.9-.2-1.2-.5l-4.5-4.5c-.7-.7-.7-1.8 0-2.5l7.7-' +
-          '7.7c.7-.7 1.8-.7 2.5 0l4.4 4.5c.7.7.7 1.8 0 2.5l-7.7 7.7c-.3.3-.' +
-          '8.5-1.2.5zm-2-6.2 2 2 5.2-5.2-2-2z" fill="#ffce00"/><path d="m23' +
-          ' 32c-.4 0-.9-.2-1.2-.5l-3.8-3.8c-.7-.7-.7-1.8 0-2.5l6.6-6.6c.7-.' +
-          '7 1.8-.7 2.5 0l3.8 3.8c.7.7.7 1.8 0 2.5l-6.6 6.6c-.4.3-.8.5-1.3.' +
-          '5zm-1.3-5.6 1.4 1.4 4.1-4.1-1.4-1.4z" fill="#e24444"/></svg>'
+          '<svg viewBox="0 0 32 32" >'#13#10#9'<path d="M23.5,23.1c0,0.8-0.7,1.5-1' +
+          '.5,1.5h-8.2c-0.8,0-1.5-0.7-1.5-1.5V12.7H8.8c-0.8,0-1.5-0.7-1.5-1' +
+          '.5c0-0.8,0.7-1.5,1.5-1.5h12'#13#10#9#9'c0.8,0,1.5,0.7,1.5,1.5c0,0.8-0.7,' +
+          '1.5-1.5,1.5h-5.5v8.9H22C22.8,21.6,23.5,22.3,23.5,23.1z"/>'#13#10#9'<pat' +
+          'h fill="#4488FF"  d="M23.5,18.7c-0.4,0-0.9-0.2-1.2-0.5l-3.8-3.8c' +
+          '-0.7-0.7-0.7-1.8,0-2.5L25,5.3c0.7-0.7,1.8-0.7,2.5,0l3.8,3.8'#13#10#9#9'c' +
+          '0.7,0.7,0.7,1.8,0,2.5l-6.6,6.6C24.4,18.5,24,18.7,23.5,18.7z M22.' +
+          '1,13.1l1.4,1.4l4.1-4.1L26.2,9L22.1,13.1z"/>'#13#10#9'<path fill="#FFCE0' +
+          '0"  d="M6.3,15.7c-0.4,0-0.9-0.2-1.2-0.5l-4.5-4.5c-0.7-0.7-0.7-1.' +
+          '8,0-2.5l7.7-7.7c0.7-0.7,1.8-0.7,2.5,0L15.2,5'#13#10#9#9'c0.7,0.7,0.7,1.8' +
+          ',0,2.5l-7.7,7.7C7.2,15.5,6.7,15.7,6.3,15.7z M4.3,9.5l2,2l5.2-5.2' +
+          'l-2-2L4.3,9.5z"/>'#13#10#9'<path fill="#E24444"  d="M23,32c-0.4,0-0.9-0' +
+          '.2-1.2-0.5l-3.8-3.8c-0.7-0.7-0.7-1.8,0-2.5l6.6-6.6c0.7-0.7,1.8-0' +
+          '.7,2.5,0l3.8,3.8'#13#10#9#9'c0.7,0.7,0.7,1.8,0,2.5l-6.6,6.6C23.9,31.8,23' +
+          '.5,32,23,32z M21.7,26.4l1.4,1.4l4.1-4.1l-1.4-1.4L21.7,26.4z"/>'#13#10 +
+          '</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Field'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m13.6 29.3c-.6 0-1.1-.2-1' +
-          '.5-.6l-8.8-8.8c-.8-.8-.8-2.2 0-3.1l13.5-13.5c.8-.8 2.2-.8 3.1 0l' +
-          '8.8 8.8c.8.8.8 2.2 0 3.1l-13.5 13.5c-.5.4-1 .6-1.6.6zm-5.7-10.9 ' +
-          '5.7 5.7 10.4-10.4-5.7-5.7z" fill="#e24444"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path fill="#E24444" d="M13.6,29.3c-' +
+          '0.6,0-1.1-0.2-1.5-0.6l-8.8-8.8c-0.8-0.8-0.8-2.2,0-3.1L16.8,3.3c0' +
+          '.8-0.8,2.2-0.8,3.1,0l8.8,8.8'#13#10#9#9'c0.8,0.8,0.8,2.2,0,3.1L15.2,28.7' +
+          'C14.7,29.1,14.2,29.3,13.6,29.3z M7.9,18.4l5.7,5.7l10.4-10.4l-5.7' +
+          '-5.7L7.9,18.4z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Function'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><g fill="#48f"><path d="m3.9 9.7h6' +
-          '.5v3.5h-6.5z"/><path d="m.5 16.1h9.9v3.5h-9.9z"/><path d="m.5 22' +
-          '.6h11.9v3.5h-11.9z"/><path d="m31.2 13.9-8.7-8.3c-.6-.6-1.6-.6-2' +
-          '.3-.1l-6.2 4.9c-.1.1-.3.2-.4.3s-.2.3-.3.4c0 0-.1.1-.1.1v.1c-.1.2' +
-          '-.1.4-.1.6v5.2c0 .5.2.9.5 1.3l8.3 8c.3.3.8.5 1.2.5s.8-.2 1.2-.5l' +
-          '5.8-5.3c.3-.3.5-.6.5-1l.9-4.6c.3-.5.1-1.1-.3-1.6zm-10-4.7 6.3 6-' +
-          '3.4 2.9-6.5-6.1z"/></g></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10'<g fill="#4488FF">'#13#10#9'<rect x="3.9" y=' +
+          '"9.7" width="6.5" height="3.5"/>'#13#10#9'<rect x="0.5" y="16.1" width=' +
+          '"9.9" height="3.5"/>'#13#10#9'<rect x="0.5" y="22.6" width="11.9" heigh' +
+          't="3.5"/>'#13#10#9'<path d="M31.2,13.9l-8.7-8.3c-0.6-0.6-1.6-0.6-2.3-0.' +
+          '1L14,10.4c-0.1,0.1-0.3,0.2-0.4,0.3c-0.1,0.1-0.2,0.3-0.3,0.4'#13#10#9#9'c' +
+          '0,0-0.1,0.1-0.1,0.1c0,0,0,0,0,0.1c-0.1,0.2-0.1,0.4-0.1,0.6l0,5.2' +
+          'c0,0.5,0.2,0.9,0.5,1.3l8.3,8c0.3,0.3,0.8,0.5,1.2,0.5'#13#10#9#9'c0.4,0,0' +
+          '.8-0.2,1.2-0.5l5.8-5.3c0.3-0.3,0.5-0.6,0.5-1l0.9-4.6C31.8,15,31.' +
+          '6,14.4,31.2,13.9z M21.2,9.2l6.3,6l-3.4,2.9L17.6,12'#13#10#9#9'L21.2,9.2z' +
+          '"/>'#13#10'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Keyword'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m16.9 12.2c-1.4-3.1-4.6-5' +
-          '.1-8-5.1-5 .1-8.9 3.9-8.9 8.9s3.9 8.8 8.9 8.8c3.4 0 6.6-2 8-5.1h' +
-          '4.2v5.1h7.5v-5h3.4v-7.7h-15.1zm-8 7.6c-2.1 0-3.8-1.8-3.8-3.8s1.7' +
-          '-3.8 3.8-3.8c2 0 3.8 1.8 3.8 3.8s-1.8 3.8-3.8 3.8z" fill="#ffce0' +
-          '0"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path fill="#FFCE00" d="M16.9,12.2c-' +
+          '1.4-3.1-4.6-5.1-8-5.1C3.9,7.2,0,11,0,16s3.9,8.8,8.9,8.8c3.4,0,6.' +
+          '6-2,8-5.1h4.2v5.1h7.5v-5H32'#13#10#9#9'v-7.7H16.9z M8.9,19.8c-2.1,0-3.8-' +
+          '1.8-3.8-3.8s1.7-3.8,3.8-3.8c2,0,3.8,1.8,3.8,3.8S10.9,19.8,8.9,19' +
+          '.8z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\List'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g f' +
-          'ill="#48f"><path d="m13.2 4.4h-4.4v23.3h4.4v3.2h-8.7v-29.8h8.7z"' +
-          '/><path d="m18.8 1.1h8.7v29.7h-8.7v-3.2h4.4v-23.2h-4.4z"/></g></' +
-          'svg>'
+          '<svg viewBox="0 0 32 32" >'#13#10'<g fill="#4488FF">'#13#10#9'<path d="M13.2,' +
+          '4.4H8.8v23.3h4.4v3.2H4.5V1.1h8.7V4.4z"/>'#13#10#9'<path d="M18.8,1.1h8.' +
+          '7v29.7h-8.7v-3.2h4.4V4.4h-4.4V1.1z"/>'#13#10'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Method'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><g fill="#e24444"><path d="m3.8 9.' +
-          '7h6.5v3.5h-6.5z"/><path d="m.4 16.1h9.9v3.5h-9.9z"/><path d="m.4' +
-          ' 22.6h11.9v3.5h-11.9z"/><path d="m31.1 13.9-8.7-8.3c-.6-.6-1.6-.' +
-          '6-2.3-.1l-6.2 4.9c-.1.1-.3.2-.4.3s-.2.3-.3.4c0 0-.1.1-.1.1v.1c0 ' +
-          '.2-.1.4-.1.7v5.2c0 .5.2.9.5 1.3l8.3 8c.3.3.8.5 1.2.5s.8-.2 1.2-.' +
-          '5l5.8-5.3c.3-.3.5-.6.5-1l.9-4.6c.3-.6.1-1.3-.3-1.7zm-10-4.7 6.3 ' +
-          '6-3.4 2.9-6.5-6.1z"/></g></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10'<g fill="#E24444"> '#13#10#9'<rect x="3.8" y' +
+          '="9.7" width="6.5" height="3.5"/>'#13#10#9'<rect x="0.4" y="16.1" width' +
+          '="9.9" height="3.5"/>'#13#10#9'<rect x="0.4" y="22.6" width="11.9" heig' +
+          'ht="3.5"/>'#13#10#9'<path d="M31.1,13.9l-8.7-8.3c-0.6-0.6-1.6-0.6-2.3-0' +
+          '.1l-6.2,4.9c-0.1,0.1-0.3,0.2-0.4,0.3c-0.1,0.1-0.2,0.3-0.3,0.4'#13#10#9 +
+          #9'c0,0-0.1,0.1-0.1,0.1c0,0,0,0,0,0.1C13.1,11.5,13,11.7,13,12l0,5.' +
+          '2c0,0.5,0.2,0.9,0.5,1.3l8.3,8c0.3,0.3,0.8,0.5,1.2,0.5'#13#10#9#9'c0.4,0,' +
+          '0.8-0.2,1.2-0.5l5.8-5.3c0.3-0.3,0.5-0.6,0.5-1l0.9-4.6C31.7,15,31' +
+          '.5,14.3,31.1,13.9z M21.1,9.2l6.3,6L24,18.1L17.5,12'#13#10#9#9'L21.1,9.2z' +
+          '"/>'#13#10'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Module'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><pat' +
-          'h d="m30.5 26.3-2.9 2.6c1.7 0 3.1-1.4 3.2-3 0 .1-.1.3-.3.4zm-2.8' +
-          '-20.5h-4.8v-2.7c0-1.8-1.4-3.2-3.2-3.2h-8.1c-1.8 0-3.2 1.4-3.2 3.' +
-          '2v2.7h-5c-1.9 0-3.3 1.4-3.3 3.2v16.7c0 1.8 1.4 3.2 3.2 3.2h16.5l' +
-          '-3.5-3.4h-12.8v-1.3h-2.2v-3.1h2.2v-11.8h23.7v6l3.7 3.5v-9.8c0-1.' +
-          '8-1.4-3.2-3.2-3.2zm-8.4 0h-7.6v-2.5h7.6z"/><g fill="#48f"><path ' +
-          'd="m4.7 15.1h6.4v3.1h-6.4z"/><path d="m1.3 21.2h9.8v3.1h-9.8z"/>' +
-          '<path d="m31.5 19.3-.6-.5-3.7-3.5-4.3-4.1c-.6-.6-1.6-.6-2.3-.1l-' +
-          '6 4.8c-.1.1-.3.2-.4.3s-.2.3-.3.4c0 0 0 .1-.1.1v.1c-.1.2-.1.4-.1.' +
-          '6v5.1c0 .5.2.9.5 1.2l1.9 1.9 3.5 3.4 2.7 2.6c.3.3.8.5 1.2.5s.8-.' +
-          '1 1.2-.4l2.9-2.6 2.9-2.6c.1-.1.3-.3.3-.4.1-.2.1-.3.2-.5l.9-4.5c.' +
-          '2-.8 0-1.4-.4-1.8zm-7 4.1-6.4-6 3.5-2.8 6.2 5.9z"/></g></svg>'
+          '<svg viewBox="0 0 32 32" >'#13#10#9'<path d="M30.5,26.3l-2.9,2.6c1.7,0,' +
+          '3.1-1.4,3.2-3C30.8,26,30.7,26.2,30.5,26.3z M27.7,5.8h-4.8V3.1c0-' +
+          '1.8-1.4-3.2-3.2-3.2h-8.1'#13#10#9#9'c-1.8,0-3.2,1.4-3.2,3.2v2.7h-5C1.5,5' +
+          '.8,0.1,7.2,0.1,9v16.7c0,1.8,1.4,3.2,3.2,3.2h16.5l-3.5-3.4H3.5v-1' +
+          '.3H1.3v-3.1h2.2V9.3h23.7v6'#13#10#9#9'l3.7,3.5V9C30.9,7.2,29.5,5.8,27.7,' +
+          '5.8z M19.3,5.8h-7.6V3.3h7.6V5.8z"/>'#13#10#9'<g fill="#4488FF">'#13#10#9#9'<rec' +
+          't x="4.7" y="15.1" width="6.4" height="3.1"/>'#13#10#9#9'<rect x="1.3" y' +
+          '="21.2" width="9.8" height="3.1"/>'#13#10#9#9'<path d="M31.5,19.3l-0.6-0' +
+          '.5l-3.7-3.5l-4.3-4.1c-0.6-0.6-1.6-0.6-2.3-0.1l-6,4.8c-0.1,0.1-0.' +
+          '3,0.2-0.4,0.3'#13#10#9#9#9'c-0.1,0.1-0.2,0.3-0.3,0.4c0,0,0,0.1-0.1,0.1c0,' +
+          '0,0,0,0,0.1c-0.1,0.2-0.1,0.4-0.1,0.6l0,5.1c0,0.5,0.2,0.9,0.5,1.2' +
+          'l1.9,1.9'#13#10#9#9#9'l3.5,3.4l2.7,2.6c0.3,0.3,0.8,0.5,1.2,0.5c0.4,0,0.8-' +
+          '0.1,1.2-0.4l2.9-2.6l2.9-2.6c0.1-0.1,0.3-0.3,0.3-0.4'#13#10#9#9#9'c0.1-0.2' +
+          ',0.1-0.3,0.2-0.5l0.9-4.5C32.1,20.3,31.9,19.7,31.5,19.3z M24.5,23' +
+          '.4l-6.4-6l3.5-2.8l6.2,5.9L24.5,23.4z"/>'#13#10#9'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Namespace'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g f' +
-          'ill="#48f"><path d="m10.6 31.4c-3.7-1-5.7-3.5-5.7-7.4v-3.1c0-2.2' +
-          '-2.2-3.4-4.1-3.4v-3.2c1.8 0 4-1 4.1-3.1v-3.2c0-1.9.5-3.5 1.4-4.8' +
-          's2.3-2.1 4.3-2.6l.9 2.6c-.8.3-1.5.8-1.8 1.6-.4.7-.7 1.6-.7 2.9v3' +
-          '.4c0 2.3-.9 4-2.8 5 1.9.9 2.8 2.6 2.8 5.1v3.4c0 2.5.9 4 2.5 4.5z' +
-          '"/><path d="m20.6 28.8c1.5-.5 2.5-2.1 2.5-4.5v-3.4c0-2.3.9-4 2.8' +
-          '-4.9-1.9-.9-2.8-2.6-2.8-5v-3.3c0-2.5-.9-4-2.5-4.5l.9-2.6c1.9.5 3' +
-          '.4 1.4 4.3 2.6s1.4 2.7 1.4 4.6v3.4c0 2.1 2.3 3.1 4.1 3.1v3.2c-1.' +
-          '8 0-4.1 1.2-4.1 3.4v3.4c-.1 3.6-1.9 6.1-5.7 7.1z"/></g></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10'<g fill="#4488FF">'#13#10#9'<path d="M10.6,3' +
+          '1.4c-3.7-1-5.7-3.5-5.7-7.4v-3.1c0-2.2-2.2-3.4-4.1-3.4v-3.2c1.8,0' +
+          ',4-1,4.1-3.1V8'#13#10#9#9'c0-1.9,0.5-3.5,1.4-4.8c0.9-1.3,2.3-2.1,4.3-2.6' +
+          'l0.9,2.6C10.7,3.5,10,4,9.7,4.8C9.3,5.5,9,6.4,9,7.7v3.4c0,2.3-0.9' +
+          ',4-2.8,5'#13#10#9#9'C8.1,17,9,18.7,9,21.2v3.4c0,2.5,0.9,4,2.5,4.5L10.6,3' +
+          '1.4z"/>'#13#10#9'<path d="M20.6,28.8c1.5-0.5,2.5-2.1,2.5-4.5v-3.4c0-2.3' +
+          ',0.9-4,2.8-4.9c-1.9-0.9-2.8-2.6-2.8-5V7.7c0-2.5-0.9-4-2.5-4.5'#13#10#9 +
+          #9'l0.9-2.6c1.9,0.5,3.4,1.4,4.3,2.6c0.9,1.2,1.4,2.7,1.4,4.6v3.4c0,' +
+          '2.1,2.3,3.1,4.1,3.1v3.2c-1.8,0-4.1,1.2-4.1,3.4v3.4'#13#10#9#9'c-0.1,3.6-' +
+          '1.9,6.1-5.7,7.1L20.6,28.8z"/>'#13#10'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Python'
         SVGText = 
-          '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><pat' +
-          'h d="m290.9 318.8h-11.3c-1.6 0-2.9 1.3-2.8 2.9v23.4c0 1.6 1.2 2.' +
-          '9 2.8 2.9h17c1.6 0 2.9-1.3 2.8-2.9v-17.6zm-11.3 26.4v-23.4h9.9v7' +
-          '.3h7.1v16.1z" transform="translate(-275.1 -318.4)"/><g transform' +
-          '="matrix(1.45 0 0 1.45 -16.5 -18)"><path d="m20.8 22.5h4.2c1.2 0' +
-          ' 2.1-1 2.1-2.2v-4c-.1-1.2-1-2.1-2.1-2.2 0 0 0 0-.1 0-.6-.1-3.4-.' +
-          '2-4.2 0-1.2.3-1.8.6-2 1.2-.1.3-.1.6-.1 1v1.6h4.2v.6h-5.9c-1.3 0-' +
-          '2.4.9-2.7 2.1-.1.3-.1.5-.2.8 0 .1 0 .2-.1.3-.1.4-.1.8-.1 1.2 0 .' +
-          '7.1 1.4.3 2.1.1.3.2.6.3.8.3.6.6 1 1.1 1.2.3.1.5.2.8.2h1.5v-2c.3-' +
-          '1.6 1.5-2.7 3-2.7zm-.3-5.8c-.4 0-.8-.4-.8-.8s.4-.8.8-.8.8.4.8.8c' +
-          '.1.4-.3.8-.8.8z" fill="#48f"/><path d="m24.9 23.5h-4.2c-1.2 0-2.' +
-          '1 1-2.1 2.2v4c.1 1.2 1 2.1 2.1 2.2h.1c.6.1 3.4.2 4.2 0 1.2-.3 1.' +
-          '8-.6 2-1.2.1-.3.1-.6.1-1v-1.6h-4.2v-.6h5.9c1.3 0 2.4-.9 2.7-2.1.' +
-          '1-.3.1-.5.2-.8 0-.1 0-.2.1-.3.1-.4.1-.8.1-1.2 0-.7-.1-1.4-.3-2.1' +
-          '-.1-.3-.2-.6-.3-.8-.3-.6-.6-1-1.1-1.2-.3-.1-.5-.2-.8-.2h-1.5v2c-' +
-          '.3 1.6-1.5 2.7-3 2.7zm.3 5.8c.4 0 .8.4.8.8s-.4.8-.8.8-.8-.4-.8-.' +
-          '8c-.1-.4.3-.8.8-.8z" fill="#ffce00"/></g></svg>'
+          #65279'<svg viewBox="0 0 32 32" >'#13#10'<g transform="translate(-275.1 -318' +
+          '.4)">'#13#10#9'<path d="M290.9,318.8h-11.3c-1.6,0-2.9,1.3-2.8,2.9v23.4c' +
+          '0,1.6,1.2,2.9,2.8,2.9h17c1.6,0,2.9-1.3,2.8-2.9'#13#10#9#9'v-17.6L290.9,3' +
+          '18.8z M279.6,345.2v-23.4h9.9v7.3h7.1v16.1L279.6,345.2L279.6,345.' +
+          '2z"/>'#13#10'</g>'#13#10'<g transform="translate(-16.5,-18) scale(1.45)">'#13#10#9 +
+          '<path fill="#4488FF" d="M20.8,22.5H25c1.2,0,2.1-1,2.1-2.2v-4c-0.' +
+          '1-1.2-1-2.1-2.1-2.2c0,0,0,0-0.1,0c-0.6-0.1-3.4-0.2-4.2,0'#13#10#9#9'c-1.' +
+          '2,0.3-1.8,0.6-2,1.2c-0.1,0.3-0.1,0.6-0.1,1v1.6h4.2v0.6h-5.9c-1.3' +
+          ',0-2.4,0.9-2.7,2.1c-0.1,0.3-0.1,0.5-0.2,0.8'#13#10#9#9'c0,0.1,0,0.2-0.1,' +
+          '0.3c-0.1,0.4-0.1,0.8-0.1,1.2c0,0.7,0.1,1.4,0.3,2.1c0.1,0.3,0.2,0' +
+          '.6,0.3,0.8c0.3,0.6,0.6,1,1.1,1.2'#13#10#9#9'c0.3,0.1,0.5,0.2,0.8,0.2h1.5' +
+          'v-2C18.1,23.6,19.3,22.5,20.8,22.5z M20.5,16.7c-0.4,0-0.8-0.4-0.8' +
+          '-0.8s0.4-0.8,0.8-0.8'#13#10#9#9's0.8,0.4,0.8,0.8C21.4,16.3,21,16.7,20.5,' +
+          '16.7z"/>'#13#10#9'<path fill="#FFCE00" d="M24.9,23.5h-4.2c-1.2,0-2.1,1-' +
+          '2.1,2.2v4c0.1,1.2,1,2.1,2.1,2.2c0,0,0,0,0.1,0c0.6,0.1,3.4,0.2,4.' +
+          '2,0'#13#10#9#9'c1.2-0.3,1.8-0.6,2-1.2c0.1-0.3,0.1-0.6,0.1-1v-1.6h-4.2v-0' +
+          '.6h5.9c1.3,0,2.4-0.9,2.7-2.1c0.1-0.3,0.1-0.5,0.2-0.8'#13#10#9#9'c0-0.1,0' +
+          '-0.2,0.1-0.3c0.1-0.4,0.1-0.8,0.1-1.2c0-0.7-0.1-1.4-0.3-2.1c-0.1-' +
+          '0.3-0.2-0.6-0.3-0.8c-0.3-0.6-0.6-1-1.1-1.2'#13#10#9#9'c-0.3-0.1-0.5-0.2-' +
+          '0.8-0.2h-1.5v2C27.6,22.4,26.4,23.5,24.9,23.5z M25.2,29.3c0.4,0,0' +
+          '.8,0.4,0.8,0.8c0,0.4-0.4,0.8-0.8,0.8'#13#10#9#9's-0.8-0.4-0.8-0.8C24.3,2' +
+          '9.7,24.7,29.3,25.2,29.3z"/>'#13#10'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'CodeImages\Variable'
         SVGText = 
-          '<svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns' +
-          '="http://www.w3.org/2000/svg"><path d="m13.6 29.3c-.6 0-1.1-.2-1' +
-          '.5-.6l-8.8-8.8c-.8-.8-.8-2.2 0-3.1l13.5-13.5c.8-.8 2.2-.8 3.1 0l' +
-          '8.8 8.8c.8.8.8 2.2 0 3.1l-13.5 13.5c-.5.4-1 .6-1.6.6zm-5.7-10.9 ' +
-          '5.7 5.7 10.4-10.4-5.7-5.7z" fill="#48f"/></svg>'
+          '<svg viewBox="0 0 32 32">'#13#10#9'<path fill="#4488FF" d="M13.6,29.3c-' +
+          '0.6,0-1.1-0.2-1.5-0.6l-8.8-8.8c-0.8-0.8-0.8-2.2,0-3.1L16.8,3.3c0' +
+          '.8-0.8,2.2-0.8,3.1,0l8.8,8.8'#13#10#9#9'c0.8,0.8,0.8,2.2,0,3.1L15.2,28.7' +
+          'C14.7,29.1,14.2,29.3,13.6,29.3z M7.9,18.4l5.7,5.7l10.4-10.4l-5.7' +
+          '-5.7L7.9,18.4z"/>'#13#10'</svg>'#13#10
       end>
     Left = 109
     Top = 264
@@ -21429,5 +21445,10 @@ object CommandsDataModule: TCommandsDataModule
       end>
     Left = 176
     Top = 264
+  end
+  object SVGIconImageCollection1: TSVGIconImageCollection
+    SVGIconItems = <>
+    Left = 88
+    Top = 328
   end
 end
