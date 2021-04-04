@@ -111,7 +111,7 @@ inherited RemoteFileDialog: TRemoteFileDialog
         Disabled = False
         Name = 'Setup'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 16
     Top = 80

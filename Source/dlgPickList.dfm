@@ -152,7 +152,7 @@ inherited PickListDialog: TPickListDialog
         Disabled = False
         Name = 'TreeDeselectAll'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 224
     Top = 112

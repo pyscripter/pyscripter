@@ -324,47 +324,48 @@ inherited PythonIIForm: TPythonIIForm
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 11
+        CollectionIndex = 17
         CollectionName = 'Cut'
         Disabled = False
         Name = 'Cut'
       end
       item
-        CollectionIndex = 12
+        CollectionIndex = 16
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 13
+        CollectionIndex = 64
         CollectionName = 'Paste'
         Disabled = False
         Name = 'Paste'
       end
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 22
+        CollectionIndex = 62
         CollectionName = 'Options'
         Disabled = False
         Name = 'Options'
       end
       item
-        CollectionIndex = -1
+        CollectionIndex = 83
+        CollectionName = 'Python'
         Disabled = False
-        Name = 'Item129'
+        Name = 'Python'
       end
       item
-        CollectionIndex = 154
+        CollectionIndex = 80
         CollectionName = 'PySetup'
         Disabled = False
         Name = 'PySetup'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 40
     Top = 216

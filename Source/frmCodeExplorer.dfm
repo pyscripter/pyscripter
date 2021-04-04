@@ -258,7 +258,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         Disabled = False
         Name = 'Highlight'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 24
     Top = 232

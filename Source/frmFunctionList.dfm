@@ -398,7 +398,7 @@ inherited FunctionListWindow: TFunctionListWindow
         Disabled = False
         Name = 'ViewStart'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 33
     Top = 238

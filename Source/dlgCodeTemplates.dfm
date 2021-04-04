@@ -299,7 +299,7 @@ inherited CodeTemplates: TCodeTemplates
         Disabled = False
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 320
     Top = 27

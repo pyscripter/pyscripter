@@ -149,7 +149,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
         Disabled = False
         Name = 'BreakpointsRemove'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 16
     Top = 120

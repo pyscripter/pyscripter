@@ -403,84 +403,84 @@ inherited FindResultsWindow: TFindResultsWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 4
+        CollectionIndex = 2
         CollectionName = 'Save'
         Disabled = False
         Name = 'Save'
       end
       item
-        CollectionIndex = 8
+        CollectionIndex = 6
         CollectionName = 'Print'
         Disabled = False
         Name = 'Print'
       end
       item
-        CollectionIndex = 12
+        CollectionIndex = 10
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 13
         CollectionName = 'Search'
         Disabled = False
         Name = 'Search'
       end
       item
-        CollectionIndex = 17
+        CollectionIndex = 15
         CollectionName = 'Replace'
         Disabled = False
         Name = 'Replace'
       end
       item
-        CollectionIndex = 18
+        CollectionIndex = 16
         CollectionName = 'ReplaceAll'
         Disabled = False
         Name = 'ReplaceAll'
       end
       item
-        CollectionIndex = 22
+        CollectionIndex = 20
         CollectionName = 'Options'
         Disabled = False
         Name = 'Options'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 26
         CollectionName = 'Expand'
         Disabled = False
         Name = 'Expand'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 27
         CollectionName = 'Collapse'
         Disabled = False
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 32
+        CollectionIndex = 29
         CollectionName = 'GoToLine'
         Disabled = False
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 30
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 35
         CollectionName = 'Abort'
         Disabled = False
         Name = 'Abort'
       end
       item
-        CollectionIndex = 42
+        CollectionIndex = 37
         CollectionName = 'FindRefresh'
         Disabled = False
         Name = 'FindRefresh'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 173
     Top = 96

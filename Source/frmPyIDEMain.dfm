@@ -149,7 +149,7 @@ object PyIDEMainForm: TPyIDEMainForm
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
       ActiveTabIndex = -1
-      Images = vilImages
+      Images = vilImagesByIndex
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
@@ -163,7 +163,6 @@ object PyIDEMainForm: TPyIDEMainForm
         Tag = 1
         Hint = 'Select File'
         ImageIndex = 2
-        Images = vilImagesByIndex
         Options = [tboDropdownArrow]
         DropdownCombo = True
         LinkSubitems = mnFiles
@@ -173,7 +172,6 @@ object PyIDEMainForm: TPyIDEMainForm
         Hint = 'Scroll left'
         Enabled = False
         ImageIndex = 4
-        Images = vilImagesByIndex
         Options = [tboToolbarStyle]
         OnClick = tbiScrollLeftClick
       end
@@ -182,7 +180,6 @@ object PyIDEMainForm: TPyIDEMainForm
         Hint = 'Scroll right'
         Enabled = False
         ImageIndex = 3
-        Images = vilImagesByIndex
         Options = [tboToolbarStyle]
         OnClick = tbiScrollRightClick
         FontSettings.Name = 'Marlett'
@@ -190,6 +187,7 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabClose: TSpTBXItem
         Tag = 1
         Action = CommandsDataModule.actFileClose
+        ImageIndex = 7
         Options = [tboToolbarStyle]
       end
     end
@@ -871,6 +869,7 @@ object PyIDEMainForm: TPyIDEMainForm
           end
           object SpTBXItem4: TSpTBXItem
             Action = actPythonSetup
+            Images = vilImages
           end
         end
         object mnPythonEngines: TSpTBXSubmenuItem
@@ -1531,7 +1530,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Show/Hide Call Stack window'
-      ImageIndex = 63
+      ImageIndex = 55
       ImageName = 'CallStack'
       OnExecute = actCallStackWinExecute
     end
@@ -1542,7 +1541,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Show/Hide Variables window'
-      ImageIndex = 65
+      ImageIndex = 56
       ImageName = 'VariablesWin'
       OnExecute = actVariablesWinExecute
     end
@@ -1552,7 +1551,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Syntax Check|Perform syntax check and load scripts'
-      ImageIndex = 20
+      ImageIndex = 18
       ImageName = 'Check'
       OnExecute = actSyntaxCheckExecute
     end
@@ -1562,7 +1561,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Run|Run active module'
-      ImageIndex = 51
+      ImageIndex = 46
       ImageName = 'Run'
       ShortCut = 16504
       OnExecute = actRunExecute
@@ -1581,7 +1580,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Import module'
-      ImageIndex = 34
+      ImageIndex = 31
       ImageName = 'RunScript'
       OnExecute = actImportModuleExecute
     end
@@ -1591,7 +1590,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 310
       HelpType = htContext
       Hint = 'New Python module'
-      ImageIndex = 129
+      ImageIndex = 108
       ImageName = 'PythonScript'
       ShortCut = 16462
       OnExecute = actFileNewModuleExecute
@@ -1602,7 +1601,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 310
       HelpType = htContext
       Hint = 'Select a file to open'
-      ImageIndex = 1
+      ImageIndex = 0
       ImageName = 'FileOpen'
       ShortCut = 16463
       OnExecute = actFileOpenExecute
@@ -1614,7 +1613,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 310
       HelpType = htContext
       Hint = 'Close all files'
-      ImageIndex = 150
+      ImageIndex = 125
       ImageName = 'TabsClose'
       ShortCut = 24691
       OnExecute = actFileCloseAllExecute
@@ -1625,7 +1624,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 310
       HelpType = htContext
       Hint = 'Exit'
-      ImageIndex = 44
+      ImageIndex = 39
       ImageName = 'Exit'
       ShortCut = 32883
       OnExecute = actFileExitExecute
@@ -1644,7 +1643,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'External Run|Run active module in external Python interpreter'
-      ImageIndex = 27
+      ImageIndex = 25
       ImageName = 'ExternalRun'
       ShortCut = 32888
       OnExecute = actExternalRunExecute
@@ -1655,7 +1654,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Configure External Run'
-      ImageIndex = 88
+      ImageIndex = 75
       ImageName = 'ExternalRunSetup'
       OnExecute = actExternalRunConfigureExecute
     end
@@ -1664,7 +1663,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Debug Last Script'
       HelpType = htContext
       Hint = 'Debug last script'
-      ImageIndex = 145
+      ImageIndex = 120
       ImageName = 'DebugLast'
       ShortCut = 8312
       OnExecute = actRunDebugLastScriptExecute
@@ -1675,7 +1674,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Debug|Debug active script'
-      ImageIndex = 53
+      ImageIndex = 48
       ImageName = 'Debug'
       ShortCut = 120
       OnExecute = actDebugExecute
@@ -1686,7 +1685,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 270
       HelpType = htContext
       Hint = 'Restore editor window'
-      ImageIndex = 119
+      ImageIndex = 99
       ImageName = 'EditorMin'
       ShortCut = 41050
       OnExecute = actRestoreEditorExecute
@@ -1697,7 +1696,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Run to cursor'
-      ImageIndex = 54
+      ImageIndex = 49
       ImageName = 'RunToCursor'
       ShortCut = 115
       OnExecute = actRunToCursorExecute
@@ -1708,7 +1707,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Step into subroutine '
-      ImageIndex = 56
+      ImageIndex = 50
       ImageName = 'StepIn'
       ShortCut = 118
       OnExecute = actStepIntoExecute
@@ -1719,7 +1718,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Step over next function call'
-      ImageIndex = 57
+      ImageIndex = 51
       ImageName = 'StepOver'
       ShortCut = 119
       OnExecute = actStepOverExecute
@@ -1730,7 +1729,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Step out of the current subroutine'
-      ImageIndex = 58
+      ImageIndex = 52
       ImageName = 'StepOut'
       ShortCut = 8311
       OnExecute = actStepOutExecute
@@ -1741,7 +1740,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Pause running program'
-      ImageIndex = 116
+      ImageIndex = 97
       ImageName = 'Pause'
       OnExecute = actDebugPauseExecute
     end
@@ -1751,7 +1750,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Abort debugging'
-      ImageIndex = 40
+      ImageIndex = 35
       ImageName = 'Abort'
       ShortCut = 49272
       OnExecute = actDebugAbortExecute
@@ -1761,7 +1760,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Run Last Script Externally'
       HelpType = htContext
       Hint = 'Run last script externally'
-      ImageIndex = 146
+      ImageIndex = 121
       ImageName = 'ExternalRunLast'
       ShortCut = 41080
       OnExecute = actRunLastScriptExternalExecute
@@ -1771,7 +1770,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Run Last Script'
       HelpType = htContext
       Hint = 'Run last script'
-      ImageIndex = 144
+      ImageIndex = 119
       ImageName = 'RunLast'
       ShortCut = 24696
       OnExecute = actRunLastScriptExecute
@@ -1782,7 +1781,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Toggle breakpoint'
-      ImageIndex = 60
+      ImageIndex = 53
       ImageName = 'Breakpoint'
       ShortCut = 116
       OnExecute = actToggleBreakPointExecute
@@ -1793,7 +1792,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Clear all breakpoints'
-      ImageIndex = 61
+      ImageIndex = 54
       ImageName = 'BreakpointsRemove'
       OnExecute = actClearAllBreakpointsExecute
     end
@@ -1804,7 +1803,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Show/Hide Breakpoints window'
-      ImageIndex = 67
+      ImageIndex = 58
       ImageName = 'BreakpointsWin'
       OnExecute = actBreakPointsWinExecute
     end
@@ -1815,7 +1814,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Show/Hide Watches window'
-      ImageIndex = 66
+      ImageIndex = 57
       ImageName = 'WatchesWin'
       OnExecute = actWatchesWinExecute
     end
@@ -1826,8 +1825,8 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Show/Hide Messages window'
-      ImageIndex = 75
-      ImageName = 'MessageWin'
+      ImageIndex = 63
+      ImageName = 'MessagesWin'
       OnExecute = actMessagesWinExecute
     end
     object actViewII: TAction
@@ -1837,7 +1836,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide Interactive Interpreter'
-      ImageIndex = 128
+      ImageIndex = 107
       ImageName = 'Python'
       OnExecute = actViewIIExecute
     end
@@ -1848,7 +1847,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide Code Explorer'
-      ImageIndex = 76
+      ImageIndex = 64
       ImageName = 'CodeExplorer'
       OnExecute = actViewCodeExplorerExecute
     end
@@ -1859,7 +1858,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide File Explorer'
-      ImageIndex = 84
+      ImageIndex = 71
       ImageName = 'FileExplorer'
       OnExecute = actViewFileExplorerExecute
     end
@@ -1869,7 +1868,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide To Do List'
-      ImageIndex = 85
+      ImageIndex = 72
       ImageName = 'TodoWin'
       OnExecute = actViewToDoListExecute
     end
@@ -1879,7 +1878,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide Find in Files Results'
-      ImageIndex = 87
+      ImageIndex = 74
       ImageName = 'FindResults'
       ShortCut = 49222
       OnExecute = actViewFindResultsExecute
@@ -1890,7 +1889,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide Output Window'
-      ImageIndex = 89
+      ImageIndex = 76
       ImageName = 'CmdOuputWin'
       OnExecute = actViewOutputExecute
     end
@@ -1899,7 +1898,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Unit Tests'
       HelpType = htContext
       Hint = 'View/Hide Unit Tests Window'
-      ImageIndex = 103
+      ImageIndex = 86
       ImageName = 'UnitTestWin'
       OnExecute = actViewUnitTestsExecute
     end
@@ -1926,7 +1925,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 830
       HelpType = htContext
       Hint = 'Browse back'
-      ImageIndex = 96
+      ImageIndex = 82
       ImageName = 'ArrowLeft'
       ShortCut = 32805
       OnExecute = tbiBrowsePreviousClick
@@ -1937,7 +1936,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 830
       HelpType = htContext
       Hint = 'Browse forward'
-      ImageIndex = 97
+      ImageIndex = 83
       ImageName = 'ArrowRight'
       ShortCut = 32807
       OnExecute = tbiBrowseNextClick
@@ -1948,7 +1947,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide Regular Expression Tester'
-      ImageIndex = 101
+      ImageIndex = 84
       ImageName = 'RegExp'
       OnExecute = actViewRegExpTesterExecute
     end
@@ -1979,7 +1978,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 270
       HelpType = htContext
       Hint = 'Maximize editor window'
-      ImageIndex = 118
+      ImageIndex = 98
       ImageName = 'EditorMax'
       ShortCut = 32858
       OnExecute = actMaximizeEditorExecute
@@ -1989,7 +1988,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Zoom &In'
       HelpType = htContext
       Hint = 'Increase the font size of the editor'
-      ImageIndex = 112
+      ImageIndex = 93
       ImageName = 'ZoomIn'
       ShortCut = 32875
       OnExecute = actEditorZoomInExecute
@@ -1999,7 +1998,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Zoom &Out'
       HelpType = htContext
       Hint = 'Decrease the font size of the editor'
-      ImageIndex = 113
+      ImageIndex = 94
       ImageName = 'ZoomOut'
       ShortCut = 32877
       OnExecute = actEditorZoomOutExecute
@@ -2010,7 +2009,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Split the editor Windows vertically'
-      ImageIndex = 125
+      ImageIndex = 104
       ImageName = 'SplitVertical'
       OnExecute = actViewSplitEditorVerExecute
     end
@@ -2020,7 +2019,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Add the expression at the editor current position as a watch'
-      ImageIndex = 66
+      ImageIndex = 57
       ImageName = 'WatchesWin'
       ShortCut = 32855
       OnExecute = actAddWatchAtCursorExecute
@@ -2089,7 +2088,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Watches'
       HelpType = htContext
       Hint = 'Activate the Watches window'
-      ImageIndex = 66
+      ImageIndex = 57
       ImageName = 'WatchesWin'
       ShortCut = 49239
       OnExecute = actNavWatchesExecute
@@ -2099,7 +2098,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&BreakPoints'
       HelpType = htContext
       Hint = 'Activate the Breakpoints window'
-      ImageIndex = 67
+      ImageIndex = 58
       ImageName = 'BreakpointsWin'
       ShortCut = 49218
       OnExecute = actNavBreakpointsExecute
@@ -2109,7 +2108,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Interpreter'
       HelpType = htContext
       Hint = 'Activate the Interpreter window'
-      ImageIndex = 128
+      ImageIndex = 107
       ImageName = 'Python'
       ShortCut = 49225
       OnExecute = actNavInterpreterExecute
@@ -2119,7 +2118,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Variables'
       HelpType = htContext
       Hint = 'Activate the Variables window'
-      ImageIndex = 65
+      ImageIndex = 56
       ImageName = 'VariablesWin'
       ShortCut = 49238
       OnExecute = actNavVariablesExecute
@@ -2129,7 +2128,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Call Stack'
       HelpType = htContext
       Hint = 'Activate the Call Stack window'
-      ImageIndex = 63
+      ImageIndex = 55
       ImageName = 'CallStack'
       ShortCut = 49235
       OnExecute = actNavCallStackExecute
@@ -2139,8 +2138,8 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Messages '
       HelpType = htContext
       Hint = 'Activate the Messages window'
-      ImageIndex = 75
-      ImageName = 'MessageWin'
+      ImageIndex = 63
+      ImageName = 'MessagesWin'
       ShortCut = 49229
       OnExecute = actNavMessagesExecute
     end
@@ -2149,7 +2148,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'File E&xplorer'
       HelpType = htContext
       Hint = 'Activate the File Explorer window'
-      ImageIndex = 84
+      ImageIndex = 71
       ImageName = 'FileExplorer'
       ShortCut = 49240
       OnExecute = actNavFileExplorerExecute
@@ -2159,7 +2158,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Code Explorer'
       HelpType = htContext
       Hint = 'Activate the Code Explorer window'
-      ImageIndex = 76
+      ImageIndex = 64
       ImageName = 'CodeExplorer'
       ShortCut = 49219
       OnExecute = actNavCodeExplorerExecute
@@ -2169,7 +2168,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Todo List'
       HelpType = htContext
       Hint = 'Activate the Todo List window'
-      ImageIndex = 85
+      ImageIndex = 72
       ImageName = 'TodoWin'
       ShortCut = 49236
       OnExecute = actNavTodoExecute
@@ -2179,7 +2178,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Unit Tests'
       HelpType = htContext
       Hint = 'Activate the Todo List window'
-      ImageIndex = 103
+      ImageIndex = 86
       ImageName = 'UnitTestWin'
       ShortCut = 49237
       OnExecute = actNavUnitTestsExecute
@@ -2189,7 +2188,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Command &Output'
       HelpType = htContext
       Hint = 'Activate the Command Output window'
-      ImageIndex = 89
+      ImageIndex = 76
       ImageName = 'CmdOuputWin'
       ShortCut = 49231
       OnExecute = actNavOutputExecute
@@ -2199,7 +2198,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Editor'
       HelpType = htContext
       Hint = 'Activate the Editor'
-      ImageIndex = 139
+      ImageIndex = 114
       ImageName = 'Editor'
       ShortCut = 123
       OnExecute = actNavEditorExecute
@@ -2221,7 +2220,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 320
       HelpType = htContext
       Hint = 'Execute the editor selection'
-      ImageIndex = 19
+      ImageIndex = 17
       ImageName = 'Execute'
       ShortCut = 16502
       OnExecute = actExecSelectionExecute
@@ -2232,7 +2231,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Split the editor Windows horizontally'
-      ImageIndex = 126
+      ImageIndex = 105
       ImageName = 'SplitHorizontal'
       OnExecute = actViewSplitEditorHorExecute
     end
@@ -2250,7 +2249,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 340
       HelpType = htContext
       Hint = 'Enter post mortem analysis'
-      ImageIndex = 127
+      ImageIndex = 106
       ImageName = 'PostMortem'
       OnExecute = actPostMortemExecute
     end
@@ -2268,7 +2267,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide Project Explorer'
-      ImageIndex = 131
+      ImageIndex = 109
       ImageName = 'ProjectExplorer'
       OnExecute = actViewProjectExplorerExecute
     end
@@ -2278,7 +2277,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Activate the Project Explorer window'
-      ImageIndex = 131
+      ImageIndex = 109
       ImageName = 'ProjectExplorer'
       ShortCut = 49232
       OnExecute = actNavProjectExplorerExecute
@@ -2291,7 +2290,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 
         'Split workspace vertically|Show secondary editor tabset vertical' +
         'ly aligned'
-      ImageIndex = 125
+      ImageIndex = 104
       ImageName = 'SplitVertical'
       OnExecute = actViewSplitWorkspaceVerExecute
     end
@@ -2303,7 +2302,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 
         'Split workspace horizontally|Show secondary workspace horizontal' +
         'ly aligned'
-      ImageIndex = 126
+      ImageIndex = 105
       ImageName = 'SplitHorizontal'
       OnExecute = actViewSplitWorkspaceHorExecute
     end
@@ -2319,7 +2318,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Category = 'View'
       Caption = 'Styles...'
       Hint = 'Select Style'
-      ImageIndex = 107
+      ImageIndex = 90
       ImageName = 'Styles'
       OnExecute = actSelectStyleExecute
     end
@@ -2327,7 +2326,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Category = 'Run'
       Caption = 'Setup Python Versions...'
       Hint = 'Setup Python engine'
-      ImageIndex = 154
+      ImageIndex = 129
       ImageName = 'PySetup'
       OnExecute = actPythonSetupExecute
     end
@@ -2335,7 +2334,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Category = 'File'
       Caption = 'Open Remote File'
       Hint = 'Open Remote File with SSH'
-      ImageIndex = 161
+      ImageIndex = 134
       ImageName = 'Download'
       OnExecute = actRemoteFileOpenExecute
     end
@@ -2357,253 +2356,223 @@ object PyIDEMainForm: TPyIDEMainForm
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 0
-        CollectionName = 'FileNew'
-        Disabled = False
-        Name = 'FileNew'
-      end
-      item
-        CollectionIndex = 1
+        CollectionIndex = 37
         CollectionName = 'FileOpen'
         Disabled = False
         Name = 'FileOpen'
       end
       item
-        CollectionIndex = 2
+        CollectionIndex = 35
         CollectionName = 'FileClose'
         Disabled = False
         Name = 'FileClose'
       end
       item
-        CollectionIndex = 3
-        CollectionName = 'Item4'
-        Disabled = False
-        Name = 'Item4'
-      end
-      item
-        CollectionIndex = 4
+        CollectionIndex = 98
         CollectionName = 'Save'
         Disabled = False
         Name = 'Save'
       end
       item
-        CollectionIndex = 5
+        CollectionIndex = 99
         CollectionName = 'SaveAll'
         Disabled = False
         Name = 'SaveAll'
       end
       item
-        CollectionIndex = 6
+        CollectionIndex = 71
         CollectionName = 'PrintSetup'
         Disabled = False
         Name = 'PrintSetup'
       end
       item
-        CollectionIndex = 7
+        CollectionIndex = 70
         CollectionName = 'PrintPreview'
         Disabled = False
         Name = 'PrintPreview'
       end
       item
-        CollectionIndex = 8
+        CollectionIndex = 69
         CollectionName = 'Print'
         Disabled = False
         Name = 'Print'
       end
       item
-        CollectionIndex = 9
+        CollectionIndex = 125
         CollectionName = 'Undo'
         Disabled = False
         Name = 'Undo'
       end
       item
-        CollectionIndex = 10
+        CollectionIndex = 86
         CollectionName = 'Redo'
         Disabled = False
         Name = 'Redo'
       end
       item
-        CollectionIndex = 11
+        CollectionIndex = 17
         CollectionName = 'Cut'
         Disabled = False
         Name = 'Cut'
       end
       item
-        CollectionIndex = 12
+        CollectionIndex = 16
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 13
+        CollectionIndex = 64
         CollectionName = 'Paste'
         Disabled = False
         Name = 'Paste'
       end
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 100
         CollectionName = 'Search'
         Disabled = False
         Name = 'Search'
       end
       item
-        CollectionIndex = 16
+        CollectionIndex = 40
         CollectionName = 'FindNext'
         Disabled = False
         Name = 'FindNext'
       end
       item
-        CollectionIndex = 17
+        CollectionIndex = 90
         CollectionName = 'Replace'
         Disabled = False
         Name = 'Replace'
       end
       item
-        CollectionIndex = 18
+        CollectionIndex = 91
         CollectionName = 'ReplaceAll'
         Disabled = False
         Name = 'ReplaceAll'
       end
       item
-        CollectionIndex = 19
+        CollectionIndex = 28
         CollectionName = 'Execute'
         Disabled = False
         Name = 'Execute'
       end
       item
-        CollectionIndex = 20
+        CollectionIndex = 11
         CollectionName = 'Check'
         Disabled = False
         Name = 'Check'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 109
         CollectionName = 'Stop'
         Disabled = False
         Name = 'Stop'
       end
       item
-        CollectionIndex = 22
+        CollectionIndex = 62
         CollectionName = 'Options'
         Disabled = False
         Name = 'Options'
       end
       item
-        CollectionIndex = 23
+        CollectionIndex = 102
         CollectionName = 'Setup'
         Disabled = False
         Name = 'Setup'
       end
       item
-        CollectionIndex = 24
+        CollectionIndex = 1
         CollectionName = 'AppSettings'
         Disabled = False
         Name = 'AppSettings'
       end
       item
-        CollectionIndex = 25
+        CollectionIndex = 45
         CollectionName = 'Folders'
         Disabled = False
         Name = 'Folders'
       end
       item
-        CollectionIndex = 26
+        CollectionIndex = 48
         CollectionName = 'Function'
         Disabled = False
         Name = 'Function'
       end
       item
-        CollectionIndex = 27
+        CollectionIndex = 31
         CollectionName = 'ExternalRun'
         Disabled = False
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 30
         CollectionName = 'Expand'
         Disabled = False
         Name = 'Expand'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 15
         CollectionName = 'Collapse'
         Disabled = False
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 30
+        CollectionIndex = 54
         CollectionName = 'Info'
         Disabled = False
         Name = 'Info'
       end
       item
-        CollectionIndex = 31
-        CollectionName = 'Item32'
-        Disabled = False
-        Name = 'Item32'
-      end
-      item
-        CollectionIndex = 32
+        CollectionIndex = 50
         CollectionName = 'GoToLine'
         Disabled = False
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 51
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
       end
       item
-        CollectionIndex = 34
+        CollectionIndex = 96
         CollectionName = 'RunScript'
         Disabled = False
         Name = 'RunScript'
       end
       item
-        CollectionIndex = 35
+        CollectionIndex = 5
         CollectionName = 'Back'
         Disabled = False
         Name = 'Back'
       end
       item
-        CollectionIndex = 36
+        CollectionIndex = 47
         CollectionName = 'Forward'
         Disabled = False
         Name = 'Forward'
       end
       item
-        CollectionIndex = 37
-        CollectionName = 'Item38'
-        Disabled = False
-        Name = 'Item38'
-      end
-      item
-        CollectionIndex = 38
-        CollectionName = 'Item39'
-        Disabled = False
-        Name = 'Item39'
-      end
-      item
-        CollectionIndex = 39
+        CollectionIndex = 87
         CollectionName = 'Refresh'
         Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 0
         CollectionName = 'Abort'
         Disabled = False
         Name = 'Abort'
       end
       item
-        CollectionIndex = 41
+        CollectionIndex = 66
         CollectionName = 'Pin'
         Disabled = False
         Name = 'Pin'
@@ -2615,726 +2584,594 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'FindRefresh'
       end
       item
-        CollectionIndex = 43
+        CollectionIndex = 57
         CollectionName = 'LineNumbers'
         Disabled = False
         Name = 'LineNumbers'
       end
       item
-        CollectionIndex = 44
+        CollectionIndex = 29
         CollectionName = 'Exit'
         Disabled = False
         Name = 'Exit'
       end
       item
-        CollectionIndex = 45
+        CollectionIndex = 61
         CollectionName = 'OpenFolder'
         Disabled = False
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 46
+        CollectionIndex = 39
         CollectionName = 'Filter'
         Disabled = False
         Name = 'Filter'
       end
       item
-        CollectionIndex = 47
+        CollectionIndex = 127
         CollectionName = 'Up'
         Disabled = False
         Name = 'Up'
       end
       item
-        CollectionIndex = 48
+        CollectionIndex = 22
         CollectionName = 'Down'
         Disabled = False
         Name = 'Down'
       end
       item
-        CollectionIndex = 49
+        CollectionIndex = 67
         CollectionName = 'Plus'
         Disabled = False
         Name = 'Plus'
       end
       item
-        CollectionIndex = 50
+        CollectionIndex = 60
         CollectionName = 'Minus'
         Disabled = False
         Name = 'Minus'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 92
         CollectionName = 'Run'
         Disabled = False
         Name = 'Run'
       end
       item
-        CollectionIndex = 52
+        CollectionIndex = 85
         CollectionName = 'Quit'
         Disabled = False
         Name = 'Quit'
       end
       item
-        CollectionIndex = 53
+        CollectionIndex = 18
         CollectionName = 'Debug'
         Disabled = False
         Name = 'Debug'
       end
       item
-        CollectionIndex = 54
+        CollectionIndex = 97
         CollectionName = 'RunToCursor'
         Disabled = False
         Name = 'RunToCursor'
       end
       item
-        CollectionIndex = 55
-        CollectionName = 'Item56'
-        Disabled = False
-        Name = 'Item56'
-      end
-      item
-        CollectionIndex = 56
+        CollectionIndex = 106
         CollectionName = 'StepIn'
         Disabled = False
         Name = 'StepIn'
       end
       item
-        CollectionIndex = 57
+        CollectionIndex = 108
         CollectionName = 'StepOver'
         Disabled = False
         Name = 'StepOver'
       end
       item
-        CollectionIndex = 58
+        CollectionIndex = 107
         CollectionName = 'StepOut'
         Disabled = False
         Name = 'StepOut'
       end
       item
-        CollectionIndex = 59
-        CollectionName = 'Item60'
-        Disabled = False
-        Name = 'Item60'
-      end
-      item
-        CollectionIndex = 60
+        CollectionIndex = 6
         CollectionName = 'Breakpoint'
         Disabled = False
         Name = 'Breakpoint'
       end
       item
-        CollectionIndex = 61
+        CollectionIndex = 7
         CollectionName = 'BreakpointsRemove'
         Disabled = False
         Name = 'BreakpointsRemove'
       end
       item
-        CollectionIndex = 62
-        CollectionName = 'Item63'
-        Disabled = False
-        Name = 'Item63'
-      end
-      item
-        CollectionIndex = 63
+        CollectionIndex = 10
         CollectionName = 'CallStack'
         Disabled = False
         Name = 'CallStack'
       end
       item
-        CollectionIndex = 64
-        CollectionName = 'Item65'
-        Disabled = False
-        Name = 'Item65'
-      end
-      item
-        CollectionIndex = 65
+        CollectionIndex = 129
         CollectionName = 'VariablesWin'
         Disabled = False
         Name = 'VariablesWin'
       end
       item
-        CollectionIndex = 66
+        CollectionIndex = 132
         CollectionName = 'WatchesWin'
         Disabled = False
         Name = 'WatchesWin'
       end
       item
-        CollectionIndex = 67
+        CollectionIndex = 8
         CollectionName = 'BreakpointsWin'
         Disabled = False
         Name = 'BreakpointsWin'
       end
       item
-        CollectionIndex = 68
-        CollectionName = 'Item69'
-        Disabled = False
-        Name = 'Item69'
-      end
-      item
-        CollectionIndex = 69
+        CollectionIndex = 53
         CollectionName = 'Indent'
         Disabled = False
         Name = 'Indent'
       end
       item
-        CollectionIndex = 70
+        CollectionIndex = 20
         CollectionName = 'Dedent'
         Disabled = False
         Name = 'Dedent'
       end
       item
-        CollectionIndex = 71
-        CollectionName = 'Item72'
-        Disabled = False
-        Name = 'Item72'
-      end
-      item
-        CollectionIndex = 72
-        CollectionName = 'Item73'
-        Disabled = False
-        Name = 'Item73'
-      end
-      item
-        CollectionIndex = 73
+        CollectionIndex = 13
         CollectionName = 'CodeComment'
         Disabled = False
         Name = 'CodeComment'
       end
       item
-        CollectionIndex = 74
+        CollectionIndex = 124
         CollectionName = 'UnCodeComment'
         Disabled = False
         Name = 'UnCodeComment'
       end
       item
-        CollectionIndex = 75
-        CollectionName = 'MessageWin'
+        CollectionIndex = 59
+        CollectionName = 'MessagesWin'
         Disabled = False
-        Name = 'MessageWin'
+        Name = 'MessagesWin'
       end
       item
-        CollectionIndex = 76
+        CollectionIndex = 14
         CollectionName = 'CodeExplorer'
         Disabled = False
         Name = 'CodeExplorer'
       end
       item
-        CollectionIndex = 77
+        CollectionIndex = 79
         CollectionName = 'PyDoc'
         Disabled = False
         Name = 'PyDoc'
       end
       item
-        CollectionIndex = 78
+        CollectionIndex = 63
         CollectionName = 'PageSetup'
         Disabled = False
         Name = 'PageSetup'
       end
       item
-        CollectionIndex = 79
+        CollectionIndex = 112
         CollectionName = 'TabNext'
         Disabled = False
         Name = 'TabNext'
       end
       item
-        CollectionIndex = 80
+        CollectionIndex = 113
         CollectionName = 'TabPrevious'
         Disabled = False
         Name = 'TabPrevious'
       end
       item
-        CollectionIndex = 81
-        CollectionName = 'Item82'
-        Disabled = False
-        Name = 'Item82'
-      end
-      item
-        CollectionIndex = 82
+        CollectionIndex = 120
         CollectionName = 'Tools'
         Disabled = False
         Name = 'Tools'
       end
       item
-        CollectionIndex = 83
+        CollectionIndex = 121
         CollectionName = 'ToolsSetup'
         Disabled = False
         Name = 'ToolsSetup'
       end
       item
-        CollectionIndex = 84
+        CollectionIndex = 36
         CollectionName = 'FileExplorer'
         Disabled = False
         Name = 'FileExplorer'
       end
       item
-        CollectionIndex = 85
+        CollectionIndex = 119
         CollectionName = 'TodoWin'
         Disabled = False
         Name = 'TodoWin'
       end
       item
-        CollectionIndex = 86
+        CollectionIndex = 101
         CollectionName = 'SearchFolder'
         Disabled = False
         Name = 'SearchFolder'
       end
       item
-        CollectionIndex = 87
+        CollectionIndex = 43
         CollectionName = 'FindResults'
         Disabled = False
         Name = 'FindResults'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 33
         CollectionName = 'ExternalRunSetup'
         Disabled = False
         Name = 'ExternalRunSetup'
       end
       item
-        CollectionIndex = 89
+        CollectionIndex = 12
         CollectionName = 'CmdOuputWin'
         Disabled = False
         Name = 'CmdOuputWin'
       end
       item
-        CollectionIndex = 90
-        CollectionName = 'Item91'
-        Disabled = False
-        Name = 'Item91'
-      end
-      item
-        CollectionIndex = 91
+        CollectionIndex = 46
         CollectionName = 'Font'
         Disabled = False
         Name = 'Font'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 24
         CollectionName = 'Edit'
         Disabled = False
         Name = 'Edit'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 130
         CollectionName = 'ViewAny'
         Disabled = False
         Name = 'ViewAny'
       end
       item
-        CollectionIndex = 94
+        CollectionIndex = 131
         CollectionName = 'ViewStart'
         Disabled = False
         Name = 'ViewStart'
       end
       item
-        CollectionIndex = 95
+        CollectionIndex = 103
         CollectionName = 'SpecialChars'
         Disabled = False
         Name = 'SpecialChars'
       end
       item
-        CollectionIndex = 96
+        CollectionIndex = 2
         CollectionName = 'ArrowLeft'
         Disabled = False
         Name = 'ArrowLeft'
       end
       item
-        CollectionIndex = 97
+        CollectionIndex = 3
         CollectionName = 'ArrowRight'
         Disabled = False
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 98
-        CollectionName = 'Item99'
-        Disabled = False
-        Name = 'Item99'
-      end
-      item
-        CollectionIndex = 99
-        CollectionName = 'Item100'
-        Disabled = False
-        Name = 'Item100'
-      end
-      item
-        CollectionIndex = 100
-        CollectionName = 'Item101'
-        Disabled = False
-        Name = 'Item101'
-      end
-      item
-        CollectionIndex = 101
+        CollectionIndex = 88
         CollectionName = 'RegExp'
         Disabled = False
         Name = 'RegExp'
       end
       item
-        CollectionIndex = 102
+        CollectionIndex = 55
         CollectionName = 'Keyboard'
         Disabled = False
         Name = 'Keyboard'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 126
         CollectionName = 'UnitTestWin'
         Disabled = False
         Name = 'UnitTestWin'
       end
       item
-        CollectionIndex = 104
+        CollectionIndex = 123
         CollectionName = 'TreeSelectAll'
         Disabled = False
         Name = 'TreeSelectAll'
       end
       item
-        CollectionIndex = 105
+        CollectionIndex = 122
         CollectionName = 'TreeDeselectAll'
         Disabled = False
         Name = 'TreeDeselectAll'
       end
       item
-        CollectionIndex = 106
+        CollectionIndex = 116
         CollectionName = 'TestsFailed'
         Disabled = False
         Name = 'TestsFailed'
       end
       item
-        CollectionIndex = 107
+        CollectionIndex = 110
         CollectionName = 'Styles'
         Disabled = False
         Name = 'Styles'
       end
       item
-        CollectionIndex = 108
+        CollectionIndex = 56
         CollectionName = 'Layouts'
         Disabled = False
         Name = 'Layouts'
       end
       item
-        CollectionIndex = 109
-        CollectionName = 'Item110'
-        Disabled = False
-        Name = 'Item110'
-      end
-      item
-        CollectionIndex = 110
+        CollectionIndex = 4
         CollectionName = 'Assembly'
         Disabled = False
         Name = 'Assembly'
       end
       item
-        CollectionIndex = 111
-        CollectionName = 'Item112'
-        Disabled = False
-        Name = 'Item112'
-      end
-      item
-        CollectionIndex = 112
+        CollectionIndex = 135
         CollectionName = 'ZoomIn'
         Disabled = False
         Name = 'ZoomIn'
       end
       item
-        CollectionIndex = 113
+        CollectionIndex = 136
         CollectionName = 'ZoomOut'
         Disabled = False
         Name = 'ZoomOut'
       end
       item
-        CollectionIndex = 114
+        CollectionIndex = 34
         CollectionName = 'Favorite'
         Disabled = False
         Name = 'Favorite'
       end
       item
-        CollectionIndex = 115
+        CollectionIndex = 44
         CollectionName = 'FolderAdd'
         Disabled = False
         Name = 'FolderAdd'
       end
       item
-        CollectionIndex = 116
+        CollectionIndex = 65
         CollectionName = 'Pause'
         Disabled = False
         Name = 'Pause'
       end
       item
-        CollectionIndex = 117
-        CollectionName = 'Item118'
-        Disabled = False
-        Name = 'Item118'
-      end
-      item
-        CollectionIndex = 118
+        CollectionIndex = 25
         CollectionName = 'EditorMax'
         Disabled = False
         Name = 'EditorMax'
       end
       item
-        CollectionIndex = 119
+        CollectionIndex = 27
         CollectionName = 'EditorMin'
         Disabled = False
         Name = 'EditorMin'
       end
       item
-        CollectionIndex = 120
-        CollectionName = 'Item121'
-        Disabled = False
-        Name = 'Item121'
-      end
-      item
-        CollectionIndex = 121
+        CollectionIndex = 41
         CollectionName = 'FindPrevious'
         Disabled = False
         Name = 'FindPrevious'
       end
       item
-        CollectionIndex = 122
+        CollectionIndex = 52
         CollectionName = 'Highlight'
         Disabled = False
         Name = 'Highlight'
       end
       item
-        CollectionIndex = 123
+        CollectionIndex = 49
         CollectionName = 'GoToError'
         Disabled = False
         Name = 'GoToError'
       end
       item
-        CollectionIndex = 124
+        CollectionIndex = 134
         CollectionName = 'WordWrap'
         Disabled = False
         Name = 'WordWrap'
       end
       item
-        CollectionIndex = 125
+        CollectionIndex = 105
         CollectionName = 'SplitVertical'
         Disabled = False
         Name = 'SplitVertical'
       end
       item
-        CollectionIndex = 126
+        CollectionIndex = 104
         CollectionName = 'SplitHorizontal'
         Disabled = False
         Name = 'SplitHorizontal'
       end
       item
-        CollectionIndex = 127
+        CollectionIndex = 68
         CollectionName = 'PostMortem'
         Disabled = False
         Name = 'PostMortem'
       end
       item
-        CollectionIndex = 128
+        CollectionIndex = 83
         CollectionName = 'Python'
         Disabled = False
         Name = 'Python'
       end
       item
-        CollectionIndex = 129
+        CollectionIndex = 84
         CollectionName = 'PythonScript'
         Disabled = False
         Name = 'PythonScript'
       end
       item
-        CollectionIndex = 130
-        CollectionName = 'Item131'
-        Disabled = False
-        Name = 'Item131'
-      end
-      item
-        CollectionIndex = 131
+        CollectionIndex = 73
         CollectionName = 'ProjectExplorer'
         Disabled = False
         Name = 'ProjectExplorer'
       end
       item
-        CollectionIndex = 132
-        CollectionName = 'Item133'
-        Disabled = False
-        Name = 'Item133'
-      end
-      item
-        CollectionIndex = 133
+        CollectionIndex = 74
         CollectionName = 'ProjectFile'
         Disabled = False
         Name = 'ProjectFile'
       end
       item
-        CollectionIndex = 134
+        CollectionIndex = 75
         CollectionName = 'ProjectOpen'
         Disabled = False
         Name = 'ProjectOpen'
       end
       item
-        CollectionIndex = 135
+        CollectionIndex = 72
         CollectionName = 'ProjectAdd'
         Disabled = False
         Name = 'ProjectAdd'
       end
       item
-        CollectionIndex = 136
+        CollectionIndex = 76
         CollectionName = 'ProjectRemove'
         Disabled = False
         Name = 'ProjectRemove'
       end
       item
-        CollectionIndex = 137
-        CollectionName = 'Item138'
-        Disabled = False
-        Name = 'Item138'
-      end
-      item
-        CollectionIndex = 138
-        CollectionName = 'Item139'
-        Disabled = False
-        Name = 'Item139'
-      end
-      item
-        CollectionIndex = 139
+        CollectionIndex = 26
         CollectionName = 'Editor'
         Disabled = False
         Name = 'Editor'
       end
       item
-        CollectionIndex = 140
+        CollectionIndex = 77
         CollectionName = 'ProjectSave'
         Disabled = False
         Name = 'ProjectSave'
       end
       item
-        CollectionIndex = 141
+        CollectionIndex = 93
         CollectionName = 'RunConfigAdd'
         Disabled = False
         Name = 'RunConfigAdd'
       end
       item
-        CollectionIndex = 142
+        CollectionIndex = 94
         CollectionName = 'RunConfigEdit'
         Disabled = False
         Name = 'RunConfigEdit'
       end
       item
-        CollectionIndex = 143
+        CollectionIndex = 38
         CollectionName = 'FileProperties'
         Disabled = False
         Name = 'FileProperties'
       end
       item
-        CollectionIndex = 144
+        CollectionIndex = 95
         CollectionName = 'RunLast'
         Disabled = False
         Name = 'RunLast'
       end
       item
-        CollectionIndex = 145
+        CollectionIndex = 19
         CollectionName = 'DebugLast'
         Disabled = False
         Name = 'DebugLast'
       end
       item
-        CollectionIndex = 146
+        CollectionIndex = 32
         CollectionName = 'ExternalRunLast'
         Disabled = False
         Name = 'ExternalRunLast'
       end
       item
-        CollectionIndex = 147
+        CollectionIndex = 58
         CollectionName = 'Link'
         Disabled = False
         Name = 'Link'
       end
       item
-        CollectionIndex = 148
+        CollectionIndex = 133
         CollectionName = 'Web'
         Disabled = False
         Name = 'Web'
       end
       item
-        CollectionIndex = 149
-        CollectionName = 'TabCLose'
+        CollectionIndex = 111
+        CollectionName = 'TabClose'
         Disabled = False
         Name = 'TabCLose'
       end
       item
-        CollectionIndex = 150
+        CollectionIndex = 115
         CollectionName = 'TabsClose'
         Disabled = False
         Name = 'TabsClose'
       end
       item
-        CollectionIndex = 151
+        CollectionIndex = 114
         CollectionName = 'Tabs'
         Disabled = False
         Name = 'Tabs'
       end
       item
-        CollectionIndex = 152
+        CollectionIndex = 118
         CollectionName = 'ThreadRunning'
         Disabled = False
         Name = 'ThreadRunning'
       end
       item
-        CollectionIndex = 153
+        CollectionIndex = 117
         CollectionName = 'ThreadPaused'
         Disabled = False
         Name = 'ThreadPaused'
       end
       item
-        CollectionIndex = 154
+        CollectionIndex = 80
         CollectionName = 'PySetup'
         Disabled = False
         Name = 'PySetup'
       end
       item
-        CollectionIndex = 155
+        CollectionIndex = 81
         CollectionName = 'PySetupAdd'
         Disabled = False
         Name = 'PySetupAdd'
       end
       item
-        CollectionIndex = 156
+        CollectionIndex = 82
         CollectionName = 'PySetupRemove'
         Disabled = False
         Name = 'PySetupRemove'
       end
       item
-        CollectionIndex = 157
-        CollectionName = 'Item158'
-        Disabled = False
-        Name = 'Item158'
-      end
-      item
-        CollectionIndex = 158
-        CollectionName = 'Item159'
-        Disabled = False
-        Name = 'Item159'
-      end
-      item
-        CollectionIndex = 159
+        CollectionIndex = 78
         CollectionName = 'PyActivate'
         Disabled = False
         Name = 'PyActivate'
       end
       item
-        CollectionIndex = 160
+        CollectionIndex = 89
         CollectionName = 'Rename'
         Disabled = False
         Name = 'Rename'
       end
       item
-        CollectionIndex = 161
+        CollectionIndex = 23
         CollectionName = 'Download'
         Disabled = False
         Name = 'Download'
       end
       item
-        CollectionIndex = 162
+        CollectionIndex = 128
         CollectionName = 'Upload'
         Disabled = False
         Name = 'Upload'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 40
     Top = 344
@@ -3344,42 +3181,55 @@ object PyIDEMainForm: TPyIDEMainForm
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 128
+        CollectionIndex = 83
         CollectionName = 'Python'
         Disabled = False
         Name = 'Python'
       end
       item
-        CollectionIndex = 108
+        CollectionIndex = 56
         CollectionName = 'Layouts'
         Disabled = False
         Name = 'Layouts'
       end
       item
-        CollectionIndex = 151
+        CollectionIndex = 114
         CollectionName = 'Tabs'
         Disabled = False
         Name = 'Tabs'
       end
       item
-        CollectionIndex = 79
+        CollectionIndex = 112
         CollectionName = 'TabNext'
         Disabled = False
         Name = 'TabNext'
       end
       item
-        CollectionIndex = 80
+        CollectionIndex = 113
         CollectionName = 'TabPrevious'
         Disabled = False
         Name = 'TabPrevious'
       end
       item
-        CollectionIndex = 82
+        CollectionIndex = 120
         CollectionName = 'Tools'
         Disabled = False
         Name = 'Tools'
+      end
+      item
+        CollectionIndex = 9
+        CollectionName = 'Bug'
+        Disabled = False
+        Name = 'Bug'
+      end
+      item
+        CollectionIndex = 111
+        CollectionName = 'TabClose'
+        Disabled = False
+        Name = 'TabClose'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSVGImages
+    PreserveItems = True
     Left = 112
     Top = 344
   end

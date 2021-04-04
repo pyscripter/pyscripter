@@ -104,7 +104,7 @@ inherited ImportDirectoryForm: TImportDirectoryForm
         Disabled = False
         Name = 'OpenFolder'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 24
     Top = 93

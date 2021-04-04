@@ -245,7 +245,7 @@ inherited MessagesWindow: TMessagesWindow
         Disabled = False
         Name = 'ArrowRight'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 179
     Top = 70

@@ -45,7 +45,6 @@ type
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     tbiPVAdd: TSpTBXItem;
     tbiPVRemove: TSpTBXItem;
-    TBSeparatorItem1: TTBSeparatorItem;
     tbiPVTest: TSpTBXItem;
     tbiPVShow: TSpTBXItem;
     tbiPVCommandPrompt: TSpTBXItem;
@@ -55,6 +54,7 @@ type
     actPVRename: TAction;
     SpTBXItem1: TSpTBXItem;
     vilImages: TVirtualImageList;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
     procedure vtPythonVersionsGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
     procedure FormCreate(Sender: TObject);

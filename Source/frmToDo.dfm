@@ -337,7 +337,7 @@ inherited ToDoWindow: TToDoWindow
         Disabled = False
         Name = 'Abort'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 201
     Top = 64

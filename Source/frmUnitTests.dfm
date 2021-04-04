@@ -459,7 +459,7 @@ inherited UnitTestWindow: TUnitTestWindow
         Disabled = False
         Name = 'TestsFailed'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 152
     Top = 112

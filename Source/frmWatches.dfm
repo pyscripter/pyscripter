@@ -260,7 +260,7 @@ inherited WatchesWindow: TWatchesWindow
         Disabled = False
         Name = 'Edit'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 88
     Top = 136

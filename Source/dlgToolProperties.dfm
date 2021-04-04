@@ -724,7 +724,7 @@ inherited ToolProperties: TToolProperties
         Disabled = False
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 141
     Top = 452

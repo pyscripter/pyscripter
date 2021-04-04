@@ -3246,7 +3246,7 @@ begin
     end).Start;
 
   if HasSyntaxError then
-    ParentTabItem.ImageIndex := 123
+    ParentTabItem.ImageIndex := 6
   else
     ParentTabItem.ImageIndex := -1;
 

@@ -1716,6 +1716,8 @@ begin
 
   //SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;
+
+  MainMenu.Font.Size := MainMenu.Font.Size + 2;
 end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
@@ -3955,10 +3957,6 @@ begin
     mnPythonVersions.Items[i].Checked := PythonLoaded and
       (PyControl.PythonVersionIndex = mnPythonVersions.Items[i].Tag);
   end;
-  case Sender.Tag of
-    0: mnPythonVersions.Items[mnPythonVersions.Count-1].ImageIndex := 154;
-    1: mnPythonVersions.Items[mnPythonVersions.Count-1].ImageIndex := 6;  // from Interpreter
-  end;
 end;
 
 procedure TPyIDEMainForm.SetupSyntaxMenu;
@@ -4978,6 +4976,7 @@ Var
   Editor, ActiveEditor : IEditor;
   List : TStringList;
   MenuItem : TSpTBXItem;
+  ModifiedImageIndex : Integer;
 begin
   mnFiles.Clear;
   ActiveEditor := GetActiveEditor;
@@ -4989,6 +4988,7 @@ begin
     begin
       List.AddObject(Ed.GetFileNameOrTitle, TObject(Ed.Form));
     end);
+    ModifiedImageIndex := vilImages.GetIndexByName('Edit');
     for var I:= 0 to List.Count - 1 do begin
       Editor := TEditorForm(List.Objects[I]).GetEditor;
       MenuItem := TSpTBXItem.Create(Self);
@@ -4998,7 +4998,7 @@ begin
       MenuItem.Hint := Editor.GetFileNameOrTitle;
       MenuItem.Checked := Editor = ActiveEditor;
       if Editor.Modified then
-        MenuItem.ImageIndex := 23;
+        MenuItem.ImageIndex := ModifiedImageIndex;
       MenuItem.OnClick := SelectEditor;
     end;
   finally

@@ -554,7 +554,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Disabled = False
         Name = 'Help'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 40
     Top = 376

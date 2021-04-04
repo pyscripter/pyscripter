@@ -200,7 +200,7 @@ inherited CallStackWindow: TCallStackWindow
         Disabled = False
         Name = 'ThreadPaused'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 423
     Top = 32

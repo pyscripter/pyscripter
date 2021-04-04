@@ -76,7 +76,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       object SpTBXItem1: TSpTBXItem
         Action = actPVRename
       end
-      object TBSeparatorItem1: TTBSeparatorItem
+      object SpTBXSeparatorItem3: TSpTBXSeparatorItem
       end
       object tbiPVTest: TSpTBXItem
         Action = actPVTest
@@ -170,60 +170,60 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 45
+        CollectionIndex = 60
         CollectionName = 'OpenFolder'
         Disabled = False
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 155
+        CollectionIndex = 80
         CollectionName = 'PySetupAdd'
         Disabled = False
         Name = 'PySetupAdd'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 91
         CollectionName = 'Run'
         Disabled = False
         Name = 'Run'
       end
       item
-        CollectionIndex = 156
+        CollectionIndex = 81
         CollectionName = 'PySetupRemove'
         Disabled = False
         Name = 'PySetupRemove'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 50
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
       end
       item
-        CollectionIndex = 89
+        CollectionIndex = 11
         CollectionName = 'CmdOuputWin'
         Disabled = False
         Name = 'CmdOuputWin'
       end
       item
-        CollectionIndex = 27
+        CollectionIndex = 30
         CollectionName = 'ExternalRun'
         Disabled = False
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 159
+        CollectionIndex = 77
         CollectionName = 'PyActivate'
         Disabled = False
         Name = 'PyActivate'
       end
       item
-        CollectionIndex = 160
+        CollectionIndex = 88
         CollectionName = 'Rename'
         Disabled = False
         Name = 'Rename'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 457
     Top = 65

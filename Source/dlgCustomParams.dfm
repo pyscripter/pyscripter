@@ -258,7 +258,7 @@ inherited CustomizeParams: TCustomizeParams
         Disabled = False
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSvgImages
     PreserveItems = True
     Left = 304
     Top = 17

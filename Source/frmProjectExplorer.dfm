@@ -522,126 +522,126 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 25
+        CollectionIndex = 45
         CollectionName = 'Folders'
         Disabled = False
         Name = 'Folders'
       end
       item
-        CollectionIndex = 27
+        CollectionIndex = 31
         CollectionName = 'ExternalRun'
         Disabled = False
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 30
         CollectionName = 'Expand'
         Disabled = False
         Name = 'Expand'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 15
         CollectionName = 'Collapse'
         Disabled = False
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 92
         CollectionName = 'Run'
         Disabled = False
         Name = 'Run'
       end
       item
-        CollectionIndex = 53
+        CollectionIndex = 18
         CollectionName = 'Debug'
         Disabled = False
         Name = 'Debug'
       end
       item
-        CollectionIndex = 133
+        CollectionIndex = 74
         CollectionName = 'ProjectFile'
         Disabled = False
         Name = 'ProjectFile'
       end
       item
-        CollectionIndex = 134
+        CollectionIndex = 75
         CollectionName = 'ProjectOpen'
         Disabled = False
         Name = 'ProjectOpen'
       end
       item
-        CollectionIndex = 135
+        CollectionIndex = 72
         CollectionName = 'ProjectAdd'
         Disabled = False
         Name = 'ProjectAdd'
       end
       item
-        CollectionIndex = 136
+        CollectionIndex = 76
         CollectionName = 'ProjectRemove'
         Disabled = False
         Name = 'ProjectRemove'
       end
       item
-        CollectionIndex = 115
+        CollectionIndex = 44
         CollectionName = 'FolderAdd'
         Disabled = False
         Name = 'FolderAdd'
       end
       item
-        CollectionIndex = 139
+        CollectionIndex = 26
         CollectionName = 'Editor'
         Disabled = False
         Name = 'Editor'
       end
       item
-        CollectionIndex = 140
+        CollectionIndex = 77
         CollectionName = 'ProjectSave'
         Disabled = False
         Name = 'ProjectSave'
       end
       item
-        CollectionIndex = 141
+        CollectionIndex = 93
         CollectionName = 'RunConfigAdd'
         Disabled = False
         Name = 'RunConfigAdd'
       end
       item
-        CollectionIndex = 142
+        CollectionIndex = 94
         CollectionName = 'RunConfigEdit'
         Disabled = False
         Name = 'RunConfigEdit'
       end
       item
-        CollectionIndex = 143
+        CollectionIndex = 38
         CollectionName = 'FileProperties'
         Disabled = False
         Name = 'FileProperties'
       end
       item
-        CollectionIndex = 161
+        CollectionIndex = 23
         CollectionName = 'Download'
         Disabled = False
         Name = 'Download'
       end
       item
-        CollectionIndex = 144
+        CollectionIndex = 95
         CollectionName = 'RunLast'
         Disabled = False
         Name = 'RunLast'
       end
       item
-        CollectionIndex = 145
+        CollectionIndex = 19
         CollectionName = 'DebugLast'
         Disabled = False
         Name = 'DebugLast'
       end
       item
-        CollectionIndex = 146
+        CollectionIndex = 32
         CollectionName = 'ExternalRunLast'
         Disabled = False
         Name = 'ExternalRunLast'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 106
     Top = 160

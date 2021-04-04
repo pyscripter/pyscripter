@@ -295,7 +295,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Go Back'
       ImageIndex = 0
-      ImageName = 'Back'
+      ImageName = 'ArrowLeft'
       OnExecute = actGoBackExecute
     end
     object actGoForward: TAction
@@ -304,7 +304,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HelpContext = 420
       Hint = 'Go Forward'
       ImageIndex = 1
-      ImageName = 'Forward'
+      ImageName = 'ArrowRight'
       OnExecute = actGoForwardExecute
     end
     object actGoUp: TAction
@@ -382,66 +382,66 @@ inherited FileExplorerWindow: TFileExplorerWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 35
-        CollectionName = 'Back'
+        CollectionIndex = 2
+        CollectionName = 'ArrowLeft'
         Disabled = False
-        Name = 'Back'
+        Name = 'ArrowLeft'
       end
       item
-        CollectionIndex = 36
-        CollectionName = 'Forward'
+        CollectionIndex = 3
+        CollectionName = 'ArrowRight'
         Disabled = False
-        Name = 'Forward'
+        Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 86
         CollectionName = 'Refresh'
         Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 45
+        CollectionIndex = 60
         CollectionName = 'OpenFolder'
         Disabled = False
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 46
+        CollectionIndex = 38
         CollectionName = 'Filter'
         Disabled = False
         Name = 'Filter'
       end
       item
-        CollectionIndex = 84
+        CollectionIndex = 35
         CollectionName = 'FileExplorer'
         Disabled = False
         Name = 'FileExplorer'
       end
       item
-        CollectionIndex = 86
+        CollectionIndex = 100
         CollectionName = 'SearchFolder'
         Disabled = False
         Name = 'SearchFolder'
       end
       item
-        CollectionIndex = 114
+        CollectionIndex = 33
         CollectionName = 'Favorite'
         Disabled = False
         Name = 'Favorite'
       end
       item
-        CollectionIndex = 115
+        CollectionIndex = 43
         CollectionName = 'FolderAdd'
         Disabled = False
         Name = 'FolderAdd'
       end
       item
-        CollectionIndex = 25
+        CollectionIndex = 44
         CollectionName = 'Folders'
         Disabled = False
         Name = 'Folders'
       end>
-    ImageCollection = CommandsDataModule.icImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 37
     Top = 310

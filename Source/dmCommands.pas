@@ -249,11 +249,10 @@ type
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
     actDonate: TAction;
-    icImages: TImageCollection;
     icBrowserImages: TSVGIconImageCollection;
     icCodeImages: TSVGIconImageCollection;
     icGutterGlyphs: TSVGIconImageCollection;
-    SVGIconImageCollection1: TSVGIconImageCollection;
+    icSVGImages: TSVGIconImageCollection;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -2234,26 +2233,26 @@ begin
 end;
 
 procedure TCommandsDataModule.UpdateImageCollections;
-begin
-  icBrowserImages.FixedColor := StyleServices.GetSystemColor(clBtnText);
+  procedure ProcessImageCollection(IC: TSVGIconImageCollection;
+    FixedColor: TColor; AntiAliasColor: TColor= clDefault);
+  begin
+    IC.SVGIconItems.BeginUpdate;
+    try
+      for var Item in IC.SvgIconItems do
+        TSvgIconItem(Item).Svg.ApplyFixedColorToRootOnly := True;
+      IC.FixedColor := StyleServices.GetSystemColor(FixedColor);
+      if AntiAliasColor <> clDefault then
+        IC.AntiAliasColor := StyleServices.GetSystemColor(AntiAliasColor);
+    finally
+      IC.SVGIconItems.EndUpdate;
+    end;
+  end;
 
-  icCodeImages.SVGIconItems.BeginUpdate;
-  try
-    for var Item in icCodeImages.SvgIconItems do
-      TSvgIconItem(Item).Svg.ApplyFixedColorToRootOnly := True;
-    icCodeImages.FixedColor := StyleServices.GetSystemColor(clWindowText);
-    icCodeImages.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
-  finally
-    icCodeImages.SVGIconItems.EndUpdate;
-  end;
-  icGutterGlyphs.SVGIconItems.BeginUpdate;
-  try
-    for var Item in icGutterGlyphs.SvgIconItems do
-      TSvgIconItem(Item).Svg.ApplyFixedColorToRootOnly := True;
-    icGutterGlyphs.FixedColor := StyleServices.GetSystemColor(clWindowText);
-  finally
-    icGutterGlyphs.SVGIconItems.EndUpdate;
-  end;
+begin
+  ProcessImageCollection(icBrowserImages, clBtnText);
+  ProcessImageCollection(icCodeImages, clWindowText, clWindow);
+  ProcessImageCollection(icGutterGlyphs, clBtnText);
+  ProcessImageCollection(icSVGImages, clBtnText);
 end;
 
 procedure TCommandsDataModule.UpdateMainActions;
