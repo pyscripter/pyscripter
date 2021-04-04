@@ -20,7 +20,7 @@
 # Backup files    #
 ###################
 *.~*
-/__recovery
+__recovery/
 
 # IDE Files	  #
 ###################
