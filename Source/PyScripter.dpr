@@ -13,10 +13,6 @@ program PyScripter;
 {$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
 
 uses
-//  LeakCheck.Report, // Me first! - I don't have any dependencies but LeakCheck so I finalize after all other units
-//  LeakCheck.Setup.Trace, // (Optional) Then me - Run setup to configure stack tracing for us
-//  LeakCheck.MapFile,
-//  LeakCheck.Trace.Map,
   WinApi.Windows,
   System.SysUtils,
   Vcl.HTMLHelpViewer,
@@ -121,7 +117,8 @@ uses
   RtlVclFixes in 'RtlVclFixes.pas',
   JvDockAdvTree in 'JvDockAdvTree.pas',
   JvDockSupportProc in 'JvDockSupportProc.pas',
-  JvDockTree in 'JvDockTree.pas';
+  JvDockTree in 'JvDockTree.pas',
+  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

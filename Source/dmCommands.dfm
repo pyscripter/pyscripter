@@ -2057,7 +2057,7 @@ object CommandsDataModule: TCommandsDataModule
       Enabled = False
       HelpContext = 310
       Hint = 'Close|Close active file'
-      ImageIndex = 124
+      ImageIndex = 92
       ImageName = 'TabCLose'
       ShortCut = 16499
       OnExecute = actFileCloseExecute
@@ -2169,7 +2169,7 @@ object CommandsDataModule: TCommandsDataModule
       Enabled = False
       HelpContext = 330
       Hint = 'Find previous|Find Previous match'
-      ImageIndex = 100
+      ImageIndex = 76
       ImageName = 'FindPrevious'
       ShortCut = 8306
       OnExecute = actSearchFindPrevExecute
@@ -2228,7 +2228,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Pa&ge Setup...'
       HelpContext = 310
       Hint = 'Page setup'
-      ImageIndex = 66
+      ImageIndex = 52
       ImageName = 'PageSetup'
       OnExecute = actPageSetupExecute
     end
@@ -2237,7 +2237,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Editor Options...'
       HelpContext = 620
       Hint = 'Set Editor Options'
-      ImageIndex = 20
+      ImageIndex = 18
       ImageName = 'Options'
       OnExecute = actEditorOptionsExecute
     end
@@ -2246,7 +2246,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&IDE Options...'
       HelpContext = 610
       Hint = 'Set IDE Options'
-      ImageIndex = 22
+      ImageIndex = 19
       ImageName = 'AppSettings'
       OnExecute = actIDEOptionsExecute
     end
@@ -2255,7 +2255,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Indent Block'
       HelpContext = 320
       Hint = 'Indent block|Indent selected block of code'
-      ImageIndex = 59
+      ImageIndex = 45
       ImageName = 'Indent'
       ShortCut = 24649
       OnExecute = actEditIndentExecute
@@ -2265,7 +2265,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Unindent Block'
       HelpContext = 320
       Hint = 'Unindent|Unindent selected block of code'
-      ImageIndex = 60
+      ImageIndex = 46
       ImageName = 'Dedent'
       ShortCut = 24661
       OnExecute = actEditDedentExecute
@@ -2275,7 +2275,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Comment out'
       HelpContext = 320
       Hint = 'Comment out| Comment out block of code'
-      ImageIndex = 61
+      ImageIndex = 47
       ImageName = 'CodeComment'
       ShortCut = 49342
       OnExecute = actEditCommentOutExecute
@@ -2285,7 +2285,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Uncomment'
       HelpContext = 320
       Hint = 'Uncomment| Uncomment block of code'
-      ImageIndex = 62
+      ImageIndex = 48
       ImageName = 'UnCodeComment'
       ShortCut = 49340
       OnExecute = actEditUncommentExecute
@@ -2319,7 +2319,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Python &Path...'
       HelpContext = 870
       Hint = 'Python Path|View or edit the Python path'
-      ImageIndex = 23
+      ImageIndex = 20
       ImageName = 'Folders'
       OnExecute = actPythonPathExecute
     end
@@ -2330,7 +2330,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       HelpType = htContext
       Hint = 'Help Contents'
-      ImageIndex = 30
+      ImageIndex = 27
       ImageName = 'Help'
       OnExecute = actHelpContentsExecute
     end
@@ -2340,7 +2340,7 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 370
       HelpType = htContext
       Hint = 'Show Python Manuals'
-      ImageIndex = 65
+      ImageIndex = 51
       ImageName = 'PyDoc'
       OnExecute = actPythonManualsExecute
     end
@@ -2349,7 +2349,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'About...'
       HelpContext = 370
       Hint = 'About|Info about the application'
-      ImageIndex = 28
+      ImageIndex = 25
       ImageName = 'Info'
       OnExecute = actAboutExecute
     end
@@ -2358,7 +2358,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Go To &Line...'
       HelpContext = 330
       Hint = 'Go to line number'
-      ImageIndex = 29
+      ImageIndex = 26
       ImageName = 'GoToLine'
       ShortCut = 32839
       OnExecute = actSearchGoToLineExecute
@@ -2368,7 +2368,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Go To Syntax &Error'
       HelpContext = 330
       Hint = 'Jump to the position of the first syntax error'
-      ImageIndex = 102
+      ImageIndex = 78
       ImageName = 'GoToError'
       ShortCut = 24645
       OnExecute = actSearchGoToSyntaxErrorExecute
@@ -2378,7 +2378,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Find in Files...'
       HelpContext = 330
       Hint = 'Search in Files|Search for a string in Files'
-      ImageIndex = 73
+      ImageIndex = 59
       ImageName = 'SearchFolder'
       ShortCut = 24646
       OnExecute = actFindInFilesExecute
@@ -2434,7 +2434,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'IDE &Shortcuts...'
       HelpContext = 615
       Hint = 'Customize IDE shortcuts'
-      ImageIndex = 85
+      ImageIndex = 67
       ImageName = 'Keyboard'
       OnExecute = actIDEShortcutsExecute
     end
@@ -2450,7 +2450,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Configure &Tools...'
       HelpContext = 710
       Hint = 'Configure Tools|Add/remove/edit command-line tools'
-      ImageIndex = 70
+      ImageIndex = 56
       ImageName = 'ToolsSetup'
       OnExecute = actConfigureToolsExecute
     end
@@ -2466,7 +2466,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Find F&unction...'
       HelpContext = 330
       Hint = 'Find Function|Find function from function list'
-      ImageIndex = 24
+      ImageIndex = 21
       ImageName = 'Function'
       ShortCut = 16455
       OnExecute = actFindFunctionExecute
@@ -2476,7 +2476,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Line &Numbers'
       HelpContext = 320
       Hint = 'Show/Hide line numbers'
-      ImageIndex = 38
+      ImageIndex = 31
       ImageName = 'LineNumbers'
       OnExecute = actEditLineNumbersExecute
     end
@@ -2485,7 +2485,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Special &Characters'
       HelpContext = 320
       Hint = 'Show/Hide special characters'
-      ImageIndex = 81
+      ImageIndex = 63
       ImageName = 'SpecialChars'
       OnExecute = actEditShowSpecialCharsExecute
     end
@@ -2557,7 +2557,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Unit Test Wizard...'
       HelpContext = 930
       Hint = 'Unit test wizard|Create unit test for active module'
-      ImageIndex = 86
+      ImageIndex = 68
       ImageName = 'UnitTestWin'
       OnExecute = actUnitTestWizardExecute
     end
@@ -2566,7 +2566,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Interpreter Editor Options...'
       HelpContext = 620
       Hint = 'Set Interpreter Editor Options'
-      ImageIndex = 20
+      ImageIndex = 18
       ImageName = 'Options'
       OnExecute = actInterpreterEditorOptionsExecute
     end
@@ -2575,7 +2575,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Toggle &Comment'
       HelpContext = 320
       Hint = 'Toggle Comment| Comment/Uncomment block of code'
-      ImageIndex = 61
+      ImageIndex = 47
       ImageName = 'CodeComment'
       ShortCut = 16606
       OnExecute = actEditToggleCommentExecute
@@ -2625,7 +2625,7 @@ object CommandsDataModule: TCommandsDataModule
       Enabled = False
       HelpContext = 310
       Hint = 'Reload|Reload active file'
-      ImageIndex = 34
+      ImageIndex = 29
       ImageName = 'Refresh'
       OnExecute = actFileReloadExecute
     end
@@ -2669,7 +2669,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Highlight Search Text'
       HelpContext = 330
       Hint = 'Highlight the search text in the current editor'
-      ImageIndex = 101
+      ImageIndex = 77
       ImageName = 'Highlight'
       ShortCut = 24648
       OnExecute = actSearchHighlightExecute
@@ -2679,7 +2679,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Word &Wrap'
       HelpContext = 320
       Hint = 'Turn word wrap on/off'
-      ImageIndex = 103
+      ImageIndex = 79
       ImageName = 'WordWrap'
       OnExecute = actEditWordWrapExecute
     end
@@ -2695,7 +2695,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Project Home'
       HelpContext = 370
       Hint = 'Go to the project home page'
-      ImageIndex = 122
+      ImageIndex = 90
       ImageName = 'Link'
       OnExecute = actHelpWebProjectHomeExecute
     end
@@ -2704,7 +2704,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Group Support'
       HelpContext = 370
       Hint = 'Go to the PyScripter Internet group'
-      ImageIndex = 122
+      ImageIndex = 90
       ImageName = 'Link'
       OnExecute = actHelpWebGroupSupportExecute
     end
@@ -2746,7 +2746,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Blog'
       HelpContext = 370
       Hint = 'Go to the PyScripter Blog'
-      ImageIndex = 122
+      ImageIndex = 90
       ImageName = 'Link'
       OnExecute = actHelpWebBlogExecute
     end
@@ -2760,7 +2760,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Code Folding'
       Caption = 'All'
       Hint = 'Fold all'
-      ImageIndex = 27
+      ImageIndex = 24
       ImageName = 'Collapse'
       OnExecute = actFoldAllExecute
     end
@@ -2768,7 +2768,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Code Folding'
       Caption = 'All'
       Hint = 'Unfold all'
-      ImageIndex = 26
+      ImageIndex = 23
       ImageName = 'Expand'
       OnExecute = actUnfoldAllExecute
     end
@@ -2860,7 +2860,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'File'
       Caption = 'Save to Remote File'
       Hint = 'Save to remote file with SSH'
-      ImageIndex = 135
+      ImageIndex = 96
       ImageName = 'Upload'
       OnExecute = actFileSaveToRemoteExecute
     end
@@ -2869,7 +2869,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Donate'
       HelpContext = 370
       Hint = 'Donate to the PyScripter project'
-      ImageIndex = 122
+      ImageIndex = 90
       ImageName = 'Link'
       OnExecute = actDonateExecute
     end
@@ -3177,7 +3177,9 @@ object CommandsDataModule: TCommandsDataModule
         IconName = 'Abort'
         SVGText = 
           '<svg viewBox="0 0 16 16" stroke="black">'#13#10'<rect stroke-width="2"' +
-          ' fill="red" x="3" y="3" width="10" height="10" rx="2"/>'#13#10'</svg>'
+          ' fill="none" x="3" y="3" width="10" height="10" rx="2"/>'#13#10'<rect ' +
+          'stroke="none" fill="#E24444" x="6" y="6" width="4" height="4"/>'#13 +
+          #10'</svg>'
       end
       item
         IconName = 'AppSettings'
@@ -3489,21 +3491,12 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'EditorMax'
         SVGText = 
-          '<svg viewBox="0 0 24 24">'#13#10'    <path transform="scale(1.2, 1.1) ' +
-          'translate(-3,-2)" d="M10 20H6V4H13V9H18V12.1L20 10.1V8L14 2H6C4.' +
-          '9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H10V20M20.2 13C20.3 13 20.5 1' +
-          '3.1 20.6 13.2L21.9 14.5C22.1 14.7 22.1 15.1 21.9 15.3L20.9 16.3L' +
-          '18.8 14.2L19.8 13.2C19.9 13.1 20 13 20.2 13M20.2 16.9L14.1 23H12' +
-          'V20.9L18.1 14.8L20.2 16.9Z" />'#13#10'    <g transform="scale(0.66) tr' +
-          'anslate(-2,2)">'#13#10'        <path d="M15.2,22.1C15.2,22.1,15.2,22.1' +
-          ',15.2,22.1C15.3,22.1,15.3,22.1,15.2,22.1c1.5,0,2.7-0.5,3.7-1.1l3' +
-          '.7,3.7l0-0.1l0.1,0.1'#13#10'            l2.1-2.2l-3.7-3.6c0.6-1.1,1.1-' +
-          '2.3,1.1-3.7c0-1.9-0.8-3.7-2.1-4.9c-1.3-1.3-3-2.1-4.9-2.1c-3.8,0-' +
-          '6.9,3.1-6.9,6.9'#13#10'            C8.3,19.1,11.4,22.1,15.2,22.1z M15.' +
-          '2,19c-2.1,0-3.8-1.7-3.8-3.8c0-2.1,1.7-3.8,3.8-3.8c2.2,0,3.8,1.7,' +
-          '3.8,3.8'#13#10'            C19,17.4,17.3,19,15.2,19z"/>'#13#10'    '#9'<rect x=' +
-          '"12.6" y="14.5" width="5" height="1.5"/>'#13#10'    '#9'<rect x="14.3" y=' +
-          '"12.8" width="1.5" height="5"/>'#13#10'    </g>    '#13#10'</svg>'
+          '<svg viewBox="0 0 512 512">'#13#10'  <path d="M224.971,224.971a24,24,0' +
+          ',0,1-33.942,0L88,121.941V88h33.941l103.03,103.029A24,24,0,0,1,22' +
+          '4.971,224.971ZM424,424V390.059L320.971,287.029a24,24,0,0,0-33.94' +
+          '2,33.942L390.059,424ZM72,176V72H176a24,24,0,0,0,0-48H48A24,24,0,' +
+          '0,0,24,48V176a24,24,0,0,0,48,0ZM488,464V336a24,24,0,0,0-48,0V440' +
+          'H336a24,24,0,0,0,0,48H464A24,24,0,0,0,488,464Z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'Editor'
@@ -3517,20 +3510,12 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'EditorMin'
         SVGText = 
-          '<svg viewBox="0 0 24 24">'#13#10'    <path transform="scale(1.2, 1.1) ' +
-          'translate(-3,-2)" d="M10 20H6V4H13V9H18V12.1L20 10.1V8L14 2H6C4.' +
-          '9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H10V20M20.2 13C20.3 13 20.5 1' +
-          '3.1 20.6 13.2L21.9 14.5C22.1 14.7 22.1 15.1 21.9 15.3L20.9 16.3L' +
-          '18.8 14.2L19.8 13.2C19.9 13.1 20 13 20.2 13M20.2 16.9L14.1 23H12' +
-          'V20.9L18.1 14.8L20.2 16.9Z" />'#13#10'    <g transform="scale(0.66) tr' +
-          'anslate(-2,2)">'#13#10'        <path d="M15.2,22.1C15.2,22.1,15.2,22.1' +
-          ',15.2,22.1C15.3,22.1,15.3,22.1,15.2,22.1c1.5,0,2.7-0.5,3.7-1.1l3' +
-          '.7,3.7l0-0.1l0.1,0.1'#13#10'            l2.1-2.2l-3.7-3.6c0.6-1.1,1.1-' +
-          '2.3,1.1-3.7c0-1.9-0.8-3.7-2.1-4.9c-1.3-1.3-3-2.1-4.9-2.1c-3.8,0-' +
-          '6.9,3.1-6.9,6.9'#13#10'            C8.3,19.1,11.4,22.1,15.2,22.1z M15.' +
-          '2,19c-2.1,0-3.8-1.7-3.8-3.8c0-2.1,1.7-3.8,3.8-3.8c2.2,0,3.8,1.7,' +
-          '3.8,3.8'#13#10'            C19,17.4,17.3,19,15.2,19z"/>'#13#10'    '#9'<rect x=' +
-          '"12.6" y="14.5" width="5" height="1.5"/>'#13#10'    </g>    '#13#10'</svg>'
+          '<svg viewBox="0 0 512 512">'#13#10'  <path d="M134.059,168,31.029,64.9' +
+          '71A24,24,0,0,1,64.971,31.029L168,134.059V168ZM480.971,447.029,37' +
+          '7.941,344H344v33.941l103.029,103.03a24,24,0,0,0,33.942-33.942ZM2' +
+          '32,208V80a24,24,0,0,0-48,0V184H80a24,24,0,0,0,0,48H208A24,24,0,0' +
+          ',0,232,208Zm96,224V328H432a24,24,0,0,0,0-48H304a24,24,0,0,0-24,2' +
+          '4V432a24,24,0,0,0,48,0Z"/>'#13#10'</svg>'
       end
       item
         IconName = 'Execute'
@@ -3629,21 +3614,6 @@ object CommandsDataModule: TCommandsDataModule
           #13#10
       end
       item
-        IconName = 'FileClose'
-        SVGText = 
-          '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M31.5,18.7l-6.6,7.4c-0.3,0.' +
-          '3-0.8,0.6-1.3,0.6h-0.5c-0.2,0.1-0.4,0.1-0.7,0.1H2.6c-1.4,0-2.5-1' +
-          '.1-2.5-2.5V9.4'#13#10#9#9'c0-1.3,1.1-2.5,2.5-2.5H10l0.2,0.2L7.8,9.5C7.5,' +
-          '9.7,7.4,10,7.4,10.4c0,0.3,0.1,0.7,0.3,0.9l0.7,0.7H2.6v10.2l5-5.5' +
-          #13#10#9#9'C7.9,16.2,8.4,16,8.9,16h2.2c-0.3,0.3-0.4,0.6-0.4,2.5H9.3L4,2' +
-          '4.3h19.3l1.7-1.8l3.6-4h-1.1c0.7-0.7,1.1-1.6,1.3-2.5h1.4'#13#10#9#9'c0.7,' +
-          '0,1.2,0.4,1.6,1C32,17.5,32,18.2,31.5,18.7z"/>'#13#10#9'<path d="M27.8,1' +
-          '4.2c0,2.9-2.3,5.1-5.1,5.1H11.8c0,0,0-0.4,0-0.9c0-0.7,0-1.6,0.1-1' +
-          '.7h10.8c1.4,0,2.6-1.2,2.6-2.6'#13#10#9#9's-1.2-2.6-2.6-2.6h-8.9v3.8l-4-4' +
-          'l-1.2-1.2l2.5-2.4l2.6-2.6V9h8.9c2.3,0,4.3,1.6,4.9,3.7C27.6,13.3,' +
-          '27.8,13.8,27.8,14.2z"/>'#13#10'</svg>'#13#10
-      end
-      item
         IconName = 'FileExplorer'
         SVGText = 
           '<svg viewBox="0 0 32 32">'#13#10'<g transform="translate(138.54 -420.3' +
@@ -3662,6 +3632,15 @@ object CommandsDataModule: TCommandsDataModule
           'ath d="M20.2,2h-8l-2-2h-6c-1.1,0-2,0.9-2,2v12.2c0,1.1,0.9,2,2,2h' +
           '16.2c1.1,0,2-0.9,2-2V4C22.2,3,21.3,2,20.2,2z M20.2,14.2H4'#13#10#9#9#9'V2' +
           'h5.3l2,2h8.9L20.2,14.2z"/>'#13#10#9'</g>'#13#10'</g>'#13#10'</svg>'
+      end
+      item
+        IconName = 'FileNew'
+        SVGText = 
+          '<svg viewBox="0 0 32 32">'#13#10'<g transform="translate(-272.1 -317.4' +
+          ')">'#13#10#9'<path d="M290.9,318.8h-11.3c-1.6,0-2.9,1.3-2.8,2.9v23.4c0,' +
+          '1.6,1.2,2.9,2.8,2.9h17c1.6,0,2.9-1.3,2.8-2.9v-17.6'#13#10#9#9'L290.9,318' +
+          '.8z M279.6,345.2v-23.4h9.9v7.3h7.1v16.1H279.6z"/>'#13#10'</g>'#13#10'</svg>'#13 +
+          #10
       end
       item
         IconName = 'FileOpen'
@@ -4430,84 +4409,47 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'Python'
         SVGText = 
-          '<svg viewBox="0 0 32 32">'#13#10'    <g transform="translate(293.68 -3' +
-          '5.36) scale(.20329)">'#13#10'        <path d="M364.3 1607.1c-5 0-9.7.5' +
-          '-13.9 1.2-12.2 2.2-14.5 6.8-14.5 15.1v11.1h29v3.7H325c-8.4 0-15.' +
-          '9 5.1-18.1 14.7-2.6 11.1-2.7 17.9 0 29.5 2.1 8.6 7 14.7 15.5 14.' +
-          '7h10v-13.2c0-9.6 8.3-18 18.1-18h29c8 0 14.5-6.7 14.5-14.8v-27.6c' +
-          '0-7.8-6.7-13.8-14.5-15.1-5-1-10.2-1.3-15.2-1.3zm-15.7 8.9c3 0 5.' +
-          '5 2.4 5.5 5.6 0 3-2.4 5.5-5.5 5.5-3 0-5.5-2.4-5.5-5.5 0-3.2 2.5-' +
-          '5.6 5.5-5.6z" id="path7177_1_"/>'#13#10'        <path id="path3" d="M4' +
-          '08.4 1644.2c2.2 0 6.2 0 8.7 10.1 2.7 10.7 2.7 18.3.1 26.1-3.2 9.' +
-          '5-5.2 10.6-8.8 10.6H365c-3.3 0-6 2.7-6 6v3.7c0 3.3 2.7 6 6 6h7.9' +
-          'c-1.5 1.9-2.4 4.2-2.5 6.8 0 3.3 1.4 6.2 3.7 8.2-3.2.7-6.2 1-9.1 ' +
-          '1-4.1 0-8.1-.6-12.7-2-3.8-1.1-10.2-3.8-10.2-9v-27.6c0-4.8 3.9-8.' +
-          '8 8.5-8.8h29c13.1 0 24.1-11.2 24.1-24.4v-6.8h4.7m-10.8-6v12.9c0 ' +
-          '10-8.5 18.4-18.1 18.4h-29c-7.9 0-14.5 6.8-14.5 14.8v27.6c0 7.8 6' +
-          '.9 12.5 14.5 14.8 4.8 1.4 9.5 2.2 14.4 2.2 4.6 0 9.3-.7 14.6-2.2' +
-          ' 7.3-2.2 14.5-6.4 14.5-14.8v-11.1h-29v-3.7h43.5c8.4 0 11.6-5.9 1' +
-          '4.5-14.7 3-9.1 2.9-17.8 0-29.5-2.1-8.4-6.1-14.7-14.5-14.7h-10.9z' +
-          'm-16.4 80.5c-2.7 0-4.9-2.2-4.9-5 .1-2.7 2.3-4.9 4.9-4.9 2.7 0 4.' +
-          '9 2.2 4.9 4.9a5 5 0 0 1-4.9 5z"/>'#13#10'    </g>'#13#10'    <g transform="m' +
-          'atrix(.26247 0 0 .25765 374.62 -49.02)">'#13#10'        <path d="M-136' +
-          '6.7 191.8c-5 0-9.7.5-13.9 1.2-12.2 2.2-14.5 6.8-14.5 15.1v11.1h2' +
-          '9v3.7h-39.9c-8.4 0-15.9 5.1-18.1 14.7-2.6 11.1-2.7 17.9 0 29.5 2' +
-          '.1 8.6 7 14.7 15.5 14.7h10v-13.2c0-9.6 8.3-18 18.1-18h29c8 0 14.' +
-          '5-6.7 14.5-14.8v-27.6c0-7.8-6.7-13.8-14.5-15.1-5-1-10.2-1.3-15.2' +
-          '-1.3zm-15.7 8.9c3 0 5.5 2.4 5.5 5.6 0 3-2.4 5.5-5.5 5.5-3 0-5.5-' +
-          '2.4-5.5-5.5 0-3.2 2.5-5.6 5.5-5.6z" id="path7177_2_"/>'#13#10'        ' +
-          '<path id="path7" d="M-1322.6 228.9c2.2 0 6.2 0 8.7 10.1 2.7 10.7' +
-          ' 2.7 18.3.1 26.1-3.2 9.5-5.2 10.6-8.8 10.6h-43.4c-3.3 0-6 2.7-6 ' +
-          '6v3.7c0 3.3 2.7 6 6 6h7.9c-1.5 1.9-2.4 4.2-2.5 6.8 0 3.3 1.4 6.2' +
-          ' 3.7 8.2-3.2.7-6.2 1-9.1 1-4.1 0-8.1-.6-12.7-2-3.8-1.1-10.2-3.8-' +
-          '10.2-9v-27.6c0-4.8 3.9-8.8 8.5-8.8h29c13.1 0 24.1-11.2 24.1-24.4' +
-          'v-6.8h4.7m-10.8-6v12.9c0 10-8.5 18.4-18.1 18.4h-29c-7.9 0-14.5 6' +
-          '.8-14.5 14.8v27.6c0 7.8 6.9 12.5 14.5 14.8 4.8 1.4 9.5 2.2 14.4 ' +
-          '2.2 4.6 0 9.3-.7 14.6-2.2 7.3-2.2 14.5-6.4 14.5-14.8v-11.1h-29v-' +
-          '3.7h43.5c8.4 0 11.6-5.9 14.5-14.7 3-9.1 2.9-17.8 0-29.5-2.1-8.4-' +
-          '6.1-14.7-14.5-14.7h-10.9zm-16.4 80.5c-2.7 0-4.9-2.2-4.9-5 .1-2.7' +
-          ' 2.3-4.9 4.9-4.9 2.7 0 4.9 2.2 4.9 4.9a5 5 0 0 1-4.9 5z"/>'#13#10'    ' +
-          '</g>'#13#10'</svg>'
+          '<svg viewBox="0 0 18 18">'#13#10#9#9'<path fill="#4488FF" d="M11.298,8.0' +
+          '2c1.295-0.587,1.488-5.055,0.724-6.371c-0.998-1.718-5.742-1.373-7' +
+          '.24-0.145'#13#10#9#9#9'C4.61,2.114,4.628,3.221,4.636,4.101h4.702v0.412H4.' +
+          '637c0,0.006-2.093,0.013-2.093,0.013c-3.609,0-3.534,7.838,1.228,7' +
+          '.838'#13#10#9#9#9'c0,0,0.175-1.736,0.481-2.606C5.198,7.073,9.168,8.986,11' +
+          '.298,8.02z M6.375,3.465c-0.542,0-0.981-0.439-0.981-0.982'#13#10#9#9#9'c0-' +
+          '0.542,0.439-0.982,0.981-0.982c0.543,0,0.982,0.44,0.982,0.982C7.3' +
+          '58,3.025,6.918,3.465,6.375,3.465z"/>'#13#10#9#9'<path fill="#FFCE00" d="' +
+          'M13.12,4.691c0,0-0.125,1.737-0.431,2.606c-0.945,2.684-4.914,0.77' +
+          '2-7.045,1.738'#13#10#9#9#9'C4.35,9.622,4.155,14.09,4.92,15.406c0.997,1.71' +
+          '9,5.741,1.374,7.24,0.145c0.172-0.609,0.154-1.716,0.146-2.596H7.6' +
+          '03v-0.412h4.701'#13#10#9#9#9'c0-0.006,2.317-0.013,2.317-0.013C17.947,12.5' +
+          '3,18.245,4.691,13.12,4.691z M10.398,13.42c0.542,0,0.982,0.439,0.' +
+          '982,0.982'#13#10#9#9#9'c0,0.542-0.44,0.981-0.982,0.981s-0.981-0.439-0.981' +
+          '-0.981C9.417,13.859,9.856,13.42,10.398,13.42z"/>'#13#10'</svg>'
       end
       item
         IconName = 'PythonScript'
         SVGText = 
-          '<svg viewBox="0 0 32 32">'#13#10#9'<g id="g8744_3_" transform="matrix(1' +
-          '.158447,0,0,1.158447,504.97232,133.29027)">'#13#10#9#9'<path d="M-418.8-' +
-          '110.7c0.4,0.4,0.7,0.8,1.1,1.2c0.4,0.4,0.8,0.8,1.1,1.3h2.2v-0.4c0' +
-          '-0.3-0.1-0.5-0.3-0.7c-0.5-0.6-1-1.1-1.5-1.6'#13#10#9#9#9's-0.9-1-1.4-1.6c' +
-          '-0.2-0.3-0.5-0.4-0.9-0.4h-13.6c-0.6,0-1.1,0.5-1.1,1.1c0,6.9,0,13' +
-          '.5-0.1,20.3c0,0.4,0.2,0.8,0.6,1'#13#10#9#9#9's0.8,0.1,1.2-0.1c3.5-2.8,5.6' +
-          '-2,7.5-0.9c0.3,0.1,0.5,0.3,0.8,0.4c1.2,0.7,2.4,1.5,4.3,1.5c1,0,2' +
-          '.2-0.2,3.7-0.9'#13#10#9#9#9'c0.4-0.2,0.7-0.6,0.7-1v-0.3l-2.6-0.3c0,0-1.1,' +
-          '0.3-2.4,0c-1-0.2-1.6-0.5-2.5-1c-0.3-0.2-0.5-0.3-0.8-0.5'#13#10#9#9#9'c-1.' +
-          '2-0.6-2.5-1.2-4.2-1.2c-1.2,0-2.5,0.3-4,1.1c0.1-5.7,0.1-11.3,0.1-' +
-          '17.1L-418.8-110.7L-418.8-110.7z"/>'#13#10#9'</g>'#13#10#9'<rect x="8.5" y="10.' +
-          '1" width="6.4" height="2.4"/>'#13#10#9'<rect x="7.3" y="14" width="3.9"' +
-          ' height="2.4"/>'#13#10#9'<rect x="7.3" y="18" width="3.9" height="2.4"/' +
-          '>'#13#10#9'<rect x="8.5" y="6.1" width="6.4" height="2.4"/>'#13#10#9'<g id="g7' +
-          '183_2_" transform="matrix(0.20329022,0,0,0.20329022,293.67856,-3' +
-          '5.35736)">'#13#10#9#9'<path id="path7177_2_" d="M-1343.7,218.1c-3.4,0-6.' +
-          '7,0.3-9.5,0.8c-8.4,1.5-9.9,4.6-9.9,10.3v7.6h19.9v2.6h-19.9h-7.5'#13 +
-          #10#9#9#9'c-5.8,0-10.9,3.5-12.4,10.1c-1.8,7.6-1.9,12.3,0,20.2c1.4,5.9,' +
-          '4.8,10.1,10.6,10.1h6.9v-9.1c0-6.6,5.7-12.4,12.4-12.4h19.9'#13#10#9#9#9'c5' +
-          '.5,0,9.9-4.6,9.9-10.1v-19c0-5.4-4.6-9.5-9.9-10.3C-1336.7,218.3-1' +
-          '340.3,218.1-1343.7,218.1z M-1354.5,224.2'#13#10#9#9#9'c2.1,0,3.8,1.7,3.8,' +
-          '3.8c0,2.1-1.7,3.8-3.8,3.8s-3.8-1.7-3.8-3.8C-1358.2,225.8-1356.5,' +
-          '224.2-1354.5,224.2z"/>'#13#10#9#9'<path d="M-1313.4,243.6c1.5,0,4.2,0,5.' +
-          '9,7c1.9,7.3,1.9,12.5,0.1,17.9c-2.2,6.5-3.6,7.3-6,7.3h-9.9h-19.9c' +
-          '-2.3,0-4.1,1.9-4.1,4.1'#13#10#9#9#9'v2.6c0,2.3,1.9,4.1,4.1,4.1h5.4c-1,1.3' +
-          '-1.7,2.9-1.7,4.7c0,2.2,1,4.3,2.5,5.6c-2.2,0.5-4.2,0.7-6.3,0.7c-2' +
-          '.8,0-5.6-0.4-8.7-1.4'#13#10#9#9#9'c-2.6-0.8-7-2.6-7-6.2v-19c0-3.3,2.7-6,5' +
-          '.8-6h19.9c9,0,16.6-7.7,16.6-16.8v-4.7h3.3 M-1320.9,239.4v8.9c0,6' +
-          '.9-5.8,12.6-12.4,12.6'#13#10#9#9#9'h-19.9c-5.4,0-9.9,4.6-9.9,10.1v19c0,5.' +
-          '4,4.7,8.6,9.9,10.1c3.3,1,6.5,1.5,9.9,1.5c3.1,0,6.4-0.5,10-1.5c5-' +
-          '1.5,9.9-4.4,9.9-10.1'#13#10#9#9#9'v-7.6h-19.9v-2.6h19.9h9.9c5.8,0,7.9-4,9' +
-          '.9-10.1c2.1-6.2,2-12.2,0-20.2c-1.4-5.8-4.2-10.1-9.9-10.1L-1320.9' +
-          ',239.4L-1320.9,239.4'#13#10#9#9#9'L-1320.9,239.4z M-1332.1,294.6c-1.8,0-3' +
-          '.3-1.5-3.3-3.4c0.1-1.8,1.6-3.3,3.3-3.3c1.8,0,3.3,1.5,3.3,3.3'#13#10#9#9 +
-          #9'C-1328.7,293-1330.2,294.6-1332.1,294.6L-1332.1,294.6z"/>'#13#10#9'</g>' +
-          #13#10'</svg>'#13#10
+          '<svg viewBox="0 0 32 32" >'#13#10'<g transform="translate(-275.1 -318.' +
+          '4)">'#13#10#9'<path d="M290.9,318.8h-11.3c-1.6,0-2.9,1.3-2.8,2.9v23.4c0' +
+          ',1.6,1.2,2.9,2.8,2.9h17c1.6,0,2.9-1.3,2.8-2.9'#13#10#9#9'v-17.6L290.9,31' +
+          '8.8z M279.6,345.2v-23.4h9.9v7.3h7.1v16.1L279.6,345.2L279.6,345.2' +
+          'z"/>'#13#10'</g>'#13#10'<g transform="translate(-16.5,-18) scale(1.45)">'#13#10#9'<' +
+          'path fill="#4488FF" d="M20.8,22.5H25c1.2,0,2.1-1,2.1-2.2v-4c-0.1' +
+          '-1.2-1-2.1-2.1-2.2c0,0,0,0-0.1,0c-0.6-0.1-3.4-0.2-4.2,0'#13#10#9#9'c-1.2' +
+          ',0.3-1.8,0.6-2,1.2c-0.1,0.3-0.1,0.6-0.1,1v1.6h4.2v0.6h-5.9c-1.3,' +
+          '0-2.4,0.9-2.7,2.1c-0.1,0.3-0.1,0.5-0.2,0.8'#13#10#9#9'c0,0.1,0,0.2-0.1,0' +
+          '.3c-0.1,0.4-0.1,0.8-0.1,1.2c0,0.7,0.1,1.4,0.3,2.1c0.1,0.3,0.2,0.' +
+          '6,0.3,0.8c0.3,0.6,0.6,1,1.1,1.2'#13#10#9#9'c0.3,0.1,0.5,0.2,0.8,0.2h1.5v' +
+          '-2C18.1,23.6,19.3,22.5,20.8,22.5z M20.5,16.7c-0.4,0-0.8-0.4-0.8-' +
+          '0.8s0.4-0.8,0.8-0.8'#13#10#9#9's0.8,0.4,0.8,0.8C21.4,16.3,21,16.7,20.5,1' +
+          '6.7z"/>'#13#10#9'<path fill="#FFCE00" d="M24.9,23.5h-4.2c-1.2,0-2.1,1-2' +
+          '.1,2.2v4c0.1,1.2,1,2.1,2.1,2.2c0,0,0,0,0.1,0c0.6,0.1,3.4,0.2,4.2' +
+          ',0'#13#10#9#9'c1.2-0.3,1.8-0.6,2-1.2c0.1-0.3,0.1-0.6,0.1-1v-1.6h-4.2v-0.' +
+          '6h5.9c1.3,0,2.4-0.9,2.7-2.1c0.1-0.3,0.1-0.5,0.2-0.8'#13#10#9#9'c0-0.1,0-' +
+          '0.2,0.1-0.3c0.1-0.4,0.1-0.8,0.1-1.2c0-0.7-0.1-1.4-0.3-2.1c-0.1-0' +
+          '.3-0.2-0.6-0.3-0.8c-0.3-0.6-0.6-1-1.1-1.2'#13#10#9#9'c-0.3-0.1-0.5-0.2-0' +
+          '.8-0.2h-1.5v2C27.6,22.4,26.4,23.5,24.9,23.5z M25.2,29.3c0.4,0,0.' +
+          '8,0.4,0.8,0.8c0,0.4-0.4,0.8-0.8,0.8'#13#10#9#9's-0.8-0.4-0.8-0.8C24.3,29' +
+          '.7,24.7,29.3,25.2,29.3z"/>'#13#10'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'Quit'
@@ -4877,12 +4819,12 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'TabClose'
         SVGText = 
-          '<svg viewBox="0 0 32 32">'#13#10'<rect fill="#E24444" x="19" y="1.9" w' +
-          'idth="12.6" height="2.9"/>'#13#10'<g transform="translate(-1820 -863.7' +
-          '25)">'#13#10#9'<path d="M1845.6,869.3h-10.8v-2.4l-1.1-1.1h-12.3l-1.1,1.' +
-          '1v4.7c0,0.1,0,0.2,0,0.3v7.6l0,0v12.6'#13#10#9#9'c0,1,0.8,1.7,1.7,1.7h28c' +
-          '1,0,1.7-0.8,1.7-1.7l0,0v-17.7L1845.6,869.3z M1848,890.4h-24.5v-1' +
-          '6.7h20.9l3.6,3V890.4z"/>'#13#10'</g>'#13#10'</svg>'#13#10
+          '<svg viewBox="0 0 32 32">'#13#10'<rect fill="#E24444" x="18" y="1" wid' +
+          'th="14" height="4"/>'#13#10'<g transform="translate(-1820 -863.725)">'#13 +
+          #10#9'<path d="M1845.6,869.3h-10.8v-2.4l-1.1-1.1h-12.3l-1.1,1.1v4.7c' +
+          '0,0.1,0,0.2,0,0.3v7.6l0,0v12.6'#13#10#9#9'c0,1,0.8,1.7,1.7,1.7h28c1,0,1.' +
+          '7-0.8,1.7-1.7l0,0v-17.7L1845.6,869.3z M1848,890.4h-24.5v-16.7h20' +
+          '.9l3.6,3V890.4z"/>'#13#10'</g>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'TabNext'
@@ -4919,13 +4861,13 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'TabsClose'
         SVGText = 
-          '<svg viewBox="0 0 32 32">'#13#10#9'<rect fill="#E24444" x="18.1" y="1.7' +
-          '" width="12.6" height="2.9"/>'#13#10#9'<path d="M26.2,13h-2.6V9l-4.3-3.' +
-          '6h-7.7V3.7l-0.8-0.8H2.1L1.3,3.7v17.9c0,0.7,0.6,1.2,1.2,1.2h5.7v6' +
-          '.3c0,0.7,0.6,1.2,1.2,1.2h19.8'#13#10#9#9'c0.7,0,1.2-0.6,1.2-1.2V16.5L26.' +
-          '2,13z M3.8,20.4V8.6h14.8l2.5,2.1V13h-2.6v-1.7l-0.8-0.8H9l-0.8,0.' +
-          '8v9.1H3.8z M28,28H10.6v-5.1'#13#10#9#9'v-2.4v-4.4h10.5h2.6h1.8l2.5,2.1L2' +
-          '8,28L28,28z"/>'#13#10'</svg>'#13#10
+          '<svg viewBox="0 0 32 32">'#13#10#9'<rect fill="#E24444" x="18" y="1" wi' +
+          'dth="13" height="4"/>'#13#10#9'<path d="M26.2,13h-2.6V9l-4.3-3.6h-7.7V3' +
+          '.7l-0.8-0.8H2.1L1.3,3.7v17.9c0,0.7,0.6,1.2,1.2,1.2h5.7v6.3c0,0.7' +
+          ',0.6,1.2,1.2,1.2h19.8'#13#10#9#9'c0.7,0,1.2-0.6,1.2-1.2V16.5L26.2,13z M3' +
+          '.8,20.4V8.6h14.8l2.5,2.1V13h-2.6v-1.7l-0.8-0.8H9l-0.8,0.8v9.1H3.' +
+          '8z M28,28H10.6v-5.1'#13#10#9#9'v-2.4v-4.4h10.5h2.6h1.8l2.5,2.1L28,28L28,' +
+          '28z"/>'#13#10'</svg>'#13#10
       end
       item
         IconName = 'TestsFailed'

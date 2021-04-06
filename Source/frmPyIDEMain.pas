@@ -564,7 +564,6 @@ uses
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
   VCL.Styles,
-  AMHLEDVecStd,
   JvAppInst,
   JvComponentBase,
   JvExControls,
@@ -603,7 +602,7 @@ uses
   cPyScripterSettings,
   cPyControl,
   System.ImageList,
-  Vcl.VirtualImageList;
+  Vcl.VirtualImageList, Vcl.BaseImageCollection, SVGIconImageCollection;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -945,11 +944,6 @@ type
     SpTBXSeparatorItem8: TSpTBXSeparatorItem;
     lbStatusCaps: TSpTBXLabelItem;
     SpTBXSeparatorItem9: TSpTBXSeparatorItem;
-    StatusLED: TAMHLEDVecStd;
-    tbciStatusLed: TTBControlItem;
-    ExternalToolsLED: TAMHLEDVecStd;
-    tbciStatusExternal: TTBControlItem;
-    SpTBXSeparatorItem10: TSpTBXSeparatorItem;
     mnMainToolbarVisibilityToggle: TSpTBXItem;
     mnDebugtoolbarVisibilityToggle: TSpTBXItem;
     mnEditorToolbarVisibilityToggle: TSpTBXItem;
@@ -1103,6 +1097,10 @@ type
     lbPythonEngine: TSpTBXLabelItem;
     vilImages: TVirtualImageList;
     vilImagesByIndex: TVirtualImageList;
+    icIndicators: TSVGIconImageCollection;
+    vilIndicators: TVirtualImageList;
+    spiStatusLED: TSpTBXItem;
+    spiExternalToolsLED: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1716,8 +1714,6 @@ begin
 
   //SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;
-
-  MainMenu.Font.Size := MainMenu.Font.Size + 2;
 end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
@@ -2398,33 +2394,27 @@ begin
       dsDebugging,
       dsRunning: begin
                    s := _('Running');
-                   if PyIDEOptions.PythonEngineType = peInternal then
-                     Screen.Cursor := crHourGlass;
-                   StatusLED.LEDColorOn := clRed;
+                   icIndicators.SVGIconItems[0].FixedColor := $4444E2;
                  end;
       dsPaused: begin
                   s := _('Paused');
-                  Screen.Cursor := crDefault;
-                  StatusLED.LEDColorOn := clYellow;
+                  icIndicators.SVGIconItems[0].FixedColor := $00CEFF;
                 end;
       dsInactive: begin
-                   s := _('Ready');
-                   Screen.Cursor := crDefault;
-                   StatusLED.LEDColorOn := clGreen;
-                 end;
+                    s := _('Ready');
+                    icIndicators.SVGIconItems[0].FixedColor := $17BB4C;
+                  end;
       dsPostMortem : begin
                        s := _('Post mortem');
-                       Screen.Cursor := crDefault;
-                       StatusLED.LEDColorOn := clPurple;
+                       icIndicators.SVGIconItems[0].FixedColor := clPurple;
                      end;
     end
   else
   begin
-     s := _('Python not available');
-     Screen.Cursor := crDefault;
-     StatusLED.LEDColorOn := clGray;
+    s := _('Python not available');
+    icIndicators.SVGIconItems[0].FixedColor := clGray;
   end;
-  StatusLED.Hint := _('Debugger state: ') +s;
+  spiStatusLED.Hint := _('Debugger state: ') +s;
   lbStatusMessage.Caption := ' ' + s;
   StatusBar.Refresh;
 
@@ -2878,7 +2868,7 @@ begin
     lbPythonEngine.Caption := ' ';
   end;
 
-  ExternalToolsLED.Visible := OutputWindow.JvCreateProcess.State <> psReady;
+  spiExternalToolsLED.Visible := OutputWindow.JvCreateProcess.State <> psReady;
 end;
 
 function TPyIDEMainForm.CmdLineOpenFiles(): boolean;
@@ -4988,7 +4978,7 @@ begin
     begin
       List.AddObject(Ed.GetFileNameOrTitle, TObject(Ed.Form));
     end);
-    ModifiedImageIndex := vilImages.GetIndexByName('Edit');
+    ModifiedImageIndex := vilImagesByIndex.GetIndexByName('Edit');
     for var I:= 0 to List.Count - 1 do begin
       Editor := TEditorForm(List.Objects[I]).GetEditor;
       MenuItem := TSpTBXItem.Create(Self);
