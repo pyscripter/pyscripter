@@ -348,10 +348,10 @@ inherited PythonIIForm: TPythonIIForm
         Name = 'Delete'
       end
       item
-        CollectionIndex = 62
-        CollectionName = 'Options'
+        CollectionIndex = 27
+        CollectionName = 'EditOptions'
         Disabled = False
-        Name = 'Options'
+        Name = 'EditOptions'
       end
       item
         CollectionIndex = 83

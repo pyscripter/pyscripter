@@ -1616,11 +1616,13 @@ begin
   if ASynEdit.Highlighter is TSynWebBase then
   begin
     SynCodeCompletion.Editor := nil;
+    SynParamCompletion.Editor := nil;
     SynWebCompletion.Editor := ASynEdit;
   end
   else
   begin
     SynCodeCompletion.Editor := ASynEdit;
+    SynParamCompletion.Editor := ASynEdit;
     SynWebCompletion.Editor := nil;
   end;
 
@@ -1637,9 +1639,9 @@ end;
 procedure TEditorForm.SynEditExit(Sender: TObject);
 begin
   // The following create problems
-  // CommandsDataModule.ParameterCompletion.Editor := nil;
-  // CommandsDataModule.ModifierCompletion.Editor := nil;
-  // CommandsDataModule.CodeTemplatesCompletion.Editor := nil;
+   CommandsDataModule.ParameterCompletion.Editor := nil;
+   CommandsDataModule.ModifierCompletion.Editor := nil;
+   CommandsDataModule.CodeTemplatesCompletion.Editor := nil;
   DoAssignInterfacePointer(False);
 end;
 
@@ -2900,7 +2902,7 @@ begin
     // Exit if busy
     if CC.CompletionInfo.Editor <> nil then Exit;
     CC.CleanUp;
-    CC.CompletionInfo.Editor := SynEdit;
+    CC.CompletionInfo.Editor := Editor;
     CC.CompletionInfo.CaretXY := Caret;
   finally
     CC.Lock.Leave;

@@ -168,7 +168,7 @@ begin
     begin
       // Keyword
       ImageIndex := Integer(TCodeImages.Keyword);
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{$FF8844}%s', [ImageIndex, S]);
+      DisplayText := DisplayText + Format('\Image{%d}\hspace{8}\color{$FF8844}%s', [ImageIndex, S]);
     end
     else
     begin
@@ -190,8 +190,7 @@ begin
         else
           ImageIndex := Integer(TCodeImages.Variable);
       end;
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s',
-        [ImageIndex, S]);
+      DisplayText := DisplayText + Format('\Image{%d}\hspace{8}%s', [ImageIndex, S]);
     end;
     if i < SortedNameSpace.Count - 1 then
       DisplayText := DisplayText + #10;
@@ -889,7 +888,7 @@ begin
 
     NameSpaceItem := fNameSpace.Objects[I] as TBaseNameSpaceItem;
     if not Assigned(NameSpaceItem) then
-       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{$FF8844}%s',
+       DisplayText := DisplayText + Format('\Image{%d}\hspace{8}\color{$FF8844}%s',
          [Integer(TCodeImages.Keyword), fNameSpace[I]])
     else
     begin
@@ -909,7 +908,7 @@ begin
         else
           ImageIndex := Integer(TCodeImages.Variable);
       end;
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
+      DisplayText := DisplayText + Format('\Image{%d}\hspace{8}%s', [ImageIndex, NameSpaceItem.Name]);
     end;
     if I < fNameSpace.Count - 1 then begin
       DisplayText := DisplayText + #10;

@@ -190,7 +190,7 @@ inherited OutputWindow: TOutputWindow
         Name = 'Stop'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 30
         CollectionName = 'Exit'
         Disabled = False
         Name = 'Exit'
@@ -202,7 +202,7 @@ inherited OutputWindow: TOutputWindow
         Name = 'Quit'
       end
       item
-        CollectionIndex = 46
+        CollectionIndex = 47
         CollectionName = 'Font'
         Disabled = False
         Name = 'Font'

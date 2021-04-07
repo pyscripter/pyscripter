@@ -1534,6 +1534,9 @@ begin
     JvAppInstances.Check;
   end;
 
+  // SpTBXLib Font
+  ToolbarFont.Size := ToolbarFont.Size + 1;
+
   // JvDocking Fonts
   with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
     ActiveFont.Assign(ToolbarFont);

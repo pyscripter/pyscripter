@@ -519,42 +519,42 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 19
+        CollectionIndex = 29
         CollectionName = 'Execute'
         Disabled = False
         Name = 'Execute'
       end
       item
-        CollectionIndex = 20
+        CollectionIndex = 11
         CollectionName = 'Check'
         Disabled = False
         Name = 'Check'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 110
         CollectionName = 'Stop'
         Disabled = False
         Name = 'Stop'
       end
       item
-        CollectionIndex = 22
-        CollectionName = 'Options'
+        CollectionIndex = 103
+        CollectionName = 'Setup'
         Disabled = False
-        Name = 'Options'
+        Name = 'Setup'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 52
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 40
     Top = 376

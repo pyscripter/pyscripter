@@ -227,7 +227,7 @@ inherited ToDoWindow: TToDoWindow
       Caption = '&Options...'
       Hint = 'Options...'
       ImageIndex = 2
-      ImageName = 'Options'
+      ImageName = 'Setup'
       OnExecute = actOptionsConfigureExecute
     end
     object actHelpHelp: TAction
@@ -296,48 +296,48 @@ inherited ToDoWindow: TToDoWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 8
+        CollectionIndex = 70
         CollectionName = 'Print'
         Disabled = False
         Name = 'Print'
       end
       item
-        CollectionIndex = 12
+        CollectionIndex = 16
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 22
-        CollectionName = 'Options'
+        CollectionIndex = 103
+        CollectionName = 'Setup'
         Disabled = False
-        Name = 'Options'
+        Name = 'Setup'
       end
       item
-        CollectionIndex = 32
+        CollectionIndex = 51
         CollectionName = 'GoToLine'
         Disabled = False
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 52
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 88
         CollectionName = 'Refresh'
         Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 0
         CollectionName = 'Abort'
         Disabled = False
         Name = 'Abort'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 201
     Top = 64

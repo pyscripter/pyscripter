@@ -522,19 +522,19 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 45
+        CollectionIndex = 46
         CollectionName = 'Folders'
         Disabled = False
         Name = 'Folders'
       end
       item
-        CollectionIndex = 31
+        CollectionIndex = 32
         CollectionName = 'ExternalRun'
         Disabled = False
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 30
+        CollectionIndex = 31
         CollectionName = 'Expand'
         Disabled = False
         Name = 'Expand'
@@ -582,7 +582,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Name = 'ProjectRemove'
       end
       item
-        CollectionIndex = 44
+        CollectionIndex = 45
         CollectionName = 'FolderAdd'
         Disabled = False
         Name = 'FolderAdd'
@@ -612,7 +612,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Name = 'RunConfigEdit'
       end
       item
-        CollectionIndex = 38
+        CollectionIndex = 39
         CollectionName = 'FileProperties'
         Disabled = False
         Name = 'FileProperties'
@@ -636,7 +636,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Name = 'DebugLast'
       end
       item
-        CollectionIndex = 32
+        CollectionIndex = 33
         CollectionName = 'ExternalRunLast'
         Disabled = False
         Name = 'ExternalRunLast'

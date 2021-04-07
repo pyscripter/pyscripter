@@ -122,7 +122,7 @@ object PyIDEMainForm: TPyIDEMainForm
       OnActiveTabChange = TabControlActiveTabChange
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 702
+        CustomWidth = 686
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
@@ -1085,7 +1085,7 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object ViewToolbar: TSpTBXToolbar
-      Left = 743
+      Left = 735
       Top = 25
       DockPos = 728
       DockRow = 1
@@ -1281,7 +1281,7 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object UserToolbar: TSpTBXToolbar
-      Left = 511
+      Left = 515
       Top = 55
       DockPos = 310
       DockRow = 2
@@ -2314,13 +2314,13 @@ object PyIDEMainForm: TPyIDEMainForm
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 36
+        CollectionIndex = 37
         CollectionName = 'FileNew'
         Disabled = False
         Name = 'FileNew'
       end
       item
-        CollectionIndex = 37
+        CollectionIndex = 38
         CollectionName = 'FileOpen'
         Disabled = False
         Name = 'FileOpen'
@@ -2398,7 +2398,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Search'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 41
         CollectionName = 'FindNext'
         Disabled = False
         Name = 'FindNext'
@@ -2410,7 +2410,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Replace'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 29
         CollectionName = 'Execute'
         Disabled = False
         Name = 'Execute'
@@ -2422,10 +2422,10 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Check'
       end
       item
-        CollectionIndex = 62
-        CollectionName = 'Options'
+        CollectionIndex = 27
+        CollectionName = 'EditOptions'
         Disabled = False
-        Name = 'Options'
+        Name = 'EditOptions'
       end
       item
         CollectionIndex = 1
@@ -2434,25 +2434,25 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'AppSettings'
       end
       item
-        CollectionIndex = 45
+        CollectionIndex = 46
         CollectionName = 'Folders'
         Disabled = False
         Name = 'Folders'
       end
       item
-        CollectionIndex = 48
+        CollectionIndex = 49
         CollectionName = 'Function'
         Disabled = False
         Name = 'Function'
       end
       item
-        CollectionIndex = 31
+        CollectionIndex = 32
         CollectionName = 'ExternalRun'
         Disabled = False
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 30
+        CollectionIndex = 31
         CollectionName = 'Expand'
         Disabled = False
         Name = 'Expand'
@@ -2464,19 +2464,19 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 54
+        CollectionIndex = 55
         CollectionName = 'Info'
         Disabled = False
         Name = 'Info'
       end
       item
-        CollectionIndex = 50
+        CollectionIndex = 51
         CollectionName = 'GoToLine'
         Disabled = False
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 52
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
@@ -2500,13 +2500,13 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Abort'
       end
       item
-        CollectionIndex = 57
+        CollectionIndex = 58
         CollectionName = 'LineNumbers'
         Disabled = False
         Name = 'LineNumbers'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 30
         CollectionName = 'Exit'
         Disabled = False
         Name = 'Exit'
@@ -2584,7 +2584,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'BreakpointsWin'
       end
       item
-        CollectionIndex = 53
+        CollectionIndex = 54
         CollectionName = 'Indent'
         Disabled = False
         Name = 'Indent'
@@ -2608,7 +2608,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'UnCodeComment'
       end
       item
-        CollectionIndex = 59
+        CollectionIndex = 60
         CollectionName = 'MessagesWin'
         Disabled = False
         Name = 'MessagesWin'
@@ -2656,7 +2656,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'ToolsSetup'
       end
       item
-        CollectionIndex = 35
+        CollectionIndex = 36
         CollectionName = 'FileExplorer'
         Disabled = False
         Name = 'FileExplorer'
@@ -2674,13 +2674,13 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'SearchFolder'
       end
       item
-        CollectionIndex = 43
+        CollectionIndex = 44
         CollectionName = 'FindResults'
         Disabled = False
         Name = 'FindResults'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 34
         CollectionName = 'ExternalRunSetup'
         Disabled = False
         Name = 'ExternalRunSetup'
@@ -2716,7 +2716,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'RegExp'
       end
       item
-        CollectionIndex = 55
+        CollectionIndex = 56
         CollectionName = 'Keyboard'
         Disabled = False
         Name = 'Keyboard'
@@ -2764,25 +2764,25 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'EditorMax'
       end
       item
-        CollectionIndex = 27
+        CollectionIndex = 28
         CollectionName = 'EditorMin'
         Disabled = False
         Name = 'EditorMin'
       end
       item
-        CollectionIndex = 41
+        CollectionIndex = 42
         CollectionName = 'FindPrevious'
         Disabled = False
         Name = 'FindPrevious'
       end
       item
-        CollectionIndex = 52
+        CollectionIndex = 53
         CollectionName = 'Highlight'
         Disabled = False
         Name = 'Highlight'
       end
       item
-        CollectionIndex = 49
+        CollectionIndex = 50
         CollectionName = 'GoToError'
         Disabled = False
         Name = 'GoToError'
@@ -2848,13 +2848,13 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'DebugLast'
       end
       item
-        CollectionIndex = 32
+        CollectionIndex = 33
         CollectionName = 'ExternalRunLast'
         Disabled = False
         Name = 'ExternalRunLast'
       end
       item
-        CollectionIndex = 58
+        CollectionIndex = 59
         CollectionName = 'Link'
         Disabled = False
         Name = 'Link'
@@ -2913,7 +2913,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Python'
       end
       item
-        CollectionIndex = 56
+        CollectionIndex = 57
         CollectionName = 'Layouts'
         Disabled = False
         Name = 'Layouts'
@@ -2961,13 +2961,15 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Edit'
       end
       item
-        CollectionIndex = 62
-        CollectionName = 'Options'
+        CollectionIndex = 102
+        CollectionName = 'Setup'
         Disabled = False
-        Name = 'Options'
+        Name = 'Setup'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 112
     Top = 344
   end
