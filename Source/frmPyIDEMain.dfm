@@ -31,7 +31,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 294
+      CustomWidth = 252
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -39,7 +39,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Python version'
       OnClick = lbPythonVersionClick
       Alignment = taCenter
-      MinWidth = 120
+      MinWidth = 130
     end
     object SpTBXSeparatorItem23: TSpTBXSeparatorItem
     end
@@ -47,7 +47,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Python engine type'
       OnClick = lbPythonEngineClick
       Alignment = taCenter
-      MinWidth = 90
+      MinWidth = 100
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -56,7 +56,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Wrapping = twEndEllipsis
       OnClick = lbStatusCaretClick
       Alignment = taCenter
-      CustomWidth = 84
+      CustomWidth = 92
     end
     object SpTBXSeparatorItem6: TSpTBXSeparatorItem
     end
@@ -65,7 +65,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
       Alignment = taCenter
-      CustomWidth = 72
+      CustomWidth = 80
     end
     object SpTBXSeparatorItem7: TSpTBXSeparatorItem
     end
@@ -73,7 +73,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
       Alignment = taCenter
-      CustomWidth = 84
+      CustomWidth = 90
     end
     object SpTBXSeparatorItem8: TSpTBXSeparatorItem
     end
@@ -2966,6 +2966,12 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionName = 'Setup'
         Disabled = False
         Name = 'Setup'
+      end
+      item
+        CollectionIndex = 87
+        CollectionName = 'Refresh'
+        Disabled = False
+        Name = 'Refresh'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True

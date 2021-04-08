@@ -383,8 +383,8 @@ begin
   end;
 
   //  Now Draw Caption
-  Canvas.Font.Assign(SmCaptionFont);
-  Canvas.Font.Height := MulDiv(SmCaptionFont.Height, FCurrentPPI, SmCaptionFont.PixelsPerInch);
+  Canvas.Font.Assign(ToolbarFont); // was SmCaptionFont
+  Canvas.Font.Height := MulDiv(ToolbarFont.Height, FCurrentPPI, ToolbarFont.PixelsPerInch);
   GetCaptionRect( CRect );
   PanelCaption := TForm(Control).Caption;
 
@@ -1234,9 +1234,9 @@ begin
     SystemParametersInfoForDpi(SPI_GETNONCLIENTMETRICS,
     NonClientMetrics.cbSize, @NonClientMetrics, 0, 96)
   then
-    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 12, 24)
+    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 12, 28)
   else
-    GrabbersSize := 24;
+    GrabbersSize := 28;
 end;
 
 { TJvDockVSNETTabSheetSpTBX }
