@@ -1051,6 +1051,7 @@ end;
 procedure TJvDockInfoZone.SetDockInfoFromNodeToControl(Control: TControl);
 var
   DS: TJvDockServer;
+  NewPPI: Integer;
 
   procedure SetPopupPanelSize(PopupPanel: TJvDockVSPopupPanel);
   begin
@@ -1079,7 +1080,9 @@ begin
         TForm(Control).BorderStyle := BorderStyle;
         TForm(Control).FormStyle := FormStyle;
         //https://stackoverflow.com/questions/3118751/how-can-i-display-a-form-on-a-secondary-monitor
-        Control.ScaleForPPI(Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch);
+        NewPPI := Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch;
+        if NewPPI <> Control.CurrentPPI then
+          Control.ScaleForPPI(Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch);
         Control.Visible := Visible;
         // When Windows state is wsMaximized setting the BoundsRect would maximize the form in the correct Monitor
         Control.BoundsRect := DockRect;  // is this useful for minimized forms?

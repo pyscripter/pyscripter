@@ -4049,8 +4049,8 @@ begin
     if (DropAlign = alNone) and (DragTarget = nil) then
     begin
       PPI := Screen.MonitorFromPoint(DragPos).PixelsPerInch;
-      DockRect.Width := MulDiv(Control.Width, PPI, Control.CurrentPPI);
-      DockRect.Height := MulDiv(Control.Height, PPI, Control.CurrentPPI);
+      DockRect.Width := MulDiv(DockRect.Width, PPI, Control.CurrentPPI);
+      DockRect.Height := MulDiv(DockRect.Height, PPI, Control.CurrentPPI);
       DrawRect := DockRect;
     end;
     AlphaBlendedForm.Visible := True;

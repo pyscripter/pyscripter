@@ -224,9 +224,6 @@ function IsStyledWindowsColorDark : boolean;
 procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
  const FontColor: TColor = clDefault; FontSize: Integer = 0);
 
-(* Scales the images of an ImageList *)
-procedure ScaleImageList(const ImgList: TImageList; M, D: Integer);
-
 (* Resize Bitmap *)
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 
@@ -1899,72 +1896,6 @@ begin
       SelAttributes.Color := DefAttributes.Color;
 
     SelText := S;
-  end;
-end;
-
-procedure ScaleImageList(const ImgList: TImageList; M, D: Integer);
-var
-  {ScaleFactor, }ii : integer;
-  mb, ib, sib, smb : TBitmap;
-  TmpImgList : TImageList;
-begin
-  if M = D then Exit;
-
-//  ScaleFactor := M div D;
-  //clear images
-  TmpImgList := TImageList.Create(nil);
-  try
-    TmpImgList.Assign(ImgList);
-
-    //set size to match DPI size (like 250% of 16px = 40px)
-    ImgList.Clear;
-    ImgList.SetSize(MulDiv(ImgList.Width, M, D), MulDiv(ImgList.Height, M, D));
-
-    //add images back to original ImageList stretched (if DPI scaling > 150%) or centered (if DPI scaling <= 150%)
-    for ii := 0 to -1 + TmpImgList.Count do
-    begin
-      ib := TBitmap.Create;
-      mb := TBitmap.Create;
-      try
-        ib.SetSize(TmpImgList.Width, TmpImgList.Height);
-        ib.Canvas.FillRect(ib.Canvas.ClipRect);
-
-        mb.SetSize(TmpImgList.Width, TmpImgList.Height);
-        mb.Canvas.FillRect(mb.Canvas.ClipRect);
-
-        ImageList_DrawEx(TmpImgList.Handle, ii, ib.Canvas.Handle, 0, 0, ib.Width, ib.Height, CLR_NONE, CLR_NONE, ILD_NORMAL);
-        ImageList_DrawEx(TmpImgList.Handle, ii, mb.Canvas.Handle, 0, 0, mb.Width, mb.Height, CLR_NONE, CLR_NONE, ILD_MASK);
-
-        sib := TBitmap.Create; //stretched (or centered) image
-        smb := TBitmap.Create; //stretched (or centered) mask
-        try
-          sib.SetSize(ImgList.Width, ImgList.Height);
-          sib.Canvas.FillRect(sib.Canvas.ClipRect);
-          smb.SetSize(ImgList.Width, ImgList.Height);
-          smb.Canvas.FillRect(smb.Canvas.ClipRect);
-
-          if M * 100 / D >= 150 then //stretch if >= 150%
-          begin
-            sib.Canvas.StretchDraw(Rect(0, 0, sib.Width, sib.Width), ib);
-            smb.Canvas.StretchDraw(Rect(0, 0, smb.Width, smb.Width), mb);
-          end
-          else //center if < 150%
-          begin
-            sib.Canvas.Draw((sib.Width - ib.Width) DIV 2, (sib.Height - ib.Height) DIV 2, ib);
-            smb.Canvas.Draw((smb.Width - mb.Width) DIV 2, (smb.Height - mb.Height) DIV 2, mb);
-          end;
-          ImgList.Add(sib, smb);
-        finally
-          sib.Free;
-          smb.Free;
-        end;
-    finally
-        ib.Free;
-        mb.Free;
-      end;
-    end;
-  finally
-    TmpImgList.Free;
   end;
 end;
 

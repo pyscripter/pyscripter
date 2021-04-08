@@ -643,10 +643,11 @@ begin
   MapWindowPoints(0, Handle, DestRect, 2);
   DisableAlign;
   try
-    Source.Control.Dock(Self, DestRect);
     if UseDockManager and (DockManager <> nil) then
       DockManager.InsertControl(Source.Control,
-        Source.DropAlign, Source.DropOnControl);
+        Source.DropAlign, Source.DropOnControl)
+    else
+      Source.Control.Dock(Self, DestRect);
   finally
     EnableAlign;
   end;
@@ -1844,8 +1845,8 @@ begin
   if (DropAlign = alNone) and (DragTarget = nil) then
   begin
     PPI := Screen.MonitorFromPoint(DragPos).PixelsPerInch;
-    DockRect.Width := MulDiv(FControl.Width, PPI, FControl.CurrentPPI);
-    DockRect.Height := MulDiv(FControl.Height, PPI, FControl.CurrentPPI);
+    DockRect.Width := MulDiv(DockRect.Width, PPI, FControl.CurrentPPI);
+    DockRect.Height := MulDiv(DockRect.Height, PPI, FControl.CurrentPPI);
   end;
   AlphaBlendedForm.Visible := True;
   AlphaBlendedForm.BoundsRect := DrawRect;
@@ -2335,6 +2336,7 @@ var
   Accepted: Boolean;
   TargetPos: TPoint;
   ParentForm: TCustomForm;
+  NewPPI: Integer;
 
   function CheckUndock: Boolean;
   begin
@@ -2363,7 +2365,11 @@ var
           DragObject.DockRect.Height := Control.Height;
         end
         else
-          Control.ScaleForPPI(Screen.MonitorFromRect(DragObject.DockRect).PixelsPerInch);
+        begin
+          NewPPI := Screen.MonitorFromRect(DragObject.DockRect).PixelsPerInch;
+          if NewPPI <> TControlAccessProtected(Control).FCurrentPPI then
+            Control.ScaleForPPI(NewPPI);
+        end;
 
         Control.Dock(nil, DragObject.DockRect);
         if (Control.Left <> DragObject.DockRect.Left) or (Control.Top <> DragObject.DockRect.Top) then
@@ -2434,8 +2440,11 @@ begin
         end
         else
         begin
-          if Assigned(DragSave.Control) then
-            DragSave.Control.ScaleforPPI(Screen.MonitorFromPoint(DragSave.DragPos).PixelsPerInch);
+          if Assigned(DragSave.Control) then begin
+            NewPPI := Screen.MonitorFromPoint(DragSave.DragPos).PixelsPerInch;
+            if NewPPI <> TControlAccessProtected(DragSave.Control).FCurrentPPI then
+              DragSave.Control.ScaleforPPI(NewPPI);
+          end;
           DoDockDrop(DragSave, DragSave.DragPos);
         end;
       end;

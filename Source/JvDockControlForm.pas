@@ -2200,12 +2200,16 @@ end;
 
 function TJvDockAdvStyle.DockClientWindowProc(DockClient: TJvDockClient;
   var Msg: TMessage): Boolean;
+var
+  NewPPI: Integer;
 begin
   if (DockClient <> nil) and (Msg.Msg = WM_NCLBUTTONDBLCLK) then
     //KV
     if DockClient.DockState = JvDockState_Floating then begin
       if Assigned(DockClient.LastDockSite) then begin
-        DockClient.ParentForm.ScaleForPPI(DockClient.LastDockSite.CurrentPPI);
+        NewPPI := DockClient.LastDockSite.CurrentPPI;
+        if NewPPI <> TControlAccessProtected(DockClient.ParentForm).FCurrentPPI then
+          DockClient.ParentForm.ScaleForPPI(NewPPI);
         DockClient.ParentForm.ManualDock(DockClient.LastDockSite);
       end;
     end else begin
@@ -2827,13 +2831,17 @@ var
   ARect: TRect;
 
   procedure DoFloatParentForm;
+  var
+    NewPPI: Integer;
   begin
     with DockClient do
       if (ParentForm.HostDockSite <> nil) then
       begin
         ARect := Bounds(TmpUnDockLeft, TmpUnDockTop, ParentForm.UndockWidth, ParentForm.UndockHeight);
         ParentForm.ManualFloat(ARect);
-        ParentForm.ScaleForPPI(Screen.MonitorFromPoint(Point(TmpUnDockLeft, TmpUnDockTop)).PixelsPerInch);
+        NewPPI := Screen.MonitorFromPoint(Point(TmpUnDockLeft, TmpUnDockTop)).PixelsPerInch;
+        if NewPPI <> TControlAccessProtected(ParentForm).FCurrentPPI then
+          ParentForm.ScaleForPPI(NewPPI);
 
         if (ParentForm.Left <> ARect.Left) or (ParentForm.Top <> ARect.Top) then
         begin
@@ -5104,6 +5112,7 @@ var
   ControlName: UTF8String;
   AControl: TControl;
   Index: Integer;
+  TempW, TempH: Integer;
 begin
   Stream.Read(I, SizeOf(I));
 
@@ -5127,7 +5136,11 @@ begin
       ReloadDockedControl({$IFDEF UNICODE}UTF8ToString{$ELSE}UTF8Decode{$ENDIF}(ControlName), AControl);
       if AControl <> nil then
       begin
+        TempW := AControl.UndockWidth;
+        TempH := AControl.UndockHeight;
         AControl.ManualDock(Self, nil, alClient);
+        AControl.UndockWidth := TempW;
+        AControl.UndockHeight := TempH;
         { DockClients[Index] is always AControl? }
         DockClients[Index].Visible := Boolean(SheetVisible);
         if (Self is TJvDockVSNETTabPageControl) and (Index = Count - 1) then
