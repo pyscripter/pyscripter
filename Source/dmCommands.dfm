@@ -75,7 +75,7 @@ object CommandsDataModule: TCommandsDataModule
     ShortCut = 24656
     OnCodeCompletion = ParameterCompletionCodeCompletion
     Left = 335
-    Top = 12
+    Top = 20
   end
   object ModifierCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
@@ -105,8 +105,8 @@ object CommandsDataModule: TCommandsDataModule
     OnExecute = ModifierCompletionExecute
     ShortCut = 24653
     OnCodeCompletion = ModifierCompletionCodeCompletion
-    Left = 338
-    Top = 58
+    Left = 335
+    Top = 66
   end
   object CodeTemplatesCompletion: TSynAutoComplete
     AutoCompleteList.Strings = (
@@ -159,7 +159,7 @@ object CommandsDataModule: TCommandsDataModule
     EndOfTokenChr = '()[]. '
     ShortCut = 0
     Options = [scoLimitToMatchedText, scoUseInsertList, scoCompleteWithTab, scoCompleteWithEnter]
-    Left = 340
+    Left = 335
     Top = 108
   end
   object ShellImages: TImageList
@@ -198,16 +198,16 @@ object CommandsDataModule: TCommandsDataModule
     VersionHistoryFileOptions.XMLOptions.UseOldItemNameFormat = False
     VersionHistoryFileOptions.XMLOptions.WhiteSpaceReplacement = '_'
     VersionHistoryFileOptions.XMLOptions.InvalidCharReplacement = '_'
-    Left = 491
-    Top = 23
+    Left = 435
+    Top = 183
   end
   object ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation
     OnLoadFileFromRemote = ProgramVersionHTTPLocationLoadFileFromRemote
     VersionInfoLocationPathList.Strings = (
       'https://raw.githubusercontent.com/pyscripter/pyscripter/master')
     VersionInfoFileName = 'PyScripterVersionInfo.ini'
-    Left = 494
-    Top = 72
+    Left = 566
+    Top = 184
   end
   object SynIniSyn: TSynIniSyn
     Options.AutoDetectEnabled = False
@@ -1983,8 +1983,8 @@ object CommandsDataModule: TCommandsDataModule
           'if __name__ == "__main__":'
           '    main()')
       end>
-    Left = 343
-    Top = 176
+    Left = 335
+    Top = 184
   end
   object dlgFileOpen: TOpenDialog
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
@@ -5162,5 +5162,72 @@ object CommandsDataModule: TCommandsDataModule
       end>
     Left = 108
     Top = 208
+  end
+  object SynWebCompletion: TSynCompletionProposal
+    Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Width = 340
+    EndOfTokenChr = ';>()[] .'
+    TriggerChars = '<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBtnText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    Columns = <
+      item
+        ColumnWidth = 100
+      end>
+    Resizeable = True
+    ShortCut = 0
+    Left = 484
+    Top = 112
+  end
+  object SynParamCompletion: TSynCompletionProposal
+    DefaultType = ctParams
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    EndOfTokenChr = '()[]. ='
+    TriggerChars = '('
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBtnText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    Columns = <>
+    ShortCut = 0
+    TimerInterval = 300
+    Left = 484
+    Top = 71
+  end
+  object SynCodeCompletion: TSynCompletionProposal
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Width = 200
+    EndOfTokenChr = '()[]{}. =:'
+    TriggerChars = '.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBtnText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    Columns = <>
+    Resizeable = True
+    ShortCut = 0
+    TimerInterval = 300
+    Left = 484
+    Top = 25
   end
 end

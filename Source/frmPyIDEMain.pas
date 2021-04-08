@@ -2461,7 +2461,6 @@ begin
   UpdateDebugCommands(PyControl.DebuggerState);
   if Assigned(GI_ActiveEditor) then
     TEditorForm(GI_ActiveEditor.Form).DoOnIdle;
-  PythonIIForm.DoOnIdle;
 
   // If a Tk or Wx remote engine is active pump up event handling
   // This is for processing input output coming from event handlers
@@ -2483,6 +2482,15 @@ begin
       OpenCmdLineFile(ShellExtensionFiles[i]);
     ShellExtensionFiles.Clear;
   end;
+
+  if not Application.Active then
+  begin
+    if CommandsDataModule.SynCodeCompletion.Form.Visible then
+      CommandsDataModule.SynCodeCompletion.CancelCompletion;
+    if CommandsDataModule.SynParamCompletion.Form.Visible then
+      CommandsDataModule.SynParamCompletion.CancelCompletion;
+  end;
+
   Done := True;
 end;
 
@@ -2963,9 +2971,6 @@ procedure TPyIDEMainForm.ApplyIDEOptionsToEditor(Editor: IEditor);
 begin
   with TEditorForm(Editor.Form) do
   begin
-    SynCodeCompletion.Options := PythonIIForm.SynCodeCompletion.Options;
-    SynCodeCompletion.TriggerChars := PythonIIForm.SynCodeCompletion.TriggerChars;
-    SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
     Synedit.CodeFolding.Assign(PyIDEOptions.CodeFolding);
     Synedit2.CodeFolding.Assign(PyIDEOptions.CodeFolding);
 
@@ -3060,10 +3065,6 @@ end;
 procedure TPyIDEMainForm.PyIDEOptionsChanged(Sender: TObject);
 var
   Editor : IEditor;
-  i : integer;
-  CaseSensitive,
-  CompleteAsYouType,
-  CompleteWithWordBreakChars : Boolean;
   ViewTabControlPosition: TSpTBXTabPosition;
 begin
   if PyIDEOptions.StyleMainWindowBorder then
@@ -3132,29 +3133,6 @@ begin
     begin
       TEditorForm(Editor.Form).ViewsTabControl.TabPosition := ViewTabControlPosition;
     end);
-  end;
-
-  // Code completion
-  CaseSensitive := PyIDEOptions.CodeCompletionCaseSensitive;
-  CompleteAsYouType := PyIDEOptions.CompleteAsYouType;
-  CompleteWithWordBreakChars := PyIDEOptions.CompleteWithWordBreakChars;
-
-  with PythonIIForm do begin
-    with SynCodeCompletion do begin
-      if CaseSensitive then Options := Options + [scoCaseSensitive]
-        else Options := Options - [scoCaseSensitive];
-      if CompleteWithWordBreakChars then Options := Options + [scoEndCharCompletion]
-        else Options := Options - [scoEndCharCompletion];
-
-      TriggerChars := '.';
-      TimerInterval := 200;
-      if CompleteAsYouType then begin
-        for i := ord('a') to ord('z') do TriggerChars := TriggerChars + Chr(i);
-        for i := ord('A') to ord('Z') do TriggerChars := TriggerChars + Chr(i);
-        if CompleteWithWordBreakChars or PyIDEOptions.CompleteWithOneEntry then
-          TimerInterval := 600;
-      end;
-    end;
   end;
 
   GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)

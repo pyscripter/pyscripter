@@ -67,8 +67,6 @@ type
   TPythonIIForm = class(TIDEDockWindow, ISearchCommands, IPyInterpreter)
     SynEdit: TSynEdit;
     PythonIO: TPythonInputOutput;
-    SynCodeCompletion: TSynCompletionProposal;
-    SynParamCompletion: TSynCompletionProposal;
     InterpreterPopUp: TSpTBXPopupMenu;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     mnInterpreterEditorOptions: TSpTBXItem;
@@ -188,7 +186,6 @@ type
     function IsEmpty : Boolean;
     procedure RegisterHistoryCommands;
     procedure UpdateInterpreterActions;
-    procedure DoOnIdle;
     property ShowOutput : boolean read GetShowOutput write SetShowOutput;
     property CommandHistory : TStringList read fCommandHistory;
     property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
@@ -432,15 +429,6 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.DoOnIdle;
-begin
-  if not Application.Active then
-  begin
-    SynCodeCompletion.CancelCompletion;
-    SynParamCompletion.CancelCompletion;
-  end;
-end;
-
 procedure TPythonIIForm.ClearDisplay;
 begin
   Synedit.ClearAll;
@@ -509,11 +497,6 @@ end;
 procedure TPythonIIForm.FormCreate(Sender: TObject);
 begin
   inherited;
-//  SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
-
-  SynCodeCompletion.EndOfTokenChr := WordBreakString;
-  SynParamCompletion.EndOfTokenChr := WordBreakString;
-
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);
   SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
@@ -538,7 +521,6 @@ begin
   fCommandHistoryPointer := 0;
 
   SetPyInterpreterPrompt(pipNormal);
-  SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
 
   GI_PyInterpreter := Self;
 end;
@@ -649,8 +631,8 @@ begin
 
         fCommandHistoryPrefix := '';
 
-        SynParamCompletion.CancelCompletion;
-        SynCodeCompletion.CancelCompletion;
+        CommandsDataModule.SynParamCompletion.CancelCompletion;
+        CommandsDataModule.SynCodeCompletion.CancelCompletion;
 
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
@@ -850,8 +832,8 @@ begin
         Command := ecNone;  // do not processed it further
       end;
     ecLostFocus:
-      if not (SynCodeCompletion.Form.Visible or SynEdit.Focused) then
-        SynParamCompletion.CancelCompletion;
+      if not (CommandsDataModule.SynCodeCompletion.Form.Visible or SynEdit.Focused) then
+        CommandsDataModule.SynParamCompletion.CancelCompletion;
   end;
 end;
 
@@ -874,7 +856,7 @@ begin
   if (Command = ecChar) and  PyIDEOptions.InterpreterCodeCompletion then
   begin
     if (TIDECompletion.InterpreterCodeCompletion.CompletionInfo.Editor = nil)
-      and (Pos(AChar, SynCodeCompletion.TriggerChars) > 0)
+      and (Pos(AChar, CommandsDataModule.SynCodeCompletion.TriggerChars) > 0)
     then
     begin
       Caret := SynEdit.CaretXY;
@@ -882,7 +864,7 @@ begin
       begin
         DoCodeCompletion(SynEdit, Caret);
       end,
-      SynCodeCompletion.TimerInterval);
+      CommandsDataModule.SynCodeCompletion.TimerInterval);
     end;
   end;
 
@@ -974,6 +956,16 @@ begin
   inherited;
   EditorSearchOptions.InterpreterIsSearchTarget := True;
   GI_SearchCmds := Self;
+  // SynCodeCompletion
+  CommandsDataModule.SynCodeCompletion.Editor := SynEdit;
+  CommandsDataModule.SynCodeCompletion.OnExecute := SynCodeCompletionExecute;
+  CommandsDataModule.SynCodeCompletion.OnAfterCodeCompletion := SynCodeCompletionAfterCodeCompletion;
+  CommandsDataModule.SynCodeCompletion.OnClose := SynCodeCompletionClose;
+  CommandsDataModule.SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
+  CommandsDataModule.SynCodeCompletion.Images := vilCodeImages;
+  // SynParamCompletion
+  CommandsDataModule.SynParamCompletion.Editor := SynEdit;
+  CommandsDataModule.SynParamCompletion.OnExecute := SynParamCompletionExecute;
 end;
 
 procedure TPythonIIForm.SynEditExit(Sender: TObject);
@@ -986,8 +978,8 @@ procedure TPythonIIForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   EditorSearchOptions.InitSearch;
-  if SynParamCompletion.Form.Visible then
-    SynParamCompletion.CancelCompletion;
+  if CommandsDataModule.SynParamCompletion.Form.Visible then
+    CommandsDataModule.SynParamCompletion.CancelCompletion;
 end;
 
 procedure TPythonIIForm.SynEditMouseWheelDown(Sender: TObject;
@@ -1017,16 +1009,16 @@ begin
   case Command of
     ecCodeCompletion :
       begin
-        if SynCodeCompletion.Form.Visible then
-          SynCodeCompletion.CancelCompletion;
+        if CommandsDataModule.SynCodeCompletion.Form.Visible then
+          CommandsDataModule.SynCodeCompletion.CancelCompletion;
         DoCodeCompletion(SynEdit, SynEdit.CaretXY);
         //SynCodeCompletion.ActivateCompletion;
       end;
     ecParamCompletion:
       begin
-        if SynParamCompletion.Form.Visible then
-          SynParamCompletion.CancelCompletion;
-        SynParamCompletion.ActivateCompletion;
+        if CommandsDataModule.SynParamCompletion.Form.Visible then
+          CommandsDataModule.SynParamCompletion.CancelCompletion;
+        CommandsDataModule.SynParamCompletion.ActivateCompletion;
       end;
     ecSelMatchBracket :
       begin
@@ -1038,11 +1030,11 @@ begin
     ecRecallCommandNext,
     ecRecallCommandEsc :
       begin
-        if (Command = ecRecallCommandEsc) and SynParamCompletion.Form.Visible then
-          SynParamCompletion.CancelCompletion
+        if (Command = ecRecallCommandEsc) and CommandsDataModule.SynParamCompletion.Form.Visible then
+          CommandsDataModule.SynParamCompletion.CancelCompletion
         else
         begin
-          SynParamCompletion.CancelCompletion;
+          CommandsDataModule.SynParamCompletion.CancelCompletion;
           LineN := SynEdit.CaretY -1;
           GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
           SetLength(Buffer, EndLineN-StartLineN + 1);
@@ -1196,14 +1188,14 @@ begin
   if EndToken = '(' then
     TThread.ForceQueue(nil, procedure
     begin
-      SynParamCompletion.ActivateCompletion;
+      CommandsDataModule.SynParamCompletion.ActivateCompletion;
     end);
 end;
 
 procedure TPythonIIForm.SynCodeCompletionClose(Sender: TObject);
 begin
   PyIDEOptions.CodeCompletionListSize :=
-    SynCodeCompletion.NbLinesInWindow;
+    CommandsDataModule.SynCodeCompletion.NbLinesInWindow;
   //  Clean-up
   TIDECompletion.InterpreterCodeCompletion.CleanUp;
 end;
@@ -1295,7 +1287,7 @@ begin
       if not Skipped and Handled and (InsertText <> '') then
         TThread.Queue(nil, procedure
         begin
-          SynCodeCompletion.ActivateCompletion;
+          CommandsDataModule.SynCodeCompletion.ActivateCompletion;
         end)
       else
         CC.CleanUp;
@@ -1398,8 +1390,6 @@ begin
 
   var CP := Sender as TSynCompletionProposal;
   if CanExecute then begin
-    CP.Font := PyIDEOptions.AutoCompletionFont;
-    CP.FontsAreScaled := True;
     CP.FormatParams := not (DisplayString = '');
     if not CP.FormatParams then
       DisplayString :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';

@@ -72,11 +72,8 @@ type
     pmnuViewsTab: TSpTBXPopupMenu;
     mnCloseTab: TSpTBXItem;
     SynEdit: TSynEdit;
-    SynCodeCompletion: TSynCompletionProposal;
-    SynParamCompletion: TSynCompletionProposal;
     SynEdit2: TSynEdit;
     EditorSplitter: TSpTBXSplitter;
-    SynWebCompletion: TSynCompletionProposal;
     mnUpdateView: TSpTBXItem;
     ViewsTabControl: TSpTBXTabControl;
     tabSource: TSpTBXTabItem;
@@ -1605,8 +1602,6 @@ begin
   fOldCaretY := ASynEdit.CaretY;
   PyIDEMainForm.ActiveTabControl := ParentTabControl;
   DoAssignInterfacePointer(True);
-  CommandsDataModule.ParameterCompletion.Editor := ASynEdit;
-  CommandsDataModule.ModifierCompletion.Editor := ASynEdit;
   CommandsDataModule.CodeTemplatesCompletion.Editor := ASynEdit;
   CommandsDataModule.CodeTemplatesCompletion.OnBeforeExecute :=
     AutoCompleteBeforeExecute;
@@ -1615,15 +1610,37 @@ begin
 
   if ASynEdit.Highlighter is TSynWebBase then
   begin
-    SynCodeCompletion.Editor := nil;
-    SynParamCompletion.Editor := nil;
-    SynWebCompletion.Editor := ASynEdit;
+    // SynCodeCompletion
+    CommandsDataModule.SynCodeCompletion.Editor := nil;
+    CommandsDataModule.SynCodeCompletion.OnExecute := nil;
+    CommandsDataModule.SynCodeCompletion.OnAfterCodeCompletion := nil;
+    CommandsDataModule.SynCodeCompletion.OnAfterCodeCompletion := nil;
+    CommandsDataModule.SynCodeCompletion.OnCodeItemInfo := nil;
+    CommandsDataModule.SynCodeCompletion.Images := vilCodeImages;
+    // SynParamCompletion
+    CommandsDataModule.SynParamCompletion.Editor := nil;
+    CommandsDataModule.SynParamCompletion.OnExecute := nil;
+    // SynWebCompletion
+    CommandsDataModule.SynWebCompletion.Editor := ASynEdit;
+    CommandsDataModule.SynWebCompletion.OnExecute := SynWebCompletionExecute;
+    CommandsDataModule.SynWebCompletion.OnAfterCodeCompletion := SynWebCompletionAfterCodeCompletion;
   end
   else
   begin
-    SynCodeCompletion.Editor := ASynEdit;
-    SynParamCompletion.Editor := ASynEdit;
-    SynWebCompletion.Editor := nil;
+    // SynCodeCompletion
+    CommandsDataModule.SynCodeCompletion.Editor := ASynEdit;
+    CommandsDataModule.SynCodeCompletion.OnExecute := SynCodeCompletionExecute;
+    CommandsDataModule.SynCodeCompletion.OnAfterCodeCompletion := SynCodeCompletionAfterCodeCompletion;
+    CommandsDataModule.SynCodeCompletion.OnClose := SynCodeCompletionClose;
+    CommandsDataModule.SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
+    CommandsDataModule.SynCodeCompletion.Images := vilCodeImages;
+    // SynParamCompletion
+    CommandsDataModule.SynParamCompletion.Editor := ASynEdit;
+    CommandsDataModule.SynParamCompletion.OnExecute := SynParamCompletionExecute;
+    // SynWebCompletion
+    CommandsDataModule.SynWebCompletion.Editor := nil;
+    CommandsDataModule.SynWebCompletion.OnExecute := nil;
+    CommandsDataModule.SynWebCompletion.OnAfterCodeCompletion := nil;
   end;
 
   if fOldEditorForm <> Self then
@@ -1639,9 +1656,9 @@ end;
 procedure TEditorForm.SynEditExit(Sender: TObject);
 begin
   // The following create problems
-   CommandsDataModule.ParameterCompletion.Editor := nil;
-   CommandsDataModule.ModifierCompletion.Editor := nil;
-   CommandsDataModule.CodeTemplatesCompletion.Editor := nil;
+//   CommandsDataModule.ParameterCompletion.Editor := nil;
+//   CommandsDataModule.ModifierCompletion.Editor := nil;
+//   CommandsDataModule.CodeTemplatesCompletion.Editor := nil;
   DoAssignInterfacePointer(False);
 end;
 
@@ -2037,20 +2054,18 @@ begin
       ecCodeCompletion:
         if ASynEdit.Highlighter is TSynPythonSyn then
         begin
-          if SynCodeCompletion.Form.Visible then
-            SynCodeCompletion.CancelCompletion;
-          // SynCodeCompletion.DefaultType := ctCode;
+          if CommandsDataModule.SynCodeCompletion.Form.Visible then
+            CommandsDataModule.SynCodeCompletion.CancelCompletion;
           DoCodeCompletion(ASynEdit, ASynEdit.CaretXY);
           Handled := True;
         end else if ASynEdit.Highlighter is TSynWebBase then
-          SynWebCompletion.ActivateCompletion;
+          CommandsDataModule.SynWebCompletion.ActivateCompletion;
       ecParamCompletion:
         if ASynEdit.Highlighter is TSynPythonSyn then
         begin
-          if SynParamCompletion.Form.Visible then
-            SynParamCompletion.CancelCompletion;
-          // SynCodeCompletion.DefaultType := ctParams;
-          SynParamCompletion.ActivateCompletion;
+          if CommandsDataModule.SynParamCompletion.Form.Visible then
+            CommandsDataModule.SynParamCompletion.CancelCompletion;
+          CommandsDataModule.SynParamCompletion.ActivateCompletion;
           Handled := True;
         end;
       ecLeft: // Implement Visual Studio like behaviour when selection is available
@@ -2146,7 +2161,7 @@ begin
           if PyIDEOptions.EditorCodeCompletion then
           begin
             if (TIDECompletion.EditorCodeCompletion.CompletionInfo.Editor = nil)
-              and (Pos(AChar, SynCodeCompletion.TriggerChars) > 0)
+              and (Pos(AChar, CommandsDataModule.SynCodeCompletion.TriggerChars) > 0)
             then
             begin
               Caret := ASynEdit.CaretXY;
@@ -2154,7 +2169,7 @@ begin
               begin
                 DoCodeCompletion(ASynEdit, Caret);
               end,
-              SynCodeCompletion.TimerInterval);
+              CommandsDataModule.SynCodeCompletion.TimerInterval);
             end;
           end;
 
@@ -2249,8 +2264,8 @@ begin
         if ASynEdit.SelAvail and PyIDEOptions.HighlightSelectedWord then
           CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
       ecLostFocus:
-        if not (SynCodeCompletion.Form.Visible or SynEdit.Focused) then
-          SynParamCompletion.CancelCompletion;
+        if not (CommandsDataModule.SynCodeCompletion.Form.Visible or SynEdit.Focused or SynEdit2.Focused) then
+          CommandsDataModule.SynParamCompletion.CancelCompletion;
     end;
   end;
 end;
@@ -2385,13 +2400,6 @@ begin
   SkinManager.AddSkinNotification(Self);
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
-
-  SynCodeCompletion.EndOfTokenChr := WordBreakString;
-  SynParamCompletion.EndOfTokenChr := WordBreakString;
-  SynCodeCompletion.Options:=PythonIIForm.SynCodeCompletion.Options;
-  SynCodeCompletion.TriggerChars:=PythonIIForm.SynCodeCompletion.TriggerChars;
-  SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
-  SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
 
   // Add Python Version Change Notifier
   PyControl.OnPythonVersionChange.AddHandler(HandlePythonVersionChange);
@@ -2672,8 +2680,8 @@ begin
     PostMessage(PyIDEMainForm.Handle, WM_FINDDEFINITION,
       fHotIdentInfo.StartCoord.Char, fHotIdentInfo.StartCoord.Line);
   end;
-  if SynParamCompletion.Form.Visible then
-    SynParamCompletion.CancelCompletion;
+  if CommandsDataModule.SynParamCompletion.Form.Visible then
+    CommandsDataModule.SynParamCompletion.CancelCompletion;
 end;
 
 procedure TEditorForm.FGPanelEnter(Sender: TObject);
@@ -2833,7 +2841,7 @@ begin
   if EndToken = '(' then
     TThread.ForceQueue(nil, procedure
     begin
-      SynParamCompletion.ActivateCompletion;
+      CommandsDataModule.SynParamCompletion.ActivateCompletion;
     end);
 end;
 
@@ -2850,7 +2858,7 @@ end;
 procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
 begin
   PyIDEOptions.CodeCompletionListSize :=
-    SynCodeCompletion.NbLinesInWindow;
+    CommandsDataModule.SynCodeCompletion.NbLinesInWindow;
   TIDECompletion.EditorCodeCompletion.CleanUp;
 end;
 
@@ -2950,7 +2958,7 @@ begin
       if not Skipped and Handled and (InsertText <> '') then
         TThread.Queue(nil, procedure
         begin
-          SynCodeCompletion.ActivateCompletion;
+          CommandsDataModule.SynCodeCompletion.ActivateCompletion;
         end)
       else
         CC.CleanUp;
@@ -2990,8 +2998,6 @@ begin
       Exit;
     end;
     try
-      CP.Font := PyIDEOptions.AutoCompletionFont;
-      CP.FontsAreScaled := True;
       CP.ItemList.Text := CC.CompletionInfo.DisplayText;
       CP.InsertList.Text := CC.CompletionInfo.InsertText;
       CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
@@ -3051,8 +3057,6 @@ begin
 
   if CanExecute then
   begin
-    CP.Font := PyIDEOptions.AutoCompletionFont;
-    CP.FontsAreScaled := True;
     CP.FormatParams := not (DisplayString = '');
     if not CP.FormatParams then
       DisplayString :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
@@ -3127,7 +3131,7 @@ Var
 begin
   SynEdit := TSynCompletionProposal(Sender).Editor;
   SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHTMLSyn,
-    SynWebCompletion, CurrentInput);
+    CommandsDataModule.SynWebCompletion, CurrentInput);
   TSynCompletionProposal(Sender).Font := PyIDEOptions.AutoCompletionFont;
   TSynCompletionProposal(Sender).FontsAreScaled := True;
 end;
@@ -3251,14 +3255,6 @@ begin
     ParentTabItem.ImageIndex := 6
   else
     ParentTabItem.ImageIndex := -1;
-
-  if not Application.Active then
-  begin
-    if SynCodeCompletion.Form.Visible then
-      SynCodeCompletion.CancelCompletion;
-    if SynParamCompletion.Form.Visible then
-      SynParamCompletion.CancelCompletion;
-  end;
 end;
 
 initialization

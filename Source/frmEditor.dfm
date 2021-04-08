@@ -43,7 +43,7 @@ object EditorForm: TEditorForm
         Checked = True
       end
       object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-        CustomWidth = 478
+        CustomWidth = 470
       end
       object tbiUpdateView: TSpTBXItem
         Caption = 'Update View'
@@ -59,9 +59,9 @@ object EditorForm: TEditorForm
       end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 26
+        Top = 30
         Width = 578
-        Height = 392
+        Height = 388
         Caption = 'Source'
         ImageIndex = -1
         TabItem = 'tabSource'
@@ -69,7 +69,7 @@ object EditorForm: TEditorForm
           Left = 2
           Top = 0
           Width = 367
-          Height = 388
+          Height = 384
           HelpContext = 510
           Align = alClient
           Ctl3D = False
@@ -492,7 +492,7 @@ object EditorForm: TEditorForm
           Left = 374
           Top = 0
           Width = 200
-          Height = 388
+          Height = 384
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -902,7 +902,7 @@ object EditorForm: TEditorForm
         object EditorSplitter: TSpTBXSplitter
           Left = 369
           Top = 0
-          Height = 388
+          Height = 384
           Cursor = crSizeWE
           Align = alRight
           ParentColor = False
@@ -1048,83 +1048,6 @@ object EditorForm: TEditorForm
       ImageIndex = 52
       OnClick = mnCloseTabClick
     end
-  end
-  object SynCodeCompletion: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
-    Width = 200
-    EndOfTokenChr = '()[]{}. =:'
-    TriggerChars = '.'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clBtnText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
-    Columns = <>
-    Resizeable = True
-    Images = vilCodeImages
-    OnClose = SynCodeCompletionClose
-    OnExecute = SynCodeCompletionExecute
-    ShortCut = 0
-    Editor = SynEdit
-    TimerInterval = 300
-    OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
-    Left = 452
-    Top = 41
-  end
-  object SynParamCompletion: TSynCompletionProposal
-    DefaultType = ctParams
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
-    EndOfTokenChr = '()[]. ='
-    TriggerChars = '('
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clBtnText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
-    Columns = <>
-    Images = vilCodeImages
-    OnExecute = SynParamCompletionExecute
-    ShortCut = 0
-    Editor = SynEdit
-    TimerInterval = 300
-    Left = 456
-    Top = 87
-  end
-  object SynWebCompletion: TSynCompletionProposal
-    Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
-    Width = 340
-    EndOfTokenChr = ';>()[] .'
-    TriggerChars = '<'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clBtnText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
-    Columns = <
-      item
-        ColumnWidth = 100
-      end>
-    Resizeable = True
-    OnExecute = SynWebCompletionExecute
-    ShortCut = 0
-    OnAfterCodeCompletion = SynWebCompletionAfterCodeCompletion
-    Left = 456
-    Top = 136
   end
   object vilGutterGlyphs: TVirtualImageList
     DisabledGrayscale = False

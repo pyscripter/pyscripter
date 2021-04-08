@@ -253,6 +253,9 @@ type
     icCodeImages: TSVGIconImageCollection;
     icGutterGlyphs: TSVGIconImageCollection;
     icSVGImages: TSVGIconImageCollection;
+    SynWebCompletion: TSynCompletionProposal;
+    SynParamCompletion: TSynCompletionProposal;
+    SynCodeCompletion: TSynCompletionProposal;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -671,6 +674,16 @@ begin
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 
   TPyScripterSettings.ShellImages := ShellImages;
+
+  // Completion
+  ParameterCompletion.FontsAreScaled := True;
+  ModifierCompletion.FontsAreScaled := True;
+
+  SynCodeCompletion.EndOfTokenChr := WordBreakString;
+  SynCodeCompletion.FontsAreScaled := True;
+
+  SynParamCompletion.EndOfTokenChr := WordBreakString;
+  SynParamCompletion.FontsAreScaled := True;
 
   // Translate
   TranslateComponent(Self);
@@ -2390,11 +2403,11 @@ begin
   end;
 
   // Parameter and Code Template Actions
-  if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynEdit) then begin
+  if Screen.ActiveControl is TSynEdit then begin
     actParameterCompletion.Enabled := True;
     actModifierCompletion.Enabled := True;
-    actReplaceParameters.Enabled := True;
-    actInsertTemplate.Enabled := True;
+    actReplaceParameters.Enabled := Assigned(GI_ActiveEditor);
+    actInsertTemplate.Enabled := Assigned(GI_ActiveEditor);
   end else begin
     actParameterCompletion.Enabled := False;
     actModifierCompletion.Enabled := False;
@@ -2460,7 +2473,7 @@ end;
 procedure TCommandsDataModule.actParameterCompletionExecute(
   Sender: TObject);
 begin
-  if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
+  if Screen.ActiveControl is TSynedit then begin
     ParameterCompletion.Title := _('Parameters');
     ParameterCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
     ParameterCompletion.Editor := TSynEdit(Screen.ActiveControl);
@@ -2471,7 +2484,7 @@ end;
 procedure TCommandsDataModule.actModifierCompletionExecute(
   Sender: TObject);
 begin
-  if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
+  if Screen.ActiveControl is TSynedit then begin
     ModifierCompletion.Title := _('Modifiers');
     ModifierCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
     ModifierCompletion.Editor := TSynEdit(Screen.ActiveControl);
@@ -2485,7 +2498,7 @@ var
   S : string;
   OldCaret : TBufferCoord;
 begin
-  if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
+  if Screen.ActiveControl is TSynedit then
     with TSynEdit(Screen.ActiveControl) do begin
       OldCaret := CaretXY;
       if SelAvail then
@@ -2513,7 +2526,6 @@ begin
       end;
       CaretXY := OldCaret;
     end;
-  end;
 end;
 
 type
@@ -2524,7 +2536,7 @@ procedure TCommandsDataModule.actInsertTemplateExecute(Sender: TObject);
 Var
   SynEdit : TSynEdit;
 begin
-  if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
+  if (Screen.ActiveControl is TSynedit) and Assigned(GI_ActiveEditor) then begin
     SynEdit := TSynEdit(Screen.ActiveControl);
     CodeTemplatesCompletion.Execute(TCrackSynAutoComplete(CodeTemplatesCompletion).
       GetPreviousToken(SynEdit), SynEdit);
@@ -3090,14 +3102,38 @@ end;
 
 procedure TCommandsDataModule.PyIDEOptionsChanged(Sender: TObject);
 begin
+  // Parameter Completion
   ParameterCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
   ParameterCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
   ParameterCompletion.TitleFont.Style := [fsBold];
-  ParameterCompletion.FontsAreScaled := True;
+  // Modifier completion
   ModifierCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
   ModifierCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
   ModifierCompletion.TitleFont.Style := [fsBold];
-  ModifierCompletion.FontsAreScaled := True;
+  // Syntax Code Completion
+  SynCodeCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
+  with SynCodeCompletion do begin
+    if PyIDEOptions.CodeCompletionCaseSensitive then
+      Options := Options + [scoCaseSensitive]
+    else
+      Options := Options - [scoCaseSensitive];
+    if PyIDEOptions.CompleteWithWordBreakChars then
+      Options := Options + [scoEndCharCompletion]
+    else
+      Options := Options - [scoEndCharCompletion];
+
+    TriggerChars := '.';
+    TimerInterval := 200;
+    if PyIDEOptions.CompleteAsYouType then begin
+      for var i := ord('a') to ord('z') do TriggerChars := TriggerChars + Chr(i);
+      for var i := ord('A') to ord('Z') do TriggerChars := TriggerChars + Chr(i);
+      if PyIDEOptions.CompleteWithWordBreakChars or PyIDEOptions.CompleteWithOneEntry then
+        TimerInterval := 600
+    end;
+  end;
+  // Syntax Parameter Completion
+  SynParamCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
+
   if Assigned(CodeTemplatesCompletion.GetCompletionProposal()) then
   begin
     CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(PyIDEOptions.AutoCompletionFont);

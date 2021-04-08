@@ -4,7 +4,7 @@ object PyIDEMainForm: TPyIDEMainForm
   HelpContext = 100
   Caption = 'Python Scripter'
   ClientHeight = 537
-  ClientWidth = 834
+  ClientWidth = 868
   Color = clWindow
   Ctl3D = False
   ParentFont = True
@@ -23,7 +23,7 @@ object PyIDEMainForm: TPyIDEMainForm
   object StatusBar: TSpTBXStatusBar
     Left = 0
     Top = 512
-    Width = 834
+    Width = 868
     Height = 25
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
@@ -31,7 +31,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 260
+      CustomWidth = 294
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -100,7 +100,7 @@ object PyIDEMainForm: TPyIDEMainForm
   object BGPanel: TPanel
     Left = 9
     Top = 85
-    Width = 816
+    Width = 850
     Height = 418
     Align = alClient
     BevelEdges = []
@@ -110,7 +110,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
-      Width = 812
+      Width = 846
       Height = 418
       Align = alClient
       PopupMenu = TabControlPopupMenu
@@ -122,7 +122,7 @@ object PyIDEMainForm: TPyIDEMainForm
       OnActiveTabChange = TabControlActiveTabChange
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 686
+        CustomWidth = 720
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
@@ -158,7 +158,7 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object TabControl2: TSpTBXTabControl
-      Left = 812
+      Left = 846
       Top = 0
       Width = 0
       Height = 418
@@ -167,7 +167,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
       OnContextPopup = TabContolContextPopup
       ActiveTabIndex = -1
-      Images = vilImages
+      Images = vilImagesByIndex
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
@@ -180,7 +180,7 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabFiles2: TSpTBXSubmenuItem
         Tag = 2
         Hint = 'Select File'
-        ImageIndex = 151
+        ImageIndex = 2
         Options = [tboDropdownArrow]
         LinkSubitems = mnFiles
       end
@@ -188,7 +188,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Tag = 2
         Hint = 'Scroll left'
         Enabled = False
-        ImageIndex = 80
+        ImageIndex = 4
         Options = [tboToolbarStyle]
         OnClick = tbiScrollLeftClick
       end
@@ -196,7 +196,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Tag = 2
         Hint = 'Scroll right'
         Enabled = False
-        ImageIndex = 79
+        ImageIndex = 3
         Options = [tboToolbarStyle]
         OnClick = tbiScrollRightClick
         FontSettings.Name = 'Marlett'
@@ -204,11 +204,12 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabClose2: TSpTBXItem
         Tag = 2
         Action = CommandsDataModule.actFileClose
+        ImageIndex = 7
         Options = [tboToolbarStyle]
       end
     end
     object TabSplitter: TSpTBXSplitter
-      Left = 812
+      Left = 846
       Top = 0
       Width = 4
       Height = 418
@@ -221,7 +222,7 @@ object PyIDEMainForm: TPyIDEMainForm
   object TBXDockTop: TSpTBXDock
     Left = 0
     Top = 0
-    Width = 834
+    Width = 868
     Height = 85
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
@@ -1085,7 +1086,7 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object ViewToolbar: TSpTBXToolbar
-      Left = 735
+      Left = 769
       Top = 25
       DockPos = 728
       DockRow = 1
@@ -1302,7 +1303,7 @@ object PyIDEMainForm: TPyIDEMainForm
     DoubleBuffered = True
   end
   object TBXDockRight: TSpTBXDock
-    Left = 825
+    Left = 859
     Top = 85
     Width = 9
     Height = 418
@@ -1314,7 +1315,7 @@ object PyIDEMainForm: TPyIDEMainForm
   object TBXDockBottom: TSpTBXDock
     Left = 0
     Top = 503
-    Width = 834
+    Width = 868
     Height = 9
     FixAlign = True
     PopupMenu = ToolbarPopupMenu

@@ -103,58 +103,8 @@ inherited PythonIIForm: TPythonIIForm
   object PythonIO: TPythonInputOutput
     UnicodeIO = False
     RawOutput = False
-    Left = 554
-    Top = 53
-  end
-  object SynCodeCompletion: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
-    Width = 200
-    EndOfTokenChr = '()[]{}. =:'
-    TriggerChars = '.'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clBtnText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
-    Columns = <>
-    Resizeable = True
-    Images = vilCodeImages
-    OnClose = SynCodeCompletionClose
-    OnExecute = SynCodeCompletionExecute
-    ShortCut = 0
-    Editor = SynEdit
-    TimerInterval = 300
-    OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
-    Left = 523
-    Top = 1
-  end
-  object SynParamCompletion: TSynCompletionProposal
-    DefaultType = ctParams
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
-    EndOfTokenChr = '()[]. ='
-    TriggerChars = '('
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clBtnText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
-    Columns = <>
-    Images = vilCodeImages
-    OnExecute = SynParamCompletionExecute
-    ShortCut = 0
-    Editor = SynEdit
-    TimerInterval = 300
-    Left = 625
+    Left = 40
+    Top = 273
   end
   object InterpreterPopUp: TSpTBXPopupMenu
     Images = vilImages
