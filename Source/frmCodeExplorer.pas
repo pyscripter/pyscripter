@@ -518,6 +518,7 @@ end;
 
 procedure TCodeExplorerWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'CodeExplorer';
   inherited;
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);

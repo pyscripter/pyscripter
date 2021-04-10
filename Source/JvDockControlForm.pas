@@ -1710,8 +1710,8 @@ begin
 end;
 
 procedure ResetDockClient(DockClient: TJvDockClient; NewTarget: TControl);
-var
-  Pt: TPoint;
+//var
+//  Pt: TPoint;
 begin
   if (DockClient <> nil) and not (csDestroying in DockClient.ParentForm.ComponentState) then
   begin
@@ -1734,13 +1734,14 @@ begin
       begin
         DockClient.UnDockLeft := DockClient.ParentForm.BoundsRect.TopLeft.X;
         DockClient.UnDockTop := DockClient.ParentForm.BoundsRect.TopLeft.Y;
-      end
-      else
-      begin
-        Pt := DockClient.ParentForm.BoundsRect.TopLeft;
-        Pt := DockClient.ParentForm.HostDockSite.ClientToScreen(Pt);
-        DockClient.UnDockLeft := Pt.X;
-        DockClient.UnDockTop := Pt.Y;
+        //  If the form was docked do not change UnDockLeft UnDockTop
+//      end
+//      else
+//      begin
+//        Pt := DockClient.ParentForm.BoundsRect.TopLeft;
+//        Pt := DockClient.ParentForm.HostDockSite.ClientToScreen(Pt);
+//        DockClient.UnDockLeft := Pt.X;
+//        DockClient.UnDockTop := Pt.Y;
       end;
     end;
   end;

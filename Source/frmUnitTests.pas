@@ -246,6 +246,7 @@ end;
 
 procedure TUnitTestWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'UnitTestWin';
   inherited;
   UnitTests.NodeDataSize := SizeOf(TNodeDataRec);
 

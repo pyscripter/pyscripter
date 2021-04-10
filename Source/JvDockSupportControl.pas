@@ -643,11 +643,10 @@ begin
   MapWindowPoints(0, Handle, DestRect, 2);
   DisableAlign;
   try
+    Source.Control.Dock(Self, DestRect);
     if UseDockManager and (DockManager <> nil) then
       DockManager.InsertControl(Source.Control,
         Source.DropAlign, Source.DropOnControl)
-    else
-      Source.Control.Dock(Self, DestRect);
   finally
     EnableAlign;
   end;
@@ -3604,10 +3603,12 @@ const
 var
   TCItem: TTCItem;
 begin
-  TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading] or
-    TCIF_IMAGE;
+//  TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading] or
+//    TCIF_IMAGE;
+//  TCItem.pszText := PChar(S);
+//  TCItem.iImage := FTabControl.GetImageIndex(Index);
+  TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading];
   TCItem.pszText := PChar(S);
-  TCItem.iImage := FTabControl.GetImageIndex(Index);
   if SendMessage(FTabControl.Handle, TCM_INSERTITEM, Index, LPARAM(@TCItem)) < 0 then
     TabControlError(Format(sTabFailSet, [S, Index]));
   FTabControl.TabsChanged;
@@ -3619,10 +3620,12 @@ const
 var
   TCItem: TTCItem;
 begin
-  TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading] or
-    TCIF_IMAGE;
+//  TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading] or
+//    TCIF_IMAGE;
+//  TCItem.pszText := PChar(S);
+//  TCItem.iImage := FTabControl.GetImageIndex(Index);
+  TCItem.mask := TCIF_TEXT or RTL[FTabControl.UseRightToLeftReading];
   TCItem.pszText := PChar(S);
-  TCItem.iImage := FTabControl.GetImageIndex(Index);
   if SendMessage(FTabControl.Handle, TCM_SETITEM, Index, LPARAM(@TCItem)) = 0 then
     TabControlError(Format(sTabFailSet, [S, Index]));
   FTabControl.TabsChanged;
@@ -3632,7 +3635,8 @@ procedure TJvDockTabStrings.PutObject(Index: Integer; AObject: TObject);
 var
   TCItem: TTCItem;
 begin
-  TCItem.mask := TCIF_PARAM;
+  TCItem.mask := TCIF_PARAM or TCIF_IMAGE;
+  TCItem.iImage := (AObject as TJvDockTabSheet).ImageIndex;
   TCItem.lParam := LPARAM(AObject);
   if SendMessage(FTabControl.Handle, TCM_SETITEM, WPARAM(Index), LPARAM(@TCItem)) = 0 then
     TabControlError(Format(sTabFailSetObject, [Index]));

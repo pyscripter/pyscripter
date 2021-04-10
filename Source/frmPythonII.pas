@@ -496,6 +496,7 @@ end;
 
 procedure TPythonIIForm.FormCreate(Sender: TObject);
 begin
+  ImageName := 'Python';
   inherited;
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);

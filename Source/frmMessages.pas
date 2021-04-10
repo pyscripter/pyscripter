@@ -275,6 +275,7 @@ end;
 
 procedure TMessagesWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'MessagesWin';
   inherited;
   fMessageHistory := TObjectList.Create(True);  // Onwns objects
   fHistoryIndex := -1;

@@ -225,42 +225,42 @@ inherited WatchesWindow: TWatchesWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 12
+        CollectionIndex = 16
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 49
+        CollectionIndex = 67
         CollectionName = 'Plus'
         Disabled = False
         Name = 'Plus'
       end
       item
-        CollectionIndex = 50
+        CollectionIndex = 61
         CollectionName = 'Minus'
         Disabled = False
         Name = 'Minus'
       end
       item
-        CollectionIndex = 66
+        CollectionIndex = 132
         CollectionName = 'WatchesWin'
         Disabled = False
         Name = 'WatchesWin'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 24
         CollectionName = 'Edit'
         Disabled = False
         Name = 'Edit'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 88
     Top = 136

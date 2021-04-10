@@ -512,7 +512,7 @@ begin
   fShowTabCloseButton := True;
   fPostMortemOnException := False;
   fDockAnimationInterval := 20;
-  fDockAnimationMoveWidth := 20;
+  fDockAnimationMoveWidth := 40;
   fInterpreterHistorySize := 50;
   fSaveInterpreterHistory := True;
   fReinitializeBeforeRun := True;

@@ -406,60 +406,60 @@ inherited UnitTestWindow: TUnitTestWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 31
         CollectionName = 'Expand'
         Disabled = False
         Name = 'Expand'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 15
         CollectionName = 'Collapse'
         Disabled = False
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 87
         CollectionName = 'Refresh'
         Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 0
         CollectionName = 'Abort'
         Disabled = False
         Name = 'Abort'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 92
         CollectionName = 'Run'
         Disabled = False
         Name = 'Run'
       end
       item
-        CollectionIndex = 104
+        CollectionIndex = 123
         CollectionName = 'TreeSelectAll'
         Disabled = False
         Name = 'TreeSelectAll'
       end
       item
-        CollectionIndex = 105
+        CollectionIndex = 122
         CollectionName = 'TreeDeselectAll'
         Disabled = False
         Name = 'TreeDeselectAll'
       end
       item
-        CollectionIndex = 106
+        CollectionIndex = 116
         CollectionName = 'TestsFailed'
         Disabled = False
         Name = 'TestsFailed'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 152
     Top = 112

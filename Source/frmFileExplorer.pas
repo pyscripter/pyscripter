@@ -404,6 +404,7 @@ end;
 
 procedure TFileExplorerWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'FileExplorer';
   inherited;
   fFavorites := TStringList.Create;
   fFavorites.Duplicates := dupIgnore;

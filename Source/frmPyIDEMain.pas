@@ -553,6 +553,7 @@ uses
   System.Classes,
   System.Actions,
   System.Variants,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -564,6 +565,9 @@ uses
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
   VCL.Styles,
+  Vcl.VirtualImageList,
+  Vcl.BaseImageCollection,
+  SVGIconImageCollection,
   JvAppInst,
   JvComponentBase,
   JvExControls,
@@ -600,9 +604,7 @@ uses
   cPyDebugger,
   cRefactoring,
   cPyScripterSettings,
-  cPyControl,
-  System.ImageList,
-  Vcl.VirtualImageList, Vcl.BaseImageCollection, SVGIconImageCollection;
+  cPyControl;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1521,10 +1523,18 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
+  // SpTBXLib Font
+  ToolbarFont.Size := 10;
+
   // Create JvDockVSNetStyleSpTBX
   JvDockVSNetStyleSpTBX := TJvDockVSNetStyleSpTBX.Create(Self);
   JvDockVSNetStyleSpTBX.Name := 'JvDockVSNetStyleSpTBX';
   JvDockVSNetStyleSpTBX.AlwaysShowGrabber := False;
+  // JvDocking Fonts
+  with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
+    ActiveFont.Assign(ToolbarFont);
+    InactiveFont.Assign(ToolbarFont);
+  end;
   DockServer.DockStyle := JvDockVSNetStyleSpTBX;
 
   // App Instances
@@ -1532,15 +1542,6 @@ begin
   if not CmdLineReader.readFlag('NEWINSTANCE') then begin
     JvAppInstances.Active := True;
     JvAppInstances.Check;
-  end;
-
-  // SpTBXLib Font
-  ToolbarFont.Size := 10;
-
-  // JvDocking Fonts
-  with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
-    ActiveFont.Assign(ToolbarFont);
-    InactiveFont.Assign(ToolbarFont);
   end;
 
   //  Layout stuff
@@ -2403,7 +2404,7 @@ begin
                 end;
       dsInactive: begin
                     s := _('Ready');
-                    icIndicators.SVGIconItems[0].FixedColor := $17BB4C;
+                    icIndicators.SVGIconItems[0].FixedColor := $0B880B;
                   end;
       dsPostMortem : begin
                        s := _('Post mortem');
@@ -4238,6 +4239,7 @@ begin
     BorderStyle := gbsNone;
     GradientStartColor := LightenColor(GradColor, 40);
     GradientEndColor := DarkenColor(GradColor, 20);
+    Color := GradColor;
   end;
 end;
 

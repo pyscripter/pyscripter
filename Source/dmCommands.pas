@@ -27,7 +27,7 @@ uses
   Vcl.StdActns,
   Vcl.ImgList,
   Vcl.BaseImageCollection,
-  Vcl.ImageCollection,
+  SVGIconImageCollection,
   SynEdit,
   SynEditPrint,
   SynUnicode,
@@ -56,7 +56,7 @@ uses
   dlgSynEditOptions,
   dlgOptionsEditor,
   uEditAppIntfs,
-  cPyBaseDebugger, SVGIconImageCollection;
+  cPyBaseDebugger;
 
 type
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -2261,11 +2261,17 @@ procedure TCommandsDataModule.UpdateImageCollections;
     end;
   end;
 
+var
+  TextColor: TColor;
 begin
-  ProcessImageCollection(icBrowserImages, clBtnText);
+  var Details := StyleServices.GetElementDetails(ttbButtonNormal);
+  if not StyleServices.GetElementColor(Details, ecTextColor, TextColor) then
+    TextColor := StyleServices.GetSystemColor(clBtnText);
+
+  ProcessImageCollection(icBrowserImages, TextColor);
   ProcessImageCollection(icCodeImages, clWindowText, clWindow);
-  ProcessImageCollection(icGutterGlyphs, clBtnText);
-  ProcessImageCollection(icSVGImages, clBtnText);
+  ProcessImageCollection(icGutterGlyphs, TextColor);
+  ProcessImageCollection(icSVGImages, TextColor);
 end;
 
 procedure TCommandsDataModule.UpdateMainActions;

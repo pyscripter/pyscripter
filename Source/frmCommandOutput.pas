@@ -631,6 +631,7 @@ end;
 
 procedure TOutputWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'CmdOuputWin';
   inherited;
   fTool := TExternalTool.Create;
 

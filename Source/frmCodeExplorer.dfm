@@ -241,24 +241,24 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 28
+        CollectionIndex = 31
         CollectionName = 'Expand'
         Disabled = False
         Name = 'Expand'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 15
         CollectionName = 'Collapse'
         Disabled = False
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 122
+        CollectionIndex = 53
         CollectionName = 'Highlight'
         Disabled = False
         Name = 'Highlight'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 24
     Top = 232

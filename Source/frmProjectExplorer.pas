@@ -1258,6 +1258,7 @@ end;
 
 procedure TProjectExplorerWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'ProjectExplorer';
   inherited;
 
   // Let the tree know how much data space we need.

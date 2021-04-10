@@ -2989,10 +2989,11 @@ object PyIDEMainForm: TPyIDEMainForm
           '    xmlns:xlink="http://www.w3.org/1999/xlink" >'#13#10'  <defs>'#13#10'    ' +
           '<radialGradient cx=".5" cy=".5"  fx=".3" fy=".2" r="0.5" id="myG' +
           'radient" gradientUnits="objectBoundingBox">'#13#10'      <stop offset=' +
-          '"0%" stop-opacity="0.3" stop-color="#4CBB17"/>'#13#10'      <stop offs' +
-          'et="1" stop-opacity="1" stop-color="#4CBB17"/>'#13#10'    </radialGrad' +
-          'ient>'#13#10'  </defs>'#13#10#13#10'  <!-- using my radial gradient -->'#13#10'  <circ' +
-          'le cx="50" cy="50" r="40" fill="url(#myGradient)" />'#13#10'</svg>'
+          '"0%" stop-opacity="0.3" stop-color="#22AA22"/>'#13#10'      <stop offs' +
+          'et="1" stop-opacity="1" stop-color="#22AA22"/>'#13#10'    </radialGrad' +
+          'ient>'#13#10'  </defs>'#13#10#13#10'  <!-- using my radial gradient 4CBB17 -->'#13#10 +
+          '  <circle cx="50" cy="50" r="40" fill="url(#myGradient)" />'#13#10'</s' +
+          'vg>'
       end
       item
         IconName = 'ExternalToolsLED'

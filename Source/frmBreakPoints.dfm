@@ -138,18 +138,18 @@ inherited BreakPointsWindow: TBreakPointsWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 12
+        CollectionIndex = 16
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 61
+        CollectionIndex = 7
         CollectionName = 'BreakpointsRemove'
         Disabled = False
         Name = 'BreakpointsRemove'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 16
     Top = 120

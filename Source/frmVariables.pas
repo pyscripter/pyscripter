@@ -118,6 +118,7 @@ Type
 
 procedure TVariablesWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'VariablesWin';
   inherited;
   // Let the tree know how much data space we need.
   VariablesTree.NodeDataSize := SizeOf(TNodeData);

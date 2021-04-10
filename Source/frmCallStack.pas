@@ -276,6 +276,7 @@ end;
 
 procedure TCallStackWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'CallStack';
   inherited;
   CallStackView.NodeDataSize := SizeOf(TFrameData);
   // Let the tree know how much data space we need.

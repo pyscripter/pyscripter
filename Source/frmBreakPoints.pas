@@ -185,6 +185,7 @@ end;
 
 procedure TBreakPointsWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'BreakpointsWin';
   inherited;
   fBreakPointsList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.

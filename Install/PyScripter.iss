@@ -173,11 +173,9 @@ Source: "..\Highlighters\Zenburn.ini"; DestDir: "{commonappdata}\PyScripter\High
 ; Styles
 Source: "..\Styles\AquaLightSlate.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\CalypsoSE.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
-Source: "..\Styles\Coral.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Copper.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\CopperDark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Diamond.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
-Source: "..\Styles\Emerald.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Glossy.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Glow.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\IcebergClassico.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
@@ -197,8 +195,6 @@ Source: "..\Styles\Windows10Blue.vsf"; DestDir: "{commonappdata}\PyScripter\Styl
 Source: "..\Styles\Windows10BlueWhale.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10ClearDay.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10Dark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10Green.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
-Source: "..\Styles\Windows10Purple.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 
 [Icons]

@@ -46,6 +46,8 @@ type
   public
     { Public declarations }
     HasFocus : Boolean;
+    ImageName: string;
+    procedure CreateFormIcon;
     procedure ScaleForPPI(NewPPI: Integer); override;
   end;
 
@@ -58,14 +60,31 @@ implementation
 
 uses
   Vcl.Themes,
+  SVG,
+  SVGIconImageCollection,
   frmPyIDEMain,
   uCommonFunctions;
 
 {$R *.dfm}
 
+function SvgToIcon(SVGText: string; Size: integer; FixedColor: TColor): HIcon;
+begin
+   var SvgIcon := TSVG.Create;
+   try
+     SvgIcon.FixedColor := FixedColor;
+     SvgIcon.ApplyFixedColorToRootOnly := True;
+     SvgIcon.LoadFromText(SvgText);
+     Result := SvgIcon.RenderToIcon(Size);
+   finally
+      SvgIcon.Free;
+   end;
+end;
+
 procedure TIDEDockWindow.WMSpSkinChange(var Message: TMessage);
 begin
   Assert(SkinManager.GetSkinType <> sknSkin);
+  CreateFormIcon;
+
   if IsStyledWindowsColorDark then begin
     BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
     BorderNormal := StyleServices.GetSystemColor(clBtnFace);
@@ -96,7 +115,9 @@ begin
   BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
   BorderNormal := StyleServices.GetSystemColor(clBtnShadow);
 
-  SkinManager.AddSkinNotification(Self);
+  CreateFormIcon;
+
+  SkinManager.AddSkinNotification(Self, True);
 
   DockClient.OnConjoinHostFormCreated := DockClientConjoinHostFormCreated;
 end;
@@ -131,6 +152,20 @@ begin
   TabHost.FormStyle := fsNormal;
   TabHost.PopupMode := pmExplicit;
   TabHost.PopupParent := PyIDEMainForm;
+end;
+
+procedure TIDEDockWindow.CreateFormIcon;
+begin
+   if ImageName <> '' then
+   begin
+     var SVGItem := (PyIDEMainForm.vilImages.ImageCollection
+       as TSVGIconImageCollection).SVGIconItems.GetIconByName(ImageName);
+     var Details := StyleServices.GetElementDetails(tbPushButtonNormal);
+     var Color: TColor;
+     if not StyleServices.GetElementColor(Details, ecTextColor, Color) then
+       Color := StyleServices.GetSystemColor(clBtnText);
+     Icon.Handle := SvgToIcon(SVGItem.SVGText, PPIScale(20), Color);
+   end;
 end;
 
 procedure TIDEDockWindow.DockClientConjoinHostFormCreated(

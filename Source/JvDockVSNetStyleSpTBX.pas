@@ -11,9 +11,20 @@ unit JvDockVSNetStyleSpTBX;
 
 interface
 
-uses Messages, Windows, Sysutils, Controls, Classes, Graphics, ComCtrls,
-     SpTBXSkins, JvDockTree, JvDockControlForm, JvDockSupportControl,
-     JvDockVSNetStyle, ExtCtrls;
+uses
+  Winapi.Messages,
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  SpTBXSkins,
+  JvDockTree,
+  JvDockControlForm,
+  JvDockSupportControl,
+  JvDockVSNetStyle;
 
 Type
   TJvDockVSNETSpTBXConjoinServerOption = class(TJvDockVSNETConjoinServerOption)
@@ -46,17 +57,9 @@ Type
   end;
 
   TJvDockVSNETTabPanelSpTBX = class(TJvDockVSNETTabPanel)
-  private
-    // unfortunately the parent class does not expose this
-    // so I had to replicate the methods CMMouseLeave and
-    // MouseMove
-    FSelectHotIndex: Integer;
-    procedure CMMouseLeave(var Msg: TMessage); message CM_MOUSELEAVE;
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
-    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure Paint; override;
-    property SelectedHotIndex : integer read FSelectHotIndex;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -121,6 +124,8 @@ Type
   end;
 
   TJvDockVSNetStyleSpTBX = class(TJvDockVSNetStyle)
+  protected
+    procedure CreateServerOption; override; { AfterConstruction }
   public
     constructor Create(AOwner: TComponent); override;
     procedure SetDockBaseControl(IsCreate: Boolean; DockBaseControl: TJvDockBaseControl); override;
@@ -131,8 +136,18 @@ procedure Register;
 implementation
 
 Uses
-  Forms, JvDockVIDStyle, SpTBXDkPanels, SpTBXItem, JvDockGlobals,
-  JvDockSupportProc, SpTBXTabs, TB2Common, TB2Item, Math, Types;
+  Winapi.CommCtrl,
+  System.Math,
+  System.Types,
+  Vcl.Forms,
+  JvDockVIDStyle,
+  SpTBXDkPanels,
+  SpTBXItem,
+  JvDockGlobals,
+  JvDockSupportProc,
+  SpTBXTabs,
+  TB2Common,
+  TB2Item;
 
 procedure Register;
 begin
@@ -528,6 +543,12 @@ begin
 end;
 
 
+procedure TJvDockVSNetStyleSpTBX.CreateServerOption;
+begin
+  inherited;
+  ChannelOption.ActivePaneSize := 250;
+end;
+
 procedure TJvDockVSNetStyleSpTBX.SetDockBaseControl(IsCreate: Boolean;
   DockBaseControl: TJvDockBaseControl);
 Var
@@ -567,6 +588,8 @@ begin
   ControlStyle := ControlStyle + [csOpaque];
   TabPanelClass := TJvDockVSNETTabPanelSpTBX;
   TabSheetClass := TJvDockVSNETTabSheetSpTBX;
+  if Assigned(Images) then
+    Images.SetSize(PPIScale(20), PPIScale(20));
   SkinManager.AddSkinNotification(Self);
 end;
 
@@ -581,7 +604,7 @@ begin
     TabSplitterWidth := 0;
     Canvas.Font.Assign(ToolbarFont);
     TabHeight :=
-      Max(MulDiv(Abs(ToolbarFont.Height), 96, ToolbarFont.PixelsPerInch) +  10, 25);
+      Max(MulDiv(Abs(ToolbarFont.Height), 96, ToolbarFont.PixelsPerInch) +  10, 29);
   end;
 end;
 
@@ -591,14 +614,23 @@ begin
   inherited;
 end;
 
-
 procedure TJvDockVSNETTabPageControlSpTBX.WMSpSkinChange(var Message: TMessage);
 begin
-
   if Assigned(ActivePage) then begin
     ActivePage.Invalidate;
     ActivePage.Realign;
   end;
+  for var I := 0 to Count - 1 do
+  begin
+    var Page := Pages[i];
+    if (Page.Controls[0] is TForm) and TForm(Page.Controls[0]).Icon.HandleAllocated
+      and (Page.ImageIndex >= 0) then
+    begin
+      ImageList_ReplaceIcon(Images.Handle, Page.ImageIndex,
+        CopyIcon(TForm(Page.Controls[0]).Icon.Handle));
+    end;
+  end;
+  Panel.Invalidate;
 end;
 
 { TJvDockVSNETTabPanelSpTBX }
@@ -606,16 +638,6 @@ end;
 Type
   TCrackJvDockVIDTabSheet = class(TJvDockVIDTabSheet)
   end;
-
-procedure TJvDockVSNETTabPanelSpTBX.CMMouseLeave(var Msg: TMessage);
-begin
-  inherited;
-  if FSelectHotIndex <> -1 then
-  begin
-    FSelectHotIndex := -1;
-    Invalidate;
-  end;
-end;
 
 constructor TJvDockVSNETTabPanelSpTBX.Create(AOwner: TComponent);
 begin
@@ -625,7 +647,6 @@ begin
   BevelEdges := [];
   BorderWidth := 0;
 
-  FSelectHotIndex := -11;
   CaptionTopOffset := 5;
   CaptionLeftOffset := 5;
   CaptionRightOffset := 5;
@@ -640,19 +661,6 @@ destructor TJvDockVSNETTabPanelSpTBX.Destroy;
 begin
   SkinManager.RemoveSkinNotification(Self);
   inherited;
-end;
-
-procedure TJvDockVSNETTabPanelSpTBX.MouseMove(Shift: TShiftState; X, Y: Integer);
-Var
-  Index : integer;
-begin
-  inherited;
-  Index := GetPageIndexFromMousePos(X, Y);
-  if Page.HotTrack and (Index <> FSelectHotIndex) then
-  begin
-    FSelectHotIndex := Index;
-    Invalidate;
-  end;
 end;
 
 procedure TJvDockVSNETTabPanelSpTBX.Paint;
@@ -904,12 +912,14 @@ end;
 constructor TJvDockVSChannelSpTBX.Create(AOwner: TComponent);
 begin
   inherited;
+  FBlockImageListSize := 20;
+  FInactiveBlockWidth := 28;
   ControlStyle := ControlStyle + [csOpaque];
   DoubleBuffered := True;
   SkinManager.AddSkinNotification(Self);
   Canvas.Font.Assign(ToolbarFont);
   ChannelWidth :=  // unscaled
-     Max(MulDiv(Abs(ToolbarFont.Height), 96, ToolbarFont.PixelsPerInch) +  10, 22);
+     Max(MulDiv(Abs(ToolbarFont.Height), 96, ToolbarFont.PixelsPerInch) +  10, 26);
 end;
 
 destructor TJvDockVSChannelSpTBX.Destroy;
@@ -1039,7 +1049,7 @@ begin
 
   IsVertical := Align in [alLeft, alRight];
   SpDrawXPDock(Canvas, ClientRect, IsVertical, FCurrentPPI);
-  //CurrentSkin.PaintBackground(Canvas, ClientRect, skncDock, sknsNormal, True, True, IsVertical);
+  CurrentSkin.PaintBackground(Canvas, ClientRect, skncDock, sknsNormal, True, True, IsVertical);
 
   CurrentPos := BlockStartOffset;
   for I := 0 to BlockCount - 1 do
@@ -1060,6 +1070,18 @@ end;
 
 procedure TJvDockVSChannelSpTBX.WMSpSkinChange(var Message: TMessage);
 begin
+  for var I := 0 to BlockCount - 1 do
+  begin
+    var Block := Block[I];
+    for var J := 0 to Block.VSPaneCount - 1 do
+    begin
+      var VSPane := Block.VSPane[J];
+      if TForm(VSPane.DockForm).Icon.HandleAllocated then
+        ImageList_ReplaceIcon(Block.ImageList.Handle, J,
+          CopyIcon(TForm(VSPane.DockForm).Icon.Handle));
+    end;
+  end;
+
   Invalidate;
 end;
 

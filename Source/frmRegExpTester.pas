@@ -194,6 +194,7 @@ begin
 
 procedure TRegExpTesterWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'RegExp';
   inherited;
   MatchList := TList<Variant>.Create;
 

@@ -394,6 +394,7 @@ end;
 
 procedure TToDoWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'TodoWin';
   inherited;
   FIsFirstActivation := True;
 

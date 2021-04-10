@@ -360,7 +360,6 @@ type
     FSortList: TList;
     FSelectSheet: TJvDockVIDTabSheet;
     FTempPages: TList;
-    FSelectHotIndex: Integer;
     FShowTabImages: Boolean;
     FShowTabHints: Boolean;
     procedure SetPage(const Value: TJvDockVIDTabPageControl);
@@ -396,6 +395,7 @@ type
     procedure SetTabHeight(const Value: Integer);
     function GetTabHeight: Integer;
   protected
+    FSelectHotIndex: Integer;
     procedure Paint; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
       X, Y: Integer); override;

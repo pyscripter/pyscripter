@@ -183,24 +183,24 @@ inherited CallStackWindow: TCallStackWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 41
+        CollectionIndex = 66
         CollectionName = 'Pin'
         Disabled = False
         Name = 'Pin'
       end
       item
-        CollectionIndex = 152
+        CollectionIndex = 118
         CollectionName = 'ThreadRunning'
         Disabled = False
         Name = 'ThreadRunning'
       end
       item
-        CollectionIndex = 153
+        CollectionIndex = 117
         CollectionName = 'ThreadPaused'
         Disabled = False
         Name = 'ThreadPaused'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 423
     Top = 32

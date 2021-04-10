@@ -207,7 +207,9 @@ type
     function GetBlockInterval: Integer;
     function GetActivePaneSize: Integer;
   protected
-    // KV move GetBlockRect to protected
+    // KV move GetBlockRect to protected and added FBlockImageListSize, FInactiveBlockWidth
+    FBlockImageListSize: Integer;
+    FInactiveBlockWidth: Integer;
     procedure GetBlockRect(Block: TJvDockVSBlock; Index: Integer; var ARect: TRect);
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
@@ -757,15 +759,18 @@ end;
 //=== { TJvDockVSBlock } =====================================================
 
 constructor TJvDockVSBlock.Create(AOwner: TJvDockVSChannel);
+var
+  ImageListSize: Integer;
 begin
   inherited Create;
   FVSChannel := AOwner;
   FVSPanes := TObjectList.Create;
-  FImageList := TImageList.CreateSize(PPIScale(16), PPIScale(16));
+  ImageListSize := PPIScale(FVSChannel.FBlockImageListSize);
+  FImageList := TImageList.CreateSize(ImageListSize, ImageListSize);
   {$IFDEF RTL200_UP}
   FImageList.ColorDepth := cd32Bit;
   {$ENDIF RTL200_UP}
-  FInactiveBlockWidth := 24;
+  FInactiveBlockWidth := FVSChannel.FInactiveBlockWidth;
   FActiveBlockWidth := 24;
 end;
 
@@ -1023,7 +1028,7 @@ begin
       for I := 0 to VSPaneCount - 1 do
       begin
         TextWidth := Canvas.TextWidth(VSPane[I].FDockForm.Caption) +
-          InactiveBlockWidth + PPIScale(10);
+          InactiveBlockWidth + PPIScale(18);
         if TextWidth >= VSChannel.ActivePaneSize then
         begin
           FActiveBlockWidth := VSChannel.FActivePaneSize; //unscaled!
@@ -1075,6 +1080,8 @@ begin
   FBlockStartOffset := 2;
   FBlockUpOffset := 2;
   FBlockInterval := 13;
+  FBlockImageListSize := 16;
+  FInactiveBlockWidth := 24;
   if AOwner is TJvDockVSNETPanel then
   begin
     FVSNETDockPanel := TJvDockVSNETPanel(AOwner);
@@ -1305,7 +1312,7 @@ begin
   case Align of
     alLeft:
       begin
-        ARect.Left := -PPIScale(1);
+        ARect.Left := 0 {-PPIScale(1)};
         ARect.Top := FCurrentPos;
         ARect.Right := Width - BlockUpOffset;
         ARect.Bottom := ARect.Top + BlockWidth;
@@ -1314,13 +1321,13 @@ begin
       begin
         ARect.Left := BlockUpOffset;
         ARect.Top := FCurrentPos;
-        ARect.Right := Width + PPIScale(1);
+        ARect.Right := Width {+ PPIScale(1)};
         ARect.Bottom := ARect.Top + BlockWidth;
       end;
     alTop:
       begin
         ARect.Left := FCurrentPos;
-        ARect.Top := -PPIScale(1);
+        ARect.Top := 0 {-PPIScale(1)};
         ARect.Right := ARect.Left + BlockWidth;
         ARect.Bottom := Height - BlockUpOffset;
       end;
@@ -1329,11 +1336,11 @@ begin
         ARect.Left := FCurrentPos;
         ARect.Top := BlockUpOffset;
         ARect.Right := ARect.Left + BlockWidth;
-        ARect.Bottom := Height + PPIScale(1);
+        ARect.Bottom := Height{ + PPIScale(1)};
       end;
   end;
 
-  Inc(FCurrentPos, BlockWidth - PPIScale(1));
+  Inc(FCurrentPos, BlockWidth {- PPIScale(1)});
 end;
 
 function TJvDockVSChannel.GetBlockStartOffset: Integer;

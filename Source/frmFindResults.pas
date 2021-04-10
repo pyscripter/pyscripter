@@ -658,6 +658,7 @@ end;
 
 constructor TFindResultsWindow.Create(AOwner: TComponent);
 begin
+  ImageName := 'FindResults';
   inherited;
   fSearchResults := TStringList.Create;
   FSearchInProgress := False;

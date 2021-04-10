@@ -3,8 +3,8 @@ inherited MessagesWindow: TMessagesWindow
   Top = 257
   HelpContext = 440
   Caption = 'Messages'
-  ClientHeight = 186
-  ClientWidth = 693
+  ClientHeight = 218
+  ClientWidth = 745
   Icon.Data = {
     0000010001001010000001002000280400001600000028000000100000002000
     0000010020000000000000000000000000000000000000000000000000000000
@@ -43,19 +43,19 @@ inherited MessagesWindow: TMessagesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
-    Width = 693
-    Height = 186
+    Width = 745
+    Height = 218
     inherited FGPanel: TPanel
-      Width = 689
-      Height = 182
+      Width = 741
+      Height = 214
       DesignSize = (
-        689
-        182)
+        741
+        214)
       object MessagesView: TVirtualStringTree
         Left = 0
         Top = 0
-        Width = 689
-        Height = 182
+        Width = 741
+        Height = 214
         Align = alClient
         Alignment = taRightJustify
         BevelInner = bvNone
@@ -78,7 +78,7 @@ inherited MessagesWindow: TMessagesWindow
           item
             Position = 0
             Text = 'Message'
-            Width = 339
+            Width = 391
           end
           item
             Position = 1
@@ -102,7 +102,7 @@ inherited MessagesWindow: TMessagesWindow
           end>
       end
       object TBToolbar1: TTBToolbar
-        Left = 648
+        Left = 700
         Top = 0
         Width = 39
         Height = 17
@@ -222,30 +222,30 @@ inherited MessagesWindow: TMessagesWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 12
+        CollectionIndex = 16
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 96
+        CollectionIndex = 2
         CollectionName = 'ArrowLeft'
         Disabled = False
         Name = 'ArrowLeft'
       end
       item
-        CollectionIndex = 97
+        CollectionIndex = 3
         CollectionName = 'ArrowRight'
         Disabled = False
         Name = 'ArrowRight'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 179
     Top = 70

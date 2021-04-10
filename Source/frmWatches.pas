@@ -157,6 +157,7 @@ end;
 
 procedure TWatchesWindow.FormCreate(Sender: TObject);
 begin
+  ImageName := 'WatchesWin';
   inherited;
 //  AllocConsole;
   fWatchesList := TObjectList.Create(True); // Onwns objects
