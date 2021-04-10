@@ -151,6 +151,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 16
     Top = 120
   end

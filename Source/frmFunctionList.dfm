@@ -56,16 +56,16 @@ inherited FunctionListWindow: TFunctionListWindow
   TextHeight = 13
   object pnHolder: TPanel
     Left = 0
-    Top = 69
+    Top = 73
     Width = 536
-    Height = 223
+    Height = 219
     Align = alClient
     TabOrder = 0
     object lvProcs: TListView
       Left = 1
       Top = 1
       Width = 534
-      Height = 221
+      Height = 217
       Align = alClient
       Columns = <
         item
@@ -92,7 +92,7 @@ inherited FunctionListWindow: TFunctionListWindow
   end
   object pnlHeader: TPanel
     Left = 0
-    Top = 26
+    Top = 30
     Width = 536
     Height = 43
     Align = alTop
@@ -163,7 +163,7 @@ inherited FunctionListWindow: TFunctionListWindow
     Left = 0
     Top = 0
     Width = 536
-    Height = 26
+    Height = 30
     AllowDrag = False
     LimitToOneRow = True
     object Toolbar: TSpTBXToolbar
@@ -172,6 +172,8 @@ inherited FunctionListWindow: TFunctionListWindow
       DockMode = dmCannotFloatOrChangeDocks
       FullSize = True
       Images = vilImages
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       Customizable = False
       object tbiCopy: TSpTBXItem
@@ -363,43 +365,45 @@ inherited FunctionListWindow: TFunctionListWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 12
+        CollectionIndex = 16
         CollectionName = 'Copy'
         Disabled = False
         Name = 'Copy'
       end
       item
-        CollectionIndex = 32
+        CollectionIndex = 51
         CollectionName = 'GoToLine'
         Disabled = False
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 52
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
       end
       item
-        CollectionIndex = 91
+        CollectionIndex = 47
         CollectionName = 'Font'
         Disabled = False
         Name = 'Font'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 130
         CollectionName = 'ViewAny'
         Disabled = False
         Name = 'ViewAny'
       end
       item
-        CollectionIndex = 94
+        CollectionIndex = 131
         CollectionName = 'ViewStart'
         Disabled = False
         Name = 'ViewStart'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 33
     Top = 238
   end

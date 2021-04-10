@@ -55,6 +55,7 @@ type
     SpTBXItem1: TSpTBXItem;
     vilImages: TVirtualImageList;
     SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    vilTreeImages: TVirtualImageList;
     procedure vtPythonVersionsGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
     procedure FormCreate(Sender: TObject);
@@ -314,7 +315,7 @@ begin
      (((Node.Parent.Index = 0) and (PyControl.PythonVersionIndex = integer(Node.Index))) or
       ((Node.Parent.Index = 1) and (PyControl.PythonVersionIndex = - (Node.Index + 1))))
   then
-    ImageIndex := 2;
+    ImageIndex := 0;
 end;
 
 procedure TPythonVersionsDialog.vtPythonVersionsInitChildren(

@@ -1818,6 +1818,7 @@ inherited PageSetupDlg: TPageSetupDlg
       end>
     ImageCollection = icPageSetup
     PreserveItems = True
+    Width = 20
     Left = 500
     Top = 5
   end

@@ -14,9 +14,9 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
   TextHeight = 13
   object SynEditPrintPreview: TSynEditPrintPreview
     Left = 0
-    Top = 26
+    Top = 30
     Width = 490
-    Height = 338
+    Height = 334
     ScaleMode = pscWholePage
     OnMouseDown = SynEditPrintPreviewMouseDown
     OnPreviewPage = SynEditPrintPreviewPreviewPage
@@ -25,7 +25,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     Left = 0
     Top = 0
     Width = 490
-    Height = 26
+    Height = 30
     AllowDrag = False
     object SpTBXToolbar1: TSpTBXToolbar
       Left = 0
@@ -240,6 +240,8 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       end>
     ImageCollection = icPrintPreview
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 232
     Top = 176
   end

@@ -12,15 +12,15 @@ object WebPreviewForm: TWebPreviewForm
   TextHeight = 13
   object WebBrowser: TWebBrowser
     Left = 0
-    Top = 34
+    Top = 30
     Width = 463
-    Height = 412
+    Height = 416
     HelpContext = 850
     Align = alClient
     TabOrder = 0
     OnCommandStateChange = WebBrowserCommandStateChange
     ControlData = {
-      4C000000DA2F0000952A00000000000000000000000000000000000000000000
+      4C000000DA2F0000FF2A00000000000000000000000000000000000000000000
       000000004C000000000000000000000001000000E0D057007335CF11AE690800
       2B2E126208000000000000004C0000000114020000000000C000000000000046
       8000000000000000000000000000000000000000000000000000000000000000
@@ -30,7 +30,7 @@ object WebPreviewForm: TWebPreviewForm
     Left = 0
     Top = 0
     Width = 463
-    Height = 34
+    Height = 30
     AllowDrag = False
     DoubleBuffered = True
     object TBXToolbar1: TSpTBXToolbar
@@ -114,27 +114,27 @@ object WebPreviewForm: TWebPreviewForm
         Name = 'PageSetup'
       end
       item
-        CollectionIndex = 6
+        CollectionIndex = 4
         CollectionName = 'Browser\Preview'
         Disabled = False
         Name = 'Preview'
       end
       item
-        CollectionIndex = 4
+        CollectionIndex = 5
         CollectionName = 'Browser\Print'
         Disabled = False
         Name = 'Print'
       end
       item
-        CollectionIndex = 5
+        CollectionIndex = 6
         CollectionName = 'Browser\Save'
         Disabled = False
         Name = 'Save'
       end>
     ImageCollection = CommandsDataModule.icBrowserImages
     PreserveItems = True
-    Width = 24
-    Height = 24
+    Width = 20
+    Height = 20
     Left = 40
     Top = 96
   end

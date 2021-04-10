@@ -17,6 +17,10 @@ uses
   System.Classes,
   System.Contnrs,
   System.Actions,
+  System.ImageList,
+  Vcl.StdCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -32,11 +36,10 @@ uses
   TB2Toolbar,
   SpTBXSkins,
   SpTBXItem,
-  SpTBXControls,
   VirtualTrees,
   PythonEngine,
   uEditAppIntfs,
-  frmIDEDockWin, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
+  frmIDEDockWin;
 
 type
   TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler, IMessageServices)
@@ -46,8 +49,8 @@ type
     TBToolbar1: TTBToolbar;
     TBControlItem5: TTBControlItem;
     TBControlItem6: TTBControlItem;
-    BtnPreviousMsgs: TSpTBXButton;
-    BtnNextMsgs: TSpTBXButton;
+    BtnPreviousMsgs: TButton;
+    BtnNextMsgs: TButton;
     mnPreviousMessage: TSpTBXItem;
     mnNextMessage: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;

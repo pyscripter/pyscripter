@@ -61,7 +61,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Left = 0
         Top = 0
         Width = 380
-        Height = 26
+        Height = 30
         AllowDrag = False
         DoubleBuffered = True
         object RegExpTesterToolbar: TSpTBXToolbar
@@ -190,9 +190,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       end
       object StatusBar: TSpTBXStatusBar
         Left = 0
-        Top = 448
+        Top = 444
         Width = 380
-        Height = 26
+        Height = 30
         Images = vilImages
         SizeGrip = False
         object lbStatusBar: TSpTBXLabelItem
@@ -202,15 +202,15 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       end
       object pnlBackground: TPanel
         Left = 0
-        Top = 26
+        Top = 30
         Width = 380
-        Height = 422
+        Height = 414
         Align = alClient
         ParentColor = True
         TabOrder = 2
         object dpGroupsView: TPanel
           Left = 1
-          Top = 283
+          Top = 275
           Width = 378
           Height = 138
           Align = alBottom
@@ -277,7 +277,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
         object SpTBXSplitter1: TSpTBXSplitter
           Left = 1
-          Top = 278
+          Top = 270
           Width = 378
           Height = 5
           Cursor = crSizeNS
@@ -353,7 +353,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Left = 1
           Top = 88
           Width = 378
-          Height = 190
+          Height = 182
           Align = alClient
           ParentBackground = False
           ParentColor = True
@@ -426,7 +426,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 1
             Top = 101
             Width = 376
-            Height = 88
+            Height = 80
             Align = alClient
             ParentColor = True
             TabOrder = 1
@@ -434,18 +434,18 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Left = 1
               Top = 1
               Width = 374
-              Height = 86
+              Height = 78
               Align = alClient
               ParentColor = True
               TabOrder = 0
               DesignSize = (
                 374
-                86)
+                78)
               object MatchText: TRichEdit
                 Left = 1
                 Top = 25
                 Width = 372
-                Height = 60
+                Height = 52
                 Align = alBottom
                 Anchors = [akLeft, akTop, akRight, akBottom]
                 BevelInner = bvNone
@@ -513,6 +513,8 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   inherited DockClient: TJvDockClient
     TopDock = False
     BottomDock = False
+    Left = 16
+    Top = 58
   end
   object vilImages: TVirtualImageList
     DisabledGrayscale = False
@@ -537,13 +539,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Name = 'Check'
       end
       item
-        CollectionIndex = 110
+        CollectionIndex = 109
         CollectionName = 'Stop'
         Disabled = False
         Name = 'Stop'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 102
         CollectionName = 'Setup'
         Disabled = False
         Name = 'Setup'
@@ -556,6 +558,8 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 40
     Top = 376
   end

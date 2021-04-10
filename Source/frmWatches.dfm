@@ -250,9 +250,9 @@ inherited WatchesWindow: TWatchesWindow
       end
       item
         CollectionIndex = 132
-        CollectionName = 'WatchesWin'
+        CollectionName = 'Watch'
         Disabled = False
-        Name = 'WatchesWin'
+        Name = 'Watch'
       end
       item
         CollectionIndex = 24
@@ -262,6 +262,8 @@ inherited WatchesWindow: TWatchesWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 88
     Top = 136
   end

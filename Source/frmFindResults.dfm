@@ -75,7 +75,7 @@ inherited FindResultsWindow: TFindResultsWindow
           Left = 0
           Top = 0
           Width = 599
-          Height = 26
+          Height = 30
           AllowDrag = False
           DoubleBuffered = True
           object ToolBar: TSpTBXToolbar
@@ -143,9 +143,9 @@ inherited FindResultsWindow: TFindResultsWindow
         end
         object lbResults: TSpTBXListBox
           Left = 0
-          Top = 26
+          Top = 30
           Width = 599
-          Height = 213
+          Height = 209
           Align = alClient
           Constraints.MinHeight = 120
           Font.Charset = DEFAULT_CHARSET
@@ -403,13 +403,13 @@ inherited FindResultsWindow: TFindResultsWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 99
+        CollectionIndex = 98
         CollectionName = 'Save'
         Disabled = False
         Name = 'Save'
       end
       item
-        CollectionIndex = 70
+        CollectionIndex = 69
         CollectionName = 'Print'
         Disabled = False
         Name = 'Print'
@@ -421,25 +421,25 @@ inherited FindResultsWindow: TFindResultsWindow
         Name = 'Copy'
       end
       item
-        CollectionIndex = 101
+        CollectionIndex = 100
         CollectionName = 'Search'
         Disabled = False
         Name = 'Search'
       end
       item
-        CollectionIndex = 91
+        CollectionIndex = 90
         CollectionName = 'Replace'
         Disabled = False
         Name = 'Replace'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 91
         CollectionName = 'ReplaceAll'
         Disabled = False
         Name = 'ReplaceAll'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 102
         CollectionName = 'Setup'
         Disabled = False
         Name = 'Setup'
@@ -482,6 +482,8 @@ inherited FindResultsWindow: TFindResultsWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 173
     Top = 96
   end

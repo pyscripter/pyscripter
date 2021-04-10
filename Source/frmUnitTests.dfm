@@ -52,7 +52,7 @@ inherited UnitTestWindow: TUnitTestWindow
         Left = 0
         Top = 0
         Width = 258
-        Height = 26
+        Height = 30
         AllowDrag = False
         DoubleBuffered = True
         object ExplorerToolbar: TSpTBXToolbar
@@ -113,16 +113,16 @@ inherited UnitTestWindow: TUnitTestWindow
       end
       object Panel1: TPanel
         Left = 0
-        Top = 26
+        Top = 30
         Width = 258
-        Height = 243
+        Height = 239
         Align = alClient
         TabOrder = 1
         object UnitTests: TVirtualStringTree
           Left = 1
           Top = 1
           Width = 256
-          Height = 241
+          Height = 237
           Align = alClient
           BorderStyle = bsNone
           Header.AutoSizeIndex = -1
@@ -461,6 +461,8 @@ inherited UnitTestWindow: TUnitTestWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 152
     Top = 112
   end

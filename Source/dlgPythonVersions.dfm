@@ -7,20 +7,20 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 26
+    Top = 30
     Width = 630
-    Height = 289
+    Height = 285
     Align = alClient
     TabOrder = 0
     object vtPythonVersions: TVirtualStringTree
       Left = 1
       Top = 1
       Width = 628
-      Height = 287
+      Height = 283
       Align = alClient
       Header.AutoSizeIndex = 0
       Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
-      Images = vilImages
+      Images = vilTreeImages
       TabOrder = 0
       OnDblClick = actPVActivateExecute
       OnGetCellText = vtPythonVersionsGetCellText
@@ -48,7 +48,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     Left = 0
     Top = 0
     Width = 630
-    Height = 26
+    Height = 30
     object SpTBXToolbar: TSpTBXToolbar
       Left = 0
       Top = 0
@@ -104,7 +104,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Activate'
       HelpContext = 880
       Hint = 'Activate selected Python version'
-      ImageIndex = 7
+      ImageIndex = 6
       ImageName = 'PyActivate'
       OnExecute = actPVActivateExecute
     end
@@ -120,7 +120,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Remove'
       HelpContext = 880
       Hint = 'Remove selected Python version'
-      ImageIndex = 3
+      ImageIndex = 2
       ImageName = 'PySetupRemove'
       OnExecute = actPVRemoveExecute
     end
@@ -128,7 +128,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Test'
       HelpContext = 880
       Hint = 'Test selected Python version'
-      ImageIndex = 6
+      ImageIndex = 5
       ImageName = 'ExternalRun'
       OnExecute = actPVTestExecute
     end
@@ -144,7 +144,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Shell'
       HelpContext = 880
       Hint = 'Open command prompt for the selected Python version'
-      ImageIndex = 5
+      ImageIndex = 4
       ImageName = 'CmdOuputWin'
       OnExecute = actPVCommandShellExecute
     end
@@ -152,7 +152,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Help'
       HelpContext = 880
       Hint = 'Show Help'
-      ImageIndex = 4
+      ImageIndex = 3
       ImageName = 'Help'
       OnExecute = actPVHelpExecute
     end
@@ -160,7 +160,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Rename'
       HelpContext = 880
       Hint = 'Rename selected Python version'
-      ImageIndex = 8
+      ImageIndex = 7
       ImageName = 'Rename'
       OnExecute = actPVRenameExecute
     end
@@ -170,62 +170,72 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 60
+        CollectionIndex = 62
         CollectionName = 'OpenFolder'
         Disabled = False
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 80
+        CollectionIndex = 81
         CollectionName = 'PySetupAdd'
         Disabled = False
         Name = 'PySetupAdd'
       end
       item
-        CollectionIndex = 91
-        CollectionName = 'Run'
-        Disabled = False
-        Name = 'Run'
-      end
-      item
-        CollectionIndex = 81
+        CollectionIndex = 82
         CollectionName = 'PySetupRemove'
         Disabled = False
         Name = 'PySetupRemove'
       end
       item
-        CollectionIndex = 50
+        CollectionIndex = 52
         CollectionName = 'Help'
         Disabled = False
         Name = 'Help'
       end
       item
-        CollectionIndex = 11
+        CollectionIndex = 12
         CollectionName = 'CmdOuputWin'
         Disabled = False
         Name = 'CmdOuputWin'
       end
       item
-        CollectionIndex = 30
+        CollectionIndex = 32
         CollectionName = 'ExternalRun'
         Disabled = False
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 77
+        CollectionIndex = 78
         CollectionName = 'PyActivate'
         Disabled = False
         Name = 'PyActivate'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 89
         CollectionName = 'Rename'
         Disabled = False
         Name = 'Rename'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 457
     Top = 65
+  end
+  object vilTreeImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 3
+        CollectionName = 'ArrowRight'
+        Disabled = False
+        Name = 'ArrowRight'
+      end>
+    ImageCollection = CommandsDataModule.icSVGImages
+    Left = 456
+    Top = 120
   end
 end

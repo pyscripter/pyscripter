@@ -207,19 +207,21 @@ inherited UnitTestWizard: TUnitTestWizard
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 122
+        CollectionIndex = 123
         CollectionName = 'TreeSelectAll'
         Disabled = False
         Name = 'TreeSelectAll'
       end
       item
-        CollectionIndex = 121
+        CollectionIndex = 122
         CollectionName = 'TreeDeselectAll'
         Disabled = False
         Name = 'TreeDeselectAll'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 128
     Top = 184
   end

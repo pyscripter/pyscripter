@@ -119,14 +119,14 @@ inherited MessagesWindow: TMessagesWindow
         object TBControlItem6: TTBControlItem
           Control = BtnNextMsgs
         end
-        object BtnPreviousMsgs: TSpTBXButton
+        object BtnPreviousMsgs: TButton
           Left = 0
           Top = 0
           Width = 20
           Height = 17
           Hint = 'Show previous messages'
-          Caption = '3'
           Anchors = [akTop, akRight]
+          Caption = '3'
           Enabled = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -137,14 +137,14 @@ inherited MessagesWindow: TMessagesWindow
           TabOrder = 0
           OnClick = actPreviousMsgsExecute
         end
-        object BtnNextMsgs: TSpTBXButton
+        object BtnNextMsgs: TButton
           Left = 20
           Top = 0
           Width = 19
           Height = 17
           Hint = 'Show next messages'
-          Caption = '4'
           Anchors = [akTop, akRight]
+          Caption = '4'
           Enabled = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -247,6 +247,8 @@ inherited MessagesWindow: TMessagesWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 179
     Top = 70
   end

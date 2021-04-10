@@ -2573,7 +2573,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'VariablesWin'
       end
       item
-        CollectionIndex = 132
+        CollectionIndex = 133
         CollectionName = 'WatchesWin'
         Disabled = False
         Name = 'WatchesWin'
@@ -2741,13 +2741,13 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Assembly'
       end
       item
-        CollectionIndex = 135
+        CollectionIndex = 136
         CollectionName = 'ZoomIn'
         Disabled = False
         Name = 'ZoomIn'
       end
       item
-        CollectionIndex = 136
+        CollectionIndex = 137
         CollectionName = 'ZoomOut'
         Disabled = False
         Name = 'ZoomOut'
@@ -2789,7 +2789,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'GoToError'
       end
       item
-        CollectionIndex = 134
+        CollectionIndex = 135
         CollectionName = 'WordWrap'
         Disabled = False
         Name = 'WordWrap'
@@ -2861,7 +2861,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Link'
       end
       item
-        CollectionIndex = 133
+        CollectionIndex = 134
         CollectionName = 'Web'
         Disabled = False
         Name = 'Web'

@@ -260,6 +260,8 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 24
     Top = 232
   end

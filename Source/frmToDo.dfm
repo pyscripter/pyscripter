@@ -52,7 +52,7 @@ inherited ToDoWindow: TToDoWindow
         Left = 0
         Top = 0
         Width = 488
-        Height = 26
+        Height = 30
         AllowDrag = False
         DoubleBuffered = True
         object Toolbar: TSpTBXToolbar
@@ -93,9 +93,9 @@ inherited ToDoWindow: TToDoWindow
       end
       object ToDoView: TVirtualStringTree
         Left = 0
-        Top = 26
+        Top = 30
         Width = 488
-        Height = 263
+        Height = 259
         Align = alClient
         Alignment = taRightJustify
         BevelInner = bvNone
@@ -296,7 +296,7 @@ inherited ToDoWindow: TToDoWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 70
+        CollectionIndex = 69
         CollectionName = 'Print'
         Disabled = False
         Name = 'Print'
@@ -308,7 +308,7 @@ inherited ToDoWindow: TToDoWindow
         Name = 'Copy'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 102
         CollectionName = 'Setup'
         Disabled = False
         Name = 'Setup'
@@ -326,7 +326,7 @@ inherited ToDoWindow: TToDoWindow
         Name = 'Help'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 87
         CollectionName = 'Refresh'
         Disabled = False
         Name = 'Refresh'
@@ -339,6 +339,8 @@ inherited ToDoWindow: TToDoWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 201
     Top = 64
   end

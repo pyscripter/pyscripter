@@ -53,9 +53,9 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         TabOrder = 0
         object ExplorerTree: TVirtualStringTree
           Left = 0
-          Top = 26
+          Top = 30
           Width = 223
-          Height = 378
+          Height = 374
           Align = alClient
           BorderStyle = bsNone
           Header.AutoSizeIndex = -1
@@ -90,7 +90,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           Left = 0
           Top = 0
           Width = 223
-          Height = 26
+          Height = 30
           AllowDrag = False
           DoubleBuffered = True
           object SpTBXToolbar1: TSpTBXToolbar
@@ -643,6 +643,8 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
+    Width = 20
+    Height = 20
     Left = 106
     Top = 160
   end
