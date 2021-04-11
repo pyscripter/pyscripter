@@ -521,6 +521,7 @@ end;
 procedure TJvDockVSNetStyleSpTBX.CreateServerOption;
 begin
   inherited;
+  TabServerOption.HotTrack := True;
   ChannelOption.ActivePaneSize := 250;
 end;
 
@@ -726,23 +727,29 @@ begin
     case Position of
       ttpTop:
         begin
-          Inc(R.Bottom, Page.PPIScale(5));
+          Inc(R.Bottom, Page.PPIScale(4));
           // maintain background border
           if IsActive then begin
             SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone, FCurrentPPI);
-            ExcludeClipRect(Canvas.Handle, R.Left + 1,
-            ARect.Bottom - TabSheetBorderSize, R.Right - 1, ARect.Bottom);
+            ExcludeClipRect(Canvas.Handle, R.Left + 1, ARect.Bottom - TabSheetBorderSize, R.Right - 1, ARect.Bottom);
           end;
+          Dec(R.Bottom, Page.PPIScale(3));
         end;
       ttpBottom:
         begin
-          Dec(R.Top, Page.PPIScale(5));
+          Dec(R.Top, Page.PPIScale(4));
           if IsActive then begin
             SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone, FCurrentPPI);
             ExcludeClipRect(Canvas.Handle, R.Left + 1, 0, R.Right - 1, TabSheetBorderSize);
           end;
+          Inc(R.Top, Page.PPIScale(3));
         end;
     end;
+    if not IsActive then
+      case Position of
+        ttpTop: Inc(R.Top, Page.PPIScale(TabSheetBorderSize));
+        ttpBottom: Dec(R.Bottom, Page.PPIScale(TabSheetBorderSize));
+      end;
     SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, tedNone, FCurrentPPI);
 
     // now paint the caption

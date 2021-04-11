@@ -4,7 +4,7 @@ object StyleSelectorForm: TStyleSelectorForm
   BorderStyle = bsDialog
   Caption = 'Select Style'
   ClientHeight = 487
-  ClientWidth = 686
+  ClientWidth = 726
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -1856,7 +1856,7 @@ object StyleSelectorForm: TStyleSelectorForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   DesignSize = (
-    686
+    726
     487)
   PixelsPerInch = 96
   TextHeight = 13
@@ -1877,7 +1877,7 @@ object StyleSelectorForm: TStyleSelectorForm
   object Panel1: TPanel
     Left = 255
     Top = 27
-    Width = 425
+    Width = 458
     Height = 400
     TabOrder = 1
   end

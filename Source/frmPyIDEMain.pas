@@ -3161,11 +3161,11 @@ begin
     AppStorage.WriteString('Language', GetCurrentLanguage);
 
     // UnScale and Scale back
+    var TempGutterShapeSize := PyIDEOptions.CodeFolding.GutterShapeSize;
     PyIDEOptions.CodeFolding.GutterShapeSize :=
       PPIUnScale(PyIDEOptions.CodeFolding.GutterShapeSize);
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
-    PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIScale(PyIDEOptions.CodeFolding.GutterShapeSize);
+    PyIDEOptions.CodeFolding.GutterShapeSize := TempGutterShapeSize;
 
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');

@@ -175,7 +175,7 @@ Source: "..\Styles\AquaLightSlate.vsf"; DestDir: "{commonappdata}\PyScripter\Sty
 Source: "..\Styles\CalypsoSE.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Copper.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\CopperDark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
-Source: "..\Styles\Diamond.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\FlatUILight.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Glossy.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Glow.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\IcebergClassico.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
@@ -187,7 +187,6 @@ Source: "..\Styles\Sky.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\SlateClassico.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Stellar.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\TabletDark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
-Source: "..\Styles\TabletLight.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Vapor.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10BlackPearl.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
@@ -196,6 +195,7 @@ Source: "..\Styles\Windows10BlueWhale.vsf"; DestDir: "{commonappdata}\PyScripter
 Source: "..\Styles\Windows10ClearDay.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10Dark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Zircon.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 
 [Icons]
 Name: {group}\PyScripter; Filename: {app}\PyScripter.exe

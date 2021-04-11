@@ -545,6 +545,7 @@ begin
   fTrimTrailingSpacesOnSave := True;
   fTraceOnlyIntoOpenFiles := False;
   fCodeFolding := TSynCodeFolding.Create;
+  fCodeFolding.GutterShapeSize := 9;  // default value
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -901,17 +902,17 @@ class procedure TPyScripterSettings.CreateEditorOptions;
 begin
   EditorOptions := TSynEditorOptionsContainer.Create(nil);
   with EditorOptions do begin
-    Font.Size := 10;
     Font.Name := DefaultCodeFontName;
     Gutter.Font.Name := Font.Name;
     Gutter.Font.Color := clGrayText;
-    Gutter.Gradient := True;
+    Gutter.Gradient := False;
     Gutter.LeftOffset := 25;
     Gutter.RightOffset := 1;
     Gutter.Width := 27;
     Gutter.DigitCount := 2;
     Gutter.Autosize := True;
     Gutter.ChangeScale(Screen.PixelsPerInch, 96);
+    Font.Size := 10;
     Gutter.Font.Size := 9;
 
     Options := [eoDragDropEditing, eoEnhanceHomeKey,

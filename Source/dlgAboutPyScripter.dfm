@@ -3,8 +3,8 @@ inherited AboutBox: TAboutBox
   Top = 155
   BorderIcons = [biSystemMenu]
   Caption = 'About PyScripter'
-  ClientHeight = 261
-  ClientWidth = 382
+  ClientHeight = 345
+  ClientWidth = 534
   KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
@@ -15,8 +15,8 @@ inherited AboutBox: TAboutBox
   object SpTBXTabControl: TSpTBXTabControl
     Left = 0
     Top = 0
-    Width = 382
-    Height = 261
+    Width = 534
+    Height = 345
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -39,43 +39,19 @@ inherited AboutBox: TAboutBox
     object tbLinks: TSpTBXTabItem
       Caption = 'Links'
     end
-    object SpTBXTabSheet3: TSpTBXTabSheet
-      Left = 0
-      Top = 0
-      Width = 382
-      Height = 236
-      Caption = 'Links'
-      ImageIndex = -1
-      TabItem = 'tbLinks'
-      object reLinks: TRichEdit
-        Left = 2
-        Top = 4
-        Width = 376
-        Height = 232
-        Align = alClient
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 0
-        Zoom = 100
-      end
-    end
     object SpTBXTabSheet2: TSpTBXTabSheet
       Left = 0
       Top = 0
-      Width = 382
-      Height = 236
+      Width = 534
+      Height = 320
       Caption = 'Credits'
       ImageIndex = -1
       TabItem = 'tbCredits'
       object ScrollBox: TSpTBXPageScroller
         Left = 2
         Top = 4
-        Width = 376
-        Height = 232
+        Width = 528
+        Height = 316
         Align = alClient
         Color = clBtnFace
         Ctl3D = False
@@ -85,7 +61,7 @@ inherited AboutBox: TAboutBox
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 376
+          Width = 528
           Height = 89
           Align = alTop
           AutoSize = True
@@ -94,7 +70,7 @@ inherited AboutBox: TAboutBox
           object reCredits: TRichEdit
             Left = 0
             Top = 0
-            Width = 376
+            Width = 528
             Height = 89
             Align = alTop
             BorderStyle = bsNone
@@ -111,24 +87,52 @@ inherited AboutBox: TAboutBox
         end
       end
     end
+    object SpTBXTabSheet3: TSpTBXTabSheet
+      Left = 0
+      Top = 0
+      Width = 534
+      Height = 320
+      Caption = 'Links'
+      ImageIndex = -1
+      TabItem = 'tbLinks'
+      object reLinks: TRichEdit
+        Left = 2
+        Top = 4
+        Width = 528
+        Height = 316
+        Align = alClient
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        Zoom = 100
+      end
+    end
     object SpTBXTabSheet1: TSpTBXTabSheet
       Left = 0
       Top = 0
-      Width = 382
-      Height = 236
+      Width = 534
+      Height = 320
       Caption = 'About'
       ImageIndex = -1
+      DesignSize = (
+        534
+        320)
       TabItem = 'tbAbout'
       object Panel1: TPanel
         AlignWithMargins = True
-        Left = 15
-        Top = 12
-        Width = 346
-        Height = 217
+        Left = 24
+        Top = 24
+        Width = 481
+        Height = 273
         Margins.Left = 10
         Margins.Top = 10
         Margins.Right = 10
         Margins.Bottom = 10
+        Anchors = [akLeft, akTop, akRight, akBottom]
         DoubleBuffered = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBtnText
@@ -1508,11 +1512,11 @@ inherited AboutBox: TAboutBox
           Left = 129
           Top = 68
           Width = 4
-          Height = 16
+          Height = 19
           Caption = ' '
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 16746564
-          Font.Height = -13
+          Font.Height = -16
           Font.Name = 'Arial'
           Font.Style = [fsItalic]
           ParentFont = False
@@ -1521,13 +1525,13 @@ inherited AboutBox: TAboutBox
         end
         object Version: TLabel
           Left = 129
-          Top = 44
-          Width = 84
-          Height = 18
+          Top = 88
+          Width = 113
+          Height = 24
           Caption = 'Version 1.3'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 16746564
-          Font.Height = -16
+          Font.Height = -21
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
           ParentFont = False
@@ -1537,12 +1541,12 @@ inherited AboutBox: TAboutBox
         object ProductName: TLabel
           Left = 129
           Top = 14
-          Width = 106
-          Height = 24
+          Width = 160
+          Height = 36
           Caption = 'PyScripter'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 16746564
-          Font.Height = -21
+          Font.Height = -32
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
           ParentFont = False
@@ -1553,8 +1557,8 @@ inherited AboutBox: TAboutBox
         object Comments: TLabel
           AlignWithMargins = True
           Left = 11
-          Top = 120
-          Width = 334
+          Top = 176
+          Width = 469
           Height = 96
           Margins.Left = 10
           Margins.Top = 0

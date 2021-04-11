@@ -78,9 +78,9 @@ resourcestring
     'Syn Editor (www.sourceforge.net/projects/syn)'+ SLineBreak +
     'Syn Web highlighters (www.github.com/KrystianBigaj/synweb)' + SLineBreak +
     'Toolbar2000 (www.jrsoftware.org/tb2k.php)'+ SLineBreak +
-    'SpTBXLib(www.silverpointdevelopment.com)' + SLineBreak +
-    'TCommandLineReader(www.benibela.de)'+ SLineBreak +
-    'Silk icons(www.famfamfam.com)';
+    'SpTBXLib (www.silverpointdevelopment.com)' + SLineBreak +
+    'SVGIconImageList(https://github.com/EtheaDev/SVGIconImageList)' + SLineBreak +
+    'TCommandLineReader(www.benibela.de)';
 
   SAboutBoxCreditsTranslationArabic  = 'Arabic: %s';
   SAboutBoxCreditsTranslationChinese = 'Chinese: %s';
@@ -98,8 +98,10 @@ resourcestring
 
   SAboutBoxCreditsDonations =
     'Donations from numerous users have provided a strong incentive to develop this project.' + SLineBreak +
-    'Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) '+
-    '(https://www.wapt.fr) is acknowledged.';
+    'Finanancial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi' +
+    'the programming environment with which PyScripter is built and generous support'+
+    'from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) '+
+    '(https://www.wapt.fr) is thankfully acknowledged.';
 
   SAboutBoxLinks =
     'The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)'+
@@ -151,6 +153,7 @@ const
   );
 
   cAboutBoxCreditsThemeDesign =
+    'Adriana Díaz - Aumenta Software (https://aumenta.mx/)' + SLineBreak +
     'Salim Saddaquzzaman (https://github.com/sk-Prime)'+ SLineBreak +
     'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
     'jprzywoski (www.github.com/jprzywoski)';

@@ -160,7 +160,7 @@ begin
    begin
      var SVGItem := (PyIDEMainForm.vilImages.ImageCollection
        as TSVGIconImageCollection).SVGIconItems.GetIconByName(ImageName);
-     var Details := StyleServices.GetElementDetails(tbPushButtonNormal);
+     var Details := StyleServices.GetElementDetails(ttTabItemNormal);
      var Color: TColor;
      if not StyleServices.GetElementColor(Details, ecTextColor, Color) then
        Color := StyleServices.GetSystemColor(clBtnText);
@@ -177,12 +177,3 @@ begin
 end;
 
 end.
-
-
-
-
-
-
-
-
-

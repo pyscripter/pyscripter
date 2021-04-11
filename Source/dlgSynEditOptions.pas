@@ -97,7 +97,7 @@ type
     gbKeyStrokes: TGroupBox;
     pnlGutterFontDisplay: TPanel;
     GroupBox1: TGroupBox;
-    SynEdit1: TSynEdit;
+    SynSyntaxSample: TSynEdit;
     GroupBox2: TGroupBox;
     btnAddKey: TButton;
     btnRemKey: TButton;
@@ -197,7 +197,7 @@ type
     btnCancel: TButton;
     btnHelp: TButton;
     ckShowLigatures: TCheckBox;
-    procedure SynEdit1Click(Sender: TObject);
+    procedure SynSyntaxSampleClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
     procedure btnUpdateKeyClick(Sender: TObject);
@@ -431,7 +431,8 @@ begin
                     ((wInternalSynH.FriendlyLanguageName = 'Python Interpreter') and
                    not Assigned(fColorThemeHighlighter)) then
                  begin
-                   fForm.SynThemeSample.Assign(EditOptions);
+                   //fForm.SynThemeSample.Assign(EditOptions);
+                   //fForm.SynSyntaxSample.Assign(EditOptions);
                    fColorThemeHighlighter := wSynHClass.Create(nil);
                    fColorThemeHighlighter.Assign(wHighlighter);
                    FForm.SynThemeSample.Highlighter := fColorThemeHighlighter;
@@ -1133,18 +1134,18 @@ var
   wSynH : TSynCustomHighlighter;
 begin
   lbElements.items.BeginUpdate;
-  synedit1.Lines.BeginUpdate;
+  SynSyntaxSample.Lines.BeginUpdate;
   try
     lbElements.itemindex := -1;
     lbElements.items.Clear;
-    synedit1.lines.clear;
+    SynSyntaxSample.lines.clear;
     if cbHighlighters.itemindex > -1 then
     begin
       wSynH := SelectedHighlighter;
       for loop := 0 to wSynH.AttrCount - 1 do
         lbElements.Items.Add(wSynH.Attribute[loop].FriendlyName);
-      synedit1.Highlighter := wSynH;
-      SynEdit1.Lines.text := wSynH.SampleSource;
+      SynSyntaxSample.Highlighter := wSynH;
+      SynSyntaxSample.Lines.text := wSynH.SampleSource;
     end;
 
     //Select the first Element if avail to avoid exceptions
@@ -1159,7 +1160,7 @@ begin
 
   finally
     lbElements.items.EndUpdate;
-    synedit1.Lines.EndUpdate;
+    SynSyntaxSample.Lines.EndUpdate;
   end;
 end;
 
@@ -1297,13 +1298,13 @@ begin
   Application.HelpContext(HelpContext);
 end;
 
-procedure TfmEditorOptionsDialog.SynEdit1Click(Sender: TObject);
+procedure TfmEditorOptionsDialog.SynSyntaxSampleClick(Sender: TObject);
 var
   i, TokenType, Start: Integer;
   Token: string;
   Attri: TSynHighlighterAttributes;
 begin
-  SynEdit1.GetHighlighterAttriAtRowColEx(SynEdit1.CaretXY, Token,
+  SynSyntaxSample.GetHighlighterAttriAtRowColEx(SynSyntaxSample.CaretXY, Token,
             TokenType, Start, Attri);
   for i := 0 to lbElements.Count - 1 do
     if Assigned(Attri) and (lbElements.Items[i] = Attri.FriendlyName) then begin
