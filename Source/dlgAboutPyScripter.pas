@@ -13,7 +13,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, SysUtils, Classes, Graphics, Forms, Controls,
   Buttons, ExtCtrls, dlgPyIDEBase, SpTBXControls, SpTBXItem, SpTBXTabs, TB2Item,
-  SpTBXPageScroller, Vcl.StdCtrls, Vcl.ComCtrls;
+  SpTBXPageScroller, Vcl.StdCtrls, Vcl.ComCtrls, SVGIconImage;
 
 type
   TRichEdit = class(Vcl.ComCtrls.TRichEdit)
@@ -33,7 +33,6 @@ type
     SpTBXTabSheet3: TSpTBXTabSheet;
     ScrollBox: TSpTBXPageScroller;
     Panel1: TPanel;
-    ProgramIcon: TImage;
     Copyright: TLabel;
     Version: TLabel;
     ProductName: TLabel;
@@ -41,6 +40,7 @@ type
     reLinks: TRichEdit;
     reCredits: TRichEdit;
     Panel2: TPanel;
+    SVGIconImage1: TSVGIconImage;
     procedure Panel1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);

@@ -511,11 +511,14 @@
           Issues addressed
             #998, #1001, #1003, #1008, #1009
 
-  History:   v 3.6.5
+  History:   v 4.0
           New Features
+            Major redesign of the User Interface - Material icons and new logo
+            Re-architecture the interaction with python, code-completion etc.
+              It should result in a more responsive user experience without delays and freezes.
             Added support for Python 3.10
             Removed support for Python 2.7, 3.2
-            Installer is now code signed
+            Installer is now code-signed
             Persian translatin added
             New IDE option "Restore open project"
           Issues addressed
