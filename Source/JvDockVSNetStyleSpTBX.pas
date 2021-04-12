@@ -38,7 +38,6 @@ Type
     property SplitterWidth stored IsNotSystemInfo;
   end;
 
-
   TJvDockVSNETTreeSpTBX = class(TJvDockVSNETTree)
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;

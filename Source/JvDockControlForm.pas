@@ -3050,6 +3050,8 @@ begin
   APanel := CreateConjoinPanelClass(Result);
 
   Result.SetBounds(Control1.Left, Control1.Top, Control1.UndockWidth, Control1.UndockHeight);
+  Result.Position := poDesigned;
+  Result.DefaultMonitor := dmDesktop;
 
   OldDockWidth := Control1.LRDockWidth;
   OldDockHeight := Control1.TBDockHeight;
@@ -3134,6 +3136,8 @@ begin
   Page.Name := Page.ClassName + '_' + Control1.Name + '_' + Control2.Name; // debug!
 
   Result.SetBounds(Control1.Left, Control1.Top, Control1.UndockWidth, Control1.UndockHeight);
+  Result.Position := poDesigned;
+  Result.DefaultMonitor := dmDesktop;
 
   OldDockWidth := Control1.LRDockWidth;
   OldDockHeight := Control1.TBDockHeight;

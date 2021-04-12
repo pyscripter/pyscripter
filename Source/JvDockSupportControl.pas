@@ -3635,8 +3635,13 @@ procedure TJvDockTabStrings.PutObject(Index: Integer; AObject: TObject);
 var
   TCItem: TTCItem;
 begin
-  TCItem.mask := TCIF_PARAM or TCIF_IMAGE;
-  TCItem.iImage := (AObject as TJvDockTabSheet).ImageIndex;
+  if Assigned(AObject) then
+  begin
+    TCItem.mask := TCIF_PARAM or TCIF_IMAGE;
+    TCItem.iImage := (AObject as TJvDockTabSheet).ImageIndex;
+  end
+  else
+    TCItem.mask := TCIF_PARAM;
   TCItem.lParam := LPARAM(AObject);
   if SendMessage(FTabControl.Handle, TCM_SETITEM, WPARAM(Index), LPARAM(@TCItem)) = 0 then
     TabControlError(Format(sTabFailSetObject, [Index]));
