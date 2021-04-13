@@ -522,7 +522,7 @@
             Persian translatin added
             New IDE option "Restore open project"
           Issues addressed
-            #824, #1031, #1038, #1039
+            #824, #1031, #1038, #1039, #1040, #1105
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
@@ -1291,8 +1291,9 @@ type
    // IPyIDEServices implementation
     function GetActiveEditor : IEditor;
     procedure WriteStatusMsg(const S : string);
-    function ShowFilePosition(FileName : string; Line, Offset : integer; SelLen : integer = 0;
-         ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
+    function ShowFilePosition(FileName : string; Line: integer = 0;
+      Offset : integer = 1; SelLen : integer = 0;
+      ForceToMiddle : Boolean = True; FocusEditor : Boolean = True): Boolean;
     procedure ClearPythonWindows;
     procedure SaveEnvironment;
     procedure SaveFileModules;
@@ -1452,7 +1453,7 @@ begin
 end;
 
 function TPyIDEMainForm.DoOpenFile(AFileName: string; HighlighterName : string = '';
-       TabControlIndex : integer = 1) : IEditor;
+  TabControlIndex : integer = 1) : IEditor;
 Var
   IsRemote : Boolean;
   Server, FName : string;
@@ -2511,9 +2512,9 @@ begin
     HintInfo.HideTimeout := 5000;
 end;
 
-function TPyIDEMainForm.ShowFilePosition(FileName: string; Line,
-  Offset: integer; SelLen : integer = 0; ForceToMiddle : boolean = True;
-  FocusEditor : boolean = True): boolean;
+function TPyIDEMainForm.ShowFilePosition(FileName : string; Line: integer = 0;
+      Offset : integer = 1; SelLen : integer = 0;
+      ForceToMiddle : Boolean = True; FocusEditor : Boolean = True): Boolean;
 Var
   Editor : IEditor;
 begin

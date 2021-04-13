@@ -410,6 +410,7 @@ type
     procedure IncrementalSearch;
     procedure ApplyEditorOptions;
     procedure ProcessShellNotify(Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
+    procedure ProcessFolderChange(const FolderName: string);
     function FindSearchTarget : ISearchCommands;
     procedure HighlightWordInActiveEditor(SearchWord : string);
     procedure UpdateImageCollections;
@@ -1803,47 +1804,23 @@ begin
   Canvas.Brush.Style := bsSolid;
 end;
 
-procedure TCommandsDataModule.ProcessShellNotify(Sender: TCustomVirtualExplorerTree;
-  ShellEvent: TVirtualShellEvent);
-Var
+procedure TCommandsDataModule.ProcessFolderChange(const FolderName: string);
+var
   I : integer;
   ModifiedCount : integer;
   Editor : IEditor;
   ChangedFiles : TStringList;
-  NS: TNamespace;
-  Dir : string;
   FTime : TDateTime;
-  WS: string;
 begin
-  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneRenameFolder]) then Exit;
-//  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem, vsneRenameFolder, vsneRenameItem]) then Exit;
-//  if not (ShellEvent.ShellNotifyEvent = vsneUpdateDir) then Exit;
-
-  Dir := '';
-  NS := TNamespace.Create(ShellEvent.PIDL1, nil);
-  try
-    NS.FreePIDLOnDestroy := False;
-    Dir := NS.NameForParsing;
-    if PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
-      // Do not process mapped drive
-      WS := WideExtractFileDrive(Dir);
-      if WideIsDrive(WS) and (GetDriveType(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
-    end;
-    if not NS.Folder then // UpdateItem notifications
-      Dir := ExtractFileDir(Dir);
-  finally
-    NS.Free;
-  end;
-
-  if Dir = '' then Exit;
+  if FolderName = '' then Exit;
 
   ChangedFiles := TSmartPtr.Make(TStringList.Create)();
 
   GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
   begin
-    if (Ed.FileName <> '') and (ExtractFileDir(Ed.FileName) = Dir) then begin
+    if (Ed.FileName <> '') and (ExtractFileDir(Ed.FileName) = FolderName) then begin
       if not FileAge(Ed.FileName, FTime) then begin
-        if not FileExists(Ed.FileName)then begin
+        if not FileExists(Ed.FileName) and (TEditorForm(Ed.Form).FileTime <> 0) then begin
           // File or directory has been moved or deleted
           // Mark as modified so that we try to save it
           Ed.SynEdit.Modified := True;
@@ -1893,6 +1870,34 @@ begin
     end;
 end;
 
+procedure TCommandsDataModule.ProcessShellNotify(Sender: TCustomVirtualExplorerTree;
+  ShellEvent: TVirtualShellEvent);
+var
+  NS: TNamespace;
+  WS: string;
+  Dir: string;
+begin
+  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneRenameFolder]) then Exit;
+
+  Dir := '';
+  NS := TNamespace.Create(ShellEvent.PIDL1, nil);
+  try
+    NS.FreePIDLOnDestroy := False;
+    Dir := NS.NameForParsing;
+    if PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
+      // Do not process mapped drive
+      WS := WideExtractFileDrive(Dir);
+      if WideIsDrive(WS) and (GetDriveType(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
+    end;
+    if not NS.Folder then // UpdateItem notifications
+      Dir := ExtractFileDir(Dir);
+  finally
+    NS.Free;
+  end;
+
+  ProcessFolderChange(Dir);
+end;
+
 procedure TCommandsDataModule.PrepareParameterCompletion;
 var
   i : integer;
@@ -1937,39 +1942,35 @@ begin
   SetLength(Categories, 10);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 14);
+    SetLength(Options, 12);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
     Options[1].DisplayName := _('Days between update checks');
-    Options[2].PropertyName := 'MaskFPUExceptions';
-    Options[2].DisplayName := _('Mask FPU Exceptions');
-    Options[3].PropertyName := 'EditorsTabPosition';
-    Options[3].DisplayName := _('Editor tab position');
-    Options[4].PropertyName := 'SmartNextPrevPage';
-    Options[4].DisplayName := _('Smart Next Previous Page');
-    Options[5].PropertyName := 'ShowTabCloseButton';
-    Options[5].DisplayName := _('Show tab close button');
-    Options[6].PropertyName := 'DockAnimationInterval';
-    Options[6].DisplayName := _('Dock animation interval (ms)');
-    Options[7].PropertyName := 'DockAnimationMoveWidth';
-    Options[7].DisplayName := _('Dock animation move width (pixels)');
-    Options[8].PropertyName := 'FileTemplateForNewScripts';
-    Options[8].DisplayName := _('File template for new Python scripts');
-    Options[9].PropertyName := 'NoOfRecentFiles';
-    Options[9].DisplayName := _('Number of recent files');
-    Options[10].PropertyName := 'FileChangeNotification';
-    Options[10].DisplayName := _('File Change Notification');
-    Options[11].PropertyName := 'StyleMainWindowBorder';
-    Options[11].DisplayName := _('Style Main Window Border');
-    Options[12].PropertyName := 'RestoreOpenFiles';
-    Options[12].DisplayName := _('Restore open files');
-    Options[13].PropertyName := 'RestoreOpenProject';
-    Options[13].DisplayName := _('Restore open project');
+    Options[2].PropertyName := 'EditorsTabPosition';
+    Options[2].DisplayName := _('Editor tab position');
+    Options[3].PropertyName := 'SmartNextPrevPage';
+    Options[3].DisplayName := _('Smart Next Previous Page');
+    Options[4].PropertyName := 'ShowTabCloseButton';
+    Options[4].DisplayName := _('Show tab close button');
+    Options[5].PropertyName := 'DockAnimationInterval';
+    Options[5].DisplayName := _('Dock animation interval (ms)');
+    Options[6].PropertyName := 'DockAnimationMoveWidth';
+    Options[6].DisplayName := _('Dock animation move width (pixels)');
+    Options[7].PropertyName := 'FileTemplateForNewScripts';
+    Options[7].DisplayName := _('File template for new Python scripts');
+    Options[8].PropertyName := 'NoOfRecentFiles';
+    Options[8].DisplayName := _('Number of recent files');
+    Options[9].PropertyName := 'StyleMainWindowBorder';
+    Options[9].DisplayName := _('Style Main Window Border');
+    Options[10].PropertyName := 'RestoreOpenFiles';
+    Options[10].DisplayName := _('Restore open files');
+    Options[11].PropertyName := 'RestoreOpenProject';
+    Options[11].DisplayName := _('Restore open project');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
-    SetLength(Options, 14);
+    SetLength(Options, 15);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := _('Save files before run');
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
@@ -1998,6 +1999,8 @@ begin
     Options[12].DisplayName := _('Always use sockets');
     Options[13].PropertyName := 'TraceOnlyIntoOpenFiles';
     Options[13].DisplayName := _('Step into open files only');
+    Options[14].PropertyName := 'MaskFPUExceptions';
+    Options[14].DisplayName := _('Mask FPU Exceptions');
   end;
   with Categories[2] do begin
     DisplayName := _('Code Explorer');
@@ -2117,9 +2120,11 @@ begin
   end;
   with Categories[8] do begin
     DisplayName := _('File Explorer');
-    SetLength(Options, 1);
+    SetLength(Options, 2);
     Options[0].PropertyName := 'FileExplorerBackgroundProcessing';
     Options[0].DisplayName := _('File Explorer background processing');
+    Options[1].PropertyName := 'FileChangeNotification';
+    Options[1].DisplayName := _('File Change Notification');
   end;
   with Categories[9] do begin
     DisplayName := 'SSH';

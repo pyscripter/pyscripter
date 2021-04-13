@@ -223,9 +223,9 @@ type
     }
     function GetActiveEditor : IEditor;
     procedure WriteStatusMsg(const S: string);
-    function ShowFilePosition(FileName: string; Line,
-      Offset: integer; SelLen : integer = 0; ForceToMiddle : Boolean = True;
-      FocusEditor : Boolean = True): Boolean;
+    function ShowFilePosition(FileName : string; Line: integer =0;
+      Offset : integer = 1; SelLen : integer = 0;
+      ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
     procedure ClearPythonWindows;
     procedure SaveEnvironment;
     procedure SaveFileModules;

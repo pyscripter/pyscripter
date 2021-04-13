@@ -198,7 +198,7 @@ type
     procedure DoUpdateHighlighter(HighlighterName: string = '');
     procedure AutoCompleteBeforeExecute(Sender: TObject);
     procedure AutoCompleteAfterExecute(Sender: TObject);
-    procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
+    procedure WMFolderChangeNotify(var Msg: TMessage); message WM_FOLDERCHANGENOTIFY;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
     procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
@@ -2708,38 +2708,9 @@ begin
   end;
 end;
 
-procedure TEditorForm.WMShellNotify(var Msg: TMessage);
-{
-  Does nothing except for releasing the ShellEventList
-  All the processing takes place from the FileExplorer's
-  OnAfterShellNotify Event
-  Note the File Explorer receives the Kernel notifications
-  registered by the editors
-}
-var
-  ShellEventList: TVirtualShellEventList;
-  // ShellEvent : TVirtualShellEvent;
-  // List: TList;
-  // Count: integer;
-  // i : integer;
+procedure TEditorForm.WMFolderChangeNotify(var Msg: TMessage);
 begin
-  // if csDestroying in ComponentState then Exit;
-  //
-  ShellEventList := TVirtualShellEventList(Msg.wParam);
-  // List := ShellEventList.LockList;
-  // try
-  // begin
-  // Count := List.Count;
-  // for i := 0 to Count - 1 do
-  // begin
-  // ShellEvent := TVirtualShellEvent(List.Items[i]);
-  // CommandsDataModule.ProcessShellNotify(ShellEvent);
-  // end;
-  // end;
-  // finally
-  // ShellEventList.UnlockList;
-  ShellEventList.Release;
-  // end;
+  CommandsDataModule.ProcessFolderChange(ExtractFileDir(fEditor.fFileName));
 end;
 
 procedure TEditorForm.AddWatchAtCursor;

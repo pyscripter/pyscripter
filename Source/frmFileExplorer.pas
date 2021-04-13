@@ -162,7 +162,6 @@ uses
   JvGnugettext,
   StringResources,
   dmCommands,
-  frmPyIDEMain,
   frmFindResults,
   dlgDirectoryList,
   uEditAppIntfs,
@@ -243,8 +242,8 @@ Var
 begin
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
       not NameSpace.Folder and NameSpace.FileSystem
-  then with PyIDEMainForm do
-      DoOpenFile(NameSpace.NameForParsing, '', TabControlIndex(ActiveTabControl));
+  then
+    GI_PyIDEServices.ShowFilePosition(NameSpace.NameForParsing);
 end;
 
 procedure TFileExplorerWindow.ExploreHereClick(Sender: TObject);
