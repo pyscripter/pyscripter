@@ -2911,7 +2911,7 @@ end;
 
 procedure InternalExecuteFlushPipe(var PipeInfo: TPipeInfo; var Overlapped: TOverlapped);
 var
-  PipeBytesRead: DWORD;
+  PipeBytesRead: Cardinal;
 begin
   CancelIo(PipeInfo.PipeRead);
   GetOverlappedResult(PipeInfo.PipeRead, Overlapped, PipeBytesRead, True);
@@ -2919,7 +2919,7 @@ begin
     InternalExecuteProcessBuffer(PipeInfo, PipeBytesRead);
   while PeekNamedPipe(PipeInfo.PipeRead, nil, 0, nil, @PipeBytesRead, nil) and (PipeBytesRead > 0) do
   begin
-    if PipeBytesRead > Length(PipeInfo.Buffer) then
+    if PipeBytesRead > Cardinal(Length(PipeInfo.Buffer)) then
       PipeBytesRead := Length(PipeInfo.Buffer);
     if not ReadFile(PipeInfo.PipeRead, PipeInfo.Buffer[0], PipeBytesRead, PipeBytesRead, nil) then
       RaiseLastOSError;

@@ -522,7 +522,7 @@
             Persian translatin added
             New IDE option "Restore open project"
           Issues addressed
-            #824, #1031, #1038, #1039, #1040, #1105
+            #824, #1031, #1035, #1038, #1039, #1040, #1105
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }

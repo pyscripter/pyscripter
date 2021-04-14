@@ -169,14 +169,21 @@ end;
 
 procedure TCommandLineReader.parse();
 var params: string;
+    p: integer;
 begin
   params := GetCommandLineW;
   if params = '' then exit;
   if params[1] = Quote then begin
     params[1] := 'X';
-    delete(params, 1 , Pos(params, Quote));
-  end else
-    delete(params, 1, Pos(params, Space));
+    delete(params, 1 , Pos(Quote ,params));
+  end else begin
+    p := Pos(Space, params);
+    if p > 0 then
+      delete(params, 1, p)
+    else
+      // if there is no quote and no space then it must be just the executable name
+      params := '';
+  end;
   parse(params);
 end;
 
