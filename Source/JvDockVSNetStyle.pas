@@ -2164,6 +2164,10 @@ begin
   DisableAlign;
   try
     VSChannel.AddDockControl(Control);
+    if LRDockWidth = 0 then
+      LRDockWidth := Control.LRDockWidth;
+    if TBDockHeight = 0 then
+      TBDockHeight := Control.TBDockHeight;
     ShowDockPanel(VisibleDockClientCount > 1, Control, sdfDockPanel);
     { using a null-rect as parameter for Dock causes align problems }
     Control.Dock(VSChannel.VSPopupPanel, Control.BoundsRect);
@@ -2196,6 +2200,8 @@ var
         begin
           PageControl.Pages[I].Visible := TJvDockVSNETTabSheet(PageControl.Pages[I]).OldVisible;
           PageControl.Pages[I].Controls[0].Visible := PageControl.Pages[I].Visible;
+          if PageControl.ActivePage = PageControl.Pages[I] then
+            PageControl.Pages[I].BringToFront;
         end;
   end;
 
@@ -2215,6 +2221,10 @@ begin
 //      JvDockManager.RemoveControl(Control);
       Panel.VSChannel.InternalRemoveControl(Control);
       Panel.VSChannel.RemoveDockControl(Control);
+      if Panel.LRDockWidth = 0 then
+        Panel.LRDockWidth := Control.LRDockWidth;
+      if Panel.TBDockHeight = 0 then
+        Panel.TBDockHeight := Control.TBDockHeight;
       Panel.ShowDockPanel(Panel.VisibleDockClientCount > 0, Control, sdfDockPanel);
       Panel.VSChannel.AutoFocusActiveDockForm;
       Panel.VSChannel.HidePopupPanel(Panel.VSChannel.PopupPane);

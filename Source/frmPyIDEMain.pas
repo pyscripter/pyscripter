@@ -1672,10 +1672,10 @@ begin
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := PPIScale(200);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
-    ShowDockForm(FileExplorerWindow);
+    TJvDockVSNETPanel(DockServer.LeftDockPanel).DoAutoHideControl(TabHost);
 
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
-    DockServer.BottomDockPanel.Height := PPIScale(150);
+    DockServer.BottomDockPanel.Height := PPIScale(200);
     ManualTabDockAddPage(TabHost, WatchesWindow);
     ManualTabDockAddPage(TabHost, BreakPointsWindow);
     ManualTabDockAddPage(TabHost, OutputWindow);
@@ -2408,7 +2408,7 @@ begin
                 end;
       dsInactive: begin
                     s := _('Ready');
-                    icIndicators.SVGIconItems[0].FixedColor := $0B880B;
+                    icIndicators.SVGIconItems[0].FixedColor := $22AA22;
                   end;
       dsPostMortem : begin
                        s := _('Post mortem');
@@ -4894,7 +4894,7 @@ begin
   for i := Low(TJvDockPosition) to High(TJvDockPosition) do begin
     Panel := DockServer.DockPanel[i];
     if not (Panel is TJvDockVSNETPanel) then continue;
-    while Panel.DockClientCount >0 do
+    while Panel.DockClientCount > 0 do
       TJvDockVSNETPanel(Panel).DoAutoHideControl(
           Panel.DockClients[Panel.DockClientCount-1] as TWinControl);
   end;

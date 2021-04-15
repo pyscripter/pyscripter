@@ -46,11 +46,6 @@ type
     TBXPopupMenu: TSpTBXPopupMenu;
     mnClearall: TSpTBXItem;
     MessagesView: TVirtualStringTree;
-    TBToolbar1: TTBToolbar;
-    TBControlItem5: TTBControlItem;
-    TBControlItem6: TTBControlItem;
-    BtnPreviousMsgs: TButton;
-    BtnNextMsgs: TButton;
     mnPreviousMessage: TSpTBXItem;
     mnNextMessage: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
@@ -62,6 +57,9 @@ type
     actPreviousMsgs: TAction;
     actClearAll: TAction;
     vilImages: TVirtualImageList;
+    Panel1: TPanel;
+    BtnNextMsg: TButton;
+    BtnPrevMsg: TButton;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure actCopyToClipboardExecute(Sender: TObject);
     procedure ClearAllExecute(Sender: TObject);
@@ -378,8 +376,8 @@ procedure TMessagesWindow.UpdateMsgActions;
 begin
   actPreviousMsgs.Enabled := fHistoryIndex > 0 ;
   actNextMsgs.Enabled := fHistoryIndex < fMessageHistory.Count - 1;
-  BtnPreviousMsgs.Enabled := actPreviousMsgs.Enabled;
-  BtnNextMsgs.Enabled := actNextMsgs.Enabled;
+  BtnPrevMsg.Enabled := actPreviousMsgs.Enabled;
+  BtnNextMsg.Enabled := actNextMsgs.Enabled;
   actClearAll.Enabled := MessagesView.RootNodeCount <> 0;
   actCopyToClipboard.Enabled := MessagesView.RootNodeCount <> 0;
 end;

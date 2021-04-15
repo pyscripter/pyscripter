@@ -1343,7 +1343,7 @@ begin
       begin
         // Auto-complete with one entry without showing the form
         CanExecute := False;
-        CP.OnValidate(CP.Form, [], ' ');
+        CP.OnValidate(CP.Form, [], #0);
         CC.CleanUp;
       end;
     finally

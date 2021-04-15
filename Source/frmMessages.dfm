@@ -2,9 +2,10 @@ inherited MessagesWindow: TMessagesWindow
   Left = 259
   Top = 257
   HelpContext = 440
+  ActiveControl = MessagesView
   Caption = 'Messages'
   ClientHeight = 218
-  ClientWidth = 745
+  ClientWidth = 741
   Icon.Data = {
     0000010001001010000001002000280400001600000028000000100000002000
     0000010020000000000000000000000000000000000000000000000000000000
@@ -43,18 +44,15 @@ inherited MessagesWindow: TMessagesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TPanel
-    Width = 745
+    Width = 741
     Height = 218
     inherited FGPanel: TPanel
-      Width = 741
+      Width = 737
       Height = 214
-      DesignSize = (
-        741
-        214)
       object MessagesView: TVirtualStringTree
         Left = 0
         Top = 0
-        Width = 741
+        Width = 737
         Height = 214
         Align = alClient
         Alignment = taRightJustify
@@ -78,7 +76,7 @@ inherited MessagesWindow: TMessagesWindow
           item
             Position = 0
             Text = 'Message'
-            Width = 391
+            Width = 377
           end
           item
             Position = 1
@@ -97,65 +95,60 @@ inherited MessagesWindow: TMessagesWindow
             Width = 60
           end
           item
+            MinWidth = 50
+            Options = [coAllowClick, coParentBidiMode, coParentColor, coShowDropMark, coVisible, coStyleColor]
             Position = 4
-            Width = 40
           end>
       end
-      object TBToolbar1: TTBToolbar
-        Left = 700
-        Top = 0
-        Width = 39
-        Height = 17
-        Anchors = [akTop, akRight]
-        Caption = 'TBToolbar1'
-        Color = clNone
-        TabOrder = 1
-        DesignSize = (
-          39
-          17)
-        object TBControlItem5: TTBControlItem
-          Control = BtnPreviousMsgs
-        end
-        object TBControlItem6: TTBControlItem
-          Control = BtnNextMsgs
-        end
-        object BtnPreviousMsgs: TButton
-          Left = 0
-          Top = 0
-          Width = 20
-          Height = 17
-          Hint = 'Show previous messages'
-          Anchors = [akTop, akRight]
-          Caption = '3'
-          Enabled = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Webdings'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 0
-          OnClick = actPreviousMsgsExecute
-        end
-        object BtnNextMsgs: TButton
-          Left = 20
-          Top = 0
-          Width = 19
-          Height = 17
-          Hint = 'Show next messages'
-          Anchors = [akTop, akRight]
-          Caption = '4'
-          Enabled = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Webdings'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 1
-          OnClick = actNextMsgsExecute
-        end
-      end
+    end
+  end
+  object Panel1: TPanel [1]
+    Left = 702
+    Top = 2
+    Width = 39
+    Height = 17
+    Anchors = [akTop, akRight]
+    AutoSize = True
+    BevelOuter = bvNone
+    TabOrder = 1
+    DesignSize = (
+      39
+      17)
+    object BtnNextMsg: TButton
+      Left = 20
+      Top = 0
+      Width = 19
+      Height = 17
+      Hint = 'Show next messages'
+      Anchors = [akTop, akRight]
+      Caption = '4'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Webdings'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnClick = actNextMsgsExecute
+    end
+    object BtnPrevMsg: TButton
+      Left = 0
+      Top = 0
+      Width = 20
+      Height = 17
+      Hint = 'Show previous messages'
+      Anchors = [akTop, akRight]
+      Caption = '3'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Webdings'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnClick = actPreviousMsgsExecute
     end
   end
   inherited DockClient: TJvDockClient

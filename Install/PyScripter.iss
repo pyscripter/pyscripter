@@ -1,6 +1,6 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
-#define MyAppVersion "3.6.4"
+#define MyAppVersion "4.0.0"
 #define OSPlatform "x64"
 #define MyAppPublisherURL="https://sourceforge.net/projects/pyscripter/"
 #define MyAppSupportURL="https://github.com/pyscripter/pyscripter"
@@ -35,7 +35,7 @@ ArchitecturesInstallIn64BitMode={#OSPlatform}
 Name: "en"; MessagesFile: "compiler:Default.isl"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "el"; MessagesFile: "locale\el\Greek.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "fa"; MessagesFile: "locale\el\Farsi.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "fa"; MessagesFile: "locale\fa\Farsi.isl"; InfoAfterFile: "locale\fa\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "ja"; MessagesFile: "compiler:\Languages\Japanese.isl"; InfoAfterFile: "locale\ja\AfterInstallPyScripter-{#OSPlatform}.txt"
 
@@ -82,10 +82,10 @@ Source: ..\locale\es\LC_MESSAGES\default.mo; DestDir: {app}\locale\es\LC_MESSAGE
 Source: ..\locale\es\LC_MESSAGES\default.po; DestDir: {app}\locale\es\LC_MESSAGES\
 Source: ..\locale\es\LC_MESSAGES\languages.mo; DestDir: {app}\locale\es\LC_MESSAGES\
 Source: ..\locale\es\LC_MESSAGES\languages.po; DestDir: {app}\locale\es\LC_MESSAGES\
-Source: ..\locale\fa_IR\LC_MESSAGES\default.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
-Source: ..\locale\fa_IR\LC_MESSAGES\default.po; DestDir: {app}\locale\fr\LC_MESSAGES\
-Source: ..\locale\fa_IR\LC_MESSAGES\languages.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
-Source: ..\locale\fa_IR\LC_MESSAGES\languages.po; DestDir: {app}\locale\fr\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\default.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\default.po; DestDir: {app}\locale\fr\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\languages.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\languages.po; DestDir: {app}\locale\fr\LC_MESSAGES\
 Source: ..\locale\fr\LC_MESSAGES\default.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
 Source: ..\locale\fr\LC_MESSAGES\default.po; DestDir: {app}\locale\fr\LC_MESSAGES\
 Source: ..\locale\fr\LC_MESSAGES\languages.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
@@ -139,6 +139,7 @@ Source: "..\Highlighters\Darthy_sand_light.ini"; DestDir: "{commonappdata}\PyScr
 Source: "..\Highlighters\Default.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Frontenddev.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Gedit Original Oblivion.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\Github.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Greyish_dark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Havenjark.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\IDLEHighlighting.ini"; DestDir: "{commonappdata}\PyScripter\Highlighters"

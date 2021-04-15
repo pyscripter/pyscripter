@@ -209,7 +209,7 @@ type
     property UseCommandLine : Boolean read fUseCommandLine
       write fUseCommandLine default False;
     property MarkExecutableLines : Boolean read fMarkExecutableLines
-      write fMarkExecutableLines default True;
+      write fMarkExecutableLines default False;
     property CheckSyntaxAsYouType : Boolean read fCheckSyntaxAsYouType
       write fCheckSyntaxAsYouType default True;
     property FileExplorerContextMenu : Boolean read fFileExplorerContextMenu
@@ -273,7 +273,7 @@ type
     property CompleteAsYouType : Boolean read fCompleteAsYouType
       write fCompleteAsYouType default True;
     property CompleteWithWordBreakChars : Boolean read fCompleteWithWordBreakChars
-      write fCompleteWithWordBreakChars default True;
+      write fCompleteWithWordBreakChars default False;
     property CompleteWithOneEntry : Boolean read fCompleteWithOneEntry
       write fCompleteWithOneEntry default False;
     property DisplayPackageNames : Boolean read fDisplayPackageNames
@@ -493,7 +493,7 @@ begin
   fShowCodeHints := True;
   fShowDebuggerHints := True;
   fAutoCompleteBrackets := True;
-  fMarkExecutableLines := True;
+  fMarkExecutableLines := False;
   fCheckSyntaxAsYouType := True;
   fFileExplorerContextMenu := True;
   fNewFileLineBreaks := sffDos;
@@ -526,7 +526,7 @@ begin
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
-  fCompleteWithWordBreakChars := True;
+  fCompleteWithWordBreakChars := False;
   fCompleteWithOneEntry := False;
   fDisplayPackageNames := True;
   fCheckSyntaxLineLimit := 1000;
