@@ -522,7 +522,7 @@
             Persian translatin added
             New IDE option "Restore open project"
           Issues addressed
-            #824, #1031, #1035, #1038, #1039, #1040, #1105
+            #824, #990, #1031, #1035, #1038, #1039, #1040, #1105
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
@@ -3164,12 +3164,7 @@ begin
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
 
-    // UnScale and Scale back
-    var TempGutterShapeSize := PyIDEOptions.CodeFolding.GutterShapeSize;
-    PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIUnScale(PyIDEOptions.CodeFolding.GutterShapeSize);
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
-    PyIDEOptions.CodeFolding.GutterShapeSize := TempGutterShapeSize;
 
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');
@@ -3314,8 +3309,6 @@ begin
 
   if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', PyIDEOptions);
-    PyIDEOptions.CodeFolding.GutterShapeSize :=
-      PPIScale(PyIDEOptions.CodeFolding.GutterShapeSize);
     PyIDEOptions.Changed;
     AppStorage.DeleteSubTree('IDE Options');
   end;
@@ -3422,7 +3415,7 @@ begin
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
   // Load Style Name
-  TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10'));
+  TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10 SlateGray'));
 
   // Load IDE Shortcuts
   ActionProxyCollection := TActionProxyCollection.Create(apcctEmpty);

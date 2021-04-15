@@ -729,7 +729,7 @@ begin
           Inc(R.Bottom, Page.PPIScale(4));
           // maintain background border
           if IsActive then begin
-            SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone, FCurrentPPI);
+            SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, FCurrentPPI);
             ExcludeClipRect(Canvas.Handle, R.Left + 1, ARect.Bottom - TabSheetBorderSize, R.Right - 1, ARect.Bottom);
           end;
           Dec(R.Bottom, Page.PPIScale(3));
@@ -738,7 +738,7 @@ begin
         begin
           Dec(R.Top, Page.PPIScale(4));
           if IsActive then begin
-            SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone, FCurrentPPI);
+            SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, FCurrentPPI);
             ExcludeClipRect(Canvas.Handle, R.Left + 1, 0, R.Right - 1, TabSheetBorderSize);
           end;
           Inc(R.Top, Page.PPIScale(3));
@@ -749,7 +749,7 @@ begin
         ttpTop: Inc(R.Top, Page.PPIScale(TabSheetBorderSize));
         ttpBottom: Dec(R.Bottom, Page.PPIScale(TabSheetBorderSize));
       end;
-    SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, tedNone, FCurrentPPI);
+    SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, FCurrentPPI);
 
     // now paint the caption
     Format := DT_LEFT or DT_SINGLELINE{ or DT_END_ELLIPSIS};

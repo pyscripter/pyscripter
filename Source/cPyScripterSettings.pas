@@ -265,7 +265,7 @@ type
     property HighlightSelectedWordColor : TColor read fHighlightSelectedWordColor
       write fHighlightSelectedWordColor default clOlive;
     property FileChangeNotification : TFileChangeNotificationType read fFileChangeNotification
-      write fFileChangeNotification;
+      write fFileChangeNotification default fcnDisabled;
     property CodeCompletionCaseSensitive : Boolean read fCodeCompletionCaseSensitive
       write fCodeCompletionCaseSensitive default True;
     property CompleteKeywords : Boolean read fCompleteKeywords
@@ -522,7 +522,7 @@ begin
   SetDefaultUIFont(fAutoCompletionFont);
   fHighlightSelectedWord := True;
   fHighlightSelectedWordColor := clOlive;
-  fFileChangeNotification := fcnNoMappedDrives;
+  fFileChangeNotification := fcnDisabled;
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
@@ -838,9 +838,6 @@ end;
 class procedure TPyScripterSettings.CreateIDEOptions;
 begin
   PyIDEOptions := TPythonIDEOptions.Create;
-  // DefaultOptions
-  PyIDEOptions.CodeFolding.GutterShapeSize :=
-    MulDiv(PyIDEOptions.CodeFolding.GutterShapeSize, Screen.PixelsPerInch, 96);
   // Register AppStorage handlers
   RegisterAppStoragePropertyEngine(TJvAppStorageFontPropertyEngine);
   RegisterAppStoragePropertyEngine(TJvAppStorageGutterPropertyEngine);
