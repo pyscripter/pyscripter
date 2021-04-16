@@ -82,10 +82,10 @@ Source: ..\locale\es\LC_MESSAGES\default.mo; DestDir: {app}\locale\es\LC_MESSAGE
 Source: ..\locale\es\LC_MESSAGES\default.po; DestDir: {app}\locale\es\LC_MESSAGES\
 Source: ..\locale\es\LC_MESSAGES\languages.mo; DestDir: {app}\locale\es\LC_MESSAGES\
 Source: ..\locale\es\LC_MESSAGES\languages.po; DestDir: {app}\locale\es\LC_MESSAGES\
-Source: ..\locale\fa\LC_MESSAGES\default.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
-Source: ..\locale\fa\LC_MESSAGES\default.po; DestDir: {app}\locale\fr\LC_MESSAGES\
-Source: ..\locale\fa\LC_MESSAGES\languages.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
-Source: ..\locale\fa\LC_MESSAGES\languages.po; DestDir: {app}\locale\fr\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\default.mo; DestDir: {app}\locale\fa\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\default.po; DestDir: {app}\locale\fa\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\languages.mo; DestDir: {app}\locale\fa\LC_MESSAGES\
+Source: ..\locale\fa\LC_MESSAGES\languages.po; DestDir: {app}\locale\fa\LC_MESSAGES\
 Source: ..\locale\fr\LC_MESSAGES\default.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
 Source: ..\locale\fr\LC_MESSAGES\default.po; DestDir: {app}\locale\fr\LC_MESSAGES\
 Source: ..\locale\fr\LC_MESSAGES\languages.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
