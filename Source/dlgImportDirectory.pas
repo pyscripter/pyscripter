@@ -62,7 +62,7 @@ var
   Directories : TArray<string>;
 begin
   NewDir := DirectoryEdit.Text;
-  if SelectDirectory(NewDir, Directories, [], _('Select directory')+':') then
+  if SelectDirectory(NewDir, Directories, [], _('Select directory')) then
     DirectoryEdit.Text := Directories[0];
 end;
 

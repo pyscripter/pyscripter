@@ -521,6 +521,7 @@
             Installer is now code-signed
             Persian translatin added
             New IDE option "Restore open project"
+            New File Explorer command "Select Directory..." (#1034)
           Issues addressed
             #824, #990, #1031, #1035, #1038, #1039, #1040, #1105
 }

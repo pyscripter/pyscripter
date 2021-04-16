@@ -99,12 +99,12 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 45
+        CollectionIndex = 62
         CollectionName = 'OpenFolder'
         Disabled = False
         Name = 'OpenFolder'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 24
     Top = 93

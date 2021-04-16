@@ -104,6 +104,9 @@ type
     actGoForward: TAction;
     actGoBack: TAction;
     vilImages: TVirtualImageList;
+    actGoToCustomPath: TAction;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    SpTBXItem1: TSpTBXItem;
     procedure VirtualShellHistoryChange(Sender: TBaseVirtualShellPersistent;
       ItemIndex: Integer; ChangeType: TVSHChangeType);
     procedure FileExplorerTreeKeyPress(Sender: TObject; var Key: Char);
@@ -135,6 +138,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure actManageFavoritesExecute(Sender: TObject);
     procedure actAddToFavoritesExecute(Sender: TObject);
+    procedure actGoToCustomPathExecute(Sender: TObject);
     procedure mnFavoritesPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure actNewFolderExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -158,6 +162,7 @@ implementation
 
 uses
   WinApi.SHlObj,
+  Vcl.FileCtrl,
   MPCommonObjects,
   JvGnugettext,
   StringResources,
@@ -357,6 +362,14 @@ end;
 procedure TFileExplorerWindow.actEnableFilterExecute(Sender: TObject);
 begin
   FileExplorerTree.RefreshTree;
+end;
+
+procedure TFileExplorerWindow.actGoToCustomPathExecute(Sender: TObject);
+var
+   Directories: TArray<string>;
+begin
+  if SelectDirectory('', Directories, [], _('Select directory')) then
+    FileExplorerTree.RootFolderCustomPath := Directories[0];
 end;
 
 procedure TFileExplorerWindow.actManageFavoritesExecute(Sender: TObject);

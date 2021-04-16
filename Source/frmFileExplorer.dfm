@@ -220,6 +220,11 @@ inherited FileExplorerWindow: TFileExplorerWindow
         Caption = 'Active Script'
         OnClick = ActiveScriptClick
       end
+      object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+      end
+      object SpTBXItem1: TSpTBXItem
+        Action = actGoToCustomPath
+      end
     end
     object TBXSubmenuItem2: TSpTBXSubmenuItem
       Caption = 'Favorites'
@@ -375,6 +380,13 @@ inherited FileExplorerWindow: TFileExplorerWindow
       ImageIndex = 8
       ImageName = 'FolderAdd'
       OnExecute = actNewFolderExecute
+    end
+    object actGoToCustomPath: TAction
+      Category = 'File Explorer'
+      Caption = 'Select Directory...'
+      HelpContext = 420
+      Hint = 'Select directory'
+      OnExecute = actGoToCustomPathExecute
     end
   end
   object vilImages: TVirtualImageList

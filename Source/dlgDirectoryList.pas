@@ -127,7 +127,7 @@ var
   Directories : TArray<string>;
 begin
   NewDir := edPath.Text;
-  if SelectDirectory(NewDir, Directories, [], _('Select directory')+':') then
+  if SelectDirectory(NewDir, Directories, [], _('Select directory')) then
     edPath.Text := Directories[0];
 end;
 
