@@ -271,17 +271,22 @@ Var
   PyTestCase : PPyObject;
 begin
   UnitTests.Clear;
-  Var Py := SafePyEngine;
-  for i := 0 to TestClasses.Count - 1 do begin
-    SL := TStringList(TestClasses.Objects[i]);
-    for j := 0 to SL.Count - 1 do begin
-      PyTestCase := PPyObject(SL.Objects[j]);
-      Py.PythonEngine.Py_XDECREF(PyTestCase);
+  if (TestClasses.Count > 0) or VarIsPython(TestSuite) then
+  begin
+    var Py := SafePyEngine;
+
+    for i := 0 to TestClasses.Count - 1 do begin
+      SL := TStringList(TestClasses.Objects[i]);
+      for j := 0 to SL.Count - 1 do begin
+        PyTestCase := PPyObject(SL.Objects[j]);
+        Py.PythonEngine.Py_XDECREF(PyTestCase);
+      end;
+      SL.Free;
     end;
-    SL.Free;
+    TestClasses.Clear;
+
+    VarClear(TestSuite);
   end;
-  TestClasses.Clear;
-  VarClear(TestSuite);
 
   TestsRun := 0;
   TestsFailed := 0;
