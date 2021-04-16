@@ -117,21 +117,18 @@ inherited AboutBox: TAboutBox
       Height = 328
       Caption = 'About'
       ImageIndex = -1
-      DesignSize = (
-        534
-        328)
       TabItem = 'tbAbout'
       object Panel1: TPanel
         AlignWithMargins = True
-        Left = 24
+        Left = 22
         Top = 24
-        Width = 481
-        Height = 281
-        Margins.Left = 10
-        Margins.Top = 10
-        Margins.Right = 10
-        Margins.Bottom = 10
-        Anchors = [akLeft, akTop, akRight, akBottom]
+        Width = 488
+        Height = 284
+        Margins.Left = 20
+        Margins.Top = 20
+        Margins.Right = 20
+        Margins.Bottom = 20
+        Align = alClient
         DoubleBuffered = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBtnText
@@ -145,8 +142,8 @@ inherited AboutBox: TAboutBox
         TabOrder = 0
         OnClick = Panel1Click
         DesignSize = (
-          481
-          281)
+          488
+          284)
         object Copyright: TLabel
           Left = 233
           Top = 102
@@ -198,7 +195,7 @@ inherited AboutBox: TAboutBox
           Left = 25
           Top = 192
           Width = 433
-          Height = 88
+          Height = 91
           Margins.Left = 10
           Margins.Top = 0
           Margins.Right = 0
@@ -206,10 +203,10 @@ inherited AboutBox: TAboutBox
           Anchors = [akTop, akRight, akBottom]
           AutoSize = False
           Caption = 
-            'A freeware, open source Python scripting integrated development ' +
-            'environment created with the ambition to bring to the Python com' +
-            'munity the quality and functionality available in commercial IDE' +
-            's available for other languages.'
+            'A free and open source Python scripting integrated development e' +
+            'nvironment created with the ambition to bring to the Python comm' +
+            'unity the quality and functionality available in commercial IDEs' +
+            ' available for other languages.'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBtnText
           Font.Height = -12
@@ -222,43 +219,41 @@ inherited AboutBox: TAboutBox
         object SVGIconImage1: TSVGIconImage
           Left = 25
           Top = 25
-          Width = 150
-          Height = 150
+          Width = 157
+          Height = 153
           AutoSize = False
           Proportional = True
           SVGText = 
-            '<svg id="acfdf7c2-779f-498a-9313-fcf213028fbc" data-name="Layer ' +
-            '1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.95 35.95">' +
-            '<g id="a52711da-1cc0-4b2c-afbf-708a46579e22" data-name="b67fef1f' +
-            '-d78f-41b9-babd-ba78b7afaa03"><path d="M11.1,29.86h9.44c5.72,0,5' +
-            '.77-2.19,5.85-4.1a19,19,0,0,0,0-2.61,5.05,5.05,0,0,0-1.27-2.86,1' +
-            '.67,1.67,0,0,0-.23-.23,1.74,1.74,0,0,0-.82-.47c-.47.19-3.65-.36-' +
-            '4.49-.25Z" fill="#7f7f19"/><polyline points="27.27 3.91 24.72 2.' +
-            '25 24.29 2.79 6.71 28.72 9.4 30.53" fill="#f4a800"/><polyline po' +
-            'ints="9.25 30.42 12.26 32.48 24.98 13.7 30.22 5.96 27.3 3.91" fi' +
-            'll="#dd910a"/><polyline points="5.72 35.52 6.71 28.72 9.23 30.43' +
-            '" fill="#c99052"/><polyline points="9.23 30.43 12.26 32.48 5.72 ' +
-            '35.52" fill="#b77f48"/><path d="M29.18,1.46l1.06.78A2.19,2.19,0,' +
-            '0,1,30.7,5.3l0,.06L28.8,7.88h-.09l-3-2.18" fill="#db7575"/><path' +
-            ' d="M26,5.86,23.36,4.09l.09-.15L25.4,1.32A2.1,2.1,0,0,1,28.32.88' +
-            'l.86.64" fill="#ed8585"/><path d="M24.1,19.64A3.16,3.16,0,0,0,26' +
-            ',16.18v-5.7c0-3.71.12-8.68-7.32-8.68-2.45,0-4.78.33-6.75,3-1.62,' +
-            '2.19-1.26,5.85-1.2,5.92h8.56a.65.65,0,0,1,.65.64h0v1.19L9.81,12.' +
-            '39a5.06,5.06,0,0,0-5.06,5.05v8.29a3.72,3.72,0,0,0,1.89,3.16s3.79' +
-            '-5.44,5.17-7.65A2.52,2.52,0,0,1,14.34,20C19.44,20.14,22.2,20.33,' +
-            '24.1,19.64Z" fill="#939914"/><path d="M18.18,6.2v.93A1.14,1.14,0' +
-            ',0,1,17,8.26h0a1.13,1.13,0,0,1-1.15-1.12h0" fill="#202d81"/><pat' +
-            'h d="M15.89,7.13V6.2A1.15,1.15,0,0,1,17,5.06h0A1.14,1.14,0,0,1,1' +
-            '8.18,6.2" fill="#25378e"/><polyline points="5.72 35.52 5.98 33.7' +
-            '7 6.6 34.27" fill="#666"/><polyline points="6.6 34.27 7.25 34.82' +
-            ' 5.72 35.52" fill="#565656"/><path d="M13.19,19.91a15.46,15.46,0' +
-            ',0,1,4.4.13l3.92.07a37.62,37.62,0,0,1-4.86.19,9.41,9.41,0,0,0-4.' +
-            '84.95A2.1,2.1,0,0,1,13.19,19.91Z" fill="#686810"/><path d="M14.0' +
-            '5,29.86h.32s3.18-5.16,6.33-6.64a13.19,13.19,0,0,0,3.22-2.59c.66-' +
-            '.64.58-.86.58-.86l-.31-.15a11,11,0,0,1-3.54.54Z" fill="#686810"/' +
-            '><path d="M19.38,10.73a1.85,1.85,0,0,1,2,1.73v.09H20a10.05,10.05' +
-            ',0,0,0-.08-1.26A.67.67,0,0,0,19.38,10.73Z" fill="#686810"/></g><' +
-            '/svg>'
+            '<svg id="b1a03016-5506-42bd-8c49-4cc7f72dfa4b" data-name="acfdf7' +
+            'c2-779f-498a-9313-fcf213028fbc" xmlns="http://www.w3.org/2000/sv' +
+            'g" viewBox="0 0 36 36"><g id="b82c0a2f-d2a9-42fd-90bf-01ead63058' +
+            'c1" data-name="a52711da-1cc0-4b2c-afbf-708a46579e22"><path d="M1' +
+            '1.13,30h9.43c5.73,0,5.83-2.21,5.93-4.12a11.39,11.39,0,0,0,0-2.61' +
+            ',5.12,5.12,0,0,0-1.31-2.91l-.2-.2a2.18,2.18,0,0,0-.8-.5c-.5.2-3.' +
+            '62-.4-4.52-.3Z" fill="#33bc4a"/><polyline points="27.39 3.91 24.' +
+            '62 2.14 6.71 28.81 9.22 30.52" fill="#ffce00"/><polyline points=' +
+            '"9.22 30.52 12.33 32.63 25.08 13.75 30.3 6.02 27.39 3.91" fill="' +
+            '#dd910a"/><polyline points="5.7 35.64 6.71 28.81 9.22 30.52" fil' +
+            'l="#f79c41"/><polyline points="9.22 30.52 12.33 32.63 5.7 35.64"' +
+            ' fill="#e58833"/><path d="M29.3,1.5l1.1.81a2.23,2.23,0,0,1,.51,3' +
+            '.11L29,8h0L25.89,5.82" fill="#c93636"/><path d="M26,5.92,23.26,4' +
+            '.07l.13-.26L25.3,1.2A2.09,2.09,0,0,1,28.21.8l1.09.7" fill="#e244' +
+            '44"/><path d="M24.18,19.68c1.4-.61,1.91-1.51,1.91-3.52V10.44c0-3' +
+            '.72.1-8.74-7.33-8.74-2.51,0-4.82.31-6.83,3a9.12,9.12,0,0,0-1.21,' +
+            '5.92h8.64a.58.58,0,0,1,.6.6h0v1.21H9.82A5.14,5.14,0,0,0,4.7,17.5' +
+            '7V25.9a3.72,3.72,0,0,0,1.91,3.22l0,0,0-.33c.53-.75,3.66-5.28,5-7' +
+            '.31a2.6,2.6,0,0,1,2.67-1.22C19.46,20.18,22.27,20.38,24.18,19.68Z' +
+            '" fill="#33bc4a"/><polyline points="5.7 35.65 5.96 33.92 6.58 34' +
+            '.43" fill="#666"/><polyline points="6.58 34.43 7.3 34.92 5.7 35.' +
+            '65" fill="#565656"/><path d="M13.46,19.56c1.26-.34,2.22-.2,4.38.' +
+            '17a22.31,22.31,0,0,0,4.39.5c-1.61.3-1.88.57-5.54.16-2-.17-3.1-.3' +
+            '8-4.83.77A2.8,2.8,0,0,1,13.46,19.56Z" fill="#239923"/><path d="M' +
+            '14.09,30h.27s2.69-5,6.41-6.63A8.79,8.79,0,0,0,24,20.78a6.29,6.29' +
+            ',0,0,0,.61-.9s0,0-.14-.09a2.43,2.43,0,0,0-.27-.11,7.93,7.93,0,0,' +
+            '1-3.52.6Z" fill="#239923"/><path d="M19.41,10.63a1.79,1.79,0,0,1' +
+            ',2,1.71h0v.1H20a5.73,5.73,0,0,0-.11-1.31A.64.64,0,0,0,19.41,10.6' +
+            '3Z" fill="#239923"/><rect x="15.95" y="5.12" width="2.25" height' +
+            '="3.11" rx="1.13" fill="#1c66af"/></g></svg>'
           Anchors = [akLeft, akTop, akRight, akBottom]
         end
       end
