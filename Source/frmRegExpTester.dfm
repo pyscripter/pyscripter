@@ -104,7 +104,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Caption = 'LOCALE'
               Hint = 'Sets the LOCALE re flag'
               AutoCheck = True
-              Checked = True
               HelpContext = 865
               Options = [tboShowHint]
             end

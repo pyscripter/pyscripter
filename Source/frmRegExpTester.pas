@@ -150,7 +150,7 @@ begin
     cbSize := SizeOf(Format);
     dwMask := CFM_BACKCOLOR;
     crBackColor := ColorToRGB(StyleServices.GetSystemColor(AColor));
-    Richedit.Perform(EM_SETCHARFORMAT, WParam, Longint(@Format));
+    Richedit.Perform(EM_SETCHARFORMAT, WParam, LPARAM(@Format));
   end;
 end;
 
