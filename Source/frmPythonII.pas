@@ -157,6 +157,7 @@ type
     // Implementation of IPyInterpreter
     procedure ShowWindow;
     procedure AppendPrompt;
+    procedure RemovePrompt;
     procedure AppendText(const S: string);
     procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
     procedure WritePendingMessages;
@@ -415,6 +416,7 @@ procedure TPythonIIForm.AppendPrompt;
 var
   Buffer: array of string;
 begin
+  WritePendingMessages;
   SetLength(Buffer, 0);
   AppendToPrompt(Buffer);
 end;
@@ -1659,6 +1661,22 @@ begin
     begin
       PyControl.ActiveInterpreter.ReInitialize;
     end, 500);
+end;
+
+procedure TPythonIIForm.RemovePrompt;
+begin
+  var LastLine := SynEdit.Lines.Count;
+  if (LastLine > 0) and (SynEdit.Lines[LastLine-1] = PS1) then
+  begin
+    SynEdit.BeginUpdate;
+    try
+      SynEdit.BlockBegin := BufferCoord(1, LastLine);
+      SynEdit.BlockEnd := BufferCoord(Length(PS1) + 1, LastLine);
+      SynEdit.SelText := ''
+    finally
+      SynEdit.EndUpdate;
+    end;
+  end;
 end;
 
 procedure TPythonIIForm.GetBlockCode(var Source: string;

@@ -1555,6 +1555,7 @@ end;
 
 procedure TPyRemDebugger.Resume;
 begin
+  GI_PyInterpreter.RemovePrompt;
   fDebuggerCommand := dcRun;
   DoDebuggerCommand;
 end;
@@ -1747,6 +1748,7 @@ Var
   FName : string;
 begin
   Assert(PyControl.DebuggerState = dsPaused);
+  GI_PyInterpreter.RemovePrompt;
   // Set Temporary breakpoint
   SetDebuggerBreakPoints;  // So that this one is not cleared
   FName := fRemotePython.ToPythonFileName(Editor.GetFileNameOrTitle);
@@ -1793,18 +1795,21 @@ end;
 
 procedure TPyRemDebugger.StepInto;
 begin
+  GI_PyInterpreter.RemovePrompt;
   fDebuggerCommand := dcStepInto;
   DoDebuggerCommand;
 end;
 
 procedure TPyRemDebugger.StepOut;
 begin
+  GI_PyInterpreter.RemovePrompt;
   fDebuggerCommand := dcStepOut;
   DoDebuggerCommand;
 end;
 
 procedure TPyRemDebugger.StepOver;
 begin
+  GI_PyInterpreter.RemovePrompt;
   fDebuggerCommand := dcStepOver;
   DoDebuggerCommand;
 end;
@@ -1862,7 +1867,10 @@ begin
   then
   begin
     if PyControl.DebuggerState = dsDebugging then
+    begin
       PyControl.DebuggerState := dsPaused;
+      GI_PyInterpreter.AppendPrompt;
+    end;
 
     ThreadInfo.Status := thrdBroken;
     GetCallStack(ThreadInfo.CallStack, Frame, BotFrame);

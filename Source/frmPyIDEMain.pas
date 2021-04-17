@@ -523,7 +523,7 @@
             New IDE option "Restore open project"
             New File Explorer command "Select Directory..." (#1034)
           Issues addressed
-            #824, #990, #1031, #1035, #1038, #1039, #1040, #1105, #1109
+            #824, #990, #1031, #1035, #1038, #1039, #1040, #1105, #1109, #1111
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }

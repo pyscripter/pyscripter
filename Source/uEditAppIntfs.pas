@@ -258,6 +258,7 @@ type
   ['{6BAAD187-B00E-4E2A-B01D-C47EED922E59}']
     procedure ShowWindow;
     procedure AppendPrompt;
+    procedure RemovePrompt;
     procedure AppendText(const S: string);
     procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
     procedure WritePendingMessages;
