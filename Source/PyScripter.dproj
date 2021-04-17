@@ -62,9 +62,9 @@
         <Icon_MainIcon>PyScripter_Icon.ico</Icon_MainIcon>
         <Manifest_File>None</Manifest_File>
         <VCL_Custom_Styles>Carbon|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Carbon.vsf;Coral|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Coral.vsf;Jet|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Jet.vsf;Luna|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Luna.vsf;Windows10|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Windows10.vsf</VCL_Custom_Styles>
-        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Build>2</VerInfo_Build>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=4.0.0.1;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=3.5.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=4.0.0.2;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=3.5.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>2057</VerInfo_Locale>
         <VerInfo_MajorVer>4</VerInfo_MajorVer>
     </PropertyGroup>

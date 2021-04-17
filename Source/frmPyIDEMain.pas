@@ -523,7 +523,7 @@
             New IDE option "Restore open project"
             New File Explorer command "Select Directory..." (#1034)
           Issues addressed
-            #824, #990, #1031, #1035, #1038, #1039, #1040, #1105
+            #824, #990, #1031, #1035, #1038, #1039, #1040, #1105, #1109
 }
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
@@ -1305,6 +1305,7 @@ type
     function GetIDELayouts: IIDELayouts;
     function GetAppStorage: TJvCustomAppStorage;
     function GetLocalAppStorage: TJvCustomAppStorage;
+    procedure MRUAddEditor(Editor: IEditor);
   public
     JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
     ActiveTabControlIndex : integer;
@@ -3882,6 +3883,14 @@ begin
 
   Tab.Free;
   NewTab.Click;
+end;
+
+procedure TPyIDEMainForm.MRUAddEditor(Editor: IEditor);
+begin
+  if (Editor.FileName <> '') then
+    tbiRecentFileList.MRUAdd(Editor.FileName)
+  else if (Editor.RemoteFileName <> '') then
+    tbiRecentFileList.MRUAdd(TSSHFileName.Format(Editor.SSHServer, Editor.RemoteFileName));
 end;
 
 procedure TPyIDEMainForm.SyntaxClick(Sender: TObject);

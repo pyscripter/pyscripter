@@ -565,10 +565,7 @@ begin
   begin
     CodeExplorerWindow.UpdateWindow(ceuExit);
 
-    if (fFileName <> '') and (CommandsDataModule <> nil) then
-      PyIDEMainForm.tbiRecentFileList.MRUAdd(fFileName)
-    else if (fRemoteFileName <> '') and (CommandsDataModule <> nil) then
-      PyIDEMainForm.tbiRecentFileList.MRUAdd(TSSHFileName.Format(fSSHServer,fRemoteFileName));
+    GI_PyIDEServices.MRUAddEditor(Self);
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
 

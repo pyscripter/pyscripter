@@ -236,6 +236,7 @@ type
     function GetIDELayouts: IIDELayouts;
     function GetAppStorage: TJvCustomAppStorage;
     function GetLocalAppStorage: TJvCustomAppStorage;
+    procedure MRUAddEditor(Editor: IEditor);
     property ActiveEditor: IEditor read GetActiveEditor;
     property Messages: IMessageServices read GetMessageServices;
     property UnitTests: IUnitTestServices read GetUnitTestServices;

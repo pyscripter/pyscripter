@@ -89,12 +89,13 @@ uses
   SynEdit,
   SpTBXTabs,
   TB2Item,
+  JvJCLUtils,
   dmCommands,
   frmPyIDEMain,
   uHighlighterProcs,
   cPyBaseDebugger,
   cPyControl,
-  cPyScripterSettings, JvJCLUtils;
+  cPyScripterSettings;
 
 { TFilePersistInfo }
 
@@ -409,7 +410,9 @@ procedure TPersistFileInfo.GetFileInfo;
         Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
         if Assigned(Editor) and ((Editor.FileName <> '') or (Editor.RemoteFileName <> '')) then begin
           FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
-          fFileInfoList.Add(FilePersistInfo)
+          fFileInfoList.Add(FilePersistInfo);
+          // We need to do it here before we call SaveEnvironement
+          GI_PyIDEServices.MRUAddEditor(Editor);
         end;
       end;
     end;
