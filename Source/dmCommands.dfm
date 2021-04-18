@@ -2978,6 +2978,7 @@ object CommandsDataModule: TCommandsDataModule
           'c-2.5,0-4.5,1.9-4.5,4.5s2,4.5,4.5,4.5s4.5-1.9,4.5-4.5S18.6,16,16' +
           ',16z M7,7h13.5v6H7V7z"/>'#13#10'</svg>'#13#10
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 32
     Top = 264
   end
@@ -3124,6 +3125,7 @@ object CommandsDataModule: TCommandsDataModule
           'C14.7,29.1,14.2,29.3,13.6,29.3z M7.9,18.4l5.7,5.7l10.4-10.4l-5.7' +
           '-5.7L7.9,18.4z"/>'#13#10'</svg>'#13#10
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 109
     Top = 264
   end
@@ -3171,6 +3173,7 @@ object CommandsDataModule: TCommandsDataModule
           '>'#13#10'  <circle stroke-width="0.5" fill="#4488FF" cx="5.5" cy="7" r' +
           '="2"/>'#13#10'</svg>'
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 176
     Top = 264
   end
@@ -3179,10 +3182,8 @@ object CommandsDataModule: TCommandsDataModule
       item
         IconName = 'Abort'
         SVGText = 
-          '<svg viewBox="0 0 16 16" stroke="black">'#13#10'<rect stroke-width="2"' +
-          ' fill="none" x="3" y="3" width="10" height="10" rx="2"/>'#13#10'<rect ' +
-          'stroke="none" fill="#E24444" x="6" y="6" width="4" height="4"/>'#13 +
-          #10'</svg>'
+          '<svg viewBox="0 0 16 16">'#13#10'<rect  fill="#E24444" x="3" y="3" wid' +
+          'th="10" height="10" rx="2"/>'#13#10'</svg>'
       end
       item
         IconName = 'AppSettings'
@@ -5163,6 +5164,7 @@ object CommandsDataModule: TCommandsDataModule
           '6.8,3,6.8,6.8'#13#10#9'S16.4,19.3,12.7,19.3z M9,11.8h7.5v1.5H9V11.8z"/>' +
           #13#10'</svg>'
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 112
     Top = 208
   end

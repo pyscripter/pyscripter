@@ -364,6 +364,7 @@ inherited ToDoWindow: TToDoWindow
           '<svg viewBox="0 0 32 32">'#13#10#9'<path d="M28,17.5l-2.1-2.1l-8.4,8.4V' +
           '2.5h-3v21.3l-8.4-8.4L4,17.5l12,12L28,17.5z"/>'#13#10'</svg>'#13#10
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 40
     Top = 64
   end

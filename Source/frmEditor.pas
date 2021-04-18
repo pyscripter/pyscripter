@@ -1540,6 +1540,9 @@ begin
     SourceScanner.StopScanning;
   SourceScanner := nil;
 
+  if Assigned(fSyntaxTask) then
+    fSyntaxTask.Cancel;
+
   SynEdit2.RemoveLinesPointer;
   LEditor := fEditor;
   Assert(fEditor <> nil);
@@ -3202,8 +3205,9 @@ begin
     begin
       Sleep(1000); // introduce a delay
       var ErrorPos: TEditorPos;
-      TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, ErrorPos, True);
       var Cancelled :=  TTask.CurrentTask.Status = TTaskStatus.Canceled;
+      if not Cancelled then
+        TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, ErrorPos, True);
       TThread.Synchronize(nil, procedure
       begin
         if not Cancelled then

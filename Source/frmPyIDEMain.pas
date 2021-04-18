@@ -4932,9 +4932,9 @@ procedure TPyIDEMainForm.actEditorZoomOutExecute(Sender: TObject);
 begin
   if ActiveControl is TSynEdit then begin
     TSynEdit(ActiveControl).Font.Size :=
-      Max(TSynEdit(ActiveControl).Font.Size - 1, 2);
+      Max(TSynEdit(ActiveControl).Font.Size - 1, 4);
     TSynEdit(ActiveControl).Gutter.Font.Size :=
-      Max(TSynEdit(ActiveControl).Font.Size - 2, 2);
+      TSynEdit(ActiveControl).Font.Size - 2;
   end;
 end;
 

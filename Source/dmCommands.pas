@@ -2256,8 +2256,6 @@ procedure TCommandsDataModule.UpdateImageCollections;
   begin
     IC.SVGIconItems.BeginUpdate;
     try
-      for var Item in IC.SvgIconItems do
-        TSvgIconItem(Item).Svg.ApplyFixedColorToRootOnly := True;
       IC.FixedColor := StyleServices.GetSystemColor(FixedColor);
       if AntiAliasColor <> clDefault then
         IC.AntiAliasColor := StyleServices.GetSystemColor(AntiAliasColor);

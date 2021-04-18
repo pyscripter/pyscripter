@@ -304,6 +304,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
           '.8-6.8,6.8S12.6,16.4,12.6,12.6'#13#10#9#9'z M18.6,11.9h-3v1.5h3v3h1.5v-3' +
           'h3v-1.5h-3v-3h-1.5V11.9z"/>'#13#10'</svg>'#13#10
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 152
     Top = 176
   end

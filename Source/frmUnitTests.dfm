@@ -536,6 +536,7 @@ inherited UnitTestWindow: TUnitTestWindow
           '32,23,32z M21.7,26.4l1.4,1.4l4.1-4.1l-1.4-1.4L21.7,26.4z"/>'#13#10'</s' +
           'vg>'#13#10
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 24
     Top = 112
   end

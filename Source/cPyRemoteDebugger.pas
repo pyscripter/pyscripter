@@ -1290,6 +1290,7 @@ begin
     dsRunning: RaiseKeyboardInterrupt(fRemotePython.ServerProcessInfo.dwProcessId);
     dsPaused:
       begin
+         GI_PyInterpreter.RemovePrompt;
         fDebuggerCommand := dcAbort;
         DoDebuggerCommand;
       end;

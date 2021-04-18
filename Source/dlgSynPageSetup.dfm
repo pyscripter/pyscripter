@@ -1910,6 +1910,7 @@ inherited PageSetupDlg: TPageSetupDlg
           '6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,' +
           '11V3H6V11A6,6 0 0,0 12,17Z"/>'#13#10'</svg>'
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 430
     Top = 6
   end
