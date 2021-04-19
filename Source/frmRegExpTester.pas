@@ -430,9 +430,9 @@ procedure TRegExpTesterWindow.GroupsViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
 Var
+  Py: IPyEngineAndGIL;
   GroupDict, Keys : Variant;
   i : integer;
-  Py: IPyEngineAndGIL;
 begin
   Py := SafePyEngine;
   Assert(VarIsPython(MatchObject) and not VarIsNone(MatchObject));
