@@ -71,7 +71,7 @@ function SvgToIcon(SVGText: string; Size: integer; FixedColor: TColor): HIcon;
 begin
    var SvgIcon := TSVG.Create;
    try
-     SvgIcon.FixedColor := FixedColor;
+     SvgIcon.FixedColor := SvgFixedColor(FixedColor);
      SvgIcon.ApplyFixedColorToRootOnly := True;
      SvgIcon.LoadFromText(SvgText);
      Result := SvgIcon.RenderToIcon(Size);

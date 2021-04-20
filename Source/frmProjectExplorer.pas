@@ -874,7 +874,7 @@ begin
   inherited;
   icProjects.SVGIconItems.BeginUpdate;
   try
-    icProjects.FixedColor := StyleServices.GetSystemColor(clWindowText);
+    icProjects.FixedColor := SvgFixedColor(clWindowText);
     icProjects.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
   finally
     icProjects.SVGIconItems.EndUpdate;

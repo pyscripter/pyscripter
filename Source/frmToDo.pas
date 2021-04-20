@@ -916,7 +916,7 @@ begin
   inherited;
   icTodo.SVGIconItems.BeginUpdate;
   try
-    icTodo.FixedColor := StyleServices.GetSystemColor(clWindowText);
+    icTodo.FixedColor := SvgFixedColor(clWindowText);
     icTodo.AntiAliasColor := StyleServices.GetSystemColor(clWindow);
   finally
     icTodo.SVGIconItems.EndUpdate;

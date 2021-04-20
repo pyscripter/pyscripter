@@ -264,6 +264,9 @@ function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
   Buttons: TMsgDlgButtons; HelpCtx: Longint; DefaultButton: TMsgDlgBtn): Integer; overload;
 
+{Style adjusted svg FixedColor}
+function SvgFixedColor(Color: TColor): TColor;
+
 type
   (*  Extends System.RegularExperssions.TRegEx *)
   TRegExHelper = record helper for TRegEx
@@ -2205,6 +2208,15 @@ begin
   UseLatestCommonDialogs := False;
   Result := Vcl.Dialogs.MessageDlg(Msg, DlgType, Buttons, HelpCtx, DefaultButton);
   UseLatestCommonDialogs := True;
+end;
+
+function SvgFixedColor(Color: TColor): TColor;
+begin
+  Result := StyleServices.GetSystemColor(Color);
+  if Result = clBlack then
+    Result := $191919
+  else if Result = clWhite then
+    Result := $E6E6E6;
 end;
 
 //  Regular Expressions Start

@@ -143,7 +143,7 @@ resourcestring
 procedure TPrintPreviewDlg.FormCreate(Sender: TObject);
 begin
   inherited;
-  icPrintPreview.FixedColor := StyleServices.GetSystemColor(clBtnText);
+  icPrintPreview.FixedColor := SvgFixedColor(clBtnText);
 end;
 
 procedure TPrintPreviewDlg.FormShow(Sender: TObject);

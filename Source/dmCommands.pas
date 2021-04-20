@@ -2256,7 +2256,8 @@ procedure TCommandsDataModule.UpdateImageCollections;
   begin
     IC.SVGIconItems.BeginUpdate;
     try
-      IC.FixedColor := StyleServices.GetSystemColor(FixedColor);
+      IC.FixedColor := SvgFixedColor(FixedColor);
+
       if AntiAliasColor <> clDefault then
         IC.AntiAliasColor := StyleServices.GetSystemColor(AntiAliasColor);
     finally

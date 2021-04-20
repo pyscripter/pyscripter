@@ -234,7 +234,7 @@ begin
   inherited;
   FMargins := TSynEditPrintMargins.Create;
   FInternalCall := False;
-  icPageSetup.FixedColor := StyleServices.GetSystemColor(clBtnText);
+  icPageSetup.FixedColor := SvgFixedColor(clBtnText);
 end;
 
 procedure TPageSetupDlg.FormDestroy(Sender: TObject);
