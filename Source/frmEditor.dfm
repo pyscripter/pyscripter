@@ -35,7 +35,7 @@ object EditorForm: TEditorForm
       OnEnter = FGPanelEnter
       OnExit = FGPanelExit
       ActiveTabIndex = 0
-      Images = PyIDEMainForm.vilImagesByIndex
+      Images = PyIDEMainForm.vilImages
       OnActiveTabChange = ViewsTabControlActiveTabChange
       HiddenItems = <>
       object tabSource: TSpTBXTabItem
@@ -48,13 +48,15 @@ object EditorForm: TEditorForm
       object tbiUpdateView: TSpTBXItem
         Caption = 'Update View'
         Hint = 'Update View|Update the selected view'
-        ImageIndex = 10
+        ImageIndex = 29
+        ImageName = 'Refresh'
         OnClick = mnUpdateViewClick
       end
       object tbiCloseTab: TSpTBXItem
         Caption = 'Close Tab'
         Hint = 'Close active tab'
-        ImageIndex = 7
+        ImageIndex = 92
+        ImageName = 'TabClose'
         OnClick = mnCloseTabClick
       end
       object tbshSource: TSpTBXTabSheet
@@ -1040,12 +1042,14 @@ object EditorForm: TEditorForm
       Caption = 'Update View'
       Hint = 'Update View|Update the selected view'
       ImageIndex = 39
+      ImageName = 'Breakpoint'
       OnClick = mnUpdateViewClick
     end
     object mnCloseTab: TSpTBXItem
       Caption = 'Close Tab'
       Hint = 'Close active tab'
       ImageIndex = 52
+      ImageName = 'PageSetup'
       OnClick = mnCloseTabClick
     end
   end

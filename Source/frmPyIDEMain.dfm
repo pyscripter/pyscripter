@@ -88,11 +88,13 @@ object PyIDEMainForm: TPyIDEMainForm
     object spiStatusLED: TSpTBXItem
       Hint = 'Ready'
       ImageIndex = 0
+      ImageName = 'StatusLED'
       Images = vilIndicators
     end
     object spiExternalToolsLED: TSpTBXItem
       Hint = 'External Tool Running'
       ImageIndex = 1
+      ImageName = 'ExternalToolsLED'
       Images = vilIndicators
       Visible = False
     end
@@ -116,7 +118,7 @@ object PyIDEMainForm: TPyIDEMainForm
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
       ActiveTabIndex = -1
-      Images = vilImagesByIndex
+      Images = vilImages
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
@@ -129,7 +131,8 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabFiles: TSpTBXSubmenuItem
         Tag = 1
         Hint = 'Select File'
-        ImageIndex = 2
+        ImageIndex = 98
+        ImageName = 'Tabs'
         Options = [tboDropdownArrow]
         LinkSubitems = mnFiles
       end
@@ -137,7 +140,8 @@ object PyIDEMainForm: TPyIDEMainForm
         Tag = 1
         Hint = 'Scroll left'
         Enabled = False
-        ImageIndex = 4
+        ImageIndex = 54
+        ImageName = 'TabPrevious'
         Options = [tboToolbarStyle]
         OnClick = tbiScrollLeftClick
       end
@@ -145,7 +149,8 @@ object PyIDEMainForm: TPyIDEMainForm
         Tag = 1
         Hint = 'Scroll right'
         Enabled = False
-        ImageIndex = 3
+        ImageIndex = 53
+        ImageName = 'TabNext'
         Options = [tboToolbarStyle]
         OnClick = tbiScrollRightClick
         FontSettings.Name = 'Marlett'
@@ -153,7 +158,7 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabClose: TSpTBXItem
         Tag = 1
         Action = CommandsDataModule.actFileClose
-        ImageIndex = 7
+        ImageName = 'TabClose'
         Options = [tboToolbarStyle]
       end
     end
@@ -167,7 +172,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
       OnContextPopup = TabContolContextPopup
       ActiveTabIndex = -1
-      Images = vilImagesByIndex
+      Images = vilImages
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
@@ -180,7 +185,8 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabFiles2: TSpTBXSubmenuItem
         Tag = 2
         Hint = 'Select File'
-        ImageIndex = 2
+        ImageIndex = 98
+        ImageName = 'Tabs'
         Options = [tboDropdownArrow]
         LinkSubitems = mnFiles
       end
@@ -188,7 +194,8 @@ object PyIDEMainForm: TPyIDEMainForm
         Tag = 2
         Hint = 'Scroll left'
         Enabled = False
-        ImageIndex = 4
+        ImageIndex = 54
+        ImageName = 'TabPrevious'
         Options = [tboToolbarStyle]
         OnClick = tbiScrollLeftClick
       end
@@ -196,7 +203,8 @@ object PyIDEMainForm: TPyIDEMainForm
         Tag = 2
         Hint = 'Scroll right'
         Enabled = False
-        ImageIndex = 3
+        ImageIndex = 53
+        ImageName = 'TabNext'
         Options = [tboToolbarStyle]
         OnClick = tbiScrollRightClick
         FontSettings.Name = 'Marlett'
@@ -204,7 +212,6 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabClose2: TSpTBXItem
         Tag = 2
         Action = CommandsDataModule.actFileClose
-        ImageIndex = 7
         Options = [tboToolbarStyle]
       end
     end
@@ -483,11 +490,9 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = '&View'
         object mnNextEditor: TSpTBXItem
           Action = actViewNextEditor
-          Images = vilImagesByIndex
         end
         object mnPreviousEditor: TSpTBXItem
           Action = actViewPreviousEditor
-          Images = vilImagesByIndex
         end
         object mnSplitEditors: TSpTBXSubmenuItem
           Caption = 'Split Editor'
@@ -687,8 +692,8 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnLayouts: TSpTBXSubmenuItem
           Caption = 'Layouts'
-          ImageIndex = 1
-          Images = vilImagesByIndex
+          ImageIndex = 97
+          ImageName = 'Layouts'
           object mnLayOutSeparator: TSpTBXSeparatorItem
           end
           object TBXItem47: TSpTBXItem
@@ -723,10 +728,12 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = '&Project'
         object mnProjectNew: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectNew
+          ImageName = 'Print'
           Images = ProjectExplorerWindow.vilImages
         end
         object mnProjectOpen: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectOpen
+          ImageName = 'Undo'
           Images = ProjectExplorerWindow.vilImages
         end
         object SpTBXSubmenuItem1: TSpTBXSubmenuItem
@@ -741,6 +748,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnProjectSave: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSave
+          ImageName = 'Delete'
           Images = ProjectExplorerWindow.vilImages
         end
         object mnProjectSaveAs: TSpTBXItem
@@ -819,8 +827,8 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnPythonVersions: TSpTBXSubmenuItem
           Caption = 'Python Versions'
-          ImageIndex = 0
-          Images = vilImagesByIndex
+          ImageIndex = 83
+          ImageName = 'Python'
           OnPopup = mnPythonVersionsPopup
           object SpTBXSeparatorItem18: TSpTBXSeparatorItem
           end
@@ -870,8 +878,8 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnTools: TSpTBXSubmenuItem
           Caption = 'Tools'
           Hint = 'External Tools'
-          ImageIndex = 5
-          Images = vilImagesByIndex
+          ImageIndex = 55
+          ImageName = 'Tools'
         end
         object mnConfigureTools: TSpTBXItem
           Action = CommandsDataModule.actConfigureTools
@@ -1095,8 +1103,8 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'View Toolbar'
       object tbiSelectPythonVersion: TSpTBXSubmenuItem
         Caption = 'Python Versions'
-        ImageIndex = 0
-        Images = vilImagesByIndex
+        ImageIndex = 83
+        ImageName = 'Python'
         LinkSubitems = mnPythonVersions
       end
       object tbiSelectStyle: TSpTBXItem
@@ -1105,8 +1113,8 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiViewLayouts: TSpTBXSubmenuItem
         Caption = 'Layouts'
         Hint = 'Layouts'
-        ImageIndex = 1
-        Images = vilImagesByIndex
+        ImageIndex = 97
+        ImageName = 'Layouts'
         Options = [tboDropdownArrow]
         LinkSubitems = mnLayouts
       end
@@ -1210,8 +1218,8 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object tbiSearchOptions: TSpTBXSubmenuItem
         Caption = 'Options'
-        ImageIndex = 9
-        Images = vilImagesByIndex
+        ImageIndex = 101
+        ImageName = 'Setup'
         OnPopup = tbiSearchOptionsPopup
         object tbiSearchFromCaret: TSpTBXItem
           Caption = 'Search From C&aret'
@@ -1443,7 +1451,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 93
   end
   object actlImmutable: TActionList
-    Images = vilImagesByIndex
+    Images = vilImages
     Left = 112
     Top = 100
     object actViewNextEditor: TAction
@@ -1451,7 +1459,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Next Editor'
       HelpContext = 360
       Hint = 'Next Editor|Move to the next editor'
-      ImageIndex = 3
+      ImageIndex = 53
       ImageName = 'TabNext'
       ShortCut = 16393
       OnExecute = actNextEditorExecute
@@ -1461,7 +1469,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&Previous Editor'
       HelpContext = 360
       Hint = 'Previous editor|Move to the previous editor'
-      ImageIndex = 4
+      ImageIndex = 54
       ImageName = 'TabPrevious'
       ShortCut = 24585
       OnExecute = actPreviousEditorExecute
@@ -2895,23 +2903,6 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionName = 'Upload'
         Disabled = False
         Name = 'Upload'
-      end>
-    ImageCollection = CommandsDataModule.icSVGImages
-    PreserveItems = True
-    Width = 20
-    Height = 20
-    Left = 40
-    Top = 344
-  end
-  object vilImagesByIndex: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
-    Images = <
-      item
-        CollectionIndex = 83
-        CollectionName = 'Python'
-        Disabled = False
-        Name = 'Python'
       end
       item
         CollectionIndex = 57
@@ -2926,34 +2917,10 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Tabs'
       end
       item
-        CollectionIndex = 112
-        CollectionName = 'TabNext'
-        Disabled = False
-        Name = 'TabNext'
-      end
-      item
-        CollectionIndex = 113
-        CollectionName = 'TabPrevious'
-        Disabled = False
-        Name = 'TabPrevious'
-      end
-      item
-        CollectionIndex = 120
-        CollectionName = 'Tools'
-        Disabled = False
-        Name = 'Tools'
-      end
-      item
         CollectionIndex = 9
         CollectionName = 'Bug'
         Disabled = False
         Name = 'Bug'
-      end
-      item
-        CollectionIndex = 111
-        CollectionName = 'TabClose'
-        Disabled = False
-        Name = 'TabClose'
       end
       item
         CollectionIndex = 24
@@ -2966,18 +2933,12 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionName = 'Setup'
         Disabled = False
         Name = 'Setup'
-      end
-      item
-        CollectionIndex = 87
-        CollectionName = 'Refresh'
-        Disabled = False
-        Name = 'Refresh'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20
-    Left = 112
+    Left = 40
     Top = 344
   end
   object icIndicators: TSVGIconImageCollection

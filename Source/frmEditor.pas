@@ -1133,7 +1133,7 @@ begin
   CommandsDataModule.SynEditPrint.SynEdit := fForm.SynEdit;
   CommandsDataModule.SynEditPrint.Title := GetFileTitle;
   CommandsDataModule.SynEditPrint.Highlighter := fForm.SynEdit.Highlighter;
-  with TPrintPreviewDlg.Create(PyIDEMainForm) do
+  with TPrintPreviewDlg.Create(Application.MainForm) do
   begin
     SynEditPrintPreview.SynEditPrint := CommandsDataModule.SynEditPrint;
     ShowModal;
@@ -2677,7 +2677,7 @@ begin
   begin
     fHotIdentInfo.HaveHotIdent := False;
     fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
-    PostMessage(PyIDEMainForm.Handle, WM_FINDDEFINITION,
+    PostMessage(Application.MainForm.Handle, WM_FINDDEFINITION,
       fHotIdentInfo.StartCoord.Char, fHotIdentInfo.StartCoord.Line);
   end;
   if CommandsDataModule.SynParamCompletion.Form.Visible then
@@ -3224,7 +3224,7 @@ begin
     end).Start;
 
   if HasSyntaxError then
-    ParentTabItem.ImageIndex := 6
+    ParentTabItem.ImageIndex := PyIDEMainForm.vilImages.GetIndexByName('Bug')
   else
     ParentTabItem.ImageIndex := -1;
 end;

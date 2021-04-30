@@ -98,8 +98,8 @@ resourcestring
 
   SAboutBoxCreditsDonations =
     'Donations from numerous users have provided a strong incentive to develop this project.' + SLineBreak +
-    'Finanancial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi' +
-    'the programming environment with which PyScripter is built and generous support'+
+    'Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, ' +
+    'the programming environment with which PyScripter is built, and generous support '+
     'from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) '+
     '(https://www.wapt.fr) is thankfully acknowledged.';
 

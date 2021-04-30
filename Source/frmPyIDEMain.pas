@@ -1102,7 +1102,6 @@ type
     SpTBXSeparatorItem23: TSpTBXSeparatorItem;
     lbPythonEngine: TSpTBXLabelItem;
     vilImages: TVirtualImageList;
-    vilImagesByIndex: TVirtualImageList;
     icIndicators: TSVGIconImageCollection;
     vilIndicators: TVirtualImageList;
     spiStatusLED: TSpTBXItem;
@@ -4966,7 +4965,7 @@ begin
     begin
       List.AddObject(Ed.GetFileNameOrTitle, TObject(Ed.Form));
     end);
-    ModifiedImageIndex := vilImagesByIndex.GetIndexByName('Edit');
+    ModifiedImageIndex := vilImages.GetIndexByName('Edit');
     for var I:= 0 to List.Count - 1 do begin
       Editor := TEditorForm(List.Objects[I]).GetEditor;
       MenuItem := TSpTBXItem.Create(Self);
