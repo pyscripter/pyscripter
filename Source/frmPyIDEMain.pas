@@ -518,8 +518,8 @@
               It should result in a more responsive user experience without delays and freezes.
             Added support for Python 3.10
             Removed support for Python 2.7, 3.2
-            Installer is now code-signed
-            Persian translatin added
+            Installer and executable are now code-signed
+            Persian translation added
             New IDE option "Restore open project"
             New File Explorer command "Select Directory..." (#1034)
           Issues addressed
