@@ -6,7 +6,7 @@
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <FrameworkType>VCL</FrameworkType>
         <MainSource>PyScripter.dpr</MainSource>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectGuid>{FD7531E1-BDA2-4EF3-A3E8-074B952317EF}</ProjectGuid>
         <ProjectVersion>19.2</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
@@ -92,6 +92,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <BT_BuildType>Debug</BT_BuildType>
@@ -101,17 +102,16 @@
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <BT_BuildType>Debug</BT_BuildType>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <DCC_ExeOutput>.\..</DCC_ExeOutput>
         <ILINK_MapFileType>DetailedSegments</ILINK_MapFileType>
-        <MapFile>3</MapFile>
         <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <MapFile>3</MapFile>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -322,15 +322,15 @@
         <DCCReference Include="JvDockVSNetStyleSpTBX.pas"/>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
-        <BuildConfiguration Include="Debug">
-            <Key>Cfg_2</Key>
-            <CfgParent>Base</CfgParent>
-        </BuildConfiguration>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
         <BuildConfiguration Include="Release">
             <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
     </ItemGroup>
@@ -343,10 +343,7 @@
                 <Source>
                     <Source Name="MainSource">PyScripter.dpr</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k270.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp270.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
                     <VersionInfo Name="AutoIncBuild">False</VersionInfo>
