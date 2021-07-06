@@ -5,7 +5,7 @@ interface
 
 Const
   // File Filters
-  sPythonFileFilter = 'Python Files (*.py;*.pyw)|*.py;*.pyw';
+  sPythonFileFilter = 'Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi';
   sCythonFileFilter = 'Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi';
   sHTMLFileFilter = 'HTML Documents (*.htm;*.html)|*.htm;*.html';
   sXMLFileFilter = 'XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd';
@@ -455,6 +455,7 @@ Const
   SParsedMethodCodeHint =  '<b>Method <font color="$FF8844">%s.%s(%s)</font></b>%s';
   SFunctionParameterCodeHint = '<b>Function Parameter <font color="$FF8844">%s</font>'+
                           '</b> of function <font color="$FF8844">%s</font>%s';
+  SVariableCodeHint = '<b>Variable <font color="$FF8844">%s</font>%s%s';
   SLocalVariableCodeHint = '<b>Local variable <font color="$FF8844">%s</font>'+
                           '</b> of function <font color="$FF8844">%s</font>%s';
   SGlobalVariableCodeHint = '<b>Global variable <font color="$FF8844">%s</font>'+

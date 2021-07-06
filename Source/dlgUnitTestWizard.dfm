@@ -124,12 +124,14 @@ inherited UnitTestWizard: TUnitTestWizard
       Caption = 'Select All'
       Hint = 'Select all nodes'
       ImageIndex = 0
+      ImageName = 'TreeSelectAll'
       OnClick = mnSelectAllClick
     end
     object mnDeselectAll: TSpTBXItem
       Caption = 'Deselect All'
       Hint = 'Deselect all nodes'
       ImageIndex = 1
+      ImageName = 'TreeDeselectAll'
       OnClick = mnDeselectAllClick
     end
   end

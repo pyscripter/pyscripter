@@ -20,6 +20,9 @@ uses
   System.Classes,
   System.Contnrs,
   System.ImageList,
+  System.Generics.Defaults,
+  System.Generics.Collections,
+  System.JSON,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -36,114 +39,105 @@ uses
   SpTBXItem,
   SpTBXControls,
   frmIDEDockWin,
+  SynEditTypes,
   cPythonSourceScanner;
 
 type
   TCESortOrder = (soPosition, soAlpha);
-  TCEExpandState = (esExpanded, esCollapsed, esUnknown);
+  TCEExpandState = (esUnknown, esExpanded, esCollapsed);
 
+  TCodeBlock = record
+    StartLine : integer;
+    EndLine : integer;
+  end;
+
+  TAbstractCENodeClass = class of TAbstractCENode;
   TAbstractCENode = class
   private
-    fChildren : TObjectList;
-    function GetChildCount: integer;
-    function GetChildren(i : integer): TAbstractCENode;
+    FChildren : TObjectList<TAbstractCENode>;
+    function GetChildCount: Integer;
+    function GetChildren(I: Integer): TAbstractCENode;
+    class var SortOrder: TCESortOrder;
+    class var NodeComparer: IComparer<TAbstractCENode>;
+    class var FileName: string;
   protected
-    fCodeElement : TBaseCodeElement;
-    fExpanded : TCEExpandState;
-    fNode : PVirtualNode;
-    function GetHint: string; virtual; abstract;
-    function GetCaption: string; virtual; abstract;
-    function GetImageIndex : integer; virtual; abstract;
+    FName: string;
+    FCodePos: TBufferCoord;
+    FExpanded : TCEExpandState;
+    FNode : PVirtualNode;
+    function GetHint: string; virtual;
+    function GetCaption: string; virtual;
+    function GetImageIndex : integer; virtual;
   public
-    constructor Create;
+    class constructor Create;
+    constructor CreateFromSymbol(Symbol: TJsonObject); virtual;
     destructor Destroy; override;
-    procedure AddChild(CENode : TAbstractCENode);
-    procedure Sort(SortOrder : TCESortOrder);
-    property CodeElement : TBaseCodeElement read fCodeElement;
+    function AddChild(CENode: TAbstractCENode): Integer;
+    procedure Sort(ASortOrder: TCESortOrder);
+    property Name: string read FName;
+    property CodePos: TBufferCoord read FCodePos;
     property Hint : string read GetHint;
     property Caption : string read GetCaption;
     property ImageIndex : integer read GetImageIndex;
     property ChildCount : integer read GetChildCount;
-    property Children[i : integer] : TAbstractCENode read GetChildren;
+    property Children[I : integer] : TAbstractCENode read GetChildren;
     property Expanded : TCEExpandState read fExpanded write fExpanded;
   end;
 
   TCodeElementCENode = class(TAbstractCENode)
   private
-    function GetCodeBlock : TCodeBlock;
+    FCodeBlock: TCodeBlock;
   public
+    constructor CreateFromSymbol(Symbol: TJsonObject); override;
     function GetScopeForLine(LineNo: integer): TCodeElementCENode;
-    property CodeBlock : TCodeBlock read GetCodeBlock;
+    property CodeBlock : TCodeBlock read FCodeBlock;
+  end;
+
+  TImportCENode = class(TAbstractCENode)
+  protected
+    function GetHint: string; override;
+    function GetImageIndex : integer; override;
+  end;
+
+  TImportsCENode = class(TAbstractCENode)
+  protected
+    function GetHint: string; override;
+    function GetCaption: string; override;
+  end;
+
+  TGlobalsCENode = class(TAbstractCENode)
+    function GetHint: string; override;
+    function GetCaption: string; override;
   end;
 
   TModuleCENode = class(TCodeElementCENode)
   private
-    fOffsetXY: TPoint;
-    function GetParsedModule: TParsedModule;
+    FOffsetXY: TPoint;
+    FImports: TImportsCENode;
+    FGlobals: TGlobalsCENode;
   protected
     function GetHint: string; override;
-    function GetCaption: string; override;
     function GetImageIndex : integer; override;
   public
-    constructor CreateFromModule(AModule : TParsedModule);
-    property Module : TParsedModule read GetParsedModule;
-    property OffsetXY : TPoint read fOffsetXY write fOffsetXY;
+    constructor CreateFromSymbols(const AFileName: string; Symbols: TJsonArray);
+    property OffsetXY : TPoint read FOffsetXY write FOffsetXY;
+    property Imports: TImportsCENode read FImports;
+    property Globals: TGlobalsCENode read FGlobals;
   end;
 
-  TImportsCENode = class(TAbstractCENode)
-  private
-    fModule : TParsedModule;
-  protected
-    function GetHint: string; override;
-    function GetCaption: string; override;
-    function GetImageIndex : integer; override;
-  public
-    constructor CreateFromModule(AModule : TParsedModule);
-  end;
-
-  TImportCENode = class(TAbstractCENode)
-  private
-    function GetModuleImport: TModuleImport;
-  protected
-    function GetHint: string; override;
-    function GetCaption: string; override;
-    function GetImageIndex : integer; override;
-  public
-    constructor CreateFromModuleImport(AModuleImport : TModuleImport);
-    property ModuleImport : TModuleImport read GetModuleImport;
-  end;
-
-  TImportNameCENode = class(TAbstractCENode)
-  private
-    function GetVariable : TVariable;
-  protected
-    function GetHint: string; override;
-    function GetCaption: string; override;
-    function GetImageIndex : integer; override;
-  public
-    constructor CreateFromVariable(AVariable : TVariable);
-    property Variable : TVariable read GetVariable;
-  end;
-
-  TGlobalsCENode = class(TAbstractCENode)
-  private
-    fModule : TParsedModule;
-  protected
-    function GetHint: string; override;
-    function GetCaption: string; override;
-    function GetImageIndex : integer; override;
-  public
-    constructor CreateFromModule(AModule : TParsedModule);
-  end;
+//  TImportNameCENode = class(TAbstractCENode)
+//  private
+//    function GetVariable : TVariable;
+//  protected
+//    function GetHint: string; override;
+//    function GetCaption: string; override;
+//    function GetImageIndex : integer; override;
+//  public
+//    constructor CreateFromVariable(AVariable : TVariable);
+//    property Variable : TVariable read GetVariable;
+//  end;
 
   TVariableCENode = class(TAbstractCENode)
-  private
-    function GetVariable: TVariable;
-  protected
-    function GetCaption: string; override;
-  public
-    constructor CreateFromVariable(AVariable : TVariable);
-    property Variable : TVariable read GetVariable;
   end;
 
   TGlobalCENode = class(TVariableCENode)
@@ -152,27 +146,20 @@ type
     function GetImageIndex : integer; override;
   end;
 
-  TClassCENode = class(TCodeElementCENode)
-  private
-    function GetParsedClass: TParsedClass;
+  TAttributesCENode = class(TAbstractCENode)
   protected
     function GetHint: string; override;
     function GetCaption: string; override;
-    function GetImageIndex : integer; override;
-  public
-    constructor CreateFromClass(AClass : TParsedClass);
-    property ParsedClass : TParsedClass read GetParsedClass;
   end;
 
-  TAtrributesCENode = class(TAbstractCENode)
+  TClassCENode = class(TCodeElementCENode)
   private
-    fParsedClass : TParsedClass;
+    FAttributes: TAttributesCENode;
   protected
     function GetHint: string; override;
-    function GetCaption: string; override;
     function GetImageIndex : integer; override;
   public
-    constructor CreateFromClass(AClass : TParsedClass);
+    constructor CreateFromSymbol(Symbol: TJsonObject); override;
   end;
 
   TAttributeCENode = class(TVariableCENode)
@@ -182,20 +169,13 @@ type
   end;
 
   TFunctionCENode = class(TCodeElementCENode)
-  private
-    function GetParsedFunction: TParsedFunction;
   protected
     function GetHint: string; override;
-    function GetCaption: string; override;
     function GetImageIndex : integer; override;
-  public
-    constructor CreateFromFunction(AFunction : TParsedFunction);
-    property ParsedFunction : TParsedFunction read GetParsedFunction;
   end;
 
   TMethodCENode = class(TFunctionCENode)
   protected
-    function GetHint: string; override;
     function GetImageIndex : integer; override;
   end;
 
@@ -308,11 +288,12 @@ uses
   System.Math,
   JvGNUGetText,
   SynEdit,
-  SynEditTypes,
   frmPyIDEMain,
   dmCommands,
   uEditAppIntfs,
   uCommonFunctions,
+  LspUtils,
+  JediLspClient,
   cPyScripterSettings;
 
 {$R *.dfm}
@@ -503,12 +484,6 @@ begin
     SetEvent(fScanEventHandle);
 end;
 
-Type
-  PNodeDataRec = ^TNodeDataRec;
-  TNodeDataRec = record
-    CENode : TAbstractCENode;
-  end;
-
 procedure TCodeExplorerWindow.FormActivate(Sender: TObject);
 begin
   inherited;
@@ -521,7 +496,7 @@ begin
   ImageName := 'CodeExplorer';
   inherited;
   // Let the tree know how much data space we need.
-  ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
+  ExplorerTree.NodeDataSize := SizeOf(Pointer);
   WorkerThread := TScanCodeThread.Create;
 end;
 
@@ -529,23 +504,22 @@ procedure TCodeExplorerWindow.ExplorerTreeInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
 var
-  Data, ParentData: PNodeDataRec;
+  CENode: TAbstractCENode;
 begin
-  Data := ExplorerTree.GetNodeData(Node);
   if ExplorerTree.GetNodeLevel(Node) = 0 then
-    Data.CENode := TScanCodeThread(WorkerThread).fOldCEData.ModuleNode
+    CENode := TScanCodeThread(WorkerThread).fOldCEData.ModuleNode
   else begin
-    ParentData := ExplorerTree.GetNodeData(ParentNode);
-    Data.CENode :=
-      ParentData.CENode.Children[Node.Index] as TAbstractCENode;
+    var ParentCENode := ParentNode.GetData<TAbstractCENode>;
+    CENode := ParentCENode.Children[Node.Index];
   end;
-  if Data.CENode.ChildCount > 0 then
-    if Data.CENode.Expanded = esExpanded then
+  Node.SetData<TAbstractCENode>(CENode);
+  if CENode.ChildCount > 0 then
+    if CENode.Expanded = esExpanded then
       InitialStates := [ivsHasChildren, ivsExpanded]
     else
       InitialStates := [ivsHasChildren];
   // reverse link from CENode to Tree node
-  Data.CENode.fNode := Node;
+  CENode.fNode := Node;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeKeyPress(Sender: TObject;
@@ -569,43 +543,29 @@ end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitChildren(
   Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
-var
-  Data : PNodeDataRec;
 begin
-  Data := ExplorerTree.GetNodeData(Node);
-  ChildCount := Data.CENode.ChildCount;
+  ChildCount := Node.GetData<TAbstractCENode>.ChildCount;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
-var
-  Data : PNodeDataRec;
 begin
-  if Kind in [ikNormal, ikSelected] then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    ImageIndex := Data.CENode.ImageIndex;
-  end;
+  if Kind in [ikNormal, ikSelected] then
+    ImageIndex := Node.GetData<TAbstractCENode>.ImageIndex;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetCellText(
   Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
-var
-  Data : PNodeDataRec;
 begin
-  Data := ExplorerTree.GetNodeData(E.Node);
-  if Assigned(Data) then
-    E.CellText := Data.CENode.Caption;
+  E.CellText := E.Node.GetData<TAbstractCENode>.Caption;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetHint(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex;
   var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: string);
-var
-  Data : PNodeDataRec;
 begin
-  Data := ExplorerTree.GetNodeData(Node);
-  HintText := Data.CENode.Hint;
+  HintText := Node.GetData<TAbstractCENode>.Hint;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeChange(Sender: TBaseVirtualTree;
@@ -619,23 +579,20 @@ end;
 
 procedure TCodeExplorerWindow.ExplorerTreeCollapsed(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-var
-  Data : PNodeDataRec;
 begin
   if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    Data.CENode.Expanded := esCollapsed;
+    Node.GetData<TAbstractCENode>.Expanded := esCollapsed;
   end;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;
   MousePos: TPoint; var Handled: Boolean);
 var
-  Data : PNodeDataRec;
-  Node : PVirtualNode;
-  PopUpMenu : TPopupMenu;
-  Pos : TPoint;
-  HitInfo : THitInfo;
+  Node: PVirtualNode;
+  CENode: TAbstractCENode;
+  PopUpMenu: TPopupMenu;
+  Pos: TPoint;
+  HitInfo: THitInfo;
 begin
   if (MousePos.X = -1) and (MousePos.Y = -1) then
     // Keyboard invocation
@@ -651,9 +608,9 @@ begin
   if Assigned(Node) then begin
     PopupMenu := CENodePopUpMenu;
     //UpdatePopupActions;
-    Data := ExplorerTree.GetNodeData(Node);
-    mnFindDefinition.Enabled := Assigned(Data.CENode.CodeElement) and
-      not (Data.CENode is TModuleCENode);
+    CENode := Node.GetData<TAbstractCENode>;
+    mnFindDefinition.Enabled :=
+      (CENode is TCodeElementCENode) and not (CENode is TModuleCENode);
     mnFindReferences.Enabled := mnFindDefinition.Enabled;
     mnHighlight.Enabled := mnFindDefinition.Enabled;
   end else
@@ -671,12 +628,9 @@ end;
 
 procedure TCodeExplorerWindow.ExplorerTreeExpanded(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-var
-  Data : PNodeDataRec;
 begin
   if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    Data.CENode.Expanded := esExpanded;
+    Node.GetData<TAbstractCENode>.Expanded := esExpanded;
   end;
 end;
 
@@ -751,22 +705,22 @@ end;
 procedure TCodeExplorerWindow.NavigateToNodeElement(Node: PVirtualNode;
       ForceToMiddle : Boolean = True; Activate : Boolean = True);
 var
-  Data: PNodeDataRec;
-  CodePos : TCodePos;
+  CENode: TAbstractCENode;
+  CodePos : TBufferCoord;
   L : integer;
   Editor : IEditor;
 begin
-  CodePos.LineNo := - 1;
+  CodePos.Line := - 1;
   L := 0;
 
   if Assigned(Node) then
   begin
-    Data := ExplorerTree.GetNodeData(Node);
-    if Assigned(Data.CENode.CodeElement) then
+    CENode := Node.GetData<TAbstractCENode>;
+    if CENode is TCodeElementCENode then
     begin
-      CodePos := Data.CENode.CodeElement.CodePos;
-      if not (Data.CENode is TModuleCENode) then
-        L := Length(Data.CENode.CodeElement.Name);
+      CodePos := TCodeElementCENode(Node).CodePos;
+      if not (CENode is TModuleCENode) then
+        L := Length(CENode.Name);
     end else if Assigned(ExplorerTree.GetFirstChild(Node)) then begin
         NavigateToNodeElement(Node.FirstChild, ForceToMiddle, Activate);
         Exit;
@@ -774,14 +728,14 @@ begin
       Exit;
 
     Editor := GI_PyIDEServices.ActiveEditor;
-    if Assigned(Editor) and (CodePos.LineNo >= 0) then begin
+    if Assigned(Editor) and (CodePos.Line >= 0) then begin
       with Editor.ActiveSynEdit do
       begin
-        CaretXY := BufferCoord(1, CodePos.LineNo);
+        CaretXY := CodePos;
         EnsureCursorPosVisibleEx(ForceToMiddle);
-        if CodePos.CharOffset > 0 then
+        if CodePos.Char > 0 then
         begin
-          SelStart := RowColToCharIndex(CaretXY) + CodePos.CharOffset - 1;
+          SelStart := RowColToCharIndex(CaretXY) + CodePos.Char - 1;
           SelEnd := SelStart + L;
         end;
       end;
@@ -830,15 +784,11 @@ begin
 end;
 
 procedure TCodeExplorerWindow.mnFindReferencesClick(Sender: TObject);
-Var
-  Node : PVirtualNode;
-  Data: PNodeDataRec;
 begin
-  Node := ExplorerTree.GetFirstSelected();
+  var Node := ExplorerTree.GetFirstSelected();
   if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    if Assigned(Data.CENode.CodeElement) and
-      not (Data.CENode is TModuleCENode) then
+    var CENode := Node.GetData<TAbstractCENode>;
+    if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) then
     begin
       NavigateToNodeElement(Node);
       PyIDEMainForm.actFindReferencesExecute(Self);
@@ -853,15 +803,12 @@ begin
 end;
 
 procedure TCodeExplorerWindow.mnHighlightClick(Sender: TObject);
-Var
-  Node : PVirtualNode;
-  Data: PNodeDataRec;
 begin
-  Node := ExplorerTree.GetFirstSelected();
+  var Node := ExplorerTree.GetFirstSelected();
   if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    if Assigned(Data.CENode.CodeElement) and not (Data.CENode is TModuleCENode) then
-      CommandsDataModule.HighlightWordInActiveEditor(Data.CENode.CodeElement.Name);
+    var CENode := Node.GetData<TAbstractCENode>;
+    if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) then
+      CommandsDataModule.HighlightWordInActiveEditor(CENode.Name);
   end;
 end;
 
@@ -880,44 +827,19 @@ end;
 
 { TAbstractCENode }
 
-procedure TAbstractCENode.AddChild(CENode: TAbstractCENode);
+function TAbstractCENode.AddChild(CENode: TAbstractCENode): Integer;
 begin
   if fChildren = nil then
-    fChildren := TObjectList.Create(True);
+    fChildren := TObjectList<TAbstractCENode>.Create(True);
 
-  fChildren.Add(CENode);
+  Result := fChildren.Add(CENode);
 end;
 
-constructor TAbstractCENode.Create;
+class constructor TAbstractCENode.Create;
 begin
-  fChildren := nil;
-  fExpanded := esUnknown;
-end;
-
-function TAbstractCENode.GetChildren(i: integer): TAbstractCENode;
-begin
-  if Assigned(fChildren) then
-    Result := TAbstractCENode(fChildren[i])
-  else
-    Result := nil;
-end;
-
-procedure TAbstractCENode.Sort(SortOrder: TCESortOrder);
-Var
-  Child : Pointer;
-begin
-  if not Assigned(fChildren) then Exit;
-
-  for Child in fChildren do
-    TAbstractCENode(Child).Sort(SortOrder);
-
-  fChildren.SortList(
-     function (Item1, Item2: Pointer): Integer
-     Var
-       Nd1, Nd2 : TAbstractCENode;
+  NodeComparer := TComparer<TAbstractCENode>.Construct(
+     function (Nd1, Nd2: TAbstractCENode): Integer
      begin
-       Nd1 := TAbstractCENode(Item1);
-       Nd2 := TAbstractCENode(Item2);
        if Nd1 is TImportsCENode then
          Result := -1
        else if Nd2 is TImportsCENode then
@@ -926,29 +848,76 @@ begin
          Result := -1
        else if Nd2 is TGlobalsCENode then
          Result := 1
-       else if Nd1 is TAtrributesCENode then
+       else if Nd1 is TAttributesCENode then
          Result := -1
-       else if Nd2 is TAtrributesCENode then
+       else if Nd2 is TAttributesCENode then
          Result := 1
-       else if Assigned(Nd1.CodeElement) and Assigned(Nd2.CodeElement) then
-         if SortOrder = soAlpha then
-           Result := ComparePythonIdents(Nd1.CodeElement.Name, Nd2.CodeElement.Name)
-         else begin
-           Result := Sign(Nd1.CodeElement.CodePos.LineNo -
-                            Nd2.CodeElement.CodePos.LineNo);
-           if Result = 0 then
-             Result := Sign(Nd1.CodeElement.CodePos.CharOffset -
-                              Nd2.CodeElement.CodePos.CharOffset);
-         end
        else
-         Result := 0;
+       begin
+         if SortOrder = soAlpha then
+           Result := ComparePythonIdents(Nd1.Name, Nd2.Name)
+         else begin
+           Result := Sign(Nd1.CodePos.Line -
+                            Nd2.CodePos.Line);
+           if Result = 0 then
+             Result := Sign(Nd1.CodePos.Char -
+                              Nd2.CodePos.Char);
+         end;
+       end;
      end);
+
+end;
+
+constructor TAbstractCENode.CreateFromSymbol(Symbol: TJsonObject);
+begin
+  inherited Create;
+  Symbol.GetValue<string>('name', FName);
+  Symbol.GetValue<integer>('selectionRange.start.line', FCodePos.Line);
+  Inc(FCodePos.Line);
+  Symbol.GetValue<integer>('selectionRange.start.character', FCodePos.Char);
+  Inc(FCodePos.Char);
+end;
+
+function TAbstractCENode.GetChildren(i: integer): TAbstractCENode;
+begin
+  if Assigned(fChildren) then
+    Result := fChildren[i]
+  else
+    Result := nil;
+end;
+
+function TAbstractCENode.GetHint: string;
+begin
+  Result := '';
+end;
+
+function TAbstractCENode.GetImageIndex: integer;
+begin
+  Result := -1;
+end;
+
+procedure TAbstractCENode.Sort(ASortOrder: TCESortOrder);
+Var
+  Child : Pointer;
+begin
+  SortOrder := ASortOrder;
+  if not Assigned(fChildren) then Exit;
+
+  for Child in fChildren do
+    TAbstractCENode(Child).Sort(SortOrder);
+
+  fChildren.Sort(NodeComparer);
 end;
 
 destructor TAbstractCENode.Destroy;
 begin
   FreeAndNil(fChildren);
   inherited;
+end;
+
+function TAbstractCENode.GetCaption: string;
+begin
+  Result := FName;
 end;
 
 function TAbstractCENode.GetChildCount: integer;
@@ -961,79 +930,84 @@ end;
 
 { TModuleCENode }
 
-function TModuleCENode.GetCaption: string;
-begin
-  Result := XtractFileName(Module.Name);
-end;
-
 function TModuleCENode.GetImageIndex: integer;
 begin
   Result := Integer(TCodeImages.Python);
 end;
 
-constructor TModuleCENode.CreateFromModule(AModule: TParsedModule);
-Var
-  i : integer;
-  CE : TCodeElement;
-  ClassNode : TClassCENode;
+constructor TModuleCENode.CreateFromSymbols(const AFileName: string; Symbols: TJsonArray);
+var
+  Kind: Integer;
+  NodeClass: TAbstractCENodeClass;
+  Node: TAbstractCENode;
+  ClassNode: TClassCENode;
 begin
   inherited Create;
-  fCodeElement := AModule;
+  FileName := AFileName;
+  FName := XtractFileName(Name);
   fExpanded := esExpanded;
-  if Module.ImportedModules.Count > 0 then
-    AddChild(TImportsCENode.CreateFromModule(Module));
-  if Module.Globals.Count > 0 then
-    AddChild(TGlobalsCENode.CreateFromModule(Module));
-  for i := 0 to Module.ChildCount - 1 do begin
-    CE := Module.Children[i];
-    if CE is TParsedClass then begin
-      ClassNode := TClassCENode.CreateFromClass(TParsedClass(CE));
-      if PyIDEOptions.ExporerInitiallyExpanded then
-        ClassNode.fExpanded := esExpanded;
-      AddChild(ClassNode);
-    end else if CE is TParsedFunction then
-      AddChild(TFunctionCENode.CreateFromFunction(TParsedFunction(CE)));
+  FCodePos := BufferCoord(1, 1);
+  FCodeBlock.StartLine := 1;
+  FCodeBlock.EndLine := MaxInt;
+
+  for var Symbol in Symbols do
+  begin
+    if not Symbol.TryGetValue<integer>('kind', Kind) then
+      Continue;
+
+    NodeClass := nil;
+    case TSymbolKind(Kind) of
+      TSymbolKind.Module: NodeClass := TImportCENode;
+      TSymbolKind._Class: NodeClass := TClassCENode;
+      TSymbolKind._Function: NodeClass := TFunctionCENode;
+      TSymbolKind._Variable: NodeClass := TGlobalCENode;
+    else
+      Continue;
+    end;
+    if Assigned(NodeClass) then
+      try
+        Node := TAbstractCENodeClass.CreateFromSymbol(Symbol as TJsonObject);
+      except
+        Continue;
+      end;
+    if NodeClass = TImportCENode then
+    begin
+      if FImports = nil then
+      begin
+        FImports := TImportsCENode.Create;
+        var Index := AddChild(FImports);
+        FChildren.Move(Index, 0);
+      end;
+      FImports.AddChild(Node);
+    end
+    else if NodeClass = TVariableCENode then
+    begin
+      if FGlobals = nil then
+      begin
+        FGlobals := TGlobalsCENode.Create;
+        var Index := AddChild(FImports);
+        if FImports <> nil then
+          FChildren.Move(Index, 1)
+        else
+          FChildren.Move(Index, 0);
+      end;
+      FGlobals.AddChild(Node);
+    end
+    else
+      AddChild(Node);
   end;
 end;
 
 function TModuleCENode.GetHint: string;
 begin
-  Result := Format(_('Python Module "%s"'), [Module.Name]);
+  Result := Format(_('Python Module "%s"'), [Name]);
 end;
-
-function TModuleCENode.GetParsedModule: TParsedModule;
-begin
-  Result := fCodeElement as TParsedModule;
-end;
-
 
 { TImportsCENode }
 
 function TImportsCENode.GetCaption: string;
 begin
   Result := _('Imports');
-end;
-
-function TImportsCENode.GetImageIndex: integer;
-begin
-  Result := -1;
-end;
-
-constructor TImportsCENode.CreateFromModule(AModule: TParsedModule);
-Var
-  i : integer;
-  SortedImports : TObjectList;
-begin
-  inherited Create;
-  fModule := AModule;
-  SortedImports := TObjectList.Create(False);
-  try
-    fModule.GetSortedImports(SortedImports);
-    for i := 0 to SortedImports.Count - 1 do
-      AddChild(TImportCENode.CreateFromModuleImport(TModuleImport(SortedImports[i])));
-  finally
-    SortedImports.Free;
-  end;
 end;
 
 function TImportsCENode.GetHint: string;
@@ -1043,22 +1017,6 @@ end;
 
 { TImportCENode }
 
-function TImportCENode.GetCaption: string;
-begin
-  Result := ModuleImport.Name;
-end;
-
-constructor TImportCENode.CreateFromModuleImport(AModuleImport: TModuleImport);
-Var
-  i : integer;
-begin
-  inherited Create;
-  fCodeElement := AModuleImport;
-  if Assigned(AModuleImport.ImportedNames) then with AModuleImport do
-    for i := 0 to ImportedNames.Count - 1 do
-      AddChild(TImportNameCENode.CreateFromVariable(ImportedNames[i] as TVariable));
-end;
-
 function TImportCENode.GetImageIndex: integer;
 begin
   Result := Integer(TCodeImages.Module);
@@ -1066,55 +1024,48 @@ end;
 
 function TImportCENode.GetHint: string;
 begin
-  if ModuleImport.RealName <> ModuleImport.Name then
-    Result := Format(_('Imported Module "%s" as %s at line %d'),
-                    [ModuleImport.RealName, ModuleImport.Name,
-                     fCodeElement.CodePos.LineNo])
-  else
+//  if ModuleImport.RealName <> ModuleImport.Name then
+//    Result := Format(_('Imported Module "%s" as %s at line %d'),
+//                    [ModuleImport.RealName, ModuleImport.Name,
+//                     fCodeElement.CodePos.LineNo])
+//  else
     Result := Format(_('Imported Module "%s" at line %d'),
-                    [ModuleImport.Name, fCodeElement.CodePos.LineNo]);
-  if ModuleImport.ImportAll then
-    Result := Result + ' (* import)';
-end;
-
-function TImportCENode.GetModuleImport: TModuleImport;
-begin
-  Result := fCodeElement as TModuleImport;
+                    [Name, CodePos.Line]);
 end;
 
 { TImportNameCENode }
 
-constructor TImportNameCENode.CreateFromVariable(AVariable : TVariable);
-begin
-  fCodeElement := AVariable;
-end;
-
-function TImportNameCENode.GetCaption: string;
-begin
-  Result := Variable.Name;
-end;
-
-function TImportNameCENode.GetHint: string;
-begin
-  if Variable.RealName = Variable.Name then
-    Result := Format(_('Imported identifier "%s" from module "%s"'),
-                [Variable.Name,
-                (Variable.Parent as TModuleImport).Name])
-  else
-    Result := Format(_('Imported identifier "%s" as "%s" from module "%s"'),
-                [Variable.RealName, Variable.Name,
-                (Variable.Parent as TModuleImport).Name]);
-end;
-
-function TImportNameCENode.GetImageIndex: integer;
-begin
-  Result := -1;
-end;
-
-function TImportNameCENode.GetVariable: TVariable;
-begin
-  Result := fCodeElement as TVariable;
-end;
+//constructor TImportNameCENode.CreateFromVariable(AVariable : TVariable);
+//begin
+//  fCodeElement := AVariable;
+//end;
+//
+//function TImportNameCENode.GetCaption: string;
+//begin
+//  Result := Variable.Name;
+//end;
+//
+//function TImportNameCENode.GetHint: string;
+//begin
+//  if Variable.RealName = Variable.Name then
+//    Result := Format(_('Imported identifier "%s" from module "%s"'),
+//                [Variable.Name,
+//                (Variable.Parent as TModuleImport).Name])
+//  else
+//    Result := Format(_('Imported identifier "%s" as "%s" from module "%s"'),
+//                [Variable.RealName, Variable.Name,
+//                (Variable.Parent as TModuleImport).Name]);
+//end;
+//
+//function TImportNameCENode.GetImageIndex: integer;
+//begin
+//  Result := -1;
+//end;
+//
+//function TImportNameCENode.GetVariable: TVariable;
+//begin
+//  Result := fCodeElement as TVariable;
+//end;
 
 { TGlobalsCENode }
 
@@ -1123,49 +1074,9 @@ begin
   Result := 'Globals';
 end;
 
-function TGlobalsCENode.GetImageIndex: integer;
-begin
-  Result := -1;
-end;
-
-constructor TGlobalsCENode.CreateFromModule(AModule: TParsedModule);
-Var
-  i : integer;
-  SortedGlobals : TObjectList;
-begin
-  inherited Create;
-  fModule := AModule;
-  SortedGlobals := TObjectList.Create(False);
-  try
-    fModule.GetUniqueSortedGlobals(SortedGlobals);
-    for i := 0 to SortedGlobals.Count - 1 do
-      AddChild(TGlobalCENode.CreateFromVariable(TVariable(SortedGlobals[i])));
-  finally
-    SortedGlobals.Free;
-  end;
-end;
-
 function TGlobalsCENode.GetHint: string;
 begin
   Result := _('Global variables');
-end;
-
-{ TVariableCENode }
-
-function TVariableCENode.GetCaption: string;
-begin
-  Result := Variable.Name;
-end;
-
-constructor TVariableCENode.CreateFromVariable(AVariable: TVariable);
-begin
-  inherited Create;
-  fCodeElement := AVariable;
-end;
-
-function TVariableCENode.GetVariable: TVariable;
-begin
-  Result := fCodeElement as TVariable;
 end;
 
 { TGlobalCENode }
@@ -1178,36 +1089,62 @@ end;
 function TGlobalCENode.GetHint: string;
 begin
   Result := Format(_('Global variable "%s" defined at line %d'),
-                    [Caption, fCodeElement.CodePos.LineNo]);
+                    [Caption, CodePos.Line]);
 end;
 
 { TClassCENode }
-
-function TClassCENode.GetCaption: string;
-begin
-  Result := ParsedClass.Name;
-end;
 
 function TClassCENode.GetImageIndex: integer;
 begin
   Result := Integer(TCodeImages.Klass);
 end;
 
-constructor TClassCENode.CreateFromClass(AClass: TParsedClass);
-Var
-  i : integer;
-  CE : TCodeElement;
+constructor TClassCENode.CreateFromSymbol(Symbol: TJsonObject);
+var
+  Kind: Integer;
+  Symbols: TJsonValue;
+  NodeClass: TAbstractCENodeClass;
+  Node: TAbstractCENode;
+  ClassNode: TClassCENode;
 begin
-  inherited Create;
-  fCodeElement := AClass;
-  if ParsedClass.Attributes.Count > 0 then
-    AddChild(TAtrributesCENode.CreateFromClass(ParsedClass));
-  for i := 0 to ParsedClass.ChildCount - 1 do begin
-    CE := ParsedClass.Children[i];
-    if CE is TParsedClass then
-      AddChild(TClassCENode.CreateFromClass(TParsedClass(CE)))
-    else if CE is TParsedFunction then
-      AddChild(TMethodCENode.CreateFromFunction(TParsedFunction(CE)));
+  inherited;
+
+  Symbol.TryGetValue('children', Symbols);
+  if not (Symbols is TJsonArray) then Exit;
+
+  for var CE in TJsonArray(Symbols) do
+  begin
+    if not CE.TryGetValue<integer>('kind', Kind) then
+      Continue;
+
+    NodeClass := nil;
+    case TSymbolKind(Kind) of
+      TSymbolKind._Class: NodeClass := TClassCENode;
+      TSymbolKind.Method: NodeClass := TMethodCENode;
+      TSymbolKind._Function: NodeClass := TFunctionCENode;
+      TSymbolKind._Property,
+      TSymbolKind._Variable: NodeClass := TAttributeCENode;
+    else
+      Continue;
+    end;
+    if Assigned(NodeClass) then
+      try
+        Node := TAbstractCENodeClass.CreateFromSymbol(CE as TJsonObject);
+      except
+        Continue;
+      end;
+    if NodeClass = TAttributeCENode then
+    begin
+      if FAttributes = nil then
+      begin
+        FAttributes := TAttributesCENode.Create;
+        var Index := AddChild(FAttributes);
+        FChildren.Move(Index, 0);
+      end;
+      FAttributes.AddChild(Node);
+    end
+    else
+      AddChild(Node);
   end;
 end;
 
@@ -1226,41 +1163,14 @@ begin
     Result := Result + #13#10#13#10 + Doc;
 end;
 
-function TClassCENode.GetParsedClass: TParsedClass;
-begin
-  Result := fCodeElement as TParsedClass;
-end;
+{ TAttributesCENode }
 
-{ TAtrributesCENode }
-
-function TAtrributesCENode.GetCaption: string;
+function TAttributesCENode.GetCaption: string;
 begin
   Result := _('Attributes');
 end;
 
-function TAtrributesCENode.GetImageIndex: integer;
-begin
-  Result := -1;
-end;
-
-constructor TAtrributesCENode.CreateFromClass(AClass: TParsedClass);
-Var
-  i : integer;
-  SortedAttributes : TObjectList;
-begin
-  inherited Create;
-  fParsedClass := AClass;
-  SortedAttributes := TObjectList.Create(False);
-  try
-    fParsedClass.GetUniqueSortedAttibutes(SortedAttributes);
-    for i := 0 to SortedAttributes.Count - 1 do
-      AddChild(TAttributeCENode.CreateFromVariable(TVariable(SortedAttributes[i])));
-  finally
-    SortedAttributes.Free;
-  end;
-end;
-
-function TAtrributesCENode.GetHint: string;
+function TAttributesCENode.GetHint: string;
 begin
   Result := _('Class attributes');
 end;
@@ -1275,31 +1185,10 @@ end;
 function TAttributeCENode.GetHint: string;
 begin
   Result := Format(_('Class attribute "%s" defined at line %d'),
-                    [Caption, fCodeElement.CodePos.LineNo]);
+                    [Caption, CodePos.Line]);
 end;
 
 { TFunctionCENode }
-
-constructor TFunctionCENode.CreateFromFunction(AFunction: TParsedFunction);
-Var
-  i : integer;
-  CE : TCodeElement;
-begin
-  inherited Create;
-  fCodeElement := AFunction;
-  for i := 0 to ParsedFunction.ChildCount - 1 do begin
-    CE := ParsedFunction.Children[i];
-    if CE is TParsedClass then begin
-      AddChild(TClassCENode.CreateFromClass(TParsedClass(CE)));
-    end else if CE is TParsedFunction then
-      AddChild(TFunctionCENode.CreateFromFunction(TParsedFunction(CE)));
-  end;
-end;
-
-function TFunctionCENode.GetCaption: string;
-begin
-  Result := Format('%s(%s)', [ParsedFunction.Name, ParsedFunction.ArgumentsString]);
-end;
 
 function TFunctionCENode.GetImageIndex: integer;
 begin
@@ -1307,21 +1196,8 @@ begin
 end;
 
 function TFunctionCENode.GetHint: string;
-Var
-  Doc : string;
 begin
-  Result := Format(_('Function "%s" defined at line %d'#13#10'Arguments: %s'),
-              [Caption, fCodeElement.CodePos.LineNo, ParsedFunction.ArgumentsString]);
-  if ParsedFunction.ReturnType <> '' then
-    Result := Result + #13#10 + Format('Returns %s', [ParsedFunction.ReturnType]);
-  Doc := ParsedFunction.DocString;
-  if Doc <> '' then
-    Result := Result + #13#10 + Doc;
-end;
-
-function TFunctionCENode.GetParsedFunction: TParsedFunction;
-begin
-  Result := fCodeElement as TParsedFunction;
+  Result := TJedi.SimpleHintAtCoordinates(FileName, CodePos);
 end;
 
 { TMethodCENode }
@@ -1331,16 +1207,6 @@ begin
   Result := Integer(TCodeImages.Method);
 end;
 
-function TMethodCENode.GetHint: string;
-Var
-  Doc : string;
-begin
-  Result := Format(_('Method %s defined at line %d'#13#10'Arguments: %s'),
-              [Caption, fCodeElement.CodePos.LineNo, ParsedFunction.ArgumentsString]);
-  Doc := ParsedFunction.DocString;
-  if Doc <> '' then
-    Result := Result + #13#10#13#10 + Doc;
-end;
 
 { TCodeExplorerData }
 
@@ -1384,12 +1250,13 @@ end;
 
 { TCodeElementCENode }
 
-function TCodeElementCENode.GetCodeBlock: TCodeBlock;
+constructor TCodeElementCENode.CreateFromSymbol(Symbol: TJsonObject);
 begin
-  if Assigned(CodeElement) and (CodeElement is TCodeElement) then
-    Result := TCodeElement(CodeElement).CodeBlock
-  else
-    Result := cPythonSourceScanner.CodeBlock(0, 0);
+  inherited CreateFromSymbol(Symbol);
+  Symbol.GetValue<integer>('range.start.line', FCodeBlock.StartLine);
+  Inc(FCodeBlock.StartLine);
+  Symbol.GetValue<integer>('range.end.line', FCodeBlock.EndLine);
+  Inc(FCodeBlock.EndLine);
 end;
 
 function TCodeElementCENode.GetScopeForLine(LineNo: integer): TCodeElementCENode;

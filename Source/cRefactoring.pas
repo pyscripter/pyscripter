@@ -16,6 +16,7 @@ uses
   System.Classes,
   System.Variants,
   System.Contnrs,
+  cPySupportTypes,
   cPythonSourceScanner;
 
 type
@@ -78,10 +79,6 @@ type
 
 var
   PyScripterRefactor : TPyScripterRefactor;
-
-Const
-  FilePosInfoFormat : string = '%s (%d:%d)';
-  FilePosInfoRegExpr : string = '(.+) \((\d+):(\d+)\)$';
 
 implementation
 
@@ -181,8 +178,8 @@ begin
 
   // Extract the identifier
   LineS := GetNthLine(ParsedModule.Source, Line);
-  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False, True);
-  DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, IdentChars, False, True);
+  DottedIdent := GetWordAtPos(LineS, Col, True, True, False, True);
+  DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, False, False, True);
 
   if DottedIdent = '' then begin
     ErrMsg := _(SNoIdentifier);
@@ -844,8 +841,8 @@ begin
 
   // Extract the identifier
   LineS := GetNthLine(ParsedModule.Source, Line);
-  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False, True);
-  DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, IdentChars, False, True);
+  DottedIdent := GetWordAtPos(LineS, Col, True, True, False, True);
+  DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, False, False, True);
 
   if DottedIdent = '' then begin
     ErrMsg := _(SNoIdentifier);

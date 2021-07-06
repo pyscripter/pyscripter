@@ -183,7 +183,6 @@ uses
   VarPyth,
   StringResources,
   uCommonFunctions,
-  cRefactoring,
   cPyScripterSettings,
   cParameters,
   cPyControl,

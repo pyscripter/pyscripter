@@ -42,6 +42,7 @@ uses
   SynEditMiscClasses,
   SynEditKeyCmds,
   SynCompletionProposal,
+  SynEditLsp,
   VirtualResources,
   uCommonFunctions,
   frmCodeExplorer,
@@ -324,6 +325,7 @@ type
     fHasSelection: boolean;
     fUntitledNumber: Integer;
     fCodeExplorerData: ICodeExplorerData;
+    fSynLsp: TLspSynEditPlugin;
     function IsEmpty: boolean;
     constructor Create(AForm: TEditorForm);
     procedure DoSetFileName(AFileName: string);
@@ -361,11 +363,11 @@ uses
   uSearchHighlighter,
   cInternalPython,
   cPyDebugger,
-  cRefactoring,
   cCodeHint,
   cPyScripterSettings,
   cSSHSupport,
-  dlgRemoteFile;
+  dlgRemoteFile,
+  JediLspClient;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -533,6 +535,7 @@ begin
   fUntitledNumber := -1;
   fCodeExplorerData := TCodeExplorerData.Create;
   SetFileEncoding(PyIDEOptions.NewFileEncoding);
+  fSynLsp:= TLspSynEditPlugin.Create(fForm.SynEdit);
 end;
 
 procedure TEditor.Activate(Primary: boolean = True);
@@ -856,6 +859,12 @@ begin
     fForm.fOldEditorForm := fForm;
     fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
     fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
+
+    if HasPythonFile then
+    begin
+      fSynLsp.FileOpened(GetFileNameOrTitle, 'python');
+      fSynLsp.TransmitChanges := True;
+    end;
   end;
 end;
 
@@ -1146,16 +1155,24 @@ begin
   if fForm <> nil then
   begin
     if (fFileName <> '') or (fRemoteFileName <> '') then
-      fForm.DoSave
+    begin
+      if fForm.DoSave then
+        fSynLsp.FileSaved;
+    end
     else
-      fForm.DoSaveAs
+      ExecSaveAs
   end;
 end;
 
 procedure TEditor.ExecSaveAs;
 begin
-  if fForm <> nil then
-    fForm.DoSaveAs;
+  if (fForm <> nil) and fForm.DoSaveAs then
+  begin
+    if HasPythonFile then
+      fSynLsp.FileSavedAs(GetFileNameOrTitle, 'python')
+    else
+      fSynLsp.FileSavedAs('', '');
+  end;
 end;
 
 procedure TEditor.ExecSaveAsRemote;
@@ -2581,10 +2598,10 @@ begin
           SynToken := '';
           Ident := Token;
           DottedIdent := GetWordAtPos(LineTxt, aLineCharPos.Char,
-            IdentChars + ['.'], True, False, True);
+            True, True, False, True);
           ExpStart := aLineCharPos.Char - Length(DottedIdent) + 1;
           DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
-            aLineCharPos.Char + 1, IdentChars, False, True);
+            aLineCharPos.Char + 1, False, False, True);
           // Determine the hint area
           StartCoord := BufferCoord(Start, aLineCharPos.Line);
           Pix := ClientToScreen
@@ -2731,9 +2748,9 @@ begin
       begin
         LineTxt := Lines[aLineCharPos.Line - 1];
         DottedIdent := GetWordAtPos(LineTxt, aLineCharPos.Char,
-          IdentChars + ['.'], True, False, True);
+          True, True, False, True);
         DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
-          aLineCharPos.Char + 1, IdentChars, False, True);
+          aLineCharPos.Char + 1, False, False, True);
         if DottedIdent <> '' then
           WatchesWindow.AddWatch(DottedIdent);
       end;
@@ -2995,7 +3012,6 @@ begin
     CP.InsertList.Clear;
     CC.CleanUp;
   end;
-
 end;
 
 procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
@@ -3006,7 +3022,6 @@ var
   ArgIndex : Integer;
   FileName, DisplayString, DocString : string;
   p : TPoint;
-  ParamString : string;
   CP: TSynCompletionProposal;
   Editor: TSynEdit;
 begin
@@ -3021,8 +3036,9 @@ begin
     Exit;
 
   FileName := fEditor.GetFileNameOrTitle;
-  CanExecute := TIDECompletion.EditorParamCompletion.HandleParamCompletion(FileName,
-    Editor, DisplayString, DocString, StartX) and
+
+  CanExecute := TJedi.HandleParamCompletion(FileName,
+    Editor, DisplayString, DocString, StartX, ArgIndex) and
     (GI_ActiveEditor.ActiveSynEdit = Editor) and Application.Active and
     (GetParentForm(Editor).ActiveControl = Editor);
 
@@ -3038,24 +3054,12 @@ begin
       DocString := GetLineRange(DocString, 1, 20) // 20 lines max
     end;
 
-    // Determine active argument
-    ParamString := Copy(Editor.LineText, Succ(StartX),
-      TSynCompletionProposal(Sender).Editor.CaretX - Succ(StartX));
-    ParamString := ParamString + ' ';  // To deal with for instance '1,'
-    ArgIndex := 0;
-    GetParameter(ParamString);
-    While ParamString <> '' do begin
-      Inc(ArgIndex);
-      GetParameter(ParamString);
-    end;
-
     CP.Form.CurrentIndex := ArgIndex;
     CP.ItemList.Text := DisplayString + DocString;
 
     // position the hint window at and just below the opening bracket
     P := Editor.ClientToScreen(Editor.RowColumnToPixels
-        (Editor.BufferToDisplayPos(BufferCoord(Succ(StartX), Editor.CaretY)))
-      );
+        (Editor.BufferToDisplayPos(BufferCoord(Succ(StartX), Editor.CaretY))));
     Inc(P.Y, Editor.LineHeight);
     X := P.X;
     Y := P.Y;
@@ -3137,8 +3141,6 @@ class procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
 //  This procedure is executed inside a thread and needs to be threadsafe!
 Var
   ObjectValue, ObjectType: string;
-  ErrMsg: string;
-  CE: TBaseCodeElement;
 begin
   if Assigned(fHintIdentInfo.Editor) and
     CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then
@@ -3166,16 +3168,8 @@ begin
     end
     else if GI_PyControl.Inactive and PyIDEOptions.ShowCodeHints then
     begin
-      // Code hints
-      CE := PyScripterRefactor.FindDefinitionByCoordinates
-        (fHintIdentInfo.Editor.GetFileNameOrTitle, fHintIdentInfo.StartCoord.Line,
-        fHintIdentInfo.StartCoord.Char, ErrMsg);
-      if Assigned(CE) then
-      begin
-        CodeHint := CE.CodeHint;
-      end
-      else
-        CodeHint := '';
+      CodeHint := TJedi.CodeHintAtCoordinates(fHintIdentInfo.Editor.GetFileNameOrTitle,
+        fHintIdentInfo.StartCoord, fHintIdentInfo.Ident);
     end;
   end
   else

@@ -29,7 +29,6 @@ Uses
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
-  IdentChars: TSysCharSet = ['_', '0'..'9', 'A'..'Z', 'a'..'z'];
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
   STracebackFilePosExpr =  '"\<?' + SFileExpr + '\>?", line (\d+)(, in ([\<\>\?\w]+))?';
   SWarningFilePosExpr = '\<?' +SFileExpr + '\>?:(\d+):';
@@ -77,12 +76,13 @@ function ConnectedToInternet : boolean;
 function GetNthLine(const S : string; LineNo : integer) : string;
 
 (* Extracts a range of lines from a string *)
-function GetLineRange(const S : string; StartLine, EndLine : integer) : string;
+function GetLineRange(const S : string; StartLine, EndLine : integer;
+  HtmlBreaks: Boolean = False) : string;
 
 (* Extracts a word from a string *)
-function GetWordAtPos(const LineText : string; Start : Integer; WordChars : TSysCharSet;
-  ScanBackwards : boolean = True; ScanForward : boolean = True;
-  HandleBrackets : Boolean = False) : string;
+function GetWordAtPos(const LineText: string; Start: Integer;
+  AllowDot: boolean; ScanBackwards: boolean = True; ScanForward: boolean = True;
+  HandleBrackets: Boolean = False) : string;
 
 (* Format a doc string by removing left space and blank lines at start and bottom *)
 function FormatDocString(const DocString : string) : string;
@@ -167,6 +167,10 @@ function FileToEncodedStr(const AFileName : string) : AnsiString;
 
 (* Read File contents into Widestring. Takes into account Python encodings *)
 function FileToStr(const AFileName : string) : string;
+
+(* Get Nth Line of file *)
+function GetNthSourceLine(const AFileName : string; LineNo: integer): string;
+
 
 type
   TDirectoryWalkProc = reference to function (const Path: string;
@@ -322,11 +326,6 @@ type
   end;
 
   (*
-    Multiple Read Exclusive Write lock based on Windows slim reader/writer
-    (SRW) Locks.  Can be also used instead of a critical session.
-    Limitations: non-reentrant, not "fair"
-  *)
-  (*
     Interfaced based Timer that can be used with anonymous methods
      Developed by  : Nuno Picado (https://github.com/nunopicado/Reusable-Objects)
   *)
@@ -373,6 +372,7 @@ Uses
   System.AnsiStrings,
   System.UITypes,
   System.IOUtils,
+  System.Character,
   System.Math,
   Vcl.ExtCtrls,
   Vcl.Themes,
@@ -619,12 +619,18 @@ begin
   end;
 end;
 
-function GetLineRange(const S : string; StartLine, EndLine : integer) : string;
+function GetLineRange(const S : string; StartLine, EndLine : integer;
+   HtmlBreaks: Boolean) : string;
 var
   SL : TStringList;
   i, LastLine : integer;
+  LB: string;
 begin
   Result := '';
+  if HtmlBreaks then
+    LB := '<br>'
+  else
+    LB:= SLineBreak;
   SL := TStringList.Create;
   try
     SL.Text := S;
@@ -633,16 +639,21 @@ begin
       if i = LastLine then
         Result := Result + SL[i]
       else
-        Result := Result + SL[i] + sLineBreak;
+        Result := Result + SL[i] + LB;
   finally
     SL.Free;
   end;
 end;
 
-function GetWordAtPos(const LineText : string; Start : Integer; WordChars : TSysCharSet;
-  ScanBackwards : boolean = True; ScanForward : boolean = True;
-  HandleBrackets : Boolean = False) : string;
-{ TODO : Replace WordChars with IsLetterOrDigit to properly deal with Unicode }
+function GetWordAtPos(const LineText: string; Start: Integer;
+  AllowDot: boolean; ScanBackwards: boolean = True; ScanForward: boolean = True;
+  HandleBrackets: Boolean = False) : string;
+
+  function IsIdentChar(C: Char): boolean;
+  begin
+    Result := C.IsLetterOrDigit or (C = '_') or (AllowDot and (C = '.'));
+  end;
+
 Var
   i : integer;
   L, WordStart, WordEnd, ParenCounter, NewStart : integer;
@@ -657,18 +668,19 @@ begin
   WordEnd := Start;
   if (Start <= 0) or (Start > L) then
     Exit('')
-  else if not CharInSet(LineText[Start], WordChars) then
+  else if not IsIdentChar(LineText[Start]) then
     Result := ''
   else begin
     if ScanBackwards then begin
       i := Start;
-      while (i > 1) and CharInSet(LineText[i-1], WordChars) do
+      while (i > 1) and IsIdentChar(LineText[i-1])
+      do
         Dec(i);
       WordStart := i;
     end;
     if ScanForward then begin
       i := Start;
-      while (i < L) and CharInSet(LineText[i+1], WordChars) do
+      while (i < L) and IsIdentChar(LineText[i+1]) do
         Inc(i);
       WordEnd := i;
     end;
@@ -699,7 +711,7 @@ begin
       Result := Copy(LineText, WordStart, NewStart - WordStart + 1) + Result;
       if WordStart > 1 then
         // Recursive call
-        Result := GetWordAtPos(LineText, WordStart - 1, WordChars,
+        Result := GetWordAtPos(LineText, WordStart - 1, AllowDot,
           ScanBackWards, False, True) + Result;
     end;
   end;
@@ -1532,6 +1544,32 @@ begin
     SL.Free;
   end;
   if Server <> '' then DeleteFile(TempFileName);
+end;
+
+
+function GetNthSourceLine(const AFileName : string; LineNo: integer): string;
+var
+  TempS: string;
+begin
+  Result := '';
+  var Editor := GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+  if Assigned(Editor) then begin
+    if Editor.SynEdit.Lines.Count >= LineNo then
+      Exit(Editor.SynEdit.Lines[LineNo - 1])
+    else
+      Exit;
+  end
+  else if FileExists(AFileName) then
+  try
+    var SR := TSmartPtr.Make(TStreamReader.Create(AFileName))();
+    for var I := 1 to LineNo do
+      if SR.EndOfStream then
+        Exit
+      else
+        TempS := SR.ReadLine;
+    Result := TempS;
+  except
+  end;
 end;
 
 (*

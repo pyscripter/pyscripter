@@ -118,7 +118,11 @@ uses
   JvDockAdvTree in 'JvDockAdvTree.pas',
   JvDockSupportProc in 'JvDockSupportProc.pas',
   JvDockTree in 'JvDockTree.pas',
-  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas';
+  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas',
+  LspClient in 'LspClient.pas',
+  LspUtils in 'LspUtils.pas',
+  SynEditLsp in 'SynEditLsp.pas',
+  JediLspClient in 'JediLspClient.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

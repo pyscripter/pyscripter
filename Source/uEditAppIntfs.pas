@@ -18,7 +18,9 @@ uses
   Vcl.Forms,
   Vcl.ImgList,
   JvAppStorage,
+  JclNotify,
   PythonEngine,
+  PythonVersions,
   SynEdit,
   SpTBXItem,
   SpTBXTabs;
@@ -250,7 +252,12 @@ type
     function PythonLoaded: Boolean;
     function Running: boolean;
     function Inactive: boolean;
+    function GetPythonVersion: TPythonVersion;
+    function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
+    property PythonVersion: TPythonVersion read GetPythonVersion;
+    property OnPythonVersionChange: TJclNotifyEventBroadcast
+      read GetOnPythonVersionChange;
   end;
 
   TPyInterpreterPropmpt = (pipNormal, pipDebug, pipPostMortem);

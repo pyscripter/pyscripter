@@ -1212,8 +1212,7 @@ Var
   Editor : IEditor;
 begin
   if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then begin
-    Tests := TUnitTestWizard.GenerateTests(GI_ActiveEditor.GetFileNameOrTitle,
-      GI_ActiveEditor.SynEdit.Text);
+    Tests := TUnitTestWizard.GenerateTests(GI_ActiveEditor.GetFileNameOrTitle);
     if Tests <> '' then begin
       Editor := PyIDEMainForm.DoOpenFile('', 'Python');
       if Assigned(Editor) then
@@ -1939,7 +1938,7 @@ Var
   IsRegistered : Boolean;
   Key : string;
 begin
-  SetLength(Categories, 10);
+  SetLength(Categories, 11);
   with Categories[0] do begin
     DisplayName := _('IDE');
     SetLength(Options, 12);
@@ -2139,6 +2138,12 @@ begin
     Options[3].DisplayName := _('SCP options');
     Options[4].PropertyName := 'SSHDisableVariablesWin';
     Options[4].DisplayName := _('Disable Variables Window with SSH');
+  end;
+  with Categories[10] do begin
+    DisplayName := _('Language server');
+    SetLength(Options, 1);
+    Options[0].PropertyName := 'LspDebug';
+    Options[0].DisplayName := _('Language server debug output');
   end;
 
   // Shell Integration
