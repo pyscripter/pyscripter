@@ -56,7 +56,7 @@ msgstr "ภาษาญี่ปุ่น"
 
 #. Language of Kabyle people
 msgid "Taqbaylit"
-msgstr "Taqbaylit"
+msgstr "ภาษาเบอร์เบอร์"
 
 #. Language of Portugal, Europe
 msgid "Polish"
