@@ -6,6 +6,7 @@
             Code Based on SynEdit demo
  History:
 -----------------------------------------------------------------------------}
+ { TODO 5 : Replace CreateFromModule with CreateFromSymbols }
 
 unit frmCodeExplorer;
 
