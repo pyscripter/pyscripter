@@ -31,6 +31,7 @@ uses
   TB2Item,
   SpTBXItem,
   VirtualTrees,
+  VirtualTrees.Types,
   dlgPyIDEBase;
 
 type

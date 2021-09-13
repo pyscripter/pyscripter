@@ -28,4 +28,6 @@ C. Clone or download JCL and JVCL and use provided installers (run install.bat)
 D. Use Multiinstaller.exe in the Components\ThirdParty folder to download  
    dependencies 3-12 to a folder of your choice and install in one step.
 E. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
-F. If you have managed to do all the above then open PythonIDE.dproj and compile :)
+F. In SVGIconImageList\Source SVGIconImageList.inc define PreferNativeSvgSupport
+
+If you have managed to do all the above then open PythonIDE.dproj and compile :)

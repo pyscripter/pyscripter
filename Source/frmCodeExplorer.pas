@@ -36,6 +36,7 @@ uses
   JvDockControlForm,
   JvAppStorage,
   VirtualTrees,
+  VirtualTrees.Types,
   TB2Item,
   SpTBXItem,
   SpTBXControls,
