@@ -8,7 +8,7 @@
         <MainSource>PyScripter.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectGuid>{FD7531E1-BDA2-4EF3-A3E8-074B952317EF}</ProjectGuid>
-        <ProjectVersion>19.2</ProjectVersion>
+        <ProjectVersion>19.3</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -73,12 +73,18 @@
         <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
+        <VerInfo_Build>0</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=4.1.0.0;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=4.1.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Build>0</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=4.1.0.0;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=4.1.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_DebugInformation>0</DCC_DebugInformation>
@@ -230,10 +236,8 @@
         <DCCReference Include="frmFunctionList.pas">
             <Form>FunctionListWindow</Form>
         </DCCReference>
-        <DCCReference Include="cPythonSourceScanner.pas"/>
         <DCCReference Include="uCommonFunctions.pas"/>
         <DCCReference Include="StringResources.pas"/>
-        <DCCReference Include="cRefactoring.pas"/>
         <DCCReference Include="SynCompletionProposal.pas"/>
         <DCCReference Include="frmRegExpTester.pas">
             <Form>RegExpTesterWindow</Form>
@@ -320,6 +324,10 @@
         <DCCReference Include="JvDockSupportProc.pas"/>
         <DCCReference Include="JvDockTree.pas"/>
         <DCCReference Include="JvDockVSNetStyleSpTBX.pas"/>
+        <DCCReference Include="LspClient.pas"/>
+        <DCCReference Include="LspUtils.pas"/>
+        <DCCReference Include="SynEditLsp.pas"/>
+        <DCCReference Include="JediLspClient.pas"/>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
         <BuildConfiguration Include="Base">
@@ -378,6 +386,11 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
+            <MMX>
+                <UsesClauseFormatter AutoFormat="0">
+                    <GroupNames>WinApi;System.Win;System;Data;Vcl</GroupNames>
+                </UsesClauseFormatter>
+            </MMX>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

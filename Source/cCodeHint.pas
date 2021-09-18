@@ -102,6 +102,7 @@ implementation
 
 uses
   System.Threading,
+  System.Math,
   Vcl.Graphics,
   Vcl.Themes,
   uCommonFunctions;
@@ -225,7 +226,8 @@ begin
           State := tmStopped;
           Exit;
         end;
-        R := HintWindow.CalcHintRect(Screen.Width, fHintText, nil);
+        var MaxWidth := Screen.MonitorFromPoint(FScreenPos).WorkareaRect.Width div 2;
+        R := HintWindow.CalcHintRect(MaxWidth, fHintText, nil);
         R.Top := fScreenPos.Y;
         R.Left := fScreenPos.X;
         Inc(R.Bottom, R.Top);
@@ -310,7 +312,7 @@ begin
   // HtLabel.Font.Color := StyleServices.GetSystemColor(Screen.HintFont.Color);   // #898
   HtLabel.Font.Color := StyleServices.GetSystemColor(clWindowText);
   HtLabel.Caption := AHint;
-  Result := Bounds(0, 0, HtLabel.Width + 6, HtLabel.Height + 2);
+  Result := Bounds(0, 0, Min(HtLabel.Width, MaxWidth) + 6, HtLabel.Height + 2);
 end;
 
 initialization

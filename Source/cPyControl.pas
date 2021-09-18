@@ -74,12 +74,13 @@ type
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
     procedure PrepareRun;
     function GetInternalInterpreter: TPyBaseInterpreter;
-    function GetPythonVersion: TPythonVersion;
     procedure SetPythonVersionIndex(const Value: integer);
     // IPyControl implementation
     function PythonLoaded: Boolean;
     function Running: boolean;
     function Inactive: boolean;
+    function GetPythonVersion: TPythonVersion;
+    function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
   public
     // ActiveInterpreter and ActiveDebugger are created
@@ -144,7 +145,7 @@ type
     property OnStateChange: TDebuggerStateChangeEvent read fOnStateChange
       write fOnStateChange;
     property OnYield: TDebuggerYieldEvent read fOnYield write fOnYield;
-    property OnPythonVersionChange: TJclNotifyEventBroadcast read fOnPythonVersionChange;
+    property OnPythonVersionChange: TJclNotifyEventBroadcast read GetOnPythonVersionChange;
   end;
 
 var
@@ -171,7 +172,6 @@ uses
   cPyDebugger,
   cPyRemoteDebugger,
   cProjectClasses,
-  cRefactoring,
   cSSHSupport,
   cPySSHDebugger;
 
@@ -249,6 +249,11 @@ begin
       else
         Include(Result, dlBreakpointLine);
   end;
+end;
+
+function TPythonControl.GetOnPythonVersionChange: TJclNotifyEventBroadcast;
+begin
+  Result := fOnPythonVersionChange;
 end;
 
 function TPythonControl.GetPythonEngineType: TPythonEngineType;
@@ -737,11 +742,7 @@ Var
   II : Variant;   // wrapping sys and code modules
 begin
   if InternalPython.Loaded then
-  begin
     GI_PyIDEServices.ClearPythonWindows;
-    PyScripterRefactor.Cancel;
-    PyScripterRefactor.ClearProxyModules;
-  end;
 
   // Destroy Active debugger and interpreter
   PyControl.ActiveDebugger := nil;

@@ -3,8 +3,10 @@ inherited UnitTestWizard: TUnitTestWizard
   Caption = 'Unit Test Wizard'
   ClientHeight = 491
   ClientWidth = 436
+  ExplicitWidth = 452
+  ExplicitHeight = 530
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -28,8 +30,8 @@ inherited UnitTestWizard: TUnitTestWizard
     object Label1: TLabel
       Left = 5
       Top = 81
-      Width = 323
-      Height = 13
+      Width = 353
+      Height = 15
       Caption = 
         'Select the functions and methods for which tests will be generat' +
         'ed:'
@@ -39,8 +41,8 @@ inherited UnitTestWizard: TUnitTestWizard
     object lbHeader: TLabel
       Left = 10
       Top = 15
-      Width = 275
-      Height = 13
+      Width = 302
+      Height = 15
       Caption = 'This wizard will generate unit tests for the Python module'
       Color = clNone
       ParentColor = False
@@ -81,6 +83,8 @@ inherited UnitTestWizard: TUnitTestWizard
       OnGetHint = ExplorerTreeGetHint
       OnInitChildren = ExplorerTreeInitChildren
       OnInitNode = ExplorerTreeInitNode
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
       Columns = <>
     end
     object OKButton: TButton
@@ -124,77 +128,67 @@ inherited UnitTestWizard: TUnitTestWizard
       Caption = 'Select All'
       Hint = 'Select all nodes'
       ImageIndex = 0
+      ImageName = 'TreeSelectAll'
       OnClick = mnSelectAllClick
     end
     object mnDeselectAll: TSpTBXItem
       Caption = 'Deselect All'
       Hint = 'Deselect all nodes'
       ImageIndex = 1
+      ImageName = 'TreeDeselectAll'
       OnClick = mnDeselectAllClick
     end
   end
   object vilCodeImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 8
         CollectionName = 'CodeImages\Python'
-        Disabled = False
         Name = 'Python'
       end
       item
         CollectionIndex = 9
         CollectionName = 'CodeImages\Variable'
-        Disabled = False
         Name = 'Variable'
       end
       item
         CollectionIndex = 1
         CollectionName = 'CodeImages\Field'
-        Disabled = False
         Name = 'Field'
       end
       item
         CollectionIndex = 2
         CollectionName = 'CodeImages\Function'
-        Disabled = False
         Name = 'Function'
       end
       item
         CollectionIndex = 5
         CollectionName = 'CodeImages\Method'
-        Disabled = False
         Name = 'Method'
       end
       item
         CollectionIndex = 0
         CollectionName = 'CodeImages\Class'
-        Disabled = False
         Name = 'Class'
       end
       item
         CollectionIndex = 7
         CollectionName = 'CodeImages\Namespace'
-        Disabled = False
         Name = 'Namespace'
       end
       item
         CollectionIndex = 4
         CollectionName = 'CodeImages\List'
-        Disabled = False
         Name = 'List'
       end
       item
         CollectionIndex = 6
         CollectionName = 'CodeImages\Module'
-        Disabled = False
         Name = 'Module'
       end
       item
         CollectionIndex = 3
         CollectionName = 'CodeImages\Keyword'
-        Disabled = False
         Name = 'Keyword'
       end>
     ImageCollection = CommandsDataModule.icCodeImages
@@ -203,19 +197,15 @@ inherited UnitTestWizard: TUnitTestWizard
     Top = 184
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 123
         CollectionName = 'TreeSelectAll'
-        Disabled = False
         Name = 'TreeSelectAll'
       end
       item
         CollectionIndex = 122
         CollectionName = 'TreeDeselectAll'
-        Disabled = False
         Name = 'TreeDeselectAll'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

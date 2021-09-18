@@ -51,3 +51,4 @@ VirtualTreeView.zip
 *.pch
 /*.chw
 *.chw
+/Lib/Lsp/jls/jedilsp

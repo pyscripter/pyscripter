@@ -132,6 +132,7 @@ begin
       CallStackView.Clear;
       // OutputDebugString('Call Stack filled');
       CallStackView.RootNodeCount := fActiveThread.CallStack.Count;  // Fills the View
+      var Py := SafePyEngine;
       CallStackView.ValidateNode(nil, True);
     finally
       CallStackView.EndUpdate;

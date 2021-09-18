@@ -261,6 +261,7 @@ implementation
 
 uses
   System.StrUtils,
+  System.Character,
   SynEditStrConst,
   uCommonFunctions;
 
@@ -1529,7 +1530,7 @@ end;
 
 function TSynPythonSyn.IsIdentChar(AChar: WideChar): Boolean;
 begin
-  Result := (AChar >= #33) and not IsWordBreakChar(AChar);
+  Result := AChar.IsLetterOrDigit or (AChar = '_');
 end;
 
 class function TSynPythonSyn.GetLanguageName: string;

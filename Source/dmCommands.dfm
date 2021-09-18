@@ -728,7 +728,6 @@ object CommandsDataModule: TCommandsDataModule
           '    sys.path.remove(os.path.dirname(sys.executable))'
           'except:'
           '    pass'
-          'sys.path.insert(0, "")'
           ''
           'import warnings'
           'warnings.simplefilter("ignore", DeprecationWarning)'

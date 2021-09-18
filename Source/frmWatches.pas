@@ -38,6 +38,7 @@ uses
   SpTBXControls,
   SpTBXItem,
   VirtualTrees,
+  VirtualTrees.Types,
   cPyControl;
 
 type

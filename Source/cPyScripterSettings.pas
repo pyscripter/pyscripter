@@ -133,6 +133,7 @@ type
     fAlwaysUseSockets: Boolean;
     fTrimTrailingSpacesOnSave: Boolean;
     fTraceOnlyIntoOpenFiles: Boolean;
+    fLspDebug: Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
@@ -304,6 +305,7 @@ type
       write fTrimTrailingSpacesOnSave default True;
     property TraceOnlyIntoOpenFiles : Boolean read fTraceOnlyIntoOpenFiles
       write fTraceOnlyIntoOpenFiles default False;
+    property LspDebug: Boolean read fLspDebug write fLspDebug default false;
   end;
 {$METHODINFO OFF}
 
@@ -313,6 +315,7 @@ type
     class var OptionsFileName: string;
     class var ColorThemesFilesDir: string;
     class var StylesFilesDir: string;
+    class var LspServerPath: string;
     class var EngineInitFile: string;
     class var PyScripterInitFile: string;
     class var ShellImages: TCustomImageList;
@@ -448,6 +451,7 @@ begin
       Self.fAlwaysUseSockets := AlwaysUseSockets;
       Self.fTrimTrailingSpacesOnSave := TrimTrailingSpacesOnSave;
       Self.fTraceOnlyIntoOpenFiles := TraceOnlyIntoOpenFiles;
+      Self.fLspDebug := LspDebug;
     end
   else
     inherited;
@@ -489,7 +493,7 @@ begin
   fAutoCheckForUpdates := True;
   fDaysBetweenChecks := 7;
   fMaskFPUExceptions := True;
-  fSpecialPackages := 'os';
+  fSpecialPackages := 'os, numpy, pandas';
   fShowCodeHints := True;
   fShowDebuggerHints := True;
   fAutoCompleteBrackets := True;
@@ -544,6 +548,7 @@ begin
   fAlwaysUseSockets := True;
   fTrimTrailingSpacesOnSave := True;
   fTraceOnlyIntoOpenFiles := False;
+  fLspDebug := False;
   fCodeFolding := TSynCodeFolding.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value
 end;
@@ -868,6 +873,7 @@ begin
     UserDataPath :=   ExtractFilePath(Application.ExeName);
     ColorThemesFilesDir := TPath.Combine(UserDataPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(UserDataPath, 'Styles');
+    LspServerPath :=  TPath.Combine(UserDataPath, 'Lib\Lsp');
   end else begin
     UserDataPath := TPath.Combine(GetHomePath,  'PyScripter\');
     OptionsFileName := TPath.Combine(UserDataPath, 'PyScripter.ini');
@@ -877,6 +883,7 @@ begin
     PublicPath := TPath.Combine(TPath.GetPublicPath, 'PyScripter\');
     ColorThemesFilesDir := TPath.Combine(PublicPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(PublicPath, 'Styles');
+    LspServerPath :=  TPath.Combine(PublicPath, 'Lsp');
     // First use setup
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'PyScripter.ini'), OptionsFileName);
   end;

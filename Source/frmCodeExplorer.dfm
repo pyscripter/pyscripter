@@ -88,6 +88,8 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           OnInitNode = ExplorerTreeInitNode
           OnKeyPress = ExplorerTreeKeyPress
           OnScroll = ExplorerTreeScroll
+          Touch.InteractiveGestures = [igPan, igPressAndTap]
+          Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
           Columns = <
             item
               Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus, coStyleColor]

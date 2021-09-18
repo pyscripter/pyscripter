@@ -39,10 +39,10 @@ unit SynHighlighterYAML;
 interface
 
 uses
-  Graphics,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
   SynEditHighlighter,
-  SysUtils,
-  Classes,
   StringResources;
 
 //State constants
@@ -168,9 +168,11 @@ resourcestring
 implementation
 
 uses
-  Windows,
+  System.Character,
+  System.Math,
+  Winapi.Windows,
   SynEditStrConst,
-  uCommonFunctions, Math;
+  uCommonFunctions;
 
 procedure TSynYAMLSyn.SpaceProc;
 begin
@@ -597,12 +599,7 @@ end;
 
 function TSynYAMLSyn.IsIdentChar(AChar: WideChar): Boolean;
 begin
-  case AChar of
-    '_', '0'..'9', 'a'..'z', 'A'..'Z':
-      Result := True;
-    else
-      Result := False;
-  end;
+  Result := AChar.IsLetterOrDigit or (AChar = '_');
 end;
 
 function TSynYAMLSyn.GetSampleSource: UnicodeString;

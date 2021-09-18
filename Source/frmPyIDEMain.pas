@@ -527,9 +527,18 @@
 
   History:   v 4.1
           New Features
+            - Implementation of the Language Server Protocol
+            - Python language support provided by the Jedi language server
+            - Copy and paste code as html to Powerpoint and other applications
           Issues addressed
-            #1116
+            #939, #951, #1116, #1123
 }
+// TODO: Check Lsp with remote files
+// TODO: Fix bug reports
+// TODO: Inno Setup - location of Jedi
+// TODO: Remove versions of Python
+// TODO: Test with Delpi 11
+
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
 { TODO: LiveTemplates features for Code Templates }
@@ -611,7 +620,6 @@ uses
   cPySupportTypes,
   cPyBaseDebugger,
   cPyDebugger,
-  cRefactoring,
   cPyScripterSettings,
   cPyControl;
 
@@ -1431,7 +1439,6 @@ uses
   frmModSpTBXCustomize,
   cTools,
   cParameters,
-  cPythonSourceScanner,
   cFilePersist,
   cCodeHint,
   cInternalPython,
@@ -1439,7 +1446,9 @@ uses
   cProjectClasses,
   dlgPythonVersions,
   dlgRemoteFile,
-  cSSHSupport;
+  cSSHSupport,
+  LspUtils,
+  JediLspClient;
 
 {$R *.DFM}
 
@@ -1773,9 +1782,6 @@ begin
   CanClose := CanClose and ProjectExplorerWindow.CanClose;
 
   if CanClose then begin
-    // Shut down CodeExplorerWindow Worker thread
-    CodeExplorerWindow.ShutDownWorkerThread;
-
     // Disconnect ChangeNotify
     FileExplorerWindow.FileExplorerTree.Active := False;
     ConfigureFileExplorer(fcnDisabled, False);
@@ -2971,8 +2977,6 @@ begin
     if Assigned(GetActiveEditor()) then
       GetActiveEditor.Activate;
     UpdateCaption;
-    // Start the Python Code scanning thread
-    CodeExplorerWindow.WorkerThread.Start;
   end;
 end;
 
@@ -4302,13 +4306,12 @@ procedure TPyIDEMainForm.FindDefinition(Editor : IEditor; TextCoord: TBufferCoor
 var
   Defs : Variant;
   Token : string;
-  FName, FileName, ErrMsg: string;
+  FName, FileName: string;
   TokenType,
-  Start, Line, Col: Integer;
+  Start: Integer;
   Attri: TSynHighlighterAttributes;
   TempCursor : IInterface;
-  CE: TBaseCodeElement;
-  ParsedModule : TParsedModule;
+  BC: TBufferCoord;
 begin
   FilePosInfo := '';
   VarClear(Defs);
@@ -4323,7 +4326,7 @@ begin
                 mtInformation, [mbOK], 0);
             Exit;
           end;
-        Ord(tkIdentifier) :
+        Ord(tkIdentifier), Ord(tkSystemDefined):
           begin
             TempCursor := WaitCursor;
 
@@ -4335,26 +4338,18 @@ begin
             end;
 
             FileName := '';
-            Line := 0;
-            Col := 1;
+            TJedi.FindDefinitionByCoordinates(FName, CaretXY, FileName, BC);
 
-            CE := PyScripterRefactor.FindDefinitionByCoordinates(FName,
-              CaretY, CaretX, ErrMsg);
-            if Assigned(CE) and not CE.IsProxy then begin
-              ParsedModule := CE.GetModule;
-              FileName := ParsedModule.FileName;
-              Line := CE.CodePos.LineNo;
-              Col := CE.CodePos.CharOffset;
-              if ShowMessages then
-                GI_PyIDEServices.Messages.AddMessage(_(SDefinitionFound), FileName, Line, Col);
-            end;
+            if (FileName <> '') and ShowMessages then
+              GI_PyIDEServices.Messages.AddMessage(_(SDefinitionFound), FileName, BC.Line, BC.Char);
 
             if ShowMessages then
               ShowDockForm(MessagesWindow);
+
             if FileName  <> '' then begin
-              FilePosInfo := Format(FilePosInfoFormat, [Filename, Line, Col]);
+              FilePosInfo := Format(FilePosInfoFormat, [Filename, BC.Line, BC.Char]);
               if JumpToFirstMatch then
-                ShowFilePosition(Filename, Line, Col);
+                ShowFilePosition(Filename, BC.Line, BC.Char);
             end else begin
               if ShowMessages then
                 GI_PyIDEServices.Messages.AddMessage(_(SDefinitionNotFound));
@@ -4384,14 +4379,14 @@ end;
 procedure TPyIDEMainForm.actFindReferencesExecute(Sender: TObject);
 var
   Token : string;
-  FName, FileName, ErrMsg : string;
+  FName: string;
   TokenType,
-  Start, Line, Col, i : Integer;
+  Start: Integer;
   Attri: TSynHighlighterAttributes;
-  TempCursor : IInterface;
-  FoundReferences : Boolean;
-  ResultsList : TStringList;
-  RegEx : TRegEx;
+  TempCursor: IInterface;
+  FoundReferences: Boolean;
+  Line: string;
+  References: TArray<TDocPosition>;
 begin
   Application.ProcessMessages;
   TempCursor := WaitCursor;
@@ -4409,26 +4404,13 @@ begin
             GI_PyIDEServices.Messages.ClearMessages;
             GI_PyIDEServices.Messages.AddMessage(_(SReferencesOf) + Token + '"');
 
-            ResultsList := TStringList.Create;
-            try
-              PyScripterRefactor.FindReferencesByCoordinates(FName,
-                CaretY, CaretX, ErrMsg, ResultsList);
-              FoundReferences := ResultsList.Count > 0;
-              RegEx.Create(FilePosInfoRegExpr);
-              i := 0;
-              while i  < ResultsList.Count -1 do begin
-                with RegEx.Match(ResultsList[i]) do
-                  if Success then begin
-                    FileName := GroupValue(1);
-                    Line := StrToInt(GroupValue(2));
-                    Col := StrToInt(GroupValue(3));
-                    GI_PyIDEServices.Messages.AddMessage(ResultsList[i+1],
-                      Filename, Line, Col, Token.Length);
-                  end;
-                Inc(i, 2);
-              end;
-            finally
-              ResultsList.Free;
+            References := TJedi.FindReferencesByCoordinates(FName, CaretXY);
+            FoundReferences := Length(References) > 0;
+            for var DocPosition in References do
+            begin
+              Line := GetNthSourceLine(DocPosition.FileName, DocPosition.Line);
+              GI_PyIDEServices.Messages.AddMessage(Line, DocPosition.Filename,
+                DocPosition.Line, DocPosition.Char, Token.Length);
             end;
 
             ShowDockForm(MessagesWindow);

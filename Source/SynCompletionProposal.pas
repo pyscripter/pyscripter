@@ -2239,16 +2239,6 @@ Var
   WorkArea : TRect;
   Monitor: TMonitor;
 
-  function GetWorkAreaWidth: Integer;
-  begin
-    Result := WorkArea.Right;
-  end;
-
-  function GetWorkAreaHeight: Integer;
-  begin
-    Result := WorkArea.Bottom;
-  end;
-
   function GetParamWidth(const S: string): Integer;
   var
     i: Integer;
@@ -2298,7 +2288,7 @@ Var
     end;
 
     tmpX := x;
-    tmpY := Y + 2;
+    tmpY := Y + MulDiv(2, ActivePPI, 96);;
     tmpWidth := 0;
     tmpHeight := 0;
     case Kind of
@@ -2347,14 +2337,17 @@ Var
       end;
     end;
 
-    if tmpX + tmpWidth > GetWorkAreaWidth then
+    tmpWidth := Min(tmpWidth, MulDiv(WorkArea.Width, 3, 4));
+    tmpHeight := Min(tmpHeight, WorkArea.Height div 2);
+
+    if tmpX + tmpWidth > WorkArea.Right then
     begin
-      tmpX := GetWorkAreaWidth - tmpWidth - MulDiv(5, FForm.CurrentPPI, 96);  //small space buffer
+      tmpX := WorkArea.Right - tmpWidth - MulDiv(5, FForm.CurrentPPI, 96);  //small space buffer
       if tmpX < 0 then
         tmpX := 0;
     end;
 
-    if tmpY + tmpHeight > GetWorkAreaHeight then
+    if tmpY + tmpHeight > WorkArea.Bottom then
     begin
       tmpY := tmpY - tmpHeight - (Form.CurrentEditor  as TCustomSynEdit).LineHeight -
         MulDiv(4, FForm.CurrentPPI, 96);
