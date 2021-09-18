@@ -531,8 +531,14 @@
             - Python language support provided by the Jedi language server
             - Copy and paste code as html to Powerpoint and other applications
           Issues addressed
-            #939, #951, #1116
+            #939, #951, #1116, #1123
 }
+// TODO: Check Lsp with remote files
+// TODO: Fix bug reports
+// TODO: Inno Setup - location of Jedi
+// TODO: Remove versions of Python
+// TODO: Test with Delpi 11
+
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
 { TODO: LiveTemplates features for Code Templates }

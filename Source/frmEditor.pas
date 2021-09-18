@@ -1828,7 +1828,7 @@ end;
 
 function TEditorForm.DoSaveFile: boolean;
 var
-  i: Integer;
+  Line, TrimmedLine: string;
 begin
   // Trim all lines just in case (Issue 196)
   if (SynEdit.Lines.Count > 0) and ((eoTrimTrailingSpaces in SynEdit.Options) or
@@ -1836,8 +1836,13 @@ begin
   begin
     SynEdit.BeginUpdate;
     try
-      for i := 0 to SynEdit.Lines.Count - 1 do
-        SynEdit.Lines[i] := TrimRight(SynEdit.Lines[i]);
+      for var I := 0 to SynEdit.Lines.Count - 1 do
+      begin
+        Line := SynEdit.Lines[I];
+        TrimmedLine := TrimRight(Line);
+        if Line <> TrimmedLine then
+          SynEdit.Lines[I] := TrimmedLine;
+      end;
     finally
       SynEdit.EndUpdate;
     end;
