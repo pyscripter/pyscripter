@@ -84,8 +84,6 @@ type
     fII : Variant;  // Python VarPyth wrapper to the interactive interpreter
     fDebugger : Variant;
     fOldargv : Variant;
-  protected
-    procedure CreateMainModule; override;
   public
     constructor Create(II : Variant);
     function CreateDebugger: TPyBaseDebugger; override;
@@ -1022,14 +1020,6 @@ end;
 function TPyInternalInterpreter.CreateDebugger: TPyBaseDebugger;
 begin
   Result := TPyInternalDebugger.Create;
-end;
-
-procedure TPyInternalInterpreter.CreateMainModule;
-var
-  Py: IPyEngineAndGIL;
-begin
-  Py := SafePyEngine;
-  fMainModule := TModuleProxy.CreateFromModule(VarPyth.MainModule, self);
 end;
 
 function TPyInternalInterpreter.EvalCode(const Expr: string): Variant;

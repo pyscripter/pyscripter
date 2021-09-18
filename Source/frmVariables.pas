@@ -38,6 +38,7 @@ uses
   SpTBXControls,
   VirtualTrees.HeaderPopup,
   VirtualTrees,
+  VirtualTrees.Types,
   frmIDEDockWin,
   cPyBaseDebugger;
 

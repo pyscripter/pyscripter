@@ -63,15 +63,21 @@ type
     FEditor: IEditor;
     FCriticalSection: TRTLCriticalSection;
     FSymbols: TJsonArray;
+
     FId: Int64;
+    FRefreshing: Boolean;
     FOnNotify: TNotifyEvent;
     procedure HandleResponse(Id: Int64; Result, Error: TJsonValue);
   public
+    ModuleNode: TObject;  // for storing Code Explorer TModuleNodeCE
     constructor Create(Editor: IEditor);
     destructor Destroy; override;
+    procedure Clear;
     procedure Lock;
     procedure Unlock;
     procedure Refresh;
+    property Editor: IEditor read fEditor;
+    property Symbols: TJsonArray read fSymbols;
     property OnNotify: TNotifyEvent read FOnNotify write FOnNotify;
   end;
 
@@ -558,6 +564,20 @@ end;
 
 { TDocSymbols }
 
+procedure TDocSymbols.Clear;
+begin
+  Lock;
+  try
+    if fid <> 0 then
+      TJedi.LspClient.CancelRequest(fId);
+    FreeAndNil(FSymbols);
+    if Assigned(FOnNotify) then
+      FOnNotify(Self);
+  finally
+    UnLock;
+  end;
+end;
+
 constructor TDocSymbols.Create(Editor: IEditor);
 begin
   inherited Create;
@@ -567,6 +587,7 @@ end;
 
 destructor TDocSymbols.Destroy;
 begin
+  Clear;
   FCriticalSection.Destroy;
   inherited;
 end;
@@ -577,8 +598,13 @@ begin
   begin
     Lock;
     try
-
+      FreeAndNil(FSymbols);
+      if (Result <> nil) and (Result is TJSONArray) then
+        FSymbols := TJsonArray(Result.Clone);
+      if Assigned(FOnNotify) then
+        FOnNotify(Self);
     finally
+      fId := 0;
       UnLock;
     end;
   end;
@@ -591,13 +617,26 @@ end;
 
 procedure TDocSymbols.Refresh;
 begin
-  if not TJedi.Ready then Exit;
+  if not TJedi.Ready or FRefreshing then Exit;
+  FRefreshing := True;
 
-  var Param := TSmartPtr.Make(TJsonObject.Create)();
-  Param.AddPair('textDocument', LspTextDocumentIdentifier(FEditor.GetFileNameOrTitle));
+  var Task := TTask.Create(procedure
+  begin
+    Lock;
+    try
+      if fid <> 0 then
+        TJedi.LspClient.CancelRequest(fId);
+      var Param := TSmartPtr.Make(TJsonObject.Create)();
+      Param.AddPair('textDocument', LspTextDocumentIdentifier(FEditor.GetFileNameOrTitle));
 
-  var Id := TJedi.LspClient.Request('textDocument/documentSymbol', Param.ToJson, HandleResponse);
-  AtomicExchange(FId, Id);
+      var Id := TJedi.LspClient.Request('textDocument/documentSymbol', Param.ToJson, HandleResponse);
+      AtomicExchange(FId, Id);
+    finally
+      FRefreshing := False;
+      UnLock;
+    end;
+  end);
+  Task.Start;
 end;
 
 procedure TDocSymbols.Unlock;

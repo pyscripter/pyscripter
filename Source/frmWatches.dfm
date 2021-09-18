@@ -118,20 +118,24 @@ inherited WatchesWindow: TWatchesWindow
     object mnAddWatch: TSpTBXItem
       Caption = '&Add Watch'
       ImageIndex = 2
+      ImageName = 'Plus'
       OnClick = mnAddWatchClick
     end
     object TBXItem1: TSpTBXItem
       Action = PyIDEMainForm.actAddWatchAtCursor
       ImageIndex = 4
+      ImageName = 'Watch'
     end
     object mnRemoveWatch: TSpTBXItem
       Caption = '&Remove Watch'
       ImageIndex = 3
+      ImageName = 'Minus'
       OnClick = mnRemoveWatchClick
     end
     object mnEditWatch: TSpTBXItem
       Caption = '&Edit Watch'
       ImageIndex = 5
+      ImageName = 'Edit'
       OnClick = mnEditWatchClick
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
@@ -140,6 +144,7 @@ inherited WatchesWindow: TWatchesWindow
       Caption = '&Clear all'
       Hint = 'Clear all watches'
       ImageIndex = 1
+      ImageName = 'Delete'
       OnClick = mnClearAllClick
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem
@@ -148,6 +153,7 @@ inherited WatchesWindow: TWatchesWindow
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy to clipboard'
       ImageIndex = 0
+      ImageName = 'Copy'
       OnClick = mnCopyToClipboardClick
     end
   end

@@ -83,9 +83,8 @@ type
     function GetModified: Boolean;
     function GetFileEncoding : TFileSaveFormat;
     function GetForm : TForm;
+    function GetDocSymbols: TObject;
     function GetEncodedText : AnsiString;
-    function GetSourceScanner : IInterface;
-    function GetCodeExplorerData : IInterface;
     function GetTabControlIndex : integer;
     function GetReadOnly : Boolean;
     function GetRemoteFileName: string;
@@ -112,8 +111,7 @@ type
     property FileEncoding : TFileSaveFormat read GetFileEncoding write SetFileEncoding;
     property EncodedText : AnsiString read GetEncodedText;
     property Form : TForm read GetForm;
-    property SourceScanner : IInterface read GetSourceScanner;  // IAsyncSourceScanner
-    property CodeExplorerData : IInterface read GetCodeExplorerdata; //ICodeExplorerData
+    property DocSymbols: TObject read GetDocSymbols;
     property TabControlIndex : integer read GetTabControlIndex;
     property ReadOnly : Boolean read GetReadOnly write SetReadOnly;
   end;

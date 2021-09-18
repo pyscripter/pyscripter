@@ -82,10 +82,12 @@ type
     procedure StartServer;
     procedure SendToServer(const Bytes: TBytes);
     // Asynchronous request - Handler should not Free Result and Error
+    // Returns unique Id
     function Request(const Method, Params: string; Handler: THandleResponse): Int64;
     // Synchronous request - Free Result and Error!
     procedure SyncRequest(const Method, Params: string;
       out Result, Error: TJsonValue; Timeout: Cardinal = INFINITE);
+    procedure CancelRequest(Id: Int64);
     procedure Notify(const Method, Params: string);
     // LSP protocol
     procedure Initialize(const ClientName, ClientVersion: string;
@@ -162,6 +164,17 @@ type
   end;
 
 { TLspClient }
+
+procedure TLspClient.CancelRequest(Id: INt64);
+begin
+  FRequestsLock.Enter;
+  try
+    if FPendingRequests.ContainsKey(Id) then
+      fPendingRequests.Remove(Id);
+  finally
+    FRequestsLock.Leave;
+  end;
+end;
 
 constructor TLspClient.Create(ServerPath: string);
 begin

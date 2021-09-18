@@ -61,7 +61,6 @@ type
     procedure CreateAndRunServerProcess; virtual;
     procedure ConnectToServer;
     procedure ShutDownServer;  virtual;
-    procedure CreateMainModule; override;
     procedure ProcessServerOutput(const Bytes: TBytes; BytesRead: Cardinal);
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
@@ -1103,14 +1102,6 @@ begin
   end;
 end;
 
-procedure TPyRemoteInterpreter.CreateMainModule;
-var
-  Py: IPyEngineAndGIL;
-begin
-  Py := SafePyEngine;
-  fMainModule := TModuleProxy.CreateFromModule(Conn.modules.__main__, self);
-end;
-
 procedure TPyRemoteInterpreter.ServeConnection(MaxCount : integer);
 Var
   Count : integer;
@@ -1181,7 +1172,6 @@ begin
       // Do not destroy Remote Debugger
       // PyControl.ActiveDebugger := nil;
 
-      FreeAndNil(fMainModule);
       VarClear(fOldArgv);
       VarClear(RPI);
       VarClear(Conn);

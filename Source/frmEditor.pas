@@ -46,9 +46,9 @@ uses
   VirtualResources,
   uCommonFunctions,
   frmCodeExplorer,
+  JediLspClient,
   uEditAppIntfs,
   cPyControl,
-  cPythonSourceScanner,
   cCodeCompletion,
   cPyBaseDebugger,
   cPySupportTypes;
@@ -182,7 +182,6 @@ type
     fAutoCompleteActive: boolean;
     fHotIdentInfo: THotIdentInfo;
     fNeedToCheckSyntax: boolean;
-    fNeedToParseModule: boolean;
     fNeedToSyncCodeExplorer: boolean;
     fSyntaxErrorPos: TEditorPos;
     fCloseBracketChar: WideChar;
@@ -203,6 +202,7 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
     procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
+    procedure SymbolsChanged(Sender: TObject);
     class var fOldEditorForm: TEditorForm;
     class var fHintIdentInfo: THotIdentInfo;
     class procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
@@ -223,7 +223,7 @@ type
     ParentTabItem: TSpTBXTabItem;
     ParentTabControl: TSpTBXCustomTabControl;
     [Align(8)]
-    SourceScanner: IAsyncSourceScanner;
+    DocSymbols: TDocSymbols;
     procedure ClearSearchItems;
     procedure DoActivate;
     procedure DoActivateEditor(Primary: boolean = True);
@@ -235,7 +235,6 @@ type
     procedure PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
       FirstLine, LastLine: Integer);
     procedure DoOnIdle;
-    function ReparseIfNeeded: boolean;
     procedure SyncCodeExplorer;
     procedure AddWatchAtCursor;
     function HasSyntaxError: boolean;
@@ -274,8 +273,7 @@ type
     procedure SplitEditorVertrically;
     procedure Retranslate;
     function GetForm: TForm;
-    function GetSourceScanner: IInterface;
-    function GetCodeExplorerData: IInterface;
+    function GetDocSymbols: TObject;
     function GetTabControlIndex: Integer;
     function GetRemoteFileName: string;
     function GetSSHServer: string;
@@ -324,7 +322,6 @@ type
     fForm: TEditorForm;
     fHasSelection: boolean;
     fUntitledNumber: Integer;
-    fCodeExplorerData: ICodeExplorerData;
     fSynLsp: TLspSynEditPlugin;
     function IsEmpty: boolean;
     constructor Create(AForm: TEditorForm);
@@ -366,8 +363,7 @@ uses
   cCodeHint,
   cPyScripterSettings,
   cSSHSupport,
-  dlgRemoteFile,
-  JediLspClient;
+  dlgRemoteFile;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -533,7 +529,6 @@ begin
   inherited Create;
   fForm := AForm;
   fUntitledNumber := -1;
-  fCodeExplorerData := TCodeExplorerData.Create;
   SetFileEncoding(PyIDEOptions.NewFileEncoding);
   fSynLsp:= TLspSynEditPlugin.Create(fForm.SynEdit);
 end;
@@ -566,8 +561,6 @@ Var
 begin
   if (fForm <> nil) then
   begin
-    CodeExplorerWindow.UpdateWindow(ceuExit);
-
     GI_PyIDEServices.MRUAddEditor(Self);
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
@@ -612,7 +605,13 @@ begin
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
-  fForm.fNeedToParseModule := True;
+  TThread.ForceQueue(nil, procedure
+  begin
+    if not HasPythonFile then
+      fForm.DocSymbols.Clear
+    else
+      fForm.DocSymbols.Refresh;
+  end);
 end;
 
 function TEditor.GetSynEdit: TSynEdit;
@@ -653,9 +652,9 @@ begin
     Result := Point(-1, -1);
 end;
 
-function TEditor.GetCodeExplorerData: IInterface;
+function TEditor.GetDocSymbols: TObject;
 begin
-  Result := fCodeExplorerData;
+  Result := FForm.DocSymbols;
 end;
 
 function TEditor.GetEditorState: string;
@@ -738,12 +737,6 @@ end;
 function TEditor.GetRemoteFileName: string;
 begin
   Result := fRemoteFileName;
-end;
-
-function TEditor.GetSourceScanner: IInterface;
-begin
-  fForm.ReparseIfNeeded;
-  Result := fForm.SourceScanner;
 end;
 
 function TEditor.GetSSHServer: string;
@@ -856,7 +849,6 @@ begin
     fForm.SynEdit.Modified := False;
     fForm.DoUpdateHighlighter(HighlighterName);
     fForm.DoUpdateCaption;
-    fForm.fOldEditorForm := fForm;
     fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
     fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
@@ -894,7 +886,6 @@ begin
   fForm.SynEdit.Modified := False;
   fForm.DoUpdateHighlighter('');
   fForm.DoUpdateCaption;
-  fForm.fOldEditorForm := fForm;
   fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 end;
@@ -1378,6 +1369,10 @@ begin
       Parent := Sheet;
       Align := alClient;
       Visible := True;
+      // DocSymbols
+      DocSymbols := TDocSymbols.Create(fEditor);
+      DocSymbols.OnNotify := SymbolsChanged;
+      CodeExplorerWindow.UpdateWindow(DocSymbols, ceuEditorEnter);
     end;
     if Result <> nil then
       fEditors.Add(Result);
@@ -1553,9 +1548,7 @@ procedure TEditorForm.FormDestroy(Sender: TObject);
 var
   LEditor: IEditor;
 begin
-  if Assigned(SourceScanner) then
-    SourceScanner.StopScanning;
-  SourceScanner := nil;
+  FreeAndNil(DocSymbols);
 
   if Assigned(fSyntaxTask) then
     fSyntaxTask.Cancel;
@@ -1586,9 +1579,8 @@ begin
     PyControl.ErrorPos := TEditorPos.EmptyPos;
   fNeedToCheckSyntax := True;
 
-  if Assigned(SourceScanner) then
-    SourceScanner.StopScanning;
-  fNeedToParseModule := True;
+  if fEditor.HasPythonFile then
+    DocSymbols.Refresh;
 
   if Assigned(fSyntaxTask) then
     fSyntaxTask.Cancel;
@@ -1661,7 +1653,7 @@ begin
   end;
 
   if fOldEditorForm <> Self then
-    CodeExplorerWindow.UpdateWindow(ceuEnter);
+    CodeExplorerWindow.UpdateWindow(DocSymbols, ceuEditorEnter);
   fOldEditorForm := Self;
 
   // Search and Replace Target
@@ -2342,32 +2334,17 @@ begin
   end;
 end;
 
+procedure TEditorForm.SymbolsChanged(Sender: TObject);
+begin
+  CodeExplorerWindow.UpdateWindow(Sender as TDocSymbols, ceuSymbolsChanged);
+end;
+
 procedure TEditorForm.SyncCodeExplorer;
 begin
   if fNeedToSyncCodeExplorer and GetEditor.HasPythonFile then
   begin
     CodeExplorerWindow.ShowEditorCodeElement;
     fNeedToSyncCodeExplorer := False;
-  end;
-end;
-
-function TEditorForm.ReparseIfNeeded: boolean;
-begin
-  Result := False;
-  if fNeedToParseModule then
-  begin
-    if GetEditor.HasPythonFile then
-    begin
-      if Assigned(SourceScanner) then
-        SourceScanner.StopScanning;
-      SourceScanner := AsynchSourceScannerFactory.CreateAsynchSourceScanner
-        (fEditor.GetFileNameOrTitle, SynEdit.Text);
-      Result := True;
-    end
-    else
-      SourceScanner := nil;
-    fNeedToParseModule := False;
-    CodeExplorerWindow.UpdateWindow(ceuChange);
   end;
 end;
 
@@ -3186,8 +3163,7 @@ end;
 
 procedure TEditorForm.DoOnIdle;
 begin
-  if not ReparseIfNeeded then
-    SyncCodeExplorer;
+  SyncCodeExplorer;
 
   if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
     fNeedToCheckSyntax and PyIDEOptions.CheckSyntaxAsYouType and

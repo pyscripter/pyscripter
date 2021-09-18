@@ -172,7 +172,6 @@ uses
   cPyDebugger,
   cPyRemoteDebugger,
   cProjectClasses,
-  cRefactoring,
   cSSHSupport,
   cPySSHDebugger;
 
@@ -743,11 +742,7 @@ Var
   II : Variant;   // wrapping sys and code modules
 begin
   if InternalPython.Loaded then
-  begin
     GI_PyIDEServices.ClearPythonWindows;
-    PyScripterRefactor.Cancel;
-    PyScripterRefactor.ClearProxyModules;
-  end;
 
   // Destroy Active debugger and interpreter
   PyControl.ActiveDebugger := nil;

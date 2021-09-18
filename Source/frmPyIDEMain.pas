@@ -1776,9 +1776,6 @@ begin
   CanClose := CanClose and ProjectExplorerWindow.CanClose;
 
   if CanClose then begin
-    // Shut down CodeExplorerWindow Worker thread
-    CodeExplorerWindow.ShutDownWorkerThread;
-
     // Disconnect ChangeNotify
     FileExplorerWindow.FileExplorerTree.Active := False;
     ConfigureFileExplorer(fcnDisabled, False);
@@ -2974,8 +2971,6 @@ begin
     if Assigned(GetActiveEditor()) then
       GetActiveEditor.Activate;
     UpdateCaption;
-    // Start the Python Code scanning thread
-    CodeExplorerWindow.WorkerThread.Start;
   end;
 end;
 
