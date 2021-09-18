@@ -195,6 +195,9 @@ begin
   if Selected then begin
     edName.Text := Item.Caption;
     SynValue.Text := Item.SubItems[0];
+  end else begin
+    edName.Text := '';
+    SynValue.Text := '';
   end;
 end;
 

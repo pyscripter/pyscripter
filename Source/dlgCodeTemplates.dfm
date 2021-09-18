@@ -180,6 +180,7 @@ inherited CodeTemplates: TCodeTemplates
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.Width = 0
+        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         TabWidth = 4
       end
       object edDescription: TEdit
@@ -270,36 +271,36 @@ inherited CodeTemplates: TCodeTemplates
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 87
         CollectionName = 'Refresh'
         Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 47
+        CollectionIndex = 127
         CollectionName = 'Up'
         Disabled = False
         Name = 'Up'
       end
       item
-        CollectionIndex = 48
+        CollectionIndex = 22
         CollectionName = 'Down'
         Disabled = False
         Name = 'Down'
       end
       item
-        CollectionIndex = 49
+        CollectionIndex = 67
         CollectionName = 'Plus'
         Disabled = False
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 320
     Top = 27

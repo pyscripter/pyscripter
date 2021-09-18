@@ -75,10 +75,13 @@ type
     procedure btnHelpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure CBHighlightersChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
   private
+    FOldIndex: Integer;
     procedure StoreFieldsToFileTemplate(FileTemplate: TFileTemplate);
+    procedure AskToUpdate(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -103,6 +106,7 @@ var
   i : integer;
 begin
   inherited;
+  FOldIndex := -1;
   TempFileTemplates := TFileTemplates.Create;
   for i := 0 to CommandsDataModule.Highlighters.Count - 1 do
     cbHighlighters.Items.AddObject(CommandsDataModule.Highlighters[i],
@@ -123,6 +127,15 @@ end;
 procedure TFileTemplatesDialog.GetItems;
 begin
   FileTemplates.Assign(TempFileTemplates);
+end;
+
+procedure TFileTemplatesDialog.AskToUpdate(Sender: TObject);
+begin
+  if (edName.Text <> '') and SynTemplate.Modified then
+  begin
+    if (StyledMessageDlg(_(SCodeTemplateModified), mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+      actUpdateItemExecute(Sender);
+  end;
 end;
 
 procedure TFileTemplatesDialog.StoreFieldsToFileTemplate(FileTemplate: TFileTemplate);
@@ -211,19 +224,20 @@ procedure TFileTemplatesDialog.actUpdateItemExecute(Sender: TObject);
 Var
   i : integer;
 begin
-  if (edName.Text <> '') and (lvItems.ItemIndex >= 0) then begin
+  if (edName.Text <> '') and (FOldIndex >= 0) then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
          (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) and
-         (i <> lvItems.ItemIndex) then
+         (i <> FOldIndex) then
       begin
         StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    with lvItems.Items[lvItems.ItemIndex] do begin
+    with lvItems.Items[FOldIndex] do begin
       StoreFieldsToFileTemplate(TFileTemplate(Data));
       Caption := edName.Text;
       SubItems[0] := edCategory.Text;
+      SynTemplate.Modified := False;
     end;
   end;
 end;
@@ -247,7 +261,8 @@ procedure TFileTemplatesDialog.lvItemsSelectItem(Sender: TObject;
 var
   FileTemplate : TFileTemplate;
 begin
-  if Item.Selected then begin
+  if Selected then begin
+    FOldIndex := Item.Index;
     FileTemplate := TFileTemplate(Item.Data);
     edName.Text := FileTemplate.Name;
     edCategory.Text := FileTemplate.Category;
@@ -256,12 +271,15 @@ begin
     SynTemplate.Text := FileTemplate.Template;
     CBHighlightersChange(Self);
   end else begin
+    AskToUpdate(Sender);
+    FOldIndex := -1;
     edName.Text := '';
     edCategory.Text := '';
     edExtension.Text := '';
     CBHighlighters.ItemIndex := -1;
     SynTemplate.Text := '';
   end;
+  SynTemplate.Modified := False;
 end;
 
 procedure TFileTemplatesDialog.actMoveUpExecute(Sender: TObject);
@@ -308,6 +326,14 @@ begin
     end;
     TempFileTemplates.Move(Index, Index + 1);
   end;
+end;
+
+procedure TFileTemplatesDialog.FormClose(Sender: TObject; var Action:
+    TCloseAction);
+begin
+  if (ModalResult = mrOk) then
+    AskToUpdate(Sender);
+  GetItems;
 end;
 
 end.

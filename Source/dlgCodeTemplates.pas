@@ -75,6 +75,8 @@ type
       Selected: Boolean);
   private
     { Private declarations }
+    FOldIndex: Integer;
+    procedure AskToUpdate(Sender: TObject);
   public
     { Public declarations }
     CodeTemplateText : string;
@@ -131,6 +133,15 @@ begin
     for j := 0 to TStringList(lvItems.Items[i].Data).Count - 1 do
       CodeTemplateText := CodeTemplateText + '=' +
         TStringList(lvItems.Items[i].Data)[j] + sLineBreak;
+  end;
+end;
+
+procedure TCodeTemplates.AskToUpdate(Sender: TObject);
+begin
+  if (edShortcut.Text <> '') and SynTemplate.Modified then
+  begin
+    if (StyledMessageDlg(_(SCodeTemplateModified), mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+      actUpdateItemExecute(Sender);
   end;
 end;
 
@@ -221,15 +232,15 @@ procedure TCodeTemplates.actUpdateItemExecute(Sender: TObject);
 Var
   i : integer;
 begin
-  if (edShortCut.Text <> '') and (lvItems.ItemIndex >= 0) then begin
+  if (edShortCut.Text <> '') and (FOldIndex >= 0) then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0) and
-         (i <> lvItems.ItemIndex) then
+         (i <> FOldIndex) then
       begin
         StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    with lvItems.Items[lvItems.ItemIndex] do begin
+    with lvItems.Items[FOldIndex] do begin
       Caption := edShortCut.Text;
       SubItems[0] := edDescription.Text;
       TStringList(Data).Assign(SynTemplate.Lines);
@@ -302,22 +313,24 @@ procedure TCodeTemplates.lvItemsSelectItem(Sender: TObject; Item: TListItem;
   Selected: Boolean);
 begin
   if Selected then begin
+    FOldIndex := Item.Index;
     edShortCut.Text := Item.Caption;
     edDescription.Text := Item.SubItems[0];
     SynTemplate.Lines.Assign(TStringList(Item.Data));
-    SynTemplate.Modified := False;
+  end else begin
+    AskToUpdate(Sender);
+    FOldIndex := -1;
+    edShortCut.Text := '';
+    edDescription.Text := '';
+    SynTemplate.Text := '';
   end;
+  SynTemplate.Modified := False;
 end;
 
 procedure TCodeTemplates.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if (edShortcut.Text <> '') and SynTemplate.Modified then
-  begin
-    if (StyledMessageDlg(_(SCodeTemplateModified),
-      mtConfirmation, [mbYes, mbNo], 0) = mrYes)
-    then
-      actUpdateItemExecute(Sender);
-  end;
+  if (ModalResult = mrOk) then
+    AskToUpdate(Sender);
   GetItems;
 end;
 
