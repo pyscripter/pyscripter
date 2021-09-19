@@ -579,7 +579,7 @@ object PyIDEMainForm: TPyIDEMainForm
         object TBXSeparatorItem18: TSpTBXSeparatorItem
         end
         object TBXSubmenuItem4: TSpTBXSubmenuItem
-          Caption = '&IDE Windows'
+          Caption = 'IDE &Windows'
           object mnViewII: TSpTBXItem
             Action = actViewII
           end
@@ -627,7 +627,7 @@ object PyIDEMainForm: TPyIDEMainForm
           end
         end
         object TBXSubmenuItem6: TSpTBXSubmenuItem
-          Caption = '&Navigate'
+          Caption = 'Navi&gate'
           object mnNavEditor: TSpTBXItem
             Action = actNavEditor
           end
@@ -1541,7 +1541,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actImportModule: TAction
       Category = 'Run'
-      Caption = '&Import Module'
+      Caption = 'Import &Module'
       HelpContext = 340
       HelpType = htContext
       Hint = 'Import module'
@@ -1596,7 +1596,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actViewStatusBar: TAction
       Category = 'View'
-      Caption = '&Status Bar'
+      Caption = 'Status &Bar'
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide status bar'
@@ -1615,7 +1615,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actExternalRunConfigure: TAction
       Category = 'Run'
-      Caption = '&Configure External Run...'
+      Caption = 'Configure &External Run...'
       HelpContext = 340
       HelpType = htContext
       Hint = 'Configure External Run'
@@ -1753,7 +1753,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actClearAllBreakpoints: TAction
       Category = 'Run'
-      Caption = '&Clear All Breakpoints'
+      Caption = 'Clear A&ll Breakpoints'
       HelpContext = 340
       HelpType = htContext
       Hint = 'Clear all breakpoints'
@@ -1839,7 +1839,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actViewFindResults: TAction
       Category = 'View'
-      Caption = '&Find in Files Results'
+      Caption = 'Find &in Files Results'
       HelpContext = 360
       HelpType = htContext
       Hint = 'View/Hide Find in Files Results'
@@ -1878,7 +1878,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actFindReferences: TAction
       Category = 'Refactoring'
-      Caption = 'Find &References'
+      Caption = 'Find R&eferences'
       HelpContext = 840
       HelpType = htContext
       Hint = 'Find references of an Identifier'

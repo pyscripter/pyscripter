@@ -2087,7 +2087,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actFileSaveAs: TAction
       Category = 'File'
-      Caption = 'Save &As...'
+      Caption = 'Sav&e As...'
       Enabled = False
       HelpContext = 310
       Hint = 'Save As|Save active file under different name'
@@ -2417,7 +2417,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actFindInFiles: TAction
       Category = 'Search'
-      Caption = '&Find in Files...'
+      Caption = 'Find &in Files...'
       HelpContext = 330
       Hint = 'Search in Files|Search for a string in Files'
       ImageIndex = 59
@@ -2596,7 +2596,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actUnitTestWizard: TAction
       Category = 'Tools'
-      Caption = '&Unit Test Wizard...'
+      Caption = 'Unit Test &Wizard...'
       HelpContext = 930
       Hint = 'Unit test wizard|Create unit test for active module'
       ImageIndex = 68
@@ -2663,7 +2663,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actFileReload: TAction
       Category = 'File'
-      Caption = '&Reload'
+      Caption = 'Re&load'
       Enabled = False
       HelpContext = 310
       Hint = 'Reload|Reload active file'
@@ -2777,7 +2777,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actToolsEditStartupScripts: TAction
       Category = 'Tools'
-      Caption = 'Edit Start&up Scripts'
+      Caption = 'Edit &Startup Scripts'
       HelpContext = 350
       HelpType = htContext
       Hint = 'Edit PyScripter initialization files'

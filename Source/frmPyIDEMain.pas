@@ -531,7 +531,7 @@
             - Python language support provided by the Jedi language server
             - Copy and paste code as html to Powerpoint and other applications
           Issues addressed
-            #939, #951, #1116, #1118, #1123, #1125
+            #939, #951, #1116, #1118, #1119, #1123, #1125
 }
 // Reinitialize Language Server command
 // TODO: Check Lsp with remote files
