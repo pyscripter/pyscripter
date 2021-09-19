@@ -402,7 +402,7 @@ initialization
     Caption := _('Check &Indentation');
     Description := _('Check the indentation of the Python program');
     ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[PythonDir-Short]Lib\tabnanny.py $[ActiveDoc-Short]';
+    Parameters := '-m tabnanny "$[ActiveDoc]"';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     ShortCut := Vcl.Menus.Shortcut(Ord('T'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
@@ -431,7 +431,7 @@ initialization
     Caption := _('Profile');
     Description := _('Profile active file');
     ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[PythonDir-Short]Lib\profile.py $[ActiveDoc-Short] $[CmdLineArgs]';
+    Parameters := '-m profile "$[ActiveDoc]" $[CmdLineArgs]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     Context := tcActivePythonFile;
     SaveFiles := sfActive;
@@ -445,7 +445,7 @@ initialization
     Caption := 'Py&lint';
     Description := _('PyLint tool (www.pylint.org)');
     ApplicationName :=  '$[PythonDir-Short]Scripts\pylint.exe';
-    Parameters := '-f parseable $[ActiveDoc-Short]';
+    Parameters := '-f parseable "$[ActiveDoc]"';
     ShortCut := Vcl.Menus.Shortcut(Ord('L'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
     SaveFiles := sfAll;
