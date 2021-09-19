@@ -1,4 +1,4 @@
-PyScripter translation is handled via transifex.com. You find our translation project at https://www.transifex.com/luebbe/pyscripter/
+PyScripter translation is handled via transifex.com. You find our translation project at https://www.transifex.com/pyscripter/pyscripter/
 If you want to help with a translation, please register at transifex.com and request to join one of our existing language teams.
 You can then either translate via the transifex web interface or you can download the translation file locally and work on it with a tool like:
 * [Virtaal](http://virtaal.translatehouse.org/download.html) or
