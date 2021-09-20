@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-09-20 17:11\n"
+"POT-Creation-Date: 2021-09-21 00:58\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -2399,12 +2399,6 @@ msgstr ""
 msgid "Cut|Cuts the selection and puts it on the Clipboard"
 msgstr ""
 
-#. CommandsDataModule..actlMain..actEditCut..ImageName
-#. Programmer's name for it: SEdCmdCut
-#: dmCommands.dfm StringResources.pas
-msgid "Cut"
-msgstr ""
-
 #. CommandsDataModule..actlMain..actEditCopy..Caption
 #. FindResultsWindow..Actions..actFileCopy..Caption
 #: dmCommands.dfm frmFindResults.dfm
@@ -2414,12 +2408,6 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditCopy..Hint
 #: dmCommands.dfm
 msgid "Copy|Copies the selection and puts it on the Clipboard"
-msgstr ""
-
-#. CommandsDataModule..actlMain..actEditCopy..ImageName
-#. Programmer's name for it: SEdCmdCopy
-#: dmCommands.dfm StringResources.pas
-msgid "Copy"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
@@ -2432,12 +2420,6 @@ msgstr ""
 msgid "Paste|Inserts Clipboard contents"
 msgstr ""
 
-#. CommandsDataModule..actlMain..actEditPaste..ImageName
-#. Programmer's name for it: SEdCmdPaste
-#: dmCommands.dfm StringResources.pas
-msgid "Paste"
-msgstr ""
-
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #: dmCommands.dfm
 msgid "De&lete"
@@ -2448,11 +2430,6 @@ msgstr ""
 msgid "Delete|Delete selection"
 msgstr ""
 
-#. CommandsDataModule..actlMain..actEditDelete..ImageName
-#: dmCommands.dfm
-msgid "Delete"
-msgstr ""
-
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #: dmCommands.dfm
 msgid "&Undo"
@@ -2461,12 +2438,6 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditUndo..Hint
 #: dmCommands.dfm
 msgid "Undo|Reverts the last action"
-msgstr ""
-
-#. CommandsDataModule..actlMain..actEditUndo..ImageName
-#. Programmer's name for it: SEdCmdUndo
-#: dmCommands.dfm StringResources.pas
-msgid "Undo"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actEditRedo..Caption
@@ -4348,12 +4319,6 @@ msgstr ""
 msgid "Select File"
 msgstr ""
 
-#. PyIDEMainForm..BGPanel..TabControl1..tbiTabFiles..ImageName
-#. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..ImageName
-#: frmPyIDEMain.dfm
-msgid "Tabs"
-msgstr ""
-
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollLeft..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
@@ -4502,10 +4467,8 @@ msgid "Language"
 msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..ImageName
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Hint
-#. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..ImageName
 #: frmPyIDEMain.dfm
 msgid "Layouts"
 msgstr ""
@@ -4556,12 +4519,6 @@ msgstr ""
 msgid "&Recent Projects"
 msgstr ""
 
-#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..ImageName
-#. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiSelectPythonVersion..ImageName
-#: frmPyIDEMain.dfm
-msgid "Python"
-msgstr ""
-
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Tools"
@@ -4573,7 +4530,6 @@ msgid "Source Code Views"
 msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..ImageName
 #: frmPyIDEMain.dfm
 msgid "Tools"
 msgstr ""
@@ -4631,11 +4587,6 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiReplaceLabel..Caption
 #: frmPyIDEMain.dfm
 msgid "Replace with:"
-msgstr ""
-
-#. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..ImageName
-#: frmPyIDEMain.dfm
-msgid "Setup"
 msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchFromCaret..Caption
@@ -6698,6 +6649,11 @@ msgstr ""
 msgid "Context Help"
 msgstr ""
 
+#. Programmer's name for it: SEdCmdCopy
+#: StringResources.pas
+msgid "Copy"
+msgstr ""
+
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
@@ -6706,6 +6662,11 @@ msgstr ""
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
 msgid "Copy Line Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCut
+#: StringResources.pas
+msgid "Cut"
 msgstr ""
 
 #. Programmer's name for it: SEdCmdDeleteBOL
@@ -6923,6 +6884,11 @@ msgstr ""
 msgid "Page Up"
 msgstr ""
 
+#. Programmer's name for it: SEdCmdPaste
+#: StringResources.pas
+msgid "Paste"
+msgstr ""
+
 #. Programmer's name for it: SEdCmdRedo
 #: StringResources.pas
 msgid "Redo"
@@ -7106,6 +7072,11 @@ msgstr ""
 #. Programmer's name for it: SEdCmdToggleInsertMode
 #: StringResources.pas
 msgid "Toggle Mode"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUndo
+#: StringResources.pas
+msgid "Undo"
 msgstr ""
 
 #. Programmer's name for it: SEdCmdUnfoldAll
