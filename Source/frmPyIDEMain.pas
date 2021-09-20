@@ -4326,7 +4326,7 @@ begin
                 mtInformation, [mbOK], 0);
             Exit;
           end;
-        Ord(tkIdentifier), Ord(tkSystemDefined):
+        Ord(tkIdentifier), Ord(tkSystemDefined), Ord(tkNonKeyword):
           begin
             TempCursor := WaitCursor;
 

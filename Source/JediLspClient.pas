@@ -449,13 +449,7 @@ var
   DefFileName: string;
   DefBC: TBufferCoord;
   ModuleName,
-  FunctionName,
-  ParentName,
-  Line,
-  DefinedIn,
-  Fmt: string;
-  IsVariable,
-  IsClass: Boolean;
+  DefinedIn: string;
 begin
   Result := '';
   if not Ready or (FileName = '') then Exit;
@@ -466,70 +460,24 @@ begin
 
   if Assigned(AResult) then
   begin
-    IsVariable := AResult.Null;  // No Code hint is produced for variables
-    if not IsVariable then
+    if not AResult.Null then
     begin
       AResult.TryGetValue<string>('contents.value', Result);
       Result := GetLineRange(Result, 1, 20, True);
     end;
 
     FindDefinitionByCoordinates(FileName, BC, DefFileName, DefBC);
-    if (DefFileName <> '') then begin
-      ModuleName := TPath.GetFileNameWithoutExtension(DefFileName);
-      Line := GetNthSourceLine(DefFileName, DefBC.Line);
-      FunctionName := '';
-      IsClass := False;
-      if Line <> '' then
-      begin
-        var Match := TRegEx.Match(Line, '\s*def\s+(\w+)');
-        if Match.Success then
-          FunctionName := Match.Groups[1].Value;
-        IsClass := TRegEx.Match(Line, '\s*class\s+' + Ident).Success;
-      end;
-
-      if (DefBC.Line = 1) and (DefBC.Char = 1) then
-      begin
-        // we have a module
-        Result := Format(_(SModuleImportCodeHint), [ModuleName]) +
-          '<br><br>' + Result;
-      end
-      else if IsVariable then
-      begin
-        // variable
-        DefinedIn := Format(_(SFilePosInfoCodeHint),
-          [DefFileName, DefBC.Line, DefBC.Char,
-           ModuleName, DefBC.Line]);
-
-        if not SameFileName(DefFileName, FileName) then
-        begin
-          Fmt := _(SImportedVariableCodeHint);
-          ParentName := ModuleName;
-        end
-        else if DefBC.Char = 1 then
-        begin
-          Fmt := _(SGlobalVariableCodeHint);
-          ParentName := ModuleName;
-        end
-        else if FunctionName <> '' then
-        begin
-          Fmt := _(SFunctionParameterCodeHint);
-          ParentName := FunctionName;
-        end
-        else
-        begin
-          Fmt := _(SVariableCodeHint);
-          ParentName := '';
-        end;
-        Result := Format(Fmt, [Ident, ParentName, DefinedIn]);
-      end
+    if (DefFileName <> '') and FileExists(DefFileName) then begin
+      if  FileIsPythonPackage(DefFileName)
+      then
+        ModuleName := FileNameToModuleName(DefFileName)
       else
-      begin
-        // class of function
-        if FunctionName <> '' then
-          Result := '<b>function</b> ' + Result
-        else if IsClass then
-          Result := '<b>class</b> ' + Result;
-      end;
+        ModuleName := ExtractFileName(DefFileName);
+      ModuleName := TPath.GetFileNameWithoutExtension(ModuleName);
+      DefinedIn := Format(_(SFilePosInfoCodeHint),
+        [DefFileName, DefBC.Line, DefBC.Char,
+         ModuleName, DefBC.Line]);
+      Result := Result + SLineBreak + DefinedIn;
     end;
   end;
 
