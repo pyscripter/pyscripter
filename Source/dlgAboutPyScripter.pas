@@ -60,13 +60,7 @@ uses
   Winapi.ShellAPI, Winapi.RichEdit, uCommonFunctions, JvJCLUtils, JvGnugettext;
 
 {$R *.dfm}
-
-resourcestring
-  SAboutBoxCreditsIntro =
-    'Special thanks to the many great developers who,'+
-    'with their amazing work, have made PyScripter '+
-    'possible. PyScripter makes use of the following '+
-    'components and projects:';
+const
   SAboutBoxCredits =
     'Python for Delphi (www.github.com/pyscripter/python4delphi)'+ SLineBreak +
     'Rpyc (www.github.com/tomerfiliba/rpyc)'+ SLineBreak +
@@ -79,8 +73,16 @@ resourcestring
     'Syn Web highlighters (www.github.com/KrystianBigaj/synweb)' + SLineBreak +
     'Toolbar2000 (www.jrsoftware.org/tb2k.php)'+ SLineBreak +
     'SpTBXLib (www.silverpointdevelopment.com)' + SLineBreak +
-    'SVGIconImageList(https://github.com/EtheaDev/SVGIconImageList)' + SLineBreak +
-    'TCommandLineReader(www.benibela.de)';
+    'SVGIconImageList (https://github.com/EtheaDev/SVGIconImageList)' + SLineBreak +
+    'zControls/Detours library (https://github.com/MahdiSafsafi)' + SLineBreak +
+    'TCommandLineReader (www.benibela.de)';
+
+resourcestring
+  SAboutBoxCreditsIntro =
+    'Special thanks to the many great developers who,'+
+    'with their amazing work, have made PyScripter '+
+    'possible. PyScripter makes use of the following '+
+    'components and projects:';
 
   SAboutBoxCreditsTranslationArabic  = 'Arabic: %s';
   SAboutBoxCreditsTranslationChinese = 'Chinese: %s';

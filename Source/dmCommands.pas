@@ -28,6 +28,7 @@ uses
   Vcl.ImgList,
   Vcl.BaseImageCollection,
   SVGIconImageCollection,
+  SVGIconImage,
   SynEdit,
   SynEditPrint,
   SynUnicode,
@@ -3180,6 +3181,7 @@ initialization
   // gettext stuff
   // Classes that should not be translated
   TP_GlobalIgnoreClass(TCustomImageCollection);
+  TP_GlobalIgnoreClass(TSVGIconImage);
   TP_GlobalIgnoreClass(TJvMultiStringHolder);
   TP_GlobalIgnoreClass(TSynEdit);
   TP_GlobalIgnoreClass(TSynCompletionProposal);
@@ -3192,12 +3194,12 @@ initialization
   TP_GlobalIgnoreClass(TJvCustomAppStorage);
   TP_GlobalIgnoreClass(TPythonModule);
   // VCL stuff
+  TP_GlobalIgnoreClass(TFont);
   TP_GlobalIgnoreClassProperty(TCustomAction,'Category');
   TP_GlobalIgnoreClassProperty(TCustomAction,'HelpKeyword');
   TP_GlobalIgnoreClassProperty(TObject,'ImageName');
   TP_GlobalIgnoreClassProperty(TControl,'HelpKeyword');
   TP_GlobalIgnoreClassProperty(TControl,'StyleName');
-  TP_GlobalIgnoreClass(TFont);
 
   //JCL Debug
   AddIgnoredException(EClipboardException);

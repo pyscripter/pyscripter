@@ -533,8 +533,6 @@
           Issues addressed
             #939, #951, #1116, #1118, #1119, #1123, #1125
 }
-// Restart Language Server command
-// Regenerate default.po
 // TODO: Check Lsp with remote files
 // TODO: Fix bug reports
 // TODO: Inno Setup - location of Jedi
