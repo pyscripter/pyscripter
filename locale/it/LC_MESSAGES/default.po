@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-09-20 17:11\n"
+"POT-Creation-Date: 2021-09-21 00:58\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -2458,12 +2458,6 @@ msgstr "&Taglia"
 msgid "Cut|Cuts the selection and puts it on the Clipboard"
 msgstr "Taglia|Taglia la selezione e mettila negli Appunti"
 
-#. CommandsDataModule..actlMain..actEditCut..ImageName
-#. Programmer's name for it: SEdCmdCut
-#: dmCommands.dfm StringResources.pas
-msgid "Cut"
-msgstr "Taglia"
-
 #. CommandsDataModule..actlMain..actEditCopy..Caption
 #. FindResultsWindow..Actions..actFileCopy..Caption
 #: dmCommands.dfm frmFindResults.dfm
@@ -2475,12 +2469,6 @@ msgstr "&Copia"
 msgid "Copy|Copies the selection and puts it on the Clipboard"
 msgstr "Copia|Copia la selezione e incollala negli Appunti"
 
-#. CommandsDataModule..actlMain..actEditCopy..ImageName
-#. Programmer's name for it: SEdCmdCopy
-#: dmCommands.dfm StringResources.pas
-msgid "Copy"
-msgstr "Copia"
-
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
 msgid "&Paste"
@@ -2490,12 +2478,6 @@ msgstr "&Incolla"
 #: dmCommands.dfm
 msgid "Paste|Inserts Clipboard contents"
 msgstr "Incolla|Incolla il contenuto degli Appunti"
-
-#. CommandsDataModule..actlMain..actEditPaste..ImageName
-#. Programmer's name for it: SEdCmdPaste
-#: dmCommands.dfm StringResources.pas
-msgid "Paste"
-msgstr "Incolla"
 
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #: dmCommands.dfm
@@ -2507,11 +2489,6 @@ msgstr "E&limina"
 msgid "Delete|Delete selection"
 msgstr "Elimina|Elimina la selezione"
 
-#. CommandsDataModule..actlMain..actEditDelete..ImageName
-#: dmCommands.dfm
-msgid "Delete"
-msgstr "Elimina"
-
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #: dmCommands.dfm
 msgid "&Undo"
@@ -2521,12 +2498,6 @@ msgstr "&Annulla"
 #: dmCommands.dfm
 msgid "Undo|Reverts the last action"
 msgstr "Annulla|Ripristino dall'ultima azione"
-
-#. CommandsDataModule..actlMain..actEditUndo..ImageName
-#. Programmer's name for it: SEdCmdUndo
-#: dmCommands.dfm StringResources.pas
-msgid "Undo"
-msgstr "Annulla operazione"
 
 #. CommandsDataModule..actlMain..actEditRedo..Caption
 #: dmCommands.dfm
@@ -4409,12 +4380,6 @@ msgstr "Esecuzione dello strumento esterno in corso"
 msgid "Select File"
 msgstr "Seleziona file"
 
-#. PyIDEMainForm..BGPanel..TabControl1..tbiTabFiles..ImageName
-#. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..ImageName
-#: frmPyIDEMain.dfm
-msgid "Tabs"
-msgstr "Schede"
-
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollLeft..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
@@ -4565,10 +4530,8 @@ msgid "Language"
 msgstr "Lingua (Language)"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..ImageName
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Hint
-#. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..ImageName
 #: frmPyIDEMain.dfm
 msgid "Layouts"
 msgstr "Layout"
@@ -4619,12 +4582,6 @@ msgstr "&Progetto"
 msgid "&Recent Projects"
 msgstr "Progetti &recenti"
 
-#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..ImageName
-#. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiSelectPythonVersion..ImageName
-#: frmPyIDEMain.dfm
-msgid "Python"
-msgstr "Python"
-
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Tools"
@@ -4636,7 +4593,6 @@ msgid "Source Code Views"
 msgstr "Viste codice sorgente"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..ImageName
 #: frmPyIDEMain.dfm
 msgid "Tools"
 msgstr "Strumenti"
@@ -4695,11 +4651,6 @@ msgstr "Trova:"
 #: frmPyIDEMain.dfm
 msgid "Replace with:"
 msgstr "Sostituisci con:"
-
-#. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..ImageName
-#: frmPyIDEMain.dfm
-msgid "Setup"
-msgstr "Impostazione"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchFromCaret..Caption
 #: frmPyIDEMain.dfm
@@ -6779,6 +6730,11 @@ msgstr "Blocco commento"
 msgid "Context Help"
 msgstr "Guida contestuale"
 
+#. Programmer's name for it: SEdCmdCopy
+#: StringResources.pas
+msgid "Copy"
+msgstr "Copia"
+
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
@@ -6788,6 +6744,11 @@ msgstr "Copia linea in basso"
 #: StringResources.pas
 msgid "Copy Line Up"
 msgstr "Copia linea in alto"
+
+#. Programmer's name for it: SEdCmdCut
+#: StringResources.pas
+msgid "Cut"
+msgstr "Taglia"
 
 #. Programmer's name for it: SEdCmdDeleteBOL
 #: StringResources.pas
@@ -7004,6 +6965,11 @@ msgstr "Inizio pagina"
 msgid "Page Up"
 msgstr "Pagina su"
 
+#. Programmer's name for it: SEdCmdPaste
+#: StringResources.pas
+msgid "Paste"
+msgstr "Incolla"
+
 #. Programmer's name for it: SEdCmdRedo
 #: StringResources.pas
 msgid "Redo"
@@ -7188,6 +7154,11 @@ msgstr "Maiuscololo/Minuscolo"
 #: StringResources.pas
 msgid "Toggle Mode"
 msgstr "Cambia modo"
+
+#. Programmer's name for it: SEdCmdUndo
+#: StringResources.pas
+msgid "Undo"
+msgstr "Annulla operazione"
 
 #. Programmer's name for it: SEdCmdUnfoldAll
 #: StringResources.pas
