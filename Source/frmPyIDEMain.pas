@@ -1475,6 +1475,7 @@ Var
   TabCtrl : TSpTBXTabControl;
 begin
   Result := nil;
+  tbiRecentFileList.MRURemove(AFileName);
   IsRemote :=  TSSHFileName.Parse(AFileName, Server, FName);
 
   // activate the editor if already open
@@ -1493,6 +1494,10 @@ begin
     if Assigned(Result) then begin
       Result.Activate;
       Exit;
+    end
+    else if not FileExists(AFileName) then begin
+      WriteStatusMsg(_(Format('File %s does not exist', [AFileName])));
+      Exit;
     end;
   end;
   // create a new editor, add it to the editor list, open the file
@@ -1506,7 +1511,6 @@ begin
           Result.OpenRemoteFile(FName, Server)
         else
           Result.OpenFile(AFileName, HighlighterName);
-        tbiRecentFileList.MRURemove(AFileName);
         Result.Activate;
       except
         Result.Close;
