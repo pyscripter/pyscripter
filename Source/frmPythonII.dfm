@@ -113,6 +113,7 @@ inherited PythonIIForm: TPythonIIForm
       Tag = 1
       Caption = 'Python Versions'
       ImageIndex = 5
+      ImageName = 'Python'
       LinkSubitems = PyIDEMainForm.mnPythonVersions
     end
     object TBXPythonEngines: TSpTBXSubmenuItem

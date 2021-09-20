@@ -205,6 +205,9 @@ function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
 (* Extracts a token and returns the remainder of a string *)
 function StrToken(var S: string; Separator: Char): string;
 
+(* Strips a given character from a string *)
+function StrStripChar(const S: string; const AChar: Char): string;
+
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 
@@ -1703,15 +1706,27 @@ begin
   end;
 end;
 
-//function WideStrReplaceChars(const S: WideString; const Chars: TSysCharSet; Replace: WideChar): WideString;
-//var
-//  I: Integer;
-//begin
-//  Result := S;
-//  for I := 1 to Length(S) do
-//    if CharInSet(Result[I], Chars) then
-//      Result[I] := Replace;
-//end;
+function StrStripChar(const S: string; const AChar: Char): string;
+var
+  Source, Dest: PChar;
+  Len, Index:   NativeInt;
+begin
+  Len := Length(S);
+  SetLength(Result, Len);
+  UniqueString(Result);
+  Source := PChar(S);
+  Dest := PChar(Result);
+  for Index := 0 to Len - 1 do
+  begin
+    if Source^ <> AChar then
+    begin
+      Dest^ := Source^;
+      Inc(Dest);
+    end;
+    Inc(Source);
+  end;
+  SetLength(Result, Dest - PChar(Result));
+end;
 
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 var

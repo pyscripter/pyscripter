@@ -467,7 +467,10 @@ begin
   SynEdit.BeginUpdate;
   try
     SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-    SynEdit.SelText := S;
+    if Pos(#0, S) > 0 then
+      SynEdit.SelText := StrStripChar(S, #0)
+    else
+      SynEdit.SelText := S;
     SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
     SynEdit.EnsureCursorPosVisible;
   finally
