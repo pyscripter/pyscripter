@@ -933,6 +933,9 @@ object PyIDEMainForm: TPyIDEMainForm
         object SpTBXItem2: TSpTBXItem
           Action = CommandsDataModule.actToolsEditStartupScripts
         end
+        object SpTBXItem15: TSpTBXItem
+          Action = CommandsDataModule.actToolsRestartLS
+        end
         object SpTBXSeparatorItem12: TSpTBXSeparatorItem
         end
         object mnCheckForUpdates: TSpTBXItem

@@ -533,7 +533,7 @@
           Issues addressed
             #939, #951, #1116, #1118, #1119, #1123, #1125
 }
-// Reinitialize Language Server command
+// Restart Language Server command
 // Regenerate default.po
 // TODO: Check Lsp with remote files
 // TODO: Fix bug reports
@@ -1121,6 +1121,7 @@ type
     vilIndicators: TVirtualImageList;
     spiStatusLED: TSpTBXItem;
     spiExternalToolsLED: TSpTBXItem;
+    SpTBXItem15: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);

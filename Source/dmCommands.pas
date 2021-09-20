@@ -256,6 +256,7 @@ type
     SynWebCompletion: TSynCompletionProposal;
     SynParamCompletion: TSynCompletionProposal;
     SynCodeCompletion: TSynCompletionProposal;
+    actToolsRestartLS: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -360,6 +361,7 @@ type
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actDonateExecute(Sender: TObject);
+    procedure actToolsRestartLSExecute(Sender: TObject);
     procedure ParameterCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var x, y: Integer;
       var CanExecute: Boolean);
@@ -487,6 +489,7 @@ uses
   frmEditor,
   frmFindResults,
   frmFunctionList,
+  JediLspClient,
   uHighlighterProcs,
   uParams,
   uCommonFunctions,
@@ -2801,6 +2804,11 @@ begin
     else
       StyledMessageDlg(_(SCurrentVersionUptodate), mtInformation, [mbOK], 0);
   PyIDEOptions.DateLastCheckedForUpdates := Now;
+end;
+
+procedure TCommandsDataModule.actToolsRestartLSExecute(Sender: TObject);
+begin
+  TJedi.CreateServer;
 end;
 
 procedure TCommandsDataModule.GetEditorUserCommand(AUserCommand: Integer;

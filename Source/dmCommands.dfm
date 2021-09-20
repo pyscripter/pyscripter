@@ -2915,6 +2915,14 @@ object CommandsDataModule: TCommandsDataModule
       ImageName = 'Link'
       OnExecute = actDonateExecute
     end
+    object actToolsRestartLS: TAction
+      Category = 'Tools'
+      Caption = 'Restart &Language Server'
+      HelpContext = 350
+      HelpType = htContext
+      Hint = 'Restart the Language Server'
+      OnExecute = actToolsRestartLSExecute
+    end
   end
   object SynWebEsSyn: TSynWebEsSyn
     ActiveHighlighterSwitch = False
