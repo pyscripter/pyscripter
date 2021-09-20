@@ -251,70 +251,78 @@ var
 begin
   fReadLock.Enter;
   try
-    fReadBuffer := fReadBuffer + Copy(Bytes, 0, BytesRead);
-    var Content := TEncoding.Utf8.GetString(fReadBuffer);
-    var Match := fContentHeaderRE.Match(Content);
-    if Match.Success then
+    FReadBuffer := FReadBuffer + Copy(Bytes, 0, BytesRead);
+    while Length(FReadBuffer) > 0 do
     begin
-      var BodyLen := StrToInt(Match.Groups['length'].Value);
-      // Match.Length should be equal to the bytes count
-      // since the header contains only ascii characters
-      if BodyLen + Match.Length <= Length(fReadBuffer) then
+      var Content := TEncoding.Utf8.GetString(fReadBuffer);
+      var Match := fContentHeaderRE.Match(Content);
+      if Match.Success then
       begin
-        // We have the complete content
-        var json: TBytes := Copy(fReadBuffer, Match.Length, BodyLen);
-        // keep the additional bytes
-        fReadBuffer := Copy(fReadBuffer, Match.Length + BodyLen);
-        try
-          Response := TJSONObject.ParseJSONValue(json,  0, True);
-        except
-          // Should not happen
-          // Todo:  handle error
-          Assert(False, 'TLspClient.ReceiveData');
-          Response := nil;
-        end;
-        if Assigned(Response) then
+        var BodyLen := StrToInt(Match.Groups['length'].Value);
+        // Match.Length should be equal to the bytes count
+        // since the header contains only ascii characters
+        if BodyLen + Match.Length <= Length(fReadBuffer) then
         begin
-          if Response.TryGetValue('method', Method) then
-          begin
-            if Assigned(Response.FindValue('id'))  then
-            begin
-               // Incoming request
-               // not handled yet
-            end
-            else
-            begin
-              // Notification
-              if Assigned(fOnLspNotification) and
-                Response.TryGetValue('params', Params)
-              then
-                fOnLspNotification(Method, Params.Clone as TJSonValue);
-            end;
-          end
-          else if Response.TryGetValue<Int64>('id', Id) then
-          begin
-            // id, but not method -> should be a response
-            FRequestsLock.Enter;
-            try
-              if FPendingRequests.TryGetValue(Id, ResponseHandler) then
-                fPendingRequests.Remove(Id)
-              else
-                ResponseHandler := nil;
-            finally
-              FRequestsLock.Leave;
-            end;
-            if Assigned(ResponseHandler) then
-            begin
-              Error := nil;
-              Result := nil;
-              if not Response.TryGetValue('result', Result) then
-                Response.TryGetValue('error', Error);
-              ResponseHandler(Id, Result, Error);
-            end;
+          // We have the complete content
+          var json: TBytes := Copy(fReadBuffer, Match.Length, BodyLen);
+          // keep the additional bytes
+          fReadBuffer := Copy(fReadBuffer, Match.Length + BodyLen);
+          try
+            Response := TJSONObject.ParseJSONValue(json, 0, True);
+          except
+            // Should not happen
+            // Todo:  handle error
+            Assert(False, 'TLspClient.ReceiveData');
+            Response := nil;
           end;
-          Response.Free;
-        end;
-      end;
+          if Assigned(Response) then
+          begin
+            if Response.TryGetValue('method', Method) then
+            begin
+              if Assigned(Response.FindValue('id'))  then
+              begin
+                 // Incoming request
+                 // not handled yet
+              end
+              else
+              begin
+                // Notification
+                if Assigned(fOnLspNotification) and
+                  Response.TryGetValue('params', Params)
+                then
+                  fOnLspNotification(Method, Params.Clone as TJSonValue);
+              end;
+            end
+            else if Response.TryGetValue<Int64>('id', Id) then
+            begin
+              //OutputDebugString(PChar(Format('Lsp response %d received', [Id])));
+              // id, but not method -> should be a response
+              FRequestsLock.Enter;
+              try
+                if FPendingRequests.TryGetValue(Id, ResponseHandler) then
+                  fPendingRequests.Remove(Id)
+                else
+                  ResponseHandler := nil;
+              finally
+                FRequestsLock.Leave;
+              end;
+              if Assigned(ResponseHandler) then
+              begin
+                Error := nil;
+                Result := nil;
+                if not Response.TryGetValue('result', Result) then
+                  Response.TryGetValue('error', Error);
+                ResponseHandler(Id, Result, Error);
+              end;
+            end;
+            Response.Free;
+          end;
+        end
+        else
+          break;
+      end
+      else
+        break;
     end;
   finally
     FReadLock.Leave;
@@ -555,6 +563,7 @@ end;
 
 procedure TLspServerThread.Execute;
 begin
+  NameThreadForDebugging('Lsp Server');
   ExecuteCmdProcess(fExCmdOptions);
 end;
 
@@ -597,6 +606,7 @@ var
   Bytes: TBytes;
   Written: DWORD;
 begin
+  NameThreadForDebugging('LSP Send Data');
   while not Terminated do
     if (FQueue.PopItem(Bytes) = TWaitResult.wrSignaled) and (Length(Bytes) > 0) then
     begin

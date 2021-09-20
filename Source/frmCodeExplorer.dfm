@@ -109,6 +109,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       Hint = 'Expand all nodes'
       HelpContext = 430
       ImageIndex = 0
+      ImageName = 'Expand'
       OnClick = mnExpandAllClick
     end
     object nCollapseAll: TSpTBXItem
@@ -116,6 +117,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       Hint = 'Collapse all nodes'
       HelpContext = 430
       ImageIndex = 1
+      ImageName = 'Collapse'
       OnClick = nCollapseAllClick
     end
     object SpTBXSeparatorItem1: TSpTBXSeparatorItem
@@ -166,6 +168,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       Hint = 'Highlight References'
       HelpContext = 430
       ImageIndex = 2
+      ImageName = 'Highlight'
       OnClick = mnHighlightClick
     end
   end

@@ -587,6 +587,8 @@ end;
 
 destructor TDocSymbols.Destroy;
 begin
+  // signal it is destroyed
+  fEditor := nil;
   Clear;
   FCriticalSection.Destroy;
   inherited;
@@ -596,6 +598,7 @@ procedure TDocSymbols.HandleResponse(Id: Int64; Result, Error: TJsonValue);
 begin
   if Id = fId then
   begin
+    //OutputDebugString(PChar(fEditor.GetFileNameOrTitle));
     Lock;
     try
       FreeAndNil(FSymbols);

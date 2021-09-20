@@ -498,16 +498,22 @@ begin
       begin
         if DocSymbols.Symbols = nil then
         begin
-          DocSymbols.Lock;
-          try
-              FreeAndNil(DocSymbols.ModuleNode);
-          finally
-            DocSymbols.Unlock;
-          end;
-          TThread.ForceQueue(nil, procedure
+          if DocSymbols.Editor = nil then
+          begin
+            // DocSymbols is being destroyed
+            Assert(GetCurrentThreadId = MainThreadId);
+            FreeAndNil(DocSymbols.ModuleNode);
+            if fDocSymbols = DocSymbols then
             begin
-              UpdateTree(DocSymbols, ceuSymbolsChanged, nil);
-            end);
+              ExplorerTree.Clear;
+              fDocSymbols := nil;
+            end;
+          end
+          else
+            TThread.ForceQueue(nil, procedure
+              begin
+                UpdateTree(DocSymbols, ceuSymbolsChanged, nil);
+              end);
         end
         else
         begin
