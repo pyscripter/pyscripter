@@ -96,6 +96,7 @@ end;
 {$ENDREGION}
 
 {$REGION 'Fix InputQuery - https://quality.embarcadero.com/browse/RSP-27077'}
+{$IF CompilerVersion < 35}
 type
   TInputQuery = function (const ACaption: string; const APrompts: array of string; var AValues: array of string; CloseQueryFunc: TInputCloseQueryFunc = nil): Boolean;
 
@@ -229,7 +230,6 @@ begin
       else
         if Application.MainForm <> nil then
           LPPI := Application.MainForm.CurrentPPI;
-      OutputDebugString(PChar(Font.Height.ToString));
       ScaleForPPI(LPPI);
       Font.Assign(Screen.MessageFont);
       Font.Height := Muldiv(Font.Height, LPPI, Screen.PixelsPerInch);
@@ -316,6 +316,7 @@ begin
       Form.Free;
     end;
 end;
+{$ENDIF}
 {$ENDREGION}
 
 {$REGION 'Fix TMonitorSupport - https://quality.embarcadero.com/browse/RSP-28632}
@@ -485,9 +486,12 @@ initialization
     InterceptCreate(TWICImage(nil).GetCreateWICBitmapAddr,
     TMethod(Detour_TWICImage_CreateWICBitmap).Code);
  {$ENDIF}
+
+  {$IF CompilerVersion < 35}
   Original_InputQuery := Vcl.Dialogs.InputQuery;
   Detour_InputQuery := FixedInputQuery;
   Trampoline_InputQuery := TInputQuery(InterceptCreate(@Original_InputQuery, @Detour_InputQuery));
+ {$ENDIF}
 
  {$IF CompilerVersion < 34}
   System.MonitorSupport.NewWaitObject := NewWaitObj;
