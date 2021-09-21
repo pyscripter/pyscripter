@@ -495,9 +495,6 @@ initialization
   CmdLineReader.automaticalShowError  :=  True;
   CmdLineReader.declareFlag('HELP','Show PyScripter command line options', Char('H'),False);
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', Char('N'),False);
-  CmdLineReader.declareFlag('PYTHON33','Use Python version 3.3',False);
-  CmdLineReader.declareFlag('PYTHON34','Use Python version 3.4',False);
-  CmdLineReader.declareFlag('PYTHON35','Use Python version 3.5',False);
   CmdLineReader.declareFlag('PYTHON36','Use Python version 3.6',False);
   CmdLineReader.declareFlag('PYTHON37','Use Python version 3.7',False);
   CmdLineReader.declareFlag('PYTHON38','Use Python version 3.8',False);

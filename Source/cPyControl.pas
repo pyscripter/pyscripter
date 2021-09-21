@@ -291,13 +291,7 @@ begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
 
-  if CmdLineReader.readFlag('PYTHON33') then
-    expectedVersion := '3.3'
-  else if CmdLineReader.readFlag('PYTHON34') then
-    expectedVersion := '3.4'
-  else if CmdLineReader.readFlag('PYTHON35') then
-    expectedVersion := '3.5'
-  else if CmdLineReader.readFlag('PYTHON36') then
+  if CmdLineReader.readFlag('PYTHON36') then
     expectedVersion := '3.6'
   else if CmdLineReader.readFlag('PYTHON37') then
     expectedVersion := '3.7'
