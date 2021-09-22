@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-09-21 00:58\n"
+"POT-Creation-Date: 2021-09-22 04:36\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -7296,6 +7296,33 @@ msgstr ""
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
+msgstr ""
+
+#. Programmer's name for it: SPythonLoadError
+#: StringResources.pas
+msgid ""
+"PyScripter could not load a Python engine\n"
+"**Before** using PyScripter, you must ensure that a version of Python\n"
+"greater or equal to 3.6 is installed on your machine. If you do not have "
+"one\n"
+"installed, you can download one from http://www.python.org/.\n"
+"\n"
+"The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**\n"
+"with 64-bit versions of Python. The 32-bit version of PyScripter works on "
+"both\n"
+"32-bit and 64-bit Windows with 32-bit versions of Python."
+msgstr ""
+
+#. Programmer's name for it: SPythonFindError
+#: StringResources.pas
+msgid ""
+"PyScripter could not find a usable Python installation at the specified "
+"path.\n"
+"Note that the 64-bit version of PyScripter (x64) works only on 64-bit "
+"Windows **and**\n"
+"with 64-bit versions of Python. The 32-bit version of PyScripter works on "
+"both\n"
+"32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 
 #. Programmer's name for it: SPostMortemInfo
