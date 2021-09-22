@@ -505,7 +505,9 @@ finalization
   {$IF CompilerVersion < 34}
   InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
   {$ENDIF}
+  {$IF CompilerVersion < 35}
   InterceptRemove(@Trampoline_InputQuery);
+  {$ENDIF}
   InterceptRemove(@Trampoline_TCustomImageList_SetSize);
 
   {$IF CompilerVersion < 34}
