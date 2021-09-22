@@ -537,7 +537,6 @@
 // TODO: Check Lsp with remote files
 // TODO: Inno Setup - location of Jedi
 // TODO: Test with Delpi 11
-// TODO: Introduce min python version
 
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
