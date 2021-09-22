@@ -148,7 +148,9 @@ Var
 begin
   if SelectDirectory('', Directories, [], _('Select folder with Python installation (inlcuding virtualenv and venv)'))
   then begin
-    if PythonVersionFromPath(Directories[0], PythonVersion) then
+    if PythonVersionFromPath(Directories[0], PythonVersion, True,
+      PyControl.MinPyVersion, PyControl.MaxPyVersion)
+    then
     begin
       SetLength(PyControl.CustomPythonVersions, Length(PyControl.CustomPythonVersions) + 1);
       PyControl.CustomPythonVersions[Length(PyControl.CustomPythonVersions)-1] := PythonVersion;

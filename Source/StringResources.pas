@@ -174,7 +174,7 @@ Const
   SPythonLoadError =
   'PyScripter could not load a Python engine' + SLineBreak +
   '**Before** using PyScripter, you must ensure that a version of Python' + SLineBreak +
-  'greater or equal to 2.7 is installed on your machine. If you do not have one' + SLineBreak +
+  'greater or equal to 3.6 is installed on your machine. If you do not have one' + SLineBreak +
   'installed, you can download one from http://www.python.org/.' + SLineBreak +  SLineBreak +
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
   'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + SLineBreak +

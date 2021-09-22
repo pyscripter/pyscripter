@@ -83,6 +83,9 @@ type
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
   public
+    const MinPyVersion = '3.6';
+    const MaxPyVersion = '3.10';
+  public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
     CustomPythonVersions: TPythonVersions;
@@ -186,7 +189,7 @@ begin
   fErrorPos.Clear;
   fRunConfig := TRunConfiguration.Create;
   fInternalPython := TInternalPython.Create;
-  fRegPythonVersions := GetRegisteredPythonVersions;
+  fRegPythonVersions := GetRegisteredPythonVersions(MinPyVersion, MaxPyVersion);
   fOnPythonVersionChange := TJclNotifyEventBroadcast.Create;
 end;
 
@@ -339,7 +342,8 @@ begin
         break;
       end;
     if not Result then begin
-      Result := PythonVersionFromPath(DLLPath, Version);
+      Result := PythonVersionFromPath(DLLPath, Version, True,
+        MinPyVersion, MaxPyVersion);
       if Result then begin
         SetLength(CustomPythonVersions, Length(CustomPythonVersions) + 1);
         CustomPythonVersions[Length(CustomPythonVersions)-1] := Version;
@@ -833,7 +837,9 @@ begin
         Path := CustomVersions[Index]
       else
          Path := CustomVersions.ValueFromIndex[Index];
-      if PythonVersionFromPath(Path, Version) then
+      if PythonVersionFromPath(Path, Version, True,
+        MinPyVersion, MaxPyVersion)
+      then
       begin
         CustomPythonVersions[Count] := Version;
         if Name <> '' then
