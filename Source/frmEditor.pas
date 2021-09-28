@@ -888,6 +888,12 @@ begin
   fForm.DoUpdateCaption;
   fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
+
+  if HasPythonFile then
+  begin
+    fSynLsp.FileOpened(GetFileNameOrTitle, 'python');
+    fSynLsp.TransmitChanges := True;
+  end;
 end;
 
 
@@ -2957,7 +2963,7 @@ begin
       (GetParentForm(CC.CompletionInfo.Editor).ActiveControl = CC.CompletionInfo.Editor) and
       (CC.CompletionInfo.CaretXY = CC.CompletionInfo.Editor.CaretXY);
   finally
-    cc.Lock.Leave;
+    CC.Lock.Leave;
   end;
 
   if CanExecute then
@@ -2968,6 +2974,8 @@ begin
       Exit;
     end;
     try
+      CP.Font := PyIDEOptions.AutoCompletionFont;
+      CP.FontsAreScaled := True;
       CP.ItemList.Text := CC.CompletionInfo.DisplayText;
       CP.InsertList.Text := CC.CompletionInfo.InsertText;
       CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;

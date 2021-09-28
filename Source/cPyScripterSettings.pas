@@ -543,7 +543,7 @@ begin
   fSSHCommand := 'ssh';
   fSSHOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fScpCommand := 'scp';
-  fScpOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
+  fScpOptions := '-T -o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fSSHDisableVariablesWin := True;
   fAlwaysUseSockets := True;
   fTrimTrailingSpacesOnSave := True;
@@ -914,6 +914,7 @@ begin
     Gutter.RightOffset := 1;
     Gutter.Width := 27;
     Gutter.DigitCount := 2;
+    Gutter.ShowLineNumbers := True;
     Gutter.Autosize := True;
     Gutter.ChangeScale(Screen.PixelsPerInch, 96);
     Font.Size := 10;

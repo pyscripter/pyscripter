@@ -117,6 +117,12 @@ type
 
 implementation
 
+uses
+  System.Character,
+  System.NetEncoding,
+  cSSHSupport,
+  uCommonFunctions;
+
 { TDocPosition }
 
 constructor TDocPosition.Create(const FileName: string; Line, Char: integer);
@@ -139,31 +145,54 @@ end;
 function FilePathToURL(const FilePath: string): string;
 var
   BufferLen: DWORD;
+  ServerName, FileName: string;
 begin
   if FindDelimiter(':\/', FilePath) > 0 then
   begin
-    BufferLen := INTERNET_MAX_URL_LENGTH;
-    SetLength(Result, BufferLen);
-    OleCheck(UrlCreateFromPath(PChar(FilePath), PChar(Result), @BufferLen, 0));
-    SetLength(Result, BufferLen);
+    if TSSHFileName.Parse(FilePath, ServerName, FileName) then
+    begin
+      if not FileName[1].IsInArray(['\', '/']) then
+        FileName := '\' + FileName;
+      Result := 'file://SSH/' + ServerName + FileName;
+    end
+    else
+    begin
+      BufferLen := INTERNET_MAX_URL_LENGTH;
+      SetLength(Result, BufferLen);
+      OleCheck(UrlCreateFromPath(PChar(FilePath), PChar(Result), @BufferLen, 0));
+      SetLength(Result, BufferLen);
+    end;
   end
   else
     // Not sure how to handle unsaved files
     // and used the following workaround
-    Result := 'file:///C:/Untitled/'+ FilePath;
+    Result := 'file://untitled/temp/'+ FilePath;
 end;
 
 function FilePathFromUrl(const Url: string): string;
 var
   BufferLen: DWORD;
 begin
-  BufferLen := MAX_PATH;
-  SetLength(Result, BufferLen);
-  OleCheck(PathCreateFromUrl(PChar(Url), PChar(Result), @BufferLen, 0));
-  SetLength(Result, BufferLen);
-
-  if Result.StartsWith('C:\Untitled\', True) then
-    Result := Copy(Result, 13);
+  if Url.StartsWith('file://untitled/temp/') then
+  begin
+    Result := Copy(Url, 22);
+  end
+  else if Url.StartsWith('file://SSH/') then
+  begin
+    var FilePath := Copy(Url, 12);
+    var Server := StrToken(FilePath, '/');
+    FilePath := TNetEncoding.URL.Decode(FilePath, []);
+    if FilePath[2] <> DriveDelim then
+       FilePath := '/' + FilePath;
+    Result := TSSHFileName.Format(Server, FilePath);
+  end
+  else
+  begin
+    BufferLen := MAX_PATH;
+    SetLength(Result, BufferLen);
+    OleCheck(PathCreateFromUrl(PChar(Url), PChar(Result), @BufferLen, 0));
+    SetLength(Result, BufferLen);
+  end;
 end;
 
 function LSPInitializeParams(const ClientName, ClientVersion: string;

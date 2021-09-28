@@ -534,9 +534,7 @@
           Issues addressed
             #939, #951, #1116, #1118, #1119, #1122, #1123, #1125
 }
-// TODO: Check Lsp with remote files
-// TODO: Inno Setup - location of Jedi
-// TODO: Test with Delpi 11
+// TODO: Process diagnostics
 
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
@@ -1394,7 +1392,6 @@ uses
   Vcl.Themes,
   JvCreateProcess,
   JclSysInfo,
-  JclFileUtils,
   JclStrings,
   JclSysUtils,
   JvJVCLUtils,

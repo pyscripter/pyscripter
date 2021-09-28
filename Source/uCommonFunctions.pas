@@ -193,15 +193,6 @@ procedure GetFilesInPaths(Paths, Masks : string; FileList: TStrings; Recursive :
 *)
 procedure GetDirectoriesInPaths(Paths, Masks : string; DirList: TStrings; Recursive : Boolean = True);
 
-(* Check whether is S is likely to be a number *)
-//function WideStrConsistsofNumberChars(const S: WideString): Boolean;
-
-(* Trim certain chars from left of string *)
-function StrTrimCharsLeft(const S: string; const Chars: TSysCharSet): string;
-
-(* Trim certain chars from right of string *)
-function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
-
 (* Extracts a token and returns the remainder of a string *)
 function StrToken(var S: string; Separator: Char): string;
 
@@ -752,8 +743,7 @@ begin
           SL[i] := Copy(SL[i], Margin+1, Length(SL[i]) - Margin);
     Result := SL.Text;
     // Remove any trailing or leading blank lines.
-    Result := StrTrimCharsRight(Result, [#10, #13]);
-    Result := StrTrimCharsLeft(Result, [#10, #13]);
+    Result.Trim([#10, #13]);
   finally
     SL.Free;
   end;
@@ -1668,25 +1658,6 @@ begin
     end;
 
   WalkThroughDirectories(Paths, Masks, PreCallback, Recursive);
-end;
-
-function StrTrimCharsLeft(const S: string; const Chars: TSysCharSet): string;
-var
-  I, L: Integer;
-begin
-  I := 1;
-  L := Length(S);
-  while (I <= L) and CharInSet(S[I], Chars) do Inc(I);
-  Result := Copy(S, I, L - I + 1);
-end;
-
-function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
-var
-  I: Integer;
-begin
-  I := Length(S);
-  while (I >= 1) and CharInSet(S[I], Chars) do Dec(I);
-  Result := Copy(S, 1, I);
 end;
 
 function StrToken(var S: string; Separator: WideChar): string;

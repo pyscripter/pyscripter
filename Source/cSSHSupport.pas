@@ -128,7 +128,7 @@ end;
 constructor TSSHServer.Create;
 begin
   inherited;
-  PythonCommand := 'python';
+  PythonCommand := 'python3';
   SSHCommand := PyIDEOptions.SSHCommand;
   SSHOptions := PyIDEOptions.SSHOptions;
   ScpCommand := PyIDEOptions.ScpCommand;

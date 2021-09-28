@@ -96,14 +96,14 @@ begin
     Exit;
 
   var Params := TSmartPtr.Make(TJsonObject.Create)();
-  var OldTrailingLineBreak := Editor.Lines.TrailingLineBreak;
-  Editor.Lines.TrailingLineBreak := True;
-  try
+//  var OldTrailingLineBreak := Editor.Lines.TrailingLineBreak;
+//  Editor.Lines.TrailingLineBreak := True;
+//  try
     Params.AddPair('textDocument', LspTextDocumentItem(FileName, LanguageId,
       Editor.Text, 0));
-  finally
-    Editor.Lines.TrailingLineBreak := OldTrailingLineBreak;
-  end;
+//  finally
+//    Editor.Lines.TrailingLineBreak := OldTrailingLineBreak;
+//  end;
   TJedi.LspClient.Notify('textDocument/didOpen', Params.ToJson);
 end;
 
@@ -116,7 +116,7 @@ begin
 
   var Params := TSmartPtr.Make(TJsonObject.Create)();
   Params.AddPair('textDocument', LspTextDocumentIdentifier(fFileName));
-  TJedi.LspClient.Notify('textDocument/didClose', Params.ToJson);
+  TJedi.LspClient.Notify('textDocument/didSave', Params.ToJson);
 end;
 
 procedure TLspSynEditPlugin.FileSavedAs(const FileName, LanguageID: string);
@@ -148,13 +148,13 @@ begin
     begin
       FIncChanges.Clear;
       var Change := TJsonObject.Create;
-      var OldTrailingLineBreak := Editor.Lines.TrailingLineBreak;
-      Editor.Lines.TrailingLineBreak := True;
-      try
+//      var OldTrailingLineBreak := Editor.Lines.TrailingLineBreak;
+//      Editor.Lines.TrailingLineBreak := True;
+//      try
         Change.AddPair('text', TJsonString.Create(Editor.Text));
-      finally
-        Editor.Lines.TrailingLineBreak := OldTrailingLineBreak;
-      end;
+//      finally
+//        Editor.Lines.TrailingLineBreak := OldTrailingLineBreak;
+//      end;
       FIncChanges.Add(Change);
     end;
     Params.AddPair('contentChanges', FIncChanges as TJsonValue);

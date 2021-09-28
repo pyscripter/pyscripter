@@ -1320,7 +1320,7 @@ begin
       (GetParentForm(SynEdit).ActiveControl = SynEdit) and
       (CC.CompletionInfo.CaretXY = SynEdit.CaretXY);
   finally
-    cc.Lock.Leave;
+    CC.Lock.Leave;
   end;
 
   if CanExecute then
