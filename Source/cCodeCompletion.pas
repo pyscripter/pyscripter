@@ -447,7 +447,7 @@ begin
   TJedi.LspClient.Notify('textDocument/didOpen', Param.ToJson);
   Param.Free;
 
-  Result := TJedi.HandleCodeCompletion(TempFileName, BufferCoord(Length(FDocContent) + 1, 1),
+  Result := TJedi.HandleCodeCompletion(TempFileName, BufferCoord(FDocContent.Length + 1, 1),
     InsertText, DisplayText);
 
   Param := TJsonObject.Create;
@@ -474,7 +474,7 @@ begin
   if Result then
   begin
     var WordStart := GetWordStart(Line, Caret);
-    FDocContent := TrimLeft(Copy(Line, 1, WordStart)) + ' '; // extra space
+    FDocContent := TrimLeft(Copy(Line, 1, WordStart-1));
   end;
 end;
 
@@ -491,7 +491,7 @@ function TStringCompletionHandler.CanHandle(const Line: string;
 begin
   Result :=  TRegExpressions.RE_String.IsMatch(Copy(Line, 1, Caret.Char - 1));
   if Result then
-    FDocContent := '"". '; // extra space
+    FDocContent := '"".';
 end;
 
 { TCodeCompletion }
