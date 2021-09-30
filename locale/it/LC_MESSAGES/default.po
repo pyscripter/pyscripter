@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-09-22 09:06\n"
+"POT-Creation-Date: 2021-09-30 04:05\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -4365,6 +4365,7 @@ msgid "Text position"
 msgstr "Posizione testo"
 
 #. PyIDEMainForm..StatusBar..spiStatusLED..Hint
+#. PyIDEMainForm..StatusBar..spiLspLed..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
 msgid "Ready"
 msgstr "Pronto"
@@ -6469,7 +6470,7 @@ msgstr "Comando SCP"
 msgid "Disable Variables Window with SSH"
 msgstr "Disabilita finestra variabili con SSH"
 
-#: dmCommands.pas
+#: dmCommands.pas frmPyIDEMain.pas
 msgid "Language server"
 msgstr "Server lingua"
 
@@ -6604,6 +6605,10 @@ msgstr "Stato debugger: "
 #: frmPyIDEMain.pas
 msgid "Python Not Available"
 msgstr "Python non disponibile"
+
+#: frmPyIDEMain.pas
+msgid "Not available"
+msgstr "Non disponibile"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
