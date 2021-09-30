@@ -532,7 +532,7 @@
             - Copy and paste code as html to Powerpoint and other applications
             - Removed support for python 3.3-3.5
           Issues addressed
-            #939, #951, #1116, #1118, #1119, #1122, #1123, #1125
+            #939, #951, #1116, #1118, #1119, #1122, #1123, #1125, #1129
 }
 // TODO: Process diagnostics
 

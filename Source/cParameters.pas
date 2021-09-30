@@ -310,16 +310,18 @@ procedure TParameterList.DoChangeParameter(const AName, AValue: string;
 var
   i, L : Integer;
   Param: string;
+  DoAdd: Boolean;
 begin
   Param:= AName + '=';
   L:= Length(Param);
+  DoAdd := False;
   for i:= Count - 1 downto 0 do
     if SameText(Param, Copy(Strings[i], 1, L)) then begin
-      Strings[i]:= Concat(AName, '=', AValue);
-      Objects[i]:= TObject(@GetProc);
-      Exit;
+      Delete(I);
+      DoAdd := True;
+      Break;
     end;
-  if CanAdd then
+  if DoAdd or CanAdd then
     AddObject(Concat(AName, '=', AValue), TObject(@GetProc));
 end;
 
