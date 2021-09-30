@@ -226,7 +226,7 @@ FileName: "cmd"; Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; Work
 Filename: {commonappdata}\PyScripter\Lsp\jls\JediLsp.exe; Parameters: "-y"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; Flags: runhidden
 
 [UninstallRun]
-FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; Flags: runhidden 
+FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; RunOnceId: "DelLspDir"; Flags: runhidden 
 
 [CustomMessages]
 #include "locale\en\InstallMessages.txt"

@@ -31,7 +31,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 252
+      CustomWidth = 233
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -89,6 +89,12 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Ready'
       ImageIndex = 0
       ImageName = 'StatusLED'
+      Images = vilIndicators
+    end
+    object spiLspLed: TSpTBXItem
+      Hint = 'Ready'
+      ImageIndex = 2
+      ImageName = 'LspLED'
       Images = vilIndicators
     end
     object spiExternalToolsLED: TSpTBXItem
@@ -2949,27 +2955,35 @@ object PyIDEMainForm: TPyIDEMainForm
       item
         IconName = 'StatusLED'
         SVGText = 
-          '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"'#13#10' ' +
-          '    xmlns:xlink="http://www.w3.org/1999/xlink" >'#13#10'  <defs>'#13#10'    ' +
-          '<radialGradient cx=".5" cy=".5"  fx=".3" fy=".2" r="0.5" id="myG' +
-          'radient" gradientUnits="objectBoundingBox">'#13#10'      <stop offset=' +
-          '"0%" stop-opacity="0.3" stop-color="#22AA22"/>'#13#10'      <stop offs' +
-          'et="1" stop-opacity="1" stop-color="#22AA22"/>'#13#10'    </radialGrad' +
-          'ient>'#13#10'  </defs>'#13#10#13#10'  <!-- using my radial gradient 4CBB17 -->'#13#10 +
-          '  <circle cx="50" cy="50" r="40" fill="url(#myGradient)" />'#13#10'</s' +
-          'vg>'
+          '<svg viewBox="0 0 100 100">'#13#10'  <defs>'#13#10'    <radialGradient cx=".' +
+          '5" cy=".5"  fx=".3" fy=".2" r="0.5" id="myGradient" gradientUnit' +
+          's="objectBoundingBox">'#13#10'      <stop offset="0%" stop-opacity="0.' +
+          '3" stop-color="#22AA22"/>'#13#10'      <stop offset="1" stop-opacity="' +
+          '1" stop-color="#22AA22"/>'#13#10'    </radialGradient>'#13#10'  </defs>'#13#10#13#10' ' +
+          ' <!-- using my radial gradient 4CBB17 -->'#13#10'  <circle cx="50" cy=' +
+          '"50" r="40" fill="url(#myGradient)" />'#13#10'</svg>'
       end
       item
         IconName = 'ExternalToolsLED'
         SVGText = 
-          '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"'#13#10' ' +
-          '    xmlns:xlink="http://www.w3.org/1999/xlink" >'#13#10'  <defs>'#13#10'    ' +
-          '<radialGradient cx=".5" cy=".5"  fx=".3" fy=".2" r="0.5" id="myG' +
-          'radient" gradientUnits="objectBoundingBox">'#13#10'      <stop offset=' +
-          '"0%" stop-opacity="0.3" stop-color="#E24444"/>'#13#10'      <stop offs' +
-          'et="1" stop-opacity="1" stop-color="#E24444"/>'#13#10'    </radialGrad' +
-          'ient>'#13#10'  </defs>'#13#10#13#10'  <!-- using my radial gradient -->'#13#10'  <circ' +
-          'le cx="50" cy="50" r="40" fill="url(#myGradient)" />'#13#10'</svg>'
+          '<svg viewBox="0 0 100 100">'#13#10'  <defs>'#13#10'    <radialGradient cx=".' +
+          '5" cy=".5"  fx=".3" fy=".2" r="0.5" id="myGradient" gradientUnit' +
+          's="objectBoundingBox">'#13#10'      <stop offset="0%" stop-opacity="0.' +
+          '3" stop-color="#E24444"/>'#13#10'      <stop offset="1" stop-opacity="' +
+          '1" stop-color="#E24444"/>'#13#10'    </radialGradient>'#13#10'  </defs>'#13#10#13#10' ' +
+          ' <!-- using my radial gradient -->'#13#10'  <circle cx="50" cy="50" r=' +
+          '"40" fill="url(#myGradient)" />'#13#10'</svg>'
+      end
+      item
+        IconName = 'LspLED'
+        SVGText = 
+          '<svg viewBox="0 0 100 100">'#13#10'  <defs>'#13#10'    <radialGradient cx=".' +
+          '5" cy=".5"  fx=".3" fy=".2" r="0.5" id="myGradient" gradientUnit' +
+          's="objectBoundingBox">'#13#10'      <stop offset="0%" stop-opacity="0.' +
+          '3" stop-color="#FF5F1F"/>'#13#10'      <stop offset="1" stop-opacity="' +
+          '1" stop-color="#FF5F1F"/>'#13#10'    </radialGradient>'#13#10'  </defs>'#13#10#13#10' ' +
+          ' <!-- using my radial gradient 4CBB17 -->'#13#10'  <circle cx="50" cy=' +
+          '"50" r="40" fill="url(#myGradient)" />'#13#10'</svg>'
       end>
     Left = 40
     Top = 400
@@ -2989,6 +3003,12 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionName = 'ExternalToolsLED'
         Disabled = False
         Name = 'ExternalToolsLED'
+      end
+      item
+        CollectionIndex = 2
+        CollectionName = 'LspLED'
+        Disabled = False
+        Name = 'LspLED'
       end>
     ImageCollection = icIndicators
     Width = 12

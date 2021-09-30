@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-09-22 09:06\n"
+"POT-Creation-Date: 2021-09-30 04:05\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -4304,6 +4304,7 @@ msgid "Text position"
 msgstr ""
 
 #. PyIDEMainForm..StatusBar..spiStatusLED..Hint
+#. PyIDEMainForm..StatusBar..spiLspLed..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
 msgid "Ready"
 msgstr ""
@@ -6393,7 +6394,7 @@ msgstr ""
 msgid "Disable Variables Window with SSH"
 msgstr ""
 
-#: dmCommands.pas
+#: dmCommands.pas frmPyIDEMain.pas
 msgid "Language server"
 msgstr ""
 
@@ -6525,6 +6526,10 @@ msgstr ""
 
 #: frmPyIDEMain.pas
 msgid "Python Not Available"
+msgstr ""
+
+#: frmPyIDEMain.pas
+msgid "Not available"
 msgstr ""
 
 #: frmRegExpTester.pas

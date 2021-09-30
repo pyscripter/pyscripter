@@ -1117,6 +1117,7 @@ type
     spiStatusLED: TSpTBXItem;
     spiExternalToolsLED: TSpTBXItem;
     SpTBXItem15: TSpTBXItem;
+    spiLspLed: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -2433,7 +2434,7 @@ begin
     s := _('Python not available');
     icIndicators.SVGIconItems[0].FixedColor := clGray;
   end;
-  spiStatusLED.Hint := _('Debugger state: ') +s;
+  spiStatusLED.Hint := _('Debugger state: ') + s;
   lbStatusMessage.Caption := ' ' + s;
   StatusBar.Refresh;
 
@@ -2893,6 +2894,14 @@ begin
   end else begin
     lbPythonVersion.Caption := _('Python Not Available');
     lbPythonEngine.Caption := ' ';
+  end;
+
+  if TJedi.Ready then begin
+    spiLspLed.Hint := _('Language server') + ': ' + _('Ready');
+    icIndicators.SVGIconItems[2].FixedColor := $1F5FFF;
+  end else begin
+    spiLspLed.Hint := _('Language server') + ': ' + _('Not available');
+    icIndicators.SVGIconItems[2].FixedColor := clGray;
   end;
 
   spiExternalToolsLED.Visible := OutputWindow.JvCreateProcess.State <> psReady;
