@@ -2340,7 +2340,7 @@ msgstr "掃描目錄(&D)"
 #. fmToDoOptions..pnlBG..gbxSearchFiles..radScanProject..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &project files"
-msgstr "掃描工程檔(&P)"
+msgstr "掃描專案檔(&P)"
 
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
@@ -2904,7 +2904,7 @@ msgstr "全部保存(&A)"
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "全部保存|保存工程及所有打開的檔"
+msgstr "全部保存|保存專案及所有打開的檔"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -3488,12 +3488,12 @@ msgstr "在除錯器中跳轉到當前位置"
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
 msgid "&Project Home"
-msgstr "工程主目錄(&P)"
+msgstr "專案主目錄(&P)"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
 msgid "Go to the project home page"
-msgstr "跳到工程網頁"
+msgstr "跳到專案網頁"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Caption
 #: dmCommands.dfm
@@ -4613,12 +4613,12 @@ msgstr "命令:"
 #. ProjectExplorerWindow..Caption
 #: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
-msgstr "工程瀏覽器"
+msgstr "專案瀏覽器"
 
 #. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..SpTBXDock1..SpTBXToolbar1..Caption
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
-msgstr "工程瀏覽器工具列"
+msgstr "專案瀏覽器工具列"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Category
@@ -4645,47 +4645,47 @@ msgstr "工程瀏覽器工具列"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Category
 #: frmProjectExplorer.dfm
 msgid "Project"
-msgstr "工程"
+msgstr "專案"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #: frmProjectExplorer.dfm
 msgid "&New Project"
-msgstr "創建新工程(&N)"
+msgstr "創建新專案(&N)"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
 #: frmProjectExplorer.dfm
 msgid "Start a new project"
-msgstr "開始一新的工程"
+msgstr "開始一新的專案"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
 #: frmProjectExplorer.dfm
 msgid "&Open Project..."
-msgstr "打開工程(&O)..."
+msgstr "打開專案(&O)..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
 #: frmProjectExplorer.dfm
 msgid "Open a project file"
-msgstr "打開工程檔"
+msgstr "打開專案檔"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
 #: frmProjectExplorer.dfm
 msgid "&Save Project"
-msgstr "覆蓋保存工程(&S)"
+msgstr "覆蓋保存專案(&S)"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Hint
 #: frmProjectExplorer.dfm
 msgid "Save the project"
-msgstr "覆蓋保存工程"
+msgstr "覆蓋保存專案"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Caption
 #: frmProjectExplorer.dfm
 msgid "Save Project &As..."
-msgstr "工程另存為(&A)..."
+msgstr "專案另存為(&A)..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
 #: frmProjectExplorer.dfm
 msgid "Save project with under a different name"
-msgstr "把工程保存為新的工程名"
+msgstr "把專案保存為新的專案名"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
@@ -4695,7 +4695,7 @@ msgstr "保存相對路徑(&R)"
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Hint
 #: frmProjectExplorer.dfm
 msgid "Store file paths relative to the project directory"
-msgstr "保存相對於工程目錄的檔案路徑"
+msgstr "保存相對於專案目錄的檔案路徑"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
@@ -4715,12 +4715,12 @@ msgstr "額外Python路徑(&P)..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Expand all project nodes"
-msgstr "展開所有的工程節點"
+msgstr "展開所有的專案節點"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Collapse all project nodes"
-msgstr "縮排所有的工程節點"
+msgstr "縮排所有的專案節點"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Caption
 #: frmProjectExplorer.dfm
@@ -4730,7 +4730,7 @@ msgstr "追加檔案(&A)..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
 #: frmProjectExplorer.dfm
 msgid "Add file(s) to a project folder"
-msgstr "把檔案新增到工程目錄"
+msgstr "把檔案新增到專案目錄"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Caption
 #: frmProjectExplorer.dfm
@@ -5962,17 +5962,17 @@ msgstr "定制工具列"
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project Explorer"
-msgstr "工程瀏覽器(&P)"
+msgstr "專案瀏覽器(&P)"
 
 #. PyIDEMainForm..actlStandard..actViewProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Project Explorer"
-msgstr "工程瀏覽器的顯示/隱藏"
+msgstr "專案瀏覽器的顯示/隱藏"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Project Explorer window"
-msgstr "啟動工程瀏覽器視窗"
+msgstr "啟動專案瀏覽器視窗"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -8614,7 +8614,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
-msgstr "備份工程\"%s\"失敗了"
+msgstr "備份專案\"%s\"失敗了"
 
 #. Programmer's name for it: SErrorInOpeningProject
 #: StringResources.pas
@@ -8626,18 +8626,18 @@ msgstr "打開項目時出錯：“%s”。"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in saving project: \"%s\"."
-msgstr "保存工程:  \"%s\" 時發生了錯誤。"
+msgstr "保存專案:  \"%s\" 時發生了錯誤。"
 
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas
 msgid "Save Project As"
-msgstr "保存工程為"
+msgstr "保存專案為"
 
 #. Programmer's name for it: SSaveProjectFileAs
 #: StringResources.pas
 #, object-pascal-format
 msgid "Save Project \"%s\" As"
-msgstr "保存工程\"%s\"為"
+msgstr "保存專案\"%s\"為"
 
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas
