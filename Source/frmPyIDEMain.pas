@@ -533,7 +533,7 @@
             - Removed support for python 3.3-3.5
             - Added traditional Chinese tranlsation
           Issues addressed
-            #939, #951, #1116, #1118, #1119, #1122, #1123, #1125, #1129
+            #939, #951, #1116, #1118, #1119, #1122, #1123, #1125, #1129, #1133
 }
 // TODO: Process diagnostics
 

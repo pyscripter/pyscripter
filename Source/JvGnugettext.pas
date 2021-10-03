@@ -2007,8 +2007,8 @@ begin
 
         Count := GetPropList(AnObject, PropList);
         try
-          if ObjectHasAssignedAction(AnObject, PropList, Count) then
-            Continue;
+//          if ObjectHasAssignedAction(AnObject, PropList, Count) then
+//            Continue;
 
           for j := 0 to Count - 1 do begin
             PropInfo := PropList[j];
@@ -2019,9 +2019,11 @@ begin
             {$ENDIF}
               continue;
             UPropName:=uppercase(string(PropInfo^.Name));
+
             // Ignore properties that are meant to be ignored
             if ((currentcm=nil) or (not currentcm.PropertiesToIgnore.Find(UPropName,i))) and
                (not TP_IgnoreList.Find(Name+'.'+UPropName,i)) and
+               IsStoredProp(AnObject, PropInfo) and
                (not ObjectPropertyIgnoreList.Find(UPropName,i)) then begin
               TranslateProperty (AnObject,PropInfo,TodoList,TextDomain);
             end;  // if
