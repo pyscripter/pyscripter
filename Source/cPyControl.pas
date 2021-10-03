@@ -448,7 +448,7 @@ var
   i: integer;
   BreakPoint : TBreakPoint;
 begin
-  Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+  Editor := GI_EditorFactory.GetEditorByFileId(FileName);
 
   BreakPoint := nil;
   if Assigned(Editor) and (ALine > 0) then begin

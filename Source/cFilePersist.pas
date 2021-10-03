@@ -220,10 +220,7 @@ Var
   BreakPoint : TBreakPoint;
 begin
   Create;
-  if Editor.FileName <> '' then
-    FileName := Editor.FileName
-  else
-    FileName := Editor.GetFileNameOrTitle;
+  FileName := Editor.FileId;
   TabControlIndex := Editor.TabControlIndex;
   Char := Editor.SynEdit.CaretX;
   Line := Editor.SynEdit.CaretY;

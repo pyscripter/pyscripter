@@ -751,7 +751,7 @@ begin
   SourceCode := TStringList.Create;
   try
     //  Read file into SourceCode
-    Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+    Editor := GI_EditorFactory.GetEditorByFileId(FileName);
     if Assigned(Editor) then
       SourceCode.Assign(Editor.SynEdit.Lines)
     else begin
@@ -848,7 +848,7 @@ begin
       Exit(True)
     else
       Result := False;
-    var FileName := Editor.GetFileNameOrTitle;
+    var FileName := Editor.FileId;
     // Application.ProcessMessages; // dangerous the user may close files
     LoadFile(FileName);
   end);

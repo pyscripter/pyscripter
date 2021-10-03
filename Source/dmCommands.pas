@@ -1088,7 +1088,7 @@ procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
 begin
   with PyControl.CurrentPos do
     if (Line >= 1) and (PyControl.ActiveDebugger <> nil) and not GI_PyControl.Running then
-      GI_PyIDEServices.ShowFilePosition(Editor.GetFileNameOrTitle , Line, 1, 0, True, True);
+      GI_PyIDEServices.ShowFilePosition(Editor.FileId , Line, 1, 0, True, True);
 end;
 
 procedure TCommandsDataModule.actSearchGoToLineExecute(Sender: TObject);
@@ -1216,7 +1216,7 @@ Var
   Editor : IEditor;
 begin
   if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then begin
-    Tests := TUnitTestWizard.GenerateTests(GI_ActiveEditor.GetFileNameOrTitle);
+    Tests := TUnitTestWizard.GenerateTests(GI_ActiveEditor.FileId);
     if Tests <> '' then begin
       Editor := PyIDEMainForm.DoOpenFile('', 'Python');
       if Assigned(Editor) then
@@ -1832,7 +1832,7 @@ begin
           StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [Ed.FileName]) , mtWarning, [mbOK], 0);
         end;
       end else if not SameDateTime(TEditorForm(Ed.Form).FileTime, FTime) then begin
-        ChangedFiles.AddObject(Ed.GetFileNameOrTitle, Ed.Form);
+        ChangedFiles.AddObject(Ed.FileId, Ed.Form);
         // Prevent further notifications on this file
         TEditorForm(Ed.Form).FileTime := FTime;
       end;
@@ -2653,7 +2653,7 @@ Var
 begin
   Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then
-    Clipboard.AsText := Editor.GetFileNameOrTitle;
+    Clipboard.AsText := Editor.FileId;
 end;
 
 procedure TCommandsDataModule.actFindFunctionExecute(Sender: TObject);

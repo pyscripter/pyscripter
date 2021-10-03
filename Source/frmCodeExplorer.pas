@@ -223,11 +223,12 @@ type
     procedure ExplorerTreeGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
   private
-    FDocSymbols: TDocSymbols;
+    FFileId: string;
+    FModuleNode: TModuleCENode;
     procedure NavigateToNodeElement(Node: PVirtualNode;
       ForceToMiddle : Boolean = True; Activate : Boolean = True);
-    procedure UpdateModuleNode(DocSymbols: TDocSymbols);
-    procedure UpdateTree(DocSymbols: TDocSymbols;
+    procedure UpdateModuleNode(const FileId: string; Symbols: TJsonArray);
+    procedure UpdateTree(const FileId: string;
       UpdateReason: TCEUpdateReason; NewModuleNode: TModuleCENode);
   protected
     // IJvAppStorageHandler implementation
@@ -259,8 +260,8 @@ uses
 
 {$R *.dfm}
 
-procedure TCodeExplorerWindow.UpdateTree(DocSymbols: TDocSymbols;
-  UpdateReason: TCEUpdateReason; NewModuleNode: TModuleCENode);
+procedure TCodeExplorerWindow.UpdateTree(const FileId: string;
+      UpdateReason: TCEUpdateReason; NewModuleNode: TModuleCENode);
 begin
   if csDestroying in CodeExplorerWindow.ComponentState then Exit;
 
@@ -268,24 +269,39 @@ begin
   if ActiveEditor = nil then
   begin
     ExplorerTree.Clear;
-    FDocSymbols := nil;
+    FFileId := '';
+    FModuleNode := nil;
     Exit;
   end;
 
-  var SameModule := ActiveEditor.DocSymbols = FDocSymbols;
+  var SameModule := ActiveEditor.FileId = FFileId;
   if not SameModule then
-    FDocSymbols := TDocSymbols(ActiveEditor.DocSymbols);
+    FFileId := ActiveEditor.FileId;
 
   if UpdateReason = ceuSymbolsChanged then
   begin
-    FreeAndNil(DocSymbols.ModuleNode);
-    DocSymbols.ModuleNode := NewModuleNode;
+    var Editor: IEditor;
+    if FFileId = FileId then
+      Editor := ActiveEditor
+    else
+      Editor := GI_EditorFactory.GetEditorByFileId(FileId);
 
-    if SameModule and (DocSymbols <> FDocSymbols) then
-      // A non active editor's DocSymbols have been updated
-      Exit;
-    SameModule := SameModule and (DocSymbols = FDocSymbols);
+    if Assigned(Editor) then
+    begin
+      FreeAndNil(TDocSymbols(Editor.DocSymbols).ModuleNode);
+      TDocSymbols(Editor.DocSymbols).ModuleNode := NewModuleNode;
+    end;
+
+    if not SameFileName(FFileId, FileId) then
+    begin
+      if SameModule then
+        // A non active editor's DocSymbols have been updated
+        Exit
+      else
+        SameModule := False;
+    end;
   end;
+  FModuleNode := TDocSymbols(ActiveEditor.DocSymbols).ModuleNode as TModuleCENode;
 
   // Turn off Animation to speed things up
   ExplorerTree.TreeOptions.AnimationOptions :=
@@ -293,7 +309,7 @@ begin
 
   if SameModule then
   begin
-    if DocSymbols.ModuleNode = nil then
+    if FModuleNode = nil then
      ExplorerTree.Clear
     else
     begin
@@ -302,7 +318,7 @@ begin
       // The same module but changed
       // ReInit the tree with the new data to keep it as close as possible
       if mnAlphaSort.Checked then
-        TModuleCENode(FDocSymbols.ModuleNode).Sort(soAlpha);
+        TModuleCENode(FModuleNode).Sort(soAlpha);
       ExplorerTree.BeginUpdate;
       try
         ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True);
@@ -315,12 +331,12 @@ begin
   else
   begin
     ExplorerTree.Clear;
-    if FDocSymbols.ModuleNode <> nil then
+    if FModuleNode <> nil then
     begin
       ExplorerTree.RootNodeCount := 1;
-      ExplorerTree.OffsetXY := TModuleCENode(FDocSymbols.ModuleNode).OffsetXY;
+      ExplorerTree.OffsetXY := FModuleNode.OffsetXY;
       ExplorerTree.ValidateNode(ExplorerTree.RootNode.FirstChild, True);
-      ExplorerTree.Refresh;
+      //ExplorerTree.Refresh;
     end;
   end;
   ExplorerTree.TreeOptions.AnimationOptions :=
@@ -350,7 +366,7 @@ var
   CENode: TAbstractCENode;
 begin
   if ExplorerTree.GetNodeLevel(Node) = 0 then
-    CENode := TModuleCENode(FDocSymbols.ModuleNode)
+    CENode := TModuleCENode(FModuleNode)
   else begin
     var ParentCENode := ParentNode.GetData<TAbstractCENode>;
     CENode := ParentCENode.Children[Node.Index];
@@ -375,8 +391,8 @@ end;
 procedure TCodeExplorerWindow.ExplorerTreeScroll(Sender: TBaseVirtualTree;
   DeltaX, DeltaY: Integer);
 begin
-  if Assigned(FDocSymbols) and Assigned(FDocSymbols.ModuleNode) then
-    TModuleCENode(FDocSymbols.ModuleNode).OffsetXY := ExplorerTree.OffsetXY;
+  if Assigned(FModuleNode) then
+    TModuleCENode(FModuleNode).OffsetXY := ExplorerTree.OffsetXY;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitChildren(
@@ -472,22 +488,21 @@ begin
   end;
 end;
 
-procedure TCodeExplorerWindow.UpdateModuleNode(DocSymbols: TDocSymbols);
+procedure TCodeExplorerWindow.UpdateModuleNode(const FileId: string; Symbols: TJsonArray);
 var
   ModuleNode: TModuleCENode;
 begin
-  DocSymbols.Lock;
-  try
-    FreeAndNil(DocSymbols.ModuleNode);
-    ModuleNode := TModuleCENode.CreateFromSymbols(
-      DocSymbols.Editor.GetFileNameOrTitle, DocSymbols.Symbols);
+    if Assigned(Symbols) then
+    begin
+      ModuleNode := TModuleCENode.CreateFromSymbols(FileId, Symbols);
+      Symbols.Free;
+    end
+    else
+      ModuleNode := nil;
     TThread.ForceQueue(nil, procedure
       begin
-        UpdateTree(DocSymbols, ceuSymbolsChanged, ModuleNode);
+        UpdateTree(FileId, ceuSymbolsChanged, ModuleNode);
       end);
-  finally
-    DocSymbols.Unlock;
-  end;
 end;
 
 procedure TCodeExplorerWindow.UpdateWindow(DocSymbols: TDocSymbols;
@@ -498,28 +513,29 @@ begin
       begin
         if DocSymbols.Symbols = nil then
         begin
-          if DocSymbols.Editor = nil then
+          if DocSymbols.Destroying then
           begin
             // DocSymbols is being destroyed
             Assert(GetCurrentThreadId = MainThreadId);
             FreeAndNil(DocSymbols.ModuleNode);
-            if fDocSymbols = DocSymbols then
+            if FFileId = DocSymbols.FileId then
             begin
               ExplorerTree.Clear;
-              fDocSymbols := nil;
+              FModuleNode := nil;
             end;
           end
           else
             TThread.ForceQueue(nil, procedure
               begin
-                UpdateTree(DocSymbols, ceuSymbolsChanged, nil);
+                  UpdateTree(DocSymbols.FileId, ceuSymbolsChanged, nil);
               end);
         end
         else
         begin
           var Task := TTask.Create(procedure
             begin
-              UpdateModuleNode(DocSymbols);
+              UpdateModuleNode(DocSymbols.FileId,
+                DocSymbols.Symbols.Clone as TJsonArray);
             end);
           Task.Start;
         end;
@@ -528,7 +544,7 @@ begin
       begin
         TThread.ForceQueue(nil, procedure
           begin
-            UpdateTree(DocSymbols, ceuEditorEnter, nil);
+            UpdateTree(DocSymbols.FileId, ceuEditorEnter, nil);
           end);
       end;
   end;
@@ -557,11 +573,11 @@ begin
   Editor := GI_PyIDEServices.ActiveEditor;
   if not Assigned(Editor) then Exit;
 
-  if Assigned(FDocSymbols) and Assigned(FDocSymbols.ModuleNode) and
-    (FDocSymbols.Editor = Editor) and  (ExplorerTree.RootNodeCount > 0)
+  if Assigned(FModuleNode) and  (FFileId = Editor.FileId) and
+    (ExplorerTree.RootNodeCount > 0)
   then
   begin
-    CodeElement := TModuleCENode(FDocSymbols.ModuleNode).
+    CodeElement := TModuleCENode(FModuleNode).
       GetScopeForLine(Editor.ActiveSynEdit.CaretY);
     if Assigned(CodeElement) and Assigned(CodeElement.fNode) then begin
       ExplorerTree.TreeOptions.AnimationOptions :=
@@ -603,7 +619,8 @@ begin
       Exit;
 
     Editor := GI_PyIDEServices.ActiveEditor;
-    if Assigned(Editor) and (CodePos.Line >= 0) then begin
+    if Assigned(Editor) and (Editor.FileId = FFileId) and (CodePos.Line >= 0) then
+    begin
       with Editor.ActiveSynEdit do
       begin
         CaretXY := CodePos;
@@ -617,19 +634,12 @@ begin
 end;
 
 procedure TCodeExplorerWindow.mnAlphaSortClick(Sender: TObject);
-Var
-  ModuleCENode : TModuleCENode;
 begin
-  if Assigned(FDocSymbols) and Assigned(FDocSymbols.ModuleNode) then
-     ModuleCENode := TModuleCENode(fDocSymbols.ModuleNode)
-  else
-    ModuleCENode := nil;
-
-  if Assigned(ModuleCENode) then begin
+  if Assigned(FModuleNode) then begin
     if mnAlphaSort.Checked then
-      ModuleCENode.Sort(soAlpha)
+      FModuleNode.Sort(soAlpha)
     else
-      ModuleCENode.Sort(soPosition);
+      FModuleNode.Sort(soPosition);
 
     ExplorerTree.BeginUpdate;
     try

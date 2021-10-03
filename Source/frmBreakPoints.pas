@@ -95,7 +95,7 @@ begin
   begin
     for var BP in Editor.BreakPoints do begin
       var BPInfo := TBreakPointInfo.Create;
-      BPInfo.FileName := Editor.GetFileNameOrTitle;
+      BPInfo.FileName := Editor.FileId;
       BPInfo.Line := TBreakPoint(BP).LineNo;
       BPInfo.Disabled := TBreakPoint(BP).Disabled;
       BPInfo.Condition := TBreakPoint(BP).Condition;
@@ -147,7 +147,7 @@ begin
   if Assigned(Node) then
     with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do begin
      if FileName = '' then Exit; // No FileName or LineNumber
-     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+     Editor := GI_EditorFactory.GetEditorByFileId(FileName);
      if Assigned(Editor) then
        PyControl.ToggleBreakpoint(Editor, Line);
     end;
@@ -162,7 +162,7 @@ begin
   if Assigned(Node) then
     with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do begin
       if FileName = '' then Exit; // No FileName or LineNumber
-      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+      Editor := GI_EditorFactory.GetEditorByFileId(FileName);
       if Assigned(Editor) then begin
         if InputQuery(_(SEditBreakpointCond), _(SEnterPythonExpression), Condition)
         then

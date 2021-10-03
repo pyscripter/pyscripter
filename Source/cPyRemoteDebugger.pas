@@ -421,7 +421,7 @@ begin
 
   GI_PyIDEServices.Messages.ClearMessages;
 
-  Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
+  Editor := GI_EditorFactory.GetEditorByFileId(ARunConfig.ScriptName);
   if Assigned(Editor) then
     Source := CleanEOLs(Editor.SynEdit.Text) + WideLF
   else
@@ -685,7 +685,7 @@ begin
   //Compile
   RunConfiguration := TRunConfiguration.Create;
   try
-    RunConfiguration.ScriptName := Editor.GetFileNameOrTitle;
+    RunConfiguration.ScriptName := Editor.FileId;
     Code := Compile(RunConfiguration);
   finally
     RunConfiguration.Free;
@@ -694,7 +694,7 @@ begin
   Assert(VarIsPython(Code));  // an exception should have been raised if failed
 
   // Add the path of the imported script to the Python path
-  Path := ToPythonFileName(Editor.GetFileNameOrTitle);
+  Path := ToPythonFileName(Editor.FileId);
   Path := IfThen(Path.StartsWith('<'), '', XtractFileDir(Path));
   if Length(Path) > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
@@ -1489,10 +1489,10 @@ begin
   begin
     with Editor do begin
       if not HasPythonFile then Exit;
-      SFName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
+      SFName := fRemotePython.ToPythonFileName(FileId);
       if SFName.StartsWith('<') and
         // so that we do not push to ssh engine linecache all local open files
-        (PyControl.RunConfig.ScriptName = GetFileNameOrTitle)
+        (PyControl.RunConfig.ScriptName = FileId)
       then
       begin
         FName := SFName;
@@ -1740,7 +1740,7 @@ begin
   GI_PyInterpreter.RemovePrompt;
   // Set Temporary breakpoint
   SetDebuggerBreakPoints;  // So that this one is not cleared
-  FName := fRemotePython.ToPythonFileName(Editor.GetFileNameOrTitle);
+  FName := fRemotePython.ToPythonFileName(Editor.FileId);
   var Py := SafePyEngine;
   fMainDebugger.set_break(VarPythonCreate(FName), ALine, 1);
 
@@ -1765,7 +1765,7 @@ begin
   var
     FName : string;
   begin
-    FName := fRemotePython.ToPythonFileName(Editor.GetFileNameOrTitle);
+    FName := fRemotePython.ToPythonFileName(Editor.FileId);
     for var I := 0 to Editor.BreakPoints.Count - 1 do begin
       var BreakPoint := TBreakPoint(Editor.BreakPoints[I]);
       if not BreakPoint.Disabled then begin
@@ -1851,7 +1851,7 @@ begin
 
   if (LineNumber > 0) and
      (not PyIDEOptions.TraceOnlyIntoOpenFiles or
-        Assigned(GI_EditorFactory.GetEditorByNameOrTitle(FName))) and
+        Assigned(GI_EditorFactory.GetEditorByFileId(FName))) and
      GI_PyIDEServices.ShowFilePosition(FName, LineNumber, 1, 0, True, False)
   then
   begin

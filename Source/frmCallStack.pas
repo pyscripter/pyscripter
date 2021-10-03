@@ -146,7 +146,7 @@ begin
 
       // Now Show the Current debugger position
       FrameData := FirstNode.GetData;
-      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FrameData.FileName);
+      Editor := GI_EditorFactory.GetEditorByFileId(FrameData.FileName);
       if Assigned(Editor) then
         PyControl.CurrentPos := TEditorPos.NPos(Editor, FrameData.Line);
     end;

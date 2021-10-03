@@ -222,8 +222,6 @@ type
     DefaultExtension: string;
     ParentTabItem: TSpTBXTabItem;
     ParentTabControl: TSpTBXCustomTabControl;
-    [Align(8)]
-    DocSymbols: TDocSymbols;
     procedure ClearSearchItems;
     procedure DoActivate;
     procedure DoActivateEditor(Primary: boolean = True);
@@ -257,7 +255,7 @@ type
     function GetEditorState: string;
     function GetFileName: string;
     function GetFileTitle: string;
-    function GetFileNameOrTitle: string;
+    function GetFileId: string;
     function GetModified: boolean;
     function GetFileEncoding: TFileSaveFormat;
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
@@ -322,12 +320,15 @@ type
     fForm: TEditorForm;
     fHasSelection: boolean;
     fUntitledNumber: Integer;
-    fSynLsp: TLspSynEditPlugin;
+    FSynLsp: TLspSynEditPlugin;
+    fDocSymbols: TDocSymbols;
     function IsEmpty: boolean;
-    constructor Create(AForm: TEditorForm);
     procedure DoSetFileName(AFileName: string);
     function GetEncodedTextEx(var EncodedText: AnsiString;
       InformationLossWarning: boolean): boolean;
+  public
+    constructor Create(AForm: TEditorForm);
+    destructor Destroy; override;
   end;
 
 implementation
@@ -530,7 +531,11 @@ begin
   fForm := AForm;
   fUntitledNumber := -1;
   SetFileEncoding(PyIDEOptions.NewFileEncoding);
-  fSynLsp:= TLspSynEditPlugin.Create(fForm.SynEdit);
+  FSynLsp:= TLspSynEditPlugin.Create(fForm.SynEdit);
+  // DocSymbols
+  fDocSymbols := TDocSymbols.Create;
+  fDocSymbols.OnNotify := fForm.SymbolsChanged;
+  CodeExplorerWindow.UpdateWindow(fDocSymbols, ceuEditorEnter);
 end;
 
 procedure TEditor.Activate(Primary: boolean = True);
@@ -561,6 +566,7 @@ Var
 begin
   if (fForm <> nil) then
   begin
+    FSynLsp.FileClosed;
     GI_PyIDEServices.MRUAddEditor(Self);
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
@@ -587,6 +593,12 @@ begin
   end;
 end;
 
+destructor TEditor.Destroy;
+begin
+  FreeAndNil(fDocSymbols);
+  inherited;
+end;
+
 procedure TEditor.DoSetFileName(AFileName: string);
 begin
   if AFileName <> fFileName then
@@ -605,13 +617,6 @@ begin
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
-  TThread.ForceQueue(nil, procedure
-  begin
-    if not HasPythonFile then
-      fForm.DocSymbols.Clear
-    else
-      fForm.DocSymbols.Refresh;
-  end);
 end;
 
 function TEditor.GetSynEdit: TSynEdit;
@@ -654,7 +659,7 @@ end;
 
 function TEditor.GetDocSymbols: TObject;
 begin
-  Result := FForm.DocSymbols;
+  Result := fDocSymbols;
 end;
 
 function TEditor.GetEditorState: string;
@@ -680,7 +685,7 @@ end;
 function TEditor.GetEncodedTextEx(var EncodedText: AnsiString;
   InformationLossWarning: boolean): boolean;
 begin
-  Result := WideStringsToEncodedText(GetFileNameOrTitle, fForm.SynEdit.Lines,
+  Result := WideStringsToEncodedText(GetFileId, fForm.SynEdit.Lines,
     EncodedText, InformationLossWarning, HasPythonFile);
 end;
 
@@ -713,7 +718,7 @@ begin
   end;
 end;
 
-function TEditor.GetFileNameOrTitle: string;
+function TEditor.GetFileId: string;
 begin
   if fFileName <> '' then
     Result := fFileName
@@ -820,44 +825,46 @@ end;
 procedure TEditor.OpenFile(const AFileName: string;
   HighlighterName: string = '');
 begin
-  DoSetFileName(AFileName);
+  if FForm = nil then Abort;
 
-  if fForm <> nil then
+  DoSetFileName(AFileName);
+  if (AFileName <> '') and FileExists(AFileName) then
   begin
-    if (AFileName <> '') and FileExists(AFileName) then
+    if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines) then
     begin
-        if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines) then
-        begin
-          if not FileAge(AFileName, fForm.FileTime) then
-            fForm.FileTime := 0;
-        end
-        else
-          Abort;
+      if not FileAge(AFileName, fForm.FileTime) then
+        fForm.FileTime := 0;
     end
     else
+      Abort;
+  end
+  else
+  begin
+    fForm.SynEdit.Lines.Clear;
+    if AFileName = '' then
     begin
-      fForm.SynEdit.Lines.Clear;
-      if AFileName = '' then
-      begin
-        // Default settings for new files
-        if PyIDEOptions.NewFileLineBreaks <> sffUnicode then
-          (fForm.SynEdit.Lines as TSynEditStringList).FileFormat :=
-            PyIDEOptions.NewFileLineBreaks;
-      end;
-    end;
-
-    fForm.SynEdit.Modified := False;
-    fForm.DoUpdateHighlighter(HighlighterName);
-    fForm.DoUpdateCaption;
-    fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
-    fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
-
-    if HasPythonFile then
-    begin
-      fSynLsp.FileOpened(GetFileNameOrTitle, 'python');
-      fSynLsp.TransmitChanges := True;
+      // Default settings for new files
+      if PyIDEOptions.NewFileLineBreaks <> sffUnicode then
+        (fForm.SynEdit.Lines as TSynEditStringList).FileFormat :=
+          PyIDEOptions.NewFileLineBreaks;
     end;
   end;
+
+  fForm.SynEdit.Modified := False;
+  fForm.DoUpdateHighlighter(HighlighterName);
+  fForm.DoUpdateCaption;
+  fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
+  fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
+
+  if HasPythonFile then
+  begin
+    FSynLsp.FileOpened(GetFileId, 'python');
+    FSynLsp.TransmitChanges := True;
+    FDocSymbols.FileId := GetFileId;
+    FDocSymbols.Refresh;
+  end
+  else
+    fDocSymbols.Clear;
 end;
 
 procedure TEditor.OpenRemoteFile(const FileName, ServerName: string);
@@ -865,7 +872,7 @@ Var
   TempFileName : string;
   ErrorMsg : string;
 begin
-  if (fForm = nil)  or (FileName = '') or (ServerName = '') then  Abort;
+  if (fForm = nil) or (FileName = '') or (ServerName = '') then Abort;
 
   DoSetFileName('');
 
@@ -891,11 +898,14 @@ begin
 
   if HasPythonFile then
   begin
-    fSynLsp.FileOpened(GetFileNameOrTitle, 'python');
-    fSynLsp.TransmitChanges := True;
-  end;
+    FSynLsp.FileOpened(GetFileId, 'python');
+    FSynLsp.TransmitChanges := True;
+    FDocSymbols.FileId := GetFileId;
+    FDocSymbols.Refresh;
+  end
+  else
+    FDocSymbols.Clear;
 end;
-
 
 function TEditor.SaveToRemoteFile(const FileName, ServerName: string): boolean;
 Var
@@ -1152,10 +1162,7 @@ begin
   if fForm <> nil then
   begin
     if (fFileName <> '') or (fRemoteFileName <> '') then
-    begin
-      if fForm.DoSave then
-        fSynLsp.FileSaved;
-    end
+      fForm.DoSave
     else
       ExecSaveAs
   end;
@@ -1163,18 +1170,13 @@ end;
 
 procedure TEditor.ExecSaveAs;
 begin
-  if (fForm <> nil) and fForm.DoSaveAs then
-  begin
-    if HasPythonFile then
-      fSynLsp.FileSavedAs(GetFileNameOrTitle, 'python')
-    else
-      fSynLsp.FileSavedAs('', '');
-  end;
+  if (fForm <> nil) then
+   fForm.DoSaveAs;
 end;
 
 procedure TEditor.ExecSaveAsRemote;
 begin
-  if fForm <> nil then
+  if (fForm <> nil) then
     fForm.DoSaveAsRemote;
 end;
 
@@ -1237,7 +1239,7 @@ type
     function CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
     function GetEditorCount: Integer;
     function GetEditorByName(const Name: string): IEditor;
-    function GetEditorByNameOrTitle(const Name: string): IEditor;
+    function GetEditorByFileId(const Name: string): IEditor;
     function GetEditor(Index: Integer): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
@@ -1310,7 +1312,7 @@ begin
     ApplyToEditors(procedure(Editor: IEditor)
     begin
       if Editor.Modified then
-        CheckListBox.Items.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
+        CheckListBox.Items.AddObject(Editor.FileId, Editor.Form);
     end);
     SetScrollWidth;
     mnSelectAllClick(nil);
@@ -1375,10 +1377,6 @@ begin
       Parent := Sheet;
       Align := alClient;
       Visible := True;
-      // DocSymbols
-      DocSymbols := TDocSymbols.Create(fEditor);
-      DocSymbols.OnNotify := SymbolsChanged;
-      CodeExplorerWindow.UpdateWindow(DocSymbols, ceuEditorEnter);
     end;
     if Result <> nil then
       fEditors.Add(Result);
@@ -1423,7 +1421,7 @@ begin
   end);
 end;
 
-function TEditorFactory.GetEditorByNameOrTitle(const Name: string): IEditor;
+function TEditorFactory.GetEditorByFileId(const Name: string): IEditor;
 begin
   Result := GetEditorByName(Name);
   if not Assigned(Result) then
@@ -1554,8 +1552,6 @@ procedure TEditorForm.FormDestroy(Sender: TObject);
 var
   LEditor: IEditor;
 begin
-  FreeAndNil(DocSymbols);
-
   if Assigned(fSyntaxTask) then
     fSyntaxTask.Cancel;
 
@@ -1586,7 +1582,7 @@ begin
   fNeedToCheckSyntax := True;
 
   if fEditor.HasPythonFile then
-    DocSymbols.Refresh;
+    fEditor.fDocSymbols.Refresh;
 
   if Assigned(fSyntaxTask) then
     fSyntaxTask.Cancel;
@@ -1659,7 +1655,7 @@ begin
   end;
 
   if fOldEditorForm <> Self then
-    CodeExplorerWindow.UpdateWindow(DocSymbols, ceuEditorEnter);
+    CodeExplorerWindow.UpdateWindow(fEditor.fDocSymbols, ceuEditorEnter);
   fOldEditorForm := Self;
 
   // Search and Replace Target
@@ -1827,7 +1823,11 @@ function TEditorForm.DoSave: boolean;
 begin
   Assert(fEditor <> nil);
   if (fEditor.fFileName <> '') or (fEditor.fRemoteFileName <> '') then
-    Result := DoSaveFile
+  begin
+    Result := DoSaveFile;
+    if Result then
+      FEditor.FSynLsp.FileSaved;
+  end
   else
     Result := DoSaveAs;
 end;
@@ -1876,7 +1876,7 @@ var
   Edit: IEditor;
 begin
   Assert(fEditor <> nil);
-  NewName := fEditor.GetFileNameOrTitle;
+  NewName := fEditor.GetFileId;
   if (fEditor.GetFileName = '') and (DefaultExtension <> '') and
     (ExtractFileExt(NewName) = '') then
     NewName := NewName + '.' + DefaultExtension;
@@ -1895,6 +1895,18 @@ begin
     DoUpdateCaption; // Do it twice in case the following statement fails
     Result := DoSaveFile;
     DoUpdateCaption;
+
+    if FEditor.HasPythonFile then
+    begin
+      FEditor.FDocSymbols.FileId := FEditor.GetFileId;
+      FEditor.FDocSymbols.Refresh;
+      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, 'python')
+    end
+    else
+    begin
+      FEditor.FDocSymbols.Clear;
+      FEditor.FSynLsp.FileSavedAs('', '');
+    end;
   end
   else
     Result := False;
@@ -1922,6 +1934,18 @@ begin
     DoUpdateCaption; // Do it twice in case the following statement fails
     Result := DoSaveFile;
     DoUpdateCaption;
+
+    if FEditor.HasPythonFile then
+    begin
+      FEditor.FDocSymbols.FileId := FEditor.GetFileId;
+      FEditor.FDocSymbols.Refresh;
+      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, 'python')
+    end
+    else
+    begin
+      FEditor.FDocSymbols.Clear;
+      FEditor.FSynLsp.FileSavedAs('', '');
+    end;
   end
   else
     Result := False;
@@ -1940,7 +1964,7 @@ begin
   with ParentTabItem do
   begin
     Caption := StringReplace(TabCaption, '&', '&&', [rfReplaceAll]);
-    Hint := fEditor.GetFileNameOrTitle;
+    Hint := fEditor.GetFileId;
   end;
   PyIDEMainForm.UpdateCaption;
 end;
@@ -2872,7 +2896,7 @@ begin
     Exit;
 
   Highlighter := Editor.Highlighter;
-  FileName := GI_ActiveEditor.GetFileNameOrTitle;
+  FileName := GI_ActiveEditor.FileId;
 
   Dec(Caret.Char);
   Editor.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
@@ -3025,7 +3049,7 @@ begin
   then
     Exit;
 
-  FileName := fEditor.GetFileNameOrTitle;
+  FileName := fEditor.GetFileId;
 
   CanExecute := TJedi.HandleParamCompletion(FileName,
     Editor, DisplayString, DocString, StartX, ArgIndex) and
@@ -3158,7 +3182,7 @@ begin
     end
     else if GI_PyControl.Inactive and PyIDEOptions.ShowCodeHints then
     begin
-      CodeHint := TJedi.CodeHintAtCoordinates(fHintIdentInfo.Editor.GetFileNameOrTitle,
+      CodeHint := TJedi.CodeHintAtCoordinates(fHintIdentInfo.Editor.GetFileId,
         fHintIdentInfo.StartCoord, fHintIdentInfo.Ident);
     end;
   end
@@ -3170,7 +3194,7 @@ class procedure TEditorForm.CodeHintLinkHandler(Sender: TObject; LinkName: strin
 begin
   CodeHint.CancelHint;
   PyIDEMainForm.JumpToFilePosInfo(LinkName);
-  PyIDEMainForm.AdjustBrowserLists(fHintIdentInfo.Editor.GetFileNameOrTitle,
+  PyIDEMainForm.AdjustBrowserLists(fHintIdentInfo.Editor.GetFileId,
     fHintIdentInfo.StartCoord.Line, fHintIdentInfo.StartCoord.Char, LinkName);
 end;
 

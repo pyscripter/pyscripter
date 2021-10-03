@@ -74,6 +74,12 @@ type
 	  _Event = 24,
 	  _Operator = 25,
 	  _TypeParameter = 26);
+
+   TDiagnositicSeverity = (
+     Error = 1,
+     Warning = 2,
+     Information = 3,
+     Hint = 4);
 {$SCOPEDENUMS OFF}
 
   TCompletionItem = record

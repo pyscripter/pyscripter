@@ -1545,7 +1545,7 @@ var
   TempS: string;
 begin
   Result := '';
-  var Editor := GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+  var Editor := GI_EditorFactory.GetEditorByFileId(AFileName);
   if Assigned(Editor) then begin
     if Editor.SynEdit.Lines.Count >= LineNo then
       Exit(Editor.SynEdit.Lines[LineNo - 1])

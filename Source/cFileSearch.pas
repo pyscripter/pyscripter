@@ -142,7 +142,7 @@ procedure TSearcher.SetFileName(const Value: string);
     Editor : IEditor;
   begin
     Result := False;
-    Editor := GI_EditorFactory.GetEditorByNameOrTitle(FFileName);
+    Editor := GI_EditorFactory.GetEditorByFileId(FFileName);
     if Assigned(Editor) then begin
       fSearchLines.Assign(Editor.SynEdit.Lines);
     //      FSearchStream := TStringStream.Create(Editor.SynEdit.Text);

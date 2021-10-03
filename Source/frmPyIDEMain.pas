@@ -531,6 +531,7 @@
             - Python language support provided by the Jedi language server
             - Copy and paste code as html to Powerpoint and other applications
             - Removed support for python 3.3-3.5
+            - Added traditional Chinese tranlsation
           Issues addressed
             #939, #951, #1116, #1118, #1119, #1122, #1123, #1125, #1129
 }
@@ -1479,7 +1480,7 @@ begin
   // activate the editor if already open
   if IsRemote then
   begin
-    Result :=  GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+    Result :=  GI_EditorFactory.GetEditorByFileId(AFileName);
     if Assigned(Result) then begin
       Result.Activate;
       Exit;
@@ -2258,7 +2259,7 @@ begin
     begin
       var Editor := GetActiveEditor;
       if Assigned(Editor) then
-        Caption := Format('PyScripter - %s%s', [Editor.GetFileNameOrTitle,
+        Caption := Format('PyScripter - %s%s', [Editor.FileId,
                              iff(Editor.Modified, '*', '')])
       else
         Caption := 'PyScripter';
@@ -2267,7 +2268,7 @@ end;
 
 procedure TPyIDEMainForm.SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
 begin
-  RunConfig.ScriptName := ActiveEditor.GetFileNameOrTitle;
+  RunConfig.ScriptName := ActiveEditor.FileId;
   RunConfig.EngineType := PyControl.PythonEngineType;
   RunConfig.Parameters := iff(PyIDEOptions.UseCommandLine, PyIDEOptions.CommandLine, '');
   RunConfig.ExternalRun.Assign(ExternalPython);
@@ -2536,14 +2537,14 @@ begin
   if FileName <> '' then begin
     if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
       FileName :=  Copy(FileName, 2, Length(FileName)-2);
-    Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+    Editor := GI_EditorFactory.GetEditorByFileId(FileName);
     if not Assigned(Editor) and (FileName.StartsWith('ssh') or FileExists(FileName)) then begin
       try
         DoOpenFile(FileName, '', TabControlIndex(ActiveTabControl));
       except
         Exit;
       end;
-      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+      Editor := GI_EditorFactory.GetEditorByFileId(FileName);
 
       if GI_PyControl.PythonLoaded and
         Editor.FileName.StartsWith(PyControl.PythonVersion.InstallPath, True)
@@ -4304,7 +4305,7 @@ Var
 begin
   Application.ProcessMessages;
   if Assigned(GI_ActiveEditor) then begin
-    FileName := GI_ActiveEditor.GetFileNameOrTitle;
+    FileName := GI_ActiveEditor.FileId;
     CaretXY := GI_ActiveEditor.ActiveSynEdit.CaretXY;
     FindDefinition(GI_ActiveEditor, CaretXY, True, False, True, FilePosInfo);
     AdjustBrowserLists(FileName, CaretXY.Line, CaretXY.Char, FilePosInfo);
@@ -4340,7 +4341,7 @@ begin
           begin
             TempCursor := WaitCursor;
 
-            FName := Editor.GetFileNameOrTitle;
+            FName := Editor.FileId;
 
             if ShowMessages then begin
               GI_PyIDEServices.Messages.ClearMessages;
@@ -4472,7 +4473,7 @@ Var
   Line, Col : integer;
 begin
   if Assigned(GI_ActiveEditor) then begin
-    FileName := GI_ActiveEditor.GetFileNameOrTitle;
+    FileName := GI_ActiveEditor.FileId;
     Line := Msg.LParam;
     Col := Msg.WParam;
     FindDefinition(GI_ActiveEditor, BufferCoord(Col, Line), False,
@@ -4960,7 +4961,7 @@ begin
   try
     GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
     begin
-      List.AddObject(Ed.GetFileNameOrTitle, TObject(Ed.Form));
+      List.AddObject(Ed.FileId, TObject(Ed.Form));
     end);
     ModifiedImageIndex := vilImages.GetIndexByName('Edit');
     for var I:= 0 to List.Count - 1 do begin
@@ -4969,7 +4970,7 @@ begin
       mnFiles.Add(MenuItem);
       MenuItem.Caption := List[I];
       MenuItem.GroupIndex := 3;
-      MenuItem.Hint := Editor.GetFileNameOrTitle;
+      MenuItem.Hint := Editor.FileId;
       MenuItem.Checked := Editor = ActiveEditor;
       if Editor.Modified then
         MenuItem.ImageIndex := ModifiedImageIndex;

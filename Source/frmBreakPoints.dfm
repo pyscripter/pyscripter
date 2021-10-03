@@ -130,6 +130,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy to clipboard'
       ImageIndex = 0
+      ImageName = 'Copy'
       OnClick = mnCopyToClipboardClick
     end
   end

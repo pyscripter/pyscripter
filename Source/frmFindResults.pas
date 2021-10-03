@@ -896,7 +896,7 @@ function GetFileAsText(const FileName: string; Lines: TStrings): Boolean;
 Var
   Editor : IEditor;
 begin
-  Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+  Editor := GI_EditorFactory.GetEditorByFileId(FileName);
   if Assigned(Editor) then begin
     Lines.Assign(Editor.SynEdit.Lines);
     Result := True;
@@ -1136,7 +1136,7 @@ var
     Editor : IEditor;
     OldCaretXY : TBufferCoord;
   begin
-    Editor := GI_EditorFactory.GetEditorByNameOrTitle(MatchFile);
+    Editor := GI_EditorFactory.GetEditorByFileId(MatchFile);
     if Assigned(Editor) then with Editor.SynEdit do begin
       //  We replace selection so that changes can be undone
       OldCaretXY := CaretXY;

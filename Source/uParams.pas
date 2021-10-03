@@ -84,7 +84,7 @@ begin
   Result:= '';
   Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then
-    Result:= Editor.GetFileNameOrTitle;
+    Result:= Editor.FileId;
 end;
 
 function GetActiveScript: string;
@@ -146,7 +146,7 @@ begin
   Result:= '';
   if (AFileName = '') or SameText('ActiveDoc', AFileName) then
     AEditor:= GI_ActiveEditor
-  else AEditor:= GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+  else AEditor:= GI_EditorFactory.GetEditorByFileId(AFileName);
   if Assigned(AEditor) then
     Result:= AEditor.GetSynEdit.LineText;
 end;
@@ -158,7 +158,7 @@ begin
   Result:= '0';
   if (AFileName = '') or SameText('ActiveDoc', AFileName) then
     AEditor:= GI_ActiveEditor
-  else AEditor:= GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+  else AEditor:= GI_EditorFactory.GetEditorByFileId(AFileName);
   if Assigned(AEditor) then
     Result:= AEditor.GetSynEdit.CaretY.ToString;
 end;
@@ -440,7 +440,7 @@ var
 begin
   Result:= '';
   // look in open files
-  AEditor:= GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+  AEditor:= GI_EditorFactory.GetEditorByFileId(AFileName);
   if Assigned(AEditor) then
     Result:= AEditor.GetSynEdit.Text
   else begin

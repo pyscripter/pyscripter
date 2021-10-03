@@ -700,7 +700,7 @@ var
 
 begin
   if Assigned(GI_ActiveEditor) then begin
-    FileName := GI_ActiveEditor.GetFileNameOrTitle;
+    FileName := GI_ActiveEditor.FileId;
 
     Dlg := TFunctionListWindow.CreateWithFileName(nil, FileName);
     try

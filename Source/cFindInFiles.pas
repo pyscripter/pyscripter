@@ -431,7 +431,7 @@ begin
       else
         Result := False;
 
-      var FileName := Editor.GetFileNameOrTitle;
+      var FileName := Editor.FileId;
       GrepFile(FileName);
   end);
 end;

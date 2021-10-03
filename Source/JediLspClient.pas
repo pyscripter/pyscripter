@@ -14,6 +14,7 @@ uses
   Winapi.Windows,
   System.Classes,
   System.SyncObjs,
+  System.Generics.Collections,
   System.JSON,
   JclNotify,
   LspClient,
@@ -60,26 +61,37 @@ type
   TDocSymbols = class
     {Asynchronous symbol support for Code Explorer}
   private
-    FEditor: IEditor;
+    FFileId: string;
     FCriticalSection: TRTLCriticalSection;
     FSymbols: TJsonArray;
-
     FId: Int64;
     FRefreshing: Boolean;
+    FDestroying: Boolean;
     FOnNotify: TNotifyEvent;
     procedure HandleResponse(Id: Int64; Result, Error: TJsonValue);
   public
     ModuleNode: TObject;  // for storing Code Explorer TModuleNodeCE
-    constructor Create(Editor: IEditor);
+    constructor Create();
     destructor Destroy; override;
     procedure Clear;
     procedure Lock;
     procedure Unlock;
     procedure Refresh;
-    property Editor: IEditor read fEditor;
-    property Symbols: TJsonArray read fSymbols;
+    property FileId: string read FFileId write FFileId;
+    property Symbols: TJsonArray read FSymbols;
+    property Destroying: Boolean read FDestroying;
     property OnNotify: TNotifyEvent read FOnNotify write FOnNotify;
   end;
+
+  TDiagnostic = record
+    Severity: TDiagnositicSeverity;
+    BlockBegin,
+    BlockEnd: TBufferCoord;
+    Source: string;
+    Msg: string;
+  end;
+
+  TDiagnostics = TThreadList<TDiagnostic>;
 
 implementation
 
@@ -89,7 +101,6 @@ uses
   System.IOUtils,
   System.Threading,
   System.RegularExpressions,
-  System.Generics.Collections,
   dmCommands,
   uCommonFunctions,
   SynEditLsp,
@@ -158,9 +169,9 @@ Const
     '{"textDocument":{"documentSymbol":{"hierarchicalDocumentSymbolSupport":true}}}';
    InitializationOptionsLsp =
     '{'#13#10 +
-    '	  "diagnostics": {'#13#10 +
-    '		"enable": false'#13#10 +
-    '	  },'#13#10 +
+//    '	  "diagnostics": {'#13#10 +
+//    '		"enable": false'#13#10 +
+//    '	  },'#13#10 +
     '   "completion": {'#13#10 +
     '       "disableSnippets": true,'#13#10 +
     '       "resolveEagerly": false'#13#10 +
@@ -526,17 +537,16 @@ begin
   end;
 end;
 
-constructor TDocSymbols.Create(Editor: IEditor);
+constructor TDocSymbols.Create();
 begin
   inherited Create;
-  FEditor:= Editor;
   FCriticalSection.Initialize;
 end;
 
 destructor TDocSymbols.Destroy;
 begin
   // signal it is destroyed
-  fEditor := nil;
+  FDestroying := True;
   Clear;
   FCriticalSection.Destroy;
   inherited;
@@ -546,12 +556,14 @@ procedure TDocSymbols.HandleResponse(Id: Int64; Result, Error: TJsonValue);
 begin
   if Id = fId then
   begin
-    //OutputDebugString(PChar(fEditor.GetFileNameOrTitle));
     Lock;
     try
       FreeAndNil(FSymbols);
       if (Result <> nil) and (Result is TJSONArray) then
-        FSymbols := TJsonArray(Result.Clone);
+      begin
+        Result.Owned := False;
+        FSymbols := TJsonArray(Result);
+      end;
       if Assigned(FOnNotify) then
         FOnNotify(Self);
     finally
@@ -578,7 +590,7 @@ begin
       if fid <> 0 then
         TJedi.LspClient.CancelRequest(fId);
       var Param := TSmartPtr.Make(TJsonObject.Create)();
-      Param.AddPair('textDocument', LspTextDocumentIdentifier(FEditor.GetFileNameOrTitle));
+      Param.AddPair('textDocument', LspTextDocumentIdentifier(FFileId));
 
       var Id := TJedi.LspClient.Request('textDocument/documentSymbol', Param.ToJson, HandleResponse);
       AtomicExchange(FId, Id);

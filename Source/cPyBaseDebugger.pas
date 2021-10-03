@@ -301,7 +301,7 @@ begin
     if ItemCount > 0 then begin
       TI := Items[ItemCount -1];
       FileName := FromPythonFileName(TI.FileName);
-      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+      Editor := GI_EditorFactory.GetEditorByFileId(FileName);
       // Check whether the error occurred in the active editor
       if (Assigned(Editor) and (Editor = GI_PyIDEServices.ActiveEditor)) or
         PyIDEOptions.JumpToErrorOnException then
