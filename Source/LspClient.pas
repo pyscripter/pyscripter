@@ -69,7 +69,6 @@ type
     FOnInitialized: TNotifyEvent;
     FOnShutdown: TNotifyEvent;
     procedure ProcessServerCapabilities(SC: TJsonObject);
-    procedure TerminateServer;
     procedure ServerTerminated(Sender: TObject);
     procedure HandleInitialize(id: Int64; Result, Error: TJsonValue);
     procedure HandleSyncRequest(id: Int64; AResult, AError: TJsonValue);
@@ -229,14 +228,17 @@ end;
 
 procedure TLspClient.HandleSyncRequest(id: Int64; AResult, AError: TJsonValue);
 begin
-  with TSyncRequestHelper(fSyncHelper) do
+  if Assigned(AResult) then
   begin
-    if AResult is TJsonValue then
-      Result := TJSONValue(AResult.Clone);
-    if AError is TJsonValue then
-      Error := TJSONValue(AError.Clone);
-    SyncEvent.SetEvent;
+    AResult.Owned := False;
+    TSyncRequestHelper(fSyncHelper).Result := AResult;
   end;
+  if Assigned(AError) then
+  begin
+    AError.Owned := False;
+    TSyncRequestHelper(fSyncHelper).Error := AError;
+  end;
+  TSyncRequestHelper(fSyncHelper).SyncEvent.SetEvent;
 end;
 
 procedure TLspClient.ReceiveData(const Bytes: TBytes; BytesRead: Cardinal);
@@ -290,7 +292,7 @@ begin
                 if Assigned(fOnLspNotification) and
                   Response.TryGetValue('params', Params)
                 then
-                  fOnLspNotification(Method, Params.Clone as TJSonValue);
+                  fOnLspNotification(Method, Params);
               end;
             end
             else if Response.TryGetValue<Int64>('id', Id) then
@@ -395,7 +397,6 @@ end;
 
 procedure TLspClient.ServerTerminated(Sender: TObject);
 begin
-  FServerThread := nil;
   FStatus := lspInactive;
 end;
 
@@ -407,20 +408,16 @@ begin
       FOnShutdown(Self);
 
     if FStatus = lspInitialized then
-      Request('shutdown', 'null', HandleShutdown)
-    else
-      TerminateServer;
-    repeat
-      Sleep(0);
-      CheckSynchronize(100);
-    until FStatus = lspInactive;
+    begin
+      Request('shutdown', 'null', HandleShutdown);
+      FServerThread.WaitFor;
+    end;
+    FreeAndNil(FServerThread);
+    Assert(FStatus = lspInactive);
   end;
+  // TThread destroy calls Terminate and then WaitFor
   if Assigned(FSendDataThread) then
-  begin
-    FSendDataThread.Terminate;
-    Sleep(0);
-    FSendDataThread := nil
-  end;
+    FreeAndNil(FSendDataThread);
 end;
 
 procedure TLspClient.StartServer;
@@ -508,20 +505,6 @@ begin
   CheckCapability('completionProvider.resolveProvider', lspscCompletionResolve);
 end;
 
-
-procedure TLspClient.TerminateServer;
-var
-  ServerThread: TThread;
-begin
-  if Assigned(FServerThread) then
-  begin
-    ServerThread := FServerThread;
-    fServerThread := nil;
-    FStatus := lspInactive;
-    ServerThread.Terminate;
-  end;
-end;
-
 { TLspClientThread }
 
 procedure TLspServerThread.BeforeResume(const ProcessInfo: TProcessInformation;
@@ -536,7 +519,6 @@ constructor TLspServerThread.Create(LspClient: TLspClient;
   ExCmdOptions: TJclExecuteCmdProcessOptions);
 begin
   inherited Create(True);
-  FreeOnTerminate := True;
   FLspClient := LspClient;
   fExCmdOptions := ExCmdOptions;
   fAbortEvent := TJclEvent.Create(nil, True, False, '');
@@ -548,7 +530,6 @@ begin
     RawOutput := True;
     MergeError := False;
     RawError := True;
-    //StartupVisibility := svShow;
     BufferSize := 1024*64;
   end;
 end;
@@ -590,15 +571,15 @@ end;
 
 constructor TSendDataThread.Create;
 begin
-  FQueue := TThreadedQueue<TBytes>.Create(10, 100, 400);
-  FreeOnTerminate := True;
+  FQueue := TThreadedQueue<TBytes>.Create(10, 100, 200);
   inherited Create(True);
 end;
 
 destructor TSendDataThread.Destroy;
 begin
-  FQueue.Free;
   inherited;
+  // FQueue needs to be freed after inherited Destoy
+  FQueue.Free;
 end;
 
 procedure TSendDataThread.Execute;
