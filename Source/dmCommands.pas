@@ -2047,7 +2047,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 21);
+    SetLength(Options, 20);
     Options[0].PropertyName := 'SearchTextAtCaret';
     Options[0].DisplayName := _('Search text at caret');
     Options[1].PropertyName := 'CreateBackupFiles';
@@ -2080,16 +2080,14 @@ begin
     Options[14].DisplayName := _('Highlight color of selected word');
     Options[15].PropertyName := 'DisplayPackageNames';
     Options[15].DisplayName := _('Display package names in editor tabs');
-    Options[16].PropertyName := 'CheckSyntaxLineLimit';
-    Options[16].DisplayName := _('File line limit for syntax check as you type');
-    Options[17].PropertyName := 'CodeFoldingEnabled';
-    Options[17].DisplayName := _('Code folding enabled by default');
-    Options[18].PropertyName := 'CodeFolding';
-    Options[18].DisplayName := _('Code folding options');
-    Options[19].PropertyName := 'CompactLineNumbers';
-    Options[19].DisplayName := _('Compact Line Numbers');
-    Options[20].PropertyName := 'TrimTrailingSpacesOnSave';
-    Options[20].DisplayName := _('Trim trailing spaces when files are saved');
+    Options[16].PropertyName := 'CodeFoldingEnabled';
+    Options[16].DisplayName := _('Code folding enabled by default');
+    Options[17].PropertyName := 'CodeFolding';
+    Options[17].DisplayName := _('Code folding options');
+    Options[18].PropertyName := 'CompactLineNumbers';
+    Options[18].DisplayName := _('Compact Line Numbers');
+    Options[19].PropertyName := 'TrimTrailingSpacesOnSave';
+    Options[19].DisplayName := _('Trim trailing spaces when files are saved');
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');

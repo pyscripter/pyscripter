@@ -311,6 +311,7 @@ function TCodeHintWindow.CalcHintRect(MaxWidth: Integer;
 begin
   // HtLabel.Font.Color := StyleServices.GetSystemColor(Screen.HintFont.Color);   // #898
   HtLabel.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  HtLabel.Canvas.Pen.Color := HtLabel.Font.Color;
   HtLabel.Caption := AHint;
   Result := Bounds(0, 0, Min(HtLabel.Width, MaxWidth) + 6, HtLabel.Height + 2);
 end;

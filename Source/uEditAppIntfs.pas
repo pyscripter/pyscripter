@@ -223,6 +223,7 @@ type
       If want the active editor with focus then use GI_ActiveEditor
     }
     function GetActiveEditor : IEditor;
+    function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const S: string);
     function ShowFilePosition(FileName : string; Line: integer =0;
       Offset : integer = 1; SelLen : integer = 0;
@@ -239,6 +240,7 @@ type
     function GetLocalAppStorage: TJvCustomAppStorage;
     procedure MRUAddEditor(Editor: IEditor);
     property ActiveEditor: IEditor read GetActiveEditor;
+    property IsClosing: Boolean read GetIsClosing;
     property Messages: IMessageServices read GetMessageServices;
     property UnitTests: IUnitTestServices read GetUnitTestServices;
     property Layouts: IIDELayouts read GetIDELayouts;

@@ -117,7 +117,6 @@ type
     fCompleteWithWordBreakChars: Boolean;
     fCompleteWithOneEntry:Boolean;
     fDisplayPackageNames:Boolean;
-    fCheckSyntaxLineLimit : integer;
     fNoOfRecentFiles : integer;
     fCodeFoldingEnabled : boolean;
     fCodeFolding : TSynCodeFolding;
@@ -279,8 +278,6 @@ type
       write fCompleteWithOneEntry default False;
     property DisplayPackageNames : Boolean read fDisplayPackageNames
       write fDisplayPackageNames default True;
-    property CheckSyntaxLineLimit : integer read fCheckSyntaxLineLimit
-      write fCheckSyntaxLineLimit default 1000;
     property NoOfRecentFiles : integer read fNoOfRecentFiles
       write fNoOfRecentFiles default 8;
     property CodeFoldingEnabled : Boolean read fCodeFoldingEnabled
@@ -436,7 +433,6 @@ begin
       Self.fCompleteWithWordBreakChars := CompleteWithWordBreakChars;
       Self.fCompleteWithOneEntry := CompleteWithOneEntry;
       Self.fDisplayPackageNames := DisplayPackageNames;
-      Self.fCheckSyntaxLineLimit := CheckSyntaxLineLimit;
       Self.fNoOfRecentFiles := NoOfRecentFiles;
       Self.fCodeFoldingEnabled := CodeFoldingEnabled;
       Self.fInternalInterpreterHidden := InternalInterpreterHidden;
@@ -533,7 +529,6 @@ begin
   fCompleteWithWordBreakChars := False;
   fCompleteWithOneEntry := False;
   fDisplayPackageNames := True;
-  fCheckSyntaxLineLimit := 1000;
   fNoOfRecentFiles := 8;
   fCodeFoldingEnabled := True;
   fInternalInterpreterHidden := True;

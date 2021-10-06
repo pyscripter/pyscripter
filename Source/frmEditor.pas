@@ -58,7 +58,7 @@ type
 
   THotIdentInfo = record
     SynEdit: TSynEdit;
-    [weak] Editor : TEditor;
+    [weak] Editor: TEditor;
     HaveHotIdent: boolean;
     IdentArea: TRect;
     Ident: string;
@@ -181,13 +181,9 @@ type
     fActiveSynEdit: TSynEdit;
     fAutoCompleteActive: boolean;
     fHotIdentInfo: THotIdentInfo;
-    fNeedToCheckSyntax: boolean;
     fNeedToSyncCodeExplorer: boolean;
-    fSyntaxErrorPos: TEditorPos;
     fCloseBracketChar: WideChar;
     fOldCaretY : Integer;
-    fSyntaxTask: ITask;
-    procedure HandlePythonVersionChange(Sender: TObject);
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
     function DoSave: boolean;
@@ -461,22 +457,33 @@ Var
   end;
 
 begin
-  if fForm.HasSyntaxError then
-    with fForm.fSyntaxErrorPos do
-      if System.Math.InRange(Line, fForm.SynEdit.RowToLine(FirstLine),
-        fForm.SynEdit.RowToLine(LastLine)) and not (fForm.SynEdit.UseCodeFolding and
-          fForm.SynEdit.AllFoldRanges.FoldHidesLine(Line)) then
+  var LastBufferLine := fForm.SynEdit.RowToLine(LastLine);
+  var List := FForm.FEditor.FSynLsp.Diagnostics.LockList;
+  try
+    for var Diag in List do
+    begin
+      // Errors are ordered by line
+      if Diag.BlockBegin.Line > LastBufferLine then Break;
+
+      if System.Math.InRange(Diag.BlockBegin.Line, FForm.SynEdit.RowToLine(FirstLine),
+        LastBufferLine) and not (fForm.SynEdit.UseCodeFolding and
+          fForm.SynEdit.AllFoldRanges.FoldHidesLine(Diag.BlockBegin.Line))
+      then
       begin
         LH := fForm.SynEdit.LineHeight;
         TP := fForm.SynEdit.RowColumnToPixels
-          (fForm.SynEdit.BufferToDisplayPos(BufferCoord(1, Line)));
+          (fForm.SynEdit.BufferToDisplayPos(Diag.BlockBegin));
         if TP.X <= ACanvas.ClipRect.Right - ACanvas.ClipRect.Left then
         begin
           MaxX := fForm.SynEdit.RowColumnToPixels
-            (fForm.SynEdit.BufferToDisplayPos(BufferCoord(Char, Line))).X;
+            (fForm.SynEdit.BufferToDisplayPos(Diag.BlockEnd)).X;
           PaintUnderLine;
         end;
       end;
+    end;
+  finally
+    FForm.FEditor.FSynLsp.Diagnostics.UnLockList;
+  end;
 
   if fForm.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
     fForm.PaintGutterGlyphs(ACanvas, AClip, FirstLine, LastLine);
@@ -1552,9 +1559,6 @@ procedure TEditorForm.FormDestroy(Sender: TObject);
 var
   LEditor: IEditor;
 begin
-  if Assigned(fSyntaxTask) then
-    fSyntaxTask.Cancel;
-
   SynEdit2.RemoveLinesPointer;
   LEditor := fEditor;
   Assert(fEditor <> nil);
@@ -1569,9 +1573,6 @@ begin
   // Unregister kernel notification
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
 
-  // Remove Python Version Change Handler
-  PyControl.OnPythonVersionChange.RemoveHandler(HandlePythonVersionChange);
-
   SkinManager.RemoveSkinNotification(Self);
 end;
 
@@ -1579,13 +1580,9 @@ procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
   if PyControl.ErrorPos.Editor = GetEditor then
     PyControl.ErrorPos := TEditorPos.EmptyPos;
-  fNeedToCheckSyntax := True;
 
   if fEditor.HasPythonFile then
     fEditor.fDocSymbols.Refresh;
-
-  if Assigned(fSyntaxTask) then
-    fSyntaxTask.Cancel;
 
   ClearSearchItems;
 end;
@@ -2430,9 +2427,6 @@ begin
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
 
-  // Add Python Version Change Notifier
-  PyControl.OnPythonVersionChange.AddHandler(HandlePythonVersionChange);
-
   Retranslate;
 end;
 
@@ -2492,20 +2486,32 @@ end;
 procedure TEditorForm.GoToSyntaxError;
 begin
   if HasSyntaxError then
-    SynEdit.CaretXY := BufferCoord(fSyntaxErrorPos.Char, fSyntaxErrorPos.Line);
-end;
-
-procedure TEditorForm.HandlePythonVersionChange(Sender: TObject);
-begin
-  fNeedToCheckSyntax := True;
+  begin
+    var List := FEditor.FSynLsp.Diagnostics.LockList;
+    try
+      if List.Count > 0 then
+      begin
+        var BB := List[0].BlockBegin;
+        SynEdit.CaretXY := BufferCoord(BB.Char, BB.Line);
+      end;
+    finally
+      FEditor.FSynLsp.Diagnostics.UnLockList;
+    end;
+  end;
 end;
 
 function TEditorForm.HasSyntaxError: boolean;
 begin
-  Result :=
-    PyIDEOptions.CheckSyntaxAsYouType and fEditor.HasPythonFile and
-    fSyntaxErrorPos.IsSyntax and (fSyntaxErrorPos.Editor = GetEditor) and
-    (fSyntaxErrorPos.Line <= SynEdit.Lines.Count);
+  Result := False;
+  if PyIDEOptions.CheckSyntaxAsYouType and fEditor.HasPythonFile then
+  begin
+    var Diagnostics := FEditor.FSynLsp.Diagnostics.LockList;
+    try
+      Result := Diagnostics.Count > 0;
+    finally
+      FEditor.FSynLsp.Diagnostics.UnLockList;
+    end;
+  end;
 end;
 
 procedure TEditorForm.SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
@@ -2564,26 +2570,46 @@ var
   Pix: TPoint;
   aLineCharPos: TBufferCoord;
   ASynEdit: TSynEdit;
+  HaveSyntaxHint: Boolean;
+  FoundError: TDiagnostic;
 begin
   ASynEdit := Sender as TSynEdit;
-  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.Gutter.Width) then
+  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.Gutter.Width) or
+    (ASynEdit <> Self.FActiveSynEdit)
+  then
     Exit;
   aLineCharPos := ASynEdit.DisplayToBufferPos(ASynEdit.PixelsToRowColumn(X, Y));
+
   // Syntax error hints
-  if HasSyntaxError and (aLineCharPos.Line = fSyntaxErrorPos.Line) and
-    (aLineCharPos.Char <= fSyntaxErrorPos.Char) then
+  HaveSyntaxHint := False;
+  var List := FEditor.FSynLsp.Diagnostics.LockList;
+  try
+    for var Diag in List do
+    begin
+      if (Diag.BlockBegin.Line = aLineCharPos.Line) and
+        System.Math.InRange(aLineCharPos.Char, Diag.BlockBegin.Char, Diag.BlockEnd.Char) then
+      begin
+        HaveSyntaxHint := True;
+        FoundError := Diag;
+      end;
+    end;
+  finally
+    FEditor.FSynLsp.Diagnostics.UnLockList;
+  end;
+
+  if HaveSyntaxHint then
     with ASynEdit do
     begin
-      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(BufferCoord(1,
-              aLineCharPos.Line))));
+      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(
+        FoundError.BlockBegin)));
       fHintIdentInfo.IdentArea.TopLeft := Pix;
-      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos
-            (BufferCoord(fSyntaxErrorPos.Char, aLineCharPos.Line))));
+      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(
+       FoundError.BlockEnd)));
       fHintIdentInfo.IdentArea.Right := Pix.X;
       fHintIdentInfo.IdentArea.Bottom := Pix.Y + LineHeight + 3;
       Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
       Pix.Y := Pix.Y + LineHeight;
-      fHintIdentInfo.SynToken := 'Syntax Error';
+      fHintIdentInfo.SynToken := 'Syntax Error: ' + FoundError.Msg;
       fHintIdentInfo.Editor := fEditor;
       CodeHint.ActivateHintAt(fHintIdentInfo.IdentArea, Pix);
     end
@@ -3159,11 +3185,9 @@ begin
   if Assigned(fHintIdentInfo.Editor) and
     CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then
   begin
-    if (fHintIdentInfo.SynToken = 'Syntax Error') and fHintIdentInfo.Editor.fForm.HasSyntaxError then
-    begin
+    if fHintIdentInfo.SynToken.StartsWith('Syntax Error: ') and fHintIdentInfo.Editor.fForm.HasSyntaxError then
       // Syntax hint
-      CodeHint := 'Syntax Error: ' + fHintIdentInfo.Editor.fForm.fSyntaxErrorPos.ErrorMsg;
-    end
+      CodeHint := Copy(fHintIdentInfo.SynToken, 15)
     else if (PyControl.DebuggerState in [dsPaused, dsPostMortem])
       and PyIDEOptions.ShowDebuggerHints then
     begin
@@ -3201,34 +3225,6 @@ end;
 procedure TEditorForm.DoOnIdle;
 begin
   SyncCodeExplorer;
-
-  if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    fNeedToCheckSyntax and PyIDEOptions.CheckSyntaxAsYouType and
-    (SynEdit.Lines.Count <= PyIDEOptions.CheckSyntaxLineLimit) and
-    GI_PyControl.Inactive and not Assigned(fSyntaxTask)
-  // do not syntax check very long files
-  then
-    fSyntaxTask := TTask.Create(procedure
-    begin
-      Sleep(1000); // introduce a delay
-      var ErrorPos: TEditorPos;
-      var Cancelled :=  TTask.CurrentTask.Status = TTaskStatus.Canceled;
-      if not Cancelled then
-        TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, ErrorPos, True);
-      TThread.Synchronize(nil, procedure
-      begin
-        if not Cancelled then
-        begin
-          if HasSyntaxError then
-            SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
-          fSyntaxErrorPos := ErrorPos;
-          if HasSyntaxError then
-            SynEdit.InvalidateLine(fSyntaxErrorPos.Line);
-          fNeedToCheckSyntax := False;
-        end;
-        fSyntaxTask := nil;
-      end);
-    end).Start;
 
   if HasSyntaxError then
     ParentTabItem.ImageIndex := PyIDEMainForm.vilImages.GetIndexByName('Bug')

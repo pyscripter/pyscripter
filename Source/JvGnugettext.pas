@@ -2007,6 +2007,7 @@ begin
 
         Count := GetPropList(AnObject, PropList);
         try
+// Fix #1133
 //          if ObjectHasAssignedAction(AnObject, PropList, Count) then
 //            Continue;
 
@@ -2858,11 +2859,11 @@ begin
 end;
 
 destructor TFileLocator.Destroy;
+Var
+  Idx:integer;
 begin
-  while filelist.count<>0 do begin
-    filelist.Objects[0].Free;
-    filelist.Delete (0);
-  end;
+  for Idx := 0 to filelist.Count-1 do
+    FileList.Objects[Idx].Free;
   FreeAndNil (filelist);
   FreeAndNil (MoFiles);
   FreeAndNil (MoFilesCS);

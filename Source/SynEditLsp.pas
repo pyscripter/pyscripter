@@ -13,17 +13,32 @@ uses
   System.SysUtils,
   System.Classes,
   System.JSON,
+  System.Generics.Collections,
+  LspUtils,
   SynEditTypes,
   SynEdit;
 
 type
+  TDiagnostic = record
+    Severity: TDiagnositicSeverity;
+    BlockBegin,
+    BlockEnd: TBufferCoord;
+    Source: string;
+    Msg: string;
+  end;
+
+  TDiagnostics = TThreadList<TDiagnostic>;
+
   TLspSynEditPlugin = class(TSynEditPlugin)
   private
-    FFileName: string;
+    FFileId: string;
     FIncChanges: TJSONArray;
     FVersion: Int64;
     FTransmitChanges: Boolean;
+    FDiagnostics: TDiagnostics;
     procedure FOnLspInitialized(Sender: TObject);
+    class var Instances: TThreadList<TLspSynEditPlugin>;
+    class function FindPluginWithFileId(const AFileId: string): TLspSynEditPlugin;
   protected
     procedure LinesInserted(FirstLine, Count: Integer); override;
     procedure LinesDeleted(FirstLine, Count: Integer); override;
@@ -32,25 +47,33 @@ type
   public
     constructor Create(AOwner: TCustomSynEdit);
     destructor Destroy; override;
-    procedure FileOpened(const FileName, LanguageID: string);
+    procedure FileOpened(const FileId, LangId: string);
     procedure FileClosed;
     procedure FileSaved;
-    procedure FileSavedAs(const FileName, LanguageID: string);
+    procedure FileSavedAs(const FileId, LangId: string);
+    procedure InvalidateErrorLines;
     property TransmitChanges: boolean read fTransmitChanges
       write fTransmitChanges;
+    property Diagnostics: TDiagnostics read FDiagnostics;
+    class constructor Create;
+    class destructor Destroy;
+    class procedure HandleLspNotify(const Method: string; Params: TJsonValue);
   end;
 
 function LspPosition(const BC: TBufferCoord): TJsonObject; overload;
 function LspDocPosition(const FileName: string; const BC: TBufferCoord): TJsonObject; overload;
 function LspRange(const BlockBegin, BlockEnd: TBufferCoord): TJsonObject;
+procedure RangeFromJson(Json: TJsonObject; out BlockBegin, BlockEnd: TBufferCoord);
 
 implementation
 
 uses
+  Winapi.Windows,
   System.StrUtils,
-  LspUtils,
+  System.Threading,
   LspClient,
   JediLspClient,
+  uEditAppIntfs,
   uCommonFunctions;
 
 { TLspSynEditPlugin }
@@ -60,20 +83,29 @@ begin
   inherited Create(AOwner);
   FIncChanges := TJSONArray.Create;
   FIncChanges.Owned := False;
+  FDiagnostics := TDiagnostics.Create;
   TJedi.OnInitialized.AddHandler(FOnLspInitialized);
+  Instances.Add(Self);
 end;
 
 destructor TLspSynEditPlugin.Destroy;
 begin
+  Instances.Remove(Self);
   TJedi.OnInitialized.RemoveHandler(FOnLspInitialized);
+  FDiagnostics.Free;
   FIncChanges.Free;
   inherited;
 end;
 
+class destructor TLspSynEditPlugin.Destroy;
+begin
+  Instances.Free;
+end;
+
 procedure TLspSynEditPlugin.FileClosed;
 begin
-  var TempFileName := fFileName;
-  fFileName := '';
+  var TempFileName := FFileId;
+  FFileId := '';
   if not TJedi.Ready or
     not (lspscOpenCloseNotify in TJedi.LspClient.ServerCapabilities) or
     (TempFileName = '')
@@ -85,11 +117,12 @@ begin
   TJedi.LspClient.Notify('textDocument/didClose', Params.ToJson);
 end;
 
-procedure TLspSynEditPlugin.FileOpened(const FileName, LanguageID: string);
+procedure TLspSynEditPlugin.FileOpened(const FileId, LangId: string);
 begin
-  fFileName := FileName;
+  FFileId := FileId;
+
   fVersion := 0;
-  if not TJedi.Ready or (FileName = '') or (LanguageId <> 'python') then
+  if not TJedi.Ready or (FileId = '') or (LangId <> 'python') then
   // support for didOpen is mandatory for the client
   // but I assume that is supported by the Server even if it does not say so
   // or not (lspscOpenCloseNotify in fLspClient.ServerCapabilities)
@@ -99,7 +132,7 @@ begin
 //  var OldTrailingLineBreak := Editor.Lines.TrailingLineBreak;
 //  Editor.Lines.TrailingLineBreak := True;
 //  try
-    Params.AddPair('textDocument', LspTextDocumentItem(FileName, LanguageId,
+    Params.AddPair('textDocument', LspTextDocumentItem(FileId, LangId,
       Editor.Text, 0));
 //  finally
 //    Editor.Lines.TrailingLineBreak := OldTrailingLineBreak;
@@ -109,37 +142,121 @@ end;
 
 procedure TLspSynEditPlugin.FileSaved;
 begin
-  if not TJedi.Ready or (FFileName = '') or
+  if not TJedi.Ready or (FFileId = '') or
     not (lspscSaveNotify in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
 
   var Params := TSmartPtr.Make(TJsonObject.Create)();
-  Params.AddPair('textDocument', LspTextDocumentIdentifier(fFileName));
+  Params.AddPair('textDocument', LspTextDocumentIdentifier(FFileId));
   TJedi.LspClient.Notify('textDocument/didSave', Params.ToJson);
 end;
 
-procedure TLspSynEditPlugin.FileSavedAs(const FileName, LanguageID: string);
+procedure TLspSynEditPlugin.FileSavedAs(const FileId, LangId: string);
 begin
-  if (fFileName <> '') then
+  if (FFileId <> '') then
     FileClosed;
-  if LanguageID = 'python' then
-    FileOpened(FileName, LanguageID);
+  if (FileId <> '') and (LangId = 'python') then
+    FileOpened(FileId, LangId);
 end;
 
 procedure TLspSynEditPlugin.FOnLspInitialized(Sender: TObject);
 begin
-  FileOpened(FFileName, 'python');
+  if FFileId <> '' then
+    FileOpened(FFileId, 'python');
+end;
+
+class procedure TLspSynEditPlugin.HandleLspNotify(const Method: string;
+  Params: TJsonValue);
+var
+  DiagArray: TArray<TDiagnostic>;
+  LFileId : string;
+begin
+  if GI_PyIDEServices.IsClosing then Exit;
+  if Method <> 'textDocument/publishDiagnostics' then Exit;
+
+  Params.Owned := False;
+  var Task := TTask.Create(procedure
+  begin
+    try
+      var Uri: string;
+      if not Params.TryGetValue('uri', Uri) then Exit;
+      LFileId := FileIdFromUri(Uri);
+      if LFileId = '' then Exit;
+      var Diagnostics := Params.FindValue('diagnostics');
+      if not (Diagnostics is TJSONArray) then Exit;
+
+      var Diag: TJsonValue;
+      SetLength(DiagArray, TJsonArray(Diagnostics).Count);
+
+      for var I := 0  to TJsonArray(Diagnostics).Count - 1 do
+      begin
+        Diag := TJsonArray(Diagnostics).Items[I];
+        DiagArray[I].Severity := TDiagnositicSeverity(Diag.GetValue<integer>('severity'));
+        DiagArray[I].Msg := Diag.GetValue<string>('message');
+        DiagArray[I].Source := Diag.GetValue<string>('source');
+        RangeFromJson(Diag as TJsonObject, DiagArray[I].BlockBegin, DiagArray[I].BlockEnd);
+      end;
+    finally
+      Params.Free;
+    end;
+
+    if GI_PyIDEServices.IsClosing then Exit;
+
+    TThread.ForceQueue(nil, procedure
+    begin
+      var Plugin := FindPluginWithFileId(LFileId);
+      if not Assigned(Plugin) then Exit;
+
+      var List := PlugIn.FDiagnostics.LockList;
+      try
+        PlugIn.InvalidateErrorLines; // old errors
+        List.Clear;
+        List.AddRange(DiagArray);
+        PlugIn.InvalidateErrorLines;  // new errors
+      finally
+        PlugIn.FDiagnostics.UnLockList;
+      end;
+    end);
+  end);
+  Task.Start;
+end;
+
+class function TLspSynEditPlugin.FindPluginWithFileId(
+  const AFileId: string): TLspSynEditPlugin;
+begin
+  Result := nil;
+  var List := Instances.LockList;
+  try
+     for var Plugin in List do
+       if SameFileName(AFileId, Plugin.FFileId) then
+          Exit(Plugin);
+  finally
+    Instances.UnlockList;
+  end;
+end;
+
+procedure TLspSynEditPlugin.InvalidateErrorLines;
+begin
+  { Should be called from the main thread }
+  Assert(GetCurrentThreadId = MainThreadId);
+  var List := FDiagnostics.LockList;
+  try
+     for var Diag in List do
+       Editor.InvalidateLine(Diag.BlockBegin.Line);
+  finally
+    FDiagnostics.UnlockList;
+  end;
 end;
 
 procedure TLspSynEditPlugin.LinesChanged;
 begin
   Inc(fVersion);
-  if not TJedi.Ready or (FFileName = '') or not fTransmitChanges then Exit;
+  if not TJedi.Ready or (FFileId = '') or not fTransmitChanges then Exit;
 
   var Params := TSmartPtr.Make(TJsonObject.Create)();
   try
-    Params.AddPair('textDocument', LspVersionedTextDocumentIdentifier(FFileName,
+    Params.AddPair('textDocument', LspVersionedTextDocumentIdentifier(FFileId,
       FVersion));
     if not(lspscIncrementalSync in TJedi.LspClient.ServerCapabilities) or
       // too many changes - faster to send all text
@@ -169,7 +286,7 @@ var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
 begin
-  if not TJedi.Ready or (FFileName = '') or not fTransmitChanges or
+  if not TJedi.Ready or (FFileId = '') or not fTransmitChanges or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
@@ -187,7 +304,7 @@ var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
 begin
-  if not TJedi.Ready or (FFileName = '') or not fTransmitChanges or
+  if not TJedi.Ready or (FFileId = '') or not fTransmitChanges or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
@@ -206,7 +323,7 @@ var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
 begin
-  if not TJedi.Ready or (FFileName = '') or not fTransmitChanges or
+  if not TJedi.Ready or (FFileId = '') or not fTransmitChanges or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
@@ -240,6 +357,27 @@ begin
   Result := TJsonObject.Create;
   Result.AddPair('start', LspPosition(BlockBegin));
   Result.AddPair('end', LspPosition(BlockEnd));
+end;
+
+procedure RangeFromJson(Json: TJsonObject; out BlockBegin, BlockEnd: TBufferCoord);
+begin
+  BlockBegin := Default(TBufferCoord);
+  BlockEnd := BlockBegin;
+
+  if not Assigned(Json) then Exit;
+
+  var Range := Json.FindValue('range');
+  if not (Range is TJSONObject) then Exit;
+
+  if Range.TryGetValue('start.line', BlockBegin.Line) then Inc(BlockBegin.Line);
+  if Range.TryGetValue('start.character', BlockBegin.Char) then Inc(BlockBegin.Char);
+  if Range.TryGetValue('end.line', BlockEnd.Line) then Inc(BlockEnd.Line);
+  if Range.TryGetValue('end.character', BlockEnd.Char) then Inc(BlockEnd.Char);
+end;
+
+class constructor TLspSynEditPlugin.Create;
+begin
+  Instances := TThreadList<TLspSynEditPlugin>.Create;
 end;
 
 end.

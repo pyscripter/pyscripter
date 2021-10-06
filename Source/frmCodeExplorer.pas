@@ -507,37 +507,44 @@ end;
 
 procedure TCodeExplorerWindow.UpdateWindow(DocSymbols: TDocSymbols;
   UpdateReason: TCEUpdateReason);
+Var
+  Symbols: TJsonArray;
 begin
   case UpdateReason of
     ceuSymbolsChanged:
       begin
-        if DocSymbols.Symbols = nil then
-        begin
-          if DocSymbols.Destroying then
+        DocSymbols.Lock;
+        try
+          if DocSymbols.Symbols = nil then
           begin
-            // DocSymbols is being destroyed
-            Assert(GetCurrentThreadId = MainThreadId);
-            FreeAndNil(DocSymbols.ModuleNode);
-            if FFileId = DocSymbols.FileId then
+            if DocSymbols.Destroying then
             begin
-              ExplorerTree.Clear;
-              FModuleNode := nil;
-            end;
+              // DocSymbols is being destroyed
+              Assert(GetCurrentThreadId = MainThreadId);
+              FreeAndNil(DocSymbols.ModuleNode);
+              if FFileId = DocSymbols.FileId then
+              begin
+                ExplorerTree.Clear;
+                FModuleNode := nil;
+              end;
+            end
+            else
+              TThread.ForceQueue(nil, procedure
+                begin
+                    UpdateTree(DocSymbols.FileId, ceuSymbolsChanged, nil);
+                end);
           end
           else
-            TThread.ForceQueue(nil, procedure
+          begin
+            Symbols := DocSymbols.Symbols.Clone as TJsonArray;
+            var Task := TTask.Create(procedure
               begin
-                  UpdateTree(DocSymbols.FileId, ceuSymbolsChanged, nil);
+                UpdateModuleNode(DocSymbols.FileId, Symbols);
               end);
-        end
-        else
-        begin
-          var Task := TTask.Create(procedure
-            begin
-              UpdateModuleNode(DocSymbols.FileId,
-                DocSymbols.Symbols.Clone as TJsonArray);
-            end);
-          Task.Start;
+            Task.Start;
+          end;
+        finally
+          DocSymbols.Unlock;
         end;
       end;
     ceuEditorEnter:

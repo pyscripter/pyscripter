@@ -1303,6 +1303,7 @@ type
     procedure SaveLayout(const Layout : string);
    // IPyIDEServices implementation
     function GetActiveEditor : IEditor;
+    function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const S : string);
     function ShowFilePosition(FileName : string; Line: integer = 0;
       Offset : integer = 1; SelLen : integer = 0;
@@ -1545,6 +1546,10 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
+  //Set the HelpFile
+  Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
+  Application.OnHelp := Self.ApplicationHelp;
+
   // SpTBXLib Font
   ToolbarFont.Size := 10;
 
@@ -1723,9 +1728,6 @@ begin
 
   TabControl1.Toolbar.OnMouseDown := TabControlMouseDown;
   TabControl2.Toolbar.OnMouseDown := TabControlMouseDown;
-  //Set the HelpFile
-  Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
-  Application.OnHelp := Self.ApplicationHelp;
 
   //Flicker
   MainMenu.DoubleBuffered := True;
@@ -1785,13 +1787,6 @@ begin
   CanClose := CanClose and ProjectExplorerWindow.CanClose;
 
   if CanClose then begin
-    // Disconnect ChangeNotify
-    FileExplorerWindow.FileExplorerTree.Active := False;
-    ConfigureFileExplorer(fcnDisabled, False);
-
-    // Disable CodeHint timer
-    CodeHint.CancelHint;
-
     // Shut down help
     Application.OnHelp := nil;
     // QC25183
@@ -1799,6 +1794,13 @@ begin
       Application.HelpCommand(HELP_QUIT, 0);
     except
     end;
+
+    // Disconnect ChangeNotify
+    FileExplorerWindow.FileExplorerTree.Active := False;
+    ConfigureFileExplorer(fcnDisabled, False);
+
+    // Disable CodeHint timer
+    CodeHint.CancelHint;
 
     // Stop accepting files
     DragAcceptFiles(TabControl1.Handle, False);
@@ -2823,6 +2825,13 @@ end;
 function TPyIDEMainForm.GetIDELayouts: IIDELayouts;
 begin
   Result := Self;
+end;
+
+function TPyIDEMainForm.GetIsClosing: Boolean;
+begin
+  // Use Application.OnHelp to signal exit
+  // Application.Help is set to nil as soon as we are about to close
+  Result := not Assigned(Application.OnHelp);
 end;
 
 function TPyIDEMainForm.GetLocalAppStorage: TJvCustomAppStorage;
@@ -4419,8 +4428,8 @@ begin
             FoundReferences := Length(References) > 0;
             for var DocPosition in References do
             begin
-              Line := GetNthSourceLine(DocPosition.FileName, DocPosition.Line);
-              GI_PyIDEServices.Messages.AddMessage(Line, DocPosition.Filename,
+              Line := GetNthSourceLine(DocPosition.FileId, DocPosition.Line);
+              GI_PyIDEServices.Messages.AddMessage(Line, DocPosition.FileId,
                 DocPosition.Line, DocPosition.Char, Token.Length);
             end;
 

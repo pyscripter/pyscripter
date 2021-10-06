@@ -25,16 +25,14 @@ uses
 
 type
   TJedi = class
-  class var
-    LspClient: TLspClient;
-    SyncRequestTimeout: integer;
-    OnInitialized: TJclNotifyEventBroadcast;
-    OnShutDown: TJclNotifyEventBroadcast;
-  private
+  public
+    class var LspClient: TLspClient;
+    class var SyncRequestTimeout: integer;
+    class var OnInitialized: TJclNotifyEventBroadcast;
+    class var OnShutDown: TJclNotifyEventBroadcast;
     class procedure PythonVersionChanged(Sender: TObject);
     class procedure OnLspClientInitialized(Sender: TObject);
     class procedure OnLspClientShutdown(Sender: TObject);
-  public
     class constructor Create;
     class destructor Destroy;
     class procedure CreateServer;
@@ -71,7 +69,7 @@ type
     procedure HandleResponse(Id: Int64; Result, Error: TJsonValue);
   public
     ModuleNode: TObject;  // for storing Code Explorer TModuleNodeCE
-    constructor Create();
+    constructor Create;
     destructor Destroy; override;
     procedure Clear;
     procedure Lock;
@@ -83,16 +81,6 @@ type
     property OnNotify: TNotifyEvent read FOnNotify write FOnNotify;
   end;
 
-  TDiagnostic = record
-    Severity: TDiagnositicSeverity;
-    BlockBegin,
-    BlockEnd: TBufferCoord;
-    Source: string;
-    Msg: string;
-  end;
-
-  TDiagnostics = TThreadList<TDiagnostic>;
-
 implementation
 
 uses
@@ -101,6 +89,7 @@ uses
   System.IOUtils,
   System.Threading,
   System.RegularExpressions,
+  System.Generics.Defaults,
   dmCommands,
   uCommonFunctions,
   SynEditLsp,
@@ -147,6 +136,7 @@ begin
   LspClient := TLspClient.Create(CmdLine);
   LspClient.OnInitialized := OnLspClientInitialized;
   LspClient.OnShutdown := OnLspClientShutdown;
+  LspClient.OnLspNotification := TLspSynEditPlugin.HandleLspNotify;
 
   LspClient.StartServer;
   Initialize;
@@ -167,15 +157,20 @@ var
 Const
    ClientCapabilitiesJson =
     '{"textDocument":{"documentSymbol":{"hierarchicalDocumentSymbolSupport":true}}}';
+//    '{"textDocument":{"documentSymbol":{"hierarchicalDocumentSymbolSupport":true},"completion": {"completionItem": {"documentationFormat": ["markdown", "plaintext"]}}}}';
    InitializationOptionsLsp =
     '{'#13#10 +
-//    '	  "diagnostics": {'#13#10 +
-//    '		"enable": false'#13#10 +
-//    '	  },'#13#10 +
+    '    "diagnostics": {'#13#10 +
+    '      "enable": %s,'#13#10 +
+    '      "didOpen": true,'#13#10 +
+    '      "didChange": true,'#13#10 +
+    '      "didSave": false'#13#10 +
+    '    },'#13#10 +
     '   "completion": {'#13#10 +
     '       "disableSnippets": true,'#13#10 +
     '       "resolveEagerly": false'#13#10 +
     '   },'#13#10 +
+//    '   "markupKindPreferred": "markdown",'#13#10 +
     '	  "jediSettings": {'#13#10 +
     '		"autoImportModules": [%s],'#13#10 +
     '		"caseInsensitiveCompletion": %s'#13#10 +
@@ -200,8 +195,10 @@ begin
   ClientCapabilities.Parse(TEncoding.UTF8.GetBytes(ClientCapabilitiesJson), 0);
   InitializationOptions := TJsonObject.Create;
   InitializationOptions.Parse(TEncoding.UTF8.GetBytes(
-    Format(InitializationOptionsLsp, [QuotePackages(PyIDEOptions.SpecialPackages),
-    BoolToStr(not PyIDEOptions.CodeCompletionCaseSensitive, True).ToLower])), 0);
+    Format(InitializationOptionsLsp,
+    [BoolToStr(PyIDEOptions.CheckSyntaxAsYouType, True).ToLower,
+     QuotePackages(PyIDEOptions.SpecialPackages),
+     BoolToStr(not PyIDEOptions.CodeCompletionCaseSensitive, True).ToLower])), 0);
 
   LspClient.Initialize('PyScripter', ApplicationVersion, ClientCapabilities,
     InitializationOptions);
@@ -257,7 +254,7 @@ begin
     AResult.TryGetValue<integer>('[0].range.start.line', Line) and
     AResult.TryGetValue<integer>('[0].range.start.character', Char) then
   begin
-    DefFileName := FilePathFromUrl(Uri);
+    DefFileName := FileIdFromURI(Uri);
     DefBC := BufferCoord(Char + 1, Line + 1);
   end;
 
@@ -476,6 +473,7 @@ begin
       AResult.TryGetValue<string>('contents.value', Result);
       Result := GetLineRange(Result, 1, 20, True);
     end;
+    Result := StringReplace(Result, '<br>---<br>', '<hr >', []);
 
     FindDefinitionByCoordinates(FileName, BC, DefFileName, DefBC);
     if (DefFileName <> '') and FileExists(DefFileName) then begin
@@ -488,7 +486,7 @@ begin
       DefinedIn := Format(_(SFilePosInfoCodeHint),
         [DefFileName, DefBC.Line, DefBC.Char,
          ModuleName, DefBC.Line]);
-      Result := Result + SLineBreak + DefinedIn;
+      Result := Result + DefinedIn;
     end;
   end;
 
@@ -537,7 +535,7 @@ begin
   end;
 end;
 
-constructor TDocSymbols.Create();
+constructor TDocSymbols.Create;
 begin
   inherited Create;
   FCriticalSection.Initialize;
@@ -608,3 +606,4 @@ begin
 end;
 
 end.
+
