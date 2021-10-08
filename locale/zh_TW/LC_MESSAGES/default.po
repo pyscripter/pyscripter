@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2021-09-30 04:05\n"
-"PO-Revision-Date: 2021-10-03 08:13+0800\n"
+"PO-Revision-Date: 2021-10-08 08:13+0800\n"
 "Last-Translator: Startgo <startgo@youp.ga>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -550,12 +550,12 @@ msgstr "詳細(&D)"
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
 msgid "File Templates"
-msgstr "檔範本"
+msgstr "檔案範本"
 
 #. FileTemplatesDialog..Panel..GroupBox..Caption
 #: dlgFileTemplates.dfm
 msgid "File Template:"
-msgstr "檔範本:"
+msgstr "檔案範本:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label5..Caption
 #: dlgFileTemplates.dfm
@@ -580,7 +580,7 @@ msgstr "分類"
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
 msgid "Find in Files Search"
-msgstr "檔內搜尋"
+msgstr "檔案內搜尋"
 
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
@@ -676,7 +676,7 @@ msgstr "包括子目錄(&B)"
 #. FindResultsOptionsDialog..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Find in Files Options"
-msgstr "搜尋檔選項"
+msgstr "搜尋檔案選項"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
@@ -1530,7 +1530,7 @@ msgstr "恢復/重放action時，在一個call裡運行所有連續的同類acti
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
 msgid "Group undo"
-msgstr "組撤銷"
+msgstr "群組撤銷"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
@@ -1680,7 +1680,7 @@ msgstr "顯示行號"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show leading zeros"
-msgstr "顯示先頭的零"
+msgstr "顯示前導的零"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
 #: dlgSynEditOptions.dfm
@@ -1759,7 +1759,7 @@ msgstr "啟動行的顏色"
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
-msgstr "代碼樣例"
+msgstr "代碼範例"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
@@ -1826,7 +1826,7 @@ msgstr "應用到所有編輯器"
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
 #: dlgSynPageSetup.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Page Setup"
-msgstr "頁設定"
+msgstr "頁面設定"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem1..Caption
 #. PageSetupDlg..TabControl..tbMargins..Caption
@@ -2019,17 +2019,17 @@ msgstr "頁腳(Footer):"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr ""
+msgstr "內邊界"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr ""
+msgstr "文字向左排"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr ""
+msgstr "文字向右排"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
@@ -2064,12 +2064,12 @@ msgstr "折行"
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "Inches"
-msgstr ""
+msgstr "英寸"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "(1/1000) Inches"
-msgstr ""
+msgstr "(1/1000) 英寸"
 
 
 
@@ -2143,7 +2143,7 @@ msgstr "下劃線"
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Print Preview"
-msgstr "列印預覽"
+msgstr "預覽列印"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Caption
 #: dlgSynPrintPreview.dfm
@@ -2467,7 +2467,7 @@ msgstr "資訊格式(&F):"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbCaptureOutput..Caption
 #: dlgToolProperties.dfm
 msgid "&Capture Output"
-msgstr "截獲輸出(&C)"
+msgstr "截取輸出(&C)"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages....Hint
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseTraceback....Hint
@@ -2548,12 +2548,12 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active file"
-msgstr "啟動的檔"
+msgstr "啟動檔案"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "New file"
-msgstr "新建檔"
+msgstr "新建檔案"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Caption
 #: dlgToolProperties.dfm
@@ -2629,7 +2629,7 @@ msgstr "列號占位符"
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Unit Test Wizard"
-msgstr "単元測試嚮導"
+msgstr "單元測試嚮導"
 
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
@@ -2904,7 +2904,7 @@ msgstr "全部保存(&A)"
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "全部保存|保存專案及所有打開的檔"
+msgstr "全部保存|保存專案及所有打開的檔案"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -2915,7 +2915,7 @@ msgstr "列印(&P)..."
 #. CommandsDataModule..actlMain..actFilePrint..Hint
 #: dmCommands.dfm
 msgid "Print|Print active file"
-msgstr "列印|列印啟動的檔"
+msgstr "列印|列印啟動的檔案"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
@@ -3128,7 +3128,7 @@ msgstr "在多檔搜尋(&F)..."
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
-msgstr "檔內搜尋|從多檔中搜尋字元"
+msgstr "檔內搜尋|從多檔案中搜尋字元"
 
 
 
@@ -3333,7 +3333,7 @@ msgstr "確認是否有PyScripter的新版本"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "&Unit Test Wizard..."
-msgstr "単元測試嚮導(&U)"
+msgstr "單元測試嚮導(&U)"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
@@ -4129,13 +4129,13 @@ msgstr "展開"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
-msgstr "檔瀏覽器"
+msgstr "檔案瀏覽器"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiBrowsePath..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
 #: frmFileExplorer.dfm
 msgid "Browse Path"
-msgstr "流覽路徑"
+msgstr "瀏覽路徑"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..Caption
 #: frmFileExplorer.dfm
@@ -4217,7 +4217,7 @@ msgstr "改變篩檢程式(&C)..."
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Caption
 #: frmFileExplorer.dfm
 msgid "&Explore Here"
-msgstr "流覽到這裡(&E)"
+msgstr "瀏覽到這裡(&E)"
 
 #. FileExplorerWindow..ShellContextPopUp..ExploreHere..Hint
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Hint
@@ -5579,12 +5579,12 @@ msgstr "代碼瀏覽器的顯示/隱藏"
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&File Explorer"
-msgstr "檔瀏覽器(&F)"
+msgstr "檔案瀏覽器(&F)"
 
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide File Explorer"
-msgstr "檔瀏覽器的顯示/隱藏"
+msgstr "檔案瀏覽器的顯示/隱藏"
 
 #. PyIDEMainForm..actlStandard..actViewToDoList..Caption
 #: frmPyIDEMain.dfm
@@ -8086,7 +8086,7 @@ msgstr "使用“%s”編碼對檔“%s”進行編碼將導致資訊丟失。 �
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in decoding file \"%s\" from \"%s\" encoding"
-msgstr "檔 \"%s\" 從 \"%s\" 編碼中解碼時發生了錯誤"
+msgstr "檔案 \"%s\" 從 \"%s\" 編碼中解碼時發生了錯誤"
 
 #. Programmer's name for it: SFileOpenError
 #: StringResources.pas
@@ -8095,7 +8095,7 @@ msgid ""
 "Error in opening file: \"%s\".\n"
 "Error: %s"
 msgstr ""
-"打開檔: \"%s\" 時發生了錯誤。\n"
+"打開檔案: \"%s\" 時發生了錯誤。\n"
 "錯誤: %s"
 
 #. Programmer's name for it: SFileSaveError
@@ -8118,7 +8118,7 @@ msgstr "在取得%s 命名空間時發生了錯誤"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "不能把現在的目錄設道腳本路徑"
+msgstr "不能把現在的目錄設成腳本路徑"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
