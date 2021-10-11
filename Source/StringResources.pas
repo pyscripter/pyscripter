@@ -354,7 +354,6 @@ Const
   SProcessRunning            = 'One process is still running, stop it first.';
   SPrintCommandLine          = 'Command line: %s';
   SPrintWorkingDir           = 'Working directory: ';
-  SPrintTimeOut              = 'Timeout: %d ms';
   SExternalToolStillRunning  = 'The External Tool "%s" is still running. Do you want to terminate it?';
 
   // Editor

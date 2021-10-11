@@ -32,26 +32,24 @@ type
   }
   TExternalTool = class(TPersistent)
   private
-    fApplicationName: string;
-    fParameters: string;
-    fProcessInput: TProcessStdInputOption;
-    fProcessOutput: TProcessStdOutputOption;
-    fCaptureOutput: Boolean;
-    fTimeOut: Integer;
-    fWaitForTerminate: Boolean;
-    fConsoleHidden: Boolean;
-    fWorkingDirectory: string;
-    fDescription: string;
-    fCaption: string;
-    fShortCut: TShortCut;
-    fParseMessages : boolean;
-    fParseTraceback : boolean;
-    fMessagesFormat : string;
-    fContext: TToolContext;
-    fSaveFiles : TSaveFiles;
-    fEnvironment : TStrings;
-    fUseCustomEnvironment : Boolean;
-    FUseUtf8: Boolean;
+    FApplicationName: string;
+    FParameters: string;
+    FProcessInput: TProcessStdInputOption;
+    FProcessOutput: TProcessStdOutputOption;
+    FCaptureOutput: Boolean;
+    FConsoleHidden: Boolean;
+    FWorkingDirectory: string;
+    FDescription: string;
+    FCaption: string;
+    FShortCut: TShortCut;
+    FParseMessages : boolean;
+    FParseTraceback : boolean;
+    FMessagesFormat : string;
+    FContext: TToolContext;
+    FSaveFiles : TSaveFiles;
+    FEnvironment : TStrings;
+    FUseCustomEnvironment : Boolean;
+    FUtf8IO: Boolean;
     procedure SetEnvironment(const Value: TStrings);
     function IsMessageFormatStore: Boolean;
   public
@@ -62,26 +60,26 @@ type
     procedure Assign(Source: TPersistent); override;
   published
     // The caption of the Menu Item corresponding to this tool
-    property Caption : string read fCaption write fCaption;
+    property Caption : string read FCaption write FCaption;
     // The hint of the Menu Item corresponding to this tool
-    property Description : string read fDescription write fDescription;
-    property ApplicationName: string read fApplicationName write fApplicationName;
-    property Parameters: string read fParameters write fParameters;
-    property WorkingDirectory : string read fWorkingDirectory write fWorkingDirectory;
-    property ShortCut : TShortCut read fShortCut write fShortCut default 0;
+    property Description : string read FDescription write FDescription;
+    property ApplicationName: string read FApplicationName write FApplicationName;
+    property Parameters: string read FParameters write FParameters;
+    property WorkingDirectory : string read FWorkingDirectory write FWorkingDirectory;
+    property ShortCut : TShortCut read FShortCut write FShortCut default 0;
     // External Tool action context (tcAlwaysEnabled, tcActiveFile, tcSelectionAvailable)
-    property Context : TToolContext read fContext write fContext
+    property Context : TToolContext read FContext write FContext
       default tcAlwaysEnabled;
     // Save file option (sfNone, sfActive, sfAll)
-    property SaveFiles : TSaveFiles read fSaveFiles write fSaveFiles default sfNone;
+    property SaveFiles : TSaveFiles read FSaveFiles write FSaveFiles default sfNone;
     // Standard Input option
     //  piNone:  No standard input
     //  piWordAtCursor: Word at cursor
     //  piCurrentLine: Current line
     //  piSelection: Selection
     //  piActiveFile: active file
-    property ProcessInput : TProcessStdInputOption read fProcessInput
-      write fProcessInput default piNone;
+    property ProcessInput : TProcessStdInputOption read FProcessInput
+      write FProcessInput default piNone;
     // Standard output option
     //  poNone:  Do nothing
     //  poWordAtCursor: Replace word at cursor
@@ -89,38 +87,30 @@ type
     //  poSelection: Replace selection
     //  poActiveFile: Replace active file
     //  poNewFile: Place in new file
-    property ProcessOutput : TProcessStdOutputOption read fProcessOutput
-      write fProcessOutput default poNone;
+    property ProcessOutput : TProcessStdOutputOption read FProcessOutput
+      write FProcessOutput default poNone;
     // Parse File Line LinePos info from output and put it in the Messages Window
-    property ParseMessages : boolean read fParseMessages write fParseMessages
+    property ParseMessages : boolean read FParseMessages write FParseMessages
       default False;
     // Parse TraceBack and Syntax Errors from Python output and put it in the Messages Window
-    property ParseTraceback : boolean read fParseTraceback write fParseTraceback
+    property ParseTraceback : boolean read FParseTraceback write FParseTraceback
       default False;
     // Grep Expression for the parsing output lines for file/Line/Pos information
     // Can use the parameters $[Filename], $[LineNumber], $[Line], $[Column]
-    property MessagesFormat : string read fMessagesFormat write fMessagesFormat
+    property MessagesFormat : string read FMessagesFormat write FMessagesFormat
       stored IsMessageFormatStore;
     // Capture command line output and place it in the Output Window
-    property CaptureOutput : Boolean read fCaptureOutput write fCaptureOutput
+    property CaptureOutput : Boolean read FCaptureOutput write FCaptureOutput
       default True;
     // Hide Console or External Tool window
-    property ConsoleHidden : Boolean read fConsoleHidden write fConsoleHidden
+    property ConsoleHidden : Boolean read FConsoleHidden write FConsoleHidden
       default True;
-    // Non-blocking wait for termination of the External tool
-    // Required for ParseMessage, ParseTraceback and other options
-    property WaitForTerminate: Boolean read fWaitForTerminate write
-      fWaitForTerminate default True;
-    // Give the user the oportunity to terminate the External tool after Timeout ms
-    // A value of zero disables this feature
-    property TimeOut : Integer read fTimeOut write fTimeOut default 0;
-    // Use the Custom Enviroment specified by the Environment property
-    property UseCustomEnvironment : boolean read fUseCustomEnvironment
-      write fUseCustomEnvironment default False;
+    property UseCustomEnvironment : boolean read FUseCustomEnvironment
+      write FUseCustomEnvironment default False;
     // Custom Enviroment
-    property Environment : TStrings read fEnvironment write SetEnvironment
-      stored fUseCustomEnvironment;
-    property UseUtf8: Boolean read FUseUtf8 write FUseUtf8 default False;
+    property Environment : TStrings read FEnvironment write SetEnvironment
+      stored FUseCustomEnvironment;
+    property Utf8IO: Boolean read FUtf8IO write FUtf8IO default False;
   end;
 
   // Differs only in persistence
@@ -242,25 +232,24 @@ end;
 procedure TExternalTool.Assign(Source: TPersistent);
 begin
   if Source is TExternalTool then with TExternalTool(Source) do begin
-    Self.fCaption := Caption;
-    Self.fDescription := Description;
-    Self.fShortCut := ShortCut;
-    Self.fContext := Context;
-    Self.fSaveFiles := SaveFiles;
-    Self.fApplicationName := ApplicationName;
-    Self.fParameters := Parameters;
-    Self.fWorkingDirectory := WorkingDirectory;
-    Self.fProcessInput := ProcessInput;
-    Self.fProcessOutput := ProcessOutput;
-    Self.fParseMessages := ParseMessages;
-    Self.fParseTraceback := ParseTraceback;
-    Self.fMessagesFormat := MessagesFormat;
-    Self.fCaptureOutput := CaptureOutput;
-    Self.fConsoleHidden := ConsoleHidden;
-    Self.fTimeOut := TimeOut;
-    Self.fWaitForTerminate := WaitForTerminate;
-    Self.fUseCustomEnvironment := UseCustomEnvironment;
-    Self.fEnvironment.Assign(Environment);
+    Self.FCaption := Caption;
+    Self.FDescription := Description;
+    Self.FShortCut := ShortCut;
+    Self.FContext := Context;
+    Self.FSaveFiles := SaveFiles;
+    Self.FApplicationName := ApplicationName;
+    Self.FParameters := Parameters;
+    Self.FWorkingDirectory := WorkingDirectory;
+    Self.FProcessInput := ProcessInput;
+    Self.FProcessOutput := ProcessOutput;
+    Self.FParseMessages := ParseMessages;
+    Self.FParseTraceback := ParseTraceback;
+    Self.FMessagesFormat := MessagesFormat;
+    Self.FCaptureOutput := CaptureOutput;
+    Self.FConsoleHidden := ConsoleHidden;
+    Self.FUtf8IO := Utf8IO;
+    Self.FUseCustomEnvironment := UseCustomEnvironment;
+    Self.FEnvironment.Assign(Environment);
   end else
     inherited;
 end;
@@ -272,8 +261,6 @@ begin
   fProcessOutput := poNone;
   fCaptureOutput := True;
   fConsoleHidden := True;
-  fTimeOut := 0;
-  fWaitForTerminate := True;
   fParseMessages := False;
   fContext := tcAlwaysEnabled;
   fSaveFiles := sfNone;
@@ -295,12 +282,12 @@ end;
 
 function TExternalTool.IsMessageFormatStore: Boolean;
 begin
-  Result := fParseMessages and (fMessagesFormat <> (GrepFileNameParam + ' ' + GrepLineNumberParam));
+  Result :=FParseMessages and (FMessagesFormat <> (GrepFileNameParam + ' ' + GrepLineNumberParam));
 end;
 
 procedure TExternalTool.SetEnvironment(const Value: TStrings);
 begin
-  fEnvironment.Assign(Value);
+  FEnvironment.Assign(Value);
 end;
 
 { TExternalToolAction }
@@ -308,8 +295,8 @@ end;
 procedure TExternalToolAction.Change;
 begin
   inherited;
-  if Assigned(fExternalTool) then
-    fExternalTool.ShortCut := ShortCut;
+  if Assigned(FExternalTool) then
+    FExternalTool.ShortCut := ShortCut;
 end;
 
 constructor TExternalToolAction.CreateExtToolAction(AOwner: TComponent;
@@ -319,15 +306,15 @@ var
   AppFile: string;
 begin
   inherited Create(AOwner);
-  fExternalTool := ExternalTool;
-  if Assigned(fExternalTool) then begin
-    ShortCut := fExternalTool.ShortCut;
-    Caption := _(fExternalTool.Caption);
+  FExternalTool := ExternalTool;
+  if Assigned(FExternalTool) then begin
+    ShortCut := FExternalTool.ShortCut;
+    Caption := _(FExternalTool.Caption);
     S := StrRemoveChars(Caption , [' ', '&', '.']);  // Fix error reported by David Funtowiez
     if IsValidIdent(S) then
       Name := 'actTools' + S;
     Category := 'External Tools';
-    Hint := _(fExternalTool.Description);
+    Hint := _(FExternalTool.Description);
     ImageIndex := -1;
     if (fExternalTool.ApplicationName <> '') then begin
       AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
@@ -339,10 +326,10 @@ end;
 
 function TExternalToolAction.Execute: Boolean;
 begin
-  if Assigned(fExternalTool) and Assigned(fExternalTool.ExternalToolExecute) then begin
+  if Assigned(FExternalTool) and Assigned(FExternalTool.ExternalToolExecute) then begin
     TThread.ForceQueue(nil, procedure
     begin
-      fExternalTool.Execute;
+      FExternalTool.Execute;
     end);
   end;
   Result := True;
@@ -351,8 +338,8 @@ end;
 function TExternalToolAction.Update: Boolean;
 begin
   Result := True;
-  if Assigned(fExternalTool) then begin
-    case fExternalTool.Context of
+  if Assigned(FExternalTool) then begin
+    case FExternalTool.Context of
       tcAlwaysEnabled : Enabled := True;
       tcActiveFile : Enabled := Assigned(GI_ActiveEditor);
       tcActivePythonFile :
@@ -376,7 +363,6 @@ initialization
     ParseMessages := False;
     CaptureOutput := False;
     ConsoleHidden := False;
-    WaitForTerminate := False;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -387,7 +373,6 @@ initialization
     ParseMessages := False;
     CaptureOutput := True;
     ConsoleHidden := True;
-    WaitForTerminate := True;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -397,7 +382,6 @@ initialization
     ParseMessages := False;
     CaptureOutput := False;
     ConsoleHidden := False;
-    WaitForTerminate := False;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -413,7 +397,6 @@ initialization
     ParseMessages := True;
     CaptureOutput := True;
     ConsoleHidden := True;
-    WaitForTerminate := True;
     MessagesFormat := GrepFileNameParam + ' '+GrepLineNumberParam;
   end;
 
@@ -426,7 +409,6 @@ initialization
     ParseMessages := False;
     CaptureOutput := False;
     ConsoleHidden := False;
-    WaitForTerminate := False;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -440,7 +422,6 @@ initialization
     ParseTraceback := True;
     CaptureOutput := True;
     ConsoleHidden := True;
-    WaitForTerminate := True;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -455,7 +436,6 @@ initialization
     ParseMessages := True;
     CaptureOutput := True;
     ConsoleHidden := True;
-    WaitForTerminate := True;
     MessagesFormat := Format('%s:%s: ', [GrepFileNameParam, GrepLineNumberParam]);
   end;
 
@@ -471,7 +451,6 @@ initialization
     ParseMessages := False;
     CaptureOutput := False;
     ConsoleHidden := True;
-    WaitForTerminate := True;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -487,7 +466,6 @@ initialization
     ParseMessages := False;
     CaptureOutput := False;
     ConsoleHidden := True;
-    WaitForTerminate := True;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -502,7 +480,6 @@ initialization
     ParseMessages := False;
     CaptureOutput := True;
     ConsoleHidden := True;
-    WaitForTerminate := True;
   end;
 
   // Create a Python External Run tool which is used in the run menu
@@ -518,7 +495,6 @@ initialization
     ParseTraceback := True;
     CaptureOutput := True;
     ConsoleHidden := True;
-    WaitForTerminate := True;
   end;
 
 finalization

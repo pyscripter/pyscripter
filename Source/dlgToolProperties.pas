@@ -43,7 +43,6 @@ type
     cbParseMessages: TCheckBox;
     cbParseTraceback: TCheckBox;
     cbHideConsole: TCheckBox;
-    cbWaitForTermination: TCheckBox;
     cbUseCustomEnv: TCheckBox;
     btnAdd: TButton;
     btnDelete: TButton;
@@ -65,7 +64,6 @@ type
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
-    Label9: TLabel;
     Label15: TLabel;
     Label16: TLabel;
     edName: TEdit;
@@ -83,8 +81,8 @@ type
     SpTBXTabItem2: TSpTBXTabItem;
     tabEnvironment: TSpTBXTabSheet;
     lvItems: TListview;
-    seTimeout: TSpTBXSpinEdit;
     vilImages: TVirtualImageList;
+    cbUTF8IO: TCheckBox;
     procedure FormShow(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
     procedure SynApplicationEnter(Sender: TObject);
@@ -148,12 +146,11 @@ begin
       cbStandardInput.ItemIndex := Integer(ProcessInput);
       cbStandardOutput.ItemIndex := Integer(ProcessOutput);
       cbCaptureOutput.Checked := CaptureOutput;
-      seTimeOut.Value := TimeOut;
-      cbWaitForTermination.Checked := WaitForTerminate;
       cbHideConsole.Checked := ConsoleHidden;
       cbParseMessages.Checked := ParseMessages;
       cbParseTraceback.Checked := ParseTraceback;
       edMessagesFormat.Text := MessagesFormat;
+      cbUTF8IO.Checked := Utf8IO;
       cbUseCustomEnv.Checked := UseCustomEnvironment;
       if UseCustomEnvironment then
         fEnvStrings.Assign(Environment)
@@ -180,12 +177,11 @@ begin
       ProcessInput := TProcessStdInputOption(cbStandardInput.ItemIndex);
       ProcessOutput := TProcessStdOutputOption(cbStandardOutput.ItemIndex);
       CaptureOutput := cbCaptureOutput.Checked;
-      TimeOut := Trunc(seTimeOut.Value);
-      WaitForTerminate := cbWaitForTermination.Checked;
       ConsoleHidden := cbHideConsole.Checked;
       ParseMessages := cbParseMessages.Checked;
       ParseTraceback := cbParseTraceback.Checked;
       MessagesFormat := edMessagesFormat.Text;
+      Utf8IO := cbUTF8IO.Checked;
       UseCustomEnvironment := cbUseCustomEnv.Checked;
       Environment.Clear;
       if UseCustomEnvironment then begin

@@ -192,16 +192,16 @@ inherited ToolProperties: TToolProperties
           428)
         TabItem = 'SpTBXTabItem1'
         object GroupBox1: TGroupBox
-          Left = 6
+          Left = 7
           Top = 5
           Width = 428
-          Height = 65
+          Height = 70
           Anchors = [akLeft, akTop, akRight]
           Caption = 'General'
           TabOrder = 0
           DesignSize = (
             428
-            65)
+            70)
           object Label1: TLabel
             Left = 6
             Top = 16
@@ -212,7 +212,7 @@ inherited ToolProperties: TToolProperties
           end
           object Label5: TLabel
             Left = 6
-            Top = 39
+            Top = 43
             Width = 57
             Height = 13
             Caption = 'Desc&ription:'
@@ -232,7 +232,7 @@ inherited ToolProperties: TToolProperties
             ParentFont = False
           end
           object edName: TEdit
-            Left = 86
+            Left = 90
             Top = 13
             Width = 193
             Height = 21
@@ -240,9 +240,9 @@ inherited ToolProperties: TToolProperties
             TabOrder = 0
           end
           object edDescription: TEdit
-            Left = 86
-            Top = 36
-            Width = 339
+            Left = 90
+            Top = 40
+            Width = 325
             Height = 21
             Anchors = [akLeft, akTop, akRight]
             TabOrder = 1
@@ -250,7 +250,7 @@ inherited ToolProperties: TToolProperties
         end
         object GroupBox2: TGroupBox
           Left = 6
-          Top = 73
+          Top = 79
           Width = 428
           Height = 108
           Anchors = [akLeft, akTop, akRight]
@@ -269,7 +269,7 @@ inherited ToolProperties: TToolProperties
           end
           object Label6: TLabel
             Left = 6
-            Top = 42
+            Top = 43
             Width = 59
             Height = 13
             Caption = '&Parameters:'
@@ -292,7 +292,7 @@ inherited ToolProperties: TToolProperties
             Enabled = False
           end
           object SynApplication: TSynEdit
-            Left = 86
+            Left = 90
             Top = 18
             Width = 303
             Height = 18
@@ -318,9 +318,9 @@ inherited ToolProperties: TToolProperties
             WantReturns = False
           end
           object SynParameters: TSynEdit
-            Left = 86
-            Top = 40
-            Width = 334
+            Left = 90
+            Top = 41
+            Width = 325
             Height = 18
             Anchors = [akLeft, akTop, akRight]
             Font.Charset = DEFAULT_CHARSET
@@ -391,8 +391,8 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox4: TGroupBox
-          Left = 11
-          Top = 187
+          Left = 6
+          Top = 193
           Width = 428
           Height = 64
           Anchors = [akLeft, akTop, akRight]
@@ -426,7 +426,7 @@ inherited ToolProperties: TToolProperties
             FocusControl = cbSaveFiles
           end
           object cbContext: TComboBox
-            Left = 86
+            Left = 90
             Top = 36
             Width = 140
             Height = 21
@@ -455,18 +455,18 @@ inherited ToolProperties: TToolProperties
         end
         object GroupBox3: TGroupBox
           Left = 6
-          Top = 257
+          Top = 260
           Width = 428
-          Height = 94
+          Height = 115
           Anchors = [akLeft, akTop, akRight]
           Caption = 'Standard Input and Output'
           TabOrder = 3
           DesignSize = (
             428
-            94)
+            115)
           object Label10: TLabel
             Left = 6
-            Top = 18
+            Top = 26
             Width = 53
             Height = 13
             Caption = 'Std. &Input:'
@@ -474,23 +474,23 @@ inherited ToolProperties: TToolProperties
           end
           object Label11: TLabel
             Left = 6
-            Top = 42
+            Top = 54
             Width = 61
             Height = 13
             Caption = 'Std. &Output:'
             FocusControl = cbStandardOutput
           end
           object Label12: TLabel
-            Left = 6
-            Top = 70
+            Left = 8
+            Top = 82
             Width = 88
             Height = 13
             Caption = 'Messages &Format:'
             FocusControl = edMessagesFormat
           end
           object btnStdFormats: TButton
-            Left = 395
-            Top = 66
+            Left = 397
+            Top = 78
             Width = 19
             Height = 20
             Anchors = [akTop, akRight]
@@ -512,7 +512,7 @@ inherited ToolProperties: TToolProperties
           end
           object cbParseMessages: TCheckBox
             Left = 271
-            Top = 30
+            Top = 33
             Width = 141
             Height = 21
             Hint = 
@@ -527,7 +527,7 @@ inherited ToolProperties: TToolProperties
           end
           object cbParseTraceback: TCheckBox
             Left = 271
-            Top = 47
+            Top = 54
             Width = 141
             Height = 21
             Hint = 
@@ -540,9 +540,9 @@ inherited ToolProperties: TToolProperties
             TabOrder = 4
           end
           object edMessagesFormat: TEdit
-            Left = 113
-            Top = 67
-            Width = 278
+            Left = 136
+            Top = 79
+            Width = 257
             Height = 21
             Hint = 
               'A grep expression for parsing output lines.'#13#10'Use the button on t' +
@@ -553,8 +553,8 @@ inherited ToolProperties: TToolProperties
             TabOrder = 5
           end
           object cbStandardInput: TComboBox
-            Left = 86
-            Top = 16
+            Left = 90
+            Top = 20
             Width = 140
             Height = 21
             Hint = 
@@ -570,8 +570,8 @@ inherited ToolProperties: TToolProperties
               'ActiveFile')
           end
           object cbStandardOutput: TComboBox
-            Left = 86
-            Top = 40
+            Left = 90
+            Top = 49
             Width = 140
             Height = 21
             Hint = 
@@ -590,24 +590,12 @@ inherited ToolProperties: TToolProperties
         end
         object GroupBox5: TGroupBox
           Left = 6
-          Top = 357
+          Top = 378
           Width = 428
-          Height = 65
+          Height = 44
           Anchors = [akLeft, akTop, akRight]
           Caption = 'Console'
           TabOrder = 4
-          DesignSize = (
-            428
-            65)
-          object Label9: TLabel
-            Left = 278
-            Top = 18
-            Width = 66
-            Height = 13
-            Anchors = [akTop, akRight]
-            Caption = '&Timeout (ms):'
-            FocusControl = seTimeout
-          end
           object cbHideConsole: TCheckBox
             Left = 8
             Top = 16
@@ -619,36 +607,16 @@ inherited ToolProperties: TToolProperties
             State = cbChecked
             TabOrder = 0
           end
-          object cbWaitForTermination: TCheckBox
-            Left = 8
-            Top = 37
-            Width = 208
+          object cbUTF8IO: TCheckBox
+            Left = 270
+            Top = 18
+            Width = 203
             Height = 21
-            Hint = 
-              'If checked will monitor the process '#13#10'and notify you when is ter' +
-              'minated.'
-            Caption = '&Wait for Termination'
+            Hint = 'Use the UTF8 encoding for stdin/stdout'
+            Caption = '&UTF8 IO'
             Checked = True
             State = cbChecked
             TabOrder = 1
-          end
-          object seTimeout: TSpTBXSpinEdit
-            Left = 278
-            Top = 37
-            Width = 79
-            Height = 21
-            Hint = 
-              'If set to a value <> 0 then you will be prompted '#13#10'to abort the ' +
-              'program after the specified time (ms).'
-            Anchors = [akTop, akRight]
-            TabOrder = 2
-            SpinButton.Left = 61
-            SpinButton.Top = 0
-            SpinButton.Width = 14
-            SpinButton.Height = 17
-            SpinButton.Align = alRight
-            SpinOptions.Increment = 100.000000000000000000
-            SpinOptions.MaxValue = 1000.000000000000000000
           end
         end
       end
@@ -707,24 +675,24 @@ inherited ToolProperties: TToolProperties
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 14
+        CollectionIndex = 21
         CollectionName = 'Delete'
         Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 87
         CollectionName = 'Refresh'
         Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 49
+        CollectionIndex = 67
         CollectionName = 'Plus'
         Disabled = False
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 141
     Top = 452

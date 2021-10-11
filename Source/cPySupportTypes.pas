@@ -147,7 +147,6 @@ begin
     ParseTraceback := True;
     CaptureOutput := True;
     ConsoleHidden := True;
-    WaitForTerminate := True;
   end;
 end;
 

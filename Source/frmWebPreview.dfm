@@ -7,9 +7,8 @@ object WebPreviewForm: TWebPreviewForm
   ClientWidth = 463
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = False
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object WebBrowser: TWebBrowser
     Left = 0
     Top = 30
@@ -93,49 +92,40 @@ object WebPreviewForm: TWebPreviewForm
     end
   end
   object BrowserImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
         CollectionName = 'Browser\Back'
-        Disabled = False
         Name = 'Back'
       end
       item
         CollectionIndex = 2
         CollectionName = 'Browser\Forward'
-        Disabled = False
         Name = 'Forward'
       end
       item
         CollectionIndex = 1
         CollectionName = 'Browser\Cancel'
-        Disabled = False
         Name = 'Cancel'
       end
       item
         CollectionIndex = 3
         CollectionName = 'Browser\PageSetup'
-        Disabled = False
         Name = 'PageSetup'
       end
       item
         CollectionIndex = 4
         CollectionName = 'Browser\Preview'
-        Disabled = False
         Name = 'Preview'
       end
       item
         CollectionIndex = 5
         CollectionName = 'Browser\Print'
-        Disabled = False
         Name = 'Print'
       end
       item
         CollectionIndex = 6
         CollectionName = 'Browser\Save'
-        Disabled = False
         Name = 'Save'
       end>
     ImageCollection = CommandsDataModule.icBrowserImages

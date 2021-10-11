@@ -226,7 +226,6 @@ begin
       ParseTraceback := False;
       CaptureOutput := True;
       ConsoleHidden := True;
-      WaitForTerminate := True;
     end;
     OutputWindow.ExecuteTool(ExternalTool);
   end;
