@@ -40,7 +40,7 @@ type
     fSSHOptions : string;
     function ProcessPlatformInfo(Info: string; out Is3k: Boolean;
       out Sep: Char; out TempDir: string): boolean;
-    procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation; InWritePipe: THandle);
+    procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation; InWritePipe: PHandle);
   protected
     function SystemTempFolder: string; override;
     procedure CreateAndRunServerProcess; override;
@@ -335,8 +335,8 @@ begin
   TunnelTask := nil;
 end;
 
-procedure TPySSHInterpreter.StoreTunnelProcessInfo(
-  const ProcessInfo: TProcessInformation; InWritePipe: THandle);
+procedure TPySSHInterpreter.StoreTunnelProcessInfo(const ProcessInfo:
+    TProcessInformation; InWritePipe: PHandle);
 begin
   TunnelProcessInfo := ProcessInfo;
 end;

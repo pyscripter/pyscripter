@@ -45,11 +45,13 @@ object WebPreviewForm: TWebPreviewForm
       object ToolButtonBack: TSpTBXItem
         Hint = 'Go Back'
         ImageIndex = 0
+        ImageName = 'Back'
         OnClick = ToolButtonBackClick
       end
       object ToolButtonForward: TSpTBXItem
         Hint = 'Go Forward'
         ImageIndex = 1
+        ImageName = 'Forward'
         OnClick = ToolButtonForwardClick
       end
       object TBXSeparatorItem1: TSpTBXSeparatorItem
@@ -57,6 +59,7 @@ object WebPreviewForm: TWebPreviewForm
       object TBXItem3: TSpTBXItem
         Hint = 'Stop'
         ImageIndex = 2
+        ImageName = 'Cancel'
         OnClick = ToolButtonStopClick
       end
       object TBXSeparatorItem2: TSpTBXSeparatorItem
@@ -64,16 +67,19 @@ object WebPreviewForm: TWebPreviewForm
       object TBXItem4: TSpTBXItem
         Hint = 'Page Setup'
         ImageIndex = 3
+        ImageName = 'PageSetup'
         OnClick = ToolButtonPageSetupClick
       end
       object TBXItem6: TSpTBXItem
         Hint = 'Print Preview'
         ImageIndex = 4
+        ImageName = 'Preview'
         OnClick = ToolButtonPrintPreviewClick
       end
       object TBXItem5: TSpTBXItem
         Hint = 'Print'
         ImageIndex = 5
+        ImageName = 'Print'
         OnClick = ToolButtonPrintClick
       end
       object TBXSeparatorItem4: TSpTBXSeparatorItem
@@ -81,6 +87,7 @@ object WebPreviewForm: TWebPreviewForm
       object TBXItem7: TSpTBXItem
         Hint = 'Save'
         ImageIndex = 6
+        ImageName = 'Save'
         OnClick = ToolButtonSaveClick
       end
     end

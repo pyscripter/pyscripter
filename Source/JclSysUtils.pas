@@ -59,12 +59,12 @@ uses
   {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
-  Winapi.Windows,
+  Winapi.Windows, Winapi.TlHelp32,
   {$ENDIF MSWINDOWS}
   System.SysUtils, System.Classes, System.TypInfo, System.SyncObjs,
   {$ELSE ~HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
-  Windows,
+  Windows, TlHelp32,
   {$ENDIF MSWINDOWS}
   SysUtils, Classes, TypInfo, SyncObjs,
   {$ENDIF ~HAS_UNITSCOPE}
@@ -524,11 +524,14 @@ function Execute(const CommandLine: string; var Output, Error: string;
 function Execute(const CommandLine: string; AbortEvent: TJclEvent;
   var Output, Error: string; RawOutput: Boolean = False; RawError: Boolean = False;
   ProcessPriority: TJclProcessPriority = ppNormal; AutoConvertOem: Boolean = False): Cardinal; overload;
+{$IFDEF MSWINDOWS}
+function TerminateProcessTree(ProcessID: DWORD): Boolean;
+{$ENDIF MSWINDOWS}
 
 type
   {$IFDEF MSWINDOWS}
   TJclExecuteCmdProcessOptionBeforeResumeEvent =
-    procedure(const ProcessInfo: TProcessInformation; InWritePipe: THandle) of object;
+    procedure(const ProcessInfo: TProcessInformation; InWritePipe: PHandle) of object;
   TStartupVisibility = (svHide, svShow, svNotSet);
   {$ENDIF MSWINDOWS}
 
@@ -550,6 +553,8 @@ type
 
     FAutoConvertOem: Boolean;
     {$IFDEF MSWINDOWS}
+    FCurrentDir: string;
+    FEnvironment: TStringList;
     FCreateProcessFlags: DWORD;
     FStartupVisibility: TStartupVisibility;
     FBeforeResume: TJclExecuteCmdProcessOptionBeforeResumeEvent;
@@ -558,6 +563,10 @@ type
     FExitCode: Cardinal;
     FOutput: string;
     FError: string;
+    {$IFDEF MSWINDOWS}
+    function GetEnvironment: TStrings;
+    procedure SetEnvironment(const Value: TStrings);
+    {$ENDIF MSWINDOWS}
   public
     // in:
     property CommandLine: string read FCommandLine write FCommandLine;
@@ -578,6 +587,8 @@ type
     // default string encoding.
     property AutoConvertOem: Boolean read FAutoConvertOem write FAutoConvertOem default True;
     {$IFDEF MSWINDOWS}
+    property CurrentDir: string read FCurrentDir write FCurrentDir;
+    property Environment: TStrings read GetEnvironment write SetEnvironment;
     property CreateProcessFlags: DWORD read FCreateProcessFlags write FCreateProcessFlags;
     property StartupVisibility: TStartupVisibility read FStartupVisibility write FStartupVisibility;
     property BeforeResume: TJclExecuteCmdProcessOptionBeforeResumeEvent read FBeforeResume write FBeforeResume;
@@ -589,6 +600,7 @@ type
     property Error: string read FError;
   public
     constructor Create(const ACommandLine: string);
+    destructor Destroy; override;
   end;
 
 function ExecuteCmdProcess(Options: TJclExecuteCmdProcessOptions): Boolean;
@@ -2998,7 +3010,61 @@ begin
   FAutoConvertOem := True;
   FProcessPriority := ppNormal;
   FBufferSize := 4096;
+{$IFDEF MSWINDOWS}
+  FEnvironment := TStringList.Create;
+{$ENDIF MSWINDOWS}
 end;
+
+{$IFDEF MSWINDOWS}
+type
+ TProcessArray = array of DWORD;
+
+function TerminateProcessTree(ProcessID: DWORD): Boolean;
+
+  function GetChildrenProcesses(const Process: DWORD; const IncludeParent: Boolean): TProcessArray;
+  var
+    Snapshot: Cardinal;
+    ProcessList: PROCESSENTRY32;
+    Current: Integer;
+  begin
+    Current := 0;
+    SetLength(Result, 1);
+    Result[0] := Process;
+    repeat
+      ProcessList.dwSize := SizeOf(PROCESSENTRY32);
+      Snapshot := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+      if (Snapshot = INVALID_HANDLE_VALUE) or not Process32First(Snapshot, ProcessList) then
+        Continue;
+      repeat
+        if ProcessList.th32ParentProcessID = Result[Current] then
+        begin
+          SetLength(Result, Length(Result) + 1);
+          Result[Length(Result) - 1] := ProcessList.th32ProcessID;
+        end;
+      until Process32Next(Snapshot, ProcessList) = False;
+      Inc(Current);
+    until Current >= Length(Result);
+    if not IncludeParent then
+      Result := Copy(Result, 2, Length(Result));
+  end;
+
+var
+  Handle: THandle;
+  List: TProcessArray;
+  I: Integer;
+begin
+  Result := True;
+  List := GetChildrenProcesses(ProcessID, True);
+  for I := Length(List) - 1 downto 0 do
+    if Result then
+    begin
+      Handle := OpenProcess(PROCESS_TERMINATE, false, List[I]);
+      Result := (Handle <> 0) and
+        TerminateProcess(Handle, Cardinal(ABORT_EXIT_CODE)) and
+        CloseHandle(Handle);
+    end;
+end;
+{$ENDIF MSWINDOWS}
 
 function ExecuteCmdProcess(Options: TJclExecuteCmdProcessOptions): Boolean;
 var
@@ -3017,9 +3083,11 @@ var
   InternalAbort: Boolean;
   LastError: DWORD;
   CommandLine: string;
+  CurDir: PChar;
   AbortPtr: PBoolean;
   Flags: DWORD;
   InReadPipe, InWritePipe, InputWriteTmp: THandle;
+  EnvironmentData: PChar;
 begin
   Result := False;
 
@@ -3093,9 +3161,11 @@ begin
   else
     StartupInfo.hStdError := ErrorPipeInfo.PipeWrite;
   CommandLine := Options.CommandLine;
+  CurDir := Iff(Options.FCurrentDir = '', nil, PWideChar(Options.CurrentDir));
   UniqueString(CommandLine); // CommandLine must be in a writable memory block
   ResetMemory(ProcessInfo, SizeOf(ProcessInfo));
   ProcessEvent := nil;
+
   try
     Flags := Options.CreateProcessFlags and not (NORMAL_PRIORITY_CLASS or IDLE_PRIORITY_CLASS or
                                                  HIGH_PRIORITY_CLASS or REALTIME_PRIORITY_CLASS);
@@ -3103,14 +3173,22 @@ begin
     if Assigned(Options.BeforeResume) then
       Flags := Flags or CREATE_SUSPENDED;
 
+    if Options.Environment.Count = 0 then
+      EnvironmentData := nil
+    else
+    begin
+      StringsToMultiSz(EnvironmentData, Options.Environment);
+      Flags := Flags or CREATE_UNICODE_ENVIRONMENT;
+    end;
+
     if CreateProcess(nil, PChar(CommandLine), nil, nil, True, Flags,
-      nil, nil, StartupInfo, ProcessInfo) then
+      EnvironmentData, CurDir, StartupInfo, ProcessInfo) then
     begin
       Result := True;
       try
         try
           if Assigned(Options.BeforeResume) then
-            Options.BeforeResume(ProcessInfo, InWritePipe);
+            Options.BeforeResume(ProcessInfo, @InWritePipe);
         finally
           if Flags and CREATE_SUSPENDED <> 0 then // CREATE_SUSPENDED may also have come from CreateProcessFlags
             ResumeThread(ProcessInfo.hThread);
@@ -3193,7 +3271,9 @@ begin
             {$ENDIF DELPHI11_UP}
         end;
         if {$IFDEF FPC}Boolean({$ENDIF}AbortPtr^{$IFDEF FPC}){$ENDIF} then
-          TerminateProcess(ProcessEvent.Handle, Cardinal(ABORT_EXIT_CODE));
+          //TerminateProcess(ProcessEvent.Handle, Cardinal(ABORT_EXIT_CODE));
+          TerminateProcessTree(ProcessInfo.dwProcessId);
+
         if (ProcessEvent.WaitForever = {$IFDEF RTL280_UP}TJclWaitResult.{$ENDIF RTL280_UP}wrSignaled) and not GetExitCodeProcess(ProcessEvent.Handle, Options.FExitCode) then
           Options.FExitCode := $FFFFFFFF;
         CloseHandle(ProcessInfo.hThread);
@@ -4244,6 +4324,26 @@ begin
   Result := SysUtils.LongDateFormat;
 {$ENDIF}
 end;
+
+destructor TJclExecuteCmdProcessOptions.Destroy;
+begin
+{$IFDEF MSWINDOWS}
+  FEnvironment.Free;
+{$ENDIF MSWINDOWS}
+  inherited;
+end;
+
+{$IFDEF MSWINDOWS}
+function TJclExecuteCmdProcessOptions.GetEnvironment: TStrings;
+begin
+  Result := FEnvironment;
+end;
+
+procedure TJclExecuteCmdProcessOptions.SetEnvironment(const Value: TStrings);
+begin
+  FEnvironment.Assign(Value);
+end;
+{$ENDIF MSWINDOWS}
 
 { TJclFormatSettings }
 

@@ -62,11 +62,12 @@
         <Icon_MainIcon>PyScripter_Icon.ico</Icon_MainIcon>
         <Manifest_File>None</Manifest_File>
         <VCL_Custom_Styles>Carbon|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Carbon.vsf;Coral|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Coral.vsf;Jet|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Jet.vsf;Luna|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Luna.vsf;Windows10|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Windows10.vsf</VCL_Custom_Styles>
-        <VerInfo_Build>6</VerInfo_Build>
+        <VerInfo_Build>1</VerInfo_Build>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=4.0.0.6;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=4.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=4.1.0.1;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=4.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>2057</VerInfo_Locale>
         <VerInfo_MajorVer>4</VerInfo_MajorVer>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -106,8 +107,10 @@
         <DCC_ExeOutput>.\..</DCC_ExeOutput>
         <Debugger_IncludeSystemVars>true</Debugger_IncludeSystemVars>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <ILINK_MapFileType>DetailedSegments</ILINK_MapFileType>
         <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
+        <MapFile>3</MapFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -118,6 +121,9 @@
         <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
         <MapFile>3</MapFile>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=4.1.0.1;InternalName=;LegalCopyright=(c) Kiriakos Vlahos;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=4.1.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -296,7 +302,6 @@
         </DCCReference>
         <DCCReference Include="JvDockSupportControl.pas"/>
         <DCCReference Include="JvDockVIDStyle.pas"/>
-        <DCCReference Include="JvCreateProcess.pas"/>
         <DCCReference Include="cCodeCompletion.pas"/>
         <DCCReference Include="dlgStyleSelector.pas">
             <Form>StyleSelectorForm</Form>

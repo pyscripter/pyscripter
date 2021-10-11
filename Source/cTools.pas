@@ -50,7 +50,8 @@ type
     fContext: TToolContext;
     fSaveFiles : TSaveFiles;
     fEnvironment : TStrings;
-    fUseCustomEnvironment : boolean;
+    fUseCustomEnvironment : Boolean;
+    FUseUtf8: Boolean;
     procedure SetEnvironment(const Value: TStrings);
     function IsMessageFormatStore: Boolean;
   public
@@ -119,6 +120,7 @@ type
     // Custom Enviroment
     property Environment : TStrings read fEnvironment write SetEnvironment
       stored fUseCustomEnvironment;
+    property UseUtf8: Boolean read FUseUtf8 write FUseUtf8 default False;
   end;
 
   // Differs only in persistence

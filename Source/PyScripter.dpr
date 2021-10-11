@@ -97,7 +97,6 @@ uses
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   JvDockSupportControl in 'JvDockSupportControl.pas',
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
-  JvCreateProcess in 'JvCreateProcess.pas',
   cCodeCompletion in 'cCodeCompletion.pas',
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',

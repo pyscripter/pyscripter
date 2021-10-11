@@ -265,6 +265,9 @@ function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
 {Style adjusted svg FixedColor}
 function SvgFixedColor(Color: TColor): TColor;
 
+{Frees Encoding if it is not standard}
+procedure FreeAndNilEncoding(var Encoding: TEncoding);
+
 type
   (*  Extends System.RegularExperssions.TRegEx *)
   TRegExHelper = record helper for TRegEx
@@ -2242,6 +2245,17 @@ begin
   else if Result = clWhite then
     Result := $E6E6E6;
 end;
+
+procedure FreeAndNilEncoding(var Encoding: TEncoding);
+begin
+  if Assigned(Encoding) then
+  begin
+    if not TEncoding.IsStandardEncoding(Encoding) then
+      Encoding.Free;
+    Encoding := nil;
+  end;
+end;
+
 
 //  Regular Expressions Start
 type

@@ -38,7 +38,7 @@ type
     fUseNamedPipes : boolean;
     fNamedPipeStream : Variant;
     procedure CreateAndConnectToServer;
-    procedure StoreServerProcessInfo(const ProcessInfo: TProcessInformation; InWritePipe: THandle);
+    procedure StoreServerProcessInfo(const ProcessInfo: TProcessInformation; InWritePipe: PHandle);
   protected
     const RemoteServerBaseName = 'remserver.py';
     const RpycZipModule = 'rpyc.zip';
@@ -1192,8 +1192,8 @@ begin
   fConnected := False;
 end;
 
-procedure TPyRemoteInterpreter.StoreServerProcessInfo(
-  const ProcessInfo: TProcessInformation; InWritePipe: THandle);
+procedure TPyRemoteInterpreter.StoreServerProcessInfo(const ProcessInfo:
+    TProcessInformation; InWritePipe: PHandle);
 begin
   ServerProcessInfo := ProcessInfo;
 end;

@@ -534,6 +534,7 @@
             - Added traditional Chinese tranlsation
           Issues addressed
             #939, #951, #1116, #1118, #1119, #1122, #1123, #1125, #1129, #1133
+            #1136
 }
 // TODO: Process diagnostics
 
@@ -1393,7 +1394,6 @@ uses
   Vcl.Clipbrd,
   Vcl.StdActns,
   Vcl.Themes,
-  JvCreateProcess,
   JclSysInfo,
   JclStrings,
   JclSysUtils,
@@ -1771,7 +1771,7 @@ begin
     end;
   end;
 
-  if OutputWindow.JvCreateProcess.State <> psReady then
+  if OutputWindow.IsRunning then
     if StyledMessageDlg(_(SKillExternalTool), mtConfirmation, [mbYes, mbCancel], 0) = mrYes
     then begin
       OutputWindow.actToolTerminateExecute(Self);
@@ -2914,7 +2914,7 @@ begin
     icIndicators.SVGIconItems[2].FixedColor := clGray;
   end;
 
-  spiExternalToolsLED.Visible := OutputWindow.JvCreateProcess.State <> psReady;
+  spiExternalToolsLED.Visible := OutputWindow.IsRunning;
 end;
 
 function TPyIDEMainForm.CmdLineOpenFiles(): boolean;
@@ -4630,7 +4630,7 @@ begin
       TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
       // Jupyter support
       if (LowerCase(FileTemplate.Extension) = 'ipynb') and
-        (OutputWindow.JvCreateProcess.State = psReady) then
+        not OutputWindow.IsRunning then
       begin
         Editor := Result;
         (Editor as IFileCommands).ExecSave;

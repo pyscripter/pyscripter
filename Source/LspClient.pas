@@ -143,8 +143,8 @@ type
     fExCmdOptions: TJclExecuteCmdProcessOptions;
     fAbortEvent: TJclEvent;
     fLspClient: TLspClient;
-    procedure BeforeResume(const ProcessInfo: TProcessInformation;
-      WriteHandle: THandle);
+    procedure BeforeResume(const ProcessInfo: TProcessInformation; WriteHandle:
+        PHandle);
   protected
     procedure Execute; override;
     procedure TerminatedSet; override;
@@ -508,10 +508,10 @@ end;
 { TLspClientThread }
 
 procedure TLspServerThread.BeforeResume(const ProcessInfo: TProcessInformation;
-  WriteHandle: THandle);
+  WriteHandle: PHandle);
 begin
   fProcessHandle := ProcessInfo.hProcess;
-  TSendDataThread(FLspClient.FSendDataThread).SetWriteHandle(WriteHandle);
+  TSendDataThread(FLspClient.FSendDataThread).SetWriteHandle(WriteHandle^);
   FLspClient.FSendDataThread.Start;
 end;
 
