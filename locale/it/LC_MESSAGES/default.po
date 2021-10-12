@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-09-30 04:05\n"
+"POT-Creation-Date: 2021-10-12 00:46\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -2302,11 +2302,6 @@ msgstr "Nuovo file"
 msgid "Console"
 msgstr "Console"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Label9..Caption
-#: dlgToolProperties.dfm
-msgid "&Timeout (ms):"
-msgstr "&Timeout (ms):"
-
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
 msgid "Check to hide the console."
@@ -2317,28 +2312,15 @@ msgstr "Spunta per nascondere la console."
 msgid "&Hide console"
 msgstr "&Nascondi console"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination....Hint
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
-msgid ""
-"If checked will monitor the process \n"
-"and notify you when is terminated."
-msgstr ""
-"Se abilitata, il processo verrà monitorato \n"
-"e la sua conclusione sarà notificata."
+msgid "Use the UTF8 encoding for stdin/stdout"
+msgstr "Usa la codifica UTF8 per stdin/stdout"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination..Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
-msgid "&Wait for Termination"
-msgstr "&Attendi conclusione"
-
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..seTimeout....Hint
-#: dlgToolProperties.dfm
-msgid ""
-"If set to a value <> 0 then you will be prompted \n"
-"to abort the program after the specified time (ms)."
-msgstr ""
-"Se viene impostato un valore diverso da 0 verrà richiesto\n"
-"di interrompere il programma dopo il tempo specificato (ms)."
+msgid "&UTF8 IO"
+msgstr "&UTF8 IO"
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
@@ -2427,9 +2409,8 @@ msgid "Save As|Save active file under different name"
 msgstr "Salva come|Salva file attuale con un altro nome"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
-#. OutputWindow..OutputActions..actToolClose..Caption
 #. Programmer's name for it: SDlgClose
-#: dmCommands.dfm frmCommandOutput.dfm StringResources.pas
+#: dmCommands.dfm StringResources.pas
 msgid "&Close"
 msgstr "&Chiudi"
 
@@ -3586,31 +3567,6 @@ msgstr "&Termina"
 #: frmCommandOutput.dfm
 msgid "Terminate running tool (unsafe)"
 msgstr "Termina lo strumento in esecuzione (non sicuro)"
-
-#. OutputWindow..OutputActions..actToolClose..Hint
-#: frmCommandOutput.dfm
-msgid "Close running tool"
-msgstr "Chiudi lo strumento in esecuzione"
-
-#. OutputWindow..OutputActions..actToolQuit..Caption
-#: frmCommandOutput.dfm
-msgid "&Quit"
-msgstr "&Esci"
-
-#. OutputWindow..OutputActions..actToolQuit..Hint
-#: frmCommandOutput.dfm
-msgid "Post quit message to running tool"
-msgstr "Invia un messaggio di uscita allo strumento in esecuzione"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Caption
-#: frmCommandOutput.dfm
-msgid "Stop &Waiting"
-msgstr "&Interrompi attesa"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Hint
-#: frmCommandOutput.dfm
-msgid "Stop waiting for running tool"
-msgstr "Interrompi l'attesa per lo strumento in esecuzione"
 
 #. DisForm..Caption
 #: frmDisassemlyView.dfm
@@ -6375,11 +6331,6 @@ msgid "Display package names in editor tabs"
 msgstr "Visualizza nome del pacchetto nelle schede dell'editor"
 
 #: dmCommands.pas
-msgid "File line limit for syntax check as you type"
-msgstr ""
-"Limite linee nel file per il controllo della sintassi durante la digitazione"
-
-#: dmCommands.pas
 msgid "Code folding enabled by default"
 msgstr "Raggruppamento codice abilitato in modo predefinito"
 
@@ -8206,12 +8157,6 @@ msgstr "Riga comando: %s"
 #: StringResources.pas
 msgid "Working directory: "
 msgstr "Cartella di lavoro: "
-
-#. Programmer's name for it: SPrintTimeOut
-#: StringResources.pas
-#, object-pascal-format
-msgid "Timeout: %d ms"
-msgstr "Timeout: %d ms"
 
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
