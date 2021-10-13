@@ -3970,6 +3970,15 @@ object CommandsDataModule: TCommandsDataModule
           'V14.5z"/>'#13#10'</svg>'#13#10
       end
       item
+        IconName = 'Lock'
+        SVGText = 
+          '<svg viewBox="0 0 24 24">'#13#10#9'<path'#13#10#9#9'd="M12,17C10.89,17 10,16.1 ' +
+          '10,15C10,13.89 10.89,13 12,13A2,2 0 0,1 14,15A2,2 0 0,1 12,17M18' +
+          ',20V10H6V20H18M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6C4.89,22' +
+          ' 4,21.1 4,20V10C4,8.89 4.89,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 1' +
+          '7,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />'#13#10'</svg>'
+      end
+      item
         IconName = 'MessagesWin'
         SVGText = 
           '<svg viewBox="0 0 32 32">'#13#10'<path fill="#FFCE00" d="M20.5,4v10.5H' +
@@ -4923,6 +4932,15 @@ object CommandsDataModule: TCommandsDataModule
           '.6z"/>'#13#10#9'</g>'#13#10'</svg>'#13#10
       end
       item
+        IconName = 'Lock'
+        SVGText = 
+          '<svg viewBox="0 0 24 24">'#13#10#9'<path'#13#10#9#9'd="M12,17C10.89,17 10,16.1 ' +
+          '10,15C10,13.89 10.89,13 12,13A2,2 0 0,1 14,15A2,2 0 0,1 12,17M18' +
+          ',20V10H6V20H18M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6C4.89,22' +
+          ' 4,21.1 4,20V10C4,8.89 4.89,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 1' +
+          '7,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />'#13#10'</svg>'
+      end
+      item
         IconName = 'Tools'
         SVGText = 
           '<svg viewBox="0 0 512 512">'#13#10#9'<path d="m289.648 159.19c-3.136 3.' +
@@ -5182,7 +5200,6 @@ object CommandsDataModule: TCommandsDataModule
           '6.8,3,6.8,6.8'#13#10#9'S16.4,19.3,12.7,19.3z M9,11.8h7.5v1.5H9V11.8z"/>' +
           #13#10'</svg>'
       end>
-    ApplyFixedColorToRootOnly = True
     Left = 112
     Top = 208
   end

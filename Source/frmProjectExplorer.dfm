@@ -544,7 +544,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 93
         CollectionName = 'Run'
         Disabled = False
         Name = 'Run'
@@ -556,25 +556,25 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Name = 'Debug'
       end
       item
-        CollectionIndex = 74
+        CollectionIndex = 75
         CollectionName = 'ProjectFile'
         Disabled = False
         Name = 'ProjectFile'
       end
       item
-        CollectionIndex = 75
+        CollectionIndex = 76
         CollectionName = 'ProjectOpen'
         Disabled = False
         Name = 'ProjectOpen'
       end
       item
-        CollectionIndex = 72
+        CollectionIndex = 73
         CollectionName = 'ProjectAdd'
         Disabled = False
         Name = 'ProjectAdd'
       end
       item
-        CollectionIndex = 76
+        CollectionIndex = 77
         CollectionName = 'ProjectRemove'
         Disabled = False
         Name = 'ProjectRemove'
@@ -592,19 +592,19 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Name = 'Editor'
       end
       item
-        CollectionIndex = 77
+        CollectionIndex = 78
         CollectionName = 'ProjectSave'
         Disabled = False
         Name = 'ProjectSave'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 94
         CollectionName = 'RunConfigAdd'
         Disabled = False
         Name = 'RunConfigAdd'
       end
       item
-        CollectionIndex = 94
+        CollectionIndex = 95
         CollectionName = 'RunConfigEdit'
         Disabled = False
         Name = 'RunConfigEdit'
@@ -622,7 +622,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Name = 'Download'
       end
       item
-        CollectionIndex = 95
+        CollectionIndex = 96
         CollectionName = 'RunLast'
         Disabled = False
         Name = 'RunLast'

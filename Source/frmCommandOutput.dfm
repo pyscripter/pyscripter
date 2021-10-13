@@ -148,7 +148,7 @@ inherited OutputWindow: TOutputWindow
         Name = 'Delete'
       end
       item
-        CollectionIndex = 109
+        CollectionIndex = 110
         CollectionName = 'Stop'
         Disabled = False
         Name = 'Stop'
@@ -160,7 +160,7 @@ inherited OutputWindow: TOutputWindow
         Name = 'Exit'
       end
       item
-        CollectionIndex = 85
+        CollectionIndex = 86
         CollectionName = 'Quit'
         Disabled = False
         Name = 'Quit'

@@ -1370,6 +1370,7 @@ var
   TabItem: TSpTBXTabItem;
 begin
   TabItem := AOwner.Add('');
+  TabItem.Images := PyIDEMainForm.vilTabDecorators;
   Sheet := AOwner.GetPage(TabItem);
   try
     LForm := TEditorForm.Create(Sheet);
@@ -3226,8 +3227,10 @@ procedure TEditorForm.DoOnIdle;
 begin
   SyncCodeExplorer;
 
-  if HasSyntaxError then
-    ParentTabItem.ImageIndex := PyIDEMainForm.vilImages.GetIndexByName('Bug')
+  if SynEdit.ReadOnly then
+    ParentTabItem.ImageIndex := PyIDEMainForm.vilTabDecorators.GetIndexByName('Lock')
+  else if HasSyntaxError then
+    ParentTabItem.ImageIndex := PyIDEMainForm.vilTabDecorators.GetIndexByName('Bug')
   else
     ParentTabItem.ImageIndex := -1;
 end;
