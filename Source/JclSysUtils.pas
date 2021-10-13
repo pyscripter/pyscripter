@@ -3064,6 +3064,15 @@ begin
         CloseHandle(Handle);
     end;
 end;
+
+procedure SafeCloseHandle(var Handle: THandle);
+begin
+  if Handle <> 0 then
+  begin
+    CloseHandle(Handle);
+    Handle := 0;
+  end;
+end;
 {$ENDIF MSWINDOWS}
 
 function ExecuteCmdProcess(Options: TJclExecuteCmdProcessOptions): Boolean;
@@ -3106,8 +3115,8 @@ begin
   if not  DuplicateHandle(GetCurrentProcess, InputWritetmp, GetCurrentProcess,
     @InWritePipe, 0, False, DUPLICATE_SAME_ACCESS or DUPLICATE_CLOSE_SOURCE) then
   begin
-    CloseHandle(InReadPipe);
-    CloseHandle(InputWriteTmp);
+    SafeCloseHandle(InReadPipe);
+    SafeCloseHandle(InputWriteTmp);
     Options.FExitCode := GetLastError;
     Exit;
   end;
@@ -3120,8 +3129,8 @@ begin
   if not CreateAsyncPipe(OutPipeInfo.PipeRead, OutPipeInfo.PipeWrite, @SecurityAttr, Options.BufferSize) then
   begin
     Options.FExitCode := GetLastError;
-    CloseHandle(InReadPipe);
-    CloseHandle(InWritePipe);
+    SafeCloseHandle(InReadPipe);
+    SafeCloseHandle(InWritePipe);
     Exit;
   end;
   OutPipeInfo.Event := TJclEvent.Create(@SecurityAttr, False {automatic reset}, False {not flagged}, '' {anonymous});
@@ -3195,13 +3204,10 @@ begin
         end;
 
         // init out and error events
-        CloseHandle(OutPipeInfo.PipeWrite);
-        OutPipeInfo.PipeWrite := 0;
+        SafeCloseHandle(InReadPipe);
+        SafeCloseHandle(OutPipeInfo.PipeWrite);
         if not Options.MergeError then
-        begin
-          CloseHandle(ErrorPipeInfo.PipeWrite);
-          ErrorPipeInfo.PipeWrite := 0;
-        end;
+          SafeCloseHandle(ErrorPipeInfo.PipeWrite);
         InternalAbort := False;
         AbortPtr := Options.AbortPtr;
         if AbortPtr <> nil then
@@ -3271,13 +3277,20 @@ begin
             {$ENDIF DELPHI11_UP}
         end;
         if {$IFDEF FPC}Boolean({$ENDIF}AbortPtr^{$IFDEF FPC}){$ENDIF} then
+        begin
           //TerminateProcess(ProcessEvent.Handle, Cardinal(ABORT_EXIT_CODE));
+          // Close handles first
+          SafeCloseHandle(InWritePipe);
+          SafeCloseHandle(OutPipeInfo.PipeRead);
+          if not Options.MergeError then
+            SafeCloseHandle(ErrorPipeInfo.PipeRead);
+          //Forcefully terminaty the process tree
           TerminateProcessTree(ProcessInfo.dwProcessId);
+        end;
 
         if (ProcessEvent.WaitForever = {$IFDEF RTL280_UP}TJclWaitResult.{$ENDIF RTL280_UP}wrSignaled) and not GetExitCodeProcess(ProcessEvent.Handle, Options.FExitCode) then
           Options.FExitCode := $FFFFFFFF;
-        CloseHandle(ProcessInfo.hThread);
-        ProcessInfo.hThread := 0;
+        SafeCloseHandle(ProcessInfo.hThread);
         if OutPipeInfo.PipeRead <> 0 then
           // read data remaining in output pipe
           InternalExecuteFlushPipe(OutPipeinfo, OutOverlapped);
@@ -3306,25 +3319,18 @@ begin
   finally
     LastError := GetLastError;
     try
-      if InWritePipe <>0  then begin
-        CloseHandle(InReadPipe);
-        CloseHandle(InWritePipe);
-      end;
-      if OutPipeInfo.PipeRead <> 0 then
-        CloseHandle(OutPipeInfo.PipeRead);
-      if OutPipeInfo.PipeWrite <> 0 then
-        CloseHandle(OutPipeInfo.PipeWrite);
-      if ErrorPipeInfo.PipeRead <> 0 then
-        CloseHandle(ErrorPipeInfo.PipeRead);
-      if ErrorPipeInfo.PipeWrite <> 0 then
-        CloseHandle(ErrorPipeInfo.PipeWrite);
-      if ProcessInfo.hThread <> 0 then
-        CloseHandle(ProcessInfo.hThread);
+      SafeCloseHandle(InReadPipe);
+      SafeCloseHandle(InWritePipe);
+      SafeCloseHandle(OutPipeInfo.PipeRead);
+      SafeCloseHandle(OutPipeInfo.PipeWrite);
+      SafeCloseHandle(ErrorPipeInfo.PipeRead);
+      SafeCloseHandle(ErrorPipeInfo.PipeWrite);
+      SafeCloseHandle(ProcessInfo.hThread);
 
       if Assigned(ProcessEvent) then
         ProcessEvent.Free // this calls CloseHandle(ProcessInfo.hProcess)
       else if ProcessInfo.hProcess <> 0 then
-        CloseHandle(ProcessInfo.hProcess);
+        SafeCloseHandle(ProcessInfo.hProcess);
       OutPipeInfo.Event.Free;
       ErrorPipeInfo.Event.Free;
     finally

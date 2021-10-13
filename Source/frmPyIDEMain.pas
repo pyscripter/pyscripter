@@ -3554,17 +3554,14 @@ begin
 end;
 
 procedure TPyIDEMainForm.TabControlTabClosing(Sender: TObject; var Allow, CloseAndFree: Boolean);
-Var
-  Editor : IEditor;
 begin
-  Editor := EditorFromTab(Sender as TSpTBXTabItem);
-  if Assigned(Editor) then begin
-    Allow := False;
-    TThread.ForceQueue(nil, procedure
-    begin
+  Allow := False;
+  TThread.ForceQueue(nil, procedure
+  begin
+    var Editor := EditorFromTab(Sender as TSpTBXTabItem);
+    if Assigned(Editor) then
       (Editor as IFileCommands).ExecClose;
-    end);
-  end;
+  end);
 end;
 
 procedure TPyIDEMainForm.TabToolbarlDragDrop(Sender, Source: TObject; X,
