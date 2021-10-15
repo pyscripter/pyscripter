@@ -198,7 +198,7 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
     procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
-    procedure SymbolsChanged(Sender: TObject);
+    class procedure SymbolsChanged(Sender: TObject);
     class var fOldEditorForm: TEditorForm;
     class var fHintIdentInfo: THotIdentInfo;
     class procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
@@ -317,7 +317,6 @@ type
     fHasSelection: boolean;
     fUntitledNumber: Integer;
     FSynLsp: TLspSynEditPlugin;
-    fDocSymbols: TDocSymbols;
     function IsEmpty: boolean;
     procedure DoSetFileName(AFileName: string);
     function GetEncodedTextEx(var EncodedText: AnsiString;
@@ -535,14 +534,12 @@ constructor TEditor.Create(AForm: TEditorForm);
 begin
   Assert(AForm <> nil);
   inherited Create;
-  fForm := AForm;
-  fUntitledNumber := -1;
+  FForm := AForm;
+  FUntitledNumber := -1;
   SetFileEncoding(PyIDEOptions.NewFileEncoding);
-  FSynLsp:= TLspSynEditPlugin.Create(fForm.SynEdit);
-  // DocSymbols
-  fDocSymbols := TDocSymbols.Create;
-  fDocSymbols.OnNotify := fForm.SymbolsChanged;
-  CodeExplorerWindow.UpdateWindow(fDocSymbols, ceuEditorEnter);
+  FSynLsp := TLspSynEditPlugin.Create(fForm.SynEdit);
+  FSynLsp.DocSymbols.OnNotify := FForm.SymbolsChanged;
+  CodeExplorerWindow.UpdateWindow(FSynLsp.DocSymbols, ceuEditorEnter);
 end;
 
 procedure TEditor.Activate(Primary: boolean = True);
@@ -602,7 +599,7 @@ end;
 
 destructor TEditor.Destroy;
 begin
-  FreeAndNil(fDocSymbols);
+  // Kept for dubugging
   inherited;
 end;
 
@@ -666,7 +663,7 @@ end;
 
 function TEditor.GetDocSymbols: TObject;
 begin
-  Result := fDocSymbols;
+  Result := FSynLsp.DocSymbols;
 end;
 
 function TEditor.GetEditorState: string;
@@ -864,14 +861,9 @@ begin
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
   if HasPythonFile then
-  begin
-    FSynLsp.FileOpened(GetFileId, 'python');
-    FSynLsp.TransmitChanges := True;
-    FDocSymbols.FileId := GetFileId;
-    FDocSymbols.Refresh;
-  end
+    FSynLsp.FileOpened(GetFileId, lidPython)
   else
-    fDocSymbols.Clear;
+    FSynLsp.FileOpened(GetFileId, lidNone);
 end;
 
 procedure TEditor.OpenRemoteFile(const FileName, ServerName: string);
@@ -904,14 +896,9 @@ begin
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
   if HasPythonFile then
-  begin
-    FSynLsp.FileOpened(GetFileId, 'python');
-    FSynLsp.TransmitChanges := True;
-    FDocSymbols.FileId := GetFileId;
-    FDocSymbols.Refresh;
-  end
+    FSynLsp.FileOpened(GetFileId, lidPython)
   else
-    FDocSymbols.Clear;
+    FSynLsp.FileOpened(GetFileId, lidNone);
 end;
 
 function TEditor.SaveToRemoteFile(const FileName, ServerName: string): boolean;
@@ -1582,9 +1569,6 @@ begin
   if PyControl.ErrorPos.Editor = GetEditor then
     PyControl.ErrorPos := TEditorPos.EmptyPos;
 
-  if fEditor.HasPythonFile then
-    fEditor.fDocSymbols.Refresh;
-
   ClearSearchItems;
 end;
 
@@ -1653,7 +1637,7 @@ begin
   end;
 
   if fOldEditorForm <> Self then
-    CodeExplorerWindow.UpdateWindow(fEditor.fDocSymbols, ceuEditorEnter);
+    CodeExplorerWindow.UpdateWindow(fEditor.FSynLsp.DocSymbols, ceuEditorEnter);
   fOldEditorForm := Self;
 
   // Search and Replace Target
@@ -1895,16 +1879,9 @@ begin
     DoUpdateCaption;
 
     if FEditor.HasPythonFile then
-    begin
-      FEditor.FDocSymbols.FileId := FEditor.GetFileId;
-      FEditor.FDocSymbols.Refresh;
-      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, 'python')
-    end
+      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidPython)
     else
-    begin
-      FEditor.FDocSymbols.Clear;
-      FEditor.FSynLsp.FileSavedAs('', '');
-    end;
+      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidNone);
   end
   else
     Result := False;
@@ -1934,16 +1911,9 @@ begin
     DoUpdateCaption;
 
     if FEditor.HasPythonFile then
-    begin
-      FEditor.FDocSymbols.FileId := FEditor.GetFileId;
-      FEditor.FDocSymbols.Refresh;
-      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, 'python')
-    end
+      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidPython)
     else
-    begin
-      FEditor.FDocSymbols.Clear;
-      FEditor.FSynLsp.FileSavedAs('', '');
-    end;
+      FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidNone);
   end
   else
     Result := False;
@@ -2367,7 +2337,7 @@ begin
   end;
 end;
 
-procedure TEditorForm.SymbolsChanged(Sender: TObject);
+class procedure TEditorForm.SymbolsChanged(Sender: TObject);
 begin
   CodeExplorerWindow.UpdateWindow(Sender as TDocSymbols, ceuSymbolsChanged);
 end;

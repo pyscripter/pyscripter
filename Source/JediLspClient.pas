@@ -56,31 +56,6 @@ type
       const BC: TBufferCoord; const Ident: string): string;
   end;
 
-  TDocSymbols = class
-    {Asynchronous symbol support for Code Explorer}
-  private
-    FFileId: string;
-    FCriticalSection: TRTLCriticalSection;
-    FSymbols: TJsonArray;
-    FId: Int64;
-    FRefreshing: Boolean;
-    FDestroying: Boolean;
-    FOnNotify: TNotifyEvent;
-    procedure HandleResponse(Id: Int64; Result, Error: TJsonValue);
-  public
-    ModuleNode: TObject;  // for storing Code Explorer TModuleNodeCE
-    constructor Create;
-    destructor Destroy; override;
-    procedure Clear;
-    procedure Lock;
-    procedure Unlock;
-    procedure Refresh;
-    property FileId: string read FFileId write FFileId;
-    property Symbols: TJsonArray read FSymbols;
-    property Destroying: Boolean read FDestroying;
-    property OnNotify: TNotifyEvent read FOnNotify write FOnNotify;
-  end;
-
 implementation
 
 uses
@@ -104,6 +79,7 @@ begin
   SyncRequestTimeout := 4000; // ms
   OnInitialized := TJclNotifyEventBroadcast.Create;
   OnShutDown := TJclNotifyEventBroadcast.Create;
+  OnShutDown.AddHandler(TLspSynEditPlugin.OnLspShutDown);
   GI_PyControl.OnPythonVersionChange.AddHandler(PythonVersionChanged);
 end;
 
@@ -144,6 +120,7 @@ end;
 
 class destructor TJedi.Destroy;
 begin
+  OnShutDown.RemoveHandler(TLspSynEditPlugin.OnLspShutDown);
   FreeAndNil(OnInitialized);
   FreeAndNil(OnShutDown);
   GI_PyControl.OnPythonVersionChange.RemoveHandler(PythonVersionChanged);
@@ -518,92 +495,6 @@ begin
 end;
 
 {$EndRegion 'Lsp functionality'}
-
-{ TDocSymbols }
-
-procedure TDocSymbols.Clear;
-begin
-  Lock;
-  try
-    if fid <> 0 then
-      TJedi.LspClient.CancelRequest(fId);
-    FreeAndNil(FSymbols);
-    if Assigned(FOnNotify) then
-      FOnNotify(Self);
-  finally
-    UnLock;
-  end;
-end;
-
-constructor TDocSymbols.Create;
-begin
-  inherited Create;
-  FCriticalSection.Initialize;
-end;
-
-destructor TDocSymbols.Destroy;
-begin
-  // signal it is destroyed
-  FDestroying := True;
-  Clear;
-  FCriticalSection.Destroy;
-  inherited;
-end;
-
-procedure TDocSymbols.HandleResponse(Id: Int64; Result, Error: TJsonValue);
-begin
-  if Id = fId then
-  begin
-    Lock;
-    try
-      FreeAndNil(FSymbols);
-      if (Result <> nil) and (Result is TJSONArray) then
-      begin
-        Result.Owned := False;
-        FSymbols := TJsonArray(Result);
-      end;
-      if Assigned(FOnNotify) then
-        FOnNotify(Self);
-    finally
-      fId := 0;
-      UnLock;
-    end;
-  end;
-end;
-
-procedure TDocSymbols.Lock;
-begin
-  FCriticalSection.Enter;
-end;
-
-procedure TDocSymbols.Refresh;
-begin
-  if not TJedi.Ready or FRefreshing then Exit;
-  FRefreshing := True;
-
-  var Task := TTask.Create(procedure
-  begin
-    Lock;
-    try
-      if fid <> 0 then
-        TJedi.LspClient.CancelRequest(fId);
-      var Param := TSmartPtr.Make(TJsonObject.Create)();
-      Param.AddPair('textDocument', LspTextDocumentIdentifier(FFileId));
-
-      var Id := TJedi.LspClient.Request('textDocument/documentSymbol', Param.ToJson, HandleResponse);
-      AtomicExchange(FId, Id);
-    finally
-      FRefreshing := False;
-      UnLock;
-    end;
-  end);
-  Task.Start;
-end;
-
-procedure TDocSymbols.Unlock;
-begin
-  FCriticalSection.Leave;
-end;
 
 end.
 

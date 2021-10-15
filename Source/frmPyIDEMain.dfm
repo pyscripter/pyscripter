@@ -3011,6 +3011,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'LspLED'
       end>
     ImageCollection = icIndicators
+    PreserveItems = True
     Width = 12
     Height = 12
     Left = 112
@@ -3033,6 +3034,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Lock'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
+    PreserveItems = True
     Width = 14
     Height = 14
     Left = 184

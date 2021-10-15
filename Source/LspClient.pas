@@ -20,7 +20,7 @@ Uses
 
 type
 
-  THandleResponse = procedure(Id: Int64; Result, Error: TJsonValue) of object;
+  THandleResponse = procedure(Id: NativeUInt; Result, Error: TJsonValue) of object;
   THandleNotify = procedure(const Method: string; Params: TJsonValue) of object;
   THandleErrorOutput = procedure(const ErrorOutput: string) of object;
 
@@ -51,7 +51,7 @@ type
 
   TLspClient = class
   private
-    FId: Int64;
+    FId: NativeUInt;
     FExCmdOptions: TJclExecuteCmdProcessOptions;
     FServerThread: TThread;
     FSendDataThread: TThread;
@@ -61,7 +61,7 @@ type
     FSyncRequestLock: TRTLCriticalSection;
     FReadBuffer: TBytes;
     FServerCapabilities: TLspServerCapabilities;
-    FPendingRequests: TDictionary<Int64, THandleResponse>;
+    FPendingRequests: TDictionary<NativeUInt, THandleResponse>;
     FSyncHelper: TObject; //TSyncRequestHelper
     FStatus: TLspServerStatus;
     FOnErrorOuput: THandleErrorOutput;
@@ -70,9 +70,9 @@ type
     FOnShutdown: TNotifyEvent;
     procedure ProcessServerCapabilities(SC: TJsonObject);
     procedure ServerTerminated(Sender: TObject);
-    procedure HandleInitialize(id: Int64; Result, Error: TJsonValue);
-    procedure HandleSyncRequest(id: Int64; AResult, AError: TJsonValue);
-    procedure HandleShutdown(id: Int64; Result, Error: TJsonValue);
+    procedure HandleInitialize(id: NativeUInt; Result, Error: TJsonValue);
+    procedure HandleSyncRequest(Id: NativeUInt; AResult, AError: TJsonValue);
+    procedure HandleShutdown(id: NativeUInt; Result, Error: TJsonValue);
     procedure ReceiveData(const Bytes: TBytes; BytesRead: Cardinal);
     procedure ReceiveErrorOutput(const Bytes: TBytes; BytesRead: Cardinal);
   public
@@ -82,11 +82,11 @@ type
     procedure SendToServer(const Bytes: TBytes);
     // Asynchronous request - Handler should not Free Result and Error
     // Returns unique Id
-    function Request(const Method, Params: string; Handler: THandleResponse): Int64;
+    function Request(const Method, Params: string; Handler: THandleResponse): NativeUInt;
     // Synchronous request - Free Result and Error!
     procedure SyncRequest(const Method, Params: string;
       out Result, Error: TJsonValue; Timeout: Cardinal = INFINITE);
-    procedure CancelRequest(Id: Int64);
+    procedure CancelRequest(Id: NativeUInt);
     procedure Notify(const Method, Params: string);
     // LSP protocol
     procedure Initialize(const ClientName, ClientVersion: string;
@@ -164,7 +164,7 @@ type
 
 { TLspClient }
 
-procedure TLspClient.CancelRequest(Id: INt64);
+procedure TLspClient.CancelRequest(Id: NativeUInt);
 begin
   FRequestsLock.Enter;
   try
@@ -187,7 +187,7 @@ begin
                     '(?={)', //look ahead not part of the capture
                     [roMultiLine, roCompiled]);
   fSyncHelper := TSyncRequestHelper.Create;
-  FPendingRequests := TDictionary<Int64, THandleResponse>.Create;
+  FPendingRequests := TDictionary<NativeUInt, THandleResponse>.Create;
   FExCmdOptions := TJclExecuteCmdProcessOptions.Create(ServerPath);
 end;
 
@@ -205,7 +205,7 @@ begin
   inherited;
 end;
 
-procedure TLspClient.HandleInitialize(id: Int64; Result, Error: TJsonValue);
+procedure TLspClient.HandleInitialize(id: NativeUInt; Result, Error: TJsonValue);
 begin
   if Assigned(Result) then
   begin
@@ -221,12 +221,12 @@ begin
   end;
 end;
 
-procedure TLspClient.HandleShutdown(id: Int64; Result, Error: TJsonValue);
+procedure TLspClient.HandleShutdown(id: NativeUInt; Result, Error: TJsonValue);
 begin
   Notify('exit', 'null');
 end;
 
-procedure TLspClient.HandleSyncRequest(id: Int64; AResult, AError: TJsonValue);
+procedure TLspClient.HandleSyncRequest(Id: NativeUInt; AResult, AError: TJsonValue);
 begin
   if Assigned(AResult) then
   begin
@@ -249,7 +249,7 @@ var
   Params: TJsonValue;
   method: string;
   ResponseHandler: THandleResponse;
-  Id: Int64;
+  Id: NativeUInt;
 begin
   fReadLock.Enter;
   try
@@ -295,7 +295,7 @@ begin
                   fOnLspNotification(Method, Params);
               end;
             end
-            else if Response.TryGetValue<Int64>('id', Id) then
+            else if Response.TryGetValue<NativeUInt>('id', Id) then
             begin
               //OutputDebugString(PChar(Format('Lsp response %d received', [Id])));
               // id, but not method -> should be a response
@@ -366,9 +366,9 @@ begin
   SendToServer(HeaderBytes + ContentBytes);
 end;
 
-function TLspClient.Request(const Method, Params: string; Handler: THandleResponse): Int64;
+function TLspClient.Request(const Method, Params: string; Handler: THandleResponse): NativeUInt;
 Var
-  Id: Int64;
+  Id: NativeUInt;
   Header: string;
   Content: string;
   ContentBytes: TBytes;

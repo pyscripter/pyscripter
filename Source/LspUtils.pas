@@ -113,7 +113,7 @@ function LspDocPosition(const FileName: string; Line, Char: integer): TJsonObjec
 function LspLocationToDocPosition(Location: TJsonValue; out DocPosition: TDocPosition): Boolean;
 function LspTextDocumentItem(const FileName, LanguageId, Text: string; Version: integer): TJsonObject;
 function LspTextDocumentIdentifier(const FileName: string): TJsonObject;
-function LspVersionedTextDocumentIdentifier(const FileName: string; Version: Int64): TJsonObject;
+function LspVersionedTextDocumentIdentifier(const FileName: string; Version: NativeUInt): TJsonObject;
 function LspCompletionItems(LspResult: TJsonValue): TCompletionItems;
 
 type
@@ -263,7 +263,7 @@ begin
   Result.AddPair('uri', TJSONString.Create(FileIdToURI(FileName)));
 end;
 
-function LspVersionedTextDocumentIdentifier(const FileName: string; Version: Int64): TJsonObject;
+function LspVersionedTextDocumentIdentifier(const FileName: string; Version: NativeUInt): TJsonObject;
 begin
   Result := LspTextDocumentIdentifier(FileName);
   Result.AddPair('version', TJSONNumber.Create(Version));

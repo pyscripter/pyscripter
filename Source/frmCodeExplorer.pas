@@ -40,7 +40,8 @@ uses
   SpTBXControls,
   frmIDEDockWin,
   JediLspClient,
-  SynEditTypes;
+  SynEditTypes,
+  SynEditLsp;
 
 type
   TCESortOrder = (soPosition, soAlpha);
