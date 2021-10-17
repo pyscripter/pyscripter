@@ -24,8 +24,11 @@ msgstr ""
 msgid "Arabic"
 msgstr "Taɛrabt"
 
-msgid "Chinese"
-msgstr "Tacinwat"
+msgid "Simplified Chinese"
+msgstr ""
+
+msgid "Traditional Chinese"
+msgstr ""
 
 msgid "English"
 msgstr "Taglizit"
