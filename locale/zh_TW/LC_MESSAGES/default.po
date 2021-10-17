@@ -1,22 +1,25 @@
 # PyScripter GUI translation.
-#
+# 
 # Copyright (C) Kiriakos Vlahos  2005-2020
 # This file is distributed under the same license as PyScripter
+# 
+# Translators:
+# Kiriakos Vlahos <pyscripter@gmail.com>, 2021
+# startgo <startgo@youp.ga>, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-09-30 04:05\n"
-"PO-Revision-Date: 2021-10-03 08:13+0800\n"
-"Last-Translator: Startgo <startgo@youp.ga>\n"
+"POT-Creation-Date: 2021-10-12 00:46\n"
+"PO-Revision-Date: 2018-01-24 08:21+0000\n"
+"Last-Translator: startgo <startgo@youp.ga>, 2021\n"
+"Language-Team: Chinese (Taiwan) (https://www.transifex.com/pyscripter/teams/116142/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_tw\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0\n"
-"Language-Team: \n"
 
 #. AboutBox..Caption
 #: dlgAboutPyScripter.dfm
@@ -40,11 +43,6 @@ msgstr "致謝"
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Links"
 msgstr "連結"
-
-
-
-
-
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -86,7 +84,6 @@ msgstr "為參數輸入值 "
 #. fmToDoOptions..pnlBG..btnOK..Caption
 #. ToolProperties..Panel1..btnOK..Caption
 #. UnitTestWizard..Panel1..OKButton..Caption
-		   
 #: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCollectionEditor.dfm
 #: dlgCommandLine.dfm dlgCustomParams.dfm dlgCustomShortcuts.dfm
 #: dlgDirectoryList.dfm dlgExceptionMail.dfm dlgFileTemplates.dfm
@@ -236,7 +233,7 @@ msgstr "說明"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnAddKey..Caption
 #. ToolProperties..ActionList..actAddItem..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm									  
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
 msgid "&Add"
 msgstr "增加(&A)"
 
@@ -550,12 +547,12 @@ msgstr "詳細(&D)"
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
 msgid "File Templates"
-msgstr "檔範本"
+msgstr "檔案範本"
 
 #. FileTemplatesDialog..Panel..GroupBox..Caption
 #: dlgFileTemplates.dfm
 msgid "File Template:"
-msgstr "檔範本:"
+msgstr "檔案範本:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label5..Caption
 #: dlgFileTemplates.dfm
@@ -565,7 +562,7 @@ msgstr "類別(&C):"
 #. FileTemplatesDialog..Panel..GroupBox..Label6..Caption
 #: dlgFileTemplates.dfm
 msgid "&Default Extension:"
-msgstr "缺省的擴展(&D):"
+msgstr "預設擴展(&D):"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label7..Caption
 #: dlgFileTemplates.dfm
@@ -1109,212 +1106,6 @@ msgstr "顏色主題"
 msgid "Syntax Colors"
 msgstr "語法的顏色"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
@@ -1330,8 +1121,8 @@ msgstr "自動縮排"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
-"When clicking with the right mouse for a popup menu, move the cursor to that "
-"location"
+"When clicking with the right mouse for a popup menu, move the cursor to that"
+" location"
 msgstr "當想按滑鼠右鍵彈出選單時，把游標移動到那個位置"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
@@ -1523,14 +1314,14 @@ msgstr "滾動過行尾"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
-"When undoing/redoing actions, handle all continuous changes of the same kind "
-"in one call instead undoing/redoing each command separately"
+"When undoing/redoing actions, handle all continuous changes of the same kind"
+" in one call instead undoing/redoing each command separately"
 msgstr "恢復/重放action時，在一個call裡運行所有連續的同類action，而不是單獨運行"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
 msgid "Group undo"
-msgstr "組撤銷"
+msgstr "群組撤銷"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
@@ -1569,7 +1360,7 @@ msgstr "滾動提示跟隨滑鼠"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr ""
+msgstr "顯示連體字"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -1753,7 +1544,7 @@ msgstr "TAB幅:"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
-msgstr "啟動行的顏色"																			   
+msgstr "啟動行的顏色"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
@@ -1814,7 +1605,7 @@ msgstr "下劃線(&U)"
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Strike Out"
-msgstr "刪除線(&S)"						 
+msgstr "刪除線(&S)"
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -1839,71 +1630,6 @@ msgstr "邊界和選項"
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
 msgstr "標頭與註腳"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -2019,22 +1745,22 @@ msgstr "頁腳(Footer):"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr ""
+msgstr "內邊距:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr ""
+msgstr "文字左排"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr ""
+msgstr "文字右排"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Mirror margins"
-msgstr "鏡像邊界"
+msgstr "鏡像邊距"
 
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
 #: dlgSynPageSetup.dfm
@@ -2044,12 +1770,12 @@ msgstr "行號"
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
 msgid "Print line numbers in margin"
-msgstr "在邊界列印行號"
+msgstr "在邊距列出行號"
 
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
 msgid "Syntax print"
-msgstr "語法列印"
+msgstr "列出語法"
 
 #. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
 #: dlgSynPageSetup.dfm
@@ -2064,31 +1790,12 @@ msgstr "折行"
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "Inches"
-msgstr ""
+msgstr "英寸"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "(1/1000) Inches"
-msgstr ""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+msgstr "(1/1000) 英寸"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -2143,7 +1850,7 @@ msgstr "下劃線"
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Print Preview"
-msgstr "列印預覽"
+msgstr "預覽列印"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Caption
 #: dlgSynPrintPreview.dfm
@@ -2267,7 +1974,7 @@ msgstr "關閉"
 #. PrintPreviewDlg..ActionList..CloseCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Close|Close Print Preview"
-msgstr "關閉|關閉列印預覽"
+msgstr "關閉|關閉預覽列印"
 
 #. fmToDoOptions..Caption
 #: dlgToDoOptions.dfm
@@ -2330,7 +2037,7 @@ msgstr "搜尋To Do字段"
 #. fmToDoOptions..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &open files"
-msgstr "掃描打開的檔(&O)"
+msgstr "掃描打開的檔案(&O)"
 
 #. fmToDoOptions..pnlBG..gbxSearchFiles..radScanDir..Caption
 #: dlgToDoOptions.dfm
@@ -2548,22 +2255,17 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active file"
-msgstr "啟動的檔"
+msgstr "啟動的檔案"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "New file"
-msgstr "新建檔"
+msgstr "新建檔案"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Caption
 #: dlgToolProperties.dfm
 msgid "Console"
-msgstr "控制臺"
-
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Label9..Caption
-#: dlgToolProperties.dfm
-msgid "&Timeout (ms):"
-msgstr "超時(&T) (ms):"
+msgstr "控制台"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
@@ -2573,33 +2275,22 @@ msgstr "設定為隱藏控制臺."
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Caption
 #: dlgToolProperties.dfm
 msgid "&Hide console"
-msgstr "隱藏控制臺(&H)"
+msgstr "隱藏控制台(&H)"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination....Hint
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
-msgid ""
-"If checked will monitor the process \n"
-"and notify you when is terminated."
+msgid "Use the UTF8 encoding for stdin/stdout"
 msgstr ""
-"當設定時將監視進程\n"
-"並在進程終止時通知。"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination..Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
-msgid "&Wait for Termination"
-msgstr "等待終止(&W)"
-
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..seTimeout....Hint
-#: dlgToolProperties.dfm
-msgid ""
-"If set to a value <> 0 then you will be prompted \n"
-"to abort the program after the specified time (ms)."
-msgstr "如果value設置為非0的值則會提示在指定的時間內退出程式（毫秒）"
+msgid "&UTF8 IO"
+msgstr ""
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
 msgid "Filename"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #. ToolProperties..FormatsPopup..Filename1..Hint
 #: dlgToolProperties.dfm
@@ -2629,7 +2320,7 @@ msgstr "列號占位符"
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Unit Test Wizard"
-msgstr "単元測試嚮導"
+msgstr "單元測試嚮導"
 
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
@@ -2662,37 +2353,6 @@ msgstr "全選擇解除"
 msgid "Deselect all nodes"
 msgstr "全選擇解除所有的節點"
 
-#. CommandsDataModule..actlMain..actFileSave..Category
-#. CommandsDataModule..actlMain..actFileSaveAs..Category
-#. CommandsDataModule..actlMain..actFileClose..Category
-#. CommandsDataModule..actlMain..actFileSaveAll..Category
-#. CommandsDataModule..actlMain..actFilePrint..Category
-#. CommandsDataModule..actlMain..actPrinterSetup..Category
-#. CommandsDataModule..actlMain..actPrintPreview..Category
-#. CommandsDataModule..actlMain..actPageSetup..Category
-#. CommandsDataModule..actlMain..actFileReload..Category
-#. CommandsDataModule..actlMain..actFileCloseAllOther..Category
-#. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Category
-#. CommandsDataModule..actlMain..actFileSaveToRemote..Category
-#. FindResultsWindow..Actions..actFileSearch..Category
-#. FindResultsWindow..Actions..actFileRefresh..Category
-#. FindResultsWindow..Actions..actFileAbort..Category
-#. FindResultsWindow..Actions..actFilePrint..Category
-#. FindResultsWindow..Actions..actFileSave..Category
-#. FindResultsWindow..Actions..actFileCopy..Category
-#. PyIDEMainForm..actlStandard..actFileNewModule..Category
-#. PyIDEMainForm..actlStandard..actFileOpen..Category
-#. PyIDEMainForm..actlStandard..actFileCloseAll..Category
-#. PyIDEMainForm..actlStandard..actFileExit..Category
-#. PyIDEMainForm..actlStandard..actNewFile..Category
-#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Category
-#. ToDoWindow..Actions..actFileRefresh..Category
-#. ToDoWindow..Actions..actFilePrint..Category
-#. ToDoWindow..Actions..actFileAbort..Category
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm frmToDo.dfm
-msgid "File"
-msgstr "檔案"
-
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
 msgid "&Save"
@@ -2705,8 +2365,8 @@ msgstr "保存|保存啟動的檔"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
-msgid "Save &As..."
-msgstr "另存為(&A)..."
+msgid "Sav&e As..."
+msgstr "保存於(&A)"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
@@ -2714,9 +2374,8 @@ msgid "Save As|Save active file under different name"
 msgstr "另存為|用新的檔案名保存啟動的檔"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
-#. OutputWindow..OutputActions..actToolClose..Caption
 #. Programmer's name for it: SDlgClose
-#: dmCommands.dfm frmCommandOutput.dfm StringResources.pas
+#: dmCommands.dfm StringResources.pas
 msgid "&Close"
 msgstr "關閉(&C)"
 
@@ -2730,26 +2389,8 @@ msgstr "關閉|關閉啟動的檔"
 #. CommandsDataModule..actlMain..actEditPaste..Category
 #. CommandsDataModule..actlMain..actEditDelete..Category
 #. CommandsDataModule..actlMain..actEditUndo..Category
-#. CommandsDataModule..actlMain..actEditRedo..Category
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
-#. CommandsDataModule..actlMain..actEditReadOnly..Category
-#. CommandsDataModule..actlMain..actInsertTemplate..Category
-#. CommandsDataModule..actlMain..actEditLineNumbers..Category
-#. CommandsDataModule..actlMain..actEditShowSpecialChars..Category
-#. CommandsDataModule..actlMain..actEditLBDos..Category
-#. CommandsDataModule..actlMain..actEditLBUnix..Category
-#. CommandsDataModule..actlMain..actEditLBMac..Category
-#. CommandsDataModule..actlMain..actEditAnsi..Category
-#. CommandsDataModule..actlMain..actEditUTF8..Category
-#. CommandsDataModule..actlMain..actEditUTF8NoBOM..Category
-#. CommandsDataModule..actlMain..actEditUTF16LE..Category
-#. CommandsDataModule..actlMain..actEditUTF16BE..Category
-#. CommandsDataModule..actlMain..actEditWordWrap..Category
-#. CommandsDataModule..actlMain..actEditCopyFileName..Category
-#. FunctionListWindow..Actions..actEditCopy..Category
-#. ToDoWindow..Actions..actEditGoto..Category
-#. ToDoWindow..Actions..actEditCopy..Category
-#: dmCommands.dfm frmFunctionList.dfm frmToDo.dfm
+#: dmCommands.dfm
 msgid "Edit"
 msgstr "編輯"
 
@@ -2835,26 +2476,6 @@ msgstr "只讀"
 #: dmCommands.dfm
 msgid "Enable/disable editing"
 msgstr "允許/禁止編輯"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
@@ -2967,18 +2588,6 @@ msgstr "IDE 選項(&I)..."
 msgid "Set IDE Options"
 msgstr "設定IDE選項"
 
-
-
-
-
-
-
-
-
-
-
-
-
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
 msgid "&Indent Block"
@@ -3049,16 +2658,6 @@ msgstr "非TAB字元化(&N)"
 msgid "Untabify|Convert tabs to spaces"
 msgstr "非TAB字元化|TAB字元變換成空白符"
 
-
-
-
-
-
-
-
-
-
-
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
 msgid "Python &Path..."
@@ -3122,22 +2721,13 @@ msgstr "跳到第一個語法錯誤位置"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
-msgid "&Find in Files..."
-msgstr "在多檔搜尋(&F)..."
+msgid "Find &in Files..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
 msgstr "檔內搜尋|從多檔中搜尋字元"
-
-
-
-
-
-
-
-
-
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3332,8 +2922,8 @@ msgstr "確認是否有PyScripter的新版本"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
-msgid "&Unit Test Wizard..."
-msgstr "単元測試嚮導(&U)"
+msgid "Unit Test &Wizard..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
@@ -3373,7 +2963,7 @@ msgstr "檔範本的追加/刪除"
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
 msgid "UTF-8 with BOM"
-msgstr ""	 
+msgstr ""
 
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
@@ -3397,22 +2987,13 @@ msgstr "使用UTF-16LE編碼"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
-msgid "&Reload"
-msgstr "重新裝載(&R)"
+msgid "Re&load"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
 msgid "Reload|Reload active file"
 msgstr "重新裝載|重新裝載啟動的檔"
-
-
-
-
-
-
-
-
-
 
 #. CommandsDataModule..actlMain..actImportShortcuts..Caption
 #. CommandsDataModule..actlMain..actImportShortcuts..Hint
@@ -3537,8 +3118,8 @@ msgstr "複製當前檔的檔案名到剪貼板"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
-msgid "Edit Start&up Scripts"
-msgstr "編輯啟動腳本"
+msgid "Edit &Startup Scripts"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3555,24 +3136,7 @@ msgstr "博客(&B)"
 msgid "Go to the PyScripter Blog"
 msgstr "訪問PyScripter的博客"
 
-#. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
-#. CommandsDataModule..actlMain..actFoldAll..Category
-#. CommandsDataModule..actlMain..actUnfoldAll..Category
-#. CommandsDataModule..actlMain..actFoldNearest..Category
-#. CommandsDataModule..actlMain..actUnfoldNearest..Category
-#. CommandsDataModule..actlMain..actFoldRegions..Category
-#. CommandsDataModule..actlMain..actUnfoldRegions..Category
-#. CommandsDataModule..actlMain..actFoldLevel1..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel1..Category
-#. CommandsDataModule..actlMain..actFoldLevel2..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel2..Category
-#. CommandsDataModule..actlMain..actFoldLevel3..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel3..Category
-#. CommandsDataModule..actlMain..actFoldClasses..Category
-#. CommandsDataModule..actlMain..actUnfoldClasses..Category
-#. CommandsDataModule..actlMain..actFoldFunctions..Category
-#. CommandsDataModule..actlMain..actUnfoldFunctions..Category
 #: dmCommands.dfm
 msgid "Code Folding"
 msgstr "折疊代碼"
@@ -3820,40 +3384,6 @@ msgstr "函數名"
 msgid "Threads"
 msgstr "線程"
 
-#. CallStackWindow..actlCallStack..actPreviousFrame..Category
-#. CallStackWindow..actlCallStack..actNextFrame..Category
-#. PyIDEMainForm..actlStandard..actSyntaxCheck..Category
-#. PyIDEMainForm..actlStandard..actRun..Category
-#. PyIDEMainForm..actlStandard..actCommandLine..Category
-#. PyIDEMainForm..actlStandard..actImportModule..Category
-#. PyIDEMainForm..actlStandard..actExternalRun..Category
-#. PyIDEMainForm..actlStandard..actExternalRunConfigure..Category
-#. PyIDEMainForm..actlStandard..actRunDebugLastScript..Category
-#. PyIDEMainForm..actlStandard..actDebug..Category
-#. PyIDEMainForm..actlStandard..actRunToCursor..Category
-#. PyIDEMainForm..actlStandard..actStepInto..Category
-#. PyIDEMainForm..actlStandard..actStepOver..Category
-#. PyIDEMainForm..actlStandard..actStepOut..Category
-#. PyIDEMainForm..actlStandard..actDebugPause..Category
-#. PyIDEMainForm..actlStandard..actDebugAbort..Category
-#. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Category
-#. PyIDEMainForm..actlStandard..actRunLastScript..Category
-#. PyIDEMainForm..actlStandard..actToggleBreakPoint..Category
-#. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Category
-#. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Category
-#. PyIDEMainForm..actlStandard..actPythonReinitialize..Category
-#. PyIDEMainForm..actlStandard..actPythonInternal..Category
-#. PyIDEMainForm..actlStandard..actPythonRemote..Category
-#. PyIDEMainForm..actlStandard..actPythonRemoteTk..Category
-#. PyIDEMainForm..actlStandard..actPythonRemoteWx..Category
-#. PyIDEMainForm..actlStandard..actPythonSSH..Category
-#. PyIDEMainForm..actlStandard..actExecSelection..Category
-#. PyIDEMainForm..actlStandard..actPostMortem..Category
-#. PyIDEMainForm..actlStandard..actPythonSetup..Category
-#: frmCallStack.dfm frmPyIDEMain.dfm
-msgid "Run"
-msgstr "運行"
-
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
 msgid "Previous Frame"
@@ -4001,39 +3531,13 @@ msgstr "強制終止(&T)"
 msgid "Terminate running tool (unsafe)"
 msgstr "終止運行中的工具(不安全)"
 
-#. OutputWindow..OutputActions..actToolClose..Hint
-#: frmCommandOutput.dfm
-msgid "Close running tool"
-msgstr "關閉運行中的工具"
-
-#. OutputWindow..OutputActions..actToolQuit..Caption
-#: frmCommandOutput.dfm
-msgid "&Quit"
-msgstr "結束(&Q)"
-
-#. OutputWindow..OutputActions..actToolQuit..Hint
-#: frmCommandOutput.dfm
-msgid "Post quit message to running tool"
-msgstr "向運行中的工具發送退出消息"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Caption
-#: frmCommandOutput.dfm
-msgid "Stop &Waiting"
-msgstr "停止等待(&W)"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Hint
-#: frmCommandOutput.dfm
-msgid "Stop waiting for running tool"
-msgstr "停止等待正在運行的工具"
-
 #. DisForm..Caption
 #: frmDisassemlyView.dfm
 msgid "Disassembly View"
 msgstr "反編譯檢視"
 
 #. DocForm..Caption
-#. WebPreviewForm..Caption
-#: frmDocView.dfm frmWebPreview.dfm
+#: frmDocView.dfm
 msgid "Documentation"
 msgstr "文檔"
 
@@ -4117,16 +3621,6 @@ msgstr "展開"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
-#. FileExplorerWindow..FileExplorerActions..actGoBack..Category
-#. FileExplorerWindow..FileExplorerActions..actGoForward..Category
-#. FileExplorerWindow..FileExplorerActions..actGoUp..Category
-#. FileExplorerWindow..FileExplorerActions..actRefresh..Category
-#. FileExplorerWindow..FileExplorerActions..actEnableFilter..Category
-#. FileExplorerWindow..FileExplorerActions..actSearchPath..Category
-#. FileExplorerWindow..FileExplorerActions..actExploreHere..Category
-#. FileExplorerWindow..FileExplorerActions..actManageFavorites..Category
-#. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Category
-#. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
 msgstr "檔瀏覽器"
@@ -4135,7 +3629,7 @@ msgstr "檔瀏覽器"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
 #: frmFileExplorer.dfm
 msgid "Browse Path"
-msgstr "流覽路徑"
+msgstr "瀏覽路徑"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..Caption
 #: frmFileExplorer.dfm
@@ -4217,7 +3711,7 @@ msgstr "改變篩檢程式(&C)..."
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Caption
 #: frmFileExplorer.dfm
 msgid "&Explore Here"
-msgstr "流覽到這裡(&E)"
+msgstr "瀏覽到這裡(&E)"
 
 #. FileExplorerWindow..ShellContextPopUp..ExploreHere..Hint
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Hint
@@ -4335,13 +3829,6 @@ msgstr "中止搜尋"
 msgid "Print results..."
 msgstr "列印結果..."
 
-#. FindResultsWindow..Actions..actListGotoSelected..Category
-#. FindResultsWindow..Actions..actListContract..Category
-#. FindResultsWindow..Actions..actListExpand..Category
-#: frmFindResults.dfm
-msgid "List"
-msgstr "列表"
-
 #. FindResultsWindow..Actions..actListGotoSelected..Caption
 #: frmFindResults.dfm
 msgid "Goto Selected"
@@ -4371,45 +3858,6 @@ msgstr "展開(&E)"
 #: frmFindResults.dfm
 msgid "Expand all"
 msgstr "全部展開"
-
-#. FindResultsWindow..Actions..actViewShowContext..Category
-#. FindResultsWindow..Actions..actViewToolBar..Category
-#. FindResultsWindow..Actions..actViewStatusBar..Category
-#. FindResultsWindow..Actions..actViewOptions..Category
-#. FunctionListWindow..Actions..actViewStart..Category
-#. FunctionListWindow..Actions..actViewAny..Category
-#. FunctionListWindow..Actions..actViewGoto..Category
-#. PyIDEMainForm..actlImmutable..actViewNextEditor..Category
-#. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Category
-#. PyIDEMainForm..actlStandard..actViewMainMenu..Category
-#. PyIDEMainForm..actlStandard..actViewStatusBar..Category
-#. PyIDEMainForm..actlStandard..actRestoreEditor..Category
-#. PyIDEMainForm..actlStandard..actViewII..Category
-#. PyIDEMainForm..actlStandard..actViewCodeExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewFileExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewToDoList..Category
-#. PyIDEMainForm..actlStandard..actViewFindResults..Category
-#. PyIDEMainForm..actlStandard..actViewOutput..Category
-#. PyIDEMainForm..actlStandard..actViewUnitTests..Category
-#. PyIDEMainForm..actlStandard..actViewRegExpTester..Category
-#. PyIDEMainForm..actlStandard..actLayoutSave..Category
-#. PyIDEMainForm..actlStandard..actLayoutsDelete..Category
-#. PyIDEMainForm..actlStandard..actLayoutDebug..Category
-#. PyIDEMainForm..actlStandard..actMaximizeEditor..Category
-#. PyIDEMainForm..actlStandard..actEditorZoomIn..Category
-#. PyIDEMainForm..actlStandard..actEditorZoomOut..Category
-#. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Category
-#. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Category
-#. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Category
-#. PyIDEMainForm..actlStandard..actViewProjectExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Category
-#. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Category
-#. PyIDEMainForm..actlStandard..actSelectStyle..Category
-#: frmFindResults.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-msgid "View"
-msgstr "檢視"
 
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
@@ -4572,17 +4020,11 @@ msgstr "位置"
 msgid "Show next messages"
 msgstr "顯示下一資訊"
 
-#. MessagesWindow..BGPanel..FGPanel..TBToolbar1..BtnPreviousMsgs..Hint
+#. MessagesWindow..Panel1..BtnPrevMsg..Hint
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
 #: frmMessages.dfm
 msgid "Show previous messages"
 msgstr "顯示上一資訊"
-
-
-
-
-
-
 
 #. MessagesWindow..MsgsActionList..actClearAll..Caption
 #. WatchesWindow..TBXPopupMenu..mnClearall..Caption
@@ -4619,33 +4061,6 @@ msgstr "專案瀏覽器"
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
 msgstr "專案瀏覽器工具列"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectNew..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectSave..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Category
-#: frmProjectExplorer.dfm
-msgid "Project"
-msgstr "專案"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #: frmProjectExplorer.dfm
@@ -4874,7 +4289,7 @@ msgstr ""
 msgid "Ready"
 msgstr "準備"
 
-#. PyIDEMainForm..StatusBar..ExternalToolsLED..Hint
+#. PyIDEMainForm..StatusBar..spiExternalToolsLED..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tool Running"
 msgstr "外部工具運行中"
@@ -4999,8 +4414,8 @@ msgstr "用戶工具列|顯示/隱藏用戶工具列"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
-msgid "&IDE Windows"
-msgstr "IDE 視窗(&I)"
+msgid "IDE &Windows"
+msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
@@ -5009,8 +4424,8 @@ msgstr "除錯視窗(&D)"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
-msgid "&Navigate"
-msgstr "嚮導(&N)"
+msgid "Navi&gate"
+msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -5074,30 +4489,6 @@ msgstr "設定除錯佈局"
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
 msgstr "把現在的佈局設為除錯佈局"
-
-																					  
-														  
-				   
-						
-									 
-
-																				   
-													   
-				   
-							  
-								 
-
-																			   
-														 
-				   
-					   
-							
-
-																			
-													  
-				   
-							 
-							  
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..Caption
 #: frmPyIDEMain.dfm
@@ -5227,12 +4618,12 @@ msgstr "用戶工具列"
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Caption
 #: frmPyIDEMain.dfm
 msgid "&Files"
-msgstr "檔(&F)"
+msgstr "檔案(&F)"
 
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Files"
-msgstr "打開檔"
+msgstr "打開檔案"
 
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5263,15 +4654,6 @@ msgstr "主選單(&U)"
 #: frmPyIDEMain.dfm
 msgid "View/Hide main menu"
 msgstr "顯示/隱藏主選單"
-
-#. PyIDEMainForm..actlStandard..actCallStackWin..Category
-#. PyIDEMainForm..actlStandard..actVariablesWin..Category
-#. PyIDEMainForm..actlStandard..actBreakPointsWin..Category
-#. PyIDEMainForm..actlStandard..actWatchesWin..Category
-#. PyIDEMainForm..actlStandard..actMessagesWin..Category
-#: frmPyIDEMain.dfm
-msgid "Debug Windows"
-msgstr "除錯視窗"
 
 #. PyIDEMainForm..actlStandard..actCallStackWin..Caption
 #. PyIDEMainForm..actlStandard..actNavCallStack..Caption
@@ -5322,8 +4704,8 @@ msgstr "設定命令行參數"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
-msgid "&Import Module"
-msgstr "導入模組(&I)"
+msgid "Import &Module"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
@@ -5372,8 +4754,8 @@ msgstr "退出"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
-msgid "&Status Bar"
-msgstr "狀態列(&S)"
+msgid "Status &Bar"
+msgstr "狀態列(&B)"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -5387,8 +4769,8 @@ msgstr "外部運行|在外部Python解譯器裡運行啟動的模組"
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
-msgid "&Configure External Run..."
-msgstr "配置外部運行程式(&C)..."
+msgid "Configure &External Run..."
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
@@ -5516,8 +4898,8 @@ msgstr "切換中斷點"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmPyIDEMain.dfm
-msgid "&Clear All Breakpoints"
-msgstr "清除全部的中斷點(&C)"
+msgid "Clear A&ll Breakpoints"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
@@ -5598,8 +4980,8 @@ msgstr "To Do 列表的顯示/隱藏"
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Caption
 #: frmPyIDEMain.dfm
-msgid "&Find in Files Results"
-msgstr "在檔搜尋的結果"
+msgid "Find &in Files Results"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Hint
 #: frmPyIDEMain.dfm
@@ -5627,14 +5009,6 @@ msgstr "單元測試(&U)"
 msgid "View/Hide Unit Tests Window"
 msgstr "顯示/隱藏單元測試視窗"
 
-#. PyIDEMainForm..actlStandard..actFindDefinition..Category
-#. PyIDEMainForm..actlStandard..actFindReferences..Category
-#. PyIDEMainForm..actlStandard..actBrowseBack..Category
-#. PyIDEMainForm..actlStandard..actBrowseForward..Category
-#: frmPyIDEMain.dfm
-msgid "Refactoring"
-msgstr "重構"
-
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &Definition"
@@ -5647,8 +5021,8 @@ msgstr "搜尋識別符的定義"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
-msgid "Find &References"
-msgstr "搜尋調用(&R)"
+msgid "Find R&eferences"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
@@ -5789,23 +5163,6 @@ msgstr "新建檔案..."
 #: frmPyIDEMain.dfm
 msgid "New file from template"
 msgstr "範本中新建檔案"
-
-#. PyIDEMainForm..actlStandard..actNavWatches..Category
-#. PyIDEMainForm..actlStandard..actNavBreakpoints..Category
-#. PyIDEMainForm..actlStandard..actNavInterpreter..Category
-#. PyIDEMainForm..actlStandard..actNavVariables..Category
-#. PyIDEMainForm..actlStandard..actNavCallStack..Category
-#. PyIDEMainForm..actlStandard..actNavMessages..Category
-#. PyIDEMainForm..actlStandard..actNavFileExplorer..Category
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Category
-#. PyIDEMainForm..actlStandard..actNavTodo..Category
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Category
-#. PyIDEMainForm..actlStandard..actNavOutput..Category
-#. PyIDEMainForm..actlStandard..actNavEditor..Category
-#. PyIDEMainForm..actlStandard..actNavProjectExplorer..Category
-#: frmPyIDEMain.dfm
-msgid "IDE Navigation"
-msgstr "IDE 嚮導"
 
 #. PyIDEMainForm..actlStandard..actNavWatches..Hint
 #: frmPyIDEMain.dfm
@@ -6039,14 +5396,6 @@ msgstr "使用SSH打開遠端檔"
 msgid "Python Interpreter"
 msgstr "Python 解譯器"
 
-#. PythonIIForm..InterpreterActionList..actCopyHistory..Category
-#. PythonIIForm..InterpreterActionList..actClearContents..Category
-#. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Category
-#. PythonIIForm..InterpreterActionList..actPasteAndExecute..Category
-#: frmPythonII.dfm
-msgid "Interpreter"
-msgstr "解譯器"
-
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Caption
 #: frmPythonII.dfm
 msgid "Copy &History"
@@ -6276,14 +5625,6 @@ msgstr "運行了 0 個測試"
 #: frmUnitTests.dfm
 msgid "Failures/Errors : 0/0"
 msgstr "失敗/錯誤 : 0/0"
-
-#. UnitTestWindow..DialogActions..actRefresh..Category
-#. UnitTestWindow..DialogActions..actRun..Category
-#. UnitTestWindow..DialogActions..actStop..Category
-#. UnitTestWindow..DialogActions..actClearAll..Category
-#: frmUnitTests.dfm
-msgid "Commands"
-msgstr "命令"
 
 #. UnitTestWindow..DialogActions..actRefresh..Hint
 #: frmUnitTests.dfm
@@ -6558,36 +5899,6 @@ msgid ""
 "components and projects:"
 msgstr "特別要感謝許多偉大的開發人員，他們的出色工作，使pyscripter成為可能。pyscripter使用以下組件和項目："
 
-#: dlgAboutPyScripter.pas
-msgid ""
-"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
-"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
-"JVCL (www.github.com/project-jedi/jvcl)\n"
-"SynEdit (www.sourceforge.net/projects/synedit)\n"
-"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
-"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
-"GExperts (www.gexperts.org)\n"
-"Syn Editor (www.sourceforge.net/projects/syn)\n"
-"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
-"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
-"SpTBXLib(www.silverpointdevelopment.com)\n"
-"TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)"
-msgstr ""
-"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
-"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
-"JVCL (www.github.com/project-jedi/jvcl)\n"
-"SynEdit (www.sourceforge.net/projects/synedit)\n"
-"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
-"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
-"GExperts (www.gexperts.org)\n"
-"Syn Editor (www.sourceforge.net/projects/syn)\n"
-"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
-"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
-"SpTBXLib(www.silverpointdevelopment.com)\n"
-"TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)"
-
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
@@ -6668,13 +5979,8 @@ msgstr "西班牙語%s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
-"Donations from numerous users have provided a strong incentive to develop "
-"this project.\n"
-"Financial and moral support from Embarcadero (https://www.embarcadero.com/) "
-"makers of Delphi, the programming environment with which PyScripter is "
-"built, and generous support from Tranquil IT (https://www.tranquil.it) "
-"makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully "
-"acknowledged."
+"Donations from numerous users have provided a strong incentive to develop this project.\n"
+"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
 "許許多多的捐贈給了這個項目強大的激勵\n"
 "特別感謝Tranquil IT (https://www.tranquil.it) 連續不斷地支持\n"
@@ -6682,12 +5988,9 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid ""
-"The project home, Issue Tracker and source code repository are hosted at "
-"Github (www.github.com/pyscripter/pyscripter)\n"
-"Internet group support is available at https://groups.google.com/group/"
-"PyScripter\n"
-"Please submit bug reports and questions about PyScripter to pyscripter@gmail."
-"com."
+"The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
+"Internet group support is available at https://groups.google.com/group/PyScripter\n"
+"Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
 "項目主頁、問題跟蹤程式和源代碼倉庫位於github（www.github.com/pyscripter/pyscripter） 網址為https://groups.google.com/group/pyscripter\n"
 "請將有關pyscripter的錯誤報告和問題提交到pyscripter@gmail.com."
@@ -6766,7 +6069,7 @@ msgstr ""
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr ""
+msgstr "頁面"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
@@ -6794,10 +6097,6 @@ msgid "Days between update checks"
 msgstr "檢查更新的時間間隔"
 
 #: dmCommands.pas
-						   
-						
-
-				 
 msgid "Editor tab position"
 msgstr "編輯器選項卡位置"
 
@@ -6829,7 +6128,6 @@ msgstr "最近使用的檔案數"
 msgid "Style Main Window Border"
 msgstr "主視窗邊框樣式"
 
-
 #: dmCommands.pas
 msgid "Restore open files"
 msgstr ""
@@ -6849,10 +6147,6 @@ msgstr "運行前保存環境變數"
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
 msgstr "腳本運行超時的時間ms"
-
-#: dmCommands.pas
-msgid "UTF8 in interactive interpreter"
-msgstr "在互動式解譯器裡使用UTF8編碼(&I)"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6919,10 +6213,6 @@ msgid "Editor"
 msgstr "編輯器"
 
 #: dmCommands.pas
-
-
-
-
 msgid "Search text at caret"
 msgstr "在插入符號處搜尋"
 
@@ -6985,10 +6275,6 @@ msgstr "選擇區域醒目顏色"
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
 msgstr "在編輯器選項卡中顯示包名稱"
-
-#: dmCommands.pas
-msgid "File line limit for syntax check as you type"
-msgstr "語法檢查的檔行限制"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
@@ -7083,7 +6369,7 @@ msgstr "允許通過 SSH 關閉變數視窗"
 
 #: dmCommands.pas frmPyIDEMain.pas
 msgid "Language server"
-msgstr ""
+msgstr "語言伺服器"
 
 #: dmCommands.pas
 msgid "Language server debug output"
@@ -7102,11 +6388,6 @@ msgid "File download failed"
 msgstr "檔下載失敗"
 
 #: frmCodeExplorer.pas
-
-
-
-
-
 msgid "Imports"
 msgstr "導入"
 
@@ -7115,26 +6396,12 @@ msgid "Imported modules"
 msgstr "已導入模組"
 
 #. else
-
-
-
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Imported Module \"%s\" as %s at line %d"
-msgstr "已導入模組 \"%s\" 別名 %s 行號%d"
-
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported Module \"%s\" at line %d"
 msgstr "已導入模組 \"%s\" 行號 %d"
 
 #: frmCodeExplorer.pas
-
-
-
-
-
 msgid "Global variables"
 msgstr "全局變數"
 
@@ -7142,15 +6409,6 @@ msgstr "全局變數"
 #, object-pascal-format
 msgid "Global variable \"%s\" defined at line %d"
 msgstr "已定義全局變數 \"%s\" 行號 %d"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Class \"%s\" defined in line %d"
-msgstr "已定義類 \"%s\" 行號 %d"
-
-#: frmCodeExplorer.pas
-msgid "Inherits from"
-msgstr "繼承自"
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
@@ -7164,24 +6422,6 @@ msgstr "類屬性"
 #, object-pascal-format
 msgid "Class attribute \"%s\" defined at line %d"
 msgstr "已定義類屬性 \"%s\" 行號 %d"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid ""
-"Function \"%s\" defined at line %d\n"
-"Arguments: %s"
-msgstr ""
-"已定義函數 \"%s\" 行號 %d\n"
-"參數: %s"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid ""
-"Method %s defined at line %d\n"
-"Arguments: %s"
-msgstr ""
-"已定義方法 %s 行號 %d\n"
-"參數: %s"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
@@ -7302,8 +6542,8 @@ msgstr "輸入新表達式:"
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
 #: StringResources.pas
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr "Python Files (*.py;*.pyw)|*.py;*.pyw"
+msgid "Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
+msgstr ""
 
 #. Programmer's name for it: sCythonFileFilter
 #: StringResources.pas
@@ -7329,8 +6569,8 @@ msgstr ""
 #. Programmer's name for it: sCPPFileFilter
 #: StringResources.pas
 msgid ""
-"C/C++ Files (*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;"
-"*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
+"C/C++ Files "
+"(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
 msgstr ""
 
 #. Programmer's name for it: sYAMLFileFilter
@@ -8042,26 +7282,19 @@ msgstr "內部 Python 解譯器不可用"
 #: StringResources.pas
 msgid ""
 "PyScripter could not load a Python engine.\n"
-"**Before** using PyScripter, you must ensure that a version of Python "
-"greater or equal to 3.6 is installed on your machine.\n"
-"If you do not have one installed, you can download one from http://www."
-"python.org/.\n"
+"**Before** using PyScripter, you must ensure that a version of Python greater or equal to 3.6 is installed on your machine.\n"
+"If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
-"The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** "
-"with 64-bit versions of Python.\n"
-"The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows "
-"with 32-bit versions of Python."
+"The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
+"The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 
 #. Programmer's name for it: SPythonFindError
 #: StringResources.pas
 msgid ""
-"PyScripter could not find a usable Python installation at the specified "
-"path.\n"
-"Note that the 64-bit version of PyScripter (x64) works only on 64-bit "
-"Windows **and**\n"
-"with 64-bit versions of Python. The 32-bit version of PyScripter works on "
-"both\n"
+"PyScripter could not find a usable Python installation at the specified path.\n"
+"Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**\n"
+"with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 
@@ -8069,8 +7302,7 @@ msgstr ""
 #: StringResources.pas
 msgid ""
 "You are now in post-mortem analysis mode.\n"
-"You can examine the Call Stack, Variables and Watches windows, evaluate "
-"expressions etc.\n"
+"You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
 "To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr "您現在處於事後分析模式。 您可以檢查調用堆疊、變數和監視視窗、計算運算式等。 要退出事後分析，請選擇“中止除錯”命令。"
 
@@ -8123,7 +7355,8 @@ msgstr "不能把現在的目錄設道腳本路徑"
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
 msgid ""
-"You cannot compile, import or run modules while debugging or running programs"
+"You cannot compile, import or run modules while debugging or running "
+"programs"
 msgstr "在除錯或運行程式時不能編譯、導入或運行模組"
 
 #. Programmer's name for it: SErrorInImportingModule
@@ -8160,8 +7393,8 @@ msgstr "創建遠端解譯器時出錯: "
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas
 msgid ""
-"Could not connect to the remote Python engine server. The remote interpreter "
-"and debugger is not available."
+"Could not connect to the remote Python engine server. The remote interpreter"
+" and debugger is not available."
 msgstr "不能連結到遠端Python引擎伺服器。遠端解譯器與除錯器不能使用。"
 
 #. Programmer's name for it: SRemoteInterpreterInit
@@ -8278,16 +7511,16 @@ msgstr "不能打開/建立輸出檔案 %s"
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"PyScripter can't use command line parameter PYTHON%s because it doesn't know "
-"this version of Python."
+"PyScripter can't use command line parameter PYTHON%s because it doesn't know"
+" this version of Python."
 msgstr "由於不知道 Python 的版本，PyScripter 不能使用命令行參數PYTHON%s。"
 
 #. Programmer's name for it: SUnsupportedPythonVersion
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"PyScripter can't use command line parameter PYTHON%s because it was compiled "
-"for Python %s or later."
+"PyScripter can't use command line parameter PYTHON%s because it was compiled"
+" for Python %s or later."
 msgstr "由於是為 Python %s 或以後的版本編譯的 PyScripter 不能使用命令行參數 PYTHON%s。"
 
 #. Programmer's name for it: SAbortDebugging
@@ -8832,12 +8065,6 @@ msgstr "命令行: %s"
 msgid "Working directory: "
 msgstr "工作目錄: "
 
-#. Programmer's name for it: SPrintTimeOut
-#: StringResources.pas
-#, object-pascal-format
-msgid "Timeout: %d ms"
-msgstr "超時: %d ms"
-
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
 #, object-pascal-format
@@ -9042,7 +8269,7 @@ msgstr "Python 關鍵字"
 #. Programmer's name for it: SFileTemplateCategoryInternet
 #: StringResources.pas
 msgid "Internet"
-msgstr "互聯網"
+msgstr "網際網路"
 
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
@@ -9072,12 +8299,12 @@ msgstr "XML 文檔"
 #. Programmer's name for it: SJSONTemplateName
 #: StringResources.pas
 msgid "JSON File"
-msgstr ""
+msgstr "JSON 檔案"
 
 #. Programmer's name for it: SYAMLTemplateName
 #: StringResources.pas
 msgid "YAML File"
-msgstr ""
+msgstr "YAML檔案"
 
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
@@ -9092,7 +8319,7 @@ msgstr "PHP 代碼"
 #. Programmer's name for it: SJupyterTemplateName
 #: StringResources.pas
 msgid "Jupyter Notebook"
-msgstr "Jupyter Notebook"
+msgstr "Jupyter 網路"
 
 #. Python Versions
 #. Programmer's name for it: SRegisteredVersions
@@ -9364,11 +8591,11 @@ msgstr "擴展的UNC檔案名"
 
 #: uParams.pas
 msgid "Long file name"
-msgstr "長文件名"
+msgstr "長文件名稱"
 
 #: uParams.pas
 msgid "Short file name"
-msgstr "短文件名"
+msgstr "短文件名稱"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
@@ -9380,7 +8607,7 @@ msgstr "刪除了最終路徑分隔符號的路徑"
 
 #: uParams.pas
 msgid "File type"
-msgstr "檔類型"
+msgstr "檔案類型"
 
 #: uParams.pas
 msgid "Contents of text file"
@@ -9420,7 +8647,7 @@ msgstr "當前日期時間"
 
 #: uParams.pas
 msgid "Select file"
-msgstr "選擇檔"
+msgstr "選擇檔案"
 
 #: uParams.pas
 msgid "Date of a date-time value"
@@ -9432,19 +8659,19 @@ msgstr "date-time 值的時間"
 
 #: uParams.pas
 msgid "Date of a file"
-msgstr "檔的日期"
+msgstr "檔案的日期"
 
 #: uParams.pas
 msgid "Creation date of a file"
-msgstr "檔建立日期"
+msgstr "檔案建立日期"
 
 #: uParams.pas
 msgid "Last modification date of a file"
-msgstr "檔最後修改日期"
+msgstr "檔案最後修改日期"
 
 #: uParams.pas
 msgid "Last access date of a file"
-msgstr "檔最後訪問日期"
+msgstr "檔案最後訪問日期"
 
 #: uParams.pas
 msgid "Formatted date"
@@ -9460,11 +8687,11 @@ msgstr "上次運行腳本的名稱"
 
 #: uParams.pas
 msgid "Project file name"
-msgstr "項目檔案名"
+msgstr "項目檔案名稱"
 
 #: uParams.pas
 msgid "Modified files"
-msgstr "已修改的檔"
+msgstr "已修改的檔案"
 
 #: uParams.pas
 msgid "Open files"
@@ -9472,37 +8699,36 @@ msgstr "打開檔(&O)"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
-msgstr "活動文檔或檔的文本"
+msgstr "文字活動於文檔或檔案"
 
 #: uParams.pas
 msgid "Current word in the active document"
-msgstr "活動文檔中的當前單詞"
+msgstr "當前單詞活動於文檔中"
 
 #: uParams.pas
 msgid "Current line in the active document"
-msgstr "活動文檔中的當前行"
+msgstr "當前行活動於文檔中"
 
 #: uParams.pas
 msgid "Current line number in the active document"
-msgstr "活動文檔中的當前行號"
+msgstr "當前行號活動於文檔中"
 
 #: uParams.pas
 msgid "Selected text in the active document"
-msgstr "活動文檔中的已選定文本"
+msgstr "已選定文本活動於文檔中"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
-#: SpTBXCustomizerForm.dfm:34
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
-#: SpTBXCustomizerForm.dfm:150
+#: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
 msgid "Toolbars"
 msgstr "工具列"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
 #: SpTBXCustomizerForm.dfm:125
 msgid ""
-"To add command buttons, drag and drop commands onto a toolbar. To "
-"remove command buttons, drag them off the toolbar and drop them on "
-"the commands list."
+"To add command buttons, drag and drop commands onto a toolbar. To remove "
+"command buttons, drag them off the toolbar and drop them on the commands "
+"list."
 msgstr ""
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
@@ -9524,7 +8750,6 @@ msgstr ""
 #: SpTBXCustomizerForm.dfm:177
 msgid "Text"
 msgstr ""
-
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
