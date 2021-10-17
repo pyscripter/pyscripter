@@ -6,14 +6,15 @@
 # Translators:
 # Ettore Atalan <atalanttore@googlemail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2020
+# oliverengel <codeangel@posteo.de>, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2020-10-07 17:44\n"
+"POT-Creation-Date: 2021-10-12 00:46\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2020\n"
+"Last-Translator: oliverengel <codeangel@posteo.de>, 2021\n"
 "Language-Team: German (https://www.transifex.com/pyscripter/teams/116142/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,14 +48,10 @@ msgstr "Links"
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
 msgid ""
-"A freeware, open source Python scripting integrated development environment "
+"A free and open source Python scripting integrated development environment "
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
-"Eine kostenlose, quelloffene integrierte Python Programierumgebung, "
-"entwickelt mit dem Ziel der Python Gemeinschaft die Qualität und "
-"Funktionalität von kommerziellen IDEs auch in anderen Sprachen verfügbar zu "
-"machen."
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
@@ -593,18 +590,10 @@ msgstr "&Suchtext:"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..Caption
 #. fmToDoOptions..pnlBG..gbxOptions..Caption
-#. CommandsDataModule..actlMain..actEditorOptions..Category
-#. CommandsDataModule..actlMain..actIDEOptions..Category
-#. CommandsDataModule..actlMain..actIDEShortcuts..Category
-#. CommandsDataModule..actlMain..actCodeTemplates..Category
-#. CommandsDataModule..actlMain..actInterpreterEditorOptions..Category
-#. CommandsDataModule..actlMain..actFileTemplates..Category
-#. FunctionListWindow..Actions..actOptionsFont..Category
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..Caption
-#. ToDoWindow..Actions..actOptionsConfigure..Category
-#: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm dmCommands.dfm
-#: frmFunctionList.dfm frmPyIDEMain.dfm frmRegExpTester.dfm frmToDo.dfm
+#: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
+#: frmPyIDEMain.dfm frmRegExpTester.dfm
 msgid "Options"
 msgstr "Optionen"
 
@@ -670,8 +659,9 @@ msgstr "O&rdner:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
-#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
-#: dlgImportDirectory.pas uParams.pas
+#. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Hint
+#: dlgFindInFiles.dfm dlgToDoOptions.dfm frmFileExplorer.dfm
+#: dlgDirectoryList.pas dlgImportDirectory.pas frmFileExplorer.pas uParams.pas
 msgid "Select directory"
 msgstr "Verzeichnis wählen"
 
@@ -886,20 +876,9 @@ msgstr "Kommandozeile mit der gewählten Pythonversion öffnen"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
 #. CommandsDataModule..actlMain..actPythonManuals..Category
-#. CommandsDataModule..actlMain..actAbout..Category
-#. CommandsDataModule..actlMain..actHelpParameters..Category
-#. CommandsDataModule..actlMain..actHelpExternalTools..Category
-#. CommandsDataModule..actlMain..actHelpEditorShortcuts..Category
-#. CommandsDataModule..actlMain..actHelpWebProjectHome..Category
-#. CommandsDataModule..actlMain..actHelpWebGroupSupport..Category
-#. CommandsDataModule..actlMain..actHelpWebBlog..Category
-#. CommandsDataModule..actlMain..actDonate..Category
-#. FindResultsWindow..Actions..actHelpHelp..Category
 #. FindResultsWindow..Actions..actHelpHelp..Hint
-#. FunctionListWindow..Actions..actHelpHelp..Category
 #. FunctionListWindow..Actions..actHelpHelp..Hint
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
-#. ToDoWindow..Actions..actHelpHelp..Category
 #. ToDoWindow..Actions..actHelpHelp..Hint
 #. Programmer's name for it: SDlgHelpHelp
 #: dlgPythonVersions.dfm dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm
@@ -949,9 +928,7 @@ msgstr "Hinein"
 
 #. ReplaceInFilesDialog..Panel1..lblReplace..Caption
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Caption
-#. FindResultsWindow..Actions..actReplaceSelected..Category
-#. FindResultsWindow..Actions..actReplaceAll..Category
-#: dlgReplaceInFiles.dfm dmCommands.dfm frmFindResults.dfm
+#: dlgReplaceInFiles.dfm dmCommands.dfm
 msgid "Replace"
 msgstr "Ersetze"
 
@@ -1129,98 +1106,6 @@ msgstr "Farbschema"
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Syntaxfarben"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Code Beispiel"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "Verfügbare Farbschemata"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "Farbschema verwenden"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Element:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Vordergrundfarbe:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "&Hintergrundfarbe:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Editor Syntaxsprache"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Textattribute"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Fett"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Kursiv"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Unterstrichen"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Durchgestrichen"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Tastenkürzeloptionen"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Befehl:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr "Tastenkürzel 2:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr "Tastenkürzel 1:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Befehl"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr "Tastenkürzel"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1495,7 +1380,7 @@ msgstr "Scrollhinweis folgt der Maus"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr ""
+msgstr "Zeige Schriftartligature"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -1535,6 +1420,37 @@ msgstr "Halber Block"
 #: dlgSynEditOptions.dfm
 msgid "Block"
 msgstr "Block"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Tastenkürzeloptionen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Befehl:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr "Tastenkürzel 2:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr "Tastenkürzel 1:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Befehl"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr "Tastenkürzel"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
@@ -1649,6 +1565,67 @@ msgstr "Tabulatorbreite:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Farbe der aktiven Zeile"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Code Beispiel"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "Verfügbare Farbschemata"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "Farbschema verwenden"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Element:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&Vordergrundfarbe:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "&Hintergrundfarbe:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Editor Syntaxsprache"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Textattribute"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Fett"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Kursiv"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Unterstrichen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Durchgestrichen"
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -1788,17 +1765,17 @@ msgstr "Fußzeile:"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr ""
+msgstr "Innerer Rand"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr ""
+msgstr "Linker Texteinzug"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr ""
+msgstr "Rechter Texteinzug"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
@@ -1833,12 +1810,12 @@ msgstr "Zeilenumbruch"
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "Inches"
-msgstr ""
+msgstr "Zoll"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "(1/1000) Inches"
-msgstr ""
+msgstr "(1/1000) Zoll"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -2313,11 +2290,6 @@ msgstr "Neue Datei"
 msgid "Console"
 msgstr "Befehlszeile"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Label9..Caption
-#: dlgToolProperties.dfm
-msgid "&Timeout (ms):"
-msgstr "&Wartezeit (ms):"
-
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
 msgid "Check to hide the console."
@@ -2328,28 +2300,15 @@ msgstr "Markieren um Befehlszeile zu verstecken."
 msgid "&Hide console"
 msgstr "&Verstecke Befehlszeile"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination....Hint
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
-msgid ""
-"If checked will monitor the process \n"
-"and notify you when is terminated."
+msgid "Use the UTF8 encoding for stdin/stdout"
 msgstr ""
-"Wenn gewählt überwacht den Prozess \n"
-"und informiert, wenn er beendet ist."
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination..Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
-msgid "&Wait for Termination"
-msgstr "&Warte bis zum Beenden"
-
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..seTimeout....Hint
-#: dlgToolProperties.dfm
-msgid ""
-"If set to a value <> 0 then you will be prompted \n"
-"to abort the program after the specified time (ms)."
+msgid "&UTF8 IO"
 msgstr ""
-"Bei einem Wert ungleich Null, erfolgt die Aufforderung\n"
-"zum Abbruch nach Ablauf der Zeit (ms)."
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
@@ -2419,37 +2378,6 @@ msgstr "Alles abwählen"
 msgid "Deselect all nodes"
 msgstr "Alle Knoten abwählen"
 
-#. CommandsDataModule..actlMain..actFileSave..Category
-#. CommandsDataModule..actlMain..actFileSaveAs..Category
-#. CommandsDataModule..actlMain..actFileClose..Category
-#. CommandsDataModule..actlMain..actFileSaveAll..Category
-#. CommandsDataModule..actlMain..actFilePrint..Category
-#. CommandsDataModule..actlMain..actPrinterSetup..Category
-#. CommandsDataModule..actlMain..actPrintPreview..Category
-#. CommandsDataModule..actlMain..actPageSetup..Category
-#. CommandsDataModule..actlMain..actFileReload..Category
-#. CommandsDataModule..actlMain..actFileCloseAllOther..Category
-#. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Category
-#. CommandsDataModule..actlMain..actFileSaveToRemote..Category
-#. FindResultsWindow..Actions..actFileSearch..Category
-#. FindResultsWindow..Actions..actFileRefresh..Category
-#. FindResultsWindow..Actions..actFileAbort..Category
-#. FindResultsWindow..Actions..actFilePrint..Category
-#. FindResultsWindow..Actions..actFileSave..Category
-#. FindResultsWindow..Actions..actFileCopy..Category
-#. PyIDEMainForm..actlStandard..actFileNewModule..Category
-#. PyIDEMainForm..actlStandard..actFileOpen..Category
-#. PyIDEMainForm..actlStandard..actFileCloseAll..Category
-#. PyIDEMainForm..actlStandard..actFileExit..Category
-#. PyIDEMainForm..actlStandard..actNewFile..Category
-#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Category
-#. ToDoWindow..Actions..actFileRefresh..Category
-#. ToDoWindow..Actions..actFilePrint..Category
-#. ToDoWindow..Actions..actFileAbort..Category
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm frmToDo.dfm
-msgid "File"
-msgstr "Datei"
-
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
 msgid "&Save"
@@ -2462,8 +2390,8 @@ msgstr "Speichern|aktuelle Datei speichern"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
-msgid "Save &As..."
-msgstr "Speichern &unter..."
+msgid "Sav&e As..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
@@ -2471,9 +2399,8 @@ msgid "Save As|Save active file under different name"
 msgstr "Speichern unter|aktive Datei unter anderem Namen speichern"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
-#. OutputWindow..OutputActions..actToolClose..Caption
 #. Programmer's name for it: SDlgClose
-#: dmCommands.dfm frmCommandOutput.dfm StringResources.pas
+#: dmCommands.dfm StringResources.pas
 msgid "&Close"
 msgstr "S&chließen"
 
@@ -2487,26 +2414,8 @@ msgstr "Schließen|aktuelle Datei schließen"
 #. CommandsDataModule..actlMain..actEditPaste..Category
 #. CommandsDataModule..actlMain..actEditDelete..Category
 #. CommandsDataModule..actlMain..actEditUndo..Category
-#. CommandsDataModule..actlMain..actEditRedo..Category
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
-#. CommandsDataModule..actlMain..actEditReadOnly..Category
-#. CommandsDataModule..actlMain..actInsertTemplate..Category
-#. CommandsDataModule..actlMain..actEditLineNumbers..Category
-#. CommandsDataModule..actlMain..actEditShowSpecialChars..Category
-#. CommandsDataModule..actlMain..actEditLBDos..Category
-#. CommandsDataModule..actlMain..actEditLBUnix..Category
-#. CommandsDataModule..actlMain..actEditLBMac..Category
-#. CommandsDataModule..actlMain..actEditAnsi..Category
-#. CommandsDataModule..actlMain..actEditUTF8..Category
-#. CommandsDataModule..actlMain..actEditUTF8NoBOM..Category
-#. CommandsDataModule..actlMain..actEditUTF16LE..Category
-#. CommandsDataModule..actlMain..actEditUTF16BE..Category
-#. CommandsDataModule..actlMain..actEditWordWrap..Category
-#. CommandsDataModule..actlMain..actEditCopyFileName..Category
-#. FunctionListWindow..Actions..actEditCopy..Category
-#. ToDoWindow..Actions..actEditGoto..Category
-#. ToDoWindow..Actions..actEditCopy..Category
-#: dmCommands.dfm frmFunctionList.dfm frmToDo.dfm
+#: dmCommands.dfm
 msgid "Edit"
 msgstr "Editieren"
 
@@ -2593,26 +2502,6 @@ msgstr "Schreibgeschützt"
 msgid "Enable/disable editing"
 msgstr "Bearbeiten (de)aktivieren"
 
-#. CommandsDataModule..actlMain..actSearchFind..Category
-#. CommandsDataModule..actlMain..actSearchFindNext..Category
-#. CommandsDataModule..actlMain..actSearchFindPrev..Category
-#. CommandsDataModule..actlMain..actSearchReplace..Category
-#. CommandsDataModule..actlMain..actSearchMatchingBrace..Category
-#. CommandsDataModule..actlMain..actSearchGoToLine..Category
-#. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Category
-#. CommandsDataModule..actlMain..actFindInFiles..Category
-#. CommandsDataModule..actlMain..actFindFunction..Category
-#. CommandsDataModule..actlMain..actFindPreviousReference..Category
-#. CommandsDataModule..actlMain..actFindNextReference..Category
-#. CommandsDataModule..actlMain..actSearchReplaceNow..Category
-#. CommandsDataModule..actlMain..actSearchHighlight..Category
-#. CommandsDataModule..actlMain..actSearchGoToDebugLine..Category
-#. EditorForm..pmnuEditor..mnSearch..Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
-msgid "Search"
-msgstr "Suchen"
-
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
 msgid "&Find..."
@@ -2651,7 +2540,7 @@ msgstr "Ersetzen mit..."
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr ""
+msgstr "Ersetzen|Suchen & Ersetzen"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2724,18 +2613,6 @@ msgstr "&IDE Optionen"
 msgid "Set IDE Options"
 msgstr "Setze IDE Optionen"
 
-#. CommandsDataModule..actlMain..actEditIndent..Category
-#. CommandsDataModule..actlMain..actEditDedent..Category
-#. CommandsDataModule..actlMain..actEditCommentOut..Category
-#. CommandsDataModule..actlMain..actEditUncomment..Category
-#. CommandsDataModule..actlMain..actEditTabify..Category
-#. CommandsDataModule..actlMain..actEditUntabify..Category
-#. CommandsDataModule..actlMain..actEditToggleComment..Category
-#. EditorForm..pmnuEditor..mnSourceCode..Caption
-#: dmCommands.dfm frmEditor.dfm frmEditor.pas
-msgid "Source Code"
-msgstr "Quellcode"
-
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
 msgid "&Indent Block"
@@ -2806,16 +2683,6 @@ msgstr "Leerzeiche&n statt Tabs"
 msgid "Untabify|Convert tabs to spaces"
 msgstr "wandelt alle Leerzeichen in &Tabs um"
 
-#. CommandsDataModule..actlMain..actPythonPath..Category
-#. CommandsDataModule..actlMain..actConfigureTools..Category
-#. CommandsDataModule..actlMain..actCheckForUpdates..Category
-#. CommandsDataModule..actlMain..actUnitTestWizard..Category
-#. CommandsDataModule..actlMain..actToolsEditStartupScripts..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Tools"
-msgstr "Werkzeuge"
-
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
 msgid "Python &Path..."
@@ -2879,22 +2746,13 @@ msgstr "Springe zum ersten Fehler"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
-msgid "&Find in Files..."
-msgstr "&Suche in Dateien..."
+msgid "Find &in Files..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
 msgstr "Suche in Dateien|Durchsucht Dateien nach einer Zeichenkette"
-
-#. CommandsDataModule..actlMain..actParameterCompletion..Category
-#. CommandsDataModule..actlMain..actModifierCompletion..Category
-#. CommandsDataModule..actlMain..actReplaceParameters..Category
-#. CommandsDataModule..actlMain..actCustomizeParameters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
-msgid "Parameters"
-msgstr "Parameter"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3090,8 +2948,8 @@ msgstr "Prüfen, ob eine neuere Version von PyScripter verfügbar ist"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
-msgid "&Unit Test Wizard..."
-msgstr "&Einheit Test Assistent..."
+msgid "Unit Test &Wizard..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
@@ -3128,6 +2986,11 @@ msgstr "&Dateivorlagen..."
 msgid "Add/Remove file templates"
 msgstr "Hinzufügen/Entfernen von Dateivorlagen"
 
+#. CommandsDataModule..actlMain..actEditUTF8..Caption
+#: dmCommands.dfm
+msgid "UTF-8 with BOM"
+msgstr ""
+
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding when saving the file"
@@ -3150,22 +3013,13 @@ msgstr "Verwende UTF-16BE Zeichensatz"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
-msgid "&Reload"
-msgstr "&Neu laden"
+msgid "Re&load"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
 msgid "Reload|Reload active file"
 msgstr "Neu laden|Lädt die aktuelle Datei neu"
-
-#. CommandsDataModule..actlMain..actImportShortcuts..Category
-#. CommandsDataModule..actlMain..actExportShortCuts..Category
-#. CommandsDataModule..actlMain..actImportHighlighters..Category
-#. CommandsDataModule..actlMain..actExportHighlighters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Import/Export"
-msgstr "Import/Export"
 
 #. CommandsDataModule..actlMain..actImportShortcuts..Caption
 #. CommandsDataModule..actlMain..actImportShortcuts..Hint
@@ -3206,7 +3060,7 @@ msgstr "Export-Syntaxhervorhebung"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr ""
+msgstr "Ersetze mit den vorhandenen Einstellungen"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -3290,8 +3144,8 @@ msgstr "Kopiert den Dateinahmen der aktiven Datei in die Zwischenablage"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
-msgid "Edit Start&up Scripts"
-msgstr "Ändern des Startskript"
+msgid "Edit &Startup Scripts"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3308,24 +3162,7 @@ msgstr "&Blog"
 msgid "Go to the PyScripter Blog"
 msgstr "Gehe zum PyScripter Blog"
 
-#. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
-#. CommandsDataModule..actlMain..actFoldAll..Category
-#. CommandsDataModule..actlMain..actUnfoldAll..Category
-#. CommandsDataModule..actlMain..actFoldNearest..Category
-#. CommandsDataModule..actlMain..actUnfoldNearest..Category
-#. CommandsDataModule..actlMain..actFoldRegions..Category
-#. CommandsDataModule..actlMain..actUnfoldRegions..Category
-#. CommandsDataModule..actlMain..actFoldLevel1..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel1..Category
-#. CommandsDataModule..actlMain..actFoldLevel2..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel2..Category
-#. CommandsDataModule..actlMain..actFoldLevel3..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel3..Category
-#. CommandsDataModule..actlMain..actFoldClasses..Category
-#. CommandsDataModule..actlMain..actUnfoldClasses..Category
-#. CommandsDataModule..actlMain..actFoldFunctions..Category
-#. CommandsDataModule..actlMain..actUnfoldFunctions..Category
 #: dmCommands.dfm
 msgid "Code Folding"
 msgstr "Codefaltung"
@@ -3485,6 +3322,16 @@ msgstr "&Spenden"
 msgid "Donate to the PyScripter project"
 msgstr "Dem PyScripter Projekt spenden"
 
+#. CommandsDataModule..actlMain..actToolsRestartLS..Caption
+#: dmCommands.dfm
+msgid "Restart &Language Server"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actToolsRestartLS..Hint
+#: dmCommands.dfm
+msgid "Restart the Language Server"
+msgstr ""
+
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
 #: dmCommands.dfm StringResources.pas
@@ -3562,40 +3409,6 @@ msgstr "Funktionsname"
 #: frmCallStack.dfm
 msgid "Threads"
 msgstr "Threads"
-
-#. CallStackWindow..actlCallStack..actPreviousFrame..Category
-#. CallStackWindow..actlCallStack..actNextFrame..Category
-#. PyIDEMainForm..actlStandard..actSyntaxCheck..Category
-#. PyIDEMainForm..actlStandard..actRun..Category
-#. PyIDEMainForm..actlStandard..actCommandLine..Category
-#. PyIDEMainForm..actlStandard..actImportModule..Category
-#. PyIDEMainForm..actlStandard..actExternalRun..Category
-#. PyIDEMainForm..actlStandard..actExternalRunConfigure..Category
-#. PyIDEMainForm..actlStandard..actRunDebugLastScript..Category
-#. PyIDEMainForm..actlStandard..actDebug..Category
-#. PyIDEMainForm..actlStandard..actRunToCursor..Category
-#. PyIDEMainForm..actlStandard..actStepInto..Category
-#. PyIDEMainForm..actlStandard..actStepOver..Category
-#. PyIDEMainForm..actlStandard..actStepOut..Category
-#. PyIDEMainForm..actlStandard..actDebugPause..Category
-#. PyIDEMainForm..actlStandard..actDebugAbort..Category
-#. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Category
-#. PyIDEMainForm..actlStandard..actRunLastScript..Category
-#. PyIDEMainForm..actlStandard..actToggleBreakPoint..Category
-#. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Category
-#. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Category
-#. PyIDEMainForm..actlStandard..actPythonReinitialize..Category
-#. PyIDEMainForm..actlStandard..actPythonInternal..Category
-#. PyIDEMainForm..actlStandard..actPythonRemote..Category
-#. PyIDEMainForm..actlStandard..actPythonRemoteTk..Category
-#. PyIDEMainForm..actlStandard..actPythonRemoteWx..Category
-#. PyIDEMainForm..actlStandard..actPythonSSH..Category
-#. PyIDEMainForm..actlStandard..actExecSelection..Category
-#. PyIDEMainForm..actlStandard..actPostMortem..Category
-#. PyIDEMainForm..actlStandard..actPythonSetup..Category
-#: frmCallStack.dfm frmPyIDEMain.dfm
-msgid "Run"
-msgstr "Ausführen"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
@@ -3744,39 +3557,13 @@ msgstr "&Beenden"
 msgid "Terminate running tool (unsafe)"
 msgstr "Beendet das laufende Werkzeug (unsicher)"
 
-#. OutputWindow..OutputActions..actToolClose..Hint
-#: frmCommandOutput.dfm
-msgid "Close running tool"
-msgstr "Schließen des laufenden Werkzeugs"
-
-#. OutputWindow..OutputActions..actToolQuit..Caption
-#: frmCommandOutput.dfm
-msgid "&Quit"
-msgstr "&Beenden"
-
-#. OutputWindow..OutputActions..actToolQuit..Hint
-#: frmCommandOutput.dfm
-msgid "Post quit message to running tool"
-msgstr "Sende Schließen-Nachricht an laufendes Werkzeug"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Caption
-#: frmCommandOutput.dfm
-msgid "Stop &Waiting"
-msgstr "Beende Warten"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Hint
-#: frmCommandOutput.dfm
-msgid "Stop waiting for running tool"
-msgstr "Beendet das warten auf das laufende Werkzeug"
-
 #. DisForm..Caption
 #: frmDisassemlyView.dfm
 msgid "Disassembly View"
 msgstr "Dissassembly Anzeige"
 
 #. DocForm..Caption
-#. WebPreviewForm..Caption
-#: frmDocView.dfm frmWebPreview.dfm
+#: frmDocView.dfm
 msgid "Documentation"
 msgstr "Dokumentation"
 
@@ -3837,6 +3624,17 @@ msgstr "Schließe Tab"
 msgid "Close active tab"
 msgstr "Schließt den aktiven Tab"
 
+#. EditorForm..pmnuEditor..mnSourceCode..Caption
+#: frmEditor.dfm frmEditor.pas
+msgid "Source Code"
+msgstr "Quellcode"
+
+#. EditorForm..pmnuEditor..mnSearch..Caption
+#. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
+#: frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
+msgid "Search"
+msgstr "Suchen"
+
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Fold"
@@ -3849,16 +3647,6 @@ msgstr "Ausklappen"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
-#. FileExplorerWindow..FileExplorerActions..actGoBack..Category
-#. FileExplorerWindow..FileExplorerActions..actGoForward..Category
-#. FileExplorerWindow..FileExplorerActions..actGoUp..Category
-#. FileExplorerWindow..FileExplorerActions..actRefresh..Category
-#. FileExplorerWindow..FileExplorerActions..actEnableFilter..Category
-#. FileExplorerWindow..FileExplorerActions..actSearchPath..Category
-#. FileExplorerWindow..FileExplorerActions..actExploreHere..Category
-#. FileExplorerWindow..FileExplorerActions..actManageFavorites..Category
-#. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Category
-#. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
 msgstr "Dateimanager"
@@ -4015,6 +3803,11 @@ msgstr "&Neuer Ordner"
 msgid "Create new folder"
 msgstr "Erstellt einen neuen Ordner"
 
+#. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
+#: frmFileExplorer.dfm
+msgid "Select Directory..."
+msgstr ""
+
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
 msgid "Find in Files Results"
@@ -4062,13 +3855,6 @@ msgstr "Suche abbrechen"
 msgid "Print results..."
 msgstr "Ergebnisse drucken..."
 
-#. FindResultsWindow..Actions..actListGotoSelected..Category
-#. FindResultsWindow..Actions..actListContract..Category
-#. FindResultsWindow..Actions..actListExpand..Category
-#: frmFindResults.dfm
-msgid "List"
-msgstr "Liste"
-
 #. FindResultsWindow..Actions..actListGotoSelected..Caption
 #: frmFindResults.dfm
 msgid "Goto Selected"
@@ -4098,45 +3884,6 @@ msgstr "Ausklapp&en"
 #: frmFindResults.dfm
 msgid "Expand all"
 msgstr "Alles ausklappen"
-
-#. FindResultsWindow..Actions..actViewShowContext..Category
-#. FindResultsWindow..Actions..actViewToolBar..Category
-#. FindResultsWindow..Actions..actViewStatusBar..Category
-#. FindResultsWindow..Actions..actViewOptions..Category
-#. FunctionListWindow..Actions..actViewStart..Category
-#. FunctionListWindow..Actions..actViewAny..Category
-#. FunctionListWindow..Actions..actViewGoto..Category
-#. PyIDEMainForm..actlImmutable..actViewNextEditor..Category
-#. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Category
-#. PyIDEMainForm..actlStandard..actViewMainMenu..Category
-#. PyIDEMainForm..actlStandard..actViewStatusBar..Category
-#. PyIDEMainForm..actlStandard..actRestoreEditor..Category
-#. PyIDEMainForm..actlStandard..actViewII..Category
-#. PyIDEMainForm..actlStandard..actViewCodeExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewFileExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewToDoList..Category
-#. PyIDEMainForm..actlStandard..actViewFindResults..Category
-#. PyIDEMainForm..actlStandard..actViewOutput..Category
-#. PyIDEMainForm..actlStandard..actViewUnitTests..Category
-#. PyIDEMainForm..actlStandard..actViewRegExpTester..Category
-#. PyIDEMainForm..actlStandard..actLayoutSave..Category
-#. PyIDEMainForm..actlStandard..actLayoutsDelete..Category
-#. PyIDEMainForm..actlStandard..actLayoutDebug..Category
-#. PyIDEMainForm..actlStandard..actMaximizeEditor..Category
-#. PyIDEMainForm..actlStandard..actEditorZoomIn..Category
-#. PyIDEMainForm..actlStandard..actEditorZoomOut..Category
-#. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Category
-#. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Category
-#. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Category
-#. PyIDEMainForm..actlStandard..actViewProjectExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Category
-#. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Category
-#. PyIDEMainForm..actlStandard..actSelectStyle..Category
-#: frmFindResults.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-msgid "View"
-msgstr "Ansicht"
 
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
@@ -4293,17 +4040,17 @@ msgstr "Nachricht"
 msgid "Position"
 msgstr "Position"
 
-#. MessagesWindow..BGPanel..FGPanel..TBToolbar1..BtnPreviousMsgs..Hint
-#. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
-#: frmMessages.dfm
-msgid "Show previous messages"
-msgstr "Zeige vorherige Nachricht"
-
-#. MessagesWindow..BGPanel..FGPanel..TBToolbar1..BtnNextMsgs..Hint
+#. MessagesWindow..Panel1..BtnNextMsg..Hint
 #. MessagesWindow..MsgsActionList..actNextMsgs..Hint
 #: frmMessages.dfm
 msgid "Show next messages"
 msgstr "Zeige nächste Nachricht"
+
+#. MessagesWindow..Panel1..BtnPrevMsg..Hint
+#. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
+#: frmMessages.dfm
+msgid "Show previous messages"
+msgstr "Zeige vorherige Nachricht"
 
 #. MessagesWindow..MsgsActionList..actClearAll..Caption
 #. WatchesWindow..TBXPopupMenu..mnClearall..Caption
@@ -4340,33 +4087,6 @@ msgstr "Projektmanager"
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
 msgstr "Projektmanager Werkzeugleiste"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectNew..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectSave..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Category
-#: frmProjectExplorer.dfm
-msgid "Project"
-msgstr "Projekt"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #: frmProjectExplorer.dfm
@@ -4467,6 +4187,8 @@ msgstr "Fügt einen Unterordner hinzug"
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
 msgstr ""
+"Lösche eine Datei, einen Ordner oder führe die Konfiguration des Projektes "
+"aus"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4588,14 +4310,15 @@ msgstr "Typ der Pythonumgebung"
 #. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
 #: frmPyIDEMain.dfm
 msgid "Text position"
-msgstr ""
+msgstr "Textposition"
 
-#. PyIDEMainForm..StatusBar..StatusLED..Hint
+#. PyIDEMainForm..StatusBar..spiStatusLED..Hint
+#. PyIDEMainForm..StatusBar..spiLspLed..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
 msgid "Ready"
 msgstr "Fertig"
 
-#. PyIDEMainForm..StatusBar..ExternalToolsLED..Hint
+#. PyIDEMainForm..StatusBar..spiExternalToolsLED..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tool Running"
 msgstr "Externes Werkzeug läuft"
@@ -4637,6 +4360,11 @@ msgstr "Zuletzt ve&rwendet "
 #: frmPyIDEMain.dfm
 msgid "&Source Code"
 msgstr "&Quellcode"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
+#: frmPyIDEMain.dfm dmCommands.pas
+msgid "Parameters"
+msgstr "Parameter"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
@@ -4717,8 +4445,8 @@ msgstr "Nutzer Werkzeugleiste|Nutzer Werkzeugleiste anzeigen/verstecken"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
-msgid "&IDE Windows"
-msgstr "&IDE Fenster"
+msgid "IDE &Windows"
+msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
@@ -4727,8 +4455,8 @@ msgstr "&Fehlerbehandlungsfenster"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
-msgid "&Navigate"
-msgstr "&Navigieren"
+msgid "Navi&gate"
+msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -4793,30 +4521,6 @@ msgstr "Setze Fehlerbehebungslayout"
 msgid "Set the current layout as the debug layout"
 msgstr "Setzt das aktuelle Layout als das Fehlerbehebungslayout"
 
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Caption
-#. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
-#: frmPyIDEMain.dfm
-msgid "&Maximize Editor"
-msgstr "&Maximiere Editor"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Hint
-#. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
-#: frmPyIDEMain.dfm
-msgid "Maximize editor window"
-msgstr "Maximiert das Editorfenster"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem77..Caption
-#. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
-#: frmPyIDEMain.dfm
-msgid "&Restore Editor"
-msgstr "Layout wiede&rherstellen"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem77..Hint
-#. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
-#: frmPyIDEMain.dfm
-msgid "Restore editor window"
-msgstr "Stellt die geteilte Fensteransich wieder her"
-
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project"
@@ -4837,6 +4541,11 @@ msgstr "&Werkzeuge"
 msgid "Source Code Views"
 msgstr "Quellcodeansicht"
 
+#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
+#: frmPyIDEMain.dfm
+msgid "Tools"
+msgstr "Werkzeuge"
+
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tools"
@@ -4846,6 +4555,11 @@ msgstr "Externe Werkzeuge"
 #: frmPyIDEMain.dfm
 msgid "&Options"
 msgstr "&Optionen"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..Caption
+#: frmPyIDEMain.dfm
+msgid "Import/Export"
+msgstr "Import/Export"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..Caption
 #: frmPyIDEMain.dfm
@@ -4972,15 +4686,6 @@ msgstr "Ha&uptmenü"
 msgid "View/Hide main menu"
 msgstr "Zeige/Verstecke Hauptmenü"
 
-#. PyIDEMainForm..actlStandard..actCallStackWin..Category
-#. PyIDEMainForm..actlStandard..actVariablesWin..Category
-#. PyIDEMainForm..actlStandard..actBreakPointsWin..Category
-#. PyIDEMainForm..actlStandard..actWatchesWin..Category
-#. PyIDEMainForm..actlStandard..actMessagesWin..Category
-#: frmPyIDEMain.dfm
-msgid "Debug Windows"
-msgstr "Fehlerbehandlungsfenster"
-
 #. PyIDEMainForm..actlStandard..actCallStackWin..Caption
 #. PyIDEMainForm..actlStandard..actNavCallStack..Caption
 #: frmPyIDEMain.dfm
@@ -5030,8 +4735,8 @@ msgstr "Setzen der Kommandozeilenparameter"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
-msgid "&Import Module"
-msgstr "Modul &Importieren"
+msgid "Import &Module"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
@@ -5080,8 +4785,8 @@ msgstr "Beenden"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
-msgid "&Status Bar"
-msgstr "&Statusleiste"
+msgid "Status &Bar"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -5097,8 +4802,8 @@ msgstr ""
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
-msgid "&Configure External Run..."
-msgstr "&Konfiguration externe Ausführung"
+msgid "Configure &External Run..."
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
@@ -5121,6 +4826,16 @@ msgstr "Fehlerbehandlung für das letzte Skript"
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Debug|Debug active script"
 msgstr "Fehlerbehandlung|Fehlerbehandlung des aktiven Skripts"
+
+#. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
+#: frmPyIDEMain.dfm
+msgid "&Restore Editor"
+msgstr "Layout wiede&rherstellen"
+
+#. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
+#: frmPyIDEMain.dfm
+msgid "Restore editor window"
+msgstr "Stellt die geteilte Fensteransich wieder her"
 
 #. PyIDEMainForm..actlStandard..actRunToCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5216,8 +4931,8 @@ msgstr "Haltepunkt setzten/löschen"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmPyIDEMain.dfm
-msgid "&Clear All Breakpoints"
-msgstr "Alle Haltepunkte lös&chen"
+msgid "Clear A&ll Breakpoints"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
@@ -5298,8 +5013,8 @@ msgstr "Anzeigen/Verstecken der ToDo Liste"
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Caption
 #: frmPyIDEMain.dfm
-msgid "&Find in Files Results"
-msgstr "&Suche in Dateiergebnissen"
+msgid "Find &in Files Results"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Hint
 #: frmPyIDEMain.dfm
@@ -5327,14 +5042,6 @@ msgstr "&Einheit Tests"
 msgid "View/Hide Unit Tests Window"
 msgstr "Anzeigen/Verstecken des Einheit Test Fensters"
 
-#. PyIDEMainForm..actlStandard..actFindDefinition..Category
-#. PyIDEMainForm..actlStandard..actFindReferences..Category
-#. PyIDEMainForm..actlStandard..actBrowseBack..Category
-#. PyIDEMainForm..actlStandard..actBrowseForward..Category
-#: frmPyIDEMain.dfm
-msgid "Refactoring"
-msgstr "Restrukturierung"
-
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &Definition"
@@ -5347,8 +5054,8 @@ msgstr "Sucht die Definition einer Variablen"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
-msgid "Find &References"
-msgstr "Suche &Referenz"
+msgid "Find R&eferences"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
@@ -5384,6 +5091,16 @@ msgstr "&Reguläre Ausdrücke Tester"
 #: frmPyIDEMain.dfm
 msgid "View/Hide Regular Expression Tester"
 msgstr "Reguläre Ausdrücke Tester Anzeigen/Verbergen"
+
+#. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
+#: frmPyIDEMain.dfm
+msgid "&Maximize Editor"
+msgstr "&Maximiere Editor"
+
+#. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
+#: frmPyIDEMain.dfm
+msgid "Maximize editor window"
+msgstr "Maximiert das Editorfenster"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
@@ -5479,23 +5196,6 @@ msgstr "Neue Datei..."
 #: frmPyIDEMain.dfm
 msgid "New file from template"
 msgstr "Neue Datei von Vorlage erstellen"
-
-#. PyIDEMainForm..actlStandard..actNavWatches..Category
-#. PyIDEMainForm..actlStandard..actNavBreakpoints..Category
-#. PyIDEMainForm..actlStandard..actNavInterpreter..Category
-#. PyIDEMainForm..actlStandard..actNavVariables..Category
-#. PyIDEMainForm..actlStandard..actNavCallStack..Category
-#. PyIDEMainForm..actlStandard..actNavMessages..Category
-#. PyIDEMainForm..actlStandard..actNavFileExplorer..Category
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Category
-#. PyIDEMainForm..actlStandard..actNavTodo..Category
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Category
-#. PyIDEMainForm..actlStandard..actNavOutput..Category
-#. PyIDEMainForm..actlStandard..actNavEditor..Category
-#. PyIDEMainForm..actlStandard..actNavProjectExplorer..Category
-#: frmPyIDEMain.dfm
-msgid "IDE Navigation"
-msgstr "IDE Navigation"
 
 #. PyIDEMainForm..actlStandard..actNavWatches..Hint
 #: frmPyIDEMain.dfm
@@ -5733,14 +5433,6 @@ msgstr "Entfernte Datei per SSH öffnen"
 msgid "Python Interpreter"
 msgstr "Python Interpreter"
 
-#. PythonIIForm..InterpreterActionList..actCopyHistory..Category
-#. PythonIIForm..InterpreterActionList..actClearContents..Category
-#. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Category
-#. PythonIIForm..InterpreterActionList..actPasteAndExecute..Category
-#: frmPythonII.dfm
-msgid "Interpreter"
-msgstr "Interpreter"
-
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Caption
 #: frmPythonII.dfm
 msgid "Copy &History"
@@ -5971,14 +5663,6 @@ msgstr "0 Tests gestartet"
 msgid "Failures/Errors : 0/0"
 msgstr "Fehler: 0/0"
 
-#. UnitTestWindow..DialogActions..actRefresh..Category
-#. UnitTestWindow..DialogActions..actRun..Category
-#. UnitTestWindow..DialogActions..actStop..Category
-#. UnitTestWindow..DialogActions..actClearAll..Category
-#: frmUnitTests.dfm
-msgid "Commands"
-msgstr "Kommandos"
-
 #. UnitTestWindow..DialogActions..actRefresh..Hint
 #: frmUnitTests.dfm
 msgid "Refresh tests|Extract tests from active module"
@@ -6081,6 +5765,11 @@ msgstr "Überwachung ändern"
 msgid "Clear all watches"
 msgstr "Alle Überwachungen entfernen"
 
+#. WebPreviewForm..Caption
+#: frmWebPreview.dfm
+msgid "Web Preview"
+msgstr ""
+
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
 msgid "No editor is currently active"
@@ -6097,7 +5786,7 @@ msgstr "Dateien"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
-msgstr ""
+msgstr "Führe die Konfigurationen aus"
 
 #: cPyScripterSettings.pas
 #, object-pascal-format
@@ -6105,6 +5794,8 @@ msgid ""
 "Error in copying file \"%s\" to \"%s\"\n"
 "Error Message: "
 msgstr ""
+"Fehler beim Kopieren der Datei \"%s\" nach \"%s\"\n"
+"Fehlermeldung: "
 
 #: cSSHSupport.pas
 #, object-pascal-format
@@ -6206,7 +5897,7 @@ msgstr "Eine Konsole im Verzeichnis der aktiven Datei starten"
 
 #: cTools.pas
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: cTools.pas
 msgid "Profile active file"
@@ -6214,7 +5905,7 @@ msgstr ""
 
 #: cTools.pas
 msgid "PyLint tool (www.pylint.org)"
-msgstr ""
+msgstr "PyLint Tool (www.pylint.org)"
 
 #: cTools.pas
 msgid "Advanced Replace"
@@ -6226,11 +5917,11 @@ msgstr "Erweitertes Suchen und Ersetzen"
 
 #: cTools.pas
 msgid "Sort Selection"
-msgstr ""
+msgstr "Auswahl sortieren"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
-msgstr ""
+msgstr "Den ausgewählten Editorblock sortieren (\"one-liner\" demo)"
 
 #: cTools.pas
 msgid "&Re-indent"
@@ -6248,36 +5939,6 @@ msgid ""
 msgstr ""
 "Besonderer Dank an die vielen tollen Entwickler, die mit ihrer großartigen Arbeit PyScripter möglich gemacht haben.\n"
 "PyScripter verwendet folgende Komponenten und Projekte:"
-
-#: dlgAboutPyScripter.pas
-msgid ""
-"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
-"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
-"JVCL (www.github.com/project-jedi/jvcl)\n"
-"SynEdit (www.sourceforge.net/projects/synedit)\n"
-"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
-"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
-"GExperts (www.gexperts.org)\n"
-"Syn Editor (www.sourceforge.net/projects/syn)\n"
-"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
-"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
-"SpTBXLib(www.silverpointdevelopment.com)\n"
-"TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)"
-msgstr ""
-"Python für Delphi (www.github.com/pyscripter/python4delphi)\n"
-"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
-"JVCL (www.github.com/project-jedi/jvcl)\n"
-"SynEdit (www.sourceforge.net/projects/synedit)\n"
-"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
-"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
-"GExperts (www.gexperts.org)\n"
-"Syn Editor (www.sourceforge.net/projects/syn)\n"
-"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
-"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
-"SpTBXLib(www.silverpointdevelopment.com)\n"
-"TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
@@ -6360,10 +6021,8 @@ msgstr "Spanisch: %s"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
-"Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
+"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
-"Spenden zahlreicher Nutzer haben einen starken Anreiz für die Entwicklung dieses Projekts geschaffen.\n"
-"Insbesondere die großzügige Unterstützung durch Tranquil IT (https://www.tranquil.it), Macher von WAPT (apt-get for Windows) (https://www.wapt.fr) wird anerkannt."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6423,6 +6082,7 @@ msgstr "Zu suchendes Verzeichnis:"
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
 msgstr ""
+"Ordner mit Python-Installation auswählen (inklusive virtualenv und venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
@@ -6444,20 +6104,25 @@ msgstr "Arbeitsverzeichnis wählen:"
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
 msgid "Print the document on"
-msgstr ""
+msgstr "Drucke das Dokument am"
 
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr ""
+msgstr "Seite"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
-msgstr ""
+msgstr "'To Do' Suchpfad"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
-msgstr ""
+msgstr "Externe Ausführungsattribute"
+
+#: dlgUnitTestWizard.pas frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Python Module \"%s\""
+msgstr "Pythonmodul \"%s\""
 
 #: dmCommands.pas
 msgid "IDE"
@@ -6470,10 +6135,6 @@ msgstr "Automatisch auf Aktualisierungen prüfen"
 #: dmCommands.pas
 msgid "Days between update checks"
 msgstr "Tage zwischen Aktualisierungsprüfungen"
-
-#: dmCommands.pas
-msgid "Mask FPU Exceptions"
-msgstr "Maskiere FPU Fehler"
 
 #: dmCommands.pas
 msgid "Editor tab position"
@@ -6503,13 +6164,16 @@ msgstr "Dateivorlage für neue Pythonskripte"
 msgid "Number of recent files"
 msgstr "Anzahl der zuletzt verwendeten Dateien"
 
-#. Programmer's name for it: SFileChangeNotification
-#: dmCommands.pas StringResources.pas
-msgid "File Change Notification"
-msgstr "Datei geändert Hinweis"
-
 #: dmCommands.pas
 msgid "Style Main Window Border"
+msgstr "Gestalte Rahmen des Hauptfensters"
+
+#: dmCommands.pas
+msgid "Restore open files"
+msgstr "Offene Dateien wiederherstellen"
+
+#: dmCommands.pas
+msgid "Restore open project"
 msgstr ""
 
 #: dmCommands.pas
@@ -6523,10 +6187,6 @@ msgstr "Speichert die Umgebung vor dem Ausführen"
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
 msgstr "Wartezeit für laufende Skripte in ms"
-
-#: dmCommands.pas
-msgid "UTF8 in interactive interpreter"
-msgstr "UTF8 im interaktiven Interpreter"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6558,15 +6218,19 @@ msgstr "Springe bei Abbruch zu dem Fehler"
 
 #: dmCommands.pas
 msgid "Internal Interpreter hidden"
-msgstr ""
+msgstr "Interner Interpreter verborgen"
 
 #: dmCommands.pas
 msgid "Always use sockets"
-msgstr ""
+msgstr "Immer Sockets nutzen"
 
 #: dmCommands.pas
 msgid "Step into open files only"
-msgstr ""
+msgstr "Gehe nur in geöffnete Dateien"
+
+#: dmCommands.pas
+msgid "Mask FPU Exceptions"
+msgstr "Maskiere FPU Fehler"
 
 #: dmCommands.pas
 msgid "Initially expanded"
@@ -6587,10 +6251,6 @@ msgstr "Textdatei"
 #: dmCommands.pas
 msgid "Editor"
 msgstr "Editor"
-
-#: dmCommands.pas
-msgid "Restore open files"
-msgstr "Offene Dateien wiederherstellen"
 
 #: dmCommands.pas
 msgid "Search text at caret"
@@ -6657,10 +6317,6 @@ msgid "Display package names in editor tabs"
 msgstr "Paketnamen in Editortabs anzeigen"
 
 #: dmCommands.pas
-msgid "File line limit for syntax check as you type"
-msgstr ""
-
-#: dmCommands.pas
 msgid "Code folding enabled by default"
 msgstr "Codefaltung standardmäßig aktiv"
 
@@ -6716,11 +6372,11 @@ msgstr "Schriftart der Autovervollständigung"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
-msgstr ""
+msgstr "Vervollständige mit Worttrennungszeichen"
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
-msgstr ""
+msgstr "Autovervollständigung mit einem Eintrag"
 
 #: dmCommands.pas
 msgid "Shell Integration"
@@ -6734,6 +6390,11 @@ msgstr "Dateiexplorer Kontextmenü"
 msgid "File Explorer background processing"
 msgstr ""
 
+#. Programmer's name for it: SFileChangeNotification
+#: dmCommands.pas StringResources.pas
+msgid "File Change Notification"
+msgstr "Datei geändert Hinweis"
+
 #: dmCommands.pas
 msgid "SSH command"
 msgstr "SSH Befehl"
@@ -6745,6 +6406,14 @@ msgstr "SCP Befehl"
 #: dmCommands.pas
 msgid "Disable Variables Window with SSH"
 msgstr "Variablenfenster mit SSH deaktivieren"
+
+#: dmCommands.pas frmPyIDEMain.pas
+msgid "Language server"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Language server debug output"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Modifiers"
@@ -6759,37 +6428,18 @@ msgid "File download failed"
 msgstr "Herunterladen der Datei fehlgeschlagen"
 
 #: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Python Module \"%s\""
-msgstr "Pythonmodul \"%s\""
-
-#: frmCodeExplorer.pas
 msgid "Imports"
-msgstr ""
+msgstr "Importe"
 
 #: frmCodeExplorer.pas
 msgid "Imported modules"
 msgstr "Importierte Module"
 
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Imported Module \"%s\" as %s at line %d"
-msgstr "Modul \"%s\" als %s in Zeile %d importiert"
-
+#. else
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported Module \"%s\" at line %d"
 msgstr "Modul \"%s\" in Zeile %d importiert"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Imported identifier \"%s\" from module \"%s\""
-msgstr "Bezeichner \"%s\" aus Modul \"%s\" importiert"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Imported identifier \"%s\" as \"%s\" from module \"%s\""
-msgstr "Bezeichner \"%s\" als \"%s\" aus Modul \"%s\" importiert"
 
 #: frmCodeExplorer.pas
 msgid "Global variables"
@@ -6799,15 +6449,6 @@ msgstr "Globale Variablen"
 #, object-pascal-format
 msgid "Global variable \"%s\" defined at line %d"
 msgstr "Globale Variable \"%s\" definiert in Zeile %d"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Class \"%s\" defined in line %d"
-msgstr "Klasse \"%s\" definiert in Zeile %d"
-
-#: frmCodeExplorer.pas
-msgid "Inherits from"
-msgstr "Erbt von"
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
@@ -6822,35 +6463,17 @@ msgstr "Klassenattribute"
 msgid "Class attribute \"%s\" defined at line %d"
 msgstr "Klassenattribut \"%s\" definiert in Zeile %d"
 
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid ""
-"Function \"%s\" defined at line %d\n"
-"Arguments: %s"
-msgstr ""
-"Funktion \"%s\" definiert in Zeile %d\n"
-"Parameter: %s"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid ""
-"Method %s defined at line %d\n"
-"Arguments: %s"
-msgstr ""
-"Methode \"%s\" definiert in Zeile %d\n"
-"Parameter: %s"
-
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
-msgstr ""
+msgstr "Dateiexplorerfilter"
 
 #: frmFileExplorer.pas
 msgid "Enter Filter:"
-msgstr ""
+msgstr "Datei aktivieren:"
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
-msgstr ""
+msgstr "Favoriten des Dateiexplorers"
 
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
@@ -6920,6 +6543,10 @@ msgstr "Debuggerstatus:"
 msgid "Python Not Available"
 msgstr "Python nicht verfügbar"
 
+#: frmPyIDEMain.pas
+msgid "Not available"
+msgstr ""
+
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
@@ -6942,7 +6569,7 @@ msgstr "Namensraum"
 
 #: frmVariables.pas
 msgid "DocString"
-msgstr ""
+msgstr "DocString"
 
 #: frmWatches.pas
 msgid "Edit Watch"
@@ -6950,13 +6577,13 @@ msgstr ""
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr ""
+msgstr "Gebe neuen Ausdruck ein:"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
 #: StringResources.pas
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr "Python-Dateien (*.py;*.pyw)|*.py;*.pyw"
+msgid "Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
+msgstr ""
 
 #. Programmer's name for it: sCythonFileFilter
 #: StringResources.pas
@@ -7038,7 +6665,7 @@ msgstr ""
 #. Programmer's name for it: SEdCmdCommentBlock
 #: StringResources.pas
 msgid "Comment Block"
-msgstr ""
+msgstr "Kommentarblock"
 
 #. Programmer's name for it: SEdCmdContextHelp
 #: StringResources.pas
@@ -7093,12 +6720,12 @@ msgstr ""
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
 msgid "Delete Line"
-msgstr ""
+msgstr "Lösche Zeile"
 
 #. Programmer's name for it: SEdCmdDeleteWord
 #: StringResources.pas
 msgid "Delete Word"
-msgstr ""
+msgstr "Lösche Wort"
 
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
@@ -7533,13 +7160,13 @@ msgstr ""
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
 msgid "Select to Bracket"
-msgstr ""
+msgstr "Klammer auswählen"
 
 #. Delphi dialogs (from Vcl.Consts)
 #. Programmer's name for it: srNone
 #: StringResources.pas
 msgid "(None)"
-msgstr ""
+msgstr "(Kein)"
 
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
@@ -7693,6 +7320,26 @@ msgstr "*** %s Pythonumgebung ist aktiv ***"
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
 msgstr "Der interne Python-Interpreter ist nicht vefügbar"
+
+#. Programmer's name for it: SPythonLoadError
+#: StringResources.pas
+msgid ""
+"PyScripter could not load a Python engine.\n"
+"**Before** using PyScripter, you must ensure that a version of Python greater or equal to 3.6 is installed on your machine.\n"
+"If you do not have one installed, you can download one from http://www.python.org/.\n"
+"\n"
+"The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
+"The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
+msgstr ""
+
+#. Programmer's name for it: SPythonFindError
+#: StringResources.pas
+msgid ""
+"PyScripter could not find a usable Python installation at the specified path.\n"
+"Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**\n"
+"with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
+"32-bit and 64-bit Windows with 32-bit versions of Python."
+msgstr ""
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -8000,12 +7647,12 @@ msgstr "Sytaxfehler"
 #: StringResources.pas
 #, object-pascal-format
 msgid " Certainty %s%%"
-msgstr ""
+msgstr "Sicherheit %s%%"
 
 #. Programmer's name for it: SReferencesNotFound
 #: StringResources.pas
 msgid " References not found"
-msgstr ""
+msgstr " Referenz nicht gefunden"
 
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
@@ -8020,12 +7667,12 @@ msgstr "Definition(en) von \""
 #. Programmer's name for it: SDefinitionFound
 #: StringResources.pas
 msgid " Definition found"
-msgstr ""
+msgstr " Definition gefunden"
 
 #. Programmer's name for it: SDefinitionNotFound
 #: StringResources.pas
 msgid " Definition not found"
-msgstr ""
+msgstr " Definition nicht gefunden"
 
 #. Programmer's name for it: SSyntaxIsOK
 #: StringResources.pas
@@ -8484,17 +8131,11 @@ msgstr "Kommandozeile: %s"
 msgid "Working directory: "
 msgstr "Arbeitspfad:"
 
-#. Programmer's name for it: SPrintTimeOut
-#: StringResources.pas
-#, object-pascal-format
-msgid "Timeout: %d ms"
-msgstr "Wartezeit: %d ms"
-
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
 #, object-pascal-format
 msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
-msgstr ""
+msgstr "Das externe Werkzeug \"%s\" läuft noch. Wollen Sie dieses beenden?"
 
 #. Editor
 #. Programmer's name for it: SInsert
@@ -8726,12 +8367,12 @@ msgstr "XML Dokument"
 #. Programmer's name for it: SJSONTemplateName
 #: StringResources.pas
 msgid "JSON File"
-msgstr ""
+msgstr "JSON Datei"
 
 #. Programmer's name for it: SYAMLTemplateName
 #: StringResources.pas
 msgid "YAML File"
-msgstr ""
+msgstr "YAML Datei"
 
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
@@ -8846,12 +8487,12 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
 msgid "Commented Code"
-msgstr ""
+msgstr "Kommentierter Code"
 
 #. Programmer's name for it: SYNS_FriendlyClassName
 #: SynHighlighterPython.pas
 msgid "Class Name"
-msgstr ""
+msgstr "Klassenname"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
@@ -8872,19 +8513,19 @@ msgstr "Mehrzeiliger String"
 #. Programmer's name for it: SYNS_FriendlyAttrBanner
 #: SynHighlighterPython.pas
 msgid "Banner"
-msgstr ""
+msgstr "Banner"
 
 #. Programmer's name for it: SYNS_AttrTraceback
 #. Programmer's name for it: SYNS_FriendlyAttrTraceback
 #: SynHighlighterPython.pas
 msgid "Traceback"
-msgstr ""
+msgstr "Rückverfolgung"
 
 #. Programmer's name for it: SYNS_AttrPrompt
 #. Programmer's name for it: SYNS_FriendlyAttrPrompt
 #: SynHighlighterPython.pas
 msgid "Prompt"
-msgstr ""
+msgstr "Eingabeaufforderung"
 
 #. Programmer's name for it: SYNS_AttrSystemCmd
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
@@ -8900,27 +8541,27 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyAttrKey
 #: SynHighlighterYAML.pas
 msgid "Key"
-msgstr ""
+msgstr "Schlüssel"
 
 #. Programmer's name for it: SYNS_FriendlyAttrNumericValue
 #: SynHighlighterYAML.pas
 msgid "Numeric Value"
-msgstr ""
+msgstr "Nummerischer Wert"
 
 #. Programmer's name for it: SYNS_FriendlyAttrTextValue
 #: SynHighlighterYAML.pas
 msgid "Text Value"
-msgstr ""
+msgstr "Textwert"
 
 #. Programmer's name for it: SYNS_FriendlyAttrTag
 #: SynHighlighterYAML.pas
 msgid "Tag"
-msgstr ""
+msgstr "Schlagwort"
 
 #. Programmer's name for it: SYNS_FriendlyAttrAnchor
 #: SynHighlighterYAML.pas
 msgid "Anchor"
-msgstr ""
+msgstr "Anker"
 
 #. Python Paths etc.
 #: uParams.pas
@@ -9150,7 +8791,7 @@ msgstr "Markierter Text im aktiven Dokument"
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
 #: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
 msgid "Toolbars"
-msgstr ""
+msgstr "Werkzeugleiste"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
 #: SpTBXCustomizerForm.dfm:125
