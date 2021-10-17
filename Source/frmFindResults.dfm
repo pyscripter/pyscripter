@@ -189,6 +189,7 @@ inherited FindResultsWindow: TFindResultsWindow
         Top = 330
         Width = 599
         Height = 24
+        SizeGrip = False
         object StatusLeftLabel: TSpTBXLabelItem
           Wrapping = twEndEllipsis
           MinHeight = 20
@@ -403,13 +404,13 @@ inherited FindResultsWindow: TFindResultsWindow
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 98
+        CollectionIndex = 99
         CollectionName = 'Save'
         Disabled = False
         Name = 'Save'
       end
       item
-        CollectionIndex = 69
+        CollectionIndex = 70
         CollectionName = 'Print'
         Disabled = False
         Name = 'Print'
@@ -421,25 +422,25 @@ inherited FindResultsWindow: TFindResultsWindow
         Name = 'Copy'
       end
       item
-        CollectionIndex = 100
+        CollectionIndex = 101
         CollectionName = 'Search'
         Disabled = False
         Name = 'Search'
       end
       item
-        CollectionIndex = 90
+        CollectionIndex = 91
         CollectionName = 'Replace'
         Disabled = False
         Name = 'Replace'
       end
       item
-        CollectionIndex = 91
+        CollectionIndex = 92
         CollectionName = 'ReplaceAll'
         Disabled = False
         Name = 'ReplaceAll'
       end
       item
-        CollectionIndex = 102
+        CollectionIndex = 103
         CollectionName = 'Setup'
         Disabled = False
         Name = 'Setup'

@@ -1,7 +1,11 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
-#define MyAppVersion "4.1.0"
-#define OSPlatform "x64"
+#ifndef MyAppVersion
+  #define MyAppVersion "4.1.0"
+#endif
+#ifndef OSPlatform
+  #define OSPlatform "x64"
+#endif
 #define MyAppPublisherURL="https://sourceforge.net/projects/pyscripter/"
 #define MyAppSupportURL="https://github.com/pyscripter/pyscripter"
 #define MyAppUpdatesURL="https://sourceforge.net/projects/pyscripter/"
@@ -200,6 +204,8 @@ Source: "..\Styles\Windows10ClearDay.vsf"; DestDir: "{commonappdata}\PyScripter\
 Source: "..\Styles\Windows10Dark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10Malibu.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows11_Dark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows11_Light.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Zircon.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 ; Language Server
 Source: "..\Lib\Lsp\jls\jedilsp.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"; 

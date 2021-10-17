@@ -1,0 +1,330 @@
+{796D9287-1850-46A8-9C28-24E627FBC446} Version=3
+begin jvcsmak.setvariable
+  Caption=Set variable <PyScripterVersion> = 4.1.0
+  Ignore=0
+  Varname=PyScripterVersion
+  DataType=0
+  Value=4.1.0
+  Operation=0
+  Append=0
+  Versionfilename=
+  DateTimeFormat=YYYY-MM-DD HH:MM:SS
+  VersionFormat=%V1.%V2.%V3.%V4
+  ReplaceVars=-1
+end
+begin Delphi32.SetDelphiVersion
+  Caption=Set Delphi Version
+  Ignore=0
+  Delphiversion=21
+end
+begin jvcsmak.setvariable
+  Caption=Set variable <AppPath> = c:\Delphi\Progs32\Python\PyScripter
+  Ignore=0
+  Varname=AppPath
+  DataType=0
+  Value=c:\Delphi\Progs32\Python\PyScripter
+  Operation=0
+  Append=0
+  Versionfilename=
+  DateTimeFormat=YYYY-MM-DD HH:MM:SS
+  VersionFormat=%V1.%V2.%V3.%V4
+  ReplaceVars=-1
+end
+begin dialogs.msgbox
+  Caption=Messagebox
+  Ignore=0
+  Text=UPDATE VERSION NUMBER IN PROJECT AND SETUP FILE
+  Buttons=[mbOK]
+  Style=0
+  ReturnValue=
+end
+begin command.comment
+  Caption=HELP FILES
+  Ignore=0
+  Value=HELP FILES
+end
+begin dialogs.msgbox
+  Caption=Messagebox
+  Ignore=0
+  Text=UPDATE HELP FILES
+  Buttons=[mbOK]
+  Style=0
+  ReturnValue=
+end
+begin jvcsutils.batchinternal
+  Caption=Internal Batch command list
+  Ignore=0
+  ReplaceVars=1
+  BatchLineCount=3
+  BatchLine1="c:\Program Files (x86)\HTML Help Workshop\hhc.exe" %AppPath%\Help\Source\pyscripter.hhp
+  BatchLine2=copy /Y %AppPath%\Help\Source\PyScripter.chm %AppPath%
+  BatchLine3=del %AppPath%\Help\Source\PyScripter.chm
+end
+begin command.comment
+  Caption=CREATE CLEAN PYSCRIPTER.INI
+  Ignore=0
+  Value=CREATE CLEAN PYSCRIPTER.INI
+end
+begin dialogs.msgbox
+  Caption=Messagebox
+  Ignore=0
+  Text=CREATE CLEAN PYSCRIPTER.INI AND PUT IT IN THE INSTALL DIRECTORY
+  Buttons=[mbOK]
+  Style=0
+  ReturnValue=
+end
+begin command.comment
+  Caption=SYNC TRANSLATIONS FROM TRANSIFEX
+  Ignore=0
+  Value=SYNC TRANSLATIONS FROM TRANSIFEX
+end
+begin dialogs.msgbox
+  Caption=Messagebox
+  Ignore=0
+  Text=Sync manually the Transifex translations
+  Buttons=[mbOK]
+  Style=0
+  ReturnValue=
+end
+begin command.comment
+  Caption=COMPILE TRANSLATIONS
+  Ignore=0
+  Value=COMPILE TRANSLATIONS
+end
+begin jvcsutils.batchinternal
+  Caption=Internal Batch command list
+  Ignore=0
+  ReplaceVars=1
+  BatchLineCount=3
+  BatchLine1=pushd %AppPath%\dxgettext
+  BatchLine2=powershell %AppPath%\dxgettext\compile-mo.ps1
+  BatchLine3=popd
+end
+begin command.comment
+  Caption=COMPILE TARGETS
+  Ignore=0
+  Value=COMPILE TARGETS
+end
+begin dialogs.inputbox
+  Caption=Inputbox
+  Ignore=0
+  Caption=Inputbox
+  Text=Enter password:
+  Default=
+  ReturnValue=PW
+end
+begin jvcsmak.setvariable
+  Caption=Set variable <InnoSetupExe> = C:\Program Files (x86)\Inno Setup 6\ISCC.exe
+  Ignore=0
+  Varname=InnoSetupExe
+  DataType=0
+  Value=C:\Program Files (x86)\Inno Setup 6\ISCC.exe
+  Operation=0
+  Append=0
+  Versionfilename=
+  DateTimeFormat=YYYY-MM-DD HH:MM:SS
+  VersionFormat=%V1.%V2.%V3.%V4
+  ReplaceVars=0
+end
+begin block.for
+  Caption=for
+  Ignore=0
+  Varname=i
+  StartValue=0
+  EndValue=1
+end
+  begin block.if
+    Caption=if i = 0
+    Ignore=0
+    Condition=0
+    Varname=i
+    Value=0
+  end
+    begin jvcsmak.setvariable
+      Caption=Set variable <Platform> = Win64
+      Ignore=0
+      Varname=Platform
+      DataType=0
+      Value=Win64
+      Operation=0
+      Append=0
+      Versionfilename=
+      DateTimeFormat=YYYY-MM-DD HH:MM:SS
+      VersionFormat=%V1.%V2.%V3.%V4
+      ReplaceVars=0
+    end
+    begin jvcsmak.setvariable
+      Caption=Set variable <OSPlatform> = x64
+      Ignore=0
+      Varname=OSPlatform
+      DataType=0
+      Value=x64
+      Operation=0
+      Append=0
+      Versionfilename=
+      DateTimeFormat=YYYY-MM-DD HH:MM:SS
+      VersionFormat=%V1.%V2.%V3.%V4
+      ReplaceVars=0
+    end
+  begin block.else
+    Caption=else
+    Ignore=0
+  end
+    begin jvcsmak.setvariable
+      Caption=Set variable <Platform> = Win32
+      Ignore=0
+      Varname=Platform
+      DataType=0
+      Value=Win32
+      Operation=0
+      Append=0
+      Versionfilename=
+      DateTimeFormat=YYYY-MM-DD HH:MM:SS
+      VersionFormat=%V1.%V2.%V3.%V4
+      ReplaceVars=0
+    end
+    begin jvcsmak.setvariable
+      Caption=Set variable <OSPlatform> = x86
+      Ignore=0
+      Varname=OSPlatform
+      DataType=0
+      Value=x86
+      Operation=0
+      Append=0
+      Versionfilename=
+      DateTimeFormat=YYYY-MM-DD HH:MM:SS
+      VersionFormat=%V1.%V2.%V3.%V4
+      ReplaceVars=0
+    end
+  begin block.end
+    Caption=end
+    Ignore=0
+  end
+  begin command.comment
+    Caption=BUILD EXECUTABLE
+    Ignore=0
+    Value=BUILD EXECUTABLE
+  end
+  begin jvcsutils.batchinternal
+    Caption=Internal Batch command list
+    Ignore=0
+    ReplaceVars=1
+    BatchLineCount=10
+    BatchLine1=call "%$(BDS)%bin\rsvars.bat"
+    BatchLine2=cd %AppPath% 
+    BatchLine3=pushd Source
+    BatchLine4=msbuild pyscripter.dproj /p:platform=%Platform% /p:DCC_BuildAllUnits=true /p:"Config=Debug"
+    BatchLine5=popd
+    BatchLine6=C:\Delphi\Components\jcl\jcl\bin64\MakeJclDbg.exe -J -E -M PyScripter.map
+    BatchLine7=del PyScripter.drc
+    BatchLine8=del PyScripter.rsm
+    BatchLine9=del PyScripter.jdbg
+    BatchLine10=
+  end
+  begin command.comment
+    Caption=CODE SIGNING
+    Ignore=0
+    Value=CODE SIGNING
+  end
+  begin jvcsutils.batchinternal
+    Caption=Internal Batch command list
+    Ignore=0
+    ReplaceVars=1
+    BatchLineCount=1
+    BatchLine1="C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\PyScripter.exe
+  end
+  begin command.comment
+    Caption=INNO SETUP
+    Ignore=0
+    Value=INNO SETUP
+  end
+  begin jvcsutils.batchinternal
+    Caption=Internal Batch command list
+    Ignore=0
+    ReplaceVars=1
+    BatchLineCount=1
+    BatchLine1="%InnoSetupExe%" -DMyAppVersion="%PyScripterVersion%" -DOSPlatform="%OSPlatform%" %AppPath%\Install\PyScripter.iss
+  end
+  begin command.comment
+    Caption=CODE SIGN SETUP FILES
+    Ignore=0
+    Value=CODE SIGN SETUP FILES
+  end
+  begin jvcsutils.batchinternal
+    Caption=Internal Batch command list
+    Ignore=0
+    ReplaceVars=1
+    BatchLineCount=1
+    BatchLine1="C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%-Setup.exe
+  end
+  begin command.comment
+    Caption=CREATE ZIP DISTRIBUTIONS
+    Ignore=0
+    Value=CREATE ZIP DISTRIBUTIONS
+  end
+  begin block.if
+    Caption=if i = 0
+    Ignore=0
+    Condition=0
+    Varname=i
+    Value=0
+  end
+    begin jvcsutils.batchinternal
+      Caption=Internal Batch command list
+      Ignore=0
+      ReplaceVars=1
+      BatchLineCount=1
+      BatchLine1=%AppPath%\Install\Output\PyScripter-%PyScripterVersion%-x64-Setup.exe
+    end
+    begin dialogs.msgbox
+      Caption=Messagebox
+      Ignore=0
+      Text=Install PyScripter x64 to prepare the creation of zip distributions
+      Buttons=[mbOK]
+      Style=0
+      ReturnValue=
+    end
+  begin block.end
+    Caption=end
+    Ignore=0
+  end
+  begin utils.mkdir
+    Caption=Create directories
+    Ignore=0
+    DirectoryCount=1
+    Directory1=%AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%\PyScripter\
+  end
+  begin jvcsutils.batchinternal
+    Caption=Internal Batch command list
+    Ignore=0
+    ReplaceVars=1
+    BatchLineCount=16
+    BatchLine1=pushd %AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%
+    BatchLine2=xcopy /q /e /y "c:\Program Files\PyScripter" PyScripter
+    BatchLine3=del PyScripter\un*.*
+    BatchLine4=del PyScripter\PyScripter.exe
+    BatchLine5=copy %AppPath%\Install\PyScripter.ini PyScripter
+    BatchLine6=copy %AppPath%\PyScripter.exe PyScripter
+    BatchLine7=xcopy /q /e /y c:\ProgramData\PyScripter\ PyScripter  
+    BatchLine8=del PyScripter\Lsp\jls\jedilsp.exe
+    BatchLine9=pushd PyScripter
+    BatchLine10=move Lsp Lib\
+    BatchLine11=popd
+    BatchLine12=cd ..
+    BatchLine13=IF EXIST PyScripter-%PyScripterVersion%-%OSPlatform%.zip del PyScripter-%PyScripterVersion%-%OSPlatform%.zip 
+    BatchLine14="c:\Program Files\7-Zip\7z.exe" a PyScripter-%PyScripterVersion%-%OSPlatform%.zip PyScripter-%PyScripterVersion%-%OSPlatform%\PyScripter
+    BatchLine15=rmdir /Q /S PyScripter-%PyScripterVersion%-%OSPlatform%  
+    BatchLine16=popd 
+  end
+begin block.end
+  Caption=end
+  Ignore=0
+end
+begin dialogs.msgbox
+  Caption=Messagebox
+  Ignore=0
+  Text=- Upload setup and zip files (4 files) to Sourceforge|- Update PyScripterVersionInfo.ini and PyScripterVersionInfo-x64.ini|- Blog announcement at https://pyscripter.blogspot.com/|- Announcement at https://groups.google.com/g/pyscripter|- Announcement at https://groups.google.com/g/comp.lang.python.announce|- Update history at PyScripter wiki|- Optionally create Github release
+  Buttons=[mbOK]
+  Style=0
+  ReturnValue=
+end

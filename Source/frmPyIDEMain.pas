@@ -529,6 +529,7 @@
           New Features
             - Implementation of the Language Server Protocol
             - Python language support provided by the Jedi language server
+            - Two new styles added Windows11_Light and Windows11_Dark
             - Copy and paste code as html to Powerpoint and other applications
             - Removed support for python 3.3-3.5
             - Read only indicator on tabs
@@ -1329,7 +1330,6 @@ type
     MenuHelpRequested : Boolean;
     Layouts : TStringList;
     fLanguageList : TStringList;
-    procedure ScaleForPPI(NewPPI: Integer); override;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
     procedure StoreLocalApplicationData;
@@ -1695,9 +1695,10 @@ begin
   else
   begin
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
-    DockServer.LeftDockPanel.Width := PPIScale(200);
+    DockServer.LeftDockPanel.Width := PPIScale(250);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
-    TJvDockVSNETPanel(DockServer.LeftDockPanel).DoAutoHideControl(TabHost);
+    ShowDockForm(FileExplorerWindow);
+    //TJvDockVSNETPanel(DockServer.LeftDockPanel).DoAutoHideControl(TabHost);
 
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
     DockServer.BottomDockPanel.Height := PPIScale(200);
@@ -3256,8 +3257,7 @@ begin
     AppStorage.WriteCollection('SSH', SSHServers, 'Server');
     AppStorage.StorageOptions.StoreDefaultValues := False;
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
-    AppStorage.WriteString('Output Window\Font Name', OutputWindow.lsbConsole.Font.Name);
-    AppStorage.WriteInteger('Output Window\Font Size', OutputWindow.lsbConsole.Font.Size);
+    AppStorage.WritePersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
     AppStorage.WritePersistent('Watches', WatchesWindow);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
 
@@ -3440,8 +3440,7 @@ begin
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadCollection('SSH', SSHServers, True, 'Server');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', DefaultCodeFontName);
-  OutputWindow.lsbConsole.Font.Size := AppStorage.ReadInteger('Output Window\Font Size', 9);
+  AppStorage.ReadPersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
   OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
@@ -3687,24 +3686,6 @@ begin
 
     RegisterCustomParams;  // To get tranlations of descriptions
   end;
-end;
-
-procedure TPyIDEMainForm.ScaleForPPI(NewPPI: Integer);
-begin
-  // FCurrentPPI is changed to the NewPPI in the inherited method
-  // Status bar
-  StatusBar.Toolbar.Items.ViewBeginUpdate;
-  try
-    lbPythonVersion.MinWidth := MulDiv(lbPythonVersion.MinWidth, NewPPI, FCurrentPPI);
-    lbPythonEngine.MinWidth := MulDiv(lbPythonEngine.MinWidth, NewPPI, FCurrentPPI);
-    lbStatusCaret.CustomWidth := MulDiv(lbStatusCaret.CustomWidth, NewPPI, FCurrentPPI);
-    lbStatusModified.CustomWidth := MulDiv(lbStatusModified.CustomWidth, NewPPI, FCurrentPPI);
-    lbStatusOverwrite.CustomWidth := MulDiv(lbStatusOverwrite.CustomWidth, NewPPI, FCurrentPPI);
-    lbStatusCaps.CustomWidth := MulDiv(lbStatusCaps.CustomWidth, NewPPI, FCurrentPPI);
-  finally
-    StatusBar.ToolBar.Items.ViewEndUpdate;
-  end;
-  inherited;
 end;
 
 procedure TPyIDEMainForm.LoadToolbarItems(const Path : string);

@@ -84,6 +84,8 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           OnKeyPress = ExplorerTreeKeyPress
           OnNewText = ExplorerTreeNewText
           OnNodeDblClick = ExplorerTreeNodeDblClick
+          Touch.InteractiveGestures = [igPan, igPressAndTap]
+          Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
           Columns = <>
         end
         object SpTBXDock1: TSpTBXDock
@@ -512,6 +514,8 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       end>
     ImageCollection = icProjects
     PreserveItems = True
+    Width = 18
+    Height = 18
     Left = 56
     Top = 160
   end

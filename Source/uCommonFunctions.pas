@@ -1029,7 +1029,12 @@ end;
 function DefaultCodeFontName: string;
 begin
     if CheckWin32Version(6) then
-      Result := 'Consolas'
+    begin
+      if Screen.Fonts.IndexOf('Cascadia Code') >= 0 then
+        Result := 'Cascadia Code'
+      else
+        Result := 'Consolas';
+    end
     else
       Result := 'Courier New';
 end;

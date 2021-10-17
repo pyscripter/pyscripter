@@ -5200,6 +5200,7 @@ object CommandsDataModule: TCommandsDataModule
           '6.8,3,6.8,6.8'#13#10#9'S16.4,19.3,12.7,19.3z M9,11.8h7.5v1.5H9V11.8z"/>' +
           #13#10'</svg>'
       end>
+    ApplyFixedColorToRootOnly = True
     Left = 112
     Top = 208
   end

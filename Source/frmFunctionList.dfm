@@ -211,6 +211,7 @@ inherited FunctionListWindow: TFunctionListWindow
     Height = 25
     ParentShowHint = False
     ShowHint = True
+    SizeGrip = False
     object LeftStatusLabel: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboShowHint]
@@ -389,13 +390,13 @@ inherited FunctionListWindow: TFunctionListWindow
         Name = 'Font'
       end
       item
-        CollectionIndex = 130
+        CollectionIndex = 132
         CollectionName = 'ViewAny'
         Disabled = False
         Name = 'ViewAny'
       end
       item
-        CollectionIndex = 131
+        CollectionIndex = 133
         CollectionName = 'ViewStart'
         Disabled = False
         Name = 'ViewStart'

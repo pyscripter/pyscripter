@@ -622,6 +622,8 @@ begin
   // Font Size is a published property and is read
   AStorage.ReadPersistent(APath, AProperty as TFont, Recursive, ClearFirst,
     TJvAppStorageFontPropertyEngine.FFontIgnoreProperties);
+  if Screen.Fonts.IndexOf(TFont(AProperty).Name) < 0 then
+    TFont(AProperty).Name := DefaultCodeFontName;
 end;
 
 procedure TJvAppStorageFontPropertyEngine.WriteProperty(

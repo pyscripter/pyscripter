@@ -114,6 +114,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     Top = 364
     Width = 490
     Height = 10
+    SizeGrip = False
     object LeftStatusLabel: TSpTBXLabelItem
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
