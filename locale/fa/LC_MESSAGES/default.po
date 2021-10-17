@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2020-10-07 17:44\n"
+"POT-Creation-Date: 2021-10-12 00:46\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2021\n"
 "Language-Team: Persian (https://www.transifex.com/pyscripter/teams/116142/fa/)\n"
@@ -46,13 +46,10 @@ msgstr "پیوندها"
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
 msgid ""
-"A freeware, open source Python scripting integrated development environment "
+"A free and open source Python scripting integrated development environment "
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
-"محیط توسعه یکپارچه ی رایگان و کدباز اسکریپت نویسی پایتون که با امید فراهم "
-"کردن کیفیّت و قابلیّت های محیط های توسعه تجاری زبان های دیگر برای جامعه "
-"توسعه دهندگان پایتون ساخته شده."
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
@@ -591,18 +588,10 @@ msgstr "متن مورد جستجو:"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..Caption
 #. fmToDoOptions..pnlBG..gbxOptions..Caption
-#. CommandsDataModule..actlMain..actEditorOptions..Category
-#. CommandsDataModule..actlMain..actIDEOptions..Category
-#. CommandsDataModule..actlMain..actIDEShortcuts..Category
-#. CommandsDataModule..actlMain..actCodeTemplates..Category
-#. CommandsDataModule..actlMain..actInterpreterEditorOptions..Category
-#. CommandsDataModule..actlMain..actFileTemplates..Category
-#. FunctionListWindow..Actions..actOptionsFont..Category
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..Caption
-#. ToDoWindow..Actions..actOptionsConfigure..Category
-#: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm dmCommands.dfm
-#: frmFunctionList.dfm frmPyIDEMain.dfm frmRegExpTester.dfm frmToDo.dfm
+#: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
+#: frmPyIDEMain.dfm frmRegExpTester.dfm
 msgid "Options"
 msgstr "گزینه ها"
 
@@ -668,8 +657,9 @@ msgstr "شاخه ها:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
-#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
-#: dlgImportDirectory.pas uParams.pas
+#. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Hint
+#: dlgFindInFiles.dfm dlgToDoOptions.dfm frmFileExplorer.dfm
+#: dlgDirectoryList.pas dlgImportDirectory.pas frmFileExplorer.pas uParams.pas
 msgid "Select directory"
 msgstr "انتخاب شاخه"
 
@@ -884,20 +874,9 @@ msgstr "باز کردن رابط دستور خط برای نگارش انتخا�
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
 #. CommandsDataModule..actlMain..actPythonManuals..Category
-#. CommandsDataModule..actlMain..actAbout..Category
-#. CommandsDataModule..actlMain..actHelpParameters..Category
-#. CommandsDataModule..actlMain..actHelpExternalTools..Category
-#. CommandsDataModule..actlMain..actHelpEditorShortcuts..Category
-#. CommandsDataModule..actlMain..actHelpWebProjectHome..Category
-#. CommandsDataModule..actlMain..actHelpWebGroupSupport..Category
-#. CommandsDataModule..actlMain..actHelpWebBlog..Category
-#. CommandsDataModule..actlMain..actDonate..Category
-#. FindResultsWindow..Actions..actHelpHelp..Category
 #. FindResultsWindow..Actions..actHelpHelp..Hint
-#. FunctionListWindow..Actions..actHelpHelp..Category
 #. FunctionListWindow..Actions..actHelpHelp..Hint
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
-#. ToDoWindow..Actions..actHelpHelp..Category
 #. ToDoWindow..Actions..actHelpHelp..Hint
 #. Programmer's name for it: SDlgHelpHelp
 #: dlgPythonVersions.dfm dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm
@@ -947,9 +926,7 @@ msgstr "در"
 
 #. ReplaceInFilesDialog..Panel1..lblReplace..Caption
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Caption
-#. FindResultsWindow..Actions..actReplaceSelected..Category
-#. FindResultsWindow..Actions..actReplaceAll..Category
-#: dlgReplaceInFiles.dfm dmCommands.dfm frmFindResults.dfm
+#: dlgReplaceInFiles.dfm dmCommands.dfm
 msgid "Replace"
 msgstr "جایگزینی"
 
@@ -1127,98 +1104,6 @@ msgstr "رنگ زمینه"
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "رنگ"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "نمونه کد"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "زمینه های در دسترس"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "اعمال زمینه"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "عنصر:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "رنگ پیش زمینه:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "رنگ پس زمینه:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "دستور زبان محیط ویرایشگر"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr " ویژگی های متن "
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "ضخیم"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "کج"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "زیر خط دار"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "خط زده"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "گزینه های فشردن کلید"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "فرمان:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr "فشردن کلید2:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr "فشردن کلید1:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "فرمان"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr "فشردن کلید"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1535,6 +1420,37 @@ msgstr "نیم تکّه"
 msgid "Block"
 msgstr "تکّه"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "گزینه های فشردن کلید"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "فرمان:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr "فشردن کلید2:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr "فشردن کلید1:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "فرمان"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr "فشردن کلید"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1648,6 +1564,67 @@ msgstr "عرض جهش(Tab)"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "رنگ خط حاضر"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "نمونه کد"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "زمینه های در دسترس"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "اعمال زمینه"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "عنصر:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "رنگ پیش زمینه:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "رنگ پس زمینه:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "دستور زبان محیط ویرایشگر"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr " ویژگی های متن "
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "ضخیم"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "کج"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "زیر خط دار"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "خط زده"
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -2310,11 +2287,6 @@ msgstr "فایل جدید"
 msgid "Console"
 msgstr "میز فرمان"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Label9..Caption
-#: dlgToolProperties.dfm
-msgid "&Timeout (ms):"
-msgstr "مهلت ( بر حسب میلی ثانیه):"
-
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
 msgid "Check to hide the console."
@@ -2325,28 +2297,15 @@ msgstr "برای نهفتن سند علامت بزنید."
 msgid "&Hide console"
 msgstr "نهفتن میز فرمان"
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination....Hint
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
-msgid ""
-"If checked will monitor the process \n"
-"and notify you when is terminated."
+msgid "Use the UTF8 encoding for stdin/stdout"
 msgstr ""
-"اگر علامت خورده باشد روند پردازش را پایش می کند\n"
-"و زمانی که به پایان رسید به شما اطّلاع می دهد که ."
 
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination..Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
-msgid "&Wait for Termination"
-msgstr "انتظار برای پایان"
-
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..seTimeout....Hint
-#: dlgToolProperties.dfm
-msgid ""
-"If set to a value <> 0 then you will be prompted \n"
-"to abort the program after the specified time (ms)."
+msgid "&UTF8 IO"
 msgstr ""
-"اگر مقدار به غیر از صفر قرار داده شود از شما خواسته خواهد شد \n"
-"تا بعد از زمان مشخّصی (برحسب میلی ثانیه) برنامه را نافرجام به پایان برسانید."
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
@@ -2414,37 +2373,6 @@ msgstr "لغو انتخاب همه"
 msgid "Deselect all nodes"
 msgstr "لغو انتخاب همه ی بست ها"
 
-#. CommandsDataModule..actlMain..actFileSave..Category
-#. CommandsDataModule..actlMain..actFileSaveAs..Category
-#. CommandsDataModule..actlMain..actFileClose..Category
-#. CommandsDataModule..actlMain..actFileSaveAll..Category
-#. CommandsDataModule..actlMain..actFilePrint..Category
-#. CommandsDataModule..actlMain..actPrinterSetup..Category
-#. CommandsDataModule..actlMain..actPrintPreview..Category
-#. CommandsDataModule..actlMain..actPageSetup..Category
-#. CommandsDataModule..actlMain..actFileReload..Category
-#. CommandsDataModule..actlMain..actFileCloseAllOther..Category
-#. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Category
-#. CommandsDataModule..actlMain..actFileSaveToRemote..Category
-#. FindResultsWindow..Actions..actFileSearch..Category
-#. FindResultsWindow..Actions..actFileRefresh..Category
-#. FindResultsWindow..Actions..actFileAbort..Category
-#. FindResultsWindow..Actions..actFilePrint..Category
-#. FindResultsWindow..Actions..actFileSave..Category
-#. FindResultsWindow..Actions..actFileCopy..Category
-#. PyIDEMainForm..actlStandard..actFileNewModule..Category
-#. PyIDEMainForm..actlStandard..actFileOpen..Category
-#. PyIDEMainForm..actlStandard..actFileCloseAll..Category
-#. PyIDEMainForm..actlStandard..actFileExit..Category
-#. PyIDEMainForm..actlStandard..actNewFile..Category
-#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Category
-#. ToDoWindow..Actions..actFileRefresh..Category
-#. ToDoWindow..Actions..actFilePrint..Category
-#. ToDoWindow..Actions..actFileAbort..Category
-#: dmCommands.dfm frmFindResults.dfm frmPyIDEMain.dfm frmToDo.dfm
-msgid "File"
-msgstr "فایل"
-
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
 msgid "&Save"
@@ -2457,8 +2385,8 @@ msgstr "ذخیره| ذخیره فایل فعّال"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
-msgid "Save &As..."
-msgstr "ذخیره به عنوان..."
+msgid "Sav&e As..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
@@ -2466,9 +2394,8 @@ msgid "Save As|Save active file under different name"
 msgstr "ذخیره به عنوان| ذخیره ی فایل فعّال با نامی متفاوت"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
-#. OutputWindow..OutputActions..actToolClose..Caption
 #. Programmer's name for it: SDlgClose
-#: dmCommands.dfm frmCommandOutput.dfm StringResources.pas
+#: dmCommands.dfm StringResources.pas
 msgid "&Close"
 msgstr "بستن"
 
@@ -2482,26 +2409,8 @@ msgstr "بستن| بستن فایل فعّال"
 #. CommandsDataModule..actlMain..actEditPaste..Category
 #. CommandsDataModule..actlMain..actEditDelete..Category
 #. CommandsDataModule..actlMain..actEditUndo..Category
-#. CommandsDataModule..actlMain..actEditRedo..Category
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
-#. CommandsDataModule..actlMain..actEditReadOnly..Category
-#. CommandsDataModule..actlMain..actInsertTemplate..Category
-#. CommandsDataModule..actlMain..actEditLineNumbers..Category
-#. CommandsDataModule..actlMain..actEditShowSpecialChars..Category
-#. CommandsDataModule..actlMain..actEditLBDos..Category
-#. CommandsDataModule..actlMain..actEditLBUnix..Category
-#. CommandsDataModule..actlMain..actEditLBMac..Category
-#. CommandsDataModule..actlMain..actEditAnsi..Category
-#. CommandsDataModule..actlMain..actEditUTF8..Category
-#. CommandsDataModule..actlMain..actEditUTF8NoBOM..Category
-#. CommandsDataModule..actlMain..actEditUTF16LE..Category
-#. CommandsDataModule..actlMain..actEditUTF16BE..Category
-#. CommandsDataModule..actlMain..actEditWordWrap..Category
-#. CommandsDataModule..actlMain..actEditCopyFileName..Category
-#. FunctionListWindow..Actions..actEditCopy..Category
-#. ToDoWindow..Actions..actEditGoto..Category
-#. ToDoWindow..Actions..actEditCopy..Category
-#: dmCommands.dfm frmFunctionList.dfm frmToDo.dfm
+#: dmCommands.dfm
 msgid "Edit"
 msgstr "ویرایش"
 
@@ -2588,26 +2497,6 @@ msgstr "فقط قابل خواندن"
 #: dmCommands.dfm
 msgid "Enable/disable editing"
 msgstr "فعّال/غیرفعّال کردن ویرایش"
-
-#. CommandsDataModule..actlMain..actSearchFind..Category
-#. CommandsDataModule..actlMain..actSearchFindNext..Category
-#. CommandsDataModule..actlMain..actSearchFindPrev..Category
-#. CommandsDataModule..actlMain..actSearchReplace..Category
-#. CommandsDataModule..actlMain..actSearchMatchingBrace..Category
-#. CommandsDataModule..actlMain..actSearchGoToLine..Category
-#. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Category
-#. CommandsDataModule..actlMain..actFindInFiles..Category
-#. CommandsDataModule..actlMain..actFindFunction..Category
-#. CommandsDataModule..actlMain..actFindPreviousReference..Category
-#. CommandsDataModule..actlMain..actFindNextReference..Category
-#. CommandsDataModule..actlMain..actSearchReplaceNow..Category
-#. CommandsDataModule..actlMain..actSearchHighlight..Category
-#. CommandsDataModule..actlMain..actSearchGoToDebugLine..Category
-#. EditorForm..pmnuEditor..mnSearch..Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
-msgid "Search"
-msgstr "جستجوی"
 
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
@@ -2720,18 +2609,6 @@ msgstr "تنظیمات محیط توسعه یکپارچه(IDE)..."
 msgid "Set IDE Options"
 msgstr "تعیین تنظیمات محیط توسعه یکپارچه(IDE)"
 
-#. CommandsDataModule..actlMain..actEditIndent..Category
-#. CommandsDataModule..actlMain..actEditDedent..Category
-#. CommandsDataModule..actlMain..actEditCommentOut..Category
-#. CommandsDataModule..actlMain..actEditUncomment..Category
-#. CommandsDataModule..actlMain..actEditTabify..Category
-#. CommandsDataModule..actlMain..actEditUntabify..Category
-#. CommandsDataModule..actlMain..actEditToggleComment..Category
-#. EditorForm..pmnuEditor..mnSourceCode..Caption
-#: dmCommands.dfm frmEditor.dfm frmEditor.pas
-msgid "Source Code"
-msgstr "کد منبع"
-
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
 msgid "&Indent Block"
@@ -2802,16 +2679,6 @@ msgstr "بدون جهش"
 msgid "Untabify|Convert tabs to spaces"
 msgstr "بدون جهش|تبدیل جهش ها (Tab) به فاصله ها"
 
-#. CommandsDataModule..actlMain..actPythonPath..Category
-#. CommandsDataModule..actlMain..actConfigureTools..Category
-#. CommandsDataModule..actlMain..actCheckForUpdates..Category
-#. CommandsDataModule..actlMain..actUnitTestWizard..Category
-#. CommandsDataModule..actlMain..actToolsEditStartupScripts..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Tools"
-msgstr "ابزارها"
-
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
 msgid "Python &Path..."
@@ -2875,22 +2742,13 @@ msgstr "جهش به محلّ اوّلین خطای دستوری"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
-msgid "&Find in Files..."
-msgstr "یافتن در فایل ها..."
+msgid "Find &in Files..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
 msgstr "جستجو در فایل ها|جستجو به دنبال رشته ی متن در فایل ها"
-
-#. CommandsDataModule..actlMain..actParameterCompletion..Category
-#. CommandsDataModule..actlMain..actModifierCompletion..Category
-#. CommandsDataModule..actlMain..actReplaceParameters..Category
-#. CommandsDataModule..actlMain..actCustomizeParameters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
-msgid "Parameters"
-msgstr "مولّفه ها"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3085,8 +2943,8 @@ msgstr "بررسی این که آیا نگارش جدیدتری از پای-اس
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
-msgid "&Unit Test Wizard..."
-msgstr "همیار آزمون بخش های کد..."
+msgid "Unit Test &Wizard..."
+msgstr ""
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
@@ -3123,6 +2981,11 @@ msgstr "قالب های فایل..."
 msgid "Add/Remove file templates"
 msgstr "افزودن/حذف قالب های فایل"
 
+#. CommandsDataModule..actlMain..actEditUTF8..Caption
+#: dmCommands.dfm
+msgid "UTF-8 with BOM"
+msgstr ""
+
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding when saving the file"
@@ -3145,22 +3008,13 @@ msgstr "استفاده از کد گذاری UTF-16BE"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
-msgid "&Reload"
-msgstr "بارگذاری دوباره"
+msgid "Re&load"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
 msgid "Reload|Reload active file"
 msgstr "بارگذاری دوباره| بارگذاری دوباره ی فایل فعّال"
-
-#. CommandsDataModule..actlMain..actImportShortcuts..Category
-#. CommandsDataModule..actlMain..actExportShortCuts..Category
-#. CommandsDataModule..actlMain..actImportHighlighters..Category
-#. CommandsDataModule..actlMain..actExportHighlighters..Category
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
-msgid "Import/Export"
-msgstr "ورود/صدور"
 
 #. CommandsDataModule..actlMain..actImportShortcuts..Caption
 #. CommandsDataModule..actlMain..actImportShortcuts..Hint
@@ -3285,8 +3139,8 @@ msgstr "رونوشت از نام فایل فعّال به بریده دان"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
-msgid "Edit Start&up Scripts"
-msgstr "ویرایش اسکریپت شروع"
+msgid "Edit &Startup Scripts"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3303,24 +3157,7 @@ msgstr "بلاگ"
 msgid "Go to the PyScripter Blog"
 msgstr "رفتن به وبلاگ PyScripter"
 
-#. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
-#. CommandsDataModule..actlMain..actFoldAll..Category
-#. CommandsDataModule..actlMain..actUnfoldAll..Category
-#. CommandsDataModule..actlMain..actFoldNearest..Category
-#. CommandsDataModule..actlMain..actUnfoldNearest..Category
-#. CommandsDataModule..actlMain..actFoldRegions..Category
-#. CommandsDataModule..actlMain..actUnfoldRegions..Category
-#. CommandsDataModule..actlMain..actFoldLevel1..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel1..Category
-#. CommandsDataModule..actlMain..actFoldLevel2..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel2..Category
-#. CommandsDataModule..actlMain..actFoldLevel3..Category
-#. CommandsDataModule..actlMain..actUnfoldLevel3..Category
-#. CommandsDataModule..actlMain..actFoldClasses..Category
-#. CommandsDataModule..actlMain..actUnfoldClasses..Category
-#. CommandsDataModule..actlMain..actFoldFunctions..Category
-#. CommandsDataModule..actlMain..actUnfoldFunctions..Category
 #: dmCommands.dfm
 msgid "Code Folding"
 msgstr "تا کردن کد"
@@ -3480,6 +3317,16 @@ msgstr "هدیه"
 msgid "Donate to the PyScripter project"
 msgstr "کمک مالی به پروژه ی PyScripter"
 
+#. CommandsDataModule..actlMain..actToolsRestartLS..Caption
+#: dmCommands.dfm
+msgid "Restart &Language Server"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actToolsRestartLS..Hint
+#: dmCommands.dfm
+msgid "Restart the Language Server"
+msgstr ""
+
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
 #: dmCommands.dfm StringResources.pas
@@ -3557,40 +3404,6 @@ msgstr "نام تابع"
 #: frmCallStack.dfm
 msgid "Threads"
 msgstr "رگه ی پردازشی"
-
-#. CallStackWindow..actlCallStack..actPreviousFrame..Category
-#. CallStackWindow..actlCallStack..actNextFrame..Category
-#. PyIDEMainForm..actlStandard..actSyntaxCheck..Category
-#. PyIDEMainForm..actlStandard..actRun..Category
-#. PyIDEMainForm..actlStandard..actCommandLine..Category
-#. PyIDEMainForm..actlStandard..actImportModule..Category
-#. PyIDEMainForm..actlStandard..actExternalRun..Category
-#. PyIDEMainForm..actlStandard..actExternalRunConfigure..Category
-#. PyIDEMainForm..actlStandard..actRunDebugLastScript..Category
-#. PyIDEMainForm..actlStandard..actDebug..Category
-#. PyIDEMainForm..actlStandard..actRunToCursor..Category
-#. PyIDEMainForm..actlStandard..actStepInto..Category
-#. PyIDEMainForm..actlStandard..actStepOver..Category
-#. PyIDEMainForm..actlStandard..actStepOut..Category
-#. PyIDEMainForm..actlStandard..actDebugPause..Category
-#. PyIDEMainForm..actlStandard..actDebugAbort..Category
-#. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Category
-#. PyIDEMainForm..actlStandard..actRunLastScript..Category
-#. PyIDEMainForm..actlStandard..actToggleBreakPoint..Category
-#. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Category
-#. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Category
-#. PyIDEMainForm..actlStandard..actPythonReinitialize..Category
-#. PyIDEMainForm..actlStandard..actPythonInternal..Category
-#. PyIDEMainForm..actlStandard..actPythonRemote..Category
-#. PyIDEMainForm..actlStandard..actPythonRemoteTk..Category
-#. PyIDEMainForm..actlStandard..actPythonRemoteWx..Category
-#. PyIDEMainForm..actlStandard..actPythonSSH..Category
-#. PyIDEMainForm..actlStandard..actExecSelection..Category
-#. PyIDEMainForm..actlStandard..actPostMortem..Category
-#. PyIDEMainForm..actlStandard..actPythonSetup..Category
-#: frmCallStack.dfm frmPyIDEMain.dfm
-msgid "Run"
-msgstr "اجرا"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
@@ -3739,39 +3552,13 @@ msgstr "پایان دادن"
 msgid "Terminate running tool (unsafe)"
 msgstr "پایان دادن ابزار در حال اجرا"
 
-#. OutputWindow..OutputActions..actToolClose..Hint
-#: frmCommandOutput.dfm
-msgid "Close running tool"
-msgstr "بستن ابزار در حال اجرا"
-
-#. OutputWindow..OutputActions..actToolQuit..Caption
-#: frmCommandOutput.dfm
-msgid "&Quit"
-msgstr "خروج"
-
-#. OutputWindow..OutputActions..actToolQuit..Hint
-#: frmCommandOutput.dfm
-msgid "Post quit message to running tool"
-msgstr "پیام بعد از خروج ابزار حاضر"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Caption
-#: frmCommandOutput.dfm
-msgid "Stop &Waiting"
-msgstr "توقّف انتظار"
-
-#. OutputWindow..OutputActions..actToolStopWaiting..Hint
-#: frmCommandOutput.dfm
-msgid "Stop waiting for running tool"
-msgstr "توقّف انتظار برای ابزار در حال اجرا"
-
 #. DisForm..Caption
 #: frmDisassemlyView.dfm
 msgid "Disassembly View"
 msgstr "نمای disassembly"
 
 #. DocForm..Caption
-#. WebPreviewForm..Caption
-#: frmDocView.dfm frmWebPreview.dfm
+#: frmDocView.dfm
 msgid "Documentation"
 msgstr "مستندات"
 
@@ -3832,6 +3619,17 @@ msgstr "بستن سربرگ"
 msgid "Close active tab"
 msgstr "بستن سربرگ فعّال"
 
+#. EditorForm..pmnuEditor..mnSourceCode..Caption
+#: frmEditor.dfm frmEditor.pas
+msgid "Source Code"
+msgstr "کد منبع"
+
+#. EditorForm..pmnuEditor..mnSearch..Caption
+#. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
+#: frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
+msgid "Search"
+msgstr "جستجوی"
+
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Fold"
@@ -3844,16 +3642,6 @@ msgstr "گستردن"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
-#. FileExplorerWindow..FileExplorerActions..actGoBack..Category
-#. FileExplorerWindow..FileExplorerActions..actGoForward..Category
-#. FileExplorerWindow..FileExplorerActions..actGoUp..Category
-#. FileExplorerWindow..FileExplorerActions..actRefresh..Category
-#. FileExplorerWindow..FileExplorerActions..actEnableFilter..Category
-#. FileExplorerWindow..FileExplorerActions..actSearchPath..Category
-#. FileExplorerWindow..FileExplorerActions..actExploreHere..Category
-#. FileExplorerWindow..FileExplorerActions..actManageFavorites..Category
-#. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Category
-#. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
 msgstr "کاوشگر فایل"
@@ -4012,6 +3800,11 @@ msgstr "ساخت پوشه ی جدید"
 msgid "Create new folder"
 msgstr "ساخت پوشه ی جدید"
 
+#. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
+#: frmFileExplorer.dfm
+msgid "Select Directory..."
+msgstr ""
+
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
 msgid "Find in Files Results"
@@ -4059,13 +3852,6 @@ msgstr "قطع جستجو"
 msgid "Print results..."
 msgstr "چاپ نتایج..."
 
-#. FindResultsWindow..Actions..actListGotoSelected..Category
-#. FindResultsWindow..Actions..actListContract..Category
-#. FindResultsWindow..Actions..actListExpand..Category
-#: frmFindResults.dfm
-msgid "List"
-msgstr "فهرست"
-
 #. FindResultsWindow..Actions..actListGotoSelected..Caption
 #: frmFindResults.dfm
 msgid "Goto Selected"
@@ -4095,45 +3881,6 @@ msgstr "گستردن"
 #: frmFindResults.dfm
 msgid "Expand all"
 msgstr "گستردن همه"
-
-#. FindResultsWindow..Actions..actViewShowContext..Category
-#. FindResultsWindow..Actions..actViewToolBar..Category
-#. FindResultsWindow..Actions..actViewStatusBar..Category
-#. FindResultsWindow..Actions..actViewOptions..Category
-#. FunctionListWindow..Actions..actViewStart..Category
-#. FunctionListWindow..Actions..actViewAny..Category
-#. FunctionListWindow..Actions..actViewGoto..Category
-#. PyIDEMainForm..actlImmutable..actViewNextEditor..Category
-#. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Category
-#. PyIDEMainForm..actlStandard..actViewMainMenu..Category
-#. PyIDEMainForm..actlStandard..actViewStatusBar..Category
-#. PyIDEMainForm..actlStandard..actRestoreEditor..Category
-#. PyIDEMainForm..actlStandard..actViewII..Category
-#. PyIDEMainForm..actlStandard..actViewCodeExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewFileExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewToDoList..Category
-#. PyIDEMainForm..actlStandard..actViewFindResults..Category
-#. PyIDEMainForm..actlStandard..actViewOutput..Category
-#. PyIDEMainForm..actlStandard..actViewUnitTests..Category
-#. PyIDEMainForm..actlStandard..actViewRegExpTester..Category
-#. PyIDEMainForm..actlStandard..actLayoutSave..Category
-#. PyIDEMainForm..actlStandard..actLayoutsDelete..Category
-#. PyIDEMainForm..actlStandard..actLayoutDebug..Category
-#. PyIDEMainForm..actlStandard..actMaximizeEditor..Category
-#. PyIDEMainForm..actlStandard..actEditorZoomIn..Category
-#. PyIDEMainForm..actlStandard..actEditorZoomOut..Category
-#. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Category
-#. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Category
-#. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Category
-#. PyIDEMainForm..actlStandard..actViewProjectExplorer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Category
-#. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Category
-#. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Category
-#. PyIDEMainForm..actlStandard..actSelectStyle..Category
-#: frmFindResults.dfm frmFunctionList.dfm frmPyIDEMain.dfm
-msgid "View"
-msgstr "نما"
 
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
@@ -4290,17 +4037,17 @@ msgstr "پیام"
 msgid "Position"
 msgstr "موقعیّت"
 
-#. MessagesWindow..BGPanel..FGPanel..TBToolbar1..BtnPreviousMsgs..Hint
-#. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
-#: frmMessages.dfm
-msgid "Show previous messages"
-msgstr "نمایش پیام های قبلی"
-
-#. MessagesWindow..BGPanel..FGPanel..TBToolbar1..BtnNextMsgs..Hint
+#. MessagesWindow..Panel1..BtnNextMsg..Hint
 #. MessagesWindow..MsgsActionList..actNextMsgs..Hint
 #: frmMessages.dfm
 msgid "Show next messages"
 msgstr "نمایش پیام های بعدی"
+
+#. MessagesWindow..Panel1..BtnPrevMsg..Hint
+#. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
+#: frmMessages.dfm
+msgid "Show previous messages"
+msgstr "نمایش پیام های قبلی"
 
 #. MessagesWindow..MsgsActionList..actClearAll..Caption
 #. WatchesWindow..TBXPopupMenu..mnClearall..Caption
@@ -4337,33 +4084,6 @@ msgstr "کاوشگر پروژه"
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
 msgstr "نوار ابزار کاوشگر پروژه"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectNew..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectSave..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Category
-#. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Category
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Category
-#: frmProjectExplorer.dfm
-msgid "Project"
-msgstr "پروژه"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #: frmProjectExplorer.dfm
@@ -4586,12 +4306,13 @@ msgstr "نوع موتور پایتون"
 msgid "Text position"
 msgstr "موقعیّت متن"
 
-#. PyIDEMainForm..StatusBar..StatusLED..Hint
+#. PyIDEMainForm..StatusBar..spiStatusLED..Hint
+#. PyIDEMainForm..StatusBar..spiLspLed..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
 msgid "Ready"
 msgstr "آماده"
 
-#. PyIDEMainForm..StatusBar..ExternalToolsLED..Hint
+#. PyIDEMainForm..StatusBar..spiExternalToolsLED..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tool Running"
 msgstr "ابزارهای خارجی در حال اجرا"
@@ -4633,6 +4354,11 @@ msgstr "پروژه ها/مورد"
 #: frmPyIDEMain.dfm
 msgid "&Source Code"
 msgstr "کد منبع"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
+#: frmPyIDEMain.dfm dmCommands.pas
+msgid "Parameters"
+msgstr "مولّفه ها"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
@@ -4711,8 +4437,8 @@ msgstr "نوار ابزار کاربر| نمایش/نهفتن نوار ابزا�
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
-msgid "&IDE Windows"
-msgstr "پنجره های محیط توسعه یکپارچه(IDE)"
+msgid "IDE &Windows"
+msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
@@ -4721,8 +4447,8 @@ msgstr "پنجرۀ اشکال زدایی"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
-msgid "&Navigate"
-msgstr "ناوبری"
+msgid "Navi&gate"
+msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -4787,30 +4513,6 @@ msgstr "ذخیره ی چیدمان رفع اشکال"
 msgid "Set the current layout as the debug layout"
 msgstr "ذخیره ی چیدمان کنونی به عنوان چیدمان رفع اشکال"
 
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Caption
-#. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
-#: frmPyIDEMain.dfm
-msgid "&Maximize Editor"
-msgstr "بیشینه کردن ویراشگر"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Hint
-#. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
-#: frmPyIDEMain.dfm
-msgid "Maximize editor window"
-msgstr "بیشینه کردن پنجره ی ویراشگر"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem77..Caption
-#. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
-#: frmPyIDEMain.dfm
-msgid "&Restore Editor"
-msgstr "بازیابی ویرایشگر به حالت قبل"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem77..Hint
-#. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
-#: frmPyIDEMain.dfm
-msgid "Restore editor window"
-msgstr "بازیابی پنجره ی ویرایشگر به حالت قبل"
-
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project"
@@ -4831,6 +4533,11 @@ msgstr "ابزارها"
 msgid "Source Code Views"
 msgstr "نماهای کد منبع"
 
+#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
+#: frmPyIDEMain.dfm
+msgid "Tools"
+msgstr "ابزارها"
+
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tools"
@@ -4840,6 +4547,11 @@ msgstr "ابزارهای خارجی"
 #: frmPyIDEMain.dfm
 msgid "&Options"
 msgstr "گزینه ها"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..Caption
+#: frmPyIDEMain.dfm
+msgid "Import/Export"
+msgstr "ورود/صدور"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..Caption
 #: frmPyIDEMain.dfm
@@ -4966,15 +4678,6 @@ msgstr "منوی اصلی"
 msgid "View/Hide main menu"
 msgstr "نمایش/نهفتن منوی اصلی"
 
-#. PyIDEMainForm..actlStandard..actCallStackWin..Category
-#. PyIDEMainForm..actlStandard..actVariablesWin..Category
-#. PyIDEMainForm..actlStandard..actBreakPointsWin..Category
-#. PyIDEMainForm..actlStandard..actWatchesWin..Category
-#. PyIDEMainForm..actlStandard..actMessagesWin..Category
-#: frmPyIDEMain.dfm
-msgid "Debug Windows"
-msgstr "پنجرۀ اشکال زدایی"
-
 #. PyIDEMainForm..actlStandard..actCallStackWin..Caption
 #. PyIDEMainForm..actlStandard..actNavCallStack..Caption
 #: frmPyIDEMain.dfm
@@ -5024,8 +4727,8 @@ msgstr "تعیین مؤلّفه های محیط دستور خط"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
-msgid "&Import Module"
-msgstr "وارد کردن پیمانه"
+msgid "Import &Module"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
@@ -5074,8 +4777,8 @@ msgstr "خروج"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
-msgid "&Status Bar"
-msgstr "نوار وضعیّت"
+msgid "Status &Bar"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -5091,8 +4794,8 @@ msgstr ""
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
-msgid "&Configure External Run..."
-msgstr "پیکربندی اجرای خارجی..."
+msgid "Configure &External Run..."
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
@@ -5115,6 +4818,16 @@ msgstr "اشکال زدایی آخرین اسکریپت"
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Debug|Debug active script"
 msgstr "اشکال زدایی |اشکال زدایی اسکریپت فعّال"
+
+#. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
+#: frmPyIDEMain.dfm
+msgid "&Restore Editor"
+msgstr "بازیابی ویرایشگر به حالت قبل"
+
+#. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
+#: frmPyIDEMain.dfm
+msgid "Restore editor window"
+msgstr "بازیابی پنجره ی ویرایشگر به حالت قبل"
 
 #. PyIDEMainForm..actlStandard..actRunToCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5210,8 +4923,8 @@ msgstr "تغییر وضعیّت نقطه های توّقف"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmPyIDEMain.dfm
-msgid "&Clear All Breakpoints"
-msgstr "پاکسازی همه ی نقطه های توقّف"
+msgid "Clear A&ll Breakpoints"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
@@ -5292,8 +5005,8 @@ msgstr "نمایش/نهفتن لیست اقدام ها"
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Caption
 #: frmPyIDEMain.dfm
-msgid "&Find in Files Results"
-msgstr "نتایج جستجو در فایل ها"
+msgid "Find &in Files Results"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Hint
 #: frmPyIDEMain.dfm
@@ -5321,14 +5034,6 @@ msgstr "آزمون بخش های کد"
 msgid "View/Hide Unit Tests Window"
 msgstr "نمایش/نهفتن پنجره ی آزمون های واحدی"
 
-#. PyIDEMainForm..actlStandard..actFindDefinition..Category
-#. PyIDEMainForm..actlStandard..actFindReferences..Category
-#. PyIDEMainForm..actlStandard..actBrowseBack..Category
-#. PyIDEMainForm..actlStandard..actBrowseForward..Category
-#: frmPyIDEMain.dfm
-msgid "Refactoring"
-msgstr "اصلاح دوباره"
-
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &Definition"
@@ -5341,8 +5046,8 @@ msgstr "پیدا کردن تعریف یک شناساگر"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
-msgid "Find &References"
-msgstr "یافتن ارجاع ها"
+msgid "Find R&eferences"
+msgstr ""
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
@@ -5378,6 +5083,16 @@ msgstr "آزماینده ی عبارات منظّم و با قاعده"
 #: frmPyIDEMain.dfm
 msgid "View/Hide Regular Expression Tester"
 msgstr "نمایش/نهفتن آزماینده ی عبارات منظّم و با قاعده"
+
+#. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
+#: frmPyIDEMain.dfm
+msgid "&Maximize Editor"
+msgstr "بیشینه کردن ویراشگر"
+
+#. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
+#: frmPyIDEMain.dfm
+msgid "Maximize editor window"
+msgstr "بیشینه کردن پنجره ی ویراشگر"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
@@ -5473,23 +5188,6 @@ msgstr "فایل جدید..."
 #: frmPyIDEMain.dfm
 msgid "New file from template"
 msgstr "فایل جدید از روی قالب"
-
-#. PyIDEMainForm..actlStandard..actNavWatches..Category
-#. PyIDEMainForm..actlStandard..actNavBreakpoints..Category
-#. PyIDEMainForm..actlStandard..actNavInterpreter..Category
-#. PyIDEMainForm..actlStandard..actNavVariables..Category
-#. PyIDEMainForm..actlStandard..actNavCallStack..Category
-#. PyIDEMainForm..actlStandard..actNavMessages..Category
-#. PyIDEMainForm..actlStandard..actNavFileExplorer..Category
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Category
-#. PyIDEMainForm..actlStandard..actNavTodo..Category
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Category
-#. PyIDEMainForm..actlStandard..actNavOutput..Category
-#. PyIDEMainForm..actlStandard..actNavEditor..Category
-#. PyIDEMainForm..actlStandard..actNavProjectExplorer..Category
-#: frmPyIDEMain.dfm
-msgid "IDE Navigation"
-msgstr "ناوبری محیط توسعه یکپارچه(IDE)"
 
 #. PyIDEMainForm..actlStandard..actNavWatches..Hint
 #: frmPyIDEMain.dfm
@@ -5727,14 +5425,6 @@ msgstr "گشودن فایل راه دور با پروتکل پوسته ی ایم
 msgid "Python Interpreter"
 msgstr "مفسّر پایتون"
 
-#. PythonIIForm..InterpreterActionList..actCopyHistory..Category
-#. PythonIIForm..InterpreterActionList..actClearContents..Category
-#. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Category
-#. PythonIIForm..InterpreterActionList..actPasteAndExecute..Category
-#: frmPythonII.dfm
-msgid "Interpreter"
-msgstr "مفسّر"
-
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Caption
 #: frmPythonII.dfm
 msgid "Copy &History"
@@ -5969,14 +5659,6 @@ msgstr "0 آزمون اجرا شد"
 msgid "Failures/Errors : 0/0"
 msgstr "شکست ها/خطاها: 0/0"
 
-#. UnitTestWindow..DialogActions..actRefresh..Category
-#. UnitTestWindow..DialogActions..actRun..Category
-#. UnitTestWindow..DialogActions..actStop..Category
-#. UnitTestWindow..DialogActions..actClearAll..Category
-#: frmUnitTests.dfm
-msgid "Commands"
-msgstr "فرمان ها"
-
 #. UnitTestWindow..DialogActions..actRefresh..Hint
 #: frmUnitTests.dfm
 msgid "Refresh tests|Extract tests from active module"
@@ -6078,6 +5760,11 @@ msgstr "ویرایش کشیک"
 #: frmWatches.dfm
 msgid "Clear all watches"
 msgstr "پاکسازی همه ی کشیک ها"
+
+#. WebPreviewForm..Caption
+#: frmWebPreview.dfm
+msgid "Web Preview"
+msgstr ""
 
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
@@ -6250,36 +5937,6 @@ msgstr ""
 "امکان ایجاد PyScripter را به وجود آوردند. PyScripter از پروژه ها و سازه های "
 "زیر بهره برده است:"
 
-#: dlgAboutPyScripter.pas
-msgid ""
-"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
-"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
-"JVCL (www.github.com/project-jedi/jvcl)\n"
-"SynEdit (www.sourceforge.net/projects/synedit)\n"
-"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
-"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
-"GExperts (www.gexperts.org)\n"
-"Syn Editor (www.sourceforge.net/projects/syn)\n"
-"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
-"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
-"SpTBXLib(www.silverpointdevelopment.com)\n"
-"TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)"
-msgstr ""
-"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
-"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
-"JVCL (www.github.com/project-jedi/jvcl)\n"
-"SynEdit (www.sourceforge.net/projects/synedit)\n"
-"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
-"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
-"GExperts (www.gexperts.org)\n"
-"Syn Editor (www.sourceforge.net/projects/syn)\n"
-"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
-"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
-"SpTBXLib(www.silverpointdevelopment.com)\n"
-"TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)"
-
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
@@ -6361,10 +6018,8 @@ msgstr "اسپانیایی:%s"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
-"Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
+"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
-"کمک های بسیاری از کاربران به ما انگیزه قوی برای توسعه ی این پروژه داده است.\n"
-"با سپاس از پیشتیبانی سخاوتمندانه ی Tranquil IT (https://www.tranquil.it) سازندگان پروژه ی WAPT (apt-get برای ویندوز) https://www.wapt.fr."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6462,6 +6117,11 @@ msgstr "مسیر مورد نظر برای لیست اقدامات"
 msgid "External Run Properties"
 msgstr "ویژگی های اجرای با مفسّر خارجی"
 
+#: dlgUnitTestWizard.pas frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Python Module \"%s\""
+msgstr "پیمانه ی پایتونی \"%s\""
+
 #: dmCommands.pas
 msgid "IDE"
 msgstr "محیط توسعه یکپارچه(IDE)"
@@ -6473,10 +6133,6 @@ msgstr "بررسی خودکار به روز رسانی ها"
 #: dmCommands.pas
 msgid "Days between update checks"
 msgstr "فاصله ی بین روزهای بررسی به روز رسانی"
-
-#: dmCommands.pas
-msgid "Mask FPU Exceptions"
-msgstr "پوشاندن استثناء های واحد پردازش اعداد مختلط (FPU)"
 
 #: dmCommands.pas
 msgid "Editor tab position"
@@ -6506,14 +6162,17 @@ msgstr "قالب فایل برای اسکریپت های پایتون"
 msgid "Number of recent files"
 msgstr "شمار فایل های اخیر"
 
-#. Programmer's name for it: SFileChangeNotification
-#: dmCommands.pas StringResources.pas
-msgid "File Change Notification"
-msgstr "اعلان تغییر فایل"
-
 #: dmCommands.pas
 msgid "Style Main Window Border"
 msgstr "تغییر سبک لبه ی پنجره ی اصلی"
+
+#: dmCommands.pas
+msgid "Restore open files"
+msgstr "بازگشایی فایل های باز"
+
+#: dmCommands.pas
+msgid "Restore open project"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -6526,10 +6185,6 @@ msgstr "ذخیره ی محیط قبل از اجرا"
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
 msgstr "مهلت اجرای برنامه بر حسب میلی ثانیه"
-
-#: dmCommands.pas
-msgid "UTF8 in interactive interpreter"
-msgstr "مفسّر تعاملی با کد گذاری UTF-8"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6572,6 +6227,10 @@ msgid "Step into open files only"
 msgstr "قدم گذاشتن فقط به درون فایل های باز"
 
 #: dmCommands.pas
+msgid "Mask FPU Exceptions"
+msgstr "پوشاندن استثناء های واحد پردازش اعداد مختلط (FPU)"
+
+#: dmCommands.pas
 msgid "Initially expanded"
 msgstr "گسترش یافته از ابتدا"
 
@@ -6590,10 +6249,6 @@ msgstr "فایل متنی"
 #: dmCommands.pas
 msgid "Editor"
 msgstr "ویرایشگر"
-
-#: dmCommands.pas
-msgid "Restore open files"
-msgstr "بازگشایی فایل های باز"
 
 #: dmCommands.pas
 msgid "Search text at caret"
@@ -6658,10 +6313,6 @@ msgstr "رنگ برجسته کردن کلمه ی علامت خورده"
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
 msgstr "نمایش نام بسته در سربرگ ویرایش"
-
-#: dmCommands.pas
-msgid "File line limit for syntax check as you type"
-msgstr "محدودیّت سطرهای فایل برای بررسی همزمان با تایپ دستور"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
@@ -6737,6 +6388,11 @@ msgstr "منوی محتوای کاوشگر فایل"
 msgid "File Explorer background processing"
 msgstr "پردازش پس زمینه ی کاوشگر فایل"
 
+#. Programmer's name for it: SFileChangeNotification
+#: dmCommands.pas StringResources.pas
+msgid "File Change Notification"
+msgstr "اعلان تغییر فایل"
+
 #: dmCommands.pas
 msgid "SSH command"
 msgstr "دستور پوسته ی ایمن"
@@ -6748,6 +6404,14 @@ msgstr "دستور پروتکل کپی امن فایل (SCP)"
 #: dmCommands.pas
 msgid "Disable Variables Window with SSH"
 msgstr "غیر فعّال سازی پنجره ی متغیّرها با SSH"
+
+#: dmCommands.pas frmPyIDEMain.pas
+msgid "Language server"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Language server debug output"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Modifiers"
@@ -6762,11 +6426,6 @@ msgid "File download failed"
 msgstr "دریافت فایل شکست خورد"
 
 #: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Python Module \"%s\""
-msgstr "پیمانه ی پایتونی \"%s\""
-
-#: frmCodeExplorer.pas
 msgid "Imports"
 msgstr "فراخوان ها"
 
@@ -6774,25 +6433,11 @@ msgstr "فراخوان ها"
 msgid "Imported modules"
 msgstr "پیمانه های فراخوان شده"
 
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Imported Module \"%s\" as %s at line %d"
-msgstr "پیمانه ی \"%s\" به عنوان \"%s\" در خط %d وارد شده"
-
+#. else
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported Module \"%s\" at line %d"
 msgstr "پیمانه ی \"%s\" در خط %d وارد شده"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Imported identifier \"%s\" from module \"%s\""
-msgstr "شناساگر \"%s\" از پیمانه ی \"%s\"  وارد شده"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Imported identifier \"%s\" as \"%s\" from module \"%s\""
-msgstr "شناساگر \"%s\" به عنوان \"%s\" از پیمانه ی \"%s\"  وارد شده"
 
 #: frmCodeExplorer.pas
 msgid "Global variables"
@@ -6802,15 +6447,6 @@ msgstr "متغیّرهای عمومی"
 #, object-pascal-format
 msgid "Global variable \"%s\" defined at line %d"
 msgstr "متغیّر عمومی \"%s\"  در خط %d تعریف شده"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid "Class \"%s\" defined in line %d"
-msgstr "کلاس  \"%s\"در خط  %d تعریف شده"
-
-#: frmCodeExplorer.pas
-msgid "Inherits from"
-msgstr "به ارث می برد از"
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
@@ -6824,24 +6460,6 @@ msgstr "ویژگی های کلاس"
 #, object-pascal-format
 msgid "Class attribute \"%s\" defined at line %d"
 msgstr "ویژگی کلاس  \"%s\" در خط %d تعریف شده"
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid ""
-"Function \"%s\" defined at line %d\n"
-"Arguments: %s"
-msgstr ""
-"تابع %s\" در خط %d تعریف شده\n"
-"مؤلّفه ها: %s\""
-
-#: frmCodeExplorer.pas
-#, object-pascal-format
-msgid ""
-"Method %s defined at line %d\n"
-"Arguments: %s"
-msgstr ""
-"شگرد (Method)  %s در خط %d تعریف شده\n"
-"مؤلّفه ها: %s"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
@@ -6923,6 +6541,10 @@ msgstr "حالت اشکال زدا: "
 msgid "Python Not Available"
 msgstr "پایتون در دسترس نیست"
 
+#: frmPyIDEMain.pas
+msgid "Not available"
+msgstr ""
+
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
@@ -6958,8 +6580,8 @@ msgstr "عبارت جدید را وارد کنید:"
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
 #: StringResources.pas
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr "فایل های پایتون (*.py;*.pyw)|*.py;*.pyw"
+msgid "Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
+msgstr ""
 
 #. Programmer's name for it: sCythonFileFilter
 #: StringResources.pas
@@ -7698,6 +7320,26 @@ msgstr "*** موتور پایتون  %s  فعّال است***"
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
 msgstr "مفسّر داخلی پایتون در دسترس نیست"
+
+#. Programmer's name for it: SPythonLoadError
+#: StringResources.pas
+msgid ""
+"PyScripter could not load a Python engine.\n"
+"**Before** using PyScripter, you must ensure that a version of Python greater or equal to 3.6 is installed on your machine.\n"
+"If you do not have one installed, you can download one from http://www.python.org/.\n"
+"\n"
+"The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
+"The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
+msgstr ""
+
+#. Programmer's name for it: SPythonFindError
+#: StringResources.pas
+msgid ""
+"PyScripter could not find a usable Python installation at the specified path.\n"
+"Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**\n"
+"with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
+"32-bit and 64-bit Windows with 32-bit versions of Python."
+msgstr ""
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -8490,12 +8132,6 @@ msgstr "خط فرمان:%s"
 #: StringResources.pas
 msgid "Working directory: "
 msgstr "شاخه ی کاری: "
-
-#. Programmer's name for it: SPrintTimeOut
-#: StringResources.pas
-#, object-pascal-format
-msgid "Timeout: %d ms"
-msgstr "مهلت: %d میلی ثانیه"
 
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
