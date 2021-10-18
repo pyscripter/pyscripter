@@ -310,9 +310,9 @@ end
     BatchLine9=pushd PyScripter
     BatchLine10=move Lsp Lib\
     BatchLine11=popd
-    BatchLine12=cd ..
-    BatchLine13=IF EXIST PyScripter-%PyScripterVersion%-%OSPlatform%.zip del PyScripter-%PyScripterVersion%-%OSPlatform%.zip 
-    BatchLine14="c:\Program Files\7-Zip\7z.exe" a PyScripter-%PyScripterVersion%-%OSPlatform%.zip PyScripter-%PyScripterVersion%-%OSPlatform%\PyScripter
+    BatchLine12=IF EXIST ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip del ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip 
+    BatchLine13="c:\Program Files\7-Zip\7z.exe" a ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip PyScripter
+    BatchLine14=cd ..
     BatchLine15=rmdir /Q /S PyScripter-%PyScripterVersion%-%OSPlatform%  
     BatchLine16=popd 
   end
