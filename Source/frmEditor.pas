@@ -1636,7 +1636,7 @@ begin
     CommandsDataModule.SynWebCompletion.OnAfterCodeCompletion := nil;
   end;
 
-  if fOldEditorForm <> Self then
+  if (fOldEditorForm <> Self) and not GI_PyIDEServices.IsClosing then
     CodeExplorerWindow.UpdateWindow(fEditor.FSynLsp.DocSymbols, ceuEditorEnter);
   fOldEditorForm := Self;
 

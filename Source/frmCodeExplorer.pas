@@ -291,6 +291,12 @@ begin
     begin
       FreeAndNil(TDocSymbols(Editor.DocSymbols).ModuleNode);
       TDocSymbols(Editor.DocSymbols).ModuleNode := NewModuleNode;
+    end
+    else
+    begin
+      // Editor must have been destroyed
+      NewModuleNode.Free;
+      Exit;
     end;
 
     if not SameFileName(FFileId, FileId) then
@@ -510,7 +516,10 @@ procedure TCodeExplorerWindow.UpdateWindow(DocSymbols: TDocSymbols;
   UpdateReason: TCEUpdateReason);
 Var
   Symbols: TJsonArray;
+  LFileId: string;
 begin
+  Assert(Assigned(DocSymbols));
+  LFileId := DocSymbols.FileId;
   case UpdateReason of
     ceuSymbolsChanged:
       begin
@@ -523,7 +532,7 @@ begin
               // DocSymbols is being destroyed
               Assert(GetCurrentThreadId = MainThreadId);
               FreeAndNil(DocSymbols.ModuleNode);
-              if FFileId = DocSymbols.FileId then
+              if FFileId = LFileId then
               begin
                 ExplorerTree.Clear;
                 FModuleNode := nil;
@@ -532,7 +541,7 @@ begin
             else
               TThread.ForceQueue(nil, procedure
                 begin
-                    UpdateTree(DocSymbols.FileId, ceuSymbolsChanged, nil);
+                    UpdateTree(LFileId, ceuSymbolsChanged, nil);
                 end);
           end
           else
@@ -540,7 +549,7 @@ begin
             Symbols := DocSymbols.Symbols.Clone as TJsonArray;
             var Task := TTask.Create(procedure
               begin
-                UpdateModuleNode(DocSymbols.FileId, Symbols);
+                UpdateModuleNode(LFileId, Symbols);
               end);
             Task.Start;
           end;
@@ -552,7 +561,8 @@ begin
       begin
         TThread.ForceQueue(nil, procedure
           begin
-            UpdateTree(DocSymbols.FileId, ceuEditorEnter, nil);
+            if not GI_PyIDEServices.IsClosing then
+              UpdateTree(LFileId, ceuEditorEnter, nil);
           end);
       end;
   end;
