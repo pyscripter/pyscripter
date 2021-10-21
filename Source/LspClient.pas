@@ -80,8 +80,8 @@ type
     destructor Destroy; override;
     procedure StartServer;
     procedure SendToServer(const Bytes: TBytes);
-    // Asynchronous request - Handler should not Free Result and Error
-    // Returns unique Id
+    // Asynchronous request - Returns unique Id
+    // Handler should Free Result and Error
     function Request(const Method, Params: string; Handler: THandleResponse): NativeUInt;
     // Synchronous request - Free Result and Error!
     procedure SyncRequest(const Method, Params: string;
@@ -209,35 +209,32 @@ procedure TLspClient.HandleInitialize(id: NativeUInt; Result, Error: TJsonValue)
 begin
   if Assigned(Result) then
   begin
-    var ServerCapabilities := Result.P['capabilities'] as TJSONObject;
-    if not Assigned(ServerCapabilities) then Exit;
-
-    ProcessServerCapabilities(ServerCapabilities);
-    FStatus := lspInitialized;
-    // Send notifications
-    Notify('initialized', '{}');
-    if Assigned(FOnInitialized) then
-      FOnInitialized(Self);
+    var ServerCapabilities := Result.FindValue('capabilities');
+    if Assigned(ServerCapabilities) then
+    begin
+      ProcessServerCapabilities(ServerCapabilities as TJSONObject);
+      FStatus := lspInitialized;
+      // Send notifications
+      Notify('initialized', '{}');
+      if Assigned(FOnInitialized) then
+        FOnInitialized(Self);
+    end;
+    Result.Free;
   end;
+  Error.Free;
 end;
 
 procedure TLspClient.HandleShutdown(id: NativeUInt; Result, Error: TJsonValue);
 begin
   Notify('exit', 'null');
+  Result.Free;
+  Error.Free;
 end;
 
 procedure TLspClient.HandleSyncRequest(Id: NativeUInt; AResult, AError: TJsonValue);
 begin
-  if Assigned(AResult) then
-  begin
-    AResult.Owned := False;
-    TSyncRequestHelper(fSyncHelper).Result := AResult;
-  end;
-  if Assigned(AError) then
-  begin
-    AError.Owned := False;
-    TSyncRequestHelper(fSyncHelper).Error := AError;
-  end;
+  TSyncRequestHelper(fSyncHelper).Result := AResult;
+  TSyncRequestHelper(fSyncHelper).Error := AError;
   TSyncRequestHelper(fSyncHelper).SyncEvent.SetEvent;
 end;
 
@@ -292,7 +289,11 @@ begin
                 if Assigned(fOnLspNotification) and
                   Response.TryGetValue('params', Params)
                 then
+                begin
+                  Params.Owned := False;
+                  FreeAndNil(Response);
                   fOnLspNotification(Method, Params);
+                end;
               end;
             end
             else if Response.TryGetValue<NativeUInt>('id', Id) then
@@ -311,9 +312,16 @@ begin
               if Assigned(ResponseHandler) then
               begin
                 Error := nil;
-                Result := nil;
-                if not Response.TryGetValue('result', Result) then
-                  Response.TryGetValue('error', Error);
+                Result := Response.FindValue('result');
+                if Assigned(Result) then
+                  Result.Owned := False
+                else
+                begin
+                  Error := Response.FindValue('error');
+                  if Assigned(Error) then
+                    Error.Owned := False;
+                end;
+                FreeAndNil(Response);
                 ResponseHandler(Id, Result, Error);
               end;
             end;

@@ -33,7 +33,6 @@ type
 
   TBreakpointChangeEvent = procedure(Sender: TObject; Editor : IEditor; ALine: integer) of object;
   TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
-  TDebuggerYieldEvent = procedure(Sender: TObject; DoIdle : Boolean) of object;
   TDebuggerPosChangeEvent = procedure(Sender: TObject; const OldPos, NewPos: TEditorPos) of object;
 
   TPythonControl = class(TComponent, IPyControl)
@@ -51,7 +50,6 @@ type
     fOnCurrentPosChange: TDebuggerPosChangeEvent;
     fOnErrorPosChange: TDebuggerPosChangeEvent;
     fOnStateChange: TDebuggerStateChangeEvent;
-    fOnYield: TDebuggerYieldEvent;
     fOnPythonVersionChange: TJclNotifyEventBroadcast;
     fActiveInterpreter: TPyBaseInterpreter;
     fActiveDebugger: TPyBaseDebugger ;
@@ -103,8 +101,6 @@ type
     function IsBreakpointLine(Editor: IEditor; ALine: integer;
       var Disabled : boolean): boolean;
     function IsExecutableLine(Editor: IEditor; ALine: integer): boolean;
-    // Event processing
-    procedure DoYield(DoIdle : Boolean);
     // Running Python Scripts
     procedure Run(ARunConfig : TRunConfiguration);
     procedure Debug(ARunConfig : TRunConfiguration;  InitStepIn : Boolean = False;
@@ -147,7 +143,6 @@ type
       write fOnErrorPosChange;
     property OnStateChange: TDebuggerStateChangeEvent read fOnStateChange
       write fOnStateChange;
-    property OnYield: TDebuggerYieldEvent read fOnYield write fOnYield;
     property OnPythonVersionChange: TJclNotifyEventBroadcast read GetOnPythonVersionChange;
   end;
 
@@ -664,12 +659,6 @@ begin
       end;
     end;
   end;
-end;
-
-procedure TPythonControl.DoYield(DoIdle : Boolean);
-begin
-  if Assigned(fOnYield) then
-    fOnYield(Self, DoIdle);
 end;
 
 procedure TPythonControl.ExternalRun(ARunConfig: TRunConfiguration);

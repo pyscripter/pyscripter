@@ -909,7 +909,6 @@ end;
 procedure TPyInternalDebugger.UserYield(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-//  PyControl.DoYield(False);
   if fDebuggerCommand = dcAbort then begin
     InternalInterpreter.Debugger.set_quit();
     TThread.Synchronize(nil, procedure

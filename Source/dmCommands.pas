@@ -2047,7 +2047,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 20);
+    SetLength(Options, 19);
     Options[0].PropertyName := 'SearchTextAtCaret';
     Options[0].DisplayName := _('Search text at caret');
     Options[1].PropertyName := 'CreateBackupFiles';
@@ -2062,32 +2062,30 @@ begin
     Options[5].DisplayName := _('Auto-complete brackets');
     Options[6].PropertyName := 'MarkExecutableLines';
     Options[6].DisplayName := _('Show executable line marks');
-    Options[7].PropertyName := 'CheckSyntaxAsYouType';
-    Options[7].DisplayName := _('Check syntax as you type');
-    Options[8].PropertyName := 'NewFileLineBreaks';
-    Options[8].DisplayName := _('Default line break format for new files');
-    Options[9].PropertyName := 'NewFileEncoding';
-    Options[9].DisplayName := _('Default file encoding for new files');
-    Options[10].PropertyName := 'DetectUTF8Encoding';
-    Options[10].DisplayName := _('Detect UTF-8 encoding when opening files');
-    Options[11].PropertyName := 'AutoReloadChangedFiles';
-    Options[11].DisplayName := _('Auto-reload changed files');
-    Options[12].PropertyName := 'AutoHideFindToolbar';
-    Options[12].DisplayName := _('Auto-hide find toolbar');
-    Options[13].PropertyName := 'HighlightSelectedWord';
-    Options[13].DisplayName := _('Highlight selected word');
-    Options[14].PropertyName := 'HighlightSelectedWordColor';
-    Options[14].DisplayName := _('Highlight color of selected word');
-    Options[15].PropertyName := 'DisplayPackageNames';
-    Options[15].DisplayName := _('Display package names in editor tabs');
-    Options[16].PropertyName := 'CodeFoldingEnabled';
-    Options[16].DisplayName := _('Code folding enabled by default');
-    Options[17].PropertyName := 'CodeFolding';
-    Options[17].DisplayName := _('Code folding options');
-    Options[18].PropertyName := 'CompactLineNumbers';
-    Options[18].DisplayName := _('Compact Line Numbers');
-    Options[19].PropertyName := 'TrimTrailingSpacesOnSave';
-    Options[19].DisplayName := _('Trim trailing spaces when files are saved');
+    Options[7].PropertyName := 'NewFileLineBreaks';
+    Options[7].DisplayName := _('Default line break format for new files');
+    Options[8].PropertyName := 'NewFileEncoding';
+    Options[8].DisplayName := _('Default file encoding for new files');
+    Options[9].PropertyName := 'DetectUTF8Encoding';
+    Options[9].DisplayName := _('Detect UTF-8 encoding when opening files');
+    Options[10].PropertyName := 'AutoReloadChangedFiles';
+    Options[10].DisplayName := _('Auto-reload changed files');
+    Options[11].PropertyName := 'AutoHideFindToolbar';
+    Options[11].DisplayName := _('Auto-hide find toolbar');
+    Options[12].PropertyName := 'HighlightSelectedWord';
+    Options[12].DisplayName := _('Highlight selected word');
+    Options[13].PropertyName := 'HighlightSelectedWordColor';
+    Options[13].DisplayName := _('Highlight color of selected word');
+    Options[14].PropertyName := 'DisplayPackageNames';
+    Options[14].DisplayName := _('Display package names in editor tabs');
+    Options[15].PropertyName := 'CodeFoldingEnabled';
+    Options[15].DisplayName := _('Code folding enabled by default');
+    Options[16].PropertyName := 'CodeFolding';
+    Options[16].DisplayName := _('Code folding options');
+    Options[17].PropertyName := 'CompactLineNumbers';
+    Options[17].DisplayName := _('Compact Line Numbers');
+    Options[18].PropertyName := 'TrimTrailingSpacesOnSave';
+    Options[18].DisplayName := _('Trim trailing spaces when files are saved');
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');
@@ -2142,10 +2140,12 @@ begin
     Options[4].DisplayName := _('Disable Variables Window with SSH');
   end;
   with Categories[10] do begin
-    DisplayName := _('Language server');
-    SetLength(Options, 1);
+    DisplayName := _('Language Server');
+    SetLength(Options, 2);
     Options[0].PropertyName := 'LspDebug';
     Options[0].DisplayName := _('Language server debug output');
+    Options[1].PropertyName := 'CheckSyntaxAsYouType';
+    Options[1].DisplayName := _('Check syntax as you type');
   end;
 
   // Shell Integration

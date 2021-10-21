@@ -138,10 +138,10 @@ Const
    InitializationOptionsLsp =
     '{'#13#10 +
     '    "diagnostics": {'#13#10 +
-    '      "enable": %s,'#13#10 +
+    '      "enable": true,'#13#10 +
     '      "didOpen": true,'#13#10 +
-    '      "didChange": true,'#13#10 +
-    '      "didSave": false'#13#10 +
+    '      "didChange": %s,'#13#10 +
+    '      "didSave": true'#13#10 +
     '    },'#13#10 +
     '   "completion": {'#13#10 +
     '       "disableSnippets": true,'#13#10 +

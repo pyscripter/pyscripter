@@ -101,6 +101,7 @@ constructor THighlightSearchPlugin.Create(ASynEdit: TSynEdit;
   AFoundItems: TObjectList);
 begin
   inherited Create(ASynEdit);
+  FHandlers := [phLinesInserted, phLinesDeleted, phAfterPaint];
   fFoundItems := AFoundItems;
 end;
 

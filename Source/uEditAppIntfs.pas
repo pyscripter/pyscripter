@@ -99,6 +99,7 @@ type
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
     procedure Retranslate;
+    procedure RefreshSymbols;
     property FileName: string read GetFileName;
     property RemoteFileName : string read GetRemoteFileName;
     property FileId: string read GetFileId;

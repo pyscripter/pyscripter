@@ -1342,7 +1342,6 @@ type
     procedure DebuggerStateChange(Sender: TObject; OldState,
       NewState: TDebuggerState);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
-    procedure DebuggerYield(Sender: TObject; DoIdle : Boolean);
     procedure PyIDEOptionsChanged(Sender: TObject);
     procedure SetupCustomizer;
     procedure SetupLanguageMenu;
@@ -2446,17 +2445,6 @@ begin
 
   CallStackWindow.UpdateWindow(NewState, OldState);  // also updates Variables and Watches
   UpdateDebugCommands(NewState);
-end;
-
-procedure TPyIDEMainForm.DebuggerYield(Sender: TObject; DoIdle : Boolean);
-begin
-  Application.ProcessMessages;
-  if DoIdle then
-    // Application.Idle yields control to other applications
-    // and calls CheckSynchronize which runs synchronized methods initiated in threads
-    Application.DoApplicationIdle
-  else
-    CheckSynchronize;
 end;
 
 procedure TPyIDEMainForm.SaveFileModules;
@@ -4606,6 +4594,7 @@ begin
 
       Result.SynEdit.ClearUndo;
       Result.SynEdit.Modified := False;
+      Result.RefreshSymbols;
 
       TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
       // Jupyter support
@@ -4800,7 +4789,6 @@ begin
       OnCurrentPosChange := DebuggerCurrentPosChange;
       OnErrorPosChange := DebuggerErrorPosChange;
       OnStateChange := DebuggerStateChange;
-      OnYield := DebuggerYield;
     end;
 
     // This is needed to update the variables window

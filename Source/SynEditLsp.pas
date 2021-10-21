@@ -30,8 +30,6 @@ type
     Msg: string;
   end;
 
-  TDiagnostics = TThreadList<TDiagnostic>;
-
   TLspSynEditPlugin = class;
 
   TDocSymbols = class
@@ -63,19 +61,21 @@ type
     FIncChanges: TJSONArray;
     FVersion: NativeUInt;
     FTransmitChanges: Boolean;
-    FDiagnostics: TDiagnostics;
+    FDiagnostics:  TList<TDiagnostic>;
+    FNewDiagnostics: TThreadList<TDiagnostic>;
+    FNeedToRefreshDiagnostics: Boolean;
+    FNeedToRefreshSymbols: Boolean;
     FDocSymbols: TDocSymbols;
     procedure FOnLspInitialized(Sender: TObject);
     class var FDocSymbolsLock: TRTLCriticalSection;
     class var FSymbolsRequests: TStringList;
     class var Instances: TThreadList<TLspSynEditPlugin>;
     class function FindPluginWithFileId(const AFileId: string): TLspSynEditPlugin;
-    class procedure RefreshSymbols(const AFileId: string);
-    class procedure HandleResponse(Id: NativeUInt; Result, Error: TJsonValue);
+    class procedure HandleSymbolsResponse(Id: NativeUInt; Result, Error: TJsonValue);
   protected
     procedure LinesInserted(FirstLine, Count: Integer); override;
     procedure LinesDeleted(FirstLine, Count: Integer); override;
-    procedure LinesPutted(aIndex: Integer; aCount: Integer); override;
+    procedure LinePut(aIndex: Integer; const OldLine: string); override;
     procedure LinesChanged; override;
   public
     constructor Create(AOwner: TCustomSynEdit);
@@ -85,12 +85,16 @@ type
     procedure FileSaved;
     procedure FileSavedAs(const FileId: string; LangId: TLangId);
     procedure InvalidateErrorLines;
+    procedure ApplyNewDiagnostics;
+    procedure ClearDiagnostics;
     property TransmitChanges: boolean read fTransmitChanges
       write fTransmitChanges;
-    property Diagnostics: TDiagnostics read FDiagnostics;
+    property Diagnostics: TList<TDiagnostic> read FDiagnostics;
+    property NeedToRefreshSymbols: Boolean read FNeedToRefreshSymbols;
     property DocSymbols: TDocSymbols read FDocSymbols;
     class constructor Create;
     class destructor Destroy;
+    class procedure RefreshSymbols(const AFileId: string);
     class procedure OnLspShutDown(Sender: TObject);
     class procedure HandleLspNotify(const Method: string; Params: TJsonValue);
   end;
@@ -115,9 +119,11 @@ uses
 constructor TLspSynEditPlugin.Create(AOwner: TCustomSynEdit);
 begin
   inherited Create(AOwner);
+  FHandlers := [phLinesInserted, phLinesDeleted, phLinePut, phLinesChanged];
   FIncChanges := TJSONArray.Create;
   FIncChanges.Owned := False;
-  FDiagnostics := TDiagnostics.Create;
+  FDiagnostics := TList<TDiagnostic>.Create;
+  FNewDiagnostics := TThreadList<TDiagnostic>.Create;
   TJedi.OnInitialized.AddHandler(FOnLspInitialized);
   Instances.Add(Self);
   FDocSymbols := TDocSymbols.Create(Self);
@@ -128,6 +134,7 @@ begin
   Instances.Remove(Self);
   TJedi.OnInitialized.RemoveHandler(FOnLspInitialized);
   FDiagnostics.Free;
+  FNewDiagnostics.Free;
   FIncChanges.Free;
   FDocSymbols.Free;
   inherited;
@@ -165,6 +172,7 @@ begin
   Assert(FileId <> '');
   FFileId := FileId;
   FLangId := LangId;
+  FNeedToRefreshSymbols := False;
 
   FVersion := 0;
   if not TJedi.Ready or (LangId <> lidPython) then
@@ -174,14 +182,8 @@ begin
   end;
 
   var Params := TSmartPtr.Make(TJsonObject.Create)();
-//  var OldTrailingLineBreak := Editor.Lines.TrailingLineBreak;
-//  Editor.Lines.TrailingLineBreak := True;
-//  try
-    Params.AddPair('textDocument', LspTextDocumentItem(FileId, 'python',
-      Editor.Text, 0));
-//  finally
-//    Editor.Lines.TrailingLineBreak := OldTrailingLineBreak;
-//  end;
+  Params.AddPair('textDocument', LspTextDocumentItem(FileId, 'python',
+    Editor.Text, 0));
   TJedi.LspClient.Notify('textDocument/didOpen', Params.ToJson);
 
   FTransmitChanges := True;
@@ -224,15 +226,18 @@ end;
 
 class procedure TLspSynEditPlugin.HandleLspNotify(const Method: string;
   Params: TJsonValue);
-var
-  DiagArray: TArray<TDiagnostic>;
-  LFileId : string;
 begin
-  if GI_PyIDEServices.IsClosing then Exit;
-  if Method <> 'textDocument/publishDiagnostics' then Exit;
+  if GI_PyIDEServices.IsClosing or (Method <> 'textDocument/publishDiagnostics') then
+  begin
+    Params.Free;
+    Exit;
+  end;
 
-  Params.Owned := False;
+  //Params.Owned := False;
   var Task := TTask.Create(procedure
+  var
+    DiagArray: TArray<TDiagnostic>;
+    LFileId : string;
   begin
     try
       var Uri: string;
@@ -257,28 +262,22 @@ begin
       Params.Free;
     end;
 
-    if GI_PyIDEServices.IsClosing then Exit;
+    var Plugin := FindPluginWithFileId(LFileId);
+    if not Assigned(Plugin) then Exit;
 
-    TThread.ForceQueue(nil, procedure
-    begin
-      var Plugin := FindPluginWithFileId(LFileId);
-      if not Assigned(Plugin) then Exit;
-
-      var List := PlugIn.FDiagnostics.LockList;
-      try
-        PlugIn.InvalidateErrorLines; // old errors
-        List.Clear;
-        List.AddRange(DiagArray);
-        PlugIn.InvalidateErrorLines;  // new errors
-      finally
-        PlugIn.FDiagnostics.UnLockList;
-      end;
-    end);
+    var List := PlugIn.FNewDiagnostics.LockList;
+    try
+      List.Clear;
+      List.AddRange(DiagArray);
+    finally
+      PlugIn.FNewDiagnostics.UnLockList;
+    end;
+    Plugin.FNeedToRefreshDiagnostics := True;
   end);
   Task.Start;
 end;
 
-class procedure TLspSynEditPlugin.HandleResponse(Id: NativeUInt; Result,
+class procedure TLspSynEditPlugin.HandleSymbolsResponse(Id: NativeUInt; Result,
   Error: TJsonValue);
 begin
   FDocSymbolsLock.Enter;
@@ -295,13 +294,15 @@ begin
     FreeAndNil(DocSymbols.FSymbols);
     if (Result <> nil) and (Result is TJSONArray) then
     begin
-      Result.Owned := False;
       DocSymbols.FSymbols := TJsonArray(Result);
+      Result := nil;
     end;
     if Assigned(DocSymbols.FOnNotify) then
       DocSymbols.FOnNotify(DocSymbols);
   finally
     FDocSymbolsLock.Leave;
+    Result.Free;
+    Error.Free;
   end;
 end;
 
@@ -321,15 +322,8 @@ end;
 
 procedure TLspSynEditPlugin.InvalidateErrorLines;
 begin
-  { Should be called from the main thread }
-  Assert(GetCurrentThreadId = MainThreadId);
-  var List := FDiagnostics.LockList;
-  try
-     for var Diag in List do
-       Editor.InvalidateLine(Diag.BlockBegin.Line);
-  finally
-    FDiagnostics.UnlockList;
-  end;
+  for var Diag in FDiagnostics do
+    Editor.InvalidateLine(Diag.BlockBegin.Line);
 end;
 
 procedure TLspSynEditPlugin.LinesChanged;
@@ -366,7 +360,7 @@ begin
     FIncChanges.Clear;
   end;
 
-  RefreshSymbols(FFileId);
+  FNeedToRefreshSymbols := True;
 end;
 
 procedure TLspSynEditPlugin.LinesDeleted(FirstLine, Count: Integer);
@@ -408,7 +402,8 @@ begin
   fIncChanges.Add(Change);
 end;
 
-procedure TLspSynEditPlugin.LinesPutted(aIndex, aCount: Integer);
+procedure TLspSynEditPlugin.LinePut(aIndex: Integer; const OldLine: string);
+//TODO: Use OldLine to optimize (reduce) text sent
 var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
@@ -419,23 +414,19 @@ begin
   then
     Exit;
 
-  for var I := 0 to aCount - 1 do
-  begin
-    BB := BufferCoord(1, aIndex + I + 1);
-    BE := BufferCoord(1, aIndex + I + 2);
-    Change := TJsonObject.Create;
-    Change.AddPair('range', LspRange(BB, BE));
-    Change.AddPair('text', TJsonString.Create(Editor.Lines[aIndex + I] +
-      Editor.Lines.LineBreak));
-    fIncChanges.Add(Change);
-  end;
+  BB := BufferCoord(1, aIndex + 1);
+  BE := BufferCoord(1, aIndex + 2);
+  Change := TJsonObject.Create;
+  Change.AddPair('range', LspRange(BB, BE));
+  Change.AddPair('text', TJsonString.Create(Editor.Lines[aIndex] +
+    Editor.Lines.LineBreak));
+  fIncChanges.Add(Change);
 end;
 
 class procedure TLspSynEditPlugin.RefreshSymbols(const AFileId: string);
 begin
   if not TJedi.Ready then Exit;
 
-  // Todo: remove dependency on TDocSymmbols?
   var Task := TTask.Create(procedure
   begin
     var PlugIn := FindPluginWithFileId(AFileId);
@@ -453,10 +444,12 @@ begin
       var Param := TSmartPtr.Make(TJsonObject.Create)();
       Param.AddPair('textDocument', LspTextDocumentIdentifier(AFileId));
 
-      var Id := TJedi.LspClient.Request('textDocument/documentSymbol', Param.ToJson, HandleResponse);
+      var Id := TJedi.LspClient.Request('textDocument/documentSymbol',
+        Param.ToJson, HandleSymbolsResponse);
       FSymbolsRequests.AddObject(AFileId, TObject(Id));
     finally
       Plugin.DocSymbols.FRefreshing := False;
+      Plugin.FNeedToRefreshSymbols := False;
       FDocSymbolsLock.Leave;
     end;
   end);
@@ -496,6 +489,29 @@ begin
   if Range.TryGetValue('start.character', BlockBegin.Char) then Inc(BlockBegin.Char);
   if Range.TryGetValue('end.line', BlockEnd.Line) then Inc(BlockEnd.Line);
   if Range.TryGetValue('end.character', BlockEnd.Char) then Inc(BlockEnd.Char);
+end;
+
+procedure TLspSynEditPlugin.ApplyNewDiagnostics;
+begin
+  { Should be called from the main thread }
+  Assert(GetCurrentThreadId = MainThreadId);
+  if not FNeedToRefreshDiagnostics then Exit;
+
+  ClearDiagnostics;
+  var List := FNewDiagnostics.LockList;
+  try
+    FDiagnostics.AddRange(List);
+    FNeedToRefreshDiagnostics := False;
+  finally
+    FNewDiagnostics.UnlockList;
+  end;
+  InvalidateErrorLines;
+end;
+
+procedure TLspSynEditPlugin.ClearDiagnostics;
+begin
+  InvalidateErrorLines;
+  FDiagnostics.Clear;
 end;
 
 class constructor TLspSynEditPlugin.Create;
