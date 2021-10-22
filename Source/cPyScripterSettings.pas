@@ -211,7 +211,7 @@ type
     property MarkExecutableLines : Boolean read fMarkExecutableLines
       write fMarkExecutableLines default False;
     property CheckSyntaxAsYouType : Boolean read fCheckSyntaxAsYouType
-      write fCheckSyntaxAsYouType default True;
+      write fCheckSyntaxAsYouType default False;
     property FileExplorerContextMenu : Boolean read fFileExplorerContextMenu
       write fFileExplorerContextMenu default True;
     property NewFileLineBreaks : TSynEditFileFormat read fNewFileLineBreaks
@@ -494,7 +494,7 @@ begin
   fShowDebuggerHints := True;
   fAutoCompleteBrackets := True;
   fMarkExecutableLines := False;
-  fCheckSyntaxAsYouType := True;
+  fCheckSyntaxAsYouType := False;
   fFileExplorerContextMenu := True;
   fNewFileLineBreaks := sffDos;
   fNewFileEncoding := sf_UTF8_NoBOM;

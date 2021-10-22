@@ -36,20 +36,19 @@ type
     {Asynchronous symbol support for Code Explorer}
   private
     FPlugIn: TLspSynEditPlugin;
-    FSymbols: TJsonArray;
     FRefreshing: Boolean;
     FDestroying: Boolean;
     FOnNotify: TNotifyEvent;
     function GetFileId: string;
   public
     ModuleNode: TObject;  // for storing Code Explorer TModuleNodeCE
+    Symbols: TJsonArray;
     constructor Create(PlugIn: TLspSynEditPlugin);
     destructor Destroy; override;
     procedure Clear;
     procedure Lock;
     procedure Unlock;
     property FileId: string read GetFileId;
-    property Symbols: TJsonArray read FSymbols;
     property Destroying: Boolean read FDestroying;
     property OnNotify: TNotifyEvent read FOnNotify write FOnNotify;
   end;
@@ -109,6 +108,7 @@ implementation
 uses
   System.StrUtils,
   System.Threading,
+  System.Math,
   LspClient,
   JediLspClient,
   uEditAppIntfs,
@@ -291,10 +291,10 @@ begin
     FSymbolsRequests.Delete(Index);
 
     var DocSymbols := Plugin.DocSymbols;
-    FreeAndNil(DocSymbols.FSymbols);
+    FreeAndNil(DocSymbols.Symbols);
     if (Result <> nil) and (Result is TJSONArray) then
     begin
-      DocSymbols.FSymbols := TJsonArray(Result);
+      DocSymbols.Symbols := TJsonArray(Result);
       Result := nil;
     end;
     if Assigned(DocSymbols.FOnNotify) then
@@ -407,6 +407,8 @@ procedure TLspSynEditPlugin.LinePut(aIndex: Integer; const OldLine: string);
 var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
+  NewLine: string;
+  OldL, NewL: Integer;
 begin
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
     not fTransmitChanges or
@@ -414,12 +416,32 @@ begin
   then
     Exit;
 
-  BB := BufferCoord(1, aIndex + 1);
-  BE := BufferCoord(1, aIndex + 2);
+  NewLine := Editor.Lines[aIndex];
+  OldL := OldLine.Length;
+  NewL := NewLine.Length;
+
+  var NSameCharStart := 0;
+  for var I := 1 to Min(NewL, OldL) do
+    if NewLine[I] = OldLine[I] then
+      Inc(NSameCharStart)
+    else
+      Break;
+
+  var NSameCharEnd := 0;
+  for var I := 0 to Min(NewL, OldL) - NSameCharStart - 1 do
+    if NewLine[NewL - I] = OldLine[OldL - I] then
+      Inc(NSameCharEnd)
+    else
+      Break;
+
+  BB := BufferCoord(NSameCharStart + 1, aIndex + 1);
+  BE := BufferCoord(OldL - NSameCharEnd + 1, aIndex + 1);
+
+  NewLine := Copy(NewLine, NSameCharStart + 1, NewL - NSameCharStart - NSameCharEnd);
+
   Change := TJsonObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
-  Change.AddPair('text', TJsonString.Create(Editor.Lines[aIndex] +
-    Editor.Lines.LineBreak));
+  Change.AddPair('text', TJsonString.Create(NewLine));
   fIncChanges.Add(Change);
 end;
 
@@ -538,7 +560,7 @@ begin
       FPlugIn.FSymbolsRequests.Delete(Index);
     end;
 
-    FreeAndNil(FSymbols);
+    FreeAndNil(Symbols);
     if Assigned(FOnNotify) then
       FOnNotify(Self);
   finally

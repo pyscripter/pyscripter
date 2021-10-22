@@ -165,6 +165,7 @@ type
   TFunctionCENode = class(TCodeElementCENode)
   protected
     function GetImageIndex : integer; override;
+  public
     constructor CreateFromSymbol(Symbol: TJsonObject); override;
   end;
 
@@ -544,7 +545,8 @@ begin
           end
           else
           begin
-            Symbols := DocSymbols.Symbols.Clone as TJsonArray;
+            Symbols := DocSymbols.Symbols; // Will destroyed in UpdateModuleNode
+            DocSymbols.Symbols := nil;
             var Task := TTask.Create(procedure
               begin
                 UpdateModuleNode(LFileId, Symbols);
