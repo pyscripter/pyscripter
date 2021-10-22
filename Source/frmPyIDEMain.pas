@@ -537,6 +537,11 @@
           Issues addressed
             #939, #951, #1116, #1118, #1119, #1122, #1123, #1125, #1129, #1133
             #1136
+
+  History:   v 4.1.2
+          New Features
+          Issues addressed
+            #1140
 }
 // TODO: Process diagnostics
 

@@ -165,6 +165,7 @@ type
   TFunctionCENode = class(TCodeElementCENode)
   protected
     function GetImageIndex : integer; override;
+    constructor CreateFromSymbol(Symbol: TJsonObject); override;
   end;
 
   TMethodCENode = class(TFunctionCENode)
@@ -275,18 +276,20 @@ begin
     Exit;
   end;
 
-  var SameModule := ActiveEditor.FileId = FFileId;
-  if not SameModule then
+  var ShowingActiveEditor := SameFileName(ActiveEditor.FileId, FFileId);
+  if not ShowingActiveEditor then
     FFileId := ActiveEditor.FileId;
+
+  var Editor: IEditor;
+  if SameFileName(FFileId, FileId) then
+    Editor := ActiveEditor
+  else
+    Editor := GI_EditorFactory.GetEditorByFileId(FileId);
+
+  var SameModule := ShowingActiveEditor and (Editor = ActiveEditor);
 
   if UpdateReason = ceuSymbolsChanged then
   begin
-    var Editor: IEditor;
-    if FFileId = FileId then
-      Editor := ActiveEditor
-    else
-      Editor := GI_EditorFactory.GetEditorByFileId(FileId);
-
     if Assigned(Editor) then
     begin
       FreeAndNil(TDocSymbols(Editor.DocSymbols).ModuleNode);
@@ -299,14 +302,9 @@ begin
       Exit;
     end;
 
-    if not SameFileName(FFileId, FileId) then
-    begin
-      if SameModule then
-        // A non active editor's DocSymbols have been updated
-        Exit
-      else
-        SameModule := False;
-    end;
+    if ShowingActiveEditor and (ActiveEditor <> Editor) then
+      // A non active editor's DocSymbols have been updated
+      Exit
   end;
   FModuleNode := TDocSymbols(ActiveEditor.DocSymbols).ModuleNode as TModuleCENode;
 
@@ -373,7 +371,7 @@ var
   CENode: TAbstractCENode;
 begin
   if ExplorerTree.GetNodeLevel(Node) = 0 then
-    CENode := TModuleCENode(FModuleNode)
+    CENode := FModuleNode
   else begin
     var ParentCENode := ParentNode.GetData<TAbstractCENode>;
     CENode := ParentCENode.Children[Node.Index];
@@ -591,7 +589,7 @@ begin
   Editor := GI_PyIDEServices.ActiveEditor;
   if not Assigned(Editor) then Exit;
 
-  if Assigned(FModuleNode) and  (FFileId = Editor.FileId) and
+  if Assigned(FModuleNode) and (FFileId = Editor.FileId) and
     (ExplorerTree.RootNodeCount > 0)
   then
   begin
@@ -1034,6 +1032,38 @@ begin
 end;
 
 { TFunctionCENode }
+
+constructor TFunctionCENode.CreateFromSymbol(Symbol: TJsonObject);
+var
+  Kind: Integer;
+  Symbols: TJsonValue;
+  NodeClass: TAbstractCENodeClass;
+  Node: TAbstractCENode;
+begin
+  inherited;
+
+  Symbol.TryGetValue('children', Symbols);
+  if not (Symbols is TJsonArray) then Exit;
+
+  for var CE in TJsonArray(Symbols) do
+  begin
+    if not CE.TryGetValue<integer>('kind', Kind) then
+      Continue;
+
+    case TSymbolKind(Kind) of
+      TSymbolKind._Class: NodeClass := TClassCENode;
+      TSymbolKind._Function: NodeClass := TFunctionCENode;
+    else
+      Continue;
+    end;
+    try
+      Node := NodeClass.CreateFromSymbol(CE as TJsonObject);
+    except
+      Continue;
+    end;
+    AddChild(Node);
+  end;
+end;
 
 function TFunctionCENode.GetImageIndex: integer;
 begin
