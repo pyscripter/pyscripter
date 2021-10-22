@@ -2165,12 +2165,12 @@ begin
           //    (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
           //    (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
           //begin
-          ASynEdit.UndoList.BeginBlock;
+          ASynEdit.BeginUndoBlock;
             if TPyRegExpr.IsBlockOpener(iPrevLine) then
               ASynEdit.ExecuteCommand(ecTab, #0, nil)
             else if TPyRegExpr.IsBlockCloser(iPrevLine) then
               ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
-          ASynEdit.UndoList.EndBlock;
+          ASynEdit.EndUndoBlock;
           //end;
         end;
       ecChar: // Autocomplete brackets

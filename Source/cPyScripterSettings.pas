@@ -923,7 +923,7 @@ begin
                 eoTrimTrailingSpaces, eoAutoIndent];
     WantTabs := True;
     TabWidth := 4;
-    MaxUndo := 32768;
+    MaxUndo := 0;
     // Scale BookmarkOptions
     BookMarkOptions.ChangeScale(Screen.PixelsPerInch, 96);
 

@@ -403,7 +403,6 @@ begin
 end;
 
 procedure TLspSynEditPlugin.LinePut(aIndex: Integer; const OldLine: string);
-//TODO: Use OldLine to optimize (reduce) text sent
 var
   Change: TJsonObject;
   BB, BE: TBufferCoord;

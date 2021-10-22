@@ -2089,27 +2089,25 @@ begin
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');
-    SetLength(Options, 10);
-    Options[0].PropertyName := 'SpecialPackages';
-    Options[0].DisplayName := _('Special packages');
-    Options[1].PropertyName := 'CodeCompletionListSize';
-    Options[1].DisplayName := _('Code completion list size');
-    Options[2].PropertyName := 'EditorCodeCompletion';
-    Options[2].DisplayName := _('Editor code completion');
-    Options[3].PropertyName := 'InterpreterCodeCompletion';
-    Options[3].DisplayName := _('Interpreter code completion');
-    Options[4].PropertyName := 'CodeCompletionCaseSensitive';
-    Options[4].DisplayName := _('Case sensitive');
-    Options[5].PropertyName := 'CompleteKeywords';
-    Options[5].DisplayName := _('Complete Python keywords');
-    Options[6].PropertyName := 'CompleteAsYouType';
-    Options[6].DisplayName := _('Complete as you type');
-    Options[7].PropertyName := 'AutoCompletionFont';
-    Options[7].DisplayName := _('Auto completion font');
-    Options[8].PropertyName := 'CompleteWithWordBreakChars';
-    Options[8].DisplayName := _('Complete with word-break characters');
-    Options[9].PropertyName := 'CompleteWithOneEntry';
-    Options[9].DisplayName := _('Auto-complete with one entry');
+    SetLength(Options, 9);
+    Options[0].PropertyName := 'CodeCompletionListSize';
+    Options[0].DisplayName := _('Code completion list size');
+    Options[1].PropertyName := 'EditorCodeCompletion';
+    Options[1].DisplayName := _('Editor code completion');
+    Options[2].PropertyName := 'InterpreterCodeCompletion';
+    Options[2].DisplayName := _('Interpreter code completion');
+    Options[3].PropertyName := 'CodeCompletionCaseSensitive';
+    Options[3].DisplayName := _('Case sensitive');
+    Options[4].PropertyName := 'CompleteKeywords';
+    Options[4].DisplayName := _('Complete Python keywords');
+    Options[5].PropertyName := 'CompleteAsYouType';
+    Options[5].DisplayName := _('Complete as you type');
+    Options[6].PropertyName := 'AutoCompletionFont';
+    Options[6].DisplayName := _('Auto completion font');
+    Options[7].PropertyName := 'CompleteWithWordBreakChars';
+    Options[7].DisplayName := _('Complete with word-break characters');
+    Options[8].PropertyName := 'CompleteWithOneEntry';
+    Options[8].DisplayName := _('Auto-complete with one entry');
   end;
   with Categories[7] do begin
     DisplayName := _('Shell Integration');
@@ -2141,11 +2139,13 @@ begin
   end;
   with Categories[10] do begin
     DisplayName := _('Language Server');
-    SetLength(Options, 2);
+    SetLength(Options, 3);
     Options[0].PropertyName := 'LspDebug';
     Options[0].DisplayName := _('Language server debug output');
     Options[1].PropertyName := 'CheckSyntaxAsYouType';
     Options[1].DisplayName := _('Check syntax as you type');
+    Options[2].PropertyName := 'SpecialPackages';
+    Options[2].DisplayName := _('Special packages');
   end;
 
   // Shell Integration

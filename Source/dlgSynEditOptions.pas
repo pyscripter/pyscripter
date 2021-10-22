@@ -632,7 +632,7 @@ begin
   HideSelection := False;
   InsertCaret := ctVerticalLine;
   OverwriteCaret := ctBlock;
-  MaxUndo := 1024;
+  MaxUndo := 0;
   RightEdge := 80;
   RightEdgeColor := clSilver;
   fActiveLineColor := clNone;
