@@ -330,7 +330,7 @@ procedure TLspSynEditPlugin.LinesChanged;
 begin
   Inc(FVersion);
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
-    not fTransmitChanges
+    not FTransmitChanges or (FIncChanges.Count = 0)
   then
     Exit;
 
@@ -345,13 +345,7 @@ begin
     begin
       FIncChanges.Clear;
       var Change := TJsonObject.Create;
-//      var OldTrailingLineBreak := Editor.Lines.TrailingLineBreak;
-//      Editor.Lines.TrailingLineBreak := True;
-//      try
-        Change.AddPair('text', TJsonString.Create(Editor.Text));
-//      finally
-//        Editor.Lines.TrailingLineBreak := OldTrailingLineBreak;
-//      end;
+      Change.AddPair('text', TJsonString.Create(Editor.Text));
       FIncChanges.Add(Change);
     end;
     Params.AddPair('contentChanges', FIncChanges as TJsonValue);
@@ -369,7 +363,7 @@ var
   BB, BE: TBufferCoord;
 begin
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
-    not fTransmitChanges or
+    not FTransmitChanges or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
@@ -388,17 +382,19 @@ var
   BB, BE: TBufferCoord;
 begin
   if not TJedi.Ready or (FFileId = '') or (FlangId <> lidPython) or
-    not fTransmitChanges or
+    not FTransmitChanges or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
 
   BB := BufferCoord(1, FirstLine + 1);
   BE := BB;
+  var TextAdded := '';
+  for var I := FirstLine to FirstLine + Count - 1 do
+    TextAdded := TextAdded + Editor.Lines[I]  + SLineBreak;
   Change := TJsonObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
-  Change.AddPair('text',
-    TJsonString.Create(DupeString(Editor.Lines.LineBreak, Count)));
+  Change.AddPair('text', TJsonString.Create(TextAdded));
   fIncChanges.Add(Change);
 end;
 
@@ -406,11 +402,11 @@ procedure TLspSynEditPlugin.LinePut(aIndex: Integer; const OldLine: string);
 var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
-  NewLine: string;
+  NewLine, Diff: string;
   OldL, NewL: Integer;
 begin
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
-    not fTransmitChanges or
+    not FTransmitChanges or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
@@ -436,11 +432,14 @@ begin
   BB := BufferCoord(NSameCharStart + 1, aIndex + 1);
   BE := BufferCoord(OldL - NSameCharEnd + 1, aIndex + 1);
 
-  NewLine := Copy(NewLine, NSameCharStart + 1, NewL - NSameCharStart - NSameCharEnd);
+  Diff := Copy(NewLine, NSameCharStart + 1, NewL - NSameCharStart - NSameCharEnd);
+
+  if (Diff = '') and (BB = BE) then
+    Exit;  // no change
 
   Change := TJsonObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
-  Change.AddPair('text', TJsonString.Create(NewLine));
+  Change.AddPair('text', TJsonString.Create(Diff));
   fIncChanges.Add(Change);
 end;
 
