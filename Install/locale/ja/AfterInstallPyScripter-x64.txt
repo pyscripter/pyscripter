@@ -2,7 +2,7 @@
 64-bitバージョンのWindowsが必要です。 PyScripterは64-bitバージョンのPythonが
 インストールされている環境でのみ動作します。
 
-PyScripterを使う前に、あなたの端末に 2.6 以降のバージョンのPythonが
+PyScripterを使う前に、あなたの端末に 3.6 以降のバージョンのPythonが
 インストールされていることを確認してください。
 もしインストールされていないのならば http://www.python.org/
 からダウンロードできます。

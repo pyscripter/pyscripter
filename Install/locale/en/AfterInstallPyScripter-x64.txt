@@ -3,7 +3,7 @@ It requires a 64-bit version of Windows. Please note that PyScripter will only
 work if a 64-bit version of Python is installed.
 
 Before using PyScripter, you must ensure that there is a version of Python 
-greater or equal to 2.6 installed on your machine. If not, you can download one 
+greater or equal to 3.6 installed on your machine. If not, you can download one 
 from http://www.python.org/.
 
 Please visit https://github.com/pyscripter/pyscripter/wiki for information about
