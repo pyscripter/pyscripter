@@ -940,7 +940,7 @@ end;
 
 function TEditor.CanCopy: boolean;
 begin
-  Result := (fForm <> nil);
+  Result := GetActiveSynEdit.SelAvail or (GetActiveSynEdit.LineText <> '');
 end;
 
 function TEditor.CanCut: boolean;
@@ -2165,12 +2165,10 @@ begin
           //    (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
           //    (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
           //begin
-          ASynEdit.BeginUndoBlock;
-            if TPyRegExpr.IsBlockOpener(iPrevLine) then
-              ASynEdit.ExecuteCommand(ecTab, #0, nil)
-            else if TPyRegExpr.IsBlockCloser(iPrevLine) then
-              ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
-          ASynEdit.EndUndoBlock;
+          if TPyRegExpr.IsBlockOpener(iPrevLine) then
+            ASynEdit.ExecuteCommand(ecTab, #0, nil)
+          else if TPyRegExpr.IsBlockCloser(iPrevLine) then
+            ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
           //end;
         end;
       ecChar: // Autocomplete brackets

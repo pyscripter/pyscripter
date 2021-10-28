@@ -2347,7 +2347,7 @@ begin
   actEditUTF16BE.Checked := Assigned(GI_ActiveEditor) and
     (GI_ActiveEditor.FileEncoding = sf_UTF16BE);
 
-  SelAvail := Assigned(GI_EditCmds) and GI_EditCmds.CanCopy;
+  SelAvail := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ActiveSynEdit.SelAvail;
   // Source Code Actions
   actEditIndent.Enabled := SelAvail;
   actEditDedent.Enabled := SelAvail;
