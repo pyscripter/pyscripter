@@ -2181,10 +2181,10 @@ begin
             begin
               Caret := ASynEdit.CaretXY;
               TThread.ForceQueue(nil, procedure
-              begin
-                DoCodeCompletion(ASynEdit, Caret);
-              end,
-              CommandsDataModule.SynCodeCompletion.TimerInterval);
+                begin
+                  DoCodeCompletion(ASynEdit, Caret);
+                end, IfThen(AChar = '.', 200,
+                CommandsDataModule.SynCodeCompletion.TimerInterval));
             end;
           end;
 
@@ -2966,29 +2966,17 @@ begin
   var CC := TIDECompletion.EditorCodeCompletion;
   var CP := TSynCompletionProposal(Sender);
 
-  if not CC.Lock.TryEnter then
-  begin
-    CanExecute := False;
-    Exit;
-  end;
+  CanExecute := False;
+  if CC.Lock.TryEnter then
   try
     CanExecute := Assigned(GI_ActiveEditor) and
       (GI_ActiveEditor.ActiveSynEdit = CC.CompletionInfo.Editor) and
       Application.Active and
       (GetParentForm(CC.CompletionInfo.Editor).ActiveControl = CC.CompletionInfo.Editor) and
       (CC.CompletionInfo.CaretXY = CC.CompletionInfo.Editor.CaretXY);
-  finally
-    CC.Lock.Leave;
-  end;
 
-  if CanExecute then
-  begin
-    if not CC.Lock.TryEnter then
+    if CanExecute then
     begin
-      CanExecute := False;
-      Exit;
-    end;
-    try
       CP.Font := PyIDEOptions.AutoCompletionFont;
       CP.FontsAreScaled := True;
       CP.ItemList.Text := CC.CompletionInfo.DisplayText;
@@ -3009,13 +2997,13 @@ begin
         CP.OnValidate(CP.Form, [], #0);
         CC.CleanUp;
       end;
-    finally
-      CC.Lock.Leave;
+    end else begin
+      CP.ItemList.Clear;
+      CP.InsertList.Clear;
+      CC.CleanUp;
     end;
-  end else begin
-    CP.ItemList.Clear;
-    CP.InsertList.Clear;
-    CC.CleanUp;
+  finally
+    CC.Lock.Leave;
   end;
 end;
 

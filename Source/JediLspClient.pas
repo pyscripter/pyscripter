@@ -192,11 +192,9 @@ end;
 
 class procedure TJedi.OnLspClientShutdown(Sender: TObject);
 begin
+  LspClient.OnLspNotification := nil;
   if Assigned(OnShutDown) and (OnShutDown.HandlerCount > 0) then
-    TThread.ForceQueue(nil, procedure
-    begin
-      OnShutdown.Notify(LspClient);
-    end);
+    OnShutdown.Notify(LspClient);
 end;
 
 class procedure TJedi.PythonVersionChanged(Sender: TObject);

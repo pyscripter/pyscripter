@@ -3150,7 +3150,7 @@ begin
       for var i := ord('a') to ord('z') do TriggerChars := TriggerChars + Chr(i);
       for var i := ord('A') to ord('Z') do TriggerChars := TriggerChars + Chr(i);
       if PyIDEOptions.CompleteWithWordBreakChars or PyIDEOptions.CompleteWithOneEntry then
-        TimerInterval := 600
+        TimerInterval := 500
     end;
   end;
   // Syntax Parameter Completion

@@ -218,6 +218,9 @@ class procedure TLspSynEditPlugin.OnLspShutDown(Sender: TObject);
 begin
   FDocSymbolsLock.Enter;
   try
+    for var Index := 0 to FSymbolsRequests.Count - 1 do
+      TJedi.LspClient.CancelRequest(NativeUInt(FSymbolsRequests.Objects[Index]));
+
     FSymbolsRequests.Clear;
   finally
     FDocSymbolsLock.Leave;
