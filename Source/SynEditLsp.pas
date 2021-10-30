@@ -347,8 +347,11 @@ begin
     then
     begin
       FIncChanges.Clear;
+      var Text := Editor.Text;
+      if (Text = '') and (Editor.Lines.Count = 1) then
+        Text := SLineBreak;
       var Change := TJsonObject.Create;
-      Change.AddPair('text', TJsonString.Create(Editor.Text));
+      Change.AddPair('text', TJsonString.Create(Text));
       FIncChanges.Add(Change);
     end;
     Params.AddPair('contentChanges', FIncChanges as TJsonValue);
@@ -402,11 +405,6 @@ begin
 end;
 
 procedure TLspSynEditPlugin.LinePut(aIndex: Integer; const OldLine: string);
-var
-  Change: TJsonObject;
-  BB, BE: TBufferCoord;
-  NewLine, Diff: string;
-  OldL, NewL: Integer;
 begin
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
     not FTransmitChanges or
@@ -414,33 +412,31 @@ begin
   then
     Exit;
 
-  NewLine := Editor.Lines[aIndex];
-  OldL := OldLine.Length;
-  NewL := NewLine.Length;
+  var NewLine := Editor.Lines[aIndex];
+  var OldL := OldLine.Length;
+  var NewL := NewLine.Length;
+  // Compare from end
+  while (OldL > 0) and (NewL > 0) and (OldLine[OldL] = NewLine[NewL]) do
+  begin
+    Dec(OldL);
+    Dec(NewL);
+  end;
+  // Compare from start
+  var Start := 1;
+  while (OldL > 0) and (NewL > 0) and (OldLine[Start] = NewLine[Start]) do
+  begin
+    Dec(OldL);
+    Dec(NewL);
+    Inc(Start);
+  end;
 
-  var NSameCharStart := 0;
-  for var I := 1 to Min(NewL, OldL) do
-    if NewLine[I] = OldLine[I] then
-      Inc(NSameCharStart)
-    else
-      Break;
+  var Diff := Copy(NewLine, Start, NewL);
+  var BB := BufferCoord(Start, aIndex + 1);
+  var BE := BufferCoord(Start + OldL, aIndex + 1);
 
-  var NSameCharEnd := 0;
-  for var I := 0 to Min(NewL, OldL) - NSameCharStart - 1 do
-    if NewLine[NewL - I] = OldLine[OldL - I] then
-      Inc(NSameCharEnd)
-    else
-      Break;
+  if (Diff = '') and (BB = BE) then Exit;  // no change
 
-  BB := BufferCoord(NSameCharStart + 1, aIndex + 1);
-  BE := BufferCoord(OldL - NSameCharEnd + 1, aIndex + 1);
-
-  Diff := Copy(NewLine, NSameCharStart + 1, NewL - NSameCharStart - NSameCharEnd);
-
-  if (Diff = '') and (BB = BE) then
-    Exit;  // no change
-
-  Change := TJsonObject.Create;
+  var Change := TJsonObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
   Change.AddPair('text', TJsonString.Create(Diff));
   fIncChanges.Add(Change);

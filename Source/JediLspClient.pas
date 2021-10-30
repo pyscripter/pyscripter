@@ -91,6 +91,8 @@ var
 const
   LspDebugFile = 'LspDebug.log';
 begin
+  if Assigned(LspClient) then
+    LspClient.OnLspNotification := nil;
   FreeAndNil(LspClient);
 
   if not GI_PyControl.PythonLoaded then Exit;
@@ -192,7 +194,6 @@ end;
 
 class procedure TJedi.OnLspClientShutdown(Sender: TObject);
 begin
-  LspClient.OnLspNotification := nil;
   if Assigned(OnShutDown) and (OnShutDown.HandlerCount > 0) then
     OnShutdown.Notify(LspClient);
 end;
