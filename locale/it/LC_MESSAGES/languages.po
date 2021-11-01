@@ -5,8 +5,8 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Vincenzo Campanella <vinz65@gmail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2018
+# Vincenzo Campanella <vinz65@gmail.com>, 2018
 # ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2021
 # 
 #, fuzzy
@@ -33,7 +33,7 @@ msgid "Traditional Chinese"
 msgstr "Cinese tradizionale"
 
 msgid "English"
-msgstr "Inglese (English)"
+msgstr "Inglese"
 
 #. Language of France
 msgid "French"
