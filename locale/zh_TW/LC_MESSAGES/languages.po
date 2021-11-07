@@ -71,7 +71,7 @@ msgstr "Portugues (Portugal)"
 
 #. Language of Portugal, Brazil
 msgid "Portuguese (Brazil)"
-msgstr "Português (brasileiro)"
+msgstr "Português (Brasileiro)"
 
 #. Language of Russia
 msgid "Russian"
