@@ -67,7 +67,7 @@ msgstr "Polskie"
 
 #. Language of Portugal, Europe
 msgid "Portuguese (Portugal)"
-msgstr "Portugues (portugal)"
+msgstr "Portugues (Portugal)"
 
 #. Language of Portugal, Brazil
 msgid "Portuguese (Brazil)"
