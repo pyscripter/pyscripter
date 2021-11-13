@@ -9,7 +9,7 @@ inherited CustomizeParams: TCustomizeParams
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel: TPanel
     Left = 0
     Top = 0
@@ -23,16 +23,16 @@ inherited CustomizeParams: TCustomizeParams
     object Label3: TLabel
       Left = 12
       Top = 304
-      Width = 214
-      Height = 13
+      Width = 235
+      Height = 15
       Caption = 'Press Shift+Ctrl+P for Parameter completion'
       Enabled = False
     end
     object Label4: TLabel
       Left = 12
       Top = 319
-      Width = 204
-      Height = 13
+      Width = 230
+      Height = 15
       Caption = 'Press Shift+Ctrl+M for Modifier completion'
       Enabled = False
     end
@@ -114,15 +114,15 @@ inherited CustomizeParams: TCustomizeParams
       object Label1: TLabel
         Left = 14
         Top = 28
-        Width = 31
-        Height = 13
+        Width = 35
+        Height = 15
         Caption = '&Name:'
       end
       object Label2: TLabel
         Left = 14
         Top = 50
-        Width = 30
-        Height = 13
+        Width = 31
+        Height = 15
         Caption = '&Value:'
       end
       object SynValue: TSynEdit
@@ -144,7 +144,24 @@ inherited CustomizeParams: TCustomizeParams
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
-        Gutter.Width = 0
+        Gutter.Visible = False
+        Gutter.Bands = <
+          item
+            Kind = gbkMarks
+            Width = 15
+          end
+          item
+            Kind = gbkLineNumbers
+            Visible = False
+          end
+          item
+            Kind = gbkFold
+            Visible = False
+          end
+          item
+            Kind = gbkMargin
+            Width = 2
+          end>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
@@ -154,7 +171,7 @@ inherited CustomizeParams: TCustomizeParams
         Left = 133
         Top = 23
         Width = 155
-        Height = 21
+        Height = 23
         TabOrder = 0
         OnKeyPress = edNameKeyPress
       end
@@ -225,37 +242,30 @@ inherited CustomizeParams: TCustomizeParams
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 21
         CollectionName = 'Delete'
-        Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 87
+        CollectionIndex = 88
         CollectionName = 'Refresh'
-        Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 127
+        CollectionIndex = 129
         CollectionName = 'Up'
-        Disabled = False
         Name = 'Up'
       end
       item
         CollectionIndex = 22
         CollectionName = 'Down'
-        Disabled = False
         Name = 'Down'
       end
       item
-        CollectionIndex = 67
+        CollectionIndex = 68
         CollectionName = 'Plus'
-        Disabled = False
         Name = 'Plus'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

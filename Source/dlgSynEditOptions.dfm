@@ -8,7 +8,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
   ShowHint = True
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -25,10 +25,11 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Width = 589
       Height = 368
       Align = alTop
-      ActiveTabIndex = 4
+      ActiveTabIndex = 0
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
+        Checked = True
       end
       object SpTBXTabItem2: TSpTBXTabItem
         Caption = 'Options'
@@ -41,7 +42,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       end
       object SpTBXTabItem4: TSpTBXTabItem
         Caption = 'Syntax Colors'
-        Checked = True
       end
       object Options: TSpTBXTabSheet
         Left = 0
@@ -64,9 +64,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           TabOrder = 0
           object GridPanel1: TGridPanel
             Left = 2
-            Top = 15
+            Top = 17
             Width = 573
-            Height = 243
+            Height = 241
             Align = alClient
             BevelOuter = bvNone
             ColumnCollection = <
@@ -96,7 +96,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Left = 0
               Top = 0
               Width = 286
-              Height = 243
+              Height = 241
               Align = alClient
               BevelOuter = bvNone
               ControlCollection = <
@@ -299,7 +299,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Left = 286
               Top = 0
               Width = 287
-              Height = 243
+              Height = 241
               Align = alClient
               BevelOuter = bvNone
               ControlCollection = <
@@ -343,7 +343,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               TabOrder = 1
               DesignSize = (
                 287
-                243)
+                241)
               object ckHalfPageScroll: TCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -530,21 +530,21 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Left = 60
             Top = 19
             Width = 61
-            Height = 13
+            Height = 15
             Caption = 'Insert caret:'
           end
           object Label4: TLabel
             Left = 60
             Top = 43
-            Width = 80
-            Height = 13
+            Width = 83
+            Height = 15
             Caption = 'Overwrite caret:'
           end
           object cInsertCaret: TComboBox
             Left = 207
             Top = 18
             Width = 176
-            Height = 21
+            Height = 23
             Style = csDropDownList
             TabOrder = 0
             Items.Strings = (
@@ -557,7 +557,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Left = 207
             Top = 42
             Width = 176
-            Height = 21
+            Height = 23
             Style = csDropDownList
             TabOrder = 1
             Items.Strings = (
@@ -587,29 +587,29 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object Label5: TLabel
             Left = 50
             Top = 28
-            Width = 51
-            Height = 13
+            Width = 60
+            Height = 15
             Caption = 'Command:'
           end
           object Label6: TLabel
             Left = 50
             Top = 91
-            Width = 61
-            Height = 13
+            Width = 63
+            Height = 15
             Caption = 'Keystroke 2:'
           end
           object Label7: TLabel
             Left = 50
             Top = 59
-            Width = 61
-            Height = 13
+            Width = 63
+            Height = 15
             Caption = 'Keystroke 1:'
           end
           object cKeyCommand: TComboBox
             Left = 185
             Top = 23
             Width = 268
-            Height = 21
+            Height = 23
             Style = csDropDownList
             Sorted = True
             TabOrder = 0
@@ -678,6 +678,270 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
       end
+      object ColorThemes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 589
+        Height = 343
+        Caption = 'Color Theme'
+        ImageIndex = -1
+        DesignSize = (
+          589
+          343)
+        TabItem = 'SpTBXTabItem5'
+        object SpTBXLabel1: TLabel
+          Left = 183
+          Top = 12
+          Width = 70
+          Height = 15
+          Caption = 'Code Sample'
+        end
+        object SpTBXLabel2: TLabel
+          Left = 3
+          Top = 12
+          Width = 92
+          Height = 15
+          Caption = 'Available Themes'
+        end
+        object SynThemeSample: TSynEdit
+          Left = 183
+          Top = 41
+          Width = 404
+          Height = 276
+          Anchors = [akLeft, akTop, akRight]
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Consolas'
+          Font.Style = []
+          Font.Quality = fqClearTypeNatural
+          TabOrder = 0
+          UseCodeFolding = False
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Bands = <
+            item
+              Kind = gbkMarks
+              Visible = True
+              Width = 15
+            end
+            item
+              Kind = gbkLineNumbers
+            end
+            item
+              Kind = gbkFold
+            end
+            item
+              Kind = gbkMargin
+              Visible = True
+              Width = 2
+            end>
+          RightEdge = 0
+        end
+        object lbColorThemes: TListBox
+          Left = 3
+          Top = 41
+          Width = 166
+          Height = 240
+          ItemHeight = 15
+          TabOrder = 2
+          OnClick = lbColorThemesClick
+          OnDblClick = btnApplyThemeClick
+        end
+        object btnApplyTheme: TButton
+          Left = 15
+          Top = 290
+          Width = 130
+          Height = 25
+          Caption = 'Apply Theme'
+          TabOrder = 1
+          OnClick = btnApplyThemeClick
+        end
+      end
+      object Color: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 589
+        Height = 343
+        Caption = 'Syntax Colors'
+        ImageIndex = -1
+        DesignSize = (
+          589
+          343)
+        TabItem = 'SpTBXTabItem4'
+        object Label11: TLabel
+          Left = 15
+          Top = 44
+          Width = 46
+          Height = 15
+          Caption = '&Element:'
+        end
+        object Label12: TLabel
+          Left = 15
+          Top = 164
+          Width = 97
+          Height = 15
+          Caption = '&Foreground Color:'
+        end
+        object Label13: TLabel
+          Left = 15
+          Top = 208
+          Width = 99
+          Height = 15
+          Caption = 'B&ackground Color:'
+        end
+        object Label14: TLabel
+          Left = 223
+          Top = 45
+          Width = 70
+          Height = 15
+          Caption = 'Code Sample'
+        end
+        object Label15: TLabel
+          Left = 15
+          Top = 2
+          Width = 124
+          Height = 15
+          Caption = 'Editor Syntax Language'
+        end
+        object GroupBox1: TGroupBox
+          Left = 15
+          Top = 256
+          Width = 191
+          Height = 69
+          Caption = ' Text attributes '
+          TabOrder = 3
+          DesignSize = (
+            191
+            69)
+          object cbxElementBold: TCheckBox
+            Left = 5
+            Top = 17
+            Width = 84
+            Height = 21
+            Caption = '&Bold'
+            Enabled = False
+            TabOrder = 0
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementItalic: TCheckBox
+            Left = 3
+            Top = 40
+            Width = 86
+            Height = 21
+            Caption = '&Italic'
+            Enabled = False
+            TabOrder = 1
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementUnderline: TCheckBox
+            Left = 95
+            Top = 13
+            Width = 93
+            Height = 21
+            Anchors = [akTop, akRight]
+            Caption = '&Underline'
+            Enabled = False
+            TabOrder = 2
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementStrikeout: TCheckBox
+            Left = 95
+            Top = 40
+            Width = 93
+            Height = 21
+            Anchors = [akTop, akRight]
+            Caption = '&Strike Out'
+            Enabled = False
+            TabOrder = 3
+            OnClick = cbxElementBoldClick
+          end
+        end
+        object SynSyntaxSample: TSynEdit
+          Left = 223
+          Top = 64
+          Width = 352
+          Height = 257
+          Anchors = [akLeft, akTop, akRight]
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Consolas'
+          Font.Style = []
+          Font.Quality = fqClearTypeNatural
+          TabOrder = 4
+          OnClick = SynSyntaxSampleClick
+          UseCodeFolding = False
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Bands = <
+            item
+              Kind = gbkMarks
+              Visible = True
+              Width = 15
+            end
+            item
+              Kind = gbkLineNumbers
+            end
+            item
+              Kind = gbkFold
+            end
+            item
+              Kind = gbkMargin
+              Visible = True
+              Width = 2
+            end>
+          RightEdge = 0
+        end
+        object cbHighlighters: TComboBox
+          Left = 15
+          Top = 23
+          Width = 560
+          Height = 23
+          Style = csDropDownList
+          Anchors = [akLeft, akTop, akRight]
+          TabOrder = 5
+          OnChange = cbHighlightersChange
+        end
+        object lbElements: TSpTBXListBox
+          Left = 15
+          Top = 63
+          Width = 188
+          Height = 97
+          Style = lbStandard
+          ItemHeight = 13
+          TabOrder = 0
+          OnClick = lbElementsClick
+        end
+        object cbElementForeground: TSpTBXColorEdit
+          Left = 15
+          Top = 181
+          Width = 191
+          Height = 23
+          TabOrder = 1
+          SelectedColor = clBlack
+          SelectedFormat = cttHTML
+          OnSelectedColorChanged = cbElementForegroundChange
+        end
+        object cbElementBackground: TSpTBXColorEdit
+          Left = 15
+          Top = 229
+          Width = 191
+          Height = 23
+          TabOrder = 2
+          SelectedColor = clBlack
+          SelectedFormat = cttHTML
+          OnSelectedColorChanged = cbElementBackgroundChange
+        end
+      end
       object Display: TSpTBXTabSheet
         Left = 0
         Top = 25
@@ -703,22 +967,22 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object Label3: TLabel
             Left = 9
             Top = 45
-            Width = 54
-            Height = 13
+            Width = 59
+            Height = 15
             Caption = 'Edge color:'
           end
           object Label10: TLabel
             Left = 9
             Top = 19
-            Width = 66
-            Height = 13
+            Width = 75
+            Height = 15
             Caption = 'Edge Column:'
           end
           object eRightEdge: TEdit
             Left = 128
             Top = 18
             Width = 51
-            Height = 21
+            Height = 23
             Anchors = [akTop, akRight]
             TabOrder = 0
             Text = '0'
@@ -727,7 +991,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Left = 128
             Top = 45
             Width = 129
-            Height = 21
+            Height = 23
             Anchors = [akTop, akRight]
             TabOrder = 1
             SelectedColor = clBlack
@@ -749,8 +1013,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object Label1: TLabel
             Left = 287
             Top = 78
-            Width = 61
-            Height = 13
+            Width = 66
+            Height = 15
             Anchors = [akTop, akRight]
             Caption = 'Gutter color:'
           end
@@ -764,8 +1028,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object lblGutterFont: TLabel
               Left = 1
               Top = 1
-              Width = 179
-              Height = 25
+              Width = 72
+              Height = 8
               Align = alClient
               Alignment = taCenter
               Caption = 'Terminal 8pt'
@@ -781,7 +1045,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Left = 399
             Top = 76
             Width = 137
-            Height = 21
+            Height = 23
             TabOrder = 7
             SelectedColor = clBlack
             SelectedFormat = cttHTML
@@ -899,8 +1163,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object labFont: TLabel
               Left = 1
               Top = 1
-              Width = 188
-              Height = 28
+              Width = 128
+              Height = 16
               Align = alClient
               Alignment = taCenter
               Caption = 'Courier New 10pt'
@@ -936,22 +1200,22 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object Label8: TLabel
             Left = 23
             Top = 27
-            Width = 57
-            Height = 13
+            Width = 59
+            Height = 15
             Caption = 'Extra Lines:'
           end
           object Label9: TLabel
             Left = 23
             Top = 56
-            Width = 53
-            Height = 13
+            Width = 56
+            Height = 15
             Caption = 'Tab Width:'
           end
           object eLineSpacing: TEdit
             Left = 208
             Top = 23
             Width = 42
-            Height = 21
+            Height = 23
             Anchors = [akLeft, akTop, akRight]
             TabOrder = 0
             Text = '0'
@@ -960,7 +1224,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Left = 208
             Top = 53
             Width = 42
-            Height = 21
+            Height = 23
             Anchors = [akLeft, akTop, akRight]
             TabOrder = 1
             Text = '8'
@@ -981,244 +1245,12 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Left = 48
             Top = 16
             Width = 206
-            Height = 21
+            Height = 23
             Anchors = [akLeft, akTop, akRight]
             TabOrder = 0
             SelectedColor = clBlack
             SelectedFormat = cttHTML
           end
-        end
-      end
-      object ColorThemes: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 589
-        Height = 343
-        Caption = 'Color Theme'
-        ImageIndex = -1
-        DesignSize = (
-          589
-          343)
-        TabItem = 'SpTBXTabItem5'
-        object SpTBXLabel1: TLabel
-          Left = 183
-          Top = 12
-          Width = 62
-          Height = 13
-          Caption = 'Code Sample'
-        end
-        object SpTBXLabel2: TLabel
-          Left = 3
-          Top = 12
-          Width = 83
-          Height = 13
-          Caption = 'Available Themes'
-        end
-        object SynThemeSample: TSynEdit
-          Left = 183
-          Top = 41
-          Width = 404
-          Height = 276
-          Anchors = [akLeft, akTop, akRight]
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Consolas'
-          Font.Style = []
-          Font.Quality = fqClearTypeNatural
-          TabOrder = 0
-          UseCodeFolding = False
-          Gutter.Font.Charset = DEFAULT_CHARSET
-          Gutter.Font.Color = clWindowText
-          Gutter.Font.Height = -11
-          Gutter.Font.Name = 'Courier New'
-          Gutter.Font.Style = []
-          Gutter.Visible = False
-          Gutter.Width = 0
-          RightEdge = 0
-        end
-        object lbColorThemes: TListBox
-          Left = 3
-          Top = 41
-          Width = 166
-          Height = 240
-          ItemHeight = 13
-          TabOrder = 2
-          OnClick = lbColorThemesClick
-          OnDblClick = btnApplyThemeClick
-        end
-        object btnApplyTheme: TButton
-          Left = 15
-          Top = 290
-          Width = 130
-          Height = 25
-          Caption = 'Apply Theme'
-          TabOrder = 1
-          OnClick = btnApplyThemeClick
-        end
-      end
-      object Color: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 589
-        Height = 343
-        Caption = 'Syntax Colors'
-        ImageIndex = -1
-        DesignSize = (
-          589
-          343)
-        TabItem = 'SpTBXTabItem4'
-        object Label11: TLabel
-          Left = 15
-          Top = 44
-          Width = 42
-          Height = 13
-          Caption = '&Element:'
-        end
-        object Label12: TLabel
-          Left = 15
-          Top = 164
-          Width = 88
-          Height = 13
-          Caption = '&Foreground Color:'
-        end
-        object Label13: TLabel
-          Left = 15
-          Top = 208
-          Width = 88
-          Height = 13
-          Caption = 'B&ackground Color:'
-        end
-        object Label14: TLabel
-          Left = 223
-          Top = 45
-          Width = 64
-          Height = 13
-          Caption = 'Code Sample'
-        end
-        object Label15: TLabel
-          Left = 15
-          Top = 2
-          Width = 115
-          Height = 13
-          Caption = 'Editor Syntax Language'
-        end
-        object GroupBox1: TGroupBox
-          Left = 15
-          Top = 256
-          Width = 191
-          Height = 69
-          Caption = ' Text attributes '
-          TabOrder = 3
-          DesignSize = (
-            191
-            69)
-          object cbxElementBold: TCheckBox
-            Left = 5
-            Top = 17
-            Width = 84
-            Height = 21
-            Caption = '&Bold'
-            Enabled = False
-            TabOrder = 0
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementItalic: TCheckBox
-            Left = 3
-            Top = 40
-            Width = 86
-            Height = 21
-            Caption = '&Italic'
-            Enabled = False
-            TabOrder = 1
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementUnderline: TCheckBox
-            Left = 95
-            Top = 13
-            Width = 93
-            Height = 21
-            Anchors = [akTop, akRight]
-            Caption = '&Underline'
-            Enabled = False
-            TabOrder = 2
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementStrikeout: TCheckBox
-            Left = 95
-            Top = 40
-            Width = 93
-            Height = 21
-            Anchors = [akTop, akRight]
-            Caption = '&Strike Out'
-            Enabled = False
-            TabOrder = 3
-            OnClick = cbxElementBoldClick
-          end
-        end
-        object SynSyntaxSample: TSynEdit
-          Left = 223
-          Top = 64
-          Width = 352
-          Height = 257
-          Anchors = [akLeft, akTop, akRight]
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Consolas'
-          Font.Style = []
-          Font.Quality = fqClearTypeNatural
-          TabOrder = 4
-          OnClick = SynSyntaxSampleClick
-          UseCodeFolding = False
-          Gutter.Font.Charset = DEFAULT_CHARSET
-          Gutter.Font.Color = clWindowText
-          Gutter.Font.Height = -11
-          Gutter.Font.Name = 'Courier New'
-          Gutter.Font.Style = []
-          Gutter.Visible = False
-          Gutter.Width = 0
-          RightEdge = 0
-        end
-        object cbHighlighters: TComboBox
-          Left = 15
-          Top = 23
-          Width = 560
-          Height = 21
-          Style = csDropDownList
-          Anchors = [akLeft, akTop, akRight]
-          TabOrder = 5
-          OnChange = cbHighlightersChange
-        end
-        object lbElements: TSpTBXListBox
-          Left = 15
-          Top = 63
-          Width = 188
-          Height = 97
-          Style = lbStandard
-          ItemHeight = 13
-          TabOrder = 0
-          OnClick = lbElementsClick
-        end
-        object cbElementForeground: TSpTBXColorEdit
-          Left = 15
-          Top = 181
-          Width = 191
-          Height = 21
-          TabOrder = 1
-          SelectedColor = clBlack
-          SelectedFormat = cttHTML
-          OnSelectedColorChanged = cbElementForegroundChange
-        end
-        object cbElementBackground: TSpTBXColorEdit
-          Left = 15
-          Top = 229
-          Width = 191
-          Height = 21
-          TabOrder = 2
-          SelectedColor = clBlack
-          SelectedFormat = cttHTML
-          OnSelectedColorChanged = cbElementBackgroundChange
         end
       end
     end

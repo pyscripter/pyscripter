@@ -10,7 +10,7 @@ inherited CodeTemplates: TCodeTemplates
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel: TPanel
     Left = 0
     Top = 0
@@ -113,22 +113,22 @@ inherited CodeTemplates: TCodeTemplates
       object Label1: TLabel
         Left = 8
         Top = 21
-        Width = 31
-        Height = 13
+        Width = 35
+        Height = 15
         Caption = '&Name:'
       end
       object Label2: TLabel
         Left = 8
         Top = 65
-        Width = 48
-        Height = 13
+        Width = 51
+        Height = 15
         Caption = '&Template:'
       end
       object Label5: TLabel
         Left = 8
         Top = 44
-        Width = 57
-        Height = 13
+        Width = 63
+        Height = 15
         Caption = '&Description:'
       end
       object Label4: TLabel
@@ -179,7 +179,24 @@ inherited CodeTemplates: TCodeTemplates
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
-        Gutter.Width = 0
+        Gutter.Visible = False
+        Gutter.Bands = <
+          item
+            Kind = gbkMarks
+            Width = 15
+          end
+          item
+            Kind = gbkLineNumbers
+            Visible = False
+          end
+          item
+            Kind = gbkFold
+            Visible = False
+          end
+          item
+            Kind = gbkMargin
+            Width = 2
+          end>
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         TabWidth = 4
       end
@@ -187,7 +204,7 @@ inherited CodeTemplates: TCodeTemplates
         Left = 115
         Top = 43
         Width = 426
-        Height = 21
+        Height = 23
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 2
       end
@@ -195,7 +212,7 @@ inherited CodeTemplates: TCodeTemplates
         Left = 115
         Top = 16
         Width = 121
-        Height = 21
+        Height = 23
         TabOrder = 0
         OnKeyPress = edShortcutKeyPress
       end
@@ -267,37 +284,30 @@ inherited CodeTemplates: TCodeTemplates
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 21
         CollectionName = 'Delete'
-        Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 87
+        CollectionIndex = 88
         CollectionName = 'Refresh'
-        Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 127
+        CollectionIndex = 129
         CollectionName = 'Up'
-        Disabled = False
         Name = 'Up'
       end
       item
         CollectionIndex = 22
         CollectionName = 'Down'
-        Disabled = False
         Name = 'Down'
       end
       item
-        CollectionIndex = 67
+        CollectionIndex = 68
         CollectionName = 'Plus'
-        Disabled = False
         Name = 'Plus'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

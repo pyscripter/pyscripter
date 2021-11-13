@@ -560,7 +560,6 @@ begin
     Self.Gutter.Assign(TSynEditorOptionsContainer(Source).Gutter);
     Self.Keystrokes.Assign(TSynEditorOptionsContainer(Source).Keystrokes);
     Self.SelectedColor.Assign(TSynEditorOptionsContainer(Source).SelectedColor);
-
     Self.Color := TSynEditorOptionsContainer(Source).Color;
     Self.Options := TSynEditorOptionsContainer(Source).Options;
     Self.ExtraLineSpacing := TSynEditorOptionsContainer(Source).ExtraLineSpacing;
@@ -589,7 +588,6 @@ begin
       TCustomSynEdit(Dest).Gutter.Assign(Self.Gutter);
       TCustomSynEdit(Dest).Keystrokes.Assign(Self.Keystrokes);
       TCustomSynEdit(Dest).SelectedColor.Assign(Self.SelectedColor);
-
       TCustomSynEdit(Dest).Color := Self.Color;
       TCustomSynEdit(Dest).Options := Self.Options;
       TCustomSynEdit(Dest).ExtraLineSpacing := Self.ExtraLineSpacing;
@@ -616,6 +614,7 @@ begin
   FBookmarks:= TSynBookMarkOpt.Create(Self);
   FKeystrokes:= TSynEditKeyStrokes.Create(Self);
   FSynGutter:= TSynGutter.Create;
+  FSynGutter.AssignableBands := False;
   FSelectedColor:= TSynSelectedColor.Create;
   FSelectedColor.Foreground:= clHighlightText;
   FSelectedColor.Background:= clHighlight;

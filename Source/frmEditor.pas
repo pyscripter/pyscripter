@@ -137,8 +137,6 @@ type
     procedure SynEditExit(Sender: TObject);
     procedure SynEditStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure FormCreate(Sender: TObject);
-    procedure SynEditGutterClick(Sender: TObject; Button: TMouseButton;
-      X, Y, Line: Integer; Mark: TSynEditMark);
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer;
       var Special: boolean; var FG, BG: TColor);
     procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
@@ -176,6 +174,12 @@ type
       const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
     procedure SynEditGutterGetText(Sender: TObject; aLine: Integer;
       var aText: string);
+    procedure SynEditDebugInfoPaintLines(Canvas: TCanvas; ClipR: TRect;
+        const FirstRow, LastRow: Integer; var DoDefaultPainting: Boolean);
+    procedure SynEditGutterDebugInfoCLick(Sender: TObject; Button: TMouseButton;
+        X, Y, Row, Line: Integer);
+    procedure SynEditGutterDebugInfoMouseCursor(Sender: TObject; X, Y, Row, Line:
+        Integer; var Cursor: TCursor);
   private
     fEditor: TEditor;
     fActiveSynEdit: TSynEdit;
@@ -226,8 +230,6 @@ type
     procedure EditorCommandHandler(Sender: TObject; AfterProcessing: boolean;
       var Handled: boolean; var Command: TSynEditorCommand;
       var AChar: WideChar; Data: Pointer; HandlerData: Pointer);
-    procedure PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
-      FirstLine, LastLine: Integer);
     procedure DoOnIdle;
     procedure SyncCodeExplorer;
     procedure AddWatchAtCursor;
@@ -406,7 +408,7 @@ Var
       // Do not draw on gutter.
       // This happens when a word is underlined and part of it is "hidden" under
       // the gutter.
-      if TP.X <= Editor.Gutter.RealGutterWidth(Editor.CharWidth) then
+      if TP.X <= Editor.Gutter.RealGutterWidth then
         Exit;
       with ACanvas do
       begin
@@ -480,9 +482,6 @@ begin
       end;
     end;
   end;
-
-  if fForm.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
-    fForm.PaintGutterGlyphs(ACanvas, AClip, FirstLine, LastLine);
 end;
 
 procedure TDebugSupportPlugin.LinesInserted(FirstLine, Count: Integer);
@@ -1584,7 +1583,7 @@ begin
   ASynEdit := Sender as TSynEdit;
   GetCursorPos(ptMouse);
   ptMouse := ASynEdit.ScreenToClient(ptMouse);
-  if (ptMouse.X >= ASynEdit.Gutter.Width + 2)
+  if (ptMouse.X >= ASynEdit.Gutter.RealGutterWidth + 2)
     and ASynEdit.SelAvail and PyIDEOptions.HighlightSelectedWord
   then
     CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
@@ -2285,61 +2284,6 @@ begin
   end;
 end;
 
-procedure TEditorForm.PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
-  FirstLine, LastLine: Integer);
-var
-  LH, X, Y: Integer;
-  LI: TDebuggerLineInfos;
-  ImgIndex: Integer;
-  Line: Integer;
-begin
-  if (PyControl.ActiveDebugger <> nil) and SynEdit.Gutter.Visible then
-  begin
-    FirstLine := SynEdit.RowToLine(FirstLine);
-    LastLine := SynEdit.RowToLine(LastLine);
-    X := SynEdit.BookMarkOptions.Xoffset + SynEdit.Gutter.RightMargin;
-    LH := SynEdit.LineHeight;
-
-    for Line := FirstLine to LastLine do
-    begin
-      if SynEdit.AllFoldRanges.FoldHidesLine(Line) then
-        continue;
-      Y := (LH - vilGutterGlyphs.Height) div 2 + LH *
-        (SynEdit.LineToRow(Line) - SynEdit.TopLine);
-      LI := PyControl.GetLineInfos(fEditor, Line);
-      if dlCurrentLine in LI then
-      begin
-        if dlBreakpointLine in LI then
-          ImgIndex := 2
-        else
-          ImgIndex := 1;
-      end
-      else if dlExecutableLine in LI then
-      begin
-        if dlBreakpointLine in LI then
-          ImgIndex := 3
-        else if dlDisabledBreakpointLine in LI then
-          ImgIndex := 5
-        else if PyIDEOptions.MarkExecutableLines then
-          ImgIndex := 0
-        else
-          ImgIndex := -1
-      end
-      else
-      begin
-        if dlBreakpointLine in LI then
-          ImgIndex := 4
-        else if dlDisabledBreakpointLine in LI then
-          ImgIndex := 5
-        else
-          ImgIndex := -1;
-      end;
-      if ImgIndex >= 0 then
-        vilGutterGlyphs.Draw(ACanvas, X, Y, ImgIndex);
-    end;
-  end;
-end;
-
 class procedure TEditorForm.SymbolsChanged(Sender: TObject);
 begin
   CodeExplorerWindow.UpdateWindow(Sender as TDocSymbols, ceuSymbolsChanged);
@@ -2402,18 +2346,6 @@ begin
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
 
   Retranslate;
-end;
-
-procedure TEditorForm.SynEditGutterClick(Sender: TObject; Button: TMouseButton;
-  X, Y, Line: Integer; Mark: TSynEditMark);
-Var
-  ASynEdit: TSynEdit;
-begin
-  ASynEdit := Sender as TSynEdit;
-  if (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    (PyControl.ActiveDebugger <> nil)
-  then
-    PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL) < 0);
 end;
 
 procedure TEditorForm.SynEditGutterGetText(Sender: TObject; aLine: Integer;
@@ -2537,7 +2469,7 @@ var
   FoundError: TDiagnostic;
 begin
   ASynEdit := Sender as TSynEdit;
-  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.Gutter.Width) or
+  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.Gutter.RealGutterWidth) or
     (ASynEdit <> Self.FActiveSynEdit)
   then
     Exit;
@@ -3187,6 +3119,81 @@ begin
     ParentTabItem.ImageIndex := PyIDEMainForm.vilTabDecorators.GetIndexByName('Bug')
   else
     ParentTabItem.ImageIndex := -1;
+end;
+
+procedure TEditorForm.SynEditDebugInfoPaintLines(Canvas: TCanvas; ClipR:
+    TRect; const FirstRow, LastRow: Integer; var DoDefaultPainting: Boolean);
+var
+  LH, Y: Integer;
+  LI: TDebuggerLineInfos;
+  ImgIndex: Integer;
+  Row, Line: Integer;
+begin
+  DoDefaultPainting := False;
+  if not (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then Exit;
+
+  if (PyControl.ActiveDebugger <> nil) and SynEdit.Gutter.Visible then
+  begin
+    LH := SynEdit.LineHeight;
+
+    for Row := FirstRow to LastRow do
+    begin
+      Line := SynEdit.RowToLine(Row);
+      if Row <> SynEdit.LineToRow(Line) then Continue;  //Wrapped line
+
+      Y := (LH - vilGutterGlyphs.Height) div 2 + LH *
+        (Row - SynEdit.TopLine);
+      LI := PyControl.GetLineInfos(fEditor, Line);
+      if dlCurrentLine in LI then
+      begin
+        if dlBreakpointLine in LI then
+          ImgIndex := 2
+        else
+          ImgIndex := 1;
+      end
+      else if dlExecutableLine in LI then
+      begin
+        if dlBreakpointLine in LI then
+          ImgIndex := 3
+        else if dlDisabledBreakpointLine in LI then
+          ImgIndex := 5
+        else if PyIDEOptions.MarkExecutableLines then
+          ImgIndex := 0
+        else
+          ImgIndex := -1
+      end
+      else
+      begin
+        if dlBreakpointLine in LI then
+          ImgIndex := 4
+        else if dlDisabledBreakpointLine in LI then
+          ImgIndex := 5
+        else
+          ImgIndex := -1;
+      end;
+      if ImgIndex >= 0 then
+        vilGutterGlyphs.Draw(Canvas, ClipR.Left +
+          MulDiv(TSynGutterBand.MarginX, FCurrentPPI, 96), Y, ImgIndex);
+    end;
+  end;
+end;
+
+procedure TEditorForm.SynEditGutterDebugInfoCLick(Sender: TObject; Button:
+    TMouseButton; X, Y, Row, Line: Integer);
+Var
+  ASynEdit: TSynEdit;
+begin
+  ASynEdit := Sender as TSynEdit;
+  if (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
+    (PyControl.ActiveDebugger <> nil)
+  then
+    PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL) < 0);
+end;
+
+procedure TEditorForm.SynEditGutterDebugInfoMouseCursor(Sender: TObject; X, Y,
+    Row, Line: Integer; var Cursor: TCursor);
+begin
+  Cursor := crHandPoint;
 end;
 
 initialization

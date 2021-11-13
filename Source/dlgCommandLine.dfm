@@ -5,10 +5,8 @@ inherited CommandLineDlg: TCommandLineDlg
   ClientHeight = 172
   ClientWidth = 528
   OnDestroy = FormDestroy
-  ExplicitWidth = 534
-  ExplicitHeight = 201
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel: TPanel
     Left = 0
     Top = 0
@@ -36,8 +34,8 @@ inherited CommandLineDlg: TCommandLineDlg
     object Label3: TLabel
       Left = 13
       Top = 108
-      Width = 252
-      Height = 13
+      Width = 272
+      Height = 15
       Anchors = [akLeft, akBottom]
       Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
       Color = clNone
@@ -58,20 +56,30 @@ inherited CommandLineDlg: TCommandLineDlg
       Font.Quality = fqClearTypeNatural
       TabOrder = 0
       OnEnter = SynParametersEnter
-      CodeFolding.GutterShapeSize = 11
-      CodeFolding.CollapsedLineColor = clGrayText
-      CodeFolding.FolderBarLinesColor = clGrayText
-      CodeFolding.IndentGuidesColor = clGray
-      CodeFolding.IndentGuides = True
-      CodeFolding.ShowCollapsedLine = False
-      CodeFolding.ShowHintMark = True
       UseCodeFolding = False
       Gutter.Font.Charset = DEFAULT_CHARSET
       Gutter.Font.Color = clWindowText
       Gutter.Font.Height = -11
       Gutter.Font.Name = 'Courier New'
       Gutter.Font.Style = []
-      Gutter.Width = 0
+      Gutter.Visible = False
+      Gutter.Bands = <
+        item
+          Kind = gbkMarks
+          Width = 15
+        end
+        item
+          Kind = gbkLineNumbers
+          Visible = False
+        end
+        item
+          Kind = gbkFold
+          Visible = False
+        end
+        item
+          Kind = gbkMargin
+          Width = 2
+        end>
       HideSelection = True
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
       ScrollBars = ssNone

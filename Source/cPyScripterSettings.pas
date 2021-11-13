@@ -648,12 +648,17 @@ type
 // Modify JvAppStorage handling of TSynGutter
 // We want to PPI scale size properties
 TJvAppStorageGutterPropertyEngine = class(TJvAppStoragePropertyBaseEngine)
+  private
+    class var FGutterIgnoreProperties: TStringList;
 public
   function Supports(AObject: TObject; AProperty: TObject): Boolean; override;
   procedure ReadProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const Recursive,
     ClearFirst: Boolean; const IgnoreProperties: TStrings = nil); override;
   procedure WriteProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const
     Recursive: Boolean; const IgnoreProperties: TStrings = nil); override;
+strict private
+  class constructor Create;
+  class destructor Destroy;
 end;
 
 { TJvAppStorageGutterPropertyEngine }
@@ -664,6 +669,17 @@ begin
   Result := AProperty is TSynGutter;
 end;
 
+class constructor TJvAppStorageGutterPropertyEngine.Create;
+begin
+  FGutterIgnoreProperties := TStringList.Create;
+  FGutterIgnoreProperties.Add('Bands');
+end;
+
+class destructor TJvAppStorageGutterPropertyEngine.Destroy;
+begin
+  FGutterIgnoreProperties.Free;
+end;
+
 procedure TJvAppStorageGutterPropertyEngine.ReadProperty(
   AStorage: TJvCustomAppStorage; const APath: string; AObject,
   AProperty: TObject; const Recursive, ClearFirst: Boolean;
@@ -672,7 +688,7 @@ Var
   FontSize : Integer;
 begin
   AStorage.ReadPersistent(APath, AProperty as TSynGutter, Recursive, ClearFirst,
-    IgnoreProperties);
+    FGutterIgnoreProperties);
   FontSize := TSynGutter(AProperty).Font.Size;
   TSynGutter(AProperty).ChangeScale(Screen.PixelsPerInch, 96);
   TSynGutter(AProperty).Font.Size := FontSize;
@@ -690,7 +706,7 @@ begin
   TSynGutter(AProperty).Font.Size := FontSize;
   AStorage.StorageOptions.StoreDefaultValues := True;
   AStorage.WritePersistent(APath, AProperty as TSynGutter, Recursive,
-    IgnoreProperties);
+    FGutterIgnoreProperties);
   AStorage.StorageOptions.StoreDefaultValues := False;
   TSynGutter(AProperty).ChangeScale(Screen.PixelsPerInch, 96);
   TSynGutter(AProperty).Font.Size := FontSize;
@@ -907,9 +923,6 @@ begin
     Gutter.Font.Name := Font.Name;
     Gutter.Font.Color := clGrayText;
     Gutter.Gradient := False;
-    Gutter.LeftOffset := 25;
-    Gutter.RightOffset := 1;
-    Gutter.Width := 27;
     Gutter.DigitCount := 2;
     Gutter.ShowLineNumbers := True;
     Gutter.Autosize := True;

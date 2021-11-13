@@ -7,11 +7,10 @@ object EditorForm: TEditorForm
   Color = clWindow
   Ctl3D = False
   ParentFont = True
-  OldCreateOrder = False
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object BGPanel: TPanel
     Left = 0
     Top = 0
@@ -103,11 +102,35 @@ object EditorForm: TEditorForm
           Gutter.Font.Style = []
           Gutter.Gradient = True
           Gutter.GradientSteps = 30
+          Gutter.Bands = <
+            item
+              Kind = gbkMarks
+              Visible = True
+              Width = 13
+            end
+            item
+              Kind = gbkCustom
+              Visible = True
+              Width = 13
+              OnPaintLines = SynEditDebugInfoPaintLines
+              OnCLick = SynEditGutterDebugInfoCLick
+              OnMouseCursor = SynEditGutterDebugInfoMouseCursor
+            end
+            item
+              Kind = gbkLineNumbers
+            end
+            item
+              Kind = gbkFold
+            end
+            item
+              Kind = gbkMargin
+              Visible = True
+              Width = 3
+            end>
           SelectedColor.Background = clSkyBlue
           TabWidth = 4
           WantTabs = True
           OnChange = SynEditChange
-          OnGutterClick = SynEditGutterClick
           OnGutterGetText = SynEditGutterGetText
           OnMouseCursor = SynEditMouseCursor
           OnSpecialLineColors = SynEditSpecialLineColors
@@ -257,10 +280,6 @@ object EditorForm: TEditorForm
             item
               Command = ecDeleteLastChar
               ShortCut = 8
-            end
-            item
-              Command = ecDeleteLastChar
-              ShortCut = 8200
             end
             item
               Command = ecDeleteLastWord
@@ -520,6 +539,23 @@ object EditorForm: TEditorForm
           Gutter.Font.Height = -11
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
+          Gutter.Bands = <
+            item
+              Kind = gbkMarks
+              Visible = True
+              Width = 13
+            end
+            item
+              Kind = gbkLineNumbers
+            end
+            item
+              Kind = gbkFold
+            end
+            item
+              Kind = gbkMargin
+              Visible = True
+              Width = 3
+            end>
           OnMouseCursor = SynEditMouseCursor
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
@@ -668,10 +704,6 @@ object EditorForm: TEditorForm
             item
               Command = ecDeleteLastChar
               ShortCut = 8
-            end
-            item
-              Command = ecDeleteLastChar
-              ShortCut = 8200
             end
             item
               Command = ecDeleteLastWord
@@ -1054,43 +1086,35 @@ object EditorForm: TEditorForm
     end
   end
   object vilGutterGlyphs: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 5
         CollectionName = 'EditorGutter\Executable'
-        Disabled = False
         Name = 'Executable'
       end
       item
         CollectionIndex = 3
         CollectionName = 'EditorGutter\Current'
-        Disabled = False
         Name = 'Current'
       end
       item
         CollectionIndex = 4
         CollectionName = 'EditorGutter\CurrentBreak'
-        Disabled = False
         Name = 'CurrentBreak'
       end
       item
         CollectionIndex = 0
         CollectionName = 'EditorGutter\Break'
-        Disabled = False
         Name = 'Break'
       end
       item
         CollectionIndex = 2
         CollectionName = 'EditorGutter\BreakInvalid'
-        Disabled = False
         Name = 'BreakInvalid'
       end
       item
         CollectionIndex = 1
         CollectionName = 'EditorGutter\BreakDisabled'
-        Disabled = False
         Name = 'BreakDisabled'
       end>
     ImageCollection = CommandsDataModule.icGutterGlyphs
@@ -1101,67 +1125,55 @@ object EditorForm: TEditorForm
     Top = 80
   end
   object vilCodeImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 8
         CollectionName = 'CodeImages\Python'
-        Disabled = False
         Name = 'Python'
       end
       item
         CollectionIndex = 9
         CollectionName = 'CodeImages\Variable'
-        Disabled = False
         Name = 'Variable'
       end
       item
         CollectionIndex = 1
         CollectionName = 'CodeImages\Field'
-        Disabled = False
         Name = 'Field'
       end
       item
         CollectionIndex = 2
         CollectionName = 'CodeImages\Function'
-        Disabled = False
         Name = 'Function'
       end
       item
         CollectionIndex = 5
         CollectionName = 'CodeImages\Method'
-        Disabled = False
         Name = 'Method'
       end
       item
         CollectionIndex = 0
         CollectionName = 'CodeImages\Class'
-        Disabled = False
         Name = 'Class'
       end
       item
         CollectionIndex = 7
         CollectionName = 'CodeImages\Namespace'
-        Disabled = False
         Name = 'Namespace'
       end
       item
         CollectionIndex = 4
         CollectionName = 'CodeImages\List'
-        Disabled = False
         Name = 'List'
       end
       item
         CollectionIndex = 6
         CollectionName = 'CodeImages\Module'
-        Disabled = False
         Name = 'Module'
       end
       item
         CollectionIndex = 3
         CollectionName = 'CodeImages\Keyword'
-        Disabled = False
         Name = 'Keyword'
       end>
     ImageCollection = CommandsDataModule.icCodeImages

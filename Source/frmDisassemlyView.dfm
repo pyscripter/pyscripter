@@ -7,10 +7,9 @@ object DisForm: TDisForm
   ClientWidth = 599
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object DisSynEdit: TSynEdit
     Left = 0
     Top = 0
@@ -30,7 +29,23 @@ object DisForm: TDisForm
     Gutter.Font.Height = -11
     Gutter.Font.Name = 'Courier New'
     Gutter.Font.Style = []
-    Gutter.Visible = False
-    Gutter.Width = 0
+    Gutter.ShowLineNumbers = True
+    Gutter.Bands = <
+      item
+        Kind = gbkMarks
+        Visible = True
+        Width = 13
+      end
+      item
+        Kind = gbkLineNumbers
+      end
+      item
+        Kind = gbkFold
+      end
+      item
+        Kind = gbkMargin
+        Visible = True
+        Width = 3
+      end>
   end
 end
