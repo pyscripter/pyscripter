@@ -283,8 +283,8 @@ procedure TFindInFilesDialog.LoadFormSettings;
   begin
     Selection := RetrieveEditorBlockSelection;
     if (Trim(Selection) = '') and PyIDEOptions.SearchTextAtCaret then begin
-      if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.SynEdit do
-        Selection := GetWordAtRowCol(CaretXY)
+      if Assigned(GI_ActiveEditor) then
+        Selection := GI_ActiveEditor.SynEdit.WordAtCursor
       else
         Selection := '';
     end;

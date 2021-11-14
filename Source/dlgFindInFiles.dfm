@@ -8,7 +8,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
   Position = poScreenCenter
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -22,8 +22,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
     object lblFind: TLabel
       Left = 8
       Top = 9
-      Width = 60
-      Height = 13
+      Width = 62
+      Height = 15
       Caption = '&Text to find:'
       FocusControl = cbText
     end
@@ -127,16 +127,16 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object lblMasks: TLabel
         Left = 9
         Top = 52
-        Width = 52
-        Height = 13
+        Width = 57
+        Height = 15
         Caption = 'File mas&ks:'
         FocusControl = cbMasks
       end
       object lblDirectory: TLabel
         Left = 8
         Top = 26
-        Width = 55
-        Height = 13
+        Width = 59
+        Height = 15
         Caption = 'Di&rectories:'
         FocusControl = cbDirectory
       end
@@ -169,7 +169,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Left = 96
         Top = 48
         Width = 273
-        Height = 21
+        Height = 23
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 2
@@ -178,7 +178,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Left = 96
         Top = 21
         Width = 251
-        Height = 21
+        Height = 23
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 0
@@ -222,23 +222,20 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Left = 8
       Top = 28
       Width = 372
-      Height = 21
+      Height = 23
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 15
       TabOrder = 0
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 45
+        CollectionIndex = 63
         CollectionName = 'OpenFolder'
-        Disabled = False
         Name = 'OpenFolder'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
     Left = 24
     Top = 248

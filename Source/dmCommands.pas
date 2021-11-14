@@ -2690,7 +2690,7 @@ var
   OldCaret : TBufferCoord;
 begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
-    SearchText :=  GetWordAtRowCol(CaretXY);
+    SearchText :=  WordAtCursor;
     if SearchText <> '' then begin
       OldCaret := CaretXY;
 
@@ -3035,7 +3035,7 @@ begin
       then
         tbiSearchText.Text := SynEdit.SelText
       else begin
-        S := SynEdit.GetWordAtRowCol(SynEdit.CaretXY);
+        S := SynEdit.WordAtCursor;
         if S <> '' then
           tbiSearchText.Text := S;
       end;

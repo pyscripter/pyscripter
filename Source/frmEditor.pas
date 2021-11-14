@@ -408,7 +408,7 @@ Var
       // Do not draw on gutter.
       // This happens when a word is underlined and part of it is "hidden" under
       // the gutter.
-      if TP.X <= Editor.Gutter.RealGutterWidth then
+      if TP.X <= Editor.GutterWidth then
         Exit;
       with ACanvas do
       begin
@@ -1583,7 +1583,7 @@ begin
   ASynEdit := Sender as TSynEdit;
   GetCursorPos(ptMouse);
   ptMouse := ASynEdit.ScreenToClient(ptMouse);
-  if (ptMouse.X >= ASynEdit.Gutter.RealGutterWidth + 2)
+  if (ptMouse.X >= ASynEdit.GutterWidth + 2)
     and ASynEdit.SelAvail and PyIDEOptions.HighlightSelectedWord
   then
     CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
@@ -2469,7 +2469,7 @@ var
   FoundError: TDiagnostic;
 begin
   ASynEdit := Sender as TSynEdit;
-  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.Gutter.RealGutterWidth) or
+  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.GutterWidth) or
     (ASynEdit <> Self.FActiveSynEdit)
   then
     Exit;
