@@ -341,17 +341,18 @@ type
   http://blog.barrkel.com/2008/11/reference-counted-pointers-revisited.html,
   https://stackoverflow.com/questions/30153682/why-does-this-optimization-of-a-smartpointer-not-work
 *)
-  TObjectHandle<T: class> = class(TInterfacedObject, TFunc<T>)
-  // used by TSmartPointer
-  private
-    FValue:  T;
-  public
-    constructor  Create(AValue:  T);
-    destructor  Destroy;  override;
-    function  Invoke:  T;
-  end;
-
   TSmartPtr = record
+  private type
+    TObjectHandle<T: class> = class(TInterfacedObject, TFunc<T>)
+    private
+      FValue: T;
+    protected
+      function Invoke:  T;
+    public
+      constructor Create(AValue:  T);
+      destructor Destroy;  override;
+    end;
+  public
     class function Make<T: class>(AValue: T): TFunc<T>; static;
   end;
 
@@ -2381,25 +2382,22 @@ begin
    Result := MulDiv(ASize, 96, FCurrentPPI);
 end;
 
-{ TObjectHandle }
+{ TSmartPointer }
 
-constructor  TObjectHandle<T>.Create(AValue:  T);
+constructor TSmartPtr.TObjectHandle<T>.Create(AValue:  T);
 begin
   FValue  :=  AValue;
 end;
 
-destructor  TObjectHandle<T>.Destroy;
+destructor TSmartPtr.TObjectHandle<T>.Destroy;
 begin
   FValue.Free;
 end;
 
-function  TObjectHandle<T>.Invoke:  T;
+function TSmartPtr.TObjectHandle<T>.Invoke:  T;
 begin
   Result  :=  FValue;
 end;
-
-
-{ TSmartPointer }
 
 class function TSmartPtr.Make<T>(AValue: T): TFunc<T>;
 begin
