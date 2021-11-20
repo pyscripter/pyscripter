@@ -109,8 +109,9 @@ begin
   if Assigned(Node) then
     Level := vtPythonVersions.GetNodeLevel(Node);
   actPVActivate.Enabled := Assigned(Node) and (Level = 1) and
+   (not GI_PyControl.PythonLoaded or
     not (((Node.Parent.Index = 0) and (PyControl.PythonVersionIndex = integer(Node.Index))) or
-         ((Node.Parent.Index = 1) and (PyControl.PythonVersionIndex = -(Node.Index + 1))));
+         ((Node.Parent.Index = 1) and (PyControl.PythonVersionIndex = -(Node.Index + 1)))));
 
   actPVRemove.Enabled := Assigned(Node) and (Level = 1) and (Node.Parent.Index = 1) and
     not (PyControl.PythonVersionIndex = -(Node.Index + 1));
