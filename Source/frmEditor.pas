@@ -2265,7 +2265,7 @@ begin
                       (Highlighter.IsIdentChar(CharLeft) or (CharLeft = AChar)))
                   then
                   begin
-                    SelText := CloseBrackets[OpenBracketPos];
+                    ExecuteCommand(ecChar, CloseBrackets[OpenBracketPos], nil);
                     CaretX := CaretX - 1;
                     if not CharInSet(AChar, [')', ']', '}']) then
                       fCloseBracketChar := CloseBrackets[OpenBracketPos];
@@ -2273,7 +2273,7 @@ begin
                 end;
               end;
             end;
-          end;
+        end;
       ecSelWord:
         if ASynEdit.SelAvail and PyIDEOptions.HighlightSelectedWord then
           CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
@@ -2416,7 +2416,7 @@ Var
   ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
-  if (not Assigned(ASynEdit.Highlighter)) then
+  if not Assigned(ASynEdit.Highlighter) then
     Exit;
   if fHotIdentInfo.HaveHotIdent and (fHotIdentInfo.SynEdit = ASynEdit) and
     (TransientType = ttAfter) then
