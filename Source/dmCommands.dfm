@@ -956,6 +956,11 @@ object CommandsDataModule: TCommandsDataModule
             'o_filename + " " + frame.f_code.co_name)'
           '            return res'
           ''
+          '        def clear_all_breaks(self):'
+          '            super().clear_all_breaks()'
+          '            self.breaks = self.debug_manager.breakpoints'
+          '            self.breaks.clear()'
+          ''
           '##        def trace_dispatch(self, frame, event, arg):'
           
             '##            logging.debug(frame.f_code.co_filename + " " + eve' +
