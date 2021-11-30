@@ -1635,8 +1635,7 @@ procedure GetMatchingBrackets(SynEdit : TSynEdit;
 
   procedure GetMatchingBracketsInt(const P : TBufferCoord);
   const
-    Brackets: array[0..5] of char = ('(', ')', '[', ']', '{', '}');
-
+    Brackets  = '()[]{}';
   var
     S: string;
     I: Integer;
@@ -1646,17 +1645,17 @@ procedure GetMatchingBrackets(SynEdit : TSynEdit;
     SynEdit.GetHighlighterAttriAtRowCol(P, S, Attri);
     if Assigned(Attri) and (SynEdit.Highlighter.SymbolAttribute = Attri) and
         (SynEdit.CaretX<=length(SynEdit.LineText) + 1) then begin
-      for i := Low(Brackets) to High(Brackets) do
-        if S = Brackets[i] then begin
-          BracketCh := Brackets[i];
-          IsBracket := True;
-          MatchingBracketPos := SynEdit.GetMatchingBracketEx(P);
-          if (MatchingBracketPos.Char > 0) then begin
-            HasMatchingBracket := True;
-            MatchCh := Brackets[i xor 1];
-          end;
-          break;
+      I := Brackets.IndexOf(S);
+      if I >= 0 then
+      begin
+        BracketCh := Brackets.Chars[I];
+        IsBracket := True;
+        MatchingBracketPos := SynEdit.GetMatchingBracketEx(P, Brackets);
+        if (MatchingBracketPos.Char > 0) then begin
+          HasMatchingBracket := True;
+          MatchCh := Brackets.Chars[I xor 1];
         end;
+      end;
     end;
   end;
 
