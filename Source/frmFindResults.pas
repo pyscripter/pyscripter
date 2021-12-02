@@ -237,6 +237,7 @@ uses
   System.UITypes,
   System.RegularExpressions,
   System.Math,
+  Vcl.Themes,
   JclFileUtils,
   JvJVCLUtils,
   JvGnugettext,
@@ -394,17 +395,17 @@ begin
 
     if odSelected in State then
     begin
-      nb := SpTBXThemeServices.GetSystemColor(clHighlight);
-      nf := SpTBXThemeServices.GetSystemColor(clHighLightText);
-      sb := SpTBXThemeServices.GetSystemColor(clWindow);
-      sf := SpTBXThemeServices.GetSystemColor(clWindowText);
+      nb := StyleServices.GetSystemColor(clHighlight);
+      nf := StyleServices.GetSystemColor(clHighLightText);
+      sb := StyleServices.GetSystemColor(clWindow);
+      sf := StyleServices.GetSystemColor(clWindowText);
     end
     else
     begin
-      sb := SpTBXThemeServices.GetSystemColor(clHighlight);
-      sf := SpTBXThemeServices.GetSystemColor(clHighLightText);
-      nb := SpTBXThemeServices.GetSystemColor(clWindow);
-      nf := SpTBXThemeServices.GetSystemColor(clWindowText);
+      sb := StyleServices.GetSystemColor(clHighlight);
+      sf := StyleServices.GetSystemColor(clHighLightText);
+      nb := StyleServices.GetSystemColor(clWindow);
+      nf := StyleServices.GetSystemColor(clWindowText);
     end;
 
     ResultsCanvas.Brush.Color := nb;
@@ -634,9 +635,9 @@ procedure TFindResultsWindow.AssignSettingsToForm;
 begin
   Assert(Assigned(FindInFilesExpert));
   reContext.Font.Assign(FindInFilesExpert.ContextFont);
-  reContext.Font.Color := SpTBXThemeServices.GetSystemColor(clWindowText);
+  reContext.Font.Color := StyleServices.GetSystemColor(clWindowText);
   lbResults.Font.Assign(FindInFilesExpert.ListFont);
-  lbResults.Font.Color := SpTBXThemeServices.GetSystemColor(clWindowText);
+  lbResults.Font.Color := StyleServices.GetSystemColor(clWindowText);
 end;
 
 procedure TFindResultsWindow.ClearResultsListbox;
@@ -835,7 +836,7 @@ begin
   // Highlight the matched line
   reContext.SelStart := reContext.Perform(EM_LINEINDEX, MatchLineNo, 0);
   reContext.SelLength := Length(reContext.Lines[MatchLineNo]);
-  reContext.SelAttributes.Color := SpTBXThemeServices.GetSystemColor(FindInFilesExpert.ContextMatchColor);
+  reContext.SelAttributes.Color := StyleServices.GetSystemColor(FindInFilesExpert.ContextMatchColor);
 
   for i := StartLine + 1 to StartLine + reContext.Lines.Count + 1 do
   begin

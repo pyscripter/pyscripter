@@ -139,6 +139,7 @@ Uses
   System.Math,
   System.Types,
   Vcl.Forms,
+  Vcl.Themes,
   JvDockVIDStyle,
   SpTBXDkPanels,
   SpTBXItem,
@@ -422,11 +423,11 @@ begin
   else
     InflateRect(R, 2, -1);
   OffsetRect(R, 1, 1);
-  FrameBrush := CreateSolidBrush(ColorToRGB(CurrentSkin.GetThemedSystemColor(clBtnHighlight)));
+  FrameBrush := CreateSolidBrush(ColorToRGB(StyleServices.GetSystemColor(clBtnHighlight)));
   FrameRect(Canvas.Handle, R, FrameBrush);
   DeleteObject(FrameBrush);
   OffsetRect(R, -2, -2);
-  FrameBrush := CreateSolidBrush(ColorToRGB(CurrentSkin.GetThemedSystemColor(clBtnShadow)));
+  FrameBrush := CreateSolidBrush(ColorToRGB(StyleServices.GetSystemColor(clBtnShadow)));
   FrameRect(Canvas.Handle, R, FrameBrush);
   DeleteObject(FrameBrush);
 end;
@@ -453,7 +454,7 @@ begin
   IsVertical := ARect.Right - ARect.Left < ARect.Bottom - ARect.Top;
 
   // Paint background
-  Canvas.Brush.Color := CurrentSkin.GetThemedSystemColor(clBtnFace);
+  Canvas.Brush.Color := StyleServices.GetSystemColor(clBtnFace);
   Canvas.FillRect(ARect);
   PaintSplitterFrame(Canvas, IsVertical, R);
 
@@ -465,8 +466,8 @@ begin
   else
     InflateRect(DragHandleR, -10, -1);
 
-  C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
-  C2 := CurrentSkin.GetThemedSystemColor(clWindow);
+  C1 := StyleServices.GetSystemColor(clBtnShadow);
+  C2 := StyleServices.GetSystemColor(clWindow);
   SpDrawXPGrip(Canvas, DragHandleR, C1, C2, FCurrentPPI);
 end;
 
@@ -853,7 +854,7 @@ begin
       IsVertical := R.Right - R.Left < R.Bottom - R.Top;
 
       // Paint background
-      Canvas.Brush.Color := CurrentSkin.GetThemedSystemColor(clBtnFace);
+      Canvas.Brush.Color := StyleServices.GetSystemColor(clBtnFace);
       Canvas.FillRect(R);
 
       PaintSplitterFrame(Canvas, IsVertical, R);
@@ -1121,7 +1122,7 @@ begin
   IsVertical := Align in [alLeft, alRight];
 
   // Paint background
-  Canvas.Brush.Color := CurrentSkin.GetThemedSystemColor(clBtnFace);
+  Canvas.Brush.Color := StyleServices.GetSystemColor(clBtnFace);
   Canvas.FillRect(ClientRect);
 
   PaintSplitterFrame(Canvas, IsVertical, R);
@@ -1134,8 +1135,8 @@ begin
   else
     InflateRect(DragHandleR, -PPIScale(10), -PPIScale(1));
 
-    C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
-    C2 := CurrentSkin.GetThemedSystemColor(clWindow);
+    C1 := StyleServices.GetSystemColor(clBtnShadow);
+    C2 := StyleServices.GetSystemColor(clWindow);
     SpDrawXPGrip(Canvas, DragHandleR, C1, C2, FCurrentPPI);
 
 //  //uncomment this is you want the dotted frame drawn at designtime
