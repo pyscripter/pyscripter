@@ -4228,8 +4228,8 @@ procedure TPyIDEMainForm.ThemeEditorGutter(Gutter : TSynGutter);
 Var
   GradColor: TColor;
 begin
-  Assert(SkinManager.GetSkinType <> sknSkin);
-  if SkinManager.GetSkinType in [sknNone, sknWindows] then begin
+  Assert(SkinManager.GetSkinType(nil) <> sknSkin);
+  if SkinManager.GetSkinType(nil) in [sknNone, sknWindows] then begin
     Gutter.GradientStartColor := clWindow;
     Gutter.GradientEndColor := clBtnFace;
     Gutter.Font.Color := clSilver;
@@ -4513,9 +4513,9 @@ begin
   if State = sknsHotTrack then begin
     R := ARect;
     InflateRect(R, -1, -1);
-    SpDrawXPButton(ACanvas, R, True, False, True, False, False, False, FCurrentPPI);
+    SpDrawXPButton(nil, ACanvas, R, True, False, True, False, False, False, FCurrentPPI);
   end;
-  PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
+  PatternColor := CurrentSkin.GetTextColor(nil, skncToolbarItem, State);
   if Editor.Modified then
   begin
     R := SpCenterRect(ARect, PPIScale(3), PPIScale(3));

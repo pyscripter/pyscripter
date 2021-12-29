@@ -364,10 +364,10 @@ begin
     //ARect.Right := ARect.Right + 2;
     if odSelected in State then begin
       CurrentSkin.PaintBackground(ResultsCanvas, ARect, skncListItem, sknsChecked, True, True);
-      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsChecked);
+      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(nil, skncListItem, sknsChecked);
     end else begin
       CurrentSkin.PaintWindowFrame(ResultsCanvas, ARect, False, True, 0);
-      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsNormal);
+      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(nil, skncListItem, sknsNormal);
       Frame3D(ResultsCanvas, ARect, TopColor, BottomColor, 1);
     end;
 

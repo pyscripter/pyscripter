@@ -82,7 +82,7 @@ end;
 
 procedure TIDEDockWindow.WMSpSkinChange(var Message: TMessage);
 begin
-  Assert(SkinManager.GetSkinType <> sknSkin);
+  Assert(SkinManager.GetSkinType(nil) <> sknSkin);
   CreateFormIcon;
 
   if IsStyledWindowsColorDark then begin
