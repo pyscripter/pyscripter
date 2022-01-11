@@ -7,6 +7,7 @@
 # Ettore Atalan <atalanttore@googlemail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2020
 # oliverengel <codeangel@posteo.de>, 2021
+# Gerhard Röhner, 2022
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2021-10-12 00:46\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: oliverengel <codeangel@posteo.de>, 2021\n"
+"Last-Translator: Gerhard Röhner, 2022\n"
 "Language-Team: German (https://www.transifex.com/pyscripter/teams/116142/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,6 +53,10 @@ msgid ""
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
+"Eine kostenlose und quelloffene integrierte Python-Scripting-"
+"Entwicklungsumgebung, die mit dem Ziel entwickelt wurde, der Python-"
+"Community die Qualität und Funktionalität von kommerziellen IDEs zu bringen,"
+" die für andere Sprachen verfügbar sind."
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
@@ -2303,12 +2308,12 @@ msgstr "&Verstecke Befehlszeile"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
 msgid "Use the UTF8 encoding for stdin/stdout"
-msgstr ""
+msgstr "Verwende die UTF8-Codierung für stdin/stdout"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
 msgid "&UTF8 IO"
-msgstr ""
+msgstr "&UTF8 Ein-/Ausgabe"
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
@@ -2391,7 +2396,7 @@ msgstr "Speichern|aktuelle Datei speichern"
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
 msgid "Sav&e As..."
-msgstr ""
+msgstr "Speichern &unter..."
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
@@ -2747,7 +2752,7 @@ msgstr "Springe zum ersten Fehler"
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "Find &in Files..."
-msgstr ""
+msgstr "&Suche in Dateien..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
@@ -2949,7 +2954,7 @@ msgstr "Prüfen, ob eine neuere Version von PyScripter verfügbar ist"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "Unit Test &Wizard..."
-msgstr ""
+msgstr "Unit Test &Assistent..."
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
@@ -2989,7 +2994,7 @@ msgstr "Hinzufügen/Entfernen von Dateivorlagen"
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
 msgid "UTF-8 with BOM"
-msgstr ""
+msgstr "UTF-8 mit BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
@@ -3014,7 +3019,7 @@ msgstr "Verwende UTF-16BE Zeichensatz"
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
 msgid "Re&load"
-msgstr ""
+msgstr "Neu laden"
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
@@ -3145,7 +3150,7 @@ msgstr "Kopiert den Dateinahmen der aktiven Datei in die Zwischenablage"
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit &Startup Scripts"
-msgstr ""
+msgstr "&Startskripte bearbeiten"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3325,12 +3330,12 @@ msgstr "Dem PyScripter Projekt spenden"
 #. CommandsDataModule..actlMain..actToolsRestartLS..Caption
 #: dmCommands.dfm
 msgid "Restart &Language Server"
-msgstr ""
+msgstr "&Sprachserver neu starten"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Hint
 #: dmCommands.dfm
 msgid "Restart the Language Server"
-msgstr ""
+msgstr "Den Sprachserver neu starten"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
@@ -3806,7 +3811,7 @@ msgstr "Erstellt einen neuen Ordner"
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
 msgid "Select Directory..."
-msgstr ""
+msgstr "Verzeichnis auswählen..."
 
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
@@ -4446,7 +4451,7 @@ msgstr "Nutzer Werkzeugleiste|Nutzer Werkzeugleiste anzeigen/verstecken"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
 msgid "IDE &Windows"
-msgstr ""
+msgstr "IDE &Fenster"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
@@ -4456,7 +4461,7 @@ msgstr "&Fehlerbehandlungsfenster"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
 msgid "Navi&gate"
-msgstr ""
+msgstr "Navigieren"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -4736,7 +4741,7 @@ msgstr "Setzen der Kommandozeilenparameter"
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
 msgid "Import &Module"
-msgstr ""
+msgstr "&Modul importieren"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
@@ -4786,7 +4791,7 @@ msgstr "Beenden"
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Status &Bar"
-msgstr ""
+msgstr "Statusleiste"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -4803,7 +4808,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
 msgid "Configure &External Run..."
-msgstr ""
+msgstr "&Externe Ausführung konfigurieren..."
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
@@ -4932,7 +4937,7 @@ msgstr "Haltepunkt setzten/löschen"
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmPyIDEMain.dfm
 msgid "Clear A&ll Breakpoints"
-msgstr ""
+msgstr "Alle Breakpoints löschen"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
@@ -5014,7 +5019,7 @@ msgstr "Anzeigen/Verstecken der ToDo Liste"
 #. PyIDEMainForm..actlStandard..actViewFindResults..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &in Files Results"
-msgstr ""
+msgstr "Suche in Dateien-Trefferliste"
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Hint
 #: frmPyIDEMain.dfm
@@ -5055,7 +5060,7 @@ msgstr "Sucht die Definition einer Variablen"
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
 msgid "Find R&eferences"
-msgstr ""
+msgstr "& Referenzen finden"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
@@ -5768,7 +5773,7 @@ msgstr "Alle Überwachungen entfernen"
 #. WebPreviewForm..Caption
 #: frmWebPreview.dfm
 msgid "Web Preview"
-msgstr ""
+msgstr "Webvorschau"
 
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
@@ -5901,7 +5906,7 @@ msgstr "Profil"
 
 #: cTools.pas
 msgid "Profile active file"
-msgstr ""
+msgstr "Profil der aktiven Datei "
 
 #: cTools.pas
 msgid "PyLint tool (www.pylint.org)"
@@ -6023,6 +6028,8 @@ msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
+"Spenden zahlreicher Nutzer haben einen starken Anreiz geschaffen, dieses Projekt zu entwickeln.\n"
+"Finanzielle und moralische Unterstützung von Embarcadero (https://www.embarcadero.com/), den Entwicklern von Delphi, der Programmierumgebung, mit der PyScripter erstellt wurde, und großzügige Unterstützung von Tranquil IT (https://www.tranquil.it), den Machern von WAPT (apt-get for Windows) (https://www.wapt.fr) wird dankend zur Kenntnis genommen."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6174,7 +6181,7 @@ msgstr "Offene Dateien wiederherstellen"
 
 #: dmCommands.pas
 msgid "Restore open project"
-msgstr ""
+msgstr "Geöffnetes Projekt wiederherstellen"
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -6388,7 +6395,7 @@ msgstr "Dateiexplorer Kontextmenü"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
-msgstr ""
+msgstr "Dateiexplorer-Hintergrundverarbeitung"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
@@ -6409,11 +6416,11 @@ msgstr "Variablenfenster mit SSH deaktivieren"
 
 #: dmCommands.pas frmPyIDEMain.pas
 msgid "Language server"
-msgstr ""
+msgstr "Sprachserver"
 
 #: dmCommands.pas
 msgid "Language server debug output"
-msgstr ""
+msgstr "Debugausgabe des Sprachservers"
 
 #: dmCommands.pas
 msgid "Modifiers"
@@ -6545,7 +6552,7 @@ msgstr "Python nicht verfügbar"
 
 #: frmPyIDEMain.pas
 msgid "Not available"
-msgstr ""
+msgstr "Nicht verfügbar"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
@@ -6573,7 +6580,7 @@ msgstr "DocString"
 
 #: frmWatches.pas
 msgid "Edit Watch"
-msgstr ""
+msgstr "Bearbeite überwachten Ausdruck"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
@@ -6583,7 +6590,7 @@ msgstr "Gebe neuen Ausdruck ein:"
 #. Programmer's name for it: sPythonFileFilter
 #: StringResources.pas
 msgid "Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
-msgstr ""
+msgstr "Python Datein (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
 
 #. Programmer's name for it: sCythonFileFilter
 #: StringResources.pas
@@ -6660,7 +6667,7 @@ msgstr "Alles löschen"
 #. Programmer's name for it: SEdCmdColumnSelect
 #: StringResources.pas
 msgid "Column Select"
-msgstr ""
+msgstr "Spaltenauswahl"
 
 #. Programmer's name for it: SEdCmdCommentBlock
 #: StringResources.pas
@@ -6680,12 +6687,12 @@ msgstr "Kopieren"
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
-msgstr ""
+msgstr "Zeile nach unten kopieren"
 
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
 msgid "Copy Line Up"
-msgstr ""
+msgstr "Zeile nach oben kopieren"
 
 #. Programmer's name for it: SEdCmdCut
 #: StringResources.pas
@@ -6695,27 +6702,27 @@ msgstr "Ausschneiden"
 #. Programmer's name for it: SEdCmdDeleteBOL
 #: StringResources.pas
 msgid "Delete BOL"
-msgstr ""
+msgstr "Bis zum Zeilenanfang löschen"
 
 #. Programmer's name for it: SEdCmdDeleteChar
 #: StringResources.pas
 msgid "Delete Char"
-msgstr ""
+msgstr "Zeichen löschen"
 
 #. Programmer's name for it: SEdCmdDeleteEOL
 #: StringResources.pas
 msgid "Delete EOL"
-msgstr ""
+msgstr "Bis zum Zeilenende löschen"
 
 #. Programmer's name for it: SEdCmdDeleteLastChar
 #: StringResources.pas
 msgid "Delete Last Char"
-msgstr ""
+msgstr "Letztes Zeichen löschen"
 
 #. Programmer's name for it: SEdCmdDeleteLastWord
 #: StringResources.pas
 msgid "Delete Last Word"
-msgstr ""
+msgstr "Letztes Wort löschen"
 
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
@@ -6730,17 +6737,17 @@ msgstr "Lösche Wort"
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
 msgid "Down"
-msgstr ""
+msgstr "Runter"
 
 #. Programmer's name for it: SEdCmdEditorBottom
 #: StringResources.pas
 msgid "Editor Bottom"
-msgstr ""
+msgstr "Editorende"
 
 #. Programmer's name for it: SEdCmdEditorTop
 #: StringResources.pas
 msgid "Editor Top"
-msgstr ""
+msgstr "Editoranfang"
 
 #. Programmer's name for it: SEdCmdFoldAll
 #: StringResources.pas
@@ -6820,207 +6827,207 @@ msgstr "Gehe zu Lesezeichen 9"
 #. Programmer's name for it: SEdCmdInsertLine
 #: StringResources.pas
 msgid "Insert Line"
-msgstr ""
+msgstr "Zeile einfügen"
 
 #. Programmer's name for it: SEdCmdInsertMode
 #: StringResources.pas
 msgid "Insert Mode"
-msgstr ""
+msgstr "Einfügemodus"
 
 #. Programmer's name for it: SEdCmdLineBreak
 #: StringResources.pas
 msgid "Line Break"
-msgstr ""
+msgstr "Zeilenumbruch"
 
 #. Programmer's name for it: SEdCmdLineEnd
 #: StringResources.pas
 msgid "Line End"
-msgstr ""
+msgstr "Zeilenende"
 
 #. Programmer's name for it: SEdCmdLineSelect
 #: StringResources.pas
 msgid "Line Select"
-msgstr ""
+msgstr "Zeilenauswahl"
 
 #. Programmer's name for it: SEdCmdLineStart
 #: StringResources.pas
 msgid "Line Start"
-msgstr ""
+msgstr "Zeilenanfang"
 
 #. Programmer's name for it: SEdCmdLowerCase
 #: StringResources.pas
 msgid "Lower Case"
-msgstr ""
+msgstr "Kleinbuchstaben"
 
 #. Programmer's name for it: SEdCmdMatchBracket
 #: StringResources.pas
 msgid "Match Bracket"
-msgstr ""
+msgstr "passende Klammer"
 
 #. Programmer's name for it: SEdCmdMoveLineDown
 #: StringResources.pas
 msgid "Move Line Down"
-msgstr ""
+msgstr "Zeile nach unten verschieben"
 
 #. Programmer's name for it: SEdCmdMoveLineUp
 #: StringResources.pas
 msgid "Move Line Up"
-msgstr ""
+msgstr "Zeile nach oben verschieben"
 
 #. Programmer's name for it: SEdCmdNormalSelect
 #: StringResources.pas
 msgid "Normal Select"
-msgstr ""
+msgstr "Normale Auswahl "
 
 #. Programmer's name for it: SEdCmdOverwriteMode
 #: StringResources.pas
 msgid "Overwrite Mode"
-msgstr ""
+msgstr "Überschreibmodus"
 
 #. Programmer's name for it: SEdCmdPageBottom
 #: StringResources.pas
 msgid "Page Bottom"
-msgstr ""
+msgstr "Seitenende"
 
 #. Programmer's name for it: SEdCmdPageDown
 #: StringResources.pas
 msgid "Page Down"
-msgstr ""
+msgstr "Seite nach unten"
 
 #. Programmer's name for it: SEdCmdPageLeft
 #: StringResources.pas
 msgid "Page Left"
-msgstr ""
+msgstr "Seite links "
 
 #. Programmer's name for it: SEdCmdPageRight
 #: StringResources.pas
 msgid "Page Right"
-msgstr ""
+msgstr "Seite rechts"
 
 #. Programmer's name for it: SEdCmdPageTop
 #: StringResources.pas
 msgid "Page Top"
-msgstr ""
+msgstr "Seitenanfang"
 
 #. Programmer's name for it: SEdCmdPageUp
 #: StringResources.pas
 msgid "Page Up"
-msgstr ""
+msgstr "Seite hoch"
 
 #. Programmer's name for it: SEdCmdPaste
 #: StringResources.pas
 msgid "Paste"
-msgstr ""
+msgstr "Einfügen"
 
 #. Programmer's name for it: SEdCmdRedo
 #: StringResources.pas
 msgid "Redo"
-msgstr ""
+msgstr "wiederholen"
 
 #. Programmer's name for it: SEdCmdScrollDown
 #: StringResources.pas
 msgid "Scroll Down"
-msgstr ""
+msgstr "Runterscrollen"
 
 #. Programmer's name for it: SEdCmdScrollLeft
 #: StringResources.pas
 msgid "Scroll Left"
-msgstr ""
+msgstr "Nach links scrollen"
 
 #. Programmer's name for it: SEdCmdScrollRight
 #: StringResources.pas
 msgid "Scroll Right"
-msgstr ""
+msgstr "Nach rechts scrollen"
 
 #. Programmer's name for it: SEdCmdScrollUp
 #: StringResources.pas
 msgid "Scroll Up"
-msgstr ""
+msgstr "Hochscrollen"
 
 #. Programmer's name for it: SEdCmdSelectDown
 #: StringResources.pas
 msgid "Select Down"
-msgstr ""
+msgstr "nach unten auswählen"
 
 #. Programmer's name for it: SEdCmdSelectEditorBottom
 #: StringResources.pas
 msgid "Select Editor Bottom"
-msgstr ""
+msgstr "bis zum Editorende auswählen"
 
 #. Programmer's name for it: SEdCmdSelectEditorTop
 #: StringResources.pas
 msgid "Select Editor Top"
-msgstr ""
+msgstr "bis zum Editoranfang auswählen"
 
 #. Programmer's name for it: SEdCmdSelectLeft
 #: StringResources.pas
 msgid "Select Left"
-msgstr ""
+msgstr "nach links auswählen"
 
 #. Programmer's name for it: SEdCmdSelectLineEnd
 #: StringResources.pas
 msgid "Select Line End"
-msgstr ""
+msgstr "bis zum Zeilenende auswählen "
 
 #. Programmer's name for it: SEdCmdSelectLineStart
 #: StringResources.pas
 msgid "Select Line Start"
-msgstr ""
+msgstr "bis zum Zeilenanfang auswählen"
 
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
 msgid "Select Page Bottom"
-msgstr ""
+msgstr "bis zum Seitenende auswählen"
 
 #. Programmer's name for it: SEdCmdSelectPageDown
 #: StringResources.pas
 msgid "Select Page Down"
-msgstr ""
+msgstr "Seite nach unten auswählen"
 
 #. Programmer's name for it: SEdCmdSelectPageLeft
 #: StringResources.pas
 msgid "Select Page Left"
-msgstr ""
+msgstr "Seite links auswählen"
 
 #. Programmer's name for it: SEdCmdSelectPageRight
 #: StringResources.pas
 msgid "Select Page Right"
-msgstr ""
+msgstr "Seite rechts auswählen"
 
 #. Programmer's name for it: SEdCmdSelectPageTop
 #: StringResources.pas
 msgid "Select Page Top"
-msgstr ""
+msgstr "bis zum Seitenanfang auswählen"
 
 #. Programmer's name for it: SEdCmdSelectPageUp
 #: StringResources.pas
 msgid "Select Page Up"
-msgstr ""
+msgstr "Seite hoch auswählen"
 
 #. Programmer's name for it: SEdCmdSelectRight
 #: StringResources.pas
 msgid "Select Right"
-msgstr ""
+msgstr "nach rechts auswählen"
 
 #. Programmer's name for it: SEdCmdSelectUp
 #: StringResources.pas
 msgid "Select Up"
-msgstr ""
+msgstr "nach oben auswählen"
 
 #. Programmer's name for it: SEdCmdSelectWord
 #: StringResources.pas
 msgid "Select Word"
-msgstr ""
+msgstr "Wort auswählen"
 
 #. Programmer's name for it: SEdCmdSelectWordLeft
 #: StringResources.pas
 msgid "Select Word Left"
-msgstr ""
+msgstr "Wort links auswählen"
 
 #. Programmer's name for it: SEdCmdSelectWordRight
 #: StringResources.pas
 msgid "Select Word Right"
-msgstr ""
+msgstr "Wort rechts auswählen"
 
 #. Programmer's name for it: SEdCmdSetBookmark0
 #: StringResources.pas
@@ -7075,27 +7082,27 @@ msgstr "Setze Lesezeichen 9"
 #. Programmer's name for it: SEdCmdShiftTab
 #: StringResources.pas
 msgid "Shift Tab"
-msgstr ""
+msgstr "Umschalt-Tab"
 
 #. Programmer's name for it: SEdCmdTab
 #: StringResources.pas
 msgid "Tab"
-msgstr ""
+msgstr "Tabulator"
 
 #. Programmer's name for it: SEdCmdTitleCase
 #: StringResources.pas
 msgid "Title Case"
-msgstr ""
+msgstr "großer Anfangsbuchstabe"
 
 #. Programmer's name for it: SEdCmdToggleCase
 #: StringResources.pas
 msgid "Toggle Case"
-msgstr ""
+msgstr "Wechsel Groß-/Kleinbuchstaben"
 
 #. Programmer's name for it: SEdCmdToggleInsertMode
 #: StringResources.pas
 msgid "Toggle Mode"
-msgstr ""
+msgstr "Einfügemodus umschalten"
 
 #. Programmer's name for it: SEdCmdUndo
 #: StringResources.pas
@@ -7135,27 +7142,27 @@ msgstr "Bereiche ausklappen"
 #. Programmer's name for it: SEdCmdUp
 #: StringResources.pas
 msgid "Up"
-msgstr ""
+msgstr "hoch"
 
 #. Programmer's name for it: SEdCmdUpperCase
 #: StringResources.pas
 msgid "Upper Case"
-msgstr ""
+msgstr "Großbuchstaben"
 
 #. Programmer's name for it: SEdCmdWordLeft
 #: StringResources.pas
 msgid "Word Left"
-msgstr ""
+msgstr "Wort links"
 
 #. Programmer's name for it: SEdCmdWordRight
 #: StringResources.pas
 msgid "Word Right"
-msgstr ""
+msgstr "Wort rechts"
 
 #. Programmer's name for it: SEdCmdParameterCompletion
 #: StringResources.pas
 msgid "Parameter Completion"
-msgstr ""
+msgstr "Parametervervollständigung"
 
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
@@ -7331,6 +7338,14 @@ msgid ""
 "The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
 "The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
+"PyScripter konnte keine Python-Engine laden. **Bevor** Sie PyScripter "
+"verwenden, müssen Sie sicherstellen, dass auf Ihrem Computer eine Python-"
+"Version größer oder gleich 3.6 installiert ist. Wenn Sie keine installiert "
+"haben, können Sie eine von http://www.python.org/ herunterladen. Die 64-Bit-"
+"Version von PyScripter (x64) funktioniert nur auf 64-Bit-Windows **und** mit"
+" 64-Bit-Versionen von Python. Die 32-Bit-Version von PyScripter funktioniert"
+" sowohl auf 32-Bit- als auch auf 64-Bit-Windows mit 32-Bit-Versionen von "
+"Python. "
 
 #. Programmer's name for it: SPythonFindError
 #: StringResources.pas
@@ -7340,6 +7355,11 @@ msgid ""
 "with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
+"PyScripter konnte unter dem angegebenen Pfad keine verwendbare Python-"
+"Installation finden. Beachten Sie, dass die 64-Bit-Version von PyScripter "
+"(x64) nur auf 64-Bit-Windows funktioniert und mit 64-Bit-Versionen von "
+"Python. Die 32-Bit-Version von PyScripter funktioniert auf beiden 32-Bit- "
+"und 64-Bit-Windows-Versionen mit 32-Bit-Versionen von Python."
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -7430,6 +7450,9 @@ msgid ""
 "Please restart PyScripter and try again.\n"
 "If the error persists reinstall PyScripter."
 msgstr ""
+"Das Paket 'rpyc' ist nicht verfügbar.\n"
+"Bitte starten Sie PyScripter neu und versuchen Sie es erneut.\n"
+"Wenn der Fehler weiterhin besteht, installieren Sie PyScripter neu."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
@@ -7456,7 +7479,7 @@ msgstr ""
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
 msgid "*** Remote Interpreter Reinitialized ***"
-msgstr ""
+msgstr "*** Remote Interpreter Reinitialized ***"
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas
@@ -7490,6 +7513,9 @@ msgid ""
 "Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
+"PyScripter benötigt Zugriff auf das Verzeichnis der Benutzeranwendungsdaten:"
+" \"%s\". Bestimmte Funktionen wie Remote-Debugging funktionieren ansonsten "
+"nicht richtig."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -7627,6 +7653,9 @@ msgid ""
 "wish to reload and press the OK button. Please note that you will lose all "
 "changes to these files."
 msgstr ""
+"Die folgenden Dateien wurden auf der Festplatte geändert. Wählen Sie die "
+"Dateien aus, die Sie neu laden möchten, und drücken Sie die OK-Taste. "
+"Beachten Sie, dass alle Änderungen an diesen Dateien verloren gehen."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -7872,7 +7901,7 @@ msgstr "Fehler beim Ausführen des Initalisierungsskripts %s: \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Open dialog %s filter"
-msgstr ""
+msgstr "Öffnendialog %s filter"
 
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
@@ -8315,18 +8344,18 @@ msgstr "Konnte Variable \"%s\" im Geltungsbereich \"%s\" nicht finden"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not infer type from expresson \"%s\""
-msgstr ""
+msgstr "Typ konnte nicht aus Ausdruck abgeleitet werden \"%s\""
 
 #. Programmer's name for it: SCouldInferFunctionReturnType
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not infer return type of function \"%s\""
-msgstr ""
+msgstr "Rückgabetyp der Funktion konnte nicht abgeleitet werden \"%s\""
 
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas
 msgid "Refactoring engine is busy"
-msgstr ""
+msgstr "Refactoring-Engine ist beschäftigt"
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
@@ -8536,7 +8565,7 @@ msgstr "Systembefehl"
 #. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
 #: SynHighlighterYAML.pas
 msgid "Document Delimiter"
-msgstr ""
+msgstr "Dokumenttrennzeichen"
 
 #. Programmer's name for it: SYNS_FriendlyAttrKey
 #: SynHighlighterYAML.pas
@@ -8800,11 +8829,14 @@ msgid ""
 "command buttons, drag them off the toolbar and drop them on the commands "
 "list."
 msgstr ""
+"Um Befehlsschaltflächen hinzuzufügen, ziehen Sie Befehle per Drag & Drop auf"
+" eine Symbolleiste. Um Befehlsschaltflächen zu entfernen, ziehen Sie sie aus"
+" der Symbolleiste und legen Sie sie in der Befehlsliste ab."
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:174
 msgid "Icons + Selective Text"
-msgstr ""
+msgstr "Symbole und selektiver Text"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:175
