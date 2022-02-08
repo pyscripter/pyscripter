@@ -2903,7 +2903,7 @@ msgstr "Encontre a Próxima Referência"
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
 msgid "Find next identifier reference"
-msgstr "Encontre a Próxima Referência de Identificador"
+msgstr "Encontrar a Próxima Referência de Identificador"
 
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
