@@ -2893,12 +2893,12 @@ msgstr "Encontrar Referência Anterior"
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #: dmCommands.dfm
 msgid "Find previous identifier reference"
-msgstr "Encontre a Referência do Identificador Anterior"
+msgstr "Encontrar a Referência do Identificador Anterior"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #: dmCommands.dfm
 msgid "Find Next Reference"
-msgstr "Encontre a Próxima Referência"
+msgstr "Encontrar a Próxima Referência"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
