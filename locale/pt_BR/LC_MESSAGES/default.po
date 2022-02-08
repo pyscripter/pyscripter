@@ -5070,7 +5070,7 @@ msgstr "Encontrar R&eferências"
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
 msgid "Find references of an Identifier"
-msgstr "Encontre referências de um identificador"
+msgstr "Encontrar referências de um identificador"
 
 #. PyIDEMainForm..actlStandard..actBrowseBack..Caption
 #: frmPyIDEMain.dfm
