@@ -47,13 +47,12 @@ inherited FunctionListWindow: TFunctionListWindow
     0000000000000000000000000000000000000000000000000000000000000000
     00000030000000300000007F0000007F0000007F0000007F000080FF0000}
   KeyPreview = True
-  OldCreateOrder = True
   Position = poScreenCenter
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
   OnResize = FormResize
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object pnHolder: TPanel
     Left = 0
     Top = 73
@@ -109,10 +108,10 @@ inherited FunctionListWindow: TFunctionListWindow
       Align = alLeft
       TabOrder = 0
       object lblMethods: TLabel
-        Left = 16
+        Left = 14
         Top = 8
-        Width = 33
-        Height = 13
+        Width = 35
+        Height = 15
         Alignment = taRightJustify
         Caption = '&Search'
         FocusControl = edtMethods
@@ -121,7 +120,7 @@ inherited FunctionListWindow: TFunctionListWindow
         Left = 74
         Top = 6
         Width = 179
-        Height = 21
+        Height = 23
         TabOrder = 0
         OnChange = edtMethodsChange
         OnKeyDown = edtMethodsKeyDown
@@ -137,10 +136,10 @@ inherited FunctionListWindow: TFunctionListWindow
       Align = alClient
       TabOrder = 1
       object lblObjects: TLabel
-        Left = 16
+        Left = 13
         Top = 8
-        Width = 37
-        Height = 13
+        Width = 40
+        Height = 15
         Alignment = taRightJustify
         Caption = '&Objects'
         FocusControl = cbxObjects
@@ -149,7 +148,7 @@ inherited FunctionListWindow: TFunctionListWindow
         Left = 82
         Top = 6
         Width = 170
-        Height = 21
+        Height = 23
         Style = csDropDownList
         DropDownCount = 16
         Sorted = True
@@ -219,7 +218,7 @@ inherited FunctionListWindow: TFunctionListWindow
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 501
+      CustomWidth = 514
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -293,67 +292,55 @@ inherited FunctionListWindow: TFunctionListWindow
     end
   end
   object vilCodeImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 8
         CollectionName = 'CodeImages\Python'
-        Disabled = False
         Name = 'Python'
       end
       item
         CollectionIndex = 9
         CollectionName = 'CodeImages\Variable'
-        Disabled = False
         Name = 'Variable'
       end
       item
         CollectionIndex = 1
         CollectionName = 'CodeImages\Field'
-        Disabled = False
         Name = 'Field'
       end
       item
         CollectionIndex = 2
         CollectionName = 'CodeImages\Function'
-        Disabled = False
         Name = 'Function'
       end
       item
         CollectionIndex = 5
         CollectionName = 'CodeImages\Method'
-        Disabled = False
         Name = 'Method'
       end
       item
         CollectionIndex = 0
         CollectionName = 'CodeImages\Class'
-        Disabled = False
         Name = 'Class'
       end
       item
         CollectionIndex = 7
         CollectionName = 'CodeImages\Namespace'
-        Disabled = False
         Name = 'Namespace'
       end
       item
         CollectionIndex = 4
         CollectionName = 'CodeImages\List'
-        Disabled = False
         Name = 'List'
       end
       item
         CollectionIndex = 6
         CollectionName = 'CodeImages\Module'
-        Disabled = False
         Name = 'Module'
       end
       item
         CollectionIndex = 3
         CollectionName = 'CodeImages\Keyword'
-        Disabled = False
         Name = 'Keyword'
       end>
     ImageCollection = CommandsDataModule.icCodeImages
@@ -362,43 +349,35 @@ inherited FunctionListWindow: TFunctionListWindow
     Top = 192
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 16
         CollectionName = 'Copy'
-        Disabled = False
         Name = 'Copy'
       end
       item
         CollectionIndex = 51
         CollectionName = 'GoToLine'
-        Disabled = False
         Name = 'GoToLine'
       end
       item
         CollectionIndex = 52
         CollectionName = 'Help'
-        Disabled = False
         Name = 'Help'
       end
       item
         CollectionIndex = 47
         CollectionName = 'Font'
-        Disabled = False
         Name = 'Font'
       end
       item
         CollectionIndex = 132
         CollectionName = 'ViewAny'
-        Disabled = False
         Name = 'ViewAny'
       end
       item
         CollectionIndex = 133
         CollectionName = 'ViewStart'
-        Disabled = False
         Name = 'ViewStart'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

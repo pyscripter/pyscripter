@@ -703,6 +703,8 @@ begin
     FileName := GI_ActiveEditor.FileId;
 
     Dlg := TFunctionListWindow.CreateWithFileName(nil, FileName);
+    Dlg.cbxObjects.ItemIndex := Dlg.cbxObjects.Items.IndexOf(SAllString);  // not sure why this is needed
+
     try
       Dlg.ShowModal;
     finally
