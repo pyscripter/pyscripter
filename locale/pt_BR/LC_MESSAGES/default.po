@@ -2893,17 +2893,17 @@ msgstr "Encontrar Referência Anterior"
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #: dmCommands.dfm
 msgid "Find previous identifier reference"
-msgstr "Encontre a Referência do Identificador Anterior"
+msgstr "Encontrar a Referência do Identificador Anterior"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #: dmCommands.dfm
 msgid "Find Next Reference"
-msgstr "Encontre a Próxima Referência"
+msgstr "Encontrar a Próxima Referência"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
 msgid "Find next identifier reference"
-msgstr "Encontre a Próxima Referência de Identificador"
+msgstr "Encontrar a Próxima Referência de Identificador"
 
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
@@ -4485,7 +4485,7 @@ msgstr "Não utilizar realce de sintaxe"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
 msgid "Language"
-msgstr "Linguagem"
+msgstr "Idioma"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Caption
@@ -5070,7 +5070,7 @@ msgstr "Encontrar R&eferências"
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
 msgid "Find references of an Identifier"
-msgstr "Encontre referências de um identificador"
+msgstr "Encontrar referências de um identificador"
 
 #. PyIDEMainForm..actlStandard..actBrowseBack..Caption
 #: frmPyIDEMain.dfm
