@@ -261,7 +261,7 @@ procedure TPythonIIForm.SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
 begin
   if (not Assigned(SynEdit.Highlighter)) then
     Exit;
-  CommandsDataModule.PaintMatchingBrackets(Canvas, SynEdit, TransientType);
+  CommandsDataModule.PaintMatchingBrackets(SynEdit, TransientType);
 end;
 
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;

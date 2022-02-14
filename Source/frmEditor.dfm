@@ -100,17 +100,18 @@ object EditorForm: TEditorForm
           Gutter.Font.Height = -11
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
+          Gutter.Font.Quality = fqClearTypeNatural
           Gutter.Gradient = True
           Gutter.GradientSteps = 30
+          Gutter.TrackChanges.Width = 2
+          Gutter.TrackChanges.Visible = True
           Gutter.Bands = <
             item
               Kind = gbkMarks
-              Visible = True
               Width = 13
             end
             item
               Kind = gbkCustom
-              Visible = True
               Width = 13
               OnPaintLines = SynEditDebugInfoPaintLines
               OnCLick = SynEditGutterDebugInfoCLick
@@ -120,14 +121,20 @@ object EditorForm: TEditorForm
               Kind = gbkLineNumbers
             end
             item
-              Kind = gbkFold
+              Kind = gbkMargin
+              Width = 3
             end
             item
-              Kind = gbkMargin
-              Visible = True
-              Width = 3
+              Kind = gbkTrackChanges
+              Background = gbbEditor
+            end
+            item
+              Kind = gbkFold
+              Background = gbbEditor
             end>
+          IndentGuides.Style = igsDotted
           SelectedColor.Background = clSkyBlue
+          SelectedColor.Alpha = 0.400000005960464500
           TabWidth = 4
           WantTabs = True
           OnChange = SynEditChange
@@ -539,10 +546,10 @@ object EditorForm: TEditorForm
           Gutter.Font.Height = -11
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
+          Gutter.Font.Quality = fqClearTypeNatural
           Gutter.Bands = <
             item
               Kind = gbkMarks
-              Visible = True
               Width = 13
             end
             item
@@ -553,9 +560,9 @@ object EditorForm: TEditorForm
             end
             item
               Kind = gbkMargin
-              Visible = True
               Width = 3
             end>
+          SelectedColor.Alpha = 0.400000005960464500
           OnMouseCursor = SynEditMouseCursor
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange

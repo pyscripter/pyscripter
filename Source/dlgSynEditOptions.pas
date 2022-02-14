@@ -306,6 +306,7 @@ type
     FTabWidth: Integer;
     FRightEdge: Integer;
     FSelectedColor: TSynSelectedColor;
+    FIndentGuides: TSynIndentGuides;
     FRightEdgeColor: TColor;
     FFont: TFont;
     FBookmarks: TSynBookMarkOpt;
@@ -343,6 +344,7 @@ type
     property HideSelection : Boolean read FHideSelection write FHideSelection;
     property MaxUndo : Integer read FMaxUndo write FMaxUndo;
     property SelectedColor : TSynSelectedColor read FSelectedColor write FSelectedColor;
+    property IndentGuides: TSynIndentGuides read FIndentGuides;
     property TabWidth : Integer read FTabWidth write FTabWidth;
     property WordBreakChars : string read FWordBreakChars write FWordBreakChars;
     property Keystrokes : TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
@@ -538,6 +540,7 @@ begin
     Self.Gutter.Assign(TCustomSynEdit(Source).Gutter);
     Self.Keystrokes.Assign(TCustomSynEdit(Source).Keystrokes);
     Self.SelectedColor.Assign(TCustomSynEdit(Source).SelectedColor);
+    Self.IndentGuides.Assign(TCustomSynEdit(Source).IndentGuides);
 
     Self.Color := TCustomSynEdit(Source).Color;
     Self.Options := TCustomSynEdit(Source).Options;
@@ -560,6 +563,7 @@ begin
     Self.Gutter.Assign(TSynEditorOptionsContainer(Source).Gutter);
     Self.Keystrokes.Assign(TSynEditorOptionsContainer(Source).Keystrokes);
     Self.SelectedColor.Assign(TSynEditorOptionsContainer(Source).SelectedColor);
+    Self.IndentGuides.Assign(TSynEditorOptionsContainer(Source).IndentGuides);
     Self.Color := TSynEditorOptionsContainer(Source).Color;
     Self.Options := TSynEditorOptionsContainer(Source).Options;
     Self.ExtraLineSpacing := TSynEditorOptionsContainer(Source).ExtraLineSpacing;
@@ -616,6 +620,7 @@ begin
   FSynGutter:= TSynGutter.Create;
   FSynGutter.AssignableBands := False;
   FSelectedColor:= TSynSelectedColor.Create;
+  FIndentGuides := TSynIndentGuides.Create;
   FSelectedColor.Foreground:= clHighlightText;
   FSelectedColor.Background:= clHighlight;
   fActiveLineColor := clNone;
@@ -647,6 +652,7 @@ begin
   FKeyStrokes.Free;
   FSynGutter.Free;
   FSelectedColor.Free;
+  FIndentGuides.Free;
   FFont.Free;
   inherited;
 end;

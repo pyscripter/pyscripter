@@ -722,11 +722,11 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Font.Height = -11
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
+          Gutter.Font.Quality = fqClearTypeNatural
           Gutter.Visible = False
           Gutter.Bands = <
             item
               Kind = gbkMarks
-              Visible = True
               Width = 15
             end
             item
@@ -737,10 +737,10 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             end
             item
               Kind = gbkMargin
-              Visible = True
               Width = 2
             end>
           RightEdge = 0
+          SelectedColor.Alpha = 0.400000005960464500
         end
         object lbColorThemes: TListBox
           Left = 3
@@ -881,11 +881,11 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Font.Height = -11
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
+          Gutter.Font.Quality = fqClearTypeNatural
           Gutter.Visible = False
           Gutter.Bands = <
             item
               Kind = gbkMarks
-              Visible = True
               Width = 15
             end
             item
@@ -896,10 +896,10 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             end
             item
               Kind = gbkMargin
-              Visible = True
               Width = 2
             end>
           RightEdge = 0
+          SelectedColor.Alpha = 0.400000005960464500
         end
         object cbHighlighters: TComboBox
           Left = 15

@@ -51,7 +51,7 @@ uses
   cPyControl,
   cCodeCompletion,
   cPyBaseDebugger,
-  cPySupportTypes;
+  cPySupportTypes, Winapi.D2D1;
 
 type
   TEditor = class;
@@ -174,8 +174,8 @@ type
       const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
     procedure SynEditGutterGetText(Sender: TObject; aLine: Integer;
       var aText: string);
-    procedure SynEditDebugInfoPaintLines(Canvas: TCanvas; ClipR: TRect;
-        const FirstRow, LastRow: Integer; var DoDefaultPainting: Boolean);
+    procedure SynEditDebugInfoPaintLines(RT: ID2D1RenderTarget; ClipR:
+        TRect; const FirstRow, LastRow: Integer; var DoDefaultPainting: Boolean);
     procedure SynEditGutterDebugInfoCLick(Sender: TObject; Button: TMouseButton;
         X, Y, Row, Line: Integer);
     procedure SynEditGutterDebugInfoMouseCursor(Sender: TObject; X, Y, Row, Line:
@@ -345,6 +345,7 @@ uses
   SynHighlighterWebMisc,
   SynHighlighterWeb,
   SynHighlighterPython,
+  SynDWrite,
   JvDockControlForm,
   JvGnugettext,
   StringResources,
@@ -410,14 +411,8 @@ Var
       // the gutter.
       if TP.X <= Editor.GutterWidth then
         Exit;
-      with ACanvas do
-      begin
-        if NewY = TP.Y - 1 then
-          Pen.Color := fForm.SynEdit.Color
-        else
-          Pen.Color := clRed;
-        Pixels[TP.X, NewY] := Pen.Color;
-      end;
+      if NewY >= TP.Y - 1 then
+        ACanvas.Pixels[TP.X, NewY] := ACanvas.Pen.Color;
     end;
 
   const
@@ -427,35 +422,29 @@ Var
     // Corel Word Perfect style
     // WP_POINTS: array[0..4] of ShortInt = (3, 2, 1, -1, -1);
     WP_POINTS: array [0 .. 3] of ShortInt = (2, 1, 0, -1);
+  var
+    Points: array [0 .. 3] of ShortInt;
 
   begin
+    if UnderlineStyle = usMicrosoftWord then
+      Move(MW_Points[0], Points[0], 4 * SizeOf(ShortInt))
+    else
+      Move(WP_Points[0], Points[0], 4 * SizeOf(ShortInt));
+
+    ACanvas.Pen.Color := clRed;
     Inc(TP.Y, LH - 3);
     NewPoint := 0;
-    if UnderlineStyle = usMicrosoftWord then
-      NewY := TP.Y + MW_POINTS[NewPoint]
-    else
-      NewY := TP.Y + WP_POINTS[NewPoint];
+    NewY := TP.Y + Points[NewPoint];
     DrawPoint;
     while TP.X <= MaxX do
     begin
       DrawPoint;
       Inc(NewPoint);
-      if UnderlineStyle = usMicrosoftWord then
-      begin
-        if NewPoint > High(MW_POINTS) then
-          NewPoint := 0
-      end
-      else
-      begin
-        if NewPoint > High(WP_POINTS) then
-          NewPoint := 0;
-      end;
+      if NewPoint > High(Points) then
+        NewPoint := 0;
       DrawPoint;
       Inc(TP.X);
-      if UnderlineStyle = usMicrosoftWord then
-        NewY := TP.Y + MW_POINTS[NewPoint]
-      else
-        NewY := TP.Y + WP_POINTS[NewPoint];
+      NewY := TP.Y + Points[NewPoint]
     end;
   end;
 
@@ -830,13 +819,18 @@ begin
   DoSetFileName(AFileName);
   if (AFileName <> '') and FileExists(AFileName) then
   begin
-    if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines) then
-    begin
-      if not FileAge(AFileName, fForm.FileTime) then
-        fForm.FileTime := 0;
-    end
-    else
-      Abort;
+    fForm.SynEdit.LockUndo;
+    try
+      if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines) then
+      begin
+        if not FileAge(AFileName, fForm.FileTime) then
+          fForm.FileTime := 0;
+      end
+      else
+        Abort;
+    finally
+      fForm.SynEdit.UnlockUndo;
+    end;
   end
   else
   begin
@@ -875,11 +869,17 @@ begin
   if not ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
     StyledMessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
     Abort;
-  end else begin
-    if not LoadFileIntoWideStrings(TempFileName, fForm.SynEdit.Lines) then
-      Abort
-    else
-      DeleteFile(TempFileName);
+  end else
+  begin
+    fForm.SynEdit.LockUndo;
+    try
+      if not LoadFileIntoWideStrings(TempFileName, fForm.SynEdit.Lines) then
+        Abort
+      else
+        DeleteFile(TempFileName);
+    finally
+      fForm.SynEdit.UnlockUndo
+    end;
   end;
 
   fRemoteFileName := FileName;
@@ -1852,6 +1852,7 @@ begin
   begin
     if not PyIDEOptions.UndoAfterSave then
       SynEdit.ClearUndo;
+    SynEdit.MarkSaved;
     SynEdit.Modified := False;
   end;
 end;
@@ -2423,19 +2424,15 @@ begin
   begin
     Pix := ASynEdit.RowColumnToPixels(ASynEdit.BufferToDisplayPos
         (fHotIdentInfo.StartCoord));
-    Canvas.Font.Assign(ASynEdit.Font);
-    Canvas.Font.Style := fHotIdentInfo.SynAttri.Style + [fsUnderline];
-    Canvas.Font.Color := $FF8844;
-    if fHotIdentInfo.SynAttri.Background <> clNone then
-      Canvas.Brush.Color := fHotIdentInfo.SynAttri.Background
-    else
-      Canvas.Brush.Color := ASynEdit.Highlighter.WhitespaceAttribute.Background;
-    Canvas.Brush.Style := bsSolid;
-    SetTextCharacterExtra(Canvas.Handle,
-      ASynEdit.CharWidth - Canvas.TextWidth('W'));
-    Canvas.TextOut(Pix.X, Pix.Y, fHotIdentInfo.SynToken);
+
+//    ASynEdit.PaintText(fHotIdentInfo.SynToken, Point(0, 0),
+//      Rect(Pix, Point(ClientWidth, Pix.Y + ASynEdit.LineHeight)),
+//      fHotIdentInfo.SynAttri.Style + [fsUnderline], $FF8844);
+    ASynEdit.PaintText(fHotIdentInfo.SynToken, Point(0, 0),
+      Rect(Pix, Point(ClientWidth, Pix.Y + ASynEdit.LineHeight)),
+      fHotIdentInfo.SynAttri.Style + [fsUnderline], fHotIdentInfo.SynAttri.Foreground);
   end;
-  CommandsDataModule.PaintMatchingBrackets(Canvas, ASynEdit, TransientType);
+  CommandsDataModule.PaintMatchingBrackets(ASynEdit, TransientType);
 end;
 
 procedure TEditorForm.SynEditKeyDown(Sender: TObject; var Key: Word;
@@ -2578,14 +2575,15 @@ var
   TokenType, Start: Integer;
   Token: string;
   Attri: TSynHighlighterAttributes;
+  OldHotIdent: Boolean;
+  OldStartCoord: TBufferCoord;
   ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
-  if fHotIdentInfo.HaveHotIdent then
-  begin
-    fHotIdentInfo.HaveHotIdent := False;
-    fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
-  end;
+  OldHotIdent := fHotIdentInfo.HaveHotIdent;
+  OldStartCoord := fHotIdentInfo.StartCoord;
+
+  fHotIdentInfo.HaveHotIdent := False;
   if ASynEdit.Focused and (HiWord(GetAsyncKeyState(VK_CONTROL)) > 0)
     and fEditor.HasPythonFile and not ASynEdit.IsPointInSelection
     (aLineCharPos) then
@@ -2605,9 +2603,16 @@ begin
           SynAttri := Attri;
           SynToken := Token;
           StartCoord := BufferCoord(Start, aLineCharPos.Line);
-          SynEdit.InvalidateLine(aLineCharPos.Line);
         end;
       end;
+    end;
+    if (OldHotIdent <> fHotIdentInfo.HaveHotIdent) or
+      (OldStartCoord <> fHotIdentInfo.StartCoord) then
+    begin
+      if OldHotIdent then
+        fHotIdentInfo.SynEdit.InvalidateLine(OldStartCoord.Line);
+      if fHotIdentInfo.HaveHotIdent then
+        SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
     end;
 end;
 
@@ -3121,7 +3126,7 @@ begin
     ParentTabItem.ImageIndex := -1;
 end;
 
-procedure TEditorForm.SynEditDebugInfoPaintLines(Canvas: TCanvas; ClipR:
+procedure TEditorForm.SynEditDebugInfoPaintLines(RT: ID2D1RenderTarget; ClipR:
     TRect; const FirstRow, LastRow: Integer; var DoDefaultPainting: Boolean);
 var
   LH, Y: Integer;
@@ -3172,7 +3177,7 @@ begin
           ImgIndex := -1;
       end;
       if ImgIndex >= 0 then
-        vilGutterGlyphs.Draw(Canvas, ClipR.Left +
+        ImageListDraw(RT, vilGutterGlyphs, ClipR.Left +
           MulDiv(TSynGutterBand.MarginX, FCurrentPPI, 96), Y, ImgIndex);
     end;
   end;

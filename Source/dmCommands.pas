@@ -398,8 +398,8 @@ type
       AHighlighter: TSynCustomHighlighter; DefaultExtension : string): boolean;
     function GetUntitledNumber: integer;
     procedure ReleaseUntitledNumber(ANumber: integer);
-    procedure PaintMatchingBrackets(Canvas : TCanvas; SynEdit : TSynEdit;
-      TransientType: TTransientType);
+    procedure PaintMatchingBrackets(SynEdit : TSynEdit; TransientType:
+        TTransientType);
     function ShowPythonKeywordHelp(KeyWord : string) : Boolean;
     procedure PrepareParameterCompletion;
     procedure PrepareModifierCompletion;
@@ -1699,8 +1699,8 @@ begin
 end;
 
 
-procedure TCommandsDataModule.PaintMatchingBrackets(Canvas : TCanvas;
-  SynEdit : TSynEdit; TransientType: TTransientType);
+procedure TCommandsDataModule.PaintMatchingBrackets(SynEdit : TSynEdit;
+  TransientType: TTransientType);
 {-----------------------------------------------------------------------------
   Based on code from devcpp (dev-cpp.sf.net)
 -----------------------------------------------------------------------------}
@@ -1713,6 +1713,8 @@ var
   BracketCh, MatchCh : Char;
   IsBracket, HasMatchingBracket : Boolean;
   Attri: TSynHighlighterAttributes;
+  FontColor, BkgColor: TColor;
+  FontStyle: TFontStyles;
 begin
   GetMatchingBrackets(SynEdit, P, PM, IsBracket, HasMatchingBracket, BracketCh,
     MatchCh, Attri);
@@ -1725,85 +1727,86 @@ begin
     if HasMatchingBracket then
       PMD := SynEdit.BufferToDisplayPos(PM);
 
-    Canvas.Brush.Style := bsSolid;
-    Canvas.Font.Assign(SynEdit.Font);
-    Canvas.Font.Style := Attri.Style;
-    Canvas.Font.Color := Attri.Foreground;
+    FontStyle := Attri.Style;
+    FontColor := Attri.Foreground;
 
     if SynEdit.IsPointInSelection(P) then
-      Canvas.Brush.Color := SynEdit.SelectedColor.Background
+      BkgColor := SynEdit.SelectedColor.Background
     else if (Synedit.ActiveLineColor <> clNone) and (SynEdit.CaretY = P.Line) then
-      Canvas.Brush.Color := SynEdit.ActiveLineColor
+      BkgColor := SynEdit.ActiveLineColor
     else if Attri.Background <> clNone then
-      Canvas.Brush.Color := Attri.Background
+      BkgColor := Attri.Background
     else if SynEdit.Highlighter.WhitespaceAttribute.Background <> clNone then
-      Canvas.Brush.Color := SynEdit.Highlighter.WhitespaceAttribute.Background
+      BkgColor := SynEdit.Highlighter.WhitespaceAttribute.Background
     else
-      Canvas.Brush.Color := Synedit.Color;
+      BkgColor := Synedit.Color;
+
 
     if (TransientType = ttAfter) then begin
       if HasMatchingBracket then begin
         if not SynEdit.IsPointInSelection(P) then
         begin
           if SynPythonSyn.MatchingBraceAttri.Background <> clNone then
-            Canvas.Brush.Color := SynPythonSyn.MatchingBraceAttri.Background;
-          Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground;
+            BkgColor := SynPythonSyn.MatchingBraceAttri.Background;
+          FontColor:= SynPythonSyn.MatchingBraceAttri.Foreground;
         end;
       end else begin
         if not SynEdit.IsPointInSelection(P) then
         begin
           if SynPythonSyn.UnbalancedBraceAttri.Background <> clNone then
-            Canvas.Brush.Color := SynPythonSyn.UnbalancedBraceAttri.Background;
-          Canvas.Font.Color:= SynPythonSyn.UnbalancedBraceAttri.Foreground;
+            BkgColor := SynPythonSyn.UnbalancedBraceAttri.Background;
+          FontColor:= SynPythonSyn.UnbalancedBraceAttri.Foreground;
         end;
       end;
-      Canvas.Font.Style := Canvas.Font.Style + [fsBold];
+      FontStyle := FontStyle + [fsBold];
     end
     else begin
-      Canvas.Font.Style := Attri.Style;
+      FontStyle := Attri.Style;
       if not SynEdit.IsPointInSelection(P) then
-        Canvas.Font.Color:= Attri.Foreground;
+        FontColor:= Attri.Foreground;
     end;
 
     if (PD.Column >= SynEdit.LeftChar) and
-      (PD.Column < SynEdit.LeftChar + SynEdit.CharsInWindow) and
+      Rect(SynEdit.GutterWidth + SynEdit.TextMargin, 0, SynEdit.ClientWidth,
+      SynEdit.ClientHeight).Contains(Pix) and
       (PD.Row > 0)and (PD.Row >= SynEdit.TopLine) and
       (PD.Row < SynEdit.TopLine + SynEdit.LinesInWindow) then
     begin
       R := Rect(Pix.X, Pix.Y, Pix.X + SynEdit.CharWidth, Pix.Y + SynEdit.LineHeight);
-      Canvas.TextRect(R, Pix.X, Pix.Y, BracketCh);
+      SynEdit.PaintText(BracketCh, Point(0, 0), R, FontStyle, FontColor, BkgColor);
     end;
 
+    if not HasMatchingBracket then Exit;
+
+    Pix := SynEdit.RowColumnToPixels(PMD);
     if HasMatchingBracket and (PMD.Column >= SynEdit.LeftChar) and
-      (PMD.Column < SynEdit.LeftChar + SynEdit.CharsInWindow) and
+      Rect(SynEdit.GutterWidth + SynEdit.TextMargin, 0, SynEdit.ClientWidth,
+      SynEdit.ClientHeight).Contains(Pix) and
       (PMD.Row > 0)and (PMD.Row >= SynEdit.TopLine) and
       (PMD.Row < SynEdit.TopLine + SynEdit.LinesInWindow) then
     begin
       if SynEdit.IsPointInSelection(PM) then
-        Canvas.Font.Color := SynEdit.SelectedColor.Foreground
+        FontColor := SynEdit.SelectedColor.Foreground
       else if (TransientType = ttAfter) then
-        Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground;
+        FontColor:= SynPythonSyn.MatchingBraceAttri.Foreground;
 
       if SynEdit.IsPointInSelection(PM) then
-        Canvas.Brush.Color := SynEdit.SelectedColor.Background
+        BkgColor := SynEdit.SelectedColor.Background
       else if (TransientType = ttAfter) and (SynPythonSyn.MatchingBraceAttri.Background <> clNone) then
-        Canvas.Brush.Color := SynPythonSyn.MatchingBraceAttri.Background
+        BkgColor := SynPythonSyn.MatchingBraceAttri.Background
       else if (Synedit.ActiveLineColor <> clNone) and (SynEdit.CaretY = PM.Line) then
-        Canvas.Brush.Color := SynEdit.ActiveLineColor
+        BkgColor := SynEdit.ActiveLineColor
       else if Attri.Background <> clNone then
-        Canvas.Brush.Color := Attri.Background
+        BkgColor := Attri.Background
       else if SynEdit.Highlighter.WhitespaceAttribute.Background <> clNone then
-        Canvas.Brush.Color := SynEdit.Highlighter.WhitespaceAttribute.Background
+        BkgColor := SynEdit.Highlighter.WhitespaceAttribute.Background
       else
-        Canvas.Brush.Color := Synedit.Color;
-      Pix := SynEdit.RowColumnToPixels(PMD);
+        BkgColor := Synedit.Color;
 
       R := Rect(Pix.X, Pix.Y, Pix.X + SynEdit.CharWidth, Pix.Y + SynEdit.LineHeight);
-      Canvas.TextRect(R, Pix.X, Pix.Y, MatchCh);
+      SynEdit.PaintText(MatchCh, Point(0, 0), R, FontStyle, FontColor, BkgColor);
     end;
   end;
-
-  Canvas.Brush.Style := bsSolid;
 end;
 
 procedure TCommandsDataModule.ProcessFolderChange(const FolderName: string);
