@@ -541,7 +541,7 @@
   History:   v 4.1.2
           New Features
           Issues addressed
-            #1140, #1146, #1149
+            #1140, #1146, #1149, #1163
 }
 // TODO: Process diagnostics
 
