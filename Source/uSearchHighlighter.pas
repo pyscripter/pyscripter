@@ -10,155 +10,83 @@ unit uSearchHighlighter;
 interface
 
 uses
-  Windows, Classes, SysUtils, Contnrs, Graphics, Synedit,
-  SynEditTypes, SynEditMiscClasses;
+  Winapi.Windows,
+  System.Classes,
+  System.SysUtils,
+  Vcl.Graphics,
+  Synedit,
+  SynEditTypes,
+  SynEditMiscClasses,
+  uEditAppIntfs;
 
-type
-  TFoundItem = class
-    Start : TBufferCoord;
-    Length : Word;
-  end;
-
-  THighlightSearchPlugin = class(TSynEditPlugin)
-  private
-    fFoundItems: TObjectList;
-  protected
-    procedure AfterPaint(ACanvas: TCanvas; const AClip: TRect;
-      FirstLine, LastLine: integer); override;
-    procedure LinesInserted(FirstLine, Count: integer); override;
-    procedure LinesDeleted(FirstLine, Count: integer); override;
-  public
-    constructor Create(ASynEdit: TSynEdit; AFoundItems: TObjectList);
-  end;
-
-  procedure FindSearchTerm(ATerm : string; SynEdit : TSynEdit;
-    FoundItems : TObjectList; SearchEngine : TSynEditSearchCustom;
-    SearchOptions : TSynSearchOptions);
-
-  procedure InvalidateHighlightedTerms(SynEdit : TSynEdit; FoundItems : TObjectList);
+  procedure RegisterSearchHighlightIndicatorSpec(Editor: IEditor);
+  procedure HighligthtSearchTerm(ATerm : string; Editor: IEditor;
+    SearchEngine : TSynEditSearchCustom; SearchOptions : TSynSearchOptions);
+  procedure ClearSearchHighlight(Editor: IEditor);
   procedure ClearAllHighlightedTerms;
 
-
 implementation
-Uses
-  Math, uEditAppIntfs, frmEditor, cPyScripterSettings;
 
-{ THighlightSearchPlugin }
+uses
+  SynDWrite,
+  cPyScripterSettings;
 
-procedure THighlightSearchPlugin.AfterPaint(ACanvas: TCanvas;
-  const AClip: TRect; FirstLine, LastLine: integer);
+const SearchHighlightIndicatorId: TGUID  = '{A59BCD6A-02A6-4B34-B28C-D9EACA0C9F09}';
 
-  procedure PaintHightlight(StartXY, EndXY : TBufferCoord);
-  var
-    Pix: TPoint;
-    S : string;
-  begin
-    if StartXY.Char < EndXY.Char then begin
-      Pix := Editor.RowColumnToPixels(Editor.BufferToDisplayPos(StartXY));
-      ACanvas.Brush.Color := PyIDEOptions.HighlightSelectedWordColor;
-      ACanvas.Brush.Style := bsSolid;
-      SetTextCharacterExtra(ACanvas.Handle, Editor.CharWidth - ACanvas.TextWidth('W'));
-      S := Copy(Editor.Lines[StartXY.Line-1],
-             StartXY.Char, EndXY.Char - StartXY.Char);
-      ACanvas.TextOut(Pix.X, Pix.Y, S);
-    end;
-  end;
-
-var
-  i : Integer;
-  FoundItem : TFoundItem;
-  StartXY, EndXY : TBufferCoord;
-begin
-  FirstLine := Editor.RowToLine(FirstLine);
-  LastLine := Editor.RowToLine(LastLine);
-  for i := 0 to fFoundItems.Count - 1 do begin
-    FoundItem := fFoundItems[i] as TFoundItem;
-    if InRange(FoundItem.Start.Line, FirstLine, LastLine) and not
-      (Editor.UseCodefolding and Editor.AllFoldRanges.FoldHidesLine(FoundItem.Start.Line)) then
-    begin
-      // do not highlight selection
-      // Highlight front part
-      StartXY := FoundItem.Start;
-      EndXY := StartXY;
-      while not Editor.IsPointInSelection(EndXY) and
-        (EndXY.Char < FoundItem.Start.Char + FoundItem.Length)
-      do
-        Inc(EndXY.Char);
-      PaintHightlight(StartXY, EndXY);
-
-      StartXY.Char := EndXY.Char;
-      EndXY.Char := FoundItem.Start.Char + FoundItem.Length;
-      // Skip Selection
-      while Editor.IsPointInSelection(StartXY) and (StartXY.Char < EndXY.Char) do
-        Inc(StartXY.Char);
-      // Highlight end part
-       PaintHightlight(StartXY, EndXY);
-    end;
-  end;
-end;
-
-constructor THighlightSearchPlugin.Create(ASynEdit: TSynEdit;
-  AFoundItems: TObjectList);
-begin
-  inherited Create(ASynEdit);
-  FHandlers := [phLinesInserted, phLinesDeleted, phAfterPaint];
-  fFoundItems := AFoundItems;
-end;
-
-procedure THighlightSearchPlugin.LinesDeleted(FirstLine, Count: integer);
-begin
-  // Do nothing
-end;
-
-procedure THighlightSearchPlugin.LinesInserted(FirstLine, Count: integer);
-begin
-  // Do nothing
-end;
-
-procedure FindSearchTerm(ATerm : string; SynEdit : TSynEdit;
-  FoundItems : TObjectList; SearchEngine : TSynEditSearchCustom;
-  SearchOptions : TSynSearchOptions);
-var
-  i: Integer;
-  j: Integer;
-  FoundItem : TFoundItem;
-begin
-  InvalidateHighlightedTerms(SynEdit, FoundItems);
-  FoundItems.Clear;
-
-  if ATerm = '' then Exit;
-
-  for i := 0 to SynEdit.Lines.Count - 1 do begin
-    SearchEngine.Options := SearchOptions;
-    SearchEngine.Pattern := ATerm;
-    SearchEngine.FindAll(SynEdit.Lines[i]);
-    for j := 0 to SearchEngine.ResultCount - 1 do begin
-      FoundItem := TFoundItem.Create;
-      FoundItem.Start :=  BufferCoord(SearchEngine.Results[j], i + 1);
-      FoundItem.Length := SearchEngine.Lengths[j];
-      FoundItems.Add(FoundItem);
-      SynEdit.InvalidateLine(i+1);
-    end;
-  end;
-end;
-
-procedure InvalidateHighlightedTerms(SynEdit : TSynEdit; FoundItems : TObjectList);
-var
-  i: Integer;
-  FoundItem : TFoundItem;
-begin
-  for i := 0 to FoundItems.Count - 1 do begin
-    FoundItem := FoundItems[i] as TFoundItem;
-    SynEdit.InvalidateLine(FoundItem.Start.Line);
-  end;
-end;
 
 procedure ClearAllHighlightedTerms;
 begin
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   begin
-    TEditorForm(Editor.Form).ClearSearchItems;
+    ClearSearchHighlight(Editor);
   end);
+end;
+
+procedure RegisterSearchHighlightIndicatorSpec(Editor: IEditor);
+var
+  Spec: TSynIndicatorSpec;
+const
+  Alpha = 0.3;  // could allow customization
+begin
+  Spec.Style := sisRoundedFilledRectangle;
+  Spec.Background := D2D1ColorF(PyIDEOptions.HighlightSelectedWordColor, 0.3);
+  Spec.Foreground := Spec.Background;
+
+  Editor.SynEdit.Indicators.RegisterSpec(SearchHighlightIndicatorId, Spec);
+  Editor.SynEdit2.Indicators.RegisterSpec(SearchHighlightIndicatorId, Spec);
+end;
+
+procedure ClearSearchHighlight(Editor: IEditor);
+begin
+  Editor.SynEdit.Indicators.Clear(SearchHighlightIndicatorId);
+  Editor.SynEdit2.Indicators.Clear(SearchHighlightIndicatorId);
+  Editor.HasSearchHighlight := False;
+end;
+
+procedure HighligthtSearchTerm(ATerm : string; Editor: IEditor;
+  SearchEngine : TSynEditSearchCustom; SearchOptions : TSynSearchOptions);
+var
+  I: Integer;
+  J: Integer;
+  Indicator: TSynIndicator;
+begin
+  ClearSearchHighlight(Editor);
+  if ATerm = '' then Exit;
+
+  Indicator.Id := SearchHighlightIndicatorId;
+  for I := 0 to Editor.SynEdit.Lines.Count - 1 do begin
+    SearchEngine.Options := SearchOptions;
+    SearchEngine.Pattern := ATerm;
+    SearchEngine.FindAll(Editor.SynEdit.Lines[i]);
+
+    for J := 0 to SearchEngine.ResultCount - 1 do begin
+      Indicator.CharStart := SearchEngine.Results[j];
+      Indicator.CharEnd := Indicator.CharStart + SearchEngine.Lengths[j];
+      Editor.SynEdit.Indicators.Add(I + 1, Indicator);
+      Editor.SynEdit2.Indicators.Add(I + 1, Indicator);
+    end;
+  end;
+  Editor.HasSearchHighlight := True;
 end;
 
 end.

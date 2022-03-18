@@ -1141,8 +1141,8 @@ begin
       else
         SearchEngine := SynEditSearch;
       try
-        FindSearchTerm(EditorSearchOptions.SearchText, Editor.SynEdit,
-          TEditorForm(Editor.Form).FoundSearchItems, SearchEngine, SearchOptions);
+        HighligthtSearchTerm(EditorSearchOptions.SearchText, Editor, SearchEngine,
+          SearchOptions);
       except
         on E: ESynRegEx do begin
           MessageBeep(MB_ICONERROR);
@@ -1150,7 +1150,6 @@ begin
           Exit;
         end;
       end;
-      InvalidateHighlightedTerms(Editor.SynEdit2, TEditorForm(Editor.Form).FoundSearchItems);
     end else if not actSearchHighlight.Checked then
       ClearAllHighlightedTerms;
   end;
@@ -1230,8 +1229,8 @@ procedure TCommandsDataModule.ApplyEditorOptions;
 begin
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   begin
-      Editor.SynEdit.Assign(EditorOptions);
-      Editor.SynEdit2.Assign(EditorOptions);
+    Editor.SynEdit.Assign(EditorOptions);
+    Editor.SynEdit2.Assign(EditorOptions);
   end);
 
   InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
@@ -1722,10 +1721,6 @@ begin
   if IsBracket then begin
     PD := SynEdit.BufferToDisplayPos(P);
     Pix := SynEdit.RowColumnToPixels(PD);
-    // Calculate here as a workaround to UniSynEdit quirk in which
-    // BufferToDisplayPos resets the font
-    if HasMatchingBracket then
-      PMD := SynEdit.BufferToDisplayPos(PM);
 
     FontStyle := Attri.Style;
     FontColor := Attri.Foreground;
@@ -1778,8 +1773,9 @@ begin
 
     if not HasMatchingBracket then Exit;
 
+    PMD := SynEdit.BufferToDisplayPos(PM);
     Pix := SynEdit.RowColumnToPixels(PMD);
-    if HasMatchingBracket and (PMD.Column >= SynEdit.LeftChar) and
+    if (PMD.Column >= SynEdit.LeftChar) and
       Rect(SynEdit.GutterWidth + SynEdit.TextMargin, 0, SynEdit.ClientWidth,
       SynEdit.ClientHeight).Contains(Pix) and
       (PMD.Row > 0)and (PMD.Row >= SynEdit.TopLine) and
@@ -2400,8 +2396,7 @@ begin
   SearchCommands := nil;
   if Assigned(Editor) then
     SearchCommands := Editor as ISearchCommands;
-  actSearchHighlight.Checked := Assigned(Editor) and
-    (TEditorForm(Editor.Form).FoundSearchItems.Count > 0);
+  actSearchHighlight.Checked := Assigned(Editor) and Editor.HasSearchHighlight;
   actSearchHighlight.Enabled := actSearchHighlight.Checked or Assigned(Editor) and
      (EditorSearchOptions.SearchText <> '') ;
 

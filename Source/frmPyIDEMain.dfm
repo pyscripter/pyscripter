@@ -17,7 +17,6 @@ object PyIDEMainForm: TPyIDEMainForm
   OnKeyUp = FormKeyUp
   OnShortCut = FormShortCut
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object StatusBar: TSpTBXStatusBar
     Left = 0
@@ -1274,7 +1273,7 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object tbiSearchText: TSpTBXComboBox
         Left = 36
-        Top = 2
+        Top = 1
         Width = 160
         Height = 23
         AutoDropDownWidth = True
@@ -1287,7 +1286,7 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object tbiReplaceText: TSpTBXComboBox
         Left = 277
-        Top = 2
+        Top = 1
         Width = 160
         Height = 23
         AutoDropDownWidth = True

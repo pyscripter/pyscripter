@@ -1467,6 +1467,7 @@ begin
     Result := GI_EditorFactory.CreateTabSheet(TabControl);
     Result.SynEdit.Assign(EditorOptions);
     Result.SynEdit2.Assign(EditorOptions);
+    RegisterSearchHighlightIndicatorSpec(Result);
     TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
     TEditorForm(Result.Form).ParentTabItem.OnDrawTabCloseButton := DrawCloseButton;
     ApplyIDEOptionsToEditor(Result);
@@ -3167,7 +3168,8 @@ begin
 
   GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
   begin
-      ApplyIDEOptionsToEditor(Ed);
+    ApplyIDEOptionsToEditor(Ed);
+    RegisterSearchHighlightIndicatorSpec(Ed);
   end);
 
   tbiRecentFileList.MaxItems :=  PyIDEOptions.NoOfRecentFiles;

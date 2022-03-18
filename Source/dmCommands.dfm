@@ -3,7 +3,6 @@ object CommandsDataModule: TCommandsDataModule
   OnDestroy = DataModuleDestroy
   Height = 392
   Width = 675
-  PixelsPerInch = 96
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.DefaultFont.Charset = DEFAULT_CHARSET

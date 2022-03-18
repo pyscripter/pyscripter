@@ -63,9 +63,8 @@ type
   TValidateEvent = procedure(Sender: TObject; Shift: TShiftState;
     EndToken: WideChar) of object;
 
-  TCompletionParameter = procedure(Sender: TObject; CurrentIndex: Integer;
-    var Level, IndexToDisplay: Integer; var Key: WideChar;
-    var DisplayString: string) of object;
+  TCompletionParameter = procedure(Sender: TObject; Key: WideChar;
+    var CurrentIndex, Level: Integer) of object;
 
   TCompletionExecute = procedure(Kind: SynCompletionType; Sender: TObject;
     var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean) of object;
@@ -3309,44 +3308,27 @@ begin
           CancelCompletion
       end;
     ctParams:
-      begin
-        case Command of
+      case Command of
         // So that param completion is not hidden when you display code completion
         //ecGotFocus, ecLostFocus:
         //  CancelCompletion;
         ecLineBreak:
           DoExecute(Sender as TCustomSynEdit);
         ecChar:
-          begin
-            case AChar of
-            #27:
-              CancelCompletion;
-            #32..'z':
-              with Form do
-              begin
-                {if Pos(AChar, FTriggerChars) > 0 then
-                begin
-                  if Assigned(FParameterToken) then
-                  begin
-                    TmpIndex := CurrentIndex;
-                    TmpLevel := CurrentLevel;
-                    TmpStr := CurrentString;
-                    OnParameterToken(Self, CurrentIndex, TmpLevel, TmpIndex, AChar, TmpStr);
-                    CurrentIndex := TmpIndex;
-                    CurrentLevel := TmpLevel;
-                    CurrentString := TmpStr;
-                  end;
-                end;}
-                DoExecute(Sender as TCustomSynEdit);
-              end;
-            else DoExecute(Sender as TCustomSynEdit);
-            end;
-          end;
-        else DoExecute(Sender as TCustomSynEdit);
-        end;
+          if AChar = #27 then
+            CancelCompletion
+          else if Assigned(OnParameterToken) then
+            OnParameterToken(Self, AChar, FForm.FCurrentIndex, FForm.FCurrentLevel)
+          else if not ((Sender as TCustomSynEdit).IsIdentChar(AChar) or
+            TCustomSynEdit(Sender).IsWhiteChar(AChar))
+          then
+            DoExecute(Sender as TCustomSynEdit);
+      else
+        DoExecute(Sender as TCustomSynEdit);
       end;
     end;
-  end else
+  end
+  else
   if (not Form.Visible) and Assigned(FTimer) then
   begin
     if (Command = ecChar) then
@@ -3356,7 +3338,6 @@ begin
     else
       FTimer.Enabled := False;
   end;
-
 end;
 
 procedure TSynCompletionProposal.ActivateCompletion;

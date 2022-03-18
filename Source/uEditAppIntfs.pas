@@ -88,8 +88,10 @@ type
     function GetTabControlIndex : integer;
     function GetReadOnly : Boolean;
     function GetRemoteFileName: string;
+    function GetHasSearchHighlight: Boolean;
     function GetSSHServer: string;
     procedure SetReadOnly(Value : Boolean);
+    procedure SetHasSearchHighlight(Value : Boolean);
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
@@ -114,6 +116,8 @@ type
     property EncodedText: AnsiString read GetEncodedText;
     property Form: TForm read GetForm;
     property DocSymbols: TObject read GetDocSymbols;
+    property HasSearchHighlight: Boolean read GetHasSearchHighlight
+      write SetHasSearchHighlight;
     property TabControlIndex : integer read GetTabControlIndex;
     property ReadOnly : Boolean read GetReadOnly write SetReadOnly;
   end;

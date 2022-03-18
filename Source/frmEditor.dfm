@@ -9,7 +9,6 @@ object EditorForm: TEditorForm
   ParentFont = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
   TextHeight = 15
   object BGPanel: TPanel
     Left = 0
@@ -531,6 +530,7 @@ object EditorForm: TEditorForm
           PopupMenu = pmnuEditor
           TabOrder = 1
           Visible = False
+          OnDblClick = SynEditDblClick
           OnEnter = SynEditEnter
           OnExit = SynEditExit
           OnKeyDown = SynEditKeyDown

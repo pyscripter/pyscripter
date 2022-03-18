@@ -202,6 +202,7 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
     class procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
+    class procedure DoParamCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     class procedure SymbolsChanged(Sender: TObject);
     class var fOldEditorForm: TEditorForm;
     class var fHintIdentInfo: THotIdentInfo;
@@ -216,13 +217,12 @@ type
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState);
   public
     BreakPoints: TObjectList;
-    FoundSearchItems: TObjectList;
     HasFocus: boolean;
     FileTime: TDateTime;
     DefaultExtension: string;
     ParentTabItem: TSpTBXTabItem;
     ParentTabControl: TSpTBXCustomTabControl;
-    procedure ClearSearchItems;
+    HasSearchHighlight: Boolean;
     procedure DoActivate;
     procedure DoActivateEditor(Primary: boolean = True);
     function DoActivateView(ViewFactory: IEditorViewFactory): IEditorView;
@@ -255,6 +255,7 @@ type
     function GetFileTitle: string;
     function GetFileId: string;
     function GetModified: boolean;
+    function GetHasSearchHighlight: Boolean;
     function GetFileEncoding: TFileSaveFormat;
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
     function GetEncodedText: AnsiString;
@@ -264,6 +265,7 @@ type
     function HasPythonFile: boolean;
     function GetReadOnly : Boolean;
     procedure SetReadOnly(Value : Boolean);
+    procedure SetHasSearchHighlight(Value : Boolean);
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
@@ -777,6 +779,11 @@ begin
   end;
 end;
 
+procedure TEditor.SetHasSearchHighlight(Value: Boolean);
+begin
+  fForm.HasSearchHighlight :=  Value;
+end;
+
 procedure TEditor.SetReadOnly(Value: Boolean);
 begin
   GetSynEdit.ReadOnly := Value;
@@ -933,6 +940,11 @@ end;
 function TEditor.GetForm: TForm;
 begin
   Result := fForm;
+end;
+
+function TEditor.GetHasSearchHighlight: Boolean;
+begin
+  Result := fForm.HasSearchHighlight;
 end;
 
 // IEditCommands implementation
@@ -1558,7 +1570,6 @@ begin
   if GI_EditorFactory.Count = 0 then
     PyIDEMainForm.UpdateCaption;
   BreakPoints.Free;
-  FoundSearchItems.Free;
 
   // Unregister kernel notification
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
@@ -1572,7 +1583,7 @@ begin
     PyControl.ErrorPos := TEditorPos.EmptyPos;
   FEditor.FSynLsp.ClearDiagnostics;
 
-  ClearSearchItems;
+  ClearSearchHighlight(FEditor);
 end;
 
 procedure TEditorForm.SynEditDblClick(Sender: TObject);
@@ -2003,7 +2014,7 @@ begin
     SynEdit.Font.Size := SynEdit.Font.Size - theZoom;
     SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size - 2, 1);
     SynEdit2.Font.Size := SynEdit.Font.Size;
-    SynEdit2.Gutter.Font.Size := SynEdit2.Gutter.Font.Size;
+    SynEdit2.Gutter.Font.Size := SynEdit.Gutter.Font.Size;
   end;
 end;
 
@@ -2330,10 +2341,6 @@ begin
   //  Custom command handling
   SynEdit.RegisterCommandHandler(EditorCommandHandler, nil);
   SynEdit2.RegisterCommandHandler(EditorCommandHandler, nil);
-
-  FoundSearchItems := TObjectList.Create(True);
-  THighlightSearchPlugin.Create(SynEdit, FoundSearchItems); // No need to free
-  THighlightSearchPlugin.Create(SynEdit2, FoundSearchItems); // No need to free
 
   BreakPoints := TObjectList.Create(True);
   TDebugSupportPlugin.Create(Self); // No need to free
@@ -2770,16 +2777,6 @@ begin
     end);
 end;
 
-procedure TEditorForm.ClearSearchItems;
-begin
-  if FoundSearchItems.Count > 0 then
-  begin
-    InvalidateHighlightedTerms(SynEdit, FoundSearchItems);
-    InvalidateHighlightedTerms(SynEdit2, FoundSearchItems);
-    FoundSearchItems.Clear;
-  end;
-end;
-
 procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
 begin
   PyIDEOptions.CodeCompletionListSize :=
@@ -2942,6 +2939,70 @@ begin
   finally
     CC.Lock.Leave;
   end;
+end;
+
+class procedure TEditorForm.DoParamCompletion(Editor: TSynEdit; Caret: TBufferCoord);
+//var
+//  locline: string;
+//  Attr: TSynHighlighterAttributes;
+//  Highlighter: TSynCustomHighlighter;
+//  FileName, DummyToken: string;
+begin
+  //Exit if cursor has moved
+//  if not Assigned(GI_ActiveEditor) or (GI_ActiveEditor.ActiveSynEdit <> Editor)
+//    or (Editor.ReadOnly) or (Caret <> Editor.CaretXY)
+//  then
+//    Exit;
+//
+//  if not (GI_ActiveEditor.HasPythonFile and
+//    GI_PyControl.PythonLoaded and not GI_PyControl.Running and
+//    PyIDEOptions.EditorCodeCompletion)
+//  then
+//    Exit;
+//
+//  Highlighter := Editor.Highlighter;
+//  FileName := GI_ActiveEditor.FileId;
+//
+//  Dec(Caret.Char);
+//  Editor.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
+//  // to deal with trim trailing spaces
+//  locline := StrPadRight(Editor.LineText, Caret.Char, ' ');
+//  Inc(Caret.Char);
+//
+//  var CC := TIDECompletion.EditorCodeCompletion;
+//  if not CC.Lock.TryEnter then Exit;
+//  try
+//    // Exit if busy
+//    if CC.CompletionInfo.Editor <> nil then Exit;
+//    CC.CleanUp;
+//    CC.CompletionInfo.Editor := Editor;
+//    CC.CompletionInfo.CaretXY := Caret;
+//  finally
+//    CC.Lock.Leave;
+//  end;
+//
+//  TTask.Create(procedure
+//  var
+//    DisplayText, InsertText: string;
+//  begin
+//    var CC := TIDECompletion.EditorCodeCompletion;
+//    if not CC.Lock.TryEnter then Exit;
+//    try
+//      var Handled := False;
+//      if Handled and (InsertText <> '') then
+//        TThread.Queue(nil, procedure
+//        begin
+//          if Assigned(GI_ActiveEditor) and (GI_ActiveEditor.FileId = FileName) and
+//            (CommandsDataModule.SynCodeCompletion.Editor = GI_ActiveEditor.ActiveSynEdit)
+//          then
+//            CommandsDataModule.SynCodeCompletion.ActivateCompletion;
+//        end)
+//      else
+//        CC.CleanUp;
+//    finally
+//      CC.Lock.Leave;
+//    end;
+//  end).Start;
 end;
 
 procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
