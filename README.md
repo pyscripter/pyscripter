@@ -8,5 +8,4 @@ languages.
 * [Screenshots](https://github.com/pyscripter/pyscripter/wiki/Screenshots)
 * [Blog](https://pyscripter.blogspot.com/)
 * [Support](https://groups.google.com/forum/#!forum/pyscripter)
-
-Licence: MIT
+* [Licence: MIT](https://github.com/pyscripter/pyscripter/blob/master/LICENSE)
