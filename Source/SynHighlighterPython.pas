@@ -262,6 +262,7 @@ implementation
 uses
   System.StrUtils,
   System.Character,
+  System.RegularExpressionsCore,
   SynEditStrConst,
   uCommonFunctions;
 
@@ -530,7 +531,7 @@ begin
   BlockOpenerRE.Create(
      '^(def|class|while|for|if|else|elif|try|except|finally|with'+
      '|(async[ \t]+def)|(async[ \t]+with)|(async[ \t]+for))\b');
-  BlockOpenerRE.Study;
+  BlockOpenerRE.Study([preJIT]);
 
   fRange := rsUnknown;
   fCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);
@@ -1611,11 +1612,11 @@ begin
   fSystemCmdAttri.Foreground := clFuchsia;
   AddAttribute(fSystemCmdAttri);
   fTracebackStartRE.Create('^Traceback \(|File ".*line');
-  fTracebackStartRE.Study;
+  fTracebackStartRE.Study([preJIT]);
   fTracebackEndRE.Create('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
-  fTracebackEndRE.Study;
+  fTracebackEndRE.Study([preJIT]);
   fSystemCmdRE.Create(Format('^(%s)?%s\s*!', [fDbg, fPS1]));
-  fSystemCmdRE.Study;
+  fSystemCmdRE.Study([preJIT]);
 
   SetAttributesOnChange(DefHighlightChange);
 end;

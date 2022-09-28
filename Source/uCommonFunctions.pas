@@ -269,14 +269,6 @@ function SvgFixedColor(Color: TColor): TColor;
 procedure FreeAndNilEncoding(var Encoding: TEncoding);
 
 type
-  (*  Extends System.RegularExperssions.TRegEx *)
-  TRegExHelper = record helper for TRegEx
-  public
-    procedure Study;
-    procedure SetAdditionalPCREOptions(PCREOptions : Integer);
-    function PerlRegEx : TPerlRegEx;
-  end;
-
   TMatchHelper = record helper for TMatch
   public
     function GroupIndex(Index: integer): integer;
@@ -1750,8 +1742,8 @@ begin
   try
     Result.Create(Expr, Options);
     if UCP then
-      Result.SetAdditionalPCREOptions(PCRE_UCP);
-    Result.Study
+      Result.AddRawOptions(PCRE_UCP);
+    Result.Study([preJIT])
   except
     on E: ERegularExpressionError do
       begin
@@ -2260,36 +2252,6 @@ begin
       Encoding.Free;
     Encoding := nil;
   end;
-end;
-
-
-//  Regular Expressions Start
-type
-  { TPerlRegExHelper }
-  TPerlRegExHelper = class helper for TPerlRegEx
-    procedure SetAdditionalPCREOptions(PCREOptions : Integer);
-  end;
-
-procedure TPerlRegExHelper.SetAdditionalPCREOptions(PCREOptions: Integer);
-begin
-  with Self do FPCREOptions := FPCREOptions or PCREOptions;
-end;
-
-{ TRegExHelper }
-procedure TRegExHelper.Study;
-begin
-  with Self do FRegEx.Study;
-end;
-
-function TRegExHelper.PerlRegEx: TPerlRegEx;
-begin
-  with Self do
-    Result := FregEx;
-end;
-
-procedure TRegExHelper.SetAdditionalPCREOptions(PCREOptions: Integer);
-begin
-  with Self do FRegEx.SetAdditionalPCREOptions(PCREOptions);
 end;
 
 { TMatchHelper }

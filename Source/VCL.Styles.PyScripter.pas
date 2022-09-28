@@ -409,9 +409,4 @@ begin
   Canvas.Draw(0,0,FBitmap);
 end;
 
-initialization
-  TCustomStyleEngine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
-
-finalization
-  TCustomStyleEngine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
 end.
