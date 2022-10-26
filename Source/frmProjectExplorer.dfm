@@ -39,8 +39,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     9C41FC039C41F8019C41F0009C4100009C4100009C4100009C4100009C410000
     9C4100019C4100039C4100079C4100079C4100079C4100079C4100079C41}
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   inherited BGPanel: TPanel
     inherited FGPanel: TPanel
       object Panel1: TPanel
@@ -485,31 +484,25 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
   end
   object vilProjects: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 1
         CollectionName = 'Projects\Project'
-        Disabled = False
         Name = 'Project'
       end
       item
         CollectionIndex = 0
         CollectionName = 'Projects\Folder'
-        Disabled = False
         Name = 'Folder'
       end
       item
         CollectionIndex = 3
         CollectionName = 'Projects\RunConfigs'
-        Disabled = False
         Name = 'RunConfigs'
       end
       item
         CollectionIndex = 2
         CollectionName = 'Projects\RunConfig'
-        Disabled = False
         Name = 'RunConfig'
       end>
     ImageCollection = icProjects
@@ -520,127 +513,105 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Top = 160
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 46
         CollectionName = 'Folders'
-        Disabled = False
         Name = 'Folders'
       end
       item
         CollectionIndex = 32
         CollectionName = 'ExternalRun'
-        Disabled = False
         Name = 'ExternalRun'
       end
       item
         CollectionIndex = 31
         CollectionName = 'Expand'
-        Disabled = False
         Name = 'Expand'
       end
       item
         CollectionIndex = 15
         CollectionName = 'Collapse'
-        Disabled = False
         Name = 'Collapse'
       end
       item
         CollectionIndex = 93
         CollectionName = 'Run'
-        Disabled = False
         Name = 'Run'
       end
       item
         CollectionIndex = 18
         CollectionName = 'Debug'
-        Disabled = False
         Name = 'Debug'
       end
       item
         CollectionIndex = 75
         CollectionName = 'ProjectFile'
-        Disabled = False
         Name = 'ProjectFile'
       end
       item
         CollectionIndex = 76
         CollectionName = 'ProjectOpen'
-        Disabled = False
         Name = 'ProjectOpen'
       end
       item
         CollectionIndex = 73
         CollectionName = 'ProjectAdd'
-        Disabled = False
         Name = 'ProjectAdd'
       end
       item
         CollectionIndex = 77
         CollectionName = 'ProjectRemove'
-        Disabled = False
         Name = 'ProjectRemove'
       end
       item
         CollectionIndex = 45
         CollectionName = 'FolderAdd'
-        Disabled = False
         Name = 'FolderAdd'
       end
       item
         CollectionIndex = 26
         CollectionName = 'Editor'
-        Disabled = False
         Name = 'Editor'
       end
       item
         CollectionIndex = 78
         CollectionName = 'ProjectSave'
-        Disabled = False
         Name = 'ProjectSave'
       end
       item
         CollectionIndex = 94
         CollectionName = 'RunConfigAdd'
-        Disabled = False
         Name = 'RunConfigAdd'
       end
       item
         CollectionIndex = 95
         CollectionName = 'RunConfigEdit'
-        Disabled = False
         Name = 'RunConfigEdit'
       end
       item
         CollectionIndex = 39
         CollectionName = 'FileProperties'
-        Disabled = False
         Name = 'FileProperties'
       end
       item
         CollectionIndex = 23
         CollectionName = 'Download'
-        Disabled = False
         Name = 'Download'
       end
       item
         CollectionIndex = 96
         CollectionName = 'RunLast'
-        Disabled = False
         Name = 'RunLast'
       end
       item
         CollectionIndex = 19
         CollectionName = 'DebugLast'
-        Disabled = False
         Name = 'DebugLast'
       end
       item
         CollectionIndex = 33
         CollectionName = 'ExternalRunLast'
-        Disabled = False
         Name = 'ExternalRunLast'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

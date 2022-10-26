@@ -42,8 +42,7 @@ inherited OutputWindow: TOutputWindow
     000000000000000000000000000000000000000000000000000000000000FFFF
     0000FFFF00000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000FFFF0000}
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   inherited BGPanel: TPanel
     Width = 552
     Height = 331
@@ -132,43 +131,35 @@ inherited OutputWindow: TOutputWindow
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 16
         CollectionName = 'Copy'
-        Disabled = False
         Name = 'Copy'
       end
       item
         CollectionIndex = 21
         CollectionName = 'Delete'
-        Disabled = False
         Name = 'Delete'
       end
       item
-        CollectionIndex = 110
+        CollectionIndex = 111
         CollectionName = 'Stop'
-        Disabled = False
         Name = 'Stop'
       end
       item
         CollectionIndex = 30
         CollectionName = 'Exit'
-        Disabled = False
         Name = 'Exit'
       end
       item
         CollectionIndex = 86
         CollectionName = 'Quit'
-        Disabled = False
         Name = 'Quit'
       end
       item
         CollectionIndex = 47
         CollectionName = 'Font'
-        Disabled = False
         Name = 'Font'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

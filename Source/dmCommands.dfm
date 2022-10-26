@@ -1,8 +1,8 @@
 object CommandsDataModule: TCommandsDataModule
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 392
-  Width = 675
+  Height = 402
+  Width = 717
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.DefaultFont.Charset = DEFAULT_CHARSET
@@ -2921,6 +2921,46 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Restart the Language Server'
       OnExecute = actToolsRestartLSExecute
     end
+    object actSynSpellCheckFile: TSynSpellCheckFile
+      Category = 'Spell Check'
+      Caption = 'Check File'
+    end
+    object actSynSpellCheckLine: TSynSpellCheckLine
+      Category = 'Spell Check'
+      Caption = 'Check Line'
+    end
+    object actSynSpellCheckSelection: TSynSpellCheckSelection
+      Category = 'Spell Check'
+      Caption = 'Check Selection'
+    end
+    object actSynSpellCheckWord: TSynSpellCheckWord
+      Category = 'Spell Check'
+      Caption = 'Check Word'
+    end
+    object actSynSpellClearErrors: TSynSpellClearErrors
+      Category = 'Spell Check'
+      Caption = 'Clear Errors'
+    end
+    object actSynSpellCheckAsYouType: TSynSpellCheckAsYouType
+      Category = 'Spell Check'
+      Caption = 'Check As You Type'
+    end
+    object actSynSpellErrorAdd: TSynSpellErrorAdd
+      Category = 'Spell Check'
+      Caption = 'Add'
+    end
+    object actSynSpellErrorIgnoreOnce: TSynSpellErrorIgnoreOnce
+      Category = 'Spell Check'
+      Caption = 'Ignore Once'
+    end
+    object actSynSpellErrorIgnore: TSynSpellErrorIgnore
+      Category = 'Spell Check'
+      Caption = 'Ignore'
+    end
+    object actSynSpellErrorDelete: TSynSpellErrorDelete
+      Category = 'Spell Check'
+      Caption = 'Delete'
+    end
   end
   object SynWebEsSyn: TSynWebEsSyn
     ActiveHighlighterSwitch = False
@@ -4766,6 +4806,13 @@ object CommandsDataModule: TCommandsDataModule
           '3.3z"/>'#13#10'</svg>'#13#10
       end
       item
+        IconName = 'SpellCheck'
+        SVGText = 
+          '<svg viewBox="0 0 24 24"><path d="M21.59,11.59L13.5,19.68L9.83,1' +
+          '6L8.42,17.41L13.5,22.5L23,13M6.43,11L8.5,5.5L10.57,11M12.45,16H1' +
+          '4.54L9.43,3H7.57L2.46,16H4.55L5.67,13H11.31L12.45,16Z" /></svg>'
+      end
+      item
         IconName = 'SplitHorizontal'
         SVGText = 
           '<svg viewBox="0 0 32 32">'#13#10'<path d="M26.2,6.3L26.2,6.3l-0.1-1.1H' +
@@ -5192,7 +5239,6 @@ object CommandsDataModule: TCommandsDataModule
           '6.8,3,6.8,6.8'#13#10#9'S16.4,19.3,12.7,19.3z M9,11.8h7.5v1.5H9V11.8z"/>' +
           #13#10'</svg>'
       end>
-    ApplyFixedColorToRootOnly = True
     Left = 112
     Top = 208
   end
@@ -5262,5 +5308,16 @@ object CommandsDataModule: TCommandsDataModule
     TimerInterval = 300
     Left = 484
     Top = 25
+  end
+  object SynSpellCheck: TSynSpellCheck
+    AttributesChecked.Strings = (
+      'Comment'
+      'Text'
+      'String'
+      'Documentation')
+    CheckAsYouType = False
+    OnChange = SynSpellCheckChange
+    Left = 32
+    Top = 328
   end
 end

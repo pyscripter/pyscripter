@@ -126,6 +126,8 @@ type
     mnUnfoldClasses: TSpTBXItem;
     vilGutterGlyphs: TVirtualImageList;
     vilCodeImages: TVirtualImageList;
+    SpTBXSubmenuItem1: TSpTBXSubmenuItem;
+    SpTBXSeparatorItem8: TSpTBXSeparatorItem;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -1614,6 +1616,9 @@ begin
     AutoCompleteBeforeExecute;
   CommandsDataModule.CodeTemplatesCompletion.OnAfterExecute :=
     AutoCompleteAfterExecute;
+
+  // Spell Checking
+  CommandsDataModule.SynSpellCheck.Editor := ASynEdit;
 
   if ASynEdit.Highlighter is TSynWebBase then
   begin

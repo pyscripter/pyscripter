@@ -57,7 +57,7 @@ uses
   dlgSynEditOptions,
   dlgOptionsEditor,
   uEditAppIntfs,
-  cPyBaseDebugger;
+  cPyBaseDebugger, SynSpellCheck;
 
 type
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -258,6 +258,17 @@ type
     SynParamCompletion: TSynCompletionProposal;
     SynCodeCompletion: TSynCompletionProposal;
     actToolsRestartLS: TAction;
+    SynSpellCheck: TSynSpellCheck;
+    actSynSpellCheckFile: TSynSpellCheckFile;
+    actSynSpellCheckLine: TSynSpellCheckLine;
+    actSynSpellCheckSelection: TSynSpellCheckSelection;
+    actSynSpellCheckWord: TSynSpellCheckWord;
+    actSynSpellClearErrors: TSynSpellClearErrors;
+    actSynSpellCheckAsYouType: TSynSpellCheckAsYouType;
+    actSynSpellErrorAdd: TSynSpellErrorAdd;
+    actSynSpellErrorIgnoreOnce: TSynSpellErrorIgnoreOnce;
+    actSynSpellErrorIgnore: TSynSpellErrorIgnore;
+    actSynSpellErrorDelete: TSynSpellErrorDelete;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -369,6 +380,7 @@ type
     procedure ModifierCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var x, y: Integer;
       var CanExecute: Boolean);
+    procedure SynSpellCheckChange(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -1940,7 +1952,7 @@ Var
   IsRegistered : Boolean;
   Key : string;
 begin
-  SetLength(Categories, 11);
+  SetLength(Categories, 12);
   with Categories[0] do begin
     DisplayName := _('IDE');
     SetLength(Options, 12);
@@ -2144,6 +2156,16 @@ begin
     Options[1].DisplayName := _('Check syntax as you type');
     Options[2].PropertyName := 'SpecialPackages';
     Options[2].DisplayName := _('Special packages');
+  end;
+  with Categories[11] do begin
+    DisplayName := _('Spell checking');
+    SetLength(Options, 3);
+    Options[0].PropertyName := 'DictLanguage';
+    Options[0].DisplayName := _('Dictionary language code');
+    Options[1].PropertyName := 'SpellCheckAsYouType';
+    Options[1].DisplayName := _('Spell check as you type');
+    Options[2].PropertyName := 'SpellCheckedTokens';
+    Options[2].DisplayName := _('Spell checked syntax tokens');
   end;
 
   // Shell Integration
@@ -3158,6 +3180,11 @@ begin
     CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(PyIDEOptions.AutoCompletionFont);
     CodeTemplatesCompletion.GetCompletionProposal().FontsAreScaled := True;
   end;
+end;
+
+procedure TCommandsDataModule.SynSpellCheckChange(Sender: TObject);
+begin
+  PyIDEOptions.SpellCheckAsYouType := SynSpellCheck.CheckAsYouType;
 end;
 
 { TSynGeneralSyn }

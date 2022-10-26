@@ -303,6 +303,9 @@ Const
   SNoJupyter = 'The ''jupyter'' package is not available.' + SLineBreak + 'Please install ''jupyter'' first.';
   SExternalProcessRunning = 'An external process is still running.' + SLineBreak +
                             'Please terminate it first from the ''Output'' window.';
+  SDictionaryNA = 'The dictionary for language code "%s" is not available.' + sLineBreak +
+                  'You can get spell checking dictionaries through the Windows language settings.' + sLineBreak +
+                  'You can change the active language through the IDE options dialog.';
 
   //  Project Manager
   SAskSaveProject = 'The active project has not been saved.' + SLineBreak +

@@ -58,9 +58,12 @@ end;
 
 procedure ClearSearchHighlight(Editor: IEditor);
 begin
-  Editor.SynEdit.Indicators.Clear(SearchHighlightIndicatorId);
-  Editor.SynEdit2.Indicators.Clear(SearchHighlightIndicatorId);
-  Editor.HasSearchHighlight := False;
+//  if Editor.HasSearchHighlight then
+//  begin
+    Editor.SynEdit.Indicators.Clear(SearchHighlightIndicatorId);
+    Editor.SynEdit2.Indicators.Clear(SearchHighlightIndicatorId);
+    Editor.HasSearchHighlight := False;
+//  end;
 end;
 
 procedure HighligthtSearchTerm(ATerm : string; Editor: IEditor;

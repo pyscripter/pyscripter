@@ -994,6 +994,14 @@ object EditorForm: TEditorForm
     end
     object SpTBXSeparatorItem2: TSpTBXSeparatorItem
     end
+    object SpTBXSubmenuItem1: TSpTBXSubmenuItem
+      Caption = 'Spelling'
+      ImageIndex = 102
+      ImageName = 'SpellCheck'
+      LinkSubitems = PyIDEMainForm.mnSpelling
+    end
+    object SpTBXSeparatorItem8: TSpTBXSeparatorItem
+    end
     object mnFoldVisible: TSpTBXItem
       Action = CommandsDataModule.actFoldVisible
     end

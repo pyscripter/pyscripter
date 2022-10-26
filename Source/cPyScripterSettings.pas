@@ -10,6 +10,7 @@ unit cPyScripterSettings;
 
 interface
 Uses
+  WinApi.Windows,
   System.Classes,
   Vcl.ImgList,
   Vcl.Graphics,
@@ -29,6 +30,7 @@ Const
   dsaReplaceNumber = 3;
   dsaSearchStartReached = 4;
   dsaPostMortemInfo = 5;
+  dsaDictonaryNA = 6;
 
 type
   TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
@@ -133,6 +135,9 @@ type
     fTrimTrailingSpacesOnSave: Boolean;
     fTraceOnlyIntoOpenFiles: Boolean;
     fLspDebug: Boolean;
+    fDictLanguage: string;
+    fSpellCheckedTokens: string;
+    fSpellCheckAsYouType: Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
@@ -303,6 +308,10 @@ type
     property TraceOnlyIntoOpenFiles : Boolean read fTraceOnlyIntoOpenFiles
       write fTraceOnlyIntoOpenFiles default False;
     property LspDebug: Boolean read fLspDebug write fLspDebug default false;
+    property DictLanguage: string read fDictLanguage write fDictLanguage;
+    property SpellCheckedTokens: string read fSpellCheckedTokens write fSpellCheckedTokens;
+    property SpellCheckAsYouType: Boolean read fSpellCheckAsYouType
+      write fSpellCheckAsYouType default False;
   end;
 {$METHODINFO OFF}
 
@@ -342,7 +351,6 @@ Var
 implementation
 
 uses
-  Winapi.Windows,
   System.UITypes,
   System.SysUtils,
   System.IOUtils,
@@ -352,6 +360,7 @@ uses
   JvAppStorage,
   JvGnuGettext,
   SynEdit,
+  SynUnicode,
   SynEditStrConst,
   SynEditMiscClasses,
   SynHighlighterPython,
@@ -447,7 +456,10 @@ begin
       Self.fAlwaysUseSockets := AlwaysUseSockets;
       Self.fTrimTrailingSpacesOnSave := TrimTrailingSpacesOnSave;
       Self.fTraceOnlyIntoOpenFiles := TraceOnlyIntoOpenFiles;
-      Self.fLspDebug := LspDebug;
+      Self.fLspDebug := LSpDebug;
+      Self.fDictLanguage := DictLanguage;
+      Self.fSpellCheckedTokens := SpellCheckedTokens;
+      Self.fSpellCheckAsYouType := SpellCheckAsYouType;
     end
   else
     inherited;
@@ -544,6 +556,9 @@ begin
   fTrimTrailingSpacesOnSave := True;
   fTraceOnlyIntoOpenFiles := False;
   fLspDebug := False;
+  fDictLanguage := UserLocaleName;
+  fSpellCheckedTokens := 'Comment, Text, String, Multi-Line String, Documentation';
+  fSpellCheckAsYouType := False;
   fCodeFolding := TSynCodeFolding.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value
 end;

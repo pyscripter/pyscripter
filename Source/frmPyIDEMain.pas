@@ -540,7 +540,9 @@
 
   History:   v 4.2
           New Features
+            - Python 11 support
             - Complete Portuguese (Brazil) translation added.
+            - Spell checking of comments and strings #84
           Issues addressed
             #1140, #1146, #1149, #1163
 }
@@ -1129,6 +1131,22 @@ type
     SpTBXItem15: TSpTBXItem;
     spiLspLed: TSpTBXItem;
     vilTabDecorators: TVirtualImageList;
+    SpTBXSeparatorItem10: TSpTBXSeparatorItem;
+    mnSpelling: TSpTBXSubmenuItem;
+    mnSpellCheckAdd: TSpTBXItem;
+    mnSpellCheckDelete: TSpTBXItem;
+    mnSpellCheckIgnore: TSpTBXItem;
+    mnSpellCheckIgnoreOnce: TSpTBXItem;
+    mnSpellCheckSecondSeparator: TSpTBXSeparatorItem;
+    mnSpellCheckTopSeparator: TSpTBXSeparatorItem;
+    SpTBXItem20: TSpTBXItem;
+    SpTBXItem21: TSpTBXItem;
+    SpTBXItem22: TSpTBXItem;
+    SpTBXItem23: TSpTBXItem;
+    SpTBXSeparatorItem24: TSpTBXSeparatorItem;
+    SpTBXItem24: TSpTBXItem;
+    SpTBXSeparatorItem25: TSpTBXSeparatorItem;
+    SpTBXItem25: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1252,6 +1270,7 @@ type
     procedure lbPythonVersionClick(Sender: TObject);
     procedure lbPythonEngineClick(Sender: TObject);
     procedure lbStatusCaretClick(Sender: TObject);
+    procedure mnSpellingPopup(Sender: TTBCustomItem; FromLink: Boolean);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1413,6 +1432,7 @@ uses
   SynEditHighlighter,
   SynEditKeyCmds,
   SynCompletionProposal,
+  SynSpellCheck,
   PythonEngine,
   PythonVersions,
   JvGnugettext,
@@ -1676,6 +1696,7 @@ begin
   RegisterDSA(dsaReplaceNumber, 'ReplaceNumber', 'Information about number of replacements', DSAAppStorage, ctkShow);
   RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
   RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
+  RegisterDSA(dsaDictonaryNA, 'DictornayNA', 'DictionaryNA', DSAAppStorage, ctkShow);
 
   // Store Factory Settings
   if not AppStorage.PathExists(FactoryToolbarItems) then
@@ -3128,10 +3149,23 @@ begin
 
   PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
+  CommandsDataModule.SynSpellCheck.BeginUpdate;
+  try
+    CommandsDataModule.SynSpellCheck.CheckAsYouType := PyIDEOptions.SpellCheckAsYouType;
+    CommandsDataModule.SynSpellCheck.AttributesChecked.CommaText := PyIDEOptions.SpellCheckedTokens;
+    CommandsDataModule.SynSpellCheck.LanguageCode := PyIDEOptions.DictLanguage;
+  finally
+    CommandsDataModule.SynSpellCheck.EndUpdate;
+  end;
+
   TThread.ForceQueue(nil, procedure
   begin
     ConfigureFileExplorer(PyIDEOptions.FileChangeNotification,
       PyIDEOptions.FileExplorerBackgroundProcessing);
+
+    if CommandsDataModule.SynSpellCheck.SpellChecker = nil then
+      DSAMessageDlg(dsaDictonaryNA, 'PyScripter', _(SDictionaryNA),
+       mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
   end);
 
   // Command History Size
@@ -4971,6 +5005,96 @@ begin
   ChangeLanguage(fLanguageList[(Sender as TSpTBXItem).Tag]);
   SetupSyntaxMenu;
   SetupToolsMenu;
+end;
+
+procedure TPyIDEMainForm.mnSpellingPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+var
+  Error: ISpellingError;
+  CorrectiveAction: CORRECTIVE_ACTION;
+  Replacement: PChar;
+  MenuItem: TTBCustomItem;
+  Action: TSynSpellErrorReplace;
+  Suggestions: IEnumString;
+  Suggestion: PWideChar;
+  Fetched: LongInt;
+  Indicator: TSynIndicator;
+  AWord: string;
+  HaveError: Boolean;
+  Editor: TCustomSynEdit;
+begin
+  Editor := CommandsDataModule.SynSpellCheck.Editor;
+  if not Assigned(Editor) then
+    Exit;
+
+  // Remove replacement menu items and actions;
+  repeat
+    MenuItem := mnSpelling.Items[0];
+    if MenuItem.Action is TSynSpellErrorReplace then
+    begin
+      mnSpelling.Remove(MenuItem);
+      MenuItem.Action.Free;
+      MenuItem.Free;
+    end
+    else
+      Break;
+  until (False);
+
+  if not Assigned(CommandsDataModule.SynSpellCheck.SpellChecker()) then
+  begin
+    mnSpelling.Visible := False;
+    Exit;
+  end;
+
+  if Editor.Indicators.IndicatorAtPos(Editor.CaretXY,
+   TSynSpellCheck.SpellErrorIndicatorId, Indicator)
+  then
+     AWord := Copy(Editor.Lines[Editor.CaretY - 1], Indicator.CharStart,
+       Indicator.CharEnd - Indicator.CharStart)
+  else
+    AWord := '';
+
+  CommandsDataModule.SynSpellCheck.Editor := Editor;
+  Error := CommandsDataModule.SynSpellCheck.ErrorAtPos(Editor.CaretXY);
+  HaveError := Assigned(Error) and (AWord <> '');
+
+  mnSpellCheckTopSeparator.Visible := HaveError;
+  mnSpellCheckSecondSeparator.Visible := HaveError;
+  mnSpellCheckAdd.Visible := HaveError;
+  mnSpellCheckIgnore.Visible := HaveError;
+  mnSpellCheckIgnoreOnce.Visible := HaveError;
+  mnSpellCheckDelete.Visible := HaveError;
+
+
+  if HaveError then
+  begin
+    Error.Get_CorrectiveAction(CorrectiveAction);
+    case CorrectiveAction of
+      CORRECTIVE_ACTION_GET_SUGGESTIONS:
+        begin
+          CheckOSError(CommandsDataModule.SynSpellCheck.SpellChecker.Suggest(
+            PChar(AWord), Suggestions));
+          while Suggestions.Next(1, Suggestion, @Fetched) = S_OK do
+          begin
+            Action := TSynSpellErrorReplace.Create(Self);
+            Action.Caption := Suggestion;
+            MenuItem := TSpTBXItem.Create(Self);
+            MenuItem.Action := Action;
+            mnSpelling.Insert(mnSpelling.IndexOf(mnSpellCheckTopSeparator), MenuItem);
+            CoTaskMemFree(Suggestion);
+          end;
+        end;
+      CORRECTIVE_ACTION_REPLACE:
+        begin
+          Error.Get_Replacement(Replacement);
+          Action := TSynSpellErrorReplace.Create(Self);
+          Action.Caption := Replacement;
+          MenuItem := TSpTBXItem.Create(Self);
+          MenuItem.Action := Action;
+          mnSpelling.Insert(0, MenuItem);
+        end;
+    end;
+  end;
 end;
 
 procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);

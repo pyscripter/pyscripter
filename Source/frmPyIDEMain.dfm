@@ -378,6 +378,52 @@ object PyIDEMainForm: TPyIDEMainForm
             Action = actExecSelection
           end
         end
+        object SpTBXSeparatorItem10: TSpTBXSeparatorItem
+        end
+        object mnSpelling: TSpTBXSubmenuItem
+          Caption = 'Spelling'
+          ImageIndex = 102
+          ImageName = 'SpellCheck'
+          OnPopup = mnSpellingPopup
+          object mnSpellCheckTopSeparator: TSpTBXSeparatorItem
+          end
+          object mnSpellCheckAdd: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellErrorAdd
+          end
+          object mnSpellCheckDelete: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellErrorDelete
+          end
+          object mnSpellCheckIgnore: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellErrorIgnore
+          end
+          object mnSpellCheckIgnoreOnce: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellErrorIgnoreOnce
+          end
+          object mnSpellCheckSecondSeparator: TSpTBXSeparatorItem
+          end
+          object SpTBXItem20: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellCheckWord
+          end
+          object SpTBXItem21: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellCheckLine
+          end
+          object SpTBXItem22: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellCheckSelection
+          end
+          object SpTBXItem23: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellCheckFile
+          end
+          object SpTBXSeparatorItem24: TSpTBXSeparatorItem
+          end
+          object SpTBXItem24: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellClearErrors
+          end
+          object SpTBXSeparatorItem25: TSpTBXSeparatorItem
+          end
+          object SpTBXItem25: TSpTBXItem
+            Action = CommandsDataModule.actSynSpellCheckAsYouType
+          end
+        end
         object TBXSeparatorItem13: TSpTBXSeparatorItem
         end
         object Parameters1: TSpTBXSubmenuItem
@@ -2364,7 +2410,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Print'
       end
       item
-        CollectionIndex = 127
+        CollectionIndex = 128
         CollectionName = 'Undo'
         Name = 'Undo'
       end
@@ -2509,17 +2555,17 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'RunToCursor'
       end
       item
-        CollectionIndex = 107
+        CollectionIndex = 108
         CollectionName = 'StepIn'
         Name = 'StepIn'
       end
       item
-        CollectionIndex = 109
+        CollectionIndex = 110
         CollectionName = 'StepOver'
         Name = 'StepOver'
       end
       item
-        CollectionIndex = 108
+        CollectionIndex = 109
         CollectionName = 'StepOut'
         Name = 'StepOut'
       end
@@ -2539,12 +2585,12 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'CallStack'
       end
       item
-        CollectionIndex = 131
+        CollectionIndex = 132
         CollectionName = 'VariablesWin'
         Name = 'VariablesWin'
       end
       item
-        CollectionIndex = 135
+        CollectionIndex = 136
         CollectionName = 'WatchesWin'
         Name = 'WatchesWin'
       end
@@ -2569,7 +2615,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'CodeComment'
       end
       item
-        CollectionIndex = 126
+        CollectionIndex = 127
         CollectionName = 'UnCodeComment'
         Name = 'UnCodeComment'
       end
@@ -2594,22 +2640,22 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'PageSetup'
       end
       item
-        CollectionIndex = 113
+        CollectionIndex = 114
         CollectionName = 'TabNext'
         Name = 'TabNext'
       end
       item
-        CollectionIndex = 114
+        CollectionIndex = 115
         CollectionName = 'TabPrevious'
         Name = 'TabPrevious'
       end
       item
-        CollectionIndex = 122
+        CollectionIndex = 123
         CollectionName = 'Tools'
         Name = 'Tools'
       end
       item
-        CollectionIndex = 123
+        CollectionIndex = 124
         CollectionName = 'ToolsSetup'
         Name = 'ToolsSetup'
       end
@@ -2619,7 +2665,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'FileExplorer'
       end
       item
-        CollectionIndex = 120
+        CollectionIndex = 121
         CollectionName = 'TodoWin'
         Name = 'TodoWin'
       end
@@ -2669,12 +2715,12 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Keyboard'
       end
       item
-        CollectionIndex = 128
+        CollectionIndex = 129
         CollectionName = 'UnitTestWin'
         Name = 'UnitTestWin'
       end
       item
-        CollectionIndex = 111
+        CollectionIndex = 112
         CollectionName = 'Styles'
         Name = 'Styles'
       end
@@ -2684,12 +2730,12 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Assembly'
       end
       item
-        CollectionIndex = 138
+        CollectionIndex = 139
         CollectionName = 'ZoomIn'
         Name = 'ZoomIn'
       end
       item
-        CollectionIndex = 139
+        CollectionIndex = 140
         CollectionName = 'ZoomOut'
         Name = 'ZoomOut'
       end
@@ -2724,17 +2770,17 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'GoToError'
       end
       item
-        CollectionIndex = 137
+        CollectionIndex = 138
         CollectionName = 'WordWrap'
         Name = 'WordWrap'
       end
       item
-        CollectionIndex = 106
+        CollectionIndex = 107
         CollectionName = 'SplitVertical'
         Name = 'SplitVertical'
       end
       item
-        CollectionIndex = 105
+        CollectionIndex = 106
         CollectionName = 'SplitHorizontal'
         Name = 'SplitHorizontal'
       end
@@ -2784,17 +2830,17 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Link'
       end
       item
-        CollectionIndex = 136
+        CollectionIndex = 137
         CollectionName = 'Web'
         Name = 'Web'
       end
       item
-        CollectionIndex = 112
+        CollectionIndex = 113
         CollectionName = 'TabClose'
         Name = 'TabCLose'
       end
       item
-        CollectionIndex = 116
+        CollectionIndex = 117
         CollectionName = 'TabsClose'
         Name = 'TabsClose'
       end
@@ -2809,7 +2855,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Download'
       end
       item
-        CollectionIndex = 130
+        CollectionIndex = 131
         CollectionName = 'Upload'
         Name = 'Upload'
       end
@@ -2819,7 +2865,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Layouts'
       end
       item
-        CollectionIndex = 115
+        CollectionIndex = 116
         CollectionName = 'Tabs'
         Name = 'Tabs'
       end
@@ -2837,6 +2883,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 103
         CollectionName = 'Setup'
         Name = 'Setup'
+      end
+      item
+        CollectionIndex = 105
+        CollectionName = 'SpellCheck'
+        Name = 'SpellCheck'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True
