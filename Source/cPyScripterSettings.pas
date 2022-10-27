@@ -18,6 +18,7 @@ Uses
   SpTBXTabs,
   SynEditTypes,
   SynEditCodeFolding,
+  SynEditMiscClasses,
   SynEditKeyCmds,
   WrapDelphi,
   uEditAppIntfs,
@@ -138,8 +139,11 @@ type
     fDictLanguage: string;
     fSpellCheckedTokens: string;
     fSpellCheckAsYouType: Boolean;
+    fTrackChanges: TSynTrackChanges;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
+    procedure SetCodeFolding(const Value: TSynCodeFolding);
+    procedure SetTrackChanges(const Value: TSynTrackChanges);
   protected
     property FreeNotifyImpl : IFreeNotification read fFreeNotifyImpl implements IFreeNotification;
   public
@@ -151,7 +155,9 @@ type
     property OnChange: TJclNotifyEventBroadcast read fOnChange;
   published
     property CodeFolding : TSynCodeFolding read fCodeFolding
-      write fCodeFolding;
+      write SetCodeFolding;
+    property TrackChanges: TSynTrackChanges read fTrackChanges write
+      SetTrackChanges;
     property TimeOut : integer read fTimeOut write fTimeOut default 0;
     property UndoAfterSave : boolean read fUndoAfterSave
       write fUndoAfterSave default True;
@@ -362,7 +368,6 @@ uses
   SynEdit,
   SynUnicode,
   SynEditStrConst,
-  SynEditMiscClasses,
   SynHighlighterPython,
   SynHighlighterYAML,
   StringResources,
@@ -375,6 +380,7 @@ begin
   if Source is TPythonIDEOptions then
     with TPythonIDEOptions(Source) do begin
       Self.fCodeFolding.Assign(CodeFolding);
+      Self.fTrackChanges.Assign(TrackChanges);
       Self.fTimeOut := TimeOut;
       Self.fUndoAfterSave := UndoAfterSave;
       Self.fSaveFilesBeforeRun := SaveFilesBeforeRun;
@@ -560,6 +566,7 @@ begin
   fSpellCheckedTokens := 'Comment, Text, String, Multi-Line String, Documentation';
   fSpellCheckAsYouType := False;
   fCodeFolding := TSynCodeFolding.Create;
+  fTrackChanges := TSynTrackChanges.Create(nil);
   fCodeFolding.GutterShapeSize := 9;  // default value
 end;
 
@@ -567,6 +574,7 @@ destructor TPythonIDEOptions.Destroy;
 begin
   FreeAndNil(fAutoCompletionFont);
   FreeAndNil(fCodeFolding);
+  FreeAndNil(fTrackChanges);
   FreeAndNil(fOnChange);
   inherited;
 end;
@@ -581,6 +589,16 @@ begin
   fAutoCompletionFont.Assign(Value);
 end;
 
+
+procedure TPythonIDEOptions.SetCodeFolding(const Value: TSynCodeFolding);
+begin
+  fCodeFolding.Assign(Value);
+end;
+
+procedure TPythonIDEOptions.SetTrackChanges(const Value: TSynTrackChanges);
+begin
+  fTrackChanges.Assign(Value);
+end;
 
 {$REGION 'AppStorage handlers' }
 
@@ -927,7 +945,7 @@ begin
   TPyScripterSettings.CreateEditorOptions;
   // Save Default editor keystrokes
   TPyScripterSettings.DefaultEditorKeyStrokes := TSynEditKeyStrokes.Create(nil);
-  TPyScripterSettings.DefaultEditorKeyStrokes.Assign(EditorOPtions.Keystrokes);
+  TPyScripterSettings.DefaultEditorKeyStrokes.Assign(EditorOptions.Keystrokes);
 end;
 
 class procedure TPyScripterSettings.CreateEditorOptions;
@@ -935,6 +953,7 @@ begin
   EditorOptions := TSynEditorOptionsContainer.Create(nil);
   with EditorOptions do begin
     Font.Name := DefaultCodeFontName;
+    Font.Size := 10;
     Gutter.Font.Name := Font.Name;
     Gutter.Font.Color := clGrayText;
     Gutter.Gradient := False;
@@ -942,8 +961,8 @@ begin
     Gutter.ShowLineNumbers := True;
     Gutter.Autosize := True;
     Gutter.ChangeScale(Screen.PixelsPerInch, 96);
-    Font.Size := 10;
     Gutter.Font.Size := 9;
+    Gutter.TrackChanges.Visible := True;
 
     Options := [eoDragDropEditing, eoEnhanceHomeKey,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
@@ -957,6 +976,7 @@ begin
 
     TPyScripterSettings.RegisterEditorUserCommands(EditorOptions.Keystrokes);
   end;
+
   InterpreterEditorOptions := TSynEditorOptionsContainer.Create(nil);
   InterpreterEditorOptions.Assign(EditorOptions);
   with InterpreterEditorOptions do begin

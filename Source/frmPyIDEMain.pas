@@ -541,8 +541,9 @@
   History:   v 4.2
           New Features
             - Python 11 support
+            - New feature: Spell checking of comments and strings #84
+            - New Feature: Trach changes bar as in Visual Studio
             - Complete Portuguese (Brazil) translation added.
-            - Spell checking of comments and strings #84
           Issues addressed
             #1140, #1146, #1149, #1163
 }
@@ -1487,7 +1488,6 @@ begin
     Result := GI_EditorFactory.CreateTabSheet(TabControl);
     Result.SynEdit.Assign(EditorOptions);
     Result.SynEdit2.Assign(EditorOptions);
-    RegisterSearchHighlightIndicatorSpec(Result);
     TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
     TEditorForm(Result.Form).ParentTabItem.OnDrawTabCloseButton := DrawCloseButton;
     ApplyIDEOptionsToEditor(Result);
@@ -3026,6 +3026,10 @@ begin
     Synedit.CodeFolding.Assign(PyIDEOptions.CodeFolding);
     Synedit2.CodeFolding.Assign(PyIDEOptions.CodeFolding);
 
+    SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
+
+    RegisterSearchHighlightIndicatorSpec(Editor);
+
     if PyIDEOptions.CompactLineNumbers then
     begin
       SynEdit.OnGutterGetText := TEditorForm(Editor.Form).SynEditGutterGetText;
@@ -3149,13 +3153,14 @@ begin
 
   PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
-  CommandsDataModule.SynSpellCheck.BeginUpdate;
+  var SpellCheck := CommandsDataModule.SynSpellCheck;
+  SpellCheck.BeginUpdate;
   try
-    CommandsDataModule.SynSpellCheck.CheckAsYouType := PyIDEOptions.SpellCheckAsYouType;
-    CommandsDataModule.SynSpellCheck.AttributesChecked.CommaText := PyIDEOptions.SpellCheckedTokens;
-    CommandsDataModule.SynSpellCheck.LanguageCode := PyIDEOptions.DictLanguage;
+    SpellCheck.CheckAsYouType := PyIDEOptions.SpellCheckAsYouType;
+    SpellCheck.AttributesChecked.CommaText := PyIDEOptions.SpellCheckedTokens;
+    SpellCheck.LanguageCode := PyIDEOptions.DictLanguage;
   finally
-    CommandsDataModule.SynSpellCheck.EndUpdate;
+    SpellCheck.EndUpdate;
   end;
 
   TThread.ForceQueue(nil, procedure
@@ -3200,10 +3205,10 @@ begin
     end);
   end;
 
+  EditorOptions.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
   GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
   begin
     ApplyIDEOptionsToEditor(Ed);
-    RegisterSearchHighlightIndicatorSpec(Ed);
   end);
 
   tbiRecentFileList.MaxItems :=  PyIDEOptions.NoOfRecentFiles;
