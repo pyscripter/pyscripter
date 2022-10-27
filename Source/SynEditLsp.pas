@@ -109,6 +109,7 @@ uses
   System.StrUtils,
   System.Threading,
   System.Math,
+  SynEditMiscProcs,
   LspClient,
   JediLspClient,
   uEditAppIntfs,
@@ -405,6 +406,9 @@ begin
 end;
 
 procedure TLspSynEditPlugin.LinePut(aIndex: Integer; const OldLine: string);
+var
+  NewLine: string;
+  Start, OldLen, NewLen: integer;
 begin
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
     not FTransmitChanges or
@@ -412,27 +416,12 @@ begin
   then
     Exit;
 
-  var NewLine := Editor.Lines[aIndex];
-  var OldL := OldLine.Length;
-  var NewL := NewLine.Length;
-  // Compare from end
-  while (OldL > 0) and (NewL > 0) and (OldLine[OldL] = NewLine[NewL]) do
-  begin
-    Dec(OldL);
-    Dec(NewL);
-  end;
-  // Compare from start
-  var Start := 1;
-  while (OldL > 0) and (NewL > 0) and (OldLine[Start] = NewLine[Start]) do
-  begin
-    Dec(OldL);
-    Dec(NewL);
-    Inc(Start);
-  end;
+  NewLine := Editor.Lines[aIndex];
+  LineDiff(NewLine, OldLine, Start, OldLen, NewLen);
 
-  var Diff := Copy(NewLine, Start, NewL);
+  var Diff := Copy(NewLine, Start, NewLen);
   var BB := BufferCoord(Start, aIndex + 1);
-  var BE := BufferCoord(Start + OldL, aIndex + 1);
+  var BE := BufferCoord(Start + OldLen, aIndex + 1);
 
   if (Diff = '') and (BB = BE) then Exit;  // no change
 
