@@ -540,9 +540,9 @@
 
   History:   v 4.2
           New Features
-            - Python 11 support
+            - Python 3.11 support
             - New feature: Spell checking of comments and strings #84
-            - New Feature: Trach changes bar as in Visual Studio
+            - New Feature: Track changes bar as in Visual Studio
             - Complete Portuguese (Brazil) translation added.
           Issues addressed
             #1140, #1146, #1149, #1163

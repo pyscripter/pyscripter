@@ -82,7 +82,7 @@ type
     function AddPathToInternalPythonPath(const Path: string): IInterface;
   public
     const MinPyVersion = '3.6';
-    const MaxPyVersion = '3.10';
+    const MaxPyVersion = '3.11'; //PYTHON311
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -298,7 +298,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON39') then
     expectedVersion := '3.9'
   else if CmdLineReader.readFlag('PYTHON310') then
-    expectedVersion := '3.10';
+    expectedVersion := '3.10'
+  else if CmdLineReader.readFlag('PYTHON311') then
+    expectedVersion := '3.11';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);
