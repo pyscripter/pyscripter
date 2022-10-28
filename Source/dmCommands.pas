@@ -2162,7 +2162,7 @@ begin
     Options[2].DisplayName := _('Special packages');
   end;
   with Categories[11] do begin
-    DisplayName := _('Spell checking');
+    DisplayName := _('Spell Checking');
     SetLength(Options, 3);
     Options[0].PropertyName := 'DictLanguage';
     Options[0].DisplayName := _('Dictionary language code');

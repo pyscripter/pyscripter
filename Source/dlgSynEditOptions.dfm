@@ -7,7 +7,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
   ClientWidth = 591
   ShowHint = True
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -1028,8 +1027,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object lblGutterFont: TLabel
               Left = 1
               Top = 1
-              Width = 72
-              Height = 8
+              Width = 179
+              Height = 25
               Align = alClient
               Alignment = taCenter
               Caption = 'Terminal 8pt'
@@ -1163,8 +1162,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object labFont: TLabel
               Left = 1
               Top = 1
-              Width = 128
-              Height = 16
+              Width = 188
+              Height = 28
               Align = alClient
               Alignment = taCenter
               Caption = 'Courier New 10pt'
@@ -1200,9 +1199,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object Label8: TLabel
             Left = 23
             Top = 27
-            Width = 59
+            Width = 136
             Height = 15
-            Caption = 'Extra Lines:'
+            Caption = 'Extra line spacing (pixels):'
           end
           object Label9: TLabel
             Left = 23

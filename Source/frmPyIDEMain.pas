@@ -541,9 +541,9 @@
   History:   v 4.2
           New Features
             - Python 3.11 support
-            - New feature: Spell checking of comments and strings #84
-            - New Feature: Track changes bar as in Visual Studio
-            - New Feature: Editor selection options (alpha blending, fill whole lines)
+            - Spell checking of comments and strings #84
+            - Track changes bar as in Visual Studio
+            - Editor selection options (alpha blending, fill whole lines)
             - Editor Unicode handling improvements (emojis, bi-directional text, etc.)
             - Complete Portuguese (Brazil) translation added.
           Issues addressed
@@ -2928,10 +2928,10 @@ begin
   end;
 
   if TJedi.Ready then begin
-    spiLspLed.Hint := _('Language server') + ': ' + _('Ready');
+    spiLspLed.Hint := _('Language Server') + ': ' + _('Ready');
     icIndicators.SVGIconItems[2].FixedColor := $1F5FFF;
   end else begin
-    spiLspLed.Hint := _('Language server') + ': ' + _('Not available');
+    spiLspLed.Hint := _('Language Server') + ': ' + _('Not available');
     icIndicators.SVGIconItems[2].FixedColor := clGray;
   end;
 
@@ -3174,8 +3174,10 @@ begin
       PyIDEOptions.FileExplorerBackgroundProcessing);
 
     if CommandsDataModule.SynSpellCheck.SpellChecker = nil then
-      DSAMessageDlg(dsaDictonaryNA, 'PyScripter', _(SDictionaryNA),
-       mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
+      DSAMessageDlg(dsaDictonaryNA, 'PyScripter',
+      Format(_(SDictionaryNA),
+      [CommandsDataModule.SynSpellCheck.LanguageCode]),
+      mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
   end);
 
   // Command History Size
