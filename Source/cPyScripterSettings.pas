@@ -140,10 +140,12 @@ type
     fSpellCheckedTokens: string;
     fSpellCheckAsYouType: Boolean;
     fTrackChanges: TSynTrackChanges;
+    fSelectionColor: TSynSelectedColor;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
     procedure SetCodeFolding(const Value: TSynCodeFolding);
     procedure SetTrackChanges(const Value: TSynTrackChanges);
+    procedure SetSelectionColor(const Value: TSynSelectedColor);
   protected
     property FreeNotifyImpl : IFreeNotification read fFreeNotifyImpl implements IFreeNotification;
   public
@@ -156,8 +158,10 @@ type
   published
     property CodeFolding : TSynCodeFolding read fCodeFolding
       write SetCodeFolding;
-    property TrackChanges: TSynTrackChanges read fTrackChanges write
-      SetTrackChanges;
+    property TrackChanges: TSynTrackChanges read fTrackChanges
+      write SetTrackChanges;
+    property SelectionColor: TSynSelectedColor read fSelectionColor
+      write SetSelectionColor;
     property TimeOut : integer read fTimeOut write fTimeOut default 0;
     property UndoAfterSave : boolean read fUndoAfterSave
       write fUndoAfterSave default True;
@@ -381,6 +385,7 @@ begin
     with TPythonIDEOptions(Source) do begin
       Self.fCodeFolding.Assign(CodeFolding);
       Self.fTrackChanges.Assign(TrackChanges);
+      Self.fSelectionColor.Assign(SelectionColor);
       Self.fTimeOut := TimeOut;
       Self.fUndoAfterSave := UndoAfterSave;
       Self.fSaveFilesBeforeRun := SaveFilesBeforeRun;
@@ -567,6 +572,7 @@ begin
   fSpellCheckAsYouType := False;
   fCodeFolding := TSynCodeFolding.Create;
   fTrackChanges := TSynTrackChanges.Create(nil);
+  fSelectionColor := TSynSelectedColor.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value
 end;
 
@@ -575,6 +581,7 @@ begin
   FreeAndNil(fAutoCompletionFont);
   FreeAndNil(fCodeFolding);
   FreeAndNil(fTrackChanges);
+  FreeAndNil(fSelectionColor);
   FreeAndNil(fOnChange);
   inherited;
 end;
@@ -593,6 +600,11 @@ end;
 procedure TPythonIDEOptions.SetCodeFolding(const Value: TSynCodeFolding);
 begin
   fCodeFolding.Assign(Value);
+end;
+
+procedure TPythonIDEOptions.SetSelectionColor(const Value: TSynSelectedColor);
+begin
+  fSelectionColor.Assign(Value);
 end;
 
 procedure TPythonIDEOptions.SetTrackChanges(const Value: TSynTrackChanges);

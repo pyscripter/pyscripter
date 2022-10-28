@@ -543,6 +543,8 @@
             - Python 3.11 support
             - New feature: Spell checking of comments and strings #84
             - New Feature: Track changes bar as in Visual Studio
+            - New Feature: Editor selection options (alpha blending, fill whole lines)
+            - Editor Unicode handling improvements (emojis, bi-directional text, etc.)
             - Complete Portuguese (Brazil) translation added.
           Issues addressed
             #1140, #1146, #1149, #1163
@@ -3026,6 +3028,9 @@ begin
     Synedit.CodeFolding.Assign(PyIDEOptions.CodeFolding);
     Synedit2.CodeFolding.Assign(PyIDEOptions.CodeFolding);
 
+    Synedit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+    Synedit2.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+
     SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
 
     RegisterSearchHighlightIndicatorSpec(Editor);
@@ -3206,6 +3211,7 @@ begin
   end;
 
   EditorOptions.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
+  EditorOptions.SelectedColor.Assign(PyIDEOptions.SelectionColor);
   GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
   begin
     ApplyIDEOptionsToEditor(Ed);

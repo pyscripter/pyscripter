@@ -2057,7 +2057,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 20);
+    SetLength(Options, 21);
     Options[0].PropertyName := 'SearchTextAtCaret';
     Options[0].DisplayName := _('Search text at caret');
     Options[1].PropertyName := 'CreateBackupFiles';
@@ -2097,7 +2097,9 @@ begin
     Options[18].PropertyName := 'TrimTrailingSpacesOnSave';
     Options[18].DisplayName := _('Trim trailing spaces when files are saved');
     Options[19].PropertyName := 'TrackChanges';
-    Options[19].DisplayName := _('Track Changes');
+    Options[19].DisplayName := _('Track changes bar');
+    Options[20].PropertyName := 'SelectionColor';
+    Options[20].DisplayName := _('Selection color');
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');
