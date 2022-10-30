@@ -233,9 +233,20 @@ end;
 
 procedure TLspClient.HandleSyncRequest(Id: NativeUInt; AResult, AError: TJsonValue);
 begin
-  TSyncRequestHelper(fSyncHelper).Result := AResult;
-  TSyncRequestHelper(fSyncHelper).Error := AError;
-  TSyncRequestHelper(fSyncHelper).SyncEvent.SetEvent;
+  if FSyncRequestLock.TryEnter then
+    try
+    // This is a timed out sync request.  Ignore it.
+       AResult.Free;
+       AError.Free;
+    finally
+       FSyncRequestLock.Leave;
+    end
+  else
+  begin
+    TSyncRequestHelper(fSyncHelper).Result := AResult;
+    TSyncRequestHelper(fSyncHelper).Error := AError;
+    TSyncRequestHelper(fSyncHelper).SyncEvent.SetEvent;
+  end;
 end;
 
 procedure TLspClient.ReceiveData(const Bytes: TBytes; BytesRead: Cardinal);

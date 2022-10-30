@@ -401,8 +401,8 @@ begin
   else
     Result := False;
 
-  FreeAndNil(AResult);
-  FreeAndNil(Error);
+  AResult.Free;
+  Error.Free;
 end;
 
 class function TJedi.SimpleHintAtCoordinates(const Filename: string;
