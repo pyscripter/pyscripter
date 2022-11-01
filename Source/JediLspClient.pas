@@ -391,8 +391,10 @@ var
 begin
   ParamCompletionInfo.Lock;
   try
-    if (Id = ParamCompletionInfo.RequestId) and Assigned(AResult) and
-      AResult.TryGetValue('signatures[0]', Signature) then
+    ParamCompletionInfo.FSucceeded := (Id = ParamCompletionInfo.RequestId) and
+      Assigned(AResult) and AResult.TryGetValue('signatures[0]', Signature);
+
+    if ParamCompletionInfo.FSucceeded then
     begin
       ParamCompletionInfo.FDisplayString := '';
       ParamCompletionInfo.FDocString := '';
@@ -415,18 +417,19 @@ begin
         if Match.Success then
           ParamCompletionInfo.FStartX := Match.Groups[1].Index;
       end;
-      ParamCompletionInfo.FSucceeded := True;
-    end
-    else
-      ParamCompletionInfo.FSucceeded := False;
+    end;
 
-    // Mark the request info as handled (i.e. valid)
-    ParamCompletionInfo.FHandled := True;
-    // ActivateCompletion calls SynParamCompletionExecute in the main thread
-    TThread.Queue(nil, procedure
-      begin
-        CommandsDataModule.SynParamCompletion.ActivateCompletion;
-      end);
+    // Do nothing if a newer request is expected
+    if Id = ParamCompletionInfo.RequestId then begin
+      // Mark the request info as handled (i.e. processed)
+      ParamCompletionInfo.FHandled := True;
+
+      // ActivateCompletion calls SynParamCompletionExecute in the main thread
+      TThread.Queue(nil, procedure
+        begin
+          CommandsDataModule.SynParamCompletion.ActivateCompletion;
+        end);
+     end;
   finally
     ParamCompletionInfo.UnLock;
     AResult.Free;
