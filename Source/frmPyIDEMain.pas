@@ -540,7 +540,7 @@
 
   History:   v 4.2
           New Features
-            - Python 3.11 support
+            - Python 3.11 support added - Support for python 3.6 removed
             - Spell checking of comments and strings #84
             - Track changes bar as in Visual Studio
             - Editor selection options (alpha blending, fill whole lines)

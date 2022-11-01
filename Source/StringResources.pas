@@ -173,7 +173,7 @@ Const
   SInterpreterNA = 'The internal Python interpreter is not available';
   SPythonLoadError = 'PyScripter could not load a Python engine.' + SLineBreak +
   '**Before** using PyScripter, you must ensure that a version of Python ' +
-  'greater or equal to 3.6 is installed on your machine.' + SLineBreak +
+  'greater or equal to %s is installed on your machine.' + SLineBreak +
   'If you do not have one installed, you can download one from http://www.python.org/.'
   + SLineBreak +  SLineBreak +
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.'

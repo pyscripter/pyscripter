@@ -81,7 +81,7 @@ type
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
   public
-    const MinPyVersion = '3.6';
+    const MinPyVersion = '3.7';
     const MaxPyVersion = '3.11'; //PYTHON311
   public
     // ActiveInterpreter and ActiveDebugger are created
@@ -289,9 +289,7 @@ begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
 
-  if CmdLineReader.readFlag('PYTHON36') then
-    expectedVersion := '3.6'
-  else if CmdLineReader.readFlag('PYTHON37') then
+  if CmdLineReader.readFlag('PYTHON37') then
     expectedVersion := '3.7'
   else if CmdLineReader.readFlag('PYTHON38') then
     expectedVersion := '3.8'
@@ -723,7 +721,7 @@ begin
   if InitPythonVersions then
     LoadPythonEngine(PythonVersion)
   else
-    StyledMessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+    StyledMessageDlg(Format(_(SPythonLoadError), [MinPyVersion]), mtError, [mbOK], 0);
 end;
 
 procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
@@ -773,7 +771,7 @@ begin
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
   end else
-    StyledMessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+    StyledMessageDlg(Format(_(SPythonLoadError), [MinPyVersion]), mtError, [mbOK], 0);
 end;
 
 procedure TPythonControl.Run(ARunConfig: TRunConfiguration);
