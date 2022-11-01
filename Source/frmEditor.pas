@@ -130,7 +130,7 @@ type
     SpTBXSeparatorItem8: TSpTBXSeparatorItem;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
-    procedure SynParamCompletionExecute(Kind: SynCompletionType;
+    class procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: boolean);
     procedure FormDestroy(Sender: TObject);
@@ -204,7 +204,6 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
     class procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
-    class procedure DoParamCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     class procedure SymbolsChanged(Sender: TObject);
     class var fOldEditorForm: TEditorForm;
     class var fHintIdentInfo: THotIdentInfo;
@@ -2946,124 +2945,84 @@ begin
   end;
 end;
 
-class procedure TEditorForm.DoParamCompletion(Editor: TSynEdit; Caret: TBufferCoord);
-//var
-//  locline: string;
-//  Attr: TSynHighlighterAttributes;
-//  Highlighter: TSynCustomHighlighter;
-//  FileName, DummyToken: string;
-begin
-  //Exit if cursor has moved
-//  if not Assigned(GI_ActiveEditor) or (GI_ActiveEditor.ActiveSynEdit <> Editor)
-//    or (Editor.ReadOnly) or (Caret <> Editor.CaretXY)
-//  then
-//    Exit;
-//
-//  if not (GI_ActiveEditor.HasPythonFile and
-//    GI_PyControl.PythonLoaded and not GI_PyControl.Running and
-//    PyIDEOptions.EditorCodeCompletion)
-//  then
-//    Exit;
-//
-//  Highlighter := Editor.Highlighter;
-//  FileName := GI_ActiveEditor.FileId;
-//
-//  Dec(Caret.Char);
-//  Editor.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
-//  // to deal with trim trailing spaces
-//  locline := StrPadRight(Editor.LineText, Caret.Char, ' ');
-//  Inc(Caret.Char);
-//
-//  var CC := TIDECompletion.EditorCodeCompletion;
-//  if not CC.Lock.TryEnter then Exit;
-//  try
-//    // Exit if busy
-//    if CC.CompletionInfo.Editor <> nil then Exit;
-//    CC.CleanUp;
-//    CC.CompletionInfo.Editor := Editor;
-//    CC.CompletionInfo.CaretXY := Caret;
-//  finally
-//    CC.Lock.Leave;
-//  end;
-//
-//  TTask.Create(procedure
-//  var
-//    DisplayText, InsertText: string;
-//  begin
-//    var CC := TIDECompletion.EditorCodeCompletion;
-//    if not CC.Lock.TryEnter then Exit;
-//    try
-//      var Handled := False;
-//      if Handled and (InsertText <> '') then
-//        TThread.Queue(nil, procedure
-//        begin
-//          if Assigned(GI_ActiveEditor) and (GI_ActiveEditor.FileId = FileName) and
-//            (CommandsDataModule.SynCodeCompletion.Editor = GI_ActiveEditor.ActiveSynEdit)
-//          then
-//            CommandsDataModule.SynCodeCompletion.ActivateCompletion;
-//        end)
-//      else
-//        CC.CleanUp;
-//    finally
-//      CC.Lock.Leave;
-//    end;
-//  end).Start;
-end;
-
-procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
-  var CanExecute: boolean);
+class procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
+    Sender: TObject; var CurrentInput: string; var X, Y: Integer; var
+    CanExecute: boolean);
 var
-  StartX,
-  ArgIndex : Integer;
-  FileName, DisplayString, DocString : string;
-  p : TPoint;
+  P : TPoint;
   CP: TSynCompletionProposal;
-  Editor: TSynEdit;
+  Editor: IEditor;
 begin
-  CanExecute := False;
+   Editor := GI_ActiveEditor;
+   CP := Sender as TSynCompletionProposal;
 
-  CP := Sender as TSynCompletionProposal;
-  Editor := CP.Editor as TSynEdit;
-  if not fEditor.HasPythonFile or not GI_PyControl.PythonLoaded or
-    GI_PyControl.Running or not PyIDEOptions.EditorCodeCompletion or
-    (CP.Editor <> fEditor.GetActiveSynEdit)
-  then
-    Exit;
+  TJedi.ParamCompletionInfo.Lock;
+  try
+    CanExecute := Assigned(Editor) and Editor.HasPythonFile and TJedi.Ready
+      and (Editor.ActiveSynEdit = CP.Editor) and PyIDEOptions.EditorCodeCompletion;
 
-  FileName := fEditor.GetFileId;
+    // This function is called
+    // a) from the editor using trigger char or editor command
+    // b) From TSynCompletionProposal.HookEditorCommand
+    // c) for TJedi ParamCompletionHandler Only then RequestId <> 0
 
-  CanExecute := TJedi.HandleParamCompletion(FileName,
-    Editor, DisplayString, DocString, StartX, ArgIndex) and
-    (GI_ActiveEditor.ActiveSynEdit = Editor) and Application.Active and
-    (GetParentForm(Editor).ActiveControl = Editor);
-
-  if CanExecute then
-  begin
-    CP.FormatParams := not (DisplayString = '');
-    if not CP.FormatParams then
-      DisplayString :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
-
-    if (DocString <> '') then
+    if not TJedi.ParamCompletionInfo.Handled then
     begin
-      DisplayString := DisplayString + sLineBreak;
-      DocString := GetLineRange(DocString, 1, 20) // 20 lines max
+      TJedi.RequestParamCompletion(Editor.FileId, CP.Editor);
+
+      if CanExecute and CP.Form.Visible then
+      begin
+        // Keep showing the form at the same position
+        X := CP.Form.Left;
+        Y := CP.Form.Top - MulDiv(2, Editor.Form.CurrentPPI, Screen.DefaultPixelsPerInch);
+      end
+      else
+        CanExecute := False;
+
+      Exit;
     end;
 
-    CP.Form.CurrentIndex := ArgIndex;
-    CP.ItemList.Text := DisplayString + DocString;
+    // ParamCompletionInfo  request was handled.  Make sure is still valid
+    CanExecute := CanExecute and TJedi.ParamCompletionInfo.Succeeded and
+      (TJedi.ParamCompletionInfo.FileId = Editor.FileId) and
+      (TJedi.ParamCompletionInfo.CurrentLine = CP.Editor.LineText) and
+      (TJedi.ParamCompletionInfo.Caret = CP.Editor.CaretXY);
 
-    // position the hint window at and just below the opening bracket
-    P := Editor.ClientToScreen(Editor.RowColumnToPixels
-        (Editor.BufferToDisplayPos(BufferCoord(Succ(StartX), Editor.CaretY))));
-    Inc(P.Y, Editor.LineHeight);
-    X := P.X;
-    Y := P.Y;
-  end
-  else
-  begin
-    CP.ItemList.Clear;
-    CP.InsertList.Clear;
+    if CanExecute then
+    begin
+      var DisplayString := TJedi.ParamCompletionInfo.DisplayString;
+      CP.FormatParams := not (DisplayString = '');
+      if not CP.FormatParams then
+        DisplayString :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
+
+      var DocString := TJedi.ParamCompletionInfo.DocString;
+      if (DocString <> '') then
+      begin
+        DisplayString := DisplayString + sLineBreak;
+        DocString := GetLineRange(DocString, 1, 20) // 20 lines max
+      end;
+
+      CP.Form.CurrentIndex := TJedi.ParamCompletionInfo.ActiveParameter;
+      CP.ItemList.Text := DisplayString + DocString;
+
+      // position the hint window at and just below the opening bracket
+      P := CP.Editor.ClientToScreen(CP.Editor.RowColumnToPixels
+          (CP.Editor.BufferToDisplayPos(
+          BufferCoord(Succ(TJedi.ParamCompletionInfo.StartX),
+          CP.Editor.CaretY))));
+      Inc(P.Y, CP.Editor.LineHeight);
+      X := P.X;
+      Y := P.Y;
+    end
+    else
+      CP.ItemList.Clear;
+
+    // Mark request as not handled even if you cannot execute
+    // It will be marked again as handled by the asynchronous request handler
+    TJedi.ParamCompletionInfo.Handled := False;
+
+  finally
+    TJedi.ParamCompletionInfo.UnLock;
   end;
 end;
 

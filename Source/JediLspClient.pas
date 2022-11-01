@@ -24,10 +24,45 @@ uses
   uEditAppIntfs;
 
 type
+
+  TParamCompletionInfo = class
+  private
+    FRequestId: NativeUInt;
+    FStartX: Integer;
+    FActiveParameter: Integer;
+    FHandled: Boolean;
+    FSucceeded: Boolean;
+    FDisplayString: string;
+    FDocString: string;
+    FFileId: string;
+    FCurrentLine: string;
+    FCaret: TBufferCoord;
+    FCriticalSection: TRTLCriticalSection;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Lock;
+    procedure UnLock;
+    property RequestId: NativeUInt read FRequestId write FRequestID;
+    property StartX: Integer read FStartX;
+    property ActiveParameter: Integer read FActiveParameter;
+    property Handled: Boolean read FHandled write FHandled;
+    property Succeeded: Boolean read FSucceeded;
+    property CurrentLine: string read FCurrentLine;
+    property DisplayString: string read FDisplayString;
+    property DocString: string read FDocString;
+    property FileId: string read FFileId;
+    property Caret: TBufferCoord read FCaret;
+  end;
+
   TJedi = class
+  private
+    class procedure ParamCompletionHandler(Id: NativeUInt; AResult, Error:
+        TJsonValue);
   public
     class var LspClient: TLspClient;
     class var SyncRequestTimeout: integer;
+    class var ParamCompletionInfo: TParamCompletionInfo;
     class var OnInitialized: TJclNotifyEventBroadcast;
     class var OnShutDown: TJclNotifyEventBroadcast;
     class procedure PythonVersionChanged(Sender: TObject);
@@ -46,9 +81,8 @@ type
     class function HandleCodeCompletion(const Filename: string;
       const BC: TBufferCoord; out InsertText, DisplayText: string): boolean;
     class function ResolveCompletionItem(CCItem: string): string;
-    class function HandleParamCompletion(const FileName: string;
-      Editor: TSynEdit; out DisplayString, DocString: string; out StartX,
-      ActiveParameter: integer): boolean;
+    class procedure RequestParamCompletion(const AFileId: string; Editor:
+        TCustomSynEdit);
     class function DocumentSymbols(const FileName: string): TJsonArray;
     class function SimpleHintAtCoordinates(const Filename: string;
       const BC: TBufferCoord): string;
@@ -76,6 +110,7 @@ uses
 
 class constructor TJedi.Create;
 begin
+  ParamCompletionInfo := TParamCompletionInfo.Create;
   SyncRequestTimeout := 4000; // ms
   OnInitialized := TJclNotifyEventBroadcast.Create;
   OnShutDown := TJclNotifyEventBroadcast.Create;
@@ -122,10 +157,11 @@ end;
 
 class destructor TJedi.Destroy;
 begin
-  OnShutDown.RemoveHandler(TLspSynEditPlugin.OnLspShutDown);
-  FreeAndNil(OnInitialized);
-  FreeAndNil(OnShutDown);
   GI_PyControl.OnPythonVersionChange.RemoveHandler(PythonVersionChanged);
+  OnShutDown.RemoveHandler(TLspSynEditPlugin.OnLspShutDown);
+  OnInitialized.Free;
+  OnShutDown.Free;
+  ParamCompletionInfo.Free;
   LspClient.Free;
 end;
 
@@ -348,61 +384,82 @@ begin
   FreeAndNil(Error);
 end;
 
-class function TJedi.HandleParamCompletion(const FileName: string;
-  Editor: TSynEdit; out DisplayString, DocString: string; out StartX,
-  ActiveParameter: integer): boolean;
+class procedure TJedi.ParamCompletionHandler(Id: NativeUInt; AResult,
+  Error: TJsonValue);
 var
-  TmpX: integer;
-  Line: string;
-  Param: TJsonObject;
-  AResult, Error: TJsonValue;
   Signature : TJsonValue;
 begin
-  if not Ready or (FileName = '') then Exit(False);
+  ParamCompletionInfo.Lock;
+  try
+    if (Id = ParamCompletionInfo.RequestId) and Assigned(AResult) and
+      AResult.TryGetValue('signatures[0]', Signature) then
+    begin
+      ParamCompletionInfo.FDisplayString := '';
+      ParamCompletionInfo.FDocString := '';
+      Signature.TryGetValue<string>('label', ParamCompletionInfo.FDisplayString);
+      Signature.TryGetValue<string>('documentation.value', ParamCompletionInfo.FDocString);
+      if not AResult.TryGetValue<integer>('activeParameter', ParamCompletionInfo.FActiveParameter) then
+        ParamCompletionInfo.FActiveParameter := 0;
+      ParamCompletionInfo.FStartX := 1;
+
+      var RightPar := ParamCompletionInfo.FDisplayString.LastDelimiter(')');
+      if RightPar >= 0 then
+        Delete(ParamCompletionInfo.FDisplayString, RightPar + 1, 1);
+
+      var LeftPar :=ParamCompletionInfo.FDisplayString.IndexOf('(');
+      if LeftPar >= 0 then
+      begin
+        var FunctionName := Copy(ParamCompletionInfo.FDisplayString, 1, LeftPar).Trim;
+        ParamCompletionInfo.FDisplayString := Copy(ParamCompletionInfo.FDisplayString, LeftPar + 2);
+        var Match := TRegEx.Match(ParamCompletionInfo.FCurrentLine, FunctionName + '\s*(\()');
+        if Match.Success then
+          ParamCompletionInfo.FStartX := Match.Groups[1].Index;
+      end;
+      ParamCompletionInfo.FSucceeded := True;
+    end
+    else
+      ParamCompletionInfo.FSucceeded := False;
+
+    // Mark the request info as handled (i.e. valid)
+    ParamCompletionInfo.FHandled := True;
+    // ActivateCompletion calls SynParamCompletionExecute in the main thread
+    TThread.Queue(nil, procedure
+      begin
+        CommandsDataModule.SynParamCompletion.ActivateCompletion;
+      end);
+  finally
+    ParamCompletionInfo.UnLock;
+    AResult.Free;
+    Error.Free;
+  end;
+end;
+
+class procedure TJedi.RequestParamCompletion(const AFileId: string;
+  Editor: TCustomSynEdit);
+begin
+  if not Ready or (AFileId = '') then Exit;
 
   // Get Completion for the current word
-  Line := Editor.LineText;
+  var Line := Editor.LineText;
 
-  TmpX := Editor.CaretX;
+  var TmpX := Editor.CaretX;
   if TmpX > Length(Line) then
     TmpX := Length(Line) + 1;
   while (TmpX > 1) and ((Line[TmpX-1] = '_') or Line[TmpX-1].IsLetterOrDigit) do
     Dec(TmpX);
 
-  Param := TSmartPtr.Make(LspDocPosition(FileName, BufferCoord(TmpX, Editor.CaretY)))();
-  LspClient.SyncRequest('textDocument/signatureHelp', Param.ToJSon, AResult,
-    Error, SyncRequestTimeout);
+  var Param := TSmartPtr.Make(LspDocPosition(AFileId, BufferCoord(TmpX, Editor.CaretY)))();
 
-  if Assigned(AResult) and AResult.TryGetValue('signatures[0]', Signature) then
-  begin
-    DisplayString := '';
-    DocString := '';
-    Signature.TryGetValue<string>('label', DisplayString);
-    Signature.TryGetValue<string>('documentation.value', DocString);
-    if not AResult.TryGetValue<integer>('activeParameter', ActiveParameter) then
-      ActiveParameter := 0;
-    StartX := 1;
-
-    var RightPar := DisplayString.LastDelimiter(')');
-    if RightPar >= 0 then
-      Delete(DisplayString, RightPar + 1, 1);
-
-    var LeftPar :=DisplayString.IndexOf('(');
-    if LeftPar >= 0 then
-    begin
-      var FunctionName := Copy(DisplayString, 1, LeftPar).Trim;
-      DisplayString := Copy(DisplayString, LeftPar + 2);
-      var Match := TRegEx.Match(Line, FunctionName + '\s*(\()');
-      if Match.Success then
-        StartX := Match.Groups[1].Index;
-    end;
-    Result := True;
-  end
-  else
-    Result := False;
-
-  AResult.Free;
-  Error.Free;
+  ParamCompletionInfo.Lock;
+  try
+    ParamCompletionInfo.FRequestId := LspClient.Request('textDocument/signatureHelp',
+      Param.ToJSon, ParamCompletionHandler);
+    ParamCompletionInfo.FFileId := AFileId;
+    ParamCompletionInfo.FCaret := Editor.CaretXY;
+    ParamCompletionInfo.FCurrentLine := Line;
+  finally
+    ParamCompletionInfo.UnLock;
+  end;
 end;
 
 class function TJedi.SimpleHintAtCoordinates(const Filename: string;
@@ -494,6 +551,33 @@ begin
 end;
 
 {$EndRegion 'Lsp functionality'}
+
+{ TParamCompletionInfo }
+
+
+{ TParamCompletionInfo }
+
+constructor TParamCompletionInfo.Create;
+begin
+  inherited;
+  FCriticalSection.Initialize;
+end;
+
+destructor TParamCompletionInfo.Destroy;
+begin
+  FCriticalSection.Free;
+  inherited;
+end;
+
+procedure TParamCompletionInfo.Lock;
+begin
+  FCriticalSection.Enter;
+end;
+
+procedure TParamCompletionInfo.UnLock;
+begin
+  FCriticalSection.Leave;
+end;
 
 end.
 
