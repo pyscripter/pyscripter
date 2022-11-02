@@ -1,9 +1,9 @@
 inherited PythonVersionsDialog: TPythonVersionsDialog
   HelpContext = 880
+  BorderStyle = bsSizeToolWin
   Caption = 'Python Versions'
   ClientHeight = 315
   ClientWidth = 630
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel1: TPanel
     Left = 0

@@ -113,6 +113,8 @@ type
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
       out SysVersion, InstallPath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage);
+    // Custom versions
+    function RemoveCustomVersion(AIndex: Integer): Boolean;
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
     property PythonVersion: TPythonVersion read GetPythonVersion;
@@ -156,6 +158,7 @@ uses
   System.SysUtils,
   System.Contnrs,
   System.UITypes,
+  System.Math,
   Vcl.Forms,
   Vcl.Dialogs,
   JvGnugettext,
@@ -325,6 +328,12 @@ begin
         Result := True;
         break;
       end;
+    // if the expectedVersion is not available load the latest registred version
+    if not Result and (Length(fRegPythonVersions) > 0) then
+    begin
+      fPythonVersionIndex := 0;
+      Result := True;
+    end;
   end
   else
   begin
@@ -344,6 +353,12 @@ begin
         CustomPythonVersions[Length(CustomPythonVersions)-1] := Version;
         fPythonVersionIndex := - Length(CustomPythonVersions);
       end;
+    end;
+    // if the loading from path fails load the latest registered version
+    if not Result and (Length(fRegPythonVersions) > 0) then
+    begin
+      fPythonVersionIndex := 0;
+      Result := True;
     end;
   end;
 end;
@@ -846,6 +861,18 @@ begin
   ActiveSSHServerName  := AppStorage.ReadString('SSHServer');
 end;
 
+function TPythonControl.RemoveCustomVersion(AIndex: Integer): Boolean;
+begin
+   Result := InRange(AIndex, 0, Length(CustomPythonVersions) - 1) and
+     (FPythonVersionIndex <> -(AIndex + 1));  // Cannot delete active custom version
+   if Result then
+   begin
+     Delete(CustomPythonVersions, AIndex, 1);
+     if -FPythonVersionIndex > AIndex then
+       Inc(FPythonVersionIndex);
+   end;
+end;
+
 procedure TPythonControl.WriteToAppStorage(AppStorage: TJvCustomAppStorage);
 Var
   CustomVersions : TStringList;
@@ -870,7 +897,6 @@ begin
 
   AppStorage.WriteString('SSHServer', ActiveSSHServerName);
 end;
-
 
 initialization
   PyControl := TPythonControl.Create(nil);

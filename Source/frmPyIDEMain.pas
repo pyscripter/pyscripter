@@ -547,7 +547,7 @@
             - Editor Unicode handling improvements (emojis, bi-directional text, etc.)
             - Complete Portuguese (Brazil) translation added.
           Issues addressed
-            #1140, #1146, #1149, #1163
+            #1140, #1146, #1149, #1163, #1165
 }
 // TODO: Process diagnostics
 

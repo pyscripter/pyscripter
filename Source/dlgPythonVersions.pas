@@ -199,7 +199,7 @@ begin
     if (Level = 1) and (Node.Parent.Index = 1) and
       not (PyControl.PythonVersionIndex = -(Node.Index + 1)) then
     begin
-      Delete(PyControl.CustomPythonVersions, Node.Index, 1);
+      PyControl.RemoveCustomVersion(Node.Index);
       vtPythonVersions.ReinitNode(Node.Parent, True);
     end;
   end;
