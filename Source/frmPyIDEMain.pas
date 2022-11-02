@@ -547,7 +547,7 @@
             - Editor Unicode handling improvements (emojis, bi-directional text, etc.)
             - Complete Portuguese (Brazil) translation added.
           Issues addressed
-            #1140, #1146, #1149, #1163, #1165
+            #1140, #1146, #1149, #1151, #1163, #1165
 }
 // TODO: Process diagnostics
 
@@ -4358,8 +4358,16 @@ var
 begin
   FilePosInfo := '';
   VarClear(Defs);
-  if Assigned(Editor) and Editor.HasPythonFile then with Editor.SynEdit do
+  if Assigned(Editor) and Editor.HasPythonFile then with Editor.ActiveSynEdit do
   begin
+    if TextCoord.Line > Lines.Count then Exit;
+
+    // Adjust TextCoord if we are at the end of an identifier (#1151)
+    var Line := Lines[TextCoord.Line - 1];
+    TextCoord.Char := Min(TextCoord.Char, Line.Length);
+    if (TextCoord.Char > 1) and not IsIdentChar(Line[TextCoord.Char]) then
+      Dec(TextCoord.Char);
+
     if GetHighlighterAttriAtRowColEx(TextCoord, Token, TokenType, Start, Attri) then begin
       case TokenType of
         Ord(tkFunctionName), Ord(tkClassName):
@@ -4381,7 +4389,7 @@ begin
             end;
 
             FileName := '';
-            TJedi.FindDefinitionByCoordinates(FName, CaretXY, FileName, BC);
+            TJedi.FindDefinitionByCoordinates(FName, TextCoord, FileName, BC);
 
             if (FileName <> '') and ShowMessages then
               GI_PyIDEServices.Messages.AddMessage(_(SDefinitionFound), FileName, BC.Line, BC.Char);
