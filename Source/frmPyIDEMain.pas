@@ -2580,9 +2580,9 @@ begin
       Application.ProcessMessages;  // to deal with focus problems
       // sets the focus to the editor
       if (Editor <> GetActiveEditor) or FocusEditor then
-        Editor.Activate;
+        Editor.Activate(False);
       if (Line > 0) then
-        with Editor.SynEdit do begin
+        with Editor.ActiveSynEdit do begin
           CaretXY := BufferCoord(Offset,Line);
           EnsureCursorPosVisibleEx(ForceToMiddle);
           if SelLen > 0 then

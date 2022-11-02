@@ -2623,7 +2623,7 @@ begin
       if OldHotIdent then
         fHotIdentInfo.SynEdit.InvalidateLine(OldStartCoord.Line);
       if fHotIdentInfo.HaveHotIdent then
-        SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
+        fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
     end;
 end;
 
