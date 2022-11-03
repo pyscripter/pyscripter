@@ -268,6 +268,14 @@ function SvgFixedColor(Color: TColor): TColor;
 {Frees Encoding if it is not standard}
 procedure FreeAndNilEncoding(var Encoding: TEncoding);
 
+{Create URI from FileName}
+function FilePathToURI(FilePath: string): string;
+
+{Extract FileName from URI}
+function URIToFilePath(URI: string): string;
+
+
+
 type
   TMatchHelper = record helper for TMatch
   public
@@ -357,6 +365,8 @@ Uses
   Winapi.CommCtrl,
   Winapi.TlHelp32,
   Winapi.Wincodec,
+  WinApi.WinInet,
+  Winapi.ShLwApi,
   System.Types,
   System.StrUtils,
   System.AnsiStrings,
@@ -364,6 +374,7 @@ Uses
   System.IOUtils,
   System.Character,
   System.Math,
+  System.Win.ComObj,
   Vcl.ExtCtrls,
   Vcl.Themes,
   JclFileUtils,
@@ -2252,6 +2263,22 @@ begin
       Encoding.Free;
     Encoding := nil;
   end;
+end;
+
+function FilePathToURI(FilePath: string): string;
+begin
+  var BufferLen: DWORD := INTERNET_MAX_URL_LENGTH;
+  SetLength(Result, BufferLen);
+  OleCheck(UrlCreateFromPath(PChar(FilePath), PChar(Result), @BufferLen, 0));
+  SetLength(Result, BufferLen);
+end;
+
+function URIToFilePath(URI: string): string;
+begin
+  var BufferLen: DWORD := MAX_PATH;
+  SetLength(Result, BufferLen);
+  OleCheck(PathCreateFromUrl(PChar(URI), PChar(Result), @BufferLen, 0));
+  SetLength(Result, BufferLen);
 end;
 
 { TMatchHelper }

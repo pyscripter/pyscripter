@@ -478,6 +478,7 @@ uses
   JclSysUtils,
   JclStrings,
   JclDebug,
+  JclShell,
   JvAppIniStorage,
   JvAppStorage,
   JvDSADialogs,
@@ -2247,12 +2248,13 @@ begin
 end;
 
 procedure TCommandsDataModule.actPythonManualsExecute(Sender: TObject);
-Var
-  OldHelpFile : string;
 begin
-  if PyControl.PythonHelpFile <> '' then begin
-    OldHelpFile := Application.HelpFile;
-    Application.HelpFile := PyControl.PythonHelpFile;
+  var PythonHelpFile := PyControl.PythonHelpFile;
+  if PythonHelpFile = '' then Exit;
+
+  if ExtractFileExt(PythonHelpFile) = '.chm' then begin
+    var OldHelpFile := Application.HelpFile;
+    Application.HelpFile := PythonHelpFile;
     PyIDEMainForm.MenuHelpRequested := True;
     try
       Application.HelpCommand(HELP_CONTENTS, 0);
@@ -2260,16 +2262,18 @@ begin
       Application.HelpFile := OldHelpFile;
       PyIDEMainForm.MenuHelpRequested := False;
     end;
-  end;
+  end else if ExtractFileExt(PythonHelpFile) = '.html' then  // python 11
+    ShellExecute(0, 'open', PChar(FilePathToURI(PythonHelpFile)), '', '', SW_SHOWNORMAL);
 end;
 
 function TCommandsDataModule.ShowPythonKeywordHelp(KeyWord : string): Boolean;
-Var
-  OldHelpFile : string;
 begin
   Result := False;
-  if PyControl.PythonHelpFile <> '' then begin
-    OldHelpFile := Application.HelpFile;
+  var PythonHelpFile := PyControl.PythonHelpFile;
+  if PythonHelpFile = '' then Exit;
+
+  if ExtractFileExt(PythonHelpFile) = '.chm' then begin
+    var OldHelpFile := Application.HelpFile;
     Application.HelpFile := PyControl.PythonHelpFile;
     PyIDEMainForm.PythonKeywordHelpRequested := True;
     try
@@ -2277,6 +2281,15 @@ begin
     finally
       PyIDEMainForm.PythonKeywordHelpRequested := False;
       Application.HelpFile := OldHelpFile;
+    end;
+  end else if ExtractFileExt(PythonHelpFile) = '.html' then  // python 11
+  begin
+    var Executable := ShellFindExecutable(PythonHelpFile, '');
+    if Executable <> '' then
+    begin
+      var Args := Format('?q=%s&check_keywords=yes', [KeyWord]);
+      var URI := FilePathToURI(ExtractFilePath(PythonHelpFile) + 'search.html')  + Args;
+      Result := ShellExecute(0, 'open', PChar(Executable), PChar(URI), '', SW_SHOWNORMAL) > 32;
     end;
   end;
 end;
