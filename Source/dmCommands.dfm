@@ -209,8 +209,8 @@ object CommandsDataModule: TCommandsDataModule
     Top = 184
   end
   object SynIniSyn: TSynIniSyn
-    Left = 344
-    Top = 324
+    Left = 531
+    Top = 272
   end
   object JvMultiStringHolder: TJvMultiStringHolder
     MultipleStrings = <
@@ -2039,34 +2039,37 @@ object CommandsDataModule: TCommandsDataModule
     Top = 68
   end
   object SynWebHtmlSyn: TSynWebHtmlSyn
+    Brackets = '()[]{}<>'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml5
     Options.UseEngineOptions = True
-    Left = 432
+    Left = 620
     Top = 272
   end
   object SynWebXmlSyn: TSynWebXmlSyn
+    Brackets = '()[]{}<>'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 436
-    Top = 328
+    Left = 259
+    Top = 336
   end
   object SynWebCssSyn: TSynWebCssSyn
+    Brackets = '()[]{}<>'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Left = 528
-    Top = 324
+    Left = 350
+    Top = 336
   end
   object SynCppSyn: TSynCppSyn
-    Left = 344
+    Left = 442
     Top = 272
   end
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml5
-    Left = 616
-    Top = 324
+    Left = 624
+    Top = 336
   end
   object actlMain: TActionList
     Images = PyIDEMainForm.vilImages
@@ -2965,24 +2968,24 @@ object CommandsDataModule: TCommandsDataModule
   object SynWebEsSyn: TSynWebEsSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 616
-    Top = 272
+    Left = 532
+    Top = 336
   end
   object SynWebPhpPlainSyn: TSynWebPhpPlainSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 528
-    Top = 272
+    Left = 441
+    Top = 336
   end
   object SynGeneralSyn: TSynGeneralSyn
     DefaultFilter = 'Text Files(*.txt,*.*)|*.txt;*.*'
     DetectPreprocessor = False
     SpaceAttri.Foreground = clSilver
     Left = 264
-    Top = 328
+    Top = 272
   end
   object SynJSONSyn: TSynJSONSyn
-    Left = 264
+    Left = 353
     Top = 272
   end
   object icBrowserImages: TSVGIconImageCollection
