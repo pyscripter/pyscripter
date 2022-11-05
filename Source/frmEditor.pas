@@ -65,7 +65,6 @@ type
     DottedIdent: string;
     StartCoord: TBufferCoord;
     SynToken: string;
-    SynAttri: TSynHighlighterAttributes;
   end;
 
   TEditorForm = class(TForm)
@@ -141,8 +140,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer;
       var Special: boolean; var FG, BG: TColor);
-    procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
-      TransientType: TTransientType);
     procedure SynEditKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure SynEditMouseDown(Sender: TObject; Button: TMouseButton;
@@ -182,6 +179,8 @@ type
         X, Y, Row, Line: Integer);
     procedure SynEditGutterDebugInfoMouseCursor(Sender: TObject; X, Y, Row, Line:
         Integer; var Cursor: TCursor);
+  private
+    const HotIdentIndicatorSpec: TGUID = '{8715589E-C990-4423-978F-F00F26041AEF}';
   private
     fEditor: TEditor;
     fActiveSynEdit: TSynEdit;
@@ -2349,6 +2348,12 @@ begin
   BreakPoints := TObjectList.Create(True);
   TDebugSupportPlugin.Create(Self); // No need to free
 
+  // Indicators
+  var IndicatorSpec :=
+    TSynIndicatorSpec.New(sisTextDecoration, clNoneF, clNoneF, [fsUnderline]);
+  SynEdit.Indicators.RegisterSpec(HotIdentIndicatorSpec, IndicatorSpec);
+  SynEdit2.Indicators.RegisterSpec(HotIdentIndicatorSpec, IndicatorSpec);
+
   // Register Kernel Notification
   ChangeNotifier.RegisterKernelChangeNotify(Self, [vkneFileName, vkneDirName,
     vkneLastWrite, vkneCreation]);
@@ -2421,30 +2426,6 @@ begin
     Result := FEditor.FSynLsp.Diagnostics.Count > 0;
 end;
 
-procedure TEditorForm.SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
-  TransientType: TTransientType);
-Var
-  Pix: TPoint;
-  ASynEdit: TSynEdit;
-begin
-  ASynEdit := Sender as TSynEdit;
-  if not Assigned(ASynEdit.Highlighter) then
-    Exit;
-  if fHotIdentInfo.HaveHotIdent and (fHotIdentInfo.SynEdit = ASynEdit) and
-    (TransientType = ttAfter) then
-  begin
-    Pix := ASynEdit.RowColumnToPixels(ASynEdit.BufferToDisplayPos
-        (fHotIdentInfo.StartCoord));
-
-//    ASynEdit.PaintText(fHotIdentInfo.SynToken, Point(0, 0),
-//      Rect(Pix, Point(ClientWidth, Pix.Y + ASynEdit.LineHeight)),
-//      fHotIdentInfo.SynAttri.Style + [fsUnderline], $FF8844);
-    ASynEdit.PaintText(fHotIdentInfo.SynToken, Point(0, 0),
-      Rect(Pix, Point(ClientWidth, Pix.Y + ASynEdit.LineHeight)),
-      fHotIdentInfo.SynAttri.Style + [fsUnderline], fHotIdentInfo.SynAttri.Foreground);
-  end;
-end;
-
 procedure TEditorForm.SynEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -2458,7 +2439,8 @@ begin
   if fHotIdentInfo.HaveHotIdent then
   begin
     fHotIdentInfo.HaveHotIdent := False;
-    fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
+    (Sender as TCustomSynEdit).Indicators.Clear(HotIdentIndicatorSpec, True,
+      fHotIdentInfo.StartCoord.Line);
     SetCursor(SynEdit.Cursor);
   end;
 end;
@@ -2610,7 +2592,6 @@ begin
         begin
           SynEdit := ASynEdit;
           HaveHotIdent := True;
-          SynAttri := Attri;
           SynToken := Token;
           StartCoord := BufferCoord(Start, aLineCharPos.Line);
         end;
@@ -2620,9 +2601,13 @@ begin
       (OldStartCoord <> fHotIdentInfo.StartCoord) then
     begin
       if OldHotIdent then
-        fHotIdentInfo.SynEdit.InvalidateLine(OldStartCoord.Line);
+        ASynEdit.Indicators.Clear(HotIdentIndicatorSpec, True,
+          OldStartCoord.Line);
       if fHotIdentInfo.HaveHotIdent then
-        fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
+        ASynEdit.Indicators.Add(fHotIdentInfo.StartCoord.Line,
+          TSynIndicator.New(HotIdentIndicatorSpec,
+            fHotIdentInfo.StartCoord.Char,
+            fHotIdentInfo.StartCoord.Char + Token.Length));
     end;
 end;
 
@@ -2635,8 +2620,7 @@ begin
 
   if fHotIdentInfo.HaveHotIdent then
   begin
-    fHotIdentInfo.HaveHotIdent := False;
-    fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
+    // fHodIdentInfo is reset in the KeyUp handler
     PostMessage(Application.MainForm.Handle, WM_FINDDEFINITION,
       fHotIdentInfo.StartCoord.Char, fHotIdentInfo.StartCoord.Line);
   end;

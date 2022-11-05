@@ -59,9 +59,9 @@ object EditorForm: TEditorForm
       end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 30
+        Top = 25
         Width = 578
-        Height = 388
+        Height = 393
         Caption = 'Source'
         ImageIndex = -1
         TabItem = 'tabSource'
@@ -141,7 +141,6 @@ object EditorForm: TEditorForm
           OnMouseCursor = SynEditMouseCursor
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
-          OnPaintTransient = SynEditPaintTransient
           RemovedKeystrokes = <
             item
               Command = ecUp
@@ -571,7 +570,6 @@ object EditorForm: TEditorForm
           OnMouseCursor = SynEditMouseCursor
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
-          OnPaintTransient = SynEditPaintTransient
           RemovedKeystrokes = <
             item
               Command = ecUp

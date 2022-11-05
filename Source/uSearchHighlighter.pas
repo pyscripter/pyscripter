@@ -43,14 +43,11 @@ begin
 end;
 
 procedure RegisterSearchHighlightIndicatorSpec(Editor: IEditor);
-var
-  Spec: TSynIndicatorSpec;
 const
   Alpha = 0.3;  // could allow customization
 begin
-  Spec.Style := sisRoundedFilledRectangle;
-  Spec.Background := D2D1ColorF(PyIDEOptions.HighlightSelectedWordColor, 0.3);
-  Spec.Foreground := Spec.Background;
+  var Spec := TSynIndicatorSpec.New(sisRoundedFilledRectangle, clNoneF,
+    D2D1ColorF(PyIDEOptions.HighlightSelectedWordColor, Alpha), []);
 
   Editor.SynEdit.Indicators.RegisterSpec(SearchHighlightIndicatorId, Spec);
   Editor.SynEdit2.Indicators.RegisterSpec(SearchHighlightIndicatorId, Spec);
