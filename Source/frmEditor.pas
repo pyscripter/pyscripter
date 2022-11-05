@@ -2443,7 +2443,6 @@ begin
       Rect(Pix, Point(ClientWidth, Pix.Y + ASynEdit.LineHeight)),
       fHotIdentInfo.SynAttri.Style + [fsUnderline], fHotIdentInfo.SynAttri.Foreground);
   end;
-  CommandsDataModule.PaintMatchingBrackets(ASynEdit, TransientType);
 end;
 
 procedure TEditorForm.SynEditKeyDown(Sender: TObject; var Key: Word;
@@ -3006,10 +3005,9 @@ begin
       CP.ItemList.Text := DisplayString + DocString;
 
       // position the hint window at and just below the opening bracket
-      P := CP.Editor.ClientToScreen(CP.Editor.RowColumnToPixels
-          (CP.Editor.BufferToDisplayPos(
-          BufferCoord(Succ(TJedi.ParamCompletionInfo.StartX),
-          CP.Editor.CaretY))));
+      P := CP.Editor.ClientToScreen(CP.Editor.RowColumnToPixels(
+          CP.Editor.BufferToDisplayPos(
+          BufferCoord(TJedi.ParamCompletionInfo.StartX, CP.Editor.CaretY))));
       Inc(P.Y, CP.Editor.LineHeight);
       X := P.X;
       Y := P.Y;

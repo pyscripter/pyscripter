@@ -974,12 +974,14 @@ begin
     Gutter.Autosize := True;
     Gutter.ChangeScale(Screen.PixelsPerInch, 96);
     Gutter.Font.Size := 9;
+    Gutter.BorderStyle := gbsNone;
     Gutter.TrackChanges.Visible := True;
+    Gutter.TrackChanges.Width := 3;
 
     Options := [eoDragDropEditing, eoEnhanceHomeKey,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
-                eoTrimTrailingSpaces, eoAutoIndent];
+                eoTrimTrailingSpaces, eoAutoIndent, eoBracketsHighlight];
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;

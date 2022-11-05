@@ -543,9 +543,9 @@
             - Python 3.11 support added - Support for python 3.6 removed
             - Spell checking of comments and strings #84
             - Track changes bar as in Visual Studio
-            - Editor selection options (alpha blending, fill whole lines)
             - Editor Unicode handling improvements (emojis, bi-directional text, etc.)
-            - Complete Portuguese (Brazil) translation added.
+            - Editor selection options (alpha blending, fill whole lines)
+            - Complete Portuguese (Brazil) translation added
           Issues addressed
             #1140, #1146, #1149, #1151, #1163, #1165
 }
@@ -3032,6 +3032,14 @@ begin
     Synedit2.SelectedColor.Assign(PyIDEOptions.SelectionColor);
 
     SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
+    SynEdit2.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
+
+    SynEdit.BracketsHighlight.SetFontColorsAndStyle(
+      CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+      CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+    SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
+      CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+      CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
 
     RegisterSearchHighlightIndicatorSpec(Editor);
 
@@ -3391,6 +3399,7 @@ begin
     with CommandsDataModule do begin
       EditorOptions.Gutter.Gradient := False;  //default value
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
+      EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
       if (CompareVersions(PyScripterVersion, '3.1') > 0) then
       begin
         if  (EditorOptions.Keystrokes.FindCommand(ecFoldAll) < 0) then
@@ -3436,7 +3445,7 @@ begin
         InterpreterEditorOptions.Gutter.Gradient := False;  //default value
         AppStorage.ReadPersistent('Interpreter Editor Options', InterpreterEditorOptions);
         InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
-          [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces];
+          [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces, eoBracketsHighlight];
         PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
         PythonIIForm.RegisterHistoryCommands;
       end;

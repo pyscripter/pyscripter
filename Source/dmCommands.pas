@@ -386,6 +386,7 @@ type
     fUntitledNumbers: TBits;
     fConfirmReplaceDialogRect: TRect;
     procedure PyIDEOptionsChanged(Sender: TObject);
+    procedure SynPythonSynChanged(Sender: TObject);
   protected
     procedure Loaded; override;
   public
@@ -410,8 +411,6 @@ type
       AHighlighter: TSynCustomHighlighter; DefaultExtension : string): boolean;
     function GetUntitledNumber: integer;
     procedure ReleaseUntitledNumber(ANumber: integer);
-    procedure PaintMatchingBrackets(SynEdit : TSynEdit; TransientType:
-        TTransientType);
     function ShowPythonKeywordHelp(KeyWord : string) : Boolean;
     procedure PrepareParameterCompletion;
     procedure PrepareModifierCompletion;
@@ -446,8 +445,6 @@ type
     Keyword
   );
 {$SCOPEDENUMS OFF}
-
-function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
 
 var
   CommandsDataModule: TCommandsDataModule = nil;
@@ -654,6 +651,7 @@ var
 begin
   // Setup Highlighters
   SynPythonSyn := TSynPythonSyn.Create(Self);
+  SynPythonSyn.HookAttrChangeEvent(SynPythonSynChanged);
   SynYAMLSyn := TSynYAMLSyn.Create(Self);
   SynCythonSyn := TSynCythonSyn.Create(Self);
   SynCythonSyn.Assign(SynPythonSyn);
@@ -774,6 +772,25 @@ procedure TCommandsDataModule.SynInterpreterOptionsDialogSetHighlighter(
 begin
   if Index = 0 then
     PythonIIForm.SynEdit.Highlighter.Assign(SynHighlighter);
+end;
+
+procedure TCommandsDataModule.SynPythonSynChanged(Sender: TObject);
+begin
+    GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+    begin
+      with TEditorForm(Editor.Form) do
+      begin
+        SynEdit.BracketsHighlight.SetFontColorsAndStyle(
+          SynPythonSyn.MatchingBraceAttri.Foreground,
+          SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+        SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
+          SynPythonSyn.MatchingBraceAttri.Foreground,
+          SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+      end
+    end);
+    PythonIIForm.SynEdit.BracketsHighlight.SetFontColorsAndStyle(
+          SynPythonSyn.MatchingBraceAttri.Foreground,
+          SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
 end;
 
 function TCommandsDataModule.GetSaveFileName(var ANewName: string;
@@ -1638,184 +1655,6 @@ procedure TCommandsDataModule.actSearchMatchingBraceExecute(
 begin
   if Assigned(GI_ActiveEditor) then
     GI_ActiveEditor.ActiveSynEdit.CommandProcessor(ecMatchBracket, #0, nil);
-end;
-
-procedure GetMatchingBrackets(SynEdit : TSynEdit;
-  var BracketPos : TBufferCoord; out MatchingBracketPos : TBufferCoord;
-  out IsBracket, HasMatchingBracket : Boolean; out BracketCh, MatchCh : Char;
-  out Attri: TSynHighlighterAttributes);
-
-  procedure GetMatchingBracketsInt(const P : TBufferCoord);
-  const
-    Brackets  = '()[]{}';
-  var
-    S: string;
-    I: Integer;
-  begin
-    IsBracket := False;
-    HasMatchingBracket := False;
-    SynEdit.GetHighlighterAttriAtRowCol(P, S, Attri);
-    if Assigned(Attri) and (SynEdit.Highlighter.SymbolAttribute = Attri) and
-        (SynEdit.CaretX<=length(SynEdit.LineText) + 1) then begin
-      I := Brackets.IndexOf(S);
-      if I >= 0 then
-      begin
-        BracketCh := Brackets.Chars[I];
-        IsBracket := True;
-        MatchingBracketPos := SynEdit.GetMatchingBracketEx(P, Brackets);
-        if (MatchingBracketPos.Char > 0) then begin
-          HasMatchingBracket := True;
-          MatchCh := Brackets.Chars[I xor 1];
-        end;
-      end;
-    end;
-  end;
-
-begin
-  MatchingBracketPos := BufferCoord(0,0);
-  BracketPos := SynEdit.CaretXY;
-
-  // First Look at the previous character like Site
-  if BracketPos.Char > 1 then Dec(BracketPos.Char);
-  GetMatchingBracketsInt(BracketPos);
-
-  //if it is not a bracket then look at the next character;
-  if not IsBracket and (SynEdit.CaretX > 1) then begin
-    Inc(BracketPos.Char);
-    GetMatchingBracketsInt(BracketPos);
-  end;
-end;
-
-function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
-var
-  BracketPos : TBufferCoord;
-  BracketCh, MatchCh : Char;
-  IsBracket, HasMatchingBracket : Boolean;
-  Attri: TSynHighlighterAttributes;
-  IsOutside : Boolean;
-Const
-  OpenChars = ['(', '{', '['];
-begin
-  GetMatchingBrackets(SynEdit, BracketPos, Result, IsBracket, HasMatchingBracket,
-    BracketCh, MatchCh, Attri);
-  if HasMatchingBracket then begin
-    IsOutside := (CharInSet(BracketCh, OpenChars) and
-                  (BracketPos.Char = SynEdit.CaretXY.Char)) or
-                 not (CharInSet(BracketCh, OpenChars) or
-                  (BracketPos.Char = SynEdit.CaretXY.Char));
-   if (IsOutSide and not CharInSet(MatchCh, OpenChars)) or
-      (not IsOutSide and CharInSet(MatchCh, OpenChars))
-   then
-     Inc(Result.Char);
-  end;
-end;
-
-
-procedure TCommandsDataModule.PaintMatchingBrackets(SynEdit : TSynEdit;
-  TransientType: TTransientType);
-{-----------------------------------------------------------------------------
-  Based on code from devcpp (dev-cpp.sf.net)
------------------------------------------------------------------------------}
-
-var
-  P, PM: TBufferCoord;
-  PD, PMD : TDisplayCoord;
-  Pix: TPoint;
-  R : TRect;
-  BracketCh, MatchCh : Char;
-  IsBracket, HasMatchingBracket : Boolean;
-  Attri: TSynHighlighterAttributes;
-  FontColor, BkgColor: TColor;
-  FontStyle: TFontStyles;
-begin
-  GetMatchingBrackets(SynEdit, P, PM, IsBracket, HasMatchingBracket, BracketCh,
-    MatchCh, Attri);
-
-  if IsBracket then begin
-    PD := SynEdit.BufferToDisplayPos(P);
-    Pix := SynEdit.RowColumnToPixels(PD);
-
-    FontStyle := Attri.Style;
-    FontColor := Attri.Foreground;
-
-    if SynEdit.IsPointInSelection(P) then
-      BkgColor := SynEdit.SelectedColor.Background
-    else if (Synedit.ActiveLineColor <> clNone) and (SynEdit.CaretY = P.Line) then
-      BkgColor := SynEdit.ActiveLineColor
-    else if Attri.Background <> clNone then
-      BkgColor := Attri.Background
-    else if SynEdit.Highlighter.WhitespaceAttribute.Background <> clNone then
-      BkgColor := SynEdit.Highlighter.WhitespaceAttribute.Background
-    else
-      BkgColor := Synedit.Color;
-
-
-    if (TransientType = ttAfter) then begin
-      if HasMatchingBracket then begin
-        if not SynEdit.IsPointInSelection(P) then
-        begin
-          if SynPythonSyn.MatchingBraceAttri.Background <> clNone then
-            BkgColor := SynPythonSyn.MatchingBraceAttri.Background;
-          FontColor:= SynPythonSyn.MatchingBraceAttri.Foreground;
-        end;
-      end else begin
-        if not SynEdit.IsPointInSelection(P) then
-        begin
-          if SynPythonSyn.UnbalancedBraceAttri.Background <> clNone then
-            BkgColor := SynPythonSyn.UnbalancedBraceAttri.Background;
-          FontColor:= SynPythonSyn.UnbalancedBraceAttri.Foreground;
-        end;
-      end;
-      FontStyle := FontStyle + [fsBold];
-    end
-    else begin
-      FontStyle := Attri.Style;
-      if not SynEdit.IsPointInSelection(P) then
-        FontColor:= Attri.Foreground;
-    end;
-
-    if (PD.Column >= SynEdit.LeftChar) and
-      Rect(SynEdit.GutterWidth + SynEdit.TextMargin, 0, SynEdit.ClientWidth,
-      SynEdit.ClientHeight).Contains(Pix) and
-      (PD.Row > 0)and (PD.Row >= SynEdit.TopLine) and
-      (PD.Row < SynEdit.TopLine + SynEdit.LinesInWindow) then
-    begin
-      R := Rect(Pix.X, Pix.Y, Pix.X + SynEdit.CharWidth, Pix.Y + SynEdit.LineHeight);
-      SynEdit.PaintText(BracketCh, Point(0, 0), R, FontStyle, FontColor, BkgColor);
-    end;
-
-    if not HasMatchingBracket then Exit;
-
-    PMD := SynEdit.BufferToDisplayPos(PM);
-    Pix := SynEdit.RowColumnToPixels(PMD);
-    if (PMD.Column >= SynEdit.LeftChar) and
-      Rect(SynEdit.GutterWidth + SynEdit.TextMargin, 0, SynEdit.ClientWidth,
-      SynEdit.ClientHeight).Contains(Pix) and
-      (PMD.Row > 0)and (PMD.Row >= SynEdit.TopLine) and
-      (PMD.Row < SynEdit.TopLine + SynEdit.LinesInWindow) then
-    begin
-      if SynEdit.IsPointInSelection(PM) then
-        FontColor := SynEdit.SelectedColor.Foreground
-      else if (TransientType = ttAfter) then
-        FontColor:= SynPythonSyn.MatchingBraceAttri.Foreground;
-
-      if SynEdit.IsPointInSelection(PM) then
-        BkgColor := SynEdit.SelectedColor.Background
-      else if (TransientType = ttAfter) and (SynPythonSyn.MatchingBraceAttri.Background <> clNone) then
-        BkgColor := SynPythonSyn.MatchingBraceAttri.Background
-      else if (Synedit.ActiveLineColor <> clNone) and (SynEdit.CaretY = PM.Line) then
-        BkgColor := SynEdit.ActiveLineColor
-      else if Attri.Background <> clNone then
-        BkgColor := Attri.Background
-      else if SynEdit.Highlighter.WhitespaceAttribute.Background <> clNone then
-        BkgColor := SynEdit.Highlighter.WhitespaceAttribute.Background
-      else
-        BkgColor := Synedit.Color;
-
-      R := Rect(Pix.X, Pix.Y, Pix.X + SynEdit.CharWidth, Pix.Y + SynEdit.LineHeight);
-      SynEdit.PaintText(MatchCh, Point(0, 0), R, FontStyle, FontColor, BkgColor);
-    end;
-  end;
 end;
 
 procedure TCommandsDataModule.ProcessFolderChange(const FolderName: string);

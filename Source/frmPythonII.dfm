@@ -107,7 +107,6 @@ inherited PythonIIForm: TPythonIIForm
         OnCommandProcessed = SynEditCommandProcessed
         OnProcessCommand = SynEditProcessCommand
         OnProcessUserCommand = SynEditProcessUserCommand
-        OnPaintTransient = SynEditPaintTransient
       end
     end
   end

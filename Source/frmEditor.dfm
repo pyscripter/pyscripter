@@ -120,15 +120,15 @@ object EditorForm: TEditorForm
               Kind = gbkLineNumbers
             end
             item
-              Kind = gbkMargin
-              Width = 3
+              Kind = gbkFold
             end
             item
               Kind = gbkTrackChanges
               Background = gbbEditor
             end
             item
-              Kind = gbkFold
+              Kind = gbkMargin
+              Width = 2
               Background = gbbEditor
             end>
           IndentGuides.Style = igsDotted
@@ -559,8 +559,13 @@ object EditorForm: TEditorForm
               Kind = gbkFold
             end
             item
+              Kind = gbkTrackChanges
+              Background = gbbEditor
+            end
+            item
               Kind = gbkMargin
-              Width = 3
+              Width = 2
+              Background = gbbEditor
             end>
           SelectedColor.Alpha = 0.400000005960464500
           OnMouseCursor = SynEditMouseCursor

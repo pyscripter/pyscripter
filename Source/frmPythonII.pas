@@ -89,8 +89,6 @@ type
     mnPythonVersions: TSpTBXSubmenuItem;
     vilCodeImages: TVirtualImageList;
     vilImages: TVirtualImageList;
-    procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
-      TransientType: TTransientType);
     procedure FormCreate(Sender: TObject);
     procedure SynEditProcessCommand(Sender: TObject;
       var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
@@ -254,14 +252,6 @@ end;
 function TPythonIIForm.OutputSuppressor: IInterface;
 begin
   Result := TSuppressOutput.Create(Self);
-end;
-
-procedure TPythonIIForm.SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
-  TransientType: TTransientType);
-begin
-  if (not Assigned(SynEdit.Highlighter)) then
-    Exit;
-  CommandsDataModule.PaintMatchingBrackets(SynEdit, TransientType);
 end;
 
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;

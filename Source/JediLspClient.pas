@@ -404,6 +404,11 @@ begin
         ParamCompletionInfo.FActiveParameter := 0;
       ParamCompletionInfo.FStartX := 1;
 
+      if ParamCompletionInfo.FDisplayString.StartsWith('class') then
+        Delete(ParamCompletionInfo.FDisplayString, 1, 5)
+      else if ParamCompletionInfo.FDisplayString.StartsWith('def') then
+        Delete(ParamCompletionInfo.FDisplayString, 1, 3);
+
       var RightPar := ParamCompletionInfo.FDisplayString.LastDelimiter(')');
       if RightPar >= 0 then
         Delete(ParamCompletionInfo.FDisplayString, RightPar + 1, 1);
@@ -415,7 +420,7 @@ begin
         ParamCompletionInfo.FDisplayString := Copy(ParamCompletionInfo.FDisplayString, LeftPar + 2);
         var Match := TRegEx.Match(ParamCompletionInfo.FCurrentLine, FunctionName + '\s*(\()');
         if Match.Success then
-          ParamCompletionInfo.FStartX := Match.Groups[1].Index;
+          ParamCompletionInfo.FStartX := Match.Groups[1].Index + 1;
       end;
     end;
 
