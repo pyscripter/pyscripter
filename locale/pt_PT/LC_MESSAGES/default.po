@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-10-12 00:46\n"
+"POT-Creation-Date: 2022-10-29 02:07\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Claudio Rogerio Carvalho Filho <excriptbrasil@gmail.com>, 2022\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/pyscripter/teams/116142/pt_PT/)\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_PT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #. AboutBox..Caption
 #: dlgAboutPyScripter.dfm
@@ -827,7 +827,8 @@ msgid "Activate selected Python version"
 msgstr "Ativar a versão selecionada do Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
-#: dlgPythonVersions.dfm
+#. CommandsDataModule..actlMain..actSynSpellErrorAdd..Caption
+#: dlgPythonVersions.dfm dmCommands.dfm
 msgid "Add"
 msgstr "Adcionar"
 
@@ -1457,6 +1458,67 @@ msgstr "Comando"
 msgid "Keystroke"
 msgstr "Tecla"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Exemplo de Código"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "Temas disponíveis"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "Aplicar Tema"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Elemento:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "Cor do &primeiro plano"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "Cor de &fundo"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Editor da Sintaxe"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr " Atributos de Texto"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Bold"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Italic"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Underline"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Descartar"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1558,8 +1620,8 @@ msgstr "Espaçamento de linha/Espaçamento de tabulação"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr "Linhas Extras:"
+msgid "Extra line spacing (pixels):"
+msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
@@ -1570,67 +1632,6 @@ msgstr "Largura da Tabulação:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Cor de Linha Ativa"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Exemplo de Código"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "Temas disponíveis"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "Aplicar Tema"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Elemento:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "Cor do &primeiro plano"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Cor de &fundo"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Editor da Sintaxe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr " Atributos de Texto"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Bold"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Italic"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Underline"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Descartar"
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -3336,6 +3337,65 @@ msgstr "Reiniciar Servidor de &Linguagem"
 msgid "Restart the Language Server"
 msgstr "Reinicie o Servidor de Linguagem"
 
+#. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckSelection..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckWord..Category
+#. CommandsDataModule..actlMain..actSynSpellClearErrors..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorAdd..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorDelete..Category
+#: dmCommands.dfm
+msgid "Spell Check"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckFile..Caption
+#: dmCommands.dfm
+msgid "Check File"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckLine..Caption
+#: dmCommands.dfm
+msgid "Check Line"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckSelection..Caption
+#: dmCommands.dfm
+msgid "Check Selection"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckWord..Caption
+#: dmCommands.dfm
+msgid "Check Word"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellClearErrors..Caption
+#: dmCommands.dfm
+msgid "Clear Errors"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Caption
+#: dmCommands.dfm
+msgid "Check As You Type"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Caption
+#: dmCommands.dfm
+msgid "Ignore Once"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Caption
+#: dmCommands.dfm
+msgid "Ignore"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellErrorDelete..Caption
+#: dmCommands.dfm
+msgid "Delete"
+msgstr ""
+
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
 #: dmCommands.dfm StringResources.pas
@@ -3638,6 +3698,12 @@ msgstr "Código Fonte"
 #: frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
 msgid "Search"
 msgstr "Buscar"
+
+#. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSpelling..Caption
+#: frmEditor.dfm frmPyIDEMain.dfm
+msgid "Spelling"
+msgstr ""
 
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm frmEditor.pas
@@ -6296,10 +6362,6 @@ msgid "Show executable line marks"
 msgstr "Mostrar marcas de linha executáveis"
 
 #: dmCommands.pas
-msgid "Check syntax as you type"
-msgstr "Verificar a sintaxe enquanto você digita"
-
-#: dmCommands.pas
 msgid "Default line break format for new files"
 msgstr "Formato de quebra de linha padrão para novos arquivos"
 
@@ -6347,15 +6409,19 @@ msgstr "Números de Linha Compactos"
 msgid "Trim trailing spaces when files are saved"
 msgstr "Apare os espaços finais quando os arquivos forem salvos"
 
+#: dmCommands.pas
+msgid "Track changes bar"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Selection color"
+msgstr ""
+
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
 msgid "Code Completion"
 msgstr "Completação de Código"
-
-#: dmCommands.pas
-msgid "Special packages"
-msgstr "Pacotes Especiais"
 
 #: dmCommands.pas
 msgid "Code completion list size"
@@ -6423,12 +6489,36 @@ msgid "Disable Variables Window with SSH"
 msgstr "Desativar Janela de Variáveis com SSH"
 
 #: dmCommands.pas frmPyIDEMain.pas
-msgid "Language server"
-msgstr "Servidor de Linguagem"
+msgid "Language Server"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Language server debug output"
 msgstr "Saída de depuração do servidor de linguagem"
+
+#: dmCommands.pas
+msgid "Check syntax as you type"
+msgstr "Verificar a sintaxe enquanto você digita"
+
+#: dmCommands.pas
+msgid "Special packages"
+msgstr "Pacotes Especiais"
+
+#: dmCommands.pas
+msgid "Spell Checking"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Dictionary language code"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Spell check as you type"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Spell checked syntax tokens"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Modifiers"
@@ -7931,6 +8021,15 @@ msgid ""
 msgstr ""
 "Um processo externo ainda está em execução.\n"
 "Finalize-o primeiro na janela 'Output'."
+
+#. Programmer's name for it: SDictionaryNA
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"The dictionary for language code \"%s\" is not available.\n"
+"You can get spell checking dictionaries through the Windows language settings.\n"
+"You can change the active language through the IDE options dialog."
+msgstr ""
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
