@@ -231,7 +231,7 @@ end
     Ignore=0
     ReplaceVars=1
     BatchLineCount=1
-    BatchLine1="C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\PyScripter.exe
+    BatchLine1="C:\Users\kiria\.nuget\packages\microsoft.windows.sdk.buildtools\10.0.22000.194\bin\10.0.22000.0\x64\signtool.exe"  sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\PyScripter.exe
   end
   begin command.comment
     Caption=INNO SETUP
@@ -255,7 +255,7 @@ end
     Ignore=0
     ReplaceVars=1
     BatchLineCount=1
-    BatchLine1="C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%-Setup.exe
+    BatchLine1="C:\Users\kiria\.nuget\packages\microsoft.windows.sdk.buildtools\10.0.22000.194\bin\10.0.22000.0\x64\signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%-Setup.exe
   end
   begin command.comment
     Caption=CREATE ZIP DISTRIBUTIONS
@@ -269,13 +269,6 @@ end
     Varname=i
     Value=0
   end
-    begin jvcsutils.batchinternal
-      Caption=Internal Batch command list
-      Ignore=0
-      ReplaceVars=1
-      BatchLineCount=1
-      BatchLine1=%AppPath%\Install\Output\PyScripter-%PyScripterVersion%-x64-Setup.exe
-    end
     begin dialogs.msgbox
       Caption=Messagebox
       Ignore=0
@@ -283,6 +276,13 @@ end
       Buttons=[mbOK]
       Style=0
       ReturnValue=
+    end
+    begin jvcsutils.batchinternal
+      Caption=Internal Batch command list
+      Ignore=0
+      ReplaceVars=1
+      BatchLineCount=1
+      BatchLine1=%AppPath%\Install\Output\PyScripter-%PyScripterVersion%-x64-Setup.exe
     end
   begin block.end
     Caption=end
