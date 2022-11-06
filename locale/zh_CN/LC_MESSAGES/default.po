@@ -4,15 +4,17 @@
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# Kiriakos Vlahos <pyscripter@gmail.com>, 2021
+# lary Ho, 2022
+# startgo <startgo@youp.ga>, 2022
+# Kiriakos Vlahos <pyscripter@gmail.com>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2021-10-12 00:46\n"
+"POT-Creation-Date: 2022-10-29 02:07\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2021\n"
+"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/pyscripter/teams/116142/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,6 +52,8 @@ msgid ""
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
+"一個擁有抱負的羣體，創立了這個自由，開放源的 Python 腳本整合開發平台。 期望能帶給 Python "
+"社羣，一個有如商業環境所提供的，高質量，多功能的開發平台。"
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
@@ -822,7 +826,8 @@ msgid "Activate selected Python version"
 msgstr "激活所选Python版本"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
-#: dlgPythonVersions.dfm
+#. CommandsDataModule..actlMain..actSynSpellErrorAdd..Caption
+#: dlgPythonVersions.dfm dmCommands.dfm
 msgid "Add"
 msgstr "添加"
 
@@ -1359,7 +1364,7 @@ msgstr "滚动提示跟随鼠标"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr ""
+msgstr "顯示字體合成"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -1430,6 +1435,67 @@ msgstr "命令"
 #: dlgSynEditOptions.dfm
 msgid "Keystroke"
 msgstr "按键"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "代码样例"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "可用的主题"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "应用"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "要素(&E)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "前景色(&F):"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "背景色(&A):"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "编辑器语法语言"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "文本属性"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "粗体(&B)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "斜体(&I)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "下划线(&U)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "删除线(&S)"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
@@ -1532,8 +1598,8 @@ msgstr "行间空格 / TAB空格"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
-msgid "Extra Lines:"
-msgstr "多余行高:"
+msgid "Extra line spacing (pixels):"
+msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
@@ -1544,67 +1610,6 @@ msgstr "TAB幅:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "激活行的颜色"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "代码样例"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "可用的主题"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "应用"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "要素(&E)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "前景色(&F):"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "背景色(&A):"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "编辑器语法语言"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "文本属性"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "粗体(&B)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "斜体(&I)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "下划线(&U)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "删除线(&S)"
 
 #. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -1744,17 +1749,17 @@ msgstr "页脚(Footer):"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr ""
+msgstr "內部邊距:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr ""
+msgstr "左邊文本縮排:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr ""
+msgstr "右邊文本縮排:"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
@@ -1789,12 +1794,12 @@ msgstr "折行"
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "Inches"
-msgstr ""
+msgstr "吋"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "(1/1000) Inches"
-msgstr ""
+msgstr "(1/1000) 吋"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -2279,12 +2284,12 @@ msgstr "隐藏控制台(&H)"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
 msgid "Use the UTF8 encoding for stdin/stdout"
-msgstr ""
+msgstr "使用 UTF8 編碼作為標準的輸入/輸出 stdin/stdout"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
 msgid "&UTF8 IO"
-msgstr ""
+msgstr "   &UTF8 IO"
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
@@ -2365,7 +2370,7 @@ msgstr "保存|保存激活的文件"
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
 msgid "Sav&e As..."
-msgstr ""
+msgstr "&e保存為..."
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
@@ -2514,7 +2519,7 @@ msgstr "置换(&R)"
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr ""
+msgstr "替換|搜尋及替換"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2721,7 +2726,7 @@ msgstr "跳到第一个语法错误位置"
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "Find &in Files..."
-msgstr ""
+msgstr "&i在檔案內找找尋..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
@@ -2922,7 +2927,7 @@ msgstr "确认是否有PyScripter的新版本"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "Unit Test &Wizard..."
-msgstr ""
+msgstr "&W 單元測試精靈"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
@@ -2962,7 +2967,7 @@ msgstr "文件模板的追加/删除"
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
 msgid "UTF-8 with BOM"
-msgstr ""
+msgstr "UTF-8 包含 BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
@@ -2987,7 +2992,7 @@ msgstr "使用UTF-16LE编码"
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
 msgid "Re&load"
-msgstr ""
+msgstr "&l重新載入"
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
@@ -3033,7 +3038,7 @@ msgstr "语法高亮的导出"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr ""
+msgstr "替換現時設定"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -3118,7 +3123,7 @@ msgstr "复制当前文件的文件名到剪贴板"
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit &Startup Scripts"
-msgstr ""
+msgstr "&編輯起動腳本程式"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3303,6 +3308,65 @@ msgstr ""
 #. CommandsDataModule..actlMain..actToolsRestartLS..Hint
 #: dmCommands.dfm
 msgid "Restart the Language Server"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckSelection..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckWord..Category
+#. CommandsDataModule..actlMain..actSynSpellClearErrors..Category
+#. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorAdd..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Category
+#. CommandsDataModule..actlMain..actSynSpellErrorDelete..Category
+#: dmCommands.dfm
+msgid "Spell Check"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckFile..Caption
+#: dmCommands.dfm
+msgid "Check File"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckLine..Caption
+#: dmCommands.dfm
+msgid "Check Line"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckSelection..Caption
+#: dmCommands.dfm
+msgid "Check Selection"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckWord..Caption
+#: dmCommands.dfm
+msgid "Check Word"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellClearErrors..Caption
+#: dmCommands.dfm
+msgid "Clear Errors"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Caption
+#: dmCommands.dfm
+msgid "Check As You Type"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Caption
+#: dmCommands.dfm
+msgid "Ignore Once"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Caption
+#: dmCommands.dfm
+msgid "Ignore"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actSynSpellErrorDelete..Caption
+#: dmCommands.dfm
+msgid "Delete"
 msgstr ""
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
@@ -3607,6 +3671,12 @@ msgstr "源代码"
 #: frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
 msgid "Search"
 msgstr "查找"
+
+#. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSpelling..Caption
+#: frmEditor.dfm frmPyIDEMain.dfm
+msgid "Spelling"
+msgstr ""
 
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm frmEditor.pas
@@ -4754,7 +4824,7 @@ msgstr "退出"
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Status &Bar"
-msgstr ""
+msgstr "狀態列(&B)"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -5981,6 +6051,9 @@ msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
+"許許多多的捐贈給了這個項目強大的激勵\n"
+"特別感謝Tranquil IT (https://www.tranquil.it) 連續不斷地支持\n"
+"還有WAPT(apt-get for Windows) (https://www.wapt.fr) 的作者."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6065,7 +6138,7 @@ msgstr ""
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr ""
+msgstr "頁面"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
@@ -6237,10 +6310,6 @@ msgid "Show executable line marks"
 msgstr "显示可执行标记"
 
 #: dmCommands.pas
-msgid "Check syntax as you type"
-msgstr "在输入时检查语法"
-
-#: dmCommands.pas
 msgid "Default line break format for new files"
 msgstr "新建文件的默认换行符"
 
@@ -6288,15 +6357,19 @@ msgstr "紧凑行号"
 msgid "Trim trailing spaces when files are saved"
 msgstr "保存文件时去除尾随空格"
 
+#: dmCommands.pas
+msgid "Track changes bar"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Selection color"
+msgstr ""
+
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
 msgid "Code Completion"
 msgstr "代码补齐"
-
-#: dmCommands.pas
-msgid "Special packages"
-msgstr "特殊包"
 
 #: dmCommands.pas
 msgid "Code completion list size"
@@ -6364,11 +6437,35 @@ msgid "Disable Variables Window with SSH"
 msgstr "允许通过SSH关闭变量窗口"
 
 #: dmCommands.pas frmPyIDEMain.pas
-msgid "Language server"
+msgid "Language Server"
 msgstr ""
 
 #: dmCommands.pas
 msgid "Language server debug output"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Check syntax as you type"
+msgstr "在输入时检查语法"
+
+#: dmCommands.pas
+msgid "Special packages"
+msgstr "特殊包"
+
+#: dmCommands.pas
+msgid "Spell Checking"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Dictionary language code"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Spell check as you type"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Spell checked syntax tokens"
 msgstr ""
 
 #: dmCommands.pas
@@ -6529,11 +6626,11 @@ msgstr "文档字符串"
 
 #: frmWatches.pas
 msgid "Edit Watch"
-msgstr ""
+msgstr "觀察編輯"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr ""
+msgstr "輸入新表達式:"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
@@ -7829,6 +7926,15 @@ msgstr ""
 "外部进程仍在运行。 \n"
 "请先从“输出”窗口终止它。"
 
+#. Programmer's name for it: SDictionaryNA
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"The dictionary for language code \"%s\" is not available.\n"
+"You can get spell checking dictionaries through the Windows language settings.\n"
+"You can change the active language through the IDE options dialog."
+msgstr ""
+
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
 #: StringResources.pas
@@ -8295,12 +8401,12 @@ msgstr "XML文档"
 #. Programmer's name for it: SJSONTemplateName
 #: StringResources.pas
 msgid "JSON File"
-msgstr ""
+msgstr "JSON 檔案"
 
 #. Programmer's name for it: SYAMLTemplateName
 #: StringResources.pas
 msgid "YAML File"
-msgstr ""
+msgstr "YAML檔案"
 
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
@@ -8717,7 +8823,7 @@ msgstr "活动文档中的已选定文本"
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
 #: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
 msgid "Toolbars"
-msgstr ""
+msgstr "工具列"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
 #: SpTBXCustomizerForm.dfm:125
