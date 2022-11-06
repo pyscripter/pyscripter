@@ -6,7 +6,7 @@
 # 
 # Translators:
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2019
-# oliverengel <codeangel@posteo.de>, 2021
+# Oliver Engel <codeangel@posteo.de>, 2021
 # Gerhard Röhner, 2022
 # 
 #, fuzzy
