@@ -15,9 +15,9 @@ uses
   System.JSON,
   System.SyncObjs,
   System.Generics.Collections,
-  LspUtils,
   SynEditTypes,
-  SynEdit;
+  SynEdit,
+  LspUtils;
 
 type
   TLangId = (lidNone, lidPython);
@@ -54,6 +54,8 @@ type
   end;
 
   TLspSynEditPlugin = class(TSynEditPlugin)
+  public
+    const DiagnosticsErrorIndicatorSpec: TGUID = '{48005990-9661-4DA7-A1B1-84A20045F37B}';
   private
     FFileId: string;
     FLangId: TLangId;
@@ -83,7 +85,6 @@ type
     procedure FileClosed;
     procedure FileSaved;
     procedure FileSavedAs(const FileId: string; LangId: TLangId);
-    procedure InvalidateErrorLines;
     procedure ApplyNewDiagnostics;
     procedure ClearDiagnostics;
     property TransmitChanges: boolean read fTransmitChanges
@@ -106,10 +107,13 @@ procedure RangeFromJson(Json: TJsonObject; out BlockBegin, BlockEnd: TBufferCoor
 implementation
 
 uses
+  System.UITypes,
   System.StrUtils,
   System.Threading,
   System.Math,
   SynEditMiscProcs,
+  SynEditMiscClasses,
+  SynDWrite,
   LspClient,
   JediLspClient,
   uEditAppIntfs,
@@ -128,6 +132,9 @@ begin
   TJedi.OnInitialized.AddHandler(FOnLspInitialized);
   Instances.Add(Self);
   FDocSymbols := TDocSymbols.Create(Self);
+  AOwner.Indicators.RegisterSpec(DiagnosticsErrorIndicatorSpec,
+    TSynIndicatorSpec.New(sisSquiggleMicrosoftWord,
+    D2D1ColorF(TColors.Red), clNoneF, []));
 end;
 
 destructor TLspSynEditPlugin.Destroy;
@@ -273,10 +280,10 @@ begin
     try
       List.Clear;
       List.AddRange(DiagArray);
+      Plugin.FNeedToRefreshDiagnostics := True;
     finally
       PlugIn.FNewDiagnostics.UnLockList;
     end;
-    Plugin.FNeedToRefreshDiagnostics := True;
   end);
   Task.Start;
 end;
@@ -322,12 +329,6 @@ begin
   finally
     Instances.UnlockList;
   end;
-end;
-
-procedure TLspSynEditPlugin.InvalidateErrorLines;
-begin
-  for var Diag in FDiagnostics do
-    Editor.InvalidateLine(Diag.BlockBegin.Line);
 end;
 
 procedure TLspSynEditPlugin.LinesChanged;
@@ -510,15 +511,18 @@ begin
   try
     FDiagnostics.AddRange(List);
     FNeedToRefreshDiagnostics := False;
+    for var I := 0 to FDiagnostics.Count - 1 do
+      Editor.Indicators.Add(FDiagnostics[I].BlockBegin.Line,
+        TSynIndicator.New(DiagnosticsErrorIndicatorSpec,
+        FDiagnostics[I].BlockBegin.Char, FDiagnostics[I].BlockEnd.Char, I));
   finally
     FNewDiagnostics.UnlockList;
   end;
-  InvalidateErrorLines;
 end;
 
 procedure TLspSynEditPlugin.ClearDiagnostics;
 begin
-  InvalidateErrorLines;
+  Editor.Indicators.Clear(DiagnosticsErrorIndicatorSpec);
   FDiagnostics.Clear;
 end;
 

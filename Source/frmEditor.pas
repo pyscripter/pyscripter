@@ -376,8 +376,6 @@ type
   TDebugSupportPlugin = class(TSynEditPlugin)
   protected
     fForm: TEditorForm;
-    procedure AfterPaint(ACanvas: TCanvas; const AClip: TRect;
-      FirstLine, LastLine: Integer); override;
     procedure LinesInserted(FirstLine, Count: Integer); override;
     procedure LinesDeleted(FirstLine, Count: Integer); override;
   public
@@ -387,92 +385,8 @@ type
 constructor TDebugSupportPlugin.Create(AForm: TEditorForm);
 begin
   inherited Create(AForm.SynEdit);
-  FHandlers := [phLinesInserted, phLinesDeleted, phAfterPaint];
+  FHandlers := [phLinesInserted, phLinesDeleted];
   fForm := AForm;
-end;
-
-Type
-  TUnderlineStyle = (usCorelWordPerfect, usMicrosoftWord);
-
-procedure TDebugSupportPlugin.AfterPaint(ACanvas: TCanvas; const AClip: TRect;
-  FirstLine, LastLine: Integer);
-Var
-  TP: TPoint;
-  MaxX, LH: Integer;
-
-  procedure PaintUnderLine;
-  Const
-    UnderlineStyle: TUnderlineStyle = usMicrosoftWord;
-  var
-    NewPoint, NewY: Integer;
-
-    procedure DrawPoint;
-    begin
-      // Do not draw on gutter.
-      // This happens when a word is underlined and part of it is "hidden" under
-      // the gutter.
-      if TP.X <= Editor.GutterWidth then
-        Exit;
-      if NewY >= TP.Y - 1 then
-        ACanvas.Pixels[TP.X, NewY] := ACanvas.Pen.Color;
-    end;
-
-  const
-    // Microsoft Word style
-    // MW_POINTS: array[0..6] of ShortInt = (1, 2, 2, 1, 0, 0, 0);
-    MW_POINTS: array [0 .. 3] of ShortInt = (0, 1, 2, 1);
-    // Corel Word Perfect style
-    // WP_POINTS: array[0..4] of ShortInt = (3, 2, 1, -1, -1);
-    WP_POINTS: array [0 .. 3] of ShortInt = (2, 1, 0, -1);
-  var
-    Points: array [0 .. 3] of ShortInt;
-
-  begin
-    if UnderlineStyle = usMicrosoftWord then
-      Move(MW_Points[0], Points[0], 4 * SizeOf(ShortInt))
-    else
-      Move(WP_Points[0], Points[0], 4 * SizeOf(ShortInt));
-
-    ACanvas.Pen.Color := clRed;
-    Inc(TP.Y, LH - 3);
-    NewPoint := 0;
-    NewY := TP.Y + Points[NewPoint];
-    DrawPoint;
-    while TP.X <= MaxX do
-    begin
-      DrawPoint;
-      Inc(NewPoint);
-      if NewPoint > High(Points) then
-        NewPoint := 0;
-      DrawPoint;
-      Inc(TP.X);
-      NewY := TP.Y + Points[NewPoint]
-    end;
-  end;
-
-begin
-  var LastBufferLine := fForm.SynEdit.RowToLine(LastLine);
-  for var Diag in FForm.FEditor.FSynLsp.Diagnostics do
-  begin
-    // Errors are ordered by line
-    if Diag.BlockBegin.Line > LastBufferLine then Break;
-
-    if System.Math.InRange(Diag.BlockBegin.Line, FForm.SynEdit.RowToLine(FirstLine),
-      LastBufferLine) and not (fForm.SynEdit.UseCodeFolding and
-        fForm.SynEdit.AllFoldRanges.FoldHidesLine(Diag.BlockBegin.Line))
-    then
-    begin
-      LH := fForm.SynEdit.LineHeight;
-      TP := fForm.SynEdit.RowColumnToPixels
-        (fForm.SynEdit.BufferToDisplayPos(Diag.BlockBegin));
-      if TP.X <= ACanvas.ClipRect.Right - ACanvas.ClipRect.Left then
-      begin
-        MaxX := fForm.SynEdit.RowColumnToPixels
-          (fForm.SynEdit.BufferToDisplayPos(Diag.BlockEnd)).X;
-        PaintUnderLine;
-      end;
-    end;
-  end;
 end;
 
 procedure TDebugSupportPlugin.LinesInserted(FirstLine, Count: Integer);
@@ -1581,7 +1495,6 @@ procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
   if PyControl.ErrorPos.Editor = GetEditor then
     PyControl.ErrorPos := TEditorPos.EmptyPos;
-  FEditor.FSynLsp.ClearDiagnostics;
 
   ClearSearchHighlight(FEditor);
 end;
@@ -2412,17 +2325,14 @@ begin
   begin
     var List := FEditor.FSynLsp.Diagnostics;
     if List.Count > 0 then
-    begin
-      var BB := List[0].BlockBegin;
-      SynEdit.CaretXY := BufferCoord(BB.Char, BB.Line);
-    end;
+      SynEdit.CaretXY := List[0].BlockBegin;
   end;
 end;
 
 function TEditorForm.HasSyntaxError: boolean;
 begin
   Result := False;
-  if PyIDEOptions.CheckSyntaxAsYouType and fEditor.HasPythonFile then
+  if fEditor.HasPythonFile then
     Result := FEditor.FSynLsp.Diagnostics.Count > 0;
 end;
 
@@ -2456,6 +2366,7 @@ var
   ASynEdit: TSynEdit;
   HaveSyntaxHint: Boolean;
   FoundError: TDiagnostic;
+  Indicator: TSynIndicator;
 begin
   ASynEdit := Sender as TSynEdit;
   if (ASynEdit.Gutter.Visible) and (X < ASynEdit.GutterWidth) or
@@ -2466,14 +2377,10 @@ begin
 
   // Syntax error hints
   HaveSyntaxHint := False;
-  for var Diag in FEditor.FSynLsp.Diagnostics do
+  if ASynEdit.Indicators.IndicatorAtMousePos(Point(X, Y), Indicator) then
   begin
-    if (Diag.BlockBegin.Line = aLineCharPos.Line) and
-      System.Math.InRange(aLineCharPos.Char, Diag.BlockBegin.Char, Diag.BlockEnd.Char) then
-    begin
       HaveSyntaxHint := True;
-      FoundError := Diag;
-    end;
+      FoundError := FEditor.FSynLsp.Diagnostics[Indicator.Tag];
   end;
 
   if HaveSyntaxHint then
@@ -2483,7 +2390,7 @@ begin
         FoundError.BlockBegin)));
       fHintIdentInfo.IdentArea.TopLeft := Pix;
       Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(
-       FoundError.BlockEnd)));
+        FoundError.BlockEnd)));
       fHintIdentInfo.IdentArea.Right := Pix.X;
       fHintIdentInfo.IdentArea.Bottom := Pix.Y + LineHeight + 3;
       Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
@@ -3122,7 +3029,7 @@ end;
 procedure TEditorForm.DoOnIdle;
 begin
   SyncCodeExplorer;
-  if PyIDEOptions.CheckSyntaxAsYouType and FEditor.HasPythonFile then
+  if FEditor.HasPythonFile then
     FEditor.FSynLsp.ApplyNewDiagnostics;
 
   if SynEdit.ReadOnly then

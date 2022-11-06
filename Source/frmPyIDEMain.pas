@@ -549,8 +549,6 @@
           Issues addressed
             #1140, #1146, #1149, #1151, #1163, #1165
 }
-// TODO: Process diagnostics
-
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
 { TODO: LiveTemplates features for Code Templates }
