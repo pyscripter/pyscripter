@@ -1,7 +1,7 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
 #ifndef MyAppVersion
-  #define MyAppVersion "4.1.1"
+  #define MyAppVersion "4.2.0"
 #endif
 #ifndef OSPlatform
   #define OSPlatform "x64"
@@ -102,6 +102,10 @@ Source: ..\locale\it\LC_MESSAGES\default.mo; DestDir: {app}\locale\it\LC_MESSAGE
 Source: ..\locale\it\LC_MESSAGES\default.po; DestDir: {app}\locale\it\LC_MESSAGES\
 Source: ..\locale\it\LC_MESSAGES\languages.mo; DestDir: {app}\locale\it\LC_MESSAGES\
 Source: ..\locale\it\LC_MESSAGES\languages.po; DestDir: {app}\locale\it\LC_MESSAGES\
+Source: ..\locale\pl\LC_MESSAGES\default.mo; DestDir: {app}\locale\pl\LC_MESSAGES\
+Source: ..\locale\pl\LC_MESSAGES\default.po; DestDir: {app}\locale\pl\LC_MESSAGES\
+Source: ..\locale\pl\LC_MESSAGES\languages.mo; DestDir: {app}\locale\pl\LC_MESSAGES\
+Source: ..\locale\pl\LC_MESSAGES\languages.po; DestDir: {app}\locale\pl\LC_MESSAGES\
 Source: ..\locale\pt_PT\LC_MESSAGES\default.mo; DestDir: {app}\locale\pt_PT\LC_MESSAGES\
 Source: ..\locale\pt_PT\LC_MESSAGES\default.po; DestDir: {app}\locale\pt_PT\LC_MESSAGES\
 Source: ..\locale\pt_PT\LC_MESSAGES\languages.mo; DestDir: {app}\locale\pt_PT\LC_MESSAGES\

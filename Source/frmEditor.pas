@@ -2377,7 +2377,10 @@ begin
 
   // Syntax error hints
   HaveSyntaxHint := False;
-  if ASynEdit.Indicators.IndicatorAtMousePos(Point(X, Y), Indicator) then
+  if (FEditor.FSynLsp.Diagnostics.Count > 0)  and
+    ASynEdit.Indicators.IndicatorAtMousePos(Point(X, Y),
+    FEditor.FSynLsp.DiagnosticsErrorIndicatorSpec, Indicator)
+  then
   begin
       HaveSyntaxHint := True;
       FoundError := FEditor.FSynLsp.Diagnostics[Indicator.Tag];

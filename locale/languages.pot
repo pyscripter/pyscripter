@@ -55,7 +55,7 @@ msgstr ""
 msgid "Taqbaylit"
 msgstr ""
 
-#. Language of Portugal, Europe
+#. Language of Poland, Europe
 msgid "Polish"
 msgstr ""
 

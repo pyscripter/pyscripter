@@ -572,6 +572,7 @@ begin
   fSpellCheckAsYouType := False;
   fCodeFolding := TSynCodeFolding.Create;
   fTrackChanges := TSynTrackChanges.Create(nil);
+  fTrackChanges.Visible := True;
   fSelectionColor := TSynSelectedColor.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value
 end;
@@ -978,7 +979,7 @@ begin
     Gutter.TrackChanges.Visible := True;
     Gutter.TrackChanges.Width := 3;
 
-    Options := [eoDragDropEditing, eoEnhanceHomeKey,
+    Options := [eoDragDropEditing, eoEnhanceHomeKey, eoShowLigatures,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
                 eoTrimTrailingSpaces, eoAutoIndent, eoBracketsHighlight];

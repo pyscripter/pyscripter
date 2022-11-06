@@ -545,7 +545,7 @@
             - Track changes bar as in Visual Studio
             - Editor Unicode handling improvements (emojis, bi-directional text, etc.)
             - Editor selection options (alpha blending, fill whole lines)
-            - Complete Portuguese (Brazil) translation added
+            - Portuguese translations (pt_PT, pt_BR) added
           Issues addressed
             #1140, #1146, #1149, #1151, #1163, #1165
 }
@@ -1656,6 +1656,7 @@ begin
 
   // Setup Languages
   fLanguageList := TStringList.Create;
+  UseLanguage('en');
   SetUpLanguageMenu;
 
   // ActionLists
