@@ -108,7 +108,6 @@ implementation
 
 uses
   System.UITypes,
-  System.StrUtils,
   System.Threading,
   System.Math,
   SynEditMiscProcs,

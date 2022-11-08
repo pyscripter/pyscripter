@@ -140,6 +140,7 @@ type
     procedure GetBlockCode(var Source: string;
       var Buffer: array of string; EndLineN: Integer; StartLineN: Integer);
     procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
+    procedure ApplyPyIDEOptions;
     // ISearchCommands implementation
     function CanFind: boolean;
     function CanFindNext: boolean;
@@ -489,6 +490,14 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.ApplyPyIDEOptions;
+begin
+  SynEdit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+
+  // Command History Size
+  CommandHistorySize := PyIDEOptions.InterpreterHistorySize;
+end;
+
 procedure TPythonIIForm.FormCreate(Sender: TObject);
 begin
   ImageName := 'Python';
@@ -518,11 +527,17 @@ begin
 
   SetPyInterpreterPrompt(pipNormal);
 
+  // PyIDEOptions change notification
+  PyIDEOptions.OnChange.AddHandler(ApplyPyIDEOptions);
+
   GI_PyInterpreter := Self;
 end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
 begin
+  // PyIDEOptions change notification
+  PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
+
   GI_PyInterpreter := nil;
   FreeAndNil(fCommandHistory);
   FCriticalSection.Destroy;

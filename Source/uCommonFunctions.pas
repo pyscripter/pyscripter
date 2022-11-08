@@ -371,7 +371,6 @@ Uses
   WinApi.WinInet,
   Winapi.ShLwApi,
   System.Types,
-  System.StrUtils,
   System.AnsiStrings,
   System.UITypes,
   System.IOUtils,
@@ -1087,7 +1086,7 @@ begin
 
   // work backwards
   Line := BlockEnd.Line;
-  Result := System.StrUtils.LeftStr(Strings[Line-1], BlockEnd.Char - 1);
+  Result := Copy(Strings[Line-1], 1, BlockEnd.Char - 1);
   While (Line > BlockBegin.Line) and (Line > 1) do begin
     Dec(Line);
     Result := Strings[Line-1] + WideCRLF + Result;
@@ -1690,10 +1689,10 @@ procedure WalkThroughDirectories(const Paths, Masks: string;
   const Recursive: Boolean);
 Var
   Path, PathName : string;
-  PathList, MaskList : TStringDynArray;
+  PathList, MaskList : TArray<string>;
 begin
-  PathList := SplitString(Paths, ';');
-  MaskList := SplitString(Masks, ';');
+  PathList := Paths.Split([';']);
+  MaskList := Masks.Split([';']);
   for Path in PathList do
   begin
     PathName := Parameters.ReplaceInText(Path);

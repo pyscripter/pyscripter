@@ -38,11 +38,11 @@ Type
     Highlighter : string;
     UseCodeFolding: Boolean;
     EditorOptions : TSynEditorOptionsContainer;
+    EditorOptions2 : TSynEditorOptionsContainer;
     SecondEditorVisible : Boolean;
     SecondEditorAlign : TAlign;
     SecondEditorSize : integer;
     SecondEditorUseCodeFolding: Boolean;
-    EditorOptions2 : TSynEditorOptionsContainer;
     ReadOnly : Boolean;
     FoldState : string;
     FoldState2 : string;
@@ -128,7 +128,7 @@ begin
    AppStorage.WriteBoolean(BasePath+'\SecondEditorVisible', SecondEditorVisible);
    IgnoreProperties := TStringList.Create;
    try
-     IgnoreProperties.Add('Keystrokes');
+     IgnoreProperties.AddStrings(['Keystrokes', 'TrackChanges', 'SelectedColor', 'IndentGuides']);
      AppStorage.WritePersistent(BasePath+'\Editor Options', EditorOptions,
        True, IgnoreProperties);
      if SecondEditorVisible then begin

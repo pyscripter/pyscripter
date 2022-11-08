@@ -94,7 +94,6 @@ implementation
 uses
   System.SysUtils,
   System.Character,
-  System.StrUtils,
   System.Threading,
   System.RegularExpressions,
   System.JSON,

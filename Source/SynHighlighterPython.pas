@@ -260,7 +260,6 @@ resourcestring
 implementation
 
 uses
-  System.StrUtils,
   System.Character,
   System.RegularExpressionsCore,
   SynEditStrConst,
@@ -1627,17 +1626,17 @@ Var
 begin
   Line := fLineStr;
   Prompt := '';
-  if AnsiStartsStr(fPS1, Line) then
+  if Line.StartsWith(fPS1) then
     Prompt := fPS1
-  else if AnsiStartsStr(fPS2, Line) then
+  else if Line.StartsWith(fPS2) then
     Prompt := fPS2
-  else if AnsiStartsStr(fDbg + fPS1, Line) then
+  else if Line.StartsWith(fDbg + fPS1) then
     Prompt := fDbg + fPS1
-  else if AnsiStartsStr(fDbg + fPS2, Line) then
+  else if Line.StartsWith(fDbg + fPS2) then
     Prompt := fDbg + fPS2
-  else if AnsiStartsStr(fPM + fPS1, Line) then
+  else if Line.StartsWith(fPM + fPS1) then
     Prompt := fPM + fPS1
-  else if AnsiStartsStr(fPM + fPS2, Line) then
+  else if Line.StartsWith(fPM + fPS2) then
     Prompt := fPM + fPS2;
 
   if (Prompt <> '') then begin
@@ -1649,7 +1648,7 @@ begin
        SystemCmdProc
     else
       inherited; //Normal Python syntax
-  end else if AnsiStartsStr('***', Line) then
+  end else if Line.StartsWith('***') then
     BannerProc
   else if fRange = rsTraceback then begin
     TracebackProc;

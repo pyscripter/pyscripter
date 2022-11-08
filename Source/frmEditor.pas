@@ -202,6 +202,7 @@ type
     procedure WMFolderChangeNotify(var Msg: TMessage); message WM_FOLDERCHANGENOTIFY;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
+    procedure ApplyPyIDEOptions;
     class procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     class procedure SymbolsChanged(Sender: TObject);
     class var fOldEditorForm: TEditorForm;
@@ -1300,6 +1301,7 @@ begin
       Parent := Sheet;
       Align := alClient;
       Visible := True;
+      ApplyPyIDEOptions;
     end;
     if Result <> nil then
       fEditors.Add(Result);
@@ -1475,6 +1477,9 @@ procedure TEditorForm.FormDestroy(Sender: TObject);
 var
   LEditor: IEditor;
 begin
+  // PyIDEOptions change notification
+  PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
+
   SynEdit2.RemoveLinesPointer;
   LEditor := fEditor;
   Assert(fEditor <> nil);
@@ -2267,6 +2272,9 @@ begin
   SynEdit.Indicators.RegisterSpec(HotIdentIndicatorSpec, IndicatorSpec);
   SynEdit2.Indicators.RegisterSpec(HotIdentIndicatorSpec, IndicatorSpec);
 
+  // PyIDEOptions change notification
+  PyIDEOptions.OnChange.AddHandler(ApplyPyIDEOptions);
+
   // Register Kernel Notification
   ChangeNotifier.RegisterKernelChangeNotify(Self, [vkneFileName, vkneDirName,
     vkneLastWrite, vkneCreation]);
@@ -2626,6 +2634,46 @@ begin
         EditorView.UpdateView(fEditor);
     end;
   end;
+end;
+
+procedure TEditorForm.ApplyPyIDEOptions;
+begin
+  Synedit.CodeFolding.Assign(PyIDEOptions.CodeFolding);
+  Synedit2.CodeFolding.Assign(PyIDEOptions.CodeFolding);
+
+  Synedit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+  Synedit2.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+
+  SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
+  SynEdit2.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
+
+  SynEdit.BracketsHighlight.SetFontColorsAndStyle(
+    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+  SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
+    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+
+  RegisterSearchHighlightIndicatorSpec(fEditor);
+
+  if PyIDEOptions.CompactLineNumbers then
+  begin
+    SynEdit.OnGutterGetText := SynEditGutterGetText;
+    SynEdit2.OnGutterGetText := SynEditGutterGetText;
+  end
+  else
+  begin
+    SynEdit.OnGutterGetText := nil;
+    SynEdit2.OnGutterGetText := nil;
+  end;
+  SynEdit.InvalidateGutter;
+  SynEdit2.InvalidateGutter;
+
+  // Tab position
+  if PyIDEOptions.EditorsTabPosition = ttpTop then
+    ViewsTabControl.TabPosition := ttpBottom
+  else  //ttpBottom:
+    ViewsTabControl.TabPosition := ttpTop;
 end;
 
 procedure TEditorForm.AutoCompleteAfterExecute(Sender: TObject);

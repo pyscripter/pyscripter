@@ -33,8 +33,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     000000000000000000000000000000000000000000000000000000000000FBC1
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   inherited BGPanel: TPanel
     Height = 439
     inherited FGPanel: TPanel
@@ -120,6 +119,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
           end
           object TBXSubmenuItem1: TSpTBXSubmenuItem
             ImageIndex = 9
+            ImageName = 'Folders'
             Options = [tboDropdownArrow]
             object tbiBrowsePath: TSpTBXSubmenuItem
               Caption = 'Browse Path'
@@ -390,67 +390,55 @@ inherited FileExplorerWindow: TFileExplorerWindow
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 2
         CollectionName = 'ArrowLeft'
-        Disabled = False
         Name = 'ArrowLeft'
       end
       item
         CollectionIndex = 3
         CollectionName = 'ArrowRight'
-        Disabled = False
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 87
+        CollectionIndex = 88
         CollectionName = 'Refresh'
-        Disabled = False
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 62
+        CollectionIndex = 63
         CollectionName = 'OpenFolder'
-        Disabled = False
         Name = 'OpenFolder'
       end
       item
         CollectionIndex = 40
         CollectionName = 'Filter'
-        Disabled = False
         Name = 'Filter'
       end
       item
         CollectionIndex = 36
         CollectionName = 'FileExplorer'
-        Disabled = False
         Name = 'FileExplorer'
       end
       item
-        CollectionIndex = 101
+        CollectionIndex = 102
         CollectionName = 'SearchFolder'
-        Disabled = False
         Name = 'SearchFolder'
       end
       item
         CollectionIndex = 35
         CollectionName = 'Favorite'
-        Disabled = False
         Name = 'Favorite'
       end
       item
         CollectionIndex = 45
         CollectionName = 'FolderAdd'
-        Disabled = False
         Name = 'FolderAdd'
       end
       item
         CollectionIndex = 46
         CollectionName = 'Folders'
-        Disabled = False
         Name = 'Folders'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

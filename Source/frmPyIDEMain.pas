@@ -548,7 +548,13 @@
             - Portuguese translations (pt_PT, pt_BR) added
           Issues addressed
             #1140, #1146, #1149, #1151, #1163, #1165
+
+  History:   v 4.2
+          New Features
+          Issues addressed
+          #1182
 }
+
 { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
 { TODO: LiveTemplates features for Code Templates }
@@ -1287,7 +1293,6 @@ type
         var ARect: TRect; var PaintDefault: Boolean);
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
-    procedure ApplyIDEOptionsToEditor(Editor: IEditor);
     procedure OpenInitialFiles;
   protected
     fCurrentBrowseInfo : string;
@@ -1368,7 +1373,7 @@ type
     procedure DebuggerStateChange(Sender: TObject; OldState,
       NewState: TDebuggerState);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
-    procedure PyIDEOptionsChanged(Sender: TObject);
+    procedure PyIDEOptionsChanged;
     procedure SetupCustomizer;
     procedure SetupLanguageMenu;
     procedure SetupToolsMenu;
@@ -1395,8 +1400,6 @@ type
       Index : integer = -1);
     function TabControl(TabControlIndex : integer = 1) : TSpTBXTabControl;
     function TabControlIndex(TabControl : TSpTBXCustomTabControl) : integer;
-    procedure ConfigureFileExplorer(FCN : TFileChangeNotificationType;
-      BackgroundProcessing : Boolean);
     procedure ShowIDEDockForm(Form: TForm);
     property ActiveTabControl : TSpTBXCustomTabControl read GetActiveTabControl
       write SetActiveTabControl;
@@ -1490,7 +1493,6 @@ begin
     Result.SynEdit2.Assign(EditorOptions);
     TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
     TEditorForm(Result.Form).ParentTabItem.OnDrawTabCloseButton := DrawCloseButton;
-    ApplyIDEOptionsToEditor(Result);
   end else
     Result := nil;
 end;
@@ -1828,7 +1830,7 @@ begin
 
     // Disconnect ChangeNotify
     FileExplorerWindow.FileExplorerTree.Active := False;
-    ConfigureFileExplorer(fcnDisabled, False);
+    FileExplorerWindow.ConfigureThreads(fcnDisabled, False);
 
     // Disable CodeHint timer
     CodeHint.CancelHint;
@@ -2950,45 +2952,6 @@ begin
     ProjectExplorerWindow.DoOpenProjectFile(CmdLineReader.readString('PROJECT'));
 end;
 
-procedure TPyIDEMainForm.ConfigureFileExplorer(FCN: TFileChangeNotificationType;
-      BackgroundProcessing : Boolean);
-begin
-  case FCN of
-    fcnFull:
-      with FileExplorerWindow.FileExplorerTree do begin
-        TreeOptions.VETMiscOptions :=
-          TreeOptions.VETMiscOptions + [toChangeNotifierThread, toTrackChangesInMappedDrives];
-        // Connect ChangeNotify
-        OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
-      end;
-    fcnNoMappedDrives:
-      with FileExplorerWindow.FileExplorerTree do begin
-        TreeOptions.VETMiscOptions :=
-          TreeOptions.VETMiscOptions + [toChangeNotifierThread] - [toTrackChangesInMappedDrives];
-        // Connect ChangeNotify
-        OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
-      end;
-    fcnDisabled:
-      with FileExplorerWindow.FileExplorerTree do begin
-        TreeOptions.VETMiscOptions :=
-          TreeOptions.VETMiscOptions - [toChangeNotifierThread, toTrackChangesInMappedDrives];
-        // Connect ChangeNotify
-        OnAfterShellNotify := nil;
-      end;
-  end;
-  with FileExplorerWindow.FileExplorerTree do begin
-    if BackgroundProcessing then begin
-      TreeOptions.VETImageOptions := TreeOptions.VETImageOptions + [toThreadedImages];
-      TreeOptions.VETFolderOptions := TreeOptions.VETFolderOptions + [toThreadedExpandMark];
-    end else begin
-      TreeOptions.VETImageOptions := TreeOptions.VETImageOptions - [toThreadedImages];
-      TreeOptions.VETFolderOptions := TreeOptions.VETFolderOptions - [toThreadedExpandMark];
-    end;
-  end;
-  if FileExplorerWindow.FileExplorerTree.Active then
-    FileExplorerWindow.FileExplorerTree.RefreshTree;
-end;
-
 procedure TPyIDEMainForm.CreateWnd;
 begin
   inherited;
@@ -3017,43 +2980,6 @@ begin
     if Assigned(GetActiveEditor()) then
       GetActiveEditor.Activate;
     UpdateCaption;
-  end;
-end;
-
-procedure TPyIDEMainForm.ApplyIDEOptionsToEditor(Editor: IEditor);
-begin
-  with TEditorForm(Editor.Form) do
-  begin
-    Synedit.CodeFolding.Assign(PyIDEOptions.CodeFolding);
-    Synedit2.CodeFolding.Assign(PyIDEOptions.CodeFolding);
-
-    Synedit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
-    Synedit2.SelectedColor.Assign(PyIDEOptions.SelectionColor);
-
-    SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
-    SynEdit2.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
-
-    SynEdit.BracketsHighlight.SetFontColorsAndStyle(
-      CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
-      CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-    SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
-      CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
-      CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-
-    RegisterSearchHighlightIndicatorSpec(Editor);
-
-    if PyIDEOptions.CompactLineNumbers then
-    begin
-      SynEdit.OnGutterGetText := TEditorForm(Editor.Form).SynEditGutterGetText;
-      SynEdit2.OnGutterGetText := TEditorForm(Editor.Form).SynEditGutterGetText;
-    end
-    else
-    begin
-      SynEdit.OnGutterGetText := nil;
-      SynEdit2.OnGutterGetText := nil;
-    end;
-    SynEdit.InvalidateGutter;
-    SynEdit2.InvalidateGutter;
   end;
 end;
 
@@ -3130,28 +3056,14 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PyIDEOptionsChanged(Sender: TObject);
-var
-  Editor : IEditor;
-  ViewTabControlPosition: TSpTBXTabPosition;
+procedure TPyIDEMainForm.PyIDEOptionsChanged;
 begin
   if PyIDEOptions.StyleMainWindowBorder then
     Self.StyleElements := Self.StyleElements + [seBorder]
   else
     Self.StyleElements := Self.StyleElements - [seBorder];
 
-  EditorSearchOptions.SearchTextAtCaret :=
-    PyIDEOptions.SearchTextAtCaret;
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
-  CommandsDataModule.SynPythonSyn.DefaultFilter := PyIDEOptions.PythonFileFilter;
-  CommandsDataModule.SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
-  CommandsDataModule.SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
-  CommandsDataModule.SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
-  CommandsDataModule.SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
-  CommandsDataModule.SynCppSyn.DefaultFilter := PyIDEOptions.CPPFileFilter;
-  CommandsDataModule.SynYAMLSyn.DefaultFilter := PyIDEOptions.YAMLFileFilter;
-  CommandsDataModule.SynJSONSyn.DefaultFilter := PyIDEOptions.JSONFileFilter;
-  CommandsDataModule.SynGeneralSyn.DefaultFilter := PyIDEOptions.GeneralFileFilter;
   //  Dock animation parameters
   JvDockVSNetStyleSpTBX.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);
   JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);
@@ -3165,31 +3077,6 @@ begin
 
   PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
-  var SpellCheck := CommandsDataModule.SynSpellCheck;
-  SpellCheck.BeginUpdate;
-  try
-    SpellCheck.CheckAsYouType := PyIDEOptions.SpellCheckAsYouType;
-    SpellCheck.AttributesChecked.CommaText := PyIDEOptions.SpellCheckedTokens;
-    SpellCheck.LanguageCode := PyIDEOptions.DictLanguage;
-  finally
-    SpellCheck.EndUpdate;
-  end;
-
-  TThread.ForceQueue(nil, procedure
-  begin
-    ConfigureFileExplorer(PyIDEOptions.FileChangeNotification,
-      PyIDEOptions.FileExplorerBackgroundProcessing);
-
-    if CommandsDataModule.SynSpellCheck.SpellChecker = nil then
-      DSAMessageDlg(dsaDictonaryNA, 'PyScripter',
-      Format(_(SDictionaryNA),
-      [CommandsDataModule.SynSpellCheck.LanguageCode]),
-      mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
-  end);
-
-  // Command History Size
-  PythonIIForm.CommandHistorySize := PyIDEOptions.InterpreterHistorySize;
-
   if PyIDEOptions.ShowTabCloseButton then begin
     TabControl1.TabCloseButton := tcbAll;
     TabControl2.TabCloseButton := tcbAll;
@@ -3197,80 +3084,61 @@ begin
     TabControl1.TabCloseButton := tcbNone;
     TabControl2.TabCloseButton := tcbNone;
   end;
+
   if TabControl1.TabPosition <> PyIDEOptions.EditorsTabPosition then
   begin
-    case PyIDEOptions.EditorsTabPosition of
-      ttpTop:
-        begin
-          TabControl1.TabPosition := ttpTop;
-          TabControl2.TabPosition := ttpTop;
-          ViewTabControlPosition := ttpBottom;
-        end;
-    else  //ttpBottom:
-      begin
-        TabControl1.TabPosition := ttpBottom;
-        TabControl2.TabPosition := ttpBottom;
-        ViewTabControlPosition := ttpTop;
-      end;
-    end;
-    GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+    if PyIDEOptions.EditorsTabPosition = ttpTop then
     begin
-      TEditorForm(Editor.Form).ViewsTabControl.TabPosition := ViewTabControlPosition;
-    end);
+      TabControl1.TabPosition := ttpTop;
+      TabControl2.TabPosition := ttpTop;
+    end
+    else  //ttpBottom:
+    begin
+      TabControl1.TabPosition := ttpBottom;
+      TabControl2.TabPosition := ttpBottom;
+    end;
   end;
 
-  EditorOptions.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
-  EditorOptions.SelectedColor.Assign(PyIDEOptions.SelectionColor);
-  GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
-  begin
-    ApplyIDEOptionsToEditor(Ed);
-  end);
-
   tbiRecentFileList.MaxItems :=  PyIDEOptions.NoOfRecentFiles;
-
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then
-    Editor.SynEdit.InvalidateGutter;
 end;
 
 procedure TPyIDEMainForm.StoreApplicationData;
 Var
-  TempStringList : TStringList;
   ActionProxyCollection : TActionProxyCollection;
   i : integer;
   TempCursor : IInterface;
 begin
   TempCursor := WaitCursor;
-  TempStringList := TStringList.Create;
+  var TempStringList := TSmartPtr.Make(TStringList.Create)();
   AppStorage.BeginUpdate;
   try
+    AppStorage.WritePersistent('IDE Options', PyIDEOptions);
+
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
 
-    AppStorage.WritePersistent('IDE Options', PyIDEOptions);
+    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides']);
+    AppStorage.DeleteSubTree('Editor Options');
+    AppStorage.WritePersistent('Editor Options', EditorOptions, True, TempStringList);
+
+    TempStringList.Add('KeyStrokes');
+    AppStorage.DeleteSubTree('Interpreter Editor Options');
+    AppStorage.WritePersistent('Interpreter Editor Options',
+      InterpreterEditorOptions, True, TempStringList);
 
     with CommandsDataModule do begin
-      AppStorage.DeleteSubTree('Editor Options');
-      AppStorage.WritePersistent('Editor Options', EditorOptions);
-
       AppStorage.DeleteSubTree('Highlighters');
       for i := 0 to Highlighters.Count - 1 do
-        if CommandsDataModule.IsHighlighterStored(Highlighters.Objects[i]) then
+        if IsHighlighterStored(Highlighters.Objects[i]) then
           AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
       AppStorage.WritePersistent('Highlighters\Intepreter',
         PythonIIForm.SynEdit.Highlighter);
 
-      AppStorage.DeleteSubTree('Interpreter Editor Options');
-      TempStringList.Add('KeyStrokes');
-      AppStorage.WritePersistent('Interpreter Editor Options',
-        InterpreterEditorOptions, True, TempStringList);
-
       AppStorage.WritePersistent('Editor Search Options', EditorSearchOptions);
 
       TempStringList.Clear;
-      TempStringList.Add('Lines');
-      TempStringList.Add('Highlighter');
+      TempStringList.AddStrings(['Lines', 'Highlighter']);
       AppStorage.DeleteSubTree('Print Options');
       AppStorage.WritePersistent('Print Options', SynEditPrint, True, TempStringList);
       AppStorage.WriteString('Print Options\HeaderItems', SynEditPrint.Header.AsString);
@@ -3284,6 +3152,7 @@ begin
       AppStorage.WriteStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
     end;
+
     AppStorage.WritePersistent('Secondary Tabs', TabsPersistsInfo);
     AppStorage.WritePersistent('ToDo Options', ToDoExpert);
     AppStorage.DeleteSubTree('Find in Files Options');
@@ -3294,9 +3163,7 @@ begin
     AppStorage.WritePersistent('Breakpoints Window Options', BreakPointsWindow);
     AppStorage.WritePersistent('Messages Window Options', MessagesWindow);
     AppStorage.WritePersistent('RegExp Tester Options', RegExpTesterWindow);
-    AppStorage.WriteBoolean('File Explorer Filter', FileExplorerWindow.actEnableFilter.Checked);
-    AppStorage.WriteString('File Explorer Path', FileExplorerWindow.ExplorerPath);
-    AppStorage.WriteStringList('File Explorer Favorites', FileExplorerWindow.Favorites);
+    AppStorage.WritePersistent('File Explorer Options', FileExplorerWindow);
     AppStorage.WritePersistent('Code Explorer Options', CodeExplorerWindow);
 
     AppStorage.WriteStringList('Custom Params', CustomParams);
@@ -3340,7 +3207,6 @@ begin
 
   finally
     AppStorage.EndUpdate;
-    TempStringList.Free;
   end;
 
   // Save MRU Lists
@@ -3394,83 +3260,86 @@ begin
     PyIDEOptions.Changed;
     AppStorage.DeleteSubTree('IDE Options');
   end;
+
   if AppStorage.PathExists('Editor Options') then
-    with CommandsDataModule do begin
-      EditorOptions.Gutter.Gradient := False;  //default value
-      AppStorage.ReadPersistent('Editor Options', EditorOptions);
-      EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
-      if (CompareVersions(PyScripterVersion, '3.1') > 0) then
-      begin
-        if  (EditorOptions.Keystrokes.FindCommand(ecFoldAll) < 0) then
-        with EditorOptions.Keystrokes do begin
-          AddKey(ecFoldAll, VK_OEM_MINUS, [ssCtrl, ssShift]);   {- _}
-          AddKey(ecUnfoldAll,  VK_OEM_PLUS, [ssCtrl, ssShift]); {= +}
-          AddKey(ecFoldNearest, VK_OEM_2, [ssCtrl]);  // Divide {'/'}
-          AddKey(ecUnfoldNearest, VK_OEM_2, [ssCtrl, ssShift]);
-          AddKey(ecFoldLevel1, ord('K'), [ssCtrl], Ord('1'), [ssCtrl]);
-          AddKey(ecFoldLevel2, ord('K'), [ssCtrl], Ord('2'), [ssCtrl]);
-          AddKey(ecFoldLevel3, ord('K'), [ssCtrl], Ord('3'), [ssCtrl]);
-          AddKey(ecUnfoldLevel1, ord('K'), [ssCtrl, ssShift], Ord('1'), [ssCtrl, ssShift]);
-          AddKey(ecUnfoldLevel2, ord('K'), [ssCtrl, ssShift], Ord('2'), [ssCtrl, ssShift]);
-          AddKey(ecUnfoldLevel3, ord('K'), [ssCtrl, ssShift], Ord('3'), [ssCtrl, ssShift]);
-        end;
-        EditorOptions.Gutter.DigitCount := 2;
+  begin
+    EditorOptions.Gutter.Gradient := False;  //default value
+    AppStorage.ReadPersistent('Editor Options', EditorOptions);
+    EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
+    if (CompareVersions(PyScripterVersion, '3.1') > 0) then
+    begin
+      if  (EditorOptions.Keystrokes.FindCommand(ecFoldAll) < 0) then
+      with EditorOptions.Keystrokes do begin
+        AddKey(ecFoldAll, VK_OEM_MINUS, [ssCtrl, ssShift]);   {- _}
+        AddKey(ecUnfoldAll,  VK_OEM_PLUS, [ssCtrl, ssShift]); {= +}
+        AddKey(ecFoldNearest, VK_OEM_2, [ssCtrl]);  // Divide {'/'}
+        AddKey(ecUnfoldNearest, VK_OEM_2, [ssCtrl, ssShift]);
+        AddKey(ecFoldLevel1, ord('K'), [ssCtrl], Ord('1'), [ssCtrl]);
+        AddKey(ecFoldLevel2, ord('K'), [ssCtrl], Ord('2'), [ssCtrl]);
+        AddKey(ecFoldLevel3, ord('K'), [ssCtrl], Ord('3'), [ssCtrl]);
+        AddKey(ecUnfoldLevel1, ord('K'), [ssCtrl, ssShift], Ord('1'), [ssCtrl, ssShift]);
+        AddKey(ecUnfoldLevel2, ord('K'), [ssCtrl, ssShift], Ord('2'), [ssCtrl, ssShift]);
+        AddKey(ecUnfoldLevel3, ord('K'), [ssCtrl, ssShift], Ord('3'), [ssCtrl, ssShift]);
       end;
-
-      for i := 0 to Highlighters.Count - 1 do
-      begin
-        TSynCustomHighlighter(Highlighters.Objects[i]).BeginUpdate;
-        try
-          AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
-            TPersistent(Highlighters.Objects[i]));
-        finally
-          TSynCustomHighlighter(Highlighters.Objects[i]).EndUpdate;
-        end;
-      end;
-      CommandsDataModule.ApplyEditorOptions;
-      if AppStorage.PathExists('Highlighters\Intepreter') then
-      begin
-        PythonIIForm.SynEdit.Highlighter.BeginUpdate;
-        try
-          AppStorage.ReadPersistent('Highlighters\Intepreter',
-            PythonIIForm.SynEdit.Highlighter);
-        finally
-          PythonIIForm.SynEdit.Highlighter.EndUpdate;
-        end;
-      end;
-      AppStorage.DeleteSubTree('Highlighters');
-
-      if AppStorage.PathExists('Interpreter Editor Options') then begin
-        InterpreterEditorOptions.Gutter.Gradient := False;  //default value
-        AppStorage.ReadPersistent('Interpreter Editor Options', InterpreterEditorOptions);
-        InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
-          [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces, eoBracketsHighlight];
-        PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
-        PythonIIForm.RegisterHistoryCommands;
-      end;
-
-      if AppStorage.PathExists('Editor Search Options') then begin
-        AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
-        tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
-        tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
-      end;
-
-      AppStorage.ReadPersistent('Print Options', SynEditPrint);
-      SynEditPrint.Header.AsString := AppStorage.ReadString('Print Options\HeaderItems', DefaultHeader);
-      SynEditPrint.Footer.AsString := AppStorage.ReadString('Print Options\FooterItems', DefaultFooter);
-
-      AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-      if AppStorage.PathExists('File Templates') then
-      begin
-        AppStorage.ReadObjectList('File Templates', FileTemplates, FileTemplates.CreateListItem);
-        FileTemplates.AddDefaultTemplates;
-      end;
-
-      if AppStorage.PathExists('Code Templates') then
-        AppStorage.ReadStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
-      AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
-
+      EditorOptions.Gutter.DigitCount := 2;
     end;
+  end;
+
+  if AppStorage.PathExists('Interpreter Editor Options') then begin
+    InterpreterEditorOptions.Gutter.Gradient := False;  //default value
+    AppStorage.ReadPersistent('Interpreter Editor Options', InterpreterEditorOptions);
+    InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
+      [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces, eoBracketsHighlight];
+    PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
+    PythonIIForm.RegisterHistoryCommands;
+  end;
+
+  with CommandsDataModule do begin
+    for i := 0 to Highlighters.Count - 1 do
+    begin
+      TSynCustomHighlighter(Highlighters.Objects[i]).BeginUpdate;
+      try
+        AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
+          TPersistent(Highlighters.Objects[i]));
+      finally
+        TSynCustomHighlighter(Highlighters.Objects[i]).EndUpdate;
+      end;
+    end;
+    CommandsDataModule.ApplyEditorOptions;
+    if AppStorage.PathExists('Highlighters\Intepreter') then
+    begin
+      PythonIIForm.SynEdit.Highlighter.BeginUpdate;
+      try
+        AppStorage.ReadPersistent('Highlighters\Intepreter',
+          PythonIIForm.SynEdit.Highlighter);
+      finally
+        PythonIIForm.SynEdit.Highlighter.EndUpdate;
+      end;
+    end;
+    AppStorage.DeleteSubTree('Highlighters');
+
+    if AppStorage.PathExists('Editor Search Options') then begin
+      AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
+      tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
+      tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
+    end;
+
+    AppStorage.ReadPersistent('Print Options', SynEditPrint);
+    SynEditPrint.Header.AsString := AppStorage.ReadString('Print Options\HeaderItems', DefaultHeader);
+    SynEditPrint.Footer.AsString := AppStorage.ReadString('Print Options\FooterItems', DefaultFooter);
+
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+    if AppStorage.PathExists('File Templates') then
+    begin
+      AppStorage.ReadObjectList('File Templates', FileTemplates, FileTemplates.CreateListItem);
+      FileTemplates.AddDefaultTemplates;
+    end;
+
+    if AppStorage.PathExists('Code Templates') then
+      AppStorage.ReadStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+  end;
+
   AppStorage.ReadPersistent('Secondary Tabs', TabsPersistsInfo);
   if AppStorage.PathExists('ToDo Options') then
     AppStorage.ReadPersistent('ToDo Options', ToDoExpert);
@@ -3481,9 +3350,7 @@ begin
   AppStorage.ReadPersistent('Breakpoints Window Options', BreakPointsWindow);
   AppStorage.ReadPersistent('Messages Window Options', MessagesWindow);
   AppStorage.ReadPersistent('RegExp Tester Options', RegExpTesterWindow);
-  FileExplorerWindow.actEnableFilter.Checked := AppStorage.ReadBoolean('File Explorer Filter', True);
-  FileExplorerWindow.ExplorerPath := AppStorage.ReadString('File Explorer Path');
-  AppStorage.ReadStringList('File Explorer Favorites', FileExplorerWindow.Favorites);
+  AppStorage.ReadPersistent('File Explorer Options', FileExplorerWindow);
   AppStorage.ReadPersistent('Code Explorer Options', CodeExplorerWindow);
 
   AppStorage.ReadStringList('Custom Params', CustomParams);
