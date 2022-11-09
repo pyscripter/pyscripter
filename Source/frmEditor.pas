@@ -2659,6 +2659,9 @@ begin
   Synedit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
   Synedit2.SelectedColor.Assign(PyIDEOptions.SelectionColor);
 
+  Synedit.IndentGuides.Assign(PyIDEOptions.IndentGuides);
+  Synedit2.IndentGuides.Assign(PyIDEOptions.IndentGuides);
+
   SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
   SynEdit2.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
 

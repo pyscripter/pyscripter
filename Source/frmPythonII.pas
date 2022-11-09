@@ -503,6 +503,7 @@ begin
     Options := Options - [eoTrimTrailingSpaces, eoScrollPastEol, eoShowLigatures];
     WordWrap := True;
     Gutter.Visible := False;
+    IndentGuides.Visible := False;
     RightEdge := 0;
   end;
 end;

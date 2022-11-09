@@ -142,11 +142,13 @@ type
     fSpellCheckAsYouType: Boolean;
     fTrackChanges: TSynTrackChanges;
     fSelectionColor: TSynSelectedColor;
+    fIndentGuides: TSynIndentGuides;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
     procedure SetCodeFolding(const Value: TSynCodeFolding);
     procedure SetTrackChanges(const Value: TSynTrackChanges);
     procedure SetSelectionColor(const Value: TSynSelectedColor);
+    procedure SetIndentGuides(const Value: TSynIndentGuides);
   protected
     property FreeNotifyImpl : IFreeNotification read fFreeNotifyImpl implements IFreeNotification;
   public
@@ -163,6 +165,8 @@ type
       write SetTrackChanges;
     property SelectionColor: TSynSelectedColor read fSelectionColor
       write SetSelectionColor;
+    property IndentGuides: TSynIndentGuides read fIndentGuides
+      write SetIndentGuides;
     property TimeOut : integer read fTimeOut write fTimeOut default 0;
     property UndoAfterSave : boolean read fUndoAfterSave
       write fUndoAfterSave default True;
@@ -450,6 +454,7 @@ begin
       Self.fCodeFolding.Assign(CodeFolding);
       Self.fTrackChanges.Assign(TrackChanges);
       Self.fSelectionColor.Assign(SelectionColor);
+      Self.fIndentGuides.Assign(IndentGuides);
       Self.fTimeOut := TimeOut;
       Self.fUndoAfterSave := UndoAfterSave;
       Self.fSaveFilesBeforeRun := SaveFilesBeforeRun;
@@ -640,6 +645,8 @@ begin
   fTrackChanges.Visible := True;
   fTrackChanges.Width := 3;
   fSelectionColor := TSynSelectedColor.Create;
+  fIndentGuides := TSynIndentGuides.Create;
+  fIndentGuides.Style := igsDotted;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -648,6 +655,7 @@ begin
   FreeAndNil(fCodeFolding);
   FreeAndNil(fTrackChanges);
   FreeAndNil(fSelectionColor);
+  FreeAndNil(fIndentGuides);
   FreeAndNil(fOnChange);
   inherited;
 end;
@@ -666,6 +674,11 @@ end;
 procedure TPythonIDEOptions.SetCodeFolding(const Value: TSynCodeFolding);
 begin
   fCodeFolding.Assign(Value);
+end;
+
+procedure TPythonIDEOptions.SetIndentGuides(const Value: TSynIndentGuides);
+begin
+  fIndentGuides.Assign(Value);
 end;
 
 procedure TPythonIDEOptions.SetSelectionColor(const Value: TSynSelectedColor);
@@ -1173,6 +1186,7 @@ class procedure TPyScripterSettings.ApplyPyIDEOptions;
 begin
   EditorOptions.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
   EditorOptions.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+  EditorOptions.IndentGuides.Assign(PyIDEOptions.IndentGuides);
   EditorSearchOptions.SearchTextAtCaret := PyIDEOptions.SearchTextAtCaret;
 end;
 

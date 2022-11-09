@@ -549,10 +549,10 @@
           Issues addressed
             #1140, #1146, #1149, #1151, #1163, #1165
 
-  History:   v 4.2
+  History:   v 4.2.1
           New Features
           Issues addressed
-          #1182
+          #1181, #1182
 }
 
 { TODO : Review Search and Replace }
