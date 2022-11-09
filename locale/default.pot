@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2022-10-29 02:07\n"
+"POT-Creation-Date: 2022-11-09 17:22\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -6345,6 +6345,10 @@ msgstr ""
 msgid "Selection color"
 msgstr ""
 
+#: dmCommands.pas
+msgid "Indentation Guides"
+msgstr ""
+
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
@@ -7351,10 +7355,11 @@ msgstr ""
 
 #. Programmer's name for it: SPythonLoadError
 #: StringResources.pas
+#, object-pascal-format
 msgid ""
 "PyScripter could not load a Python engine.\n"
 "**Before** using PyScripter, you must ensure that a version of Python "
-"greater or equal to 3.6 is installed on your machine.\n"
+"greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www."
 "python.org/.\n"
 "\n"
