@@ -420,7 +420,6 @@ Const
 Var
   PyIDEOptions : TPythonIDEOptions;
   EditorOptions : TSynEditorOptionsContainer;
-  InterpreterEditorOptions : TSynEditorOptionsContainer;
   EditorSearchOptions : TEditorSearchOptions;
 
 implementation
@@ -1174,7 +1173,6 @@ class procedure TPyScripterSettings.ApplyPyIDEOptions;
 begin
   EditorOptions.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
   EditorOptions.SelectedColor.Assign(PyIDEOptions.SelectionColor);
-  InterpreterEditorOptions.SelectedColor.Assign(PyIDEOptions.SelectionColor);
   EditorSearchOptions.SearchTextAtCaret := PyIDEOptions.SearchTextAtCaret;
 end;
 
@@ -1201,19 +1199,11 @@ begin
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;
+
     // Scale BookmarkOptions
     BookMarkOptions.ChangeScale(Screen.PixelsPerInch, 96);
 
-    TPyScripterSettings.RegisterEditorUserCommands(EditorOptions.Keystrokes);
-  end;
-
-  InterpreterEditorOptions := TSynEditorOptionsContainer.Create(nil);
-  InterpreterEditorOptions.Assign(EditorOptions);
-  with InterpreterEditorOptions do begin
-    Options := Options - [eoTrimTrailingSpaces, eoScrollPastEol];
-    WordWrap := True;
-    Gutter.Visible := False;
-    RightEdge := 0;
+    RegisterEditorUserCommands(EditorOptions.Keystrokes);
   end;
 end;
 
@@ -1223,7 +1213,6 @@ begin
   EditorSearchOptions.Free;
   PyIDEOptions.Free;
   EditorOptions.Free;
-  InterpreterEditorOptions.Free;
   TPyScripterSettings.DefaultEditorKeyStrokes.Free;
 end;
 

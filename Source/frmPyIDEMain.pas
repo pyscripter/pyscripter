@@ -1489,8 +1489,6 @@ function TPyIDEMainForm.DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
 begin
   if GI_EditorFactory <> nil then begin
     Result := GI_EditorFactory.CreateTabSheet(TabControl);
-    Result.SynEdit.Assign(EditorOptions);
-    Result.SynEdit2.Assign(EditorOptions);
     TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
     TEditorForm(Result.Form).ParentTabItem.OnDrawTabCloseButton := DrawCloseButton;
   end else
@@ -3103,13 +3101,10 @@ begin
 end;
 
 procedure TPyIDEMainForm.StoreApplicationData;
-Var
-  ActionProxyCollection : TActionProxyCollection;
-  i : integer;
-  TempCursor : IInterface;
 begin
-  TempCursor := WaitCursor;
+  var TempCursor := WaitCursor;
   var TempStringList := TSmartPtr.Make(TStringList.Create)();
+
   AppStorage.BeginUpdate;
   try
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
@@ -3121,21 +3116,16 @@ begin
     AppStorage.DeleteSubTree('Editor Options');
     AppStorage.WritePersistent('Editor Options', EditorOptions, True, TempStringList);
 
-    TempStringList.Add('KeyStrokes');
-    AppStorage.DeleteSubTree('Interpreter Editor Options');
-    AppStorage.WritePersistent('Interpreter Editor Options',
-      InterpreterEditorOptions, True, TempStringList);
+    AppStorage.WritePersistent('Editor Search Options', EditorSearchOptions);
+
+    AppStorage.DeleteSubTree('Highlighters');
+    PythonIIForm.StoreOptions(AppStorage);
 
     with CommandsDataModule do begin
-      AppStorage.DeleteSubTree('Highlighters');
-      for i := 0 to Highlighters.Count - 1 do
-        if IsHighlighterStored(Highlighters.Objects[i]) then
-          AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
-            TPersistent(Highlighters.Objects[i]));
-      AppStorage.WritePersistent('Highlighters\Intepreter',
-        PythonIIForm.SynEdit.Highlighter);
-
-      AppStorage.WritePersistent('Editor Search Options', EditorSearchOptions);
+      for var I := 0 to Highlighters.Count - 1 do
+        if IsHighlighterStored(Highlighters.Objects[I]) then
+          AppStorage.WritePersistent('Highlighters\'+Highlighters[I],
+            TPersistent(Highlighters.Objects[I]));
 
       TempStringList.Clear;
       TempStringList.AddStrings(['Lines', 'Highlighter']);
@@ -3163,8 +3153,8 @@ begin
     AppStorage.WritePersistent('Breakpoints Window Options', BreakPointsWindow);
     AppStorage.WritePersistent('Messages Window Options', MessagesWindow);
     AppStorage.WritePersistent('RegExp Tester Options', RegExpTesterWindow);
-    AppStorage.WritePersistent('File Explorer Options', FileExplorerWindow);
     AppStorage.WritePersistent('Code Explorer Options', CodeExplorerWindow);
+    FileExplorerWindow.StoreOptions(AppStorage);
 
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
@@ -3187,20 +3177,12 @@ begin
     //  Needed since save toolbar Items below does not save secondary shortcuts! Issue 307
     // Save IDE Shortcuts
     AppStorage.DeleteSubTree('IDE Shortcuts');
-    ActionProxyCollection := TActionProxyCollection.Create(apcctChanged);
+    var ActionProxyCollection := TActionProxyCollection.Create(apcctChanged);
     try
       AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
     finally
       ActionProxyCollection.Free;
     end;
-
-    // Save Interpreter History
-    TempStringList.Clear;
-    for I := 0 to PythonIIForm.CommandHistory.Count - 1 do
-      TempStringList.Add(StrStringToEscaped(PythonIIForm.CommandHistory[i]));
-    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-    AppStorage.WriteStringList('Command History', TempStringList);
-    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     // Project Filename
     AppStorage.WriteString('Active Project', ActiveProject.FileName);
@@ -3240,14 +3222,8 @@ procedure TPyIDEMainForm.RestoreApplicationData;
 Const
   DefaultHeader='$TITLE$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
   DefaultFooter='$PAGENUM$\\.$PAGECOUNT$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
-Var
-  ActionProxyCollection : TActionProxyCollection;
-  TempStringList : TStringList;
-  FName : string;
-  i : Integer;
-  PyScripterVersion : string;
 begin
-  PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
+  //var PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
 
   // Change language
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
@@ -3261,68 +3237,36 @@ begin
     AppStorage.DeleteSubTree('IDE Options');
   end;
 
+  var TempStringList := TSmartPtr.Make(TStringList.Create)();
   if AppStorage.PathExists('Editor Options') then
   begin
-    EditorOptions.Gutter.Gradient := False;  //default value
-    AppStorage.ReadPersistent('Editor Options', EditorOptions);
+    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides']);
+    AppStorage.ReadPersistent('Editor Options', EditorOptions, True, True, TempStringList);
     EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
-    if (CompareVersions(PyScripterVersion, '3.1') > 0) then
-    begin
-      if  (EditorOptions.Keystrokes.FindCommand(ecFoldAll) < 0) then
-      with EditorOptions.Keystrokes do begin
-        AddKey(ecFoldAll, VK_OEM_MINUS, [ssCtrl, ssShift]);   {- _}
-        AddKey(ecUnfoldAll,  VK_OEM_PLUS, [ssCtrl, ssShift]); {= +}
-        AddKey(ecFoldNearest, VK_OEM_2, [ssCtrl]);  // Divide {'/'}
-        AddKey(ecUnfoldNearest, VK_OEM_2, [ssCtrl, ssShift]);
-        AddKey(ecFoldLevel1, ord('K'), [ssCtrl], Ord('1'), [ssCtrl]);
-        AddKey(ecFoldLevel2, ord('K'), [ssCtrl], Ord('2'), [ssCtrl]);
-        AddKey(ecFoldLevel3, ord('K'), [ssCtrl], Ord('3'), [ssCtrl]);
-        AddKey(ecUnfoldLevel1, ord('K'), [ssCtrl, ssShift], Ord('1'), [ssCtrl, ssShift]);
-        AddKey(ecUnfoldLevel2, ord('K'), [ssCtrl, ssShift], Ord('2'), [ssCtrl, ssShift]);
-        AddKey(ecUnfoldLevel3, ord('K'), [ssCtrl, ssShift], Ord('3'), [ssCtrl, ssShift]);
-      end;
-      EditorOptions.Gutter.DigitCount := 2;
-    end;
   end;
 
-  if AppStorage.PathExists('Interpreter Editor Options') then begin
-    InterpreterEditorOptions.Gutter.Gradient := False;  //default value
-    AppStorage.ReadPersistent('Interpreter Editor Options', InterpreterEditorOptions);
-    InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
-      [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces, eoBracketsHighlight];
-    PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
-    PythonIIForm.RegisterHistoryCommands;
+  if AppStorage.PathExists('Editor Search Options') then begin
+    AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
+    tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
+    tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
   end;
+
+  PythonIIForm.RestoreOptions(AppStorage);
 
   with CommandsDataModule do begin
-    for i := 0 to Highlighters.Count - 1 do
+    for var I := 0 to Highlighters.Count - 1 do
     begin
-      TSynCustomHighlighter(Highlighters.Objects[i]).BeginUpdate;
+      TSynCustomHighlighter(Highlighters.Objects[I]).BeginUpdate;
       try
-        AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
-          TPersistent(Highlighters.Objects[i]));
+        AppStorage.ReadPersistent('Highlighters\'+Highlighters[I],
+          TPersistent(Highlighters.Objects[I]));
       finally
-        TSynCustomHighlighter(Highlighters.Objects[i]).EndUpdate;
+        TSynCustomHighlighter(Highlighters.Objects[I]).EndUpdate;
       end;
     end;
     CommandsDataModule.ApplyEditorOptions;
-    if AppStorage.PathExists('Highlighters\Intepreter') then
-    begin
-      PythonIIForm.SynEdit.Highlighter.BeginUpdate;
-      try
-        AppStorage.ReadPersistent('Highlighters\Intepreter',
-          PythonIIForm.SynEdit.Highlighter);
-      finally
-        PythonIIForm.SynEdit.Highlighter.EndUpdate;
-      end;
-    end;
-    AppStorage.DeleteSubTree('Highlighters');
 
-    if AppStorage.PathExists('Editor Search Options') then begin
-      AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
-      tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
-      tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
-    end;
+    AppStorage.DeleteSubTree('Highlighters');
 
     AppStorage.ReadPersistent('Print Options', SynEditPrint);
     SynEditPrint.Header.AsString := AppStorage.ReadString('Print Options\HeaderItems', DefaultHeader);
@@ -3350,8 +3294,8 @@ begin
   AppStorage.ReadPersistent('Breakpoints Window Options', BreakPointsWindow);
   AppStorage.ReadPersistent('Messages Window Options', MessagesWindow);
   AppStorage.ReadPersistent('RegExp Tester Options', RegExpTesterWindow);
-  AppStorage.ReadPersistent('File Explorer Options', FileExplorerWindow);
   AppStorage.ReadPersistent('Code Explorer Options', CodeExplorerWindow);
+  FileExplorerWindow.RestoreOptions(AppStorage);
 
   AppStorage.ReadStringList('Custom Params', CustomParams);
   RegisterCustomParams;
@@ -3367,7 +3311,7 @@ begin
   TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10 SlateGray'));
 
   // Load IDE Shortcuts
-  ActionProxyCollection := TActionProxyCollection.Create(apcctEmpty);
+  var ActionProxyCollection := TActionProxyCollection.Create(apcctEmpty);
   try
     AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
     ActionProxyCollection.ApplyShortCuts;
@@ -3375,23 +3319,9 @@ begin
     ActionProxyCollection.Free;
   end;
 
-  // Restore Interpreter History
-  TempStringList := TStringList.Create;
-  try
-    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-    AppStorage.ReadStringList('Command History', TempStringList);
-    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
-    PythonIIForm.CommandHistory.Clear;
-
-    for I := 0 to TempStringList.Count - 1 do
-      PythonIIForm.CommandHistory.Add(StrEscapedToString(TempStringList[i]));
-    PythonIIForm.CommandHistoryPointer := TempStringList.Count;  // one after the last one
-  finally
-    TempStringList.Free;
-  end;
   // Project Filename
   if (CmdLineReader.readString('PROJECT') = '') and PyIDEOptions.RestoreOpenProject then begin
-    FName := AppStorage.ReadString('Active Project');
+    var FName := AppStorage.ReadString('Active Project');
     if FName <> '' then
       ProjectExplorerWindow.DoOpenProjectFile(FName);
   end;
@@ -3802,8 +3732,8 @@ begin
     EditorForm.Parent := NewSheet;
     EditorForm.Align := alClient;
     NewSheet.InsertComponent(EditorForm);  // changes ownership
-    NewTab.OnTabClosing := TabControlTabClosing;
-    NewTab.OnDrawTabCloseButton := DrawCloseButton;
+    NewTab.OnTabClosing := Tab.OnTabClosing;
+    NewTab.OnDrawTabCloseButton := Tab.OnDrawTabCloseButton;
     EditorForm.Visible := True;
   end;
 

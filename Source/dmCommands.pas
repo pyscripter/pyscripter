@@ -586,21 +586,24 @@ end;
 
 procedure TCommandsDataModule.SynPythonSynChanged(Sender: TObject);
 begin
-    GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    with TEditorForm(Editor.Form) do
     begin
-      with TEditorForm(Editor.Form) do
-      begin
-        SynEdit.BracketsHighlight.SetFontColorsAndStyle(
-          SynPythonSyn.MatchingBraceAttri.Foreground,
-          SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-        SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
-          SynPythonSyn.MatchingBraceAttri.Foreground,
-          SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-      end
-    end);
-    PythonIIForm.SynEdit.BracketsHighlight.SetFontColorsAndStyle(
-          SynPythonSyn.MatchingBraceAttri.Foreground,
-          SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+      SynEdit.BracketsHighlight.SetFontColorsAndStyle(
+        SynPythonSyn.MatchingBraceAttri.Foreground,
+        SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+      SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
+        SynPythonSyn.MatchingBraceAttri.Foreground,
+        SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+    end
+  end);
+  PythonIIForm.SynEdit.BracketsHighlight.SetFontColorsAndStyle(
+    SynPythonSyn.MatchingBraceAttri.Foreground,
+    SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+
+  SynCythonSyn.Assign(SynPythonSyn);
+  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
 end;
 
 function TCommandsDataModule.GetSaveFileName(var ANewName: string;
@@ -1069,17 +1072,8 @@ procedure TCommandsDataModule.ApplyEditorOptions;
 begin
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   begin
-    Editor.SynEdit.Assign(EditorOptions);
-    Editor.SynEdit2.Assign(EditorOptions);
+    TEditorForm(Editor.Form).ApplyEditorOptions;
   end);
-
-  InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
-  InterpreterEditorOptions.Font := EditorOptions.Font;
-  PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
-  PythonIIForm.RegisterHistoryCommands;
-  PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);
-  SynCythonSyn.Assign(SynPythonSyn);
-  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
 end;
 
 procedure TCommandsDataModule.actEditorOptionsExecute(Sender: TObject);
@@ -1120,6 +1114,7 @@ begin
         if Form.cbApplyToAll.Checked then begin
           EditorOptions.Assign(TempEditorOptions);
           ApplyEditorOptions;
+          PythonIIForm.ApplyEditorOptions;
           PyIDEMainForm.StoreApplicationData;
         end else if Assigned(GI_ActiveEditor) then
           GI_ActiveEditor.ActiveSynEdit.Assign(TempEditorOptions);
@@ -1137,32 +1132,25 @@ end;
 
 procedure TCommandsDataModule.actInterpreterEditorOptionsExecute(
   Sender: TObject);
-var
-  TempEditorOptions : TSynEditorOptionsContainer;
 begin
-  TempEditorOptions := TSynEditorOptionsContainer.Create(Self);
-  try
-    with TSynEditOptionsDialog.Create(Self) do begin
-      TempEditorOptions.Assign(PythonIIForm.SynEdit);
-      Form.cbApplyToAll.Checked := False;
-      Form.cbApplyToAll.Enabled := False;
-      Form.Caption := 'Interpreter Editor Options';
-      OnGetHighlighterCount := SynInterpreterOptionsDialogGetHighlighterCount;
-      OnGetHighlighter := SynInterpreterOptionsDialogGetHighlighter;
-      OnSetHighlighter := SynInterpreterOptionsDialogSetHighlighter;
-      VisiblePages := [soDisplay, soOptions, soColor];
-      TSynEditOptionsDialog.HighlighterFileDir := TPyScripterSettings.ColorThemesFilesDir;
-      if Execute(TempEditorOptions) then begin
-        UpdateHighlighters;
-        InterpreterEditorOptions.Assign(TempEditorOptions);
-        InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
-          [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces];
-        PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
-      end;
-      Free;
+  var TempEditorOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(Self))();
+
+  with TSynEditOptionsDialog.Create(Self) do begin
+    TempEditorOptions.Assign(PythonIIForm.SynEdit);
+    Form.cbApplyToAll.Checked := False;
+    Form.cbApplyToAll.Enabled := False;
+    Form.Caption := 'Interpreter Editor Options';
+    OnGetHighlighterCount := SynInterpreterOptionsDialogGetHighlighterCount;
+    OnGetHighlighter := SynInterpreterOptionsDialogGetHighlighter;
+    OnSetHighlighter := SynInterpreterOptionsDialogSetHighlighter;
+    VisiblePages := [soDisplay, soOptions, soColor];
+    TSynEditOptionsDialog.HighlighterFileDir := TPyScripterSettings.ColorThemesFilesDir;
+    if Execute(TempEditorOptions) then begin
+      UpdateHighlighters;
+      PythonIIForm.ValidateEditorOptions(TempEditorOptions);
+      PythonIIForm.SynEdit.Assign(TempEditorOptions);
     end;
-  finally
-    TempEditorOptions.Free;
+    Free;
   end;
 end;
 
@@ -1440,7 +1428,6 @@ begin
             Editor.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
           end);
 
-          InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
           PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
           PythonIIForm.RegisterHistoryCommands;
         end;

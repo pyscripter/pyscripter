@@ -224,6 +224,7 @@ type
     ParentTabItem: TSpTBXTabItem;
     ParentTabControl: TSpTBXCustomTabControl;
     HasSearchHighlight: Boolean;
+    procedure ApplyEditorOptions;
     procedure DoActivate;
     procedure DoActivateEditor(Primary: boolean = True);
     function DoActivateView(ViewFactory: IEditorViewFactory): IEditorView;
@@ -1301,6 +1302,7 @@ begin
       Parent := Sheet;
       Align := alClient;
       Visible := True;
+      ApplyEditorOptions;
       ApplyPyIDEOptions;
     end;
     if Result <> nil then
@@ -2636,6 +2638,19 @@ begin
   end;
 end;
 
+procedure TEditorForm.ApplyEditorOptions;
+begin
+  SynEdit.Assign(EditorOptions);
+  SynEdit2.Assign(EditorOptions);
+
+  SynEdit.BracketsHighlight.SetFontColorsAndStyle(
+    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+  SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
+    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+end;
+
 procedure TEditorForm.ApplyPyIDEOptions;
 begin
   Synedit.CodeFolding.Assign(PyIDEOptions.CodeFolding);
@@ -2646,13 +2661,6 @@ begin
 
   SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
   SynEdit2.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
-
-  SynEdit.BracketsHighlight.SetFontColorsAndStyle(
-    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
-    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-  SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
-    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
-    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
 
   RegisterSearchHighlightIndicatorSpec(fEditor);
 

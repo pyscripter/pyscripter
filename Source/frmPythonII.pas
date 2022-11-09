@@ -44,10 +44,12 @@ uses
   JvDockControlForm,
   SynHighlighterPython,
   SynEditHighlighter,
+  dlgSynEditOptions,
   TB2Item,
   SpTBXItem,
   SpTBXSkins,
   SpTBXControls,
+  JvAppIniStorage,
   SynEdit,
   SynEditTypes,
   SynEditKeyCmds,
@@ -184,8 +186,12 @@ type
     procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure AppendToPrompt(const Buffer : array of string);
     function IsEmpty : Boolean;
-    procedure RegisterHistoryCommands;
     procedure UpdateInterpreterActions;
+    procedure RegisterHistoryCommands;
+    procedure ValidateEditorOptions(SynEditOptions: TSynEditorOptionsContainer);
+    procedure ApplyEditorOptions;
+    procedure StoreOptions(AppStorage: TJvCustomAppIniStorage);
+    procedure RestoreOptions(AppStorage: TJvCustomAppIniStorage);
     property ShowOutput : boolean read GetShowOutput write SetShowOutput;
     property CommandHistory : TStringList read fCommandHistory;
     property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
@@ -490,6 +496,29 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.ValidateEditorOptions(
+  SynEditOptions: TSynEditorOptionsContainer);
+begin
+  with SynEditOptions do begin
+    Options := Options - [eoTrimTrailingSpaces, eoScrollPastEol, eoShowLigatures];
+    WordWrap := True;
+    Gutter.Visible := False;
+    RightEdge := 0;
+  end;
+end;
+
+procedure TPythonIIForm.ApplyEditorOptions;
+begin
+  var SynEditOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(nil))();
+
+  SynEditOptions.Assign(EditorOptions);
+  ValidateEditorOptions(SynEditOptions);
+  SynEdit.Assign(SynEditOptions);
+  RegisterHistoryCommands;
+
+  SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
+end;
+
 procedure TPythonIIForm.ApplyPyIDEOptions;
 begin
   SynEdit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
@@ -506,8 +535,7 @@ begin
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);
   SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
 
-  SynEdit.Assign(InterpreterEditorOptions);
-  RegisterHistoryCommands;
+  ApplyEditorOptions;
 
   // IO
   PythonIO.OnSendUniData := PythonIOSendData;
@@ -1625,30 +1653,6 @@ begin
   CommandsDataModule.ShowSearchReplaceDialog(SynEdit, TRUE);
 end;
 
-procedure TPythonIIForm.RegisterHistoryCommands;
-  procedure AddEditorCommand(Cmd: TSynEditorCommand; SC: TShortcut);
-  Var
-    Index : integer;
-  begin
-    // Remove if it exists
-    Index :=  SynEdit.Keystrokes.FindShortcut(SC);
-    if Index >= 0 then
-      SynEdit.Keystrokes.Delete(Index);
-    // Addit
-    with SynEdit.Keystrokes.Add do
-    begin
-      ShortCut := SC;
-      Command := Cmd;
-    end;
-  end;
-
-begin
-  // Register the Recall History Command
-  AddEditorCommand(ecRecallCommandPrev, Vcl.Menus.ShortCut(VK_UP, [ssAlt]));
-  AddEditorCommand(ecRecallCommandNext, Vcl.Menus.ShortCut(VK_DOWN, [ssAlt]));
-  AddEditorCommand(ecRecallCommandEsc, Vcl.Menus.ShortCut(VK_ESCAPE, []));
-end;
-
 procedure TPythonIIForm.ReinitInterpreter;
 begin
   if Assigned(PyControl.ActiveInterpreter) then
@@ -1695,5 +1699,91 @@ begin
   Delete(Source, Length(Source), 1);
 end;
 
+procedure TPythonIIForm.RegisterHistoryCommands;
+// Register the Recall History Command
+
+  procedure AddEditorCommand(Cmd: TSynEditorCommand; SC: TShortcut);
+  begin
+    // Remove if it exists
+    var Index :=  SynEdit.Keystrokes.FindShortcut(SC);
+    if Index >= 0 then
+      SynEdit.Keystrokes.Delete(Index);
+    // Addit
+    with SynEdit.Keystrokes.Add do
+    begin
+      ShortCut := SC;
+      Command := Cmd;
+    end;
+  end;
+
+begin
+  AddEditorCommand(ecRecallCommandPrev, Vcl.Menus.ShortCut(VK_UP, [ssAlt]));
+  AddEditorCommand(ecRecallCommandNext, Vcl.Menus.ShortCut(VK_DOWN, [ssAlt]));
+  AddEditorCommand(ecRecallCommandEsc, Vcl.Menus.ShortCut(VK_ESCAPE, []));
+end;
+
+procedure TPythonIIForm.StoreOptions(AppStorage: TJvCustomAppIniStorage);
+begin
+  var TempStringList := TSmartPtr.Make(TStringList.Create)();
+
+  // Save Options
+  var SynEditOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(nil))();
+  SynEditOptions.Assign(SynEdit);
+
+  AppStorage.DeleteSubTree('Interpreter Editor Options');
+  TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'KeyStrokes']);
+  AppStorage.WritePersistent('Interpreter Editor Options', SynEditOptions, True, TempStringList);
+
+  //Save Highlighter
+  AppStorage.WritePersistent('Highlighters\Intepreter', SynEdit.Highlighter);
+
+  // Save Interpreter History
+  TempStringList.Clear;
+  for var I := 0 to CommandHistory.Count - 1 do
+    TempStringList.Add(StrStringToEscaped(CommandHistory[i]));
+  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+  AppStorage.WriteStringList('Command History', TempStringList);
+  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+end;
+
+procedure TPythonIIForm.RestoreOptions(AppStorage: TJvCustomAppIniStorage);
+begin
+  var TempStringList := TSmartPtr.Make(TStringList.Create)();
+
+  // Restore Options
+  if AppStorage.PathExists('Interpreter Editor Options') then begin
+    var SynEditOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(nil))();
+
+    SynEditOptions.Assign(SynEdit);
+
+    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'KeyStrokes']);
+    AppStorage.ReadPersistent('Interpreter Editor Options', SynEditOptions, True, True, TempStringList);
+
+    ValidateEditorOptions(SynEditOptions);
+    SynEdit.Assign(SynEditOptions);
+  end;
+
+  // Restore Highlighter
+  if AppStorage.PathExists('Highlighters\Intepreter') then
+  begin
+    SynEdit.Highlighter.BeginUpdate;
+    try
+      AppStorage.ReadPersistent('Highlighters\Intepreter', SynEdit.Highlighter);
+    finally
+      SynEdit.Highlighter.EndUpdate;
+    end;
+  end;
+
+  // Restore Interpreter History
+  TempStringList.Clear;
+  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+  AppStorage.ReadStringList('Command History', TempStringList);
+  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+
+  CommandHistory.Clear;
+  for var I := 0 to TempStringList.Count - 1 do
+    CommandHistory.Add(StrEscapedToString(TempStringList[i]));
+  CommandHistoryPointer := TempStringList.Count;  // one after the last one
+end;
 
 end.

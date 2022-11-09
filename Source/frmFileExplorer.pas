@@ -43,7 +43,7 @@ uses
   frmIDEDockWin;
 
 type
-  TFileExplorerWindow = class(TIDEDockWindow, IJvAppStorageHandler)
+  TFileExplorerWindow = class(TIDEDockWindow)
     FileExplorerTree: TVirtualExplorerTree;
     VirtualShellHistory: TVirtualShellHistory;
     ExplorerDock: TSpTBXDock;
@@ -151,13 +151,11 @@ type
     function GetExplorerPath: string;
     procedure ApplyPyIDEOptions;
     procedure SetExplorerPath(const Value: string);
-  protected
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
     procedure UpdateWindow;
+    procedure RestoreOptions(AppStorage: TJvCustomAppStorage);
+    procedure StoreOptions(AppStorage: TJvCustomAppStorage);
     procedure ConfigureThreads(FCN : TFileChangeNotificationType;
       BackgroundProcessing : Boolean);
     property Favorites : TStringList read fFavorites;
@@ -547,20 +545,18 @@ begin
   end;
 end;
 
-procedure TFileExplorerWindow.ReadFromAppStorage(
-  AppStorage: TJvCustomAppStorage; const BasePath: string);
+procedure TFileExplorerWindow.RestoreOptions(AppStorage: TJvCustomAppStorage);
 begin
-  actEnableFilter.Checked := AppStorage.ReadBoolean(BasePath + '\Filter', True);
-  ExplorerPath := AppStorage.ReadString(BasePath + '\Path');
-  AppStorage.ReadStringList(BasePath + '\Favorites', Favorites);
+  actEnableFilter.Checked := AppStorage.ReadBoolean('File Explorer Filter', True);
+  ExplorerPath := AppStorage.ReadString('File Explorer Path');
+  AppStorage.ReadStringList('File Explorer Favorites', Favorites);
 end;
 
-procedure TFileExplorerWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TFileExplorerWindow.StoreOptions(AppStorage: TJvCustomAppStorage);
 begin
-  AppStorage.WriteBoolean(BasePath + '\Filter', actEnableFilter.Checked);
-  AppStorage.WriteString(BasePath + '\Path', ExplorerPath);
-  AppStorage.WriteStringList(BasePath + '\Favorites', Favorites);
+  AppStorage.WriteBoolean('File Explorer Filter', actEnableFilter.Checked);
+  AppStorage.WriteString('File Explorer Path', ExplorerPath);
+  AppStorage.WriteStringList('File Explorer Favorites', Favorites);
 end;
 
 end.
