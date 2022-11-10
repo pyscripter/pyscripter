@@ -284,6 +284,14 @@ end
       BatchLineCount=1
       BatchLine1=%AppPath%\Install\Output\PyScripter-%PyScripterVersion%-x64-Setup.exe
     end
+    begin dialogs.msgbox
+      Caption=Messagebox
+      Ignore=0
+      Text=Installlation of  PyScripter x64 done.
+      Buttons=[mbOK]
+      Style=0
+      ReturnValue=
+    end
   begin block.end
     Caption=end
     Ignore=0

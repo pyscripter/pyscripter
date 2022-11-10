@@ -3,7 +3,7 @@ Sie erfordert eine 64-Bit Version von Windows. Bitte beachten Sie, dass PyScript
 nur funktioniert, wenn eine 64-Bit Version von Python installiert ist.
 
 Bevor Sie PyScripter verwenden, stellen Sie bitte sicher dass Python
-Version 3.6 oder neuer auf Ihrem Rechner installiert ist.
+Version 3.7 oder neuer auf Ihrem Rechner installiert ist.
 Wenn nicht, finden Sie eine passende Version auf: http://www.python.org/.
 
 Bitte besuchen Sie https://github.com/pyscripter/pyscripter/wiki für Informationen
