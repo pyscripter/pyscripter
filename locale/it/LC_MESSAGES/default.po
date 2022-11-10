@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2022-10-29 02:07\n"
+"POT-Creation-Date: 2022-11-09 17:22\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2022\n"
 "Language-Team: Italian (https://www.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -6416,6 +6416,10 @@ msgstr "Barra traccia modifiche"
 msgid "Selection color"
 msgstr "Colore selezione"
 
+#: dmCommands.pas
+msgid "Indentation Guides"
+msgstr "Guide indentazione"
+
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
@@ -7427,20 +7431,21 @@ msgstr "L'interprete Python interno non è disponibile"
 
 #. Programmer's name for it: SPythonLoadError
 #: StringResources.pas
+#, object-pascal-format
 msgid ""
 "PyScripter could not load a Python engine.\n"
-"**Before** using PyScripter, you must ensure that a version of Python greater or equal to 3.6 is installed on your machine.\n"
+"**Before** using PyScripter, you must ensure that a version of Python greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
 "The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
 "The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 "PyScripter non ha potuto caricare un motore Python.\n"
-"**Prima** di usare PyScripter, assicurati che nel computer sia installata una versione di Python maggiore o uguale alla 3.6.\n"
-"Se non ne hai Python installato, puoi scaricarlo da http://www.python.org/.\n"
+"**Prima** di usare PyScripter, devi assicurarti che nel computer sia installata una versione di Python maggiore o uguale a %s.\n"
+"Se non ne hai una versione di Python installata, puoi scaricarla da  http://www.python.org/.\n"
 "\n"
-"La versione a 64 bit di PyScripter (x64) funziona solo in Windows a 64 bit **e** con versioni di Python a 64 bit.\n"
-"La versione a 32 bit di PyScripter funziona in Windows sia a 32 bit che a 64 bit con versioni di Python a 32 bit."
+"La versione di PyScripter a 64 bit (x64) funziona solo in Windows a 64 bit **e** con versioni a 64 bit di Python.\n"
+"La versionedi PyScripter a 32 bit funziona in Windows sia a 32 bit che a 64 bit con versioni a 32 bit di Python."
 
 #. Programmer's name for it: SPythonFindError
 #: StringResources.pas
