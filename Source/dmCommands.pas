@@ -511,7 +511,10 @@ begin
   SynParamCompletion.EndOfTokenChr := WordBreakString;
   SynParamCompletion.FontsAreScaled := True;
 
-  // Translate
+  // Set the language before all calls to TranslateComponent
+  // This avoids retranslating if the local lanuage <> "en"
+  // and the stored lanuage option is "en".
+  UseLanguage('en');
   TranslateComponent(Self);
 end;
 

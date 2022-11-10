@@ -1656,7 +1656,6 @@ begin
 
   // Setup Languages
   fLanguageList := TStringList.Create;
-  UseLanguage('en');
   SetUpLanguageMenu;
 
   // ActionLists
