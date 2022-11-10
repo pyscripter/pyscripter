@@ -31,8 +31,8 @@ PrivilegesRequired=poweruser
 AppCopyright=(C) Kiriakos Vlahos
 ;WizardStyle = modern
 #if OSPlatform == "x64"
-ArchitecturesAllowed={#OSPlatform}
-ArchitecturesInstallIn64BitMode={#OSPlatform}
+ArchitecturesAllowed=x64 arm64
+ArchitecturesInstallIn64BitMode=x64 arm64
 #endif
 
 [Languages]
