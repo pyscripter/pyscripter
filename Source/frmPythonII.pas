@@ -1120,6 +1120,7 @@ begin
           end;
 
           SynEdit.BeginUpdate;
+          SynEdit.LockDrawing;
           try
             if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
               // already at the bottom and inside the prompt
@@ -1166,6 +1167,7 @@ begin
             SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
             SynEdit.EnsureCursorPosVisible;
           finally
+            SynEdit.UnLockDrawing;
             SynEdit.EndUpdate;
           end;
         end;
