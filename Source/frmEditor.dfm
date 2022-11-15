@@ -80,7 +80,9 @@ object EditorForm: TEditorForm
           Font.Name = 'Courier New'
           Font.Style = []
           Font.Quality = fqClearTypeNatural
+          ParentShowHint = False
           PopupMenu = pmnuEditor
+          ShowHint = True
           TabOrder = 0
           OnDblClick = SynEditDblClick
           OnEnter = SynEditEnter
@@ -88,7 +90,6 @@ object EditorForm: TEditorForm
           OnKeyDown = SynEditKeyDown
           OnKeyUp = SynEditKeyUp
           OnMouseDown = SynEditMouseDown
-          OnMouseMove = SynEditMouseMove
           OnMouseWheelDown = SynEditMouseWheelDown
           OnMouseWheelUp = SynEditMouseWheelUp
           UseCodeFolding = False
@@ -139,6 +140,7 @@ object EditorForm: TEditorForm
           OnChange = SynEditChange
           OnGutterGetText = SynEditGutterGetText
           OnMouseCursor = SynEditMouseCursor
+          OnShowHint = EditorShowHint
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           RemovedKeystrokes = <
@@ -526,7 +528,9 @@ object EditorForm: TEditorForm
           Font.Name = 'Courier New'
           Font.Style = []
           Font.Quality = fqClearTypeNatural
+          ParentShowHint = False
           PopupMenu = pmnuEditor
+          ShowHint = True
           TabOrder = 1
           Visible = False
           OnDblClick = SynEditDblClick
@@ -535,7 +539,6 @@ object EditorForm: TEditorForm
           OnKeyDown = SynEditKeyDown
           OnKeyUp = SynEditKeyUp
           OnMouseDown = SynEditMouseDown
-          OnMouseMove = SynEditMouseMove
           OnMouseWheelDown = SynEditMouseWheelDown
           OnMouseWheelUp = SynEditMouseWheelUp
           UseCodeFolding = False
@@ -568,6 +571,7 @@ object EditorForm: TEditorForm
             end>
           SelectedColor.Alpha = 0.400000005960464500
           OnMouseCursor = SynEditMouseCursor
+          OnShowHint = EditorShowHint
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           RemovedKeystrokes = <

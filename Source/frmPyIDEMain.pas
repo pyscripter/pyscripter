@@ -1385,20 +1385,20 @@ type
     procedure LoadToolbarItems(const Path : string);
     procedure SaveToolbarLayout(const Layout: string);
     procedure SaveToolbarItems(const Path : string);
-    function JumpToFilePosInfo(FilePosInfo : string) : boolean;
-    procedure FindDefinition(Editor : IEditor; TextCoord : TBufferCoord;
+    function JumpToFilePosInfo(const FilePosInfo : string): Boolean;
+    procedure FindDefinition(Editor : IEditor; TextCoord: TBufferCoord;
       ShowMessages, Silent, JumpToFirstMatch : Boolean; var FilePosInfo : string);
     procedure AdjustBrowserLists(FileName: string; Line: Integer; Col: Integer;
       FilePosInfo: string);
     procedure ThemeEditorGutter(Gutter : TSynGutter);
     procedure UpdateCaption;
     procedure ChangeLanguage(LangCode : string);
-    function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
-    procedure SplitWorkspace(SecondTabsVisible : Boolean;
+    function EditorFromTab(Tab : TSpTBXTabItem): IEditor;
+    procedure SplitWorkspace(SecondTabsVisible: Boolean;
       Alignment : TAlign = alRight; Size : integer = -1);
-    procedure MoveTab(Tab : TSpTBXTabItem; TabControl : TSpTBXTabControl;
+    procedure MoveTab(Tab : TSpTBXTabItem; TabControl: TSpTBXTabControl;
       Index : integer = -1);
-    function TabControl(TabControlIndex : integer = 1) : TSpTBXTabControl;
+    function TabControl(TabControlIndex : integer = 1): TSpTBXTabControl;
     function TabControlIndex(TabControl : TSpTBXCustomTabControl) : integer;
     procedure ShowIDEDockForm(Form: TForm);
     property ActiveTabControl : TSpTBXCustomTabControl read GetActiveTabControl
@@ -1828,9 +1828,6 @@ begin
     // Disconnect ChangeNotify
     FileExplorerWindow.FileExplorerTree.Active := False;
     FileExplorerWindow.ConfigureThreads(fcnDisabled, False);
-
-    // Disable CodeHint timer
-    CodeHint.CancelHint;
 
     // Stop accepting files
     DragAcceptFiles(TabControl1.Handle, False);
@@ -2574,18 +2571,20 @@ begin
     end;
     if Assigned(Editor) then begin
       Result := True;
-      Sleep(200);
-      Application.ProcessMessages;  // to deal with focus problems
-      // sets the focus to the editor
-      if (Editor <> GetActiveEditor) or FocusEditor then
-        Editor.Activate(False);
-      if (Line > 0) then
-        with Editor.ActiveSynEdit do begin
-          CaretXY := BufferCoord(Offset,Line);
-          EnsureCursorPosVisibleEx(ForceToMiddle);
-          if SelLen > 0 then
-             SelLength := SelLen;
-        end;
+      // to deal with focus problems
+      TThread.ForceQueue(nil, procedure
+      begin
+        // sets the focus to the editor
+        if (Editor <> GetActiveEditor) or FocusEditor then
+          Editor.Activate(False);
+        if (Line > 0) then
+          with Editor.ActiveSynEdit do begin
+            CaretXY := BufferCoord(Offset,Line);
+            EnsureCursorPosVisibleEx(ForceToMiddle);
+            if SelLen > 0 then
+               SelLength := SelLen;
+          end;
+      end);
     end;
   end;
 end;
@@ -4127,6 +4126,9 @@ begin
   if FilePosInfo <> '' then
   begin
     // Adjust previous/next menus
+    if fCurrentBrowseInfo <> '' then
+      PrevMRUAdd(fCurrentBrowseInfo);
+
     PrevMRUAdd(Format(FilePosInfoFormat, [FileName, Line, Col]));
     mnNextList.Clear;
     fCurrentBrowseInfo := FilePosInfo;
@@ -4341,7 +4343,7 @@ begin
   end;
 end;
 
-function TPyIDEMainForm.JumpToFilePosInfo(FilePosInfo: string): boolean;
+function TPyIDEMainForm.JumpToFilePosInfo(const FilePosInfo : string): Boolean;
 Var
   FileName : string;
   Line, Col : integer;
@@ -4389,27 +4391,23 @@ begin
 end;
 
 procedure TPyIDEMainForm.PrevClickHandler(Sender: TObject);
-var
-  A: TSpTBXMRUItem;
 begin
   if Sender is TSpTBXMRUItem then begin
-    A := TSpTBXMRUItem(Sender);
-    if Assigned(mnPreviousList.OnClick) then mnPreviousList.OnClick(mnPreviousList, A.MRUString);
+    var MRUItem := TSpTBXMRUItem(Sender);
+    PreviousListClick(mnPreviousList, MRUItem.MRUString);
   end;
 end;
 
 procedure TPyIDEMainForm.PreviousListClick(Sender: TObject; S : string);
-Var
-  i, Index : integer;
 begin
-  Index := mnPreviousList.IndexOfMRU(S);
-  if (Index >= 0) and (Index < mnPreviousList.Count) then begin
+  var Index := mnPreviousList.IndexOfMRU(S);
+  if Index >= 0 then begin
     JumpToFilePosInfo(S);
     NextMRUAdd(fCurrentBrowseInfo);
     fCurrentBrowseInfo := S;
-    for i := 0 to Index - 1 do
-      NextMRUAdd(TSpTBXMRUItem(mnPreviousList.Items[i]).MRUString);
-    for i := 0 to Index do
+    for var I := 0 to Index - 1 do
+      NextMRUAdd(TSpTBXMRUItem(mnPreviousList.Items[I]).MRUString);
+    for var I := 0 to Index do
       mnPreviousList.MRURemove(TSpTBXMRUItem(mnPreviousList.Items[0]).MRUString);
   end;
 end;
@@ -4487,27 +4485,23 @@ begin
 end;
 
 procedure TPyIDEMainForm.NextClickHandler(Sender: TObject);
-var
-  A: TSpTBXMRUItem;
 begin
   if Sender is TSpTBXMRUItem then begin
-    A := TSpTBXMRUItem(Sender);
-    if Assigned(mnNextList.OnClick) then mnNextList.OnClick(mnNextList, A.MRUString);
+    var MRUItem := TSpTBXMRUItem(Sender);
+    NextListClick(mnNextList, MRUItem.MRUString);
   end;
 end;
 
 procedure TPyIDEMainForm.NextListClick(Sender: TObject; S : string);
-Var
-  i, Index : integer;
 begin
-  Index := mnNextList.IndexOfMRU(S);
-  if (Index >= 0) and (Index < mnNextList.Count) then begin
+  var Index := mnNextList.IndexOfMRU(S);
+  if Index >= 0 then begin
     JumpToFilePosInfo(S);
     PrevMRUAdd(fCurrentBrowseInfo);
     fCurrentBrowseInfo := S;
-    for i := 0 to Index - 1 do
-      PrevMRUAdd(TSpTBXMRUItem(mnNextList.Items[i]).MRUString);
-    for i := 0 to Index do
+    for var I := 0 to Index - 1 do
+      PrevMRUAdd(TSpTBXMRUItem(mnNextList.Items[I]).MRUString);
+    for var I := 0 to Index do
       mnNextList.MRURemove(TSpTBXMRUItem(mnNextList.Items[0]).MRUString);
   end;
 end;

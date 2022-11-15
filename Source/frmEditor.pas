@@ -57,14 +57,8 @@ type
   TEditor = class;
 
   THotIdentInfo = record
-    SynEdit: TSynEdit;
-    [weak] Editor: TEditor;
     HaveHotIdent: boolean;
-    IdentArea: TRect;
-    Ident: string;
-    DottedIdent: string;
     StartCoord: TBufferCoord;
-    SynToken: string;
   end;
 
   TEditorForm = class(TForm)
@@ -127,8 +121,6 @@ type
     vilCodeImages: TVirtualImageList;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
     SpTBXSeparatorItem8: TSpTBXSeparatorItem;
-    procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
-      X, Y: Integer);
     class procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: boolean);
@@ -179,6 +171,8 @@ type
         X, Y, Row, Line: Integer);
     procedure SynEditGutterDebugInfoMouseCursor(Sender: TObject; X, Y, Row, Line:
         Integer; var Cursor: TCursor);
+    procedure EditorShowHint(var HintStr: string; var CanShow: Boolean; var
+        HintInfo: Vcl.Controls.THintInfo);
   private
     const HotIdentIndicatorSpec: TGUID = '{8715589E-C990-4423-978F-F00F26041AEF}';
   private
@@ -189,6 +183,9 @@ type
     fNeedToSyncCodeExplorer: boolean;
     fCloseBracketChar: WideChar;
     fOldCaretY : Integer;
+    // Hints
+    FHintFuture: IFuture<string>;
+    FHintCursorRect: TRect;
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
     function DoSave: boolean;
@@ -206,11 +203,7 @@ type
     class procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     class procedure SymbolsChanged(Sender: TObject);
     class var fOldEditorForm: TEditorForm;
-    class var fHintIdentInfo: THotIdentInfo;
-    class procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
-      var CodeHint: string);
     class procedure CodeHintLinkHandler(Sender: TObject; LinkName: string);
-    class procedure SetUpCodeHints;
   protected
     procedure Retranslate;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
@@ -1622,7 +1615,7 @@ begin
     fOldCaretY := NewCaretY;
   end;
   if scTopLine in Changes then
-    CodeHint.CancelHint;
+    Application.CancelHint;
 end;
 
 procedure TEditorForm.DoActivate;
@@ -2350,7 +2343,7 @@ procedure TEditorForm.SynEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   // Cancel Code Hint
-  CodeHint.CancelHint;
+  Application.CancelHint;
 end;
 
 procedure TEditorForm.SynEditKeyUp(Sender: TObject; var Key: Word;
@@ -2363,108 +2356,6 @@ begin
       fHotIdentInfo.StartCoord.Line);
     SetCursor(SynEdit.Cursor);
   end;
-end;
-
-procedure TEditorForm.SynEditMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
-var
-  TokenType, Start, ExpStart: Integer;
-  Token, LineTxt: string;
-  Attri: TSynHighlighterAttributes;
-  Pix: TPoint;
-  aLineCharPos: TBufferCoord;
-  ASynEdit: TSynEdit;
-  HaveSyntaxHint: Boolean;
-  FoundError: TDiagnostic;
-  Indicator: TSynIndicator;
-begin
-  ASynEdit := Sender as TSynEdit;
-  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.GutterWidth) or
-    (ASynEdit <> Self.FActiveSynEdit)
-  then
-    Exit;
-  aLineCharPos := ASynEdit.DisplayToBufferPos(ASynEdit.PixelsToRowColumn(X, Y));
-
-  // Syntax error hints
-  HaveSyntaxHint := False;
-  if (FEditor.FSynLsp.Diagnostics.Count > 0)  and
-    ASynEdit.Indicators.IndicatorAtMousePos(Point(X, Y),
-    FEditor.FSynLsp.DiagnosticsErrorIndicatorSpec, Indicator)
-  then
-  begin
-      HaveSyntaxHint := True;
-      FoundError := FEditor.FSynLsp.Diagnostics[Indicator.Tag];
-  end;
-
-  if HaveSyntaxHint then
-    with ASynEdit do
-    begin
-      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(
-        FoundError.BlockBegin)));
-      fHintIdentInfo.IdentArea.TopLeft := Pix;
-      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(
-        FoundError.BlockEnd)));
-      fHintIdentInfo.IdentArea.Right := Pix.X;
-      fHintIdentInfo.IdentArea.Bottom := Pix.Y + LineHeight + 3;
-      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-      Pix.Y := Pix.Y + LineHeight;
-      fHintIdentInfo.SynToken := 'Syntax Error: ' + FoundError.Msg;
-      fHintIdentInfo.Editor := fEditor;
-      CodeHint.ActivateHintAt(fHintIdentInfo.IdentArea, Pix);
-    end
-  else if fEditor.HasPythonFile and (HiWord(GetAsyncKeyState(VK_CONTROL))
-      = 0) and not ASynEdit.IsPointInSelection(aLineCharPos) and
-  // (FindVCLWindow(ASynedit.ClientToScreen(Point(X,Y))) = ASynedit) and
-    (((PyControl.DebuggerState in [dsPaused, dsPostMortem])
-         and PyIDEOptions.ShowDebuggerHints) or
-      (GI_PyControl.Inactive and PyIDEOptions.ShowCodeHints)) then
-    with ASynEdit do
-    begin
-      // Code and debugger hints
-      GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
-        Attri);
-      if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
-        (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
-        (Attri = TSynPythonSyn(Highlighter).SystemAttri) or
-        ((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
-          ((Token = ')') or (Token = ']'))) then
-      begin
-        with fHintIdentInfo do
-        begin
-          LineTxt := Lines[aLineCharPos.Line - 1];
-          SynToken := '';
-          Ident := Token;
-          DottedIdent := GetWordAtPos(LineTxt, aLineCharPos.Char,
-            True, True, False, True);
-          ExpStart := aLineCharPos.Char - Length(DottedIdent) + 1;
-          DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
-            aLineCharPos.Char + 1, False, False, True);
-          // Determine the hint area
-          StartCoord := BufferCoord(Start, aLineCharPos.Line);
-          Pix := ClientToScreen
-            (RowColumnToPixels(BufferToDisplayPos(StartCoord)));
-          IdentArea.TopLeft := Pix;
-          aLineCharPos := WordEndEx(aLineCharPos);
-          if (Token = ']') or (Token = ')') then
-            Inc(aLineCharPos.Char);
-          Pix := ClientToScreen
-            (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-          IdentArea.Right := Pix.X;
-          IdentArea.Bottom := Pix.Y + LineHeight + 3;
-          // Determine where the hint should be shown (beginning of the expression)
-          if PyControl.DebuggerState in [dsPaused, dsPostMortem] then
-            aLineCharPos := BufferCoord(ExpStart, aLineCharPos.Line)
-          else
-            aLineCharPos := StartCoord;
-          Pix := ClientToScreen
-            (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-          Pix.Y := Pix.Y + LineHeight;
-          Editor := fEditor;
-          // Activate the hint
-          CodeHint.ActivateHintAt(IdentArea, Pix);
-        end;
-      end;
-    end;
 end;
 
 procedure TEditorForm.SynEditMouseWheelDown(Sender: TObject;
@@ -2510,9 +2401,7 @@ begin
         aCursor := crHandPoint;
         with fHotIdentInfo do
         begin
-          SynEdit := ASynEdit;
           HaveHotIdent := True;
-          SynToken := Token;
           StartCoord := BufferCoord(Start, aLineCharPos.Line);
         end;
       end;
@@ -2602,12 +2491,6 @@ begin
           WatchesWindow.AddWatch(DottedIdent);
       end;
     end;
-end;
-
-class procedure TEditorForm.SetUpCodeHints;
-begin
-  CodeHint.OnGetCodeHint := CodeHintEventHandler;
-  CodeHint.OnHyperLinkClick := CodeHintLinkHandler;
 end;
 
 procedure TEditorForm.mnUpdateViewClick(Sender: TObject);
@@ -3042,50 +2925,18 @@ begin
   Handled := True;
 end;
 
-class procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
-  var CodeHint: string);
-//  This procedure is executed inside a thread and needs to be threadsafe!
-Var
-  ObjectValue, ObjectType: string;
-begin
-  if Assigned(fHintIdentInfo.Editor) and
-    CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then
-  begin
-    if fHintIdentInfo.SynToken.StartsWith('Syntax Error: ') and fHintIdentInfo.Editor.fForm.HasSyntaxError then
-      // Syntax hint
-      CodeHint := Copy(fHintIdentInfo.SynToken, 15)
-    else if (PyControl.DebuggerState in [dsPaused, dsPostMortem])
-      and PyIDEOptions.ShowDebuggerHints then
-    begin
-      // Debugger hints
-      PyControl.ActiveDebugger.Evaluate(fHintIdentInfo.DottedIdent, ObjectType,
-        ObjectValue);
-      if ObjectValue <> _(SNotAvailable) then
-      begin
-        ObjectValue := HTMLSafe(ObjectValue);
-        ObjectType := HTMLSafe(ObjectType);
-        CodeHint := Format(_(SDebuggerHintFormat),
-          [fHintIdentInfo.DottedIdent, ObjectType, ObjectValue]);
-      end
-      else
-        CodeHint := '';
-    end
-    else if GI_PyControl.Inactive and PyIDEOptions.ShowCodeHints then
-    begin
-      CodeHint := TJedi.CodeHintAtCoordinates(fHintIdentInfo.Editor.GetFileId,
-        fHintIdentInfo.StartCoord, fHintIdentInfo.Ident);
-    end;
-  end
-  else
-    CodeHint := '';
-end;
-
 class procedure TEditorForm.CodeHintLinkHandler(Sender: TObject; LinkName: string);
 begin
-  CodeHint.CancelHint;
-  PyIDEMainForm.JumpToFilePosInfo(LinkName);
-  PyIDEMainForm.AdjustBrowserLists(fHintIdentInfo.Editor.GetFileId,
-    fHintIdentInfo.StartCoord.Line, fHintIdentInfo.StartCoord.Char, LinkName);
+  var Editor := GI_PyIDEServices.ActiveEditor;
+  if Assigned(Editor) then
+  begin
+    var SynEd := Editor.ActiveSynEdit;
+    var P := TEditorForm(Editor.Form).FHintCursorRect.TopLeft;
+    var DC := SynEd.PixelsToNearestRowColumn(P.X, P.Y);
+    var BC := SynEd.DisplayToBufferPos(DC);
+    PyIDEMainForm.JumpToFilePosInfo(LinkName);
+    PyIDEMainForm.AdjustBrowserLists(Editor.GetFileId, BC.Line, BC.Char, LinkName);
+  end;
 end;
 
 procedure TEditorForm.DoOnIdle;
@@ -3177,9 +3028,144 @@ begin
   Cursor := crHandPoint;
 end;
 
+procedure TEditorForm.EditorShowHint(var HintStr: string; var CanShow:
+    Boolean; var HintInfo: Vcl.Controls.THintInfo);
+
+  function CursorRect(SynEd: TCustomSynEdit; const BC1, BC2: TBufferCoord;
+    out HintPos: TPoint): TRect;
+  begin
+    var P1 := SynEd.RowColumnToPixels(SynEd.BufferToDisplayPos(BC1));
+    var P2 := SynEd.RowColumnToPixels(SynEd.BufferToDisplayPos(BC2));
+    Inc(P2.Y, SynEd.LineHeight);
+
+    HintPos := SynEd.ClientToScreen(Point(P1.X, P2.Y));
+    Result := TRect.Create(P1,P2);
+  end;
+
+var
+  Indicator: TSynIndicator;
+  BC1, BC2: TBufferCoord;
+  TokenType, Start: Integer;
+  Token, DottedIdent: string;
+  Attri: TSynHighlighterAttributes;
+begin
+  CanShow := False;
+
+  // No hints for Gutter
+  var SynEd := HintInfo.HintControl as TCustomSynEdit;
+  if (SynEd.Gutter.Visible) and (HintInfo.CursorPos.X < SynEd.GutterWidth) then
+    Exit;
+  var Highlighter := TSynPythonSyn(SynEd.Highlighter);
+
+  var DC := SynEd.PixelsToNearestRowColumn(HintInfo.CursorPos.X, HintInfo.CursorPos.Y);
+  var BC := SynEd.DisplayToBufferPos(DC);
+
+  // Diagnostic errors hints first
+  if (FEditor.FSynLsp.Diagnostics.Count > 0) and
+    SynEd.Indicators.IndicatorAtPos(BC,
+    FEditor.FSynLsp.DiagnosticsErrorIndicatorSpec, Indicator)
+  then
+  begin
+    CanShow := True;
+    BC1 := BufferCoord(Indicator.CharStart, BC.Line);
+    BC2 := BufferCoord(Indicator.CharEnd, BC.Line);
+    // Setting HintInfo.CursorRect is important.  Otherwise no other hint
+    // will be shown unlessmouse leaves and reenters the control
+    HintInfo.CursorRect := CursorRect(SynEd, BC1, BC2, HintInfo.HintPos);
+    HintStr := FEditor.FSynLsp.Diagnostics[Indicator.Tag].Msg;
+  end
+  else if fEditor.HasPythonFile and not SynEd.IsPointInSelection(BC) and
+    SynEd.GetHighlighterAttriAtRowColEx(BC, Token, TokenType, Start, Attri) and
+    (((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
+       PyIDEOptions.ShowDebuggerHints) or
+       (GI_PyControl.Inactive and PyIDEOptions.ShowCodeHints)) and
+    ((Attri = Highlighter.IdentifierAttri) or
+     (Attri = Highlighter.NonKeyAttri) or
+     (Attri = Highlighter.SystemAttri) or
+      // bracketed debugger expression
+     ((Attri = Highlighter.SymbolAttri) and
+      (PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
+      ((Token = ')') or (Token = ']')))) then
+  begin
+    // LSP or debugger hints
+    if GI_PyControl.Inactive then
+    begin
+      BC1 := BufferCoord(Start, BC.Line);
+      BC2 := BufferCoord(Start + Token.Length, BC.Line);
+    end
+    else
+    begin
+      var LineTxt := SynEd.Lines[BC.Line - 1];
+      DottedIdent := GetWordAtPos(LineTxt, BC.Char,
+        True, True, False, True);
+      BC1 := BufferCoord(BC.Char - Length(DottedIdent) + 1, BC.Line);
+      DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
+        BC.Char + 1, False, False, True);
+      BC2 := BufferCoord(BC1.Char + DottedIdent.Length, BC.Line);
+    end;
+    HintInfo.CursorRect := CursorRect(SynEd, BC1, BC2, HintInfo.HintPos);
+
+    if (FHintCursorRect = HintInfo.CursorRect) and Assigned(FHintFuture) and
+      (FHintFuture.Status = TTaskStatus.Completed) then
+    begin
+      HintStr := FHintFuture.Value;
+      CanShow := HintStr <> '';
+      FHintFuture := nil;
+    end
+    else
+    begin
+      CanShow := False;
+      FHintCursorRect := HintInfo.CursorRect;
+      HintInfo.ReshowTimeout := 200;
+
+      if GI_PyControl.Inactive then
+      begin
+        // LSP code hints
+        FHintFuture := TFuture<string>.Create(nil, nil,
+          function : string
+          begin
+            Result := TJedi.CodeHintAtCoordinates(FEditor.GetFileId,
+              BC1, Token);
+          end, TThreadPool.Default).Start;
+      end
+      else
+      begin
+        // Debugger hints
+        FHintFuture := TFuture<string>.Create(nil, nil,
+          function : string
+          var
+            ObjectValue, ObjectType: string;
+          begin
+            PyControl.ActiveDebugger.Evaluate(DottedIdent, ObjectType,
+              ObjectValue);
+            if ObjectValue <> _(SNotAvailable) then
+            begin
+              ObjectValue := HTMLSafe(ObjectValue);
+              ObjectType := HTMLSafe(ObjectType);
+              Result := Format(_(SDebuggerHintFormat),
+                [DottedIdent, ObjectType, ObjectValue]);
+            end
+            else
+              Result := '';
+          end, TThreadPool.Default).Start;
+      end;
+    end;
+  end
+  else
+    FHintFuture := nil;
+
+  if CanShow then
+  begin
+    HintInfo.HintData := Pointer(NativeInt(SynEd.LineHeight));
+    HintInfo.HintWindowClass := TCodeHintWindow;
+    FHintFuture := nil;
+  end;
+
+end;
+
 initialization
   GI_EditorFactory := TEditorFactory.Create;
-  TEditorForm.SetUpCodeHints;
+  TCodeHintWindow.OnHyperLinkClick := TEditorForm.CodeHintLinkHandler;
 
 finalization
   GI_EditorFactory := nil;
