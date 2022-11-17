@@ -28,6 +28,7 @@ SolidCompression=true
 ChangesAssociations=true
 UninstallDisplayIcon={app}\{#MyAppName}.exe
 PrivilegesRequired=poweruser
+RestartIfNeededByRun=yes
 AppCopyright=(C) Kiriakos Vlahos
 ;WizardStyle = modern
 #if OSPlatform == "x64"
@@ -240,7 +241,7 @@ Root: HKLM; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FE
 Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flags: nowait postinstall skipifsilent
 FileName: "cmd"; Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; Flags: runhidden
 Filename: {commonappdata}\PyScripter\Lsp\jls\JediLsp.exe; Parameters: "-y"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; Flags: runhidden
-Filename: {commonappdata}\PyScripter\MicrosoftEdgeWebview2Setup.exe; Parameters: "/silent /install"; WorkingDir: {commonappdata}\PyScripter; Flags: runhidden
+Filename: {commonappdata}\PyScripter\MicrosoftEdgeWebview2Setup.exe; Parameters: "/silent /install"; WorkingDir: {commonappdata}\PyScripter; Check:IsWebView2RuntimeNeeded; StatusMsg: "Installing WebView2 runtime..."; Flags: runhidden
 Filename: "cmd"; Parameters: "/c del MicrosoftEdgeWebview2Setup.exe"; WorkingDir: {commonappdata}\PyScripter; Flags: runhidden
 
 [UninstallRun]
@@ -255,3 +256,35 @@ FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; Worki
 #include "locale\ja\InstallMessages.txt"
 
 ;#expr SaveToFile(AddBackslash(SourcePath) + "Preprocessed.iss")
+
+[Code]
+function IsWebView2RuntimeNeeded(): boolean;
+{ See: https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution#detect-if-a-suitable-webview2-runtime-is-already-installed }
+var
+    Version: string;
+    RuntimeNeeded: boolean;
+    VerifyRuntime: boolean;
+begin
+  RuntimeNeeded := true;
+  VerifyRuntime := false;
+
+  { Since we are using an elevated installer I am not checking HKCU }
+  if (IsWin64) then
+  begin
+    if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'pv', Version)) or
+      (RegQueryStringValue(HKEY_CURRENT_USER, 'Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'pv', Version)) then
+        VerifyRuntime := true;
+  end
+  else
+  begin
+    if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'pv', Version)) or 
+      (RegQueryStringValue(HKEY_CURRENT_USER, 'Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'pv', Version)) then
+        VerifyRuntime := true;
+  end;
+
+  { Verify the version information }
+  if VerifyRuntime and (Version <> '') and (Version <> '0.0.0.0') then
+    RuntimeNeeded := false;
+  
+  Result := RuntimeNeeded;
+end;
