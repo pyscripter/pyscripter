@@ -7,6 +7,7 @@ object DocForm: TDocForm
   ClientWidth = 463
   Color = clBtnFace
   ParentFont = True
+  OnCreate = FormCreate
   TextHeight = 15
   object TBXDock1: TSpTBXDock
     Left = 0
@@ -71,7 +72,6 @@ object DocForm: TDocForm
     Align = alClient
     TabOrder = 0
     TabStop = True
-    UserDataFolder = '%APPDATA%\PyScripter\WebView2'
     OnCreateWebViewCompleted = WebBrowserCreateWebViewCompleted
   end
   object BrowserImages: TVirtualImageList

@@ -51,6 +51,7 @@ type
     BrowserImages: TVirtualImageList;
     WebBrowser: TEdgeBrowser;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ToolButtonBackClick(Sender: TObject);
     procedure ToolButtonForwardClick(Sender: TObject);
@@ -94,13 +95,15 @@ implementation
 
 uses
   System.UITypes,
+  System.IOUtils,
   MSHTML,
   JvGnugettext,
   uCommonFunctions,
   StringResources,
   VarPyth,
   frmCommandOutput,
-  cParameters;
+  cParameters,
+  cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -119,6 +122,12 @@ begin
     CaptureOutput := True;
     ConsoleHidden := True;
   end;
+end;
+
+procedure TWebPreviewForm.FormCreate(Sender: TObject);
+begin
+  WebBrowser.UserDataFolder := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'WebView2');
 end;
 
 class destructor TWebPreviewForm.Destroy;

@@ -48,6 +48,7 @@ type
     TBXItem7: TSpTBXItem;
     BrowserImages: TVirtualImageList;
     WebBrowser: TEdgeBrowser;
+    procedure FormCreate(Sender: TObject);
     procedure ToolButtonBackClick(Sender: TObject);
     procedure ToolButtonForwardClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
@@ -83,17 +84,23 @@ type
 implementation
 
 uses
-  JclStrings,
-  JclSysInfo,
+  System.IOUtils,
   JvJVCLUtils,
   JvGnugettext,
   StringResources,
   uCommonFunctions,
   cPyBaseDebugger,
   cInternalPython,
-  cPyControl;
+  cPyControl,
+  cPyScripterSettings;
 
 {$R *.dfm}
+
+procedure TDocForm.FormCreate(Sender: TObject);
+begin
+  WebBrowser.UserDataFolder := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'WebView2');
+end;
 
 procedure TDocForm.ToolButtonBackClick(Sender: TObject);
 begin
