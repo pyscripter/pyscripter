@@ -1,7 +1,7 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
 #ifndef MyAppVersion
-  #define MyAppVersion "4.2.1"
+  #define MyAppVersion "4.2.2"
 #endif
 #ifndef OSPlatform
   #define OSPlatform "x64"
@@ -53,6 +53,8 @@ Source: ..\PyScripter.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\PyScripter.chm; DestDir: {app}; Flags: ignoreversion
 Source: ..\Source\PyProject.ico; DestDir: {app}
 Source: ..\Lib\rpyc.zip; DestDir: {app}\Lib
+Source: Dependencies\{#OSPlatform}\WebView2Loader.dll; DestDir: {app}; Flags: ignoreversion
+Source: Dependencies\MicrosoftEdgeWebview2Setup.exe; DestDir: "{commonappdata}\PyScripter"; Flags: ignoreversion
 ; localization
 Source: ..\locale\default.pot; DestDir: {app}\locale
 Source: ..\locale\languagecodes.mo; DestDir: {app}\locale
@@ -238,6 +240,8 @@ Root: HKLM; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FE
 Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flags: nowait postinstall skipifsilent
 FileName: "cmd"; Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; Flags: runhidden
 Filename: {commonappdata}\PyScripter\Lsp\jls\JediLsp.exe; Parameters: "-y"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; Flags: runhidden
+Filename: {commonappdata}\PyScripter\MicrosoftEdgeWebview2Setup.exe; Parameters: "/silent /install"; WorkingDir: {commonappdata}\PyScripter; Flags: runhidden
+Filename: "cmd"; Parameters: "/c del MicrosoftEdgeWebview2Setup.exe"; WorkingDir: {commonappdata}\PyScripter; Flags: runhidden
 
 [UninstallRun]
 FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; RunOnceId: "DelLspDir"; Flags: runhidden 

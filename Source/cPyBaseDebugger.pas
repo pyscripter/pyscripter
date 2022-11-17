@@ -100,6 +100,7 @@ type
     fEngineType : TPythonEngineType;
     fCanDoPostMortem : Boolean;
     function SystemTempFolder: string; virtual;
+    function GetInterpreter: Variant; virtual; abstract;
   public
     procedure Initialize; virtual;
     // Create matching debugger
@@ -137,6 +138,7 @@ type
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
     property CanDoPostMortem: Boolean read fCanDoPostMortem write fCanDoPostMortem;
+    property PyInteractiveInterpreter : Variant read GetInterpreter;
   end;
 
   TThreadChangeType = (tctAdded, tctRemoved, tctStatusChange);

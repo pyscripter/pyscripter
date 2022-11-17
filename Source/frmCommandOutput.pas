@@ -90,6 +90,7 @@ type
     FNewLine: array [TOutputType] of Boolean;
     FInputString: string;
     FActiveEditorId: string;
+    FRunningTool: string;
     procedure InitializeOutput;
     procedure FinalilzeOuput;
     procedure ProcessOutput(OutType: TOutputType; const Bytes: TBytes; BytesRead: Cardinal);
@@ -107,6 +108,7 @@ type
     procedure FontOrColorUpdated;
     procedure ExecuteTool(Tool : TExternalTool);
     property IsRunning: Boolean read FIsRunning;
+    property RunningTool: string read FRunningTool;
   end;
 
 var
@@ -522,6 +524,7 @@ begin
 
   InitializeOutput;
   // Execute Process
+  FRunningTool := Tool.Caption;
   var Task := TTask.Create(procedure
     begin
        FIsRunning := True;
@@ -531,6 +534,7 @@ begin
          FIsRunning := False;
        end;
 
+       FRunningTool := '';
        if not GI_PyIDEServices.IsClosing then
          TThread.ForceQueue(nil, procedure
            begin

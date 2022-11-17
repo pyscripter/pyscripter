@@ -1548,7 +1548,10 @@ begin
     NS.Free;
   end;
 
-  ProcessFolderChange(Dir);
+  TThread.ForceQueue(nil, procedure
+  begin
+    ProcessFolderChange(Dir);
+  end, 200);
 end;
 
 procedure TCommandsDataModule.PrepareParameterCompletion;

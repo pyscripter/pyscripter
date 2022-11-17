@@ -84,6 +84,8 @@ type
     fII : Variant;  // Python VarPyth wrapper to the interactive interpreter
     fDebugger : Variant;
     fOldargv : Variant;
+  protected
+    function GetInterpreter: Variant; override;
   public
     constructor Create(II : Variant);
     function CreateDebugger: TPyBaseDebugger; override;
@@ -111,7 +113,6 @@ type
     function UnitTestResult : Variant; override;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
     property Debugger : Variant read fDebugger;
-    property PyInteractiveInterpreter : Variant read fII;
   end;
 
   TPyInternalDebugger = class(TPyBaseDebugger)
@@ -244,7 +245,7 @@ begin
   else begin
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      Result := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.membercount(fPyObject, ExpandSequences,
+      Result := PyControl.InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
     except
       Result := 0;
@@ -275,7 +276,7 @@ begin
     GotChildNodes := True;
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, ExpandSequences,
+      FullInfoTuple := PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
@@ -339,7 +340,7 @@ var
 begin
   SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    fObjectInfo := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.objectinfo(fPyObject);
+    fObjectInfo := PyControl.InternalInterpreter.PyInteractiveInterpreter.objectinfo(fPyObject);
   except
     fObjectInfo := 0;
   end;
@@ -361,7 +362,7 @@ Var
 begin
   SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    Result :=  TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.saferepr(fPyObject);
+    Result :=  PyControl.InternalInterpreter.PyInteractiveInterpreter.saferepr(fPyObject);
   except
     Result := '';
   end;
@@ -1314,6 +1315,11 @@ begin
     TimeKillEvent(PLongWord(dwUser)^);
     PLongWord(dwUser)^ := 0;
   end;
+end;
+
+function TPyInternalInterpreter.GetInterpreter: Variant;
+begin
+  Result := fII;
 end;
 
 procedure TPyInternalInterpreter.Run(ARunConfig: TRunConfiguration);

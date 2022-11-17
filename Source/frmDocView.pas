@@ -32,38 +32,33 @@ uses
   TB2Toolbar,
   SpTBXItem,
   dmCommands,
-  uEditAppIntfs;
+  uEditAppIntfs, Winapi.WebView2, Vcl.Edge;
 
 type
   TDocForm = class(TForm, IEditorView)
-    WebBrowser: TWebBrowser;
     TBXDock1: TSpTBXDock;
     TBXToolbar1: TSpTBXToolbar;
     ToolButtonForward: TSpTBXItem;
     ToolButtonBack: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     TBXItem3: TSpTBXItem;
-    TBXItem4: TSpTBXItem;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     TBXItem5: TSpTBXItem;
-    TBXItem6: TSpTBXItem;
     TBXSeparatorItem4: TSpTBXSeparatorItem;
     TBXItem7: TSpTBXItem;
     BrowserImages: TVirtualImageList;
+    WebBrowser: TEdgeBrowser;
     procedure ToolButtonBackClick(Sender: TObject);
     procedure ToolButtonForwardClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
-    procedure ToolButtonPageSetupClick(Sender: TObject);
-    procedure ToolButtonPrintPreviewClick(Sender: TObject);
     procedure ToolButtonPrintClick(Sender: TObject);
     procedure ToolButtonSaveClick(Sender: TObject);
     procedure WebBrowserCommandStateChange(Sender: TObject;
       Command: Integer; Enable: WordBool);
-    procedure FormDestroy(Sender: TObject);
+    procedure WebBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult:
+        HRESULT);
   private
     { Private declarations }
-    TempFileName : string;
-    SaveFileName : string;
     procedure UpdateView(Editor : IEditor);
   public
     { Public declarations }
@@ -115,30 +110,29 @@ begin
   WebBrowser.Stop;
 end;
 
-procedure TDocForm.ToolButtonPageSetupClick(Sender: TObject);
-begin
-  WebBrowser.ExecWB(OLECMDID_PAGESETUP, OLECMDEXECOPT_DODEFAULT);
-end;
-
-procedure TDocForm.ToolButtonPrintPreviewClick(Sender: TObject);
-begin
-  WebBrowser.ExecWB(OLECMDID_PRINTPREVIEW, OLECMDEXECOPT_DODEFAULT);
-end;
-
 procedure TDocForm.ToolButtonPrintClick(Sender: TObject);
 begin
-  WebBrowser.ExecWB(OLECMDID_PRINT, OLECMDEXECOPT_DODEFAULT);
+  WebBrowser.ExecuteScript('window.print();');
 end;
 
 procedure TDocForm.ToolButtonSaveClick(Sender: TObject);
-Var
-  V : OleVariant;
 begin
-  V := SaveFileName;
-  try
-    WebBrowser.ExecWB(OLECMDID_SAVEAS, OLECMDEXECOPT_DONTPROMPTUSER, V);
-  except
-  end;
+  var JS :=
+    'async function savehtml() {'#13#10 +
+      'const opts = {'#13#10 +
+      '  types: [{'#13#10 +
+      '      description: ''html file'','#13#10 +
+      '      accept: { ''text/html'': [''.html''] },'#13#10 +
+      '  }],'#13#10 +
+      '};'#13#10 +
+      'const handle = await window.showSaveFilePicker(opts);'#13#10 +
+      'const writable = await handle.createWritable();'#13#10 +
+      'var html = document.documentElement.outerHTML;'#13#10 +
+      'writable.write(html);'#13#10 +
+      'writable.close();}'#13#10 +
+     'savehtml();';
+
+  WebBrowser.ExecuteScript(JS);
 end;
 
 procedure TDocForm.WebBrowserCommandStateChange(Sender: TObject;
@@ -154,32 +148,31 @@ procedure TDocForm.UpdateView(Editor: IEditor);
 var
   Py: IPyEngineAndGIL;
   HTML : string;
-  pydoc, HTMLDoc, module : Variant;
+  module : Variant;
   Cursor : IInterface;
 begin
   if not Assigned(Editor) then Exit;
 
   Py := SafePyEngine;
   Cursor := WaitCursor;
-  Application.ProcessMessages;
 
   module := PyControl.ActiveInterpreter.ImportModule(Editor);
+  HTML := PyControl.ActiveInterpreter.PyInteractiveInterpreter.htmldoc(module);
 
-  pydoc := PyControl.ActiveInterpreter.EvalCode('__import__("pydoc")');
-  HTMLDoc := pydoc.html;
-  HTML := HTMLDoc.page(pydoc.describe(module), HTMLDoc.document(module));
+  WebBrowser.CreateWebView;
+  while WebBrowser.BrowserControlState in [TEdgeBrowser.TBrowserControlState.None,
+    TEdgeBrowser.TBrowserControlState.Creating]
+  do
+    Application.ProcessMessages;
 
-  SaveFileName := ChangeFileExt(Editor.FileName, '') + '.html';
-  TempFileName := IncludeTrailingPathDelimiter(GetWindowsTempFolder)
-     + ChangeFileExt(Editor.FileTitle, '') + '.html';
-  StringToFile(TempFileName, AnsiString(HTML));
-  WebBrowser.Navigate(TempFileName);
+  WebBrowser.NavigateToString(HTML);
 end;
 
-procedure TDocForm.FormDestroy(Sender: TObject);
+procedure TDocForm.WebBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
+    AResult: HRESULT);
 begin
-  if (TempFileName <> '') and FileExists(TempFileName) then
-    DeleteFile(TempFileName);
+  if WebBrowser.BrowserControlState <> TEdgeBrowser.TBrowserControlState.Created then
+    StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0);
 end;
 
 { TDocView }

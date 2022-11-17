@@ -2463,7 +2463,10 @@ end;
 
 procedure TEditorForm.WMFolderChangeNotify(var Msg: TMessage);
 begin
-  CommandsDataModule.ProcessFolderChange(ExtractFileDir(fEditor.fFileName));
+    TThread.ForceQueue(nil, procedure
+  begin
+    CommandsDataModule.ProcessFolderChange(ExtractFileDir(fEditor.fFileName));
+  end, 200);
 end;
 
 procedure TEditorForm.AddWatchAtCursor;

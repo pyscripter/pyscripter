@@ -301,6 +301,7 @@ Const
   SOpenDialogFilter = 'Open dialog %s filter';
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
   SNoJupyter = 'The ''jupyter'' package is not available.' + SLineBreak + 'Please install ''jupyter'' first.';
+  SWebView2Error = 'The WebView2 control creation failed.' + SLineBreak +  'Please install the WebView2 runtime';
   SExternalProcessRunning = 'An external process is still running.' + SLineBreak +
                             'Please terminate it first from the ''Output'' window.';
   SDictionaryNA = 'The dictionary for language code "%s" is not available.' + sLineBreak +

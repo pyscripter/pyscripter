@@ -549,10 +549,10 @@
           Issues addressed
             #1140, #1146, #1149, #1151, #1163, #1165
 
-  History:   v 4.2.1
+  History:   v 4.2.2
           New Features
           Issues addressed
-          #1181, #1182, #1183
+          #1181, #1182, #1183, #1185, #1186
 }
 
 { TODO : Review Search and Replace }
@@ -2282,7 +2282,7 @@ end;
 
 procedure TPyIDEMainForm.UpdateCaption;
 begin
-  if csDestroying in ComponentState then Exit;
+  if GetIsClosing then Exit;
 
   TThread.ForceQueue(nil, procedure
     begin
@@ -2389,7 +2389,7 @@ procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject;
   const OldPos, NewPos: TEditorPos);
 {  Invalidates old and/or new error line but does not Activate the Editor }
 begin
-  if csDestroying in ComponentState then Exit;
+  if GetIsClosing then Exit;
 
   if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then begin
     // Remove possible error line
@@ -2405,7 +2405,7 @@ end;
 procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject;
   const OldPos, NewPos: TEditorPos);
 begin
-  if csDestroying in ComponentState then Exit;
+  if GetIsClosing then Exit;
 
   if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then
     // Remove possible current lines
@@ -2437,7 +2437,7 @@ procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,
 var
   s: string;
 begin
-  if csDestroying in ComponentState then Exit;
+  if GetIsClosing then Exit;
 
   if GI_PyControl.PythonLoaded then
     case NewState of
@@ -3363,7 +3363,7 @@ begin
   EditorSearchOptions.InitSearch;
   UpdateCaption;
   TabCtrl := Sender as TSpTBXTabControl;
-  if Assigned(TabCtrl.ActivePage) and not (csDestroying in ComponentState) then
+  if Assigned(TabCtrl.ActivePage) and not GetIsClosing then
     // zOrder
     with TabCtrl do
       if not zOrderProcessing then begin

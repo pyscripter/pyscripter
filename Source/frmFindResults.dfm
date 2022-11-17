@@ -43,8 +43,7 @@ inherited FindResultsWindow: TFindResultsWindow
   OnKeyPress = FormKeyPress
   OnResize = FormResize
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   inherited BGPanel: TPanel
     Width = 603
     Height = 358
@@ -181,7 +180,6 @@ inherited FindResultsWindow: TFindResultsWindow
           TabOrder = 1
           WordWrap = False
           StyleElements = [seClient, seBorder]
-          Zoom = 100
         end
       end
       object StatusBar: TSpTBXStatusBar
@@ -195,7 +193,7 @@ inherited FindResultsWindow: TFindResultsWindow
           MinHeight = 20
         end
         object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-          CustomWidth = 570
+          CustomWidth = 583
         end
         object StatusRightLabel: TSpTBXLabelItem
           Alignment = taRightJustify
@@ -400,85 +398,70 @@ inherited FindResultsWindow: TFindResultsWindow
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 99
         CollectionName = 'Save'
-        Disabled = False
         Name = 'Save'
       end
       item
         CollectionIndex = 70
         CollectionName = 'Print'
-        Disabled = False
         Name = 'Print'
       end
       item
         CollectionIndex = 16
         CollectionName = 'Copy'
-        Disabled = False
         Name = 'Copy'
       end
       item
         CollectionIndex = 101
         CollectionName = 'Search'
-        Disabled = False
         Name = 'Search'
       end
       item
         CollectionIndex = 91
         CollectionName = 'Replace'
-        Disabled = False
         Name = 'Replace'
       end
       item
         CollectionIndex = 92
         CollectionName = 'ReplaceAll'
-        Disabled = False
         Name = 'ReplaceAll'
       end
       item
         CollectionIndex = 103
         CollectionName = 'Setup'
-        Disabled = False
         Name = 'Setup'
       end
       item
         CollectionIndex = 31
         CollectionName = 'Expand'
-        Disabled = False
         Name = 'Expand'
       end
       item
         CollectionIndex = 15
         CollectionName = 'Collapse'
-        Disabled = False
         Name = 'Collapse'
       end
       item
         CollectionIndex = 51
         CollectionName = 'GoToLine'
-        Disabled = False
         Name = 'GoToLine'
       end
       item
         CollectionIndex = 52
         CollectionName = 'Help'
-        Disabled = False
         Name = 'Help'
       end
       item
         CollectionIndex = 0
         CollectionName = 'Abort'
-        Disabled = False
         Name = 'Abort'
       end
       item
         CollectionIndex = 43
         CollectionName = 'FindRefresh'
-        Disabled = False
         Name = 'FindRefresh'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

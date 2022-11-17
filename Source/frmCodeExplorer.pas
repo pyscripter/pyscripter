@@ -266,7 +266,7 @@ uses
 procedure TCodeExplorerWindow.UpdateTree(const FileId: string;
       UpdateReason: TCEUpdateReason; NewModuleNode: TModuleCENode);
 begin
-  if csDestroying in CodeExplorerWindow.ComponentState then Exit;
+  if GI_PyIDEServices.IsClosing then Exit;
 
   var ActiveEditor := GI_PyIDEServices.ActiveEditor;
   if ActiveEditor = nil then
@@ -305,7 +305,7 @@ begin
 
     if ShowingActiveEditor and (ActiveEditor <> Editor) then
       // A non active editor's DocSymbols have been updated
-      Exit
+      Exit;
   end;
   FModuleNode := TDocSymbols(ActiveEditor.DocSymbols).ModuleNode as TModuleCENode;
 
@@ -597,7 +597,8 @@ begin
   begin
     CodeElement := TModuleCENode(FModuleNode).
       GetScopeForLine(Editor.ActiveSynEdit.CaretY);
-    if Assigned(CodeElement) and Assigned(CodeElement.fNode) then begin
+    if Assigned(CodeElement) and Assigned(CodeElement.fNode) then
+    begin
       ExplorerTree.TreeOptions.AnimationOptions :=
         ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
       ExplorerTree.OnChange := nil;
@@ -1091,25 +1092,23 @@ begin
 end;
 
 function TCodeElementCENode.GetScopeForLine(LineNo: integer): TCodeElementCENode;
-// similar to TCodeElement.GetScopeForLine in cPythonSourceScanner
-Var
-  i : integer;
-  Node : TAbstractCENode;
 begin
-  if (LineNo >= CodeBlock.StartLine) and (LineNo <= CodeBlock.EndLine) then begin
+  if InRange(LineNo, CodeBlock.StartLine, CodeBlock.EndLine) then begin
     Result := Self;
     //  try to see whether the line belongs to a child
     if not Assigned(fChildren) then Exit;
-    for i := 0 to fChildren.Count - 1 do begin
-      Node := Children[i];
-      if not (Node is TCodeElementCENode) then continue;
-
-      if (LineNo >= TCodeElementCENode(Node).CodeBlock.StartLine) and
-          (LineNo <= TCodeElementCENode(Node).CodeBlock.EndLine)
-      then begin
+    for var I := 0 to fChildren.Count - 1 do begin
+      var Node := Children[I];
+      if Node is TCodeElementCENode then
+      begin
+        var CENode := TCodeElementCENode(Node);
         // recursive call
-        Result := TCodeElementCENode(Node).GetScopeForLine(LineNo);
-        break;
+        CENode := CENode.GetScopeForLine(LineNo);
+        if Assigned(CENode) then
+        begin
+          Result := CENode;
+          Break;
+        end;
       end;
     end;
   end else

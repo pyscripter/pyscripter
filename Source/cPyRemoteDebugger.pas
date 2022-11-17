@@ -62,6 +62,7 @@ type
     procedure ConnectToServer;
     procedure ShutDownServer;  virtual;
     procedure ProcessServerOutput(const Bytes: TBytes; BytesRead: Cardinal);
+    function GetInterpreter: Variant; override;
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
@@ -246,7 +247,7 @@ begin
         FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, ExpandSequences,
           ExpandCommonTypes, ExpandSequences)
       else
-        FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject,
+        FullInfoTuple := PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject,
           ExpandSequences, ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
@@ -857,6 +858,11 @@ begin
   end;
 end;
 
+function TPyRemoteInterpreter.GetInterpreter: Variant;
+begin
+  Result := RPI;
+end;
+
 procedure TPyRemoteInterpreter.RestoreCommandLine;
 begin
   CheckConnected;
@@ -1292,7 +1298,7 @@ begin
   fRemotePython := RemotePython;
   fDebugManager := fRemotePython.RPI.DebugManager;
   fDebugManager.debugIDE :=
-    TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.debugIDE;
+    PyControl.InternalInterpreter.PyInteractiveInterpreter.debugIDE;
 
   fMainDebugger := fDebugManager.main_debugger;
 
