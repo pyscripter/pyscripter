@@ -2038,10 +2038,10 @@ begin
   actEditCommentOut.Enabled := Assigned(GI_ActiveEditor);
   actEditUncomment.Enabled := Assigned(GI_ActiveEditor);
   actEditLineNumbers.Enabled := Assigned(GI_ActiveEditor);
-  actEditWordWrap.Enabled := Assigned(GI_ActiveEditor);
   actEditReadOnly.Enabled := Assigned(GI_ActiveEditor);
   actEditReadOnly.Checked := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ReadOnly;
-  actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor);
+  actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) or PythonIIForm.SynEdit.Focused;
+  actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or PythonIIForm.SynEdit.Focused;;
   if Assigned(GI_ActiveEditor) then begin
     actEditLineNumbers.Checked := GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;
     actEditWordWrap.Checked := GI_ActiveEditor.ActiveSynEdit.WordWrap;
@@ -2349,17 +2349,24 @@ end;
 procedure TCommandsDataModule.actEditWordWrapExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    GI_ActiveEditor.ActiveSynEdit.WordWrap := not GI_ActiveEditor.ActiveSynEdit.WordWrap;
+    GI_ActiveEditor.ActiveSynEdit.WordWrap := not GI_ActiveEditor.ActiveSynEdit.WordWrap
+  else if PythonIIForm.SynEdit.Focused then
+    PythonIIForm.SynEdit.WordWrap := not PythonIIForm.SynEdit.WordWrap;
 end;
 
 procedure TCommandsDataModule.actEditShowSpecialCharsExecute(
   Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    if eoShowSpecialChars in GI_ActiveEditor.ActiveSynEdit.Options then
-      GI_ActiveEditor.ActiveSynEdit.Options := GI_ActiveEditor.ActiveSynEdit.Options - [eoShowSpecialChars]
-    else
-      GI_ActiveEditor.ActiveSynEdit.Options := GI_ActiveEditor.ActiveSynEdit.Options + [eoShowSpecialChars]
+  begin
+    var Options := GI_ActiveEditor.ActiveSynEdit.Options;
+    GI_ActiveEditor.ActiveSynEdit.Options := Options + [eoShowSpecialChars] - Options * [eoShowSpecialChars];
+  end
+  else if PythonIIForm.SynEdit.Focused then
+  begin
+    var Options := PythonIIForm.SynEdit.Options;
+    PythonIIForm.SynEdit.Options := Options + [eoShowSpecialChars] - Options * [eoShowSpecialChars];
+  end;
 end;
 
 procedure TCommandsDataModule.actFindNextReferenceExecute(

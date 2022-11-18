@@ -501,7 +501,6 @@ procedure TPythonIIForm.ValidateEditorOptions(
 begin
   with SynEditOptions do begin
     Options := Options - [eoTrimTrailingSpaces, eoScrollPastEol, eoShowLigatures];
-    WordWrap := True;
     Gutter.Visible := False;
     IndentGuides.Visible := False;
     RightEdge := 0;
@@ -512,9 +511,11 @@ procedure TPythonIIForm.ApplyEditorOptions;
 begin
   var SynEditOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(nil))();
 
+  var OldWordWrap := SynEdit.WordWrap;
   SynEditOptions.Assign(EditorOptions);
   ValidateEditorOptions(SynEditOptions);
   SynEdit.Assign(SynEditOptions);
+  SynEdit.WordWrap := OldWordWrap;
   RegisterHistoryCommands;
 
   SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
