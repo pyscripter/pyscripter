@@ -380,10 +380,18 @@ begin
   end;
   Node.SetData<TAbstractCENode>(CENode);
   if CENode.ChildCount > 0 then
-    if CENode.Expanded = esExpanded then
-      InitialStates := [ivsHasChildren, ivsExpanded]
-    else
-      InitialStates := [ivsHasChildren];
+  begin
+    Include(InitialStates, ivsHasChildren);
+    if (ivsReinit in InitialStates) then
+    begin
+      if vsExpanded in Node.States then
+        CENode.Expanded := esExpanded
+      else
+        CENode.Expanded := esCollapsed;
+    end
+    else if CENode.Expanded = esExpanded then
+      Include(InitialStates, ivsExpanded);
+  end;
   // reverse link from CENode to Tree node
   CENode.fNode := Node;
 end;
