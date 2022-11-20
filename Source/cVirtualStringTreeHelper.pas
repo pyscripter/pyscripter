@@ -16,8 +16,12 @@ type
 
   TVirtualStringTreeHelper = class helper for TCustomVirtualStringTree
   public
+    // Reinitialize only initialized nodes
     procedure ReinitInitializedNode(Node: PVirtualNode; Recursive: Boolean);
     procedure ReinitInitializedChildren(Node: PVirtualNode; Recursive: Boolean);
+    // Reinitialize everything
+    procedure ForcedReinitNode(Node: PVirtualNode; Recursive: Boolean);
+    procedure ForcedReinitChildren(Node: PVirtualNode; Recursive: Boolean);
   end;
 
 implementation
@@ -28,6 +32,44 @@ type
   TCrackedVirtualStringTree = class(TCustomVirtualStringTree)
   end;
 
+
+procedure TVirtualStringTreeHelper.ForcedReinitChildren(Node: PVirtualNode;
+  Recursive: Boolean);
+var
+  Run: PVirtualNode;
+
+begin
+  if Assigned(Node) then
+  begin
+    InitChildren(Node);
+    Run := Node.FirstChild;
+  end
+  else
+  begin
+    InitChildren(RootNode);
+    Run := RootNode.FirstChild;
+  end;
+
+  while Assigned(Run) do
+  begin
+    ForcedReinitNode(Run, Recursive);
+    Run := Run.NextSibling;
+  end;
+end;
+
+procedure TVirtualStringTreeHelper.ForcedReinitNode(Node: PVirtualNode;
+  Recursive: Boolean);
+begin
+  if Assigned(Node) and (Node <> RootNode) then
+  begin
+    // Remove dynamic styles.
+    Node.States := Node.States - [vsChecking, vsCutOrCopy, vsDeleting, vsHeightMeasured];
+    InitNode(Node);  // Always reinitialize
+  end;
+
+  if Recursive then
+    ForcedReinitChildren(Node, True);
+end;
 
 procedure TVirtualStringTreeHelper.ReinitInitializedChildren(Node: PVirtualNode;
   Recursive: Boolean);
@@ -70,7 +112,7 @@ begin
     TCrackedVirtualStringTree(self).InitNode(Node);
   end;
 
-  if Recursive and (not Assigned(Node) or Assigned(Node) and (vsInitialized in Node.States)) then
+  if Recursive and (Node.ChildCount > 0) then
     ReinitInitializedChildren(Node, True);
 end;
 

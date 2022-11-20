@@ -61,8 +61,8 @@ type
     fRestoreOpenFiles : Boolean;
     fRestoreOpenProject : Boolean;
     fCreateBackupFiles : Boolean;
-    fExporerInitiallyExpanded : Boolean;
-    fProjectExporerInitiallyExpanded : Boolean;
+    fExplorerInitiallyExpanded : Boolean;
+    fProjectExplorerInitiallyExpanded : Boolean;
     fSearchTextAtCaret : Boolean;
     fPythonFileFilter : string;
     fCythonFileFilter : string;
@@ -180,10 +180,10 @@ type
       write fRestoreOpenProject default True;
     property CreateBackupFiles : boolean read fCreateBackupFiles
       write fCreateBackupFiles default False;
-    property ExporerInitiallyExpanded : boolean read fExporerInitiallyExpanded
-      write fExporerInitiallyExpanded default False;
-    property ProjectExporerInitiallyExpanded : boolean read fProjectExporerInitiallyExpanded
-      write fProjectExporerInitiallyExpanded default True;
+    property ExplorerInitiallyExpanded : boolean read fExplorerInitiallyExpanded
+      write fExplorerInitiallyExpanded default False;
+    property ProjectExplorerInitiallyExpanded : boolean read fProjectExplorerInitiallyExpanded
+      write fProjectExplorerInitiallyExpanded default True;
     property SearchTextAtCaret : Boolean read fSearchTextAtCaret
       write fSearchTextAtCaret stored False;
     property PythonFileFilter : string read fPythonFileFilter
@@ -462,8 +462,8 @@ begin
       Self.fRestoreOpenFiles := fRestoreOpenFiles;
       Self.fRestoreOpenProject := fRestoreOpenProject;
       Self.fCreateBackUpFiles := CreateBackUpFiles;
-      Self.fExporerInitiallyExpanded := ExporerInitiallyExpanded;
-      Self.fProjectExporerInitiallyExpanded := ProjectExporerInitiallyExpanded;
+      Self.fExplorerInitiallyExpanded := ExplorerInitiallyExpanded;
+      Self.fProjectExplorerInitiallyExpanded := ProjectExplorerInitiallyExpanded;
       Self.fSearchTextAtCaret := SearchTextAtCaret;
       Self.fPythonFileFilter := PythonFileFilter;
       Self.fCythonFileFilter := CythonFileFilter;
@@ -560,8 +560,8 @@ begin
   fSaveFilesBeforeRun := True;
   fSaveEnvironmentBeforeRun := False;
   fCreateBackupFiles := False;
-  fExporerInitiallyExpanded := False;
-  fProjectExporerInitiallyExpanded := True;
+  fExplorerInitiallyExpanded := False;
+  fProjectExplorerInitiallyExpanded := True;
   fPythonFileFilter := _(sPythonFileFilter);
   fCythonFileFilter := _(sCythonFileFilter);
   fHTMLFileFilter := _(sHTMLFileFilter);

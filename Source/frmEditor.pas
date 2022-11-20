@@ -435,7 +435,6 @@ begin
   SetFileEncoding(PyIDEOptions.NewFileEncoding);
   FSynLsp := TLspSynEditPlugin.Create(fForm.SynEdit);
   FSynLsp.DocSymbols.OnNotify := FForm.SymbolsChanged;
-  CodeExplorerWindow.UpdateWindow(FSynLsp.DocSymbols, ceuEditorEnter);
 end;
 
 procedure TEditor.Activate(Primary: boolean = True);
@@ -471,19 +470,20 @@ begin
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
 
-    if fForm.BreakPoints.Count > 0 then
-    begin
-      PyControl.BreakPointsChanged := True;
-      BreakPointsWindow.UpdateWindow;
-    end;
+    fForm.DoAssignInterfacePointer(False);
+    Assert(GI_EditorFactory <> nil);
+    GI_EditorFactory.RemoveEditor(Self);
+    if GI_EditorFactory.Count = 0 then
+      PyIDEMainForm.UpdateCaption;
 
     TabSheet := (fForm.Parent as TSpTBXTabSheet);
     TabControl := TabSheet.TabControl;
     TabControl.View.BeginUpdate;
     try
       (fForm.ParentTabControl as TSpTBXTabControl).zOrder.Remove(TabSheet.Item);
-      fForm.DoAssignInterfacePointer(False);
-      // fForm.Close;
+      fForm := nil;
+      // The form is owned by the tabshhet and it is also destroyed
+      // The SynEdit plugin FSynLsp will also be destroyed
       TabSheet.Free;
       if Assigned(TabControl) then
         TabControl.Toolbar.MakeVisible(TabControl.ActiveTab);
@@ -1357,12 +1357,10 @@ begin
 end;
 
 procedure TEditorFactory.RemoveEditor(AEditor: IEditor);
-var
-  i: Integer;
 begin
-  i := fEditors.IndexOf(AEditor);
-  if i > -1 then
-    fEditors.Delete(i);
+  var Index := fEditors.IndexOf(AEditor);
+  if Index >= 0 then
+    fEditors.Delete(Index);
 end;
 
 function TEditorFactory.RegisterViewFactory(ViewFactory: IEditorViewFactory): integer;
@@ -1469,20 +1467,17 @@ end;
 { TEditorForm }
 
 procedure TEditorForm.FormDestroy(Sender: TObject);
-var
-  LEditor: IEditor;
 begin
   // PyIDEOptions change notification
   PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
 
   SynEdit2.RemoveLinesPointer;
-  LEditor := fEditor;
-  Assert(fEditor <> nil);
-  fEditor.fForm := nil;
-  Assert(GI_EditorFactory <> nil);
-  GI_EditorFactory.RemoveEditor(LEditor);
-  if GI_EditorFactory.Count = 0 then
-    PyIDEMainForm.UpdateCaption;
+
+  if BreakPoints.Count > 0 then
+  begin
+    PyControl.BreakPointsChanged := True;
+    BreakPointsWindow.UpdateWindow;
+  end;
   BreakPoints.Free;
 
   // Unregister kernel notification

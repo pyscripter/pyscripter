@@ -37,7 +37,6 @@ type
   private
     FPlugIn: TLspSynEditPlugin;
     FRefreshing: Boolean;
-    FDestroying: Boolean;
     FOnNotify: TNotifyEvent;
     function GetFileId: string;
   public
@@ -49,7 +48,6 @@ type
     procedure Lock;
     procedure Unlock;
     property FileId: string read GetFileId;
-    property Destroying: Boolean read FDestroying;
     property OnNotify: TNotifyEvent read FOnNotify write FOnNotify;
   end;
 
@@ -156,7 +154,7 @@ end;
 
 procedure TLspSynEditPlugin.FileClosed;
 begin
-  DocSymbols.Clear;
+  FDocSymbols.Clear;
   var OldLangId := FLangId;
   FLangId := lidNone;
   var OldFileId := FFileId;
@@ -306,7 +304,9 @@ begin
     begin
       DocSymbols.Symbols := TJsonArray(Result);
       Result := nil;
-    end;
+    end
+    else
+      DocSymbols.Symbols := TJSONArray.Create;
     if Assigned(DocSymbols.FOnNotify) then
       DocSymbols.FOnNotify(DocSymbols);
   finally
@@ -565,8 +565,6 @@ end;
 
 destructor TDocSymbols.Destroy;
 begin
-  // signal it is destroyed
-  FDestroying := True;
   Clear;
   inherited;
 end;

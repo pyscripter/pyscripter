@@ -1661,13 +1661,13 @@ begin
   with Categories[2] do begin
     DisplayName := _('Code Explorer');
     SetLength(Options, 1);
-    Options[0].PropertyName := 'ExporerInitiallyExpanded';
+    Options[0].PropertyName := 'ExplorerInitiallyExpanded';
     Options[0].DisplayName := _('Initially expanded');
   end;
   with Categories[3] do begin
     DisplayName := _('Project Explorer');
     SetLength(Options, 1);
-    Options[0].PropertyName := 'ProjectExporerInitiallyExpanded';
+    Options[0].PropertyName := 'ProjectExplorerInitiallyExpanded';
     Options[0].DisplayName := _('Initially expanded');
   end;
   with Categories[4] do begin

@@ -1186,7 +1186,7 @@ begin
   end;
   if Data.ProjectNode.Children.Count > 0 then begin
     InitialStates := [ivsHasChildren];
-    if (not (ivsReInit in InitialStates) and PyIDEOptions.ProjectExporerInitiallyExpanded)
+    if (not (ivsReInit in InitialStates) and PyIDEOptions.ProjectExplorerInitiallyExpanded)
       or (Node.Parent = ExplorerTree.RootNode)
     then
       Include(InitialStates, ivsExpanded);

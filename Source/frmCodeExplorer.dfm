@@ -71,6 +71,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           Images = vilCodeImages
           IncrementalSearch = isAll
           TabOrder = 0
+          TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toWheelPanning]
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.SelectionOptions = [toRightClickSelect]

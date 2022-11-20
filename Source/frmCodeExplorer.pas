@@ -259,7 +259,8 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   LspUtils,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  cVirtualStringTreeHelper;
 
 {$R *.dfm}
 
@@ -327,7 +328,7 @@ begin
         TModuleCENode(FModuleNode).Sort(soAlpha);
       ExplorerTree.BeginUpdate;
       try
-        ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True);
+        ExplorerTree.ForcedReinitNode(ExplorerTree.RootNode.FirstChild, True);
         ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
       finally
         ExplorerTree.EndUpdate;
@@ -440,9 +441,8 @@ end;
 procedure TCodeExplorerWindow.ExplorerTreeCollapsed(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
-  if Assigned(Node) then begin
+  if Assigned(Node) then
     Node.GetData<TAbstractCENode>.Expanded := esCollapsed;
-  end;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;
@@ -489,9 +489,8 @@ end;
 procedure TCodeExplorerWindow.ExplorerTreeExpanded(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
-  if Assigned(Node) then begin
+  if Assigned(Node) then
     Node.GetData<TAbstractCENode>.Expanded := esExpanded;
-  end;
 end;
 
 procedure TCodeExplorerWindow.UpdateModuleNode(const FileId: string; Symbols: TJsonArray);
@@ -526,25 +525,17 @@ begin
         try
           if DocSymbols.Symbols = nil then
           begin
-            if DocSymbols.Destroying then
+            Assert(GetCurrentThreadId = MainThreadId);
+            if FFileId = LFileId then
             begin
-              // DocSymbols is being destroyed
-              Assert(GetCurrentThreadId = MainThreadId);
-              FreeAndNil(DocSymbols.ModuleNode);
-              if FFileId = LFileId then
-              begin
-                ExplorerTree.Clear;
-                FModuleNode := nil;
-              end;
-            end
-            else
-              TThread.ForceQueue(nil, procedure
-                begin
-                    UpdateTree(LFileId, ceuSymbolsChanged, nil);
-                end);
+              ExplorerTree.Clear;
+              FModuleNode := nil;
+            end;
+            FreeAndNil(DocSymbols.ModuleNode);
           end
           else
           begin
+            // Called from a thread <> MainThread
             Symbols := DocSymbols.Symbols; // Will destroyed in UpdateModuleNode
             DocSymbols.Symbols := nil;
             var Task := TTask.Create(procedure
@@ -662,7 +653,7 @@ begin
 
     ExplorerTree.BeginUpdate;
     try
-      ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True);
+      ExplorerTree.ForcedReinitNode(ExplorerTree.RootNode.FirstChild, True);
       ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
     finally
       ExplorerTree.EndUpdate;
@@ -1007,6 +998,8 @@ begin
     else
       AddChild(Node);
   end;
+  if PyIDEOptions.ExplorerInitiallyExpanded and (ChildCount > 0) then
+   fExpanded := esExpanded;
 end;
 
 { TAttributesCENode }

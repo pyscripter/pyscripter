@@ -552,7 +552,7 @@
   History:   v 4.2.2
           New Features
           Issues addressed
-          #1181, #1182, #1183, #1185, #1186
+          #1181, #1182, #1183, #1185, #1186, #1187
 }
 
 { TODO : Review Search and Replace }
