@@ -48,8 +48,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     000000000000000000F77E7E1023000000000000000000000000F77D7E11FFFF
     0000E00F00008003000000010000000100000001000000010000000100000003
     00000007000080030000E0010000FF800000FFC00000FFE00000FFF00000}
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   inherited BGPanel: TPanel
     Width = 384
     Height = 478
@@ -79,11 +78,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Caption = 'Clear'
             Hint = 'Clear all fields'
             ImageIndex = 0
+            ImageName = 'Delete'
             OnClick = TiClearClick
           end
           object TBXSubmenuItem2: TSpTBXSubmenuItem
             Caption = 'Options'
             ImageIndex = 4
+            ImageName = 'Setup'
             object CI_DOTALL: TSpTBXItem
               Caption = 'DOTALL'
               Hint = 'Sets the DOTALL re flag'
@@ -175,6 +176,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Caption = 'Execute'
             Hint = 'Execute search or match'
             ImageIndex = 1
+            ImageName = 'Execute'
             OnClick = TIExecuteClick
           end
           object TBXSeparatorItem3: TSpTBXSeparatorItem
@@ -183,6 +185,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Caption = 'Help'
             Hint = 'Show Python Help on the re module'
             ImageIndex = 5
+            ImageName = 'Help'
             OnClick = tiHelpClick
           end
         end
@@ -197,6 +200,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         object lbStatusBar: TSpTBXLabelItem
           Caption = 'Not executed'
           ImageIndex = 3
+          ImageName = 'Stop'
         end
       end
       object pnlBackground: TPanel
@@ -250,6 +254,8 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             TreeOptions.PaintOptions = [toHideSelection, toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
             TreeOptions.StringOptions = [toAutoAcceptEditChange]
             OnGetText = GroupsViewGetText
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             Columns = <
               item
                 Alignment = taRightJustify
@@ -317,7 +323,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0
-              Zoom = 100
               OnChange = RegExpTextChange
             end
             object TBXLabel3: TSpTBXLabel
@@ -390,7 +395,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 PlainText = True
                 ScrollBars = ssVertical
                 TabOrder = 0
-                Zoom = 100
                 OnChange = RegExpTextChange
               end
               object TBXLabel4: TSpTBXLabel
@@ -459,7 +463,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 PlainText = True
                 ScrollBars = ssVertical
                 TabOrder = 0
-                Zoom = 100
               end
               object lblMatch: TSpTBXLabel
                 Left = 2
@@ -482,7 +485,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 Left = 335
                 Top = 2
                 Width = 41
-                Height = 19
+                Height = 21
                 Hint = 'Show a found match'
                 Anchors = [akTop, akRight]
                 DoubleBuffered = True
@@ -494,7 +497,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 SpinButton.Left = 27
                 SpinButton.Top = 0
                 SpinButton.Width = 14
-                SpinButton.Height = 19
+                SpinButton.Height = 21
                 SpinButton.Align = alRight
                 SpinButton.Enabled = False
                 SpinOptions.Decimal = 0
@@ -516,43 +519,35 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     Top = 58
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 21
         CollectionName = 'Delete'
-        Disabled = False
         Name = 'Delete'
       end
       item
         CollectionIndex = 29
         CollectionName = 'Execute'
-        Disabled = False
         Name = 'Execute'
       end
       item
         CollectionIndex = 11
         CollectionName = 'Check'
-        Disabled = False
         Name = 'Check'
       end
       item
-        CollectionIndex = 109
+        CollectionIndex = 111
         CollectionName = 'Stop'
-        Disabled = False
         Name = 'Stop'
       end
       item
-        CollectionIndex = 102
+        CollectionIndex = 103
         CollectionName = 'Setup'
-        Disabled = False
         Name = 'Setup'
       end
       item
         CollectionIndex = 52
         CollectionName = 'Help'
-        Disabled = False
         Name = 'Help'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

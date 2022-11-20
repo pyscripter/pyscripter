@@ -322,13 +322,13 @@ Var
   AdjSearchText: string;
   OutputSuppressor: IInterface;
 begin
-  Clear;
-
+  if not GI_PyControl.Inactive then Exit;
   if RegExpText.Text = '' then Exit;
   if SearchText.Text = '' then Exit;
 
+  Clear;
+
   Py := SafePyEngine;
-  if not GI_PyControl.Inactive then Exit;
 
   re := Import('re');
   Flags := 0;
