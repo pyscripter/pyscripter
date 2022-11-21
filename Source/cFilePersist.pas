@@ -325,16 +325,14 @@ begin
             FilePersistInfo.Highlighter, CommandsDataModule.Highlighters);
           Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
         end;
-        Editor.SynEdit.Assign(FilePersistInfo.EditorOptions);
         RestoreFoldInfo(Editor.SynEdit, FilePersistInfo.UseCodeFolding, FilePersistInfo.FoldState);
+        Editor.SynEdit.Assign(FilePersistInfo.EditorOptions);
         Editor.ReadOnly := FilePersistInfo.ReadOnly;
 
         if FilePersistInfo.SecondEditorVisible then begin
-          Editor.SynEdit2.Assign(FilePersistInfo.EditorOptions2);
           RestoreFoldInfo(Editor.SynEdit2, FilePersistInfo.SecondEditorUseCodeFolding,
             FilePersistInfo.FoldState2);
-
-          Editor.SynEdit2.UseCodeFolding := FilePersistInfo.SecondEditorUseCodeFolding;
+          Editor.SynEdit2.Assign(FilePersistInfo.EditorOptions2);
 
           if FilePersistInfo.SecondEditorAlign = alRight then begin
             Editor.SplitEditorVertrically;
