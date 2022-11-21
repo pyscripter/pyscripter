@@ -729,7 +729,7 @@ object CommandsDataModule: TCommandsDataModule
           '                    if os.path.exists(css_path):'
           '                        with open(css_path, '#39'r'#39') as file:'
           
-            '                            css = "<style>/n" + file.read() + "/' +
+            '                            css = "<style>\n" + file.read() + "\' +
             'n</style>"'
           ''
           '                return '#39#39#39'\'
@@ -1584,7 +1584,7 @@ object CommandsDataModule: TCommandsDataModule
           '                    if os.path.exists(css_path):'
           '                        with open(css_path, '#39'r'#39') as file:'
           
-            '                            css = "<style>/n" + file.read() + "/' +
+            '                            css = "<style>\n" + file.read() + "\' +
             'n</style>"'
           ''
           '                return '#39#39#39'\'
