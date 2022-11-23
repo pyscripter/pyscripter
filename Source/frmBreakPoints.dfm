@@ -40,8 +40,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
     3EE0D9983EE0D9983EE0D9983EE0D9983EE0D9983EE0D3953FCDC28A455C0000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 25
   inherited BGPanel: TPanel
     Width = 379
     Height = 244
@@ -80,6 +79,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
           OnGetText = BreakPointsViewGetText
           OnInitNode = BreakPointsViewInitNode
           OnKeyDown = BreakPointsViewKeyDown
+          Touch.InteractiveGestures = [igPan, igPressAndTap]
+          Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
           Columns = <
             item
               Position = 0
@@ -135,19 +136,15 @@ inherited BreakPointsWindow: TBreakPointsWindow
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 16
         CollectionName = 'Copy'
-        Disabled = False
         Name = 'Copy'
       end
       item
         CollectionIndex = 7
         CollectionName = 'BreakpointsRemove'
-        Disabled = False
         Name = 'BreakpointsRemove'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

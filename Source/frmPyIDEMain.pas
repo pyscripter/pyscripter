@@ -1429,6 +1429,7 @@ uses
   JclSysUtils,
   JvJVCLUtils,
   SpTBXControls,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   VirtualExplorerTree,
   MPDataObject,

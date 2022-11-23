@@ -25,6 +25,7 @@ uses
   SVGIconImageCollection,
   JvComponentBase,
   JvDockControlForm,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   TB2Item,
   TB2Dock,

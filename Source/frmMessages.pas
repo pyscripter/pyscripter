@@ -36,6 +36,7 @@ uses
   TB2Toolbar,
   SpTBXSkins,
   SpTBXItem,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   PythonEngine,
   uEditAppIntfs,

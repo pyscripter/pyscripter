@@ -37,8 +37,9 @@ uses
   SpTBXSkins,
   SpTBXControls,
   SpTBXItem,
-  VirtualTrees,
   VirtualTrees.Types,
+  VirtualTrees.BaseTree,
+  VirtualTrees,
   cPyControl;
 
 type

@@ -33,6 +33,7 @@ uses
   SpTBXItem,
   SpTBXControls,
   SpTBXDkPanels,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   frmIDEDockWin,
   dmCommands,

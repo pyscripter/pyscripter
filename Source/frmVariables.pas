@@ -36,9 +36,10 @@ uses
   SpTBXPageScroller,
   SpTBXItem,
   SpTBXControls,
+  VirtualTrees.Types,
+  VirtualTrees.BaseTree,
   VirtualTrees.HeaderPopup,
   VirtualTrees,
-  VirtualTrees.Types,
   frmIDEDockWin,
   cPyBaseDebugger;
 

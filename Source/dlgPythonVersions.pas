@@ -24,6 +24,7 @@ uses
   TB2Toolbar,
   SpTBXItem,
   TB2Item,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   dlgPyIDEBase,
   dmCommands;

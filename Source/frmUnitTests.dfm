@@ -40,8 +40,7 @@ inherited UnitTestWindow: TUnitTestWindow
     000000000022000000150000000000000000000000000000000000000000C3C1
     00008001000000000000000000000000000080010000C0030000E00700000000
     000000000000F00F0000C00300008C3100009C390000FC3F0000F99F0000}
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 25
   inherited BGPanel: TPanel
     Width = 262
     Height = 451
@@ -145,6 +144,8 @@ inherited UnitTestWindow: TUnitTestWindow
           OnGetHint = UnitTestsGetHint
           OnInitChildren = UnitTestsInitChildren
           OnInitNode = UnitTestsInitNode
+          Touch.InteractiveGestures = [igPan, igPressAndTap]
+          Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
           Columns = <>
         end
       end
@@ -169,8 +170,8 @@ inherited UnitTestWindow: TUnitTestWindow
         object Label2: TLabel
           Left = 7
           Top = 62
-          Width = 73
-          Height = 13
+          Width = 117
+          Height = 25
           Caption = 'Error Message:'
           Color = clNone
           ParentColor = False
@@ -262,7 +263,6 @@ inherited UnitTestWindow: TUnitTestWindow
             ReadOnly = True
             ScrollBars = ssBoth
             TabOrder = 0
-            Zoom = 100
           end
         end
       end
@@ -351,49 +351,40 @@ inherited UnitTestWindow: TUnitTestWindow
     end
   end
   object vilRunImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
         CollectionName = 'UnitTests\NotRun'
-        Disabled = False
         Name = 'NotRun'
       end
       item
         CollectionIndex = 1
         CollectionName = 'UnitTests\Running'
-        Disabled = False
         Name = 'Running'
       end
       item
         CollectionIndex = 2
         CollectionName = 'UnitTests\Success'
-        Disabled = False
         Name = 'Success'
       end
       item
         CollectionIndex = 3
         CollectionName = 'UnitTests\Failure'
-        Disabled = False
         Name = 'Failure'
       end
       item
         CollectionIndex = 4
         CollectionName = 'UnitTests\Error'
-        Disabled = False
         Name = 'Error'
       end
       item
         CollectionIndex = 5
         CollectionName = 'UnitTests\TestsCollapsed'
-        Disabled = False
         Name = 'TestsCollapsed'
       end
       item
         CollectionIndex = 6
         CollectionName = 'UnitTests\TestsExpanded'
-        Disabled = False
         Name = 'TestsExpanded'
       end>
     ImageCollection = icRunImages
@@ -402,61 +393,50 @@ inherited UnitTestWindow: TUnitTestWindow
     Top = 112
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 21
         CollectionName = 'Delete'
-        Disabled = False
         Name = 'Delete'
       end
       item
         CollectionIndex = 31
         CollectionName = 'Expand'
-        Disabled = False
         Name = 'Expand'
       end
       item
         CollectionIndex = 15
         CollectionName = 'Collapse'
-        Disabled = False
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 87
+        CollectionIndex = 88
         CollectionName = 'Refresh'
-        Disabled = False
         Name = 'Refresh'
       end
       item
         CollectionIndex = 0
         CollectionName = 'Abort'
-        Disabled = False
         Name = 'Abort'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 93
         CollectionName = 'Run'
-        Disabled = False
         Name = 'Run'
       end
       item
-        CollectionIndex = 123
+        CollectionIndex = 126
         CollectionName = 'TreeSelectAll'
-        Disabled = False
         Name = 'TreeSelectAll'
       end
       item
-        CollectionIndex = 122
+        CollectionIndex = 125
         CollectionName = 'TreeDeselectAll'
-        Disabled = False
         Name = 'TreeDeselectAll'
       end
       item
-        CollectionIndex = 116
+        CollectionIndex = 118
         CollectionName = 'TestsFailed'
-        Disabled = False
         Name = 'TestsFailed'
       end>
     ImageCollection = CommandsDataModule.icSVGImages

@@ -10,11 +10,31 @@ unit frmBreakPoints;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, JvDockControlForm, frmIDEDockWin, ExtCtrls,
-  Contnrs, TB2Item, Menus, VirtualTrees, JvComponentBase,
-  SpTBXSkins, SpTBXItem, JvAppStorage, SpTBXControls, System.ImageList,
-  Vcl.ImgList, Vcl.VirtualImageList;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  System.Contnrs,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Menus,
+  Vcl.ExtCtrls,
+  JvAppStorage,
+  JvComponentBase,
+  JvDockControlForm,
+  frmIDEDockWin,
+  TB2Item,
+  VirtualTrees.BaseTree,
+  VirtualTrees,
+  SpTBXSkins,
+  SpTBXItem,
+  SpTBXControls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)

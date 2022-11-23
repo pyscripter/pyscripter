@@ -10,6 +10,7 @@ unit cVirtualStringTreeHelper;
 
 interface
 uses
+  VirtualTrees.BaseTree,
   VirtualTrees;
 
 type

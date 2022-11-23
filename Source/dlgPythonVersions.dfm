@@ -4,7 +4,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
   Caption = 'Python Versions'
   ClientHeight = 315
   ClientWidth = 630
-  TextHeight = 15
+  TextHeight = 25
   object Panel1: TPanel
     Left = 0
     Top = 30

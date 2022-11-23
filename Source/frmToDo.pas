@@ -76,6 +76,7 @@ uses
   JvDockControlForm,
   JvAppStorage,
   JvComponentBase,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   SynUnicode,
   uCommonFunctions,

@@ -37,6 +37,7 @@ uses
   SpTBXEditors,
   JvAppStorage,
   JvComponentBase,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   frmIDEDockWin,
   Vcl.ImgList;

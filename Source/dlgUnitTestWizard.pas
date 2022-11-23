@@ -30,8 +30,9 @@ uses
   Vcl.VirtualImageList,
   TB2Item,
   SpTBXItem,
-  VirtualTrees,
   VirtualTrees.Types,
+  VirtualTrees.BaseTree,
+  VirtualTrees,
   dlgPyIDEBase;
 
 type

@@ -42,6 +42,7 @@ uses
   SpTBXControls,
   JvComponentBase,
   JvDockControlForm,
+  VirtualTrees.BaseTree,
   VirtualTrees,
   frmIDEDockWin,
   cProjectClasses;
