@@ -37,6 +37,8 @@ uses
   SpTBXItem,
   SpTBXControls,
   VirtualTrees.Types,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees.HeaderPopup,
   VirtualTrees,
@@ -101,7 +103,6 @@ uses
   uCommonFunctions,
   dmCommands,
   frmCallStack,
-  cVirtualStringTreeHelper,
   cPyControl,
   cPySupportTypes,
   cInternalPython,
@@ -367,7 +368,7 @@ begin
       // The following will Reinitialize only initialized nodes
       // Do not use ReinitNode because it Reinits non-expanded children
       // potentially leading to deep recursion
-      VariablesTree.ReinitInitializedChildren(nil, True);
+      VariablesTree.ReinitChildren(nil, True, True);
       // No need to initialize nodes they will be initialized as needed
       // The following initializes non-initialized nodes without expansion
       //VariablesTree.InitRecursive(nil);

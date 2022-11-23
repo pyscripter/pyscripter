@@ -38,6 +38,8 @@ uses
   SpTBXControls,
   SpTBXItem,
   VirtualTrees.Types,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
   cPyControl;
@@ -120,8 +122,7 @@ uses
   frmCallStack,
   cPySupportTypes,
   cInternalPython,
-  cPyBaseDebugger,
-  cVirtualStringTreeHelper;
+  cPyBaseDebugger;
 
 {$R *.dfm}
 
@@ -472,7 +473,7 @@ begin
     // The following will Reinitialize only initialized nodes
     // Do not use ReinitNode because it Reinits non-expanded children
     // potentially leading to deep recursion
-    WatchesView.ReinitInitializedChildren(nil, True);
+    WatchesView.ReinitChildren(nil, True, True);
     // No need to initialize nodes they will be initialized as needed
     // The following initializes non-initialized nodes without expansion
     //WatchesView.InitRecursive(nil);

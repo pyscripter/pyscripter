@@ -297,7 +297,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="dlgStyleSelector.pas">
             <Form>StyleSelectorForm</Form>
         </DCCReference>
-        <DCCReference Include="cVirtualStringTreeHelper.pas"/>
         <DCCReference Include="VCL.Styles.PyScripter.pas">
             <Form>/  Vcl.Styles.Utils.Forms;</Form>
         </DCCReference>

@@ -35,6 +35,8 @@ uses
   JvAppStorage,
   VirtualTrees.Types,
   VirtualTrees.BaseTree,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees,
   TB2Item,
   SpTBXItem,
@@ -260,8 +262,7 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   LspUtils,
-  cPyScripterSettings,
-  cVirtualStringTreeHelper;
+  cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -329,7 +330,7 @@ begin
         TModuleCENode(FModuleNode).Sort(soAlpha);
       ExplorerTree.BeginUpdate;
       try
-        ExplorerTree.ForcedReinitNode(ExplorerTree.RootNode.FirstChild, True);
+        ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True, True);
         ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
       finally
         ExplorerTree.EndUpdate;
@@ -662,7 +663,7 @@ begin
 
     ExplorerTree.BeginUpdate;
     try
-      ExplorerTree.ForcedReinitNode(ExplorerTree.RootNode.FirstChild, True);
+      ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True, True);
       ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
     finally
       ExplorerTree.EndUpdate;
