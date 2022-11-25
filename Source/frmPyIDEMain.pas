@@ -552,7 +552,7 @@
   History:   v 4.2.2
           New Features
           Issues addressed
-          #1181, #1182, #1183, #1185, #1186, #1187
+          #1181, #1182, #1183, #1185, #1186, #1187, #1189
 }
 
 { TODO : Review Search and Replace }
@@ -3106,7 +3106,9 @@ begin
 
   AppStorage.BeginUpdate;
   try
+    AppStorage.StorageOptions.StoreDefaultValues := True;
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
+    AppStorage.StorageOptions.StoreDefaultValues := False;
 
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
