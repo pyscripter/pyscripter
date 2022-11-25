@@ -835,36 +835,6 @@ begin
         CaretXY := BlockEnd;
         Command := ecNone;  // do not processed it further
       end;
-    ecWordRight, ecSelWordRight:  // Implement Visual Studio like behaviour
-      begin
-        BC := VSNextWordPos(SynEdit, SynEdit.CaretXY);
-        if Command = ecWordRight then
-          SynEdit.CaretXY := BC
-        else begin
-          if (SynEdit.BlockEnd.Line = SynEdit.CaretXY.Line) and
-             (SynEdit.BlockEnd.Char = SynEdit.CaretXY.Char)
-          then
-            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockBegin, BC)
-          else
-            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockEnd, BC);
-        end;
-        Command := ecNone;  // do not processed it further
-      end;
-    ecWordLeft, ecSelWordLeft:  // Implement Visual Studio like behaviour
-      begin
-        BC := VSPrevWordPos(SynEdit, SynEdit.CaretXY);
-        if Command = ecWordLeft then
-          SynEdit.CaretXY := BC
-        else begin
-          if (SynEdit.BlockEnd.Line = SynEdit.CaretXY.Line) and
-             (SynEdit.BlockEnd.Char = SynEdit.CaretXY.Char)
-          then
-            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockBegin, BC)
-          else
-            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockEnd, BC);
-        end;
-        Command := ecNone;  // do not processed it further
-      end;
     ecMatchBracket :
       begin
         BC := GetMatchingBracket(SynEdit);

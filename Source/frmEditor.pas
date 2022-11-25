@@ -2021,36 +2021,6 @@ begin
             CaretXY := BlockEnd;
             Handled := True;
           end;
-      ecWordRight, ecSelWordRight: // Implement Visual Studio like behaviour
-        begin
-          BC := VSNextWordPos(ASynEdit, ASynEdit.CaretXY);
-          if Command = ecWordRight then
-            ASynEdit.CaretXY := BC
-          else
-          begin
-            if (ASynEdit.BlockEnd.Line = ASynEdit.CaretXY.Line) and
-              (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char) then
-              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
-            else
-              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockEnd, BC);
-          end;
-          Handled := True;
-        end;
-      ecWordLeft, ecSelWordLeft: // Implement Visual Studio like behaviour
-        begin
-          BC := VSPrevWordPos(ASynEdit, ASynEdit.CaretXY);
-          if Command = ecWordLeft then
-            ASynEdit.CaretXY := BC
-          else
-          begin
-            if (ASynEdit.BlockEnd.Line = ASynEdit.CaretXY.Line) and
-              (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char) then
-              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
-            else
-              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockEnd, BC);
-          end;
-          Handled := True;
-        end;
       ecMatchBracket:
         begin
           BC := GetMatchingBracket(ASynEdit);
