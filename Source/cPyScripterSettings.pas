@@ -411,17 +411,15 @@ type
     class destructor Destroy;
   end;
 
-Const
+const
   // Additional Synedit commands
   ecRecallCommandPrev = ecUserFirst + 100;
   ecRecallCommandNext = ecUserFirst + 101;
   ecRecallCommandEsc = ecUserFirst + 102;
   ecCodeCompletion = ecUserFirst + 103;
   ecParamCompletion = ecUserFirst + 104;
-  ecSelMatchBracket = ecUserFirst + 105;
 
-
-Var
+var
   PyIDEOptions : TPythonIDEOptions;
   EditorOptions : TSynEditorOptionsContainer;
   EditorSearchOptions : TEditorSearchOptions;
@@ -1237,11 +1235,6 @@ begin
   with Keystrokes do begin
     AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
     AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
-    AddKey(ecSelMatchBracket  , 221, [ssCtrl, ssShift]);
-    // 221 code for ]
-    // Visual studio shortcut for Match Bracket
-    Delete(FindCommand(ecMatchBracket));
-    AddKey(ecMatchBracket, 221, [ssCtrl]);
     // #869
     Delete(FindCommand(ecDeleteLine));
     AddKey(ecDeleteLine, Ord('D'), [ssCtrl, ssShift]);

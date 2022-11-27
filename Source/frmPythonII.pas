@@ -835,13 +835,6 @@ begin
         CaretXY := BlockEnd;
         Command := ecNone;  // do not processed it further
       end;
-    ecMatchBracket :
-      begin
-        BC := GetMatchingBracket(SynEdit);
-        if BC.Char > 0 then
-          SynEdit.CaretXY := BC;
-        Command := ecNone;  // do not processed it further
-      end;
     ecLostFocus:
       if not (CommandsDataModule.SynCodeCompletion.Form.Visible or SynEdit.Focused) then
         CommandsDataModule.SynParamCompletion.CancelCompletion;
@@ -1030,12 +1023,6 @@ begin
         if CommandsDataModule.SynParamCompletion.Form.Visible then
           CommandsDataModule.SynParamCompletion.CancelCompletion;
         CommandsDataModule.SynParamCompletion.ActivateCompletion;
-      end;
-    ecSelMatchBracket :
-      begin
-        BC := GetMatchingBracket(SynEdit);
-        if BC.Char > 0 then
-          SynEdit.SetCaretAndSelection(BC, SynEdit.CaretXY, BC);
       end;
     ecRecallCommandPrev,
     ecRecallCommandNext,

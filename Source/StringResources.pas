@@ -129,7 +129,7 @@ Const
   // User editor commands
   SEdCmdCodeCompletion = 'Code Completion';
   SEdCmdParameterCompletion = 'Parameter Completion';
-  SEdCmdSelectToBracket = 'Select to Bracket';
+  SEdCmdSelectToBracket = 'Select Match Bracket';
 
   // Delphi dialogs (from Vcl.Consts)
   srNone = '(None)';

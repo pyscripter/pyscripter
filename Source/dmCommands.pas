@@ -2503,16 +2503,13 @@ begin
   if AUserCommand = ecCodeCompletion then
     ADescription := _(SEdCmdCodeCompletion)
   else if AUserCommand = ecParamCompletion then
-    ADescription := _(SEdCmdParameterCompletion)
-  else if AUserCommand = ecSelMatchBracket then
-    ADescription := _(SEdCmdSelectToBracket);
+    ADescription := _(SEdCmdParameterCompletion);
 end;
 
 procedure TCommandsDataModule.GetEditorAllUserCommands(ACommands: TStrings);
 begin
   ACommands.AddObject(_(SEdCmdCodeCompletion), TObject(ecCodeCompletion));
   ACommands.AddObject(_(SEdCmdParameterCompletion), TObject(ecParamCompletion));
-  ACommands.AddObject(_(SEdCmdSelectToBracket), TObject(ecSelMatchBracket));
 end;
 
 function TCommandsDataModule.DoSearchReplaceText(SynEdit : TSynEdit;

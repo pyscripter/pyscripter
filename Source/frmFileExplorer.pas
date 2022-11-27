@@ -35,6 +35,8 @@ uses
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
   VirtualExplorerTree,

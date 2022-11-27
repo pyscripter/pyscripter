@@ -133,9 +133,6 @@ function DefaultCodeFontName: string;
 procedure SetDefaultUIFont(const AFont: TFont);
 procedure SetContentFont(const AFont: TFont);
 
-(* Visual Studio replacement for SynEdits GetMatchingBracket *)
-function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
-
 (* Get the text between two Synedit Block coordinates *)
 function GetBlockText(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : string;
 
@@ -1087,65 +1084,6 @@ begin
   end;
   if Line = BlockBegin.Line then
     Delete(Result, 1, BlockBegin.Char -1);
-end;
-
-function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
-
-  function PosHasBracket(Pos: TBufferCoord; const Brackets: string; var BracketChar: Char): Boolean;
-  var
-    Token: string;
-    Attri: TSynHighlighterAttributes;
-  begin
-    if SynEdit.Highlighter <> nil then
-    begin
-      Result := SynEdit.GetHighlighterAttriAtRowCol(Pos, Token, Attri) and
-        (Attri = SynEdit.Highlighter.SymbolAttribute) and (Token.Length = 1) and
-        (Brackets.IndexOf(Token[1]) >= 0);
-      BracketChar := Token[1];
-    end
-    else
-    begin
-      var Line := SynEdit.Lines[Pos.Line - 1];
-      BracketChar := Line[Pos.Char];
-      Result := Brackets.IndexOf(BracketChar) >= 0;
-    end;
-  end;
-
-var
-  Brackets: string;
-  BracketPos: TBufferCoord;
-  BracketChar: Char;
-  HaveBracket: Boolean;
-begin
-  Result := BufferCoord(0, 0);
-
-  if Assigned(SynEdit.Highlighter) then
-    Brackets := SynEdit.Highlighter.Brackets
-  else
-    Brackets := '()[]{}<>';
-
-  BracketPos := SynEdit.CaretXY;
-  // First Look at the previous character like Site
-  if BracketPos.Char > 1 then Dec(BracketPos.Char);
-  HaveBracket := PosHasBracket(BracketPos, Brackets, BracketChar);
-
-  // If it is not a bracket then look at the next character;
-  if not HaveBracket and (SynEdit.CaretX > 1) then begin
-    Inc(BracketPos.Char);
-    HaveBracket := PosHasBracket(BracketPos, Brackets, BracketChar);
-  end;
-
-  if HaveBracket then
-  begin
-    Result := SynEdit.GetMatchingBracketEx(BracketPos, Brackets);
-    if Result.Char > 0 then
-    begin
-      var IsOpenChar := not Odd(Brackets.IndexOf(BracketChar));
-      var IsOutside := IsOpenChar xor (BracketPos.Char < SynEdit.CaretX);
-      if IsOutside xor not IsOpenChar then
-        Inc(Result.Char);
-    end;
-  end;
 end;
 
 procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);

@@ -2021,20 +2021,6 @@ begin
             CaretXY := BlockEnd;
             Handled := True;
           end;
-      ecMatchBracket:
-        begin
-          BC := GetMatchingBracket(ASynEdit);
-          if BC.Char > 0 then
-            ASynEdit.CaretXY := BC;
-          Handled := True;
-        end;
-      ecSelMatchBracket:
-        begin
-          BC := GetMatchingBracket(ASynEdit);
-          if BC.Char > 0 then
-            ASynEdit.SetCaretAndSelection(BC, ASynEdit.CaretXY, BC);
-          Handled := True;
-        end;
     end;
   end
   else

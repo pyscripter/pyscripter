@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2022-11-18 00:17\n"
+"POT-Creation-Date: 2022-11-27 22:50\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -3592,8 +3592,9 @@ msgid "Go Forward"
 msgstr ""
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
+#. RegExpTesterWindow..BGPanel..FGPanel..StatusBar..lbStatusBar..ImageName
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
-#: frmDocView.dfm frmWebPreview.dfm
+#: frmDocView.dfm frmRegExpTester.dfm frmWebPreview.dfm
 msgid "Stop"
 msgstr ""
 
@@ -7187,7 +7188,7 @@ msgstr ""
 
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
-msgid "Select to Bracket"
+msgid "Select Match Bracket"
 msgstr ""
 
 #. Delphi dialogs (from Vcl.Consts)
