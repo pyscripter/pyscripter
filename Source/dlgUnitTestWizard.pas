@@ -31,6 +31,8 @@ uses
   TB2Item,
   SpTBXItem,
   VirtualTrees.Types,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
   dlgPyIDEBase;

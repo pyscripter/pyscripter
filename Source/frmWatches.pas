@@ -471,9 +471,7 @@ begin
   try
     WatchesView.RootNodeCount := fWatchesList.Count;
     // The following will Reinitialize only initialized nodes
-    // Do not use ReinitNode because it Reinits non-expanded children
-    // potentially leading to deep recursion
-    WatchesView.ReinitChildren(nil, True, True);
+    WatchesView.ReinitChildren(nil, True);
     // No need to initialize nodes they will be initialized as needed
     // The following initializes non-initialized nodes without expansion
     //WatchesView.InitRecursive(nil);

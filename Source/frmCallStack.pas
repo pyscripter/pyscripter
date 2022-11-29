@@ -124,7 +124,7 @@ type
 { TCallStackWindow }
 
 procedure TCallStackWindow.UpdateCallStack;
-Var
+var
   FirstNode : PVirtualNode;
   FrameData : PFrameData;
   Editor : IEditor;
@@ -132,11 +132,10 @@ begin
   if Assigned(fActiveThread) and (fActiveThread.CallStack.Count > 0) then begin
     CallStackView.BeginUpdate;
     try
-      CallStackView.Clear;
       // OutputDebugString('Call Stack filled');
-      CallStackView.RootNodeCount := fActiveThread.CallStack.Count;  // Fills the View
       var Py := SafePyEngine;
-      CallStackView.ValidateNode(nil, True);
+      CallStackView.RootNodeCount := fActiveThread.CallStack.Count;  // Fills the View
+      CallStackView.ReInitNode(nil, True, True);
     finally
       CallStackView.EndUpdate;
     end;
@@ -248,7 +247,7 @@ begin
 end;
 
 procedure TCallStackWindow.CallStackViewDblClick(Sender: TObject);
-Var
+var
   SelectedNode : PVirtualNode;
   FrameData : PFrameData;
 begin
@@ -264,7 +263,7 @@ end;
 
 procedure TCallStackWindow.CallStackViewFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-Var
+var
   FrameData : PFrameData;
 begin
   FrameData := Node.GetData;
@@ -312,12 +311,11 @@ end;
 
 procedure TCallStackWindow.CallStackViewGetCellText(
   Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
-Var
+var
   FrameData : PFrameData;
 begin
   Assert(CallStackView.GetNodeLevel(E.Node) = 0);
   Assert(Assigned(fActiveThread));
-  Assert(Integer(E.Node.Index) < fActiveThread.CallStack.Count);
   FrameData := E.Node.GetData;
   case E.Column of
     0:  E.CellText := FrameData.Func;
@@ -339,7 +337,7 @@ end;
 
 procedure TCallStackWindow.CallStackViewInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-Var
+var
   FrameData : PFrameData;
 begin
   Assert(CallStackView.GetNodeLevel(Node) = 0);
@@ -355,7 +353,7 @@ begin
 end;
 
 function TCallStackWindow.GetSelectedStackFrame: TBaseFrameInfo;
-Var
+var
   SelectedNode : PVirtualNode;
 begin
   Result := nil;
@@ -375,7 +373,7 @@ procedure TCallStackWindow.ThreadChangeNotify(Thread: TThreadInfo;
   selected and the Variables and Watches Windows are updated as well
 }
   function NodeFromThread(T : TThreadInfo) : PVirtualNode;
-  Var
+  var
     I : Integer;
     N : PVirtualNode;
   begin
@@ -388,7 +386,7 @@ procedure TCallStackWindow.ThreadChangeNotify(Thread: TThreadInfo;
         end;
   end;
 
-Var
+var
   Index : integer;
   Node,
   Node1 : PVirtualNode;
