@@ -22,6 +22,7 @@ Uses
   Vcl.Graphics,
   Vcl.Forms,
   Vcl.Dialogs,
+  JclSysUtils,
   SynEditTypes,
   SynUnicode,
   SynEdit,
@@ -268,6 +269,11 @@ function FilePathToURI(FilePath: string): string;
 {Extract FileName from URI}
 function URIToFilePath(URI: string): string;
 
+{RegisterApplicationRestart}
+function RegisterApplicationRestart(Flags: DWORD = 0): Boolean;
+
+{UnregisterApplicationRestart}
+procedure UnregisterApplicationRestart;
 
 
 type
@@ -351,7 +357,8 @@ type
   end;
 
 Var
-  StopWatch : TStopWatch;
+  StopWatch: TStopWatch;
+  Logger: TJclSimpleLog;
 
 implementation
 Uses
@@ -374,7 +381,6 @@ Uses
   JclBase,
   JclStrings,
   JclPeImage,
-  JclSysUtils,
   JvJCLUtils,
   JvGnugettext,
   MPCommonUtilities,
@@ -2157,6 +2163,29 @@ begin
   SetLength(Result, BufferLen);
 end;
 
+function RegisterApplicationRestart(Flags: DWORD = 0): Boolean;
+type
+  TPKernelRegisterApplicationRestart = function(lpCmdLine: PWideChar; dwFlags: DWORD): HRESULT; stdcall;
+var
+  RegisterApplicationRestart: TPKernelRegisterApplicationRestart;
+begin
+  Result := False;
+  @RegisterApplicationRestart := GetProcAddress(GetModuleHandle('kernel32.dll'), 'RegisterApplicationRestart');
+  if @RegisterApplicationRestart <> nil then
+    Result := RegisterApplicationRestart('', 0) = S_OK;
+end;
+
+procedure UnregisterApplicationRestart;
+type
+  TPKernelUnregisterApplicationRestart = function(): HRESULT; stdcall;
+var
+  UnregisterApplicationRestart: TPKernelUnregisterApplicationRestart;
+begin
+  @UnregisterApplicationRestart := GetProcAddress(GetModuleHandle('kernel32.dll'), 'UnregisterApplicationRestart');
+  if @UnregisterApplicationRestart <> nil then
+    UnRegisterApplicationRestart();
+end;
+
 { TMatchHelper }
 
 function TMatchHelper.GroupIndex(Index: integer): integer;
@@ -2272,12 +2301,20 @@ end;
 
 initialization
   StopWatch := TStopWatch.StartNew;
+  try
+    Logger := TJclSimpleLog.Create(TPyScripterSettings.PyScripterLogFile);
+    Logger.ClearLog;
+    Logger.LoggingActive := True;
+    Logger.WriteStamp(0, False);
+  except
+  end;
 
   @OldGetCursorPos := GetProcAddress(GetModuleHandle(user32), 'GetCursorPos');
   with TJclPeMapImgHooks do
     ReplaceImport(SystemBase, user32, @OldGetCursorPos, @PatchedGetCursorPos);
 
 finalization
+ Logger.Free;
  with TJclPeMapImgHooks do
    ReplaceImport(SystemBase, user32, @PatchedGetCursorPos, @OldGetCursorPos);
 end.

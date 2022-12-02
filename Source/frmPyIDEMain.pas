@@ -551,6 +551,8 @@
 
   History:   v 4.2.2
           New Features
+            - Internet Explorer replaced with the Edge browser
+            - New IDE option 'Automatic Restart' (#1188)
           Issues addressed
           #1181, #1182, #1183, #1185, #1186, #1187, #1189
 }
@@ -1294,6 +1296,10 @@ type
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
     procedure OpenInitialFiles;
+    procedure WMDestroy(var Message: TWMDestroy); message WM_DESTROY;
+    procedure WMWTSSessionChange (var Message: TMessage); message WM_WTSSESSION_CHANGE;
+    //procedure WMEndSession(var Msg: TWMEndSession); message WM_ENDSESSION;
+    //procedure WMQueryEndSession(var Msg : TWMQueryEndSession); message WM_QUERYENDSESSION;
   protected
     fCurrentBrowseInfo : string;
     function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
@@ -1323,8 +1329,6 @@ type
     // Remote Desktop
     // See https://blogs.embarcadero.com/how-to-speed-up-remote-desktop-applications/
     procedure CreateWnd; override;
-    procedure WMDestroy(var Message: TWMDestroy); message WM_DESTROY;
-    procedure WMWTSSessionChange (var Message: TMessage); message WM_WTSSESSION_CHANGE;
     // Browse MRU stuff
     procedure PrevClickHandler(Sender: TObject);
     procedure NextClickHandler(Sender: TObject);
@@ -1575,6 +1579,8 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
+  if PyIDEOptions.AutoRestart then
+    RegisterApplicationRestart;
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -1776,6 +1782,7 @@ end;
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
+  //Logger.Write('FormCloseQuery called');
   if JvGlobalDockIsLoading then begin
     CanClose := False;
     CloseTimer.Enabled := True;
@@ -2989,6 +2996,7 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
+  //Logger.Write('Normal shutdown');
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -4610,6 +4618,22 @@ begin
   inherited;
   WTSUnRegisterSessionNotification(Handle);
 end;
+
+//procedure TPyIDEMainForm.WMEndSession(var Msg: TWMEndSession);
+//begin
+//  Logger.Write('WMEndSession called');
+//  if not Msg.EndSession then
+//    UnRegisterApplicationRestart;
+//  Msg.Result := 0;
+//end;
+
+//procedure TPyIDEMainForm.WMQueryEndSession(var Msg: TWMQueryEndSession);
+//begin
+//  Logger.Write('WMQueryEndSession called');
+//  RegisterApplicationRestart;
+//
+//  Msg.Result := 1;
+//end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin

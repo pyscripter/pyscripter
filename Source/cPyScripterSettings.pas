@@ -140,6 +140,7 @@ type
     fDictLanguage: string;
     fSpellCheckedTokens: string;
     fSpellCheckAsYouType: Boolean;
+    fAutoRestart: Boolean;
     fTrackChanges: TSynTrackChanges;
     fSelectionColor: TSynSelectedColor;
     fIndentGuides: TSynIndentGuides;
@@ -327,6 +328,7 @@ type
     property SpellCheckedTokens: string read fSpellCheckedTokens write fSpellCheckedTokens;
     property SpellCheckAsYouType: Boolean read fSpellCheckAsYouType
       write fSpellCheckAsYouType default False;
+    property AutoRestart: Boolean read fAutoRestart write fAutoRestart default False;
   end;
 {$METHODINFO OFF}
 
@@ -401,6 +403,7 @@ type
     class var LspServerPath: string;
     class var EngineInitFile: string;
     class var PyScripterInitFile: string;
+    class var PyScripterLogFile: string;
     class var ShellImages: TCustomImageList;
     class var DefaultEditorKeyStrokes: TSynEditKeyStrokes;
     class procedure RegisterEditorUserCommands(Keystrokes: TSynEditKeyStrokes);
@@ -538,6 +541,7 @@ begin
       Self.fDictLanguage := DictLanguage;
       Self.fSpellCheckedTokens := SpellCheckedTokens;
       Self.fSpellCheckAsYouType := SpellCheckAsYouType;
+      Self.fAutoRestart := AutoRestart;
     end
   else
     inherited;
@@ -637,6 +641,7 @@ begin
   fDictLanguage := UserLocaleName;
   fSpellCheckedTokens := 'Comment, Text, String, Multi-Line String, Documentation';
   fSpellCheckAsYouType := False;
+  fAutoRestart := False;
   fCodeFolding := TSynCodeFolding.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value
   fTrackChanges := TSynTrackChanges.Create(nil);
@@ -1164,6 +1169,7 @@ begin
   end;
   EngineInitFile := TPath.Combine(UserDataPath, 'python_init.py');
   PyScripterInitFile := TPath.Combine(UserDataPath, 'pyscripter_init.py');
+  PyScripterLogFile := TPath.Combine(UserDataPath, 'pyscripter.log');
   if not IsPortable then begin
     // First use setup
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'python_init.py'), EngineInitFile);

@@ -1598,7 +1598,7 @@ begin
   SetLength(Categories, 12);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 12);
+    SetLength(Options, 13);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1623,6 +1623,8 @@ begin
     Options[10].DisplayName := _('Restore open files');
     Options[11].PropertyName := 'RestoreOpenProject';
     Options[11].DisplayName := _('Restore open project');
+    Options[12].PropertyName := 'AutoRestart';
+    Options[12].DisplayName := _('Automatic restart');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');

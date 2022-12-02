@@ -660,7 +660,6 @@ Var
   Buffer : array of string;
   NewCommand : TSynEditorCommand;
   WChar : WideChar;
-  BC : TBufferCoord;
   Match : TMatch;
 begin
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
@@ -1008,7 +1007,6 @@ Var
   Source, BlockSource : string;
   Buffer : array of string;
   P1, P2 : PWideChar;
-  BC : TBufferCoord;
 begin
   case Command of
     ecCodeCompletion :
