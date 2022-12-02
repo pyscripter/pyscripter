@@ -778,12 +778,10 @@ object CommandsDataModule: TCommandsDataModule
           'import sys'
           'import code'
           'import threading'
-          'import logging'
+          '#import logging'
           ''
           '##logging.basicConfig(level=logging.DEBUG,'
-          
-            '##                    filename = "c:/users/kiriakos/desktop/test' +
-            '.log",'
+          '##                    filename = "test.log",'
           '##                    filemode = "a",'
           '##                    format='#39'(%(threadName)-10s) %(message)s'#39')'
           ''

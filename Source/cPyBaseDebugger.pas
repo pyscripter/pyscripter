@@ -374,7 +374,7 @@ end;
 
 procedure TBaseNameSpaceItem.CompareToOldItem(OldItem: TBaseNameSpaceItem);
 var
-  i, Index : integer;
+  I, Index : integer;
   Child, OldChild : TBaseNameSpaceItem;
 begin
   if OldItem.GotBufferedValue then begin
@@ -383,9 +383,14 @@ begin
   end;
   if OldItem.GotChildNodes then begin
     GetChildNodes;
-    for i := 0 to ChildCount - 1 do begin
-      Child := ChildNode[i];
-      Index := OldItem.IndexOfChild(Child.Name);
+    for I := 0 to ChildCount - 1 do begin
+      Child := ChildNode[I];
+      if (ObjectType <> 'list') and (ObjectType <> 'tuple') then
+        Index := OldItem.IndexOfChild(Child.Name)
+      else if I < OldItem.ChildCount then
+        Index := I
+      else
+        Index := -1;
       if Index >= 0 then begin
         OldChild := OldItem.ChildNode[Index];
         if OldChild.GotBufferedValue then

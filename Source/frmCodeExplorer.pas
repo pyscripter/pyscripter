@@ -381,6 +381,10 @@ begin
     CENode := ParentCENode.Children[Node.Index];
   end;
   Node.SetData<TAbstractCENode>(CENode);
+
+  if ivsReinit in InitialStates then
+    Exclude(Node.States, vsHasChildren);
+
   if CENode.ChildCount > 0 then
   begin
     Include(InitialStates, ivsHasChildren);

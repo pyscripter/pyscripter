@@ -203,6 +203,9 @@ var
   Data, ParentData: PWatchRec;
   ChildCount : integer;
 begin
+  if ivsReinit in InitialStates then
+    Exclude(Node.States, vsHasChildren);
+
   Data := Node.GetData;
   if not WatchesView.Enabled then
   begin
@@ -471,11 +474,9 @@ begin
   try
     WatchesView.RootNodeCount := fWatchesList.Count;
     // The following will Reinitialize only initialized nodes
+    // No need to initialize other nodes they will be initialized as needed
     WatchesView.ReinitChildren(nil, True);
-    // No need to initialize nodes they will be initialized as needed
-    // The following initializes non-initialized nodes without expansion
-    //WatchesView.InitRecursive(nil);
-    WatchesView.InvalidateToBottom(WatchesView.GetFirstVisible);
+    WatchesView.Invalidate;
  finally
     WatchesView.EndUpdate;
   end;

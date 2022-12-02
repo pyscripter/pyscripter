@@ -146,14 +146,25 @@ procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
 var
   Data, ParentData: PNodeData;
 begin
-  var Py := SafePyEngine;
   Data := Node.GetData;
-  if not VariablesTree.Enabled then begin
+  if Assigned(ParentNode) then
+    ParentData := ParentNode.GetData
+  else
+    ParentData := nil;
+
+  if not VariablesTree.Enabled or
+    ((ParentData <> nil) and (ParentData.NameSpaceItem = nil)) then
+  begin
     Data.NameSpaceItem := nil;
     Exit;
   end;
 
-  if VariablesTree.GetNodeLevel(Node) = 0 then begin
+  if ivsReinit in InitialStates then
+    Exclude(Node.States, vsHasChildren);
+
+  var Py := SafePyEngine;
+  if ParentNode = nil then begin
+    // Top level
     Assert(Node.Index <= 1);
     if CurrentModule <> '' then begin
       if Node.Index = 0 then begin
@@ -172,7 +183,6 @@ begin
       InitialStates := [ivsExpanded, ivsHasChildren];
     end;
   end else begin
-    ParentData := ParentNode.GetData;
     Data.NameSpaceItem := ParentData.NameSpaceItem.ChildNode[Node.Index];
     if Data.NameSpaceItem.ChildCount > 0 then
       InitialStates := [ivsHasChildren]
@@ -190,7 +200,9 @@ begin
       Data.Value := Data.NameSpaceItem.Value;
     except
       Data.Value := '';
-    end;
+    end
+  else
+    Data.Value := '';
   // ImageIndex
   if Data.NameSpaceItem.IsDict then
     Data.ImageIndex := Ord(TCodeImages.Namespace)
@@ -205,9 +217,8 @@ begin
   else if (Data.ObjectType = 'list') or (Data.ObjectType = 'tuple') then
     Data.ImageIndex := Ord(TCodeImages.List)
   else begin
-    if Assigned(ParentNode) and
-      (PNodeData(ParentNode.GetData).NameSpaceItem.IsDict
-        or PNodeData(ParentNode.GetData).NameSpaceItem.IsModule)
+    if Assigned(ParentData) and
+      (ParentData.NameSpaceItem.IsDict or ParentData.NameSpaceItem.IsModule)
     then
       Data.ImageIndex := Ord(TCodeImages.Variable)
     else
@@ -366,18 +377,15 @@ begin
     VariablesTree.BeginUpdate;
     try
       // The following will Reinitialize only initialized nodes
+      // No need to initialize other nodes they will be initialized as needed
       VariablesTree.ReinitChildren(nil, True);
-      // No need to initialize nodes they will be initialized as needed
-      // The following initializes non-initialized nodes without expansion
-      //VariablesTree.InitRecursive(nil);
-      VariablesTree.InvalidateToBottom(VariablesTree.GetFirstVisible);
+      VariablesTree.Invalidate;
     finally
       VariablesTree.EndUpdate;
     end;
   end else begin
     VariablesTree.Clear;
     VariablesTree.RootNodeCount := RootNodeCount;
-    //VariablesTree.InitRecursive(nil);
   end;
   FreeAndNil(OldGlobalsNameSpace);
   FreeAndNil(OldLocalsNameSpace);
@@ -401,7 +409,6 @@ end;
 procedure TVariablesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not VariablesTree.Enabled then VariablesTree.Clear;
 
   if CanActuallyFocus(VariablesTree) then
     VariablesTree.SetFocus;
