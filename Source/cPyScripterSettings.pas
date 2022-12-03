@@ -328,7 +328,7 @@ type
     property SpellCheckedTokens: string read fSpellCheckedTokens write fSpellCheckedTokens;
     property SpellCheckAsYouType: Boolean read fSpellCheckAsYouType
       write fSpellCheckAsYouType default False;
-    property AutoRestart: Boolean read fAutoRestart write fAutoRestart default False;
+    property AutoRestart: Boolean read fAutoRestart write fAutoRestart default True;
   end;
 {$METHODINFO OFF}
 
@@ -401,6 +401,7 @@ type
     class var ColorThemesFilesDir: string;
     class var StylesFilesDir: string;
     class var LspServerPath: string;
+    class var RecoveryDir: string;
     class var EngineInitFile: string;
     class var PyScripterInitFile: string;
     class var PyScripterLogFile: string;
@@ -641,7 +642,7 @@ begin
   fDictLanguage := UserLocaleName;
   fSpellCheckedTokens := 'Comment, Text, String, Multi-Line String, Documentation';
   fSpellCheckAsYouType := False;
-  fAutoRestart := False;
+  fAutoRestart := True;
   fCodeFolding := TSynCodeFolding.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value
   fTrackChanges := TSynTrackChanges.Create(nil);
@@ -1170,6 +1171,7 @@ begin
   EngineInitFile := TPath.Combine(UserDataPath, 'python_init.py');
   PyScripterInitFile := TPath.Combine(UserDataPath, 'pyscripter_init.py');
   PyScripterLogFile := TPath.Combine(UserDataPath, 'pyscripter.log');
+  RecoveryDir := TPath.Combine(UserDataPath, 'Recovery');
   if not IsPortable then begin
     // First use setup
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'python_init.py'), EngineInitFile);

@@ -22,8 +22,7 @@ uses
   PythonEngine,
   PythonVersions,
   SynEdit,
-  SpTBXItem,
-  SpTBXTabs;
+  SpTBXItem;
 
 type
   TBreakPoint = class(TPersistent)
@@ -93,6 +92,7 @@ type
     procedure SetReadOnly(Value : Boolean);
     procedure SetHasSearchHighlight(Value : Boolean);
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
+    procedure SetHighlighter(const HighlighterName: string);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
     function SaveToRemoteFile(const FileName, ServerName: string) : Boolean;
@@ -126,7 +126,7 @@ type
   ['{FDAE7FBD-4B61-4D7C-BEE6-DB7740A225E8}']
     function CanCloseAll: Boolean;
     procedure CloseAll;
-    function CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
+    function NewEditor(TabControlIndex:Integer = 1): IEditor;
     function GetEditorCount: integer;
     function GetEditor(Index: integer): IEditor;
     function GetEditorByName(const Name : string): IEditor;
@@ -137,6 +137,8 @@ type
     function GetViewFactory(Index: integer): IEditorViewFactory;
     procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; IL: TCustomImageList);
     procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
+    procedure CreateRecoveryFiles;
+    procedure RecoverFiles;
     procedure LockList;
     procedure UnlockList;
     procedure ApplyToEditors(const Proc: TProc<IEditor>);

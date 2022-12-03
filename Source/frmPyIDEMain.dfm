@@ -733,7 +733,7 @@ object PyIDEMainForm: TPyIDEMainForm
           object mnNoSyntax: TSpTBXItem
             Caption = '&No Syntax'
             Hint = 'Do not use syntax highlighting'
-            OnClick = mnNoSyntaxClick
+            OnClick = mnSyntaxClick
           end
         end
         object TBXSeparatorItem21: TSpTBXSeparatorItem

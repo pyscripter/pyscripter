@@ -253,6 +253,7 @@ type
     function GetHasSearchHighlight: Boolean;
     function GetFileEncoding: TFileSaveFormat;
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
+    procedure SetHighlighter(const HighlighterName: string);
     function GetEncodedText: AnsiString;
     procedure OpenFile(const AFileName: string; HighlighterName: string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
@@ -324,6 +325,10 @@ type
   public
     constructor Create(AForm: TEditorForm);
     destructor Destroy; override;
+    class var UntitledNumbers: TBits;
+    class function GetUntitledNumber: Integer;
+    class constructor Create;
+    class destructor Destroy;
   end;
 
 implementation
@@ -332,6 +337,7 @@ implementation
 
 uses
   System.Math,
+  System.IOUtils,
   VirtualShellNotifier,
   PythonEngine,
   VarPyth,
@@ -347,6 +353,7 @@ uses
   JvGnugettext,
   StringResources,
   dmCommands,
+  uHighlighterProcs,
   dlgSynPrintPreview,
   dlgPickList,
   frmPyIDEMain,
@@ -468,7 +475,7 @@ begin
     FSynLsp.FileClosed;
     GI_PyIDEServices.MRUAddEditor(Self);
     if fUntitledNumber <> -1 then
-      CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
+      UntitledNumbers[fUntitledNumber] := False;
 
     fForm.DoAssignInterfacePointer(False);
     Assert(GI_EditorFactory <> nil);
@@ -493,10 +500,21 @@ begin
   end;
 end;
 
+class constructor TEditor.Create;
+begin
+  UntitledNumbers := TBits.Create;
+  UntitledNumbers[0] := True;  // do not use 0
+end;
+
 destructor TEditor.Destroy;
 begin
   // Kept for dubugging
   inherited;
+end;
+
+class destructor TEditor.Destroy;
+begin
+  UntitledNumbers.Free;
 end;
 
 procedure TEditor.DoSetFileName(AFileName: string);
@@ -506,9 +524,9 @@ begin
     fFileName := AFileName;
     fRemoteFileName := '';
     fSSHServer := '';
-    if fUntitledNumber <> -1 then
+    if (AFileName <> '') and (fUntitledNumber <> -1) then
     begin
-      CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
+      UntitledNumbers[fUntitledNumber] := False;
       fUntitledNumber := -1;
     end;
     // Kernel change notification
@@ -517,6 +535,7 @@ begin
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
+  fForm.DoUpdateCaption;
 end;
 
 function TEditor.GetSynEdit: TSynEdit;
@@ -532,6 +551,12 @@ end;
 function TEditor.GetTabControlIndex: Integer;
 begin
   Result := PyIDEMainForm.TabControlIndex(fForm.ParentTabControl);
+end;
+
+class function TEditor.GetUntitledNumber: Integer;
+begin
+  Result := UntitledNumbers.OpenBit;
+  UntitledNumbers[Result] := True;
 end;
 
 function TEditor.GetActiveSynEdit: TSynEdit;
@@ -610,7 +635,7 @@ begin
   else
   begin
     if fUntitledNumber = -1 then
-      fUntitledNumber := CommandsDataModule.GetUntitledNumber;
+      fUntitledNumber := GetUntitledNumber;
     if fForm.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
       Result := _(SNonamePythonFileTitle) + IntToStr(fUntitledNumber)
     else
@@ -693,6 +718,11 @@ begin
   fForm.HasSearchHighlight :=  Value;
 end;
 
+procedure TEditor.SetHighlighter(const HighlighterName: string);
+begin
+  fForm.DoUpdateHighlighter(HighlighterName);
+end;
+
 procedure TEditor.SetReadOnly(Value: Boolean);
 begin
   GetSynEdit.ReadOnly := Value;
@@ -732,7 +762,6 @@ procedure TEditor.OpenFile(const AFileName: string;
 begin
   if FForm = nil then Abort;
 
-  DoSetFileName(AFileName);
   if (AFileName <> '') and FileExists(AFileName) then
   begin
     fForm.SynEdit.LockUndo;
@@ -761,11 +790,11 @@ begin
   end;
 
   fForm.SynEdit.Modified := False;
-  fForm.DoUpdateHighlighter(HighlighterName);
-  fForm.DoUpdateCaption;
   fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
+  DoSetFileName(AFileName);
+  fForm.DoUpdateHighlighter(HighlighterName);
   if HasPythonFile then
     FSynLsp.FileOpened(GetFileId, lidPython)
   else
@@ -778,8 +807,6 @@ Var
   ErrorMsg : string;
 begin
   if (fForm = nil) or (FileName = '') or (ServerName = '') then Abort;
-
-  DoSetFileName('');
 
   TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(FileName));
   if not ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
@@ -802,11 +829,11 @@ begin
   fSSHServer := ServerName;
 
   fForm.SynEdit.Modified := False;
-  fForm.DoUpdateHighlighter('');
-  fForm.DoUpdateCaption;
   fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
+  DoSetFileName('');
+  fForm.DoUpdateHighlighter('');
   if HasPythonFile then
     FSynLsp.FileOpened(GetFileId, lidPython)
   else
@@ -1153,7 +1180,7 @@ type
     // IEditorFactory implementation
     function CanCloseAll: boolean;
     procedure CloseAll;
-    function CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
+    function NewEditor(TabControlIndex:Integer = 1): IEditor;
     function GetEditorCount: Integer;
     function GetEditorByName(const Name: string): IEditor;
     function GetEditorByFileId(const Name: string): IEditor;
@@ -1162,6 +1189,8 @@ type
     function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
     procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; IL: TCustomImageList);
     procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
+    procedure CreateRecoveryFiles;
+    procedure RecoverFiles;
     function GetViewFactoryCount: Integer;
     function GetViewFactory(Index: Integer): IEditorViewFactory;
     procedure LockList;
@@ -1181,6 +1210,32 @@ begin
   inherited Create;
   fEditors := TInterfaceList.Create;
   fEditorViewFactories := TInterfaceList.Create;
+end;
+
+procedure TEditorFactory.CreateRecoveryFiles;
+begin
+  Logger.Write('CreateRecoveryFiles');
+
+  var RecoveryDir := TPyScripterSettings.RecoveryDir;
+  if TDirectory.Exists(RecoveryDir) then
+    TDirectory.Delete(RecoveryDir, True);
+  TDirectory.CreateDirectory(RecoveryDir);
+
+  ApplyToEditors(procedure(Ed: IEditor)
+  begin
+    if not Ed.Modified then Exit;
+
+    if (Ed.FileName <> '') or (Ed.RemoteFileName <> '') then
+      (Ed as IFileCommands).ExecSave
+    else
+    with TEditorForm(Ed.Form) do
+    begin
+      // save module1 as 1.py etc.
+      var FName := (Ed as TEditor).fUntitledNumber.ToString;
+      FName := TPath.Combine(RecoveryDir, TPath.ChangeExtension(FName, DefaultExtension));
+      SaveWideStringsToFile(FName, SynEdit.Lines, False);
+    end;
+  end);
 end;
 
 destructor TEditorFactory.Destroy;
@@ -1273,15 +1328,17 @@ begin
   end;
 end;
 
-function TEditorFactory.CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
+function TEditorFactory.NewEditor(TabControlIndex:Integer = 1): IEditor;
 var
   Sheet: TSpTBXTabSheet;
   LForm: TEditorForm;
   TabItem: TSpTBXTabItem;
 begin
-  TabItem := AOwner.Add('');
+  var TabControl := PyIDEMainForm.TabControl(TabControlIndex);
+
+  TabItem := TabControl.Add('');
   TabItem.Images := PyIDEMainForm.vilTabDecorators;
-  Sheet := AOwner.GetPage(TabItem);
+  Sheet := TabControl.GetPage(TabItem);
   try
     LForm := TEditorForm.Create(Sheet);
     with LForm do
@@ -1289,7 +1346,9 @@ begin
       Visible := False;
       fEditor := TEditor.Create(LForm);
       ParentTabItem := TabItem;
-      ParentTabControl := AOwner;
+      ParentTabItem.OnTabClosing := PyIDEMainForm.TabControlTabClosing;
+      ParentTabItem.OnDrawTabCloseButton := PyIDEMainForm.DrawCloseButton;
+      ParentTabControl := TabControl;
       Result := fEditor;
       BorderStyle := bsNone;
       Parent := Sheet;
@@ -1299,7 +1358,9 @@ begin
       ApplyPyIDEOptions;
     end;
     if Result <> nil then
+    begin
       fEditors.Add(Result);
+    end;
   except
     Sheet.Free;
   end;
@@ -1361,6 +1422,32 @@ begin
   var Index := fEditors.IndexOf(AEditor);
   if Index >= 0 then
     fEditors.Delete(Index);
+end;
+
+procedure TEditorFactory.RecoverFiles;
+var
+  UntitledNumber: Integer;
+begin
+  var RecoveryDir := TPyScripterSettings.RecoveryDir;
+  if not TDirectory.Exists(RecoveryDir) then Exit;
+
+  var RecoveredFiles := TDirectory.GetFiles(RecoveryDir);
+  for var RecoveredFile in RecoveredFiles do
+  begin
+    var FName := TPath.GetFileNameWithoutExtension(RecoveredFile);
+    if not TryStrToInt(FName, UntitledNumber) then Continue;
+
+    var Ed := NewEditor;
+    Ed.OpenFile(RecoveredFile);
+
+    var Editor := Ed as TEditor;
+    Editor.fUntitledNumber := UntitledNumber;
+    Editor.UntitledNumbers.Bits[UntitledNumber] := True;
+    Editor.DoSetFileName('');
+    if Editor.HasPythonFile then
+      Editor.FSynLsp.FileSavedAs(Editor.GetFileId, lidPython)
+  end;
+  TDirectory.Delete(RecoveryDir, True);
 end;
 
 function TEditorFactory.RegisterViewFactory(ViewFactory: IEditorViewFactory): integer;
@@ -1578,6 +1665,14 @@ begin
 //   CommandsDataModule.ModifierCompletion.Editor := nil;
 //   CommandsDataModule.CodeTemplatesCompletion.Editor := nil;
   DoAssignInterfacePointer(False);
+
+  if fHotIdentInfo.HaveHotIdent then
+  begin
+    fHotIdentInfo.HaveHotIdent := False;
+    (Sender as TCustomSynEdit).Indicators.Clear(HotIdentIndicatorSpec, True,
+      fHotIdentInfo.StartCoord.Line);
+    SetCursor(TCustomSynEdit(Sender).Cursor);
+  end;
 end;
 
 procedure TEditorForm.SynEditStatusChange(Sender: TObject;
@@ -1799,11 +1894,10 @@ begin
       Result := False;
       Exit;
     end;
-    fEditor.DoSetFileName(NewName);
+    fEditor.DoSetFileName(NewName); // Updates caption
     DoUpdateHighlighter;
-    DoUpdateCaption; // Do it twice in case the following statement fails
     Result := DoSaveFile;
-    DoUpdateCaption;
+    DoUpdateCaption; // Do it twice in case the previous statement fails
 
     if FEditor.HasPythonFile then
       FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidPython)
@@ -1829,13 +1923,12 @@ begin
       Result := False;
       Exit;
     end;
-    fEditor.DoSetFileName('');
     fEditor.fRemoteFileName := FileName;
     fEditor.fSSHServer := Server;
+    fEditor.DoSetFileName('');  // Updates caption
     DoUpdateHighlighter;
-    DoUpdateCaption; // Do it twice in case the following statement fails
     Result := DoSaveFile;
-    DoUpdateCaption;
+    DoUpdateCaption; // Do it twice in case the previous statement fails
 
     if FEditor.HasPythonFile then
       FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidPython)
@@ -1869,13 +1962,7 @@ var
   Index: Integer;
 begin
   Assert(fEditor <> nil);
-  if fEditor.fFileName <> '' then
-    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
-      (fEditor.fFileName)
-  else if fEditor.fRemoteFileName <> '' then
-    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
-      (fEditor.fRemoteFileName)
-  else if HighlighterName <> '' then
+  if HighlighterName <> '' then
   begin
     Index := CommandsDataModule.Highlighters.IndexOf(HighlighterName);
     if Index < 0 then
@@ -1884,9 +1971,22 @@ begin
       SynEdit.Highlighter := CommandsDataModule.Highlighters.Objects[Index]
         as TSynCustomHighlighter;
   end
+  else if fEditor.fFileName <> '' then
+    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
+      (fEditor.fFileName)
+  else if fEditor.fRemoteFileName <> '' then
+    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
+      (fEditor.fRemoteFileName)
   else // No highlighter otherwise
     SynEdit.Highlighter := nil;
+
   SynEdit2.Highlighter := SynEdit.Highlighter;
+
+  // Set DefaultExtension
+  if SynEdit.Highlighter <> nil then
+    DefaultExtension := DefaultExtensionFromFilter(SynEdit.Highlighter.DefaultFilter)
+  else
+    DefaultExtension := '';
 end;
 
 procedure TEditorForm.EditorMouseWheel(theDirection: Integer;
@@ -2305,7 +2405,7 @@ begin
     fHotIdentInfo.HaveHotIdent := False;
     (Sender as TCustomSynEdit).Indicators.Clear(HotIdentIndicatorSpec, True,
       fHotIdentInfo.StartCoord.Line);
-    SetCursor(SynEdit.Cursor);
+    SetCursor(TCustomSynEdit(Sender).Cursor);
   end;
 end;
 

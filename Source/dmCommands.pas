@@ -325,7 +325,6 @@ type
     procedure SynSpellCheckChange(Sender: TObject);
   private
     fHighlighters: TStrings;
-    fUntitledNumbers: TBits;
     fConfirmReplaceDialogRect: TRect;
     procedure PyIDEOptionsChanged;
     procedure SynPythonSynChanged(Sender: TObject);
@@ -351,8 +350,6 @@ type
                 Index: Integer; SynHighlighter: TSynCustomHighlighter);
     function GetSaveFileName(var ANewName: string;
       AHighlighter: TSynCustomHighlighter; DefaultExtension : string): boolean;
-    function GetUntitledNumber: integer;
-    procedure ReleaseUntitledNumber(ANumber: integer);
     function ShowPythonKeywordHelp(KeyWord : string) : Boolean;
     procedure PrepareParameterCompletion;
     procedure PrepareModifierCompletion;
@@ -521,7 +518,6 @@ end;
 procedure TCommandsDataModule.DataModuleDestroy(Sender: TObject);
 begin
   fHighlighters.Free;
-  fUntitledNumbers.Free;
   CommandsDataModule := nil;
   ShellImages.Handle := 0;
   PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
@@ -640,17 +636,6 @@ begin
   end;
 end;
 
-function TCommandsDataModule.GetUntitledNumber: integer;
-begin
-  if fUntitledNumbers = nil then
-    fUntitledNumbers := TBits.Create;
-  Result := fUntitledNumbers.OpenBit;
-  if Result = fUntitledNumbers.Size then
-    fUntitledNumbers.Size := fUntitledNumbers.Size + 32;
-  fUntitledNumbers[Result] := TRUE;
-  Inc(Result);
-end;
-
 procedure TCommandsDataModule.HighlightWordInActiveEditor(SearchWord: string);
 Var
   OldWholeWords : Boolean;
@@ -667,15 +652,6 @@ begin
 
   EditorSearchOptions.SearchWholeWords := OldWholeWords;
   EditorSearchOptions.SearchText := OldSearchText;
-end;
-
-procedure TCommandsDataModule.ReleaseUntitledNumber(ANumber: integer);
-begin
-  Dec(ANumber);
-  if (fUntitledNumbers <> nil) and (ANumber >= 0)
-    and (ANumber < fUntitledNumbers.Size)
-  then
-    fUntitledNumbers[ANumber] := FALSE;
 end;
 
 procedure TCommandsDataModule.actFileSaveExecute(Sender: TObject);

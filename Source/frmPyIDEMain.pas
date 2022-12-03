@@ -553,6 +553,7 @@
           New Features
             - Internet Explorer replaced with the Edge browser
             - New IDE option 'Automatic Restart' (#1188)
+            - Recovery of unsaved files on system shutdown or application crash
           Issues addressed
           #1181, #1182, #1183, #1185, #1186, #1187, #1189
 }
@@ -1159,7 +1160,6 @@ type
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
-    procedure mnNoSyntaxClick(Sender: TObject);
     procedure mnSyntaxPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure actMaximizeEditorExecute(Sender: TObject);
     procedure actLayoutDebugExecute(Sender: TObject);
@@ -1200,6 +1200,10 @@ type
     procedure actFileCloseAllExecute(Sender: TObject);
     procedure actViewFileExplorerExecute(Sender: TObject);
     procedure TabControlTabClosing(Sender: TObject; var Allow, CloseAndFree: Boolean);
+    procedure DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
+        State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
+        var AImageList: TCustomImageList; var AImageIndex: Integer;
+        var ARect: TRect; var PaintDefault: Boolean);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure CloseTimerTimer(Sender: TObject);
     procedure actImportModuleExecute(Sender: TObject);
@@ -1280,6 +1284,7 @@ type
     procedure lbPythonEngineClick(Sender: TObject);
     procedure lbStatusCaretClick(Sender: TObject);
     procedure mnSpellingPopup(Sender: TTBCustomItem; FromLink: Boolean);
+    procedure mnSyntaxClick(Sender : TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1289,20 +1294,15 @@ type
     procedure SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
     procedure tbiSearchTextAcceptText(const NewText: string);
     procedure tbiReplaceTextAcceptText(const NewText: string);
-    procedure DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
-        State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
-        var AImageList: TCustomImageList; var AImageIndex: Integer;
-        var ARect: TRect; var PaintDefault: Boolean);
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
     procedure OpenInitialFiles;
     procedure WMDestroy(var Message: TWMDestroy); message WM_DESTROY;
     procedure WMWTSSessionChange (var Message: TMessage); message WM_WTSSESSION_CHANGE;
-    //procedure WMEndSession(var Msg: TWMEndSession); message WM_ENDSESSION;
-    //procedure WMQueryEndSession(var Msg : TWMQueryEndSession); message WM_QUERYENDSESSION;
+    procedure WMEndSession(var Msg: TWMEndSession); message WM_ENDSESSION;
+    procedure WMQueryEndSession(var Msg : TWMQueryEndSession); message WM_QUERYENDSESSION;
   protected
     fCurrentBrowseInfo : string;
-    function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
     function OpenCmdLineFile(FileName : string) : Boolean;
     procedure DebuggerBreakpointChange(Sender: TObject; Editor : IEditor; ALine: integer);
@@ -1323,7 +1323,6 @@ type
     procedure WMCheckForUpdates(var Msg: TMessage); message WM_CHECKFORUPDATES;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
-    procedure SyntaxClick(Sender : TObject);
     procedure SelectEditor(Sender : TObject);
     procedure mnLanguageClick(Sender: TObject);
     // Remote Desktop
@@ -1490,16 +1489,6 @@ uses
 
 { TWorkbookMainForm }
 
-function TPyIDEMainForm.DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
-begin
-  if GI_EditorFactory <> nil then begin
-    Result := GI_EditorFactory.CreateTabSheet(TabControl);
-    TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
-    TEditorForm(Result.Form).ParentTabItem.OnDrawTabCloseButton := DrawCloseButton;
-  end else
-    Result := nil;
-end;
-
 function TPyIDEMainForm.DoOpenFile(AFileName: string; HighlighterName : string = '';
   TabControlIndex : integer = 1) : IEditor;
 Var
@@ -1537,7 +1526,7 @@ begin
   TabCtrl := TabControl(TabControlIndex);
   TabCtrl.Toolbar.BeginUpdate;
   try
-    Result := DoCreateEditor(TabCtrl);
+    Result := GI_EditorFactory.NewEditor(TabControlIndex);
     if Result <> nil then begin
       try
         if IsRemote then
@@ -1555,8 +1544,6 @@ begin
         not GI_EditorFactory.Editor[0].Modified
       then
         GI_EditorFactory.Editor[0].Close;
-      if (AFileName = '') and (HighlighterName = 'Python') then
-        TEditorForm(Result.Form).DefaultExtension := 'py';
     end;
   finally
     TabCtrl.Toolbar.EndUpdate;
@@ -1579,8 +1566,6 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
-  if PyIDEOptions.AutoRestart then
-    RegisterApplicationRestart;
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -1683,6 +1668,10 @@ begin
     RestoreApplicationData
   else
     PyIDEOptions.Changed;
+
+  // Application Restart
+  if PyIDEOptions.AutoRestart then
+    RegisterApplicationRestart;
 
   // Read Settings from PyScripter.local.ini
   if FileExists(LocalAppStorage.IniFile.FileName) then
@@ -2971,6 +2960,10 @@ begin
     // if there was no file on the command line try restoring open files
     if not CmdLineOpenFiles and PyIDEOptions.RestoreOpenFiles then
       TPersistFileInfo.ReadFromAppStorage(AppStorage, 'Open Files');
+
+    //Recovered files
+    GI_EditorFactory.RecoverFiles;
+
     // If we still have no open file then open an empty file
     if GI_EditorFactory.GetEditorCount = 0 then
       actFileNewModuleExecute(Self);
@@ -3103,6 +3096,9 @@ begin
       TabControl2.TabPosition := ttpBottom;
     end;
   end;
+
+  if not PyIDEOptions.AutoRestart then
+    UnregisterApplicationRestart;
 
   tbiRecentFileList.MaxItems :=  PyIDEOptions.NoOfRecentFiles;
 end;
@@ -3758,27 +3754,16 @@ begin
     tbiRecentFileList.MRUAdd(TSSHFileName.Format(Editor.SSHServer, Editor.RemoteFileName));
 end;
 
-procedure TPyIDEMainForm.SyntaxClick(Sender: TObject);
-Var
-  Editor : IEditor;
+procedure TPyIDEMainForm.mnSyntaxClick(Sender: TObject);
 begin
   // Change Syntax sheme
-  Editor := GetActiveEditor;
+  var Editor := GetActiveEditor;
   if Assigned(Editor) then begin
-    Editor.SynEdit.Highlighter := TSynCustomHighlighter((Sender as TTBCustomItem).Tag);
-    Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
-    TEditorForm(Editor.Form).DefaultExtension := '';
-  end;
-end;
-
-procedure TPyIDEMainForm.mnNoSyntaxClick(Sender: TObject);
-Var
-  Editor : IEditor;
-begin
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then begin
-    Editor.SynEdit.Highlighter := nil;
-    Editor.SynEdit2.Highlighter := nil;
+    var Highlighter := TSynCustomHighlighter((Sender as TTBCustomItem).Tag);
+    if Assigned(Highlighter) then
+      Editor.SetHighlighter(Highlighter.FriendlyLanguageName)
+    else
+      Editor.SetHighlighter('None');
   end;
 end;
 
@@ -3814,7 +3799,7 @@ begin
     MenuItem.Caption := _(CommandsDataModule.Highlighters[i]);
     MenuItem.Tag := Integer(CommandsDataModule.Highlighters.Objects[i]);
     MenuItem.GroupIndex := 3;
-    MenuItem.OnClick := SyntaxClick;
+    MenuItem.OnClick := mnSyntaxClick;
     MenuItem.Hint := Format(_(SUseSyntax), [MenuItem.Caption]);
   end;
 end;
@@ -4447,7 +4432,7 @@ begin
   TabCtrl := TabControl(TabControlIndex);
   TabCtrl.Toolbar.BeginUpdate;
   try
-    Result := DoCreateEditor(TabCtrl);
+    Result := GI_EditorFactory.NewEditor(TabControlIndex);;
     if Result <> nil then begin
       try
         Result.OpenFile('', FileTemplate.Highlighter);
@@ -4619,21 +4604,18 @@ begin
   WTSUnRegisterSessionNotification(Handle);
 end;
 
-//procedure TPyIDEMainForm.WMEndSession(var Msg: TWMEndSession);
-//begin
-//  Logger.Write('WMEndSession called');
-//  if not Msg.EndSession then
-//    UnRegisterApplicationRestart;
-//  Msg.Result := 0;
-//end;
+procedure TPyIDEMainForm.WMEndSession(var Msg: TWMEndSession);
+begin
+  Logger.Write('WMEndSession called');
+  if Msg.EndSession then
+    GI_EditorFactory.CreateRecoveryFiles;
+  Msg.Result := 0;
+end;
 
-//procedure TPyIDEMainForm.WMQueryEndSession(var Msg: TWMQueryEndSession);
-//begin
-//  Logger.Write('WMQueryEndSession called');
-//  RegisterApplicationRestart;
-//
-//  Msg.Result := 1;
-//end;
+procedure TPyIDEMainForm.WMQueryEndSession(var Msg: TWMQueryEndSession);
+begin
+  Msg.Result := 1;
+end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin

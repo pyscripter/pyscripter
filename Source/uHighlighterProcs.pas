@@ -51,6 +51,7 @@ function GetHighlighterFromFileName(AHighlighters: TStrings;
 function GetHighlighterFromLanguageName(LanguageName : string;
   AHighlighters: TStrings) : TSynCustomHighlighter;
 function FileMaskFromFileFilter(Filter : string) : string;
+function DefaultExtensionFromFilter(Filter : string) : string;
 
 implementation
 
@@ -178,6 +179,20 @@ begin
     Delete(Result, 1, j);
   end;
 end;
+
+function DefaultExtensionFromFilter(Filter : string) : string;
+begin
+  var Mask := FileMaskFromFileFilter(Filter);
+  var Len := Mask.Length;
+  var I := 1;
+  while (I <= Len) and CharInSet(Mask[I], ['*', '.']) do
+    Inc(I);
+  var J := I;
+  while (J <= Len) and not CharInSet(Mask[J], [';', '|'])  do
+    Inc(J);
+  Result := Copy(Mask, I, J - I);
+end;
+
 
 end.
 

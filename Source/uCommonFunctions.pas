@@ -2169,6 +2169,7 @@ type
 var
   RegisterApplicationRestart: TPKernelRegisterApplicationRestart;
 begin
+  Logger.Write('RegisterApplicationRestart');
   Result := False;
   @RegisterApplicationRestart := GetProcAddress(GetModuleHandle('kernel32.dll'), 'RegisterApplicationRestart');
   if @RegisterApplicationRestart <> nil then
