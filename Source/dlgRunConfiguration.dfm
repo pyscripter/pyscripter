@@ -4,7 +4,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
   ClientHeight = 436
   ClientWidth = 399
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -121,16 +120,17 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 0
         OnEnter = SynEditEnter
         UseCodeFolding = False
+        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
         Gutter.Bands = <
           item
             Kind = gbkMarks
-            Visible = True
             Width = 15
           end
           item
@@ -141,12 +141,12 @@ inherited RunConfigurationForm: TRunConfigurationForm
           end
           item
             Kind = gbkMargin
-            Visible = True
             Width = 2
           end>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        SelectedColor.Alpha = 0.400000005960464500
         WantReturns = False
       end
       object SynParameters: TSynEdit
@@ -163,16 +163,17 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 2
         OnEnter = SynEditEnter
         UseCodeFolding = False
+        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
         Gutter.Bands = <
           item
             Kind = gbkMarks
-            Visible = True
             Width = 15
           end
           item
@@ -183,12 +184,12 @@ inherited RunConfigurationForm: TRunConfigurationForm
           end
           item
             Kind = gbkMargin
-            Visible = True
             Width = 2
           end>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        SelectedColor.Alpha = 0.400000005960464500
         WantReturns = False
       end
       object SynWorkDir: TSynEdit
@@ -205,16 +206,17 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 3
         OnEnter = SynEditEnter
         UseCodeFolding = False
+        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
         Gutter.Bands = <
           item
             Kind = gbkMarks
-            Visible = True
             Width = 15
           end
           item
@@ -225,12 +227,12 @@ inherited RunConfigurationForm: TRunConfigurationForm
           end
           item
             Kind = gbkMargin
-            Visible = True
             Width = 2
           end>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        SelectedColor.Alpha = 0.400000005960464500
         WantReturns = False
       end
       object btnFileName: TButton
@@ -370,16 +372,17 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 1
         OnEnter = SynEditEnter
         UseCodeFolding = False
+        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
         Gutter.Bands = <
           item
             Kind = gbkMarks
-            Visible = True
             Width = 15
           end
           item
@@ -390,12 +393,12 @@ inherited RunConfigurationForm: TRunConfigurationForm
           end
           item
             Kind = gbkMargin
-            Visible = True
             Width = 2
           end>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        SelectedColor.Alpha = 0.400000005960464500
         WantReturns = False
       end
       object btnOutputFileName: TButton

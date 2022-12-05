@@ -8,7 +8,6 @@ inherited CustomizeParams: TCustomizeParams
   ShowHint = True
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel: TPanel
     Left = 0
@@ -139,11 +138,13 @@ inherited CustomizeParams: TCustomizeParams
         Font.Quality = fqClearTypeNatural
         TabOrder = 1
         UseCodeFolding = False
+        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
         Gutter.Bands = <
           item
@@ -152,11 +153,9 @@ inherited CustomizeParams: TCustomizeParams
           end
           item
             Kind = gbkLineNumbers
-            Visible = False
           end
           item
             Kind = gbkFold
-            Visible = False
           end
           item
             Kind = gbkMargin
@@ -165,6 +164,7 @@ inherited CustomizeParams: TCustomizeParams
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        SelectedColor.Alpha = 0.400000005960464500
         WantReturns = False
       end
       object edName: TEdit
@@ -254,7 +254,7 @@ inherited CustomizeParams: TCustomizeParams
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 129
+        CollectionIndex = 130
         CollectionName = 'Up'
         Name = 'Up'
       end

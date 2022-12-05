@@ -7,7 +7,6 @@ inherited ToolProperties: TToolProperties
   ClientWidth = 444
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -306,11 +305,13 @@ inherited ToolProperties: TToolProperties
             TabOrder = 0
             OnEnter = SynApplicationEnter
             UseCodeFolding = False
+            ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
             Gutter.Font.Name = 'Courier New'
             Gutter.Font.Style = []
+            Gutter.Font.Quality = fqClearTypeNatural
             Gutter.Visible = False
             Gutter.Bands = <
               item
@@ -319,11 +320,9 @@ inherited ToolProperties: TToolProperties
               end
               item
                 Kind = gbkLineNumbers
-                Visible = False
               end
               item
                 Kind = gbkFold
-                Visible = False
               end
               item
                 Kind = gbkMargin
@@ -332,6 +331,7 @@ inherited ToolProperties: TToolProperties
             HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
+            SelectedColor.Alpha = 0.400000005960464500
             WantReturns = False
           end
           object SynParameters: TSynEdit
@@ -349,11 +349,13 @@ inherited ToolProperties: TToolProperties
             TabOrder = 2
             OnEnter = SynParametersEnter
             UseCodeFolding = False
+            ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
             Gutter.Font.Name = 'Courier New'
             Gutter.Font.Style = []
+            Gutter.Font.Quality = fqClearTypeNatural
             Gutter.Visible = False
             Gutter.Bands = <
               item
@@ -362,11 +364,9 @@ inherited ToolProperties: TToolProperties
               end
               item
                 Kind = gbkLineNumbers
-                Visible = False
               end
               item
                 Kind = gbkFold
-                Visible = False
               end
               item
                 Kind = gbkMargin
@@ -375,6 +375,7 @@ inherited ToolProperties: TToolProperties
             HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
+            SelectedColor.Alpha = 0.400000005960464500
             WantReturns = False
           end
           object SynWorkDir: TSynEdit
@@ -392,11 +393,13 @@ inherited ToolProperties: TToolProperties
             TabOrder = 3
             OnEnter = SynWorkDirEnter
             UseCodeFolding = False
+            ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
             Gutter.Font.Name = 'Courier New'
             Gutter.Font.Style = []
+            Gutter.Font.Quality = fqClearTypeNatural
             Gutter.Visible = False
             Gutter.Bands = <
               item
@@ -405,11 +408,9 @@ inherited ToolProperties: TToolProperties
               end
               item
                 Kind = gbkLineNumbers
-                Visible = False
               end
               item
                 Kind = gbkFold
-                Visible = False
               end
               item
                 Kind = gbkMargin
@@ -418,6 +419,7 @@ inherited ToolProperties: TToolProperties
             HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
+            SelectedColor.Alpha = 0.400000005960464500
             WantReturns = False
           end
           object btnAppDir: TButton

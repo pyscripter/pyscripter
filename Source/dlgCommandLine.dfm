@@ -5,7 +5,6 @@ inherited CommandLineDlg: TCommandLineDlg
   ClientHeight = 172
   ClientWidth = 528
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel: TPanel
     Left = 0
@@ -57,11 +56,13 @@ inherited CommandLineDlg: TCommandLineDlg
       TabOrder = 0
       OnEnter = SynParametersEnter
       UseCodeFolding = False
+      ExtraLineSpacing = 0
       Gutter.Font.Charset = DEFAULT_CHARSET
       Gutter.Font.Color = clWindowText
       Gutter.Font.Height = -11
       Gutter.Font.Name = 'Courier New'
       Gutter.Font.Style = []
+      Gutter.Font.Quality = fqClearTypeNatural
       Gutter.Visible = False
       Gutter.Bands = <
         item
@@ -70,11 +71,9 @@ inherited CommandLineDlg: TCommandLineDlg
         end
         item
           Kind = gbkLineNumbers
-          Visible = False
         end
         item
           Kind = gbkFold
-          Visible = False
         end
         item
           Kind = gbkMargin
@@ -83,6 +82,7 @@ inherited CommandLineDlg: TCommandLineDlg
       HideSelection = True
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
       ScrollBars = ssNone
+      SelectedColor.Alpha = 0.400000005960464500
       WantReturns = False
     end
     object TBXButton1: TSpTBXButton
