@@ -451,6 +451,23 @@ initialization
     ParseMessages := False;
     CaptureOutput := False;
     ConsoleHidden := True;
+    Utf8IO := True;
+  end;
+
+  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
+    Caption := _('Format Selection');
+    Description := _('Format selected code using the "black" module');
+    ApplicationName := '$[PythonExe-Short]';
+    Parameters := '-m black -';
+    ShortCut := Vcl.Menus.Shortcut(Ord('F'), [ssShift, ssAlt]);
+    Context := tcSelectionAvailable;
+    SaveFiles := sfNone;
+    ProcessInput := piSelection;
+    ProcessOutput := poSelection;
+    ParseMessages := False;
+    CaptureOutput := False;
+    ConsoleHidden := True;
+    Utf8IO := True;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -466,6 +483,7 @@ initialization
     ParseMessages := False;
     CaptureOutput := False;
     ConsoleHidden := True;
+    Utf8IO := True;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
