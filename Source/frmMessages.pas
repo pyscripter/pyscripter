@@ -36,6 +36,8 @@ uses
   TB2Toolbar,
   SpTBXSkins,
   SpTBXItem,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
   PythonEngine,
@@ -297,7 +299,7 @@ end;
 procedure TMessagesWindow.MessagesViewInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
 begin
-  Assert(MessagesView.GetNodeLevel(Node) = 0);
+  Assert(ParentNode = nil);
   Assert(Integer(Node.Index) < TObjectList(fMessageHistory[fHistoryIndex]).Count);
   PMsgRec(MessagesView.GetNodeData(Node))^.Msg :=
     TMsg(TObjectList(fMessageHistory[fHistoryIndex])[Node.Index]);
@@ -322,7 +324,6 @@ procedure TMessagesWindow.MessagesViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
 begin
-  Assert(MessagesView.GetNodeLevel(Node) = 0);
   Assert(Integer(Node.Index) < TObjectList(fMessageHistory[fHistoryIndex]).Count);
   with PMsgRec(MessagesView.GetNodeData(Node))^.Msg do
     case Column of

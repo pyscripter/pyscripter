@@ -39,7 +39,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     9C41FC039C41F8019C41F0009C4100009C4100009C4100009C4100009C410000
     9C4100019C4100039C4100079C4100079C4100079C4100079C4100079C41}
   OnShow = FormShow
-  TextHeight = 25
+  TextHeight = 15
   inherited BGPanel: TPanel
     inherited FGPanel: TPanel
       object Panel1: TPanel

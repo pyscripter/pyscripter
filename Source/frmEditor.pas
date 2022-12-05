@@ -524,7 +524,7 @@ begin
     fFileName := AFileName;
     fRemoteFileName := '';
     fSSHServer := '';
-    if (AFileName <> '') and (fUntitledNumber <> -1) then
+    if ((AFileName <> '') or (fRemoteFileName <> '')) and (fUntitledNumber <> -1) then
     begin
       UntitledNumbers[fUntitledNumber] := False;
       fUntitledNumber := -1;
@@ -535,7 +535,6 @@ begin
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
-  fForm.DoUpdateCaption;
 end;
 
 function TEditor.GetSynEdit: TSynEdit;
@@ -795,6 +794,7 @@ begin
 
   DoSetFileName(AFileName);
   fForm.DoUpdateHighlighter(HighlighterName);
+  fForm.DoUpdateCaption;
   if HasPythonFile then
     FSynLsp.FileOpened(GetFileId, lidPython)
   else
@@ -825,15 +825,15 @@ begin
     end;
   end;
 
-  fRemoteFileName := FileName;
-  fSSHServer := ServerName;
-
   fForm.SynEdit.Modified := False;
   fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
+  fRemoteFileName := FileName;
+  fSSHServer := ServerName;
   DoSetFileName('');
   fForm.DoUpdateHighlighter('');
+  fForm.DoUpdateCaption;
   if HasPythonFile then
     FSynLsp.FileOpened(GetFileId, lidPython)
   else
@@ -1214,8 +1214,6 @@ end;
 
 procedure TEditorFactory.CreateRecoveryFiles;
 begin
-  Logger.Write('CreateRecoveryFiles');
-
   var RecoveryDir := TPyScripterSettings.RecoveryDir;
   if TDirectory.Exists(RecoveryDir) then
     TDirectory.Delete(RecoveryDir, True);
@@ -1444,6 +1442,7 @@ begin
     Editor.fUntitledNumber := UntitledNumber;
     Editor.UntitledNumbers.Bits[UntitledNumber] := True;
     Editor.DoSetFileName('');
+    Editor.fForm.DoUpdateCaption;
     if Editor.HasPythonFile then
       Editor.FSynLsp.FileSavedAs(Editor.GetFileId, lidPython)
   end;
@@ -1894,10 +1893,10 @@ begin
       Result := False;
       Exit;
     end;
-    fEditor.DoSetFileName(NewName); // Updates caption
+    fEditor.DoSetFileName(NewName);
     DoUpdateHighlighter;
     Result := DoSaveFile;
-    DoUpdateCaption; // Do it twice in case the previous statement fails
+    DoUpdateCaption;
 
     if FEditor.HasPythonFile then
       FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidPython)
@@ -1925,10 +1924,10 @@ begin
     end;
     fEditor.fRemoteFileName := FileName;
     fEditor.fSSHServer := Server;
-    fEditor.DoSetFileName('');  // Updates caption
+    fEditor.DoSetFileName('');
     DoUpdateHighlighter;
     Result := DoSaveFile;
-    DoUpdateCaption; // Do it twice in case the previous statement fails
+    DoUpdateCaption;
 
     if FEditor.HasPythonFile then
       FEditor.FSynLsp.FileSavedAs(FEditor.GetFileId, lidPython)

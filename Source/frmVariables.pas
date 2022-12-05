@@ -159,9 +159,6 @@ begin
     Exit;
   end;
 
-  if ivsReinit in InitialStates then
-    Exclude(Node.States, vsHasChildren);
-
   var Py := SafePyEngine;
   if ParentNode = nil then begin
     // Top level

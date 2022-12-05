@@ -322,16 +322,15 @@ begin
      ExplorerTree.Clear
     else
     begin
-      if ExplorerTree.RootNodeCount <> 1 then
-        ExplorerTree.RootNodeCount := 1;
+      ExplorerTree.RootNodeCount := 1;
       // The same module but changed
       // ReInit the tree with the new data to keep it as close as possible
       if mnAlphaSort.Checked then
         TModuleCENode(FModuleNode).Sort(soAlpha);
       ExplorerTree.BeginUpdate;
       try
-        ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True, True);
-        ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
+        ExplorerTree.ReinitNode(nil, True, True);
+        ExplorerTree.Invalidate;
       finally
         ExplorerTree.EndUpdate;
       end;
@@ -344,7 +343,7 @@ begin
     begin
       ExplorerTree.RootNodeCount := 1;
       ExplorerTree.OffsetXY := FModuleNode.OffsetXY;
-      ExplorerTree.ValidateNode(ExplorerTree.RootNode.FirstChild, True);
+      ExplorerTree.ValidateNode(nil, True);
       //ExplorerTree.Refresh;
     end;
   end;
@@ -374,16 +373,13 @@ procedure TCodeExplorerWindow.ExplorerTreeInitNode(Sender: TBaseVirtualTree;
 var
   CENode: TAbstractCENode;
 begin
-  if ExplorerTree.GetNodeLevel(Node) = 0 then
+  if ParentNode = nil then
     CENode := FModuleNode
   else begin
     var ParentCENode := ParentNode.GetData<TAbstractCENode>;
     CENode := ParentCENode.Children[Node.Index];
   end;
   Node.SetData<TAbstractCENode>(CENode);
-
-  if ivsReinit in InitialStates then
-    Exclude(Node.States, vsHasChildren);
 
   if CENode.ChildCount > 0 then
   begin
@@ -667,8 +663,8 @@ begin
 
     ExplorerTree.BeginUpdate;
     try
-      ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True, True);
-      ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
+      ExplorerTree.ReinitNode(nil, True, True);
+      ExplorerTree.Invalidate;
     finally
       ExplorerTree.EndUpdate;
     end;

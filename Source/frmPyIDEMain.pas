@@ -1771,7 +1771,6 @@ end;
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
-  //Logger.Write('FormCloseQuery called');
   if JvGlobalDockIsLoading then begin
     CanClose := False;
     CloseTimer.Enabled := True;
@@ -2989,7 +2988,6 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
-  //Logger.Write('Normal shutdown');
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -4606,7 +4604,6 @@ end;
 
 procedure TPyIDEMainForm.WMEndSession(var Msg: TWMEndSession);
 begin
-  Logger.Write('WMEndSession called');
   if Msg.EndSession then
     GI_EditorFactory.CreateRecoveryFiles;
   Msg.Result := 0;

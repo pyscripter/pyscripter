@@ -40,7 +40,7 @@ inherited UnitTestWindow: TUnitTestWindow
     000000000022000000150000000000000000000000000000000000000000C3C1
     00008001000000000000000000000000000080010000C0030000E00700000000
     000000000000F00F0000C00300008C3100009C390000FC3F0000F99F0000}
-  TextHeight = 25
+  TextHeight = 15
   inherited BGPanel: TPanel
     Width = 262
     Height = 451
@@ -170,8 +170,8 @@ inherited UnitTestWindow: TUnitTestWindow
         object Label2: TLabel
           Left = 7
           Top = 62
-          Width = 117
-          Height = 25
+          Width = 77
+          Height = 15
           Caption = 'Error Message:'
           Color = clNone
           ParentColor = False

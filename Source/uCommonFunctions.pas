@@ -2305,7 +2305,7 @@ initialization
   try
     Logger := TJclSimpleLog.Create(TPyScripterSettings.PyScripterLogFile);
     Logger.ClearLog;
-    Logger.LoggingActive := True;
+    Logger.LoggingActive := False;
     Logger.WriteStamp(0, False);
   except
   end;

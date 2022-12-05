@@ -340,7 +340,7 @@ procedure TCallStackWindow.CallStackViewInitNode(Sender: TBaseVirtualTree;
 var
   FrameData : PFrameData;
 begin
-  Assert(CallStackView.GetNodeLevel(Node) = 0);
+  Assert(ParentNode = nil);
   Assert(Assigned(fActiveThread));
   Assert(Integer(Node.Index) < fActiveThread.CallStack.Count);
   FrameData := Node.GetData;
@@ -459,7 +459,6 @@ end;
 procedure TCallStackWindow.ThreadViewAddToSelection(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
-  Assert(ThreadView.GetNodeLevel(Node) = 0);
   Assert(Integer(Node.Index) < fThreads.Count);
   if (fThreads[Node.Index].Status = thrdBroken) and
     (fActiveThread <> fThreads[Node.Index]) then
@@ -472,7 +471,6 @@ end;
 procedure TCallStackWindow.ThreadViewGetCellText(
   Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 begin
-  Assert(ThreadView.GetNodeLevel(E.Node) = 0);
   Assert(Integer(E.Node.Index) < fThreads.Count);
   E.CellText := fThreads[E.Node.Index].Name;
 end;
@@ -481,7 +479,6 @@ procedure TCallStackWindow.ThreadViewGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
-  Assert(ThreadView.GetNodeLevel(Node) = 0);
   Assert(Integer(Node.Index) < fThreads.Count);
   if Kind in [ikNormal, ikSelected] then begin
     if fThreads[Node.Index].Status = thrdRunning then

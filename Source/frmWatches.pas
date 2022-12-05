@@ -203,9 +203,6 @@ var
   Data, ParentData: PWatchRec;
   ChildCount : integer;
 begin
-  if ivsReinit in InitialStates then
-    Exclude(Node.States, vsHasChildren);
-
   Data := Node.GetData;
   if not WatchesView.Enabled then
   begin

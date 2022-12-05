@@ -1180,7 +1180,7 @@ Var
   Data, ParentData: PNodeDataRec;
 begin
   Data := ExplorerTree.GetNodeData(Node);
-  if ExplorerTree.GetNodeLevel(Node) = 0 then
+  if ParentNode = nil then
     Data.ProjectNode := ActiveProject
   else begin
     ParentData := ExplorerTree.GetNodeData(ParentNode);
