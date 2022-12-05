@@ -1574,7 +1574,7 @@ begin
   SetLength(Categories, 12);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 13);
+    SetLength(Options, 14);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1601,6 +1601,8 @@ begin
     Options[11].DisplayName := _('Restore open project');
     Options[12].PropertyName := 'AutoRestart';
     Options[12].DisplayName := _('Automatic restart');
+    Options[13].PropertyName := 'LoggingEnabled';
+    Options[13].DisplayName := _('Logging enabled');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
@@ -2846,6 +2848,17 @@ begin
     SynSpellCheck.LanguageCode := PyIDEOptions.DictLanguage;
   finally
     SynSpellCheck.EndUpdate;
+  end;
+
+  // Logging
+  if Logger.LoggingActive <> PyIDEOptions.LoggingEnabled then
+  begin
+    Logger.LoggingActive := PyIDEOptions.LoggingEnabled;
+    if Logger.LoggingActive then
+    begin
+      Logger.ClearLog;
+      Logger.WriteStamp(0, False);
+    end;
   end;
 
   TThread.ForceQueue(nil, procedure

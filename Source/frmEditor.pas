@@ -2384,15 +2384,13 @@ end;
 
 function TEditorForm.HasSyntaxError: boolean;
 begin
-  Result := False;
-  if fEditor.HasPythonFile then
-    Result := FEditor.FSynLsp.Diagnostics.Count > 0;
+  Result := fEditor.HasPythonFile and (FEditor.FSynLsp.Diagnostics.Count > 0);
 end;
 
 procedure TEditorForm.SynEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  // Cancel Code Hint
+  // Cancel Code Hint when the Ctrl key is depressed
   Application.CancelHint;
 end;
 

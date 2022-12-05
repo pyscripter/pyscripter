@@ -581,7 +581,7 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnZoomOut: TSpTBXItem
           Action = actEditorZoomOut
         end
-        object SpTBXItem16: TSpTBXItem
+        object mnResetZoom: TSpTBXItem
           Action = actEditorZoomReset
         end
         object N10: TSpTBXSeparatorItem

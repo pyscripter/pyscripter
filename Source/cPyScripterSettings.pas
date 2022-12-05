@@ -141,6 +141,7 @@ type
     fSpellCheckedTokens: string;
     fSpellCheckAsYouType: Boolean;
     fAutoRestart: Boolean;
+    fLoggingEnabled: Boolean;
     fTrackChanges: TSynTrackChanges;
     fSelectionColor: TSynSelectedColor;
     fIndentGuides: TSynIndentGuides;
@@ -329,6 +330,7 @@ type
     property SpellCheckAsYouType: Boolean read fSpellCheckAsYouType
       write fSpellCheckAsYouType default False;
     property AutoRestart: Boolean read fAutoRestart write fAutoRestart default True;
+    property LoggingEnabled: Boolean read fLoggingEnabled write fLoggingEnabled default False;
   end;
 {$METHODINFO OFF}
 
@@ -543,6 +545,7 @@ begin
       Self.fSpellCheckedTokens := SpellCheckedTokens;
       Self.fSpellCheckAsYouType := SpellCheckAsYouType;
       Self.fAutoRestart := AutoRestart;
+      Self.fLoggingEnabled := LoggingEnabled;
     end
   else
     inherited;
@@ -643,6 +646,7 @@ begin
   fSpellCheckedTokens := 'Comment, Text, String, Multi-Line String, Documentation';
   fSpellCheckAsYouType := False;
   fAutoRestart := True;
+  fLoggingEnabled := False;
   fCodeFolding := TSynCodeFolding.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value
   fTrackChanges := TSynTrackChanges.Create(nil);

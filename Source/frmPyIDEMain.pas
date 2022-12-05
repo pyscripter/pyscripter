@@ -1160,7 +1160,7 @@ type
     SpTBXSeparatorItem25: TSpTBXSeparatorItem;
     SpTBXItem25: TSpTBXItem;
     actEditorZoomReset: TAction;
-    SpTBXItem16: TSpTBXItem;
+    mnResetZoom: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);

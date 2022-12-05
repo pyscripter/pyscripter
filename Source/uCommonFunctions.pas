@@ -2304,9 +2304,7 @@ initialization
   StopWatch := TStopWatch.StartNew;
   try
     Logger := TJclSimpleLog.Create(TPyScripterSettings.PyScripterLogFile);
-    Logger.ClearLog;
     Logger.LoggingActive := False;
-    Logger.WriteStamp(0, False);
   except
   end;
 
