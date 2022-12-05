@@ -5312,6 +5312,17 @@ object CommandsDataModule: TCommandsDataModule
           'L21.7,19.3z M12.7,19.3c-3.7,0-6.8-3-6.8-6.8s3-6.8,6.8-6.8c3.7,0,' +
           '6.8,3,6.8,6.8'#13#10#9'S16.4,19.3,12.7,19.3z M9,11.8h7.5v1.5H9V11.8z"/>' +
           #13#10'</svg>'
+      end
+      item
+        IconName = 'ZoomReset'
+        SVGText = 
+          '<svg viewBox="0 0 32 32" stroke="black">'#13#10#9'<path stroke-width="0' +
+          '" d="M20.1,19l-0.4-0.4l-1.1,1.1'#13#10#9'l0.4,0.4v1.2l7.5,7.5l2.2-2.2L2' +
+          '1.7,19.3z" />'#13#10#9'<path transform="translate(2.2,2.2)" fill="none"' +
+          ' stroke-width="2.7" d="M17.502 7.001C16.273 4.41 13.596 2.625 10' +
+          '.5 2.625C6.15 2.625 2.625 6.15 2.625 10.5C2.625 14.849 6.15 18.3' +
+          '75 10.5 18.375L10.5 18.375C14.849 18.375 18.375 14.849 18.375 10' +
+          '.5M18.375 2.625L18.375 7.875L13.125 7.875"/>'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
     Left = 112

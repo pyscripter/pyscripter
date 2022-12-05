@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 246
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -580,6 +580,9 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnZoomOut: TSpTBXItem
           Action = actEditorZoomOut
+        end
+        object SpTBXItem16: TSpTBXItem
+          Action = actEditorZoomReset
         end
         object N10: TSpTBXSeparatorItem
         end
@@ -1424,7 +1427,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TabControlPopupMenu: TSpTBXPopupMenu
     Images = vilImages
-    Left = 312
+    Left = 336
     Top = 282
     object mnNewModule2: TSpTBXItem
       Action = actFileNewModule
@@ -1474,8 +1477,8 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object RunningProcessesPopUpMenu: TSpTBXPopupMenu
     LinkSubitems = OutputWindow.RunningProcess
-    Left = 172
-    Top = 280
+    Left = 188
+    Top = 282
   end
   object JvAppInstances: TJvAppInstances
     Active = False
@@ -1493,7 +1496,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Images = vilImages
     LinkSubitems = mnuToolbars
     Left = 40
-    Top = 280
+    Top = 282
   end
   object JvFormStorage: TJvFormStorage
     Active = False
@@ -2359,6 +2362,16 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'Download'
       OnExecute = actRemoteFileOpenExecute
     end
+    object actEditorZoomReset: TAction
+      Category = 'View'
+      Caption = '&Reset Zoom'
+      HelpType = htContext
+      Hint = 'Decrease the font size of the editor'
+      ImageIndex = 103
+      ImageName = 'ZoomReset'
+      ShortCut = 32864
+      OnExecute = actEditorZoomResetExecute
+    end
   end
   object LocalAppStorage: TJvAppIniFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -2888,6 +2901,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 105
         CollectionName = 'SpellCheck'
         Name = 'SpellCheck'
+      end
+      item
+        CollectionIndex = 141
+        CollectionName = 'ZoomReset'
+        Name = 'ZoomReset'
       end>
     ImageCollection = CommandsDataModule.icSVGImages
     PreserveItems = True

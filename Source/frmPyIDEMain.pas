@@ -552,8 +552,10 @@
   History:   v 4.2.2
           New Features
             - Internet Explorer replaced with the Edge browser
-            - New IDE option 'Automatic Restart' (#1188)
+            - Added Format Selection external tool using the "black" module
+            - New IDE option 'Automatic Restart' Atl+Num 0 (#1188)
             - Recovery of unsaved files on system shutdown or application crash
+            - New IDE command "Zoom Reset" (#650)
           Issues addressed
           #1181, #1182, #1183, #1185, #1186, #1187, #1189
 }
@@ -1157,6 +1159,8 @@ type
     SpTBXItem24: TSpTBXItem;
     SpTBXSeparatorItem25: TSpTBXSeparatorItem;
     SpTBXItem25: TSpTBXItem;
+    actEditorZoomReset: TAction;
+    SpTBXItem16: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1237,6 +1241,7 @@ type
     procedure actNavRETesterExecute(Sender: TObject);
     procedure actNavEditorExecute(Sender: TObject);
     procedure actDebugPauseExecute(Sender: TObject);
+    procedure actEditorZoomResetExecute(Sender: TObject);
     procedure actPythonReinitializeExecute(Sender: TObject);
     procedure actPythonEngineExecute(Sender: TObject);
     procedure actExecSelectionExecute(Sender: TObject);
@@ -4786,6 +4791,14 @@ begin
       TSynEdit(ActiveControl).Font.Size + 1;
     TSynEdit(ActiveControl).Gutter.Font.Size :=
       TSynEdit(ActiveControl).Font.Size - 2;
+  end;
+end;
+
+procedure TPyIDEMainForm.actEditorZoomResetExecute(Sender: TObject);
+begin
+  if ActiveControl is TSynEdit then begin
+    TSynEdit(ActiveControl).Font.Size := EditorOptions.Font.Size;
+    TSynEdit(ActiveControl).Gutter.Font.Size := EditorOptions.Gutter.Font.Size;
   end;
 end;
 
