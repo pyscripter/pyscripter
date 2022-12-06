@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2022-12-02 21:07\n"
+"POT-Creation-Date: 2022-12-06 04:54\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -5433,6 +5433,16 @@ msgstr ""
 msgid "Open Remote File with SSH"
 msgstr ""
 
+#. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
+#: frmPyIDEMain.dfm
+msgid "&Reset Zoom"
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
+#: frmPyIDEMain.dfm
+msgid "Reset the font size of the editor to its default"
+msgstr ""
+
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
 #: frmPythonII.dfm cTools.pas dmCommands.pas
@@ -5920,6 +5930,14 @@ msgid "Advanced Search and replace"
 msgstr ""
 
 #: cTools.pas
+msgid "Format Selection"
+msgstr ""
+
+#: cTools.pas
+msgid "Format selected code using the \"black\" module"
+msgstr ""
+
+#: cTools.pas
 msgid "Sort Selection"
 msgstr ""
 
@@ -6184,6 +6202,10 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Automatic restart"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Logging enabled"
 msgstr ""
 
 #: dmCommands.pas
