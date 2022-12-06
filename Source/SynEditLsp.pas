@@ -138,8 +138,8 @@ destructor TLspSynEditPlugin.Destroy;
 begin
   Instances.Remove(Self);
   TJedi.OnInitialized.RemoveHandler(FOnLspInitialized);
-  FDiagnostics.Free;
   FNewDiagnostics.Free;
+  FDiagnostics.Free;
   FIncChanges.Free;
   FDocSymbols.Free;
   inherited;
@@ -241,17 +241,27 @@ begin
     Exit;
   end;
 
-  //Params.Owned := False;
   var Task := TTask.Create(procedure
   var
     DiagArray: TArray<TDiagnostic>;
-    LFileId : string;
+    LFileId: string;
+    DocVersion: NativeUInt;
   begin
     try
       var Uri: string;
       if not Params.TryGetValue('uri', Uri) then Exit;
       LFileId := FileIdFromUri(Uri);
       if LFileId = '' then Exit;
+
+      // compare versions
+      if Params.TryGetValue('version', DocVersion) then
+      begin
+        var Plugin := FindPluginWithFileId(LFileId);
+        if not Assigned(Plugin) then Exit;
+        if DocVersion <> Plugin.FVersion then
+          Exit;
+      end;
+
       var Diagnostics := Params.FindValue('diagnostics');
       if not (Diagnostics is TJSONArray) then Exit;
 
@@ -270,6 +280,7 @@ begin
       Params.Free;
     end;
 
+    // Find plugin again just in case it has been destroyed
     var Plugin := FindPluginWithFileId(LFileId);
     if not Assigned(Plugin) then Exit;
 
