@@ -557,7 +557,7 @@
             - Recovery of unsaved files on system shutdown or application crash
             - New IDE command "Zoom Reset" (#650)
           Issues addressed
-            #1152, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
+            #1152, #1155, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
 }
 
 { TODO : Review Search and Replace }

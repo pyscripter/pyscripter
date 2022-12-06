@@ -1,10 +1,10 @@
 {796D9287-1850-46A8-9C28-24E627FBC446} Version=3
 begin jvcsmak.setvariable
-  Caption=Set variable <PyScripterVersion> = 4.2.1
+  Caption=Set variable <PyScripterVersion> = 4.2.2
   Ignore=0
   Varname=PyScripterVersion
   DataType=0
-  Value=4.2.1
+  Value=4.2.2
   Operation=0
   Append=0
   Versionfilename=
@@ -306,23 +306,24 @@ end
     Caption=Internal Batch command list
     Ignore=0
     ReplaceVars=1
-    BatchLineCount=16
+    BatchLineCount=17
     BatchLine1=pushd %AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%
     BatchLine2=xcopy /q /e /y "c:\Program Files\PyScripter" PyScripter
     BatchLine3=del PyScripter\un*.*
     BatchLine4=del PyScripter\PyScripter.exe
     BatchLine5=copy %AppPath%\Install\PyScripter.ini PyScripter
-    BatchLine6=copy %AppPath%\PyScripter.exe PyScripter
-    BatchLine7=xcopy /q /e /y c:\ProgramData\PyScripter\ PyScripter  
-    BatchLine8=del PyScripter\Lsp\jls\jedilsp.exe
-    BatchLine9=pushd PyScripter
-    BatchLine10=move Lsp Lib\
-    BatchLine11=popd
-    BatchLine12=IF EXIST ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip del ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip 
-    BatchLine13="c:\Program Files\7-Zip\7z.exe" a ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip PyScripter
-    BatchLine14=cd ..
-    BatchLine15=rmdir /Q /S PyScripter-%PyScripterVersion%-%OSPlatform%  
-    BatchLine16=popd 
+    BatchLine6=copy %AppPath%\Install\*.url PyScripter
+    BatchLine7=copy %AppPath%\PyScripter.exe PyScripter
+    BatchLine8=xcopy /q /e /y c:\ProgramData\PyScripter\ PyScripter  
+    BatchLine9=del PyScripter\Lsp\jls\jedilsp.exe
+    BatchLine10=pushd PyScripter
+    BatchLine11=move Lsp Lib\
+    BatchLine12=popd
+    BatchLine13=IF EXIST ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip del ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip 
+    BatchLine14="c:\Program Files\7-Zip\7z.exe" a ..\PyScripter-%PyScripterVersion%-%OSPlatform%.zip PyScripter
+    BatchLine15=cd ..
+    BatchLine16=rmdir /Q /S PyScripter-%PyScripterVersion%-%OSPlatform%  
+    BatchLine17=popd 
   end
 begin block.end
   Caption=end

@@ -138,12 +138,16 @@ begin
   if not FileExists(ServerPath) then Exit;
 
 
-  CmdLine :=    '"' + GI_PyControl.PythonVersion.PythonExecutable + '" -u ' +
-    ServerPath;
+//  CmdLine :=    '"' + GI_PyControl.PythonVersion.PythonExecutable + '" -u ' +
+//    ServerPath;
+  CmdLine := Format('"%s" -u "%s"',
+    [GI_PyControl.PythonVersion.PythonExecutable, ServerPath]);
   if PyIDEOptions.LspDebug then
   begin
-    CmdLine := CmdLine + ' -v --log-file ' +
-      TPath.Combine(TPyScripterSettings.UserDataPath, LspDebugFile);
+//    CmdLine := CmdLine + ' -v --log-file ' +
+//      TPath.Combine(TPyScripterSettings.UserDataPath, LspDebugFile);
+    CmdLine := Format('%s -v --log-file "%s"', [CmdLine,
+      TPath.Combine(TPyScripterSettings.UserDataPath, LspDebugFile)]);
   end;
 
   LspClient := TLspClient.Create(CmdLine);
