@@ -2366,7 +2366,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Category = 'View'
       Caption = '&Reset Zoom'
       HelpType = htContext
-      Hint = 'Decrease the font size of the editor'
+      Hint = 'Reset the font size of the editor to its default'
       ImageIndex = 103
       ImageName = 'ZoomReset'
       ShortCut = 32864

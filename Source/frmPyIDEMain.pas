@@ -557,7 +557,7 @@
             - Recovery of unsaved files on system shutdown or application crash
             - New IDE command "Zoom Reset" (#650)
           Issues addressed
-          #1181, #1182, #1183, #1185, #1186, #1187, #1189
+            #1152, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
 }
 
 { TODO : Review Search and Replace }
@@ -3479,6 +3479,10 @@ begin
   actViewHideSecondEditor.Enabled := Assigned(GI_ActiveEditor)
     and GI_ActiveEditor.SynEdit2.Visible;
   actViewHideSecondaryWorkspace.Enabled := TabControl2.Visible;
+
+  actEditorZoomIn.Enabled := ActiveControl is TSynEdit;
+  actEditorZoomOut.Enabled := actEditorZoomIn.Enabled;
+  actEditorZoomReset.Enabled := actEditorZoomIn.Enabled;
 
   actWatchesWin.Checked := WatchesWindow.Visible;
 
