@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2022-11-09 17:22\n"
+"POT-Creation-Date: 2022-12-06 04:54\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2022\n"
 "Language-Team: Italian (https://www.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -1647,9 +1647,7 @@ msgid "Apply to all editors"
 msgstr "Applica a tutti gli editor"
 
 #. PageSetupDlg..Caption
-#. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
-#. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
-#: dlgSynPageSetup.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPageSetup.dfm
 msgid "Page Setup"
 msgstr "Impostazioni pagina"
 
@@ -1880,9 +1878,7 @@ msgid "Underline"
 msgstr "Sottolineato"
 
 #. PrintPreviewDlg..Caption
-#. DocForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
-#. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
-#: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPrintPreview.dfm
 msgid "Print Preview"
 msgstr "Anteprima di stampa"
 
@@ -3653,8 +3649,9 @@ msgid "Go Forward"
 msgstr "Avanti"
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
+#. RegExpTesterWindow..BGPanel..FGPanel..StatusBar..lbStatusBar..ImageName
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
-#: frmDocView.dfm frmWebPreview.dfm
+#: frmDocView.dfm frmRegExpTester.dfm frmWebPreview.dfm
 msgid "Stop"
 msgstr "Ferma"
 
@@ -5503,6 +5500,16 @@ msgstr "Apri file remoto"
 msgid "Open Remote File with SSH"
 msgstr "Apri file remoto con SSH"
 
+#. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
+#: frmPyIDEMain.dfm
+msgid "&Reset Zoom"
+msgstr "&Ripristina zoom"
+
+#. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
+#: frmPyIDEMain.dfm
+msgid "Reset the font size of the editor to its default"
+msgstr "Ripristina la dimensione del font dell'editor al valore predefinito"
+
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
 #: frmPythonII.dfm cTools.pas dmCommands.pas
@@ -5992,6 +5999,14 @@ msgid "Advanced Search and replace"
 msgstr "Cerca e sostituisci avanzato"
 
 #: cTools.pas
+msgid "Format Selection"
+msgstr "Selezione formato"
+
+#: cTools.pas
+msgid "Format selected code using the \"black\" module"
+msgstr "Formatta il codice selezionato usando il modulo \"nero\"."
+
+#: cTools.pas
 msgid "Sort Selection"
 msgstr "Ordina selezione"
 
@@ -6255,6 +6270,14 @@ msgstr "Ripristina i file aperti"
 #: dmCommands.pas
 msgid "Restore open project"
 msgstr "Ripristina progetto aperto"
+
+#: dmCommands.pas
+msgid "Automatic restart"
+msgstr "Riavvio automatico"
+
+#: dmCommands.pas
+msgid "Logging enabled"
+msgstr "Registrazione abilitata"
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -7267,8 +7290,8 @@ msgstr "Parametri completamento"
 
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
-msgid "Select to Bracket"
-msgstr "Seleziona fino alla parentesi"
+msgid "Select Match Bracket"
+msgstr "Seleziona corrispondenza parentesi"
 
 #. Delphi dialogs (from Vcl.Consts)
 #. Programmer's name for it: srNone
@@ -8009,6 +8032,15 @@ msgid ""
 msgstr ""
 "Il pachhetto 'jupyter' non è disponibile.\n"
 "Installa il pacchetto 'jupyter'."
+
+#. Programmer's name for it: SWebView2Error
+#: StringResources.pas
+msgid ""
+"The WebView2 control creation failed.\n"
+"Please install the WebView2 runtime"
+msgstr ""
+"La creazione del controllo WebView2 non è riuscita.\n"
+"Installa il runtime di WebView2"
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
