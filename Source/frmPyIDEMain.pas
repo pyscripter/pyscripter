@@ -555,7 +555,7 @@
             - Added Format Selection external tool using the "black" module
             - New IDE option 'Automatic Restart' (#1188)
             - Recovery of unsaved files on system shutdown or application crash
-            - New IDE command "Zoom Reset" Atl+Num 0  (#650)
+            - New IDE command "Zoom Reset" Atl+Num 0 (#650)
             - Two new styles added: Windows 11 Polar Dark and Windows 11 Polar Light
           Issues addressed
             #1152, #1155, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
