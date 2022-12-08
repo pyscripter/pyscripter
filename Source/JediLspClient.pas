@@ -138,14 +138,10 @@ begin
   if not FileExists(ServerPath) then Exit;
 
 
-//  CmdLine :=    '"' + GI_PyControl.PythonVersion.PythonExecutable + '" -u ' +
-//    ServerPath;
   CmdLine := Format('"%s" -u "%s"',
     [GI_PyControl.PythonVersion.PythonExecutable, ServerPath]);
   if PyIDEOptions.LspDebug then
   begin
-//    CmdLine := CmdLine + ' -v --log-file ' +
-//      TPath.Combine(TPyScripterSettings.UserDataPath, LspDebugFile);
     CmdLine := Format('%s -v --log-file "%s"', [CmdLine,
       TPath.Combine(TPyScripterSettings.UserDataPath, LspDebugFile)]);
   end;
@@ -521,7 +517,7 @@ begin
     Result := StringReplace(Result, '<br>---<br>', '<hr >', []);
 
     FindDefinitionByCoordinates(FileName, BC, DefFileName, DefBC);
-    if (DefFileName <> '') and FileExists(DefFileName) then begin
+    if (DefFileName <> '') then begin
       if  FileIsPythonPackage(DefFileName)
       then
         ModuleName := FileNameToModuleName(DefFileName)

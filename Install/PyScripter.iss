@@ -213,9 +213,11 @@ Source: "..\Styles\Windows10Malibu.vsf"; DestDir: "{commonappdata}\PyScripter\St
 Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows11_Dark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Windows11_Light.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows11_Polar_Dark.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
+Source: "..\Styles\Windows11_Polar_Light.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Zircon.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 ; Language Server
-Source: "..\Lib\Lsp\jls\jedilsp.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"; 
+Source: "..\Lib\Lsp\jls\jedilsp.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\jls";
 Source: "..\Lib\Lsp\jls\run-jedi-language-server.py"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"
 
 [Icons]
@@ -245,7 +247,7 @@ Filename: {commonappdata}\PyScripter\MicrosoftEdgeWebview2Setup.exe; Parameters:
 Filename: "cmd"; Parameters: "/c del MicrosoftEdgeWebview2Setup.exe"; WorkingDir: {commonappdata}\PyScripter; Flags: runhidden
 
 [UninstallRun]
-FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; RunOnceId: "DelLspDir"; Flags: runhidden 
+FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; WorkingDir: {commonappdata}\PyScripter\Lsp\jls\; RunOnceId: "DelLspDir"; Flags: runhidden
 
 [CustomMessages]
 #include "locale\en\InstallMessages.txt"
@@ -277,7 +279,7 @@ begin
   end
   else
   begin
-    if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'pv', Version)) or 
+    if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'pv', Version)) or
       (RegQueryStringValue(HKEY_CURRENT_USER, 'Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'pv', Version)) then
         VerifyRuntime := true;
   end;
@@ -285,6 +287,6 @@ begin
   { Verify the version information }
   if VerifyRuntime and (Version <> '') and (Version <> '0.0.0.0') then
     RuntimeNeeded := false;
-  
+
   Result := RuntimeNeeded;
 end;

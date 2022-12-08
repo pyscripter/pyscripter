@@ -778,8 +778,7 @@ end;
 
 function FileIsPythonPackage(FileName : string): boolean;
 begin
-  Result := (ExtractFileExt(FileName) = '.py') and
-    (ChangeFileExt(ExtractFileName(FileName), '') = '__init__');
+  Result := TPath.GetFileName(FileName) = '__init__.py';
 end;
 
 function GetPackageRootDir(Dir : string): string;

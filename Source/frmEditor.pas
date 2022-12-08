@@ -788,13 +788,14 @@ begin
     end;
   end;
 
+  DoSetFileName(AFileName);
+  fForm.DoUpdateHighlighter(HighlighterName);
+  fForm.DoUpdateCaption;
+
   fForm.SynEdit.Modified := False;
   fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
-  DoSetFileName(AFileName);
-  fForm.DoUpdateHighlighter(HighlighterName);
-  fForm.DoUpdateCaption;
   if HasPythonFile then
     FSynLsp.FileOpened(GetFileId, lidPython)
   else
@@ -825,13 +826,14 @@ begin
     end;
   end;
 
+  fRemoteFileName := FileName;
+  fSSHServer := ServerName;
+  DoSetFileName('');
+
   fForm.SynEdit.Modified := False;
   fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
   fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
 
-  fRemoteFileName := FileName;
-  fSSHServer := ServerName;
-  DoSetFileName('');
   fForm.DoUpdateHighlighter('');
   fForm.DoUpdateCaption;
   if HasPythonFile then

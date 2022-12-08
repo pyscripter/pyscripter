@@ -360,10 +360,10 @@ begin
     begin
       FIncChanges.Clear;
       var Text := Editor.Text;
-      if (Text = '') and (Editor.Lines.Count = 1) then
-        Text := SLineBreak;
+
       var Change := TJsonObject.Create;
       Change.AddPair('text', TJsonString.Create(Text));
+
       FIncChanges.Add(Change);
     end;
     Params.AddPair('contentChanges', FIncChanges as TJsonValue);
@@ -376,6 +376,10 @@ begin
 end;
 
 procedure TLspSynEditPlugin.LinesDeleted(FirstLine, Count: Integer);
+{
+   FirstLine 0-based
+   Called after deletion
+}
 var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
@@ -395,21 +399,38 @@ begin
 end;
 
 procedure TLspSynEditPlugin.LinesInserted(FirstLine, Count: Integer);
+{
+   FirstLine 0-based
+   Called after insertion therefore Lines.Count >= Count and
+   0 <= FirstLine <= Lines.Count - Count
+   Lines.Count may be 0
+}
 var
   Change: TJsonObject;
   BB, BE: TBufferCoord;
 begin
   if not TJedi.Ready or (FFileId = '') or (FlangId <> lidPython) or
-    not FTransmitChanges or
+    not FTransmitChanges or (Count <= 0) or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
     Exit;
 
-  BB := BufferCoord(1, FirstLine + 1);
+  if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
+    BB := BufferCoord(Editor.Lines[FirstLine - 1].Length + 1, FirstLine)
+  else
+    BB := BufferCoord(1, FirstLine + 1);
   BE := BB;
+
   var TextAdded := '';
   for var I := FirstLine to FirstLine + Count - 1 do
     TextAdded := TextAdded + Editor.Lines[I]  + SLineBreak;
+  if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
+    // Lines added at the end
+    TextAdded := SLineBreak + TextAdded;
+  if (FirstLine = Editor.Lines.Count - Count) or (Editor.Lines.Count = Count) then
+    // Lines added at the end or Lines was empty
+    Delete(TextAdded, TextAdded.Length - Length(SLineBreak) + 1, Length(SLineBreak));
+
   Change := TJsonObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
   Change.AddPair('text', TJsonString.Create(TextAdded));
