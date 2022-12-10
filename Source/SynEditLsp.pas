@@ -427,8 +427,8 @@ begin
   if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
     // Lines added at the end
     TextAdded := SLineBreak + TextAdded;
-  if (FirstLine = Editor.Lines.Count - Count) or (Editor.Lines.Count = Count) then
-    // Lines added at the end or Lines was empty
+  if (FirstLine = Editor.Lines.Count - Count) then
+    // Lines added at the end
     Delete(TextAdded, TextAdded.Length - Length(SLineBreak) + 1, Length(SLineBreak));
 
   Change := TJsonObject.Create;
