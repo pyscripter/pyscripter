@@ -1,10 +1,10 @@
 {796D9287-1850-46A8-9C28-24E627FBC446} Version=3
 begin jvcsmak.setvariable
-  Caption=Set variable <PyScripterVersion> = 4.2.2
+  Caption=Set variable <PyScripterVersion> = 4.2.3
   Ignore=0
   Varname=PyScripterVersion
   DataType=0
-  Value=4.2.2
+  Value=4.2.3
   Operation=0
   Append=0
   Versionfilename=
@@ -231,7 +231,7 @@ end
     Ignore=0
     ReplaceVars=1
     BatchLineCount=1
-    BatchLine1="C:\Users\kiria\.nuget\packages\microsoft.windows.sdk.buildtools\10.0.22000.194\bin\10.0.22000.0\x64\signtool.exe"  sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\PyScripter.exe
+    BatchLine1="C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\signtool.exe"  sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\PyScripter.exe
   end
   begin command.comment
     Caption=INNO SETUP
@@ -255,7 +255,7 @@ end
     Ignore=0
     ReplaceVars=1
     BatchLineCount=1
-    BatchLine1="C:\Users\kiria\.nuget\packages\microsoft.windows.sdk.buildtools\10.0.22000.194\bin\10.0.22000.0\x64\signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%-Setup.exe
+    BatchLine1="C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f C:\Users\kiria\OneDrive\PyScripter\Sertigo_certificate.pfx /p %PW% %AppPath%\Install\Output\PyScripter-%PyScripterVersion%-%OSPlatform%-Setup.exe
   end
   begin command.comment
     Caption=CREATE ZIP DISTRIBUTIONS

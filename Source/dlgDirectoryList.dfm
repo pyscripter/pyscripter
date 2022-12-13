@@ -168,19 +168,19 @@ inherited DirectoryListDialog: TDirectoryListDialog
     DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 60
+        CollectionIndex = 62
         CollectionName = 'OpenFolder'
         Disabled = False
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 126
+        CollectionIndex = 127
         CollectionName = 'Up'
         Disabled = False
         Name = 'Up'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 22
         CollectionName = 'Down'
         Disabled = False
         Name = 'Down'
