@@ -307,7 +307,6 @@ type
   TXStringList = class(TStringList)
   private
     fUTF8CheckLen: Integer;
-    fFileFormat: TSynEditFileFormat;
     fOnInfoLoss: TSynInfoLossEvent;
     fDetectUTF8: Boolean;
   public
@@ -315,7 +314,6 @@ type
     procedure SetTextAndFileFormat(const Value: string);
     procedure LoadFromStream(Stream: TStream; Encoding: TEncoding); override;
     procedure SaveToStream(Stream: TStream; Encoding: TEncoding); override;
-    property FileFormat: TSynEditFileFormat read FFileFormat write fFileFormat;
   published
     property UTF8CheckLen: Integer read fUTF8CheckLen write fUTF8CheckLen default -1;
     property DetectUTF8: Boolean read fDetectUTF8 write fDetectUTF8 default True;
@@ -1312,7 +1310,6 @@ function SaveWideStringsToFile(const AFileName: string;
 Var
   FileStream : TFileStream;
   S : AnsiString;
-  OldLineBreak: string;
 begin
   try
     // Create Backup
@@ -1334,15 +1331,7 @@ begin
     end;
 
     // For Ansi encoded Python files you have deal with coding comments
-    OldLineBreak := Lines.LineBreak;
-    if Lines is TSynEditStringList then
-      Lines.LineBreak := LineBreakFromFileFormat(TSynEditStringListAccess(Lines).FileFormat)
-    else if Lines is TXStringList then
-      Lines.LineBreak := LineBreakFromFileFormat(TXStringList(Lines).FileFormat);
-
     Result := WideStringsToEncodedText(AFileName, Lines, S, True);
-
-    Lines.LineBreak := OldLineBreak;
 
     if Result then begin
       FileStream := TFileStream.Create(AFileName, fmCreate);
@@ -1670,7 +1659,6 @@ begin
   fUTF8CheckLen := -1;
   Options := Options - [soWriteBOM, soTrailingLineBreak];
   fDetectUTF8 := True;
-  fFileFormat := sffDos;
 end;
 
 procedure TXStringList.LoadFromStream(Stream: TStream; Encoding: TEncoding);
@@ -1698,21 +1686,13 @@ end;
 procedure TXStringList.SaveToStream(Stream: TStream; Encoding: TEncoding);
 Var
   Cancel: Boolean;
-  OldLineBreak: string;
   S: string;
   Buffer, Preamble: TBytes;
 begin
   if Encoding = nil then
     Encoding := DefaultEncoding;
 
-  OldLineBreak := LineBreak;
-  try
-    LineBreak := LineBreakFromFileFormat(fFileFormat);
-    S := GetTextStr;
-  finally
-    LineBreak := OldLineBreak;
-  end;
-
+  S := GetTextStr;
   Cancel := False;
   if (Encoding = TEncoding.ANSI) and Assigned(fOnInfoLoss) and not IsAnsiOnly(S) then
   begin
@@ -1738,9 +1718,9 @@ var
   S: string;
   Size: Integer;
   P, Start, Pmax: PWideChar;
-  fCR, fLF, fLINESEPARATOR: Boolean;
+  fCR, fLF, fUnicodeSeparator: Boolean;
 begin
-  fLINESEPARATOR := False;
+  fUnicodeSeparator := False;
   fCR := False;
   fLF := False;
   BeginUpdate;
@@ -1765,7 +1745,7 @@ begin
         end else Insert(Count, '');
         if P^ = WideLineSeparator then
         begin
-          fLINESEPARATOR := True;
+          fUnicodeSeparator := True;
           Inc(P);
         end;
         if P^ = WideCR then
@@ -1788,14 +1768,14 @@ begin
   finally
     EndUpdate;
   end;
-  if fLINESEPARATOR then
-    FileFormat := sffUnicode
+  if fUnicodeSeparator then
+    LineBreak := WideLineSeparator
   else if fCR and not fLF then
-    FileFormat := sffMac
+    LineBreak := WideCR
   else if fLF and not fCR then
-    FileFormat := sffUnix
+    LineBreak := WideLF
   else
-    FileFormat := sffDos;
+    LineBreak := WideCRLF;
 end;
 
 procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
