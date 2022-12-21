@@ -1076,12 +1076,16 @@ begin
   if fForm <> nil then
     with CommandsDataModule do
     begin
+      SynEditPrint.SynEdit := fForm.SynEdit;
+      PrintDialog.MinPage := 1;
+      PrintDialog.MaxPage := SynEditPrint.PageCount;
+      PrintDialog.FromPage := 1;
+      PrintDialog.ToPage := PrintDialog.MaxPage;
       PrintDialog.PrintRange := prAllPages;
+
       if PrintDialog.Execute then
       begin
-        SynEditPrint.SynEdit := fForm.SynEdit;
         SynEditPrint.Title := GetFileTitle;
-        SynEditPrint.Highlighter := fForm.SynEdit.Highlighter;
         if PrintDialog.PrintRange = prAllPages then
           SynEditPrint.Print
         else
@@ -1094,7 +1098,6 @@ procedure TEditor.ExecPrintPreview;
 begin
   CommandsDataModule.SynEditPrint.SynEdit := fForm.SynEdit;
   CommandsDataModule.SynEditPrint.Title := GetFileTitle;
-  CommandsDataModule.SynEditPrint.Highlighter := fForm.SynEdit.Highlighter;
   with TPrintPreviewDlg.Create(Application.MainForm) do
   begin
     SynEditPrintPreview.SynEditPrint := CommandsDataModule.SynEditPrint;
