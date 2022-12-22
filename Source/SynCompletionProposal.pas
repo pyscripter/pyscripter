@@ -567,8 +567,7 @@ uses
   SynEditTextBuffer,
   SynEditMiscProcs,
   SynEditKeyConst,
-  JvGnugettext,
-  uCommonFunctions;
+  JvGnugettext;
 
 const
   TextHeightString = 'CompletionProposal';
@@ -1947,6 +1946,7 @@ end;
 
 procedure TSynBaseCompletionProposalForm.RecalcItemHeight;
 begin
+  HandleNeeded;
   Canvas.Font.Assign(FFont);
   FFontHeight := Canvas.TextHeight(TextHeightString);
   if FItemHeight > 0 then
@@ -2345,6 +2345,9 @@ Var
     // ScaleForPPI will scale Width and Height
     // Scaling at this point prevents further scaling when the Form is shown
     {$IF CompilerVersion >= 32}FForm.ScaleForPPI(ActivePPI);{$ENDIF}
+
+    // Scrollbar needs to be properly scaled in case primary monitor is High-DPI
+    FForm.FScrollbar.Width := GetSystemMetricsForDPI(SM_CXVSCROLL, ActivePPI);
 
     if not FFontsAreScaled then
     begin
