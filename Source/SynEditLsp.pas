@@ -379,6 +379,7 @@ procedure TLspSynEditPlugin.LinesDeleted(FirstLine, Count: Integer);
 {
    FirstLine 0-based
    Called after deletion
+   Lines.Count may be 0
 }
 var
   Change: TJsonObject;
@@ -391,7 +392,11 @@ begin
     Exit;
 
   BB := BufferCoord(1, FirstLine + 1);
-  BE := BufferCoord(1, FirstLine + Count + 1);
+  if FirstLine = Editor.Lines.Count then
+    // we have deleted the last line
+    BE := BufferCoord(Editor.Lines[FirstLine + Count - 1].Length + 1, FirstLine + Count)
+  else
+    BE := BufferCoord(1, FirstLine + Count + 1);
   Change := TJsonObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
   Change.AddPair('text', TJsonString.Create(''));
@@ -403,7 +408,6 @@ procedure TLspSynEditPlugin.LinesInserted(FirstLine, Count: Integer);
    FirstLine 0-based
    Called after insertion therefore Lines.Count >= Count and
    0 <= FirstLine <= Lines.Count - Count
-   Lines.Count may be 0
 }
 var
   Change: TJsonObject;
@@ -416,6 +420,7 @@ begin
     Exit;
 
   if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
+    // Special case: Added at the end and not starting from the first line
     BB := BufferCoord(Editor.Lines[FirstLine - 1].Length + 1, FirstLine)
   else
     BB := BufferCoord(1, FirstLine + 1);
