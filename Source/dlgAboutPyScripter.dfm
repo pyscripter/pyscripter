@@ -6,11 +6,9 @@ inherited AboutBox: TAboutBox
   ClientHeight = 353
   ClientWidth = 534
   KeyPreview = True
-  OldCreateOrder = True
   StyleElements = [seFont, seBorder]
   OnKeyPress = FormKeyPress
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 25
   object SpTBXTabControl: TSpTBXTabControl
     Left = 0
     Top = 0
@@ -80,7 +78,6 @@ inherited AboutBox: TAboutBox
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            Zoom = 100
             OnResizeRequest = reCreditsResizeRequest
           end
         end
@@ -107,7 +104,6 @@ inherited AboutBox: TAboutBox
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        Zoom = 100
       end
     end
     object SpTBXTabSheet1: TSpTBXTabSheet
@@ -222,7 +218,6 @@ inherited AboutBox: TAboutBox
           Width = 157
           Height = 153
           AutoSize = False
-          Proportional = True
           SVGText = 
             '<svg id="b1a03016-5506-42bd-8c49-4cc7f72dfa4b" data-name="acfdf7' +
             'c2-779f-498a-9313-fcf213028fbc" xmlns="http://www.w3.org/2000/sv' +

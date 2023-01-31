@@ -151,7 +151,7 @@ const
     'Gustavo Carreno',
     'Aleksander Dragunkin, Andrei Aleksandrov, Dmitry Arefiev',
     'Marian Denes',
-    'Javier Pimas, Victor Alberto Gil, Juan Carlos Cilleruelo'
+    'Pedro Luis Larrosa, Victor Alberto Gil, Juan Carlos Cilleruelo'
   );
 
   cAboutBoxCreditsThemeDesign =
