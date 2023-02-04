@@ -33,6 +33,7 @@ uses
   SpTBXItem,
   SpTBXControls,
   SpTBXDkPanels,
+  VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,

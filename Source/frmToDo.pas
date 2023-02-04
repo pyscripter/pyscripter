@@ -76,6 +76,7 @@ uses
   JvDockControlForm,
   JvAppStorage,
   JvComponentBase,
+  VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,

@@ -559,6 +559,11 @@
             - Two new styles added: Windows 11 Polar Dark and Windows 11 Polar Light
           Issues addressed
             #1152, #1155, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
+
+  History:   v 4.2.6
+          New Features
+          Issues addressed
+            #1195
 }
 
 { TODO : Review Search and Replace }

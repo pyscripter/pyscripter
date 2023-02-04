@@ -42,6 +42,7 @@ uses
   SpTBXControls,
   JvComponentBase,
   JvDockControlForm,
+  VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,

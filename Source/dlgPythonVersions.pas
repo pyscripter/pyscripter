@@ -24,10 +24,11 @@ uses
   TB2Toolbar,
   SpTBXItem,
   TB2Item,
+  VirtualTrees.Types,
   VirtualTrees.BaseTree,
   VirtualTrees,
   dlgPyIDEBase,
-  dmCommands;
+  dmCommands, VirtualTrees.BaseAncestorVCL, VirtualTrees.AncestorVCL;
 
 type
   TPythonVersionsDialog = class(TPyIDEDlgBase)

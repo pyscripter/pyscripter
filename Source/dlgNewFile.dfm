@@ -5,7 +5,7 @@ inherited NewFileDialog: TNewFileDialog
   ClientWidth = 466
   OnDestroy = FormDestroy
   OnShow = FormShow
-  TextHeight = 25
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -37,8 +37,8 @@ inherited NewFileDialog: TNewFileDialog
         object Label1: TLabel
           Left = 9
           Top = 7
-          Width = 88
-          Height = 25
+          Width = 59
+          Height = 15
           Caption = 'Categories:'
         end
         object tvCategories: TVirtualStringTree
@@ -73,8 +73,8 @@ inherited NewFileDialog: TNewFileDialog
         object Label2: TLabel
           Left = 6
           Top = 7
-          Width = 83
-          Height = 25
+          Width = 56
+          Height = 15
           Caption = 'Templates:'
         end
         object lvTemplates: TListView

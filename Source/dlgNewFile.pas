@@ -11,13 +11,14 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
+  VirtualTrees.Types,
   VirtualTrees.BaseTree,
   VirtualTrees,
   cFileTemplates,
   dlgPyIDEBase,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, VirtualTrees.BaseAncestorVCL, VirtualTrees.AncestorVCL;
 
 type
   TNewFileDialog = class(TPyIDEDlgBase)
