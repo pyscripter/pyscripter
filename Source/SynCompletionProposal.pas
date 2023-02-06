@@ -2347,7 +2347,11 @@ Var
     {$IF CompilerVersion >= 32}FForm.ScaleForPPI(ActivePPI);{$ENDIF}
 
     // Scrollbar needs to be properly scaled in case primary monitor is High-DPI
-    FForm.FScrollbar.Width := GetSystemMetricsForDPI(SM_CXVSCROLL, ActivePPI);
+    // Check for Windows Anniversary Edition
+    if (TOSVersion.Major >= 10) and (TOSVersion.Build >= 14393) then
+      FForm.FScrollbar.Width := GetSystemMetricsForDPI(SM_CXVSCROLL, ActivePPI)
+    else
+      FForm.FScrollbar.Width := GetSystemMetrics(SM_CXVSCROLL);
 
     if not FFontsAreScaled then
     begin
