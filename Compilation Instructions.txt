@@ -29,5 +29,6 @@ D. Use Multiinstaller.exe in the Components\ThirdParty folder to download
    dependencies 3-12 to a folder of your choice and install in one step.
 E. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
 F. In SVGIconImageList\Source SVGIconImageList.inc define PreferNativeSvgSupport
+G. Add to the Delphi library path the Source subdirectory of the Delphi Detours Library
 
 If you have managed to do all the above then open PythonIDE.dproj and compile :)
