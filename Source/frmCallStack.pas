@@ -235,7 +235,7 @@ end;
 procedure TCallStackWindow.CallStackViewAddToSelection(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
-  if Assigned(Node) and not (tsUpdating in CallStackView.TreeStates) then
+  if Assigned(Node) and not CallStackView.IsUpdating then
   begin
     Assert(Assigned(fActiveThread));
     Assert(Integer(Node.Index) < fActiveThread.CallStack.Count);

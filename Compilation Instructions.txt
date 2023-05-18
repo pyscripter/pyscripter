@@ -1,7 +1,7 @@
 INSTRUCTIONS FOR COMPILIING PyScripter
 ======================================
 
-I am using Delphi 10.4 to compile PyScripter.  You can use the free Delphi Community edition to compile PyScripter.
+I am using Delphi 11 to compile PyScripter.  You can use the free Delphi Community edition to compile PyScripter.
 
 ** Third Party Components: **
   1. JCL (https://github.com/project-jedi/jcl) - at Github.com or use daily packages from http://jvcl.sourceforge.net/daily/
@@ -29,6 +29,5 @@ D. Use Multiinstaller.exe in the Components\ThirdParty folder to download
    dependencies 3-12 to a folder of your choice and install in one step.
 E. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
 F. In SVGIconImageList\Source SVGIconImageList.inc define PreferNativeSvgSupport
-G. Add to the Delphi library path the Source subdirectory of the Delphi Detours Library
 
 If you have managed to do all the above then open PythonIDE.dproj and compile :)
