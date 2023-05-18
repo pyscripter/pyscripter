@@ -563,7 +563,7 @@
   History:   v 4.2.6
           New Features
           Issues addressed
-            #1195
+            #1195, #1208
 }
 
 { TODO : Review Search and Replace }
