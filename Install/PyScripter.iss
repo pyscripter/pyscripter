@@ -218,7 +218,7 @@ Source: "..\Styles\Windows11_Polar_Dark.vsf"; DestDir: "{commonappdata}\PyScript
 Source: "..\Styles\Windows11_Polar_Light.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 Source: "..\Styles\Zircon.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 ; Language Server
-Source: "..\Lib\Lsp\jls\jedilsp.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\jls";
+Source: "..\Lib\Lsp\jls\jedilsp.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"; Flags: ignoreversion
 Source: "..\Lib\Lsp\jls\run-jedi-language-server.py"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"
 
 [Icons]
