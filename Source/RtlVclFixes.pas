@@ -462,6 +462,8 @@ end;
 {$ENDREGION}
 
 {$REGION 'Fix TCustomImageList.SetSize - https://quality.embarcadero.com/browse/RSP-30931}
+// Fixed in D11.3
+{$IF CompilerVersion < 35}
 type
   TCustomImageList_SetSize = procedure(const Self: TCustomImageList; AWidth, AHeight: Integer);
 var
@@ -477,6 +479,7 @@ begin
      Self.EndUpdate;
    end;
 end;
+{$ENDIF}
 {$ENDREGION}
 
 initialization
@@ -498,8 +501,10 @@ initialization
   System.MonitorSupport.FreeWaitObject := FreeWaitObj;
  {$ENDIF}
 
+{$IF CompilerVersion < 35}
  Trampoline_TCustomImageList_SetSize :=
    InterceptCreate(@TCustomImageList.SetSize, @Detour_TCustomImageList_SetSize);
+ {$ENDIF}
 
 finalization
   {$IF CompilerVersion < 34}
@@ -508,8 +513,9 @@ finalization
   {$IF CompilerVersion < 35}
   InterceptRemove(@Trampoline_InputQuery);
   {$ENDIF}
+  {$IF CompilerVersion < 35}
   InterceptRemove(@Trampoline_TCustomImageList_SetSize);
-
+  {$ENDIF}
   {$IF CompilerVersion < 34}
   MonitorSupportShutDown := True;
   CleanStack(AtomicExchange(Pointer(EventCache.Head), nil));
