@@ -1774,9 +1774,6 @@ begin
   EditorToolbar.DoubleBuffered := True;
   UserToolbar.DoubleBuffered := True;
   FindToolbar.DoubleBuffered := True;
-
-  //SkinManager.AddSkinNotification(Self);
-  SkinManager.BroadcastSkinNotification;
 end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
@@ -4297,7 +4294,25 @@ begin
   // Update EditorOptions
   ThemeEditorGutter(EditorOptions.Gutter);
   PyIDEOptions.CodeFolding.FolderBarLinesColor := EditorOptions.Gutter.Font.Color;
-  CommandsDataModule.UpdateImageCollections;
+
+  // After updating to D11.3 Toolbar flicker was very visible on Style change
+  // BeginUpdate/EndUpdate solved the problem
+  MainToolBar.BeginUpdate;
+  DebugToolbar.BeginUpdate;
+  ViewToolbar.BeginUpdate;
+  EditorToolbar.BeginUpdate;
+  UserToolbar.BeginUpdate;
+  FindToolbar.BeginUpdate;
+  try
+    CommandsDataModule.UpdateImageCollections;
+  finally
+    MainToolBar.EndUpdate;
+    DebugToolbar.EndUpdate;
+    ViewToolbar.EndUpdate;
+    EditorToolbar.EndUpdate;
+    UserToolbar.EndUpdate;
+    FindToolbar.EndUpdate;
+  end;
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;
