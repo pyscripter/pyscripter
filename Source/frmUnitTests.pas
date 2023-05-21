@@ -195,7 +195,7 @@ begin
 
     Module := PyControl.ActiveInterpreter.ImportModule(Editor);
     UnitTest := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
-    TestSuite := UnitTest.findTestCases(Module);
+    TestSuite := UnitTest.defaultTestLoader.loadTestsFromModule(Module);
     //  This TestSuite contains a list of TestSuites
     //  each of which contains TestCases corresponding to
     //  a TestCase class in the module!!!
