@@ -221,7 +221,6 @@ Uses
   cInternalPython,
   cPyDebugger,
   cPyScripterSettings,
-  cParameters,
   cPyControl;
 
 {$R *.dfm}
@@ -716,7 +715,7 @@ begin
                     if Match.Success and (EndLineN = StartLineN) then
                     begin
                       // System Command
-                      PyControl.ActiveInterpreter.SystemCommand(Parameters.ReplaceInText( Match.Groups[1].Value));
+                      PyControl.ActiveInterpreter.SystemCommand(GI_PyIDEServices.ReplaceParams(Match.Groups[1].Value));
                     end
                     else
                     begin

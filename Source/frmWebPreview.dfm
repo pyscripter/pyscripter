@@ -3,17 +3,17 @@ object WebPreviewForm: TWebPreviewForm
   Top = 88
   HelpContext = 850
   Caption = 'Web Preview'
-  ClientHeight = 446
-  ClientWidth = 463
+  ClientHeight = 381
+  ClientWidth = 439
   Color = clBtnFace
   ParentFont = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  TextHeight = 15
+  TextHeight = 48
   object TBXDock1: TSpTBXDock
     Left = 0
     Top = 0
-    Width = 463
+    Width = 439
     Height = 30
     AllowDrag = False
     DoubleBuffered = True
@@ -67,12 +67,13 @@ object WebPreviewForm: TWebPreviewForm
   object WebBrowser: TEdgeBrowser
     Left = 0
     Top = 30
-    Width = 463
-    Height = 416
+    Width = 439
+    Height = 351
     HelpContext = 850
     Align = alClient
     TabOrder = 0
     TabStop = True
+    UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
     OnCreateWebViewCompleted = WebBrowserCreateWebViewCompleted
   end
   object BrowserImages: TVirtualImageList

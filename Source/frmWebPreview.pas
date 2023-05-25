@@ -102,7 +102,6 @@ uses
   StringResources,
   VarPyth,
   frmCommandOutput,
-  cParameters,
   cPyScripterSettings;
 
 {$R *.dfm}
@@ -231,7 +230,7 @@ begin
       Abort;
     end;
 
-    if not FileExists(Parameters.ReplaceInText(TWebPreviewForm.JupyterServer)) then
+    if not FileExists(GI_PyIDEServices.ReplaceParams(TWebPreviewForm.JupyterServer)) then
     begin
       StyledMessageDlg(_(SNoJupyter), mtError, [mbOK], 0);
       Abort;

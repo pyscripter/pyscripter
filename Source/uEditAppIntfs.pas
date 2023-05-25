@@ -229,6 +229,7 @@ type
       Returns the active editor irrespective of whether it is has the focus
       If want the active editor with focus then use GI_ActiveEditor
     }
+    function ReplaceParams(const AText: string): string;
     function GetActiveEditor : IEditor;
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const S: string);

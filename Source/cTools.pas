@@ -171,7 +171,6 @@ uses
   Vcl.Menus,
   JclStrings,
   JvGnuGetText,
-  cParameters,
   uEditAppIntfs,
   uCommonFunctions,
   cPyScripterSettings;
@@ -196,7 +195,7 @@ end;
 function PrepareCommandLine(S: string): string;
 begin
   S := ExpandEnv(S);
-  S:= Parameters.ReplaceInText(S);
+  S:= GI_PyIDEServices.ReplaceParams(S);
   Result := Trim(S);
 end;
 

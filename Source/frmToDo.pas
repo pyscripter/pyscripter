@@ -235,7 +235,6 @@ uses
   uEditAppIntfs,
   dlgToDoOptions,
   cProjectClasses,
-  cParameters,
   cPyScripterSettings;
 
 {$R *.dfm}
@@ -870,7 +869,7 @@ begin
      Result := False;
    end;
    if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') then begin
-     FileName := Parameters.ReplaceInText(TProjectFileNode(Node).FileName);
+     FileName := GI_PyIDEServices.ReplaceParams(TProjectFileNode(Node).FileName);
      if FileIsPythonSource(FileName)
      then
        TToDoWindow(Data).LoadFile(FileName);

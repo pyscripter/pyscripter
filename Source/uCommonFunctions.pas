@@ -391,7 +391,6 @@ Uses
   PythonEngine,
   StringResources,
   cPyScripterSettings,
-  cParameters,
   cSSHSupport;
 
 function GetIconIndexFromFile(const AFileName: string;
@@ -1502,7 +1501,7 @@ begin
   MaskList := Masks.Split([';']);
   for Path in PathList do
   begin
-    PathName := Parameters.ReplaceInText(Path);
+    PathName := GI_PyIDEServices.ReplaceParams(Path);
     if  System.SysUtils.DirectoryExists(PathName) then
       WalkThroughDirectory(PathName, MaskList, PreCallback, Recursive);
   end;

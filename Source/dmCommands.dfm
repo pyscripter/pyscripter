@@ -1,8 +1,9 @@
 object CommandsDataModule: TCommandsDataModule
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 402
-  Width = 717
+  Height = 1206
+  Width = 2151
+  PixelsPerInch = 288
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.DefaultFont.Charset = DEFAULT_CHARSET
@@ -32,18 +33,18 @@ object CommandsDataModule: TCommandsDataModule
     Font.Style = []
     TabWidth = 8
     Color = clWhite
-    Left = 188
-    Top = 68
+    Left = 564
+    Top = 204
   end
   object PrintDialog: TPrintDialog
     MaxPage = 10000
     Options = [poPageNums]
-    Left = 187
-    Top = 22
+    Left = 561
+    Top = 66
   end
   object PrinterSetupDialog: TPrinterSetupDialog
-    Left = 100
-    Top = 68
+    Left = 300
+    Top = 204
   end
   object ParameterCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
@@ -61,6 +62,11 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Height = -11
     TitleFont.Name = 'MS Shell Dlg 2'
     TitleFont.Style = [fsBold]
+    GripperFont.Charset = DEFAULT_CHARSET
+    GripperFont.Color = clBtnText
+    GripperFont.Height = -36
+    GripperFont.Name = 'Segoe UI'
+    GripperFont.Style = []
     Columns = <
       item
         ColumnWidth = 120
@@ -73,8 +79,8 @@ object CommandsDataModule: TCommandsDataModule
     OnExecute = ParameterCompletionExecute
     ShortCut = 24656
     OnCodeCompletion = ParameterCompletionCodeCompletion
-    Left = 335
-    Top = 20
+    Left = 1005
+    Top = 60
   end
   object ModifierCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
@@ -92,6 +98,11 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
+    GripperFont.Charset = DEFAULT_CHARSET
+    GripperFont.Color = clBtnText
+    GripperFont.Height = -36
+    GripperFont.Name = 'Segoe UI'
+    GripperFont.Style = []
     Columns = <
       item
         ColumnWidth = 120
@@ -104,8 +115,8 @@ object CommandsDataModule: TCommandsDataModule
     OnExecute = ModifierCompletionExecute
     ShortCut = 24653
     OnCodeCompletion = ModifierCompletionCodeCompletion
-    Left = 335
-    Top = 66
+    Left = 1005
+    Top = 198
   end
   object CodeTemplatesCompletion: TSynAutoComplete
     AutoCompleteList.Strings = (
@@ -158,22 +169,22 @@ object CommandsDataModule: TCommandsDataModule
     EndOfTokenChr = '()[]. '
     ShortCut = 0
     Options = [scoLimitToMatchedText, scoUseInsertList, scoCompleteWithTab, scoCompleteWithEnter]
-    Left = 335
-    Top = 108
+    Left = 1005
+    Top = 324
   end
   object ShellImages: TImageList
     DrawingStyle = dsTransparent
     ShareImages = True
-    Left = 32
-    Top = 208
+    Left = 96
+    Top = 624
   end
   object SynEditSearch: TSynEditSearch
-    Left = 195
-    Top = 123
+    Left = 585
+    Top = 369
   end
   object SynEditRegexSearch: TSynEditRegexSearch
-    Left = 105
-    Top = 124
+    Left = 315
+    Top = 372
   end
   object ProgramVersionCheck: TJvProgramVersionCheck
     AllowedReleaseType = prtAlpha
@@ -197,20 +208,20 @@ object CommandsDataModule: TCommandsDataModule
     VersionHistoryFileOptions.XMLOptions.UseOldItemNameFormat = False
     VersionHistoryFileOptions.XMLOptions.WhiteSpaceReplacement = '_'
     VersionHistoryFileOptions.XMLOptions.InvalidCharReplacement = '_'
-    Left = 435
-    Top = 183
+    Left = 1305
+    Top = 549
   end
   object ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation
     OnLoadFileFromRemote = ProgramVersionHTTPLocationLoadFileFromRemote
     VersionInfoLocationPathList.Strings = (
       'https://raw.githubusercontent.com/pyscripter/pyscripter/master')
     VersionInfoFileName = 'PyScripterVersionInfo.ini'
-    Left = 566
-    Top = 184
+    Left = 1698
+    Top = 552
   end
   object SynIniSyn: TSynIniSyn
-    Left = 531
-    Top = 272
+    Left = 1593
+    Top = 816
   end
   object JvMultiStringHolder: TJvMultiStringHolder
     MultipleStrings = <
@@ -2096,18 +2107,18 @@ object CommandsDataModule: TCommandsDataModule
           'if __name__ == "__main__":'
           '    main()')
       end>
-    Left = 335
-    Top = 184
+    Left = 1005
+    Top = 552
   end
   object dlgFileOpen: TOpenDialog
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
-    Left = 20
-    Top = 16
+    Left = 60
+    Top = 48
   end
   object dlgFileSave: TSaveDialog
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofNoReadOnlyReturn, ofEnableSizing]
-    Left = 20
-    Top = 68
+    Left = 60
+    Top = 204
   end
   object SynWebHtmlSyn: TSynWebHtmlSyn
     Brackets = '()[]{}<>'
@@ -2115,37 +2126,37 @@ object CommandsDataModule: TCommandsDataModule
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml5
     Options.UseEngineOptions = True
-    Left = 620
-    Top = 272
+    Left = 1860
+    Top = 816
   end
   object SynWebXmlSyn: TSynWebXmlSyn
     Brackets = '()[]{}<>'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 259
-    Top = 336
+    Left = 777
+    Top = 1008
   end
   object SynWebCssSyn: TSynWebCssSyn
     Brackets = '()[]{}<>'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Left = 350
-    Top = 336
+    Left = 1050
+    Top = 1008
   end
   object SynCppSyn: TSynCppSyn
-    Left = 442
-    Top = 272
+    Left = 1326
+    Top = 816
   end
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml5
-    Left = 624
-    Top = 336
+    Left = 1872
+    Top = 1008
   end
   object actlMain: TActionList
     Images = PyIDEMainForm.vilImages
-    Left = 21
-    Top = 125
+    Left = 63
+    Top = 375
     object actFileSave: TAction
       Category = 'File'
       Caption = '&Save'
@@ -3039,25 +3050,25 @@ object CommandsDataModule: TCommandsDataModule
   object SynWebEsSyn: TSynWebEsSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 532
-    Top = 336
+    Left = 1596
+    Top = 1008
   end
   object SynWebPhpPlainSyn: TSynWebPhpPlainSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 441
-    Top = 336
+    Left = 1323
+    Top = 1008
   end
   object SynGeneralSyn: TSynGeneralSyn
     DefaultFilter = 'Text Files(*.txt,*.*)|*.txt;*.*'
     DetectPreprocessor = False
     SpaceAttri.Foreground = clSilver
-    Left = 264
-    Top = 272
+    Left = 792
+    Top = 816
   end
   object SynJSONSyn: TSynJSONSyn
-    Left = 353
-    Top = 272
+    Left = 1059
+    Top = 816
   end
   object icBrowserImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -3132,8 +3143,8 @@ object CommandsDataModule: TCommandsDataModule
           ',16z M7,7h13.5v6H7V7z"/>'#13#10'</svg>'#13#10
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 32
-    Top = 264
+    Left = 96
+    Top = 792
   end
   object icCodeImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -3279,8 +3290,8 @@ object CommandsDataModule: TCommandsDataModule
           '-5.7L7.9,18.4z"/>'#13#10'</svg>'#13#10
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 109
-    Top = 264
+    Left = 327
+    Top = 792
   end
   object icGutterGlyphs: TSVGIconImageCollection
     SVGIconItems = <
@@ -3327,8 +3338,8 @@ object CommandsDataModule: TCommandsDataModule
           '="2"/>'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 176
-    Top = 264
+    Left = 528
+    Top = 792
   end
   object icSVGImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -5325,8 +5336,8 @@ object CommandsDataModule: TCommandsDataModule
           '.5M18.375 2.625L18.375 7.875L13.125 7.875"/>'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 112
-    Top = 208
+    Left = 336
+    Top = 624
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -5343,14 +5354,19 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
+    GripperFont.Charset = DEFAULT_CHARSET
+    GripperFont.Color = clBtnText
+    GripperFont.Height = -36
+    GripperFont.Name = 'Segoe UI'
+    GripperFont.Style = []
     Columns = <
       item
         ColumnWidth = 100
       end>
     Resizeable = True
     ShortCut = 0
-    Left = 484
-    Top = 112
+    Left = 1452
+    Top = 336
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams
@@ -5367,11 +5383,16 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
+    GripperFont.Charset = DEFAULT_CHARSET
+    GripperFont.Color = clBtnText
+    GripperFont.Height = -36
+    GripperFont.Name = 'Segoe UI'
+    GripperFont.Style = []
     Columns = <>
     ShortCut = 0
     TimerInterval = 300
-    Left = 484
-    Top = 71
+    Left = 1452
+    Top = 213
   end
   object SynCodeCompletion: TSynCompletionProposal
     Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -5388,12 +5409,17 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
+    GripperFont.Charset = DEFAULT_CHARSET
+    GripperFont.Color = clBtnText
+    GripperFont.Height = -36
+    GripperFont.Name = 'Segoe UI'
+    GripperFont.Style = []
     Columns = <>
     Resizeable = True
     ShortCut = 0
     TimerInterval = 300
-    Left = 484
-    Top = 25
+    Left = 1452
+    Top = 75
   end
   object SynSpellCheck: TSynSpellCheck
     AttributesChecked.Strings = (
@@ -5403,7 +5429,7 @@ object CommandsDataModule: TCommandsDataModule
       'Documentation')
     CheckAsYouType = False
     OnChange = SynSpellCheckChange
-    Left = 32
-    Top = 328
+    Left = 96
+    Top = 984
   end
 end

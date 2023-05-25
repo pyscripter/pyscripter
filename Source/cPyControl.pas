@@ -170,7 +170,6 @@ uses
   uCmdLine,
   uCommonFunctions,
   cPyScripterSettings,
-  cParameters,
   cPyDebugger,
   cPyRemoteDebugger,
   cProjectClasses,
@@ -202,7 +201,7 @@ begin
   PrepareRun;
 
   if fRunConfig.WriteOutputToFile then
-    GI_PyInterpreter.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
+    GI_PyInterpreter.StartOutputMirror(GI_PyIDEServices.ReplaceParams(fRunConfig.OutputFileName),
       fRunConfig.AppendToFile);
   try
     ActiveDebugger.Debug(fRunConfig, InitStepIn, RunToCursorLine);
@@ -727,7 +726,7 @@ begin
     fRunConfig.Assign(ARunConfig);
     // Expand Parameters in filename
     fRunConfig.ScriptName := '';  // to avoid circular substitution
-    fRunConfig.ScriptName := Parameters.ReplaceInText(ARunConfig.ScriptName);
+    fRunConfig.ScriptName := GI_PyIDEServices.ReplaceParams(ARunConfig.ScriptName);
     GI_PyIDEServices.SetRunLastScriptHints(fRunConfig.ScriptName);
   end;
 end;
@@ -804,7 +803,7 @@ begin
   PrepareRun;
 
   if fRunConfig.WriteOutputToFile then
-    GI_PyInterpreter.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
+    GI_PyInterpreter.StartOutputMirror(GI_PyIDEServices.ReplaceParams(fRunConfig.OutputFileName),
       fRunConfig.AppendToFile);
   try
     ActiveInterpreter.Run(fRunConfig);

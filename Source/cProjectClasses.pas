@@ -160,7 +160,7 @@ uses
   uCommonFunctions,
   cPyControl,
   cPyDebugger,
-  cParameters;
+  uEditAppIntfs;
 
 { TAbstractProjectNode }
 
@@ -552,7 +552,7 @@ end;
 function TProjectFileNode.GetName: string;
 begin
   if fFileName <> '' then  begin
-    Result := XtractFileName(Parameters.ReplaceInText(fFileName));
+    Result := XtractFileName(GI_PyIDEServices.ReplaceParams(fFileName));
     if not ActiveProject.ShowFileExtensions then
       Result := ChangeFileExt(Result, '');
   end else
@@ -584,7 +584,7 @@ begin
       end;
     end;
   end else
-    fFileName := Parameters.ReplaceInText(fFileName);
+    fFileName := GI_PyIDEServices.ReplaceParams(fFileName);
 
   AppStorage.WriteString(BasePath + '\FileName', fFileName);
 end;

@@ -1351,6 +1351,7 @@ type
     procedure LoadLayout(const Layout : string);
     procedure SaveLayout(const Layout : string);
    // IPyIDEServices implementation
+    function ReplaceParams(const AText: string): string;
     function GetActiveEditor : IEditor;
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const S : string);
@@ -3226,6 +3227,11 @@ begin
     LocalAppStorage.EndUpdate;
   end;
   LocalAppStorage.Flush;
+end;
+
+function TPyIDEMainForm.ReplaceParams(const AText: string): string;
+begin
+  Result := Parameters.ReplaceInText(AText);
 end;
 
 procedure TPyIDEMainForm.RestoreApplicationData;

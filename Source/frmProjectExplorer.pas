@@ -239,7 +239,6 @@ uses
   uEditAppIntfs,
   uHighlighterProcs,
   cPyBaseDebugger,
-  cParameters,
   cPyScripterSettings,
   cPyControl,
   cSSHSupport,
@@ -515,7 +514,7 @@ begin
         TSSHFileName.Parse(TProjectFilenode(Data.ProjectNode).FileName, Server, FName)
       then
         DisplayPropDialog(Handle,
-          Parameters.ReplaceInText(TProjectFilenode(Data.ProjectNode).FileName));
+          GI_PyIDEServices.ReplaceParams(TProjectFilenode(Data.ProjectNode).FileName));
     end;
   end;
 end;
@@ -693,7 +692,7 @@ begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFileNode and (TProjectFileNode(Data.ProjectNode).FileName <> '') then
     with PyIDEMainForm do begin
-      DoOpenFile(Parameters.ReplaceInText(TProjectFileNode(Data.ProjectNode).FileName),
+      DoOpenFile(GI_PyIDEServices.ReplaceParams(TProjectFileNode(Data.ProjectNode).FileName),
         '', TabControlIndex(ActiveTabControl));
     end;
   end;
@@ -1090,10 +1089,10 @@ begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFileNode and (TProjectFileNode(Data.ProjectNode).FileName <> '') then
     begin
-      HintText := Parameters.ReplaceInText(TProjectFileNode(Data.ProjectNode).FileName);
+      HintText := GI_PyIDEServices.ReplaceParams(TProjectFileNode(Data.ProjectNode).FileName);
     end else if Data.ProjectNode is TProjectRootNode and (TProjectRootNode(Data.ProjectNode).FileName <> '') then
     begin
-      HintText := Parameters.ReplaceInText(TProjectRootNode(Data.ProjectNode).FileName);
+      HintText := GI_PyIDEServices.ReplaceParams(TProjectRootNode(Data.ProjectNode).FileName);
     end else if Data.ProjectNode is TProjectRunConfiguationNode and
       (TProjectRunConfiguationNode(Data.ProjectNode).RunConfig.Description <> '') then
     begin
@@ -1124,7 +1123,7 @@ begin
   else if Data.ProjectNode is TProjectRunConfiguationNode then
     ImageIndex := 3
   else if Data.ProjectNode is TProjectFileNode then begin
-    FileName := Parameters.ReplaceInText(TProjectFileNode(Data.ProjectNode).FileName);
+    FileName := GI_PyIDEServices.ReplaceParams(TProjectFileNode(Data.ProjectNode).FileName);
     Extension := ExtractFileExt(FileName);
     if Extension <> '' then begin
       Index := FileImageList.IndexOf(Extension);

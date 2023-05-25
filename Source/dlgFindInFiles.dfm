@@ -3,33 +3,32 @@ inherited FindInFilesDialog: TFindInFilesDialog
   Top = 114
   HelpContext = 810
   Caption = 'Find in Files Search'
-  ClientHeight = 301
-  ClientWidth = 388
+  ClientHeight = 236
+  ClientWidth = 364
   Position = poScreenCenter
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 15
+  TextHeight = 48
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 388
-    Height = 301
+    Width = 364
+    Height = 236
     Align = alClient
     TabOrder = 0
     DesignSize = (
-      388
-      301)
+      364
+      236)
     object lblFind: TLabel
       Left = 8
       Top = 9
-      Width = 62
-      Height = 15
+      Width = 185
+      Height = 48
       Caption = '&Text to find:'
       FocusControl = cbText
     end
     object gbxOptions: TGroupBox
       Left = 10
-      Top = 54
+      Top = 31
       Width = 169
       Height = 106
       Anchors = [akLeft]
@@ -69,8 +68,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       end
     end
     object gbxWhere: TGroupBox
-      Left = 193
-      Top = 53
+      Left = 145
+      Top = 30
       Width = 188
       Height = 106
       Anchors = [akRight]
@@ -115,33 +114,33 @@ inherited FindInFilesDialog: TFindInFilesDialog
     end
     object gbxDirectories: TGroupBox
       Left = 8
-      Top = 166
-      Width = 374
+      Top = 101
+      Width = 326
       Height = 97
       Anchors = [akLeft, akRight, akBottom]
       Caption = 'Directory Search'
       TabOrder = 1
       DesignSize = (
-        374
+        326
         97)
       object lblMasks: TLabel
         Left = 9
         Top = 52
-        Width = 57
-        Height = 15
+        Width = 170
+        Height = 48
         Caption = 'File mas&ks:'
         FocusControl = cbMasks
       end
       object lblDirectory: TLabel
         Left = 8
         Top = 26
-        Width = 59
-        Height = 15
+        Width = 180
+        Height = 48
         Caption = 'Di&rectories:'
         FocusControl = cbDirectory
       end
       object btnBrowse: TButton
-        Left = 349
+        Left = 301
         Top = 22
         Width = 20
         Height = 20
@@ -159,7 +158,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbInclude: TCheckBox
         Left = 96
         Top = 73
-        Width = 200
+        Width = 152
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Include su&bdirectories'
@@ -168,8 +167,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbMasks: TComboBox
         Left = 96
         Top = 48
-        Width = 273
-        Height = 23
+        Width = 225
+        Height = 56
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 2
@@ -177,8 +176,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbDirectory: TComboBox
         Left = 96
         Top = 21
-        Width = 251
-        Height = 23
+        Width = 203
+        Height = 56
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 0
@@ -186,8 +185,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       end
     end
     object btnOK: TButton
-      Left = 146
-      Top = 269
+      Left = 98
+      Top = 204
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -198,8 +197,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       OnClick = btnOKClick
     end
     object btnCancel: TButton
-      Left = 227
-      Top = 269
+      Left = 179
+      Top = 204
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -209,8 +208,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       TabOrder = 5
     end
     object btnHelp: TButton
-      Left = 307
-      Top = 269
+      Left = 259
+      Top = 204
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -221,8 +220,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
     object cbText: TComboBox
       Left = 8
       Top = 28
-      Width = 372
-      Height = 23
+      Width = 324
+      Height = 56
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 15
       TabOrder = 0

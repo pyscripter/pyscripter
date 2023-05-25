@@ -248,12 +248,12 @@ uses
   System.SysUtils,
   Vcl.Controls,
   Vcl.Forms,
+  Vcl.Themes,
   uEditAppIntfs,
   dlgFindResultsOptions,
   cProjectClasses,
   dmCommands,
-  cParameters,
-  cPyScripterSettings, Vcl.Themes;
+  cPyScripterSettings;
 
 { TLineMatches }
 
@@ -444,7 +444,7 @@ begin
    if not Result and (Node is TProjectFileNode) and
      (TProjectFileNode(Node).FileName <> '')
    then begin
-     FileName := Parameters.ReplaceInText(TProjectFileNode(Node).FileName);
+     FileName := GI_PyIDEServices.ReplaceParams(TProjectFileNode(Node).FileName);
      TGrepSearchRunner(Data).GrepFile(FileName);
    end;
 end;

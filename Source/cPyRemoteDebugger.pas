@@ -189,7 +189,6 @@ uses
   JvGnugettext,
   StringResources,
   cProjectClasses,
-  cParameters,
   cPyScripterSettings,
   cPyControl,
   uCommonFunctions,
@@ -901,7 +900,7 @@ begin
 
   // Set the Working directory
   if ARunConfig.WorkingDir <> '' then
-    Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    Path := GI_PyIDEServices.ReplaceParams(ARunConfig.WorkingDir);
   if Path.Length <= 1 then
     Path := SystemTempFolder;
   OldPath := RPI.rem_getcwdu();
@@ -1142,7 +1141,7 @@ begin
 
   S := Trim(ARunConfig.Parameters);
   if S <> '' then begin
-    S := Parameters.ReplaceInText(S);
+    S := GI_PyIDEServices.ReplaceParams(S);
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
@@ -1589,7 +1588,7 @@ begin
 
   // Set the Working directory
   if ARunConfig.WorkingDir <> '' then
-    Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    Path := GI_PyIDEServices.ReplaceParams(ARunConfig.WorkingDir);
   if Path.Length <= 1 then
     Path := fRemotePython.SystemTempFolder;
   OldPath := fRemotePython.RPI.rem_getcwdu();
