@@ -389,7 +389,6 @@ Uses
   SynEditHighlighter,
   VarPyth,
   PythonEngine,
-  cInternalPython,
   StringResources,
   cPyScripterSettings,
   cParameters,
@@ -1139,7 +1138,7 @@ begin
     if (PyEncoding = '') and (Lines.Count > 1) then
       PyEncoding := ParsePySourceEncoding(Lines[1]);
 
-    with SafePyEngine.PythonEngine do begin
+    with GI_PyControl.SafePyEngine.PythonEngine do begin
       if PyEncoding = '' then
         PyEncoding := SysModule.getdefaultencoding();
       SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
@@ -1275,7 +1274,7 @@ begin
 
     PyWstr := nil;
     try
-      var Py := SafePyEngine;
+      var Py := GI_PyControl.SafePyEngine;
       with Py.PythonEngine do begin
         try
             PyWstr := PyUnicode_Decode(PAnsiChar(FileText),

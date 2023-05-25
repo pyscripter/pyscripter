@@ -105,7 +105,6 @@ uses
   frmCallStack,
   cPyControl,
   cPySupportTypes,
-  cInternalPython,
   cPyScripterSettings;
 
 {$R *.dfm}
@@ -135,7 +134,7 @@ begin
   Data := Node.GetData;
   if Assigned(Data.NameSpaceItem) then
   begin
-    var Py := SafePyEngine;
+    var Py := GI_PyControl.SafePyEngine;
     ChildCount := Data.NameSpaceItem.ChildCount;
   end;
 end;
@@ -159,7 +158,7 @@ begin
     Exit;
   end;
 
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
   if ParentNode = nil then begin
     // Top level
     Assert(Node.Index <= 1);
@@ -324,7 +323,7 @@ begin
   end else
     VariablesTree.Enabled := True;
 
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
 
   // Get the selected frame
   CurrentFrame := CallStackWindow.GetSelectedStackFrame;
@@ -397,7 +396,7 @@ begin
   VariablesTree.Clear;
   if Assigned(GlobalsNameSpace) or Assigned(LocalsNameSpace) then
   begin
-    var Py := SafePyEngine;
+    var Py := GI_PyControl.SafePyEngine;
     FreeAndNil(GlobalsNameSpace);
     FreeAndNil(LocalsNameSpace);
   end;
@@ -441,7 +440,7 @@ begin
   AddFormatText(reInfo, _('Namespace') + ': ', [fsBold]);
   AddFormatText(reInfo, NameSpace, [fsItalic]);
   if Assigned(Node) then begin
-    var Py := SafePyEngine;
+    var Py := GI_PyControl.SafePyEngine;
     Data := Node.GetData;
     ObjectName := Data.Name;
     ObjectType := Data.ObjectType;

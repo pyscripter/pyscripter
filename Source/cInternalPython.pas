@@ -16,7 +16,8 @@ Uses
   System.Classes,
   PythonEngine,
   PythonVersions,
-  WrapDelphi;
+  WrapDelphi,
+  uEditAppIntfs;
 
 
 Const
@@ -74,15 +75,8 @@ type
     property PythonEngine : TPythonEngine read fPythonEngine;
   end;
 
-  IPyEngineAndGIL = interface
-    function GetPyEngine: TPythonEngine;
-    function GetThreadState: PPyThreadState;
-    property PythonEngine: TPythonEngine read GetPyEngine;
-    property ThreadState: PPyThreadState read GetThreadState;
-  end;
-
 { Access the PythonEngine with thread safety}
-function SafePyEngine: IPyEngineAndGIL;
+function InternalSafePyEngine: IPyEngineAndGIL;
 
 { Executes Python code in a Delphi thread }
 procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
@@ -98,7 +92,6 @@ uses
   VarPyth,
   SynHighlighterPython,
   cPyScripterSettings,
-  uEditAppIntfs,
   uCommonFunctions;
 
 { TInternalPython }
@@ -475,7 +468,7 @@ begin
 end;
 
 { Access the PythonEngine with thread safety}
-function SafePyEngine: IPyEngineAndGIL;
+function InternalSafePyEngine: IPyEngineAndGIL;
 begin
   Result := TPyEngineAndGIL.Create
 end;

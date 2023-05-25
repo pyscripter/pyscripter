@@ -110,7 +110,6 @@ uses
   PythonEngine,
   cPyScripterSettings,
   cPySupportTypes,
-  cInternalPython,
   cPyControl,
   cSSHSupport,
   LspUtils,
@@ -246,7 +245,7 @@ begin
   FreeAndNil(fNameSpace);
   if Assigned(fPyNameSpace) then
   begin
-    var Py := SafePyEngine;
+    var Py := GI_PyControl.SafePyEngine;
     FreeAndNil(fPyNameSpace);
   end;
 end;
@@ -264,7 +263,7 @@ begin
       Result := _(SPythonKeyword)
     else
     begin
-      var Py := SafePyEngine;
+      var Py := GI_PyControl.SafePyEngine;
       Result := GetLineRange(NameSpaceItem.DocString, 1, 20);
     end;
   end;
@@ -297,7 +296,7 @@ begin
   end else
     lookup := '';  // Completion from global namespace
 
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
   if (Index <= 0) or (lookup <> '') then begin
     if GI_PyControl.Inactive then
       fPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)

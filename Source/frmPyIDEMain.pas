@@ -1487,7 +1487,6 @@ uses
   cParameters,
   cFilePersist,
   cCodeHint,
-  cInternalPython,
   cPyRemoteDebugger,
   cProjectClasses,
   dlgPythonVersions,
@@ -2124,7 +2123,7 @@ begin
   ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
 
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
   var PyModule := PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
   VarClear(PyModule);
 
@@ -2511,7 +2510,7 @@ begin
       if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
       try
         // Ignore exceptions here
-        var Py := SafePyEngine;
+        var Py := GI_PyControl.SafePyEngine;
         ServeConnection;
       except
       end;

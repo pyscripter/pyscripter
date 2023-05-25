@@ -80,6 +80,7 @@ type
     function GetPythonVersion: TPythonVersion;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
+    function SafePyEngine: IPyEngineAndGIL;
   public
     const MinPyVersion = '3.7';
     const MaxPyVersion = '3.11'; //PYTHON311
@@ -423,6 +424,11 @@ begin
     end;
     DoOnBreakpointChanged(Editor, ALine);
   end;
+end;
+
+function TPythonControl.SafePyEngine: IPyEngineAndGIL;
+begin
+  Result := InternalSafePyEngine;
 end;
 
 procedure TPythonControl.SetActiveDebugger(const Value: TPyBaseDebugger);

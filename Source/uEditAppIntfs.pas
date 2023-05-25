@@ -255,6 +255,13 @@ type
     property LocalAppStorage: TJvCustomAppStorage read GetLocalAppStorage;
   end;
 
+  IPyEngineAndGIL = interface
+    function GetPyEngine: TPythonEngine;
+    function GetThreadState: PPyThreadState;
+    property PythonEngine: TPythonEngine read GetPyEngine;
+    property ThreadState: PPyThreadState read GetThreadState;
+  end;
+
   IPyControl = interface
   ['{DE1C1145-DC0F-4829-B36B-74EC818E168E}']
     function PythonLoaded: Boolean;
@@ -263,6 +270,7 @@ type
     function GetPythonVersion: TPythonVersion;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
+    function SafePyEngine: IPyEngineAndGIL;
     property PythonVersion: TPythonVersion read GetPythonVersion;
     property OnPythonVersionChange: TJclNotifyEventBroadcast
       read GetOnPythonVersionChange;

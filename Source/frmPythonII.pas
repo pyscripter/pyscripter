@@ -399,7 +399,7 @@ procedure TPythonIIForm.PrintInterpreterBanner(AVersion: string = ''; APlatform:
 var
   S: string;
 begin
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
   if AVersion = '' then AVersion := SysModule.version;
   if APlatform = '' then APlatform := SysModule.platform;
   AVersion := AVersion.Replace(Char($A), ' ');

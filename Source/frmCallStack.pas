@@ -108,8 +108,7 @@ uses
   frmWatches,
   uCommonFunctions,
   uEditAppIntfs,
-  cPySupportTypes,
-  cInternalPython;
+  cPySupportTypes;
 
 {$R *.dfm}
 
@@ -134,7 +133,7 @@ begin
     CallStackView.BeginUpdate;
     try
       // OutputDebugString('Call Stack filled');
-      var Py := SafePyEngine;
+      var Py := GI_PyControl.SafePyEngine;
       CallStackView.RootNodeCount := fActiveThread.CallStack.Count;  // Fills the View
       CallStackView.ReInitNode(nil, True, True);
     finally
@@ -394,7 +393,7 @@ var
   T : TThreadInfo;
 begin
   // OutputDebugString(PChar(Format('status: %d change: %d', [Ord(Thread.Status), Ord(ChangeType)])));
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
   case ChangeType of
     tctAdded:
       begin

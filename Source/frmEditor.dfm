@@ -9,7 +9,7 @@ object EditorForm: TEditorForm
   ParentFont = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  TextHeight = 15
+  TextHeight = 48
   object BGPanel: TPanel
     Left = 0
     Top = 0
@@ -59,9 +59,9 @@ object EditorForm: TEditorForm
       end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 30
+        Top = 25
         Width = 578
-        Height = 388
+        Height = 393
         Caption = 'Source'
         ImageIndex = -1
         TabItem = 'tabSource'

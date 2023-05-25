@@ -148,7 +148,6 @@ uses
   VarPyth,
   StringResources,
   uCommonFunctions,
-  cInternalPython,
   cPyBaseDebugger,
   cPyDebugger,
   cPyControl;
@@ -184,7 +183,7 @@ Var
   PyTestCase : PPyObject;
   TestCount : integer;
 begin
-  Py := SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   ClearAll;
   Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
@@ -277,7 +276,7 @@ begin
   UnitTests.Clear;
   if (TestClasses.Count > 0) or VarIsPython(TestSuite) then
   begin
-    var Py := SafePyEngine;
+    var Py := GI_PyControl.SafePyEngine;
 
     for i := 0 to TestClasses.Count - 1 do begin
       SL := TStringList(TestClasses.Objects[i]);
@@ -354,7 +353,7 @@ begin
       ImageIndex := 6
     else
       ImageIndex := 5;
-  end else with SafePyEngine.PythonEngine do begin
+  end else with GI_PyControl.SafePyEngine.PythonEngine do begin
     PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     PytestStatus := PyObject_GetAttrString(PyTestCase, 'testStatus');
     CheckError;
@@ -371,7 +370,7 @@ var
   TestCase : Variant;
 begin
   HintText := '';
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
   if UnitTests.GetNodeLevel(Node) = 0 then begin
     if Assigned(Node.FirstChild) then begin
       PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Index]).Objects[0]);
@@ -392,7 +391,7 @@ procedure TUnitTestWindow.UnitTestsChecked(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
   if (UnitTests.GetNodeLevel(Node) = 1) and (vsInitialized in Node.States) then begin
-    var Py := SafePyEngine;
+    var Py := GI_PyControl.SafePyEngine;
     var PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     var TestCase: Variant := VarPythonCreate(PyTestCase);
     TestCase.enabled := Node.CheckState in [csCheckedNormal, csCheckedPressed];
@@ -428,7 +427,7 @@ Var
 begin
   actDeselectAllExecute(Sender);
 
-  var Py := SafePyEngine;
+  var Py := GI_PyControl.SafePyEngine;
   ClassNode := UnitTests.RootNode^.FirstChild;
   while Assigned(ClassNode) do begin
     TestCaseNode := ClassNode.FirstChild;
@@ -466,7 +465,7 @@ begin
   // Only allow when PyControl.ActiveDebugger is inactive
   if not GI_PyControl.Inactive then Exit;
 
-  Py := SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   UnitTestModule := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
 
   //  Create a TempTestSuite that contains only the checked tests
@@ -621,7 +620,7 @@ begin
   if Assigned(Node) and (vsSelected in Node.States) and
     (UnitTests.GetNodeLevel(Node) = 1) then
   begin
-    var Py := SafePyEngine;
+    var Py := GI_PyControl.SafePyEngine;
     var PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     var TestCase: Variant := VarPythonCreate(PyTestCase);
     ErrorText.Text := TestCase.errMsg;
@@ -712,7 +711,7 @@ begin
       Node := Node.FirstChild;
     if (NodeLevel > 1)  or not Assigned(Node) then Exit;
 
-    Py := SafePyEngine;
+    Py := GI_PyControl.SafePyEngine;
     PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     TestCase := VarPythonCreate(PyTestCase);
     if NodeLevel = 0 then

@@ -90,7 +90,6 @@ uses
   StringResources,
   uCommonFunctions,
   cPyBaseDebugger,
-  cInternalPython,
   cPyControl,
   cPyScripterSettings;
 
@@ -160,7 +159,7 @@ var
 begin
   if not Assigned(Editor) then Exit;
 
-  Py := SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   Cursor := WaitCursor;
 
   module := PyControl.ActiveInterpreter.ImportModule(Editor);

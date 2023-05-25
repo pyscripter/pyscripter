@@ -58,7 +58,6 @@ uses
   StringResources,
   dmCommands,
   cPyScripterSettings,
-  cInternalPython,
   cPyControl;
 
 {$R *.dfm}
@@ -102,7 +101,7 @@ begin
   Cursor := WaitCursor;
   Application.ProcessMessages;
 
-  Py := SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   module := PyControl.ActiveInterpreter.ImportModule(Editor);
   PyControl.ActiveInterpreter.RunSource(Code, '<Getdis>', 'exec');
   getdis := PyControl.ActiveInterpreter.EvalCode('GetDis');

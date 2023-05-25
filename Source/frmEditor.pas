@@ -362,7 +362,6 @@ uses
   frmWatches,
   frmIDEDockWin,
   uSearchHighlighter,
-  cInternalPython,
   cPyDebugger,
   cCodeHint,
   cPyScripterSettings,

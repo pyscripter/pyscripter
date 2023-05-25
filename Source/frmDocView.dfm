@@ -8,7 +8,7 @@ object DocForm: TDocForm
   Color = clBtnFace
   ParentFont = True
   OnCreate = FormCreate
-  TextHeight = 15
+  TextHeight = 48
   object TBXDock1: TSpTBXDock
     Left = 0
     Top = 0
@@ -72,6 +72,7 @@ object DocForm: TDocForm
     Align = alClient
     TabOrder = 0
     TabStop = True
+    UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
     OnCreateWebViewCompleted = WebBrowserCreateWebViewCompleted
   end
   object BrowserImages: TVirtualImageList
