@@ -93,7 +93,6 @@ uses
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
-  SynHighlighterYAML in 'SynHighlighterYAML.pas',
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   JvDockSupportControl in 'JvDockSupportControl.pas',
   JvDockVIDStyle in 'JvDockVIDStyle.pas',

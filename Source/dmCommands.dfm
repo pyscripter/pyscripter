@@ -5432,4 +5432,8 @@ object CommandsDataModule: TCommandsDataModule
     Left = 96
     Top = 984
   end
+  object SynYAMLSyn: TSynYAMLSyn
+    Left = 488
+    Top = 1008
+  end
 end

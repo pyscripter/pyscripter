@@ -52,7 +52,6 @@ uses
   JvAppIniStorage,
   SynEdit,
   SynEditTypes,
-  SynEditKeyCmds,
   SynCompletionProposal,
   PythonEngine,
   WrapDelphi,
@@ -212,6 +211,8 @@ Uses
   JclStrings,
   JvJVCLUtils,
   JvGnugettext,
+  SynEditKeyCmds,
+  SynEditMiscProcs,
   StringResources,
   frmPyIDEMain,
   dmCommands,
@@ -376,7 +377,7 @@ begin
     for i := 0 to SL.Count - 1 do begin
       if SL[i] = '' then continue;
 
-      if CalcIndent(SL[i]) = 0 then
+      if LeftSpaces(SL[i], False) = 0 then
       begin
         if Length(Buffer) > 0 then
           // Allready have a full statement we need to execute

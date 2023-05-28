@@ -188,6 +188,7 @@ type
     actUnfoldFunctions: TAction;
     SynGeneralSyn: TSynGeneralSyn;
     SynJSONSyn: TSynJSONSyn;
+    SynYAMLSyn: TSynYAMLSyn;
     actFileCloseAllToTheRight: TAction;
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
@@ -332,7 +333,6 @@ type
     procedure Loaded; override;
   public
     SynPythonSyn: TSynPythonSyn;
-    SynYAMLSyn: TSynYAMLSyn;
     SynCythonSyn: TSynCythonSyn;
     function GetHighlighterForFile(AFileName: string): TSynCustomHighlighter;
     class function IsHighlighterStored(Highlighter: TObject): Boolean;
@@ -459,7 +459,6 @@ begin
   // Setup Highlighters
   SynPythonSyn := TSynPythonSyn.Create(Self);
   SynPythonSyn.HookAttrChangeEvent(SynPythonSynChanged);
-  SynYAMLSyn := TSynYAMLSyn.Create(Self);
   SynCythonSyn := TSynCythonSyn.Create(Self);
   SynCythonSyn.Assign(SynPythonSyn);
   SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;

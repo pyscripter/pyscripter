@@ -88,9 +88,6 @@ function GetWordAtPos(const LineText: string; Start: Integer;
 (* Format a doc string by removing left space and blank lines at start and bottom *)
 function FormatDocString(const DocString : string) : string;
 
-(* Calculate the indentation level of a line *)
-function CalcIndent(S : string; TabWidth : integer = 4): integer;
-
 (* check if a directory is a Python Package *)
 function DirIsPythonPackage(Dir : string): boolean;
 
@@ -384,6 +381,7 @@ Uses
   MPCommonUtilities,
   MPCommonObjects,
   MPShellUtilities,
+  SynEditMiscProcs,
   SynEditMiscClasses,
   SynEditTextBuffer,
   SynEditHighlighter,
@@ -739,31 +737,17 @@ begin
       if Trim(SL[i]) = '' then
         SL[i] := ''
       else
-        Margin := Min(Margin, CalcIndent(SL[i]));
+        Margin := Min(Margin, LeftSpaces(SL[i], True, 4));
     if (Margin > 0) and (Margin < MaxInt) then
       for i := 1 to SL.Count - 1 do
         if SL[i] <> '' then
-          SL[i] := Copy(SL[i], Margin+1, Length(SL[i]) - Margin);
+          SL[i] := Copy(SL[i], Margin + 1);
     Result := SL.Text;
     // Remove any trailing or leading blank lines.
     Result.Trim([#10, #13]);
   finally
     SL.Free;
   end;
-end;
-
-function CalcIndent(S : string; TabWidth : integer = 4): integer;
-Var
-  i : integer;
-begin
-  Result := 0;
-  for i := 1 to Length(S) do
-    if S[i] = WideChar(#9) then
-      Inc(Result, TabWidth)
-    else if S[i] = ' ' then
-      Inc(Result)
-    else
-      break;
 end;
 
 function DirIsPythonPackage(Dir : string): boolean;
