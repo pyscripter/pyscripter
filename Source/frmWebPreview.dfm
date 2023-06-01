@@ -77,6 +77,7 @@ object WebPreviewForm: TWebPreviewForm
     TabStop = True
     UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
     OnCreateWebViewCompleted = WebBrowserCreateWebViewCompleted
+    OnExecuteScript = WebBrowserExecuteScript
     OnHistoryChanged = WebBrowserHistoryChanged
   end
   object BrowserImages: TVirtualImageList

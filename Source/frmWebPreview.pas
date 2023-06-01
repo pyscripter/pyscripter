@@ -14,6 +14,7 @@ uses
   Winapi.Windows,
   Winapi.Messages,
   Winapi.ActiveX,
+  Winapi.WebView2,
   System.SysUtils,
   System.Variants,
   System.Classes,
@@ -26,15 +27,14 @@ uses
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
   Vcl.ImgList,
+  Vcl.Edge,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
   dmCommands,
   uEditAppIntfs,
-  cTools,
-  Winapi.WebView2,
-  Vcl.Edge;
+  cTools;
 
 type
   TWebPreviewForm = class(TForm, IEditorView)
@@ -59,12 +59,15 @@ type
     procedure ToolButtonSaveClick(Sender: TObject);
     procedure WebBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult:
         HRESULT);
+    procedure WebBrowserExecuteScript(Sender: TCustomEdgeBrowser; AResult: HRESULT;
+        const AResultObjectAsJson: string);
     procedure WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
   private
     { Private declarations }
     fEditor: IEditor;
     procedure UpdateView(Editor : IEditor);
   private
+    FSaveFileName: string;
     class var FExternalTool: TExternalTool;
     class constructor Create;
     class destructor Destroy;
@@ -94,7 +97,7 @@ implementation
 uses
   System.UITypes,
   System.IOUtils,
-  MSHTML,
+  System.NetEncoding,
   JvGnugettext,
   uCommonFunctions,
   StringResources,
@@ -161,22 +164,8 @@ end;
 
 procedure TWebPreviewForm.ToolButtonSaveClick(Sender: TObject);
 begin
-  var JS :=
-    'async function savehtml() {'#13#10 +
-      'const opts = {'#13#10 +
-      '  types: [{'#13#10 +
-      '      description: ''html file'','#13#10 +
-      '      accept: { ''text/html'': [''.html''] },'#13#10 +
-      '  }],'#13#10 +
-      '};'#13#10 +
-      'const handle = await window.showSaveFilePicker(opts);'#13#10 +
-      'const writable = await handle.createWritable();'#13#10 +
-      'var html = document.documentElement.outerHTML;'#13#10 +
-      'writable.write(html);'#13#10 +
-      'writable.close();}'#13#10 +
-     'savehtml();';
-
-  WebBrowser.ExecuteScript(JS);
+  if CommandsDataModule.GetSaveFileName(FSaveFileName, CommandsDataModule.SynWebHtmlSyn, 'html') then
+    WebBrowser.ExecuteScript('encodeURIComponent(document.documentElement.outerHTML)');
 end;
 
 procedure TWebPreviewForm.UpdateView(Editor: IEditor);
@@ -203,6 +192,19 @@ procedure TWebPreviewForm.WebBrowserCreateWebViewCompleted(Sender:
 begin
   if WebBrowser.BrowserControlState <> TEdgeBrowser.TBrowserControlState.Created then
     StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0);
+end;
+
+procedure TWebPreviewForm.WebBrowserExecuteScript(Sender: TCustomEdgeBrowser;
+    AResult: HRESULT; const AResultObjectAsJson: string);
+begin
+  if (FSaveFileName <> '') and (AResultObjectAsJson <> 'null') then
+  begin
+    var SL := TSmartPtr.Make(TStringList.Create);
+    SL.Text := TNetEncoding.URL.Decode(AResultObjectAsJson.DeQuotedString('"'));
+    SL.WriteBOM := False;
+    SL.SaveToFile(FSaveFileName, TEncoding.UTF8);
+    FSaveFileName := '';
+  end;
 end;
 
 procedure TWebPreviewForm.WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
