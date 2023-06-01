@@ -2019,7 +2019,8 @@ begin
   actEditLineNumbers.Enabled := Assigned(GI_ActiveEditor);
   actEditReadOnly.Enabled := Assigned(GI_ActiveEditor);
   actEditReadOnly.Checked := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ReadOnly;
-  actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) or PythonIIForm.SynEdit.Focused;
+  actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) and not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding
+    or PythonIIForm.SynEdit.Focused;
   actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or PythonIIForm.SynEdit.Focused;;
   if Assigned(GI_ActiveEditor) then begin
     actEditLineNumbers.Checked := GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;

@@ -25,7 +25,6 @@ uses
   Vcl.OleCtrls,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
-  SHDocVw,
   Vcl.ImgList,
   TB2Item,
   TB2Dock,
@@ -58,10 +57,9 @@ type
     procedure ToolButtonStopClick(Sender: TObject);
     procedure ToolButtonPrintClick(Sender: TObject);
     procedure ToolButtonSaveClick(Sender: TObject);
-    procedure WebBrowserCommandStateChange(Sender: TObject;
-      Command: Integer; Enable: WordBool);
     procedure WebBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult:
         HRESULT);
+    procedure WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
   private
     { Private declarations }
     fEditor: IEditor;
@@ -181,15 +179,6 @@ begin
   WebBrowser.ExecuteScript(JS);
 end;
 
-procedure TWebPreviewForm.WebBrowserCommandStateChange(Sender: TObject;
-  Command: Integer; Enable: WordBool);
-begin
-  case Command of
-    CSC_NAVIGATEBACK: ToolButtonBack.Enabled := Enable;
-    CSC_NAVIGATEFORWARD: ToolButtonForward.Enabled := Enable;
-  end;
-end;
-
 procedure TWebPreviewForm.UpdateView(Editor: IEditor);
 begin
   fEditor := Editor;
@@ -214,6 +203,12 @@ procedure TWebPreviewForm.WebBrowserCreateWebViewCompleted(Sender:
 begin
   if WebBrowser.BrowserControlState <> TEdgeBrowser.TBrowserControlState.Created then
     StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0);
+end;
+
+procedure TWebPreviewForm.WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
+begin
+  ToolButtonBack.Enabled := WebBrowser.CanGoBack;
+  ToolButtonForward.Enabled := WebBrowser.CanGoForward;
 end;
 
 { TDocView }

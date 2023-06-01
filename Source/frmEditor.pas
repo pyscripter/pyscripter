@@ -1756,6 +1756,7 @@ begin
     TabSheet := ViewsTabControl.GetPage(Tab);
     try
       Form := ViewFactory.CreateForm(fEditor, TabSheet);
+      TranslateComponent(Form);
       with Form do
       begin
         BorderStyle := bsNone;
@@ -2282,12 +2283,13 @@ end;
 
 procedure TEditorForm.Retranslate;
 begin
-  Assert(ViewsTabControl.PagesCount > 0);
-  ViewsTabControl.Pages[0].Caption := _(SSourceTabCaption);
-  mnSearch.Caption := _('Search');
-  mnSourceCode.Caption := _('Source Code');
-  mnFold.Caption := _('Fold');
-  mnUnfold.Caption := _('Unfold');
+  RetranslateComponent(Self);
+  for var Page := 1 to ViewsTabControl.PagesCount - 1 do
+  begin
+    RetranslateComponent(ViewsTabControl.Pages[Page].Controls[0]);
+    ViewsTabControl.Pages[Page].Caption :=
+      (ViewsTabControl.Pages[Page].Controls[0] as TCustomForm).Caption;
+  end;
 end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);
@@ -2332,7 +2334,7 @@ begin
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
 
-  Retranslate;
+  TranslateComponent(Self);
 end;
 
 procedure TEditorForm.SynEditGutterGetText(Sender: TObject; aLine: Integer;

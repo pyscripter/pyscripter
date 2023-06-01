@@ -9,7 +9,7 @@ object WebPreviewForm: TWebPreviewForm
   ParentFont = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  TextHeight = 48
+  TextHeight = 15
   object TBXDock1: TSpTBXDock
     Left = 0
     Top = 0
@@ -28,12 +28,14 @@ object WebPreviewForm: TWebPreviewForm
       Customizable = False
       object ToolButtonBack: TSpTBXItem
         Hint = 'Go Back'
+        Enabled = False
         ImageIndex = 0
         ImageName = 'Back'
         OnClick = ToolButtonBackClick
       end
       object ToolButtonForward: TSpTBXItem
         Hint = 'Go Forward'
+        Enabled = False
         ImageIndex = 1
         ImageName = 'Forward'
         OnClick = ToolButtonForwardClick
@@ -75,6 +77,7 @@ object WebPreviewForm: TWebPreviewForm
     TabStop = True
     UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
     OnCreateWebViewCompleted = WebBrowserCreateWebViewCompleted
+    OnHistoryChanged = WebBrowserHistoryChanged
   end
   object BrowserImages: TVirtualImageList
     Images = <

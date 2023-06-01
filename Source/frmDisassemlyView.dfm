@@ -2,13 +2,13 @@ object DisForm: TDisForm
   Left = 281
   Top = 152
   HelpContext = 860
-  Caption = 'Disassembly View'
+  Caption = 'Disassembly'
   ClientHeight = 382
   ClientWidth = 599
   Color = clBtnFace
   ParentFont = True
   OnCreate = FormCreate
-  TextHeight = 48
+  TextHeight = 15
   object DisSynEdit: TSynEdit
     Left = 0
     Top = 0

@@ -6,6 +6,10 @@
 msgid "Toolbars"
 msgstr ""
 
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..Caption
+msgid "Commands"
+msgstr ""
+
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
 #: SpTBXCustomizerForm.dfm:125
 msgid ""
@@ -34,7 +38,6 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
 msgid "T&ext Options"
@@ -45,3 +48,6 @@ msgstr ""
 msgid "&Visible"
 msgstr ""
 
+#. SpTBXCustomizeForm..ResetButton..Caption
+msgid "&Default Options"
+msgstr ""

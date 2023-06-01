@@ -14,6 +14,7 @@ uses
   WinApi.Windows,
   WinApi.Messages,
   WinApi.ActiveX,
+  Winapi.WebView2,
   System.SysUtils,
   System.Variants,
   System.Classes,
@@ -26,13 +27,13 @@ uses
   Vcl.ImgList,
   Vcl.BaseImageCollection,
   Vcl.VirtualImageList,
-  SHDocVw,
+  Vcl.Edge,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
   dmCommands,
-  uEditAppIntfs, Winapi.WebView2, Vcl.Edge;
+  uEditAppIntfs;
 
 type
   TDocForm = class(TForm, IEditorView)
@@ -54,10 +55,9 @@ type
     procedure ToolButtonStopClick(Sender: TObject);
     procedure ToolButtonPrintClick(Sender: TObject);
     procedure ToolButtonSaveClick(Sender: TObject);
-    procedure WebBrowserCommandStateChange(Sender: TObject;
-      Command: Integer; Enable: WordBool);
     procedure WebBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult:
         HRESULT);
+    procedure WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
   private
     { Private declarations }
     procedure UpdateView(Editor : IEditor);
@@ -141,15 +141,6 @@ begin
   WebBrowser.ExecuteScript(JS);
 end;
 
-procedure TDocForm.WebBrowserCommandStateChange(Sender: TObject;
-  Command: Integer; Enable: WordBool);
-begin
-  case Command of
-    CSC_NAVIGATEBACK: ToolButtonBack.Enabled := Enable;
-    CSC_NAVIGATEFORWARD: ToolButtonForward.Enabled := Enable;
-  end;
-end;
-
 procedure TDocForm.UpdateView(Editor: IEditor);
 var
   Py: IPyEngineAndGIL;
@@ -179,6 +170,12 @@ procedure TDocForm.WebBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
 begin
   if WebBrowser.BrowserControlState <> TEdgeBrowser.TBrowserControlState.Created then
     StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0);
+end;
+
+procedure TDocForm.WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
+begin
+  ToolButtonBack.Enabled := WebBrowser.CanGoBack;
+  ToolButtonForward.Enabled := WebBrowser.CanGoForward;
 end;
 
 { TDocView }

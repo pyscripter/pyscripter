@@ -575,7 +575,8 @@ var
         (* AQuestion can contain parameters *)
         else if PChar(AQuestion)^ = '''' then
           AQuestion:= ReplaceInText(AnsiExtractQuotedStr(P, ''''));
-        InputQuery(_(SEnterParameterCaption), AQuestion, Result);
+        if not InputQuery(_(SEnterParameterCaption), _(AQuestion), Result) then
+          Abort;
       end;
       if HasValue and (AName <> '') then begin
         (* Register/Remove parameter*)

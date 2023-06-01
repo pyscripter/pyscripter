@@ -480,7 +480,8 @@ begin
     //UpdatePopupActions;
     CENode := Node.GetData<TAbstractCENode>;
     mnFindDefinition.Enabled :=
-      (CENode is TCodeElementCENode) and not (CENode is TModuleCENode);
+      (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) or
+      (CENode is TVariableCENode) or (CENode is TImportCENode);
     mnFindReferences.Enabled := mnFindDefinition.Enabled;
     mnHighlight.Enabled := mnFindDefinition.Enabled;
   end else
@@ -690,7 +691,8 @@ begin
   var Node := ExplorerTree.GetFirstSelected();
   if Assigned(Node) then begin
     var CENode := Node.GetData<TAbstractCENode>;
-    if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) then
+    if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) or
+       (CENode is TVariableCENode) or (CENode is TImportCENode) then
     begin
       NavigateToNodeElement(Node);
       PyIDEMainForm.actFindReferencesExecute(Self);
@@ -709,7 +711,9 @@ begin
   var Node := ExplorerTree.GetFirstSelected();
   if Assigned(Node) then begin
     var CENode := Node.GetData<TAbstractCENode>;
-    if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) then
+    if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) or
+       (CENode is TVariableCENode) or (CENode is TImportCENode)
+    then
       CommandsDataModule.HighlightWordInActiveEditor(CENode.Name);
   end;
 end;

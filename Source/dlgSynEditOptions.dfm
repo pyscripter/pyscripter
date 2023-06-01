@@ -42,531 +42,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       object SpTBXTabItem4: TSpTBXTabItem
         Caption = 'Syntax Colors'
       end
-      object Options: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 589
-        Height = 343
-        Caption = 'Options'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem2'
-        object gbOptions: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 3
-          Width = 577
-          Height = 260
-          Align = alTop
-          Caption = 'Options'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 0
-          object GridPanel1: TGridPanel
-            Left = 2
-            Top = 17
-            Width = 573
-            Height = 241
-            Align = alClient
-            BevelOuter = bvNone
-            ColumnCollection = <
-              item
-                Value = 50.000000000000000000
-              end
-              item
-                Value = 50.000000000000010000
-              end>
-            ControlCollection = <
-              item
-                Column = 0
-                Control = StackPanel1
-                Row = 0
-              end
-              item
-                Column = 1
-                Control = StackPanel2
-                Row = 0
-              end>
-            RowCollection = <
-              item
-                Value = 100.000000000000000000
-              end>
-            TabOrder = 0
-            object StackPanel1: TStackPanel
-              Left = 0
-              Top = 0
-              Width = 286
-              Height = 241
-              Align = alClient
-              BevelOuter = bvNone
-              ControlCollection = <
-                item
-                  Control = ckAutoIndent
-                end
-                item
-                  Control = ckRightMouseMoves
-                end
-                item
-                  Control = ckDragAndDropEditing
-                end
-                item
-                  Control = ckEnhanceEndKey
-                end
-                item
-                  Control = ckWordWrap
-                end
-                item
-                  Control = ckEnhanceHomeKey
-                end
-                item
-                  Control = ckAltSetsColumnMode
-                end
-                item
-                  Control = ckTabsToSpaces
-                end
-                item
-                  Control = ckKeepCaretX
-                end
-                item
-                  Control = ckSmartTabDelete
-                end
-                item
-                  Control = ckTabIndent
-                end
-                item
-                  Control = ckSmartTabs
-                end>
-              HorizontalPositioning = sphpFill
-              TabOrder = 0
-              object ckAutoIndent: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 0
-                Width = 280
-                Height = 17
-                Hint = 
-                  'Will indent the caret on new lines with the same amount of leadi' +
-                  'ng white space as the preceding line'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Auto indent'
-                TabOrder = 11
-              end
-              object ckRightMouseMoves: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 19
-                Width = 280
-                Height = 17
-                Hint = 
-                  'When clicking with the right mouse for a popup menu, move the cu' +
-                  'rsor to that location'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Right mouse moves cursor'
-                TabOrder = 0
-              end
-              object ckDragAndDropEditing: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 38
-                Width = 280
-                Height = 17
-                Hint = 
-                  'Allows you to select a block of text and drag it within the docu' +
-                  'ment to another location'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Drag and drop editing'
-                TabOrder = 10
-              end
-              object ckEnhanceEndKey: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 57
-                Width = 280
-                Height = 17
-                Hint = 'Enhances end key similar to JDeveloper'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Enhance End Key'
-                TabOrder = 1
-              end
-              object ckWordWrap: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 76
-                Width = 280
-                Height = 17
-                Hint = 'Allows the editor accept OLE file drops'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Word wrap'
-                TabOrder = 9
-              end
-              object ckEnhanceHomeKey: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 95
-                Width = 280
-                Height = 17
-                Hint = 'enhances home key positioning, similar to visual studio'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Enhance Home Key'
-                TabOrder = 2
-              end
-              object ckAltSetsColumnMode: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 114
-                Width = 280
-                Height = 17
-                Hint = 
-                  'Holding down the Alt Key will put the selection mode into column' +
-                  'ar format'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Alt sets column mode'
-                TabOrder = 8
-              end
-              object ckTabsToSpaces: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 133
-                Width = 280
-                Height = 17
-                Hint = 'Converts a tab character to the number of spaces in Tab Width'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Tabs to spaces'
-                TabOrder = 3
-              end
-              object ckKeepCaretX: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 152
-                Width = 280
-                Height = 17
-                Hint = 
-                  'When moving through lines the X position will always stay the sa' +
-                  'me'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Maintain caret column'
-                TabOrder = 7
-              end
-              object ckSmartTabDelete: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 171
-                Width = 280
-                Height = 17
-                Hint = 'similar to Smart Tabs, but when you delete characters'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Smart tab delete'
-                TabOrder = 4
-              end
-              object ckTabIndent: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 190
-                Width = 280
-                Height = 17
-                Hint = 'Tab indents and Shift-Tab unindents'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Tab Indent'
-                TabOrder = 6
-              end
-              object ckSmartTabs: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 209
-                Width = 280
-                Height = 17
-                Hint = 
-                  'When tabbing, the cursor will go to the next non-white space cha' +
-                  'racter of the previous line'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Caption = 'Smart tabs'
-                TabOrder = 5
-              end
-            end
-            object StackPanel2: TStackPanel
-              Left = 286
-              Top = 0
-              Width = 287
-              Height = 241
-              Align = alClient
-              BevelOuter = bvNone
-              ControlCollection = <
-                item
-                  Control = ckHalfPageScroll
-                end
-                item
-                  Control = ckTrimTrailingSpaces
-                end
-                item
-                  Control = ckScrollByOneLess
-                end
-                item
-                  Control = ckShowSpecialChars
-                end
-                item
-                  Control = ckScrollPastEOF
-                end
-                item
-                  Control = ckDisableScrollArrows
-                end
-                item
-                  Control = ckScrollPastEOL
-                end
-                item
-                  Control = ckGroupUndo
-                end
-                item
-                  Control = ckShowScrollHint
-                end
-                item
-                  Control = ckHideShowScrollbars
-                end
-                item
-                  Control = ckScrollHintFollows
-                end
-                item
-                  Control = ckShowLigatures
-                end>
-              HorizontalPositioning = sphpFill
-              TabOrder = 1
-              DesignSize = (
-                287
-                241)
-              object ckHalfPageScroll: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 0
-                Width = 281
-                Height = 17
-                Hint = 
-                  'When scrolling with page-up and page-down commands, only scroll ' +
-                  'a half page at a time'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Half page scroll'
-                TabOrder = 10
-              end
-              object ckTrimTrailingSpaces: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 19
-                Width = 281
-                Height = 17
-                Hint = 'Spaces at the end of lines will be trimmed and not saved'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Trim trailing spaces'
-                TabOrder = 0
-              end
-              object ckScrollByOneLess: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 38
-                Width = 281
-                Height = 17
-                Hint = 'Forces scrolling to be one less'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll by one less'
-                TabOrder = 9
-              end
-              object ckShowSpecialChars: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 57
-                Width = 281
-                Height = 17
-                Hint = 'Shows line breaks, spaces and tabs using special symbols'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Show special chars'
-                TabOrder = 1
-              end
-              object ckScrollPastEOF: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 76
-                Width = 281
-                Height = 17
-                Hint = 'Allows the cursor to go past the end of file marker'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll past end of file'
-                TabOrder = 8
-              end
-              object ckDisableScrollArrows: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 95
-                Width = 281
-                Height = 17
-                Hint = 
-                  'Disables the scroll bar arrow buttons when you can'#39't scroll in t' +
-                  'hat direction any more'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Disable scroll arrows'
-                TabOrder = 2
-              end
-              object ckScrollPastEOL: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 114
-                Width = 281
-                Height = 17
-                Hint = 
-                  'Allows the cursor to go past the last character into the white s' +
-                  'pace at the end of a line'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll past end of line'
-                TabOrder = 7
-              end
-              object ckGroupUndo: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 133
-                Width = 281
-                Height = 17
-                Hint = 
-                  'When undoing/redoing actions, handle all continuous changes of t' +
-                  'he same kind in one call instead undoing/redoing each command se' +
-                  'parately'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Group undo'
-                TabOrder = 3
-              end
-              object ckShowScrollHint: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 152
-                Width = 281
-                Height = 17
-                Hint = 
-                  'Shows a hint of the visible line numbers when scrolling vertical' +
-                  'ly'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Show scroll hint'
-                TabOrder = 6
-              end
-              object ckHideShowScrollbars: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 171
-                Width = 281
-                Height = 17
-                Hint = 
-                  'if enabled, then the scrollbars will only show when necessary.  ' +
-                  'If you have ScrollPastEOL, then it the horizontal bar will alway' +
-                  's be there (it uses MaxLength instead)'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Hide scrollbars as necessary'
-                TabOrder = 4
-              end
-              object ckScrollHintFollows: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 190
-                Width = 281
-                Height = 17
-                Hint = 'The scroll hint follows the mouse when scrolling vertically'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll hint follows mouse'
-                TabOrder = 5
-              end
-              object ckShowLigatures: TCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 209
-                Width = 281
-                Height = 17
-                Hint = 'Show font ligatures'
-                Margins.Top = 0
-                Margins.Bottom = 0
-                Anchors = [akTop, akRight]
-                Caption = 'Show font ligatures'
-                TabOrder = 11
-              end
-            end
-          end
-        end
-        object gbCaret: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 267
-          Width = 577
-          Height = 69
-          Align = alBottom
-          Caption = 'Caret'
-          TabOrder = 1
-          object Label2: TLabel
-            Left = 60
-            Top = 19
-            Width = 61
-            Height = 15
-            Caption = 'Insert caret:'
-          end
-          object Label4: TLabel
-            Left = 60
-            Top = 43
-            Width = 83
-            Height = 15
-            Caption = 'Overwrite caret:'
-          end
-          object cInsertCaret: TComboBox
-            Left = 207
-            Top = 18
-            Width = 176
-            Height = 23
-            Style = csDropDownList
-            TabOrder = 0
-            Items.Strings = (
-              'Vertical Line'
-              'Horizontal Line'
-              'Half Block'
-              'Block')
-          end
-          object cOverwriteCaret: TComboBox
-            Left = 207
-            Top = 42
-            Width = 176
-            Height = 23
-            Style = csDropDownList
-            TabOrder = 1
-            Items.Strings = (
-              'Vertical Line'
-              'Horizontal Line'
-              'Half Block'
-              'Block')
-          end
-        end
-      end
       object KeyStrokes: TSpTBXTabSheet
         Left = 0
         Top = 25
@@ -939,6 +414,533 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           SelectedColor = clBlack
           SelectedFormat = cttHTML
           OnSelectedColorChanged = cbElementBackgroundChange
+        end
+      end
+      object Options: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 589
+        Height = 343
+        Caption = 'Options'
+        ImageIndex = -1
+        TabItem = 'SpTBXTabItem2'
+        object gbOptions: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 3
+          Width = 577
+          Height = 260
+          Align = alTop
+          Caption = 'Options'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          object GridPanel1: TGridPanel
+            Left = 2
+            Top = 17
+            Width = 573
+            Height = 241
+            Align = alClient
+            BevelOuter = bvNone
+            ColumnCollection = <
+              item
+                Value = 50.000000000000000000
+              end
+              item
+                Value = 50.000000000000010000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = StackPanel1
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = StackPanel2
+                Row = 0
+              end>
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            TabOrder = 0
+            object StackPanel1: TStackPanel
+              Left = 0
+              Top = 0
+              Width = 286
+              Height = 241
+              Align = alClient
+              BevelOuter = bvNone
+              ControlCollection = <
+                item
+                  Control = ckAutoIndent
+                end
+                item
+                  Control = ckRightMouseMoves
+                end
+                item
+                  Control = ckDragAndDropEditing
+                end
+                item
+                  Control = ckEnhanceEndKey
+                end
+                item
+                  Control = ckWordWrap
+                end
+                item
+                  Control = ckEnhanceHomeKey
+                end
+                item
+                  Control = ckAltSetsColumnMode
+                end
+                item
+                  Control = ckTabsToSpaces
+                end
+                item
+                  Control = ckKeepCaretX
+                end
+                item
+                  Control = ckSmartTabDelete
+                end
+                item
+                  Control = ckTabIndent
+                end
+                item
+                  Control = ckSmartTabs
+                end>
+              HorizontalPositioning = sphpFill
+              TabOrder = 0
+              object ckAutoIndent: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 0
+                Width = 280
+                Height = 17
+                Hint = 
+                  'Will indent the caret on new lines with the same amount of leadi' +
+                  'ng white space as the preceding line'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Auto indent'
+                TabOrder = 11
+              end
+              object ckRightMouseMoves: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 19
+                Width = 280
+                Height = 17
+                Hint = 
+                  'When clicking with the right mouse for a popup menu, move the cu' +
+                  'rsor to that location'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Right mouse moves cursor'
+                TabOrder = 0
+              end
+              object ckDragAndDropEditing: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 38
+                Width = 280
+                Height = 17
+                Hint = 
+                  'Allows you to select a block of text and drag it within the docu' +
+                  'ment to another location'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Drag and drop editing'
+                TabOrder = 10
+              end
+              object ckEnhanceEndKey: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 57
+                Width = 280
+                Height = 17
+                Hint = 'Enhances end key similar to JDeveloper'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Enhance End Key'
+                TabOrder = 1
+              end
+              object ckWordWrap: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 76
+                Width = 280
+                Height = 17
+                Hint = 'Enable wrapping of long lines'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Word wrap'
+                TabOrder = 9
+              end
+              object ckEnhanceHomeKey: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 95
+                Width = 280
+                Height = 17
+                Hint = 'enhances home key positioning, similar to visual studio'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Enhance Home Key'
+                TabOrder = 2
+              end
+              object ckAltSetsColumnMode: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 114
+                Width = 280
+                Height = 17
+                Hint = 
+                  'Holding down the Alt Key will put the selection mode into column' +
+                  'ar format'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Alt sets column mode'
+                TabOrder = 8
+              end
+              object ckTabsToSpaces: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 133
+                Width = 280
+                Height = 17
+                Hint = 'Converts a tab character to the number of spaces in Tab Width'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Tabs to spaces'
+                TabOrder = 3
+              end
+              object ckKeepCaretX: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 152
+                Width = 280
+                Height = 17
+                Hint = 
+                  'When moving through lines the X position will always stay the sa' +
+                  'me'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Maintain caret column'
+                TabOrder = 7
+              end
+              object ckSmartTabDelete: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 171
+                Width = 280
+                Height = 17
+                Hint = 'similar to Smart Tabs, but when you delete characters'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Smart tab delete'
+                TabOrder = 4
+              end
+              object ckTabIndent: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 190
+                Width = 280
+                Height = 17
+                Hint = 'Tab indents and Shift-Tab unindents'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Tab Indent'
+                TabOrder = 6
+              end
+              object ckSmartTabs: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 209
+                Width = 280
+                Height = 17
+                Hint = 
+                  'When tabbing, the cursor will go to the next non-white space cha' +
+                  'racter of the previous line'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Caption = 'Smart tabs'
+                TabOrder = 5
+              end
+            end
+            object StackPanel2: TStackPanel
+              Left = 286
+              Top = 0
+              Width = 287
+              Height = 241
+              Align = alClient
+              BevelOuter = bvNone
+              ControlCollection = <
+                item
+                  Control = ckHalfPageScroll
+                end
+                item
+                  Control = ckTrimTrailingSpaces
+                end
+                item
+                  Control = ckScrollByOneLess
+                end
+                item
+                  Control = ckShowSpecialChars
+                end
+                item
+                  Control = ckScrollPastEOF
+                end
+                item
+                  Control = ckDisableScrollArrows
+                end
+                item
+                  Control = ckScrollPastEOL
+                end
+                item
+                  Control = ckGroupUndo
+                end
+                item
+                  Control = ckShowScrollHint
+                end
+                item
+                  Control = ckHideShowScrollbars
+                end
+                item
+                  Control = ckScrollHintFollows
+                end
+                item
+                  Control = ckShowLigatures
+                end>
+              HorizontalPositioning = sphpFill
+              TabOrder = 1
+              DesignSize = (
+                287
+                241)
+              object ckHalfPageScroll: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 0
+                Width = 281
+                Height = 17
+                Hint = 
+                  'When scrolling with page-up and page-down commands, only scroll ' +
+                  'a half page at a time'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Half page scroll'
+                TabOrder = 10
+              end
+              object ckTrimTrailingSpaces: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 19
+                Width = 281
+                Height = 17
+                Hint = 'Spaces at the end of lines will be trimmed and not saved'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Trim trailing spaces'
+                TabOrder = 0
+              end
+              object ckScrollByOneLess: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 38
+                Width = 281
+                Height = 17
+                Hint = 'Forces scrolling to be one less'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll by one less'
+                TabOrder = 9
+              end
+              object ckShowSpecialChars: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 57
+                Width = 281
+                Height = 17
+                Hint = 'Shows line breaks, spaces and tabs using special symbols'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Show special chars'
+                TabOrder = 1
+              end
+              object ckScrollPastEOF: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 76
+                Width = 281
+                Height = 17
+                Hint = 'Allows the cursor to go past the end of file marker'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll past end of file'
+                TabOrder = 8
+              end
+              object ckDisableScrollArrows: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 95
+                Width = 281
+                Height = 17
+                Hint = 
+                  'Disables the scroll bar arrow buttons when you can'#39't scroll in t' +
+                  'hat direction any more'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Disable scroll arrows'
+                TabOrder = 2
+              end
+              object ckScrollPastEOL: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 114
+                Width = 281
+                Height = 17
+                Hint = 
+                  'Allows the cursor to go past the last character into the white s' +
+                  'pace at the end of a line'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll past end of line'
+                TabOrder = 7
+              end
+              object ckGroupUndo: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 133
+                Width = 281
+                Height = 17
+                Hint = 
+                  'When undoing/redoing actions, handle all continuous changes of t' +
+                  'he same kind in one call instead undoing/redoing each command se' +
+                  'parately'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Group undo'
+                TabOrder = 3
+              end
+              object ckShowScrollHint: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 152
+                Width = 281
+                Height = 17
+                Hint = 
+                  'Shows a hint of the visible line numbers when scrolling vertical' +
+                  'ly'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Show scroll hint'
+                TabOrder = 6
+              end
+              object ckHideShowScrollbars: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 171
+                Width = 281
+                Height = 17
+                Hint = 
+                  'if enabled, then the scrollbars will only show when necessary.  ' +
+                  'If you have ScrollPastEOL, then it the horizontal bar will alway' +
+                  's be there (it uses MaxLength instead)'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Hide scrollbars as necessary'
+                TabOrder = 4
+              end
+              object ckScrollHintFollows: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 190
+                Width = 281
+                Height = 17
+                Hint = 'The scroll hint follows the mouse when scrolling vertically'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll hint follows mouse'
+                TabOrder = 5
+              end
+              object ckShowLigatures: TCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 209
+                Width = 281
+                Height = 17
+                Hint = 
+                  'Show ligatures (joined font glyphs) when supported by the used f' +
+                  'ont'
+                Margins.Top = 0
+                Margins.Bottom = 0
+                Anchors = [akTop, akRight]
+                Caption = 'Show font ligatures'
+                TabOrder = 11
+              end
+            end
+          end
+        end
+        object gbCaret: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 267
+          Width = 577
+          Height = 69
+          Align = alBottom
+          Caption = 'Caret'
+          TabOrder = 1
+          object Label2: TLabel
+            Left = 60
+            Top = 19
+            Width = 61
+            Height = 15
+            Caption = 'Insert caret:'
+          end
+          object Label4: TLabel
+            Left = 60
+            Top = 43
+            Width = 83
+            Height = 15
+            Caption = 'Overwrite caret:'
+          end
+          object cInsertCaret: TComboBox
+            Left = 207
+            Top = 18
+            Width = 176
+            Height = 23
+            Style = csDropDownList
+            TabOrder = 0
+            Items.Strings = (
+              'Vertical Line'
+              'Horizontal Line'
+              'Half Block'
+              'Block')
+          end
+          object cOverwriteCaret: TComboBox
+            Left = 207
+            Top = 42
+            Width = 176
+            Height = 23
+            Style = csDropDownList
+            TabOrder = 1
+            Items.Strings = (
+              'Vertical Line'
+              'Horizontal Line'
+              'Half Block'
+              'Block')
+          end
         end
       end
       object Display: TSpTBXTabSheet

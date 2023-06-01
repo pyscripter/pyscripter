@@ -17,6 +17,41 @@ Const
   sJSONFileFilter = 'JSON Files (*.json;*.ipynb)|*.json;*.ipynb';
   sGeneralFileFilter = 'Text Files(*.txt,*.*)|*.txt;*.*';
 
+  // Syntax element friendly names
+  SyntaxElementFriendlyName_Anchor               =  'Anchor';
+  SyntaxElementFriendlyName_Assembler            =  'Assembler';
+  SyntaxElementFriendlyName_Attribute            =  'Attribute';
+  SyntaxElementFriendlyName_Brackets             =  'Brackets';
+  SyntaxElementFriendlyName_Character            =  'Character';
+  SyntaxElementFriendlyName_Directive            =  'Directive';
+  SyntaxElementFriendlyName_Documentation        =  'Documentation';
+  SyntaxElementFriendlyName_DocumentDelimiter    =  'Document Delimiter';
+  SyntaxElementFriendlyName_Float                =  'Float';
+  SyntaxElementFriendlyName_Hexadecimal          =  'Hexadecimal';
+  SyntaxElementFriendlyName_Identifier           =  'Identifier';
+  SyntaxElementFriendlyName_IllegalChar          =  'Illegal Char';
+  SyntaxElementFriendlyName_Key                  =  'Key';
+  SyntaxElementFriendlyName_NonReservedKeyword   =  'Non-reserved Keyword';
+  SyntaxElementFriendlyName_Number               =  'Number';
+  SyntaxElementFriendlyName_NumericValue         =  'Numeric Value';
+  SyntaxElementFriendlyName_Octal                =  'Octal';
+  SyntaxElementFriendlyName_Preprocessor         =  'Preprocessor';
+  SyntaxElementFriendlyName_ReservedWord         =  'Reserved Word';
+  SyntaxElementFriendlyName_Section              =  'Section';
+  SyntaxElementFriendlyName_Space                =  'Space';
+  SyntaxElementFriendlyName_String               =  'String';
+  SyntaxElementFriendlyName_Symbol               =  'Symbol';
+  SyntaxElementFriendlyName_SyntaxError          =  'Syntax Error';
+  SyntaxElementFriendlyName_System               =  'System Functions and Variables';
+  SyntaxElementFriendlyName_Tag                  =  'Tag';
+  SyntaxElementFriendlyName_Text                 =  'Text';
+  SyntaxElementFriendlyName_TextValue            =  'Text Value';
+  SyntaxElementFriendlyName_Value                =  'Value';
+
+  // Editor scroll hints
+  sEditorScrollInfo         =  'Top Line: %d';
+  sPrintPreviewScrollInfo   =  'Page: %d';
+
   // Editor commands
   //Needs to be manually updated as new editor commands are added
   SEdCmdAutoCompletion = 'Auto Completion';
@@ -159,7 +194,7 @@ Const
 
   SInternalError = 'Internal Error in %s';
   SNotFound = '"%s" not found';
-  SItemsReplaced = '%d items found and %d" items replaced';
+  SItemsReplaced = '%d items found and %d items replaced';
   SNotAvailable = 'n/a';
   SNotImplented = 'Not implemented';
   SFailedToBackupFile = 'Failed to backup file "%s"';
@@ -292,7 +327,7 @@ Const
   SDisassemblyTab = 'Disassembly';
   SDocumentationHint = 'Documentation|Generate HTML documentation';
   SDocumentation = '&Documentation';
-  SDocTab = 'Doc';
+  SDocTab = 'Documentation';
   SWebPreviewHint = 'Web Preview|Preview HTML in browser';
   SWebPreview = '&Web Preview';
   SWebPreviewTab = 'Browser';
@@ -373,8 +408,8 @@ Const
                      'You can not have two editors with the same file.';
 
   // Parameters
-  SEnterParameterCaption = 'Parameter replacement';
-  SEnterParameterText = 'Enter parameter value';
+  SEnterParameterCaption = 'Enter parameter value';
+  SEnterParameterText = 'Parameter value';
   SParamCircularReference = 'Parameter "%s" is referenced circularly';
   SParameterNotFound = 'Parameter with name "%s" is not found';
   SModifierNotFound = 'Modifier with name "%s" is not found';
@@ -384,6 +419,9 @@ Const
   SInvalidParameterFormat = '"%s" is not valid parameter format';
   SInvalidConditionFormat = 'Invalid condition format';
   SDuplicateModifier = 'Duplicate Modifier "%s"';
+
+  // Tools
+  SPackageName = 'Package Name';
 
   // Refactoring
   SCouldNotLoadModule = 'Could not load and parse module: "%s"';
@@ -441,6 +479,17 @@ Const
      'ErrorOutput: %s';
   SSHVersionMismatch = 'Local Python version is %s and remote Python version is %s. '+
     'To use this SSH server please switch to Python version %1:s.';
+
+  // Missing action categories
+  SActionCategoryFile = 'File';
+  SActionCategoryView = 'View';
+  SActionCategoryRun = 'Run';
+  SActionCategoryProject = 'Project';
+  SActionCategoryDebugWindows = 'Debug Windows';
+  SActionCategoryIDENavigation = 'IDE Navigation';
+  SActionCategoryRefactoring = 'Refactoring';
+  SActionCategoryInterpreter = 'Interpreter';
+
 
   // do not localize further
 

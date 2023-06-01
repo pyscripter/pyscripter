@@ -1,9 +1,8 @@
 object CommandsDataModule: TCommandsDataModule
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 1206
-  Width = 2151
-  PixelsPerInch = 288
+  Height = 402
+  Width = 717
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.DefaultFont.Charset = DEFAULT_CHARSET
@@ -33,18 +32,18 @@ object CommandsDataModule: TCommandsDataModule
     Font.Style = []
     TabWidth = 8
     Color = clWhite
-    Left = 564
-    Top = 204
+    Left = 188
+    Top = 68
   end
   object PrintDialog: TPrintDialog
     MaxPage = 10000
     Options = [poPageNums]
-    Left = 561
-    Top = 66
+    Left = 187
+    Top = 22
   end
   object PrinterSetupDialog: TPrinterSetupDialog
-    Left = 300
-    Top = 204
+    Left = 100
+    Top = 68
   end
   object ParameterCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
@@ -79,8 +78,8 @@ object CommandsDataModule: TCommandsDataModule
     OnExecute = ParameterCompletionExecute
     ShortCut = 24656
     OnCodeCompletion = ParameterCompletionCodeCompletion
-    Left = 1005
-    Top = 60
+    Left = 335
+    Top = 20
   end
   object ModifierCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
@@ -115,8 +114,8 @@ object CommandsDataModule: TCommandsDataModule
     OnExecute = ModifierCompletionExecute
     ShortCut = 24653
     OnCodeCompletion = ModifierCompletionCodeCompletion
-    Left = 1005
-    Top = 198
+    Left = 335
+    Top = 66
   end
   object CodeTemplatesCompletion: TSynAutoComplete
     AutoCompleteList.Strings = (
@@ -169,22 +168,22 @@ object CommandsDataModule: TCommandsDataModule
     EndOfTokenChr = '()[]. '
     ShortCut = 0
     Options = [scoLimitToMatchedText, scoUseInsertList, scoCompleteWithTab, scoCompleteWithEnter]
-    Left = 1005
-    Top = 324
+    Left = 335
+    Top = 108
   end
   object ShellImages: TImageList
     DrawingStyle = dsTransparent
     ShareImages = True
-    Left = 96
-    Top = 624
+    Left = 32
+    Top = 208
   end
   object SynEditSearch: TSynEditSearch
-    Left = 585
-    Top = 369
+    Left = 195
+    Top = 123
   end
   object SynEditRegexSearch: TSynEditRegexSearch
-    Left = 315
-    Top = 372
+    Left = 105
+    Top = 124
   end
   object ProgramVersionCheck: TJvProgramVersionCheck
     AllowedReleaseType = prtAlpha
@@ -208,20 +207,20 @@ object CommandsDataModule: TCommandsDataModule
     VersionHistoryFileOptions.XMLOptions.UseOldItemNameFormat = False
     VersionHistoryFileOptions.XMLOptions.WhiteSpaceReplacement = '_'
     VersionHistoryFileOptions.XMLOptions.InvalidCharReplacement = '_'
-    Left = 1305
-    Top = 549
+    Left = 435
+    Top = 183
   end
   object ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation
     OnLoadFileFromRemote = ProgramVersionHTTPLocationLoadFileFromRemote
     VersionInfoLocationPathList.Strings = (
       'https://raw.githubusercontent.com/pyscripter/pyscripter/master')
     VersionInfoFileName = 'PyScripterVersionInfo.ini'
-    Left = 1698
-    Top = 552
+    Left = 566
+    Top = 184
   end
   object SynIniSyn: TSynIniSyn
-    Left = 1593
-    Top = 816
+    Left = 531
+    Top = 272
   end
   object JvMultiStringHolder: TJvMultiStringHolder
     MultipleStrings = <
@@ -2107,18 +2106,18 @@ object CommandsDataModule: TCommandsDataModule
           'if __name__ == "__main__":'
           '    main()')
       end>
-    Left = 1005
-    Top = 552
+    Left = 335
+    Top = 184
   end
   object dlgFileOpen: TOpenDialog
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
-    Left = 60
-    Top = 48
+    Left = 20
+    Top = 16
   end
   object dlgFileSave: TSaveDialog
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofNoReadOnlyReturn, ofEnableSizing]
-    Left = 60
-    Top = 204
+    Left = 20
+    Top = 68
   end
   object SynWebHtmlSyn: TSynWebHtmlSyn
     Brackets = '()[]{}<>'
@@ -2126,37 +2125,37 @@ object CommandsDataModule: TCommandsDataModule
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml5
     Options.UseEngineOptions = True
-    Left = 1860
-    Top = 816
+    Left = 620
+    Top = 272
   end
   object SynWebXmlSyn: TSynWebXmlSyn
     Brackets = '()[]{}<>'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 777
-    Top = 1008
+    Left = 259
+    Top = 336
   end
   object SynWebCssSyn: TSynWebCssSyn
     Brackets = '()[]{}<>'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Left = 1050
-    Top = 1008
+    Left = 350
+    Top = 336
   end
   object SynCppSyn: TSynCppSyn
-    Left = 1326
-    Top = 816
+    Left = 442
+    Top = 272
   end
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml5
-    Left = 1872
-    Top = 1008
+    Left = 624
+    Top = 336
   end
   object actlMain: TActionList
     Images = PyIDEMainForm.vilImages
-    Left = 63
-    Top = 375
+    Left = 21
+    Top = 125
     object actFileSave: TAction
       Category = 'File'
       Caption = '&Save'
@@ -2803,7 +2802,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Edit'
       Caption = 'Word &Wrap'
       HelpContext = 320
-      Hint = 'Turn word wrap on/off'
+      Hint = 'Turn word wrap on/off (incompatible with code folding)'
       ImageIndex = 79
       ImageName = 'WordWrap'
       OnExecute = actEditWordWrapExecute
@@ -3007,68 +3006,68 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actToolsRestartLSExecute
     end
     object actSynSpellCheckFile: TSynSpellCheckFile
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Check File'
     end
     object actSynSpellCheckLine: TSynSpellCheckLine
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Check Line'
     end
     object actSynSpellCheckSelection: TSynSpellCheckSelection
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Check Selection'
     end
     object actSynSpellCheckWord: TSynSpellCheckWord
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Check Word'
     end
     object actSynSpellClearErrors: TSynSpellClearErrors
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Clear Errors'
     end
     object actSynSpellCheckAsYouType: TSynSpellCheckAsYouType
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Check As You Type'
     end
     object actSynSpellErrorAdd: TSynSpellErrorAdd
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Add'
     end
     object actSynSpellErrorIgnoreOnce: TSynSpellErrorIgnoreOnce
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Ignore Once'
     end
     object actSynSpellErrorIgnore: TSynSpellErrorIgnore
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Ignore'
     end
     object actSynSpellErrorDelete: TSynSpellErrorDelete
-      Category = 'Spell Check'
+      Category = 'Spell Checking'
       Caption = 'Delete'
     end
   end
   object SynWebEsSyn: TSynWebEsSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 1596
-    Top = 1008
+    Left = 532
+    Top = 336
   end
   object SynWebPhpPlainSyn: TSynWebPhpPlainSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 1323
-    Top = 1008
+    Left = 441
+    Top = 336
   end
   object SynGeneralSyn: TSynGeneralSyn
     DefaultFilter = 'Text Files(*.txt,*.*)|*.txt;*.*'
     DetectPreprocessor = False
     SpaceAttri.Foreground = clSilver
-    Left = 792
-    Top = 816
+    Left = 264
+    Top = 272
   end
   object SynJSONSyn: TSynJSONSyn
-    Left = 1059
-    Top = 816
+    Left = 353
+    Top = 272
   end
   object icBrowserImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -3143,8 +3142,8 @@ object CommandsDataModule: TCommandsDataModule
           ',16z M7,7h13.5v6H7V7z"/>'#13#10'</svg>'#13#10
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 96
-    Top = 792
+    Left = 32
+    Top = 264
   end
   object icCodeImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -3290,8 +3289,8 @@ object CommandsDataModule: TCommandsDataModule
           '-5.7L7.9,18.4z"/>'#13#10'</svg>'#13#10
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 327
-    Top = 792
+    Left = 109
+    Top = 264
   end
   object icGutterGlyphs: TSVGIconImageCollection
     SVGIconItems = <
@@ -3338,8 +3337,8 @@ object CommandsDataModule: TCommandsDataModule
           '="2"/>'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 528
-    Top = 792
+    Left = 176
+    Top = 264
   end
   object icSVGImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -5336,8 +5335,8 @@ object CommandsDataModule: TCommandsDataModule
           '.5M18.375 2.625L18.375 7.875L13.125 7.875"/>'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 336
-    Top = 624
+    Left = 112
+    Top = 208
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -5365,8 +5364,8 @@ object CommandsDataModule: TCommandsDataModule
       end>
     Resizeable = True
     ShortCut = 0
-    Left = 1452
-    Top = 336
+    Left = 484
+    Top = 112
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams
@@ -5391,8 +5390,8 @@ object CommandsDataModule: TCommandsDataModule
     Columns = <>
     ShortCut = 0
     TimerInterval = 300
-    Left = 1452
-    Top = 213
+    Left = 484
+    Top = 71
   end
   object SynCodeCompletion: TSynCompletionProposal
     Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -5418,8 +5417,8 @@ object CommandsDataModule: TCommandsDataModule
     Resizeable = True
     ShortCut = 0
     TimerInterval = 300
-    Left = 1452
-    Top = 75
+    Left = 484
+    Top = 25
   end
   object SynSpellCheck: TSynSpellCheck
     AttributesChecked.Strings = (
@@ -5429,11 +5428,11 @@ object CommandsDataModule: TCommandsDataModule
       'Documentation')
     CheckAsYouType = False
     OnChange = SynSpellCheckChange
-    Left = 96
-    Top = 984
+    Left = 32
+    Top = 328
   end
   object SynYAMLSyn: TSynYAMLSyn
-    Left = 488
-    Top = 1008
+    Left = 163
+    Top = 336
   end
 end

@@ -4,12 +4,10 @@ inherited PageSetupDlg: TPageSetupDlg
   Caption = 'Page Setup'
   ClientHeight = 397
   ClientWidth = 632
-  OldCreateOrder = True
   Position = poScreenCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object TabControl: TSpTBXTabControl
     Left = 0
     Top = 0
@@ -92,22 +90,22 @@ inherited PageSetupDlg: TPageSetupDlg
         object Label12: TLabel
           Left = 10
           Top = 15
-          Width = 19
-          Height = 13
+          Width = 20
+          Height = 15
           Caption = 'Left'
         end
         object Label13: TLabel
           Left = 210
           Top = 15
-          Width = 33
-          Height = 13
+          Width = 35
+          Height = 15
           Caption = 'Center'
         end
         object Label14: TLabel
           Left = 410
           Top = 15
-          Width = 25
-          Height = 13
+          Width = 28
+          Height = 15
           Caption = 'Right'
         end
         object GroupBox2: TGroupBox
@@ -196,7 +194,6 @@ inherited PageSetupDlg: TPageSetupDlg
           ScrollBars = ssBoth
           TabOrder = 0
           WordWrap = False
-          Zoom = 100
           OnEnter = REHeaderLeftEnter
           OnSelectionChange = REHeaderLeftSelectionChange
         end
@@ -215,7 +212,6 @@ inherited PageSetupDlg: TPageSetupDlg
           ScrollBars = ssBoth
           TabOrder = 1
           WordWrap = False
-          Zoom = 100
           OnEnter = REHeaderLeftEnter
           OnSelectionChange = REHeaderLeftSelectionChange
         end
@@ -234,7 +230,6 @@ inherited PageSetupDlg: TPageSetupDlg
           ScrollBars = ssBoth
           TabOrder = 2
           WordWrap = False
-          Zoom = 100
           OnEnter = REHeaderLeftEnter
           OnSelectionChange = REHeaderLeftSelectionChange
         end
@@ -249,22 +244,22 @@ inherited PageSetupDlg: TPageSetupDlg
         object Label15: TLabel
           Left = 10
           Top = 15
-          Width = 19
-          Height = 13
+          Width = 20
+          Height = 15
           Caption = 'Left'
         end
         object Label16: TLabel
           Left = 210
           Top = 15
-          Width = 33
-          Height = 13
+          Width = 35
+          Height = 15
           Caption = 'Center'
         end
         object Label17: TLabel
           Left = 410
           Top = 15
-          Width = 25
-          Height = 13
+          Width = 28
+          Height = 15
           Caption = 'Right'
         end
         object GroupBox4: TGroupBox
@@ -353,7 +348,6 @@ inherited PageSetupDlg: TPageSetupDlg
           ScrollBars = ssBoth
           TabOrder = 0
           WordWrap = False
-          Zoom = 100
           OnEnter = REHeaderLeftEnter
           OnSelectionChange = REHeaderLeftSelectionChange
         end
@@ -372,7 +366,6 @@ inherited PageSetupDlg: TPageSetupDlg
           ScrollBars = ssBoth
           TabOrder = 1
           WordWrap = False
-          Zoom = 100
           OnEnter = REHeaderLeftEnter
           OnSelectionChange = REHeaderLeftSelectionChange
         end
@@ -391,7 +384,6 @@ inherited PageSetupDlg: TPageSetupDlg
           ScrollBars = ssBoth
           TabOrder = 2
           WordWrap = False
-          Zoom = 100
           OnEnter = REHeaderLeftEnter
           OnSelectionChange = REHeaderLeftSelectionChange
         end
@@ -1449,78 +1441,78 @@ inherited PageSetupDlg: TPageSetupDlg
         Left = 10
         Top = 44
         Width = 23
-        Height = 13
+        Height = 15
         Caption = 'Left:'
       end
       object Label2: TLabel
         Left = 10
         Top = 69
-        Width = 29
-        Height = 13
+        Width = 31
+        Height = 15
         Caption = 'Right:'
       end
       object Label3: TLabel
         Left = 10
         Top = 94
         Width = 22
-        Height = 13
+        Height = 15
         Caption = 'Top:'
       end
       object Label4: TLabel
         Left = 10
         Top = 119
-        Width = 38
-        Height = 13
+        Width = 43
+        Height = 15
         Caption = 'Bottom:'
       end
       object Label5: TLabel
         Left = 10
         Top = 14
-        Width = 28
-        Height = 13
+        Width = 30
+        Height = 15
         Caption = 'Units:'
       end
       object Label6: TLabel
         Left = 10
         Top = 174
-        Width = 39
-        Height = 13
+        Width = 41
+        Height = 15
         Caption = 'Header:'
       end
       object Label7: TLabel
         Left = 10
         Top = 199
-        Width = 36
-        Height = 13
+        Width = 37
+        Height = 15
         Caption = 'Footer:'
       end
       object Label8: TLabel
         Left = 10
         Top = 224
-        Width = 77
-        Height = 13
+        Width = 84
+        Height = 15
         Caption = 'Internal Margin:'
       end
       object Label9: TLabel
         Left = 10
         Top = 249
-        Width = 83
-        Height = 13
+        Width = 84
+        Height = 15
         Caption = 'Left Text Indent:'
       end
       object Label10: TLabel
         Left = 10
         Top = 274
-        Width = 89
-        Height = 13
+        Width = 92
+        Height = 15
         Caption = 'Right Text Indent:'
       end
       object Label11: TLabel
         Left = 10
         Top = 144
-        Width = 31
-        Height = 13
-        Caption = 'Gutter'
+        Width = 36
+        Height = 15
+        Caption = 'Gutter:'
       end
       object CBMirrorMargins: TCheckBox
         Left = 3
@@ -1574,79 +1566,79 @@ inherited PageSetupDlg: TPageSetupDlg
         Left = 130
         Top = 40
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 1
       end
       object EditRight: TEdit
         Left = 130
         Top = 65
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 2
       end
       object EditTop: TEdit
         Left = 130
         Top = 90
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 3
       end
       object EditBottom: TEdit
         Left = 130
         Top = 115
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 4
       end
       object EditGutter: TEdit
         Left = 130
         Top = 140
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 5
       end
       object EditHeader: TEdit
         Left = 130
         Top = 170
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 6
       end
       object EditFooter: TEdit
         Left = 130
         Top = 195
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 7
       end
       object EditHFInternalMargin: TEdit
         Left = 130
         Top = 220
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 8
       end
       object EditLeftHFTextIndent: TEdit
         Left = 130
         Top = 245
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 9
       end
       object EditRightHFTextIndent: TEdit
         Left = 130
         Top = 270
         Width = 151
-        Height = 21
+        Height = 23
         TabOrder = 10
       end
       object CBUnits: TSpTBXComboBox
         Left = 130
         Top = 10
         Width = 151
-        Height = 21
+        Height = 23
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 15
         TabOrder = 11
         OnChange = CBUnitsChange
         Items.Strings = (
@@ -1759,61 +1751,50 @@ inherited PageSetupDlg: TPageSetupDlg
     end
   end
   object vilPageSetup: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 5
         CollectionName = 'PageSetup\PageNum'
-        Disabled = False
         Name = 'PageNum'
       end
       item
         CollectionIndex = 6
         CollectionName = 'PageSetup\Pages'
-        Disabled = False
         Name = 'Pages'
       end
       item
         CollectionIndex = 7
         CollectionName = 'PageSetup\Time'
-        Disabled = False
         Name = 'Time'
       end
       item
         CollectionIndex = 1
         CollectionName = 'PageSetup\Date'
-        Disabled = False
         Name = 'Date'
       end
       item
         CollectionIndex = 8
         CollectionName = 'PageSetup\Title'
-        Disabled = False
         Name = 'Title'
       end
       item
         CollectionIndex = 2
         CollectionName = 'PageSetup\Font'
-        Disabled = False
         Name = 'Font'
       end
       item
         CollectionIndex = 0
         CollectionName = 'PageSetup\Bold'
-        Disabled = False
         Name = 'Bold'
       end
       item
         CollectionIndex = 3
         CollectionName = 'PageSetup\Italic'
-        Disabled = False
         Name = 'Italic'
       end
       item
         CollectionIndex = 9
         CollectionName = 'PageSetup\Underline'
-        Disabled = False
         Name = 'Underline'
       end>
     ImageCollection = icPageSetup

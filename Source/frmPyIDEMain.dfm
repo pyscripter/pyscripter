@@ -3,7 +3,7 @@ object PyIDEMainForm: TPyIDEMainForm
   Top = 115
   HelpContext = 100
   Caption = 'Python Scripter'
-  ClientHeight = 537
+  ClientHeight = 527
   ClientWidth = 868
   Color = clWindow
   Ctl3D = False
@@ -17,10 +17,10 @@ object PyIDEMainForm: TPyIDEMainForm
   OnKeyUp = FormKeyUp
   OnShortCut = FormShortCut
   OnShow = FormShow
-  TextHeight = 48
+  TextHeight = 15
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 512
+    Top = 502
     Width = 868
     Height = 25
     SizeGrip = False
@@ -108,7 +108,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 9
     Top = 85
     Width = 850
-    Height = 418
+    Height = 408
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
@@ -118,7 +118,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 0
       Top = 0
       Width = 846
-      Height = 418
+      Height = 408
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -163,7 +163,6 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiTabClose: TSpTBXItem
         Tag = 1
         Action = CommandsDataModule.actFileClose
-        ImageName = 'TabClose'
         Options = [tboToolbarStyle]
       end
     end
@@ -171,7 +170,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 846
       Top = 0
       Width = 0
-      Height = 418
+      Height = 408
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -224,7 +223,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 846
       Top = 0
       Width = 4
-      Height = 418
+      Height = 408
       Cursor = crSizeWE
       Align = alRight
       ParentColor = False
@@ -1321,10 +1320,10 @@ object PyIDEMainForm: TPyIDEMainForm
         Left = 36
         Top = 1
         Width = 160
-        Height = 56
+        Height = 23
         AutoDropDownWidth = True
         AutoCloseUp = True
-        ItemHeight = 48
+        ItemHeight = 15
         TabOrder = 0
         OnChange = tbiSearchTextChange
         OnExit = tbiSearchTextExit
@@ -1334,9 +1333,9 @@ object PyIDEMainForm: TPyIDEMainForm
         Left = 277
         Top = 1
         Width = 160
-        Height = 56
+        Height = 23
         AutoDropDownWidth = True
-        ItemHeight = 48
+        ItemHeight = 15
         TabOrder = 1
         Visible = False
         OnChange = tbiReplaceTextChange
@@ -1358,7 +1357,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 85
     Width = 9
-    Height = 418
+    Height = 408
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
@@ -1368,7 +1367,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 859
     Top = 85
     Width = 9
-    Height = 418
+    Height = 408
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
@@ -1376,7 +1375,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
-    Top = 503
+    Top = 493
     Width = 868
     Height = 9
     FixAlign = True
