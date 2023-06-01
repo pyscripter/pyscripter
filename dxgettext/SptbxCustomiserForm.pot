@@ -33,11 +33,6 @@ msgstr ""
 msgid "Icons + Text"
 msgstr ""
 
-#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
-#: SpTBXCustomizerForm.dfm:177
-msgid "Text"
-msgstr ""
-
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
 msgid "T&ext Options"
