@@ -1026,9 +1026,7 @@ procedure SetDefaultUIFont(const AFont: TFont);
 Const
   UIFont = 'Segoe UI';
 begin
-  if CheckWin32Version(6)
-    and not SameText(AFont.Name, UIFont)
-    and (Screen.Fonts.IndexOf(UIFont) >= 0) then
+  if CheckWin32Version(6) and (Screen.Fonts.IndexOf(UIFont) >= 0) then
   begin
     AFont.Size := 9;
     AFont.Name := UIFont;

@@ -3,34 +3,34 @@ inherited FindInFilesDialog: TFindInFilesDialog
   Top = 114
   HelpContext = 810
   Caption = 'Find in Files Search'
-  ClientHeight = 236
-  ClientWidth = 364
+  ClientHeight = 337
+  ClientWidth = 461
   Position = poScreenCenter
   OnShow = FormShow
-  TextHeight = 48
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 364
-    Height = 236
+    Width = 461
+    Height = 337
     Align = alClient
     TabOrder = 0
     DesignSize = (
-      364
-      236)
+      461
+      337)
     object lblFind: TLabel
       Left = 8
       Top = 9
-      Width = 185
-      Height = 48
+      Width = 62
+      Height = 15
       Caption = '&Text to find:'
       FocusControl = cbText
     end
     object gbxOptions: TGroupBox
       Left = 10
-      Top = 31
-      Width = 169
-      Height = 106
+      Top = 67
+      Width = 183
+      Height = 129
       Anchors = [akLeft]
       Caption = 'Options'
       TabOrder = 2
@@ -68,10 +68,10 @@ inherited FindInFilesDialog: TFindInFilesDialog
       end
     end
     object gbxWhere: TGroupBox
-      Left = 145
-      Top = 30
-      Width = 188
-      Height = 106
+      Left = 234
+      Top = 66
+      Width = 207
+      Height = 130
       Anchors = [akRight]
       Caption = 'Where'
       TabOrder = 3
@@ -114,33 +114,33 @@ inherited FindInFilesDialog: TFindInFilesDialog
     end
     object gbxDirectories: TGroupBox
       Left = 8
-      Top = 101
-      Width = 326
+      Top = 202
+      Width = 433
       Height = 97
       Anchors = [akLeft, akRight, akBottom]
       Caption = 'Directory Search'
       TabOrder = 1
       DesignSize = (
-        326
+        433
         97)
       object lblMasks: TLabel
         Left = 9
         Top = 52
-        Width = 170
-        Height = 48
+        Width = 57
+        Height = 15
         Caption = 'File mas&ks:'
         FocusControl = cbMasks
       end
       object lblDirectory: TLabel
         Left = 8
         Top = 26
-        Width = 180
-        Height = 48
+        Width = 59
+        Height = 15
         Caption = 'Di&rectories:'
         FocusControl = cbDirectory
       end
       object btnBrowse: TButton
-        Left = 301
+        Left = 408
         Top = 22
         Width = 20
         Height = 20
@@ -158,7 +158,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbInclude: TCheckBox
         Left = 96
         Top = 73
-        Width = 152
+        Width = 259
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Include su&bdirectories'
@@ -167,8 +167,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbMasks: TComboBox
         Left = 96
         Top = 48
-        Width = 225
-        Height = 56
+        Width = 332
+        Height = 23
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 2
@@ -176,8 +176,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbDirectory: TComboBox
         Left = 96
         Top = 21
-        Width = 203
-        Height = 56
+        Width = 310
+        Height = 23
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 0
@@ -185,8 +185,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       end
     end
     object btnOK: TButton
-      Left = 98
-      Top = 204
+      Left = 205
+      Top = 305
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -197,8 +197,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       OnClick = btnOKClick
     end
     object btnCancel: TButton
-      Left = 179
-      Top = 204
+      Left = 286
+      Top = 305
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -208,8 +208,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
       TabOrder = 5
     end
     object btnHelp: TButton
-      Left = 259
-      Top = 204
+      Left = 366
+      Top = 305
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -220,8 +220,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
     object cbText: TComboBox
       Left = 8
       Top = 28
-      Width = 324
-      Height = 56
+      Width = 433
+      Height = 23
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 15
       TabOrder = 0
