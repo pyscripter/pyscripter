@@ -562,6 +562,7 @@
 
   History:   v 4.2.6
           New Features
+             - Customizable user interface content font size (#1209)
           Issues addressed
             #1172, #1195, #1197, #1198, #1208
 
@@ -3063,6 +3064,8 @@ end;
 
 procedure TPyIDEMainForm.PyIDEOptionsChanged;
 begin
+  Application.DefaultFont.Size := PyIDEOptions.UIContentFontSize;
+
   if PyIDEOptions.StyleMainWindowBorder then
     Self.StyleElements := Self.StyleElements + [seBorder]
   else

@@ -1573,7 +1573,7 @@ begin
   SetLength(Categories, 12);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 14);
+    SetLength(Options, 15);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1602,6 +1602,8 @@ begin
     Options[12].DisplayName := _('Automatic restart');
     Options[13].PropertyName := 'LoggingEnabled';
     Options[13].DisplayName := _('Logging enabled');
+    Options[14].PropertyName := 'UIContentFontSize';
+    Options[14].DisplayName := _('User Interface content font size in points');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');

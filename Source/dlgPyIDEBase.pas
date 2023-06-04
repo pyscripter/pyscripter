@@ -20,13 +20,16 @@ var
 
 implementation
 
-uses JvGnugettext;
+uses
+  uCommonFunctions,
+  JvGnugettext;
 
 {$R *.dfm}
 
 procedure TPyIDEDlgBase.FormCreate(Sender: TObject);
 begin
   TranslateComponent(Self);
+  SetDefaultUIFont(Font);
 end;
 
 end.
