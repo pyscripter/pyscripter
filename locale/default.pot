@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2023-06-01 15:53\n"
+"POT-Creation-Date: 2023-06-04 12:06\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -6219,6 +6219,10 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Logging enabled"
+msgstr ""
+
+#: dmCommands.pas
+msgid "User Interface content font size in points"
 msgstr ""
 
 #: dmCommands.pas
