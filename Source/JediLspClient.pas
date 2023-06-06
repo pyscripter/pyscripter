@@ -522,7 +522,7 @@ begin
       then
         ModuleName := FileNameToModuleName(DefFileName)
       else
-        ModuleName := ExtractFileName(DefFileName);
+        ModuleName := TPath.GetFileName(DefFileName);
       ModuleName := TPath.GetFileNameWithoutExtension(ModuleName);
       DefinedIn := Format(_(SFilePosInfoCodeHint),
         [DefFileName, DefBC.Line, DefBC.Char,

@@ -45,21 +45,22 @@ procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
   AppendToList: boolean);
 function GetHighlightersFilter(AHighlighters: TStrings): string;
 function GetHighlighterFromFileExt(AHighlighters: TStrings;
-  Extension: string): TSynCustomHighlighter;
+  const Extension: string): TSynCustomHighlighter;
 function GetHighlighterFromFileName(AHighlighters: TStrings;
-  FileName: string): TSynCustomHighlighter;
+  const FileName: string): TSynCustomHighlighter;
 function GetHighlighterFromLanguageName(LanguageName : string;
   AHighlighters: TStrings) : TSynCustomHighlighter;
-function FileMaskFromFileFilter(Filter : string) : string;
-function DefaultExtensionFromFilter(Filter : string) : string;
+function FileMaskFromFileFilter(const Filter : string) : string;
+function DefaultExtensionFromFilter(const Filter : string) : string;
+function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
 
 implementation
 
 uses
   System.SysUtils,
+  System.IOUtils,
   JclStrings,
-  JvGNUGetText,
-  uCommonFunctions;
+  JvGNUGetText;
 
 procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
   AppendToList: boolean);
@@ -101,7 +102,7 @@ begin
 end;
 
 function GetHighlighterFromFileExt(AHighlighters: TStrings;
-  Extension: string): TSynCustomHighlighter;
+  const Extension: string): TSynCustomHighlighter;
 var
   i: integer;
   Highlighter: TSynCustomHighlighter;
@@ -119,7 +120,7 @@ begin
 end;
 
 function GetHighlighterFromFileName(AHighlighters: TStrings;
-  FileName: string): TSynCustomHighlighter;
+  const FileName: string): TSynCustomHighlighter;
 var
   Len: integer;
   i, j, k: integer;
@@ -145,7 +146,7 @@ begin
             Mask := Trim(Filter);
             Filter := '';
           end;
-          if StrMatches(Mask, LowerCase(XtractFileName(FileName))) then begin
+          if StrMatches(Mask, LowerCase(TPath.GetFileName(FileName))) then begin
             Result := Highlighter;
             exit;
           end;
@@ -168,7 +169,7 @@ begin
     Result := AHighlighters.Objects[Index] as TSynCustomHighlighter
 end;
 
-function FileMaskFromFileFilter(Filter : string) : string;
+function FileMaskFromFileFilter(const Filter : string) : string;
 Var
   j : integer;
 begin
@@ -180,7 +181,7 @@ begin
   end;
 end;
 
-function DefaultExtensionFromFilter(Filter : string) : string;
+function DefaultExtensionFromFilter(const Filter : string) : string;
 begin
   var Mask := FileMaskFromFileFilter(Filter);
   var Len := Mask.Length;
@@ -191,6 +192,27 @@ begin
   while (J <= Len) and not CharInSet(Mask[J], [';', '|'])  do
     Inc(J);
   Result := Copy(Mask, I, J - I);
+end;
+
+function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
+var
+  j, ExtLen: Integer;
+begin
+  Result := False;
+  ExtLen := FileExt.Length;
+  if ExtLen = 0 then
+    Exit;
+  FileExt := LowerCase(FileExt);
+  FileFilter := LowerCase(FileFilter);
+  j := Pos('|', FileFilter);
+  if j > 0 then begin
+    Delete(FileFilter, 1, j);
+    j := Pos(FileExt, FileFilter);
+    if (j > 0) and
+       ((j + ExtLen > Length(FileFilter)) or (FileFilter[j + ExtLen] = ';'))
+    then
+      Exit(True);
+  end;
 end;
 
 

@@ -175,6 +175,7 @@ uses
   System.Math,
   System.Variants,
   System.StrUtils,
+  System.IOUtils,
   Vcl.Dialogs,
   JvDSADialogs,
   JvGnugettext,
@@ -642,7 +643,7 @@ begin
 
     // Add the path of the script to the Python Path - Will be automatically removed
     Path := InternalInterpreter.ToPythonFileName(ARunConfig.ScriptName);
-    Path := IfThen(Path.StartsWith('<'), '', ExtractFileDir(Path));
+    Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
 
     InternalInterpreter.SysPathRemove('');
     if Length(Path) > 1 then
@@ -1178,7 +1179,7 @@ begin
 
   // Add the path of the imported script to the Python Path
   Path := ToPythonFileName(Editor.FileId);
-  Path := IfThen(Path.StartsWith('<'), '', ExtractFileDir(Path));
+  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
   if Path.Length > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
     SysPathRemove('');
@@ -1350,7 +1351,7 @@ begin
 
     // Add the path of the executed file to the Python path - Will be automatically removed
     Path := ToPythonFileName(ARunConfig.ScriptName);
-    Path := IfThen(Path.StartsWith('<'), '', ExtractFileDir(Path));
+    Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
 
     SysPathRemove('');
     if Length(Path) > 1 then

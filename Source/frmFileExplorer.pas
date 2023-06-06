@@ -172,6 +172,7 @@ implementation
 
 uses
   WinApi.SHlObj,
+  System.IOUtils,
   Vcl.FileCtrl,
   MPCommonObjects,
   JvGnugettext,
@@ -269,7 +270,7 @@ begin
   if Assigned(Editor) then begin
     FileName := Editor.FileName;
     if FileName <> '' then
-      FileExplorerTree.RootFolderCustomPath := ExtractFileDir(FileName);
+      FileExplorerTree.RootFolderCustomPath := TPath.GetDirectoryName(FileName);
   end;
 end;
 

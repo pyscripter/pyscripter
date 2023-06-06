@@ -254,6 +254,7 @@ implementation
 
 uses
   System.Math,
+  System.IOUtils,
   System.Threading,
   JvGNUGetText,
   SynEdit,
@@ -849,7 +850,7 @@ var
 begin
   inherited Create;
   FileName := AFileName;
-  FName := XtractFileName(AFileName);
+  FName := TPath.GetFileName(AFileName);
   fExpanded := esExpanded;
   FCodePos := BufferCoord(1, 1);
   FCodeBlock.StartLine := 1;

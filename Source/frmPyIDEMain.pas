@@ -615,6 +615,7 @@ uses
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
   SVGIconImageCollection,
+  JclSysUtils,
   JvAppInst,
   JvComponentBase,
   JvExControls,
@@ -1301,6 +1302,7 @@ type
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
+    FLogger: TJclSimpleLog;
 //    function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
     procedure DebugActiveScript(ActiveEditor: IEditor;
       InitStepIn : Boolean = False; RunToCursorLine : integer = -1);
@@ -1357,6 +1359,7 @@ type
     function GetActiveEditor : IEditor;
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const S : string);
+    function FileIsPythonSource(const FileName: string): Boolean;
     function ShowFilePosition(FileName : string; Line: integer = 0;
       Offset : integer = 1; SelLen : integer = 0;
       ForceToMiddle : Boolean = True; FocusEditor : Boolean = True): Boolean;
@@ -1370,6 +1373,7 @@ type
     function GetIDELayouts: IIDELayouts;
     function GetAppStorage: TJvCustomAppStorage;
     function GetLocalAppStorage: TJvCustomAppStorage;
+    function GetLogger: TJclSimpleLog;
     procedure MRUAddEditor(Editor: IEditor);
   public
     JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
@@ -1438,12 +1442,12 @@ uses
   System.IniFiles,
   System.DateUtils,
   System.RegularExpressions,
+  System.IOUtils,
   Vcl.Clipbrd,
   Vcl.StdActns,
   Vcl.Themes,
   JclSysInfo,
   JclStrings,
-  JclSysUtils,
   JvJVCLUtils,
   SpTBXControls,
   VirtualTrees.BaseTree,
@@ -1579,6 +1583,13 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
+  // Create logger
+  try
+    FLogger := TJclSimpleLog.Create(TPyScripterSettings.PyScripterLogFile);
+    FLogger.LoggingActive := False;
+  except
+  end;
+
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -1617,7 +1628,7 @@ begin
   AppStorage.FileName := TPyScripterSettings.OptionsFileName;
 
   // LocalAppStorage
-  LocalOptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.local.ini');
+  LocalOptionsFileName := ChangeFileExt(TPath.GetFileName(Application.ExeName), '.local.ini');
   LocalAppStorage.FileName :=
     TPyScripterSettings.UserDataPath + LocalOptionsFileName;
 
@@ -2383,7 +2394,7 @@ procedure TPyIDEMainForm.SetRunLastScriptHints(const ScriptName: string);
 Var
   S : string;
 begin
-   S := XtractFileName(ScriptName);
+   S := TPath.GetFileName(ScriptName);
    if S <> '' then
      S := Format(' - %s ', [S]);
    actRunLastScript.Hint := _(sHintRun) + S;
@@ -2863,6 +2874,11 @@ begin
   Result := LocalAppStorage;
 end;
 
+function TPyIDEMainForm.GetLogger: TJclSimpleLog;
+begin
+  Result := FLogger;
+end;
+
 function TPyIDEMainForm.GetMessageServices: IMessageServices;
 begin
   Result := MessagesWindow;
@@ -2998,6 +3014,7 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
+  FreeAndNil(FLogger);
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -3032,9 +3049,9 @@ begin
     Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
     Editor := GetActiveEditor;
     if Assigned(Editor) and (Editor.FileName <> '') and
-      (ExtractFileDir(Editor.FileName) <> '')
+      (TPath.GetDirectoryName(Editor.FileName) <> '')
     then
-      InitialDir := ExtractFileDir(Editor.FileName);
+      InitialDir := TPath.GetDirectoryName(Editor.FileName);
 
     Options := Options + [ofAllowMultiSelect];
     if Execute then begin
@@ -4163,6 +4180,16 @@ begin
     FindDefinition(GI_ActiveEditor, CaretXY, True, False, True, FilePosInfo);
     AdjustBrowserLists(FileName, CaretXY.Line, CaretXY.Char, FilePosInfo);
   end;
+end;
+
+function TPyIDEMainForm.FileIsPythonSource(const FileName: string): Boolean;
+Var
+  Ext: string;
+begin
+  Ext := ExtractFileExt(FileName);
+  if Ext = '' then
+    Exit(False);
+  Result := FileExtInFileFilter(Ext, PyIDEOptions.PythonFileFilter);
 end;
 
 procedure TPyIDEMainForm.FindDefinition(Editor : IEditor; TextCoord: TBufferCoord;

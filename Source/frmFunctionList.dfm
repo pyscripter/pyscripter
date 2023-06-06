@@ -51,7 +51,6 @@ inherited FunctionListWindow: TFunctionListWindow
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
   OnResize = FormResize
-  PixelsPerInch = 96
   TextHeight = 15
   object pnHolder: TPanel
     Left = 0
@@ -371,12 +370,12 @@ inherited FunctionListWindow: TFunctionListWindow
         Name = 'Font'
       end
       item
-        CollectionIndex = 132
+        CollectionIndex = 133
         CollectionName = 'ViewAny'
         Name = 'ViewAny'
       end
       item
-        CollectionIndex = 133
+        CollectionIndex = 134
         CollectionName = 'ViewStart'
         Name = 'ViewStart'
       end>

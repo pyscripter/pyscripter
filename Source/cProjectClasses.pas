@@ -156,6 +156,7 @@ Var
 implementation
 
 uses
+  System.IOUtils,
   JvGnuGetText,
   uCommonFunctions,
   cPyControl,
@@ -366,7 +367,7 @@ end;
 function TProjectRootNode.GetName: string;
 begin
   if fFileName <> '' then
-    Result := ChangeFileExt(ExtractFileName(fFileName), '')
+    Result := ChangeFileExt(TPath.GetFileName(fFileName), '')
   else
     Result := _('Untitled');
 end;
@@ -488,7 +489,7 @@ Var
   FolderName : string;
   FileName : string;
 begin
-  FolderName := ExtractFileName(Directory);
+  FolderName := TPath.GetFileName(Directory);
   if (FolderName = '.') or (FolderName = '..') then
     Exit;
 
@@ -552,7 +553,7 @@ end;
 function TProjectFileNode.GetName: string;
 begin
   if fFileName <> '' then  begin
-    Result := XtractFileName(GI_PyIDEServices.ReplaceParams(fFileName));
+    Result := TPath.GetFileName(GI_PyIDEServices.ReplaceParams(fFileName));
     if not ActiveProject.ShowFileExtensions then
       Result := ChangeFileExt(Result, '');
   end else

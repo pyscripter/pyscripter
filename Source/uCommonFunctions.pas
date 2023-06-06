@@ -223,12 +223,6 @@ function MonitorProfile: string;
 (* Downlads a file from the Interent *)
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 
-(* ExtracFileName that works with both Windows and Unix file names *)
-function XtractFileName(const FileName: string): string;
-
-(* ExtractFileDir that works with both Windows and Unix file names *)
-function XtractFileDir(const FileName: string): string;
-
 (* Raises a keyword interrupt in another process *)
 procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
 
@@ -238,12 +232,6 @@ function TerminateProcessTree(ProcessID: DWORD): Boolean;
 (* Executes a Command using CreateProcess and captures output *)
 function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
 function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
-
-(* Checks if a file extension is contained in a file filter *)
-function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
-
-(* Checks if a file name is indicates a Python source file *)
-function FileIsPythonSource(FileName: string): Boolean;
 
 (* Simple routine to hook/detour a function *)
 procedure RedirectFunction(OrgProc, NewProc: Pointer);
@@ -353,7 +341,6 @@ type
 
 Var
   StopWatch: TStopWatch;
-  Logger: TJclSimpleLog;
 
 implementation
 Uses
@@ -387,9 +374,7 @@ Uses
   SynEditHighlighter,
   VarPyth,
   PythonEngine,
-  StringResources,
-  cPyScripterSettings,
-  cSSHSupport;
+  StringResources;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -433,7 +418,7 @@ begin
       if (Result = '') or (Result[Length(Result)] = ':') then
         Result:= APath
       else Result:= Concat(GetLongFileName(ExcludeTrailingPathDelimiter(Result)),
-                           PathDelim, ExtractFileName(APath));
+                           PathDelim,TPath.GetFileName(APath));
     end;
   end;
 end;
@@ -770,7 +755,7 @@ begin
   S := Dir;
   Repeat
     Result := S;
-    S := ExtractFileDir(S);
+    S := TPath.GetDirectoryName(S);
   Until (Result = S) or (not DirIsPythonPackage(S));
 end;
 
@@ -778,17 +763,17 @@ function FileNameToModuleName(const FileName : string): string;
 Var
   Path, Dir, Server : string;
 begin
-  Result := ChangeFileExt(XtractFileName(FileName), '');
-  if TSSHFileName.Parse(FileName, Server, Path) then Exit;
+  Result := ChangeFileExt(TPath.GetFileName(FileName), '');
+  if GI_SSHServices.ParseFileName(FileName, Server, Path) then Exit;
 
-  Path := ExtractFileDir(FileName);
-  Dir := ExtractFileName(Path);
+  Path := TPath.GetDirectoryName(FileName);
+  Dir := TPath.GetFileName(Path);
 
   if Path <> '' then begin
     while DirIsPythonPackage(Path) and (Dir <> '') do begin
       Result := Dir + '.' + Result;
-      Path := ExtractFileDir(Path);
-      Dir := ExtractFileName(Path);
+      Path := TPath.GetDirectoryName(Path);
+      Dir := TPath.GetFileName(Path);
     end;
     if StrIsRight(PChar(Result), '.__init__') then
       Delete(Result, Length(Result) - 8, 9);
@@ -1111,7 +1096,7 @@ begin
   Lines.LineBreak := OldLineBreak;
 
   if GI_PyControl.PythonLoaded and
-    (IsPython or FileIsPythonSource(AFileName)) then
+    (IsPython or GI_PyIDEServices.FileIsPythonSource(AFileName)) then
   begin
     PyEncoding := '';
     if Lines.Count > 0 then
@@ -1204,7 +1189,7 @@ begin
   if (AFileName = '') or not FileExists(AFileName) then Exit(False);
 
   try
-    if not FileIsPythonSource(AFileName) then
+    if not GI_PyIDEServices.FileIsPythonSource(AFileName) then
     begin
       Lines.LoadFromFile(AFileName);
       Exit(True);
@@ -1304,7 +1289,7 @@ begin
       end;
     end;
 
-    if not FileIsPythonSource(AFileName) or (Lines.Encoding <> TEncoding.Ansi) then
+    if not GI_PyIDEServices.FileIsPythonSource(AFileName) or (Lines.Encoding <> TEncoding.Ansi) then
     begin
       Lines.SaveToFile(AFileName);
       Exit(True);
@@ -1351,10 +1336,10 @@ Var
   SL : TStrings;
   Server, FName, TempFileName, ErrorMsg : string;
 begin
-  if TSSHFileName.Parse(AFileName, Server, FName) then
+  if GI_SSHServices.ParseFileName(AFileName, Server, FName) then
   begin
     TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
-    if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
+    if not GI_SSHServices.ScpDownload(Server, FName, TempFileName, ErrorMsg) then
     begin
       StyledMessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
       Abort;
@@ -1379,10 +1364,10 @@ Var
   SL : TStrings;
   Server, FName, TempFileName, ErrorMsg : string;
 begin
-  if TSSHFileName.Parse(AFileName, Server, FName) then
+  if GI_SSHServices.ParseFileName(AFileName, Server, FName) then
   begin
     TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
-    if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
+    if not GI_SSHServices.ScpDownload(Server, FName, TempFileName, ErrorMsg) then
     begin
       StyledMessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
       Abort;
@@ -1921,24 +1906,6 @@ begin
   Result := TTimer.Create(Interval);
 end;
 
-function XtractFileName(const FileName: string): string;
-var
-  I: Integer;
-begin
-  I := FileName.LastDelimiter(PathDelim + DriveDelim + '/');
-  Result := FileName.SubString(I + 1);
-end;
-
-function XtractFileDir(const FileName: string): string;
-var
-  I: Integer;
-begin
-  I := FileName.LastDelimiter(PathDelim + DriveDelim + '/');
-  if (I > 0) and ((FileName.Chars[I] = PathDelim) or (FileName.Chars[I] = '/')) and
-    (not FileName.IsDelimiter(PathDelim + DriveDelim + '/', I-1)) then Dec(I);
-  Result := FileName.SubString(0, I + 1);
-end;
-
 function CtrlHandler( fdwCtrlType : DWORD): LongBool; stdcall;
 begin
   Result := True;
@@ -2040,37 +2007,6 @@ begin
   Result := ExecuteCmd(Command, CmdOutput, CmdError);
 end;
 
-function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
-var
-  j, ExtLen: Integer;
-begin
-  Result := False;
-  ExtLen := FileExt.Length;
-  if ExtLen = 0 then
-    Exit;
-  FileExt := LowerCase(FileExt);
-  FileFilter := LowerCase(FileFilter);
-  j := Pos('|', FileFilter);
-  if j > 0 then begin
-    Delete(FileFilter, 1, j);
-    j := Pos(FileExt, FileFilter);
-    if (j > 0) and
-       ((j + ExtLen > Length(FileFilter)) or (FileFilter[j + ExtLen] = ';'))
-    then
-      Exit(True);
-  end;
-end;
-
-function FileIsPythonSource(FileName: string): Boolean;
-Var
-  Ext: string;
-begin
-  Ext := ExtractFileExt(FileName);
-  if Ext = '' then
-    Exit(False);
-  Result := FileExtInFileFilter(Ext, PyIDEOptions.PythonFileFilter);
-end;
-
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
   Buttons: TMsgDlgButtons; HelpCtx: Longint): Integer;
 begin
@@ -2128,7 +2064,7 @@ type
 var
   RegisterApplicationRestart: TPKernelRegisterApplicationRestart;
 begin
-  Logger.Write('RegisterApplicationRestart');
+  GI_PyIDEServices.Logger.Write('RegisterApplicationRestart');
   Result := False;
   @RegisterApplicationRestart := GetProcAddress(GetModuleHandle('kernel32.dll'), 'RegisterApplicationRestart');
   if @RegisterApplicationRestart <> nil then
@@ -2171,7 +2107,6 @@ begin
   else
     Result := '';
 end;
-//  Regular Expressions End
 
 procedure RedirectFunction(OrgProc, NewProc: Pointer);
 {
@@ -2258,21 +2193,14 @@ begin
   Result := TObjectHandle<T>.Create(AValue);
 end;
 
-
 initialization
   StopWatch := TStopWatch.StartNew;
-  try
-    Logger := TJclSimpleLog.Create(TPyScripterSettings.PyScripterLogFile);
-    Logger.LoggingActive := False;
-  except
-  end;
 
   @OldGetCursorPos := GetProcAddress(GetModuleHandle(user32), 'GetCursorPos');
   with TJclPeMapImgHooks do
     ReplaceImport(SystemBase, user32, @OldGetCursorPos, @PatchedGetCursorPos);
 
 finalization
- Logger.Free;
  with TJclPeMapImgHooks do
    ReplaceImport(SystemBase, user32, @PatchedGetCursorPos, @OldGetCursorPos);
 end.

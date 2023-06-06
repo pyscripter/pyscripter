@@ -19,6 +19,7 @@ uses
   Vcl.ImgList,
   JvAppStorage,
   JclNotify,
+  JclSysUtils,
   PythonEngine,
   PythonVersions,
   SynEdit,
@@ -233,6 +234,7 @@ type
     function GetActiveEditor : IEditor;
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const S: string);
+    function FileIsPythonSource(const FileName: string): Boolean;
     function ShowFilePosition(FileName : string; Line: integer =0;
       Offset : integer = 1; SelLen : integer = 0;
       ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
@@ -246,6 +248,7 @@ type
     function GetIDELayouts: IIDELayouts;
     function GetAppStorage: TJvCustomAppStorage;
     function GetLocalAppStorage: TJvCustomAppStorage;
+    function GetLogger: TJclSimpleLog;
     procedure MRUAddEditor(Editor: IEditor);
     property ActiveEditor: IEditor read GetActiveEditor;
     property IsClosing: Boolean read GetIsClosing;
@@ -254,6 +257,7 @@ type
     property Layouts: IIDELayouts read GetIDELayouts;
     property AppStorage: TJvCustomAppStorage read GetAppStorage;
     property LocalAppStorage: TJvCustomAppStorage read GetLocalAppStorage;
+    property Logger: TJclSimpleLog read GetLogger;
   end;
 
   IPyEngineAndGIL = interface
@@ -302,6 +306,17 @@ type
     property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
   end;
 
+  ISSHServices = interface
+  ['{255E5E08-DCFD-481A-B0C3-F0AB0C5A1571}']
+    function FormatFileName(Server, FileName : string): string;
+    function ParseFileName(Const Unc : string; out Server, FileName : string): boolean;
+
+    function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
+       ScpOptions : string = ''): Boolean;
+    function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
+    function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
+  end;
+
 var
   GI_EditorFactory: IEditorFactory;
   GI_ActiveEditor: IEditor;
@@ -313,6 +328,7 @@ var
   GI_PyIDEServices: IPyIDEServices;
   GI_PyControl: IPyControl;
   GI_PyInterpreter: IPyInterpreter;
+  GI_SSHServices: ISSHServices;
 
 implementation
 

@@ -60,6 +60,7 @@ uses
   System.SysUtils,
   System.Win.Registry,
   System.RegularExpressions,
+  System.IOUtils,
   Vcl.Clipbrd,
   Vcl.Dialogs,
   Vcl.FileCtrl,
@@ -403,7 +404,7 @@ begin
     else AName:= ARegKey;
     (* if key exists, read key data *)
     if OpenKeyReadOnly(ExtractFilePath(AName)) then begin
-      AName:= ExtractFileName(ARegKey);
+      AName:= TPath.GetFileName(ARegKey);
       if not GetDataInfo(AName, Info) then
         Info.RegData:= rdUnknown;
       (* convert value to string *)
@@ -464,7 +465,7 @@ begin
       if (Result = '') or (Result[Length(Result)] = ':') then
         Result:= APath
       else Result:= GetShortFileName(ExcludeTrailingPathDelimiter(Result)) +
-                           PathDelim + ExtractFileName(APath);
+                           PathDelim + TPath.GetFileName(APath);
     end;
   end;
 end;
@@ -638,7 +639,7 @@ begin
     // register parameter modifiers
     RegisterModifier('Path', _('Path of file'), ExtractFilePath);
     RegisterModifier('Dir', _('Path without delimeter'), ExtractFileDir);
-    RegisterModifier('Name', _('File name'), ExtractFileName);
+    RegisterModifier('Name', _('File name'), TPath.GetFileName);
     RegisterModifier('Ext', _('File extension'), ExtractFileExt);
     RegisterModifier('ExtOnly', _('File extension without "."'), GetFileExt);
     RegisterModifier('NoExt', _('File name without extension'), StripExtension);

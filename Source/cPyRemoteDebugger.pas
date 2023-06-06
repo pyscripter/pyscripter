@@ -180,6 +180,7 @@ implementation
 uses
   System.Generics.Defaults,
   System.StrUtils,
+  System.IOUtils,
   Vcl.Dialogs,
   VarPyth,
   JclStrings,
@@ -696,7 +697,7 @@ begin
 
   // Add the path of the imported script to the Python path
   Path := ToPythonFileName(Editor.FileId);
-  Path := IfThen(Path.StartsWith('<'), '', XtractFileDir(Path));
+  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
   if Length(Path) > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
     SysPathRemove('');
@@ -893,7 +894,7 @@ begin
 
   // Add the path of the script to the Python Path - Will be automatically removed
   Path := ToPythonFileName(ARunConfig.ScriptName);
-  Path := IfThen(Path.StartsWith('<'), '', XtractFileDir(Path));
+  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
   SysPathRemove('');
   if Path.Length > 1 then
     PythonPathAdder := AddPathToPythonPath(Path);
@@ -1581,7 +1582,7 @@ begin
 
   // Add the path of the script to the Python Path - Will be automatically removed
   Path := fRemotePython.ToPythonFileName(ARunConfig.ScriptName);
-  Path := IfThen(Path.StartsWith('<'), '', XtractFileDir(Path));
+  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
   fRemotePython.SysPathRemove('');
   if Path.Length > 1 then
     PythonPathAdder := fRemotePython.AddPathToPythonPath(Path);

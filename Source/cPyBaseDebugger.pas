@@ -221,6 +221,7 @@ implementation
 uses
   System.UITypes,
   System.Contnrs,
+  System.IOUtils,
   Vcl.Dialogs,
   VarPyth,
   JvGnuGettext,
@@ -263,7 +264,7 @@ begin
   if (fPath <> '') then begin
     // Add parent directory of the root of the package first
     if DirIsPythonPackage(fPath) then begin
-      S := ExtractFileDir(GetPackageRootDir(fPath));
+      S := TPath.GetDirectoryName(GetPackageRootDir(fPath));
       if S <> fPath then
         PackageRootAdder :=
           TPythonPathAdder.Create(SysPathAdd, SysPathRemove, S, AutoRemove);

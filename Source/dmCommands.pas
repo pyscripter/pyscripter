@@ -609,8 +609,8 @@ function TCommandsDataModule.GetSaveFileName(var ANewName: string;
 begin
   with dlgFileSave do begin
     if ANewName <> '' then begin
-      InitialDir := ExtractFileDir(ANewName);
-      FileName := XtractFileName(ANewName);
+      InitialDir := TPath.GetDirectoryName(ANewName);
+      FileName := TPath.GetFileName(ANewName);
       Title := Format(_(SSaveAs), [FileName]);
     end else begin
       InitialDir := '';
@@ -1446,7 +1446,7 @@ begin
 
   GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
   begin
-    if (Ed.FileName <> '') and (ExtractFileDir(Ed.FileName) = FolderName) then begin
+    if (Ed.FileName <> '') and (TPath.GetDirectoryName(Ed.FileName) = FolderName) then begin
       if not FileAge(Ed.FileName, FTime) then begin
         if not FileExists(Ed.FileName) and (TEditorForm(Ed.Form).FileTime <> 0) then begin
           // File or directory has been moved or deleted
@@ -1518,7 +1518,7 @@ begin
       if WideIsDrive(WS) and (GetDriveType(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
     end;
     if not NS.Folder then // UpdateItem notifications
-      Dir := ExtractFileDir(Dir);
+      Dir := TPath.GetDirectoryName(Dir);
   finally
     NS.Free;
   end;
@@ -2853,15 +2853,16 @@ begin
   end;
 
   // Logging
-  if Logger.LoggingActive <> PyIDEOptions.LoggingEnabled then
-  begin
-    Logger.LoggingActive := PyIDEOptions.LoggingEnabled;
-    if Logger.LoggingActive then
+  with GI_PyIDEServices.Logger do
+    if LoggingActive <> PyIDEOptions.LoggingEnabled then
     begin
-      Logger.ClearLog;
-      Logger.WriteStamp(0, False);
+      LoggingActive := PyIDEOptions.LoggingEnabled;
+      if LoggingActive then
+      begin
+        ClearLog;
+        WriteStamp(0, False);
+      end;
     end;
-  end;
 
   TThread.ForceQueue(nil, procedure
   begin

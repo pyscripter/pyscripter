@@ -9,16 +9,19 @@ uses
   System.Variants,
   System.Classes,
   System.Generics.Collections,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.StdCtrls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   SynEdit,
   cPySupportTypes,
   cPyBaseDebugger,
-  dlgPyIDEBase, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
+  dlgPyIDEBase;
 
 type
   TRunConfigurationForm = class(TPyIDEDlgBase)
@@ -77,8 +80,16 @@ function EditRunConfiguration(ARunConfig : TRunConfiguration) : Boolean;
 implementation
 
 uses
-  Math, dlgToolProperties, dmCommands, uHighlighterProcs, cProjectClasses,
-  StringResources, JvGnugettext, Vcl.Themes, Vcl.FileCtrl,
+  System.Math,
+  System.IOUtils,
+  Vcl.Themes,
+  Vcl.FileCtrl,
+  JvGnugettext,
+  dlgToolProperties,
+  dmCommands,
+  uHighlighterProcs,
+  cProjectClasses,
+  StringResources,
   dlgRemoteFile,
   cSSHSupport;
 
@@ -138,7 +149,7 @@ begin
     Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
     FileName := '';
     if ActiveProject.FileName <> '' then
-      InitialDir := ExtractFileDir(ActiveProject.FileName);
+      InitialDir := TPath.GetDirectoryName(ActiveProject.FileName);
     if Execute then begin
       SynFileName.SelectAll;
       SynFileName.Text := FileName;
@@ -161,7 +172,7 @@ begin
     Filter := _(SFilterAllFiles);
     FileName := 'output.log';
     if ActiveProject.FileName <> '' then
-      InitialDir := ExtractFileDir(ActiveProject.FileName);
+      InitialDir := TPath.GetDirectoryName(ActiveProject.FileName);
     OldOpenOptions := Options;
     Options := Options - [ofFileMustExist];
     try
@@ -193,7 +204,7 @@ var
   Directories : TArray<string>;
 begin
   if ActiveProject.FileName <> '' then
-    S := ExtractFileDir(ActiveProject.FileName);
+    S := TPath.GetDirectoryName(ActiveProject.FileName);
   if SelectDirectory(S, Directories, [], _('Select working directory:')) then
   begin
     SynWorkDir.SelectAll;

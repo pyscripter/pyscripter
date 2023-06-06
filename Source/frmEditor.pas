@@ -530,7 +530,7 @@ begin
     end;
     // Kernel change notification
     if (fFileName <> '') and FileExists(fFileName) then
-      ChangeNotifier.NotifyWatchFolder(fForm, ExtractFileDir(fFileName))
+      ChangeNotifier.NotifyWatchFolder(fForm, TPath.GetDirectoryName(fFileName))
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
@@ -626,7 +626,7 @@ begin
     then
       Result := FileNameToModuleName(fFileName)
     else
-      Result := ExtractFileName(fFileName);
+      Result := TPath.GetFileName(fFileName);
   end
   else if fSSHServer <> '' then
     Result := TSSHFileName.Format(fSSHServer, fRemoteFileName)
@@ -809,7 +809,7 @@ begin
   if (fForm = nil) or (FileName = '') or (ServerName = '') then Abort;
 
   TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(FileName));
-  if not ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
+  if not GI_SSHServices.ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
     StyledMessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
     Abort;
   end else
@@ -851,7 +851,7 @@ begin
   TempFileName := FileGetTempName('PyScripter');
   Result := SaveWideStringsToFile(TempFileName, fForm.SynEdit.Lines, False);
   if Result then begin
-    Result := ScpUpload(ServerName, TempFileName, FileName, ErrorMsg);
+    Result := GI_SSHServices.ScpUpload(ServerName, TempFileName, FileName, ErrorMsg);
     DeleteFile(TempFileName);
     if not Result then
       StyledMessageDlg(Format(_(SFileSaveError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
@@ -1788,7 +1788,7 @@ begin
     DoActivateEditor;
     MessageBeep(MB_ICONQUESTION);
     Assert(fEditor <> nil);
-    S := Format(_(SAskSaveChanges), [XtractFileName(fEditor.GetFileTitle)]);
+    S := Format(_(SAskSaveChanges), [TPath.GetFileName(fEditor.GetFileTitle)]);
 
     case StyledMessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0,
       mbYes) of
@@ -1949,7 +1949,7 @@ Var
 begin
   Assert(fEditor <> nil);
   if fEditor.fRemoteFileName <> '' then
-    TabCaption := XtractFileName(fEditor.fRemoteFileName)
+    TabCaption := TPath.GetFileName(fEditor.fRemoteFileName)
   else
     TabCaption := fEditor.GetFileTitle;
 
@@ -2519,7 +2519,7 @@ procedure TEditorForm.WMFolderChangeNotify(var Msg: TMessage);
 begin
     TThread.ForceQueue(nil, procedure
   begin
-    CommandsDataModule.ProcessFolderChange(ExtractFileDir(fEditor.fFileName));
+    CommandsDataModule.ProcessFolderChange(TPath.GetDirectoryName(fEditor.fFileName));
   end, 200);
 end;
 

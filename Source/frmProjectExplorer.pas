@@ -221,6 +221,7 @@ var
 implementation
 
 uses
+  System.IOUtils,
   Vcl.Themes,
   MPDataObject,
   JclShell,
@@ -332,9 +333,9 @@ begin
         Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
         Editor := GI_PyIDEServices.ActiveEditor;
         if Assigned(Editor) and (Editor.FileName <> '') and
-          (ExtractFileDir(Editor.FileName) <> '')
+          (TPath.GetDirectoryName(Editor.FileName) <> '')
         then
-          InitialDir := ExtractFileDir(Editor.FileName);
+          InitialDir := TPath.GetDirectoryName(Editor.FileName);
 
         Options := Options + [ofAllowMultiSelect];
         if Execute then begin
@@ -564,9 +565,9 @@ begin
       Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
       Editor := GI_PyIDEServices.ActiveEditor;
       if Assigned(Editor) and (Editor.FileName <> '') and
-        (ExtractFileDir(Editor.FileName) <> '')
+        (TPath.GetDirectoryName(Editor.FileName) <> '')
       then
-        InitialDir := ExtractFileDir(Editor.FileName);
+        InitialDir := TPath.GetDirectoryName(Editor.FileName);
 
       if Execute then
         DoOpenProjectFile(FileName);
@@ -758,8 +759,8 @@ begin
 
   with CommandsDataModule.dlgFileSave do begin
     if NewName <> '' then begin
-      InitialDir := ExtractFileDir(NewName);
-      FileName := ExtractFileName(NewName);
+      InitialDir := TPath.GetDirectoryName(NewName);
+      FileName := TPath.GetFileName(NewName);
       Title := Format(_(SSaveProjectFileAs), [FileName]);
     end else begin
       InitialDir := '';

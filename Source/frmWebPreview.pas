@@ -174,7 +174,7 @@ begin
   if Assigned(Editor.SynEdit.Highlighter) and
     (Editor.SynEdit.Highlighter = CommandsDataModule.SynJSONSyn) then
   begin
-    var FN := ExtractFileName(Editor.FileName);
+    var FN := TPath.GetFileName(Editor.FileName);
     FN := StringReplace(FN, ' ', '%20', [rfReplaceAll]);
     WebBrowser.Navigate('http://localhost:8888/notebooks/'+FN);
   end else begin

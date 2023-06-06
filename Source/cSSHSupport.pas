@@ -14,7 +14,8 @@ Uses
   System.SysUtils,
   System.Classes,
   System.RegularExpressions,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  uEditAppIntfs;
 
 type
 
@@ -72,20 +73,23 @@ type
     class function Parse(Const Unc : string; out Server, FileName : string): boolean;
   end;
 
+  TSSHServices = class(TInterfacedObject, ISSHServices)
+    function FormatFileName(Server, FileName : string): string;
+    function ParseFileName(Const Unc : string; out Server, FileName : string): boolean;
+    // SCP
+    function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
+       ScpOptions : string = ''): Boolean;
+    function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
+    function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
+  end;
+
   function ServerFromName(ServerName: string): TSSHServer;
   function EditSSHServers : boolean;
   function SelectSSHServer : string;
   function EditSSHConfiguration(Item : TCollectionItem) : boolean;
   procedure FillSSHConfigNames(Strings: TStrings);
 
-
-  // SCP
-  function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
-     ScpOptions : string = ''): Boolean;
-  function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
-  function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
-
-Var
+var
   SSHTimeout : integer = 10000; // 10 seconds
   ScpTimeout : integer = 30000; // 30 seconds
   SSHServers : TCollection;
@@ -285,8 +289,48 @@ begin
       Result := TSSHServerItem(Item).SSHServer;
 end;
 
-function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
-  ScpOptions : string = ''): Boolean;
+{ Unc }
+
+class constructor TSSHFileName.Create;
+begin
+  UNCRE := CompiledRegEx('^ssh://([^/]+)/(.+)');
+end;
+
+class function TSSHFileName.Format(Server, FileName: string): string;
+begin
+  Result := System.SysUtils.Format('ssh://%s/%s', [Server, FileName]);
+end;
+
+class function TSSHFileName.Parse(const Unc: string; out Server,
+  FileName: string): boolean;
+begin
+  Server := '';
+  FileName := '';
+  with UncRE.Match(Unc) do
+  begin
+    if Success then begin
+      Server := GroupValue(1);
+      FileName := GroupValue(2);
+    end;
+    Exit(Success)
+  end;
+end;
+
+{ TSSHServices }
+
+function TSSHServices.FormatFileName(Server, FileName: string): string;
+begin
+  Result := TSSHFileName.Format(Server, FileName);
+end;
+
+function TSSHServices.ParseFileName(const Unc: string; out Server,
+  FileName: string): boolean;
+begin
+  Result := TSSHFileName.Parse(Unc, Server, FileName);
+end;
+
+function TSSHServices.Scp(const ScpCommand, FromFile, ToFile: string;
+  out ErrorMsg: string; ScpOptions: string): Boolean;
 Var
   Task : ITask;
   Command, Output, Error: string;
@@ -330,24 +374,8 @@ begin
   end;
 end;
 
-function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
-Var
-  SSHServer : TSSHServer;
-  SFormat : string;
-begin
-  SSHServer := ServerFromName(ServerName);
-  if not Assigned(SSHServer) then begin
-    ErrorMsg := Format(_(SSHUnknownServer), [ServerName]);
-    Exit(False);
-  end;
-
-  SFormat := iff(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
-  Result := scp(SSHServer.ScpCommand, Format('"%s"', [LocalFile]),
-    Format(SFormat, [SSHServer.Destination, RemoteFile]),
-    ErrorMsg, SSHServer.ScpOptionsPW);
-end;
-
-function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
+function TSSHServices.ScpDownload(const ServerName, RemoteFile,
+  LocalFile: string; out ErrorMsg: string): boolean;
 Var
   SSHServer : TSSHServer;
   SFormat : string;
@@ -364,35 +392,27 @@ begin
     Format('"%s"', [LocalFile]), ErrorMsg, SSHServer.ScpOptionsPW);
 end;
 
-{ Unc }
-
-class constructor TSSHFileName.Create;
+function TSSHServices.ScpUpload(const ServerName, LocalFile, RemoteFile: string;
+  out ErrorMsg: string): boolean;
+Var
+  SSHServer : TSSHServer;
+  SFormat : string;
 begin
-  UNCRE := CompiledRegEx('^ssh://([^/]+)/(.+)');
-end;
-
-class function TSSHFileName.Format(Server, FileName: string): string;
-begin
-  Result := System.SysUtils.Format('ssh://%s/%s', [Server, FileName]);
-end;
-
-class function TSSHFileName.Parse(const Unc: string; out Server,
-  FileName: string): boolean;
-begin
-  Server := '';
-  FileName := '';
-  with UncRE.Match(Unc) do
-  begin
-    if Success then begin
-      Server := GroupValue(1);
-      FileName := GroupValue(2);
-    end;
-    Exit(Success)
+  SSHServer := ServerFromName(ServerName);
+  if not Assigned(SSHServer) then begin
+    ErrorMsg := Format(_(SSHUnknownServer), [ServerName]);
+    Exit(False);
   end;
+
+  SFormat := iff(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
+  Result := scp(SSHServer.ScpCommand, Format('"%s"', [LocalFile]),
+    Format(SFormat, [SSHServer.Destination, RemoteFile]),
+    ErrorMsg, SSHServer.ScpOptionsPW);
 end;
 
 initialization
   SSHServers := TCollection.Create(TSSHServerItem);
+  GI_SSHServices := TSSHServices.Create;
 finalization
   SSHServers.Free;
 end.
