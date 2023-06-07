@@ -122,6 +122,7 @@ type
   TPyRemDebugger = class(TPyBaseDebugger)
   { Remote debugger using Rpyc for communication with the server }
   private
+    fExecPaused: Boolean;
     fDebugManager : Variant;
     fMainDebugger : Variant;
     fLineCache : Variant;
@@ -697,7 +698,10 @@ begin
 
   // Add the path of the imported script to the Python path
   Path := ToPythonFileName(Editor.FileId);
-  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
+  if Path.StartsWith('<') then
+    Path := ''
+  else
+    Path := TPath.GetDirectoryName(Path);
   if Length(Path) > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
     SysPathRemove('');
@@ -894,7 +898,10 @@ begin
 
   // Add the path of the script to the Python Path - Will be automatically removed
   Path := ToPythonFileName(ARunConfig.ScriptName);
-  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
+  if Path.StartsWith('<') then
+    Path := ''
+  else
+    Path := TPath.GetDirectoryName(Path);
   SysPathRemove('');
   if Path.Length > 1 then
     PythonPathAdder := AddPathToPythonPath(Path);
@@ -999,11 +1006,10 @@ begin
 end;
 
 function TPyRemoteInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
-Var
+var
   OldDebuggerState : TDebuggerState;
   OldPos : TEditorPos;
-
-  begin
+begin
   CheckConnected;
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
@@ -1582,7 +1588,10 @@ begin
 
   // Add the path of the script to the Python Path - Will be automatically removed
   Path := fRemotePython.ToPythonFileName(ARunConfig.ScriptName);
-  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
+  if Path.StartsWith('<') then
+    Path := ''
+  else
+    Path := TPath.GetDirectoryName(Path);
   fRemotePython.SysPathRemove('');
   if Path.Length > 1 then
     PythonPathAdder := fRemotePython.AddPathToPythonPath(Path);
@@ -1649,6 +1658,14 @@ begin
   begin
     // Do not reenter
     Timer.Stop;
+
+    // Check whether we are executing statements while broken
+    if fExecPaused then
+    begin
+      // Wait for the execution to finish
+      Timer.Restart;
+      Exit;
+    end;
 
     var Py := GI_PyControl.SafePyEngine;
     try
@@ -1731,10 +1748,15 @@ function TPyRemDebugger.RunSource(Const Source, FileName : Variant; symbol : str
 Var
   OldCurrentPos : TEditorPos;
 begin
+  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
+    Exit(False);
+
   OldCurrentPos := PyControl.CurrentPos;
+  fExecPaused := True;
   try
     Result := fRemotePython.RunSource(Source, FileName, symbol);
   finally
+    fExecPaused := False;
     PyControl.CurrentPos := OldCurrentPos;
   end;
 end;

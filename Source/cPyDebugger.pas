@@ -643,8 +643,10 @@ begin
 
     // Add the path of the script to the Python Path - Will be automatically removed
     Path := InternalInterpreter.ToPythonFileName(ARunConfig.ScriptName);
-    Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
-
+    if Path.StartsWith('<') then
+      Path := ''
+    else
+      Path := TPath.GetDirectoryName(Path);
     InternalInterpreter.SysPathRemove('');
     if Length(Path) > 1 then
       PythonPathAdder := InternalInterpreter.AddPathToPythonPath(Path);
@@ -1179,7 +1181,10 @@ begin
 
   // Add the path of the imported script to the Python Path
   Path := ToPythonFileName(Editor.FileId);
-  Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
+  if Path.StartsWith('<') then
+    Path := ''
+  else
+    Path := TPath.GetDirectoryName(Path);
   if Path.Length > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
     SysPathRemove('');
@@ -1351,8 +1356,10 @@ begin
 
     // Add the path of the executed file to the Python path - Will be automatically removed
     Path := ToPythonFileName(ARunConfig.ScriptName);
-    Path := IfThen(Path.StartsWith('<'), '', TPath.GetDirectoryName(Path));
-
+    if Path.StartsWith('<') then
+      Path := ''
+    else
+      Path := TPath.GetDirectoryName(Path);
     SysPathRemove('');
     if Length(Path) > 1 then
       PythonPathAdder := AddPathToPythonPath(Path);
