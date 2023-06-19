@@ -560,11 +560,11 @@
           Issues addressed
             #1152, #1155, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
 
-  History:   v 4.2.6
+  History:   v 4.2.7
           New Features
              - Customizable user interface content font size (#1209)
           Issues addressed
-            #1172, #1195, #1197, #1198, #1208
+            #1172, #1195, #1197, #1198, #1208, #1214
 
 }
 
@@ -4005,7 +4005,7 @@ end;
 
 function TPyIDEMainForm.LayoutExists(const Layout: string): Boolean;
 begin
-  Result := Layouts.IndexOf(Name) >= 0;
+  Result := Layouts.IndexOf(Layout) >= 0;
 end;
 
 procedure TPyIDEMainForm.lbPythonEngineClick(Sender: TObject);
