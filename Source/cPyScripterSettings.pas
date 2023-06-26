@@ -1223,7 +1223,8 @@ begin
     Options := [eoDragDropEditing, eoEnhanceHomeKey, eoShowLigatures,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
-                eoTrimTrailingSpaces, eoAutoIndent, eoBracketsHighlight];
+                eoTrimTrailingSpaces, eoAutoIndent, eoBracketsHighlight,
+                eoAccessibility];
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;

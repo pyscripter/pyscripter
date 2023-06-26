@@ -1953,6 +1953,9 @@ begin
   else
     TabCaption := fEditor.GetFileTitle;
 
+  SynEdit.AccessibleName := TabCaption;
+  SynEdit2.AccessibleName := TabCaption;
+
   with ParentTabItem do
   begin
     Caption := StringReplace(TabCaption, '&', '&&', [rfReplaceAll]);

@@ -563,6 +563,7 @@
   History:   v 4.2.7
           New Features
              - Customizable user interface content font size (#1209)
+             - Screen reader support in the editor
           Issues addressed
             #1172, #1195, #1197, #1198, #1208, #1214
 
@@ -3279,7 +3280,7 @@ begin
   begin
     TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides']);
     AppStorage.ReadPersistent('Editor Options', EditorOptions, True, True, TempStringList);
-    EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
+    EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight, eoAccessibility];
   end;
 
   if AppStorage.PathExists('Editor Search Options') then begin

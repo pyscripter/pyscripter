@@ -162,7 +162,7 @@ begin
    ReadOnly := AppStorage.ReadBoolean(BasePath+'\ReadOnly', False);
    EditorOptions.Assign(cPyScripterSettings.EditorOptions);
    AppStorage.ReadPersistent(BasePath+'\Editor Options', EditorOptions, True, True);
-   EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
+   EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight, eoAccessibility];
 
    SecondEditorVisible := AppStorage.ReadBoolean(BasePath+'\SecondEditorVisible', False);
    if SecondEditorVisible then begin
