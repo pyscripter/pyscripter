@@ -1447,7 +1447,10 @@ begin
       if Append and (fOutputMirror.Size > 0) then
         fOutputMirror.Seek(0, soFromEnd)
       else
-        fOutputMirror.Write(UTF8BOMString[1], Length(UTF8BomString));  // save in utf8 encoding
+      begin
+        var BOM := TEncoding.UTF8.GetPreamble;
+        fOutputMirror.Write(BOM, Length(BOM));  // save in utf8 encoding
+      end;
     except
       StyledMessageDlg(Format(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
     end;

@@ -1022,7 +1022,7 @@ begin
   GI_PyInterpreter.AppendText(sLineBreak);
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
   Source := CleanEOLs(Source);
-  EncodedSource := UTF8BOMString + Utf8Encode(Source);
+  EncodedSource := Utf8Encode(Source);
 
   if ExecType = 'exec' then
     EncodedSource := EncodedSource + #10;
