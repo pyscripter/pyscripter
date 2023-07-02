@@ -128,6 +128,7 @@ type
     fLineCache : Variant;
     fMainThread : TThreadInfo;
     fThreads : TObjectDictionary<Int64, TThreadInfo>;
+    procedure SyncThreadInfo(Thread_ID: Int64; ThreadName: string; ThreadStatus : integer);
   protected
     fDebuggerCommand : TDebuggerCommand;
     fRemotePython : TPyRemoteInterpreter;
@@ -1865,10 +1866,11 @@ begin
 
   Arguments := VarPythonCreate(Args);
   Thread_ID := Arguments.__getitem__(0);
-  if not fThreads.TryGetValue(Thread_ID, ThreadInfo) then
+  // Do not stop while executing code in paused state
+  if fExecPaused or not fThreads.TryGetValue(Thread_ID, ThreadInfo) then
   begin
     Result := Py.PythonEngine.ReturnFalse;
-    Exit;  // Should not happen
+    Exit;
   end;
 
   Frame := Arguments.__getitem__(1);
@@ -1902,8 +1904,7 @@ begin
     Result := Py.PythonEngine.ReturnFalse;
 end;
 
-procedure TPyRemDebugger.UserThread(Sender: TObject; PSelf, Args: PPyObject;
-  var Result: PPyObject);
+procedure TPyRemDebugger.SyncThreadInfo(Thread_ID: Int64; ThreadName: string; ThreadStatus : integer);
 
   function HaveBrokenThread: Boolean;
   Var
@@ -1918,21 +1919,10 @@ procedure TPyRemDebugger.UserThread(Sender: TObject; PSelf, Args: PPyObject;
       end;
   end;
 
-Var
-  Py: IPyEngineAndGIL;
-  Thread_ID : Int64;
-  ThreadName : string;
-  ThreadStatus : integer;
+var
   ThreadInfo : TThreadInfo;
   OldStatus : TThreadStatus;
 begin
-  Py := GI_PyControl.SafePyEngine;
-  Result := Py.PythonEngine.ReturnNone;
-
-  Thread_ID := Py.PythonEngine.GetSequenceItem(Args, 0);
-  ThreadName := Py.PythonEngine.GetSequenceItem(Args, 1);
-  ThreadStatus := Py.PythonEngine.GetSequenceItem(Args, 2);
-
   if TThreadStatus(ThreadStatus) = thrdFinished then begin
     if fThreads.ContainsKey(Thread_ID) then begin
       TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctRemoved);
@@ -1961,6 +1951,31 @@ begin
       TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctAdded);
     end;
   end;
+end;
+
+procedure TPyRemDebugger.UserThread(Sender: TObject; PSelf, Args: PPyObject;
+  var Result: PPyObject);
+var
+  Py: IPyEngineAndGIL;
+  Thread_ID: Int64;
+  ThreadName: string;
+  ThreadStatus : integer;
+begin
+  Py := GI_PyControl.SafePyEngine;
+  Result := Py.PythonEngine.ReturnNone;
+
+  Thread_ID := Py.PythonEngine.GetSequenceItem(Args, 0);
+  ThreadName := Py.PythonEngine.GetSequenceItem(Args, 1);
+  ThreadStatus := Py.PythonEngine.GetSequenceItem(Args, 2);
+
+  // Make sure SyncThreadInfo runs in the main thread when fExecPaused if False
+  TThread.Queue(nil, procedure
+  begin
+    while fExecPaused do
+      // can't think of a better way to wait
+      Application.ProcessMessages;
+    SyncThreadInfo(Thread_ID, ThreadName, ThreadStatus);
+  end);
 end;
 
 procedure TPyRemDebugger.UserYield(Sender: TObject; PSelf, Args: PPyObject;
