@@ -834,8 +834,8 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    class ThreadWrapper(threading.Thread):'
           '        """ Wrapper class for threading.Thread. """'
-          '        def _bootstrap(self):'
-          '            self._set_ident()'
+          ''
+          '        def run(self):'
           
             '            self.debug_manager.thread_status(self.ident, self.na' +
             'me, self.debug_manager.thrdRunning)'
@@ -844,18 +844,17 @@ object CommandsDataModule: TCommandsDataModule
             '            self.debugger = self.debug_manager.main_debugger.__c' +
             'lass__()'
           '            self.debugger.reset()'
-          
-            '            self.debugger._sys.settrace(self.debugger.trace_disp' +
-            'atch)'
+          '            self.debugger.set_trace()'
           ''
           '            try:'
-          '                self._bootstrap_inner()'
+          '                super().run()'
           '            finally:'
           '                self.debugger._sys.settrace(None)'
           
             '                self.debug_manager.thread_status(self.ident, sel' +
             'f.name, self.debug_manager.thrdFinished)'
           '                self.debugger = None'
+          ''
           '    ThreadWrapper.debug_manager = DebugManager'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'

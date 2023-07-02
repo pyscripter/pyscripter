@@ -1923,17 +1923,15 @@ Var
   Thread_ID : Int64;
   ThreadName : string;
   ThreadStatus : integer;
-  Arguments: Variant;
   ThreadInfo : TThreadInfo;
   OldStatus : TThreadStatus;
 begin
   Py := GI_PyControl.SafePyEngine;
   Result := Py.PythonEngine.ReturnNone;
 
-  Arguments := VarPythonCreate(Args);
-  Thread_ID := Arguments.__getitem__(0);
-  ThreadName := Arguments.__getitem__(1);
-  ThreadStatus := Arguments.__getitem__(2);
+  Thread_ID := Py.PythonEngine.GetSequenceItem(Args, 0);
+  ThreadName := Py.PythonEngine.GetSequenceItem(Args, 1);
+  ThreadStatus := Py.PythonEngine.GetSequenceItem(Args, 2);
 
   if TThreadStatus(ThreadStatus) = thrdFinished then begin
     if fThreads.ContainsKey(Thread_ID) then begin
