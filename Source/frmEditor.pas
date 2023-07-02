@@ -979,7 +979,6 @@ end;
 
 procedure TEditor.ExecuteSelection;
 var
-  EncodedSource: AnsiString;
   ExecType: string;
   Source: string;
   Editor: TSynEdit;
@@ -1022,23 +1021,24 @@ begin
   GI_PyInterpreter.AppendText(sLineBreak);
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
   Source := CleanEOLs(Source);
-  EncodedSource := Utf8Encode(Source);
 
-  if ExecType = 'exec' then
-    EncodedSource := EncodedSource + #10;
-  // RunSource
-  case PyControl.DebuggerState of
-    dsInactive:
-      PyControl.ActiveInterpreter.RunSource(Source, '<editor selection>',
-        ExecType);
-    dsPaused, dsPostMortem:
-      PyControl.ActiveDebugger.RunSource(Source, '<editor selection>',
-        ExecType);
-  end;
-
-  GI_PyInterpreter.WritePendingMessages;
-  GI_PyInterpreter.AppendPrompt;
-  Activate(False);
+  GI_PyControl.ThreadPythonExec(procedure
+  begin
+    // RunSource
+    case PyControl.DebuggerState of
+      dsInactive:
+        PyControl.ActiveInterpreter.RunSource(Source, '<editor selection>',
+          ExecType);
+      dsPaused, dsPostMortem:
+        PyControl.ActiveDebugger.RunSource(Source, '<editor selection>',
+          ExecType);
+    end;
+  end,
+  procedure
+  begin
+    GI_PyInterpreter.AppendPrompt;
+    Activate(False);
+  end);
 end;
 
 // IFileCommands implementation

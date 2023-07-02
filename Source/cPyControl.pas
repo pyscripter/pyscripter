@@ -12,10 +12,12 @@ unit cPyControl;
 interface
 
 Uses
+  System.SysUtils,
   System.Classes,
   JclNotify,
   JvAppStorage,
   PythonVersions,
+  PythonEngine,
   uEditAppIntfs,
   cPySupportTypes,
   cPyBaseDebugger,
@@ -81,6 +83,8 @@ type
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     function SafePyEngine: IPyEngineAndGIL;
+    procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
+      WaitToFinish: Boolean = False; ThreadExecMode : TThreadExecMode = emNewState);
   public
     const MinPyVersion = '3.7';
     const MaxPyVersion = '3.11'; //PYTHON311
@@ -156,7 +160,6 @@ implementation
 
 uses
   WinApi.Windows,
-  System.SysUtils,
   System.Contnrs,
   System.UITypes,
   System.Math,
@@ -164,7 +167,6 @@ uses
   Vcl.Dialogs,
   JvGnugettext,
   JvJVCLUtils,
-  PythonEngine,
   VarPyth,
   StringResources,
   uCmdLine,
@@ -388,6 +390,12 @@ begin
   with Editor.SynEdit do begin
     Result := TPyRegExpr.IsExecutableLine(Lines[ALine-1]);
   end;
+end;
+
+procedure TPythonControl.ThreadPythonExec(ExecuteProc, TerminateProc: TProc;
+  WaitToFinish: Boolean; ThreadExecMode: TThreadExecMode);
+begin
+  InternalThreadPythonExec(ExecuteProc, TerminateProc, WaitToFinish, ThreadExecMode);
 end;
 
 procedure TPythonControl.ToggleBreakpoint(Editor : IEditor; ALine: integer;

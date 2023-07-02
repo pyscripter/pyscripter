@@ -194,7 +194,6 @@ uses
   cPyScripterSettings,
   cPyControl,
   uCommonFunctions,
-  cInternalPython,
   cSSHSupport;
 
 { TRemNameSpaceItem }

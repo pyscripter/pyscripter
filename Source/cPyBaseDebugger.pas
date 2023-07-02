@@ -229,7 +229,6 @@ uses
   StringResources,
   uCommonFunctions,
   cPyControl,
-  cInternalPython,
   cPyDebugger,
   cPyScripterSettings,
   cSSHSupport;

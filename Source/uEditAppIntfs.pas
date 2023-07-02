@@ -276,6 +276,8 @@ type
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     function SafePyEngine: IPyEngineAndGIL;
+    procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
+      WaitToFinish: Boolean = False; ThreadExecMode : TThreadExecMode = emNewState);
     property PythonVersion: TPythonVersion read GetPythonVersion;
     property OnPythonVersionChange: TJclNotifyEventBroadcast
       read GetOnPythonVersionChange;

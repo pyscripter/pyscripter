@@ -184,8 +184,7 @@ uses
   StringResources,
   uCommonFunctions,
   cPyScripterSettings,
-  cPyControl,
-  cInternalPython;
+  cPyControl;
 
 { TFrameInfo }
 
@@ -700,7 +699,7 @@ begin
     //set breakpoints
     SetDebuggerBreakPoints;
 
-    ThreadPythonExec(procedure
+    GI_PyControl.ThreadPythonExec(procedure
     begin
       if RunToCursorLine >= 0 then  // add temp breakpoint
         InternalInterpreter.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
