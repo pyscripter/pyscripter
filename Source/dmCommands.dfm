@@ -844,7 +844,9 @@ object CommandsDataModule: TCommandsDataModule
             '            self.debugger = self.debug_manager.main_debugger.__c' +
             'lass__()'
           '            self.debugger.reset()'
-          '            self.debugger.set_trace()'
+          
+            '            self.debugger._sys.settrace(self.debugger.trace_disp' +
+            'atch)'
           ''
           '            try:'
           '                super().run()'
@@ -1034,6 +1036,15 @@ object CommandsDataModule: TCommandsDataModule
           '            try:'
           '                try:'
           '                    bdb.Bdb.run(self, cmd, globals, locals)'
+          '                    for t in threading.enumerate():'
+          
+            '                        if (t != threading.main_thread()) and no' +
+            't t.daemon:'
+          '                            try:'
+          '                                t.join()'
+          '                            except:'
+          '                                pass'
+          ''
           '                except SystemExit as e:'
           '                    if isinstance(e.code, str):'
           '                        print(e.code)'
@@ -1450,6 +1461,14 @@ object CommandsDataModule: TCommandsDataModule
           '        try:'
           '            try:'
           '                exec(cmd, globals, locals)'
+          '                for t in threading.enumerate():'
+          
+            '                    if (t != threading.main_thread()) and not t.' +
+            'daemon:'
+          '                        try:'
+          '                            t.join()'
+          '                        except:'
+          '                            pass'
           '            except SystemExit as e:'
           '                if isinstance(e.code, str):'
           '                    print(e.code)'
