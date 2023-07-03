@@ -560,7 +560,7 @@
           Issues addressed
             #1152, #1155, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
 
-  History:   v 4.2.7
+  History:   v 4.2.8
           New Features
              - Customizable user interface content font size (#1209)
              - Screen reader support in the editor
