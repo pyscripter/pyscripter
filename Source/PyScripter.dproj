@@ -125,6 +125,10 @@ $(PostBuildEvent)]]>
         <DCCReference Include="frmEditor.pas">
             <Form>EditorForm</Form>
         </DCCReference>
+        <DCCReference Include="dmResources.pas">
+            <Form>ResourcesDataModule</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <DCCReference Include="dmCommands.pas">
             <Form>CommandsDataModule</Form>
             <DesignClass>TDataModule</DesignClass>

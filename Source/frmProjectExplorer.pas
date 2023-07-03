@@ -42,6 +42,7 @@ uses
   SpTBXControls,
   JvComponentBase,
   JvDockControlForm,
+  MPCommonObjects,
   VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
@@ -1136,7 +1137,7 @@ begin
       end else
         ImageIndex := Integer(FileImageList.Objects[Index]);
       if ImageIndex >= 0 then
-        ImageList := TPyScripterSettings.ShellImages;
+        ImageList := SmallSysImages;
     end;
   end else if Data.ProjectNode is TProjectRunConfiguationsNode then
     ImageIndex := 2;

@@ -27,6 +27,7 @@ uses
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},
   uEditAppIntfs in 'uEditAppIntfs.pas',
   frmEditor in 'frmEditor.pas' {EditorForm},
+  dmResources in 'dmResources.pas' {ResourcesDataModule: TDataModule},
   dmCommands in 'dmCommands.pas' {CommandsDataModule: TDataModule},
   uHighlighterProcs in 'uHighlighterProcs.pas',
   dlgConfirmReplace in 'dlgConfirmReplace.pas' {ConfirmReplaceDialog},
@@ -140,6 +141,7 @@ begin
     TStyleSelectorForm.CurrentSkinName := 'Windows10 SlateGray';
 
   Application.Title := 'PyScripter';
+  Application.CreateForm(TResourcesDataModule, ResourcesDataModule);
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
   Application.Run;

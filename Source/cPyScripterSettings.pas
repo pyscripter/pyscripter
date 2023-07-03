@@ -409,7 +409,6 @@ type
     class var EngineInitFile: string;
     class var PyScripterInitFile: string;
     class var PyScripterLogFile: string;
-    class var ShellImages: TCustomImageList;
     class var DefaultEditorKeyStrokes: TSynEditKeyStrokes;
     class procedure RegisterEditorUserCommands(Keystrokes: TSynEditKeyStrokes);
     class procedure CreateIDEOptions;

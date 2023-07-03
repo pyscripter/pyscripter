@@ -171,12 +171,6 @@ object CommandsDataModule: TCommandsDataModule
     Left = 335
     Top = 108
   end
-  object ShellImages: TImageList
-    DrawingStyle = dsTransparent
-    ShareImages = True
-    Left = 32
-    Top = 208
-  end
   object SynEditSearch: TSynEditSearch
     Left = 195
     Top = 123

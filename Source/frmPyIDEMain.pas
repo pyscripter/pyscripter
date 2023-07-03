@@ -565,7 +565,7 @@
              - Customizable user interface content font size (#1209)
              - Screen reader support in the editor
           Issues addressed
-            #1172, #1195, #1197, #1198, #1208, #1214
+            #1172, #1195, #1197, #1198, #1199, #1208, #1214
 
 }
 
@@ -640,6 +640,7 @@ uses
   SpTBXMDIMRU,
   SpTBXTabs,
   SpTBXDkPanels,
+  MPCommonObjects,
   SynEditTypes,
   SynEditMiscClasses,
   SynEdit,
@@ -3673,7 +3674,7 @@ begin
       Action.ActionList := actlStandard;
       mnTools.Add(MenuItem);
       MenuItem.Action := Action;
-      MenuItem.Images := TPyScripterSettings.ShellImages;
+      MenuItem.Images := SmallSysImages;
     end;
   end;
 end;
@@ -3947,7 +3948,7 @@ begin
             Item := TSpTBXItem.Create(Self);
             Item.Name := 'tb' + Action.Name;
             if Action is TExternalToolAction then
-              Item.Images := TPyScripterSettings.ShellImages;
+              Item.Images := SmallSysImages;
             SpTBXCustomizer.Items.Add(Item);
           end;
           Item.Action := Action;

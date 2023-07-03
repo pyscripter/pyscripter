@@ -73,7 +73,6 @@ type
     ParameterCompletion: TSynCompletionProposal;
     ModifierCompletion: TSynCompletionProposal;
     CodeTemplatesCompletion: TSynAutoComplete;
-    ShellImages: TImageList;
     SynEditSearch: TSynEditSearch;
     SynEditRegexSearch: TSynEditRegexSearch;
     ProgramVersionCheck: TJvProgramVersionCheck;
@@ -453,7 +452,6 @@ uses
 
 procedure TCommandsDataModule.DataModuleCreate(Sender: TObject);
 var
-  SHFileInfo: TSHFileInfo;
   Index : integer;
 begin
   // Setup Highlighters
@@ -489,13 +487,7 @@ begin
 
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
-  // Setup the ShellIcon imagelist
-  ShellImages.Handle := SHGetFileInfo('', 0, SHFileInfo, SizeOf(SHFileInfo),
-    SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
-
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
-
-  TPyScripterSettings.ShellImages := ShellImages;
 
   // Completion
   ParameterCompletion.FontsAreScaled := True;
@@ -518,7 +510,6 @@ procedure TCommandsDataModule.DataModuleDestroy(Sender: TObject);
 begin
   fHighlighters.Free;
   CommandsDataModule := nil;
-  ShellImages.Handle := 0;
   PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
 end;
 
