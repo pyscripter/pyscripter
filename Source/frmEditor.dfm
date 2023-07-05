@@ -395,7 +395,7 @@ object EditorForm: TEditorForm
         CollectionName = 'EditorGutter\BreakDisabled'
         Name = 'BreakDisabled'
       end>
-    ImageCollection = CommandsDataModule.icGutterGlyphs
+    ImageCollection = ResourcesDataModule.icGutterGlyphs
     PreserveItems = True
     Width = 11
     Height = 14
@@ -454,7 +454,7 @@ object EditorForm: TEditorForm
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
       end>
-    ImageCollection = CommandsDataModule.icCodeImages
+    ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True
     Left = 92
     Top = 81

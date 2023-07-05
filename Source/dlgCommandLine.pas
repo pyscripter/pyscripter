@@ -51,15 +51,15 @@ type
 implementation
 
 uses
-  dmCommands,
+  dmResources,
   frmPyIDEMain;
 
 {$R *.dfm}
 
 procedure TCommandLineDlg.SynParametersEnter(Sender: TObject);
 begin
-  CommandsDataModule.ParameterCompletion.Editor := SynParameters;
-  CommandsDataModule.ModifierCompletion.Editor := SynParameters;
+  ResourcesDataModule.ParameterCompletion.Editor := SynParameters;
+  ResourcesDataModule.ModifierCompletion.Editor := SynParameters;
 end;
 
 procedure TCommandLineDlg.TBXPopupHistoryPopup(Sender: TObject);
@@ -76,8 +76,6 @@ end;
 
 procedure TCommandLineDlg.FormDestroy(Sender: TObject);
 begin
-  CommandsDataModule.ParameterCompletion.Editor := nil;
-  CommandsDataModule.ModifierCompletion.Editor := nil;
   mnCommandHistoryMRU.SaveToIni(PyIDEMainForm.AppStorage.IniFile, 'CommandLine MRU');
 end;
 

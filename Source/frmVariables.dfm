@@ -202,7 +202,7 @@ inherited VariablesWindow: TVariablesWindow
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
       end>
-    ImageCollection = CommandsDataModule.icCodeImages
+    ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True
     Left = 22
     Top = 123

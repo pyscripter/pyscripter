@@ -6,7 +6,6 @@ inherited CustomizeParams: TCustomizeParams
   ClientHeight = 343
   ClientWidth = 557
   ShowHint = True
-  OnDestroy = FormDestroy
   OnShow = FormShow
   TextHeight = 15
   object Panel: TPanel
@@ -268,7 +267,7 @@ inherited CustomizeParams: TCustomizeParams
         CollectionName = 'Plus'
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 304
     Top = 17

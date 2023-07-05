@@ -37,7 +37,6 @@ uses
   SpTBXControls,
   SpTBXItem,
   SpTBXSkins,
-  dmCommands,
   uEditAppIntfs,
   frmIDEDockWin;
 
@@ -150,7 +149,8 @@ uses
   uCommonFunctions,
   cPyBaseDebugger,
   cPyDebugger,
-  cPyControl;
+  cPyControl,
+  dmResources;
 
 {$R *.dfm}
 

@@ -185,7 +185,6 @@ uses
   System.IOUtils,
   Vcl.Dialogs,
   VarPyth,
-  JclStrings,
   JclSysInfo,
   JvJCLUtils,
   JvDSADialogs,
@@ -500,7 +499,7 @@ constructor TPyRemoteInterpreter.Create(AEngineType : TPythonEngineType = peRemo
 
 Var
   SuppressOutput : IInterface;
-  ServerSource: string;
+  ServerSource: TStrings;
   ServerName: string;
 begin
   fInterpreterCapabilities := [icReInitialize];
@@ -540,10 +539,9 @@ begin
     else
       raise Exception.Create('Invalid Engine type in TPyRemoteInterpreter constructor');
     end;
-    ServerSource := GI_PyIDEServices.GetStoredScript(ServerName).Text;
-    try
-      StringToFile(fServerFile, AnsiString(ServerSource));
-    except
+    ServerSource := GI_PyIDEServices.GetStoredScript(ServerName);
+    if not SaveWideStringsToFile(fServerFile, ServerSource, False) then
+    begin
       StyledMessageDlg(Format(_(SCouldNotWriteServerFile), [fServerFile]), mtError, [mbAbort], 0);
       fServerIsAvailable := False;
     end;

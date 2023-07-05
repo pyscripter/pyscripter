@@ -18,8 +18,7 @@ uses
   Vcl.ExtCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
-  dlgPyIDEBase,
-  dmCommands;
+  dlgPyIDEBase;
 
 type
   TRemoteFileDialog = class(TPyIDEDlgBase)
@@ -54,7 +53,8 @@ Uses
   StringResources,
   cSSHSupport,
   JvGnugettext,
-  uCommonFunctions;
+  uCommonFunctions,
+  dmResources;
 
 {$R *.dfm}
 

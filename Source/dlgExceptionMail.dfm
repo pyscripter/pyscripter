@@ -14,13 +14,10 @@ inherited ExceptionDialogMail: TExceptionDialogMail
   OnPaint = FormPaint
   OnResize = FormResize
   OnShow = FormShow
-  ExplicitWidth = 438
-  ExplicitHeight = 284
   DesignSize = (
     422
     245)
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object BevelDetails: TBevel
     Left = 3
     Top = 91
@@ -28,7 +25,6 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     Height = 9
     Anchors = [akLeft, akTop, akRight]
     Shape = bsTopLine
-    ExplicitWidth = 422
   end
   object DetailsMemo: TMemo
     Left = 4

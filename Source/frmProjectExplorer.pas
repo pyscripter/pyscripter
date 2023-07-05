@@ -232,6 +232,7 @@ uses
   JvJVCLUtils,
   JvGnugettext,
   StringResources,
+  dmResources,
   dmCommands,
   frmPyIDEMain,
   uCommonFunctions,
@@ -328,7 +329,7 @@ begin
     if Data.ProjectNode is TProjectFilesNode then
     begin
       Application.ProcessMessages;  // to update the display until the dialog appears
-      with CommandsDataModule.dlgFileOpen do begin
+      with ResourcesDataModule.dlgFileOpen do begin
         Title := _(SAddFilesToProject);
         FileName := '';
         Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
@@ -560,7 +561,7 @@ var
   Editor : IEditor;
 begin
   if CanClose then begin
-    with CommandsDataModule.dlgFileOpen do begin
+    with ResourcesDataModule.dlgFileOpen do begin
       Title := _(SOpenProject);
       FileName := '';
       Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
@@ -758,7 +759,7 @@ begin
   if  ExtractFileExt(NewName) = '' then
     NewName := NewName + '.' + ProjectDefaultExtension;
 
-  with CommandsDataModule.dlgFileSave do begin
+  with ResourcesDataModule.dlgFileSave do begin
     if NewName <> '' then begin
       InitialDir := TPath.GetDirectoryName(NewName);
       FileName := TPath.GetFileName(NewName);

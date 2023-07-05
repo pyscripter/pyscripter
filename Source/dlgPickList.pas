@@ -62,7 +62,7 @@ implementation
 
 uses
   System.Math,
-  dmCommands;
+  dmResources;
 
 {$R *.dfm}
 

@@ -25,10 +25,11 @@ uses
   SpTBXItem,
   TB2Item,
   VirtualTrees.Types,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
-  dlgPyIDEBase,
-  dmCommands, VirtualTrees.BaseAncestorVCL, VirtualTrees.AncestorVCL;
+  dlgPyIDEBase;
 
 type
   TPythonVersionsDialog = class(TPyIDEDlgBase)
@@ -98,7 +99,8 @@ Uses
   uEditAppIntfs,
   uCommonFunctions,
   cPyControl,
-  PythonVersions;
+  PythonVersions,
+  dmResources;
 
 procedure TPythonVersionsDialog.actlPythonVersionsUpdate(Action: TBasicAction;
   var Handled: Boolean);

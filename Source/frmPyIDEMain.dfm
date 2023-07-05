@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 246
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -2903,7 +2903,7 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionName = 'ZoomReset'
         Name = 'ZoomReset'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20
@@ -2984,7 +2984,7 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionName = 'Lock'
         Name = 'Lock'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 14
     Height = 14

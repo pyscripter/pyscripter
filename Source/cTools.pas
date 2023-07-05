@@ -223,7 +223,7 @@ end;
 
 function TToolItem.GetDisplayName: string;
 begin
-  Result := StrRemoveChars(_(fExternalTool.Caption), ['&']);
+  Result := StripHotKey(_(fExternalTool.Caption));
 end;
 
 { TExternalTool }

@@ -8,10 +8,8 @@ inherited DirectoryListDialog: TDirectoryListDialog
   ClientWidth = 379
   Constraints.MinHeight = 208
   Constraints.MinWidth = 358
-  OldCreateOrder = True
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -25,8 +23,8 @@ inherited DirectoryListDialog: TDirectoryListDialog
     object Label1: TLabel
       Left = 10
       Top = 9
-      Width = 120
-      Height = 13
+      Width = 129
+      Height = 15
       Caption = 'Ordered list of file paths:'
       Color = clNone
       ParentColor = False
@@ -66,7 +64,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Height = 189
       Anchors = [akLeft, akTop, akRight, akBottom]
       DragMode = dmAutomatic
-      ItemHeight = 13
+      ItemHeight = 15
       TabOrder = 0
       OnClick = DirectoryListClick
       OnDragDrop = DirectoryListDragDrop
@@ -150,7 +148,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Left = 10
       Top = 6
       Width = 332
-      Height = 21
+      Height = 23
       Hint = 'Enter file path here'
       Anchors = [akLeft, akTop, akRight]
       Color = clBtnFace
@@ -164,28 +162,23 @@ inherited DirectoryListDialog: TDirectoryListDialog
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 62
+        CollectionIndex = 63
         CollectionName = 'OpenFolder'
-        Disabled = False
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 127
+        CollectionIndex = 130
         CollectionName = 'Up'
-        Disabled = False
         Name = 'Up'
       end
       item
         CollectionIndex = 22
         CollectionName = 'Down'
-        Disabled = False
         Name = 'Down'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 40
     Top = 120

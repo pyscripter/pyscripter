@@ -550,7 +550,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         CollectionName = 'Help'
         Name = 'Help'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

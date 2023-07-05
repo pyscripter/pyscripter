@@ -83,7 +83,6 @@ uses
   VirtualTrees,
   SynUnicode,
   uCommonFunctions,
-  dmCommands,
   frmIDEDockWin;
 
 type
@@ -234,9 +233,10 @@ uses
   Vcl.Clipbrd,
   MPCommonUtilities,
   uEditAppIntfs,
-  dlgToDoOptions,
   cProjectClasses,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  dmResources,
+  dlgToDoOptions;
 
 {$R *.dfm}
 

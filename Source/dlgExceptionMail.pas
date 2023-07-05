@@ -412,13 +412,13 @@ begin
         if (NtHeaders64 <> nil) and (NtHeaders64^.OptionalHeader.ImageBase <> ModuleBase) then
           ImageBaseStr := Format('<' + HexDigitFmt64 + '> ', [NtHeaders64^.OptionalHeader.ImageBase])
         else
-          ImageBaseStr := StrRepeat(' ', 11);
+          ImageBaseStr := StringOfChar(' ', 11);
         if VersionResourceAvailable(ModuleName) then
           with TJclFileVersionInfo.Create(ModuleName) do
             try
             DetailsMemo.Lines.Add(ImageBaseStr + BinFileVersion + ' - ' + FileVersion);
               if FileDescription <> '' then
-                DetailsMemo.Lines.Add(StrRepeat(' ', 11) + FileDescription);
+                DetailsMemo.Lines.Add(StringOfChar(' ', 11) + FileDescription);
             finally
               Free;
             end
@@ -584,7 +584,7 @@ end;
 
 procedure TExceptionDialogMail.NextDetailBlock;
 begin
-  DetailsMemo.Lines.Add(StrRepeat(ReportNewBlockDelimiterChar, ReportMaxColumns));
+  DetailsMemo.Lines.Add(StringOfChar(ReportNewBlockDelimiterChar, ReportMaxColumns));
 end;
 
 //--------------------------------------------------------------------------------------------------

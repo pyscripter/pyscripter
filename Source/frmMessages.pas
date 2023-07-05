@@ -109,7 +109,7 @@ implementation
 
 uses
   Vcl.Clipbrd,
-  dmCommands,
+  dmResources,
   frmPyIDEMain,
   uCommonFunctions,
   JvGnugettext,

@@ -8,7 +8,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
   ShowHint = True
   OnClose = FormClose
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel: TPanel
     Left = 0
@@ -106,6 +105,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
         Gutter.Bands = <
           item
@@ -114,17 +114,16 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
           end
           item
             Kind = gbkLineNumbers
-            Visible = False
           end
           item
             Kind = gbkFold
-            Visible = False
           end
           item
             Kind = gbkMargin
             Width = 2
           end>
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
+        SelectedColor.Alpha = 0.400000005960464500
         TabWidth = 4
       end
       object CBHighlighters: TComboBox
@@ -315,7 +314,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 129
+        CollectionIndex = 130
         CollectionName = 'Up'
         Name = 'Up'
       end
@@ -329,7 +328,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         CollectionName = 'Plus'
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 320
     Top = 27

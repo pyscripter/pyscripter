@@ -96,31 +96,30 @@ uses
   SynEditHighlighter,
   JvGnugettext,
   uCommonFunctions,
+  dmResources,
   dmCommands,
   StringResources;
 
 {$R *.dfm}
 
 procedure TFileTemplatesDialog.FormCreate(Sender: TObject);
-var
-  i : integer;
 begin
   inherited;
   FOldIndex := -1;
   TempFileTemplates := TFileTemplates.Create;
-  for i := 0 to CommandsDataModule.Highlighters.Count - 1 do
-    cbHighlighters.Items.AddObject(CommandsDataModule.Highlighters[i],
-      CommandsDataModule.Highlighters.Objects[i]);
+  for var I := 0 to CommandsDataModule.Highlighters.Count - 1 do
+  begin
+    var Highlighter := CommandsDataModule.Highlighters.Objects[I] as TSynCustomHighlighter;
+    cbHighlighters.Items.AddObject(_(Highlighter.FriendlyLanguageName),
+      Highlighter);
+  end;
   SynTemplate.Highlighter := nil;
-  CommandsDataModule.ParameterCompletion.Editor := SynTemplate;
-  CommandsDataModule.ModifierCompletion.Editor := SynTemplate;
+  ResourcesDataModule.ParameterCompletion.Editor := SynTemplate;
+  ResourcesDataModule.ModifierCompletion.Editor := SynTemplate;
 end;
 
 procedure TFileTemplatesDialog.FormDestroy(Sender: TObject);
 begin
-  CommandsDataModule.ParameterCompletion.Editor := nil;
-  CommandsDataModule.ModifierCompletion.Editor := nil;
-  SynTemplate.Highlighter := nil;
   TempFileTemplates.Free;
 end;
 
@@ -143,7 +142,8 @@ begin
   FileTemplate.Name := edName.Text;
   FileTemplate.Extension := edExtension.Text;
   FileTemplate.Category := edCategory.Text;
-  FileTemplate.Highlighter := CBHighlighters.Text;
+  FileTemplate.Highlighter := (CBHighlighters.Items.Objects[CBHighlighters.ItemIndex] as
+    TSynCustomHighlighter).LanguageName;
   FileTemplate.Template := SynTemplate.Text;
 end;
 

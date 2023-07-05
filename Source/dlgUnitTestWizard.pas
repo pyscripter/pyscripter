@@ -39,7 +39,6 @@ uses
 
 type
 
-
   TUnitTestWizard = class(TPyIDEDlgBase)
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
@@ -90,7 +89,7 @@ uses
   JvJVCLUtils,
   SpTBXSkins,
   JvGnugettext,
-  dmCommands,
+  dmResources,
   uCommonFunctions,
   SynEditTypes,
   LspUtils,

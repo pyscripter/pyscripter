@@ -26,6 +26,7 @@ uses
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
   Vcl.ComCtrls,
+  Vcl.ImgList,
   Vcl.VirtualImageList,
   TB2Item,
   TB2Dock,
@@ -38,9 +39,10 @@ uses
   JvAppStorage,
   JvComponentBase,
   VirtualTrees.BaseTree,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees,
-  frmIDEDockWin,
-  Vcl.ImgList, VirtualTrees.BaseAncestorVCL, VirtualTrees.AncestorVCL;
+  frmIDEDockWin;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -127,6 +129,7 @@ uses
   JvGnugettext,
   JvAppIniStorage,
   VarPyth,
+  dmResources,
   dmCommands,
   PythonEngine,
   uEditAppIntfs,

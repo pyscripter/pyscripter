@@ -177,6 +177,7 @@ uses
   MPCommonObjects,
   JvGnugettext,
   StringResources,
+  dmResources,
   dmCommands,
   frmFindResults,
   dlgDirectoryList,

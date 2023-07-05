@@ -32,7 +32,6 @@ uses
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
-  dmCommands,
   uEditAppIntfs,
   cTools;
 
@@ -102,6 +101,8 @@ uses
   uCommonFunctions,
   StringResources,
   VarPyth,
+  dmResources,
+  dmCommands,
   frmCommandOutput,
   cPyScripterSettings;
 
@@ -164,7 +165,7 @@ end;
 
 procedure TWebPreviewForm.ToolButtonSaveClick(Sender: TObject);
 begin
-  if CommandsDataModule.GetSaveFileName(FSaveFileName, CommandsDataModule.SynWebHtmlSyn, 'html') then
+  if ResourcesDataModule.GetSaveFileName(FSaveFileName, CommandsDataModule.SynWebHtmlSyn, 'html') then
     WebBrowser.ExecuteScript('encodeURIComponent(document.documentElement.outerHTML)');
 end;
 

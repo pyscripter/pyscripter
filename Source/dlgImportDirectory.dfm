@@ -4,8 +4,7 @@ inherited ImportDirectoryForm: TImportDirectoryForm
   ClientWidth = 469
   PopupMode = pmAuto
   Position = poOwnerFormCenter
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -19,8 +18,8 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     object Label1: TLabel
       Left = 8
       Top = 15
-      Width = 94
-      Height = 13
+      Width = 104
+      Height = 15
       Caption = 'Directory to import:'
       Color = clNone
       ParentColor = False
@@ -28,8 +27,8 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     object Label2: TLabel
       Left = 8
       Top = 72
-      Width = 142
-      Height = 13
+      Width = 144
+      Height = 15
       Caption = 'File Masks (e.g. *.py;*.pyw):'
       Color = clNone
       ParentColor = False
@@ -84,7 +83,7 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       Left = 8
       Top = 38
       Width = 452
-      Height = 21
+      Height = 23
       Anchors = [akLeft, akTop, akRight]
       Images = vilImages
       RightButton.ImageIndex = 0
@@ -95,16 +94,13 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 62
+        CollectionIndex = 63
         CollectionName = 'OpenFolder'
-        Disabled = False
         Name = 'OpenFolder'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 24
     Top = 93

@@ -179,8 +179,7 @@ uses
   System.Variants,
   JvGnugettext,
   StringResources,
-  uCommonFunctions,
-  JclStrings;
+  uCommonFunctions;
 
 const
   WhiteSpaces: TSysCharSet = [#1..' '];
@@ -437,6 +436,7 @@ const
 var
   i: Integer;
   ALeft, AOperation, ARight: string;
+  ELeft, ERight: Extended;
 begin
   if AText^ = '(' then Inc(AText);
   while CharInSet(AText^, WhiteSpaces) do Inc(AText);
@@ -490,10 +490,11 @@ begin
     Abort;
   end;
   (* compare numbers *)
-  if StrConsistsOfNumberChars(ALeft) and StrConsistsOfNumberChars(ARight) then
-    i:= CompareValue(StrToFloat(ALeft), StrToFloat(ARight))
+  if Extended.TryParse(ALeft, ELeft) and Extended.TryParse(ARight, ERight) then
+    i:= CompareValue(ELeft, ERight)
   (* compare strings *)
-  else i:= AnsiCompareText(ALeft, ARight);
+  else
+    i:= AnsiCompareText(ALeft, ARight);
   Result:= ((AOperation = '=')  and  (i = 0)) or
            ((AOperation = '>')  and  (i > 0)) or
            ((AOperation = '<')  and  (i < 0)) or

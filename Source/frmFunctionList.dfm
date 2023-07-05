@@ -342,7 +342,7 @@ inherited FunctionListWindow: TFunctionListWindow
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
       end>
-    ImageCollection = CommandsDataModule.icCodeImages
+    ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True
     Left = 32
     Top = 192
@@ -379,7 +379,7 @@ inherited FunctionListWindow: TFunctionListWindow
         CollectionName = 'ViewStart'
         Name = 'ViewStart'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

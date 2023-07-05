@@ -3,7 +3,7 @@ inherited UnitTestWizard: TUnitTestWizard
   Caption = 'Unit Test Wizard'
   ClientHeight = 491
   ClientWidth = 436
-  TextHeight = 25
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -27,8 +27,8 @@ inherited UnitTestWizard: TUnitTestWizard
     object Label1: TLabel
       Left = 5
       Top = 81
-      Width = 529
-      Height = 25
+      Width = 353
+      Height = 15
       Caption = 
         'Select the functions and methods for which tests will be generat' +
         'ed:'
@@ -38,8 +38,8 @@ inherited UnitTestWizard: TUnitTestWizard
     object lbHeader: TLabel
       Left = 10
       Top = 15
-      Width = 453
-      Height = 25
+      Width = 302
+      Height = 15
       Caption = 'This wizard will generate unit tests for the Python module'
       Color = clNone
       ParentColor = False
@@ -188,7 +188,7 @@ inherited UnitTestWizard: TUnitTestWizard
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
       end>
-    ImageCollection = CommandsDataModule.icCodeImages
+    ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True
     Left = 56
     Top = 184
@@ -205,7 +205,7 @@ inherited UnitTestWizard: TUnitTestWizard
         CollectionName = 'TreeDeselectAll'
         Name = 'TreeDeselectAll'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

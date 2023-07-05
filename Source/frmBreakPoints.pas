@@ -23,18 +23,20 @@ uses
   Vcl.Dialogs,
   Vcl.Menus,
   Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   JvAppStorage,
   JvComponentBase,
   JvDockControlForm,
-  frmIDEDockWin,
-  TB2Item,
   VirtualTrees.BaseTree,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
   VirtualTrees,
+  TB2Item,
   SpTBXSkins,
   SpTBXItem,
   SpTBXControls,
-  Vcl.ImgList,
-  Vcl.VirtualImageList, VirtualTrees.BaseAncestorVCL, VirtualTrees.AncestorVCL;
+  frmIDEDockWin;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -84,12 +86,12 @@ implementation
 
 uses
   Vcl.Clipbrd,
-  dmCommands,
   uEditAppIntfs,
   uCommonFunctions,
   cPyControl,
   JvGnugettext,
-  StringResources;
+  StringResources,
+  dmResources;
 
 {$R *.dfm}
 

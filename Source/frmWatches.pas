@@ -117,7 +117,7 @@ uses
   StringResources,
   uEditAppIntfs,
   uCommonFunctions,
-  dmCommands,
+  dmResources,
   frmPyIDEMain,
   frmCallStack,
   cPySupportTypes,

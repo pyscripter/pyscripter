@@ -101,6 +101,7 @@ uses
   StringResources,
   uEditAppIntfs,
   uCommonFunctions,
+  dmResources,
   dmCommands,
   frmCallStack,
   cPyControl,

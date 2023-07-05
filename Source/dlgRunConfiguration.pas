@@ -86,6 +86,7 @@ uses
   Vcl.FileCtrl,
   JvGnugettext,
   dlgToolProperties,
+  dmResources,
   dmCommands,
   uHighlighterProcs,
   cProjectClasses,
@@ -144,7 +145,7 @@ end;
 
 procedure TRunConfigurationForm.btnFileNameClick(Sender: TObject);
 begin
-  with CommandsDataModule.dlgFileOpen do begin
+  with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SSelectPythonScript);
     Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
     FileName := '';
@@ -167,7 +168,7 @@ procedure TRunConfigurationForm.btnOutputFileNameClick(Sender: TObject);
 Var
   OldOpenOptions : TOpenOptions;
 begin
-  with CommandsDataModule.dlgFileOpen do begin
+  with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SSelectOutputFile);
     Filter := _(SFilterAllFiles);
     FileName := 'output.log';
@@ -244,17 +245,12 @@ end;
 procedure TRunConfigurationForm.FormDestroy(Sender: TObject);
 begin
   fRunConfig.Free;
-  CommandsDataModule.ParameterCompletion.Editor := nil;
-  CommandsDataModule.ModifierCompletion.Editor := nil;
 end;
 
 procedure TRunConfigurationForm.SynEditEnter(Sender: TObject);
-var
-  ASynEdit : TSynEdit;
 begin
-  ASynEdit := Sender as TSynEdit;
-  CommandsDataModule.ParameterCompletion.Editor := ASynEdit;
-  CommandsDataModule.ModifierCompletion.Editor := ASynEdit;
+  ResourcesDataModule.ParameterCompletion.Editor := Sender as TSynEdit;
+  ResourcesDataModule.ModifierCompletion.Editor := TSynEdit(Sender);
 end;
 
 end.

@@ -210,7 +210,7 @@ inherited WatchesWindow: TWatchesWindow
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
       end>
-    ImageCollection = CommandsDataModule.icCodeImages
+    ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True
     Left = 24
     Top = 136
@@ -247,7 +247,7 @@ inherited WatchesWindow: TWatchesWindow
         CollectionName = 'Edit'
         Name = 'Edit'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

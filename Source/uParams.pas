@@ -69,7 +69,7 @@ uses
   PythonVersions,
   JvGnugettext,
   StringResources,
-  dmCommands,
+  dmResources,
   uEditAppIntfs,
   uCommonFunctions,
   cPyScripterSettings,
@@ -180,7 +180,7 @@ function SelectFile(const ATitle: string): string;
 var
   SaveTitle: string;
 begin
-  with CommandsDataModule.dlgFileOpen do begin
+  with ResourcesDataModule.dlgFileOpen do begin
     Filter := _(SFilterAllFiles);
     FileName := '';
     SaveTitle:= Title;

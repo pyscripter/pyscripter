@@ -69,7 +69,7 @@ uses
   System.Math,
   JVBoxProcs,
   JvGnuGetText,
-  dmCommands;
+  dmResources;
 
 {$R *.dfm}
 

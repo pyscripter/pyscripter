@@ -40,7 +40,7 @@ inherited CallStackWindow: TCallStackWindow
     3EE0D9983EE0D9983EE0D9983EE0D9983EE0D9983EE0D3953FCDC28A455C0000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  TextHeight = 48
+  TextHeight = 15
   inherited BGPanel: TPanel
     Width = 604
     Height = 168
@@ -199,7 +199,7 @@ inherited CallStackWindow: TCallStackWindow
         CollectionName = 'ThreadPaused'
         Name = 'ThreadPaused'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 423
     Top = 32

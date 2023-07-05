@@ -39,7 +39,6 @@ uses
   VirtualTrees.BaseTree,
   VirtualTrees,
   frmIDEDockWin,
-  dmCommands,
   cPyControl,
   cPyBaseDebugger;
 
@@ -108,7 +107,8 @@ uses
   frmWatches,
   uCommonFunctions,
   uEditAppIntfs,
-  cPySupportTypes;
+  cPySupportTypes,
+  dmResources;
 
 {$R *.dfm}
 

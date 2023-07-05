@@ -488,7 +488,6 @@ type
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
       virtual;
     procedure EditorKeyPress(Sender: TObject; var Key: WideChar); virtual;
-    function GetPreviousToken(Editor: TCustomSynEdit): string;
   public
     function GetCompletionProposal : TSynCompletionProposal;
     constructor Create(AOwner: TComponent); override;
@@ -497,6 +496,7 @@ type
     procedure ExecuteEx(Token: string; Editor: TCustomSynEdit; LookupIfNotExact: Boolean);
     function GetTokenList: string;
     function GetTokenValue(Token: string): string;
+    function GetPreviousToken(Editor: TCustomSynEdit): string;
     procedure CancelCompletion;
     property Executing: Boolean read GetExecuting;
   published
@@ -3056,7 +3056,6 @@ begin
         if Assigned(FOnAfterCodeCompletion) then
           FOnAfterCodeCompletion(Self, Value, Shift,
             F.LogicalToPhysicalIndex(Index), EndToken);
-
       finally
         EndUndoBlock;
         EndUpdate;
@@ -3139,17 +3138,17 @@ procedure TSynCompletionProposal.EditorKeyDown(Sender: TObject;
 var
   ShortCutKey: Word;
   ShortCutShift: TShiftState;
+  Editor: TCustomSynedit;
 begin
+  Editor := Sender as TCustomSynEdit;
   ShortCutToKey (fShortCut,ShortCutKey,ShortCutShift);
-  with Sender as TCustomSynEdit do
-  begin
-    if ((DefaultType <> ctCode) or not(ReadOnly)) and (Shift = ShortCutShift) and (Key = ShortCutKey) then
+    if ((DefaultType <> ctCode) or not Editor.ReadOnly) and
+       (Shift = ShortCutShift) and (Key = ShortCutKey) then
     begin
-      Form.CurrentEditor := Sender as TCustomSynEdit;
+      Form.CurrentEditor := Editor;
       Key := 0;
-      DoExecute(Sender as TCustomSynEdit);
+      DoExecute(Editor);
     end;
-  end;
 end;
 
 function TSynCompletionProposal.GetCurrentInput(AEditor: TCustomSynEdit): string;
@@ -3215,7 +3214,6 @@ begin
     DeactivateTimer;
     if Pos(Key, TriggerChars) <> 0 then
       ActivateTimer(Sender as TCustomSynEdit);
-
   end;
 end;
 

@@ -59,8 +59,8 @@ implementation
 uses
   System.SysUtils,
   System.IOUtils,
-  JclStrings,
-  JvGNUGetText;
+  JvGNUGetText,
+  uCommonFunctions;
 
 procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
   AppendToList: boolean);
@@ -123,7 +123,7 @@ function GetHighlighterFromFileName(AHighlighters: TStrings;
   const FileName: string): TSynCustomHighlighter;
 var
   Len: integer;
-  i, j, k: integer;
+  i, j: integer;
   Highlighter: TSynCustomHighlighter;
   Filter, Mask: string;
 begin
@@ -138,15 +138,9 @@ begin
       if j > 0 then begin
         Delete(Filter, 1, j);
         repeat
-          k := CharPos(Filter, ';');
-          if k > 0 then begin
-            Mask := Trim(Copy(Filter, 1, k - 1));
-            Delete(Filter, 1, k);
-          end else begin
-            Mask := Trim(Filter);
-            Filter := '';
-          end;
-          if StrMatches(Mask, LowerCase(TPath.GetFileName(FileName))) then begin
+          Mask := StrToken(Filter, ';').Trim;
+          if (Mask <> '') and TPath.MatchesPattern(TPath.GetFileName(FileName), Mask, False) then
+          begin
             Result := Highlighter;
             exit;
           end;
@@ -156,7 +150,6 @@ begin
   end;
   Result := nil;
 end;
-
 
 function GetHighlighterFromLanguageName(LanguageName : string;
   AHighlighters: TStrings) : TSynCustomHighlighter;

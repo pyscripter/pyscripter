@@ -484,7 +484,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CollectionName = 'Download'
         Name = 'Download'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 24
     Top = 384

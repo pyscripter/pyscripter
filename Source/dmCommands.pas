@@ -68,19 +68,11 @@ type
 
   TCommandsDataModule = class(TDataModule)
     SynEditPrint: TSynEditPrint;
-    PrintDialog: TPrintDialog;
-    PrinterSetupDialog: TPrinterSetupDialog;
-    ParameterCompletion: TSynCompletionProposal;
-    ModifierCompletion: TSynCompletionProposal;
-    CodeTemplatesCompletion: TSynAutoComplete;
     SynEditSearch: TSynEditSearch;
     SynEditRegexSearch: TSynEditRegexSearch;
     ProgramVersionCheck: TJvProgramVersionCheck;
     ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation;
     SynIniSyn: TSynIniSyn;
-    JvMultiStringHolder: TJvMultiStringHolder;
-    dlgFileOpen: TOpenDialog;
-    dlgFileSave: TSaveDialog;
     SynWebHtmlSyn: TSynWebHtmlSyn;
     SynWebXmlSyn: TSynWebXmlSyn;
     SynWebCssSyn: TSynWebCssSyn;
@@ -192,10 +184,6 @@ type
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
     actDonate: TAction;
-    icBrowserImages: TSVGIconImageCollection;
-    icCodeImages: TSVGIconImageCollection;
-    icGutterGlyphs: TSVGIconImageCollection;
-    icSVGImages: TSVGIconImageCollection;
     SynWebCompletion: TSynCompletionProposal;
     SynParamCompletion: TSynCompletionProposal;
     SynCodeCompletion: TSynCompletionProposal;
@@ -257,9 +245,6 @@ type
     procedure ParameterCompletionCodeCompletion(Sender: TObject;
       var Value: string; Shift: TShiftState; Index: Integer;
       EndToken: WideChar);
-    procedure ModifierCompletionCodeCompletion(Sender: TObject;
-      var Value: string; Shift: TShiftState; Index: Integer;
-      EndToken: WideChar);
     procedure actParameterCompletionExecute(Sender: TObject);
     procedure actModifierCompletionExecute(Sender: TObject);
     procedure actReplaceParametersExecute(Sender: TObject);
@@ -316,12 +301,6 @@ type
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actDonateExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
-    procedure ParameterCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: string; var x, y: Integer;
-      var CanExecute: Boolean);
-    procedure ModifierCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: string; var x, y: Integer;
-      var CanExecute: Boolean);
     procedure SynSpellCheckChange(Sender: TObject);
   private
     fHighlighters: TStrings;
@@ -347,11 +326,7 @@ type
                 Index: Integer; var SynHighlighter: TSynCustomHighlighter);
     procedure SynInterpreterOptionsDialogSetHighlighter(Sender: TObject;
                 Index: Integer; SynHighlighter: TSynCustomHighlighter);
-    function GetSaveFileName(var ANewName: string;
-      AHighlighter: TSynCustomHighlighter; DefaultExtension : string): boolean;
     function ShowPythonKeywordHelp(KeyWord : string) : Boolean;
-    procedure PrepareParameterCompletion;
-    procedure PrepareModifierCompletion;
     procedure GetEditorUserCommand(AUserCommand: Integer; var ADescription: string);
     procedure GetEditorAllUserCommands(ACommands: TStrings);
     function DoSearchReplaceText(SynEdit : TSynEdit;
@@ -365,24 +340,8 @@ type
     procedure ProcessFolderChange(const FolderName: string);
     function FindSearchTarget : ISearchCommands;
     procedure HighlightWordInActiveEditor(SearchWord : string);
-    procedure UpdateImageCollections;
     property Highlighters : TStrings read fHighlighters;
   end;
-
-{$SCOPEDENUMS ON}
-  TCodeImages =(
-    Python,
-    Variable,
-    Field,
-    Func,
-    Method,
-    Klass,
-    Namespace,
-    List,
-    Module,
-    Keyword
-  );
-{$SCOPEDENUMS OFF}
 
 var
   CommandsDataModule: TCommandsDataModule = nil;
@@ -410,7 +369,6 @@ uses
   SpTBXTabs,
   PythonEngine,
   JclSysUtils,
-  JclStrings,
   JclDebug,
   JclShell,
   JvAppIniStorage,
@@ -419,6 +377,7 @@ uses
   JvJCLUtils,
   JvDynControlEngineVCL,
   JvGnugettext,
+  dmResources,
   StringResources,
   dlgSynPageSetup,
   dlgDirectoryList,
@@ -488,10 +447,6 @@ begin
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
-
-  // Completion
-  ParameterCompletion.FontsAreScaled := True;
-  ModifierCompletion.FontsAreScaled := True;
 
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
   SynCodeCompletion.FontsAreScaled := True;
@@ -595,37 +550,6 @@ begin
   SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
 end;
 
-function TCommandsDataModule.GetSaveFileName(var ANewName: string;
-  AHighlighter: TSynCustomHighlighter; DefaultExtension : string): boolean;
-begin
-  with dlgFileSave do begin
-    if ANewName <> '' then begin
-      InitialDir := TPath.GetDirectoryName(ANewName);
-      FileName := TPath.GetFileName(ANewName);
-      Title := Format(_(SSaveAs), [FileName]);
-    end else begin
-      InitialDir := '';
-      FileName := '';
-      Title := _(SSaveFileAs);
-    end;
-    if AHighlighter <> nil then
-      Filter := _(AHighlighter.DefaultFilter)
-    else
-      Filter := _(SFilterAllFiles);
-
-    DefaultExt := DefaultExtension;
-    //  Make the current file extension the default extension
-    if DefaultExt = '' then
-      DefaultExt := ExtractFileExt(ANewName);
-
-    if Execute then begin
-      ANewName := FileName;
-      Result := TRUE;
-    end else
-      Result := FALSE;
-  end;
-end;
-
 procedure TCommandsDataModule.HighlightWordInActiveEditor(SearchWord: string);
 Var
   OldWholeWords : Boolean;
@@ -692,7 +616,11 @@ end;
 
 procedure TCommandsDataModule.actPrinterSetupExecute(Sender: TObject);
 begin
-  PrinterSetupDialog.Execute;
+  with TPrinterSetupDialog.Create(Self) do
+  begin
+    Execute;
+    Free;
+  end;
 end;
 
 procedure TCommandsDataModule.actPageSetupExecute(Sender: TObject);
@@ -1270,7 +1198,7 @@ Var
   AppStorage : TJvAppIniFileStorage;
   IP : TStringList;
 begin
-  with dlgFileSave do begin
+  with ResourcesDataModule.dlgFileSave do begin
     Title := _(SExportHighlighters);
     Filter := SynIniSyn.DefaultFilter;
     DefaultExt := 'ini';
@@ -1305,7 +1233,7 @@ Var
   AppStorage : TJvAppIniFileStorage;
   ActionProxyCollection: TActionProxyCollection;
 begin
-  with dlgFileSave do begin
+  with ResourcesDataModule.dlgFileSave do begin
     Title := _(SExportShortcuts);
     Filter := SynIniSyn.DefaultFilter;
     DefaultExt := 'ini';
@@ -1338,7 +1266,7 @@ Var
   i : integer;
   AppStorage : TJvAppIniFileStorage;
 begin
-  with dlgFileOpen do begin
+  with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SImportHighlighters);
     Filter := SynIniSyn.DefaultFilter;
     FileName := '';
@@ -1371,7 +1299,7 @@ Var
   AppStorage : TJvAppIniFileStorage;
   ActionProxyCollection: TActionProxyCollection;
 begin
-  with dlgFileOpen do begin
+  with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SImportShortcuts);
     Filter := SynIniSyn.DefaultFilter;
     FileName := '';
@@ -1518,40 +1446,6 @@ begin
   begin
     ProcessFolderChange(Dir);
   end, 200);
-end;
-
-procedure TCommandsDataModule.PrepareParameterCompletion;
-var
-  i : integer;
-  ParamName, ParamValue : string;
-begin
-  with ParameterCompletion do begin
-    ItemList.Clear;
-    InsertList.Clear;
-    for i := 0 to Parameters.Count - 1 do begin
-      Parameters.Split(i, ParamName, ParamValue, False);
-      ItemList.Add(Format('\color{$FF8844}%s\color{clWindowText}\column{}%s',
-         [ParamName, StringReplace(ParamValue, '\', '\\', [rfReplaceAll])]));
-      InsertList.Add(ParamName);
-    end;
-  end;
-end;
-
-procedure TCommandsDataModule.PrepareModifierCompletion;
-var
-  i : integer;
-  ModName, ModComment : string;
-begin
-  with ModifierCompletion do begin
-    ItemList.Clear;
-    InsertList.Clear;
-    for i := 0 to Parameters.Modifiers.Count - 1 do begin
-      ModName := Parameters.Modifiers.Names[i];
-      ModComment := Parameters.Modifiers.Values[ModName];
-      ItemList.Add(Format('\color{$FF8844}%s\color{clWindowText}\column{}%s', [ModName, ModComment]));
-      InsertList.Add(ModName);
-    end;
-  end;
 end;
 
 procedure TCommandsDataModule.actIDEOptionsExecute(Sender: TObject);
@@ -1910,34 +1804,6 @@ begin
   end;
 end;
 
-procedure TCommandsDataModule.UpdateImageCollections;
-  procedure ProcessImageCollection(IC: TSVGIconImageCollection;
-    FixedColor: TColor; AntiAliasColor: TColor= clDefault);
-  begin
-    IC.SVGIconItems.BeginUpdate;
-    try
-      IC.FixedColor := SvgFixedColor(FixedColor);
-
-      if AntiAliasColor <> clDefault then
-        IC.AntiAliasColor := StyleServices.GetSystemColor(AntiAliasColor);
-    finally
-      IC.SVGIconItems.EndUpdate;
-    end;
-  end;
-
-var
-  TextColor: TColor;
-begin
-  var Details := StyleServices.GetElementDetails(ttbButtonNormal);
-  if not StyleServices.GetElementColor(Details, ecTextColor, TextColor) then
-    TextColor := StyleServices.GetSystemColor(clBtnText);
-
-  ProcessImageCollection(icBrowserImages, TextColor);
-  ProcessImageCollection(icCodeImages, clWindowText, clWindow);
-  ProcessImageCollection(icGutterGlyphs, TextColor);
-  ProcessImageCollection(icSVGImages, TextColor);
-end;
-
 procedure TCommandsDataModule.UpdateMainActions;
 Var
   SelAvail : Boolean;
@@ -2073,7 +1939,7 @@ begin
   end;
 
   // Parameter and Code Template Actions
-  if Screen.ActiveControl is TSynEdit then begin
+  if Screen.ActiveControl is TCustomSynEdit then begin
     actParameterCompletion.Enabled := True;
     actModifierCompletion.Enabled := True;
     actReplaceParameters.Enabled := Assigned(GI_ActiveEditor);
@@ -2105,60 +1971,23 @@ begin
     Value := Parameters.MakeParameter(Value);
 end;
 
-procedure TCommandsDataModule.ParameterCompletionExecute(
-  Kind: SynCompletionType; Sender: TObject; var CurrentInput: string; var x,
-  y: Integer; var CanExecute: Boolean);
-begin
-  PrepareParameterCompletion;
-end;
-
-procedure TCommandsDataModule.ModifierCompletionCodeCompletion(
-  Sender: TObject; var Value: string; Shift: TShiftState; Index: Integer;
-  EndToken: WideChar);
-var
-  L: Integer;
-begin
-  if Assigned(ModifierCompletion.Editor) then
-    with ModifierCompletion.Editor do begin
-      SelText := '';
-      L:= Length(Parameters.StopMask);
-      if (CaretX > 0) and WideSameStr(Copy(LineText, CaretX-L, L), Parameters.StopMask) then begin
-        CaretX:= CaretX - L;
-        Value := '-' + Value;
-      end else if not ((CaretX > 1) and (Lines[CaretY-1][CaretX-1] = '-')) then begin
-        L:= StrLastPos(Parameters.StopMask, LineText);
-        if L > 0 then CaretX:= L;
-        Value := '-' + Value;
-      end;
-    end;
-end;
-
-procedure TCommandsDataModule.ModifierCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var x, y: Integer;
-  var CanExecute: Boolean);
-begin
-  PrepareModifierCompletion;
-end;
-
 procedure TCommandsDataModule.actParameterCompletionExecute(
   Sender: TObject);
 begin
-  if Screen.ActiveControl is TSynedit then begin
-    ParameterCompletion.Title := _('Parameters');
-    ParameterCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
-    ParameterCompletion.Editor := TSynEdit(Screen.ActiveControl);
-    ParameterCompletion.ActivateCompletion;
+  if Screen.ActiveControl is TCustomSynedit then
+  begin
+    ResourcesDataModule.ParameterCompletion.Editor := TCustomSynEdit(Screen.ActiveControl);
+    ResourcesDataModule.ParameterCompletion.ActivateCompletion;
   end;
 end;
 
 procedure TCommandsDataModule.actModifierCompletionExecute(
   Sender: TObject);
 begin
-  if Screen.ActiveControl is TSynedit then begin
-    ModifierCompletion.Title := _('Modifiers');
-    ModifierCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
-    ModifierCompletion.Editor := TSynEdit(Screen.ActiveControl);
-    ModifierCompletion.ActivateCompletion;
+  if Screen.ActiveControl is TCustomSynedit then
+  begin
+    ResourcesDataModule.ModifierCompletion.Editor := TCustomSynEdit(Screen.ActiveControl);
+    ResourcesDataModule.ModifierCompletion.ActivateCompletion;
   end;
 end;
 
@@ -2198,18 +2027,14 @@ begin
     end;
 end;
 
-type
-  TCrackSynAutoComplete = class(TSynAutoComplete)
-  end;
-
 procedure TCommandsDataModule.actInsertTemplateExecute(Sender: TObject);
 Var
   SynEdit : TSynEdit;
 begin
   if (Screen.ActiveControl is TSynedit) and Assigned(GI_ActiveEditor) then begin
     SynEdit := TSynEdit(Screen.ActiveControl);
-    CodeTemplatesCompletion.Execute(TCrackSynAutoComplete(CodeTemplatesCompletion).
-      GetPreviousToken(SynEdit), SynEdit);
+    with ResourcesDataModule.CodeTemplatesCompletion do
+      Execute(GetPreviousToken(SynEdit), SynEdit);
   end;
 end;
 
@@ -2270,11 +2095,11 @@ end;
 
 procedure TCommandsDataModule.actCodeTemplatesExecute(Sender: TObject);
 begin
-  with TCodeTemplates.Create(Self) do begin
-    //SetItems(CodeTemplatesCompletion.AutoCompleteList);
-    CodeTemplateText := CodeTemplatesCompletion.AutoCompleteList.Text;
+  with ResourcesDataModule.CodeTemplatesCompletion, TCodeTemplates.Create(Self) do
+  begin
+    CodeTemplateText := AutoCompleteList.Text;
     if ShowModal = mrOK then
-      CodeTemplatesCompletion.AutoCompleteList.Text := CodeTemplateText;
+      AutoCompleteList.Text := CodeTemplateText;
     Free;
   end;
 end;
@@ -2792,16 +2617,6 @@ begin
   SynJSONSyn.DefaultFilter := PyIDEOptions.JSONFileFilter;
   SynGeneralSyn.DefaultFilter := PyIDEOptions.GeneralFileFilter;
 
-  // Parameter Completion
-  ParameterCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
-  ParameterCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
-  ParameterCompletion.TitleFont.Style := [fsBold];
-
-  // Modifier completion
-  ModifierCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
-  ModifierCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
-  ModifierCompletion.TitleFont.Style := [fsBold];
-
   // Syntax Code Completion
   SynCodeCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
   with SynCodeCompletion do begin
@@ -2827,12 +2642,6 @@ begin
   // Syntax Parameter Completion
   SynParamCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
 
-  if Assigned(CodeTemplatesCompletion.GetCompletionProposal()) then
-  begin
-    CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(PyIDEOptions.AutoCompletionFont);
-    CodeTemplatesCompletion.GetCompletionProposal().FontsAreScaled := True;
-  end;
-
   // SpellCheck
   SynSpellCheck.BeginUpdate;
   try
@@ -2842,18 +2651,6 @@ begin
   finally
     SynSpellCheck.EndUpdate;
   end;
-
-  // Logging
-  with GI_PyIDEServices.Logger do
-    if LoggingActive <> PyIDEOptions.LoggingEnabled then
-    begin
-      LoggingActive := PyIDEOptions.LoggingEnabled;
-      if LoggingActive then
-      begin
-        ClearLog;
-        WriteStamp(0, False);
-      end;
-    end;
 
   TThread.ForceQueue(nil, procedure
   begin

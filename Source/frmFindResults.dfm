@@ -464,7 +464,7 @@ inherited FindResultsWindow: TFindResultsWindow
         CollectionName = 'FindRefresh'
         Name = 'FindRefresh'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

@@ -49,7 +49,7 @@ uses
   Vcl.Graphics,
   Vcl.Themes,
   JvGnuGetText,
-  dmCommands;
+  dmResources;
 
 {$R *.dfm}
 

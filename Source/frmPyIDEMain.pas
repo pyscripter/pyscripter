@@ -644,6 +644,7 @@ uses
   SynEditTypes,
   SynEditMiscClasses,
   SynEdit,
+  dmResources,
   dmCommands,
   dlgCustomShortcuts,
   uEditAppIntfs,
@@ -1304,7 +1305,6 @@ type
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
-    FLogger: TJclSimpleLog;
 //    function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
     procedure DebugActiveScript(ActiveEditor: IEditor;
       InitStepIn : Boolean = False; RunToCursorLine : integer = -1);
@@ -1449,7 +1449,6 @@ uses
   Vcl.StdActns,
   Vcl.Themes,
   JclSysInfo,
-  JclStrings,
   JvJVCLUtils,
   SpTBXControls,
   VirtualTrees.BaseTree,
@@ -1585,13 +1584,6 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
-  // Create logger
-  try
-    FLogger := TJclSimpleLog.Create(TPyScripterSettings.PyScripterLogFile);
-    FLogger.LoggingActive := False;
-  except
-  end;
-
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -2878,7 +2870,7 @@ end;
 
 function TPyIDEMainForm.GetLogger: TJclSimpleLog;
 begin
-  Result := FLogger;
+  Result := ResourcesDataModule.Logger;
 end;
 
 function TPyIDEMainForm.GetMessageServices: IMessageServices;
@@ -2888,7 +2880,8 @@ end;
 
 function TPyIDEMainForm.GetStoredScript(const Name: string): TStrings;
 begin
-  Result := CommandsDataModule.JvMultiStringHolder.StringsByName[Name];
+  Result := ResourcesDataModule.PythonScripts.StringsByName[Name];
+  Result.WriteBOM := False;
 end;
 
 function TPyIDEMainForm.GetUnitTestServices: IUnitTestServices;
@@ -3016,7 +3009,6 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
-  FreeAndNil(FLogger);
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -3045,7 +3037,7 @@ Var
   i : integer;
   Editor : IEditor;
 begin
-  with CommandsDataModule.dlgFileOpen do begin
+  with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SOpenFile);
     FileName := '';
     Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
@@ -3152,9 +3144,9 @@ begin
 
     AppStorage.WritePersistent('Editor Search Options', EditorSearchOptions);
 
+    // Store Highlighters
     AppStorage.DeleteSubTree('Highlighters');
     PythonIIForm.StoreOptions(AppStorage);
-
     with CommandsDataModule do begin
       for var I := 0 to Highlighters.Count - 1 do
         if IsHighlighterStored(Highlighters.Objects[I]) then
@@ -3167,15 +3159,17 @@ begin
       AppStorage.WritePersistent('Print Options', SynEditPrint, True, TempStringList);
       AppStorage.WriteString('Print Options\HeaderItems', SynEditPrint.Header.AsString);
       AppStorage.WriteString('Print Options\FooterItems', SynEditPrint.Footer.AsString);
-
-      AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-      AppStorage.DeleteSubTree('File Templates');
-      AppStorage.WriteObjectList('File Templates', FileTemplates);
-
-      AppStorage.DeleteSubTree('Code Templates');
-      AppStorage.WriteStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
-      AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
     end;
+
+    // File and Code Templates - Preserve leading-trailing whitespace
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+    AppStorage.DeleteSubTree('File Templates');
+    AppStorage.WriteObjectList('File Templates', FileTemplates);
+
+    AppStorage.DeleteSubTree('Code Templates');
+    AppStorage.WriteStringList('Code Templates',
+      ResourcesDataModule.CodeTemplatesCompletion.AutoCompleteList);
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     AppStorage.WritePersistent('Secondary Tabs', TabsPersistsInfo);
     AppStorage.WritePersistent('ToDo Options', ToDoExpert);
@@ -3290,8 +3284,8 @@ begin
     tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
   end;
 
+  // Restore highlighters
   PythonIIForm.RestoreOptions(AppStorage);
-
   with CommandsDataModule do begin
     for var I := 0 to Highlighters.Count - 1 do
     begin
@@ -3310,18 +3304,20 @@ begin
     AppStorage.ReadPersistent('Print Options', SynEditPrint);
     SynEditPrint.Header.AsString := AppStorage.ReadString('Print Options\HeaderItems', DefaultHeader);
     SynEditPrint.Footer.AsString := AppStorage.ReadString('Print Options\FooterItems', DefaultFooter);
-
-    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-    if AppStorage.PathExists('File Templates') then
-    begin
-      AppStorage.ReadObjectList('File Templates', FileTemplates, FileTemplates.CreateListItem);
-      FileTemplates.AddDefaultTemplates;
-    end;
-
-    if AppStorage.PathExists('Code Templates') then
-      AppStorage.ReadStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
-    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
   end;
+
+  // File and Code Templates - Preserve leading-trailing whitespace
+  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+  if AppStorage.PathExists('File Templates') then
+  begin
+    AppStorage.ReadObjectList('File Templates', FileTemplates, FileTemplates.CreateListItem);
+    FileTemplates.AddDefaultTemplates;
+  end;
+
+  if AppStorage.PathExists('Code Templates') then
+    AppStorage.ReadStringList('Code Templates',
+      ResourcesDataModule.CodeTemplatesCompletion.AutoCompleteList);
+  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
   AppStorage.ReadPersistent('Secondary Tabs', TabsPersistsInfo);
   if AppStorage.PathExists('ToDo Options') then
@@ -4342,7 +4338,7 @@ begin
   UserToolbar.BeginUpdate;
   FindToolbar.BeginUpdate;
   try
-    CommandsDataModule.UpdateImageCollections;
+    ResourcesDataModule.UpdateImageCollections;
   finally
     MainToolBar.EndUpdate;
     DebugToolbar.EndUpdate;
@@ -4511,10 +4507,10 @@ begin
 
       // Locate the caret symbol |
       for i := 0 to Result.SynEdit.Lines.Count - 1 do begin
-        j := CharPos(Result.SynEdit.Lines[i], '|');
-        if j > 0 then begin
+        j := Result.SynEdit.Lines[i].IndexOf('|');
+        if j >= 0 then begin
           Result.SynEdit.CaretXY := BufferCoord(j + 1, i + 1);
-          Result.SynEdit.ExecuteCommand(ecDeleteLastChar, ' ', nil);
+          Result.SynEdit.ExecuteCommand(ecDeleteChar, ' ', nil);
           break;
         end;
       end;

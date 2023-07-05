@@ -322,7 +322,7 @@ inherited ToDoWindow: TToDoWindow
         CollectionName = 'Abort'
         Name = 'Abort'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

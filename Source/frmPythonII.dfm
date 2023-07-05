@@ -266,7 +266,7 @@ inherited PythonIIForm: TPythonIIForm
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
       end>
-    ImageCollection = CommandsDataModule.icCodeImages
+    ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True
     Left = 40
     Top = 160
@@ -308,7 +308,7 @@ inherited PythonIIForm: TPythonIIForm
         CollectionName = 'PySetup'
         Name = 'PySetup'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

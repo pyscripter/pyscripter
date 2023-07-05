@@ -11,11 +11,33 @@ unit dlgToolProperties;
 interface
 
 uses
-  System.Types, Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
-  System.UITypes, Dialogs, cTools, StdCtrls, SynEdit, Menus,
-  ActnList, SpTBXControls, SpTBXEditors, SpTBXItem, SpTBXTabs, TB2Item, 
-  dlgPyIDEBase, ComCtrls, System.Actions, Vcl.Samples.Spin, Vcl.ExtCtrls,
-  SynEditMiscClasses, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.Types,
+  System.SysUtils,
+  System.Classes,
+  System.Actions,
+  System.ImageList,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.Menus,
+  Vcl.ActnList,
+  Vcl.ComCtrls,
+  Vcl.Samples.Spin,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  TB2Item,
+  SpTBXControls,
+  SpTBXEditors,
+  SpTBXItem,
+  SpTBXTabs,
+  SynEdit,
+  SynEditMiscClasses,
+  cTools,
+  dlgPyIDEBase;
 
 type
   TToolProperties = class(TPyIDEDlgBase)
@@ -85,9 +107,6 @@ type
     cbUTF8IO: TCheckBox;
     procedure FormShow(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
-    procedure SynApplicationEnter(Sender: TObject);
-    procedure SynParametersEnter(Sender: TObject);
-    procedure SynWorkDirEnter(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnWorkDirClick(Sender: TObject);
     procedure btnAppDirClick(Sender: TObject);
@@ -101,6 +120,7 @@ type
     procedure btnStdFormatsClick(Sender: TObject);
     procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
+    procedure SynEditEnter(Sender: TObject);
   private
     { Private declarations }
     fEnvStrings : TStrings;
@@ -115,14 +135,15 @@ type
 implementation
 
 uses
+  System.UITypes,
   Vcl.Graphics,
   Vcl.Themes,
   Vcl.FileCtrl,
-  dmCommands,
   JclSysInfo,
   JvGnugettext,
   uCommonFunctions,
-  StringResources;
+  StringResources,
+  dmResources;
 
 {$R *.dfm}
 
@@ -209,24 +230,6 @@ begin
   edMessagesFormat.SetFocus;
 end;
 
-procedure TToolProperties.SynApplicationEnter(Sender: TObject);
-begin
-  CommandsDataModule.ParameterCompletion.Editor := SynApplication;
-  CommandsDataModule.ModifierCompletion.Editor := SynApplication;
-end;
-
-procedure TToolProperties.SynParametersEnter(Sender: TObject);
-begin
-  CommandsDataModule.ParameterCompletion.Editor := SynParameters;
-  CommandsDataModule.ModifierCompletion.Editor := SynParameters;
-end;
-
-procedure TToolProperties.SynWorkDirEnter(Sender: TObject);
-begin
-  CommandsDataModule.ParameterCompletion.Editor := SynWorkDir;
-  CommandsDataModule.ModifierCompletion.Editor := SynWorkDir;
-end;
-
 procedure TToolProperties.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -261,8 +264,6 @@ end;
 procedure TToolProperties.FormDestroy(Sender: TObject);
 begin
   fEnvStrings.Free;
-  CommandsDataModule.ParameterCompletion.Editor := nil;
-  CommandsDataModule.ModifierCompletion.Editor := nil;
 end;
 
 procedure TToolProperties.btnWorkDirClick(Sender: TObject);
@@ -285,7 +286,7 @@ end;
 
 procedure TToolProperties.btnAppDirClick(Sender: TObject);
 begin
-  with CommandsDataModule.dlgFileOpen do begin
+  with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SSelectApplication);
     Filter := 'Executable Files (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd|All files|*.*|';
     FileName := '';
@@ -336,7 +337,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edEnvName.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
@@ -399,6 +400,12 @@ begin
   finally
     lvItems.Items.EndUpdate;
   end;
+end;
+
+procedure TToolProperties.SynEditEnter(Sender: TObject);
+begin
+  ResourcesDataModule.ParameterCompletion.Editor := Sender as TSynEdit;
+  ResourcesDataModule.ModifierCompletion.Editor := TSynEdit(Sender);
 end;
 
 end.

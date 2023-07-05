@@ -116,7 +116,7 @@ object DocForm: TDocForm
         CollectionName = 'Browser\Save'
         Name = 'Save'
       end>
-    ImageCollection = CommandsDataModule.icBrowserImages
+    ImageCollection = ResourcesDataModule.icBrowserImages
     PreserveItems = True
     Width = 20
     Height = 20

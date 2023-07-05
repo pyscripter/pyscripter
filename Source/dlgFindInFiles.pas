@@ -55,7 +55,6 @@ uses
   Vcl.ImgList,
   Vcl.VirtualImageList,
   cFindInFiles,
-  dmCommands,
   dlgPyIDEBase;
 
 type
@@ -119,6 +118,7 @@ uses
   JvGnugettext,
   uEditAppIntfs,
   uCommonFunctions,
+  dmResources,
   frmFindResults,
   StringResources,
   cPyScripterSettings,

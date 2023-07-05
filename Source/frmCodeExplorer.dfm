@@ -224,7 +224,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
       end>
-    ImageCollection = CommandsDataModule.icCodeImages
+    ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True
     Left = 24
     Top = 176
@@ -246,7 +246,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         CollectionName = 'Highlight'
         Name = 'Highlight'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

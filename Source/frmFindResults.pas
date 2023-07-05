@@ -244,7 +244,7 @@ uses
   SynEdit,
   SynEditTypes,
   StringResources,
-  dmCommands,
+  dmResources,
   dlgFindInFiles,
   dlgReplaceInFiles,
   uEditAppIntfs,

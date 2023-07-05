@@ -42,11 +42,12 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   TextHeight = 15
   inherited BGPanel: TPanel
     inherited FGPanel: TPanel
+      Height = 394
       object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 223
-        Height = 404
+        Height = 394
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 0
@@ -54,7 +55,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           Left = 0
           Top = 30
           Width = 223
-          Height = 374
+          Height = 364
           Align = alClient
           BorderStyle = bsNone
           Header.AutoSizeIndex = -1
@@ -614,7 +615,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         CollectionName = 'ExternalRunLast'
         Name = 'ExternalRunLast'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

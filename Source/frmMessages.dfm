@@ -233,7 +233,7 @@ inherited MessagesWindow: TMessagesWindow
         CollectionName = 'ArrowRight'
         Name = 'ArrowRight'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Width = 20
     Height = 20

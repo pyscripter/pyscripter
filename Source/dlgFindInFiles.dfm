@@ -234,7 +234,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         CollectionName = 'OpenFolder'
         Name = 'OpenFolder'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 24
     Top = 248

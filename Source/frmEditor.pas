@@ -35,7 +35,6 @@ uses
   SpTBXDkPanels,
   SpTBXTabs,
   SpTBXControls,
-  JclStrings,
   SynEdit,
   SynEditTypes,
   SynEditHighlighter,
@@ -352,6 +351,7 @@ uses
   JvDockControlForm,
   JvGnugettext,
   StringResources,
+  dmResources,
   dmCommands,
   uHighlighterProcs,
   dlgSynPrintPreview,
@@ -1073,7 +1073,7 @@ end;
 procedure TEditor.ExecPrint;
 begin
   if fForm <> nil then
-    with CommandsDataModule do
+    with ResourcesDataModule, CommandsDataModule do
     begin
       SynEditPrint.SynEdit := fForm.SynEdit;
       PrintDialog.MinPage := 1;
@@ -1607,11 +1607,12 @@ begin
   fOldCaretY := ASynEdit.CaretY;
   PyIDEMainForm.ActiveTabControl := ParentTabControl;
   DoAssignInterfacePointer(True);
-  CommandsDataModule.CodeTemplatesCompletion.Editor := ASynEdit;
-  CommandsDataModule.CodeTemplatesCompletion.OnBeforeExecute :=
-    AutoCompleteBeforeExecute;
-  CommandsDataModule.CodeTemplatesCompletion.OnAfterExecute :=
-    AutoCompleteAfterExecute;
+  with ResourcesDataModule.CodeTemplatesCompletion do
+  begin
+    Editor := ASynEdit;
+    OnBeforeExecute := AutoCompleteBeforeExecute;
+    OnAfterExecute := AutoCompleteAfterExecute;
+  end;
 
   // Spell Checking
   CommandsDataModule.SynSpellCheck.Editor := ASynEdit;
@@ -1663,10 +1664,6 @@ end;
 
 procedure TEditorForm.SynEditExit(Sender: TObject);
 begin
-  // The following create problems
-//   CommandsDataModule.ParameterCompletion.Editor := nil;
-//   CommandsDataModule.ModifierCompletion.Editor := nil;
-//   CommandsDataModule.CodeTemplatesCompletion.Editor := nil;
   DoAssignInterfacePointer(False);
 
   if fHotIdentInfo.HaveHotIdent then
@@ -1888,7 +1885,7 @@ begin
   if (fEditor.GetFileName = '') and (DefaultExtension <> '') and
     (ExtractFileExt(NewName) = '') then
     NewName := NewName + '.' + DefaultExtension;
-  if CommandsDataModule.GetSaveFileName(NewName, SynEdit.Highlighter,
+  if ResourcesDataModule.GetSaveFileName(NewName, SynEdit.Highlighter,
     DefaultExtension) then
   begin
     Edit := GI_EditorFactory.GetEditorByName(NewName);
@@ -2722,7 +2719,7 @@ begin
   Dec(Caret.Char);
   Editor.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
   // to deal with trim trailing spaces
-  locline := StrPadRight(Editor.LineText, Caret.Char, ' ');
+  locline := Editor.LineText.PadRight(Caret.Char);
   Inc(Caret.Char);
 
   var CC := TIDECompletion.EditorCodeCompletion;

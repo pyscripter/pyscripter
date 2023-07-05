@@ -98,9 +98,8 @@ uses
   System.RegularExpressions,
   System.JSON,
   VarPyth,
-  JclStrings,
   JvGnugettext,
-  dmCommands,
+  dmResources,
   SynHighlighterPython,
   StringResources,
   uEditAppIntfs,
@@ -285,11 +284,11 @@ begin
   else dec(TmpX);
 
   lookup := GetWordAtPos(Line, TmpX, True, True, False, True);
-  Index := CharLastPos(lookup, '.');
+  Index := lookup.LastIndexOf('.');
   fPyNameSpace := nil;
-  if Index > 0 then begin
-    lookup := Copy(lookup, 1, Index-1);
-    if CharPos(lookup, ')') > 0 then
+  if Index >= 0 then begin
+    lookup := lookup.SubString(0, Index);
+    if lookup.IndexOf(')') >= 0 then
       lookup := ''  // Issue 422  Do not evaluate functions
     else if IsDigits(lookup) then
       lookup := ''  // Issue 478  User is typing a number
@@ -297,7 +296,7 @@ begin
     lookup := '';  // Completion from global namespace
 
   var Py := GI_PyControl.SafePyEngine;
-  if (Index <= 0) or (lookup <> '') then begin
+  if (Index < 0) or (lookup <> '') then begin
     if GI_PyControl.Inactive then
       fPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
     else if GI_PyControl.PythonLoaded and not GI_PyControl.Running then
@@ -350,7 +349,7 @@ begin
       else if NameSpaceItem.IsClass then
         ImageIndex := Integer(TCodeImages.Klass)
       else begin
-        if Index > 0 then
+        if Index >= 0 then
           ImageIndex := Integer(TCodeImages.Field)
         else
           ImageIndex := Integer(TCodeImages.Variable);
@@ -625,7 +624,7 @@ begin
           Lookup := 'str' + Lookup;
 
         FoundMatch :=
-          (AllowFunctionCalls or (CharPos(Lookup, ')') <= 0)) // Issue 422  Do not evaluate functions
+          (AllowFunctionCalls or (Lookup.IndexOf(')') < 0)) // Issue 422  Do not evaluate functions
           and (Lookup <> '');
 
         if FoundMatch then

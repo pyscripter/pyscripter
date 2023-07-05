@@ -4,8 +4,7 @@ inherited PickListDialog: TPickListDialog
   Caption = 'PickListDialog'
   ClientHeight = 323
   ClientWidth = 461
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel2: TPanel
     Left = 0
     Top = 239
@@ -112,7 +111,7 @@ inherited PickListDialog: TPickListDialog
       BevelInner = bvNone
       BevelOuter = bvNone
       BevelKind = bkSoft
-      ItemHeight = 13
+      ItemHeight = 15
       PopupMenu = PickListPopUp
       TabOrder = 0
     end
@@ -137,22 +136,18 @@ inherited PickListDialog: TPickListDialog
     end
   end
   object vilImages: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
-        CollectionIndex = 104
+        CollectionIndex = 126
         CollectionName = 'TreeSelectAll'
-        Disabled = False
         Name = 'TreeSelectAll'
       end
       item
-        CollectionIndex = 105
+        CollectionIndex = 125
         CollectionName = 'TreeDeselectAll'
-        Disabled = False
         Name = 'TreeDeselectAll'
       end>
-    ImageCollection = CommandsDataModule.icSvgImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 224
     Top = 112

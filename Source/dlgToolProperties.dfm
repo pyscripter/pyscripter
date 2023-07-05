@@ -303,7 +303,7 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             Font.Quality = fqClearTypeNatural
             TabOrder = 0
-            OnEnter = SynApplicationEnter
+            OnEnter = SynEditEnter
             UseCodeFolding = False
             ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
@@ -347,7 +347,7 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             Font.Quality = fqClearTypeNatural
             TabOrder = 2
-            OnEnter = SynParametersEnter
+            OnEnter = SynEditEnter
             UseCodeFolding = False
             ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
@@ -391,7 +391,7 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             Font.Quality = fqClearTypeNatural
             TabOrder = 3
-            OnEnter = SynWorkDirEnter
+            OnEnter = SynEditEnter
             UseCodeFolding = False
             ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
@@ -740,7 +740,7 @@ inherited ToolProperties: TToolProperties
         CollectionName = 'Plus'
         Name = 'Plus'
       end>
-    ImageCollection = CommandsDataModule.icSVGImages
+    ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
     Left = 141
     Top = 452

@@ -99,6 +99,7 @@ uses
   System.Threading,
   System.RegularExpressions,
   System.Generics.Defaults,
+  dmResources,
   dmCommands,
   uCommonFunctions,
   SynEditLsp,

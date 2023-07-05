@@ -360,7 +360,6 @@ Uses
   Vcl.Themes,
   JclFileUtils,
   JclBase,
-  JclStrings,
   JclPeImage,
   JvJCLUtils,
   JvGnugettext,
@@ -1506,15 +1505,15 @@ begin
   WalkThroughDirectories(Paths, Masks, PreCallback, Recursive);
 end;
 
-function StrToken(var S: string; Separator: WideChar): string;
+function StrToken(var S: string; Separator: Char): string;
 var
   I: Integer;
 begin
-  I := CharPos(S, Separator);
-  if I <> 0 then
+  I := S.IndexOf(Separator);
+  if I >= 0 then
   begin
-    Result := Copy(S, 1, I - 1);
-    Delete(S, 1, I);
+    Result := S.Substring(0, I);
+    Delete(S, 1, I + 1);
   end
   else
   begin
@@ -1558,11 +1557,9 @@ begin
 end;
 
 function IsDigits(S : string): Boolean;
-Var
-  i : integer;
 begin
   Result := True;
-  for I := 1 to Length(S) do
+  for var I := 1 to S.Length do
     if not CharInSet(S[I], ['0'..'9']) then begin
       Result := False;
       break;

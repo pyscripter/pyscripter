@@ -187,7 +187,7 @@ uses
   JvGnuGetText,
   frmPyIDEMain,
   SynEditTypes,
-  dmCommands,
+  dmResources,
   uEditAppIntfs,
   SynEditLsp,
   LspClient,

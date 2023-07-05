@@ -214,6 +214,7 @@ Uses
   SynEditMiscProcs,
   StringResources,
   frmPyIDEMain,
+  dmResources,
   dmCommands,
   frmUnitTests,
   uCommonFunctions,
@@ -1218,7 +1219,7 @@ begin
   Highlighter := SynEdit.Highlighter;
   Dec(Caret.Char);
   SynEdit.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
-  locLine := StrPadRight(SynEdit.LineText, Caret.Char, ' '); // to deal with trim trailing spaces
+  locLine := SynEdit.LineText.PadRight(Caret.Char); // to deal with trim trailing spaces
   Inc(Caret.Char);
 
   Prompt := GetPromptPrefix(locLine);

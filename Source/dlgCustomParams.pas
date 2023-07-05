@@ -48,7 +48,6 @@ type
     edName: TEdit;
     lvItems: TListview;
     vilImages: TVirtualImageList;
-    procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
@@ -73,22 +72,16 @@ uses
   Vcl.Themes,
   Vcl.Graphics,
   JvGnugettext,
-  dmCommands,
+  dmResources,
   StringResources,
   uCommonFunctions;
 
 {$R *.dfm}
 
-procedure TCustomizeParams.FormDestroy(Sender: TObject);
-begin
-  CommandsDataModule.ParameterCompletion.Editor := nil;
-  CommandsDataModule.ModifierCompletion.Editor := nil;
-end;
-
 procedure TCustomizeParams.FormShow(Sender: TObject);
 begin
-  CommandsDataModule.ParameterCompletion.Editor := SynValue;
-  CommandsDataModule.ModifierCompletion.Editor := SynValue;
+  ResourcesDataModule.ParameterCompletion.Editor := SynValue;
+  ResourcesDataModule.ModifierCompletion.Editor := SynValue;
   // Styling
   SynValue.Font.Color := StyleServices.GetSystemColor(clWindowText);
   SynValue.Color := StyleServices.GetSystemColor(clWindow);

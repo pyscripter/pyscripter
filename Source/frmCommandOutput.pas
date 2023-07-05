@@ -124,6 +124,7 @@ uses
   JvGnugettext,
   SynEdit,
   StringResources,
+  dmResources,
   dmCommands,
   frmPyIDEMain,
   uCommonFunctions;
