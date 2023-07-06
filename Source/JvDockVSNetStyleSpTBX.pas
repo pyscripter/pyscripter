@@ -531,12 +531,13 @@ Var
   DP : TJvDockPosition;
 begin
   inherited;
-  if DockBaseControl is TJvDockServer then begin
+  if (DockBaseControl is TJvDockServer) and
+    not (csDestroying in DockBaseControl.ComponentState)
+  then
     for DP := Low(TJvDockPosition) to High(TJvDockPosition) do begin
       TJvDockServer(DockBaseControl).SplitterStyle[DP].Size := 5;
       TJvDockServer(DockBaseControl).SplitterStyle[DP].ResizeStyle := rsUpdate;
     end;
-  end;
 end;
 
 { TJvDockVSNETTabPageControlSpTBX }

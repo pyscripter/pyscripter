@@ -2984,7 +2984,6 @@ end;
 
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
-  DockServer.DockStyle := nil;
   GI_PyIDEServices := nil;
   SkinManager.RemoveSkinNotification(Self);
   PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);

@@ -139,8 +139,8 @@ var
 implementation
 
 uses
+  System.StrUtils,
   Vcl.Themes,
-  JclSysUtils,
   JvJVCLUtils,
   JvGnugettext,
   PythonEngine,
@@ -228,7 +228,7 @@ begin
     end else begin
       UnitTests.RootNodeCount := TestClasses.Count;
       UnitTests.ReinitNode(UnitTests.RootNode, True);
-      lbFoundTests.Caption := Format(FoundTestsLabel, [TestCount, Iff(TestCount=1, '', 's')]);
+      lbFoundTests.Caption := Format(FoundTestsLabel, [TestCount, IfThen(TestCount=1, '', 's')]);
       Status := utwLoaded;
       actSelectAllExecute(Self);
     end;
@@ -295,7 +295,7 @@ begin
   TestsFailed := 0;
   TestErrors := 0;
   ElapsedTime := 0;
-  lblRunTests.Caption := Format(RunTestsLabel, [TestsRun, Iff(TestsRun=1, '', 's'), '']);
+  lblRunTests.Caption := Format(RunTestsLabel, [TestsRun, IfThen(TestsRun=1, '', 's'), '']);
   lblFailures.Caption := Format(FailuresLabel, [TestsFailed, TestErrors]);
 
   ModuleName.Caption := 'No Module Loaded';
@@ -491,7 +491,7 @@ begin
   TestsFailed := 0;
   TestErrors := 0;
   ElapsedTime := 0;
-  lblRunTests.Caption := Format(RunTestsLabel, [TestsRun, Iff(TestsRun=1, '', 's'), '']);
+  lblRunTests.Caption := Format(RunTestsLabel, [TestsRun, IfThen(TestsRun=1, '', 's'), '']);
   lblFailures.Caption := Format(FailuresLabel, [TestsFailed, TestErrors]);
 
   Status := utwRunning;
@@ -516,7 +516,7 @@ begin
     Status := utwRun;
     PyControl.DebuggerState := dsInactive;
     lblRunTests.Caption := Format(RunTestsLabel,
-      [TestsRun, Iff(TestsRun=1, '', 's'), Format(ElapsedTimeFormat, [ElapsedTime])]);
+      [TestsRun, IfThen(TestsRun=1, '', 's'), Format(ElapsedTimeFormat, [ElapsedTime])]);
   end;
 end;
 
@@ -555,7 +555,7 @@ procedure TUnitTestWindow.StopTest(Test: Variant);
 // Called from IDETestResult
 begin
   Inc(TestsRun);
-  lblRunTests.Caption := Format(RunTestsLabel, [TestsRun, Iff(TestsRun=1, '', 's'), '']);
+  lblRunTests.Caption := Format(RunTestsLabel, [TestsRun, IfThen(TestsRun=1, '', 's'), '']);
   Application.ProcessMessages;
 end;
 

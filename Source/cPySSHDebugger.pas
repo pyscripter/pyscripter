@@ -17,7 +17,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.Threading,
-  JclSysUtils,
+  uSysUtils,
   PythonEngine,
   cPyBaseDebugger,
   cPyDebugger,

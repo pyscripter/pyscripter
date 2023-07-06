@@ -20,7 +20,7 @@ uses
   System.SyncObjs,
   System.Threading,
   Vcl.Forms,
-  JclSysUtils,
+  uSysUtils,
   PythonEngine,
   uEditAppIntfs,
   cTools,

@@ -37,9 +37,9 @@ uses
   JvComponentBase,
   JvDockControlForm,
   JclSynch,
-  JclSysUtils,
   SynEditTypes,
   frmIDEDockWin,
+  uSysUtils,
   uEditAppIntfs,
   cTools;
 

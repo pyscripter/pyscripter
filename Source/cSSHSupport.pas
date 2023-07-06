@@ -99,9 +99,10 @@ implementation
 uses
   WinApi.Windows,
   System.Threading,
+  System.StrUtils,
   Vcl.Forms,
   Vcl.Dialogs,
-  jclSysUtils,
+  uSysUtils,
   JvGnugettext,
   MPCommonUtilities,
   dlgCollectionEditor,
@@ -386,7 +387,7 @@ begin
     Exit(False);
   end;
 
-  SFormat := iff(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
+  SFormat := IfThen(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
   Result := scp(SSHServer.ScpCommand,
     Format(SFormat, [SSHServer.Destination, RemoteFile]),
     Format('"%s"', [LocalFile]), ErrorMsg, SSHServer.ScpOptionsPW);
@@ -404,7 +405,7 @@ begin
     Exit(False);
   end;
 
-  SFormat := iff(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
+  SFormat := IfThen(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
   Result := scp(SSHServer.ScpCommand, Format('"%s"', [LocalFile]),
     Format(SFormat, [SSHServer.Destination, RemoteFile]),
     ErrorMsg, SSHServer.ScpOptionsPW);

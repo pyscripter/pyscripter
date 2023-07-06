@@ -22,7 +22,7 @@ Uses
   Vcl.Graphics,
   Vcl.Forms,
   Vcl.Dialogs,
-  JclSysUtils,
+  uSysUtils,
   SynEditTypes,
   SynUnicode,
   SynEdit,

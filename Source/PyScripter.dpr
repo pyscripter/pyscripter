@@ -109,7 +109,6 @@ uses
   cSSHSupport in 'cSSHSupport.pas',
   dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog},
   cPySSHDebugger in 'cPySSHDebugger.pas',
-  JclSysUtils in 'JclSysUtils.pas',
   RtlVclFixes in 'RtlVclFixes.pas',
   JvDockAdvTree in 'JvDockAdvTree.pas',
   JvDockSupportProc in 'JvDockSupportProc.pas',
@@ -118,7 +117,8 @@ uses
   LspClient in 'LspClient.pas',
   LspUtils in 'LspUtils.pas',
   SynEditLsp in 'SynEditLsp.pas',
-  JediLspClient in 'JediLspClient.pas';
+  JediLspClient in 'JediLspClient.pas',
+  uSysUtils in 'uSysUtils.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

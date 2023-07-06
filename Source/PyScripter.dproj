@@ -310,7 +310,6 @@ $(PostBuildEvent)]]>
             <Form>RemoteFileDialog</Form>
         </DCCReference>
         <DCCReference Include="cPySSHDebugger.pas"/>
-        <DCCReference Include="JclSysUtils.pas"/>
         <DCCReference Include="RtlVclFixes.pas"/>
         <DCCReference Include="JvDockAdvTree.pas"/>
         <DCCReference Include="JvDockSupportProc.pas"/>
@@ -320,6 +319,7 @@ $(PostBuildEvent)]]>
         <DCCReference Include="LspUtils.pas"/>
         <DCCReference Include="SynEditLsp.pas"/>
         <DCCReference Include="JediLspClient.pas"/>
+        <DCCReference Include="uSysUtils.pas"/>
         <None Include="PyScripter.todo"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

@@ -342,6 +342,7 @@ uses
   System.Variants,
   System.IOUtils,
   System.IniFiles,
+  System.Math,
   Vcl.Clipbrd,
   Vcl.Themes,
   MPShellUtilities,
@@ -350,7 +351,6 @@ uses
   SpTBXItem,
   SpTBXTabs,
   PythonEngine,
-  JclSysUtils,
   JclDebug,
   JclShell,
   JvAppIniStorage,
@@ -2287,10 +2287,10 @@ begin
       else
         GI_PyIDEServices.WriteStatusMsg(MsgText);
       if CanWrapSearch and (LastReplaceAction <> raCancel) then begin
-        dlgID := iff(ssoReplace in Options, dsaReplaceFromStart, dsaSearchFromStart);
+        dlgID := IfThen(ssoReplace in Options, dsaReplaceFromStart, dsaSearchFromStart);
         MsgText :=  Format(MsgText + sLineBreak + _(SContinueSearch),
-          [iff(ssoReplace in Options, _(STheSearchAndReplace), _(STheSearch)),
-           iif(ABackwards, _(SFromTheEnd), _(SFromTheStart))]);
+          [IfThen(ssoReplace in Options, _(STheSearchAndReplace), _(STheSearch)),
+           IfThen(ABackwards, _(SFromTheEnd), _(SFromTheStart))]);
 
         if  IsIncremental or (DSAMessageDlg(dlgID, 'PyScripter', MsgText,
            mtConfirmation, [mbYes, mbNo], 0, dckActiveForm, 0, mbYes, mbNo) = mrYes) then
