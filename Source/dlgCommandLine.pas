@@ -51,8 +51,9 @@ type
 implementation
 
 uses
+  JvAppIniStorage,
   dmResources,
-  frmPyIDEMain;
+  uEditAppIntfs;
 
 {$R *.dfm}
 
@@ -71,12 +72,16 @@ end;
 procedure TCommandLineDlg.FormCreate(Sender: TObject);
 begin
   inherited;
-  mnCommandHistoryMRU.LoadFromIni(PyIDEMainForm.AppStorage.IniFile, 'CommandLine MRU');
+  mnCommandHistoryMRU.LoadFromIni(
+    (GI_PyIDEServices.AppStorage as TJvAppIniFileStorage).IniFile,
+      'CommandLine MRU');
 end;
 
 procedure TCommandLineDlg.FormDestroy(Sender: TObject);
 begin
-  mnCommandHistoryMRU.SaveToIni(PyIDEMainForm.AppStorage.IniFile, 'CommandLine MRU');
+  mnCommandHistoryMRU.SaveToIni(
+    (GI_PyIDEServices.AppStorage as TJvAppIniFileStorage).IniFile,
+      'CommandLine MRU');
 end;
 
 procedure TCommandLineDlg.mnCommandHistoryMRUClick(Sender: TObject;

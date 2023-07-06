@@ -1,7 +1,7 @@
 object ResourcesDataModule: TResourcesDataModule
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 427
+  Height = 376
   Width = 746
   object dlgFileOpen: TOpenDialog
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
@@ -2106,8 +2106,8 @@ object ResourcesDataModule: TResourcesDataModule
           '="2"/>'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 136
-    Top = 328
+    Left = 120
+    Top = 224
   end
   object icCodeImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -2253,8 +2253,8 @@ object ResourcesDataModule: TResourcesDataModule
           '-5.7L7.9,18.4z"/>'#13#10'</svg>'#13#10
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 133
-    Top = 256
+    Left = 117
+    Top = 152
   end
   object icBrowserImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -2329,8 +2329,8 @@ object ResourcesDataModule: TResourcesDataModule
           ',16z M7,7h13.5v6H7V7z"/>'#13#10'</svg>'#13#10
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 40
-    Top = 328
+    Left = 24
+    Top = 224
   end
   object icSVGImages: TSVGIconImageCollection
     SVGIconItems = <
@@ -4327,7 +4327,71 @@ object ResourcesDataModule: TResourcesDataModule
           '.5M18.375 2.625L18.375 7.875L13.125 7.875"/>'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
-    Left = 40
-    Top = 256
+    Left = 24
+    Top = 152
+  end
+  object SynWebEngine: TSynWebEngine
+    Options.HtmlVersion = shvHtml5
+    Left = 496
+    Top = 216
+  end
+  object SynWebEsSyn: TSynWebEsSyn
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Left = 684
+    Top = 152
+  end
+  object SynWebPhpPlainSyn: TSynWebPhpPlainSyn
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Left = 587
+    Top = 152
+  end
+  object SynWebCssSyn: TSynWebCssSyn
+    Brackets = '()[]{}<>'
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.HtmlVersion = shvHtml401Transitional
+    Left = 496
+    Top = 152
+  end
+  object SynWebXmlSyn: TSynWebXmlSyn
+    Brackets = '()[]{}<>'
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Left = 684
+    Top = 88
+  end
+  object SynYAMLSyn: TSynYAMLSyn
+    Left = 587
+    Top = 216
+  end
+  object SynWebHtmlSyn: TSynWebHtmlSyn
+    Brackets = '()[]{}<>'
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.HtmlVersion = shvHtml5
+    Options.UseEngineOptions = True
+    Left = 587
+    Top = 88
+  end
+  object SynIniSyn: TSynIniSyn
+    Left = 496
+    Top = 88
+  end
+  object SynCppSyn: TSynCppSyn
+    Left = 684
+    Top = 24
+  end
+  object SynJSONSyn: TSynJSONSyn
+    Left = 587
+    Top = 24
+  end
+  object SynGeneralSyn: TSynGeneralSyn
+    DefaultFilter = 'Text Files(*.txt,*.*)|*.txt;*.*'
+    DetectPreprocessor = False
+    SpaceAttri.Foreground = clSilver
+    Left = 496
+    Top = 24
   end
 end

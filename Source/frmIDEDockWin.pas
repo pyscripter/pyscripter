@@ -62,7 +62,7 @@ uses
   Vcl.Themes,
   SVG,
   SVGIconImageCollection,
-  frmPyIDEMain,
+  dmResources,
   uCommonFunctions;
 
 {$R *.dfm}
@@ -111,7 +111,7 @@ end;
 
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
-  DockClient.DockStyle := PyIDEMainForm.DockServer.DockStyle;
+  DockClient.DockStyle := ResourcesDataModule.DockStyle;
   BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
   BorderNormal := StyleServices.GetSystemColor(clBtnShadow);
 
@@ -129,7 +129,7 @@ begin
   //FGPanel.Margins.SetBounds(0,0,0,0);
   // Set the MouseleaveHide option
   // It may have been reset when a dock form is shown via the keyboard or menu
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := True;
+  ResourcesDataModule.DockStyle.ChannelOption.MouseleaveHide := True;
 end;
 
 procedure TIDEDockWindow.FormDestroy(Sender: TObject);
@@ -151,15 +151,14 @@ begin
   TabHost.LRDockWidth := DockClient.LRDockWidth;
   TabHost.FormStyle := fsNormal;
   TabHost.PopupMode := pmExplicit;
-  TabHost.PopupParent := PyIDEMainForm;
+  TabHost.PopupParent := Application.MainForm;
 end;
 
 procedure TIDEDockWindow.CreateFormIcon;
 begin
    if ImageName <> '' then
    begin
-     var SVGItem := (PyIDEMainForm.vilImages.ImageCollection
-       as TSVGIconImageCollection).SVGIconItems.GetIconByName(ImageName);
+     var SVGItem := ResourcesDataModule.icSVGImages.SVGIconItems.GetIconByName(ImageName);
      var Details := StyleServices.GetElementDetails(ttTabItemNormal);
      var Color: TColor;
      if not StyleServices.GetElementColor(Details, ecTextColor, Color) then
@@ -173,7 +172,7 @@ procedure TIDEDockWindow.DockClientConjoinHostFormCreated(
 begin
   ConjoinHost.FormStyle := fsNormal;
   ConjoinHost.PopupMode := pmExplicit;
-  ConjoinHost.PopupParent := PyIDEMainForm;
+  ConjoinHost.PopupParent := Application.MainForm;
 end;
 
 end.

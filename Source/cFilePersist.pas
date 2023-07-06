@@ -90,7 +90,7 @@ uses
   SpTBXTabs,
   TB2Item,
   JvJCLUtils,
-  dmCommands,
+  dmResources,
   frmPyIDEMain,
   uHighlighterProcs,
   cPyBaseDebugger,
@@ -321,8 +321,8 @@ begin
           with TBookMarkInfo(FilePersistInfo.BookMarks[j]) do
             Editor.SynEdit.SetBookMark(BookMarkNumber, Char, Line);
         if FilePersistInfo.Highlighter <> '' then begin
-          Editor.SynEdit.Highlighter := GetHighlighterFromLanguageName(
-            FilePersistInfo.Highlighter, CommandsDataModule.Highlighters);
+          Editor.SynEdit.Highlighter := ResourcesDataModule.Highlighters.
+           HighlighterFromFriendlyName(FilePersistInfo.Highlighter);
           Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
         end;
         RestoreFoldInfo(Editor.SynEdit, FilePersistInfo.UseCodeFolding, FilePersistInfo.FoldState);

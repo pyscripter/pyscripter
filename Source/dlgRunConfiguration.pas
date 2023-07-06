@@ -87,7 +87,6 @@ uses
   JvGnugettext,
   dlgToolProperties,
   dmResources,
-  dmCommands,
   uHighlighterProcs,
   cProjectClasses,
   StringResources,
@@ -147,7 +146,7 @@ procedure TRunConfigurationForm.btnFileNameClick(Sender: TObject);
 begin
   with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SSelectPythonScript);
-    Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
+    Filter := ResourcesDataModule.Highlighters.FileFilters + _(SFilterAllFiles);
     FileName := '';
     if ActiveProject.FileName <> '' then
       InitialDir := TPath.GetDirectoryName(ActiveProject.FileName);

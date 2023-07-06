@@ -72,12 +72,6 @@ type
     SynEditRegexSearch: TSynEditRegexSearch;
     ProgramVersionCheck: TJvProgramVersionCheck;
     ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation;
-    SynIniSyn: TSynIniSyn;
-    SynWebHtmlSyn: TSynWebHtmlSyn;
-    SynWebXmlSyn: TSynWebXmlSyn;
-    SynWebCssSyn: TSynWebCssSyn;
-    SynCppSyn: TSynCppSyn;
-    SynWebEngine: TSynWebEngine;
     actlMain: TActionList;
     actPythonManuals: THelpContents;
     actHelpContents: THelpContents;
@@ -157,8 +151,6 @@ type
     actFileSave: TAction;
     actEditCopyFileName: TAction;
     actToolsEditStartupScripts: TAction;
-    SynWebEsSyn: TSynWebEsSyn;
-    SynWebPhpPlainSyn: TSynWebPhpPlainSyn;
     actHelpWebBlog: TAction;
     actFoldVisible: TAction;
     actFoldAll: TAction;
@@ -177,9 +169,6 @@ type
     actUnfoldClasses: TAction;
     actFoldFunctions: TAction;
     actUnfoldFunctions: TAction;
-    SynGeneralSyn: TSynGeneralSyn;
-    SynJSONSyn: TSynJSONSyn;
-    SynYAMLSyn: TSynYAMLSyn;
     actFileCloseAllToTheRight: TAction;
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
@@ -303,17 +292,11 @@ type
     procedure actToolsRestartLSExecute(Sender: TObject);
     procedure SynSpellCheckChange(Sender: TObject);
   private
-    fHighlighters: TStrings;
     fConfirmReplaceDialogRect: TRect;
     procedure PyIDEOptionsChanged;
-    procedure SynPythonSynChanged(Sender: TObject);
   protected
     procedure Loaded; override;
   public
-    SynPythonSyn: TSynPythonSyn;
-    SynCythonSyn: TSynCythonSyn;
-    function GetHighlighterForFile(AFileName: string): TSynCustomHighlighter;
-    class function IsHighlighterStored(Highlighter: TObject): Boolean;
     procedure SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
                 var Count: Integer);
     procedure SynEditOptionsDialogGetHighlighter(Sender: TObject;
@@ -340,7 +323,6 @@ type
     procedure ProcessFolderChange(const FolderName: string);
     function FindSearchTarget : ISearchCommands;
     procedure HighlightWordInActiveEditor(SearchWord : string);
-    property Highlighters : TStrings read fHighlighters;
   end;
 
 var
@@ -410,44 +392,7 @@ uses
 { TCommandsDataModule }
 
 procedure TCommandsDataModule.DataModuleCreate(Sender: TObject);
-var
-  Index : integer;
 begin
-  // Setup Highlighters
-  SynPythonSyn := TSynPythonSyn.Create(Self);
-  SynPythonSyn.HookAttrChangeEvent(SynPythonSynChanged);
-  SynCythonSyn := TSynCythonSyn.Create(Self);
-  SynCythonSyn.Assign(SynPythonSyn);
-  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
-  fHighlighters := TStringList.Create;
-  TStringList(fHighlighters).CaseSensitive := False;
-  GetHighlighters(Self, fHighlighters, False);
-  TStringList(fHighlighters).Sort;
-
-  //  Place Python first
-  Index := fHighlighters.IndexOf(SynPythonSyn.FriendlyLanguageName);
-  if Index >= 0 then fHighlighters.Delete(Index);
-  fHighlighters.InsertObject(0, SynPythonSyn.FriendlyLanguageName, SynPythonSyn);
-  //  Place Cython before last
-  Index := fHighlighters.IndexOf(SynCythonSyn.FriendlyLanguageName);
-  if Index >= 0 then fHighlighters.Delete(Index);
-  fHighlighters.AddObject(SynCythonSyn.FriendlyLanguageName, SynCythonSyn);
-  //  Place General highlighter last
-  Index := fHighlighters.IndexOf(SynGeneralSyn.FriendlyLanguageName);
-  if Index >= 0 then fHighlighters.Delete(Index);
-  fHighlighters.AddObject(SynGeneralSyn.FriendlyLanguageName, SynGeneralSyn);
-
-  // SynWeb Highlighters do not provide default filters
-  SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
-  SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
-  SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
-  SynWebEsSyn.DefaultFilter := PyIDEOptions.JSFileFilter;
-  SynWebPhpPlainSyn.DefaultFilter := PyIDEOptions.PHPFileFilter;
-
-  MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
-
-  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
-
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
   SynCodeCompletion.FontsAreScaled := True;
 
@@ -459,40 +404,29 @@ begin
   // and the stored lanuage option is "en".
   UseLanguage('en');
   TranslateComponent(Self);
+
+  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 end;
 
 procedure TCommandsDataModule.DataModuleDestroy(Sender: TObject);
 begin
-  fHighlighters.Free;
   CommandsDataModule := nil;
   PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
-end;
-
-// implementation
-
-function TCommandsDataModule.GetHighlighterForFile(
-  AFileName: string): TSynCustomHighlighter;
-begin
-  if AFileName <> '' then
-//    Result := GetHighlighterFromFileExt(fHighlighters, ExtractFileExt(AFileName))
-    Result := GetHighlighterFromFileName(fHighlighters, AFileName)
-  else
-    Result := nil;
 end;
 
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
   var Count: Integer);
 begin
-   Count := fHighlighters.Count + 1; // The last one is the Python Interpreter
+   Count := ResourcesDataModule.Highlighters.Count + 1; // The last one is the Python Interpreter
 end;
 
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighter(Sender: TObject;
   Index: Integer; var SynHighlighter: TSynCustomHighlighter);
 begin
-   if (Index >= 0) and (Index < fHighlighters.Count) then
-      SynHighlighter := fHighlighters.Objects[Index] as TSynCustomHighlighter
-   else if Index = fHighlighters.Count then
-     SynHighlighter := PythonIIForm.SynEdit.Highlighter
+   if (Index >= 0) and (Index < ResourcesDataModule.Highlighters.Count) then
+      SynHighlighter := ResourcesDataModule.Highlighters[Index]
+   else if Index = ResourcesDataModule.Highlighters.Count then
+     SynHighlighter := GI_PyInterpreter.Editor.Highlighter
    else
      SynHighlighter := nil;
 end;
@@ -500,17 +434,17 @@ end;
 procedure TCommandsDataModule.SynEditOptionsDialogSetHighlighter(Sender: TObject;
   Index: Integer; SynHighlighter: TSynCustomHighlighter);
 begin
-   if (Index >= 0) and (Index < fHighlighters.Count) then
-     (fHighlighters.Objects[Index] as TSynCustomHighlighter).Assign(SynHighlighter)
-   else if Index = fHighlighters.Count then
-     PythonIIForm.SynEdit.Highlighter.Assign(SynHighlighter);
+   if (Index >= 0) and (Index < ResourcesDataModule.Highlighters.Count) then
+     ResourcesDataModule.Highlighters[Index].Assign(SynHighlighter)
+   else if Index = ResourcesDataModule.Highlighters.Count then
+     GI_PyInterpreter.Editor.Highlighter.Assign(SynHighlighter);
 end;
 
 procedure TCommandsDataModule.SynInterpreterOptionsDialogGetHighlighter(
   Sender: TObject; Index: Integer; var SynHighlighter: TSynCustomHighlighter);
 begin
   if Index = 0 then
-    SynHighlighter := PythonIIForm.SynEdit.Highlighter
+    SynHighlighter := GI_PyInterpreter.Editor.Highlighter
   else
     SynHighlighter := nil;
 end;
@@ -525,29 +459,7 @@ procedure TCommandsDataModule.SynInterpreterOptionsDialogSetHighlighter(
   Sender: TObject; Index: Integer; SynHighlighter: TSynCustomHighlighter);
 begin
   if Index = 0 then
-    PythonIIForm.SynEdit.Highlighter.Assign(SynHighlighter);
-end;
-
-procedure TCommandsDataModule.SynPythonSynChanged(Sender: TObject);
-begin
-  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
-  begin
-    with TEditorForm(Editor.Form) do
-    begin
-      SynEdit.BracketsHighlight.SetFontColorsAndStyle(
-        SynPythonSyn.MatchingBraceAttri.Foreground,
-        SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-      SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
-        SynPythonSyn.MatchingBraceAttri.Foreground,
-        SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-    end
-  end);
-  PythonIIForm.SynEdit.BracketsHighlight.SetFontColorsAndStyle(
-    SynPythonSyn.MatchingBraceAttri.Foreground,
-    SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
-
-  SynCythonSyn.Assign(SynPythonSyn);
-  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
+    GI_PyInterpreter.Editor.Highlighter.Assign(SynHighlighter);
 end;
 
 procedure TCommandsDataModule.HighlightWordInActiveEditor(SearchWord: string);
@@ -772,13 +684,6 @@ begin
   end;
 end;
 
-class function TCommandsDataModule.IsHighlighterStored(
-  Highlighter: TObject): Boolean;
-begin
-  Result :=  not (Highlighter is TSynCythonSyn) and
-    (not (Highlighter is TSynWebBase) or (Highlighter is TSynWebHtmlSyn));
-end;
-
 procedure TCommandsDataModule.Loaded;
 begin
   inherited;
@@ -986,7 +891,7 @@ begin
   // and restore them if the dialog is cancelled.
   TempStream := TMemoryStream.Create;
   TempIniFile := TMemIniFile.Create(TempStream);
-  SynWebHtmlSyn.SaveToIniFile(TempIniFile);
+  ResourcesDataModule.SynWebHtmlSyn.SaveToIniFile(TempIniFile);
   try
     with TSynEditOptionsDialog.Create(Self) do begin
       if Assigned(GI_ActiveEditor) then begin
@@ -1017,7 +922,7 @@ begin
           GI_ActiveEditor.ActiveSynEdit.Assign(TempEditorOptions);
       end else
         //  If canceled restore original settings
-        SynWebHtmlSyn.LoadFromIniFile(TempIniFile);
+        ResourcesDataModule.SynWebHtmlSyn.LoadFromIniFile(TempIniFile);
       Free;
     end;
   finally
@@ -1033,7 +938,7 @@ begin
   var TempEditorOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(Self))();
 
   with TSynEditOptionsDialog.Create(Self) do begin
-    TempEditorOptions.Assign(PythonIIForm.SynEdit);
+    TempEditorOptions.Assign(GI_PyInterpreter.Editor);
     Form.cbApplyToAll.Checked := False;
     Form.cbApplyToAll.Enabled := False;
     Form.Caption := 'Interpreter Editor Options';
@@ -1045,7 +950,7 @@ begin
     if Execute(TempEditorOptions) then begin
       UpdateHighlighters;
       PythonIIForm.ValidateEditorOptions(TempEditorOptions);
-      PythonIIForm.SynEdit.Assign(TempEditorOptions);
+      GI_PyInterpreter.Editor.Assign(TempEditorOptions);
     end;
     Free;
   end;
@@ -1193,39 +1098,8 @@ begin
 end;
 
 procedure TCommandsDataModule.actExportHighlightersExecute(Sender: TObject);
-Var
-  i : integer;
-  AppStorage : TJvAppIniFileStorage;
-  IP : TStringList;
 begin
-  with ResourcesDataModule.dlgFileSave do begin
-    Title := _(SExportHighlighters);
-    Filter := SynIniSyn.DefaultFilter;
-    DefaultExt := 'ini';
-    if Execute then begin
-      IP := TStringList.Create;
-      IP.Add('Name'); IP.Add('DefaultFilter'); IP.Add('DefaultExtension');
-      AppStorage := TJvAppIniFileStorage.Create(nil);
-      try
-        AppStorage.FlushOnDestroy := True;
-        AppStorage.Location := flCustom;
-        AppStorage.FileName := FileName;
-        AppStorage.StorageOptions.SetAsString := True;
-        AppStorage.WriteString('PyScripter\Version', ApplicationVersion);
-        AppStorage.WriteBoolean('PyScripter\SetAsString', True);
-        AppStorage.DeleteSubTree('Highlighters');
-        for i := 0 to Highlighters.Count - 1 do
-          if IsHighlighterStored(Highlighters.Objects[i]) then
-            AppStorage.WritePersistent('Highlighters\'+ Highlighters[i],
-              TPersistent(Highlighters.Objects[i]), True, IP);
-        AppStorage.WritePersistent('Highlighters\Python Interpreter',
-          PythonIIForm.SynEdit.Highlighter, True, IP);
-    finally
-        AppStorage.Free;
-        IP.Free;
-      end;
-    end;
-  end;
+  ResourcesDataModule.ExportHighlighters;
 end;
 
 procedure TCommandsDataModule.actExportShortCutsExecute(Sender: TObject);
@@ -1235,7 +1109,7 @@ Var
 begin
   with ResourcesDataModule.dlgFileSave do begin
     Title := _(SExportShortcuts);
-    Filter := SynIniSyn.DefaultFilter;
+    Filter := ResourcesDataModule.SynIniSyn.DefaultFilter;
     DefaultExt := 'ini';
     if Execute then begin
       AppStorage := TJvAppIniFileStorage.Create(nil);
@@ -1262,36 +1136,8 @@ begin
 end;
 
 procedure TCommandsDataModule.actImportHighlightersExecute(Sender: TObject);
-Var
-  i : integer;
-  AppStorage : TJvAppIniFileStorage;
 begin
-  with ResourcesDataModule.dlgFileOpen do begin
-    Title := _(SImportHighlighters);
-    Filter := SynIniSyn.DefaultFilter;
-    FileName := '';
-    if Execute then begin
-      AppStorage := TJvAppIniFileStorage.Create(nil);
-      try
-        AppStorage.FlushOnDestroy := False;
-        AppStorage.Location := flCustom;
-        AppStorage.FileName := FileName;
-        AppStorage.StorageOptions.SetAsString :=
-          AppStorage.ReadBoolean('PyScripter\SetAsString', False);
-        for i := 0 to Highlighters.Count - 1 do
-          AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
-            TPersistent(Highlighters.Objects[i]));
-        PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);
-        SynCythonSyn.Assign(SynPythonSyn);
-        SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
-        if AppStorage.IniFile.SectionExists('Highlighters\Python Interpreter') then
-          AppStorage.ReadPersistent('Highlighters\Python Interpreter',
-            PythonIIForm.SynEdit.Highlighter);
-      finally
-        AppStorage.Free;
-      end;
-    end;
-  end;
+  ResourcesDataModule.ImportHighlighters;
 end;
 
 procedure TCommandsDataModule.actImportShortcutsExecute(Sender: TObject);
@@ -1301,7 +1147,7 @@ Var
 begin
   with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SImportShortcuts);
-    Filter := SynIniSyn.DefaultFilter;
+    Filter := ResourcesDataModule.SynIniSyn.DefaultFilter;
     FileName := '';
     if Execute then begin
       AppStorage := TJvAppIniFileStorage.Create(nil);
@@ -1325,7 +1171,7 @@ begin
             Editor.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
           end);
 
-          PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
+          GI_PyInterpreter.Editor.Keystrokes.Assign(EditorOptions.Keystrokes);
           PythonIIForm.RegisterHistoryCommands;
         end;
       finally
@@ -1879,8 +1725,8 @@ begin
   actEditReadOnly.Enabled := Assigned(GI_ActiveEditor);
   actEditReadOnly.Checked := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ReadOnly;
   actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) and not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding
-    or PythonIIForm.SynEdit.Focused;
-  actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or PythonIIForm.SynEdit.Focused;;
+    or GI_PyInterpreter.Editor.Focused;
+  actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or GI_PyInterpreter.Editor.Focused;;
   if Assigned(GI_ActiveEditor) then begin
     actEditLineNumbers.Checked := GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;
     actEditWordWrap.Checked := GI_ActiveEditor.ActiveSynEdit.WordWrap;
@@ -2148,8 +1994,8 @@ procedure TCommandsDataModule.actEditWordWrapExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
     GI_ActiveEditor.ActiveSynEdit.WordWrap := not GI_ActiveEditor.ActiveSynEdit.WordWrap
-  else if PythonIIForm.SynEdit.Focused then
-    PythonIIForm.SynEdit.WordWrap := not PythonIIForm.SynEdit.WordWrap;
+  else if GI_PyInterpreter.Editor.Focused then
+    GI_PyInterpreter.Editor.WordWrap := not GI_PyInterpreter.Editor.WordWrap;
 end;
 
 procedure TCommandsDataModule.actEditShowSpecialCharsExecute(
@@ -2160,10 +2006,10 @@ begin
     var Options := GI_ActiveEditor.ActiveSynEdit.Options;
     GI_ActiveEditor.ActiveSynEdit.Options := Options + [eoShowSpecialChars] - Options * [eoShowSpecialChars];
   end
-  else if PythonIIForm.SynEdit.Focused then
+  else if GI_PyInterpreter.Editor.Focused then
   begin
-    var Options := PythonIIForm.SynEdit.Options;
-    PythonIIForm.SynEdit.Options := Options + [eoShowSpecialChars] - Options * [eoShowSpecialChars];
+    var Options := GI_PyInterpreter.Editor.Options;
+    GI_PyInterpreter.Editor.Options := Options + [eoShowSpecialChars] - Options * [eoShowSpecialChars];
   end;
 end;
 
@@ -2481,7 +2327,7 @@ Var
 begin
   Result := GI_SearchCmds;
   if not Assigned(GI_SearchCmds) then begin
-    if EditorSearchOptions.InterpreterIsSearchTarget and CanActuallyFocus(PythonIIForm.SynEdit) then
+    if EditorSearchOptions.InterpreterIsSearchTarget and CanActuallyFocus(GI_PyInterpreter.Editor) then
       Result := PythonIIForm
     else begin
       Editor := GI_PyIDEServices.ActiveEditor;
@@ -2606,17 +2452,6 @@ end;
 
 procedure TCommandsDataModule.PyIDEOptionsChanged;
 begin
-  // Filters
-  SynPythonSyn.DefaultFilter := PyIDEOptions.PythonFileFilter;
-  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
-  SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
-  SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
-  SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
-  SynCppSyn.DefaultFilter := PyIDEOptions.CPPFileFilter;
-  SynYAMLSyn.DefaultFilter := PyIDEOptions.YAMLFileFilter;
-  SynJSONSyn.DefaultFilter := PyIDEOptions.JSONFileFilter;
-  SynGeneralSyn.DefaultFilter := PyIDEOptions.GeneralFileFilter;
-
   // Syntax Code Completion
   SynCodeCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
   with SynCodeCompletion do begin

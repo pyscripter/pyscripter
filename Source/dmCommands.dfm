@@ -1,8 +1,8 @@
 object CommandsDataModule: TCommandsDataModule
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 402
-  Width = 717
+  Height = 280
+  Width = 509
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.DefaultFont.Charset = DEFAULT_CHARSET
@@ -75,43 +75,6 @@ object CommandsDataModule: TCommandsDataModule
     VersionInfoFileName = 'PyScripterVersionInfo.ini'
     Left = 206
     Top = 8
-  end
-  object SynIniSyn: TSynIniSyn
-    Left = 531
-    Top = 272
-  end
-  object SynWebHtmlSyn: TSynWebHtmlSyn
-    Brackets = '()[]{}<>'
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Options.HtmlVersion = shvHtml5
-    Options.UseEngineOptions = True
-    Left = 620
-    Top = 272
-  end
-  object SynWebXmlSyn: TSynWebXmlSyn
-    Brackets = '()[]{}<>'
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Left = 259
-    Top = 336
-  end
-  object SynWebCssSyn: TSynWebCssSyn
-    Brackets = '()[]{}<>'
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Options.HtmlVersion = shvHtml401Transitional
-    Left = 350
-    Top = 336
-  end
-  object SynCppSyn: TSynCppSyn
-    Left = 442
-    Top = 272
-  end
-  object SynWebEngine: TSynWebEngine
-    Options.HtmlVersion = shvHtml5
-    Left = 624
-    Top = 336
   end
   object actlMain: TActionList
     Images = PyIDEMainForm.vilImages
@@ -1007,29 +970,6 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Delete'
     end
   end
-  object SynWebEsSyn: TSynWebEsSyn
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Left = 532
-    Top = 336
-  end
-  object SynWebPhpPlainSyn: TSynWebPhpPlainSyn
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Left = 441
-    Top = 336
-  end
-  object SynGeneralSyn: TSynGeneralSyn
-    DefaultFilter = 'Text Files(*.txt,*.*)|*.txt;*.*'
-    DetectPreprocessor = False
-    SpaceAttri.Foreground = clSilver
-    Left = 264
-    Top = 272
-  end
-  object SynJSONSyn: TSynJSONSyn
-    Left = 353
-    Top = 272
-  end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
     Width = 340
@@ -1056,8 +996,8 @@ object CommandsDataModule: TCommandsDataModule
       end>
     Resizeable = True
     ShortCut = 0
-    Left = 516
-    Top = 112
+    Left = 380
+    Top = 104
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams
@@ -1082,8 +1022,8 @@ object CommandsDataModule: TCommandsDataModule
     Columns = <>
     ShortCut = 0
     TimerInterval = 300
-    Left = 516
-    Top = 71
+    Left = 380
+    Top = 63
   end
   object SynCodeCompletion: TSynCompletionProposal
     Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -1109,8 +1049,8 @@ object CommandsDataModule: TCommandsDataModule
     Resizeable = True
     ShortCut = 0
     TimerInterval = 300
-    Left = 516
-    Top = 25
+    Left = 380
+    Top = 17
   end
   object SynSpellCheck: TSynSpellCheck
     AttributesChecked.Strings = (
@@ -1120,11 +1060,7 @@ object CommandsDataModule: TCommandsDataModule
       'Documentation')
     CheckAsYouType = False
     OnChange = SynSpellCheckChange
-    Left = 32
-    Top = 328
-  end
-  object SynYAMLSyn: TSynYAMLSyn
-    Left = 163
-    Top = 336
+    Left = 384
+    Top = 168
   end
 end

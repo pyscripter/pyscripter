@@ -94,8 +94,7 @@ uses
   uCommonFunctions,
   cPyControl,
   cPyScripterSettings,
-  dmResources,
-  dmCommands;
+  dmResources;
 
 {$R *.dfm}
 
@@ -127,7 +126,7 @@ end;
 
 procedure TDocForm.ToolButtonSaveClick(Sender: TObject);
 begin
-  if ResourcesDataModule.GetSaveFileName(FSaveFileName, CommandsDataModule.SynWebHtmlSyn, 'html') then
+  if ResourcesDataModule.GetSaveFileName(FSaveFileName, ResourcesDataModule.SynWebHtmlSyn, 'html') then
     WebBrowser.ExecuteScript('encodeURIComponent(document.documentElement.outerHTML)');
 end;
 
@@ -195,7 +194,7 @@ end;
 
 procedure TDocView.GetContextHighlighters(List: TList);
 begin
-  List.Add(CommandsDataModule.SynPythonSyn);
+  List.Add(ResourcesDataModule.SynPythonSyn);
 end;
 
 function TDocView.GetHint: string;

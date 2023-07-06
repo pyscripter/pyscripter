@@ -102,7 +102,6 @@ uses
   StringResources,
   VarPyth,
   dmResources,
-  dmCommands,
   frmCommandOutput,
   cPyScripterSettings;
 
@@ -165,7 +164,7 @@ end;
 
 procedure TWebPreviewForm.ToolButtonSaveClick(Sender: TObject);
 begin
-  if ResourcesDataModule.GetSaveFileName(FSaveFileName, CommandsDataModule.SynWebHtmlSyn, 'html') then
+  if ResourcesDataModule.GetSaveFileName(FSaveFileName, ResourcesDataModule.SynWebHtmlSyn, 'html') then
     WebBrowser.ExecuteScript('encodeURIComponent(document.documentElement.outerHTML)');
 end;
 
@@ -173,7 +172,7 @@ procedure TWebPreviewForm.UpdateView(Editor: IEditor);
 begin
   fEditor := Editor;
   if Assigned(Editor.SynEdit.Highlighter) and
-    (Editor.SynEdit.Highlighter = CommandsDataModule.SynJSONSyn) then
+    (Editor.SynEdit.Highlighter = ResourcesDataModule.SynJSONSyn) then
   begin
     var FN := TPath.GetFileName(Editor.FileName);
     FN := StringReplace(FN, ' ', '%20', [rfReplaceAll]);
@@ -219,7 +218,7 @@ end;
 function TWebPreviewView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
 begin
   if Assigned(Editor.SynEdit.Highlighter) and
-    (Editor.SynEdit.Highlighter = CommandsDataModule.SynJSONSyn) then
+    (Editor.SynEdit.Highlighter = ResourcesDataModule.SynJSONSyn) then
   begin
     if Editor.FileName = '' then
       (Editor as IFileCommands).ExecSave;
@@ -256,10 +255,10 @@ end;
 
 procedure TWebPreviewView.GetContextHighlighters(List: TList);
 begin
-  List.Add(CommandsDataModule.SynWebHtmlSyn);
-  List.Add(CommandsDataModule.SynWebXmlSyn);
-  List.Add(CommandsDataModule.SynWebCssSyn);
-  List.Add(CommandsDataModule.SynJSONSyn);
+  List.Add(ResourcesDataModule.SynWebHtmlSyn);
+  List.Add(ResourcesDataModule.SynWebXmlSyn);
+  List.Add(ResourcesDataModule.SynWebCssSyn);
+  List.Add(ResourcesDataModule.SynJSONSyn);
 end;
 
 function TWebPreviewView.GetHint: string;

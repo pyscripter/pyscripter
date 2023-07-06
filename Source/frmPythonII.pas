@@ -169,6 +169,7 @@ type
     procedure UpdatePythonKeywords;
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
     procedure ReinitInterpreter;
+    function GetEditor: TCustomSynEdit;
     function GetPythonIO: TPythonInputOutput;
     function GetShowOutput: boolean;
     procedure SetShowOutput(const Value: boolean);
@@ -510,7 +511,7 @@ begin
   SynEdit.WordWrap := OldWordWrap;
   RegisterHistoryCommands;
 
-  SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
+  SynEdit.Highlighter.Assign(ResourcesDataModule.SynPythonSyn);
 end;
 
 procedure TPythonIIForm.ApplyPyIDEOptions;
@@ -527,7 +528,7 @@ begin
   inherited;
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);
-  SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
+  SynEdit.Highlighter.Assign(ResourcesDataModule.SynPythonSyn);
 
   ApplyEditorOptions;
 
@@ -1482,7 +1483,7 @@ Var
   Keywords, Builtins, BuiltInMod : Variant;
   i : integer;
 begin
-  with CommandsDataModule do begin
+  with ResourcesDataModule do begin
     SynPythonSyn.Keywords.Clear;
     SynPythonSyn.Keywords.Sorted := False;
     Keywords := Import('keyword').kwlist;
@@ -1651,6 +1652,11 @@ begin
     Source := Source + Buffer[i - StartLineN] + WideLF;
   end;
   Delete(Source, Length(Source), 1);
+end;
+
+function TPythonIIForm.GetEditor: TCustomSynEdit;
+begin
+  Result := SynEdit;
 end;
 
 procedure TPythonIIForm.RegisterHistoryCommands;

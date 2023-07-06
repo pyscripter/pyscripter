@@ -90,7 +90,6 @@ uses
   Vcl.Graphics,
   JvGnugettext,
   dmResources,
-  dmCommands,
   StringResources,
   uCommonFunctions;
 
@@ -98,7 +97,7 @@ uses
 
 procedure TCodeTemplates.FormShow(Sender: TObject);
 begin
-  SynTemplate.Highlighter := CommandsDataModule.SynPythonSyn;
+  SynTemplate.Highlighter := ResourcesDataModule.SynPythonSyn;
   ResourcesDataModule.ParameterCompletion.Editor := SynTemplate;
   ResourcesDataModule.ModifierCompletion.Editor := SynTemplate;
   SetItems;

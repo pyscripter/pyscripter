@@ -634,7 +634,7 @@ begin
   begin
     if fUntitledNumber = -1 then
       fUntitledNumber := GetUntitledNumber;
-    if fForm.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
+    if fForm.SynEdit.Highlighter = ResourcesDataModule.SynPythonSyn then
       Result := _(SNonamePythonFileTitle) + IntToStr(fUntitledNumber)
     else
       Result := _(SNonameFileTitle) + IntToStr(fUntitledNumber);
@@ -1962,25 +1962,17 @@ begin
 end;
 
 procedure TEditorForm.DoUpdateHighlighter(HighlighterName: string = '');
-var
-  Index: Integer;
 begin
   Assert(fEditor <> nil);
   if HighlighterName <> '' then
-  begin
-    Index := CommandsDataModule.Highlighters.IndexOf(HighlighterName);
-    if Index < 0 then
-      SynEdit.Highlighter := nil
-    else
-      SynEdit.Highlighter := CommandsDataModule.Highlighters.Objects[Index]
-        as TSynCustomHighlighter;
-  end
+    SynEdit.Highlighter :=
+      ResourcesDataModule.Highlighters.HighlighterFromFriendlyName(HighlighterName)
   else if fEditor.fFileName <> '' then
-    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
-      (fEditor.fFileName)
+    SynEdit.Highlighter :=
+      ResourcesDataModule.Highlighters.HighlighterFromFileName(fEditor.fFileName)
   else if fEditor.fRemoteFileName <> '' then
-    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
-      (fEditor.fRemoteFileName)
+    SynEdit.Highlighter :=
+      ResourcesDataModule.Highlighters.HighlighterFromFileName(fEditor.fRemoteFileName)
   else // No highlighter otherwise
     SynEdit.Highlighter := nil;
 
@@ -2145,7 +2137,7 @@ begin
           //  ( // (attr = ASynEdit.Highlighter.StringAttribute) or
           //  (Attr = ASynEdit.Highlighter.CommentAttribute) or
           //    (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
-          //    (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
+          //    (attr = ResourcesDataModule.SynPythonSyn.DocStringAttri) } ) then
           //begin
           if TPyRegExpr.IsBlockOpener(iPrevLine) then
             ASynEdit.ExecuteCommand(ecTab, #0, nil)
@@ -2178,9 +2170,9 @@ begin
                 OpenBrackets := '([{"''';
                 CloseBrackets := ')]}"''';
               end
-              else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn)
-                or (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
-                (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
+              else if (ASynEdit.Highlighter = ResourcesDataModule.SynWebHTMLSyn)
+                or (ASynEdit.Highlighter = ResourcesDataModule.SynWebXMLSyn) or
+                (ASynEdit.Highlighter = ResourcesDataModule.SynWebCssSyn) then
               begin
                 OpenBrackets := '<"''';
                 CloseBrackets := '>"''';
@@ -2530,13 +2522,13 @@ var
   aLineCharPos: TBufferCoord;
 begin
   aLineCharPos := SynEdit.CaretXY;
-  if SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
+  if SynEdit.Highlighter = ResourcesDataModule.SynPythonSyn then
     with SynEdit do
     begin
       GetHighlighterAttriAtRowCol(aLineCharPos, Token, Attri);
-      if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-        (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-        (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
+      if (Attri = ResourcesDataModule.SynPythonSyn.IdentifierAttri) or
+        (Attri = ResourcesDataModule.SynPythonSyn.NonKeyAttri) or
+        (Attri = ResourcesDataModule.SynPythonSyn.SystemAttri) or
         ((Token = ')') or (Token = ']')) then
       begin
         LineTxt := Lines[aLineCharPos.Line - 1];
@@ -2584,11 +2576,11 @@ begin
   SynEdit2.Assign(EditorOptions);
 
   SynEdit.BracketsHighlight.SetFontColorsAndStyle(
-    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
-    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+    ResourcesDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+    ResourcesDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
   SynEdit2.BracketsHighlight.SetFontColorsAndStyle(
-    CommandsDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
-    CommandsDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
+    ResourcesDataModule.SynPythonSyn.MatchingBraceAttri.Foreground,
+    ResourcesDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
 end;
 
 procedure TEditorForm.ApplyPyIDEOptions;
@@ -2951,7 +2943,7 @@ Var
   SynEdit: TCustomSynEdit;
 begin
   SynEdit := TSynCompletionProposal(Sender).Editor;
-  SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHTMLSyn,
+  SynWebFillCompletionProposal(SynEdit, ResourcesDataModule.SynWebHTMLSyn,
     CommandsDataModule.SynWebCompletion, CurrentInput);
   TSynCompletionProposal(Sender).Font := PyIDEOptions.AutoCompletionFont;
   TSynCompletionProposal(Sender).FontsAreScaled := True;
@@ -3019,7 +3011,7 @@ var
   Row, Line: Integer;
 begin
   DoDefaultPainting := False;
-  if not (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then Exit;
+  if not (SynEdit.Highlighter = ResourcesDataModule.SynPythonSyn) then Exit;
 
   if (PyControl.ActiveDebugger <> nil) and SynEdit.Gutter.Visible then
   begin
@@ -3073,7 +3065,7 @@ Var
   ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
-  if (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
+  if (ASynEdit.Highlighter = ResourcesDataModule.SynPythonSyn) and
     (PyControl.ActiveDebugger <> nil)
   then
     PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL) < 0);

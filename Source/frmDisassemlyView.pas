@@ -56,7 +56,7 @@ uses
   JvJVCLUtils,
   JvGnugettext,
   StringResources,
-  dmCommands,
+  dmResources,
   cPyScripterSettings,
   cPyControl;
 
@@ -65,7 +65,7 @@ uses
 procedure TDisForm.FormCreate(Sender: TObject);
 begin
  DisSynEdit.Assign(EditorOptions);
- DisSynEdit.Highlighter := CommandsDataModule.SynPythonSyn;
+ DisSynEdit.Highlighter := ResourcesDataModule.SynPythonSyn;
 end;
 
 { TDisForm }
@@ -111,7 +111,7 @@ end;
 
 procedure TDisView.GetContextHighlighters(List: TList);
 begin
-  List.Add(CommandsDataModule.SynPythonSyn);
+  List.Add(ResourcesDataModule.SynPythonSyn);
 end;
 
 function TDisView.GetHint: string;

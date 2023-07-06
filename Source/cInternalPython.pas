@@ -307,6 +307,9 @@ begin
       end;
     end;
 
+    // Repeat here to make sure it is set right
+    MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
+
     PythonEngine.LoadDll;
     Result := PythonEngine.IsHandleValid;
     if Result then begin

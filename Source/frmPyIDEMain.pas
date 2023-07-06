@@ -618,13 +618,8 @@ uses
   SVGIconImageCollection,
   JclSysUtils,
   JvAppInst,
-  JvComponentBase,
-  JvExControls,
-  JvDockTree,
   JvDockControlForm,
-  JvDockVIDStyle,
   JvDockVSNetStyle,
-  JvDockVSNetStyleSpTBX,
   JvAppStorage,
   JvAppIniStorage,
   JvFormPlacement,
@@ -654,7 +649,7 @@ uses
   cPyBaseDebugger,
   cPyDebugger,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl, JvComponentBase;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1378,7 +1373,6 @@ type
     function GetLogger: TJclSimpleLog;
     procedure MRUAddEditor(Editor: IEditor);
   public
-    JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
     MenuHelpRequested : Boolean;
@@ -1588,19 +1582,7 @@ begin
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
 
-  // SpTBXLib Font
-  ToolbarFont.Size := 10;
-
-  // Create JvDockVSNetStyleSpTBX
-  JvDockVSNetStyleSpTBX := TJvDockVSNetStyleSpTBX.Create(Self);
-  JvDockVSNetStyleSpTBX.Name := 'JvDockVSNetStyleSpTBX';
-  JvDockVSNetStyleSpTBX.AlwaysShowGrabber := False;
-  // JvDocking Fonts
-  with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
-    ActiveFont.Assign(ToolbarFont);
-    InactiveFont.Assign(ToolbarFont);
-  end;
-  DockServer.DockStyle := JvDockVSNetStyleSpTBX;
+  DockServer.DockStyle := ResourcesDataModule.DockStyle; // JvDockVSNetStyleSpTBX;
 
   // App Instances
   ShellExtensionFiles := TStringList.Create;
@@ -1904,7 +1886,7 @@ begin
   ShowDockForm(CodeExplorerWindow);
   CodeExplorerWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ResourcesDataModule.DockStyle.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavEditorExecute(Sender: TObject);
@@ -1922,7 +1904,7 @@ begin
   if Assigned(Form.OnActivate) then
     Form.OnActivate(Self);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ResourcesDataModule.DockStyle.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.ClearPythonWindows;
@@ -2339,7 +2321,7 @@ var
 begin
   Editor := GetActiveEditor;
   PyFileActive := Assigned(Editor) and
-    (Editor.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn);
+    (Editor.SynEdit.Highlighter = ResourcesDataModule.SynPythonSyn);
 
   actSyntaxCheck.Enabled := PyFileActive and GI_PyControl.Inactive;
   actRun.Enabled := PyFileActive and GI_PyControl.Inactive;
@@ -3002,6 +2984,7 @@ end;
 
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
+  DockServer.DockStyle := nil;
   GI_PyIDEServices := nil;
   SkinManager.RemoveSkinNotification(Self);
   PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
@@ -3040,7 +3023,7 @@ begin
   with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SOpenFile);
     FileName := '';
-    Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
+    Filter := ResourcesDataModule.Highlighters.FileFilters + _(SFilterAllFiles);
     Editor := GetActiveEditor;
     if Assigned(Editor) and (Editor.FileName <> '') and
       (TPath.GetDirectoryName(Editor.FileName) <> '')
@@ -3083,9 +3066,6 @@ begin
     Self.StyleElements := Self.StyleElements - [seBorder];
 
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
-  //  Dock animation parameters
-  JvDockVSNetStyleSpTBX.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);
-  JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);
 
   // Set Python engine
   actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
@@ -3147,12 +3127,13 @@ begin
     // Store Highlighters
     AppStorage.DeleteSubTree('Highlighters');
     PythonIIForm.StoreOptions(AppStorage);
-    with CommandsDataModule do begin
-      for var I := 0 to Highlighters.Count - 1 do
-        if IsHighlighterStored(Highlighters.Objects[I]) then
-          AppStorage.WritePersistent('Highlighters\'+Highlighters[I],
-            TPersistent(Highlighters.Objects[I]));
+    for var Highlighter in ResourcesDataModule.Highlighters do
+      if ResourcesDataModule.IsHighlighterStored(Highlighter) then
+        AppStorage.WritePersistent('Highlighters\' +
+          Highlighter.FriendlyLanguageName, Highlighter);
 
+    with CommandsDataModule do
+    begin
       TempStringList.Clear;
       TempStringList.AddStrings(['Lines', 'Highlighter']);
       AppStorage.DeleteSubTree('Print Options');
@@ -3286,21 +3267,21 @@ begin
 
   // Restore highlighters
   PythonIIForm.RestoreOptions(AppStorage);
-  with CommandsDataModule do begin
-    for var I := 0 to Highlighters.Count - 1 do
+    for var Highlighter in ResourcesDataModule.Highlighters do
     begin
-      TSynCustomHighlighter(Highlighters.Objects[I]).BeginUpdate;
+      Highlighter.BeginUpdate;
       try
-        AppStorage.ReadPersistent('Highlighters\'+Highlighters[I],
-          TPersistent(Highlighters.Objects[I]));
+        AppStorage.ReadPersistent('Highlighters\' +
+          Highlighter.FriendlyLanguageName, Highlighter);
       finally
-        TSynCustomHighlighter(Highlighters.Objects[I]).EndUpdate;
+        Highlighter.EndUpdate;
       end;
     end;
     CommandsDataModule.ApplyEditorOptions;
 
     AppStorage.DeleteSubTree('Highlighters');
 
+  with CommandsDataModule do begin
     AppStorage.ReadPersistent('Print Options', SynEditPrint);
     SynEditPrint.Header.AsString := AppStorage.ReadString('Print Options\HeaderItems', DefaultHeader);
     SynEditPrint.Footer.AsString := AppStorage.ReadString('Print Options\FooterItems', DefaultFooter);
@@ -3821,17 +3802,14 @@ begin
 end;
 
 procedure TPyIDEMainForm.SetupSyntaxMenu;
-Var
-  i : integer;
-  MenuItem : TSpTBXItem;
 begin
   while mnSyntax.Count > 2 do
     mnSyntax.Delete(0);
-  for i := CommandsDataModule.Highlighters.Count - 1 downto 0 do begin
-    MenuItem := TSpTBXItem.Create(Self);
+  for var I := ResourcesDataModule.Highlighters.Count - 1 downto 0 do begin
+    var MenuItem := TSpTBXItem.Create(Self);
     mnSyntax.Insert(0, MenuItem);
-    MenuItem.Caption := _(CommandsDataModule.Highlighters[i]);
-    MenuItem.Tag := Integer(CommandsDataModule.Highlighters.Objects[i]);
+    MenuItem.Caption := _(ResourcesDataModule.Highlighters[i].FriendlyLanguageName);
+    MenuItem.Tag := Integer(ResourcesDataModule.Highlighters[i]);
     MenuItem.GroupIndex := 3;
     MenuItem.OnClick := mnSyntaxClick;
     MenuItem.Hint := Format(_(SUseSyntax), [MenuItem.Caption]);
@@ -4641,7 +4619,7 @@ begin
   //if Command = HELP_SETPOPUP_POS then exit;
   if not PythonKeywordHelpRequested and not MenuHelpRequested and
      Active and (ActiveControl is TSynEdit) and
-    (TSynEdit(ActiveControl).Highlighter = CommandsDataModule.SynPythonSyn) then
+    (TSynEdit(ActiveControl).Highlighter = ResourcesDataModule.SynPythonSyn) then
   begin
     Keyword := TSynEdit(ActiveControl).WordAtCursor;
     if Keyword <> '' then begin
@@ -4683,9 +4661,6 @@ begin
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
   // Do not execute again
   OnShow := nil;
-
-  // Repeat here to make sure it is set right
-  MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
   // fix for staturbar appearing above interpreter
   if StatusBar.Visible then StatusBar.Top := MaxInt;

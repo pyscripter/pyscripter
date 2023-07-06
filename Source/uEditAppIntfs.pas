@@ -235,7 +235,7 @@ type
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const S: string);
     function FileIsPythonSource(const FileName: string): Boolean;
-    function ShowFilePosition(FileName : string; Line: integer =0;
+    function ShowFilePosition(FileName : string; Line: integer = 0;
       Offset : integer = 1; SelLen : integer = 0;
       ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
     procedure ClearPythonWindows;
@@ -302,8 +302,10 @@ type
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
     procedure ReinitInterpreter;
     function GetPythonIO: TPythonInputOutput;
+    function GetEditor: TCustomSynEdit;
     function GetShowOutput: boolean;
     procedure SetShowOutput(const Value: boolean);
+    property Editor: TCustomSynEdit read GetEditor;
     property PythonIO: TPythonInputOutput read GetPythonIO;
     property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
   end;

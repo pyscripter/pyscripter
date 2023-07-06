@@ -97,7 +97,6 @@ uses
   JvGnugettext,
   uCommonFunctions,
   dmResources,
-  dmCommands,
   StringResources;
 
 {$R *.dfm}
@@ -107,12 +106,9 @@ begin
   inherited;
   FOldIndex := -1;
   TempFileTemplates := TFileTemplates.Create;
-  for var I := 0 to CommandsDataModule.Highlighters.Count - 1 do
-  begin
-    var Highlighter := CommandsDataModule.Highlighters.Objects[I] as TSynCustomHighlighter;
+  for var Highlighter in ResourcesDataModule.Highlighters do
     cbHighlighters.Items.AddObject(_(Highlighter.FriendlyLanguageName),
       Highlighter);
-  end;
   SynTemplate.Highlighter := nil;
   ResourcesDataModule.ParameterCompletion.Editor := SynTemplate;
   ResourcesDataModule.ModifierCompletion.Editor := SynTemplate;

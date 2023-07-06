@@ -18,8 +18,7 @@ uses
   System.Classes,
   System.Contnrs,
   JvAppStorage,
-  cPySupportTypes,
-  cPyBaseDebugger;
+  cPySupportTypes;
 
 type
   TAbstractProjectNode = class;
@@ -160,7 +159,6 @@ uses
   JvGnuGetText,
   uCommonFunctions,
   cPyControl,
-  cPyDebugger,
   uEditAppIntfs;
 
 { TAbstractProjectNode }

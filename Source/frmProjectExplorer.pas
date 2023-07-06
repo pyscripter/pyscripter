@@ -233,7 +233,6 @@ uses
   JvGnugettext,
   StringResources,
   dmResources,
-  dmCommands,
   frmPyIDEMain,
   uCommonFunctions,
   dlgImportDirectory,
@@ -332,7 +331,7 @@ begin
       with ResourcesDataModule.dlgFileOpen do begin
         Title := _(SAddFilesToProject);
         FileName := '';
-        Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
+        Filter := ResourcesDataModule.Highlighters.FileFilters + _(SFilterAllFiles);
         Editor := GI_PyIDEServices.ActiveEditor;
         if Assigned(Editor) and (Editor.FileName <> '') and
           (TPath.GetDirectoryName(Editor.FileName) <> '')
