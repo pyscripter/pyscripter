@@ -361,7 +361,6 @@ Uses
   JclFileUtils,
   JclBase,
   JclPeImage,
-  JvJCLUtils,
   JvGnugettext,
   MPCommonUtilities,
   MPCommonObjects,
@@ -1914,14 +1913,14 @@ begin
   AttachConsole := GetProcAddress (GetModuleHandle ('kernel32.dll'), 'AttachConsole');
   if Assigned(AttachConsole) then
   try
-    OSCheck(AttachConsole(ProcessId));
-    OSCheck(SetConsoleCtrlHandler(@CtrlHandler, True));
+    Win32Check(AttachConsole(ProcessId));
+    Win32Check(SetConsoleCtrlHandler(@CtrlHandler, True));
     try
-      OSCheck(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
+      Win32Check(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
       Sleep(100);
     finally
-      OSCheck(SetConsoleCtrlHandler(@CtrlHandler, False));
-      OSCheck(FreeConsole);
+      Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
+      Win32Check(FreeConsole);
     end;
   except
   end;
