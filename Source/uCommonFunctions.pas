@@ -1907,22 +1907,15 @@ begin
 end;
 
 procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
-Var
-  AttachConsole: Function (dwProcessId: DWORD): LongBool; stdCall;
 begin
-  AttachConsole := GetProcAddress (GetModuleHandle ('kernel32.dll'), 'AttachConsole');
-  if Assigned(AttachConsole) then
+  Win32Check(AttachConsole(ProcessId));
+  Win32Check(SetConsoleCtrlHandler(@CtrlHandler, True));
   try
-    Win32Check(AttachConsole(ProcessId));
-    Win32Check(SetConsoleCtrlHandler(@CtrlHandler, True));
-    try
-      Win32Check(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
-      Sleep(100);
-    finally
-      Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
-      Win32Check(FreeConsole);
-    end;
-  except
+    Win32Check(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
+    Sleep(100);
+  finally
+    Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
+    Win32Check(FreeConsole);
   end;
 end;
 
