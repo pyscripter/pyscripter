@@ -2,7 +2,7 @@
  Unit Name: uSysUtils
  Author:    PyScripter
  Date:      06-Jul-2023
- Purpose:   Enhanced ExecuteCmd from Jcl and other system utilities
+ Purpose:   Enhanced Execute from Jcl and other system utilities
             Includes much of the relevant code from JclSysUtils
             Enhamcements
             - Modify environment
@@ -30,6 +30,11 @@ type
 const
   ABORT_EXIT_CODE = ERROR_CANCELLED;
 
+(* Terminates a process and all child processes *)
+function TerminateProcessTree(ProcessID: DWORD): Boolean;
+
+(* Execute a Command using CreateProcess and captures output.
+   Execute overloads as in Jcl *)
 function Execute(const CommandLine: string; OutputLineCallback: TTextHandler; RawOutput: Boolean = False;
   AbortPtr: PBoolean = nil; ProcessPriority: TJclProcessPriority = ppNormal;
   AutoConvertOem: Boolean = False): Cardinal; overload;
@@ -55,7 +60,11 @@ function Execute(const CommandLine: string; var Output, Error: string;
 function Execute(const CommandLine: string; AbortEvent: TJclEvent;
   var Output, Error: string; RawOutput: Boolean = False; RawError: Boolean = False;
   ProcessPriority: TJclProcessPriority = ppNormal; AutoConvertOem: Boolean = False): Cardinal; overload;
-function TerminateProcessTree(ProcessID: DWORD): Boolean;
+
+(* Oveloads with different defaults than Jcl (mainly RawOuput is True) *)
+function ExecuteCmd(Command : string; out CmdOutput: string): Cardinal; overload;
+(* Ignores Error output *)
+function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): Cardinal; overload;
 
 type
   TJclExecuteCmdProcessOptionBeforeResumeEvent =
@@ -647,7 +656,7 @@ begin
           SafeCloseHandle(OutPipeInfo.PipeRead);
           if not Options.MergeError then
             SafeCloseHandle(ErrorPipeInfo.PipeRead);
-          //Forcefully terminaty the process tree
+          //Forcefully terminate the process tree
           TerminateProcessTree(ProcessInfo.dwProcessId);
         end;
 
@@ -836,6 +845,35 @@ begin
     ErrorLineCallback, RawError, ProcessPriority, AutoConvertOem);
 end;
 
+
+function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): Cardinal; overload;
+Var
+  ProcessOptions : TJclExecuteCmdProcessOptions;
+begin
+  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
+  try
+    ProcessOptions.MergeError := False;
+    ProcessOptions.RawOutput := True;
+    ProcessOptions.RawError := True;
+    ProcessOptions.AutoConvertOEM := False;
+    ProcessOptions.CreateProcessFlags :=
+      ProcessOptions.CreateProcessFlags or
+       CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;
+    ExecuteCmdProcess(ProcessOptions);
+    Result := ProcessOptions.ExitCode;
+    CmdOutput := ProcessOptions.Output;
+    CmdError := ProcessOptions.Error;
+  finally
+    ProcessOptions.Free;
+  end;
+end;
+
+function ExecuteCmd(Command : string; out CmdOutput: string): Cardinal; overload;
+Var
+  CmdError: string;
+begin
+  Result := ExecuteCmd(Command, CmdOutput, CmdError);
+end;
 
 { TJclExecuteCmdProcessOptions }
 

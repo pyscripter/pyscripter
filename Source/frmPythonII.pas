@@ -1067,7 +1067,7 @@ begin
               fCommandHistoryPointer := EnsureRange(fCommandHistoryPointer, -1, fCommandHistory.Count);
             Until not InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) or
               (fCommandHistoryPrefix = '') or
-               StrIsLeft(PWideChar(fCommandHistory[fCommandHistoryPointer]), PWideChar(fCommandHistoryPrefix));
+              fCommandHistory[fCommandHistoryPointer].StartsWith(fCommandHistoryPrefix);
 
           if InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) then
             Source := fCommandHistory[fCommandHistoryPointer]

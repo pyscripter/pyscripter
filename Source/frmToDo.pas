@@ -618,15 +618,13 @@ var
   IsDoneTodoItem: Boolean;
   ParsingString: string;
   OptionChar: WideChar;
-  TokenStringUpped : string;
 begin
   // Token string is alread trimmed and without SComment
   Result := nil;
-  TokenStringUpped := TokenString.ToUpper;
   for i := 0 to ToDoExpert.FTokenList.Count - 1 do
   begin
-    if StrIsLeft(PWideChar(TokenStringUpped),
-      PWideChar(TTokenInfo(ToDoExpert.FTokenList.Objects[i]).Token)) then
+    if TokenString.StartsWith(
+      TTokenInfo(ToDoExpert.FTokenList.Objects[i]).Token, True) then
     begin
       // We found a token that looks like a TODO comment and is in the position 1.
       n := 1;

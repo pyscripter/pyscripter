@@ -22,7 +22,6 @@ Uses
   Vcl.Graphics,
   Vcl.Forms,
   Vcl.Dialogs,
-  uSysUtils,
   SynEditTypes,
   SynUnicode,
   SynEdit,
@@ -225,13 +224,6 @@ function DownloadUrlToFile(const URL, Filename: string): Boolean;
 (* Raises a keyword interrupt in another process *)
 procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
 
-(* Terminates a process and all child processes *)
-function TerminateProcessTree(ProcessID: DWORD): Boolean;
-
-(* Executes a Command using CreateProcess and captures output *)
-function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
-function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
-
 (* Simple routine to hook/detour a function *)
 procedure RedirectFunction(OrgProc, NewProc: Pointer);
 
@@ -359,7 +351,6 @@ Uses
   Vcl.ExtCtrls,
   Vcl.Themes,
   JclFileUtils,
-  JclBase,
   JclPeImage,
   JvGnugettext,
   MPCommonUtilities,
@@ -1917,82 +1908,6 @@ begin
     Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
     Win32Check(FreeConsole);
   end;
-end;
-
-type
-  TProcessArray = array of DWORD;
-
- function TerminateProcessTree(ProcessID: DWORD): Boolean;
-
-  function GetChildrenProcesses(const Process: DWORD; const IncludeParent: Boolean): TProcessArray;
-  var
-    Snapshot: Cardinal;
-    ProcessList: PROCESSENTRY32;
-    Current: Integer;
-  begin
-    Current := 0;
-    SetLength(Result, 1);
-    Result[0] := Process;
-    repeat
-      ProcessList.dwSize := SizeOf(PROCESSENTRY32);
-      Snapshot := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-      if (Snapshot = INVALID_HANDLE_VALUE) or not Process32First(Snapshot, ProcessList) then
-        Continue;
-      repeat
-        if ProcessList.th32ParentProcessID = Result[Current] then
-        begin
-          SetLength(Result, Length(Result) + 1);
-          Result[Length(Result) - 1] := ProcessList.th32ProcessID;
-        end;
-      until Process32Next(Snapshot, ProcessList) = False;
-      Inc(Current);
-    until Current >= Length(Result);
-    if not IncludeParent then
-      Result := Copy(Result, 2, Length(Result));
-  end;
-
-var
-  Handle: THandle;
-  List: TProcessArray;
-  I: Integer;
-begin
-  Result := True;
-  List := GetChildrenProcesses(ProcessID, True);
-  for I := Length(List) - 1 downto 0 do
-    if Result then
-    begin
-      Handle := OpenProcess(PROCESS_TERMINATE, false, List[I]);
-      Result := (Handle <> 0) and TerminateProcess(Handle, 0) and CloseHandle(Handle);
-    end;
-end;
-
-function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
-Var
-  ProcessOptions : TJclExecuteCmdProcessOptions;
-begin
-  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
-  try
-    ProcessOptions.MergeError := False;
-    ProcessOptions.RawOutput := True;
-    ProcessOptions.RawError := True;
-    ProcessOptions.AutoConvertOEM := False;
-    ProcessOptions.CreateProcessFlags :=
-      ProcessOptions.CreateProcessFlags or
-       CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;
-    ExecuteCmdProcess(ProcessOptions);
-    Result := ProcessOptions.ExitCode;
-    CmdOutput := ProcessOptions.Output;
-    CmdError := ProcessOptions.Error;
-  finally
-    ProcessOptions.Free;
-  end;
-end;
-
-function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
-Var
-  CmdError: string;
-begin
-  Result := ExecuteCmd(Command, CmdOutput, CmdError);
 end;
 
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
