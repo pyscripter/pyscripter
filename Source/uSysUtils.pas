@@ -33,6 +33,9 @@ const
 (* Terminates a process and all child processes *)
 function TerminateProcessTree(ProcessID: DWORD): Boolean;
 
+(* Raises a keyword interrupt in another process *)
+procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
+
 (* Execute a Command using CreateProcess and captures output.
    Execute overloads as in Jcl *)
 function Execute(const CommandLine: string; OutputLineCallback: TTextHandler; RawOutput: Boolean = False;
@@ -188,6 +191,24 @@ begin
         TerminateProcess(Handle, Cardinal(ABORT_EXIT_CODE)) and
         CloseHandle(Handle);
     end;
+end;
+
+function CtrlHandler(fdwCtrlType : DWORD): LongBool; stdcall;
+begin
+  Result := True;
+end;
+
+procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
+begin
+  Win32Check(AttachConsole(ProcessId));
+  Win32Check(SetConsoleCtrlHandler(@CtrlHandler, True));
+  try
+    Win32Check(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
+    Sleep(100);
+  finally
+    Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
+    Win32Check(FreeConsole);
+  end;
 end;
 
 procedure SafeCloseHandle(var Handle: THandle);

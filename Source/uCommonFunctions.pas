@@ -218,9 +218,6 @@ function MonitorProfile: string;
 (* Downlads a file from the Interent *)
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 
-(* Raises a keyword interrupt in another process *)
-procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
-
 (* Simple routine to hook/detour a function *)
 procedure RedirectFunction(OrgProc, NewProc: Pointer);
 
@@ -1874,24 +1871,6 @@ end;
 function NewTimer(Interval: Cardinal): ITimer;
 begin
   Result := TTimer.Create(Interval);
-end;
-
-function CtrlHandler( fdwCtrlType : DWORD): LongBool; stdcall;
-begin
-  Result := True;
-end;
-
-procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
-begin
-  Win32Check(AttachConsole(ProcessId));
-  Win32Check(SetConsoleCtrlHandler(@CtrlHandler, True));
-  try
-    Win32Check(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
-    Sleep(100);
-  finally
-    Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
-    Win32Check(FreeConsole);
-  end;
 end;
 
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
