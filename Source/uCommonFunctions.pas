@@ -49,9 +49,6 @@ function GetLongFileName(const APath: string): string;
 (* checks if AText starts with ALeft *)
 function StrIsLeft(AText, ALeft: PWideChar): Boolean;
 
-(* checks if AText ends with ARight *)
-function StrIsRight(AText, ARight: PChar): Boolean;
-
 (* returns next token - based on Classes.ExtractStrings *)
 function StrGetToken(var Content: PChar;
   Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
@@ -423,19 +420,6 @@ begin
   Result := ALeft^ = #0;
 end;
 
-function StrIsRight(AText, ARight: PChar): Boolean;
-(* checks if AText ends with ARight *)
-var
-  LenDiff: Integer;
-begin
-  Result:= ARight = nil;
-  LenDiff := StrLen(AText) - StrLen(ARight);
-  if not Result and (LenDiff >= 0) then begin
-    Inc(AText, LenDiff);
-    Result := StrIsLeft(AText, ARight);
-  end;
-end;
-
 function StrGetToken(var Content: PChar;
                      Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
 (* returns next token - based on Classes.ExtractStrings *)
@@ -763,7 +747,7 @@ begin
       Path := TPath.GetDirectoryName(Path);
       Dir := TPath.GetFileName(Path);
     end;
-    if StrIsRight(PChar(Result), '.__init__') then
+    if Result.EndsWith('.__init__') then
       Delete(Result, Length(Result) - 8, 9);
   end;
 end;
