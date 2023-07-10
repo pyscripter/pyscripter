@@ -102,7 +102,6 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   dmResources,
-  dmCommands,
   frmCallStack,
   cPyControl,
   cPySupportTypes,

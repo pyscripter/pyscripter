@@ -172,8 +172,7 @@ uses
   JclStrings,
   JvGnuGetText,
   uEditAppIntfs,
-  uCommonFunctions,
-  cPyScripterSettings;
+  uCommonFunctions;
 
 
 function ExpandEnv(const S: string): string;

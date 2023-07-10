@@ -24,8 +24,7 @@ Uses
   Vcl.Dialogs,
   SynEditTypes,
   SynUnicode,
-  SynEdit,
-  uEditAppIntfs;
+  SynEdit;
 
 const
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
@@ -356,7 +355,8 @@ Uses
   SynEditHighlighter,
   VarPyth,
   PythonEngine,
-  StringResources;
+  StringResources,
+  uEditAppIntfs;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -2049,7 +2049,7 @@ begin
   FValue.Free;
 end;
 
-function TSmartPtr.TObjectHandle<T>.Invoke:  T;
+function TSmartPtr.TObjectHandle<T>.Invoke: T;
 begin
   Result  :=  FValue;
 end;

@@ -2172,7 +2172,6 @@ begin
   end;
 
   WriteStatusMsg(_(StrScriptRunOK));
-  //MessageBeep(MB_ICONASTERISK);
 end;
 
 procedure TPyIDEMainForm.actRunLastScriptExecute(Sender: TObject);

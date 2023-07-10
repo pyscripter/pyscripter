@@ -252,7 +252,6 @@ uses
   uEditAppIntfs,
   dlgFindResultsOptions,
   cProjectClasses,
-  dmCommands,
   cPyScripterSettings;
 
 { TLineMatches }
