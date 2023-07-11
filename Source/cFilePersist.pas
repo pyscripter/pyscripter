@@ -1,4 +1,3 @@
-unit cFilePersist;
 {-----------------------------------------------------------------------------
  Unit Name: cFilePersist
  Author:    Kiriakos Vlahos
@@ -6,6 +5,8 @@ unit cFilePersist;
  Purpose:   Support class for editor file persistence
  History:
 -----------------------------------------------------------------------------}
+
+unit cFilePersist;
 
 interface
 Uses
@@ -390,32 +391,16 @@ begin
 end;
 
 procedure TPersistFileInfo.GetFileInfo;
-
-  procedure ProcessTabControl(TabControl : TSpTBXCustomTabControl);
-  var
-    I: Integer;
-    IV: TTBItemViewer;
-    Editor : IEditor;
-    FilePersistInfo : TFilePersistInfo;
-  begin
-    // Note that the Pages property may have a different order than the
-    // physical order of the tabs
-    for I := 0 to TabControl.View.ViewerCount - 1 do begin
-      IV := TabControl.View.Viewers[I];
-      if IV.Item is TSpTBXTabItem then begin
-        Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
-        if Assigned(Editor) and ((Editor.FileName <> '') or (Editor.RemoteFileName <> '')) then begin
-          FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
-          fFileInfoList.Add(FilePersistInfo);
-          // We need to do it here before we call SaveEnvironement
-          GI_PyIDEServices.MRUAddEditor(Editor);
-        end;
-      end;
-    end;
-  end;
 begin
-  ProcessTabControl(PyIDEMainForm.TabControl1);
-  ProcessTabControl(PyIDEMainForm.TabControl2);
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    if Assigned(Editor) and ((Editor.FileName <> '') or (Editor.RemoteFileName <> '')) then begin
+      var FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
+      fFileInfoList.Add(FilePersistInfo);
+      // We need to do it here before we call StoreApplicationData
+      GI_PyIDEServices.MRUAddEditor(Editor);
+    end;
+  end);
 end;
 
 { TTabsPersistInfo }
@@ -427,17 +412,15 @@ Var
   Size : integer;
   Alignment : TAlign;
 begin
-  with PyIDEMainForm do begin
-    IsVisible := AppStorage.ReadBoolean(BasePath+'\Visible', False);
-    if IsVisible then begin
-      Alignment := alRight;
-      AppStorage.ReadEnumeration(BasePath+'\Align', TypeInfo(TAlign),
-        Alignment, Alignment);
-      Size := AppStorage.ReadInteger(BasePath+'\Size', -1);
-      SplitWorkspace(True, Alignment, Size);
-    end else
-      SplitWorkspace(False);
-  end;
+  IsVisible := AppStorage.ReadBoolean(BasePath+'\Visible', False);
+  if IsVisible then begin
+    Alignment := alRight;
+    AppStorage.ReadEnumeration(BasePath+'\Align', TypeInfo(TAlign),
+      Alignment, Alignment);
+    Size := AppStorage.ReadInteger(BasePath+'\Size', -1);
+    PyIDEMainForm.SplitWorkspace(True, Alignment, Size);
+  end else
+    PyIDEMainForm.SplitWorkspace(False);
 end;
 
 procedure TTabsPersistInfo.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
