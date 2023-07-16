@@ -868,9 +868,6 @@ begin
     Font.Color := StyleServices.GetSystemColor(clWindowText);
     Color := StyleServices.GetSystemColor(clWindow);
   end;
-
-  StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, FCurrentPPI, 96);
-  StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, FCurrentPPI, 96);
 end;
 
 
@@ -1042,10 +1039,14 @@ begin
       cbHighlightersChange(cbHighlighters);  //run OnChange handler (it wont be fired on setting the itemindex prop)
   end;
 
+  // DPI Scaling
   LabFont.Font.PixelsPerInch := FCurrentPPI;
   LabFont.Canvas.Font.PixelsPerInch := FCurrentPPI;
   lblGutterFont.Font.PixelsPerInch := FCurrentPPI;
   lblGutterFont.Canvas.Font.PixelsPerInch := FCurrentPPI;
+
+  StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, FCurrentPPI, 96);
+  StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, FCurrentPPI, 96);
 end;
 
 procedure TfmEditorOptionsDialog.KeyListSelectItem(Sender: TObject;
