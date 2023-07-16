@@ -2087,8 +2087,8 @@ begin
 //    (CurrentEditor as TCustomSynEdit).UpdateCaret;
     if (Owner as TSynBaseCompletionProposal).FontsAreScaled then
     begin
-      TitleFont.Height := MulDiv(TitleFont.Height, 96, GetCurrentPPI);
-      Font.Height := MulDiv(Font.Height, 96, GetCurrentPPI);
+      TitleFont.Height := MulDiv(TitleFont.Height, TitleFont.PixelsPerInch, GetCurrentPPI);
+      Font.Height := MulDiv(Font.Height, Font.PixelsPerInch, GetCurrentPPI);
       TSynBaseCompletionProposal(Owner).FontsAreScaled := False;
     end;
     if DisplayType = ctCode then
@@ -2355,8 +2355,8 @@ Var
 
     if not FFontsAreScaled then
     begin
-      TitleFont.Height := MulDiv(TitleFont.Height, ActivePPI, 96);
-      Font.Height := MulDiv(Font.Height, ActivePPI, 96);
+      TitleFont.Height := MulDiv(TitleFont.Height, ActivePPI, TitleFont.PixelsPerInch);
+      Font.Height := MulDiv(Font.Height, ActivePPI, Font.PixelsPerInch);
       FFontsAreScaled := True;
     end;
 
