@@ -1051,7 +1051,6 @@ end;
 procedure TJvDockInfoZone.SetDockInfoFromNodeToControl(Control: TControl);
 var
   DS: TJvDockServer;
-  NewPPI: Integer;
 
   procedure SetPopupPanelSize(PopupPanel: TJvDockVSPopupPanel);
   begin

@@ -474,7 +474,8 @@ end;
 procedure TJvDockVSNETTreeSpTBX.SyncWithStyle;
 begin
   inherited;
-  TopOffset := (GrabberSize - ButtonHeight) div 2;
+  //Save unscaled
+  TopOffset :=  MulDiv((GrabberSize - ButtonHeight) div 2, 96, FCurrentPPI);
 end;
 
 {
