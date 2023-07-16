@@ -42,7 +42,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   TextHeight = 15
   inherited BGPanel: TPanel
     inherited FGPanel: TPanel
-      Height = 394
       object Panel1: TPanel
         Left = 0
         Top = 0

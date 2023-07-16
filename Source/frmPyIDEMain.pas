@@ -617,12 +617,12 @@ uses
   Vcl.BaseImageCollection,
   SVGIconImageCollection,
   JclSysUtils,
+  JvComponentBase,
   JvAppInst,
   JvDockControlForm,
   JvDockVSNetStyle,
   JvAppStorage,
   JvAppIniStorage,
-  JvFormPlacement,
   JvDSADialogs,
   TB2Dock,
   TB2Toolbar,
@@ -635,7 +635,6 @@ uses
   SpTBXMDIMRU,
   SpTBXTabs,
   SpTBXDkPanels,
-  MPCommonObjects,
   SynEditTypes,
   SynEditMiscClasses,
   SynEdit,
@@ -649,7 +648,7 @@ uses
   cPyBaseDebugger,
   cPyDebugger,
   cPyScripterSettings,
-  cPyControl, JvComponentBase;
+  cPyControl;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -963,7 +962,6 @@ type
     SpTBXSeparatorItem3: TSpTBXSeparatorItem;
     mnViewCustomizeToolbars: TSpTBXItem;
     UserToolbar: TSpTBXToolbar;
-    JvFormStorage: TJvFormStorage;
     mnNavProjectExplorer: TSpTBXItem;
     mnViewProjectExplorer: TSpTBXItem;
     ProjectMenu: TSpTBXSubmenuItem;
@@ -1347,6 +1345,7 @@ type
     procedure NextMRUAdd(S : string);
   private
     OldMonitorProfile : string;
+    FShellImages: TCustomImageList;
     // IIDELayouts implementation
     function LayoutExists(const Layout: string): Boolean;
     procedure LoadLayout(const Layout : string);
@@ -1448,7 +1447,7 @@ uses
   VirtualTrees.BaseTree,
   VirtualTrees,
   VirtualExplorerTree,
-  MPDataObject,
+  MPCommonObjects,
   SynHighlighterPython,
   SynEditHighlighter,
   SynEditKeyCmds,
@@ -1578,6 +1577,12 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
+  // Shell Images
+  FShellImages := TCommonVirtualImageList.Create(Self);
+  TCommonVirtualImageList(FShellImages).SourceImageList := SmallSysImages;
+  FShellImages.SetSize(MulDiv(FShellImages.Width, FCurrentPPI, Screen.PixelsPerInch),
+    MulDiv(FShellImages.Height, FCurrentPPI, Screen.PixelsPerInch));
+
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -1641,7 +1646,6 @@ begin
 
   // And now translate after all the docking forms have been created
   // They will be translated as well
-  TP_GlobalIgnoreClass(TJvFormStorage);
   TP_GlobalIgnoreClass(TVirtualImageList);
   TranslateComponent(Self);
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
@@ -1675,14 +1679,7 @@ begin
 
   // Read Settings from PyScripter.local.ini
   if FileExists(LocalAppStorage.IniFile.FileName) then
-  begin
     RestoreLocalApplicationData;
-    if OldMonitorProfile = MonitorProfile then
-      JvFormStorage.RestoreFormPlacement
-    else
-      WindowState := wsMaximized;
-  end else
-    WindowState := wsMaximized;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
@@ -3162,6 +3159,7 @@ begin
     AppStorage.WritePersistent('RegExp Tester Options', RegExpTesterWindow);
     AppStorage.WritePersistent('Code Explorer Options', CodeExplorerWindow);
     FileExplorerWindow.StoreOptions(AppStorage);
+    OutputWindow.StoreOptions(AppStorage);
 
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
@@ -3171,7 +3169,6 @@ begin
     AppStorage.WriteCollection('SSH', SSHServers, 'Server');
     AppStorage.StorageOptions.StoreDefaultValues := False;
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
-    AppStorage.WritePersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
     AppStorage.WritePersistent('Watches', WatchesWindow);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
 
@@ -3213,9 +3210,6 @@ begin
     LocalAppStorage.WriteString('Monitor profile', MonitorProfile);
 
     LocalAppStorage.WriteStringList('Layouts', Layouts);
-
-    // Form Placement
-    JvFormStorage.SaveFormPlacement;
 
     // Store Python Versions
     PyControl.WriteToAppStorage(LocalAppStorage);
@@ -3265,19 +3259,19 @@ begin
 
   // Restore highlighters
   PythonIIForm.RestoreOptions(AppStorage);
-    for var Highlighter in ResourcesDataModule.Highlighters do
-    begin
-      Highlighter.BeginUpdate;
-      try
-        AppStorage.ReadPersistent('Highlighters\' +
-          Highlighter.FriendlyLanguageName, Highlighter);
-      finally
-        Highlighter.EndUpdate;
-      end;
+  for var Highlighter in ResourcesDataModule.Highlighters do
+  begin
+    Highlighter.BeginUpdate;
+    try
+      AppStorage.ReadPersistent('Highlighters\' +
+        Highlighter.FriendlyLanguageName, Highlighter);
+    finally
+      Highlighter.EndUpdate;
     end;
-    CommandsDataModule.ApplyEditorOptions;
+  end;
+  CommandsDataModule.ApplyEditorOptions;
 
-    AppStorage.DeleteSubTree('Highlighters');
+  AppStorage.DeleteSubTree('Highlighters');
 
   with CommandsDataModule do begin
     AppStorage.ReadPersistent('Print Options', SynEditPrint);
@@ -3310,14 +3304,13 @@ begin
   AppStorage.ReadPersistent('RegExp Tester Options', RegExpTesterWindow);
   AppStorage.ReadPersistent('Code Explorer Options', CodeExplorerWindow);
   FileExplorerWindow.RestoreOptions(AppStorage);
+  OutputWindow.RestoreOptions(AppStorage);
 
   AppStorage.ReadStringList('Custom Params', CustomParams);
   RegisterCustomParams;
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadCollection('SSH', SSHServers, True, 'Server');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  AppStorage.ReadPersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
-  OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
@@ -3649,7 +3642,7 @@ begin
       Action.ActionList := actlStandard;
       mnTools.Add(MenuItem);
       MenuItem.Action := Action;
-      MenuItem.Images := SmallSysImages;
+      MenuItem.Images := FShellImages;
     end;
   end;
 end;
@@ -3920,7 +3913,7 @@ begin
             Item := TSpTBXItem.Create(Self);
             Item.Name := 'tb' + Action.Name;
             if Action is TExternalToolAction then
-              Item.Images := SmallSysImages;
+              Item.Images := FShellImages;
             SpTBXCustomizer.Items.Add(Item);
           end;
           Item.Action := Action;

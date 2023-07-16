@@ -29,6 +29,7 @@ uses
 procedure TPyIDEDlgBase.FormCreate(Sender: TObject);
 begin
   TranslateComponent(Self);
+  Font.PixelsPerInch := FCurrentPPI;
   SetDefaultUIFont(Font);
 end;
 

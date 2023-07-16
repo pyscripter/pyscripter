@@ -2088,7 +2088,7 @@ begin
     if (Owner as TSynBaseCompletionProposal).FontsAreScaled then
     begin
       TitleFont.Height := MulDiv(TitleFont.Height, 96, GetCurrentPPI);
-      Font.Height := MulDiv(Font.Height, 96, CurrentEditor.CurrentPPI);
+      Font.Height := MulDiv(Font.Height, 96, GetCurrentPPI);
       TSynBaseCompletionProposal(Owner).FontsAreScaled := False;
     end;
     if DisplayType = ctCode then

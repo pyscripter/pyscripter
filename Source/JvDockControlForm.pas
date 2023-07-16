@@ -2946,6 +2946,10 @@ procedure TJvDockBasicStyle.ShowDockForm(ADockClient: TJvDockClient);
 begin
   if ADockClient <> nil then
   begin
+    // Scale but not size
+    var BoundsRect := ADockClient.ParentForm.BoundsRect;
+    ADockClient.ParentForm.ScaleForCurrentDPI;
+    ADockClient.ParentForm.BoundsRect := BoundsRect;
     ADockClient.ParentForm.Visible := True;
     ADockClient.MakeShowEvent;
   end;

@@ -1059,7 +1059,7 @@ var
 
   procedure SetDockSiteSize(DockSite: TJvDockPanel);
   // DockPanel DockRect is unscaled
-  Var
+  var
     LCurrentPPI: Integer;
   begin
     LCurrentPPI := DockSite.CurrentPPI;
@@ -1080,25 +1080,24 @@ begin
         TForm(Control).BorderStyle := BorderStyle;
         TForm(Control).FormStyle := FormStyle;
         //https://stackoverflow.com/questions/3118751/how-can-i-display-a-form-on-a-secondary-monitor
-        NewPPI := Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch;
-        if NewPPI <> Control.CurrentPPI then
-          Control.ScaleForPPI(Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch);
-        Control.Visible := Visible;
         // When Windows state is wsMaximized setting the BoundsRect would maximize the form in the correct Monitor
+
+        // Set the BoundsRect twice.  The first one may cause PPI scaling and change the bounds
+        TWinControl(Control).HandleNeeded;
         Control.BoundsRect := DockRect;  // is this useful for minimized forms?
+        Control.BoundsRect := DockRect;
+
+        Control.Visible := Visible;
         if WindowState <> wsMinimized then
           TForm(Control).WindowState := WindowState
         else
           // setting WindowState to wsMinimized leads to crashes
           PostMessage(TForm(Control).Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
       end
+      else if Control is TJvDockVSPopupPanel then
+        SetPopupPanelSize(Control as TJvDockVSPopupPanel)
       else
-      begin
-        if Control is TJvDockVSPopupPanel then
-          SetPopupPanelSize(Control as TJvDockVSPopupPanel)
-        else
-          SetDockSiteSize(Control as TJvDockPanel);
-      end;
+        SetDockSiteSize(Control as TJvDockPanel);
       DS := FindDockServer(Control);
       if DS <> nil then
       begin

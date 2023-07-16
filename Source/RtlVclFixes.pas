@@ -482,30 +482,66 @@ end;
 {$ENDIF}
 {$ENDREGION}
 
+{$REGION 'Fix TCustomForm.SetParent - https://quality.embarcadero.com/browse/RSP-41987}
+{$IF CompilerVersion >= 35}
+type
+  TCustomForm_SetParent = procedure(const Self: TCustomForm; AParent: TWinControl);
+  TCrackCustomForm = class(TCustomForm);
+
+var
+  Trampoline_TCustomForm_SetParent : TCustomForm_SetParent = nil;
+
+procedure Detour_TCustomForm_SetParent(const Self: TCustomForm; AParent: TWinControl);
+var
+  OldFClientWidth: Integer;
+  OldFClientHeight: Integer;
+begin
+  with TCrackCustomForm(Self) do
+  begin
+    OldFClientWidth := FClientWidth;
+    OldFClientHeight := FClientHeight;
+    FClientWidth := 0;
+    FClientHeight := 0;
+  end;
+  if Assigned(Trampoline_TCustomForm_SetParent) then
+    Trampoline_TCustomForm_SetParent(Self, AParent);
+  with TCrackCustomForm(Self) do
+  begin
+    FClientWidth := OldFClientWidth;
+    FClientHeight := OldFClientHeight;
+  end;
+end;
+{$ENDIF}
+{$ENDREGION}
+
 initialization
- {$IF CompilerVersion < 34}
+  {$IF CompilerVersion < 34}
   Detour_TWICImage_CreateWICBitmap := TWICImage(nil).Detour_CreateWICBitmap;
   TMethod(Trampoline_TWICImage_CreateWICBitmap).Code :=
     InterceptCreate(TWICImage(nil).GetCreateWICBitmapAddr,
     TMethod(Detour_TWICImage_CreateWICBitmap).Code);
- {$ENDIF}
+  {$ENDIF}
 
   {$IF CompilerVersion < 35}
   Original_InputQuery := Vcl.Dialogs.InputQuery;
   Detour_InputQuery := FixedInputQuery;
   Trampoline_InputQuery := TInputQuery(InterceptCreate(@Original_InputQuery, @Detour_InputQuery));
- {$ENDIF}
+  {$ENDIF}
 
- {$IF CompilerVersion < 34}
+  {$IF CompilerVersion < 34}
   System.MonitorSupport.NewWaitObject := NewWaitObj;
   System.MonitorSupport.FreeWaitObject := FreeWaitObj;
- {$ENDIF}
+  {$ENDIF}
 
-{$IF CompilerVersion < 35}
- Trampoline_TCustomImageList_SetSize :=
-   InterceptCreate(@TCustomImageList.SetSize, @Detour_TCustomImageList_SetSize);
- {$ENDIF}
+  {$IF CompilerVersion < 35}
+  Trampoline_TCustomImageList_SetSize :=
+    InterceptCreate(@TCustomImageList.SetSize, @Detour_TCustomImageList_SetSize);
+  {$ENDIF}
 
+  {$IF CompilerVersion >= 35}
+  Trampoline_TCustomForm_SetParent :=
+    InterceptCreate(@TCrackCustomForm.SetParent, @Detour_TCustomForm_SetParent);
+  {$ENDIF}
 finalization
   {$IF CompilerVersion < 34}
   InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
@@ -513,12 +549,15 @@ finalization
   {$IF CompilerVersion < 35}
   InterceptRemove(@Trampoline_InputQuery);
   {$ENDIF}
-  {$IF CompilerVersion < 35}
-  InterceptRemove(@Trampoline_TCustomImageList_SetSize);
-  {$ENDIF}
   {$IF CompilerVersion < 34}
   MonitorSupportShutDown := True;
   CleanStack(AtomicExchange(Pointer(EventCache.Head), nil));
   CleanStack(AtomicExchange(Pointer(EventItemHolders.Head), nil));
+  {$ENDIF}
+  {$IF CompilerVersion < 35}
+  InterceptRemove(@Trampoline_TCustomImageList_SetSize);
+  {$ENDIF}
+  {$IF CompilerVersion >= 35}
+  InterceptRemove(@Trampoline_TCustomForm_SetParent);
   {$ENDIF}
 end.

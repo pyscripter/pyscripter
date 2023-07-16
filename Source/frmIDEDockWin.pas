@@ -39,6 +39,7 @@ type
       ConjoinHost: TJvDockConjoinHostForm);
     procedure FormDeactivate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure CMParentFontChanged(var Message: TCMParentFontChanged); message CM_PARENTFONTCHANGED;
   private
     { Private declarations }
   protected
@@ -48,7 +49,6 @@ type
     HasFocus : Boolean;
     ImageName: string;
     procedure CreateFormIcon;
-    procedure ScaleForPPI(NewPPI: Integer); override;
   end;
 
 var
@@ -119,6 +119,9 @@ begin
 
   SkinManager.AddSkinNotification(Self, True);
 
+  Font.Assign(Application.DefaultFont);
+  Font.Height := MulDiv(Font.Height, FCurrentPPI, Screen.PixelsPerInch);
+
   DockClient.OnConjoinHostFormCreated := DockClientConjoinHostFormCreated;
 end;
 
@@ -137,13 +140,6 @@ begin
   SkinManager.RemoveSkinNotification(Self);
 end;
 
-procedure TIDEDockWindow.ScaleForPPI(NewPPI: Integer);
-begin
-  DockClient.LRDockWidth := MulDiv(DockClient.LRDockWidth, NewPPI, FCurrentPPI);
-  DockClient.TBDockHeight := MulDiv(DockClient.TBDockHeight, NewPPI, FCurrentPPI);
-  inherited;
-end;
-
 procedure TIDEDockWindow.DockClientTabHostFormCreated(
   DockClient: TJvDockClient; TabHost: TJvDockTabHostForm);
 begin
@@ -152,6 +148,13 @@ begin
   TabHost.FormStyle := fsNormal;
   TabHost.PopupMode := pmExplicit;
   TabHost.PopupParent := Application.MainForm;
+end;
+
+procedure TIDEDockWindow.CMParentFontChanged(var Message: TCMParentFontChanged);
+{ Invoked when Application.DefaultFont changes }
+begin
+  Font.Assign(Application.DefaultFont);
+  Font.Height := MulDiv(Font.Height, FCurrentPPI, Screen.PixelsPerInch);
 end;
 
 procedure TIDEDockWindow.CreateFormIcon;

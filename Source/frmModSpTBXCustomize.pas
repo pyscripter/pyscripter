@@ -69,6 +69,7 @@ Uses
 procedure TSpTBXCustomizeFormMod.FormCreate(Sender: TObject);
 begin
   inherited;
+  SetDefaultUIFont(Font);
   TranslateComponent(Self);
 end;
 

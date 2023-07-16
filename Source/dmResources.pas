@@ -259,11 +259,6 @@ begin
     InactiveFont.Assign(ToolbarFont);
   end;
 
-  // Completion
-  ParameterCompletion.FontsAreScaled := True;
-  ModifierCompletion.FontsAreScaled := True;
-  CodeTemplatesCompletion.GetCompletionProposal().FontsAreScaled := True;
-
   // Highlighters
   SynCythonSyn := TSynCythonSyn.Create(Self);
   SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;

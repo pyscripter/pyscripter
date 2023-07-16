@@ -1356,6 +1356,7 @@ begin
       Parent := Sheet;
       Align := alClient;
       Visible := True;
+      ScaleForPPI(Sheet.CurrentPPI);
       ApplyEditorOptions;
       ApplyPyIDEOptions;
     end;
@@ -2800,7 +2801,6 @@ begin
     if CanExecute then
     begin
       CP.Font := PyIDEOptions.AutoCompletionFont;
-      CP.FontsAreScaled := True;
       CP.ItemList.Text := CC.CompletionInfo.DisplayText;
       CP.InsertList.Text := CC.CompletionInfo.InsertText;
       CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
@@ -2946,7 +2946,6 @@ begin
   SynWebFillCompletionProposal(SynEdit, ResourcesDataModule.SynWebHTMLSyn,
     CommandsDataModule.SynWebCompletion, CurrentInput);
   TSynCompletionProposal(Sender).Font := PyIDEOptions.AutoCompletionFont;
-  TSynCompletionProposal(Sender).FontsAreScaled := True;
 end;
 
 procedure TEditorForm.ViewsTabControlActiveTabChange(Sender: TObject;

@@ -394,10 +394,7 @@ uses
 procedure TCommandsDataModule.DataModuleCreate(Sender: TObject);
 begin
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
-  SynCodeCompletion.FontsAreScaled := True;
-
   SynParamCompletion.EndOfTokenChr := WordBreakString;
-  SynParamCompletion.FontsAreScaled := True;
 
   // Set the language before all calls to TranslateComponent
   // This avoids retranslating if the local lanuage <> "en"
@@ -894,13 +891,12 @@ begin
   ResourcesDataModule.SynWebHtmlSyn.SaveToIniFile(TempIniFile);
   try
     with TSynEditOptionsDialog.Create(Self) do begin
+      Form.cbApplyToAll.Checked := True;
       if Assigned(GI_ActiveEditor) then begin
         TempEditorOptions.Assign(GI_ActiveEditor.ActiveSynEdit);
-        Form.cbApplyToAll.Checked := True;
         Form.cbApplyToAll.Enabled := True;
       end else begin
         TempEditorOptions.Assign(EditorOptions);
-        Form.cbApplyToAll.Checked := True;
         Form.cbApplyToAll.Enabled := False;
       end;
       OnGetHighlighterCount := SynEditOptionsDialogGetHighlighterCount;

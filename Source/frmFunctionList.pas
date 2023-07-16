@@ -185,7 +185,6 @@ uses
   Vcl.Clipbrd,
   JvJVCLUtils,
   JvGnuGetText,
-  frmPyIDEMain,
   SynEditTypes,
   dmResources,
   uEditAppIntfs,
@@ -389,28 +388,33 @@ end;
 procedure TFunctionListWindow.SaveSettings;
 begin
   // Do not localize any of the following lines
-  with PyIDEMainForm.AppStorage do begin
-    WriteInteger('Function List\Left', Left);
-    WriteInteger('Function List\Top', Top);
-    WriteInteger('Function List\Width', Width);
-    WriteInteger('Function List\Height', Height);
+  with GI_PyIDEServices.AppStorage do begin
+    DeleteSubTree('Function List');
+    WriteInteger('Function List\Width', MulDiv(Width, 96, FCurrentPPI));
+    WriteInteger('Function List\Height',  MulDiv(Height, 96, FCurrentPPI));
 
     WriteBoolean('Function List\SearchAll', FSearchAll);
     WriteInteger('Function List\SortColumn', FSortOnColumn);
-    WritePersistent('Function List\Font', lvProcs.Font);
+
+    var StoredFont := TSmartPtr.Make(TStoredFont.Create)();
+    lvProcs.Font.PixelsPerInch := FCurrentPPI;
+    StoredFont.PixelsPerInch := FCurrentPPI;
+    StoredFont.Assign(lvProcs.Font);
+    WritePersistent('Function List\Font', StoredFont);
   end;
 end;
 
 procedure TFunctionListWindow.LoadSettings;
 begin
   // Do not localize any of the following lines
-  with PyIDEMainForm.AppStorage do begin
-    Left := ReadInteger('Function List\Left', Left);
-    Top := ReadInteger('Function List\Top', Top);
-    Width := ReadInteger('Function List\Width', Width);
-    Height := ReadInteger('Function List\Height', Height);
+  with GI_PyIDEServices.AppStorage do begin
+    if PathExists('Function List\Width') then
+      Width := MulDiv(ReadInteger('Function List\Width', Width), FCurrentPPI, 96);
+    if PathExists('Function List\Height') then
+      Height := MulDiv(ReadInteger('Function List\Height', Height), FCurrentPPI, 96);
 
     FSortOnColumn := ReadInteger('Function List\SortColumn', FSortOnColumn);
+    lvProcs.Font.PixelsPerInch := FCurrentPPI;
     ReadPersistent('Function List\Font', lvProcs.Font);
     FSearchAll := ReadBoolean('Function List\SearchAll', True);
     ResizeCols;
@@ -599,6 +603,7 @@ end;
 
 procedure TFunctionListWindow.actOptionsFontExecute(Sender: TObject);
 begin
+  lvProcs.Font.PixelsPerInch := FCurrentPPI;
   dlgProcFont.Font.Assign(lvProcs.Font);
   if dlgProcFont.Execute then
     lvProcs.Font.Assign(dlgProcFont.Font);

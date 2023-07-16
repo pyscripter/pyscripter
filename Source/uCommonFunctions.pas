@@ -323,6 +323,15 @@ type
     class function Make<T: class>(AValue: T): TFunc<T>; static;
   end;
 
+
+(* Font that persists Size instead of Height to be used for DPI awareness *)
+  TStoredFont = class(Vcl.Graphics.TFont)
+  published
+    property Height stored False;
+    property Size stored True;
+    property Style default [];
+  end;
+
 Var
   StopWatch: TStopWatch;
 

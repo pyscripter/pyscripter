@@ -10,7 +10,11 @@ object IDEDockWindow: TIDEDockWindow
   DockSite = True
   DragKind = dkDock
   DragMode = dmAutomatic
-  ParentFont = True
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
   PopupMode = pmExplicit
   Position = poDesigned
   ShowHint = True
@@ -36,7 +40,7 @@ object IDEDockWindow: TIDEDockWindow
       Left = 2
       Top = 2
       Width = 223
-      Height = 404
+      Height = 394
       Align = alClient
       BevelOuter = bvNone
       Ctl3D = False

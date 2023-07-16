@@ -234,6 +234,7 @@ var
 implementation
 
 uses
+  WinApi.RichEdit,
   System.UITypes,
   System.RegularExpressions,
   System.Math,
@@ -827,11 +828,11 @@ var
   Matches: TMatchArray;
   i, j: Integer;
 begin
-  reContext.SelStart := 0;
-  reContext.SelLength := Length(reContext.Lines.Text);
-  reContext.SelAttributes.Name := reContext.DefAttributes.Name;
-  reContext.SelAttributes.Size := reContext.DefAttributes.Size;
-  reContext.SelAttributes.Style := [];
+//  reContext.SelStart := 0;
+//  reContext.SelLength := Length(reContext.Lines.Text);
+//  reContext.SelAttributes.Name := reContext.DefAttributes.Name;
+//  reContext.SelAttributes.Size := reContext.DefAttributes.Size;
+//  reContext.SelAttributes.Style := [];
 
   // Highlight the matched line
   reContext.SelStart := reContext.Perform(EM_LINEINDEX, MatchLineNo, 0);
@@ -966,8 +967,10 @@ procedure TFindResultsWindow.ResizeListBox;
 Const
   SAllAlphaNumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
 begin
+  lbResults.Canvas.Font.PixelsPerInch := FCurrentPPI;
   lbResults.Canvas.Font.Assign(lbResults.Font);
-  lbResults.ItemHeight := lbResults.Canvas.TextHeight(SAllAlphaNumericChars) + 3;
+  lbResults.ItemHeight := lbResults.Canvas.TextHeight(SAllAlphaNumericChars) +
+    MulDiv(3, FCurrentPPI, Screen.DefaultPixelsPerInch);
   lbResults.Refresh;
 end;
 

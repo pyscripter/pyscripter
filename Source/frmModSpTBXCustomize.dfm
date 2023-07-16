@@ -1,7 +1,8 @@
 inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
   ClientHeight = 325
   ClientWidth = 449
-  ParentFont = True
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   TextHeight = 15
   inherited SpTBXTabControl1: TSpTBXTabControl
     Width = 449
