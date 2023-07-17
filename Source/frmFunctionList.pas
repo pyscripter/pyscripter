@@ -397,9 +397,10 @@ begin
     WriteInteger('Function List\SortColumn', FSortOnColumn);
 
     var StoredFont := TSmartPtr.Make(TStoredFont.Create)();
-    lvProcs.Font.PixelsPerInch := FCurrentPPI;
-    StoredFont.PixelsPerInch := FCurrentPPI;
     StoredFont.Assign(lvProcs.Font);
+    StoredFont.Height := MulDiv(StoredFont.Height, StoredFont.PixelsPerInch,
+      FCurrentPPI);
+    Assert(StoredFont.Size = 9);
     WritePersistent('Function List\Font', StoredFont);
   end;
 end;
@@ -414,8 +415,9 @@ begin
       Height := MulDiv(ReadInteger('Function List\Height', Height), FCurrentPPI, 96);
 
     FSortOnColumn := ReadInteger('Function List\SortColumn', FSortOnColumn);
-    lvProcs.Font.PixelsPerInch := FCurrentPPI;
     ReadPersistent('Function List\Font', lvProcs.Font);
+    lvProcs.Font.Height := MulDiv(lvProcs.Font.Height, FCurrentPPI,
+      lvProcs.Font.PixelsPerInch);
     FSearchAll := ReadBoolean('Function List\SearchAll', True);
     ResizeCols;
   end;

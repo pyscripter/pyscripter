@@ -120,7 +120,7 @@ begin
   SkinManager.AddSkinNotification(Self, True);
 
   Font.Assign(Application.DefaultFont);
-  Font.Height := MulDiv(Font.Height, FCurrentPPI, Screen.PixelsPerInch);
+  Font.Height := MulDiv(Font.Height, FCurrentPPI, Font.PixelsPerInch);
 
   DockClient.OnConjoinHostFormCreated := DockClientConjoinHostFormCreated;
 end;
@@ -153,8 +153,8 @@ end;
 procedure TIDEDockWindow.CMParentFontChanged(var Message: TCMParentFontChanged);
 { Invoked when Application.DefaultFont changes }
 begin
-  Font.Assign(Application.DefaultFont);
-  Font.Height := MulDiv(Font.Height, FCurrentPPI, Screen.PixelsPerInch);
+  Font.Height := MulDiv(Application.DefaultFont.Height, FCurrentPPI,
+    Screen.PixelsPerInch);
 end;
 
 procedure TIDEDockWindow.CreateFormIcon;
