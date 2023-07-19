@@ -25,7 +25,6 @@ uses
   JvDockControlForm,
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
-  Vcl.ComCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
   TB2Item,
@@ -42,7 +41,7 @@ uses
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
   VirtualTrees,
-  frmIDEDockWin;
+  frmIDEDockWin, SynEdit;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -84,12 +83,12 @@ type
     pnlMiddle: TPanel;
     SpTBXSplitter3: TSpTBXSplitter;
     pnlBackground: TPanel;
-    RegExpText: TRichEdit;
-    SearchText: TRichEdit;
-    MatchText: TRichEdit;
     RI_findall: TSpTBXItem;
     SpinMatches: TSpTBXSpinEdit;
     vilImages: TVirtualImageList;
+    RegExpText: TSynEdit;
+    SearchText: TSynEdit;
+    MatchText: TSynEdit;
     procedure TiClearClick(Sender: TObject);
     procedure GroupsViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
@@ -100,6 +99,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SpinMatchesValueChanged(Sender: TObject);
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   private
     { Private declarations }
     OldRegExp : string;
@@ -108,6 +108,7 @@ type
     MatchObject : Variant;
     MatchList : TList<Variant>;
   protected
+    const FHighlightIndicatorID: TGUID = '{10FBEC66-4210-49F5-9F7D-189B6252080B}';
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -124,11 +125,12 @@ var
 implementation
 
 uses
-  Winapi.RichEdit,
   Vcl.Themes,
   JvGnugettext,
   JvAppIniStorage,
   VarPyth,
+  SynDWrite,
+  SynEditMiscClasses,
   dmResources,
   dmCommands,
   PythonEngine,
@@ -137,29 +139,9 @@ uses
 
 {$R *.dfm}
 
-procedure RE_SetSelBgColor(RichEdit: TRichEdit; SelectionOnly: Boolean; AColor: TColor);
-var
-  Format: TCharFormat2;
-  WParam : integer;
-begin
-  if SelectionOnly then
-    WParam := SCF_SELECTION
-  else
-    WParam := SCF_ALL;
-
-  FillChar(Format, SizeOf(Format), 0);
-  with Format do
-  begin
-    cbSize := SizeOf(Format);
-    dwMask := CFM_BACKCOLOR;
-    crBackColor := ColorToRGB(StyleServices.GetSystemColor(AColor));
-    Richedit.Perform(EM_SETCHARFORMAT, WParam, LPARAM(@Format));
-  end;
-end;
-
 procedure TRegExpTesterWindow.ClearHighlight;
 begin
-  RE_SetSelBgColor(SearchText, False, SearchText.Color);
+  SearchText.Indicators.Clear(FHighlightIndicatorID);
 end;
 
 procedure TRegExpTesterWindow.Clear;
@@ -209,6 +191,21 @@ begin
   Clear;
   FreeAndNil(MatchList);
   inherited;
+end;
+
+procedure TRegExpTesterWindow.WMSpSkinChange(var Message: TMessage);
+begin
+  inherited;
+  RegExpText.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  RegExpText.Color := StyleServices.GetSystemColor(clWindow);
+  SearchText.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  SearchText.Color := StyleServices.GetSystemColor(clWindow);
+  MatchText.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  MatchText.Color := StyleServices.GetSystemColor(clWindow);
+
+  var FHighlightIndicatorSpec := TSynIndicatorSpec.Create(sisTextDecoration,
+    clNoneF, D2D1ColorF(StyleServices.GetSystemColor(clHighlight)), [fsBold]);
+  SearchText.Indicators.RegisterSpec(FHighlightIndicatorID, FHighlightIndicatorSpec);
 end;
 
 procedure TRegExpTesterWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
@@ -461,27 +458,35 @@ begin
 end;
 
 procedure TRegExpTesterWindow.HighlightMatches;
-Var
-  OldSelStart,
-  OldSelLen : integer;
+
+  procedure HighlightText(StartIndex, EndIndex: Integer);
+  var
+    Indicator: TSynIndicator;
+  begin
+    var StartCoord := SearchText.CharIndexToRowCol(StartIndex, #10);
+    var EndCoord := SearchText.CharIndexToRowCol(EndIndex, #10);
+
+    for var I := StartCoord.Line to EndCoord.Line do
+    begin
+      var StartChar := StartCoord.Char;
+      var EndChar := EndCoord.Char;
+
+      if I > StartCoord.Line then
+        StartChar := 1;
+      if I < EndCoord.Line then
+        EndChar := SearchText.Lines[I - 1].Length + 1;
+
+      Indicator := TSynIndicator.Create(FHighlightIndicatorID, StartChar, EndChar);
+      SearchText.Indicators.Add(I, Indicator);
+    end;
+  end;
+
+var
   VMatch : Variant;
 begin
-  OldSelStart := SearchText.SelStart;
-  OldSelLen := SearchText.SelLength;
-  SearchText.Lines.BeginUpdate;
-  try
-    var Py := GI_PyControl.SafePyEngine;
-    for VMatch in MatchList do
-    begin
-      SearchText.SelStart := VMatch.start();
-      SearchText.SelLength := VMatch.end() - SearchText.SelStart;
-      RE_SetSelBgColor(SearchText, True, clHighlight);
-    end;
-  finally
-    SearchText.SelStart := OldSelStart;
-    SearchText.SelLength := OldSelLen;
-    SearchText.Lines.EndUpdate;
-  end;
+  var Py := GI_PyControl.SafePyEngine;
+  for VMatch in MatchList do
+    HighlightText(VMatch.start(), VMatch.end());
 end;
 
 procedure TRegExpTesterWindow.TiClearClick(Sender: TObject);

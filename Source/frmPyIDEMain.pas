@@ -562,10 +562,11 @@
 
   History:   v 4.2.8
           New Features
-             - Customizable user interface content font size (#1209)
-             - Screen reader support in the editor
+            - Improved display in multi-monitor setups
+            - Customizable user interface content font size (#1209)
+            - Screen reader support in the editor
           Issues addressed
-            #1172, #1195, #1197, #1198, #1199, #1208, #1214
+            #1172, #1195, #1197, #1198, #1199, #1208, #1210, #1214
 
 }
 
@@ -672,7 +673,6 @@ type
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
     BGPanel: TPanel;
-    CloseTimer: TTimer;
     TBXDockTop: TSpTBXDock;
     MainMenu: TSpTBXToolbar;
     FileMenu: TSpTBXSubmenuItem;
@@ -1214,7 +1214,6 @@ type
         var AImageList: TCustomImageList; var AImageIndex: Integer;
         var ARect: TRect; var PaintDefault: Boolean);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
-    procedure CloseTimerTimer(Sender: TObject);
     procedure actImportModuleExecute(Sender: TObject);
     procedure actViewToDoListExecute(Sender: TObject);
     procedure actViewFindResultsExecute(Sender: TObject);
@@ -1679,7 +1678,9 @@ begin
 
   // Read Settings from PyScripter.local.ini
   if FileExists(LocalAppStorage.IniFile.FileName) then
-    RestoreLocalApplicationData;
+    RestoreLocalApplicationData
+  else
+    WindowState := TWindowState.wsMaximized;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
@@ -1764,10 +1765,19 @@ end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
+
+  procedure DelayedClose;
+  begin
+    TThread.ForceQueue(nil, procedure
+    begin
+      PostMessage(Application.Handle, WM_CLOSE, 0, 0);
+    end, 1000);
+  end;
+
 begin
   if JvGlobalDockIsLoading then begin
     CanClose := False;
-    CloseTimer.Enabled := True;
+    DelayedClose;
     Exit;
   end else if PyControl.DebuggerState <> dsInactive then begin
     if StyledMessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
@@ -1777,12 +1787,12 @@ begin
       begin
         CanClose := False;
         PyControl.ActiveDebugger.Abort;
-        CloseTimer.Enabled := True;
+        DelayedClose;
         Exit;
       end else begin
         CanClose := False;
         PyControl.ActiveInterpreter.ReInitialize;
-        CloseTimer.Enabled := True;
+        DelayedClose;
         Exit;
       end;
     end else begin  // mrNo
@@ -3614,12 +3624,6 @@ begin
       ToolbarLayout.Free;
     end;
   end;
-end;
-
-procedure TPyIDEMainForm.CloseTimerTimer(Sender: TObject);
-begin
-  PostMessage(Application.Handle, WM_CLOSE, 0, 0);
-  CloseTimer.Enabled := False;
 end;
 
 procedure TPyIDEMainForm.SetupToolsMenu;

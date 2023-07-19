@@ -1416,12 +1416,6 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 394
     Top = 93
   end
-  object CloseTimer: TTimer
-    Enabled = False
-    OnTimer = CloseTimerTimer
-    Left = 39
-    Top = 219
-  end
   object TabControlPopupMenu: TSpTBXPopupMenu
     Images = vilImages
     Left = 336

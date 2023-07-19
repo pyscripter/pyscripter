@@ -217,7 +217,7 @@ inherited FunctionListWindow: TFunctionListWindow
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 514
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

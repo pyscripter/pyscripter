@@ -213,9 +213,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         TabOrder = 2
         object dpGroupsView: TPanel
           Left = 1
-          Top = 275
+          Top = 313
           Width = 378
-          Height = 138
+          Height = 100
           Align = alBottom
           ParentColor = True
           TabOrder = 0
@@ -240,7 +240,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 1
             Top = 22
             Width = 376
-            Height = 115
+            Height = 77
             Align = alClient
             BevelEdges = []
             BevelInner = bvNone
@@ -282,7 +282,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
         object SpTBXSplitter1: TSpTBXSplitter
           Left = 1
-          Top = 270
+          Top = 308
           Width = 378
           Height = 5
           Cursor = crSizeNS
@@ -293,38 +293,19 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Left = 1
           Top = 1
           Width = 378
-          Height = 82
+          Height = 100
           Align = alTop
+          Constraints.MinHeight = 40
           ParentColor = True
           TabOrder = 1
           object SpTBXPanel1: TPanel
             Left = 1
             Top = 1
             Width = 376
-            Height = 80
+            Height = 98
             Align = alClient
             ParentColor = True
             TabOrder = 0
-            object RegExpText: TRichEdit
-              Left = 1
-              Top = 22
-              Width = 374
-              Height = 57
-              Align = alClient
-              BevelInner = bvNone
-              BevelOuter = bvNone
-              BorderStyle = bsNone
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              ParentFont = False
-              PlainText = True
-              ScrollBars = ssVertical
-              TabOrder = 0
-              OnChange = RegExpTextChange
-            end
             object TBXLabel3: TSpTBXLabel
               Left = 1
               Top = 1
@@ -342,11 +323,58 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Underline = True
               UnderlineColor = 16746564
             end
+            object RegExpText: TSynEdit
+              Left = 1
+              Top = 22
+              Width = 374
+              Height = 75
+              Cursor = crDefault
+              Align = alClient
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Consolas'
+              Font.Style = []
+              Font.Quality = fqClearTypeNatural
+              TabOrder = 0
+              UseCodeFolding = False
+              BorderStyle = bsNone
+              Gutter.Font.Charset = DEFAULT_CHARSET
+              Gutter.Font.Color = clWindowText
+              Gutter.Font.Height = -11
+              Gutter.Font.Name = 'Consolas'
+              Gutter.Font.Style = []
+              Gutter.Visible = False
+              Gutter.Bands = <
+                item
+                  Kind = gbkMarks
+                  Width = 13
+                end
+                item
+                  Kind = gbkLineNumbers
+                end
+                item
+                  Kind = gbkFold
+                end
+                item
+                  Kind = gbkTrackChanges
+                end
+                item
+                  Kind = gbkMargin
+                  Width = 3
+                end>
+              HideSelection = True
+              RightEdge = 0
+              ScrollBars = ssVertical
+              SelectedColor.Alpha = 0.400000005960464500
+              WordWrap = True
+              OnChange = RegExpTextChange
+            end
           end
         end
         object SpTBXSplitter2: TSpTBXSplitter
           Left = 1
-          Top = 83
+          Top = 101
           Width = 378
           Height = 5
           Cursor = crSizeNS
@@ -355,10 +383,11 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
         object pnlMiddle: TPanel
           Left = 1
-          Top = 88
+          Top = 106
           Width = 378
-          Height = 182
+          Height = 202
           Align = alClient
+          Constraints.MinHeight = 40
           ParentBackground = False
           ParentColor = True
           TabOrder = 2
@@ -366,7 +395,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 1
             Top = 1
             Width = 376
-            Height = 95
+            Height = 120
             Align = alTop
             ParentColor = True
             TabOrder = 0
@@ -374,29 +403,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Left = 1
               Top = 1
               Width = 374
-              Height = 93
+              Height = 118
               Align = alClient
               TabOrder = 0
-              object SearchText: TRichEdit
-                Left = 1
-                Top = 22
-                Width = 372
-                Height = 70
-                Align = alClient
-                BevelInner = bvNone
-                BevelOuter = bvNone
-                BorderStyle = bsNone
-                Font.Charset = ANSI_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -12
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                PlainText = True
-                ScrollBars = ssVertical
-                TabOrder = 0
-                OnChange = RegExpTextChange
-              end
               object TBXLabel4: TSpTBXLabel
                 Left = 1
                 Top = 1
@@ -414,11 +423,58 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 Underline = True
                 UnderlineColor = 16746564
               end
+              object SearchText: TSynEdit
+                Left = 1
+                Top = 22
+                Width = 372
+                Height = 95
+                Cursor = crDefault
+                Align = alClient
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Consolas'
+                Font.Style = []
+                Font.Quality = fqClearTypeNatural
+                TabOrder = 0
+                UseCodeFolding = False
+                BorderStyle = bsNone
+                Gutter.Font.Charset = DEFAULT_CHARSET
+                Gutter.Font.Color = clWindowText
+                Gutter.Font.Height = -11
+                Gutter.Font.Name = 'Consolas'
+                Gutter.Font.Style = []
+                Gutter.Visible = False
+                Gutter.Bands = <
+                  item
+                    Kind = gbkMarks
+                    Width = 13
+                  end
+                  item
+                    Kind = gbkLineNumbers
+                  end
+                  item
+                    Kind = gbkFold
+                  end
+                  item
+                    Kind = gbkTrackChanges
+                  end
+                  item
+                    Kind = gbkMargin
+                    Width = 3
+                  end>
+                HideSelection = True
+                RightEdge = 0
+                ScrollBars = ssVertical
+                SelectedColor.Alpha = 0.400000005960464500
+                WordWrap = True
+                OnChange = RegExpTextChange
+              end
             end
           end
           object SpTBXSplitter3: TSpTBXSplitter
             Left = 1
-            Top = 96
+            Top = 121
             Width = 376
             Height = 5
             Cursor = crSizeNS
@@ -427,9 +483,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           end
           object dpMatchText: TPanel
             Left = 1
-            Top = 101
+            Top = 126
             Width = 376
-            Height = 80
+            Height = 75
             Align = alClient
             ParentColor = True
             TabOrder = 1
@@ -437,40 +493,21 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Left = 1
               Top = 1
               Width = 374
-              Height = 78
+              Height = 73
               Align = alClient
+              Constraints.MinHeight = 40
               ParentColor = True
               TabOrder = 0
               DesignSize = (
                 374
-                78)
-              object MatchText: TRichEdit
-                Left = 1
-                Top = 25
-                Width = 372
-                Height = 52
-                Align = alBottom
-                Anchors = [akLeft, akTop, akRight, akBottom]
-                BevelInner = bvNone
-                BevelOuter = bvNone
-                BorderStyle = bsNone
-                Font.Charset = ANSI_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -12
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                PlainText = True
-                ScrollBars = ssVertical
-                TabOrder = 0
-              end
+                73)
               object lblMatch: TSpTBXLabel
-                Left = 2
-                Top = 2
-                Width = 327
+                Left = 1
+                Top = 1
+                Width = 372
                 Height = 21
                 Caption = 'Match:'
-                Anchors = [akLeft, akTop, akRight]
+                Align = alTop
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
                 Font.Height = -12
@@ -483,7 +520,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               end
               object SpinMatches: TSpTBXSpinEdit
                 Left = 335
-                Top = 2
+                Top = 0
                 Width = 41
                 Height = 21
                 Hint = 'Show a found match'
@@ -505,6 +542,53 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 SpinOptions.MinValue = 1.000000000000000000
                 SpinOptions.Value = 1.000000000000000000
                 OnValueChanged = SpinMatchesValueChanged
+              end
+              object MatchText: TSynEdit
+                Left = 1
+                Top = 22
+                Width = 372
+                Height = 50
+                Cursor = crDefault
+                Align = alClient
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Consolas'
+                Font.Style = []
+                Font.Quality = fqClearTypeNatural
+                TabOrder = 0
+                UseCodeFolding = False
+                BorderStyle = bsNone
+                Gutter.Font.Charset = DEFAULT_CHARSET
+                Gutter.Font.Color = clWindowText
+                Gutter.Font.Height = -11
+                Gutter.Font.Name = 'Consolas'
+                Gutter.Font.Style = []
+                Gutter.Visible = False
+                Gutter.Bands = <
+                  item
+                    Kind = gbkMarks
+                    Width = 13
+                  end
+                  item
+                    Kind = gbkLineNumbers
+                  end
+                  item
+                    Kind = gbkFold
+                  end
+                  item
+                    Kind = gbkTrackChanges
+                  end
+                  item
+                    Kind = gbkMargin
+                    Width = 3
+                  end>
+                HideSelection = True
+                ReadOnly = True
+                RightEdge = 0
+                ScrollBars = ssVertical
+                SelectedColor.Alpha = 0.400000005960464500
+                WordWrap = True
               end
             end
           end

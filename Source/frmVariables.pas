@@ -42,6 +42,8 @@ uses
   VirtualTrees.BaseTree,
   VirtualTrees.HeaderPopup,
   VirtualTrees,
+  SynEdit,
+  SynEditMiscClasses,
   frmIDEDockWin,
   cPyBaseDebugger;
 
@@ -51,9 +53,9 @@ type
     VariablesTree: TVirtualStringTree;
     DocPanel: TSpTBXPageScroller;
     SpTBXSplitter: TSpTBXSplitter;
-    reInfo: TRichEdit;
     Panel1: TPanel;
     vilCodeImages: TVirtualImageList;
+    synInfo: TSynEdit;
     procedure FormCreate(Sender: TObject);
     procedure VariablesTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
@@ -67,18 +69,21 @@ type
       TextType: TVSTTextType);
     procedure VariablesTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
-    procedure reInfoResizeRequest(Sender: TObject; Rect: TRect);
     procedure VariablesTreeFreeNode(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
     procedure VariablesTreeAddToSelection(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
     procedure VariablesTreeGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   private
     { Private declarations }
     CurrentModule, CurrentFunction : string;
     GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
   protected
+    const FBoldIndicatorID: TGUID = '{10FBEC66-4210-49F5-9F7D-189B6252080B}';
+    const FItalicIndicatorID: TGUID = '{6B5724CC-1B94-4328-92D1-38C34FC9D667}';
+
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -98,6 +103,7 @@ uses
   Vcl.Themes,
   JvJVCLUtils,
   JvGnugettext,
+  SynDWrite,
   StringResources,
   uEditAppIntfs,
   uCommonFunctions,
@@ -124,6 +130,13 @@ begin
   inherited;
   // Let the tree know how much data space we need.
   VariablesTree.NodeDataSize := SizeOf(TNodeData);
+
+  var FBoldIndicatorSpec := TSynIndicatorSpec.Create(sisTextDecoration,
+    clNoneF, clNoneF, [fsBold]);
+  synInfo.Indicators.RegisterSpec(FBoldIndicatorId, FBoldIndicatorSpec);
+  var FItalicIndicatorSpec := TSynIndicatorSpec.Create(sisTextDecoration,
+    clNoneF, clNoneF, [fsItalic]);
+  synInfo.Indicators.RegisterSpec(FItalicIndicatorId, FItalicIndicatorSpec);
 end;
 
 procedure TVariablesWindow.VariablesTreeInitChildren(Sender: TBaseVirtualTree;
@@ -253,10 +266,11 @@ begin
     PPIScale(AppStorage.ReadInteger(BasePath+'\Types Width', 100));
 end;
 
-procedure TVariablesWindow.reInfoResizeRequest(Sender: TObject; Rect: TRect);
+procedure TVariablesWindow.WMSpSkinChange(var Message: TMessage);
 begin
-  Rect.Height := Max(Rect.Height, reInfo.Parent.ClientHeight);
-  reInfo.BoundsRect := Rect;
+  inherited;
+  synInfo.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  synInfo.Color := StyleServices.GetSystemColor(clWindow);
 end;
 
 procedure TVariablesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
@@ -420,13 +434,45 @@ end;
 
 procedure TVariablesWindow.VariablesTreeAddToSelection(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-Var
+
+  procedure AddFormatText(ASynEdit: TSynEdit; const S: string;
+    FontStyle: TFontStyles = []);
+  var
+    Indicator: TSynIndicator;
+  begin
+    var Lines := S.Split([SLineBreak]);
+    for var I := 0 to Length(Lines) - 1 do
+    begin
+      if (I > 0) or (ASynEdit.Lines.Count = 0) then
+        ASynEdit.Lines.Add('');
+      var OldLine := ASynEdit.Lines[ASynEdit.Lines.Count - 1];
+      if (Lines[I] <> '')  then begin
+        // Save the old indicators and restore them after changing the line
+        var OldIndicators := ASynEdit.Indicators.LineIndicators(ASynEdit.Lines.Count);
+        ASynEdit.Lines[ASynEdit.Lines.Count - 1] := OldLine + Lines[I];
+        for var OldIndicator in OldIndicators do
+          ASynEdit.Indicators.Add(ASynEdit.Lines.Count, Indicator);
+        if (FontStyle <> []) then
+        begin
+          if fsItalic in FontStyle then
+            Indicator := TSynIndicator.Create(FItalicIndicatorID,
+              OldLine.Length + 1, OldLine.Length + Lines[I].Length + 1)
+          else
+            Indicator := TSynIndicator.Create(FBoldIndicatorID,
+              OldLine.Length + 1, OldLine.Length + Lines[I].Length + 1);
+           ASynEdit.Indicators.Add(ASynEdit.Lines.Count, Indicator)
+        end;
+      end;
+    end;
+  end;
+
+var
   NameSpace,
   ObjectName,
   ObjectType,
   ObjectValue,
-  DocString : string;
-  Data : PNodeData;
+  DocString: string;
+  Data: PNodeData;
 begin
   if not Enabled then Exit;
 
@@ -436,28 +482,35 @@ begin
   else
     NameSpace := 'Interpreter globals';
 
-  reInfo.Clear;
-  AddFormatText(reInfo, _('Namespace') + ': ', [fsBold]);
-  AddFormatText(reInfo, NameSpace, [fsItalic]);
-  if Assigned(Node) then begin
-    var Py := GI_PyControl.SafePyEngine;
-    Data := Node.GetData;
-    ObjectName := Data.Name;
-    ObjectType := Data.ObjectType;
-    ObjectValue := Data.Value;
-    DocString :=  Data.NameSpaceItem.DocString;
+  synInfo.Clear;
+  synInfo.BeginUpdate;
+  try
+    AddFormatText(synInfo, _('Namespace') + ': ', [fsBold]);
+    AddFormatText(synInfo, NameSpace, [fsItalic]);
+    if Assigned(Node) then begin
+      var Py := GI_PyControl.SafePyEngine;
+      Data := Node.GetData;
+      ObjectName := Data.Name;
+      ObjectType := Data.ObjectType;
+      ObjectValue := Data.Value;
+      DocString :=  Data.NameSpaceItem.DocString;
 
-    AddFormatText(reInfo, SLineBreak+_('Name')+': ', [fsBold]);
-    AddFormatText(reInfo, ObjectName, [fsItalic]);
-    AddFormatText(reInfo, SLineBreak + _('Type') + ': ', [fsBold]);
-    AddFormatText(reInfo, ObjectType);
-    if ObjectValue <> '' then begin
-      AddFormatText(reInfo, SLineBreak + _('Value') + ':' + SLineBreak, [fsBold]);
-      AddFormatText(reInfo, ObjectValue);
+      AddFormatText(synInfo, SLineBreak+_('Name')+': ', [fsBold]);
+      AddFormatText(synInfo, ObjectName, [fsItalic]);
+      AddFormatText(synInfo, SLineBreak + _('Type') + ': ', [fsBold]);
+      AddFormatText(synInfo, ObjectType);
+      if ObjectValue <> '' then begin
+        AddFormatText(synInfo, SLineBreak + _('Value') + ':' + SLineBreak, [fsBold]);
+        AddFormatText(synInfo, ObjectValue);
+      end;
+      AddFormatText(synInfo, SLineBreak + _('DocString') + ':' + SLineBreak, [fsBold]);
+      AddFormatText(synInfo, AdjustLineBreaks(Docstring, System.tlbsCRLF));
     end;
-    AddFormatText(reInfo, SLineBreak + _('DocString') + ':' + SLineBreak, [fsBold]);
-    AddFormatText(reInfo, Docstring);
+  finally
+    synInfo.EndUpdate;
   end;
+  synInfo.ClientHeight := synInfo.DisplayRowCount * synInfo.LineHeight;
+  synInfo.ClientHeight := Max(synInfo.ClientHeight, DocPanel.ClientHeight);
 end;
 
 procedure TVariablesWindow.VariablesTreeFreeNode(Sender: TBaseVirtualTree;

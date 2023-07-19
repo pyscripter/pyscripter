@@ -59,9 +59,6 @@ inherited UnitTestWizard: TUnitTestWizard
       Width = 426
       Height = 338
       Anchors = [akLeft, akTop, akRight, akBottom]
-      BevelKind = bkSoft
-      BorderStyle = bsNone
-      BorderWidth = 2
       Header.AutoSizeIndex = -1
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]

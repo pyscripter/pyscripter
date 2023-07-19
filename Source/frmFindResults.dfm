@@ -162,24 +162,52 @@ inherited FindResultsWindow: TFindResultsWindow
           OnMouseUp = lbResultsMouseUp
           HotTrack = False
         end
-        object reContext: TRichEdit
+        object reContext: TSynEdit
           Left = 0
           Top = 242
           Width = 599
           Height = 88
+          Cursor = crDefault
           Align = alBottom
-          BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -12
-          Font.Name = 'Courier New'
+          Font.Name = 'Consolas'
           Font.Style = []
-          ParentFont = False
-          ReadOnly = True
-          ScrollBars = ssBoth
+          Font.Quality = fqClearTypeNatural
           TabOrder = 1
-          WordWrap = False
-          StyleElements = [seClient, seBorder]
+          UseCodeFolding = False
+          BorderStyle = bsNone
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Consolas'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Bands = <
+            item
+              Kind = gbkMarks
+              Width = 13
+            end
+            item
+              Kind = gbkLineNumbers
+            end
+            item
+              Kind = gbkFold
+            end
+            item
+              Kind = gbkTrackChanges
+            end
+            item
+              Kind = gbkMargin
+              Width = 3
+            end>
+          HideSelection = True
+          IndentGuides.Visible = False
+          ReadOnly = True
+          RightEdge = 0
+          SelectedColor.Alpha = 0.400000005960464500
+          OnSpecialLineColors = reContextSpecialLineColors
         end
       end
       object StatusBar: TSpTBXStatusBar

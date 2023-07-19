@@ -400,7 +400,6 @@ begin
     StoredFont.Assign(lvProcs.Font);
     StoredFont.Height := MulDiv(StoredFont.Height, StoredFont.PixelsPerInch,
       FCurrentPPI);
-    Assert(StoredFont.Size = 9);
     WritePersistent('Function List\Font', StoredFont);
   end;
 end;

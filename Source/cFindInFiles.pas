@@ -637,7 +637,7 @@ begin
   FListFont := TStoredFont.Create;
   FListFont.Assign(Application.DefaultFont);
   FContextFont := TStoredFont.Create;
-  FContextFont.Name := DefaultCodeFontName;
+  FContextFont.Name := 'Consolas';
   FContextFont.Size := 9;
   FContextMatchColor := clHighlight;
   FNumContextLines := 2;
