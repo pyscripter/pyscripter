@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 246
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -1408,18 +1408,13 @@ object PyIDEMainForm: TPyIDEMainForm
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.DateTimeAsString = False
     StorageOptions.DefaultIfReadConvertError = True
+    StorageOptions.StoreDefaultValues = False
     FlushOnDestroy = False
     Location = flCustom
     DefaultSection = 'Other Settings'
     SubStorages = <>
     Left = 394
     Top = 93
-  end
-  object CloseTimer: TTimer
-    Enabled = False
-    OnTimer = CloseTimerTimer
-    Left = 39
-    Top = 219
   end
   object TabControlPopupMenu: TSpTBXPopupMenu
     Images = vilImages
@@ -1493,15 +1488,6 @@ object PyIDEMainForm: TPyIDEMainForm
     LinkSubitems = mnuToolbars
     Left = 40
     Top = 282
-  end
-  object JvFormStorage: TJvFormStorage
-    Active = False
-    AppStorage = LocalAppStorage
-    AppStoragePath = 'Main Form Placement\'
-    VersionCheck = fpvcNocheck
-    StoredValues = <>
-    Left = 545
-    Top = 93
   end
   object actlImmutable: TActionList
     Images = vilImages

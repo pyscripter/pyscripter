@@ -29,7 +29,14 @@ uses
 procedure TPyIDEDlgBase.FormCreate(Sender: TObject);
 begin
   TranslateComponent(Self);
-  SetDefaultUIFont(Font);
+  var LFont := TFont.Create;
+  try
+    SetDefaultUIFont(LFont);
+    LFont.Height := MulDiv(LFont.Height, FCurrentPPI, Font.PixelsPerInch);
+    Font.Assign(LFont);
+  finally
+    LFont.Free;
+  end;
 end;
 
 end.

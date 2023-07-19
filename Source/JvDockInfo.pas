@@ -976,23 +976,28 @@ begin
   end;
 end;
 
+type
+  TControlAccessProtected = class(TControl);
+
 procedure TJvDockInfoZone.SetDockInfoFromControlToNode(Control: TControl);
 Var
   ControlPPI: integer;
 begin
-   ControlPPI := Control.CurrentPPI;
-   if (Control is TJvDockPanel) and (ControlPPI <> 96) and (ControlPPI <> 0) then
-   begin
-     // Get DockRect unscaled.  It will be scaled on loading back
-     with Control.BoundsRect do
-     begin
-       FDockRect.Left := MulDiv(Left, 96, ControlPPI);
-       FDockRect.Right := MulDiv(Right, 96, ControlPPI);
-       FDockRect.Top := MulDiv(Top, 96, ControlPPI);
-       FDockRect.Bottom := MulDiv(Bottom, 96, ControlPPI);
-     end;
-   end else
-     DockRect := Control.BoundsRect;
+  ControlPPI := TControlAccessProtected(Control).FCurrentPPI;
+  if (Control is TJvDockPanel) and (ControlPPI <> 96) and (ControlPPI <> 0) then
+  begin
+    // Get DockRect unscaled.  It will be scaled on loading back
+    with Control.BoundsRect do
+    begin
+      FDockRect.Left := MulDiv(Left, 96, ControlPPI);
+      FDockRect.Right := MulDiv(Right, 96, ControlPPI);
+      FDockRect.Top := MulDiv(Top, 96, ControlPPI);
+      FDockRect.Bottom := MulDiv(Bottom, 96, ControlPPI);
+      LRDockWidth := MulDiv(Control.LRDockWidth, 96, ControlPPI);
+      TBDockHeight := MulDiv(Control.TBDockHeight, 96, ControlPPI);
+    end;
+  end else
+    DockRect := Control.BoundsRect;
 
   UnDockWidth := Control.UnDockWidth;
   UnDockHeight := Control.UnDockHeight;
@@ -1006,8 +1011,9 @@ begin
     BorderStyle := TForm(Control).BorderStyle;
     FormStyle := TForm(Control).FormStyle;
     WindowState := TForm(Control).WindowState;
-    LRDockWidth := Control.LRDockWidth;
-    TBDockHeight := Control.TBDockHeight;
+    // Save unscaled
+    LRDockWidth := MulDiv(Control.LRDockWidth, 96, ControlPPI);
+    TBDockHeight := MulDiv(Control.TBDockHeight, 96, ControlPPI);
   end;
 end;
 
@@ -1051,7 +1057,6 @@ end;
 procedure TJvDockInfoZone.SetDockInfoFromNodeToControl(Control: TControl);
 var
   DS: TJvDockServer;
-  NewPPI: Integer;
 
   procedure SetPopupPanelSize(PopupPanel: TJvDockVSPopupPanel);
   begin
@@ -1059,10 +1064,10 @@ var
 
   procedure SetDockSiteSize(DockSite: TJvDockPanel);
   // DockPanel DockRect is unscaled
-  Var
+  var
     LCurrentPPI: Integer;
   begin
-    LCurrentPPI := DockSite.CurrentPPI;
+    LCurrentPPI := TControlAccessProtected(DockSite).FCurrentPPI;
     if DockSite.Align in [alTop, alBottom] then
       DockSite.JvDockManager.DockSiteSize := MulDiv(DockRect.Bottom - DockRect.Top, LCurrentPPI, 96)
     else
@@ -1080,25 +1085,24 @@ begin
         TForm(Control).BorderStyle := BorderStyle;
         TForm(Control).FormStyle := FormStyle;
         //https://stackoverflow.com/questions/3118751/how-can-i-display-a-form-on-a-secondary-monitor
-        NewPPI := Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch;
-        if NewPPI <> Control.CurrentPPI then
-          Control.ScaleForPPI(Screen.MonitorFromPoint(DockRect.CenterPoint).PixelsPerInch);
-        Control.Visible := Visible;
         // When Windows state is wsMaximized setting the BoundsRect would maximize the form in the correct Monitor
+
+        // Set the BoundsRect twice.  The first one may cause PPI scaling and change the bounds
+        TWinControl(Control).HandleNeeded;
         Control.BoundsRect := DockRect;  // is this useful for minimized forms?
+        Control.BoundsRect := DockRect;
+
+        Control.Visible := Visible;
         if WindowState <> wsMinimized then
           TForm(Control).WindowState := WindowState
         else
           // setting WindowState to wsMinimized leads to crashes
           PostMessage(TForm(Control).Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
       end
+      else if Control is TJvDockVSPopupPanel then
+        SetPopupPanelSize(Control as TJvDockVSPopupPanel)
       else
-      begin
-        if Control is TJvDockVSPopupPanel then
-          SetPopupPanelSize(Control as TJvDockVSPopupPanel)
-        else
-          SetDockSiteSize(Control as TJvDockPanel);
-      end;
+        SetDockSiteSize(Control as TJvDockPanel);
       DS := FindDockServer(Control);
       if DS <> nil then
       begin
@@ -1112,8 +1116,16 @@ begin
     end;
   end;
   Control.Visible := Visible;
-  Control.LRDockWidth := LRDockWidth;
-  Control.TBDockHeight := TBDockHeight;
+  if (Control is TForm) or (Control is TJvDockPanel) then
+  begin
+    Control.LRDockWidth := MulDiv(LRDockWidth, TControlAccessProtected(Control).FCurrentPPI, 96);
+    Control.TBDockHeight := MulDiv(TBDockHeight, TControlAccessProtected(Control).FCurrentPPI, 96);
+  end
+  else
+  begin
+    Control.LRDockWidth := LRDockWidth;
+    Control.TBDockHeight := TBDockHeight;
+  end;
   Control.UnDockHeight := UnDockHeight;
   Control.UnDockWidth := UnDockWidth;
 end;

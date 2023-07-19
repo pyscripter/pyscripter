@@ -403,7 +403,6 @@ type
     property VSPaneVisible: Boolean read FVSPaneVisible write SetVSPaneVisible;
   public
     constructor Create(Tree: TJvDockTree); override;
-
   end;
 
   TJvDockVSNETTree = class(TJvDockVIDTree)

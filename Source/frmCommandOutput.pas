@@ -34,9 +34,10 @@ uses
   TB2Item,
   SpTBXItem,
   SpTBXControls,
+  JclSynch,
   JvComponentBase,
   JvDockControlForm,
-  JclSynch,
+  JvAppStorage,
   SynEditTypes,
   frmIDEDockWin,
   uSysUtils,
@@ -107,6 +108,8 @@ type
     procedure ClearScreen;
     procedure FontOrColorUpdated;
     procedure ExecuteTool(Tool : TExternalTool);
+    procedure StoreOptions(Storage: TJvCustomAppStorage);
+    procedure RestoreOptions(Storage: TJvCustomAppStorage);
     property IsRunning: Boolean read FIsRunning;
     property RunningTool: string read FRunningTool;
   end;
@@ -195,12 +198,13 @@ end;
 
 procedure TOutputWindow.actOutputFontExecute(Sender: TObject);
 begin
+  lsbConsole.Font.PixelsPerInch := FCurrentPPI;
   with TFontDialog.Create(Application) do
   try
-    Font := lsbConsole.Font;
+    Font.Assign(lsbConsole.Font);
     if Execute then
     begin
-      lsbConsole.Font := Font;
+      lsbConsole.Font.Assign(Font);
       FontOrColorUpdated;
     end;
   finally
@@ -439,6 +443,23 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TOutputWindow.RestoreOptions(Storage: TJvCustomAppStorage);
+begin
+  lsbConsole.Font.PixelsPerInch := FCurrentPPI;
+  Storage.ReadPersistent('Output Window\Font', lsbConsole.Font);
+  FontOrColorUpdated;
+end;
+
+procedure TOutputWindow.StoreOptions(Storage: TJvCustomAppStorage);
+begin
+  var StoredFont := TSmartPtr.Make(TStoredFont.Create)();
+  lsbConsole.Font.PixelsPerInch := FCurrentPPI;
+  StoredFont.PixelsPerInch := FCurrentPPI;
+  StoredFont.Assign(lsbConsole.Font);
+  Storage.DeleteSubTree('Output Window');
+  Storage.WritePersistent('Output Window\Font', StoredFont);
 end;
 
 procedure TOutputWindow.ExecuteTool(Tool : TExternalTool);

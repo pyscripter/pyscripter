@@ -3,8 +3,6 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
   Top = 237
   HelpContext = 430
   Caption = 'Code Explorer'
-  ClientHeight = 306
-  ClientWidth = 249
   Icon.Data = {
     0000010001001010000001002000280400001600000028000000100000002000
     0000010020000000000000000000000000000000000000000000000000000000
@@ -42,24 +40,20 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     000000000000000000000000000000000000000000000000000000000000}
   TextHeight = 15
   inherited BGPanel: TPanel
-    Width = 249
-    Height = 306
     inherited FGPanel: TPanel
-      Width = 245
-      Height = 302
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 245
-        Height = 302
+        Width = 223
+        Height = 394
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 0
         object ExplorerTree: TVirtualStringTree
           Left = 0
           Top = 0
-          Width = 245
-          Height = 302
+          Width = 223
+          Height = 394
           Align = alClient
           BorderStyle = bsNone
           Colors.UnfocusedColor = clHighlightText
@@ -94,7 +88,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
             item
               Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus, coStyleColor]
               Position = 0
-              Width = 245
+              Width = 223
             end>
         end
       end

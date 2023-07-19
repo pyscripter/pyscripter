@@ -562,10 +562,11 @@
 
   History:   v 4.2.8
           New Features
-             - Customizable user interface content font size (#1209)
-             - Screen reader support in the editor
+            - Improved display in multi-monitor setups
+            - Customizable user interface content font size (#1209)
+            - Screen reader support in the editor
           Issues addressed
-            #1172, #1195, #1197, #1198, #1199, #1208, #1214
+            #1172, #1195, #1197, #1198, #1199, #1208, #1210, #1214
 
 }
 
@@ -617,12 +618,12 @@ uses
   Vcl.BaseImageCollection,
   SVGIconImageCollection,
   JclSysUtils,
+  JvComponentBase,
   JvAppInst,
   JvDockControlForm,
   JvDockVSNetStyle,
   JvAppStorage,
   JvAppIniStorage,
-  JvFormPlacement,
   JvDSADialogs,
   TB2Dock,
   TB2Toolbar,
@@ -635,7 +636,6 @@ uses
   SpTBXMDIMRU,
   SpTBXTabs,
   SpTBXDkPanels,
-  MPCommonObjects,
   SynEditTypes,
   SynEditMiscClasses,
   SynEdit,
@@ -649,7 +649,7 @@ uses
   cPyBaseDebugger,
   cPyDebugger,
   cPyScripterSettings,
-  cPyControl, JvComponentBase;
+  cPyControl;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -673,7 +673,6 @@ type
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
     BGPanel: TPanel;
-    CloseTimer: TTimer;
     TBXDockTop: TSpTBXDock;
     MainMenu: TSpTBXToolbar;
     FileMenu: TSpTBXSubmenuItem;
@@ -963,7 +962,6 @@ type
     SpTBXSeparatorItem3: TSpTBXSeparatorItem;
     mnViewCustomizeToolbars: TSpTBXItem;
     UserToolbar: TSpTBXToolbar;
-    JvFormStorage: TJvFormStorage;
     mnNavProjectExplorer: TSpTBXItem;
     mnViewProjectExplorer: TSpTBXItem;
     ProjectMenu: TSpTBXSubmenuItem;
@@ -1216,7 +1214,6 @@ type
         var AImageList: TCustomImageList; var AImageIndex: Integer;
         var ARect: TRect; var PaintDefault: Boolean);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
-    procedure CloseTimerTimer(Sender: TObject);
     procedure actImportModuleExecute(Sender: TObject);
     procedure actViewToDoListExecute(Sender: TObject);
     procedure actViewFindResultsExecute(Sender: TObject);
@@ -1347,6 +1344,7 @@ type
     procedure NextMRUAdd(S : string);
   private
     OldMonitorProfile : string;
+    FShellImages: TCustomImageList;
     // IIDELayouts implementation
     function LayoutExists(const Layout: string): Boolean;
     procedure LoadLayout(const Layout : string);
@@ -1448,7 +1446,7 @@ uses
   VirtualTrees.BaseTree,
   VirtualTrees,
   VirtualExplorerTree,
-  MPDataObject,
+  MPCommonObjects,
   SynHighlighterPython,
   SynEditHighlighter,
   SynEditKeyCmds,
@@ -1578,6 +1576,12 @@ Var
   TabHost : TJvDockTabHostForm;
   LocalOptionsFileName: string;
 begin
+  // Shell Images
+  FShellImages := TCommonVirtualImageList.Create(Self);
+  TCommonVirtualImageList(FShellImages).SourceImageList := SmallSysImages;
+  FShellImages.SetSize(MulDiv(FShellImages.Width, FCurrentPPI, Screen.PixelsPerInch),
+    MulDiv(FShellImages.Height, FCurrentPPI, Screen.PixelsPerInch));
+
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -1641,7 +1645,6 @@ begin
 
   // And now translate after all the docking forms have been created
   // They will be translated as well
-  TP_GlobalIgnoreClass(TJvFormStorage);
   TP_GlobalIgnoreClass(TVirtualImageList);
   TranslateComponent(Self);
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
@@ -1675,14 +1678,9 @@ begin
 
   // Read Settings from PyScripter.local.ini
   if FileExists(LocalAppStorage.IniFile.FileName) then
-  begin
-    RestoreLocalApplicationData;
-    if OldMonitorProfile = MonitorProfile then
-      JvFormStorage.RestoreFormPlacement
-    else
-      WindowState := wsMaximized;
-  end else
-    WindowState := wsMaximized;
+    RestoreLocalApplicationData
+  else
+    WindowState := TWindowState.wsMaximized;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
@@ -1767,10 +1765,19 @@ end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
+
+  procedure DelayedClose;
+  begin
+    TThread.ForceQueue(nil, procedure
+    begin
+      PostMessage(Application.Handle, WM_CLOSE, 0, 0);
+    end, 1000);
+  end;
+
 begin
   if JvGlobalDockIsLoading then begin
     CanClose := False;
-    CloseTimer.Enabled := True;
+    DelayedClose;
     Exit;
   end else if PyControl.DebuggerState <> dsInactive then begin
     if StyledMessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
@@ -1780,12 +1787,12 @@ begin
       begin
         CanClose := False;
         PyControl.ActiveDebugger.Abort;
-        CloseTimer.Enabled := True;
+        DelayedClose;
         Exit;
       end else begin
         CanClose := False;
         PyControl.ActiveInterpreter.ReInitialize;
-        CloseTimer.Enabled := True;
+        DelayedClose;
         Exit;
       end;
     end else begin  // mrNo
@@ -3162,6 +3169,7 @@ begin
     AppStorage.WritePersistent('RegExp Tester Options', RegExpTesterWindow);
     AppStorage.WritePersistent('Code Explorer Options', CodeExplorerWindow);
     FileExplorerWindow.StoreOptions(AppStorage);
+    OutputWindow.StoreOptions(AppStorage);
 
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
@@ -3171,7 +3179,6 @@ begin
     AppStorage.WriteCollection('SSH', SSHServers, 'Server');
     AppStorage.StorageOptions.StoreDefaultValues := False;
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
-    AppStorage.WritePersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
     AppStorage.WritePersistent('Watches', WatchesWindow);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
 
@@ -3213,9 +3220,6 @@ begin
     LocalAppStorage.WriteString('Monitor profile', MonitorProfile);
 
     LocalAppStorage.WriteStringList('Layouts', Layouts);
-
-    // Form Placement
-    JvFormStorage.SaveFormPlacement;
 
     // Store Python Versions
     PyControl.WriteToAppStorage(LocalAppStorage);
@@ -3265,19 +3269,19 @@ begin
 
   // Restore highlighters
   PythonIIForm.RestoreOptions(AppStorage);
-    for var Highlighter in ResourcesDataModule.Highlighters do
-    begin
-      Highlighter.BeginUpdate;
-      try
-        AppStorage.ReadPersistent('Highlighters\' +
-          Highlighter.FriendlyLanguageName, Highlighter);
-      finally
-        Highlighter.EndUpdate;
-      end;
+  for var Highlighter in ResourcesDataModule.Highlighters do
+  begin
+    Highlighter.BeginUpdate;
+    try
+      AppStorage.ReadPersistent('Highlighters\' +
+        Highlighter.FriendlyLanguageName, Highlighter);
+    finally
+      Highlighter.EndUpdate;
     end;
-    CommandsDataModule.ApplyEditorOptions;
+  end;
+  CommandsDataModule.ApplyEditorOptions;
 
-    AppStorage.DeleteSubTree('Highlighters');
+  AppStorage.DeleteSubTree('Highlighters');
 
   with CommandsDataModule do begin
     AppStorage.ReadPersistent('Print Options', SynEditPrint);
@@ -3310,14 +3314,13 @@ begin
   AppStorage.ReadPersistent('RegExp Tester Options', RegExpTesterWindow);
   AppStorage.ReadPersistent('Code Explorer Options', CodeExplorerWindow);
   FileExplorerWindow.RestoreOptions(AppStorage);
+  OutputWindow.RestoreOptions(AppStorage);
 
   AppStorage.ReadStringList('Custom Params', CustomParams);
   RegisterCustomParams;
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadCollection('SSH', SSHServers, True, 'Server');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  AppStorage.ReadPersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
-  OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
@@ -3623,12 +3626,6 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.CloseTimerTimer(Sender: TObject);
-begin
-  PostMessage(Application.Handle, WM_CLOSE, 0, 0);
-  CloseTimer.Enabled := False;
-end;
-
 procedure TPyIDEMainForm.SetupToolsMenu;
 Var
   i : integer;
@@ -3649,7 +3646,7 @@ begin
       Action.ActionList := actlStandard;
       mnTools.Add(MenuItem);
       MenuItem.Action := Action;
-      MenuItem.Images := SmallSysImages;
+      MenuItem.Images := FShellImages;
     end;
   end;
 end;
@@ -3920,7 +3917,7 @@ begin
             Item := TSpTBXItem.Create(Self);
             Item.Name := 'tb' + Action.Name;
             if Action is TExternalToolAction then
-              Item.Images := SmallSysImages;
+              Item.Images := FShellImages;
             SpTBXCustomizer.Items.Add(Item);
           end;
           Item.Action := Action;

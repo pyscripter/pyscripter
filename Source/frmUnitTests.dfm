@@ -245,24 +245,51 @@ inherited UnitTestWindow: TUnitTestWindow
           Align = alBottom
           Anchors = [akLeft, akTop, akRight, akBottom]
           TabOrder = 0
-          object ErrorText: TRichEdit
+          object ErrorText: TSynEdit
             Left = 1
             Top = 1
             Width = 254
             Height = 85
+            Cursor = crDefault
             Align = alClient
-            BorderStyle = bsNone
+            Constraints.MinHeight = 10
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Shell Dlg 2'
+            Font.Height = -12
+            Font.Name = 'Consolas'
             Font.Style = []
-            Constraints.MinHeight = 10
-            ParentFont = False
-            PlainText = True
-            ReadOnly = True
-            ScrollBars = ssBoth
+            Font.Quality = fqClearTypeNatural
             TabOrder = 0
+            UseCodeFolding = False
+            BorderStyle = bsNone
+            Gutter.Font.Charset = DEFAULT_CHARSET
+            Gutter.Font.Color = clWindowText
+            Gutter.Font.Height = -11
+            Gutter.Font.Name = 'Consolas'
+            Gutter.Font.Style = []
+            Gutter.Visible = False
+            Gutter.Bands = <
+              item
+                Kind = gbkMarks
+                Width = 13
+              end
+              item
+                Kind = gbkLineNumbers
+              end
+              item
+                Kind = gbkFold
+              end
+              item
+                Kind = gbkTrackChanges
+              end
+              item
+                Kind = gbkMargin
+                Width = 3
+              end>
+            HideSelection = True
+            ReadOnly = True
+            RightEdge = 0
+            SelectedColor.Alpha = 0.400000005960464500
           end
         end
       end

@@ -475,6 +475,7 @@ type
     FVSPaneWidth: Integer;
     {$IFDEF RTL330_UP}
     FDPIChangedMessageID: Integer;
+    FCurrentPPI: Integer;
     {$ENDIF RTL330_UP}
     procedure SetParentVisible(const Value: Boolean);
     function GetLRDockWidth: Integer;
@@ -2946,6 +2947,14 @@ procedure TJvDockBasicStyle.ShowDockForm(ADockClient: TJvDockClient);
 begin
   if ADockClient <> nil then
   begin
+    if ADockClient.FCurrentPPI <> ADockClient.ParentForm.CurrentPPI then
+    begin
+      // Scale but not size
+      var BoundsRect := ADockClient.ParentForm.BoundsRect;
+      ADockClient.ParentForm.ScaleForCurrentDPI;
+      //if ADockClient.ParentForm.Parent = nil then
+        ADockClient.ParentForm.BoundsRect := BoundsRect;
+    end;
     ADockClient.ParentForm.Visible := True;
     ADockClient.MakeShowEvent;
   end;
@@ -2972,6 +2981,7 @@ begin
   FDockLevel := 0;
   EnableCloseButton := True;
   {$IFDEF RTL330_UP}
+  FCurrentPPI := 96;
   FDPIChangedMessageID := TMessageManager.DefaultManager.SubscribeToMessage(TChangeScaleMessage, DPIChangedMessageHandler);
   {$ENDIF RTL330_UP}
 end;
@@ -3262,6 +3272,7 @@ procedure TJvDockClient.DPIChangedMessageHandler(const Sender: TObject;
 begin
   if FindDockClient(TControl(Sender)) = Self then
   begin
+    FCurrentPPI := MulDiv(FCurrentPPI, TChangeScaleMessage(Msg).M, TChangeScaleMessage(Msg).D);
     LRDockWidth := MulDiv(LRDockWidth, TChangeScaleMessage(Msg).M, TChangeScaleMessage(Msg).D);
     TBDockHeight := MulDiv(TBDockHeight, TChangeScaleMessage(Msg).M, TChangeScaleMessage(Msg).D);
   end;

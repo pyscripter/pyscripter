@@ -7,10 +7,8 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
   ClientHeight = 307
   ClientWidth = 307
   Position = poScreenCenter
-  ExplicitWidth = 313
-  ExplicitHeight = 336
-  PixelsPerInch = 96
-  TextHeight = 13
+  OnShow = FormShow
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -75,8 +73,8 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       object lblContextLines: TLabel
         Left = 28
         Top = 101
-        Width = 114
-        Height = 13
+        Width = 128
+        Height = 15
         Caption = 'Number of context lines'
         Color = clNone
         ParentColor = False
@@ -108,7 +106,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
         Left = 28
         Top = 123
         Width = 54
-        Height = 22
+        Height = 24
         MaxValue = 0
         MinValue = 0
         TabOrder = 2

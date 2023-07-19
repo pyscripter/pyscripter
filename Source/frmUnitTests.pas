@@ -15,7 +15,6 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
-  Vcl.ComCtrls,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ImgList,
@@ -38,7 +37,7 @@ uses
   SpTBXItem,
   SpTBXSkins,
   uEditAppIntfs,
-  frmIDEDockWin;
+  frmIDEDockWin, SynEdit;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -79,10 +78,10 @@ type
     lblRunTests: TLabel;
     lblFailures: TLabel;
     SpTBXPanel1: TPanel;
-    ErrorText: TRichEdit;
     vilRunImages: TVirtualImageList;
     vilImages: TVirtualImageList;
     icRunImages: TSVGIconImageCollection;
+    ErrorText: TSynEdit;
     procedure UnitTestsDblClick(Sender: TObject);
     procedure actStopExecute(Sender: TObject);
     procedure actClearAllExecute(Sender: TObject);
@@ -617,6 +616,7 @@ end;
 procedure TUnitTestWindow.UnitTestsChange(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
+  ErrorText.Clear;
   if Assigned(Node) and (vsSelected in Node.States) and
     (UnitTests.GetNodeLevel(Node) = 1) then
   begin
@@ -625,9 +625,7 @@ begin
     var TestCase: Variant := VarPythonCreate(PyTestCase);
     ErrorText.Text := TestCase.errMsg;
     VarClear(TestCase);
-  end
-  else
-    ErrorText.Text := '';
+  end;
 end;
 
 procedure TUnitTestWindow.actClearAllExecute(Sender: TObject);
@@ -686,6 +684,8 @@ begin
   finally
     icRunImages.SVGIconItems.EndUpdate;
   end;
+  ErrorText.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  ErrorText.Color := StyleServices.GetSystemColor(clWindow);
 end;
 
 procedure TUnitTestWindow.actStopExecute(Sender: TObject);

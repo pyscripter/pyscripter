@@ -76,6 +76,8 @@ uses
   SpTBXEditors,
   SpTBXDkPanels,
   SpTBXControls,
+  SynEdit,
+  SynEditMiscClasses,
   frmIDEDockWin,
   cFindInFiles;
 
@@ -145,8 +147,8 @@ type
     actFileRefresh: TAction;
     actFileSearch: TAction;
     actReplaceSelected: TAction;
-    reContext: TRichEdit;
     vilImages: TVirtualImageList;
+    reContext: TSynEdit;
     procedure FormResize(Sender: TObject);
     procedure lbResultsMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -175,6 +177,8 @@ type
     procedure actViewStatusBarExecute(Sender: TObject);
     procedure actHelpHelpExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure reContextSpecialLineColors(Sender: TObject; Line: Integer; var
+        Special: Boolean; var FG, BG: TColor);
   private
     FSearchInProgress: Boolean;
     FReplaceInProgress: Boolean;
@@ -182,10 +186,11 @@ type
     FSearcher: TGrepSearchRunner;
     FShowContext: Boolean;
     FDoSearchReplace: Boolean;
-    fSearchResults : TStrings;
+    FSearchResults : TStrings;
+    FREMatchLineNo: Integer;
     procedure RefreshContextLines;
     procedure SetShowContext(Value: Boolean);
-    procedure HighlightMemo(FileMatches: TFileResult; StartLine, MatchLineNo: Integer);
+    procedure HighlightMemo(FileMatches: TFileResult; StartLine: Integer);
     procedure StartFileSearch(Sender: TObject; const FileName: string);
     procedure ToggleFileResultExpanded(ListBoxIndex: Integer);
     procedure ExpandList;
@@ -200,6 +205,7 @@ type
     procedure SetMatchString(const MatchStr: string);
     procedure ExpandOrContractList(Expand: Boolean);
   protected
+    const FBoldIndicatorID: TGUID = '{D27761BF-2B7F-4D21-A398-B9BD29D8D6DA}';
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure AssignSettingsToForm;
     // IJvAppStorageHandler implementation
@@ -241,12 +247,12 @@ uses
   JclFileUtils,
   JvJVCLUtils,
   JvGnugettext,
-  SynEdit,
-  SynEditTypes,
   StringResources,
   dmResources,
   dlgFindInFiles,
   dlgReplaceInFiles,
+  SynEditTypes,
+  SynDWrite,
   uEditAppIntfs,
   uCommonFunctions;
 
@@ -636,6 +642,7 @@ begin
   Assert(Assigned(FindInFilesExpert));
   reContext.Font.Assign(FindInFilesExpert.ContextFont);
   reContext.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  reContext.Color := StyleServices.GetSystemColor(clWindow);
   lbResults.Font.Assign(FindInFilesExpert.ListFont);
   lbResults.Font.Color := StyleServices.GetSystemColor(clWindowText);
 end;
@@ -646,10 +653,10 @@ var
 begin
   if not (csDestroying in ComponentState) then  // Wierd crash on Exit
     lbResults.Clear;
-  for i := 0 to fSearchResults.Count - 1 do
-    if fSearchResults.Objects[i] is TFileResult then
-      fSearchResults.Objects[i].Free;
-  fSearchResults.Clear;
+  for i := 0 to FSearchResults.Count - 1 do
+    if FSearchResults.Objects[i] is TFileResult then
+      FSearchResults.Objects[i].Free;
+  FSearchResults.Clear;
 end;
 
 procedure TFindResultsWindow.ContractList;
@@ -661,12 +668,15 @@ constructor TFindResultsWindow.Create(AOwner: TComponent);
 begin
   ImageName := 'FindResults';
   inherited;
-  fSearchResults := TStringList.Create;
+  FSearchResults := TStringList.Create;
   FSearchInProgress := False;
 //  lbResults.DoubleBuffered := True;
   ShowContext := True;
   ResizeListBox;
   FindInFilesExpert := TFindInFilesExpert.Create;
+  var FBoldIndicatorSpec := TSynIndicatorSpec.Create(sisTextDecoration,
+    clNoneF, clNoneF, [fsBold]);
+  reContext.Indicators.RegisterSpec(FBoldIndicatorId, FBoldIndicatorSpec);
 end;
 
 destructor TFindResultsWindow.Destroy;
@@ -675,7 +685,7 @@ begin
 
   ClearResultsListbox;
 
-  fSearchResults.Free;
+  FSearchResults.Free;
   inherited Destroy;
 
   FindResultsWindow := nil;
@@ -821,38 +831,23 @@ begin
   GoToMatchLine(CurrentLine, FindInFilesExpert.GrepMiddle);
 end;
 
-procedure TFindResultsWindow.HighlightMemo(FileMatches: TFileResult;
-  StartLine, MatchLineNo: Integer);
+procedure TFindResultsWindow.HighlightMemo(FileMatches: TFileResult; StartLine: Integer);
 var
   Matches: TMatchArray;
-  i, j: Integer;
 begin
-  reContext.SelStart := 0;
-  reContext.SelLength := Length(reContext.Lines.Text);
-  reContext.SelAttributes.Name := reContext.DefAttributes.Name;
-  reContext.SelAttributes.Size := reContext.DefAttributes.Size;
-  reContext.SelAttributes.Style := [];
-
-  // Highlight the matched line
-  reContext.SelStart := reContext.Perform(EM_LINEINDEX, MatchLineNo, 0);
-  reContext.SelLength := Length(reContext.Lines[MatchLineNo]);
-  reContext.SelAttributes.Color := StyleServices.GetSystemColor(FindInFilesExpert.ContextMatchColor);
-
-  for i := StartLine + 1 to StartLine + reContext.Lines.Count + 1 do
+  for var I := StartLine + 1 to StartLine + reContext.Lines.Count do
   begin
-    FileMatches.GetMatchesOnLine(i, Matches);
-    for j := 0 to Length(Matches) - 1 do
+    FileMatches.GetMatchesOnLine(I, Matches);
+    for var Match in Matches do
     begin
-      if Matches[j].ShowBold then
+      if Match.ShowBold then
       begin
-        reContext.SelStart := reContext.Perform(EM_LINEINDEX, i - StartLine - 1, 0) + Matches[j].SPos - 1;
-        reContext.SelLength := Matches[j].EPos - Matches[j].SPos + 1;
-        reContext.SelAttributes.Style := [fsBold];
-
+        var Indicator := TSynIndicator.Create(FBoldIndicatorID, Match.SPos, Match.EPos + 1);
+        reContext.Indicators.Add(I - StartLine, Indicator);
       end;
     end;
   end;
-  reContext.SelStart := 0;
+  reContext.CaretXY := BufferCoord(1, 1);
 end;
 
 function TFindResultsWindow.QueryUserForGrepOptions: Boolean;
@@ -908,7 +903,7 @@ end;
 procedure TFindResultsWindow.RefreshContextLines;
 var
   CurrentLine: TLineResult;
-  MatchLineNo, BeginLineNo, EndLineNo, REMatchLineNo: Integer;
+  MatchLineNo, BeginLineNo, EndLineNo: Integer;
   FileLines: TStringList;
   FileName: string;
   i: Integer;
@@ -942,19 +937,19 @@ begin
           EndLineNo := MatchLineNo + FindInFilesExpert.NumContextLines;
           EndLineNo := Min(EndLineNo, FileLines.Count - 1);
 
-          REMatchLineNo := 0;
+          FREMatchLineNo := 0;
           //reContext.SelStart := reContext.GetTextLen;
           reContext.Lines.Clear;
           for i := BeginLineNo to EndLineNo do
           begin
             reContext.Lines.Add(FileLines[i]);
             if i = MatchLineNo then
-              REMatchLineNo := reContext.Lines.Count - 1;
+              FREMatchLineNo := reContext.Lines.Count;
           end;
         finally
           FreeAndNil(FileLines);
         end;
-        HighlightMemo(TFileResult(CurrentLine.Collection), BeginLineNo, REMatchLineNo);
+        HighlightMemo(TFileResult(CurrentLine.Collection), BeginLineNo);
       end;
     end;
   finally
@@ -966,8 +961,10 @@ procedure TFindResultsWindow.ResizeListBox;
 Const
   SAllAlphaNumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
 begin
+  lbResults.Canvas.Font.PixelsPerInch := FCurrentPPI;
   lbResults.Canvas.Font.Assign(lbResults.Font);
-  lbResults.ItemHeight := lbResults.Canvas.TextHeight(SAllAlphaNumericChars) + 3;
+  lbResults.ItemHeight := lbResults.Canvas.TextHeight(SAllAlphaNumericChars) +
+    MulDiv(3, FCurrentPPI, Screen.DefaultPixelsPerInch);
   lbResults.Refresh;
 end;
 
@@ -1310,12 +1307,25 @@ end;
 procedure TFindResultsWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
+  reContext.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  reContext.Color := StyleServices.GetSystemColor(clWindow);
   lbResults.Invalidate;
 end;
 
 procedure TFindResultsWindow.actHelpHelpExecute(Sender: TObject);
 begin
   Application.HelpContext(HelpContext);
+end;
+
+procedure TFindResultsWindow.reContextSpecialLineColors(Sender: TObject; Line:
+    Integer; var Special: Boolean; var FG, BG: TColor);
+begin
+  BG := clNone;
+  Special :=  Line = FREMatchLineNo;
+  if Special then
+    FG := StyleServices.GetSystemColor(FindInFilesExpert.ContextMatchColor)
+  else
+    FG := clNone;
 end;
 
 end.

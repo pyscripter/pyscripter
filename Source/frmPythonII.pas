@@ -1315,7 +1315,6 @@ begin
     if CanExecute then
     begin
       CP.Font := PyIDEOptions.AutoCompletionFont;
-      CP.FontsAreScaled := True;
       CP.ItemList.Text := CC.CompletionInfo.DisplayText;
       CP.InsertList.Text := CC.CompletionInfo.InsertText;
       CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;

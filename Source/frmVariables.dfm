@@ -56,22 +56,52 @@ inherited VariablesWindow: TVariablesWindow
         Color = clNone
         ParentColor = False
         TabOrder = 0
-        object reInfo: TRichEdit
+        object synInfo: TSynEdit
           Left = 0
           Top = 0
           Width = 375
           Height = 89
+          Cursor = crDefault
           Align = alTop
-          BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Height = -12
+          Font.Name = 'Consolas'
           Font.Style = []
-          ParentFont = False
-          ReadOnly = True
+          Font.Quality = fqClearTypeNatural
           TabOrder = 0
-          OnResizeRequest = reInfoResizeRequest
+          UseCodeFolding = False
+          BorderStyle = bsNone
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Consolas'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Bands = <
+            item
+              Kind = gbkMarks
+              Width = 13
+            end
+            item
+              Kind = gbkLineNumbers
+            end
+            item
+              Kind = gbkFold
+            end
+            item
+              Kind = gbkTrackChanges
+            end
+            item
+              Kind = gbkMargin
+              Width = 3
+            end>
+          HideSelection = True
+          ReadOnly = True
+          RightEdge = 0
+          ScrollBars = ssNone
+          SelectedColor.Alpha = 0.400000005960464500
+          WordWrap = True
         end
       end
       object SpTBXSplitter: TSpTBXSplitter

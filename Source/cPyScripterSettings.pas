@@ -853,7 +853,6 @@ strict private
   class destructor Destroy;
 end;
 
-
 { TJvAppStorageFontPropertyEngine }
 
 function TJvAppStorageFontPropertyEngine.Supports(AObject,
@@ -865,13 +864,8 @@ end;
 class constructor TJvAppStorageFontPropertyEngine.Create;
 begin
   TJvAppStorageFontPropertyEngine.FFontIgnoreProperties := TStringList.Create;
-  with TJvAppStorageFontPropertyEngine.FFontIgnoreProperties do begin
-    Add('Height');
-    Add('Charset');
-    Add('Orientation');
-    Add('Pitch');
-    Add('Quality');
-  end;
+  TJvAppStorageFontPropertyEngine.FFontIgnoreProperties.AddStrings(
+    ['Height', 'Charset', 'Orientation', 'Pitch', 'Quality']);
 end;
 
 class destructor TJvAppStorageFontPropertyEngine.Destroy;

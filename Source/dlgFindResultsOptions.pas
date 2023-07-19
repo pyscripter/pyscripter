@@ -76,6 +76,7 @@ type
     procedure pnlMatchLineColorClick(Sender: TObject);
     procedure pnlListFontClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   end;
 
 implementation
@@ -120,6 +121,17 @@ end;
 procedure TFindResultsOptionsDialog.btnHelpClick(Sender: TObject);
 begin
   Application.HelpContext(HelpContext);
+end;
+
+type
+  TCrackTPanel = class(TPanel);
+
+procedure TFindResultsOptionsDialog.FormShow(Sender: TObject);
+begin
+  TCrackTPanel(pnlListFont).Canvas.Font.PixelsPerInch := FCurrentPPI;
+  pnlListFont.Font.PixelsPerInch := FCurrentPPI;
+  TCrackTPanel(pnlContextFont).Canvas.Font.PixelsPerInch := FCurrentPPI;
+  pnlContextFont.Font.PixelsPerInch := FCurrentPPI;
 end;
 
 end.

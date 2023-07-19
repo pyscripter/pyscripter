@@ -2724,10 +2724,22 @@ end;
 
 procedure TJvDockVIDTabPageControl.ChangeScale(M, D: Integer;
   isDpiChange: Boolean);
+var
+  Sheet: TJvDockVIDTabSheet;
 begin
   inherited;
+  if M = D then
+    Exit;
+  // Scale image list
   if Assigned(FTabImageList) then
     JvScaleImageList(FTabImageList, M, D);
+
+  // Recalc tab width
+  for var I := 0 to Count - 1 do
+  begin
+    Sheet := Pages[I] as TJvDockVIDTabSheet;
+    Sheet.SetSheetSort(Sheet.Caption);
+  end;
 end;
 
 procedure TJvDockVIDTabPageControl.AdjustClientRect(var Rect: TRect);
@@ -3933,6 +3945,10 @@ begin
       TabPanel.Canvas.Font.Assign(TabPanel.Page.ActiveFont)
     else
       TabPanel.Canvas.Font.Assign(TabPanel.Page.InactiveFont);
+    // Scale Font
+    TabPanel.Canvas.Font.Height := MulDiv(TabPanel.Canvas.Font.Height,
+      FCurrentPPI, TabPanel.Canvas.Font.PixelsPerInch);
+
     TempWidth := TabPanel.Canvas.TextWidth(
       CaptionStr) + TabPanel.CaptionLeftOffset + TabPanel.CaptionRightOffset;
     if TempWidth <> FTabWidth then

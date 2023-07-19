@@ -1624,7 +1624,8 @@ begin
     GI_PyInterpreter.ShowWindow;
 
   GI_PyInterpreter.SetPyInterpreterPrompt(pipDebug);
-  GI_PyInterpreter.AppendPrompt;
+  // Better without.  A prompt will be added when the debugger breaks
+  //GI_PyInterpreter.AppendPrompt;
   //attach debugger callback routines
   with PyControl.InternalPython.DebugIDE.Events do begin
     Items[dbie_user_call].OnExecute := UserCall;
