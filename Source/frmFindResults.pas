@@ -82,7 +82,7 @@ uses
   cFindInFiles;
 
 type
-  TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
+  TFindResultsWindow = class(TIDEDockWindow)
     pnlMain: TPanel;
     Splitter: TSpTBXSplitter;
     TBXDock1: TSpTBXDock;
@@ -205,18 +205,20 @@ type
     procedure SetMatchString(const MatchStr: string);
     procedure ExpandOrContractList(Expand: Boolean);
   protected
+    const FBasePath = 'Find in Files Results Options'; // Used for storing settings
     const FBoldIndicatorID: TGUID = '{D27761BF-2B7F-4D21-A398-B9BD29D8D6DA}';
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure AssignSettingsToForm;
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     FindInFilesExpert : TFindInFilesExpert;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Execute(DoRefresh: Boolean);
     function DoingSearchOrReplace: Boolean;
+    // Storage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+
     property ShowContext: Boolean read FShowContext write SetShowContext;
     property DoSearchReplace: Boolean read FDoSearchReplace write FDoSearchReplace;
   end;
@@ -1285,23 +1287,25 @@ begin
   end;
 end;
 
-procedure TFindResultsWindow.ReadFromAppStorage(
-  AppStorage: TJvCustomAppStorage; const BasePath: string);
+procedure TFindResultsWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
+  inherited;
   lbResults.Height :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\ResultsHeight', lbResults.Height));
-  ToolBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
-  StatusBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
-  ShowContext := AppStorage.ReadBoolean(BasePath+'\ShowContext', True);
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\ResultsHeight', lbResults.Height));
+  ToolBar.Visible := AppStorage.ReadBoolean(FBasePath+'\ShowToolBar', ToolBar.Visible);
+  StatusBar.Visible := AppStorage.ReadBoolean(FBasePath+'\ShowStatusBar', StatusBar.Visible);
+  ShowContext := AppStorage.ReadBoolean(FBasePath+'\ShowContext', True);
+  AppStorage.ReadPersistent('Find in Files Options', FindInFilesExpert);
 end;
 
-procedure TFindResultsWindow.WriteToAppStorage(
-  AppStorage: TJvCustomAppStorage; const BasePath: string);
+procedure TFindResultsWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  AppStorage.WriteInteger(BasePath+'\ResultsHeight', PPIUnScale(lbResults.Height));
-  AppStorage.WriteBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
-  AppStorage.WriteBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
-  AppStorage.WriteBoolean(BasePath+'\ShowContext', ShowContext);
+  inherited;
+  AppStorage.WriteInteger(FBasePath+'\ResultsHeight', PPIUnScale(lbResults.Height));
+  AppStorage.WriteBoolean(FBasePath+'\ShowToolBar', ToolBar.Visible);
+  AppStorage.WriteBoolean(FBasePath+'\ShowStatusBar', StatusBar.Visible);
+  AppStorage.WriteBoolean(FBasePath+'\ShowContext', ShowContext);
+  AppStorage.WritePersistent('Find in Files Options', FindInFilesExpert);
 end;
 
 procedure TFindResultsWindow.WMSpSkinChange(var Message: TMessage);

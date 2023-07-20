@@ -76,7 +76,8 @@ uses
   cParameters,
   cPyBaseDebugger,
   cProjectClasses,
-  cPyControl;
+  cPyControl,
+  dlgCommandLine;
 
 function GetActiveDoc: string;
 Var
@@ -515,10 +516,7 @@ end;
 
 function GetCmdLineArgs: string;
 begin
-  if PyIDEOptions.UseCommandLine then
-    Result := PyIDEOptions.CommandLine
-  else
-    Result := '';
+  Result := Parameters.ReplaceInText(CommandLineParams);
 end;
 
 function GetEnvironmentVariable(const Name: string): string;

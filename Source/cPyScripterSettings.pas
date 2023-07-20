@@ -76,7 +76,6 @@ type
     fJSONFileFilter : string;
     fGeneralFileFilter : string;
     fFileExplorerFilter : string;
-    fDateLastCheckedForUpdates : TDateTime;
     fAutoCheckForUpdates : boolean;
     fDaysBetweenChecks : integer;
     fMaskFPUExceptions : boolean;
@@ -84,8 +83,6 @@ type
     fShowCodeHints : boolean;
     fShowDebuggerHints : boolean;
     fAutoCompleteBrackets : boolean;
-    fCommandLine : string;
-    fUseCommandLine : Boolean;
     fMarkExecutableLines : Boolean;
     fCheckSyntaxAsYouType : Boolean;
     fFileExplorerContextMenu : Boolean;
@@ -213,8 +210,6 @@ type
       write fGeneralFileFilter;
     property FileExplorerFilter : string read fFileExplorerFilter
       write fFileExplorerFilter;
-    property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
-      write fDateLastCheckedForUpdates;
     property AutoCheckForUpdates : boolean read fAutoCheckForUpdates
       write fAutoCheckForUpdates default True;
     property DaysBetweenChecks : integer read fDaysBetweenChecks
@@ -228,9 +223,6 @@ type
       write fShowDebuggerHints default True;
     property AutoCompleteBrackets : boolean read fAutoCompleteBrackets
       write fAutoCompleteBrackets default True;
-    property CommandLine : string read fCommandLine write fCommandLine;
-    property UseCommandLine : Boolean read fUseCommandLine
-      write fUseCommandLine default False;
     property MarkExecutableLines : Boolean read fMarkExecutableLines
       write fMarkExecutableLines default False;
     property CheckSyntaxAsYouType : Boolean read fCheckSyntaxAsYouType
@@ -482,7 +474,6 @@ begin
       Self.fJSONFileFilter := JSONFileFilter;
       Self.fGeneralFileFilter := GeneralFileFilter;
       Self.fFileExplorerFilter := FileExplorerFilter;
-      Self.fDateLastCheckedForUpdates := DateLastCheckedForUpdates;
       Self.fAutoCheckForUpdates := AutoCheckForUpdates;
       Self.fDaysBetweenChecks := DaysBetweenChecks;
       Self.fMaskFPUExceptions := MaskFPUExceptions;
@@ -490,8 +481,6 @@ begin
       Self.fShowCodeHints := ShowCodeHints;
       Self.fShowDebuggerHints := ShowDebuggerHints;
       Self.fAutoCompleteBrackets := AutoCompleteBrackets;
-      Self.fUseCommandLine := UseCommandLine;
-      Self.fCommandLine := CommandLine;
       Self.fMarkExecutableLines := MarkExecutableLines;
       Self.fCheckSyntaxAsYouType := CheckSyntaxAsYouType;
       Self.fFileExplorerContextMenu := FileExplorerContextMenu;
@@ -585,7 +574,6 @@ begin
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
   fRestoreOpenProject := True;
-  fDateLastCheckedForUpdates := MinDateTime;
   fAutoCheckForUpdates := True;
   fDaysBetweenChecks := 7;
   fMaskFPUExceptions := True;

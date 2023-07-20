@@ -297,6 +297,7 @@ type
   protected
     procedure Loaded; override;
   public
+    procedure AutoCheckForUpdates;
     procedure SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
                 var Count: Integer);
     procedure SynEditOptionsDialogGetHighlighter(Sender: TObject;
@@ -873,6 +874,19 @@ begin
   begin
     TEditorForm(Editor.Form).ApplyEditorOptions;
   end);
+end;
+
+procedure TCommandsDataModule.AutoCheckForUpdates;
+begin
+  if PyIDEOptions.AutoCheckForUpdates then
+  begin
+    var DateLastCheckedForUpdates := GI_PyIDEServices.AppStorage.ReadDateTime(
+      'Date checked for updates', MinDateTime);
+    if (DaysBetween(Now, DateLastCheckedForUpdates) >=
+      PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
+    then
+      actCheckForUpdatesExecute(nil);  // nil so that we get no confirmation
+  end;
 end;
 
 procedure TCommandsDataModule.actEditorOptionsExecute(Sender: TObject);
@@ -2129,7 +2143,7 @@ begin
         ProgramVersionCheck.DownloadError, mtError, [mbOK], 0)
     else
       StyledMessageDlg(_(SCurrentVersionUptodate), mtInformation, [mbOK], 0);
-  PyIDEOptions.DateLastCheckedForUpdates := Now;
+  GI_PyIDEServices.AppStorage.WriteDateTime('Date checked for updates', Now);
 end;
 
 procedure TCommandsDataModule.actToolsRestartLSExecute(Sender: TObject);

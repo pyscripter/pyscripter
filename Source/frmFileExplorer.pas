@@ -157,8 +157,8 @@ type
   public
     { Public declarations }
     procedure UpdateWindow;
-    procedure RestoreOptions(AppStorage: TJvCustomAppStorage);
-    procedure StoreOptions(AppStorage: TJvCustomAppStorage);
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure ConfigureThreads(FCN : TFileChangeNotificationType;
       BackgroundProcessing : Boolean);
     property Favorites : TStringList read fFavorites;
@@ -550,15 +550,17 @@ begin
   end;
 end;
 
-procedure TFileExplorerWindow.RestoreOptions(AppStorage: TJvCustomAppStorage);
+procedure TFileExplorerWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
+  inherited;
   actEnableFilter.Checked := AppStorage.ReadBoolean('File Explorer Filter', True);
   ExplorerPath := AppStorage.ReadString('File Explorer Path');
   AppStorage.ReadStringList('File Explorer Favorites', Favorites);
 end;
 
-procedure TFileExplorerWindow.StoreOptions(AppStorage: TJvCustomAppStorage);
+procedure TFileExplorerWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
+  inherited;
   AppStorage.WriteBoolean('File Explorer Filter', actEnableFilter.Checked);
   AppStorage.WriteString('File Explorer Path', ExplorerPath);
   AppStorage.WriteStringList('File Explorer Favorites', Favorites);

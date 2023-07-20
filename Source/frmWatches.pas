@@ -45,7 +45,7 @@ uses
   cPyControl;
 
 type
-  TWatchesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
+  TWatchesWindow = class(TIDEDockWindow)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnAddWatch: TSpTBXItem;
     mnRemoveWatch: TSpTBXItem;
@@ -89,18 +89,16 @@ type
       Node: PVirtualNode; var ChildCount: Cardinal);
     procedure WatchesViewFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
   private
-    { Private declarations }
-    fWatchesList: TObjectList;
+    const FBasePath = 'Watches'; // Used for storing settings
+    var fWatchesList: TObjectList;
   protected
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-      const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-      const BasePath: string);
     function CreateWatch(Sender: TJvCustomAppStorage; const Path: string;
       Index: Integer): TPersistent;
   public
-    { Public declarations }
+    // AppStorage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+
     procedure UpdateWindow(DebuggerState: TDebuggerState);
     procedure AddWatch(S: string);
   end;
@@ -488,26 +486,26 @@ begin
   mnCopyToClipboard.Enabled := fWatchesList.Count > 0;
 end;
 
-procedure TWatchesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TWatchesWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  AppStorage.WriteObjectList(BasePath, fWatchesList, 'Watch');
-  AppStorage.WriteInteger(BasePath + '\WatchesWidth',
+  inherited;
+  AppStorage.WriteObjectList(FBasePath, fWatchesList, 'Watch');
+  AppStorage.WriteInteger(FBasePath + '\WatchesWidth',
     PPIUnScale(WatchesView.Header.Columns[0].Width));
-  AppStorage.WriteInteger(BasePath+'\Types Width',
+  AppStorage.WriteInteger(FBasePath+'\Types Width',
     PPIUnScale(WatchesView.Header.Columns[1].Width));
 end;
 
-procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TWatchesWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
+  inherited;
   mnClearAllClick(Self);
-  AppStorage.ReadObjectList(BasePath, fWatchesList, CreateWatch, True,
+  AppStorage.ReadObjectList(FBasePath, fWatchesList, CreateWatch, True,
     'Watch');
   WatchesView.Header.Columns[0].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath + '\WatchesWidth', 200));
+    PPIScale(AppStorage.ReadInteger(FBasePath + '\WatchesWidth', 200));
   WatchesView.Header.Columns[1].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\Types Width', 100));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\Types Width', 100));
   UpdateWindow(PyControl.DebuggerState);
 end;
 

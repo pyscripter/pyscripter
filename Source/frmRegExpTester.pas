@@ -41,10 +41,11 @@ uses
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
   VirtualTrees,
-  frmIDEDockWin, SynEdit;
+  SynEdit,
+  frmIDEDockWin;
 
 type
-  TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
+  TRegExpTesterWindow = class(TIDEDockWindow)
     TBXDock: TSpTBXDock;
     RegExpTesterToolbar: TSpTBXToolbar;
     TBXSubmenuItem2: TSpTBXSubmenuItem;
@@ -101,22 +102,21 @@ type
     procedure SpinMatchesValueChanged(Sender: TObject);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   private
-    { Private declarations }
     OldRegExp : string;
     OldSearchText : string;
     RegExp : Variant;
     MatchObject : Variant;
     MatchList : TList<Variant>;
   protected
+    const FBasePath = 'RegExp Tester Options'; // Used for storing settings
     const FHighlightIndicatorID: TGUID = '{10FBEC66-4210-49F5-9F7D-189B6252080B}';
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
-    { Public declarations }
     procedure Clear;
     procedure HighlightMatches;
     procedure ClearHighlight;
+    // AppStorage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
   end;
 
 var
@@ -208,59 +208,61 @@ begin
   SearchText.Indicators.RegisterSpec(FHighlightIndicatorID, FHighlightIndicatorSpec);
 end;
 
-procedure TRegExpTesterWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TRegExpTesterWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 Var
   SearchType : integer;
 begin
+  inherited;
   if RI_findall.Checked then
     SearchType := 0
   else if RI_Search.Checked then
     SearchType := 1
   else
     SearchType := 2;
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := True;
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := True;
-  AppStorage.WriteString(BasePath+'\Regular Expression', RegExpText.Text);
-  AppStorage.WriteString(BasePath+'\Search Text', SearchText.Text);
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := False;
+  var AppIniStorageOptions := TJvAppIniStorageOptions(AppStorage.StorageOptions);
+  var OldReplaceCRLF := AppIniStorageOptions.ReplaceCRLF;
+  var OldPreserveLeadingTrailingBlanks := AppIniStorageOptions.PreserveLeadingTrailingBlanks;
+  AppIniStorageOptions.ReplaceCRLF := True;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := True;
+  AppStorage.WriteString(FBasePath+'\Regular Expression', RegExpText.Text);
+  AppStorage.WriteString(FBasePath+'\Search Text', SearchText.Text);
+  AppIniStorageOptions.ReplaceCRLF := OldReplaceCRLF;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := OldPreserveLeadingTrailingBlanks;
 
-  AppStorage.WriteBoolean(BasePath+'\DOTALL', CI_DOTALL.Checked);
-  AppStorage.WriteBoolean(BasePath+'\IGNORECASE', CI_IGNORECASE.Checked);
-  AppStorage.WriteBoolean(BasePath+'\LOCALE', CI_LOCALE.Checked);
-  AppStorage.WriteBoolean(BasePath+'\MULTILINE', CI_MULTILINE.Checked);
-  AppStorage.WriteBoolean(BasePath+'\UNICODE', CI_UNICODE.Checked);
-  AppStorage.WriteBoolean(BasePath+'\VERBOSE', CI_VERBOSE.Checked);
-  AppStorage.WriteInteger(BasePath+'\SearchType', SearchType);
-  AppStorage.WriteBoolean(BasePath+'\AutoExec', CI_AutoExecute.Checked);
-  AppStorage.WriteInteger(BasePath+'\RegExpHeight', PPIUnScale(dpRegExpText.Height));
-  AppStorage.WriteInteger(BasePath+'\GroupsHeight', PPIUnScale(dpGroupsView.Height));
-  AppStorage.WriteInteger(BasePath+'\SearchHeight', PPIUnScale(dpSearchText.Height));
+  AppStorage.WriteBoolean(FBasePath+'\DOTALL', CI_DOTALL.Checked);
+  AppStorage.WriteBoolean(FBasePath+'\IGNORECASE', CI_IGNORECASE.Checked);
+  AppStorage.WriteBoolean(FBasePath+'\LOCALE', CI_LOCALE.Checked);
+  AppStorage.WriteBoolean(FBasePath+'\MULTILINE', CI_MULTILINE.Checked);
+  AppStorage.WriteBoolean(FBasePath+'\UNICODE', CI_UNICODE.Checked);
+  AppStorage.WriteBoolean(FBasePath+'\VERBOSE', CI_VERBOSE.Checked);
+  AppStorage.WriteInteger(FBasePath+'\SearchType', SearchType);
+  AppStorage.WriteBoolean(FBasePath+'\AutoExec', CI_AutoExecute.Checked);
+  AppStorage.WriteInteger(FBasePath+'\RegExpHeight', PPIUnScale(dpRegExpText.Height));
+  AppStorage.WriteInteger(FBasePath+'\GroupsHeight', PPIUnScale(dpGroupsView.Height));
+  AppStorage.WriteInteger(FBasePath+'\SearchHeight', PPIUnScale(dpSearchText.Height));
   TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
 end;
 
-procedure TRegExpTesterWindow.ReadFromAppStorage(
-  AppStorage: TJvCustomAppStorage; const BasePath: string);
-Var
-  SearchType : integer;
+procedure TRegExpTesterWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := True;
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := True;
-  RegExpText.HandleNeeded;
-  RegExpText.Text := AppStorage.ReadString(BasePath+'\Regular Expression');
-  SearchText.HandleNeeded;
-  SearchText.Text := AppStorage.ReadString(BasePath+'\Search Text');
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
-  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := False;
+  inherited;
+  var AppIniStorageOptions := TJvAppIniStorageOptions(AppStorage.StorageOptions);
+  var OldReplaceCRLF := AppIniStorageOptions.ReplaceCRLF;
+  var OldPreserveLeadingTrailingBlanks := AppIniStorageOptions.PreserveLeadingTrailingBlanks;
+  AppIniStorageOptions.ReplaceCRLF := True;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := True;
+  RegExpText.Text := AppStorage.ReadString(FBasePath+'\Regular Expression');
+  SearchText.Text := AppStorage.ReadString(FBasePath+'\Search Text');
+  AppIniStorageOptions.ReplaceCRLF := OldReplaceCRLF;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := OldPreserveLeadingTrailingBlanks;
 
-  CI_DOTALL.Checked := AppStorage.ReadBoolean(BasePath+'\DOTALL', False);
-  CI_IGNORECASE.Checked := AppStorage.ReadBoolean(BasePath+'\IGNORECASE', False);
-  CI_LOCALE.Checked := AppStorage.ReadBoolean(BasePath+'\LOCALE', False);
-  CI_MULTILINE.Checked := AppStorage.ReadBoolean(BasePath+'\MULTILINE', False);
-  CI_UNICODE.Checked := AppStorage.ReadBoolean(BasePath+'\UNICODE', False);
-  CI_VERBOSE.Checked := AppStorage.ReadBoolean(BasePath+'\VERBOSE', False);
-  SearchType := AppStorage.ReadInteger(BasePath+'\SearchType');
+  CI_DOTALL.Checked := AppStorage.ReadBoolean(FBasePath+'\DOTALL', False);
+  CI_IGNORECASE.Checked := AppStorage.ReadBoolean(FBasePath+'\IGNORECASE', False);
+  CI_LOCALE.Checked := AppStorage.ReadBoolean(FBasePath+'\LOCALE', False);
+  CI_MULTILINE.Checked := AppStorage.ReadBoolean(FBasePath+'\MULTILINE', False);
+  CI_UNICODE.Checked := AppStorage.ReadBoolean(FBasePath+'\UNICODE', False);
+  CI_VERBOSE.Checked := AppStorage.ReadBoolean(FBasePath+'\VERBOSE', False);
+  var SearchType := AppStorage.ReadInteger(FBasePath+'\SearchType');
   case SearchType of
     1: RI_Search.Checked := True;
     2: RI_Match.Checked := True;
@@ -268,12 +270,12 @@ begin
     RI_findall.Checked := True;
   end;
   dpRegExpText.Height :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\RegExpHeight', dpRegExpText.Height));
   dpGroupsView.Height :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\GroupsHeight', dpGroupsView.Height));
   dpSearchText.Height :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.Height));
-  CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', False);
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\SearchHeight', dpSearchText.Height));
+  CI_AutoExecute.Checked := AppStorage.ReadBoolean(FBasePath+'\AutoExec', False);
 end;
 
 procedure TRegExpTesterWindow.RegExpTextChange(Sender: TObject);

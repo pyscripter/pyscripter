@@ -45,7 +45,7 @@ uses
   frmIDEDockWin;
 
 type
-  TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler, IMessageServices)
+  TMessagesWindow = class(TIDEDockWindow, IMessageServices)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnClearall: TSpTBXItem;
     MessagesView: TVirtualStringTree;
@@ -78,8 +78,8 @@ type
     procedure actPreviousMsgsExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
-    { Private declarations }
-    fMessageHistory : TObjectList;
+    const FBasePath = 'Messages Window Options'; // Used for storing settings
+    var fMessageHistory : TObjectList;
     fHistoryIndex : integer;
     fHistorySize : integer;
     // IMessageServices implementation
@@ -91,11 +91,11 @@ type
   protected
     procedure StoreTopNodeIndex;
     procedure RestoreTopNodeIndex;
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
-    { Public declarations }
+    // AppStorage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+
     procedure ShowPythonSyntaxError(E: EPySyntaxError); overload;
     procedure ShowPythonSyntaxError(ErrorClass : string; E: Variant); overload;
     procedure JumpToPosition(Node : PVirtualNode);
@@ -384,25 +384,25 @@ begin
   actCopyToClipboard.Enabled := MessagesView.RootNodeCount <> 0;
 end;
 
-procedure TMessagesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TMessagesWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
+  inherited;
   MessagesView.Header.Columns[1].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\FileName Width', 200));
   MessagesView.Header.Columns[2].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\Line Width', 50));
   MessagesView.Header.Columns[3].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\Position Width', 60));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\Position Width', 60));
 end;
 
-procedure TMessagesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TMessagesWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  AppStorage.WriteInteger(BasePath+'\FileName Width',
+  inherited;
+  AppStorage.WriteInteger(FBasePath+'\FileName Width',
     PPIUnScale(MessagesView.Header.Columns[1].Width));
-  AppStorage.WriteInteger(BasePath+'\Line Width',
+  AppStorage.WriteInteger(FBasePath+'\Line Width',
     PPIUnScale(MessagesView.Header.Columns[2].Width));
-  AppStorage.WriteInteger(BasePath+'\Position Width',
+  AppStorage.WriteInteger(FBasePath+'\Position Width',
     PPIUnScale(MessagesView.Header.Columns[3].Width));
 end;
 

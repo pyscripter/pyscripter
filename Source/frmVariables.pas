@@ -48,7 +48,7 @@ uses
   cPyBaseDebugger;
 
 type
-  TVariablesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
+  TVariablesWindow = class(TIDEDockWindow)
     VTHeaderPopupMenu: TVTHeaderPopupMenu;
     VariablesTree: TVirtualStringTree;
     DocPanel: TSpTBXPageScroller;
@@ -81,14 +81,14 @@ type
     CurrentModule, CurrentFunction : string;
     GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
   protected
+    const FBasePath = 'Variables Window Options'; // Used for storing settings
     const FBoldIndicatorID: TGUID = '{10FBEC66-4210-49F5-9F7D-189B6252080B}';
     const FItalicIndicatorID: TGUID = '{6B5724CC-1B94-4328-92D1-38C34FC9D667}';
-
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
-    { Public declarations }
+    // AppStorage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+
     procedure ClearAll;
     procedure UpdateWindow;
   end;
@@ -249,21 +249,19 @@ begin
       TargetCanvas.Font.Color := $FF8844;
 end;
 
-procedure TVariablesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
-Var
-  TempWidth : integer;
+procedure TVariablesWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  TempWidth := PPIScale(AppStorage.ReadInteger(BasePath+'\DocPanelWidth', DocPanel.Width));
+  inherited;
+  var TempWidth := PPIScale(AppStorage.ReadInteger(FBasePath+'\DocPanelWidth', DocPanel.Width));
   DocPanel.Width := Min(TempWidth,  Max(Width-PPIScale(100), PPIScale(3)));
-  if AppStorage.ReadBoolean(BasePath+'\Types Visible') then
+  if AppStorage.ReadBoolean(FBasePath+'\Types Visible') then
     VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options + [coVisible]
   else
     VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options - [coVisible];
   VariablesTree.Header.Columns[0].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\Names Width', 160));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\Names Width', 160));
   VariablesTree.Header.Columns[1].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\Types Width', 100));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\Types Width', 100));
 end;
 
 procedure TVariablesWindow.WMSpSkinChange(var Message: TMessage);
@@ -273,14 +271,14 @@ begin
   synInfo.Color := StyleServices.GetSystemColor(clWindow);
 end;
 
-procedure TVariablesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TVariablesWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  AppStorage.WriteInteger(BasePath+'\DocPanelWidth', PPIUnScale(DocPanel.Width));
-  AppStorage.WriteBoolean(BasePath+'\Types Visible', coVisible in VariablesTree.Header.Columns[1].Options);
-  AppStorage.WriteInteger(BasePath+'\Names Width',
+  inherited;
+  AppStorage.WriteInteger(FBasePath+'\DocPanelWidth', PPIUnScale(DocPanel.Width));
+  AppStorage.WriteBoolean(FBasePath+'\Types Visible', coVisible in VariablesTree.Header.Columns[1].Options);
+  AppStorage.WriteInteger(FBasePath+'\Names Width',
     PPIUnScale(VariablesTree.Header.Columns[0].Width));
-  AppStorage.WriteInteger(BasePath+'\Types Width',
+  AppStorage.WriteInteger(FBasePath+'\Types Width',
     PPIUnScale(VariablesTree.Header.Columns[1].Width));
 end;
 

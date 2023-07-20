@@ -42,6 +42,7 @@ uses
   Vcl.VirtualImageList,
   JvComponentBase,
   JvDockControlForm,
+  JvAppStorage,
   SynHighlighterPython,
   SynEditHighlighter,
   dlgSynEditOptions,
@@ -49,7 +50,6 @@ uses
   SpTBXItem,
   SpTBXSkins,
   SpTBXControls,
-  JvAppIniStorage,
   SynEdit,
   SynEditTypes,
   SynCompletionProposal,
@@ -181,6 +181,10 @@ type
   public
     { Public declarations }
     PS1, PS2 : string;
+    // AppStorage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+
     procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure AppendToPrompt(const Buffer : array of string);
     function IsEmpty : Boolean;
@@ -188,8 +192,6 @@ type
     procedure RegisterHistoryCommands;
     procedure ValidateEditorOptions(SynEditOptions: TSynEditorOptionsContainer);
     procedure ApplyEditorOptions;
-    procedure StoreOptions(AppStorage: TJvCustomAppIniStorage);
-    procedure RestoreOptions(AppStorage: TJvCustomAppIniStorage);
     procedure ExecuteStatement(const SourceCode: string; WaitToFinish: Boolean = False);
     property ShowOutput : boolean read GetShowOutput write SetShowOutput;
     property CommandHistory : TStringList read fCommandHistory;
@@ -210,6 +212,7 @@ Uses
   VarPyth,
   JclStrings,
   JvJVCLUtils,
+  JvAppIniStorage,
   JvGnugettext,
   SynEditKeyCmds,
   SynEditMiscProcs,
@@ -1681,7 +1684,7 @@ begin
   AddEditorCommand(ecRecallCommandEsc, Vcl.Menus.ShortCut(VK_ESCAPE, []));
 end;
 
-procedure TPythonIIForm.StoreOptions(AppStorage: TJvCustomAppIniStorage);
+procedure TPythonIIForm.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
   var TempStringList := TSmartPtr.Make(TStringList.Create)();
 
@@ -1700,12 +1703,14 @@ begin
   TempStringList.Clear;
   for var I := 0 to CommandHistory.Count - 1 do
     TempStringList.Add(StrStringToEscaped(CommandHistory[i]));
-  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+  var AppIniStorageOptions := TJvAppIniStorageOptions(AppStorage.StorageOptions);
+  var OldPreserveLeadingTrailingBlanks := AppIniStorageOptions.PreserveLeadingTrailingBlanks;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := True;
   AppStorage.WriteStringList('Command History', TempStringList);
-  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := OldPreserveLeadingTrailingBlanks;
 end;
 
-procedure TPythonIIForm.RestoreOptions(AppStorage: TJvCustomAppIniStorage);
+procedure TPythonIIForm.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
   var TempStringList := TSmartPtr.Make(TStringList.Create)();
 
@@ -1735,9 +1740,11 @@ begin
 
   // Restore Interpreter History
   TempStringList.Clear;
-  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+  var AppIniStorageOptions := TJvAppIniStorageOptions(AppStorage.StorageOptions);
+  var OldPreserveLeadingTrailingBlanks := AppIniStorageOptions.PreserveLeadingTrailingBlanks;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := True;
   AppStorage.ReadStringList('Command History', TempStringList);
-  AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+  AppIniStorageOptions.PreserveLeadingTrailingBlanks := OldPreserveLeadingTrailingBlanks;
 
   CommandHistory.Clear;
   for var I := 0 to TempStringList.Count - 1 do

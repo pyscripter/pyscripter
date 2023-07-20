@@ -221,7 +221,7 @@ inherited FindResultsWindow: TFindResultsWindow
           MinHeight = 20
         end
         object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-          CustomWidth = 583
+          CustomWidth = 0
         end
         object StatusRightLabel: TSpTBXLabelItem
           Alignment = taRightJustify

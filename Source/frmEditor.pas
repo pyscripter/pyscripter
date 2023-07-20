@@ -13,6 +13,7 @@ interface
 uses
   WinApi.Windows,
   WinApi.Messages,
+  Winapi.D2D1,
   System.Types,
   System.UITypes,
   System.SysUtils,
@@ -50,7 +51,7 @@ uses
   cPyControl,
   cCodeCompletion,
   cPyBaseDebugger,
-  cPySupportTypes, Winapi.D2D1;
+  cPySupportTypes;
 
 type
   TEditor = class;
@@ -209,6 +210,8 @@ type
     procedure EditorZoom(theZoom: Integer);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState);
   public
+    BorderHighlight : TColor;
+    BorderNormal : TColor;
     BreakPoints: TObjectList;
     HasFocus: boolean;
     FileTime: TDateTime;
@@ -360,7 +363,6 @@ uses
   frmBreakPoints,
   frmPythonII,
   frmWatches,
-  frmIDEDockWin,
   uSearchHighlighter,
   cPyDebugger,
   cCodeHint,
@@ -2287,6 +2289,7 @@ end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);
 begin
+  StyledBorderColors(BorderNormal, BorderHighlight);
   FGPanelExit(Self);
 
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
@@ -2487,13 +2490,13 @@ end;
 procedure TEditorForm.FGPanelEnter(Sender: TObject);
 begin
   HasFocus := True;
-  BGPanel.Color := frmIDEDockWin.BorderHighlight;
+  BGPanel.Color := BorderHighlight;
 end;
 
 procedure TEditorForm.FGPanelExit(Sender: TObject);
 begin
   HasFocus := False;
-  BGPanel.Color := frmIDEDockWin.BorderNormal;
+  BGPanel.Color := BorderNormal;
 end;
 
 procedure TEditorForm.mnCloseTabClick(Sender: TObject);
@@ -2633,18 +2636,11 @@ end;
 
 procedure TEditorForm.WMSpSkinChange(var Message: TMessage);
 begin
-  if HasFocus then
-  begin
-    BGPanel.Color := frmIDEDockWin.BorderHighlight;
-  end
-  else
-  begin
-    BGPanel.Color := frmIDEDockWin.BorderNormal;
-  end;
+  StyledBorderColors(BorderNormal, BorderHighlight);
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
-  SynEdit.InvalidateGutter;
   SynEdit.CodeFolding.FolderBarLinesColor := SynEdit.Gutter.Font.Color;
+  SynEdit.InvalidateGutter;
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit2.Gutter);
   SynEdit2.CodeFolding.FolderBarLinesColor := SynEdit2.Gutter.Font.Color;

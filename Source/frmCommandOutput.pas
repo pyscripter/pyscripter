@@ -75,8 +75,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
-    { Private declarations }
-    FTool : TExternalTool;
+    const FBasePath = 'Breakpoints Window Options'; // Used for storing settings
+    var FTool : TExternalTool;
     FCmdOptions: TJclExecuteCmdProcessOptions;
     FAbortEvent: TJclEvent;
     FIsRunning: Boolean;
@@ -102,14 +102,13 @@ type
     procedure ProcessTerminate;
     procedure WriteOutput(OutputType: TOutputType);
   public
-    { Public declarations }
     procedure AddNewLine(const S: string; OutputType: TOutputType = TOutputType.Normal);
     procedure AppendToLastLine(const S: string; OutputType: TOutputType);
     procedure ClearScreen;
     procedure FontOrColorUpdated;
     procedure ExecuteTool(Tool : TExternalTool);
-    procedure StoreOptions(Storage: TJvCustomAppStorage);
-    procedure RestoreOptions(Storage: TJvCustomAppStorage);
+    procedure StoreSettings(Storage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(Storage: TJvCustomAppStorage); override;
     property IsRunning: Boolean read FIsRunning;
     property RunningTool: string read FRunningTool;
   end;
@@ -445,21 +444,23 @@ begin
   end;
 end;
 
-procedure TOutputWindow.RestoreOptions(Storage: TJvCustomAppStorage);
+procedure TOutputWindow.RestoreSettings(Storage: TJvCustomAppStorage);
 begin
+  inherited;
   lsbConsole.Font.PixelsPerInch := FCurrentPPI;
-  Storage.ReadPersistent('Output Window\Font', lsbConsole.Font);
+  Storage.ReadPersistent(FBasePath, lsbConsole.Font);
   FontOrColorUpdated;
 end;
 
-procedure TOutputWindow.StoreOptions(Storage: TJvCustomAppStorage);
+procedure TOutputWindow.StoreSettings(Storage: TJvCustomAppStorage);
 begin
+  inherited;
   var StoredFont := TSmartPtr.Make(TStoredFont.Create)();
   lsbConsole.Font.PixelsPerInch := FCurrentPPI;
   StoredFont.PixelsPerInch := FCurrentPPI;
   StoredFont.Assign(lsbConsole.Font);
-  Storage.DeleteSubTree('Output Window');
-  Storage.WritePersistent('Output Window\Font', StoredFont);
+  Storage.DeleteSubTree(FBasePath);
+  Storage.WritePersistent(FBasePath, StoredFont);
 end;
 
 procedure TOutputWindow.ExecuteTool(Tool : TExternalTool);

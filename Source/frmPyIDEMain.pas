@@ -562,7 +562,7 @@
 
   History:   v 4.2.8
           New Features
-            - Improved display in multi-monitor setups
+            - Improved multi-monitor display (per monitor DPI awareness)
             - Customizable user interface content font size (#1209)
             - Screen reader support in the editor
           Issues addressed
@@ -653,7 +653,6 @@ uses
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
-  WM_CHECKFORUPDATES = WM_USER + 110;
   WM_SEARCHREPLACEACTION  = WM_USER + 130;
 
 type
@@ -1329,7 +1328,6 @@ type
     procedure TabToolbarlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure WMFindDefinition(var Msg: TMessage); message WM_FINDDEFINITION;
     procedure WMSearchReplaceAction(var Msg: TMessage); message WM_SEARCHREPLACEACTION;
-    procedure WMCheckForUpdates(var Msg: TMessage); message WM_CHECKFORUPDATES;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
     procedure SelectEditor(Sender : TObject);
@@ -1434,7 +1432,6 @@ uses
   System.Contnrs,
   System.Math,
   System.IniFiles,
-  System.DateUtils,
   System.RegularExpressions,
   System.IOUtils,
   Vcl.Clipbrd,
@@ -2144,15 +2141,7 @@ end;
 
 procedure TPyIDEMainForm.actCommandLineExecute(Sender: TObject);
 begin
-  with TCommandLineDlg.Create(Self) do begin
-    SynParameters.Text := PyIDEOptions.CommandLine;
-    cbUseCommandLine.Checked := PyIDEOptions.UseCommandLine;
-    if ShowModal = mrOk then begin
-      PyIDEOptions.CommandLine := SynParameters.Text;
-      PyIDEOptions.UseCommandLine := cbUseCommandLine.Checked;
-    end;
-    Release;
-  end;
+  TCommandLineDlg.Execute;
 end;
 
 procedure TPyIDEMainForm.actRunDebugLastScriptExecute(Sender: TObject);
@@ -2298,7 +2287,7 @@ procedure TPyIDEMainForm.SetupRunConfiguration(var RunConfig: TRunConfiguration;
 begin
   RunConfig.ScriptName := ActiveEditor.FileId;
   RunConfig.EngineType := PyControl.PythonEngineType;
-  RunConfig.Parameters := iff(PyIDEOptions.UseCommandLine, PyIDEOptions.CommandLine, '');
+  RunConfig.Parameters := CommandLineParams;
   RunConfig.ExternalRun.Assign(ExternalPython);
   RunConfig.ExternalRun.Parameters := Parameters.ReplaceInText(RunConfig.ExternalRun.Parameters);
   RunConfig.ReinitializeBeforeRun := PyIDEOptions.ReinitializeBeforeRun;
@@ -3116,6 +3105,7 @@ begin
 
   AppStorage.BeginUpdate;
   try
+    AppStorage.StorageOptions.SetAsString := True;
     AppStorage.StorageOptions.StoreDefaultValues := True;
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
     AppStorage.StorageOptions.StoreDefaultValues := False;
@@ -3129,9 +3119,13 @@ begin
 
     AppStorage.WritePersistent('Editor Search Options', EditorSearchOptions);
 
-    // Store Highlighters
     AppStorage.DeleteSubTree('Highlighters');
-    PythonIIForm.StoreOptions(AppStorage);
+    // Store dock form settings
+    for var I := 0 to Screen.FormCount - 1 do
+      if Screen.Forms[I] is TIDEDockWindow then
+        TIDEDockWindow(Screen.Forms[I]).StoreSettings(AppStorage);
+
+    // Store Highlighters
     for var Highlighter in ResourcesDataModule.Highlighters do
       if ResourcesDataModule.IsHighlighterStored(Highlighter) then
         AppStorage.WritePersistent('Highlighters\' +
@@ -3158,18 +3152,6 @@ begin
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     AppStorage.WritePersistent('Secondary Tabs', TabsPersistsInfo);
-    AppStorage.WritePersistent('ToDo Options', ToDoExpert);
-    AppStorage.DeleteSubTree('Find in Files Options');
-    AppStorage.WritePersistent('Find in Files Options', FindResultsWindow.FindInFilesExpert);
-    AppStorage.WritePersistent('Find in Files Results Options', FindResultsWindow);
-    AppStorage.WritePersistent('Variables Window Options', VariablesWindow);
-    AppStorage.WritePersistent('Call Stack Window Options', CallStackWindow);
-    AppStorage.WritePersistent('Breakpoints Window Options', BreakPointsWindow);
-    AppStorage.WritePersistent('Messages Window Options', MessagesWindow);
-    AppStorage.WritePersistent('RegExp Tester Options', RegExpTesterWindow);
-    AppStorage.WritePersistent('Code Explorer Options', CodeExplorerWindow);
-    FileExplorerWindow.StoreOptions(AppStorage);
-    OutputWindow.StoreOptions(AppStorage);
 
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
@@ -3179,7 +3161,6 @@ begin
     AppStorage.WriteCollection('SSH', SSHServers, 'Server');
     AppStorage.StorageOptions.StoreDefaultValues := False;
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
-    AppStorage.WritePersistent('Watches', WatchesWindow);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
 
     // Save Style Name
@@ -3239,7 +3220,9 @@ Const
   DefaultHeader='$TITLE$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
   DefaultFooter='$PAGENUM$\\.$PAGECOUNT$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
 begin
-  //var PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
+  var PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
+  AppStorage.StorageOptions.SetAsString :=
+    CompareVersions(PyScripterVersion, '4.2.9') >= 0;
 
   // Change language
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
@@ -3267,8 +3250,12 @@ begin
     tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
   end;
 
+  // Restore dock form settings
+  for var I := 0 to Screen.FormCount - 1 do
+    if Screen.Forms[I] is TIDEDockWindow then
+      TIDEDockWindow(Screen.Forms[I]).RestoreSettings(AppStorage);
+
   // Restore highlighters
-  PythonIIForm.RestoreOptions(AppStorage);
   for var Highlighter in ResourcesDataModule.Highlighters do
   begin
     Highlighter.BeginUpdate;
@@ -3303,25 +3290,12 @@ begin
   AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
   AppStorage.ReadPersistent('Secondary Tabs', TabsPersistsInfo);
-  if AppStorage.PathExists('ToDo Options') then
-    AppStorage.ReadPersistent('ToDo Options', ToDoExpert);
-  AppStorage.ReadPersistent('Find in Files Options', FindResultsWindow.FindInFilesExpert);
-  AppStorage.ReadPersistent('Find in Files Results Options', FindResultsWindow);
-  AppStorage.ReadPersistent('Variables Window Options', VariablesWindow);
-  AppStorage.ReadPersistent('Call Stack Window Options', CallStackWindow);
-  AppStorage.ReadPersistent('Breakpoints Window Options', BreakPointsWindow);
-  AppStorage.ReadPersistent('Messages Window Options', MessagesWindow);
-  AppStorage.ReadPersistent('RegExp Tester Options', RegExpTesterWindow);
-  AppStorage.ReadPersistent('Code Explorer Options', CodeExplorerWindow);
-  FileExplorerWindow.RestoreOptions(AppStorage);
-  OutputWindow.RestoreOptions(AppStorage);
 
   AppStorage.ReadStringList('Custom Params', CustomParams);
   RegisterCustomParams;
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadCollection('SSH', SSHServers, True, 'Server');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
   // Load Style Name
@@ -3503,8 +3477,7 @@ begin
   actFileCloseAll.Enabled := (GI_EditorFactory <> nil)
     and (GI_EditorFactory.GetEditorCount > 0);
 
-  actCommandLine.Checked := PyIDEOptions.UseCommandLine and
-    (PyIDEOptions.CommandLine <> '');
+  actCommandLine.Checked := CommandLineParams <> '';
 
   // Refactoring
   actFindDefinition.Enabled := Assigned(GI_ActiveEditor) and
@@ -3932,7 +3905,6 @@ end;
 procedure TPyIDEMainForm.LoadLayout(const Layout: string);
 Var
   Path : string;
-  i : integer;
   SaveActiveControl : TWinControl;
   TempCursor : IInterface;
 begin
@@ -3945,10 +3917,9 @@ begin
       // Now Load the DockTree
       LoadDockTreeFromAppStorage(LocalAppStorage, Path);
     finally
-      for i := 0 to Screen.FormCount - 1 do begin
-        if Screen.Forms[i] is TIDEDockWindow then
-          TIDEDockWindow(Screen.Forms[i]).FormDeactivate(Self);
-      end;
+      for var I := 0 to Screen.FormCount - 1 do
+        if Screen.Forms[I] is TIDEDockWindow then
+          TIDEDockWindow(Screen.Forms[I]).FormDeactivate(Self);
     end;
     if CanActuallyFocus(SaveActiveControl)
     then
@@ -4624,15 +4595,6 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.WMCheckForUpdates(var Msg: TMessage);
-begin
-  try
-    CommandsDataModule.actCheckForUpdatesExecute(nil);  // nil so that we get no confirmation
-  except
-    // fail silently
-  end;
-end;
-
 procedure TPyIDEMainForm.WMDestroy(var Message: TWMDestroy);
 begin
   inherited;
@@ -4703,11 +4665,10 @@ begin
       Layouts.Add('Default');
     end;
 
-    if PyIDEOptions.AutoCheckForUpdates and
-      (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
-        PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
-    then
-      PostMessage(Handle, WM_CHECKFORUPDATES, 0, 0);
+    TThread.ForceQueue(nil, procedure
+    begin
+      CommandsDataModule.AutoCheckForUpdates;
+    end, 1000);
 
     if not GI_PyControl.PythonLoaded then
       actPythonSetupExecute(Self);

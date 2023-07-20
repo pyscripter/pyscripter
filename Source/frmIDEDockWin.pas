@@ -23,6 +23,7 @@ uses
   Vcl.ExtCtrls,
   JvComponentBase,
   JvDockControlForm,
+  JvAppStorage,
   SpTBXSkins,
   SpTBXItem;
 
@@ -46,15 +47,14 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
+    BorderHighlight : TColor;
+    BorderNormal : TColor;
     HasFocus : Boolean;
     ImageName: string;
     procedure CreateFormIcon;
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); virtual;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); virtual;
   end;
-
-var
-  IDEDockWindow: TIDEDockWindow;
-  BorderHighlight : TColor;
-  BorderNormal : TColor;
 
 implementation
 
@@ -82,23 +82,13 @@ end;
 
 procedure TIDEDockWindow.WMSpSkinChange(var Message: TMessage);
 begin
-  Assert(SkinManager.GetSkinType(nil) <> sknSkin);
   CreateFormIcon;
 
-  if IsStyledWindowsColorDark then begin
-    BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
-    BorderNormal := StyleServices.GetSystemColor(clBtnFace);
-  end else begin
-    BorderHighlight := StyleServices.GetSystemColor(clBtnShadow);
-    BorderNormal := StyleServices.GetSystemColor(clBtnFace);
-  end;
-  if HasFocus then begin
-    BGPanel.Color := BorderHighlight;
-    //FGPanel.Margins.SetBounds(2,2,2,2);
-  end else begin
+  StyledBorderColors(BorderNormal, BorderHighlight);
+  if HasFocus then
+    BGPanel.Color := BorderHighlight
+  else
     BGPanel.Color := BorderNormal;
-    //FGPanel.Margins.SetBounds(0,0,0,0);
-  end;
   Invalidate;
 end;
 
@@ -106,14 +96,12 @@ procedure TIDEDockWindow.FormActivate(Sender: TObject);
 begin
   HasFocus := True;
   BGPanel.Color := BorderHighlight;
-  //FGPanel.Margins.SetBounds(2,2,2,2);
 end;
 
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
   DockClient.DockStyle := ResourcesDataModule.DockStyle;
-  BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
-  BorderNormal := StyleServices.GetSystemColor(clBtnShadow);
+  StyledBorderColors(BorderNormal, BorderHighlight);
 
   CreateFormIcon;
 
@@ -138,6 +126,16 @@ end;
 procedure TIDEDockWindow.FormDestroy(Sender: TObject);
 begin
   SkinManager.RemoveSkinNotification(Self);
+end;
+
+procedure TIDEDockWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
+begin
+  // Empty at the base class
+end;
+
+procedure TIDEDockWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
+begin
+  // Empty at the base class
 end;
 
 procedure TIDEDockWindow.DockClientTabHostFormCreated(

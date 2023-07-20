@@ -39,7 +39,7 @@ uses
   frmIDEDockWin;
 
 type
-  TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
+  TBreakPointsWindow = class(TIDEDockWindow)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnClear: TSpTBXItem;
     Breakpoints1: TSpTBXItem;
@@ -68,15 +68,13 @@ type
         TShiftState);
     procedure FormActivate(Sender: TObject);
   private
-    { Private declarations }
-    fBreakPointsList : TObjectList;
-  protected
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+    const FBasePath = 'Breakpoints Window Options'; // Used for storing settings
+    var fBreakPointsList : TObjectList;
   public
-    { Public declarations }
     procedure UpdateWindow;
+    // AppStorage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
   end;
 
 var
@@ -128,21 +126,21 @@ begin
   BreakPointsView.RootNodeCount := fBreakPointsList.Count;
 end;
 
-procedure TBreakPointsWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TBreakPointsWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
+  inherited;
   BreakPointsView.Header.Columns[0].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\FileName Width', 200));
   BreakPointsView.Header.Columns[1].Width :=
-    PPIScale(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+    PPIScale(AppStorage.ReadInteger(FBasePath+'\Line Width', 50));
 end;
 
-procedure TBreakPointsWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
+procedure TBreakPointsWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  AppStorage.WriteInteger(BasePath+'\FileName Width',
+  inherited;
+  AppStorage.WriteInteger(FBasePath+'\FileName Width',
     PPIUnScale(BreakPointsView.Header.Columns[0].Width));
-  AppStorage.WriteInteger(BasePath+'\Line Width',
+  AppStorage.WriteInteger(FBasePath+'\Line Width',
     PPIUnScale(BreakPointsView.Header.Columns[1].Width));
 end;
 

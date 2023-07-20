@@ -118,6 +118,23 @@ type
     destructor Destroy; override;
   end;
 
+  TToDoExpert = class(TInterfacedPersistent, IJvAppStorageHandler)
+  private
+    FScanType: TToDoScanType;
+    FDirsToScan: string;
+    FRecurseDirScan: Boolean;
+    FTokenList: TTokenList;
+    FShowTokens: Boolean;
+  protected
+    // IJvAppStorageHandler implementation
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Configure;
+  end;
+
   TToDoWindow = class(TIDEDockWindow)
     TBXDock1: TSpTBXDock;
     Toolbar: TSpTBXToolbar;
@@ -182,7 +199,7 @@ type
       var Done: Boolean);
     procedure ToDoViewHeaderClick(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
   private
-    { Private declarations }
+    FToDoExpert: TToDoExpert;
     FIsFirstActivation: Boolean;
     FDataList: TObjectList;
     FAbortSignalled: Boolean;
@@ -198,31 +215,16 @@ type
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
-    { Public declarations }
+    // AppStorage
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+
     procedure RefreshTodoList;
     property AbortSignalled: Boolean read FAbortSignalled write FAbortSignalled;
   end;
 
-  TToDoExpert = class(TInterfacedPersistent, IJvAppStorageHandler)
-  private
-    FScanType: TToDoScanType;
-    FDirsToScan: string;
-    FRecurseDirScan: Boolean;
-    FTokenList: TTokenList;
-    FShowTokens: Boolean;
-  protected
-    // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure Configure;
-  end;
-
 var
   ToDoWindow: TToDoWindow;
-  ToDoExpert: TToDoExpert;
 
 implementation
 
@@ -276,7 +278,7 @@ end;
 
 procedure TToDoWindow.actOptionsConfigureExecute(Sender: TObject);
 begin
-  ToDoExpert.Configure;
+  FToDoExpert.Configure;
 end;
 
 function TToDoWindow.GetPreCallback: TDirectoryWalkProc;
@@ -400,8 +402,9 @@ procedure TToDoWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'TodoWin';
   inherited;
-  FIsFirstActivation := True;
 
+  FToDoExpert := TToDoExpert.Create;
+  FIsFirstActivation := True;
   FDataList := TObjectList.Create(True); // Owned objects
 
   // Let the tree know how much data space we need.
@@ -413,6 +416,7 @@ begin
   ClearDataListAndListView;
 
   FreeAndNil(FDataList);
+  FreeAndNil(FToDoExpert);
 
   inherited;
 end;
@@ -531,8 +535,6 @@ end;
 destructor TToDoExpert.Destroy;
 begin
   FreeAndNil(FTokenList);
-
-  ToDoExpert := nil;
   inherited;
 end;
 
@@ -621,10 +623,10 @@ var
 begin
   // Token string is alread trimmed and without SComment
   Result := nil;
-  for i := 0 to ToDoExpert.FTokenList.Count - 1 do
+  for i := 0 to FToDoExpert.FTokenList.Count - 1 do
   begin
     if TokenString.StartsWith(
-      TTokenInfo(ToDoExpert.FTokenList.Objects[i]).Token, True) then
+      TTokenInfo(FToDoExpert.FTokenList.Objects[i]).Token, True) then
     begin
       // We found a token that looks like a TODO comment and is in the position 1.
       n := 1;
@@ -633,7 +635,7 @@ begin
       TokenPos := 1;
 
       // The TODO token should be followed by a non-alphanumeric character
-      NextCharPos := TokenPos + Length(ToDoExpert.FTokenList[i]);
+      NextCharPos := TokenPos + Length(FToDoExpert.FTokenList[i]);
       if (NextCharPos <= Length(ParsingString)) and IsCharAlphaNumericW(ParsingString[NextCharPos]) then
         Continue;
 
@@ -641,7 +643,7 @@ begin
       Result := TToDoInfo.Create;
 
       // Remove token from string
-      Delete(ParsingString, 1, Length(ToDoExpert.FTokenList[i]));
+      Delete(ParsingString, 1, Length(FToDoExpert.FTokenList[i]));
       ParsingString := TrimRight(ParsingString);
 
       // Identify numeric priority (if there is one)
@@ -711,10 +713,10 @@ begin
       if IsDoneTodoItem then
         Result.Priority := tpDone
       else
-        Result.Priority := TTokenInfo(ToDoExpert.FTokenList.Objects[i]).Priority;
+        Result.Priority := TTokenInfo(FToDoExpert.FTokenList.Objects[i]).Priority;
 
-      if not ToDoExpert.FShowTokens then begin
-        n := n + Length(ToDoExpert.FTokenList[i]);
+      if not FToDoExpert.FShowTokens then begin
+        n := n + Length(FToDoExpert.FTokenList[i]);
         // Do not show anything up to ':'
         n := Max(n, Pos(':', TokenString)+1);
       end;
@@ -800,14 +802,14 @@ begin
   try
     ClearDataListAndListView;
 
-    case ToDoExpert.FScanType of
+    case FToDoExpert.FScanType of
       tstOpenFiles:
         EnumerateOpenFiles;
       tstProjectFiles:
         EnumerateProjectFiles;
       tstDirectory:
         begin
-          if Trim(ToDoExpert.FDirsToScan) <> '' then
+          if Trim(FToDoExpert.FDirsToScan) <> '' then
             EnumerateFilesByDirectory;
         end;
     end;
@@ -828,18 +830,30 @@ begin
   end;
 end;
 
+procedure TToDoWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
+begin
+  inherited;
+  AppStorage.ReadPersistent('ToDo Options', FToDoExpert);
+end;
+
+procedure TToDoWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
+begin
+  inherited;
+  AppStorage.WritePersistent('ToDo Options', FToDoExpert);
+end;
+
 procedure TToDoWindow.EnumerateFilesByDirectory;
 var
   PreCallback: TDirectoryWalkProc;
   Paths : string;
 begin
-  Paths := StringReplace(ToDoExpert.FDirsToScan, SLineBreak, ';', [rfReplaceAll]);
+  Paths := StringReplace(FToDoExpert.FDirsToScan, SLineBreak, ';', [rfReplaceAll]);
   if Paths[Length(Paths)] = ';' then
     Delete(Paths, Length(Paths), 1);
   PreCallBack := GetPreCallBack();
   WalkThroughDirectories(Paths,
     PyIDEOptions.PythonFileExtensions, PreCallBack,
-    ToDoExpert.FRecurseDirScan);
+    FToDoExpert.FRecurseDirScan);
 end;
 
 procedure TToDoWindow.EnumerateOpenFiles;
@@ -1009,10 +1023,6 @@ begin
   Application.HelpContext(HelpContext);
 end;
 
-initialization
-  ToDoExpert := TToDoExpert.Create;
-finalization
-  ToDoExpert.Free;
 end.
 
 

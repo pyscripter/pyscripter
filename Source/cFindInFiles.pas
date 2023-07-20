@@ -705,6 +705,7 @@ procedure TFindInFilesExpert.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   with AppStorage do begin
+    DeleteSubTree(BasePath);
     WriteBoolean(BasePath+'\CaseSensitive', GrepCaseSensitive);
     WriteBoolean(BasePath+'\NoComments', GrepNoComments);
     WriteInteger(BasePath+'\Search', GrepSearch);

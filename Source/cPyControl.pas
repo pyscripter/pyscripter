@@ -821,7 +821,6 @@ begin
   end;
 end;
 
-// IJvAppStorageHandler implementation
 function PythonVersionsKey: string;
 begin
   {$IFDEF CPUX64}

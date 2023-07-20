@@ -81,6 +81,7 @@ inherited CommandLineDlg: TCommandLineDlg
         end>
       HideSelection = True
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
+      RightEdge = 0
       ScrollBars = ssNone
       SelectedColor.Alpha = 0.400000005960464500
       WantReturns = False
@@ -88,7 +89,7 @@ inherited CommandLineDlg: TCommandLineDlg
     object TBXButton1: TSpTBXButton
       Left = 501
       Top = 83
-      Width = 17
+      Width = 19
       Height = 19
       Hint = 'History'
       Anchors = [akRight, akBottom]

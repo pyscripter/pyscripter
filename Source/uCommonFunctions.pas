@@ -204,6 +204,9 @@ function IsColorDark(AColor : TColor) : boolean;
 (* Returns true if the styled clWindows system oolor is dark *)
 function IsStyledWindowsColorDark : boolean;
 
+(* Calculates styled border colors *)
+procedure StyledBorderColors(out BorderNormal, BorderHighlight: TColor);
+
 (* Adds formated text to a Richedit control *)
 procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
  const FontColor: TColor = clDefault; FontSize: Integer = 0);
@@ -1590,6 +1593,17 @@ end;
 function IsStyledWindowsColorDark : boolean;
 begin
   Result := IsColorDark(StyleServices.GetSystemColor(clWindow));
+end;
+
+procedure StyledBorderColors(out BorderNormal, BorderHighlight: TColor);
+begin
+  if IsStyledWindowsColorDark then begin
+    BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
+    BorderNormal := StyleServices.GetSystemColor(clBtnFace);
+  end else begin
+    BorderHighlight := StyleServices.GetSystemColor(clBtnShadow);
+    BorderNormal := StyleServices.GetSystemColor(clBtnFace);
+  end;
 end;
 
 { TXStringList }
