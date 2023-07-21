@@ -87,7 +87,7 @@ type
       WaitToFinish: Boolean = False; ThreadExecMode : TThreadExecMode = emNewState);
   public
     const MinPyVersion = '3.7';
-    const MaxPyVersion = '3.11'; //PYTHON311
+    const MaxPyVersion = '3.12'; //PYTHON312
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -303,7 +303,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON310') then
     expectedVersion := '3.10'
   else if CmdLineReader.readFlag('PYTHON311') then
-    expectedVersion := '3.11';
+    expectedVersion := '3.11'
+  else if CmdLineReader.readFlag('PYTHON312') then
+    expectedVersion := '3.12';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);

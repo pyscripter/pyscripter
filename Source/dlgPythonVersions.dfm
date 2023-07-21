@@ -217,7 +217,12 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     Top = 65
   end
   object vilTreeImages: TVirtualImageList
-    Images = <>
+    Images = <
+      item
+        CollectionIndex = 3
+        CollectionName = 'ArrowRight'
+        Name = 'ArrowRight'
+      end>
     ImageCollection = ResourcesDataModule.icSVGImages
     Left = 456
     Top = 120

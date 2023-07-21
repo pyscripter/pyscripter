@@ -562,6 +562,7 @@
 
   History:   v 4.2.8
           New Features
+            - Python 3.12 support added
             - Improved multi-monitor display (per monitor DPI awareness)
             - Customizable user interface content font size (#1209)
             - Screen reader support in the editor
