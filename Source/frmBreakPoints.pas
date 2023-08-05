@@ -28,6 +28,7 @@ uses
   JvAppStorage,
   JvComponentBase,
   JvDockControlForm,
+  VirtualTrees.Types,
   VirtualTrees.BaseTree,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,

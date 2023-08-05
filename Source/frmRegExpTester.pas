@@ -37,6 +37,7 @@ uses
   SpTBXEditors,
   JvAppStorage,
   JvComponentBase,
+  VirtualTrees.Types,
   VirtualTrees.BaseTree,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,

@@ -36,6 +36,7 @@ uses
   TB2Toolbar,
   SpTBXSkins,
   SpTBXItem,
+  VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,

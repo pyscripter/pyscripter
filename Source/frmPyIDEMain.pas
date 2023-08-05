@@ -567,7 +567,7 @@
             - Customizable user interface content font size (#1209)
             - Screen reader support in the editor
           Issues addressed
-            #1172, #1195, #1197, #1198, #1199, #1208, #1210, #1214
+            #1172, #1195, #1197, #1198, #1199, #1200, #1208, #1210, #1214
 
 }
 
