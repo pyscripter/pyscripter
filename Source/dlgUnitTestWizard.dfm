@@ -60,6 +60,7 @@ inherited UnitTestWizard: TUnitTestWizard
       Height = 338
       Anchors = [akLeft, akTop, akRight, akBottom]
       Header.AutoSizeIndex = -1
+      Header.Height = 15
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]
       HintMode = hmHint
@@ -69,6 +70,7 @@ inherited UnitTestWizard: TUnitTestWizard
       PopupMenu = PopupUnitTestWizard
       ShowHint = True
       TabOrder = 0
+      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoHideButtons, toAutoDeleteMovedNodes, toAutoChangeScale]
       TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]

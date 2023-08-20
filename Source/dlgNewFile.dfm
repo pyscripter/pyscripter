@@ -51,10 +51,12 @@ inherited NewFileDialog: TNewFileDialog
           BevelOuter = bvNone
           BevelKind = bkFlat
           Header.AutoSizeIndex = 0
+          Header.Height = 15
           Header.MainColumn = -1
           Header.Options = [hoColumnResize, hoDrag]
           NodeDataSize = 0
           TabOrder = 0
+          TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoHideButtons, toAutoDeleteMovedNodes, toAutoChangeScale]
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           OnChange = tvCategoriesChange
           OnGetText = tvCategoriesGetText

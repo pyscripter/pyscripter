@@ -22,6 +22,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
       Images = vilTreeImages
       TabOrder = 0
+      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoHideButtons, toAutoDeleteMovedNodes, toAutoChangeScale]
       OnDblClick = actPVActivateExecute
       OnGetCellText = vtPythonVersionsGetCellText
       OnGetImageIndex = vtPythonVersionsGetImageIndex
