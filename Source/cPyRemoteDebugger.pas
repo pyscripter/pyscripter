@@ -1761,7 +1761,8 @@ begin
 end;
 
 procedure TPyRemDebugger.RunToCursor(Editor: IEditor; ALine: integer);
-Var
+var
+  Py: IPyEngineAndGIL;
   FName : string;
 begin
   Assert(PyControl.DebuggerState = dsPaused);
@@ -1769,7 +1770,7 @@ begin
   // Set Temporary breakpoint
   SetDebuggerBreakPoints;  // So that this one is not cleared
   FName := fRemotePython.ToPythonFileName(Editor.FileId);
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   fMainDebugger.set_break(VarPythonCreate(FName), ALine, 1);
 
   fDebuggerCommand := dcRunToCursor;
