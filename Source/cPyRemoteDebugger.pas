@@ -79,7 +79,6 @@ type
     procedure StringsToSysPath(Strings : TStrings); override;
     // NameSpace
     function GetGlobals : TBaseNameSpaceItem; override;
-    procedure GetModulesOnPath(const Path : Variant; SL : TStrings); override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; override;
@@ -597,16 +596,6 @@ begin
   CheckConnected(True);
   Result := TRemNameSpaceItem.Create('globals',
     Evalcode('globals()'), Self);
-end;
-
-procedure TPyRemoteInterpreter.GetModulesOnPath(const Path: Variant; SL: TStrings);
-Var
-  i : integer;
-  ModuleList : Variant;
-begin
-  ModuleList := RPI.getmodules(Path);
-  for I := 0 to Len(ModuleList) - 1 do
-    SL.Add(ModuleList.__getitem__(i));
 end;
 
 function TPyRemoteInterpreter.GetObjectType(Ob: Variant): string;

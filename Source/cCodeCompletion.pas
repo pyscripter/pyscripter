@@ -115,31 +115,6 @@ uses
   SynEditLsp,
   JediLspClient;
 
-procedure GetModuleList(Path: Variant; out InsertText, DisplayText : string);
-Var
-  i: Integer;
-  S: string;
-  SortedNameSpace: TStringList;
-begin
-  SortedNameSpace := TStringList.Create;
-  SortedNameSpace.CaseSensitive := True;
-  SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
-  SortedNameSpace.Sorted := True;
-  try
-    PyControl.InternalInterpreter.GetModulesOnPath(Path, SortedNameSpace);
-    InsertText := SortedNameSpace.Text;
-    for i := 0 to SortedNameSpace.Count - 1 do
-    begin
-      S := SortedNameSpace[i];
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [16, S]);
-      if i < SortedNameSpace.Count - 1 then
-        DisplayText := DisplayText + #10;
-    end;
-  finally
-    SortedNameSpace.Free;
-  end;
-end;
-
 { TRegExpressions }
 type
 TRegExpressions = class

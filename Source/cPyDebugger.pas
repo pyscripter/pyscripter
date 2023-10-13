@@ -97,7 +97,6 @@ type
     procedure StringsToSysPath(Strings : TStrings); override;
     function Compile(ARunConfig : TRunConfiguration) : Variant;
     function GetGlobals : TBaseNameSpaceItem; override;
-    procedure GetModulesOnPath(const Path : Variant; SL : TStrings); override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; override;
@@ -1128,16 +1127,6 @@ end;
 function TPyInternalInterpreter.GetGlobals: TBaseNameSpaceItem;
 begin
   Result := TNameSpaceItem.Create('globals', VarPythonEval('globals()'));
-end;
-
-procedure TPyInternalInterpreter.GetModulesOnPath(const Path: Variant; SL: TStrings);
-Var
-  i : integer;
-  ModuleList : Variant;
-begin
-  ModuleList := fII.getmodules(Path);
-  for I := 0 to Len(ModuleList) - 1 do
-    SL.Add(ModuleList.__getitem__(i));
 end;
 
 function TPyInternalInterpreter.GetObjectType(Ob: Variant): string;

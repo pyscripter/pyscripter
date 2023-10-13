@@ -113,7 +113,6 @@ type
     procedure StringsToSysPath(Strings : TStrings); virtual; abstract;
     // NameSpace
     function GetGlobals : TBaseNameSpaceItem; virtual; abstract;
-    procedure GetModulesOnPath(const Path : Variant; SL : TStrings); virtual; abstract;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; virtual; abstract;
