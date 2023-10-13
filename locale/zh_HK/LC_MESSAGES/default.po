@@ -12,10 +12,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2022-10-29 02:07\n"
+"POT-Creation-Date: 2023-06-04 12:06\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2022\n"
-"Language-Team: Chinese (Hong Kong) (https://www.transifex.com/pyscripter/teams/116142/zh_HK/)\n"
+"Language-Team: Chinese (Hong Kong) (https://app.transifex.com/pyscripter/teams/116142/zh_HK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -422,8 +422,10 @@ msgstr "&V值、資料"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
 #. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
+#. Programmer's name for it: SyntaxElementFriendlyName_Value
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
+#: StringResources.pas
 msgid "Value"
 msgstr "資料"
 
@@ -1110,6 +1112,98 @@ msgstr "顏色主題"
 msgid "Syntax Colors"
 msgstr "程式碼顏色"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "輸入鍵選項"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "指令:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr "鍵入鍵 2:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr "鍵入鍵 1:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "指令"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr "鍵入鍵 :"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "編碼樣本"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "可用主题"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "應用主題"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&E元素"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&F前景顏色:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "&a背景顏色:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "編輯器 語法 語言"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "文本屬性"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&B粗體"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&I斜體"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&U下劃線"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&S除去"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
@@ -1158,8 +1252,8 @@ msgstr "改良結束鍵"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
-msgid "Allows the editor accept OLE file drops"
-msgstr "容許編輯器接收 OLE 檔案投放"
+msgid "Enable wrapping of long lines"
+msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
@@ -1360,7 +1454,11 @@ msgstr "垂直滾動時，滾動提示會跟隨鼠標移動"
 msgid "Scroll hint follows mouse"
 msgstr "滾動提示會跟隨鼠標移動"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
+#: dlgSynEditOptions.dfm
+msgid "Show ligatures (joined font glyphs) when supported by the used font"
+msgstr ""
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
@@ -1405,98 +1503,6 @@ msgstr "一半段落"
 msgid "Block"
 msgstr "段落"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "輸入鍵選項"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "指令:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr "鍵入鍵 2:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr "鍵入鍵 1:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "指令"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr "鍵入鍵 :"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "編碼樣本"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "可用主题"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "應用主題"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&E元素"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&F前景顏色:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "&a背景顏色:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "編輯器 語法 語言"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "文本屬性"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&B粗體"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&I斜體"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&U下劃線"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&S除去"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1513,8 +1519,7 @@ msgid "Edge Column:"
 msgstr "旁邊列:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+#: dlgSynEditOptions.dfm
 msgid "Gutter"
 msgstr "Gutter"
 
@@ -1617,9 +1622,7 @@ msgid "Apply to all editors"
 msgstr "適用所有編輯器"
 
 #. PageSetupDlg..Caption
-#. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
-#. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
-#: dlgSynPageSetup.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPageSetup.dfm
 msgid "Page Setup"
 msgstr "頁面設定"
 
@@ -1761,6 +1764,11 @@ msgstr "左邊文本縮排:"
 msgid "Right Text Indent:"
 msgstr "右邊文本縮排:"
 
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynPageSetup.dfm
+msgid "Gutter:"
+msgstr ""
+
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Mirror margins"
@@ -1850,9 +1858,7 @@ msgid "Underline"
 msgstr "下劃線"
 
 #. PrintPreviewDlg..Caption
-#. DocForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
-#. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
-#: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPrintPreview.dfm
 msgid "Print Preview"
 msgstr "打印預覽"
 
@@ -3057,8 +3063,8 @@ msgstr "&W將文字摺起"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
-msgid "Turn word wrap on/off"
-msgstr "啟動/關閉 文字摺起功能"
+msgid "Turn word wrap on/off (incompatible with code folding)"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
@@ -3320,8 +3326,8 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Category
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Category
 #. CommandsDataModule..actlMain..actSynSpellErrorDelete..Category
-#: dmCommands.dfm
-msgid "Spell Check"
+#: dmCommands.dfm dmCommands.pas
+msgid "Spell Checking"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Caption
@@ -3595,12 +3601,15 @@ msgid "Terminate running tool (unsafe)"
 msgstr "终止运行中的工具(不安全)"
 
 #. DisForm..Caption
-#: frmDisassemlyView.dfm
-msgid "Disassembly View"
-msgstr "反汇编查看"
+#. Programmer's name for it: SDisassemblyTab
+#: frmDisassemlyView.dfm StringResources.pas
+msgid "Disassembly"
+msgstr "反编译"
 
 #. DocForm..Caption
-#: frmDocView.dfm
+#. Programmer's name for it: SyntaxElementFriendlyName_Documentation
+#. Programmer's name for it: SDocTab
+#: frmDocView.dfm StringResources.pas
 msgid "Documentation"
 msgstr "文档"
 
@@ -3619,8 +3628,9 @@ msgid "Go Forward"
 msgstr "往前"
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
+#. RegExpTesterWindow..BGPanel..FGPanel..StatusBar..lbStatusBar..ImageName
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
-#: frmDocView.dfm frmWebPreview.dfm
+#: frmDocView.dfm frmRegExpTester.dfm frmWebPreview.dfm
 msgid "Stop"
 msgstr "停止"
 
@@ -3662,13 +3672,13 @@ msgid "Close active tab"
 msgstr "關閉使用中 的 tab"
 
 #. EditorForm..pmnuEditor..mnSourceCode..Caption
-#: frmEditor.dfm frmEditor.pas
+#: frmEditor.dfm
 msgid "Source Code"
 msgstr "源代码"
 
 #. EditorForm..pmnuEditor..mnSearch..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
+#: frmEditor.dfm frmRegExpTester.dfm
 msgid "Search"
 msgstr "查找"
 
@@ -3679,12 +3689,12 @@ msgid "Spelling"
 msgstr ""
 
 #. EditorForm..pmnuEditor..mnFold..Caption
-#: frmEditor.dfm frmEditor.pas
+#: frmEditor.dfm
 msgid "Fold"
 msgstr "折叠"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
-#: frmEditor.dfm frmEditor.pas
+#: frmEditor.dfm
 msgid "Unfold"
 msgstr "展开"
 
@@ -5459,6 +5469,16 @@ msgstr "打开远程文件"
 msgid "Open Remote File with SSH"
 msgstr "使用SSH打开远程文件"
 
+#. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
+#: frmPyIDEMain.dfm
+msgid "&Reset Zoom"
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
+#: frmPyIDEMain.dfm
+msgid "Reset the font size of the editor to its default"
+msgstr ""
+
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
 #: frmPythonII.dfm cTools.pas dmCommands.pas
@@ -5946,6 +5966,14 @@ msgid "Advanced Search and replace"
 msgstr "高级查找替换"
 
 #: cTools.pas
+msgid "Format Selection"
+msgstr ""
+
+#: cTools.pas
+msgid "Format selected code using the \"black\" module"
+msgstr ""
+
+#: cTools.pas
 msgid "Sort Selection"
 msgstr "排序选择的区域"
 
@@ -6206,6 +6234,18 @@ msgid "Restore open project"
 msgstr ""
 
 #: dmCommands.pas
+msgid "Automatic restart"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Logging enabled"
+msgstr ""
+
+#: dmCommands.pas
+msgid "User Interface content font size in points"
+msgstr ""
+
+#: dmCommands.pas
 msgid "Save files before run"
 msgstr "运行前保存"
 
@@ -6365,6 +6405,10 @@ msgstr ""
 msgid "Selection color"
 msgstr ""
 
+#: dmCommands.pas
+msgid "Indentation Guides"
+msgstr ""
+
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
@@ -6451,10 +6495,6 @@ msgstr "在输入时检查语法"
 #: dmCommands.pas
 msgid "Special packages"
 msgstr "特殊包"
-
-#: dmCommands.pas
-msgid "Spell Checking"
-msgstr ""
 
 #: dmCommands.pas
 msgid "Dictionary language code"
@@ -6683,6 +6723,156 @@ msgstr ""
 #: StringResources.pas
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+
+#. Syntax element friendly names
+#. Programmer's name for it: SyntaxElementFriendlyName_Anchor
+#: StringResources.pas
+msgid "Anchor"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Assembler
+#: StringResources.pas
+msgid "Assembler"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Attribute
+#: StringResources.pas
+msgid "Attribute"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Brackets
+#: StringResources.pas
+msgid "Brackets"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Character
+#: StringResources.pas
+msgid "Character"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Directive
+#: StringResources.pas
+msgid "Directive"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_DocumentDelimiter
+#: StringResources.pas
+msgid "Document Delimiter"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Float
+#: StringResources.pas
+msgid "Float"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Hexadecimal
+#: StringResources.pas
+msgid "Hexadecimal"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Identifier
+#: StringResources.pas
+msgid "Identifier"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_IllegalChar
+#: StringResources.pas
+msgid "Illegal Char"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Key
+#: StringResources.pas
+msgid "Key"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_NonReservedKeyword
+#: StringResources.pas
+msgid "Non-reserved Keyword"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Number
+#: StringResources.pas
+msgid "Number"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_NumericValue
+#: StringResources.pas
+msgid "Numeric Value"
+msgstr "数值"
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Octal
+#: StringResources.pas
+msgid "Octal"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Preprocessor
+#: StringResources.pas
+msgid "Preprocessor"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_ReservedWord
+#: StringResources.pas
+msgid "Reserved Word"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Section
+#: StringResources.pas
+msgid "Section"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Space
+#: StringResources.pas
+msgid "Space"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_String
+#: StringResources.pas
+msgid "String"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Symbol
+#: StringResources.pas
+msgid "Symbol"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_SyntaxError
+#. Programmer's name for it: SSyntaxError
+#: StringResources.pas
+msgid "Syntax Error"
+msgstr "语法错误"
+
+#. Programmer's name for it: SyntaxElementFriendlyName_System
+#: StringResources.pas
+msgid "System Functions and Variables"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Tag
+#: StringResources.pas
+msgid "Tag"
+msgstr "标签"
+
+#. Programmer's name for it: SyntaxElementFriendlyName_Text
+#: StringResources.pas
+msgid "Text"
+msgstr ""
+
+#. Programmer's name for it: SyntaxElementFriendlyName_TextValue
+#: StringResources.pas
+msgid "Text Value"
+msgstr ""
+
+#. Editor scroll hints
+#. Programmer's name for it: sEditorScrollInfo
+#: StringResources.pas
+#, object-pascal-format
+msgid "Top Line: %d"
+msgstr ""
+
+#. Programmer's name for it: sPrintPreviewScrollInfo
+#: StringResources.pas
+#, object-pascal-format
+msgid "Page: %d"
+msgstr ""
 
 #. Needs to be manually updated as new editor commands are added
 #. Programmer's name for it: SEdCmdAutoCompletion
@@ -7207,8 +7397,8 @@ msgstr "参数完成"
 
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
-msgid "Select to Bracket"
-msgstr "选择到括号"
+msgid "Select Match Bracket"
+msgstr ""
 
 #. Delphi dialogs (from Vcl.Consts)
 #. Programmer's name for it: srNone
@@ -7306,8 +7496,8 @@ msgstr "\"%s\" 没找到"
 #. Programmer's name for it: SItemsReplaced
 #: StringResources.pas
 #, object-pascal-format
-msgid "%d items found and %d\" items replaced"
-msgstr "找到了 %d 个项目并替换了 %d\" 项目"
+msgid "%d items found and %d items replaced"
+msgstr ""
 
 #. Programmer's name for it: SNotAvailable
 #: StringResources.pas
@@ -7371,9 +7561,10 @@ msgstr "内部Python解释器不可用"
 
 #. Programmer's name for it: SPythonLoadError
 #: StringResources.pas
+#, object-pascal-format
 msgid ""
 "PyScripter could not load a Python engine.\n"
-"**Before** using PyScripter, you must ensure that a version of Python greater or equal to 3.6 is installed on your machine.\n"
+"**Before** using PyScripter, you must ensure that a version of Python greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
 "The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
@@ -7665,11 +7856,6 @@ msgstr "脚本运行OK"
 msgid "Debugging Aborted"
 msgstr "调试被终止"
 
-#. Programmer's name for it: SSyntaxError
-#: StringResources.pas
-msgid "Syntax Error"
-msgstr "语法错误"
-
 #. Programmer's name for it: StrCertainty
 #: StringResources.pas
 #, object-pascal-format
@@ -7854,11 +8040,6 @@ msgstr "反编译(&A)"
 msgid "Disassembly|Disassembly View"
 msgstr "反编译|反编译视图"
 
-#. Programmer's name for it: SDisassemblyTab
-#: StringResources.pas
-msgid "Disassembly"
-msgstr "反编译"
-
 #. Programmer's name for it: SDocumentationHint
 #: StringResources.pas
 msgid "Documentation|Generate HTML documentation"
@@ -7868,11 +8049,6 @@ msgstr "文档|生成HTML文档"
 #: StringResources.pas
 msgid "&Documentation"
 msgstr "文档(&D)"
-
-#. Programmer's name for it: SDocTab
-#: StringResources.pas
-msgid "Doc"
-msgstr "文档"
 
 #. Programmer's name for it: SWebPreviewHint
 #: StringResources.pas
@@ -7914,6 +8090,13 @@ msgid ""
 msgstr ""
 "“jupyter”包不可用。 \n"
 "请先安装“jupyter”。"
+
+#. Programmer's name for it: SWebView2Error
+#: StringResources.pas
+msgid ""
+"The WebView2 control creation failed.\n"
+"Please install the WebView2 runtime"
+msgstr ""
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
@@ -8220,13 +8403,13 @@ msgstr ""
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
 #: StringResources.pas
-msgid "Parameter replacement"
-msgstr "置换后的参数"
+msgid "Enter parameter value"
+msgstr "输入参数值"
 
 #. Programmer's name for it: SEnterParameterText
 #: StringResources.pas
-msgid "Enter parameter value"
-msgstr "输入参数值"
+msgid "Parameter value"
+msgstr ""
 
 #. Programmer's name for it: SParamCircularReference
 #: StringResources.pas
@@ -8280,6 +8463,12 @@ msgstr "无效的条件格式"
 #, object-pascal-format
 msgid "Duplicate Modifier \"%s\""
 msgstr "复制修饰符\"%s\""
+
+#. Tools
+#. Programmer's name for it: SPackageName
+#: StringResources.pas
+msgid "Package Name"
+msgstr ""
 
 #. Refactoring
 #. Programmer's name for it: SCouldNotLoadModule
@@ -8514,6 +8703,47 @@ msgid ""
 "server please switch to Python version %1:s."
 msgstr "本地Python版本是%s远程 Python版本是%s。连接SSH服务器请切换Python版本至%1:s。"
 
+#. Missing action categories
+#. Programmer's name for it: SActionCategoryFile
+#: StringResources.pas
+msgid "File"
+msgstr ""
+
+#. Programmer's name for it: SActionCategoryView
+#: StringResources.pas
+msgid "View"
+msgstr ""
+
+#. Programmer's name for it: SActionCategoryRun
+#: StringResources.pas
+msgid "Run"
+msgstr ""
+
+#. Programmer's name for it: SActionCategoryProject
+#: StringResources.pas
+msgid "Project"
+msgstr ""
+
+#. Programmer's name for it: SActionCategoryDebugWindows
+#: StringResources.pas
+msgid "Debug Windows"
+msgstr ""
+
+#. Programmer's name for it: SActionCategoryIDENavigation
+#: StringResources.pas
+msgid "IDE Navigation"
+msgstr ""
+
+#. Programmer's name for it: SActionCategoryRefactoring
+#: StringResources.pas
+msgid "Refactoring"
+msgstr ""
+
+#. Programmer's name for it: SActionCategoryInterpreter
+#: StringResources.pas
+msgid "Interpreter"
+msgstr ""
+
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
 msgid "Commented Code"
@@ -8562,36 +8792,6 @@ msgstr ""
 #: SynHighlighterPython.pas
 msgid "System Command"
 msgstr "系统命令"
-
-#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
-#: SynHighlighterYAML.pas
-msgid "Document Delimiter"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyAttrKey
-#: SynHighlighterYAML.pas
-msgid "Key"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
-#: SynHighlighterYAML.pas
-msgid "Numeric Value"
-msgstr "数值"
-
-#. Programmer's name for it: SYNS_FriendlyAttrTextValue
-#: SynHighlighterYAML.pas
-msgid "Text Value"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyAttrTag
-#: SynHighlighterYAML.pas
-msgid "Tag"
-msgstr "标签"
-
-#. Programmer's name for it: SYNS_FriendlyAttrAnchor
-#: SynHighlighterYAML.pas
-msgid "Anchor"
-msgstr ""
 
 #. Python Paths etc.
 #: uParams.pas
@@ -8823,6 +9023,10 @@ msgstr "已選定文本活動於文檔中"
 msgid "Toolbars"
 msgstr "工具列"
 
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..Caption
+msgid "Commands"
+msgstr ""
+
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
 #: SpTBXCustomizerForm.dfm:125
 msgid ""
@@ -8846,11 +9050,6 @@ msgstr ""
 msgid "Icons + Text"
 msgstr ""
 
-#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
-#: SpTBXCustomizerForm.dfm:177
-msgid "Text"
-msgstr ""
-
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
 msgid "T&ext Options"
@@ -8859,4 +9058,8 @@ msgstr ""
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
 #: SpTBXCustomizerForm.dfm:212
 msgid "&Visible"
+msgstr ""
+
+#. SpTBXCustomizeForm..ResetButton..Caption
+msgid "&Default Options"
 msgstr ""
