@@ -1,7 +1,7 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
 #ifndef MyAppVersion
-  #define MyAppVersion "4.2.5"
+  #define MyAppVersion "4.3.0"
 #endif
 #ifndef OSPlatform
   #define OSPlatform "x64"

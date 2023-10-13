@@ -560,14 +560,15 @@
           Issues addressed
             #1152, #1155, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
 
-  History:   v 4.2.8
+  History:   v 4.3
           New Features
             - Python 3.12 support added
-            - Improved multi-monitor display (per monitor DPI awareness)
+            - Improved multi-monitor support (per monitor DPI awareness)
             - Customizable user interface content font size (#1209)
             - Screen reader support in the editor
           Issues addressed
-            #1172, #1195, #1197, #1198, #1199, #1200, #1208, #1210, #1214
+            #1172, #1195, #1197, #1198, #1199, #1200, #1208, #1210, #1212, #1214,
+            #1221
 
 }
 
@@ -3072,8 +3073,8 @@ begin
   PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
   if PyIDEOptions.ShowTabCloseButton then begin
-    TabControl1.TabCloseButton := tcbAll;
-    TabControl2.TabCloseButton := tcbAll;
+    TabControl1.TabCloseButton := tcbOnHotTrack;
+    TabControl2.TabCloseButton := tcbOnHotTrack;
   end else begin
     TabControl1.TabCloseButton := tcbNone;
     TabControl2.TabCloseButton := tcbNone;
