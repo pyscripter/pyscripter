@@ -58,6 +58,7 @@ type
     ServerProcessInfo: TProcessInformation;
     ServerTask : ITask;
     DebuggerClass : TRemoteDebuggerClass;
+    FStoredServerOutput: TBytes;
     procedure CreateAndRunServerProcess; virtual;
     procedure ConnectToServer;
     procedure ShutDownServer;  virtual;
@@ -788,8 +789,14 @@ procedure TPyRemoteInterpreter.ProcessServerOutput(const Bytes: TBytes; BytesRea
 var
    S: string;
 begin
-   S := TEncoding.UTF8.GetString(Bytes, 0, BytesRead);
-   GI_PyInterpreter.PythonIO.OnSendUniData(Self, S);
+   // deal with Bytes containing incomplete UTF8 character
+   FStoredServerOutput := FStoredServerOutput + Copy(Bytes, 0, BytesRead);
+   try
+     S := TEncoding.UTF8.GetString(FStoredServerOutput);
+     GI_PyInterpreter.PythonIO.OnSendUniData(Self, S);
+     FStoredServerOutput := [];
+   except
+   end;
 end;
 
 procedure TPyRemoteInterpreter.CreateAndRunServerProcess;
@@ -814,6 +821,7 @@ end;
 
 procedure TPyRemoteInterpreter.ReInitialize;
 begin
+  FStoredServerOutput := [];
   var Py := GI_PyControl.SafePyEngine;
   case PyControl.DebuggerState of
     dsDebugging, dsRunning:

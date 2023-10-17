@@ -570,6 +570,10 @@
             #1172, #1195, #1197, #1198, #1199, #1200, #1208, #1210, #1212, #1214,
             #1221
 
+  History:   v 4.3.1
+          New Features
+          Issues addressed
+            #1268
 }
 
 { TODO : Review Search and Replace }
