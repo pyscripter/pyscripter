@@ -1365,13 +1365,18 @@ begin
   Result := nil;
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+    fExecPaused := True;
     try
-      Py := GI_PyControl.SafePyEngine;
-      // evalcode knows we are in the debugger and uses current frame locals/globals
-      V := fRemotePython.RPI.evalcode(Expr);
-      Result := TNameSpaceItem.Create(Expr, V);
-    except
-      // fail quitely
+      try
+        Py := GI_PyControl.SafePyEngine;
+        // evalcode knows we are in the debugger and uses current frame locals/globals
+        V := fRemotePython.RPI.evalcode(Expr);
+        Result := TNameSpaceItem.Create(Expr, V);
+      except
+        // fail quitely
+      end;
+    finally
+      fExecPaused := False;
     end;
   end;
 end;
@@ -1387,14 +1392,19 @@ begin
   Value := _(SNotAvailable);
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+    fExecPaused := True;
     try
-      Py := GI_PyControl.SafePyEngine;
-      // evalcode knows we are in the debugger and uses current frame locals/globals
-      V := fRemotePython.RPI.evalcode(Expr);
-      ObjType := fRemotePython.RPI.objecttype(V);
-      Value := fRemotePython.RPI.saferepr(V);
-    except
-      // fail quietly
+      try
+        Py := GI_PyControl.SafePyEngine;
+        // evalcode knows we are in the debugger and uses current frame locals/globals
+        V := fRemotePython.RPI.evalcode(Expr);
+        ObjType := fRemotePython.RPI.objecttype(V);
+        Value := fRemotePython.RPI.saferepr(V);
+      except
+        // fail quietly
+      end;
+    finally
+      fExecPaused := False;
     end;
   end;
 end;
@@ -1454,6 +1464,7 @@ end;
 procedure TPyRemDebugger.DoDebuggerCommand;
 begin
    fRemotePython.CheckConnected;
+
    if (PyControl.DebuggerState <> dsPaused) or not fRemotePython.Connected then
      Exit;
 

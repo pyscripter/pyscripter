@@ -308,7 +308,10 @@ object ResourcesDataModule: TResourcesDataModule
           '                result[str(i)] = ob[i]'
           '        elif dictitems and isinstance(ob, dict):'
           '            for (i,j) in ob.items():'
-          '                result[self.safestr(i)] = j'
+          '                member = j'
+          '                if isinstance(member, str):'
+          '                    member = self.saferepr(member)[1:-1]'
+          '                result[self.safestr(i)] = member'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -316,7 +319,10 @@ object ResourcesDataModule: TResourcesDataModule
           '        else:'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[self.safestr(i)] = getattr(ob, i)'
+          '                    member = getattr(ob, i)'
+          '                    if isinstance(member, str):'
+          '                        member = self.saferepr(member)[1:-1]'
+          '                    result[self.safestr(i)] = member'
           '                except:'
           '                    result[self.safestr(i)] = None'
           '        return result'
@@ -390,10 +396,15 @@ object ResourcesDataModule: TResourcesDataModule
           '        try:'
           '            if self.debugger.currentframe:'
           
-            '                return eval(code, self.debugger.currentframe.f_g' +
-            'lobals, self.debugger.currentframe.f_locals)'
+            '                result = eval(code, self.debugger.currentframe.f' +
+            '_globals, self.debugger.currentframe.f_locals)'
           '            else:'
-          '                return eval(code, self.locals)'
+          '                result = eval(code, self.locals)'
+          ''
+          '            if isinstance(result, str):'
+          '                result = self.saferepr(result)[1:-1]'
+          ''
+          '            return result'
           '        except SystemExit:'
           '            return None'
           ''
@@ -955,7 +966,10 @@ object ResourcesDataModule: TResourcesDataModule
           '                result[str(i)] = ob[i]'
           '        elif dictitems and isinstance(ob, dict):'
           '            for (i,j) in ob.items():'
-          '                result[self.safestr(i)] = j'
+          '                member = j'
+          '                if isinstance(member, str):'
+          '                    member = self.saferepr(member)[1:-1]'
+          '                result[self.safestr(i)] = member'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -965,7 +979,7 @@ object ResourcesDataModule: TResourcesDataModule
           '                try :'
           '                    member = getattr(ob, i)'
           '                    if isinstance(member, str):'
-          '                        member = safestr(member)'
+          '                        member = self.saferepr(member)[1:-1]'
           '                    result[self.safestr(i)] = member'
           '                except:'
           '                    result[self.safestr(i)] = None'
@@ -1068,10 +1082,15 @@ object ResourcesDataModule: TResourcesDataModule
           '        try:'
           '            if self.DebugManager.active_frame:'
           
-            '                return eval(code, self.DebugManager.active_frame' +
-            '.f_globals, self.DebugManager.active_frame.f_locals)'
+            '                result = eval(code, self.DebugManager.active_fra' +
+            'me.f_globals, self.DebugManager.active_frame.f_locals)'
           '            else:'
-          '                return eval(code, self.locals)'
+          '                result = eval(code, self.locals)'
+          ''
+          '            if isinstance(result, str):'
+          '                result = self.saferepr(result)[1:-1]'
+          ''
+          '            return result'
           '        except SystemExit:'
           '            return None'
           ''
