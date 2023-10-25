@@ -101,6 +101,7 @@ type
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
+    procedure SplitEditorHide;
     procedure Retranslate;
     procedure RefreshSymbols;
     property FileName: string read GetFileName;

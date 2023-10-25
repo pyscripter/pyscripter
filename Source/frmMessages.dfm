@@ -76,22 +76,26 @@ inherited MessagesWindow: TMessagesWindow
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Columns = <
           item
+            Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
             Position = 0
             Text = 'Message'
             Width = 377
           end
           item
+            Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
             Position = 1
             Text = 'File Name'
             Width = 200
           end
           item
             Alignment = taRightJustify
+            Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
             Position = 2
             Text = 'Line'
           end
           item
             Alignment = taRightJustify
+            Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
             Position = 3
             Text = 'Position'
             Width = 60
