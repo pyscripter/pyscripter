@@ -2743,10 +2743,8 @@ Var
   Editor : IEditor;
 begin
   Editor := GetActiveEditor;
-  if Assigned(Editor) then with TEditorForm(Editor.Form) do begin
-    EditorSplitter.Visible:= False;
-    SynEdit2.Visible := False;
-  end;
+  if Assigned(Editor) then
+    Editor.SplitEditorHide;
 end;
 
 procedure TPyIDEMainForm.actMessagesWinExecute(Sender: TObject);

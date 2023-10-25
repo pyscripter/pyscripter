@@ -267,6 +267,7 @@ type
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
+    procedure SplitEditorHide;
     procedure RefreshSymbols;
     procedure Retranslate;
     function GetForm: TForm;
@@ -733,6 +734,8 @@ procedure TEditor.SplitEditorHorizontally;
 begin
   with fForm do
   begin
+    if not Synedit2.IsChained then
+      SynEdit2.SetLinesPointer(SynEdit);
     EditorSplitter.Visible := False;
     SynEdit2.Visible := False;
     SynEdit2.Align := alBottom;
@@ -747,6 +750,8 @@ procedure TEditor.SplitEditorVertrically;
 begin
   with fForm do
   begin
+    if not Synedit2.IsChained then
+      SynEdit2.SetLinesPointer(SynEdit);
     EditorSplitter.Visible := False;
     SynEdit2.Visible := False;
     SynEdit2.Align := alRight;
@@ -754,6 +759,17 @@ begin
     EditorSplitter.Align := alRight;
     SynEdit2.Visible := True;
     EditorSplitter.Visible := True;
+  end;
+end;
+
+procedure TEditor.SplitEditorHide;
+begin
+  with fForm do
+  begin
+    EditorSplitter.Visible:= False;
+    SynEdit2.Visible := False;
+    if Synedit2.IsChained then
+      SynEdit2.RemoveLinesPointer;
   end;
 end;
 
@@ -1564,7 +1580,8 @@ begin
   // PyIDEOptions change notification
   PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
 
-  SynEdit2.RemoveLinesPointer;
+  if SynEdit2.IsChained then
+    SynEdit2.RemoveLinesPointer;
 
   if BreakPoints.Count > 0 then
   begin
@@ -2303,8 +2320,6 @@ begin
     ttpBottom:
       ViewsTabControl.TabPosition := ttpTop;
   end;
-
-  SynEdit2.SetLinesPointer(SynEdit);
 
   //  Custom command handling
   SynEdit.RegisterCommandHandler(EditorCommandHandler, nil);
