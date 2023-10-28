@@ -2669,6 +2669,10 @@ var
   Editor: TSynEdit;
 begin
   Editor := fActiveSynEdit;
+  if Value.EndsWith('()') then begin
+    Editor.CaretX:= Editor.CaretX - 1;
+    EndToken:= '(';
+  end;
   if EndToken = '(' then
     TThread.ForceQueue(nil, procedure
     begin
