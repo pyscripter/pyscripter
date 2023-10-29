@@ -1,30 +1,32 @@
-<html><head>
-   <title>Known Issues</title>
-   <meta name="generator"  content="HelpMaker.net">
-   <meta name="keywords"  content="Known Issues"></head>
-<body bgcolor="#FFFCEA">
-<table width="100%"  border="0"  cellspacing="0"  cellpadding="2"  bgcolor="#C0C0C0">
-  <tr>
-    <td align="left">
-      <div align="left"><font face="Arial"  color="#010101"  size="4"><span style=" font-size:14pt; font-family:Arial; color:#010101">Known Issues</span></font></div>
-
-    </td>
-    <td align="right">
-      <font face="Arial"  size="2">
-        <a href="history.htm">Previous</a>&nbsp;<a href="pyscripter.htm">Top</a>&nbsp;<a href="future.htm">Next</a>
-      </font>
-    </td>
-  </tr></table>
-<hr><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><b>Importing and using numerical modules</b></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101">If you have troubles in importing and using numerical modules such as NumPy and Scipy make 
-sure that <i>Mask FPU exceptions</i> </span></font><a href="ideoptions.htm"><font face="Arial"  color="#0000ff"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#0000ff"><u>IDE option</u></span></font></a><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"> is checked.&nbsp; 
-Alternatively you may execute the 
-following code at the interactive interpreter or from your scripts:</span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><br></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101">import DebugIDE</span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101">DebugIDE.maskFPUexceptions()</span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><br></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101">(<i>The DebugIDE is a Python extension module internal to PyScripter)</i></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><i><br></i></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><b>Running wxPython scripts</b></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101">Use the remote Python engine for running and debugging such scripts.&nbsp; If you use the internal 
-python engine PyScripter may become unstable.</span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><br></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101">You can always run such scripts externally using the Run, External Run menu command.&nbsp; It that 
-case you should configure the External Run so that the &quot;Hide Console&quot; option is unchecked (see </span></font><a href="runningscripts.htm"><font face="Arial"  color="#0000ff"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#0000ff"><u>Running Scripts</u></span></font></a><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"> for details).&nbsp; </span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><br></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><br></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101"><b>Debugging scripts which use Psyco</b></span></font></div><div align="left"><font face="Arial"  color="#010101"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#010101">PyScripter like other Python IDE&rsquo;s has problems debugging scripts which import Pscyco.&nbsp; Pscyco 
-works by replacing standard Python functions from the sys module (e.g. settrace) which are 
-essential for debugging.&nbsp; Even if you run a Pscyco script without debugging it still messes up the 
-internal interpreter for good and you will no longer be able to debug other scripts (you have to 
-restart PyScripter).&nbsp; You can run such scripts externally or else you need to comment out Psyco 
-related stuff.&nbsp; </span></font></div>
-
-</body></html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <title>Known Issues</title>
+    <meta name="generator" content="HelpMaker.net">
+    <meta name="keywords" content="Known Issues">
+  </head>
+  <body style=" background-color: #fffcea;">
+    <table width="100%" cellspacing="0" cellpadding="2" border="0" bgcolor="#C0C0C0">
+      <tbody>
+        <tr>
+          <td align="left">
+            <div align="left"><font face="Arial" size="4" color="#010101"><span
+                  style=" font-size:14pt; font-family:Arial; color:#010101">Known
+                  Issues</span></font></div>
+          </td>
+          <td align="right"> <font face="Arial" size="2"> <a href="history.htm">Previous</a>&nbsp;<a
+                href="pyscripter.htm">Top</a>&nbsp;<a href="future.htm">Next</a>
+            </font> </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+    <div align="left"><font face="Arial" size="2" color="#010101"><span style=" font-size:10pt; font-family:Arial; color:#010101"><b>PyPy</b></span></font></div>
+    <div align="left"><font face="Arial" size="2" color="#010101"><span style=" font-size:10pt; font-family:Arial; color:#010101"><br>
+        </span></font></div>
+    <div align="left"><font face="Arial" size="2" color="#010101"><span style=" font-size:10pt; font-family:Arial; color:#010101">PyPy
+          is not supported.&nbsp; You can use PyScripter with any standard
+          python distribution.<br>
+        </span></font></div>
+  </body>
+</html>

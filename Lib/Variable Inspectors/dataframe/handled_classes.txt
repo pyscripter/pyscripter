@@ -1,0 +1,3 @@
+numpy.ndarray
+numpy.matrix
+pandas.core.frame.DataFrame

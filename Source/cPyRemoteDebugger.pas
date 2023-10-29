@@ -95,6 +95,7 @@ type
     function GetObjectType(Ob : Variant) : string; override;
     function UnitTestResult : Variant; override;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
+    procedure Pickle(AValue: Variant; const FileName: string); override;
 
     property IsAvailable : Boolean read fServerIsAvailable;
     property Connected : Boolean read fConnected;
@@ -661,13 +662,14 @@ function TPyRemoteInterpreter.ImportModule(Editor: IEditor;
   Does not add the module name to the locals()
   of the interpreter.
 }
-Var
-  Code : Variant;
+var
+  Py: IPyEngineAndGIL;
+  Code: Variant;
   Path, NameOfModule : string;
   PythonPathAdder : IInterface;
   RunConfiguration : TRunConfiguration;
 begin
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   Assert(Assigned(Editor));
   CheckConnected;
   VarClear(Result);
@@ -818,9 +820,11 @@ begin
 end;
 
 procedure TPyRemoteInterpreter.ReInitialize;
+var
+  Py: IPyEngineAndGIL;
 begin
   FStoredServerOutput := [];
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   case PyControl.DebuggerState of
     dsDebugging, dsRunning:
       begin
@@ -861,9 +865,11 @@ begin
 end;
 
 procedure TPyRemoteInterpreter.RestoreCommandLine;
+var
+  Py: IPyEngineAndGIL;
 begin
   CheckConnected;
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   Conn.modules.sys.argv := fOldargv;
 end;
 
@@ -982,6 +988,7 @@ end;
 
 function TPyRemoteInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
 var
+  Py: IPyEngineAndGIL;
   OldDebuggerState : TDebuggerState;
   OldPos : TEditorPos;
 begin
@@ -991,7 +998,7 @@ begin
   OldPos := PyControl.CurrentPos;
 
   PyControl.DebuggerState := dsRunning;
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   try
     try
       Result := RPI.runsource(VarPythonCreate(Source), VarPythonCreate(FileName), VarPythonCreate(symbol));
@@ -1090,6 +1097,29 @@ begin
   end;
 end;
 
+procedure TPyRemoteInterpreter.Pickle(AValue: Variant; const FileName: string);
+var
+  f: Variant;
+  Py: IPyEngineAndGIL;
+  SuppressOutput : IInterface;
+begin
+  Py := GI_PyControl.SafePyEngine;
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  try
+    f := Conn.modules.builtins.open(FileName, 'wb');
+  except
+    raise Exception.CreateFmt(SCouldNotOpenOutputFile, [FileName]);
+  end;
+
+  try
+    Conn.modules.pickle.dump(AValue, f);
+  except
+    f.close();
+    raise Exception.Create(SPickleFailed);
+  end;
+  f.close();
+end;
+
 procedure TPyRemoteInterpreter.ServeConnection(MaxCount : integer);
 Var
   Count : integer;
@@ -1107,12 +1137,13 @@ end;
 
 procedure TPyRemoteInterpreter.SetCommandLine(ARunConfig : TRunConfiguration);
 var
+  Py: IPyEngineAndGIL;
   ArgV : Variant;
   S, Param : string;
   P : PChar;
 begin
   CheckConnected;
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   fOldargv := Conn.modules.sys.argv;
   Conn.execute('__import__("sys").argv = []');
   Argv := Conn.modules.sys.argv;
@@ -1246,8 +1277,10 @@ begin
 end;
 
 procedure TPyRemoteInterpreter.SystemCommand(const Cmd: string);
+var
+  Py: IPyEngineAndGIL;
 begin
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   RPI.system_command(Cmd);
 end;
 
@@ -1337,7 +1370,7 @@ begin
 end;
 
 function TPyRemDebugger.Evaluate(const Expr: string): TBaseNamespaceItem;
-Var
+var
   Py: IPyEngineAndGIL;
   SuppressOutput : IInterface;
   V : Variant;
@@ -1363,7 +1396,7 @@ end;
 
 procedure TPyRemDebugger.Evaluate(const Expr: string; out ObjType,
   Value: string);
-Var
+var
   Py: IPyEngineAndGIL;
   SuppressOutput : IInterface;
   V : Variant;
@@ -1390,11 +1423,13 @@ begin
 end;
 
 procedure TPyRemDebugger.ExitPostMortem;
+var
+  Py: IPyEngineAndGIL;
 begin
   GI_PyInterpreter.SetPyInterpreterPrompt(pipNormal);
   GI_PyInterpreter.AppendPrompt;
 
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   fMainThread.Status := thrdRunning;
   fMainThread.CallStack.Clear;
   TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
@@ -1442,6 +1477,8 @@ begin
 end;
 
 procedure TPyRemDebugger.DoDebuggerCommand;
+var
+  Py: IPyEngineAndGIL;
 begin
    fRemotePython.CheckConnected;
 
@@ -1459,19 +1496,21 @@ begin
 //     dcPause       : fRemotePython.Debugger.set_step();
 //     dcAbort       : fRemotePython.Debugger.set_quit();
 //   end;
-   var Py := GI_PyControl.SafePyEngine;
+   Py := GI_PyControl.SafePyEngine;
    fDebugManager.debug_command := Ord(fDebuggerCommand);
    fDebuggerCommand := dcNone;
 end;
 
 function TPyRemDebugger.HaveTraceback: boolean;
+var
+  Py: IPyEngineAndGIL;
 begin
   Result := False;
   with fRemotePython do
     if not (IsAvailable and Connected) then
       Exit;
   try
-    var Py := GI_PyControl.SafePyEngine;
+    Py := GI_PyControl.SafePyEngine;
     Result := fRemotePython.Conn.eval('hasattr(__import__("sys"), "last_traceback")');
   except
   end;
@@ -1506,8 +1545,10 @@ begin
 end;
 
 procedure TPyRemDebugger.MakeFrameActive(Frame: TBaseFrameInfo);
+var
+  Py: IPyEngineAndGIL;
 begin
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   if Assigned(Frame) then
     fDebugManager.active_frame := (Frame as TFrameInfo).PyFrame
   else
@@ -1515,8 +1556,10 @@ begin
 end;
 
 procedure TPyRemDebugger.MakeThreadActive(Thread: TThreadInfo);
+var
+  Py: IPyEngineAndGIL;
 begin
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   if Assigned(Thread) then
     fDebugManager.active_thread := Thread.Thread_ID
   else
@@ -1781,10 +1824,12 @@ begin
 end;
 
 procedure TPyRemDebugger.SetDebuggerBreakpoints;
+var
+  Py: IPyEngineAndGIL;
 begin
   if not PyControl.BreakPointsChanged then Exit;
 
-  var Py := GI_PyControl.SafePyEngine;
+  Py := GI_PyControl.SafePyEngine;
   LoadLineCache;
   fMainDebugger.clear_all_breaks();
 

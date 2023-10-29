@@ -18,6 +18,7 @@ uses
   System.Variants,
   System.Classes,
   System.ImageList,
+  System.Generics.Collections,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -75,11 +76,14 @@ type
       Node: PVirtualNode);
     procedure VariablesTreeGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
+    procedure VariablesTreeNodeClick(Sender: TBaseVirtualTree; const HitInfo:
+        THitInfo);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   private
     { Private declarations }
     CurrentModule, CurrentFunction : string;
     GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
+    class var DebugInspectorsRegister: TDictionary<string, string>;
   protected
     const FBasePath = 'Variables Window Options'; // Used for storing settings
     const FBoldIndicatorID: TGUID = '{10FBEC66-4210-49F5-9F7D-189B6252080B}';
@@ -91,6 +95,9 @@ type
 
     procedure ClearAll;
     procedure UpdateWindow;
+
+    class constructor Create;
+    class destructor Destroy;
   end;
 
 var
@@ -99,7 +106,9 @@ var
 implementation
 
 uses
+  WinApi.ShellAPI,
   System.Math,
+  System.IOUtils,
   Vcl.Themes,
   JvJVCLUtils,
   JvGnugettext,
@@ -287,12 +296,19 @@ procedure TVariablesWindow.VariablesTreeGetImageIndex(
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   Data : PNodeData;
+  Folder: string;
 begin
   Data := Node.GetData;
-  if Assigned(Data.NameSpaceItem) and (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
-    ImageIndex := Data.ImageIndex;
-  end else
-    ImageIndex := -1;
+  ImageIndex := -1;
+
+  if not Assigned(Data.NameSpaceItem) then Exit;
+
+  if (Column = 0) and (Kind in [ikNormal, ikSelected]) then
+    ImageIndex := Data.ImageIndex
+  else if (Column = 3) and (Kind in [ikNormal, ikSelected]) and
+    DebugInspectorsRegister.TryGetValue(Data.NameSpaceItem.QualifiedObjectType, Folder)
+  then
+    ImageIndex := 10;
 end;
 
 procedure TVariablesWindow.VariablesTreeGetCellText(
@@ -306,6 +322,7 @@ begin
       0 : E.CellText := Data.Name;
       1 : E.CellText := Data.ObjectType;
       2 : E.CellText := Data.Value;
+      3 : E.CellText := '';
     end
   else
     E.CellText := 'NA';
@@ -414,6 +431,39 @@ begin
   end;
 end;
 
+class constructor TVariablesWindow.Create;
+// Registers Variable Inspectors
+
+  procedure ProcessSubFolder(const SubFolder: string);
+  begin
+    var SL := TSmartPtr.Make(TStringList.Create)();
+    try
+      SL.LoadFromFile(TPath.Combine(SubFolder, 'handled_classes.txt'));
+      for var S in SL do
+        DebugInspectorsRegister.TryAdd(S, SubFolder);
+    except
+    end;
+  end;
+
+  procedure ProcessFolder(const Folder: string);
+  begin
+    if (Folder = '') or not TDirectory.Exists(Folder) then Exit;
+
+    for var Subfolder in TDirectory.GetDirectories(Folder) do
+      ProcessSubFolder(SubFolder);
+  end;
+
+begin
+  DebugInspectorsRegister := TDictionary<string, string>.Create;
+  ProcessFolder(TPyScripterSettings.UserDebugInspectorsDir);
+  ProcessFolder(TPyScripterSettings.AppDebugInspectorsDir);
+end;
+
+class destructor TVariablesWindow.Destroy;
+begin
+  DebugInspectorsRegister.Free;
+end;
+
 procedure TVariablesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
@@ -513,11 +563,44 @@ end;
 
 procedure TVariablesWindow.VariablesTreeFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-Var
-  Data : PNodeData;
+var
+  Data: PNodeData;
 begin
   Data := Node.GetData;
   Finalize(Data^);
+end;
+
+procedure TVariablesWindow.VariablesTreeNodeClick(Sender: TBaseVirtualTree;
+    const HitInfo: THitInfo);
+var
+  Data: PNodeData;
+  Folder: string;
+  Py: IPyEngineAndGIL;
+begin
+  if (HitInfo.HitColumn = 3) and Assigned(HitInfo.HitNode) then
+  begin
+    Data := HitInfo.HitNode.GetData;
+    if DebugInspectorsRegister.TryGetValue(Data.NameSpaceItem.QualifiedObjectType, Folder) then
+    begin
+      // Pickle the value
+      Py := GI_PyControl.SafePyEngine;
+      var FileName := TPath.Combine(TPyScripterSettings.UserDebugInspectorsDir, 'value.pickle');
+      try
+        GI_PyControl.Pickle(Data.NameSpaceItem.PyObject, FileName);
+      except
+        on E: Exception do
+        begin
+           ShowMessage(E.Message);
+           Exit;
+        end;
+      end;
+
+      var Parameters := Format('"%s" "%s"', [TPath.Combine(Folder, 'main.py'), FileName]);
+
+      ShellExecute(0, 'open', PChar(GI_PyControl.PythonVersion.PythonExecutable),
+        PChar(Parameters), PChar(Folder), SW_HIDE);
+    end;
+  end;
 end;
 
 end.

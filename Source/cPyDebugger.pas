@@ -54,7 +54,6 @@ type
     fChildCount : integer;
     fChildNodes : TStringList;
     fName : string;
-    fObjectType : string; // for caching ObjectType
     fObjectInfo : Integer;
   protected
     function GetName : string; override;
@@ -111,6 +110,7 @@ type
     function GetObjectType(Ob : Variant) : string; override;
     function UnitTestResult : Variant; override;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
+    procedure Pickle(AValue: Variant; const FileName: string); override;
     property Debugger : Variant read fDebugger;
   end;
 
@@ -295,7 +295,7 @@ begin
 
           //NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
           //NameSpaceItem.GotBufferedValue := True;
-          NameSpaceItem.fObjectType := PyUnicodeAsString(PyTuple_GetItem(PyFullInfo, 1));
+          NameSpaceItem.fQualifiedObjectType := PyUnicodeAsString(PyTuple_GetItem(PyFullInfo, 1));
           NameSpaceItem.fObjectInfo := PyLong_AsLong(PyTuple_GetItem(PyFullInfo, 2));
           //NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
 
@@ -346,12 +346,10 @@ end;
 
 function TNameSpaceItem.GetObjectType: string;
 begin
-  if fObjectType <> '' then
-    Result := fObjectType
-  else begin
+  if fQualifiedObjectType <> '' then
+    Result := fQualifiedObjectType.Substring(fQualifiedObjectType.LastIndexOf('.') + 1)
+  else
     Result := PyControl.InternalInterpreter.GetObjectType(fPyObject);
-    fObjectType := Result;
-  end;
 end;
 
 function TNameSpaceItem.GetValue: string;
@@ -1313,6 +1311,29 @@ end;
 function TPyInternalInterpreter.GetInterpreter: Variant;
 begin
   Result := fII;
+end;
+
+procedure TPyInternalInterpreter.Pickle(AValue: Variant; const FileName: string);
+var
+  f: Variant;
+  Py: IPyEngineAndGIL;
+  SuppressOutput : IInterface;
+begin
+  Py := GI_PyControl.SafePyEngine;
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  try
+    f := BuiltinModule.open(Filename, 'wb');
+  except
+    raise Exception.CreateFmt(SCouldNotOpenOutputFile, [FileName]);
+  end;
+
+  try
+    Import('pickle').dump(AValue, f);
+  except
+    f.close();
+    raise Exception.Create(SPickleFailed);
+  end;
+  f.close();
 end;
 
 procedure TPyInternalInterpreter.Run(ARunConfig: TRunConfiguration);

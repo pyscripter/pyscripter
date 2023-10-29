@@ -563,7 +563,7 @@
   History:   v 4.3.2
           New Features
             - Python 3.12 support added
-            - Debug Inspectors (#1219)
+            - Variable Inspectors (#1219)
             - Improved multi-monitor support (per monitor DPI awareness)
             - Customizable user interface content font size (#1209)
             - Screen reader support in the editor

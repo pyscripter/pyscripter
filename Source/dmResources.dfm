@@ -181,6 +181,7 @@ object ResourcesDataModule: TResourcesDataModule
           '              '#39'list'#39','
           '              '#39'long'#39','
           '              '#39'member_descriptor'#39','
+          '              '#39'method'#39','
           '              '#39'method-wrapper'#39','
           '              '#39'object'#39','
           '              '#39'slice'#39','
@@ -346,9 +347,13 @@ object ResourcesDataModule: TResourcesDataModule
             'ontypes, sequenceitems)'
           '            d = {}'
           '            for (i,j) in members.items():'
+          '                try:'
           
-            '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
-            '))'
+            '                    objtype = j.__class__.__module__ + "." + sel' +
+            'f.objecttype(j)'
+          '                except:'
+          '                    objtype = self.objecttype(j)'
+          '                d[i] = (j, objtype, self.objectinfo(j))'
           '            if sequenceitems and isinstance(ob, (list, tuple)):'
           
             '                return tuple(sorted(d.items(), key = lambda r: i' +
@@ -918,6 +923,7 @@ object ResourcesDataModule: TResourcesDataModule
           '              '#39'list'#39','
           '              '#39'long'#39','
           '              '#39'member_descriptor'#39','
+          '              '#39'method'#39','
           '              '#39'method-wrapper'#39','
           '              '#39'object'#39','
           '              '#39'slice'#39','
@@ -1004,9 +1010,13 @@ object ResourcesDataModule: TResourcesDataModule
             'ontypes, sequenceitems)'
           '            d = {}'
           '            for (i,j) in members.items():'
+          '                try:'
           
-            '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
-            '))'
+            '                    objtype = j.__class__.__module__ + "." + sel' +
+            'f.objecttype(j)'
+          '                except:'
+          '                    objtype = self.objecttype(j)'
+          '                d[i] = (j, objtype, self.objectinfo(j))'
           '            if sequenceitems and isinstance(ob, (list, tuple)):'
           
             '                return tuple(sorted(d.items(), key = lambda r: i' +
@@ -2175,6 +2185,16 @@ object ResourcesDataModule: TResourcesDataModule
           '.8-0.8,2.2-0.8,3.1,0l8.8,8.8'#13#10#9#9'c0.8,0.8,0.8,2.2,0,3.1L15.2,28.7' +
           'C14.7,29.1,14.2,29.3,13.6,29.3z M7.9,18.4l5.7,5.7l10.4-10.4l-5.7' +
           '-5.7L7.9,18.4z"/>'#13#10'</svg>'#13#10
+      end
+      item
+        IconName = 'Inspect'
+        SVGText = 
+          '<svg viewBox="0 0 24 24">'#13#10'    <path fill="#4488FF"'#13#10'        d="' +
+          'M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.' +
+          '71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41' +
+          ' 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7' +
+          ',5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5' +
+          'Z" />'#13#10'</svg>'
       end>
     ApplyFixedColorToRootOnly = True
     Left = 117

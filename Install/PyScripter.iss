@@ -1,7 +1,7 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
 #ifndef MyAppVersion
-  #define MyAppVersion "4.3.1"
+  #define MyAppVersion "4.3.2"
 #endif
 #ifndef OSPlatform
   #define OSPlatform "x64"
@@ -220,6 +220,11 @@ Source: "..\Styles\Zircon.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 ; Language Server
 Source: "..\Lib\Lsp\jls\jedilsp.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"; Flags: ignoreversion
 Source: "..\Lib\Lsp\jls\run-jedi-language-server.py"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"
+; Variable Inspectors
+Source: "..\Lib\Variable Inspectors\dataframe\main.py"; DestDir: "{commonappdata}\PyScripter\Variable Inspectors\dataframe"; 
+Source: "..\Lib\Variable Inspectors\dataframe\dataexplore.gif"; DestDir: "{commonappdata}\PyScripter\Variable Inspectors\dataframe"; 
+Source: "..\Lib\Variable Inspectors\dataframe\handled_classes.txt"; DestDir: "{commonappdata}\PyScripter\Variable Inspectors\dataframe"; 
+Source: "..\Lib\Variable Inspectors\dataframe\requirements.txt"; DestDir: "{commonappdata}\PyScripter\Variable Inspectors\dataframe"; 
 
 [Icons]
 Name: {group}\PyScripter; Filename: {app}\PyScripter.exe

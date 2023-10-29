@@ -130,7 +130,8 @@ inherited VariablesWindow: TVariablesWindow
           Anchors = [akLeft, akTop, akBottom]
           BorderStyle = bsNone
           Header.AutoSizeIndex = 2
-          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+          Header.Images = vilCodeImages
+          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoShowImages, hoVisible]
           Header.PopupMenu = VTHeaderPopupMenu
           HintMode = hmTooltip
           Images = vilCodeImages
@@ -148,23 +149,33 @@ inherited VariablesWindow: TVariablesWindow
           OnGetImageIndex = VariablesTreeGetImageIndex
           OnInitChildren = VariablesTreeInitChildren
           OnInitNode = VariablesTreeInitNode
+          OnNodeClick = VariablesTreeNodeClick
           Touch.InteractiveGestures = [igPan, igPressAndTap]
           Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
           Columns = <
             item
+              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
               Position = 0
               Text = 'Name'
               Width = 160
             end
             item
+              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
               Position = 1
               Text = 'Type'
               Width = 100
             end
             item
+              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
               Position = 2
               Text = 'Value'
               Width = 10
+            end
+            item
+              ImageIndex = 10
+              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
+              Position = 3
+              Width = 20
             end>
         end
       end
@@ -231,6 +242,11 @@ inherited VariablesWindow: TVariablesWindow
         CollectionIndex = 3
         CollectionName = 'CodeImages\Keyword'
         Name = 'Keyword'
+      end
+      item
+        CollectionIndex = 10
+        CollectionName = 'Inspect'
+        Name = 'Inspect'
       end>
     ImageCollection = ResourcesDataModule.icCodeImages
     PreserveItems = True

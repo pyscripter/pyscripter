@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2023-06-04 12:06\n"
+"POT-Creation-Date: 2023-10-29 01:12\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -3352,9 +3352,9 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#. CommandsDataModule..SynGeneralSyn..DefaultFilter
+#. ResourcesDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
-#: dmCommands.dfm StringResources.pas
+#: dmResources.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr ""
 
@@ -4389,7 +4389,7 @@ msgid "&Source Code"
 msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: frmPyIDEMain.dfm dmCommands.pas
+#: frmPyIDEMain.dfm dmResources.pas
 msgid "Parameters"
 msgstr ""
 
@@ -6489,15 +6489,15 @@ msgid "Spell checked syntax tokens"
 msgstr ""
 
 #: dmCommands.pas
-msgid "Modifiers"
-msgstr ""
-
-#: dmCommands.pas
 msgid "Configure Tools"
 msgstr ""
 
 #: dmCommands.pas
 msgid "File download failed"
+msgstr ""
+
+#: dmResources.pas
+msgid "Modifiers"
 msgstr ""
 
 #: frmCodeExplorer.pas
@@ -8081,6 +8081,11 @@ msgid ""
 "You can get spell checking dictionaries through the Windows language "
 "settings.\n"
 "You can change the active language through the IDE options dialog."
+msgstr ""
+
+#. Programmer's name for it: SPickleFailed
+#: StringResources.pas
+msgid "pickle.dump failed"
 msgstr ""
 
 #. Project Manager

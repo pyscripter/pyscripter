@@ -1,26 +1,26 @@
 # PyScripter GUI translation.
-# 
+#
 # Copyright (C) Kiriakos Vlahos  2005-2020
 # This file is distributed under the same license as PyScripter
-# 
+#
 # Translators:
 # lary Ho, 2022
 # startgo <startgo@youp.ga>, 2022
 # Kiriakos Vlahos <pyscripter@gmail.com>, 2022
-# 
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2023-06-04 12:06\n"
-"PO-Revision-Date: 2018-01-24 08:21+0000\n"
+"POT-Creation-Date: 2022-10-29 02:07\n"
+"PO-Revision-Date: 2022-12-16 11:29+0800\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2022\n"
-"Language-Team: Chinese (China) (https://app.transifex.com/pyscripter/teams/116142/zh_CN/)\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/pyscripter/teams/116142/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. AboutBox..Caption
 #: dlgAboutPyScripter.dfm
@@ -47,13 +47,8 @@ msgstr "链接"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
-msgid ""
-"A free and open source Python scripting integrated development environment "
-"created with the ambition to bring to the Python community the quality and "
-"functionality available in commercial IDEs available for other languages."
-msgstr ""
-"一個擁有抱負的羣體，創立了這個自由，開放源的 Python 腳本整合開發平台。 期望能帶給 Python "
-"社羣，一個有如商業環境所提供的，高質量，多功能的開發平台。"
+msgid "A free and open source Python scripting integrated development environment created with the ambition to bring to the Python community the quality and functionality available in commercial IDEs available for other languages."
+msgstr "一个旨在带给Python社区与其他语言商业IDEs相同质量和功能的免费开源的Python脚本集成开发环境。"
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
@@ -91,10 +86,9 @@ msgstr "为参数输入值"
 #: dlgCommandLine.dfm dlgCustomParams.dfm dlgCustomShortcuts.dfm
 #: dlgDirectoryList.dfm dlgExceptionMail.dfm dlgFileTemplates.dfm
 #: dlgFindInFiles.dfm dlgFindResultsOptions.dfm dlgImportDirectory.dfm
-#: dlgOptionsEditor.dfm dlgPickList.dfm dlgRemoteFile.dfm
-#: dlgReplaceInFiles.dfm dlgRunConfiguration.dfm dlgSynEditOptions.dfm
-#: dlgSynPageSetup.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
-#: dlgUnitTestWizard.dfm
+#: dlgOptionsEditor.dfm dlgPickList.dfm dlgRemoteFile.dfm dlgReplaceInFiles.dfm
+#: dlgRunConfiguration.dfm dlgSynEditOptions.dfm dlgSynPageSetup.dfm
+#: dlgToDoOptions.dfm dlgToolProperties.dfm dlgUnitTestWizard.dfm
 msgid "&OK"
 msgstr "确认(&O)"
 
@@ -422,10 +416,8 @@ msgstr "值(&V):"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
 #. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
-#. Programmer's name for it: SyntaxElementFriendlyName_Value
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
-#: StringResources.pas
 msgid "Value"
 msgstr "值"
 
@@ -596,8 +588,8 @@ msgstr "查找文字(&T):"
 #. fmToDoOptions..pnlBG..gbxOptions..Caption
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..Caption
-#: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
-#: frmPyIDEMain.dfm frmRegExpTester.dfm
+#: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm frmPyIDEMain.dfm
+#: frmRegExpTester.dfm
 msgid "Options"
 msgstr "选项"
 
@@ -728,7 +720,7 @@ msgstr "引进目录"
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
 msgid "Directory to import:"
-msgstr "引进整个目录"
+msgstr "导入整个目录"
 
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
@@ -738,7 +730,7 @@ msgstr "文件掩码(例; *.py;*.pyw)"
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
 msgid "Recursive?"
-msgstr "再归"
+msgstr "递归"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -1112,6 +1104,281 @@ msgstr "颜色主题"
 msgid "Syntax Colors"
 msgstr "语法的颜色"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
+#: dlgSynEditOptions.dfm
+msgid "Will indent the caret on new lines with the same amount of leading white space as the preceding line"
+msgstr "行首有空白的行改行时下一行的行首插入符号前也缩进同样的空白"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
+#: dlgSynEditOptions.dfm
+msgid "Auto indent"
+msgstr "自动缩进"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
+#: dlgSynEditOptions.dfm
+msgid "When clicking with the right mouse for a popup menu, move the cursor to that location"
+msgstr "当想按鼠标右键弹出菜单时，把光标移动到那个位置"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right mouse moves cursor"
+msgstr "按鼠标右键移动光标"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing....Hint
+#: dlgSynEditOptions.dfm
+msgid "Allows you to select a block of text and drag it within the document to another location"
+msgstr "允许选择一块文本并拖到同一文档的另一位置"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
+#: dlgSynEditOptions.dfm
+msgid "Drag and drop editing"
+msgstr "拖放形式的编辑"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
+#: dlgSynEditOptions.dfm
+msgid "Enhances end key similar to JDeveloper"
+msgstr "强化类似于JDeveloper的End键"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
+#: dlgSynEditOptions.dfm
+msgid "Enhance End Key"
+msgstr "强化End键"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Hint
+#: dlgSynEditOptions.dfm
+msgid "Allows the editor accept OLE file drops"
+msgstr "允许编辑器接受OLE文件的放置"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Caption
+#: dlgSynEditOptions.dfm
+msgid "Word wrap"
+msgstr "单词的折行"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
+#: dlgSynEditOptions.dfm
+msgid "enhances home key positioning, similar to visual studio"
+msgstr "强化home 键的定位功能，同Visual Studio一样"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
+#: dlgSynEditOptions.dfm
+msgid "Enhance Home Key"
+msgstr "Home 键的强化"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAltSetsColumnMode....Hint
+#: dlgSynEditOptions.dfm
+msgid "Holding down the Alt Key will put the selection mode into columnar format"
+msgstr "按Alt键的同时作选择时进入矩形选择模式"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAltSetsColumnMode..Caption
+#: dlgSynEditOptions.dfm
+msgid "Alt sets column mode"
+msgstr "按Alt设定矩形选择模式"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
+#: dlgSynEditOptions.dfm
+msgid "Converts a tab character to the number of spaces in Tab Width"
+msgstr "转换一TAB文字为所设TAB宽度的数量的空白字符"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tabs to spaces"
+msgstr "TAB字符变换到空白字符"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX....Hint
+#: dlgSynEditOptions.dfm
+msgid "When moving through lines the X position will always stay the same"
+msgstr "当移动行时插入符号的列位置保持不变"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
+#: dlgSynEditOptions.dfm
+msgid "Maintain caret column"
+msgstr "保持插入符号的列位置"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
+#: dlgSynEditOptions.dfm
+msgid "similar to Smart Tabs, but when you delete characters"
+msgstr "类似于灵巧TAB，但只是在删除文字时"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
+#: dlgSynEditOptions.dfm
+msgid "Smart tab delete"
+msgstr "灵巧TAB删除"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
+#: dlgSynEditOptions.dfm
+msgid "Tab indents and Shift-Tab unindents"
+msgstr "Tab缩进&Shift-Tab取消缩进"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
+#: dlgSynEditOptions.dfm
+msgid "Tab Indent"
+msgstr "TAB缩进"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
+#: dlgSynEditOptions.dfm
+msgid "When tabbing, the cursor will go to the next non-white space character of the previous line"
+msgstr "用TAB键时，光标将移到前行的下一非空白字符"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
+#: dlgSynEditOptions.dfm
+msgid "Smart tabs"
+msgstr "灵巧TAB"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll....Hint
+#: dlgSynEditOptions.dfm
+msgid "When scrolling with page-up and page-down commands, only scroll a half page at a time"
+msgstr "当用page-up与page-down 命令滚动時，一次只能滚动半页"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
+#: dlgSynEditOptions.dfm
+msgid "Half page scroll"
+msgstr "半页滚动"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckTrimTrailingSpaces..Hint
+#: dlgSynEditOptions.dfm
+msgid "Spaces at the end of lines will be trimmed and not saved"
+msgstr "行尾的空白字符将被删除而不保存"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckTrimTrailingSpaces..Caption
+#: dlgSynEditOptions.dfm
+msgid "Trim trailing spaces"
+msgstr "删除行尾的空白文字"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
+#: dlgSynEditOptions.dfm
+msgid "Forces scrolling to be one less"
+msgstr "强制只滚动一行"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
+#: dlgSynEditOptions.dfm
+msgid "Scroll by one less"
+msgstr "只滚动一行"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
+#: dlgSynEditOptions.dfm
+msgid "Shows line breaks, spaces and tabs using special symbols"
+msgstr "使用特殊的符号表示换行符，空格符和制表符"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show special chars"
+msgstr "显示特殊的文字"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
+#: dlgSynEditOptions.dfm
+msgid "Allows the cursor to go past the end of file marker"
+msgstr "允许光标移过文件尾标志"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
+#: dlgSynEditOptions.dfm
+msgid "Scroll past end of file"
+msgstr "滚动过文件尾"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
+#: dlgSynEditOptions.dfm
+msgid "Disables the scroll bar arrow buttons when you can't scroll in that direction any more"
+msgstr "当不能沿某一方向再滚动时滚动条的箭头变成无效"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows..Caption
+#: dlgSynEditOptions.dfm
+msgid "Disable scroll arrows"
+msgstr "使滚动箭头无效"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
+#: dlgSynEditOptions.dfm
+msgid "Allows the cursor to go past the last character into the white space at the end of a line"
+msgstr "允许光标移过一行行尾的最后字符进入空白区"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
+#: dlgSynEditOptions.dfm
+msgid "Scroll past end of line"
+msgstr "滚动过行尾"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo....Hint
+#: dlgSynEditOptions.dfm
+msgid "When undoing/redoing actions, handle all continuous changes of the same kind in one call instead undoing/redoing each command separately"
+msgstr "恢复/重放action时，在一个call里运行所有连续的同类action，而不是单独运行"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
+#: dlgSynEditOptions.dfm
+msgid "Group undo"
+msgstr "组撤消"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
+#: dlgSynEditOptions.dfm
+msgid "Shows a hint of the visible line numbers when scrolling vertically"
+msgstr "当垂直滚动时显示可见行号的提示"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show scroll hint"
+msgstr "显示滚动提示"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars....Hint
+#: dlgSynEditOptions.dfm
+msgid "if enabled, then the scrollbars will only show when necessary.  If you have ScrollPastEOL, then it the horizontal bar will always be there (it uses MaxLength instead)"
+msgstr "设为有效时，滚动条只是在必要的时候显示。当设为超过行的最后可滚动行时，那水平滚动条总是显示着(不过使用MaxLength)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
+#: dlgSynEditOptions.dfm
+msgid "Hide scrollbars as necessary"
+msgstr "必要的时候隐藏滚动条"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
+#: dlgSynEditOptions.dfm
+msgid "The scroll hint follows the mouse when scrolling vertically"
+msgstr "当垂直滚动时滚动提示跟随鼠标移动"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
+#: dlgSynEditOptions.dfm
+msgid "Scroll hint follows mouse"
+msgstr "滚动提示跟随鼠标"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show font ligatures"
+msgstr "显示字体合成"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
+#: dlgSynEditOptions.dfm
+msgid "Caret"
+msgstr "插入符号"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Insert caret:"
+msgstr "插入插入符号"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label4..Caption
+#: dlgSynEditOptions.dfm
+msgid "Overwrite caret:"
+msgstr "覆盖插入符号"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#: dlgSynEditOptions.dfm
+msgid "Vertical Line"
+msgstr "垂直线"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#: dlgSynEditOptions.dfm
+msgid "Horizontal Line"
+msgstr "水平线"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#: dlgSynEditOptions.dfm
+msgid "Half Block"
+msgstr "半块"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#: dlgSynEditOptions.dfm
+msgid "Block"
+msgstr "块"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke Options"
@@ -1204,305 +1471,6 @@ msgstr "下划线(&U)"
 msgid "&Strike Out"
 msgstr "删除线(&S)"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"Will indent the caret on new lines with the same amount of leading white "
-"space as the preceding line"
-msgstr "行首有空白的行改行时下一行的行首插入符号前也缩进同样的空白"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
-#: dlgSynEditOptions.dfm
-msgid "Auto indent"
-msgstr "自动缩进"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"When clicking with the right mouse for a popup menu, move the cursor to that"
-" location"
-msgstr "当想按鼠标右键弹出菜单时，把光标移动到那个位置"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right mouse moves cursor"
-msgstr "按鼠标右键移动光标"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"Allows you to select a block of text and drag it within the document to "
-"another location"
-msgstr "允许选择一块文本并拖到同一文档的另一位置"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
-#: dlgSynEditOptions.dfm
-msgid "Drag and drop editing"
-msgstr "拖放形式的编辑"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
-#: dlgSynEditOptions.dfm
-msgid "Enhances end key similar to JDeveloper"
-msgstr "强化类似于JDeveloper的End键"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
-#: dlgSynEditOptions.dfm
-msgid "Enhance End Key"
-msgstr "强化End键"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Hint
-#: dlgSynEditOptions.dfm
-msgid "Enable wrapping of long lines"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Caption
-#: dlgSynEditOptions.dfm
-msgid "Word wrap"
-msgstr "单词的折行"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
-#: dlgSynEditOptions.dfm
-msgid "enhances home key positioning, similar to visual studio"
-msgstr "强化home 键的定位功能，同Visual Studio一样"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
-#: dlgSynEditOptions.dfm
-msgid "Enhance Home Key"
-msgstr "Home 键的强化"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAltSetsColumnMode....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"Holding down the Alt Key will put the selection mode into columnar format"
-msgstr "按Alt键的同时作选择时进入矩形选择模式"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAltSetsColumnMode..Caption
-#: dlgSynEditOptions.dfm
-msgid "Alt sets column mode"
-msgstr "按Alt设定矩形选择模式"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
-#: dlgSynEditOptions.dfm
-msgid "Converts a tab character to the number of spaces in Tab Width"
-msgstr "转换一TAB文字为所设TAB宽度的数量的空白字符"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tabs to spaces"
-msgstr "TAB字符变换到空白字符"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX....Hint
-#: dlgSynEditOptions.dfm
-msgid "When moving through lines the X position will always stay the same"
-msgstr "当移动行时插入符号的列位置保持不变"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
-#: dlgSynEditOptions.dfm
-msgid "Maintain caret column"
-msgstr "保持插入符号的列位置"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
-#: dlgSynEditOptions.dfm
-msgid "similar to Smart Tabs, but when you delete characters"
-msgstr "类似于灵巧TAB，但只是在删除文字时"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
-#: dlgSynEditOptions.dfm
-msgid "Smart tab delete"
-msgstr "灵巧TAB删除"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
-#: dlgSynEditOptions.dfm
-msgid "Tab indents and Shift-Tab unindents"
-msgstr "Tab缩进&Shift-Tab取消缩进"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tab Indent"
-msgstr "TAB缩进"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"When tabbing, the cursor will go to the next non-white space character of "
-"the previous line"
-msgstr "用TAB键时，光标将移到前行的下一非空白字符"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
-#: dlgSynEditOptions.dfm
-msgid "Smart tabs"
-msgstr "灵巧TAB"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"When scrolling with page-up and page-down commands, only scroll a half page "
-"at a time"
-msgstr "当用page-up与page-down 命令滚动時，一次只能滚动半页"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
-#: dlgSynEditOptions.dfm
-msgid "Half page scroll"
-msgstr "半页滚动"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckTrimTrailingSpaces..Hint
-#: dlgSynEditOptions.dfm
-msgid "Spaces at the end of lines will be trimmed and not saved"
-msgstr "行尾的空白字符将被删除而不保存"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckTrimTrailingSpaces..Caption
-#: dlgSynEditOptions.dfm
-msgid "Trim trailing spaces"
-msgstr "删除行尾的空白文字"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
-#: dlgSynEditOptions.dfm
-msgid "Forces scrolling to be one less"
-msgstr "强制只滚动一行"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
-#: dlgSynEditOptions.dfm
-msgid "Scroll by one less"
-msgstr "只滚动一行"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
-#: dlgSynEditOptions.dfm
-msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr "使用特殊的符号表示换行符，空格符和制表符"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show special chars"
-msgstr "显示特殊的文字"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
-#: dlgSynEditOptions.dfm
-msgid "Allows the cursor to go past the end of file marker"
-msgstr "允许光标移过文件尾标志"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
-#: dlgSynEditOptions.dfm
-msgid "Scroll past end of file"
-msgstr "滚动过文件尾"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"Disables the scroll bar arrow buttons when you can't scroll in that "
-"direction any more"
-msgstr "当不能沿某一方向再滚动时滚动条的箭头变成无效"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows..Caption
-#: dlgSynEditOptions.dfm
-msgid "Disable scroll arrows"
-msgstr "使滚动箭头无效"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"Allows the cursor to go past the last character into the white space at the "
-"end of a line"
-msgstr "允许光标移过一行行尾的最后字符进入空白区"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
-#: dlgSynEditOptions.dfm
-msgid "Scroll past end of line"
-msgstr "滚动过行尾"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"When undoing/redoing actions, handle all continuous changes of the same kind"
-" in one call instead undoing/redoing each command separately"
-msgstr "恢复/重放action时，在一个call里运行所有连续的同类action，而不是单独运行"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
-#: dlgSynEditOptions.dfm
-msgid "Group undo"
-msgstr "组撤消"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
-#: dlgSynEditOptions.dfm
-msgid "Shows a hint of the visible line numbers when scrolling vertically"
-msgstr "当垂直滚动时显示可见行号的提示"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show scroll hint"
-msgstr "显示滚动提示"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"if enabled, then the scrollbars will only show when necessary.  If you have "
-"ScrollPastEOL, then it the horizontal bar will always be there (it uses "
-"MaxLength instead)"
-msgstr "设为有效时，滚动条只是在必要的时候显示。当设为超过行的最后可滚动行时，那水平滚动条总是显示着(不过使用MaxLength)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
-#: dlgSynEditOptions.dfm
-msgid "Hide scrollbars as necessary"
-msgstr "必要的时候隐藏滚动条"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
-#: dlgSynEditOptions.dfm
-msgid "The scroll hint follows the mouse when scrolling vertically"
-msgstr "当垂直滚动时滚动提示跟随鼠标移动"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
-#: dlgSynEditOptions.dfm
-msgid "Scroll hint follows mouse"
-msgstr "滚动提示跟随鼠标"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
-#: dlgSynEditOptions.dfm
-msgid "Show ligatures (joined font glyphs) when supported by the used font"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show font ligatures"
-msgstr "顯示字體合成"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
-#: dlgSynEditOptions.dfm
-msgid "Caret"
-msgstr "插入符号"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Insert caret:"
-msgstr "插入插入符号"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label4..Caption
-#: dlgSynEditOptions.dfm
-msgid "Overwrite caret:"
-msgstr "覆盖插入符号"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm
-msgid "Vertical Line"
-msgstr "垂直线"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm
-msgid "Horizontal Line"
-msgstr "水平线"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm
-msgid "Half Block"
-msgstr "半块"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm
-msgid "Block"
-msgstr "块"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1519,7 +1487,8 @@ msgid "Edge Column:"
 msgstr "边界的列数:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
-#: dlgSynEditOptions.dfm
+#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
 msgid "Gutter"
 msgstr "装订线(Gutter)"
 
@@ -1604,7 +1573,7 @@ msgstr "行间空格 / TAB空格"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
 msgid "Extra line spacing (pixels):"
-msgstr ""
+msgstr "附加行间距(像素)"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
@@ -1622,7 +1591,9 @@ msgid "Apply to all editors"
 msgstr "应用到所有编辑器"
 
 #. PageSetupDlg..Caption
-#: dlgSynPageSetup.dfm
+#. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
+#. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
+#: dlgSynPageSetup.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Page Setup"
 msgstr "页设定"
 
@@ -1752,22 +1723,17 @@ msgstr "页脚(Footer):"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr "內部邊距:"
+msgstr "內部边距:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr "左邊文本縮排:"
+msgstr "左边文字缩进:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr "右邊文本縮排:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label11..Caption
-#: dlgSynPageSetup.dfm
-msgid "Gutter:"
-msgstr ""
+msgstr "右边文字缩进:"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
@@ -1802,12 +1768,12 @@ msgstr "折行"
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "Inches"
-msgstr "吋"
+msgstr "英寸"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "(1/1000) Inches"
-msgstr "(1/1000) 吋"
+msgstr "(1/1000) 英寸"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -1858,7 +1824,9 @@ msgid "Underline"
 msgstr "下划线"
 
 #. PrintPreviewDlg..Caption
-#: dlgSynPrintPreview.dfm
+#. DocForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
+#. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
+#: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Print Preview"
 msgstr "打印预览"
 
@@ -2290,7 +2258,7 @@ msgstr "隐藏控制台(&H)"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
 msgid "Use the UTF8 encoding for stdin/stdout"
-msgstr "使用 UTF8 編碼作為標準的輸入/輸出 stdin/stdout"
+msgstr "使用 UTF8 编码作为标准的输入/输出"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
@@ -2376,7 +2344,7 @@ msgstr "保存|保存激活的文件"
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
 msgid "Sav&e As..."
-msgstr "&e保存為..."
+msgstr "保存为..."
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
@@ -2525,7 +2493,7 @@ msgstr "置换(&R)"
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr "替換|搜尋及替換"
+msgstr "替换|查找并替换"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2732,7 +2700,7 @@ msgstr "跳到第一个语法错误位置"
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "Find &in Files..."
-msgstr "&i在檔案內找找尋..."
+msgstr "在文件里寻找..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
@@ -2933,7 +2901,7 @@ msgstr "确认是否有PyScripter的新版本"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "Unit Test &Wizard..."
-msgstr "&W 單元測試精靈"
+msgstr "单元测试向导(W)"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
@@ -2998,7 +2966,7 @@ msgstr "使用UTF-16LE编码"
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
 msgid "Re&load"
-msgstr "&l重新載入"
+msgstr "&l重新载入"
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
@@ -3044,7 +3012,7 @@ msgstr "语法高亮的导出"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr "替換現時設定"
+msgstr "替换当前设置"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -3063,8 +3031,8 @@ msgstr "词折行"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
-msgid "Turn word wrap on/off (incompatible with code folding)"
-msgstr ""
+msgid "Turn word wrap on/off"
+msgstr "词折行的on/off切换"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
@@ -3129,7 +3097,7 @@ msgstr "复制当前文件的文件名到剪贴板"
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit &Startup Scripts"
-msgstr "&編輯起動腳本程式"
+msgstr "编辑启动脚本"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3309,12 +3277,12 @@ msgstr "捐赠 PyScripter 项目"
 #. CommandsDataModule..actlMain..actToolsRestartLS..Caption
 #: dmCommands.dfm
 msgid "Restart &Language Server"
-msgstr ""
+msgstr "重启所有语言服务"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Hint
 #: dmCommands.dfm
 msgid "Restart the Language Server"
-msgstr ""
+msgstr "重启本语言服务"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
@@ -3326,54 +3294,54 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Category
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Category
 #. CommandsDataModule..actlMain..actSynSpellErrorDelete..Category
-#: dmCommands.dfm dmCommands.pas
-msgid "Spell Checking"
-msgstr ""
+#: dmCommands.dfm
+msgid "Spell Check"
+msgstr "拼写检查"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Caption
 #: dmCommands.dfm
 msgid "Check File"
-msgstr ""
+msgstr "检查文件"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Caption
 #: dmCommands.dfm
 msgid "Check Line"
-msgstr ""
+msgstr "检查行"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckSelection..Caption
 #: dmCommands.dfm
 msgid "Check Selection"
-msgstr ""
+msgstr "检查所选"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckWord..Caption
 #: dmCommands.dfm
 msgid "Check Word"
-msgstr ""
+msgstr "检查单词"
 
 #. CommandsDataModule..actlMain..actSynSpellClearErrors..Caption
 #: dmCommands.dfm
 msgid "Clear Errors"
-msgstr ""
+msgstr "清除错误"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Caption
 #: dmCommands.dfm
 msgid "Check As You Type"
-msgstr ""
+msgstr "输入时检查"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Caption
 #: dmCommands.dfm
 msgid "Ignore Once"
-msgstr ""
+msgstr "忽略一次"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Caption
 #: dmCommands.dfm
 msgid "Ignore"
-msgstr ""
+msgstr "忽略"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorDelete..Caption
 #: dmCommands.dfm
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
@@ -3593,7 +3561,7 @@ msgstr "清除输出"
 #. OutputWindow..OutputActions..actToolTerminate..Caption
 #: frmCommandOutput.dfm
 msgid "&Terminate"
-msgstr "強制终止(&T)"
+msgstr "强制终止(&T)"
 
 #. OutputWindow..OutputActions..actToolTerminate..Hint
 #: frmCommandOutput.dfm
@@ -3601,15 +3569,12 @@ msgid "Terminate running tool (unsafe)"
 msgstr "终止运行中的工具(不安全)"
 
 #. DisForm..Caption
-#. Programmer's name for it: SDisassemblyTab
-#: frmDisassemlyView.dfm StringResources.pas
-msgid "Disassembly"
-msgstr "反编译"
+#: frmDisassemlyView.dfm
+msgid "Disassembly View"
+msgstr "反编译视图"
 
 #. DocForm..Caption
-#. Programmer's name for it: SyntaxElementFriendlyName_Documentation
-#. Programmer's name for it: SDocTab
-#: frmDocView.dfm StringResources.pas
+#: frmDocView.dfm
 msgid "Documentation"
 msgstr "文档"
 
@@ -3628,9 +3593,8 @@ msgid "Go Forward"
 msgstr "往前"
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
-#. RegExpTesterWindow..BGPanel..FGPanel..StatusBar..lbStatusBar..ImageName
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
-#: frmDocView.dfm frmRegExpTester.dfm frmWebPreview.dfm
+#: frmDocView.dfm frmWebPreview.dfm
 msgid "Stop"
 msgstr "停止"
 
@@ -3672,13 +3636,13 @@ msgid "Close active tab"
 msgstr "关闭激活的页式窗口"
 
 #. EditorForm..pmnuEditor..mnSourceCode..Caption
-#: frmEditor.dfm
+#: frmEditor.dfm frmEditor.pas
 msgid "Source Code"
 msgstr "源代码"
 
 #. EditorForm..pmnuEditor..mnSearch..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: frmEditor.dfm frmRegExpTester.dfm
+#: frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
 msgid "Search"
 msgstr "查找"
 
@@ -3686,15 +3650,15 @@ msgstr "查找"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSpelling..Caption
 #: frmEditor.dfm frmPyIDEMain.dfm
 msgid "Spelling"
-msgstr ""
+msgstr "拼写"
 
 #. EditorForm..pmnuEditor..mnFold..Caption
-#: frmEditor.dfm
+#: frmEditor.dfm frmEditor.pas
 msgid "Fold"
 msgstr "折叠"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
-#: frmEditor.dfm
+#: frmEditor.dfm frmEditor.pas
 msgid "Unfold"
 msgstr "展开"
 
@@ -3859,7 +3823,7 @@ msgstr "创建新目录"
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
 msgid "Select Directory..."
-msgstr ""
+msgstr "选择目录"
 
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
@@ -4239,7 +4203,7 @@ msgstr "追加新的子目录"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr ""
+msgstr "删除文件，目录或运行项目设置"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4360,7 +4324,7 @@ msgstr "Python引擎类型"
 #. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
 #: frmPyIDEMain.dfm
 msgid "Text position"
-msgstr ""
+msgstr "文档位置"
 
 #. PyIDEMainForm..StatusBar..spiStatusLED..Hint
 #. PyIDEMainForm..StatusBar..spiLspLed..Hint
@@ -4494,7 +4458,7 @@ msgstr "用户工具条|显示/隐藏用户工具条"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
 msgid "IDE &Windows"
-msgstr ""
+msgstr "编辑器窗口"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
@@ -4504,7 +4468,7 @@ msgstr "调试窗口(&D)"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
 msgid "Navi&gate"
-msgstr ""
+msgstr "导航"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -4531,43 +4495,43 @@ msgstr "语言 (Language)"
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Hint
 #: frmPyIDEMain.dfm
 msgid "Layouts"
-msgstr "布置"
+msgstr "布局"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Caption
 #. PyIDEMainForm..actlStandard..actLayoutSave..Caption
 #: frmPyIDEMain.dfm
 msgid "Save Layout..."
-msgstr "保存布置..."
+msgstr "保存布局..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Hint
 #. PyIDEMainForm..actlStandard..actLayoutSave..Hint
 #: frmPyIDEMain.dfm
 msgid "Save Current Layout"
-msgstr "保存现在的布置"
+msgstr "保存现在的布局"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Caption
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Caption
 #: frmPyIDEMain.dfm
 msgid "Delete Layouts..."
-msgstr "删除布置..."
+msgstr "删除布局..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Hint
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Hint
 #: frmPyIDEMain.dfm
 msgid "Delete a layout"
-msgstr "删除布置"
+msgstr "删除布局"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Caption
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Caption
 #: frmPyIDEMain.dfm
 msgid "Set Debug Layout"
-msgstr "设定调试布置"
+msgstr "设定调试布局"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Hint
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Hint
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
-msgstr "把現在的布置社为调试布置"
+msgstr "把当前布局设为调试布局"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4764,7 +4728,7 @@ msgstr "语法检查(&S)"
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
 #: frmPyIDEMain.dfm
 msgid "Syntax Check|Perform syntax check and load scripts"
-msgstr "语法检查|进行语法检查并装载脚本"
+msgstr "语法检查|进行语法检查并加载脚本"
 
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
@@ -4784,7 +4748,7 @@ msgstr "设定命令行参数"
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
 msgid "Import &Module"
-msgstr ""
+msgstr "导入多个模块"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
@@ -4834,7 +4798,7 @@ msgstr "退出"
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Status &Bar"
-msgstr "狀態列(&B)"
+msgstr "状态栏"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -4849,7 +4813,7 @@ msgstr "外部运行|在外部Python解释器里运行激活的模块"
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
 msgid "Configure &External Run..."
-msgstr ""
+msgstr "设置&外部运行"
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
@@ -4978,7 +4942,7 @@ msgstr "切换断点"
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmPyIDEMain.dfm
 msgid "Clear A&ll Breakpoints"
-msgstr ""
+msgstr "清除所有断点"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
@@ -5060,7 +5024,7 @@ msgstr "To Do 列表的显示/隐藏"
 #. PyIDEMainForm..actlStandard..actViewFindResults..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &in Files Results"
-msgstr ""
+msgstr "文件内查找的结果"
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Hint
 #: frmPyIDEMain.dfm
@@ -5101,7 +5065,7 @@ msgstr "查找识别符的定义"
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
 msgid "Find R&eferences"
-msgstr ""
+msgstr "查找参考"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
@@ -5417,9 +5381,8 @@ msgstr "垂直分隔工作空间"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
-msgid ""
-"Split workspace vertically|Show secondary editor tabset vertically aligned"
-msgstr "垂直拆分工作区|辅助编辑器选项卡集垂直对齐 "
+msgid "Split workspace vertically|Show secondary editor tabset vertically aligned"
+msgstr "垂直拆分工作区|辅助编辑器选项卡集垂直对齐"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
@@ -5428,8 +5391,7 @@ msgstr "水平分割工作空间"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor....Hint
 #: frmPyIDEMain.dfm
-msgid ""
-"Split workspace horizontally|Show secondary workspace horizontally aligned"
+msgid "Split workspace horizontally|Show secondary workspace horizontally aligned"
 msgstr "垂直拆分工作区|辅助编辑器选项卡集水平对齐 "
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
@@ -5468,16 +5430,6 @@ msgstr "打开远程文件"
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
 msgstr "使用SSH打开远程文件"
-
-#. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
-#: frmPyIDEMain.dfm
-msgid "&Reset Zoom"
-msgstr ""
-
-#. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
-#: frmPyIDEMain.dfm
-msgid "Reset the font size of the editor to its default"
-msgstr ""
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -5528,7 +5480,7 @@ msgstr "粘贴裁剪板的文本和添加的解释器提示"
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expressions"
-msgstr "正規表現"
+msgstr "正则表达式"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TiClear..Hint
 #: frmRegExpTester.dfm
@@ -5820,7 +5772,7 @@ msgstr "清除所有的监视式"
 #. WebPreviewForm..Caption
 #: frmWebPreview.dfm
 msgid "Web Preview"
-msgstr ""
+msgstr "Web预览"
 
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
@@ -5966,14 +5918,6 @@ msgid "Advanced Search and replace"
 msgstr "高级查找替换"
 
 #: cTools.pas
-msgid "Format Selection"
-msgstr ""
-
-#: cTools.pas
-msgid "Format selected code using the \"black\" module"
-msgstr ""
-
-#: cTools.pas
 msgid "Sort Selection"
 msgstr "排序选择的区域"
 
@@ -5990,10 +5934,7 @@ msgid "Re-indent the active file"
 msgstr "重新缩进活动文件"
 
 #: dlgAboutPyScripter.pas
-msgid ""
-"Special thanks to the many great developers who,with their amazing work, "
-"have made PyScripter possible. PyScripter makes use of the following "
-"components and projects:"
+msgid "Special thanks to the many great developers who,with their amazing work, have made PyScripter possible. PyScripter makes use of the following components and projects:"
 msgstr "特别要感谢许多伟大的开发人员，他们的出色工作，使pyscripter成为可能。pyscripter使用以下组件和项目："
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
@@ -6079,9 +6020,9 @@ msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
-"許許多多的捐贈給了這個項目強大的激勵\n"
-"特別感謝Tranquil IT (https://www.tranquil.it) 連續不斷地支持\n"
-"還有WAPT(apt-get for Windows) (https://www.wapt.fr) 的作者."
+"许许多多的捐贈給了这个项目强大的激励\n"
+"特別感謝Tranquil IT (https://www.tranquil.it) 连续不断地支持\n"
+"还有WAPT(apt-get for Windows) (https://www.wapt.fr) 的作者."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6161,12 +6102,12 @@ msgstr "选择工作目录"
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
 msgid "Print the document on"
-msgstr ""
+msgstr "打印文档"
 
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr "頁面"
+msgstr "页"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
@@ -6174,7 +6115,7 @@ msgstr "“To Do”搜索路径"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
-msgstr ""
+msgstr "外部运行参数"
 
 #: dlgUnitTestWizard.pas frmCodeExplorer.pas
 #, object-pascal-format
@@ -6231,19 +6172,7 @@ msgstr "还原打开的文件"
 
 #: dmCommands.pas
 msgid "Restore open project"
-msgstr ""
-
-#: dmCommands.pas
-msgid "Automatic restart"
-msgstr ""
-
-#: dmCommands.pas
-msgid "Logging enabled"
-msgstr ""
-
-#: dmCommands.pas
-msgid "User Interface content font size in points"
-msgstr ""
+msgstr "恢复已打开项目"
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -6399,15 +6328,11 @@ msgstr "保存文件时去除尾随空格"
 
 #: dmCommands.pas
 msgid "Track changes bar"
-msgstr ""
+msgstr "追踪变化栏"
 
 #: dmCommands.pas
 msgid "Selection color"
-msgstr ""
-
-#: dmCommands.pas
-msgid "Indentation Guides"
-msgstr ""
+msgstr "选择颜色"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
@@ -6482,11 +6407,11 @@ msgstr "允许通过SSH关闭变量窗口"
 
 #: dmCommands.pas frmPyIDEMain.pas
 msgid "Language Server"
-msgstr ""
+msgstr "语言服务器"
 
 #: dmCommands.pas
 msgid "Language server debug output"
-msgstr ""
+msgstr "语言服务器调试输出"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
@@ -6497,16 +6422,20 @@ msgid "Special packages"
 msgstr "特殊包"
 
 #: dmCommands.pas
+msgid "Spell Checking"
+msgstr "拼写检查"
+
+#: dmCommands.pas
 msgid "Dictionary language code"
-msgstr ""
+msgstr "字典语言编码"
 
 #: dmCommands.pas
 msgid "Spell check as you type"
-msgstr ""
+msgstr "在输入时检查语法"
 
 #: dmCommands.pas
 msgid "Spell checked syntax tokens"
-msgstr ""
+msgstr "拼写检查语法令牌"
 
 #: dmCommands.pas
 msgid "Modifiers"
@@ -6558,11 +6487,11 @@ msgstr "已定义类属性 \"%s\" 行号 %d"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
-msgstr ""
+msgstr "文件管理过滤"
 
 #: frmFileExplorer.pas
 msgid "Enter Filter:"
-msgstr ""
+msgstr "输入过滤条件："
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
@@ -6638,7 +6567,7 @@ msgstr "Python 不可用"
 
 #: frmPyIDEMain.pas
 msgid "Not available"
-msgstr ""
+msgstr "不存在"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
@@ -6666,11 +6595,11 @@ msgstr "文档字符串"
 
 #: frmWatches.pas
 msgid "Edit Watch"
-msgstr "觀察編輯"
+msgstr "编辑观察"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr "輸入新表達式:"
+msgstr "输入新表达式:"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
@@ -6690,8 +6619,7 @@ msgstr ""
 
 #. Programmer's name for it: sXMLFileFilter
 #: StringResources.pas
-msgid ""
-"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
+msgid "XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
 msgstr ""
 
 #. Programmer's name for it: sCSSFileFilter
@@ -6701,9 +6629,7 @@ msgstr ""
 
 #. Programmer's name for it: sCPPFileFilter
 #: StringResources.pas
-msgid ""
-"C/C++ Files "
-"(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
+msgid "C/C++ Files (*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
 msgstr ""
 
 #. Programmer's name for it: sYAMLFileFilter
@@ -6725,156 +6651,6 @@ msgstr ""
 #: StringResources.pas
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
-
-#. Syntax element friendly names
-#. Programmer's name for it: SyntaxElementFriendlyName_Anchor
-#: StringResources.pas
-msgid "Anchor"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Assembler
-#: StringResources.pas
-msgid "Assembler"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Attribute
-#: StringResources.pas
-msgid "Attribute"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Brackets
-#: StringResources.pas
-msgid "Brackets"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Character
-#: StringResources.pas
-msgid "Character"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Directive
-#: StringResources.pas
-msgid "Directive"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_DocumentDelimiter
-#: StringResources.pas
-msgid "Document Delimiter"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Float
-#: StringResources.pas
-msgid "Float"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Hexadecimal
-#: StringResources.pas
-msgid "Hexadecimal"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Identifier
-#: StringResources.pas
-msgid "Identifier"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_IllegalChar
-#: StringResources.pas
-msgid "Illegal Char"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Key
-#: StringResources.pas
-msgid "Key"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_NonReservedKeyword
-#: StringResources.pas
-msgid "Non-reserved Keyword"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Number
-#: StringResources.pas
-msgid "Number"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_NumericValue
-#: StringResources.pas
-msgid "Numeric Value"
-msgstr "数值"
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Octal
-#: StringResources.pas
-msgid "Octal"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Preprocessor
-#: StringResources.pas
-msgid "Preprocessor"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_ReservedWord
-#: StringResources.pas
-msgid "Reserved Word"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Section
-#: StringResources.pas
-msgid "Section"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Space
-#: StringResources.pas
-msgid "Space"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_String
-#: StringResources.pas
-msgid "String"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Symbol
-#: StringResources.pas
-msgid "Symbol"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_SyntaxError
-#. Programmer's name for it: SSyntaxError
-#: StringResources.pas
-msgid "Syntax Error"
-msgstr "语法错误"
-
-#. Programmer's name for it: SyntaxElementFriendlyName_System
-#: StringResources.pas
-msgid "System Functions and Variables"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Tag
-#: StringResources.pas
-msgid "Tag"
-msgstr "标签"
-
-#. Programmer's name for it: SyntaxElementFriendlyName_Text
-#: StringResources.pas
-msgid "Text"
-msgstr ""
-
-#. Programmer's name for it: SyntaxElementFriendlyName_TextValue
-#: StringResources.pas
-msgid "Text Value"
-msgstr ""
-
-#. Editor scroll hints
-#. Programmer's name for it: sEditorScrollInfo
-#: StringResources.pas
-#, object-pascal-format
-msgid "Top Line: %d"
-msgstr ""
-
-#. Programmer's name for it: sPrintPreviewScrollInfo
-#: StringResources.pas
-#, object-pascal-format
-msgid "Page: %d"
-msgstr ""
 
 #. Needs to be manually updated as new editor commands are added
 #. Programmer's name for it: SEdCmdAutoCompletion
@@ -6970,7 +6746,7 @@ msgstr "删除单词"
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
 msgid "Down"
-msgstr "下"
+msgstr "向下"
 
 #. Programmer's name for it: SEdCmdEditorBottom
 #: StringResources.pas
@@ -7375,7 +7151,7 @@ msgstr "展开范围"
 #. Programmer's name for it: SEdCmdUp
 #: StringResources.pas
 msgid "Up"
-msgstr "上"
+msgstr "向上"
 
 #. Programmer's name for it: SEdCmdUpperCase
 #: StringResources.pas
@@ -7399,14 +7175,14 @@ msgstr "参数完成"
 
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
-msgid "Select Match Bracket"
-msgstr ""
+msgid "Select to Bracket"
+msgstr "选择到括号"
 
 #. Delphi dialogs (from Vcl.Consts)
 #. Programmer's name for it: srNone
 #: StringResources.pas
 msgid "(None)"
-msgstr ""
+msgstr "(无)"
 
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
@@ -7466,12 +7242,12 @@ msgstr "全部选是"
 #. Programmer's name for it: STrueValue
 #: StringResources.pas
 msgid "True"
-msgstr "对"
+msgstr "是"
 
 #. Programmer's name for it: SFalseValue
 #: StringResources.pas
 msgid "False"
-msgstr "错"
+msgstr "否"
 
 #. Programmer's name for it: SDSActkShowText
 #: StringResources.pas
@@ -7498,8 +7274,8 @@ msgstr "\"%s\" 没找到"
 #. Programmer's name for it: SItemsReplaced
 #: StringResources.pas
 #, object-pascal-format
-msgid "%d items found and %d items replaced"
-msgstr ""
+msgid "%d items found and %d\" items replaced"
+msgstr "找到了 %d 个项目并替换了 %d\" 项目"
 
 #. Programmer's name for it: SNotAvailable
 #: StringResources.pas
@@ -7563,10 +7339,9 @@ msgstr "内部Python解释器不可用"
 
 #. Programmer's name for it: SPythonLoadError
 #: StringResources.pas
-#, object-pascal-format
 msgid ""
 "PyScripter could not load a Python engine.\n"
-"**Before** using PyScripter, you must ensure that a version of Python greater or equal to %s is installed on your machine.\n"
+"**Before** using PyScripter, you must ensure that a version of Python greater or equal to 3.6 is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
 "The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
@@ -7638,9 +7413,7 @@ msgstr "不能把現在的目录设道脚本路径"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
-msgid ""
-"You cannot compile, import or run modules while debugging or running "
-"programs"
+msgid "You cannot compile, import or run modules while debugging or running programs"
 msgstr "在调试或运行程序时不能编译、导入或运行模块。"
 
 #. Programmer's name for it: SErrorInImportingModule
@@ -7676,9 +7449,7 @@ msgstr "创建远程解释器时出错："
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas
-msgid ""
-"Could not connect to the remote Python engine server. The remote interpreter"
-" and debugger is not available."
+msgid "Could not connect to the remote Python engine server. The remote interpreter and debugger is not available."
 msgstr "不能连接到远程Python引擎服务器。远程解释器与调试器不能使用。"
 
 #. Programmer's name for it: SRemoteInterpreterInit
@@ -7713,10 +7484,7 @@ msgstr "不能插入由空白字符构成的字段"
 #. Programmer's name for it: SAccessAppDataDir
 #: StringResources.pas
 #, object-pascal-format
-msgid ""
-"Pyscripter needs access to the User Application Data directory: \"%s\". "
-"Certain features such as remote debugging will not function properly "
-"otherwise."
+msgid "Pyscripter needs access to the User Application Data directory: \"%s\". Certain features such as remote debugging will not function properly otherwise."
 msgstr ""
 
 #. Programmer's name for it: SNotAValidNumber
@@ -7794,17 +7562,13 @@ msgstr "不能打开/生成输出文件 %s "
 #. Programmer's name for it: SUnknownPythonVersion
 #: StringResources.pas
 #, object-pascal-format
-msgid ""
-"PyScripter can't use command line parameter PYTHON%s because it doesn't know"
-" this version of Python."
+msgid "PyScripter can't use command line parameter PYTHON%s because it doesn't know this version of Python."
 msgstr "由于不知道Python的版本，PyScripter不能使用命令行参数PYTHON%s。"
 
 #. Programmer's name for it: SUnsupportedPythonVersion
 #: StringResources.pas
 #, object-pascal-format
-msgid ""
-"PyScripter can't use command line parameter PYTHON%s because it was compiled"
-" for Python %s or later."
+msgid "PyScripter can't use command line parameter PYTHON%s because it was compiled for Python %s or later."
 msgstr "由于是为Python %s 或以后的版本编译的PyScripter不能使用命令行参数PYTHON%s。"
 
 #. Programmer's name for it: SAbortDebugging
@@ -7842,11 +7606,8 @@ msgstr "变更的文件已被装载"
 
 #. Programmer's name for it: SFileReloadWarning
 #: StringResources.pas
-msgid ""
-"The following files have been changed on disk. Select the files that you "
-"wish to reload and press the OK button. Please note that you will lose all "
-"changes to these files."
-msgstr ""
+msgid "The following files have been changed on disk. Select the files that you wish to reload and press the OK button. Please note that you will lose all changes to these files."
+msgstr "下列文件已经在硬盘上发生改变。选择你希望想重新加载的文件并按OK按钮。请注意你将丢失所有更改。"
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -7858,16 +7619,21 @@ msgstr "脚本运行OK"
 msgid "Debugging Aborted"
 msgstr "调试被终止"
 
+#. Programmer's name for it: SSyntaxError
+#: StringResources.pas
+msgid "Syntax Error"
+msgstr "语法错误"
+
 #. Programmer's name for it: StrCertainty
 #: StringResources.pas
 #, object-pascal-format
 msgid " Certainty %s%%"
-msgstr ""
+msgstr "确定 %s%%"
 
 #. Programmer's name for it: SReferencesNotFound
 #: StringResources.pas
 msgid " References not found"
-msgstr ""
+msgstr "参考未找到"
 
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
@@ -7882,12 +7648,12 @@ msgstr "\"的定义"
 #. Programmer's name for it: SDefinitionFound
 #: StringResources.pas
 msgid " Definition found"
-msgstr ""
+msgstr "定义已找到"
 
 #. Programmer's name for it: SDefinitionNotFound
 #: StringResources.pas
 msgid " Definition not found"
-msgstr ""
+msgstr "定义没找到"
 
 #. Programmer's name for it: SSyntaxIsOK
 #: StringResources.pas
@@ -7904,7 +7670,7 @@ msgstr "模块%s已成功导入!"
 #. Programmer's name for it: SResumeCaption
 #: StringResources.pas
 msgid "Resume"
-msgstr "再开"
+msgstr "恢复运行"
 
 #. Programmer's name for it: SResumeHint
 #: StringResources.pas
@@ -7950,7 +7716,7 @@ msgstr "打开工程"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Apply %s layout"
-msgstr "应用%s布置"
+msgstr "应用%s布局"
 
 #. Programmer's name for it: SUseSyntax
 #: StringResources.pas
@@ -7973,12 +7739,12 @@ msgstr "把主题设为\"%s\"。"
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas
 msgid "Save current Layout"
-msgstr "保存现在的布置"
+msgstr "保存现在的布局"
 
 #. Programmer's name for it: SLayoutName
 #: StringResources.pas
 msgid "Layout Name:"
-msgstr "布置名:"
+msgstr "布局名:"
 
 #. Programmer's name for it: SEditBreakpointCond
 #: StringResources.pas
@@ -7993,12 +7759,12 @@ msgstr "输入Python表达式:"
 #. Programmer's name for it: SDeleteLayouts
 #: StringResources.pas
 msgid "Delete Layouts"
-msgstr "删除布置"
+msgstr "删除布局"
 
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas
 msgid "Please select the layouts you want to delete and press the OK button:"
-msgstr "选择要删除的布置后按OK按纽:"
+msgstr "选择要删除的布局后按OK按纽:"
 
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
@@ -8042,6 +7808,11 @@ msgstr "反编译(&A)"
 msgid "Disassembly|Disassembly View"
 msgstr "反编译|反编译视图"
 
+#. Programmer's name for it: SDisassemblyTab
+#: StringResources.pas
+msgid "Disassembly"
+msgstr "反编译"
+
 #. Programmer's name for it: SDocumentationHint
 #: StringResources.pas
 msgid "Documentation|Generate HTML documentation"
@@ -8051,6 +7822,11 @@ msgstr "文档|生成HTML文档"
 #: StringResources.pas
 msgid "&Documentation"
 msgstr "文档(&D)"
+
+#. Programmer's name for it: SDocTab
+#: StringResources.pas
+msgid "Doc"
+msgstr "文档"
 
 #. Programmer's name for it: SWebPreviewHint
 #: StringResources.pas
@@ -8092,13 +7868,6 @@ msgid ""
 msgstr ""
 "“jupyter”包不可用。 \n"
 "请先安装“jupyter”。"
-
-#. Programmer's name for it: SWebView2Error
-#: StringResources.pas
-msgid ""
-"The WebView2 control creation failed.\n"
-"Please install the WebView2 runtime"
-msgstr ""
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
@@ -8247,9 +8016,7 @@ msgstr "%5d个匹配"
 
 #. Programmer's name for it: SGrepActive
 #: StringResources.pas
-msgid ""
-"A Grep search is currently active; either abort it or wait until it is "
-"finished."
+msgid "A Grep search is currently active; either abort it or wait until it is finished."
 msgstr "Grep查找现在正激活；中止或者等到它结束。"
 
 #. Programmer's name for it: SGrepSearchStats
@@ -8405,13 +8172,13 @@ msgstr ""
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
 #: StringResources.pas
-msgid "Enter parameter value"
-msgstr "输入参数值"
+msgid "Parameter replacement"
+msgstr "置换后的参数"
 
 #. Programmer's name for it: SEnterParameterText
 #: StringResources.pas
-msgid "Parameter value"
-msgstr ""
+msgid "Enter parameter value"
+msgstr "输入参数值"
 
 #. Programmer's name for it: SParamCircularReference
 #: StringResources.pas
@@ -8465,12 +8232,6 @@ msgstr "无效的条件格式"
 #, object-pascal-format
 msgid "Duplicate Modifier \"%s\""
 msgstr "复制修饰符\"%s\""
-
-#. Tools
-#. Programmer's name for it: SPackageName
-#: StringResources.pas
-msgid "Package Name"
-msgstr ""
 
 #. Refactoring
 #. Programmer's name for it: SCouldNotLoadModule
@@ -8700,61 +8461,18 @@ msgstr ""
 #. Programmer's name for it: SSHVersionMismatch
 #: StringResources.pas
 #, object-pascal-format
-msgid ""
-"Local Python version is %s and remote Python version is %s. To use this SSH "
-"server please switch to Python version %1:s."
+msgid "Local Python version is %s and remote Python version is %s. To use this SSH server please switch to Python version %1:s."
 msgstr "本地Python版本是%s远程 Python版本是%s。连接SSH服务器请切换Python版本至%1:s。"
-
-#. Missing action categories
-#. Programmer's name for it: SActionCategoryFile
-#: StringResources.pas
-msgid "File"
-msgstr ""
-
-#. Programmer's name for it: SActionCategoryView
-#: StringResources.pas
-msgid "View"
-msgstr ""
-
-#. Programmer's name for it: SActionCategoryRun
-#: StringResources.pas
-msgid "Run"
-msgstr ""
-
-#. Programmer's name for it: SActionCategoryProject
-#: StringResources.pas
-msgid "Project"
-msgstr ""
-
-#. Programmer's name for it: SActionCategoryDebugWindows
-#: StringResources.pas
-msgid "Debug Windows"
-msgstr ""
-
-#. Programmer's name for it: SActionCategoryIDENavigation
-#: StringResources.pas
-msgid "IDE Navigation"
-msgstr ""
-
-#. Programmer's name for it: SActionCategoryRefactoring
-#: StringResources.pas
-msgid "Refactoring"
-msgstr ""
-
-#. Programmer's name for it: SActionCategoryInterpreter
-#: StringResources.pas
-msgid "Interpreter"
-msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
 msgid "Commented Code"
-msgstr ""
+msgstr "注释代码"
 
 #. Programmer's name for it: SYNS_FriendlyClassName
 #: SynHighlighterPython.pas
 msgid "Class Name"
-msgstr ""
+msgstr "类名"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
@@ -8775,25 +8493,55 @@ msgstr "多行字符串"
 #. Programmer's name for it: SYNS_FriendlyAttrBanner
 #: SynHighlighterPython.pas
 msgid "Banner"
-msgstr ""
+msgstr "横幅"
 
 #. Programmer's name for it: SYNS_AttrTraceback
 #. Programmer's name for it: SYNS_FriendlyAttrTraceback
 #: SynHighlighterPython.pas
 msgid "Traceback"
-msgstr ""
+msgstr "回溯"
 
 #. Programmer's name for it: SYNS_AttrPrompt
 #. Programmer's name for it: SYNS_FriendlyAttrPrompt
 #: SynHighlighterPython.pas
 msgid "Prompt"
-msgstr ""
+msgstr "命令提示符"
 
 #. Programmer's name for it: SYNS_AttrSystemCmd
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
 #: SynHighlighterPython.pas
 msgid "System Command"
 msgstr "系统命令"
+
+#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
+#: SynHighlighterYAML.pas
+msgid "Document Delimiter"
+msgstr "文档分隔符"
+
+#. Programmer's name for it: SYNS_FriendlyAttrKey
+#: SynHighlighterYAML.pas
+msgid "Key"
+msgstr "键"
+
+#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
+#: SynHighlighterYAML.pas
+msgid "Numeric Value"
+msgstr "数值"
+
+#. Programmer's name for it: SYNS_FriendlyAttrTextValue
+#: SynHighlighterYAML.pas
+msgid "Text Value"
+msgstr "文本值"
+
+#. Programmer's name for it: SYNS_FriendlyAttrTag
+#: SynHighlighterYAML.pas
+msgid "Tag"
+msgstr "标签"
+
+#. Programmer's name for it: SYNS_FriendlyAttrAnchor
+#: SynHighlighterYAML.pas
+msgid "Anchor"
+msgstr "锚"
 
 #. Python Paths etc.
 #: uParams.pas
@@ -9023,45 +8771,39 @@ msgstr "活动文档中的已选定文本"
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
 #: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
 msgid "Toolbars"
-msgstr "工具列"
-
-#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..Caption
-msgid "Commands"
-msgstr ""
+msgstr "工具栏"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
 #: SpTBXCustomizerForm.dfm:125
-msgid ""
-"To add command buttons, drag and drop commands onto a toolbar. To remove "
-"command buttons, drag them off the toolbar and drop them on the commands "
-"list."
-msgstr ""
+msgid "To add command buttons, drag and drop commands onto a toolbar. To remove command buttons, drag them off the toolbar and drop them on the commands list."
+msgstr "添加命令按钮，拖放命令到工具栏。移除命令按钮，拖离工具栏放在命令列表上。"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:174
 msgid "Icons + Selective Text"
-msgstr ""
+msgstr "图标 + 选择的文本"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:175
 msgid "Icons"
-msgstr ""
+msgstr "图标"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:176
 msgid "Icons + Text"
-msgstr ""
+msgstr "图标 + 文本"
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:177
+msgid "Text"
+msgstr "文本"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
 msgid "T&ext Options"
-msgstr ""
+msgstr "文本选项"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
 #: SpTBXCustomizerForm.dfm:212
 msgid "&Visible"
-msgstr ""
-
-#. SpTBXCustomizeForm..ResetButton..Caption
-msgid "&Default Options"
-msgstr ""
+msgstr "可见"

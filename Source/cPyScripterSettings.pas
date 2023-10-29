@@ -396,6 +396,8 @@ type
     class var OptionsFileName: string;
     class var ColorThemesFilesDir: string;
     class var StylesFilesDir: string;
+    class var UserDebugInspectorsDir: string;
+    class var AppDebugInspectorsDir: string;
     class var LspServerPath: string;
     class var RecoveryDir: string;
     class var EngineInitFile: string;
@@ -1144,6 +1146,7 @@ begin
     ColorThemesFilesDir := TPath.Combine(UserDataPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(UserDataPath, 'Styles');
     LspServerPath :=  TPath.Combine(UserDataPath, 'Lib\Lsp');
+    UserDebugInspectorsDir :=  TPath.Combine(UserDataPath, 'Variable Inspectors');
   end else begin
     UserDataPath := TPath.Combine(GetHomePath,  'PyScripter\');
     OptionsFileName := TPath.Combine(UserDataPath, 'PyScripter.ini');
@@ -1154,9 +1157,13 @@ begin
     ColorThemesFilesDir := TPath.Combine(PublicPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(PublicPath, 'Styles');
     LspServerPath :=  TPath.Combine(PublicPath, 'Lsp');
+    UserDebugInspectorsDir :=  TPath.Combine(UserDataPath, 'Variable Inspectors');
+    AppDebugInspectorsDir := TPath.Combine(PublicPath, 'Variable Inspectors');
     // First use setup
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'PyScripter.ini'), OptionsFileName);
   end;
+  ForceDirectories(UserDebugInspectorsDir);
+
   EngineInitFile := TPath.Combine(UserDataPath, 'python_init.py');
   PyScripterInitFile := TPath.Combine(UserDataPath, 'pyscripter_init.py');
   PyScripterLogFile := TPath.Combine(UserDataPath, 'pyscripter.log');

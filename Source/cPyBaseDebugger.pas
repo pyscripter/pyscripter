@@ -61,6 +61,7 @@ type
     GotChildNodes : Boolean;
     GotBufferedValue : Boolean;
     BufferedValue : string;
+    fQualifiedObjectType: string;
     function GetOrCalculateValue : string;
     function GetName : string; virtual; abstract;
     function GetObjectType : string; virtual; abstract;
@@ -87,6 +88,7 @@ type
     property ChildNode[Index : integer] : TBaseNameSpaceItem
       read GetChildNode;
     property PyObject : Variant read fPyObject;
+    property QualifiedObjectType: string read fQualifiedObjectType;
     property ExpandCommonTypes : Boolean read fExpandCommonTypes write fExpandCommonTypes;
     property ExpandSequences : Boolean read fExpandSequences write fExpandSequences;
   end;
@@ -134,6 +136,7 @@ type
     function GetObjectType(Ob : Variant) : string; virtual; abstract;
     function UnitTestResult : Variant; virtual; abstract;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; virtual; abstract;
+    procedure Pickle(AValue: Variant; const FileName: string); virtual; abstract;
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
     property CanDoPostMortem: Boolean read fCanDoPostMortem write fCanDoPostMortem;
