@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2023-06-04 12:06\n"
+"POT-Creation-Date: 2023-10-29 01:12\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2023\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -3412,9 +3412,9 @@ msgstr "Ignora"
 msgid "Delete"
 msgstr "Elimina"
 
-#. CommandsDataModule..SynGeneralSyn..DefaultFilter
+#. ResourcesDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
-#: dmCommands.dfm StringResources.pas
+#: dmResources.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr "File di test (*.txt,*.*)|*.txt;*.*"
 
@@ -4449,7 +4449,7 @@ msgid "&Source Code"
 msgstr "Codice &sorgente"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: frmPyIDEMain.dfm dmCommands.pas
+#: frmPyIDEMain.dfm dmResources.pas
 msgid "Parameters"
 msgstr "Parametri"
 
@@ -6563,16 +6563,16 @@ msgid "Spell checked syntax tokens"
 msgstr "Controllo ortografico token sintassi"
 
 #: dmCommands.pas
-msgid "Modifiers"
-msgstr "Modificatori"
-
-#: dmCommands.pas
 msgid "Configure Tools"
 msgstr "Configura strumenti"
 
 #: dmCommands.pas
 msgid "File download failed"
 msgstr "Scaricamento del file non riuscito"
+
+#: dmResources.pas
+msgid "Modifiers"
+msgstr "Modificatori"
 
 #: frmCodeExplorer.pas
 msgid "Imports"
@@ -8213,6 +8213,11 @@ msgstr ""
 "il dizionario per il codice lingua \"%s\" non è disponibile.\n"
 "Puoi aggiungere dizionari per il controllo ortografico tramite le impostazioni della lingua di Windows.\n"
 "È possibile modificare la lingua attiva tramite la finestra di dialogo delle opzioni IDE."
+
+#. Programmer's name for it: SPickleFailed
+#: StringResources.pas
+msgid "pickle.dump failed"
+msgstr "pickle.dump fallito"
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
