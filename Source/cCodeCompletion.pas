@@ -247,7 +247,16 @@ function TLiveNamespaceCompletionHandler.HandleCodeCompletion(const Line,
   FileName: string; Caret: TBufferCoord; Highlighter: TSynCustomHighlighter;
   HighlighterAttr: TSynHighlighterAttributes; out InsertText,
   DisplayText: string): Boolean;
-Var
+
+  function ToInsertItem(const Name: string; Item : TBaseNameSpaceItem): string;
+  begin
+    if Assigned(Item) and (Item.IsClass or Item.IsFunction or Item.IsMethod) then
+      Result := Name + '()'
+    else
+      Result := Name;
+  end;
+
+var
   I, TmpX, Index, ImageIndex : Integer;
   lookup : string;
   NameSpaceItem : TBaseNameSpaceItem;
@@ -305,9 +314,9 @@ begin
   fNameSpace.CustomSort(ComparePythonIdents);
 
   for I := 0 to fNameSpace.Count - 1 do begin
-    InsertText := InsertText + fNameSpace[I];
-
     NameSpaceItem := fNameSpace.Objects[I] as TBaseNameSpaceItem;
+    InsertText := InsertText + ToInsertItem(fNameSpace[I], NameSpaceItem);
+
     if not Assigned(NameSpaceItem) then
        DisplayText := DisplayText + Format('\Image{%d}\hspace{8}\color{$FF8844}%s',
          [Integer(TCodeImages.Keyword), fNameSpace[I]])

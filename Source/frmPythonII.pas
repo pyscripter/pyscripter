@@ -1189,6 +1189,10 @@ end;
 procedure TPythonIIForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
   const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
 begin
+  if Value.EndsWith('()') then begin
+    SynEdit.CaretX:= SynEdit.CaretX - 1;
+    EndToken:= '(';
+  end;
   if EndToken = '(' then
     TThread.ForceQueue(nil, procedure
     begin
