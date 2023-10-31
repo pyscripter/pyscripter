@@ -560,7 +560,7 @@
           Issues addressed
             #1152, #1155, #1177, #1181, #1182, #1183, #1185, #1186, #1187, #1189
 
-  History:   v 4.3.2
+  History:   v 4.3.3
           New Features
             - Python 3.12 support added
             - Variable Inspectors (#1219)
