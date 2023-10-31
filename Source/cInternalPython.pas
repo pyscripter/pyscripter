@@ -266,15 +266,15 @@ end;
 procedure TInternalPython.InputBoxExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 Var
-  PCaption, PPrompt, PDefault : PWideChar;
+  PCaption, PPrompt, PDefault : PAnsiChar;
   WideS : string;
   Res : Boolean;
 begin
   with PythonEngine do
-    if PyArg_ParseTuple( args, 'uuu:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
-      WideS := PDefault;
+    if PyArg_ParseTuple( args, 'sss:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
+      WideS := UTF8ToUnicodeString(PDefault);
 
-      Res := SyncWideInputQuery(PCaption, PPrompt, WideS);
+      Res := SyncWideInputQuery(UTF8ToUnicodeString(PCaption), UTF8ToUnicodeString(PPrompt), WideS);
       if Res then
         Result := PyUnicode_FromWideChar(PWideChar(WideS), Length(WideS))
       else
@@ -346,10 +346,10 @@ begin
   with PythonEngine do
     if PyArg_ParseTuple( args, 's|sii:messageWrite', @Msg, @FName, @LineNo, @Offset) <> 0 then begin
       if Assigned(FName) then
-        S := string(FName)
+        S := UTF8ToUnicodeString(FName)
       else
         S := '';
-      GI_PyIDEServices.Messages.AddMessage(string(Msg), S, LineNo, Offset);
+      GI_PyIDEServices.Messages.AddMessage(UTF8ToUnicodeString(Msg), S, LineNo, Offset);
       Result := ReturnNone;
     end else
       Result := nil;
@@ -371,7 +371,7 @@ Var
 begin
   with PythonEngine do
     if PyArg_ParseTuple( args, 's:statusWrite', @Msg) <> 0 then begin
-      GI_PyIDEServices.WriteStatusMsg(string(Msg));
+      GI_PyIDEServices.WriteStatusMsg(UTF8ToUnicodeString(Msg));
       Result := ReturnNone;
     end else
       Result := nil;
