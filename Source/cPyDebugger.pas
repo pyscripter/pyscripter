@@ -698,7 +698,7 @@ begin
     //set breakpoints
     SetDebuggerBreakPoints;
 
-    GI_PyControl.ThreadPythonExec(procedure
+    ThreadPythonExec(procedure
     begin
       if RunToCursorLine >= 0 then  // add temp breakpoint
         InternalInterpreter.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);

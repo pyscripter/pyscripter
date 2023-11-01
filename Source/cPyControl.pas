@@ -83,8 +83,6 @@ type
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
-    procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
-      WaitToFinish: Boolean = False; ThreadExecMode : TThreadExecMode = emNewState);
   public
     const MinPyVersion = '3.7';
     const MaxPyVersion = '3.12'; //PYTHON312
@@ -392,12 +390,6 @@ begin
   with Editor.SynEdit do begin
     Result := TPyRegExpr.IsExecutableLine(Lines[ALine-1]);
   end;
-end;
-
-procedure TPythonControl.ThreadPythonExec(ExecuteProc, TerminateProc: TProc;
-  WaitToFinish: Boolean; ThreadExecMode: TThreadExecMode);
-begin
-  InternalThreadPythonExec(ExecuteProc, TerminateProc, WaitToFinish, ThreadExecMode);
 end;
 
 procedure TPythonControl.ToggleBreakpoint(Editor : IEditor; ALine: integer;

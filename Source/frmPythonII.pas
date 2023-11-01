@@ -658,7 +658,7 @@ begin
   AppendText(sLineBreak);
 
   // Call RunSource
-  GI_PyControl.ThreadPythonExec(
+  ThreadPythonExec(
     procedure
     begin
       if GI_PyControl.PythonLoaded and not GI_PyControl.Running then
@@ -776,7 +776,7 @@ begin
               begin
                 SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
                 AppendText(sLineBreak);
-                GI_PyControl.ThreadPythonExec(
+                ThreadPythonExec(
                   procedure
                   begin
                     PyControl.ActiveInterpreter.SystemCommand(GI_PyIDEServices.ReplaceParams(Match.Groups[1].Value));

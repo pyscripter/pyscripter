@@ -927,7 +927,7 @@ begin
   ReturnFocusToEditor := Assigned(Editor);
   GI_PyInterpreter.ShowWindow;
 
-  GI_PyControl.ThreadPythonExec(
+  ThreadPythonExec(
     procedure
     begin
       RPI.run_nodebug(Code);

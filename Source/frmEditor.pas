@@ -1040,7 +1040,7 @@ begin
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
   Source := CleanEOLs(Source);
 
-  GI_PyControl.ThreadPythonExec(procedure
+  ThreadPythonExec(procedure
   begin
     // RunSource
     case PyControl.DebuggerState of
