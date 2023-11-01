@@ -103,6 +103,7 @@ implementation
 uses
   System.Generics.Defaults,
   System.Math,
+  PythonEngine,
   frmVariables,
   frmWatches,
   uCommonFunctions,
@@ -125,6 +126,7 @@ type
 
 procedure TCallStackWindow.UpdateCallStack;
 var
+  Py: IPyEngineAndGIL;
   FirstNode : PVirtualNode;
   FrameData : PFrameData;
   Editor : IEditor;
@@ -133,7 +135,7 @@ begin
     CallStackView.BeginUpdate;
     try
       // OutputDebugString('Call Stack filled');
-      var Py := GI_PyControl.SafePyEngine;
+      Py := SafePyEngine;
       CallStackView.RootNodeCount := fActiveThread.CallStack.Count;  // Fills the View
       CallStackView.ReInitNode(nil, True, True);
     finally
@@ -387,13 +389,14 @@ procedure TCallStackWindow.ThreadChangeNotify(Thread: TThreadInfo;
   end;
 
 var
+  Py: IPyEngineAndGIL;
   Index : integer;
   Node,
   Node1 : PVirtualNode;
   T : TThreadInfo;
 begin
   // OutputDebugString(PChar(Format('status: %d change: %d', [Ord(Thread.Status), Ord(ChangeType)])));
-  var Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   case ChangeType of
     tctAdded:
       begin

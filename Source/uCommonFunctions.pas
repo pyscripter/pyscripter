@@ -1085,7 +1085,7 @@ begin
     if (PyEncoding = '') and (Lines.Count > 1) then
       PyEncoding := ParsePySourceEncoding(Lines[1]);
 
-    with GI_PyControl.SafePyEngine.PythonEngine do begin
+    with SafePyEngine.PythonEngine do begin
       if PyEncoding = '' then
         PyEncoding := SysModule.getdefaultencoding();
       SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
@@ -1221,7 +1221,7 @@ begin
 
     PyWstr := nil;
     try
-      var Py := GI_PyControl.SafePyEngine;
+      var Py := SafePyEngine;
       with Py.PythonEngine do begin
         try
             PyWstr := PyUnicode_Decode(PAnsiChar(FileText),

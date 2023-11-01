@@ -219,7 +219,7 @@ begin
   FreeAndNil(fNameSpace);
   if Assigned(fPyNameSpace) then
   begin
-    var Py := GI_PyControl.SafePyEngine;
+    var Py := SafePyEngine;
     FreeAndNil(fPyNameSpace);
   end;
 end;
@@ -237,7 +237,7 @@ begin
       Result := _(SPythonKeyword)
     else
     begin
-      var Py := GI_PyControl.SafePyEngine;
+      var Py := SafePyEngine;
       Result := GetLineRange(NameSpaceItem.DocString, 1, 20);
     end;
   end;
@@ -279,7 +279,7 @@ begin
   end else
     lookup := '';  // Completion from global namespace
 
-  var Py := GI_PyControl.SafePyEngine;
+  var Py := SafePyEngine;
   if (Index < 0) or (lookup <> '') then begin
     if GI_PyControl.Inactive then
       fPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)

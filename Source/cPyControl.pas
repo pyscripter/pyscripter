@@ -82,7 +82,6 @@ type
     function GetPythonVersion: TPythonVersion;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
-    function SafePyEngine: IPyEngineAndGIL;
     procedure Pickle(AValue: Variant; FileName: string);
     procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
       WaitToFinish: Boolean = False; ThreadExecMode : TThreadExecMode = emNewState);
@@ -434,11 +433,6 @@ begin
     end;
     DoOnBreakpointChanged(Editor, ALine);
   end;
-end;
-
-function TPythonControl.SafePyEngine: IPyEngineAndGIL;
-begin
-  Result := InternalSafePyEngine;
 end;
 
 procedure TPythonControl.SetActiveDebugger(const Value: TPyBaseDebugger);

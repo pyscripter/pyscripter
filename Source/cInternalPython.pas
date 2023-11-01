@@ -66,9 +66,6 @@ type
     property PythonEngine : TPythonEngine read fPythonEngine;
   end;
 
-{ Access the PythonEngine with thread safety}
-function InternalSafePyEngine: IPyEngineAndGIL;
-
 { Executes Python code in a Delphi thread }
 procedure InternalThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
   WaitToFinish: Boolean = False; ThreadExecMode : TThreadExecMode = emNewState);
@@ -422,63 +419,19 @@ begin
   Result := PythonEngine.ReturnNone;
 end;
 
-type
-  TPyEngineAndGIL = class(TInterfacedObject, IPyEngineAndGIL)
-  fPythonEngine: TPythonEngine;
-  fThreadState: PPyThreadState;
-  fGILState: PyGILstate_STATE;
-  private
-    function GetPyEngine: TPythonEngine;
-    function GetThreadState: PPyThreadState;
-  public
-    constructor Create;
-    destructor Destroy; override;
-  end;
-
-{ TPyEngineAndGIL }
-
-constructor TPyEngineAndGIL.Create;
-begin
-  inherited Create;
-  fPythonEngine := GetPythonEngine;
-  fGILState := fPythonEngine.PyGILState_Ensure;
-  fThreadState := fPythonEngine.PyThreadState_Get;
-end;
-
-destructor TPyEngineAndGIL.Destroy;
-begin
-  fPythonEngine.PyGILState_Release(fGILState);
-  inherited;
-end;
-
-function TPyEngineAndGIL.GetPyEngine: TPythonEngine;
-begin
-  Result := fPythonEngine;
-end;
-
-function TPyEngineAndGIL.GetThreadState: PPyThreadState;
-begin
-  Result := fThreadState;
-end;
-
-{ Access the PythonEngine with thread safety}
-function InternalSafePyEngine: IPyEngineAndGIL;
-begin
-  Result := TPyEngineAndGIL.Create
-end;
-
 { TAnonymousPythonThread }
+
 type
-TAnonymousPythonThread = class(TPythonThread)
-private
-  fTerminateProc : TProc;
-  fExecuteProc : TProc;
-  procedure DoTerminate; override;
-public
-  procedure ExecuteWithPython; override;
-  constructor Create(ExecuteProc : TProc; TerminateProc : TProc = nil;
-    Suspended: Boolean = False; AThreadExecMode : TThreadExecMode = emNewState);
-end;
+  TAnonymousPythonThread = class(TPythonThread)
+  private
+    fTerminateProc : TProc;
+    fExecuteProc : TProc;
+    procedure DoTerminate; override;
+  public
+    procedure ExecuteWithPython; override;
+    constructor Create(ExecuteProc : TProc; TerminateProc : TProc = nil;
+      Suspended: Boolean = False; AThreadExecMode : TThreadExecMode = emNewState);
+  end;
 
 constructor TAnonymousPythonThread.Create(ExecuteProc : TProc; TerminateProc : TProc;
     Suspended: Boolean; AThreadExecMode : TThreadExecMode);

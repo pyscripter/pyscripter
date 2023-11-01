@@ -90,6 +90,7 @@ uses
   System.NetEncoding,
   JvJVCLUtils,
   JvGnugettext,
+  PythonEngine,
   StringResources,
   uCommonFunctions,
   cPyControl,
@@ -139,7 +140,7 @@ var
 begin
   if not Assigned(Editor) then Exit;
 
-  Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   Cursor := WaitCursor;
 
   module := PyControl.ActiveInterpreter.ImportModule(Editor);

@@ -114,6 +114,7 @@ uses
   JvGnugettext,
   SynDWrite,
   StringResources,
+  PythonEngine,
   uEditAppIntfs,
   uCommonFunctions,
   dmResources,
@@ -156,7 +157,7 @@ begin
   Data := Node.GetData;
   if Assigned(Data.NameSpaceItem) then
   begin
-    var Py := GI_PyControl.SafePyEngine;
+    var Py := SafePyEngine;
     ChildCount := Data.NameSpaceItem.ChildCount;
   end;
 end;
@@ -165,6 +166,7 @@ procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
 var
+  Py: IPyEngineAndGIL;
   Data, ParentData: PNodeData;
 begin
   Data := Node.GetData;
@@ -180,7 +182,7 @@ begin
     Exit;
   end;
 
-  var Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   if ParentNode = nil then begin
     // Top level
     Assert(Node.Index <= 1);
@@ -329,7 +331,8 @@ begin
 end;
 
 procedure TVariablesWindow.UpdateWindow;
-Var
+var
+  Py: IPyEngineAndGIL;
   CurrentFrame : TBaseFrameInfo;
   SameFrame : boolean;
   RootNodeCount : Cardinal;
@@ -352,7 +355,7 @@ begin
   end else
     VariablesTree.Enabled := True;
 
-  var Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
 
   // Get the selected frame
   CurrentFrame := CallStackWindow.GetSelectedStackFrame;
@@ -425,7 +428,7 @@ begin
   VariablesTree.Clear;
   if Assigned(GlobalsNameSpace) or Assigned(LocalsNameSpace) then
   begin
-    var Py := GI_PyControl.SafePyEngine;
+    var Py := SafePyEngine;
     FreeAndNil(GlobalsNameSpace);
     FreeAndNil(LocalsNameSpace);
   end;
@@ -536,7 +539,7 @@ begin
     AddFormatText(synInfo, _('Namespace') + ': ', [fsBold]);
     AddFormatText(synInfo, NameSpace, [fsItalic]);
     if Assigned(Node) then begin
-      var Py := GI_PyControl.SafePyEngine;
+      var Py := SafePyEngine;
       Data := Node.GetData;
       ObjectName := Data.Name;
       ObjectType := Data.ObjectType;
@@ -583,7 +586,7 @@ begin
     if DebugInspectorsRegister.TryGetValue(Data.NameSpaceItem.QualifiedObjectType, Folder) then
     begin
       // Pickle the value
-      Py := GI_PyControl.SafePyEngine;
+      Py := SafePyEngine;
       var FileName := TPath.Combine(TPyScripterSettings.UserDebugInspectorsDir, 'value.pickle');
       try
         GI_PyControl.Pickle(Data.NameSpaceItem.PyObject, FileName);

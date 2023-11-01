@@ -163,7 +163,7 @@ begin
   end;
   if GI_PyControl.PythonLoaded then
   begin
-    var Py := GI_PyControl.SafePyEngine;
+    var Py := SafePyEngine;
     VarClear(RegExp);
     VarClear(MatchObject);
     MatchList.Clear;
@@ -299,7 +299,7 @@ Var
   Py: IPyEngineAndGIL;
   Index : Integer;
 begin
-  Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   Index := Trunc(SpinMatches.Value);
   if (Index > 0) and (Index <= MatchList.Count) then begin
     GroupsView.Clear;
@@ -331,7 +331,7 @@ begin
 
   Clear;
 
-  Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
 
   re := Import('re');
   Flags := 0;
@@ -437,7 +437,7 @@ Var
   GroupDict, Keys : Variant;
   i : integer;
 begin
-  Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   Assert(VarIsPython(MatchObject) and not VarIsNone(MatchObject));
   Assert(Integer(Node.Index) < len(MatchObject.groups()));
   case Column of
@@ -485,9 +485,10 @@ procedure TRegExpTesterWindow.HighlightMatches;
   end;
 
 var
+  Py: IPyEngineAndGIL;
   VMatch : Variant;
 begin
-  var Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   for VMatch in MatchList do
     HighlightText(VMatch.start(), VMatch.end());
 end;

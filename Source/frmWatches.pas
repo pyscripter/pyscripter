@@ -112,6 +112,7 @@ uses
   Vcl.Clipbrd,
   SynEdit,
   JvGnugettext,
+  PythonEngine,
   StringResources,
   uEditAppIntfs,
   uCommonFunctions,
@@ -147,7 +148,7 @@ destructor TWatchInfo.Destroy;
 begin
   if Assigned(fNS) then
   begin
-    var Py := GI_PyControl.SafePyEngine;
+    var Py := SafePyEngine;
     FreeAndNil(fNS);
   end;
   inherited;
@@ -177,7 +178,7 @@ begin
     Assert(Integer(Node.Index) < fWatchesList.Count);
     if Assigned(Data.NS) then
     begin
-      var Py := GI_PyControl.SafePyEngine;
+      var Py := SafePyEngine;
       ChildCount := Data.NS.ChildCount
     end
     else
@@ -185,7 +186,7 @@ begin
   end
   else
   begin
-    var Py := GI_PyControl.SafePyEngine;
+    var Py := SafePyEngine;
     ParentData := Node.Parent.GetData;
     Assert(Assigned(ParentData.NS));
     Data.NS := ParentData.NS.ChildNode[Node.Index];
@@ -213,14 +214,14 @@ begin
     Data.NS := TWatchInfo(fWatchesList[Node.Index]).fNS;
     if Assigned(Data.NS) then
     begin
-      var Py := GI_PyControl.SafePyEngine;
+      var Py := SafePyEngine;
       ChildCount := Data.NS.ChildCount
     end else
       ChildCount := 0;
   end
   else
   begin
-    var Py := GI_PyControl.SafePyEngine;
+    var Py := SafePyEngine;
     ParentData := ParentNode.GetData;
     Assert(Assigned(ParentData.NS));
     Data.NS := ParentData.NS.ChildNode[Node.Index];
@@ -233,7 +234,7 @@ begin
 
   // Node Text
   if Assigned(Data.NS) then begin
-     var Py := GI_PyControl.SafePyEngine;
+     var Py := SafePyEngine;
      Data.Name := Data.NS.Name;
      Data.ObjectType := Data.NS.ObjectType;
      Data.Value := Data.NS.Value;
@@ -441,7 +442,8 @@ begin
 end;
 
 procedure TWatchesWindow.UpdateWindow(DebuggerState: TDebuggerState);
-Var
+var
+  Py: IPyEngineAndGIL;
   i: Integer;
 begin
   if not GI_PyControl.PythonLoaded or GI_PyControl.Running then begin
@@ -450,7 +452,7 @@ begin
   end else
     WatchesView.Enabled := True;
 
-  var Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   // Clear NameSpace Items
   for i := 0 to fWatchesList.Count - 1 do
     with TWatchInfo(fWatchesList[i]) do

@@ -2113,12 +2113,13 @@ end;
 
 procedure TPyIDEMainForm.actImportModuleExecute(Sender: TObject);
 var
+  Py: IPyEngineAndGIL;
   ActiveEditor : IEditor;
 begin
   ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
 
-  var Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
   var PyModule := PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
   VarClear(PyModule);
 
@@ -2476,7 +2477,8 @@ begin
 end;
 
 procedure TPyIDEMainForm.ApplicationOnIdle(Sender: TObject; var Done: Boolean);
-Var
+var
+  Py: IPyEngineAndGIL;
   i : integer;
 begin
   UpdateStandardActions;
@@ -2496,7 +2498,7 @@ begin
       if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
       try
         // Ignore exceptions here
-        var Py := GI_PyControl.SafePyEngine;
+        Py := SafePyEngine;
         ServeConnection;
       except
       end;

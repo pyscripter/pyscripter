@@ -55,6 +55,7 @@ implementation
 uses
   JvJVCLUtils,
   JvGnugettext,
+  PythonEngine,
   StringResources,
   dmResources,
   cPyScripterSettings,
@@ -92,7 +93,7 @@ begin
   Cursor := WaitCursor;
   Application.ProcessMessages;
 
-  Py := GI_PyControl.SafePyEngine;
+  Py := SafePyEngine;
 
   module := PyControl.ActiveInterpreter.ImportModule(Editor);
   PyControl.ActiveInterpreter.RunSource(Code, '<Getdis>', 'exec');
