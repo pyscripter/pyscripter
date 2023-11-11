@@ -2946,7 +2946,9 @@ end;
 procedure TPyIDEMainForm.CreateWnd;
 begin
   inherited;
+  {$WARN SYMBOL_DEPRECATED OFF}
   WTSRegisterSessionNotification(Handle, NOTIFY_FOR_THIS_SESSION);
+  {$WARN SYMBOL_DEPRECATED ON}
 end;
 
 procedure TPyIDEMainForm.OpenInitialFiles;
@@ -4599,7 +4601,9 @@ end;
 procedure TPyIDEMainForm.WMDestroy(var Message: TWMDestroy);
 begin
   inherited;
+  {$WARN SYMBOL_DEPRECATED OFF}
   WTSUnRegisterSessionNotification(Handle);
+  {$WARN SYMBOL_DEPRECATED ON}
 end;
 
 procedure TPyIDEMainForm.WMEndSession(var Msg: TWMEndSession);
