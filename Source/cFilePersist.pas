@@ -391,16 +391,32 @@ begin
 end;
 
 procedure TPersistFileInfo.GetFileInfo;
-begin
-  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+
+  procedure ProcessTabControl(TabControl : TSpTBXCustomTabControl);
+  var
+    I: Integer;
+    IV: TTBItemViewer;
+    Editor : IEditor;
+    FilePersistInfo : TFilePersistInfo;
   begin
-    if Assigned(Editor) and ((Editor.FileName <> '') or (Editor.RemoteFileName <> '')) then begin
-      var FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
-      fFileInfoList.Add(FilePersistInfo);
-      // We need to do it here before we call StoreApplicationData
-      GI_PyIDEServices.MRUAddEditor(Editor);
+    // Note that the Pages property may have a different order than the
+    // physical order of the tabs
+    for I := 0 to TabControl.View.ViewerCount - 1 do begin
+      IV := TabControl.View.Viewers[I];
+      if IV.Item is TSpTBXTabItem then begin
+        Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
+        if Assigned(Editor) and ((Editor.FileName <> '') or (Editor.RemoteFileName <> '')) then begin
+          FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
+          fFileInfoList.Add(FilePersistInfo);
+          // We need to do it here before we call SaveEnvironement
+          GI_PyIDEServices.MRUAddEditor(Editor);
+        end;
+      end;
     end;
-  end);
+  end;
+begin
+  ProcessTabControl(PyIDEMainForm.TabControl1);
+  ProcessTabControl(PyIDEMainForm.TabControl2);
 end;
 
 { TTabsPersistInfo }
