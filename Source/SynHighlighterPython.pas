@@ -110,7 +110,6 @@ type
     procedure NumberProc;
     procedure SpaceProc;
     procedure PreStringProc;
-    procedure BUStringProc;
     procedure StringProc;
     procedure String2Proc;
     procedure StringEndProc(EndChar: WideChar);
@@ -1084,41 +1083,49 @@ begin
 end;
 
 procedure TSynPythonSyn.PreStringProc;
+// Handle string prefixes
+// Valid prefixes: u, b, r, f, br, rb, rf, fr possibly capitalized
 var
-  temp: WideChar;
+  PrefixLen: Integer;
 begin
-  // Handle Python raw strings
-  // r""
-  temp := FLine[Run + 1];
-  if temp = '''' then
+  PrefixLen := 0;
+  case FLine[Run] of
+    'u', 'U':
+        if CharInSet(FLine[Run + 1], ['"', '''']) then
+          PrefixLen := 1;
+    'b', 'B':
+      case FLine[Run + 1] of
+        '"', '''': PrefixLen := 1;
+        'r', 'R':
+            if CharInSet(FLine[Run + 2], ['"', '''']) then
+              PrefixLen := 2;
+      end;
+    'r', 'R':
+      case FLine[Run + 1] of
+        '"', '''': PrefixLen := 1;
+        'b', 'B', 'f', 'F':
+            if CharInSet(FLine[Run + 2], ['"', '''']) then
+              PrefixLen := 2;
+      end;
+    'f', 'F':
+      case FLine[Run + 1] of
+        '"', '''': PrefixLen := 1;
+        'r', 'R':
+            if CharInSet(FLine[Run + 2], ['"', '''']) then
+              PrefixLen := 2;
+      end;
+  end;
+
+  if PrefixLen > 0 then
   begin
-    Inc (Run);
-    StringProc;
-  end
-  else if temp = '"' then
-  begin
-    Inc (Run);
-    String2Proc;
+    Inc(Run, PrefixLen);
+    if FLine[Run] = '"' then
+      String2Proc
+    else
+      StringProc
   end
   else
-  begin
-    // If not followed by quote char, must be ident
     IdentProc;
-  end; // if
-end;
-
-procedure TSynPythonSyn.BUStringProc;
-begin
-  // Handle Python raw, bytes, and unicode strings
-  // Valid syntax: u"", or ur""
-  if CharInSet(FLine[Run + 1], [WideChar('r'), WideChar('R')]) and
-    CharInSet(FLine[Run + 2], [WideChar(''''), WideChar('"')]) then
-  begin
-    // for ur, Remove the "u" and...
-    Inc (Run);
-  end;
-  // delegate to raw strings
-  PreStringProc;
 end;
 
 procedure TSynPythonSyn.StringProc;
@@ -1295,15 +1302,13 @@ begin
         #13: CRProc;
         '#': CommentProc;
         '>': GreaterProc;
-        'A', 'C'..'Q', 'S', 'T', 'V'..'Z', 'a', 'c'..'q', 's', 't', 'v'..'z', '_': IdentProc;
+        'A', 'C'..'E', 'G'..'Q', 'S', 'T', 'V'..'Z', 'a', 'c'..'e', 'g'..'q', 's', 't', 'v'..'z', '_': IdentProc;
         #10: LFProc;
         '<': LowerProc;
         #0: NullProc;
         '.', '0'..'9': NumberProc;
         #1..#9, #11, #12, #14..#32: SpaceProc;
-        'r', 'R': PreStringProc;
-        'u', 'U': BUStringProc;
-        'b', 'B': BUStringProc;
+        'r', 'R', 'u', 'U', 'b', 'B', 'f', 'F': PreStringProc;
         '''': StringProc;
         '"': String2Proc;
         else if IsIdentChar(fLine[Run]) then IdentProc

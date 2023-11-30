@@ -569,9 +569,14 @@
             - Screen reader support in the editor
           Issues addressed
             #1172, #1195, #1197, #1198, #1199, #1200, #1208, #1210, #1212, #1214,
-            #1221, #1227, #1268, #1269, #1275
+            #1221, #1227, #1268, #1269,
 
-{ TODO : Review Search and Replace }
+  History:   v 4.3.5
+          Issues addressed
+            #1275, #1278
+
+
+ { TODO : Review Search and Replace }
 { TODO : Auto PEP8 tool }
 { TODO: LiveTemplates features for Code Templates }
 
