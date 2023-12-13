@@ -217,6 +217,7 @@ type
     FUserCommand: TSynEditorOptionsUserCommand;
     FAllUserCommands: TSynEditorOptionsAllUserCommands;
     FExtended: Boolean;
+    FColorTheme: String;
 
     procedure GetData;
     procedure PutData;
@@ -238,6 +239,7 @@ type
       read FAllUserCommands
       write FAllUserCommands;
     property UseExtendedStrings: Boolean read FExtended write FExtended;
+    property ColorTheme: String read FColorTheme write FColorTheme;
   end;
 
   TSynHighlighterCountEvent = procedure(Sender:TObject; var Count:integer) of object;
@@ -760,6 +762,7 @@ begin
   finally
     KeyList.Items.EndUpdate;
   end;
+  lbColorThemes.ItemIndex:= lbColorThemes.Items.IndexOf(FColorTheme);
 end;
 
 procedure TfmEditorOptionsDialog.PutData;
@@ -957,6 +960,7 @@ begin
     finally
         AppStorage.Free;
     end;
+    FColorTheme:= lbColorThemes.Items[lbColorThemes.ItemIndex];
   end;
 end;
 
