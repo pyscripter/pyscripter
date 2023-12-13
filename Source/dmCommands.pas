@@ -918,11 +918,13 @@ begin
       OnSetHighlighter := SynEditOptionsDialogSetHighlighter;
       VisiblePages := [soDisplay, soOptions, soKeystrokes, soColor];
       TSynEditOptionsDialog.HighlighterFileDir := TPyScripterSettings.ColorThemesFilesDir;
+      Form.ColorTheme := PyIDEMainForm.AppStorage.ReadString('ColorTheme');
       GetUserCommand := GetEditorUserCommand;
       GetAllUserCommands := GetEditorAllUserCommands;
       UseExtendedStrings := True;
       if Execute(TempEditorOptions) then begin
         UpdateHighlighters;
+        PyIDEMainForm.AppStorage.WriteString('ColorTheme', Form.ColorTheme);
         if Form.cbApplyToAll.Checked then begin
           EditorOptions.Assign(TempEditorOptions);
           ApplyEditorOptions;
