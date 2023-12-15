@@ -1019,6 +1019,13 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Anchors = [akTop, akRight]
             Caption = 'Gutter color:'
           end
+          object lDigits: TLabel
+            Left = 185
+            Top = 40
+            Width = 33
+            Height = 15
+            Caption = 'Digits:'
+          end
           object pnlGutterFontDisplay: TPanel
             Left = 363
             Top = 44
@@ -1054,10 +1061,11 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckGutterAutosize: TCheckBox
             Left = 24
             Top = 38
-            Width = 230
+            Width = 145
             Height = 21
             Caption = 'Autosize'
             TabOrder = 1
+            OnClick = ckGutterAutosizeClick
           end
           object ckGutterShowLineNumbers: TCheckBox
             Left = 24
@@ -1121,6 +1129,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Caption = 'Font'
             TabOrder = 5
             OnClick = btnGutterFontClick
+          end
+          object EDigits: TEdit
+            Left = 240
+            Top = 37
+            Width = 42
+            Height = 23
+            TabOrder = 10
+            Text = '2'
           end
         end
         object gbBookmarks: TGroupBox
