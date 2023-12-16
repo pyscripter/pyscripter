@@ -189,6 +189,8 @@ type
     btnCancel: TButton;
     btnHelp: TButton;
     ckShowLigatures: TCheckBox;
+    EDigits: TEdit;
+    lDigits: TLabel;
     procedure SynSyntaxSampleClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
@@ -210,6 +212,7 @@ type
     procedure KeyListSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure lbColorThemesClick(Sender: TObject);
     procedure btnApplyThemeClick(Sender: TObject);
+    procedure ckGutterAutosizeClick(Sender: TObject);
   private
     FHandleChanges : Boolean;  //Normally true, can prevent unwanted execution of event handlers
 
@@ -708,6 +711,8 @@ begin
   lblGutterFont.Font.Assign(FSynEdit.Gutter.Font);
   lblGutterFont.Caption:= lblGutterFont.Font.Name + ' ' + IntToStr(lblGutterFont.Font.Size) + 'pt';
   ckGutterGradient.Checked := FSynEdit.Gutter.Gradient;
+  EDigits.Text:= IntToStr(FSynEdit.Gutter.DigitCount);
+  EDigits.Enabled:= not ckGutterAutosize.Checked;
   //Right Edge
   eRightEdge.Text:= IntToStr(FSynEdit.RightEdge);
   cbRightEdgeColor.SelectedColor:= FSynEdit.RightEdgeColor;
@@ -768,6 +773,7 @@ end;
 procedure TfmEditorOptionsDialog.PutData;
 var
   vOptions: TSynEditorOptions;
+  Digits: integer;
 
   procedure SetFlag(aOption: TSynEditorOption; aValue: Boolean);
   begin
@@ -788,6 +794,10 @@ begin
   FSynEdit.Gutter.UseFontStyle := cbGutterFont.Checked;
   FSynEdit.Gutter.Font.Assign(lblGutterFont.Font);
   FSynEdit.Gutter.Gradient := ckGutterGradient.Checked;
+  if ckGutterAutosize.Checked then
+    FSynEdit.Gutter.DigitCount:= 2
+  else if TryStrToInt(EDigits.Text, Digits) and (2 <= Digits) and (Digits <= 12) then
+    FSynEdit.Gutter.DigitCount:= Digits;
   //Right Edge
   FSynEdit.RightEdge:= StrToIntDef(eRightEdge.Text, 80);
   FSynEdit.RightEdgeColor:= cbRightEdgeColor.SelectedColor;
@@ -1123,6 +1133,11 @@ procedure TfmEditorOptionsDialog.cKeyCommandKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   if Key = SYNEDIT_RETURN then btnUpdateKey.Click;
+end;
+
+procedure TfmEditorOptionsDialog.ckGutterAutosizeClick(Sender: TObject);
+begin
+  EDigits.Enabled:= not ckGutterAutosize.Checked;
 end;
 
 procedure TfmEditorOptionsDialog.cbHighlightersChange(Sender : TObject);
