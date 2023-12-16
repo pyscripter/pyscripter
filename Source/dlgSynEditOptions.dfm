@@ -1020,8 +1020,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Caption = 'Gutter color:'
           end
           object lDigits: TLabel
-            Left = 185
-            Top = 40
+            Left = 175
+            Top = 37
             Width = 33
             Height = 15
             Caption = 'Digits:'
@@ -1131,8 +1131,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             OnClick = btnGutterFontClick
           end
           object EDigits: TEdit
-            Left = 240
-            Top = 37
+            Left = 232
+            Top = 33
             Width = 42
             Height = 23
             TabOrder = 10
