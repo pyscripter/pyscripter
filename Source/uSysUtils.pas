@@ -200,14 +200,18 @@ end;
 
 procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
 begin
-  Win32Check(AttachConsole(ProcessId));
-  Win32Check(SetConsoleCtrlHandler(@CtrlHandler, True));
   try
-    Win32Check(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
-    Sleep(100);
-  finally
-    Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
-    Win32Check(FreeConsole);
+    Win32Check(AttachConsole(ProcessId));
+    Win32Check(SetConsoleCtrlHandler(@CtrlHandler, True));
+    try
+      Win32Check(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
+      Sleep(100);
+    finally
+      Win32Check(SetConsoleCtrlHandler(@CtrlHandler, False));
+      Win32Check(FreeConsole);
+    end;
+  except
+    // fail quietly
   end;
 end;
 
