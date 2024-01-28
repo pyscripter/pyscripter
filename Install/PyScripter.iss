@@ -39,6 +39,7 @@ ArchitecturesInstallIn64BitMode=x64 arm64
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "fr"; MessagesFile: "compiler:\Languages\French.isl"; InfoAfterFile: "locale\fr\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "el"; MessagesFile: "locale\el\Greek.isl"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "es"; MessagesFile: "compiler:\Languages\Spanish.isl"; InfoAfterFile: "locale\es\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "fa"; MessagesFile: "locale\fa\Farsi.isl"; InfoAfterFile: "locale\fa\AfterInstallPyScripter-{#OSPlatform}.txt"
@@ -258,6 +259,7 @@ FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; Worki
 [CustomMessages]
 #include "locale\en\InstallMessages.txt"
 #include "locale\de\InstallMessages.txt"
+#include "locale\fr\InstallMessages.txt"
 #include "locale\el\InstallMessages.txt"
 #include "locale\es\InstallMessages.txt"
 #include "locale\fa\InstallMessages.txt"

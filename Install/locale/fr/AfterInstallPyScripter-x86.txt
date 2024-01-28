@@ -1,0 +1,15 @@
+﻿*********** Ceci est la version 32 bits de PyScripter. *************
+Si vous utilisez une version 64 bits de Windows, notez que PyScripter ne fonctionnera 
+que si une version 32 bits de Python est installée.
+
+Avant d'utiliser PyScripter, vous devez vous assurer qu'il existe une version de 
+Python supérieure ou égale à la 3.7 est installée sur votre machine. Sinon, vous 
+pouvez en télécharger une sur http://www.python.org/.
+
+Veuillez visiter https://github.com/pyscripter/pyscripter/wiki pour plus d'informations 
+sur le débogage à distance et d'autres sujets liés à PyScripter.
+
+Vous pouvez également vérifier s'il existe une version plus récente de PyScripter sur
+https://sourceforge.net/projects/pyscripter/files/.
+
+Merci de votre intérêt pour PyScripter.
