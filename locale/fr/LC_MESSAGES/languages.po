@@ -8,6 +8,7 @@
 # phil phil <phil.prost@gmail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2018
 # Thomas LEDOS <thomas.ledos92@gmail.com>, 2018
+# Goery Valance, 2024
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Project-Id-Version: PyScripter Languages\n"
 "POT-Creation-Date: 2018-01-23 16:26\n"
 "PO-Revision-Date: 2018-01-24 09:24+0000\n"
-"Last-Translator: Thomas LEDOS <thomas.ledos92@gmail.com>, 2018\n"
+"Last-Translator: Goery Valance, 2024\n"
 "Language-Team: French (https://app.transifex.com/pyscripter/teams/116142/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,10 +28,10 @@ msgid "Arabic"
 msgstr "Arabe"
 
 msgid "Simplified Chinese"
-msgstr ""
+msgstr "Chinois simplifié"
 
 msgid "Traditional Chinese"
-msgstr ""
+msgstr "Chinois traditionnel"
 
 msgid "English"
 msgstr "Anglais (English)"
@@ -53,7 +54,7 @@ msgstr "Italien"
 
 #. Language of Iran
 msgid "Persian"
-msgstr ""
+msgstr "Persan (Iran)"
 
 #. Language of Japan, Asia
 msgid "Japanese"
@@ -65,7 +66,7 @@ msgstr "Kabyle"
 
 #. Language of Poland, Europe
 msgid "Polish"
-msgstr ""
+msgstr "Polonais"
 
 #. Language of Portugal, Europe
 msgid "Portuguese (Portugal)"
@@ -89,4 +90,4 @@ msgstr "Espagnol"
 
 #. Language of Ukraine
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainien"
