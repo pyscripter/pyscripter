@@ -727,11 +727,6 @@ end;
 procedure TEditorSearchOptions.NewSearch(SynEdit : TCustomSynEdit; ABackwards :
     Boolean);
 
-  function BC_GT(BC1, BC2 : TBufferCoord): Boolean;
-  begin
-    Result := (BC1.Line > BC2.Line) or (BC1.Line = BC2.Line) and (BC1.Char > BC2.Char);
-  end;
-
   function FindTextInBlock(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : Boolean;
   Var
     Line :  integer;
@@ -791,8 +786,8 @@ begin
     InitCaretXY := SynEdit.CaretXY;
   end;
 
-  CanWrapSearch := (ABackwards and BC_GT(InitBlockEnd, InitCaretXY) or
-             (not ABackwards and BC_GT(InitCaretXY, InitBlockBegin)));
+  CanWrapSearch := (ABackwards and (InitBlockEnd > InitCaretXY) or
+             (not ABackwards and (InitCaretXY > InitBlockBegin)));
   if CanWrapSearch then begin
 //    if ABackwards then
 //      TextLeft := GetBlockText(SynEdit.Lines, InitCaretXY, InitBlockEnd)

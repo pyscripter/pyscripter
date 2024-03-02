@@ -2409,7 +2409,6 @@ begin
 
     if ConfirmReplaceDialog = nil then begin
       ConfirmReplaceDialog := TConfirmReplaceDialog.Create(Application);
-      ConfirmReplaceDialog.btnReplaceAll.ModalResult := mrYesToAll;  //http://www.bobswart.nl/Weblog/Blog.aspx?RootId=5:5029
       fConfirmReplaceDialogRect := ConfirmReplaceDialog.BoundsRect;
     end;
     if EqualRect(fConfirmReplaceDialogRect, ConfirmReplaceDialog.BoundsRect) then begin
