@@ -573,7 +573,7 @@
 
   History:   v 4.3.5
           Issues addressed
-            #1275, #1278
+            #1228, #1275, #1278
 
 
  { TODO : Review Search and Replace }

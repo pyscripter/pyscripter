@@ -609,23 +609,19 @@ object ResourcesDataModule: TResourcesDataModule
             'me, self.debug_manager.thrdRunning)'
           ''
           
-            '            self.debugger = self.debug_manager.main_debugger.__c' +
-            'lass__()'
-          '            self.debugger.reset()'
-          
-            '            self.debugger._sys.settrace(self.debugger.trace_disp' +
-            'atch)'
+            '            debugger = self.debug_manager.main_debugger.__class_' +
+            '_()'
+          '            debugger.reset()'
+          '            debugger._sys.settrace(debugger.trace_dispatch)'
           ''
           '            try:'
           '                super().run()'
           '            finally:'
-          '                self.debugger._sys.settrace(None)'
+          '                debugger._sys.settrace(None)'
+          '                if self.debug_manager:'
           
-            '                self.debug_manager.thread_status(self.ident, sel' +
-            'f.name, self.debug_manager.thrdFinished)'
-          '                self.debugger = None'
-          ''
-          '    ThreadWrapper.debug_manager = DebugManager'
+            '                  self.debug_manager.thread_status(self.ident, s' +
+            'elf.name, self.debug_manager.thrdFinished)'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
           '        def __init__(self):'
@@ -798,6 +794,9 @@ object ResourcesDataModule: TResourcesDataModule
           '                cmd = cmd+'#39'\n'#39
           ''
           '            old_thread_class = threading.Thread'
+          
+            '            self.thread_wrapper.debug_manager = self.debug_manag' +
+            'er'
           '            threading.Thread = self.thread_wrapper'
           ''
           '            self.exc_info = None'
@@ -809,7 +808,7 @@ object ResourcesDataModule: TResourcesDataModule
             '                        if (t != threading.main_thread()) and no' +
             't t.daemon:'
           '                            try:'
-          '                                t.join()'
+          '                                t.join(1)'
           '                            except:'
           '                                pass'
           ''
@@ -836,6 +835,7 @@ object ResourcesDataModule: TResourcesDataModule
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
           '                threading.Thread = old_thread_class'
+          '                self.thread_wrapper.debug_manager = None'
           '                try:'
           '                    sys.stdout.flush()'
           '                    sys.stderr.flush()'
@@ -1207,7 +1207,7 @@ object ResourcesDataModule: TResourcesDataModule
             '                    if (t != threading.main_thread()) and not t.' +
             'daemon:'
           '                        try:'
-          '                            t.join()'
+          '                            t.join(1)'
           '                        except:'
           '                            pass'
           '            except SystemExit as e:'
