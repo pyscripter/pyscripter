@@ -901,6 +901,7 @@ begin
       with GetPythonEngine do begin
         SaveThreadState := PyEval_SaveThread();
         try
+          Sleep(100);  // So that PythonIOSendData delay expires #1296
           TThread.Synchronize(nil, SyncInputQuery.InputQuery);
         finally
           PyEval_RestoreThread(SaveThreadState);
