@@ -572,6 +572,8 @@
             #1221, #1227, #1268, #1269,
 
   History:   v 4.3.5
+          New Features
+            - Python 3.13 support added.  Dropped support for python 3.7
           Issues addressed
             #1228, #1275, #1278, #1296
 

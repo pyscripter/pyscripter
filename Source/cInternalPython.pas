@@ -174,7 +174,6 @@ begin
   fPythonEngine.FatalMsgDlg := False;
   fPythonEngine.UseLastKnownVersion := False;
   fPythonEngine.AutoFinalize := False;
-  fPythonEngine.InitThreads := True;
   fPythonEngine.IO := GI_PyInterpreter.PythonIO;
   fPythonEngine.PyFlags := [pfInteractive];
   fPythonEngine.OnAfterInit := PythonEngineAfterInit;

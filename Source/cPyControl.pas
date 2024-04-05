@@ -84,8 +84,8 @@ type
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
   public
-    const MinPyVersion = '3.7';
-    const MaxPyVersion = '3.12'; //PYTHON312
+    const MinPyVersion = '3.8';
+    const MaxPyVersion = '3.13';
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -292,9 +292,7 @@ begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
 
-  if CmdLineReader.readFlag('PYTHON37') then
-    expectedVersion := '3.7'
-  else if CmdLineReader.readFlag('PYTHON38') then
+  if CmdLineReader.readFlag('PYTHON38') then
     expectedVersion := '3.8'
   else if CmdLineReader.readFlag('PYTHON39') then
     expectedVersion := '3.9'
@@ -303,7 +301,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON311') then
     expectedVersion := '3.11'
   else if CmdLineReader.readFlag('PYTHON312') then
-    expectedVersion := '3.12';
+    expectedVersion := '3.12'
+  else if CmdLineReader.readFlag('PYTHON313') then
+    expectedVersion := '3.13';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);
