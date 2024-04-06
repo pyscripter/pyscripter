@@ -575,7 +575,7 @@
           New Features
             - Python 3.13 support added.  Dropped support for python 3.7
           Issues addressed
-            #1228, #1275, #1278, #1296
+            #1228, #1275, #1278, #1296, #1297
 
 
  { TODO : Review Search and Replace }
