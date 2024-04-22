@@ -578,21 +578,16 @@
             #1228, #1275, #1278, #1296, #1297
 
 
- { TODO : Review Search and Replace }
-{ TODO : Auto PEP8 tool }
-{ TODO: LiveTemplates features for Code Templates }
-
-
 {------------------------------------------------------------------------------}
 
 // Bugs and minor features
+// TODO : Review Search and Replace
+// TODO: LiveTemplates features for Code Templates
 // TODO: Internal Tool as in pywin
 // TODO: Find module expert
 // TODO: Code helpers, automatically fill the self parameter in methods
-
 // TODO: UML Editor View
 // TODO: Refactorings using rope
-
 // TODO: Plugin architecture
 // TODO Package as an Application Scripter Component
 
