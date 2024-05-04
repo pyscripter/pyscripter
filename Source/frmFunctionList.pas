@@ -398,8 +398,8 @@ begin
 
     var StoredFont := TSmartPtr.Make(TStoredFont.Create)();
     StoredFont.Assign(lvProcs.Font);
-    StoredFont.Height := MulDiv(StoredFont.Height, StoredFont.PixelsPerInch,
-      FCurrentPPI);
+    StoredFont.PixelsPerInch := FCurrentPPI;
+    StoredFont.Height := lvProcs.Font.Height;
     WritePersistent('Function List\Font', StoredFont);
   end;
 end;
