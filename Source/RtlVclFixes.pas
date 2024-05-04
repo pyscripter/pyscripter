@@ -514,6 +514,80 @@ end;
 {$ENDIF}
 {$ENDREGION}
 
+{$REGION 'Fix Delphi 12 TFont mess'}
+{$IF CompilerVersion >= 36}
+
+// https://quality.embarcadero.com/browse/RSP-43261
+
+type
+  TFontDialogSetFont = procedure(Value: TFont) of object;
+
+TFontDialogFix = class helper for TFontDialog
+  function GetSetFontAddr: Pointer;
+end;
+
+function TFontDialogFix.GetSetFontAddr: Pointer;
+var
+  VMT : NativeInt;
+  MethodPtr: TFontDialogSetFont;
+begin
+  //  Adjust Self to point to the VMT
+  VMT := NativeInt(TFontDialog);
+  Self := TFontDialog(@VMT);
+
+  with Self do MethodPtr := SetFont;
+  Result := TMethod(MethodPtr).Code;
+end;
+
+procedure Detour_FontDialog_SetFont(const Self: TObject; Value: TFont);
+begin
+  TFontDialog(Self).Font.IsScreenFont := True;
+  TFontDialog(Self).Font.Assign(Value);
+end;
+
+// https://quality.embarcadero.com/browse/RSP-43270
+// https://quality.embarcadero.com/browse/RSP-43263
+
+var
+  Trampoline_FontDialog_SetFont: Pointer = nil;
+
+type
+  TAssignMethod = procedure(const Self: TObject; Source: TPersistent);
+  TCrackTFont = class(TFont);
+var
+  Trampoline_Font_Assign: TAssignMethod;
+
+
+procedure Detour_Font_Assign(const Self: TObject; Source: TPersistent);
+var
+  OldIsDPIRelated: Boolean;
+  CallChanged: Boolean;
+begin
+  if Source is TFont then
+  begin
+    OldIsDPIRelated := TFont(Source).IsDPIRelated;
+    if TFont(Self).IsScreenFont then
+      TFont(Source).IsDPIRelated := False
+    else
+      CallChanged := not TFont(Source).IsScreenFont and
+        (TFont(Self).PixelsPerInch <> TFont(Source).PixelsPerInch) and
+        (TFont(Self).IsDPIRelated or TFont(Source).IsDPIRelated);
+  end;
+
+  if Assigned(Trampoline_Font_Assign) then
+    Trampoline_Font_Assign(Self, Source);
+
+  if Source is TFont then
+  begin
+    TFont(Source).IsDPIRelated := OldIsDPIRelated;
+    if CallChanged then
+      TCrackTFont(Self).Changed;
+  end;
+end;
+
+{$ENDIF}
+{$ENDREGION}
+
 initialization
   {$IF CompilerVersion < 34}
   Detour_TWICImage_CreateWICBitmap := TWICImage(nil).Detour_CreateWICBitmap;
@@ -542,6 +616,13 @@ initialization
   Trampoline_TCustomForm_SetParent :=
     InterceptCreate(@TCrackCustomForm.SetParent, @Detour_TCustomForm_SetParent);
   {$ENDIF}
+
+  {$IF CompilerVersion >= 36}
+  Trampoline_FontDialog_SetFont := InterceptCreate(
+    TFontDialog(nil).GetSetFontAddr, @Detour_FontDialog_SetFont);
+  Trampoline_Font_Assign := InterceptCreate(@TFont.Assign, @Detour_Font_Assign);
+  {$ENDIF}
+
 finalization
   {$IF CompilerVersion < 34}
   InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
@@ -559,5 +640,9 @@ finalization
   {$ENDIF}
   {$IF CompilerVersion >= 35}
   InterceptRemove(@Trampoline_TCustomForm_SetParent);
+  {$ENDIF}
+  {$IF CompilerVersion >= 36}
+  InterceptRemove(Trampoline_FontDialog_SetFont);
+  InterceptRemove(@Trampoline_Font_Assign);
   {$ENDIF}
 end.

@@ -200,7 +200,7 @@ begin
   lsbConsole.Font.PixelsPerInch := FCurrentPPI;
   with TFontDialog.Create(Application) do
   try
-    Font.Assign(lsbConsole.Font);
+    Font := lsbConsole.Font;
     if Execute then
     begin
       lsbConsole.Font.Assign(Font);

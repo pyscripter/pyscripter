@@ -347,7 +347,7 @@ begin
   if not Assigned(Editor) then Exit;
 
   SelectLine(CharPos.y);
-  FontDialog.Font.Assign(CurrText);
+  FontDialog.Font := CurrText;
   if FontDialog.Execute then
     CurrText.Assign(FontDialog.Font);
   SelectNone;

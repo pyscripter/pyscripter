@@ -89,7 +89,7 @@ procedure TFindResultsOptionsDialog.pnlContextFontClick(Sender: TObject);
 var
   MatchCol: TColor;
 begin
-  dlgGrepContextFont.Font.Assign(pnlContextFont.Font);
+  dlgGrepContextFont.Font := pnlContextFont.Font;
   if dlgGrepContextFont.Execute then begin
     MatchCol := pnlMatchLineColor.Font.Color;
     pnlContextFont.Font.Assign(dlgGrepContextFont.Font);
@@ -111,7 +111,7 @@ end;
 
 procedure TFindResultsOptionsDialog.pnlListFontClick(Sender: TObject);
 begin
-  dlgGrepListFont.Font.Assign(pnlListFont.Font);
+  dlgGrepListFont.Font := pnlListFont.Font;
   if dlgGrepListFont.Execute then begin
     pnlListFont.Font.Assign(dlgGrepListFont.Font);
     pnlListFont.Refresh;

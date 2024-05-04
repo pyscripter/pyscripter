@@ -605,7 +605,7 @@ end;
 procedure TFunctionListWindow.actOptionsFontExecute(Sender: TObject);
 begin
   lvProcs.Font.PixelsPerInch := FCurrentPPI;
-  dlgProcFont.Font.Assign(lvProcs.Font);
+  dlgProcFont.Font := lvProcs.Font;
   if dlgProcFont.Execute then
     lvProcs.Font.Assign(dlgProcFont.Font);
 end;

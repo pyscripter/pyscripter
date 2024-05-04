@@ -886,12 +886,12 @@ end;
 
 procedure TfmEditorOptionsDialog.btnFontClick(Sender: TObject);
 begin
-  FontDialog.Font.Assign(labFont.Font);
+  FontDialog.Font := labFont.Font;
   if FontDialog.Execute then
   begin
     labFont.Font.Assign(FontDialog.Font);
     labFont.Caption:= labFont.Font.Name;
-    labFont.Caption:= labFont.Font.Name + ' ' + IntToStr(labFont.Font.Size) + 'pt';    
+    labFont.Caption:= labFont.Font.Name + ' ' + IntToStr(labFont.Font.Size) + 'pt';
   end;
 end;
 
@@ -1085,7 +1085,7 @@ end;
 
 procedure TfmEditorOptionsDialog.btnGutterFontClick(Sender: TObject);
 begin
-  FontDialog.Font.Assign(lblGutterFont.Font);
+  FontDialog.Font := lblGutterFont.Font;
   if FontDialog.Execute then
   begin
     lblGutterFont.Font.Assign(FontDialog.Font);
