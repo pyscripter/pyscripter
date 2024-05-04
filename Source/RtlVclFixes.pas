@@ -563,6 +563,9 @@ var
   OldIsDPIRelated: Boolean;
   CallChanged: Boolean;
 begin
+  CallChanged := False;
+  OldIsDPIRelated := False;
+
   if Source is TFont then
   begin
     OldIsDPIRelated := TFont(Source).IsDPIRelated;

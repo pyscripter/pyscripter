@@ -414,9 +414,8 @@ begin
       Height := MulDiv(ReadInteger('Function List\Height', Height), FCurrentPPI, 96);
 
     FSortOnColumn := ReadInteger('Function List\SortColumn', FSortOnColumn);
+    lvProcs.Font.PixelsPerInch := FCurrentPPI;
     ReadPersistent('Function List\Font', lvProcs.Font);
-    lvProcs.Font.Height := MulDiv(lvProcs.Font.Height, FCurrentPPI,
-      lvProcs.Font.PixelsPerInch);
     FSearchAll := ReadBoolean('Function List\SearchAll', True);
     ResizeCols;
   end;
