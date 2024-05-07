@@ -179,7 +179,7 @@ type
       Shift: TShiftState; State: TDragState; Pt: TPoint; Mode: TDropMode;
       var Effect: Integer; var Accept: Boolean);
     procedure ExplorerTreeDragDrop(Sender: TBaseVirtualTree; Source: TObject;
-      DataObject: IDataObject; Formats: TFormatArray; Shift: TShiftState;
+      DataObject: TVTDragDataObject; Formats: TFormatArray; Shift: TShiftState;
       Pt: TPoint; var Effect: Integer; Mode: TDropMode);
     procedure actProjectExpandAllExecute(Sender: TObject);
     procedure actProjectCollapseAllExecute(Sender: TObject);
@@ -197,13 +197,14 @@ type
     procedure ExplorerTreeNodeDblClick(Sender: TBaseVirtualTree; const HitInfo:
         THitInfo);
   private
+    FileImageList: TStringList;
+    FShellImages: TCustomImageList;
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
-    FileImageList: TStringList;
     procedure DoOpenProjectFile(FileName : string);
     function DoSave: boolean;
     function DoSaveFile: boolean;
@@ -949,7 +950,7 @@ begin
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeDragDrop(Sender: TBaseVirtualTree;
-  Source: TObject; DataObject: IDataObject; Formats: TFormatArray;
+  Source: TObject; DataObject: TVTDragDataObject; Formats: TFormatArray;
   Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode: TDropMode);
 Var
   HitInfo : THitInfo;
@@ -1137,7 +1138,7 @@ begin
       end else
         ImageIndex := Integer(FileImageList.Objects[Index]);
       if ImageIndex >= 0 then
-        ImageList := SmallSysImages;
+        ImageList := FShellImages;
     end;
   end else if Data.ProjectNode is TProjectRunConfiguationsNode then
     ImageIndex := 2;
@@ -1271,6 +1272,12 @@ begin
   FileImageList := TStringList.Create;
   FileImageList.Sorted := True;
   FileImageList.Duplicates := dupError;
+
+  // Shell Images
+  FShellImages := TCommonVirtualImageList.Create(Self);
+  TCommonVirtualImageList(FShellImages).SourceImageList := SmallSysImages;
+  FShellImages.SetSize(MulDiv(FShellImages.Width, FCurrentPPI, Screen.PixelsPerInch),
+    MulDiv(FShellImages.Height, FCurrentPPI, Screen.PixelsPerInch));
 
   // Wierd translation bug
   TP_Ignore(self, 'mnProjectNew');
