@@ -889,6 +889,7 @@ end;
 
 procedure TfmEditorOptionsDialog.btnFontClick(Sender: TObject);
 begin
+  labFont.Font.PixelsPerInch := FCurrentPPI;
   FontDialog.Font := labFont.Font;
   if FontDialog.Execute then
   begin
@@ -896,6 +897,9 @@ begin
     labFont.Caption:= labFont.Font.Name;
     labFont.Caption:= labFont.Font.Name + ' ' + IntToStr(labFont.Font.Size) + 'pt';
   end;
+  {$IF CompilerVersion < 36}
+  labFont.Font.PixelsPerInch := Screen.PixelsPerInch;
+  {$ENDIF}
 end;
 
 procedure TfmEditorOptionsDialog.UpdateKey(AKey: TSynEditKeystroke);
@@ -1057,11 +1061,6 @@ begin
   end;
 
   // DPI Scaling
-  LabFont.Font.PixelsPerInch := FCurrentPPI;
-  LabFont.Canvas.Font.PixelsPerInch := FCurrentPPI;
-  lblGutterFont.Font.PixelsPerInch := FCurrentPPI;
-  lblGutterFont.Canvas.Font.PixelsPerInch := FCurrentPPI;
-
   StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, FCurrentPPI, 96);
   StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, FCurrentPPI, 96);
 end;
@@ -1088,12 +1087,16 @@ end;
 
 procedure TfmEditorOptionsDialog.btnGutterFontClick(Sender: TObject);
 begin
+  lblGutterFont.Font.PixelsPerInch := FCurrentPPI;
   FontDialog.Font := lblGutterFont.Font;
   if FontDialog.Execute then
   begin
     lblGutterFont.Font.Assign(FontDialog.Font);
     lblGutterFont.Caption:= lblGutterFont.Font.Name + ' ' + IntToStr(lblGutterFont.Font.Size) + 'pt';
   end;
+  {$IF CompilerVersion < 36}
+  lblGutterFont.Font.PixelsPerInch := Screen.PixelsPerInch;
+  {$ENDIF}
 end;
 
 procedure TfmEditorOptionsDialog.cbGutterFontClick(Sender: TObject);

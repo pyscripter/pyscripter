@@ -880,7 +880,7 @@ begin
   if not Form.Scaled or not (csDesigning in Form.ComponentState) and
     ((not Form.HandleAllocated and (Form.Parent <> nil)) or (NewPPI < 96)) then
     Exit;
-  if Form.CurrentPPI = NewPPI then
+  if TCrackCustomForm(Form).FCurrentPPI = NewPPI then
   begin
     Form.Font.IsDPIRelated := True;
     Form.Font.ScaleForDPI(NewPPI)
