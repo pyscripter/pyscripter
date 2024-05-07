@@ -209,6 +209,9 @@ begin
   finally
     Free;
   end;
+  {$IF CompilerVersion < 36}
+  lsbConsole.Font.PixelsPerInch := Screen.PixelsPerInch;
+  {$ENDIF}
 end;
 
 procedure TOutputWindow.actClearOutputExecute(Sender: TObject);
@@ -447,8 +450,15 @@ end;
 procedure TOutputWindow.RestoreSettings(Storage: TJvCustomAppStorage);
 begin
   inherited;
+  {$IF CompilerVersion >= 36}
+  lsbConsole.Font.IsDPIRelated := True;
   lsbConsole.Font.PixelsPerInch := FCurrentPPI;
+  {$ENDIF}
   Storage.ReadPersistent(FBasePath, lsbConsole.Font);
+  {$IF CompilerVersion < 36}
+  lsbConsole.Font.Height := MulDiv(lsbConsole.Font.Height, FCurrentPPI,
+    Screen.PixelsPerInch);
+  {$ENDIF}
   FontOrColorUpdated;
 end;
 
@@ -456,9 +466,9 @@ procedure TOutputWindow.StoreSettings(Storage: TJvCustomAppStorage);
 begin
   inherited;
   var StoredFont := TSmartPtr.Make(TStoredFont.Create)();
-  lsbConsole.Font.PixelsPerInch := FCurrentPPI;
-  StoredFont.PixelsPerInch := FCurrentPPI;
   StoredFont.Assign(lsbConsole.Font);
+  StoredFont.PixelsPerInch := FCurrentPPI;
+  StoredFont.Height := lsbConsole.Font.Height;
   Storage.DeleteSubTree(FBasePath);
   Storage.WritePersistent(FBasePath, StoredFont);
 end;

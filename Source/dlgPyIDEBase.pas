@@ -31,6 +31,11 @@ begin
   TranslateComponent(Self);
   Font.PixelsPerInch := FCurrentPPI;
   SetDefaultUIFont(Font);
+  {$IF CompilerVersion >= 36}
+  Font.IsDPIRelated := True;
+  {$ELSE}
+  Font.PixelsPerInch := Screen.PixelsPerInch;
+  {$ENDIF}
 end;
 
 end.

@@ -76,7 +76,6 @@ type
     procedure pnlMatchLineColorClick(Sender: TObject);
     procedure pnlListFontClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   end;
 
 implementation
@@ -86,18 +85,22 @@ uses Vcl.Graphics;
 {$R *.dfm}
 
 procedure TFindResultsOptionsDialog.pnlContextFontClick(Sender: TObject);
-var
-  MatchCol: TColor;
 begin
+  pnlContextFont.Font.PixelsPerInch := FCurrentPPI;
+  pnlMatchLineColor.Font.PixelsPerInch := FCurrentPPI;
+
   dlgGrepContextFont.Font := pnlContextFont.Font;
-  if dlgGrepContextFont.Execute then begin
-    MatchCol := pnlMatchLineColor.Font.Color;
+  if  dlgGrepContextFont.Execute then
+  begin
     pnlContextFont.Font.Assign(dlgGrepContextFont.Font);
-    pnlContextFont.Refresh;
+    var MatchCol := pnlMatchLineColor.Font.Color;
     pnlMatchLineColor.Font.Assign(dlgGrepContextFont.Font);
     pnlMatchLineColor.Font.Color := MatchCol;
-    pnlMatchLineColor.Refresh;
   end;
+  {$IF CompilerVersion < 36}
+  pnlContextFont.Font.PixelsPerInch := Screen.PixelsPerInch;
+  pnlMatchLineColor.Font.PixelsPerInch := Screen.PixelsPerInch;
+  {$ENDIF}
 end;
 
 procedure TFindResultsOptionsDialog.pnlMatchLineColorClick(Sender: TObject);
@@ -111,27 +114,18 @@ end;
 
 procedure TFindResultsOptionsDialog.pnlListFontClick(Sender: TObject);
 begin
+  pnlListFont.Font.PixelsPerInch := FCurrentPPI;
   dlgGrepListFont.Font := pnlListFont.Font;
-  if dlgGrepListFont.Execute then begin
+  if dlgGrepListFont.Execute then
     pnlListFont.Font.Assign(dlgGrepListFont.Font);
-    pnlListFont.Refresh;
-  end;
+  {$IF CompilerVersion < 36}
+  pnlListFont.Font.PixelsPerInch := Screen.PixelsPerInch;
+  {$ENDIF}
 end;
 
 procedure TFindResultsOptionsDialog.btnHelpClick(Sender: TObject);
 begin
   Application.HelpContext(HelpContext);
-end;
-
-type
-  TCrackTPanel = class(TPanel);
-
-procedure TFindResultsOptionsDialog.FormShow(Sender: TObject);
-begin
-  TCrackTPanel(pnlListFont).Canvas.Font.PixelsPerInch := FCurrentPPI;
-  pnlListFont.Font.PixelsPerInch := FCurrentPPI;
-  TCrackTPanel(pnlContextFont).Canvas.Font.PixelsPerInch := FCurrentPPI;
-  pnlContextFont.Font.PixelsPerInch := FCurrentPPI;
 end;
 
 end.

@@ -77,9 +77,15 @@ inherited FunctionListWindow: TFunctionListWindow
           Caption = 'Line'
           Width = 68
         end>
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
       HideSelection = False
       ReadOnly = True
       RowSelect = True
+      ParentFont = False
       SmallImages = vilCodeImages
       TabOrder = 0
       ViewStyle = vsReport

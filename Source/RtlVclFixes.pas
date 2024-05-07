@@ -13,6 +13,7 @@ interface
 implementation
 Uses
   Winapi.Windows,
+  Winapi.Messages,
   Winapi.Wincodec,
   System.Types,
   System.SysUtils,
@@ -591,6 +592,308 @@ end;
 {$ENDIF}
 {$ENDREGION}
 
+{$REGION 'Fix Delphi 12 InputQuery - https://embt.atlassian.net/servicedesk/customer/portal/1/RSS-867'}
+{$IF CompilerVersion >= 36}
+type
+  TInputQuery = function (const ACaption: string; const APrompts: array of string; var AValues: array of string; CloseQueryFunc: TInputCloseQueryFunc = nil): Boolean;
+
+  TInputQueryForm = class(TForm)
+  public
+    FCloseQueryFunc: TFunc<Boolean>;
+    function CloseQuery: Boolean; override;
+  end;
+
+var
+  Trampoline_InputQuery: Pointer;
+
+function TInputQueryForm.CloseQuery: Boolean;
+begin
+  Result := (ModalResult = mrCancel) or (not Assigned(FCloseQueryFunc)) or FCloseQueryFunc();
+end;
+
+function GetPPIForActiveForm: Integer;
+begin
+  Result := Screen.PixelsPerInch;
+  if (Screen.ActiveForm <> nil) and not (csDesigning in Screen.ActiveForm.ComponentState) then
+    Result := Screen.ActiveForm.CurrentPPI
+  else
+    if Application.MainForm <> nil then
+      Result := Application.MainForm.CurrentPPI;
+end;
+
+function GetAveCharSize(Canvas: TCanvas): TPoint;
+var
+  I: Integer;
+  Buffer: array[0..51] of Char;
+begin
+  for I := 0 to 25 do Buffer[I] := Chr(I + Ord('A'));
+  for I := 0 to 25 do Buffer[I + 26] := Chr(I + Ord('a'));
+  GetTextExtentPoint(Canvas.Handle, Buffer, 52, TSize(Result));
+  Result.X := Result.X div 52;
+end;
+
+function GetTextBaseline(AControl: TControl; ACanvas: TCanvas): Integer;
+var
+  tm: TTextMetric;
+  ClientRect: TRect;
+  Ascent: Integer;
+begin
+  ClientRect := AControl.ClientRect;
+  GetTextMetrics(ACanvas.Handle, tm);
+  Ascent := tm.tmAscent + 1;
+  Result := ClientRect.Top + Ascent;
+  Result := AControl.Parent.ScreenToClient(AControl.ClientToScreen(TPoint.Create(0, Result))).Y - AControl.Top;
+end;
+
+function Detour_InputQuery(const ACaption: string; const APrompts: array of string; var AValues: array of string; CloseQueryFunc: TInputCloseQueryFunc): Boolean;
+var
+  I, J, LPPI: Integer;
+  Form: TInputQueryForm;
+  Prompt: TLabel;
+  Edit: TEdit;
+  DialogUnits: TPoint;
+  PromptCount, CurPrompt: Integer;
+  MaxPromptWidth: Integer;
+  ButtonTop, ButtonWidth, ButtonHeight: Integer;
+  ButtonsRightOffset: Integer;
+
+  function ScaleFromDefaultPPI(AValue: Integer): Integer;
+  begin
+    Result := MulDiv(AValue, LPPI, Screen.DefaultPixelsPerInch);
+  end;
+
+  function GetPromptCaption(const ACaption: string): string;
+  begin
+    if (Length(ACaption) > 1) and (ACaption[1] < #32) then
+      Result := Copy(ACaption, 2, MaxInt)
+    else
+      Result := ACaption;
+  end;
+
+  function GetMaxPromptWidth(Canvas: TCanvas): Integer;
+  var
+    I: Integer;
+    LLabel: TLabel;
+  begin
+    Result := 0;
+    // Use a TLabel rather than an API such as GetTextExtentPoint32 to
+    // avoid differences in handling characters such as line breaks.
+    LLabel := TLabel.Create(nil);
+    try
+      LLabel.Font.Assign(Canvas.Font);
+      for I := 0 to PromptCount - 1 do
+      begin
+        LLabel.Caption := GetPromptCaption(APrompts[I]);
+        Result := Max(Result, LLabel.Width + DialogUnits.X);
+      end;
+    finally
+      LLabel.Free;
+    end;
+  end;
+
+  function GetPasswordChar(const ACaption: string): Char;
+  begin
+    if (Length(ACaption) > 1) and (ACaption[1] < #32) then
+      Result := '*'
+    else
+      Result := #0;
+  end;
+
+begin
+  if Length(AValues) < Length(APrompts) then
+    raise EInvalidOperation.CreateRes(@SPromptArrayTooShort);
+  PromptCount := Length(APrompts);
+  if PromptCount < 1 then
+    raise EInvalidOperation.CreateRes(@SPromptArrayEmpty);
+  Result := False;
+  Form := TInputQueryForm.CreateNew(Application);
+  with Form do
+    try
+      FCloseQueryFunc :=
+        function: Boolean
+        var
+          I, J: Integer;
+          LValues: array of string;
+          Control: TControl;
+        begin
+          Result := True;
+          if Assigned(CloseQueryFunc) then
+          begin
+            SetLength(LValues, PromptCount);
+            J := 0;
+            for I := 0 to Form.ControlCount - 1 do
+            begin
+              Control := Form.Controls[I];
+              if Control is TEdit then
+              begin
+                LValues[J] := TEdit(Control).Text;
+                Inc(J);
+              end;
+            end;
+            Result := CloseQueryFunc(LValues);
+          end;
+        end;
+
+      PopupMode := pmAuto;
+      Position := poScreenCenter;
+      BorderStyle := bsDialog;
+      Caption := ACaption;
+      LPPI := GetPPIForActiveForm;
+
+      ScaleForPPI(LPPI);
+      // the following two lines were added
+      Font.IsDPIRelated := True;
+      Font.ScaleForDPI(LPPI);
+      Font.Assign(Screen.MessageFont);
+      Canvas.Font.Assign(Font);
+
+      DialogUnits := GetAveCharSize(Canvas);
+      MaxPromptWidth := GetMaxPromptWidth(Canvas);
+      ClientWidth := MulDiv(ScaleFromDefaultPPI(180) + MaxPromptWidth, DialogUnits.X, ScaleFromDefaultPPI(4));
+      if IsCustomStyleActive then
+        ClientWidth := ClientWidth + ScaleFromDefaultPPI(4);
+
+      var LTitleBarInfo: TTitleBarInfoEx;
+      FillChar(LTitleBarInfo, SizeOf(LTitleBarInfo), 0);
+      LTitleBarInfo.cbSize := SizeOf(LTitleBarInfo);
+      SendMessage(Form.Handle, WM_GETTITLEBARINFOEX, 0, NativeInt(@LTitleBarInfo));
+      // Since the form is not visible LTitleBarInfo contains coordinates at
+      // Screen.PixelsPerInch and needs scaling.  Also the dialog looks better
+      // with 22 instead of 30 pixels.
+      // The line below is commented out and replaced with the following three
+      //var LCaptionHeight := Max(ScaleFromDefaultPPI(30), LTitleBarInfo.rcTitleBar.Bottom - LTitleBarInfo.rcTitleBar.Top);
+      var LCaptionHeight := LTitleBarInfo.rcTitleBar.Bottom - LTitleBarInfo.rcTitleBar.Top;
+      LCaptionHeight := Muldiv(LCaptionHeight, LPPI, Screen.PixelsPerInch);
+      LCaptionHeight := Max(ScaleFromDefaultPPI(22), LCaptionHeight);
+
+      CurPrompt := MulDiv(8, DialogUnits.Y, 8);
+      Edit := nil;
+      for I := 0 to PromptCount - 1 do
+      begin
+        Prompt := TLabel.Create(Form);
+        with Prompt do
+        begin
+          Parent := Form;
+          Caption := GetPromptCaption(APrompts[I]);
+          Left := MulDiv(8, DialogUnits.X, 4);
+          Top := CurPrompt;
+          Constraints.MaxWidth := MaxPromptWidth;
+          WordWrap := True;
+        end;
+        Edit := TEdit.Create(Form);
+        with Edit do
+        begin
+          Parent := Form;
+          PasswordChar := GetPasswordChar(APrompts[I]);
+          Left := Prompt.Left + MaxPromptWidth;
+          Top := Prompt.Top + Prompt.Height - DialogUnits.Y -
+            (GetTextBaseline(Edit, Canvas) - GetTextBaseline(Prompt, Canvas));
+          Width := Form.ClientWidth - Left - MulDiv(8, DialogUnits.X, 4);
+          if IsCustomStyleActive then
+            Width := Width - ScaleFromDefaultPPI(4);
+          MaxLength := 255;
+          Text := AValues[I];
+          SelectAll;
+          Prompt.FocusControl := Edit;
+        end;
+        CurPrompt := Edit.Top + Edit.Height + ScaleFromDefaultPPI(5);
+      end;
+      ButtonTop := Edit.Top + Edit.Height + ScaleFromDefaultPPI(15);
+      ButtonWidth := MulDiv(50, DialogUnits.X, 4);
+      ButtonHeight := MulDiv(14, DialogUnits.Y, 8);
+      if IsCustomStyleActive then
+        ButtonsRightOffset := ScaleFromDefaultPPI(4)
+      else
+        ButtonsRightOffset := 0;
+
+      with TButton.Create(Form) do
+      begin
+        Parent := Form;
+        Caption := SMsgDlgOK;
+        ModalResult := mrOk;
+        Default := True;
+        SetBounds(Form.ClientWidth - (ButtonWidth + MulDiv(8, DialogUnits.X, 4)) * 2 - ButtonsRightOffset, ButtonTop, ButtonWidth, ButtonHeight);
+      end;
+      with TButton.Create(Form) do
+      begin
+        Parent := Form;
+        Caption := SMsgDlgCancel;
+        ModalResult := mrCancel;
+        Cancel := True;
+        SetBounds(Form.ClientWidth - (ButtonWidth + MulDiv(8, DialogUnits.X, 4)) - ButtonsRightOffset, ButtonTop, ButtonWidth, ButtonHeight);
+        Form.ClientHeight := Top + Height + ScaleFromDefaultPPI(20);
+        Form.Height := Min(Form.Height, Form.ClientHeight + LCaptionHeight);
+      end;
+
+      if IsCustomStyleActive or (FCurrentPPI > Screen.PixelsPerInch) then
+        ClientHeight := ClientHeight + ScaleFromDefaultPPI(6);
+
+      if ShowModal = mrOk then
+      begin
+        J := 0;
+        for I := 0 to ControlCount - 1 do
+          if Controls[I] is TEdit then
+          begin
+            Edit := TEdit(Controls[I]);
+            AValues[J] := Edit.Text;
+            Inc(J);
+          end;
+        Result := True;
+      end;
+    finally
+      Form.Free;
+    end;
+end;
+
+{$ENDIF}
+{$ENDREGION}
+
+{$REGION 'Fix MessageDlg scaling'}
+{$IF CompilerVersion >= 36}
+
+type
+  TFormScaleForPPIRect = procedure(NewPPI: Integer; NewRect: PRect) of object;
+
+TFormScaleForPPIRectFix = class helper for TCustomForm
+  function GetScaleForPPIRectAddr: Pointer;
+end;
+
+function TFormScaleForPPIRectFix.GetScaleForPPIRectAddr: Pointer;
+var
+  VMT : NativeInt;
+  MethodPtr: TFormScaleForPPIRect;
+begin
+  //  Adjust Self to point to the VMT
+  VMT := NativeInt(TCustomForm);
+  Self := TCustomForm(@VMT);
+
+  with Self do MethodPtr := ScaleForPPIRect;
+  Result := TMethod(MethodPtr).Code;
+end;
+
+var
+  Trampoline_Form_ScaleForPPIRect: procedure(const Self: TObject; NewPPI: Integer; NewRect: PRect) = nil;
+
+procedure Detour_Form_ScaleForPPIRect(const Self: TObject; NewPPI: Integer; NewRect: PRect);
+begin
+  var Form := TCustomForm(Self);
+  if not Form.Scaled or not (csDesigning in Form.ComponentState) and
+    ((not Form.HandleAllocated and (Form.Parent <> nil)) or (NewPPI < 96)) then
+    Exit;
+  if Form.CurrentPPI = NewPPI then
+  begin
+    Form.Font.IsDPIRelated := True;
+    Form.Font.ScaleForDPI(NewPPI)
+  end;
+
+  if Assigned(Trampoline_Form_ScaleForPPIRect) then
+    Trampoline_Form_ScaleForPPIRect(Self, NewPPI, NewRect);
+end;
+
+{$ENDIF}
+{$ENDREGION}
+
+
 initialization
   {$IF CompilerVersion < 34}
   Detour_TWICImage_CreateWICBitmap := TWICImage(nil).Detour_CreateWICBitmap;
@@ -626,6 +929,15 @@ initialization
   Trampoline_Font_Assign := InterceptCreate(@TFont.Assign, @Detour_Font_Assign);
   {$ENDIF}
 
+  {$IF CompilerVersion >= 36}
+  Trampoline_InputQuery := InterceptCreate(@Vcl.Dialogs.InputQuery, @Detour_InputQuery);
+  {$ENDIF}
+
+  {$IF CompilerVersion >= 36}
+  Trampoline_Form_ScaleForPPIRect := InterceptCreate(
+    TCustomForm(nil).GetScaleForPPIRectAddr, @Detour_Form_ScaleForPPIRect);
+  {$ENDIF}
+
 finalization
   {$IF CompilerVersion < 34}
   InterceptRemove(TMethod(Trampoline_TWICImage_CreateWICBitmap).Code);
@@ -647,5 +959,11 @@ finalization
   {$IF CompilerVersion >= 36}
   InterceptRemove(Trampoline_FontDialog_SetFont);
   InterceptRemove(@Trampoline_Font_Assign);
+  {$ENDIF}
+  {$IF CompilerVersion >= 36}
+  InterceptRemove(Trampoline_InputQuery);
+  {$ENDIF}
+  {$IF CompilerVersion >= 36}
+  InterceptRemove(@Trampoline_Form_ScaleForPPIRect);
   {$ENDIF}
 end.
