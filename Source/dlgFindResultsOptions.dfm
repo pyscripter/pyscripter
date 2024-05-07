@@ -66,15 +66,16 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       end
     end
     object gbxMatchContext: TGroupBox
+      AlignWithMargins = True
       Left = 5
       Top = 114
-      Width = 297
+      Width = 298
       Height = 153
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Match Context Display'
       TabOrder = 1
       DesignSize = (
-        297
+        298
         153)
       object lblContextLines: TLabel
         Left = 28
@@ -88,7 +89,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       object pnlContextFont: TPanel
         Left = 28
         Top = 19
-        Width = 243
+        Width = 244
         Height = 33
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Context Font...'
@@ -100,7 +101,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       object pnlMatchLineColor: TPanel
         Left = 28
         Top = 58
-        Width = 243
+        Width = 244
         Height = 33
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Match Font Color...'
@@ -122,7 +123,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       end
     end
     object btnOK: TButton
-      Left = 30
+      Left = 32
       Top = 274
       Width = 75
       Height = 25
@@ -133,7 +134,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       TabOrder = 2
     end
     object btnCancel: TButton
-      Left = 114
+      Left = 116
       Top = 274
       Width = 75
       Height = 25
@@ -144,7 +145,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       TabOrder = 3
     end
     object btnHelp: TButton
-      Left = 198
+      Left = 200
       Top = 274
       Width = 75
       Height = 25
