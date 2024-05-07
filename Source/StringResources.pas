@@ -389,6 +389,7 @@ Const
   SCommandLineOptions = 'PyScripter Command Line Options';
 
   // Command Window
+  SProcessSuccessful         = 'Process "%s" ended successfully.';
   SProcessTerminated         = 'Process "%s" terminated, ExitCode: %.8x';
   SDirNotFound               = 'Directory "%s" does not exists';
   SProcessRunning            = 'One process is still running, stop it first.';
