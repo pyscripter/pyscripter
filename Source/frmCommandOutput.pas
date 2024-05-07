@@ -283,7 +283,10 @@ begin
     WriteOutput(TOutputType.Error);
   end;
 
-  ErrorMsg := Format(_(sProcessTerminated), [fTool.Caption.Replace('&', ''), FCmdOptions.ExitCode]);
+  if FCmdOptions.ExitCode = 0 then
+    ErrorMsg := Format(_(sProcessSuccessful), [fTool.Caption.Replace('&', '')])
+  else
+    ErrorMsg := Format(_(sProcessTerminated), [fTool.Caption.Replace('&', ''), FCmdOptions.ExitCode]);
   AddNewLine('');
   AddNewLine(ErrorMsg);
   GI_PyIDEServices.WriteStatusMsg(ErrorMsg);
