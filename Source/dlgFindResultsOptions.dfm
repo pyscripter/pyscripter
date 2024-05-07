@@ -7,7 +7,6 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
   ClientHeight = 307
   ClientWidth = 307
   Position = poScreenCenter
-  OnShow = FormShow
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -28,11 +27,15 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Align = alTop
       Caption = 'Match Results List'
       TabOrder = 0
+      DesignSize = (
+        299
+        103)
       object pnlListFont: TPanel
         Left = 28
         Top = 61
         Width = 243
         Height = 33
+        Anchors = [akLeft, akTop, akRight]
         Caption = 'Match List Font...'
         Color = clWindow
         UseDockManager = False
@@ -70,6 +73,9 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Match Context Display'
       TabOrder = 1
+      DesignSize = (
+        297
+        153)
       object lblContextLines: TLabel
         Left = 28
         Top = 101
@@ -84,6 +90,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
         Top = 19
         Width = 243
         Height = 33
+        Anchors = [akLeft, akTop, akRight]
         Caption = 'Context Font...'
         Color = clWindow
         UseDockManager = False
@@ -95,6 +102,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
         Top = 58
         Width = 243
         Height = 33
+        Anchors = [akLeft, akTop, akRight]
         Caption = 'Match Font Color...'
         Color = clWindow
         UseDockManager = False
@@ -118,7 +126,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Top = 274
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
+      Anchors = [akLeft, akBottom]
       Caption = '&OK'
       Default = True
       ModalResult = 1
@@ -129,7 +137,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Top = 274
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
+      Anchors = [akLeft, akBottom]
       Cancel = True
       Caption = '&Cancel'
       ModalResult = 2
@@ -140,7 +148,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Top = 274
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
+      Anchors = [akLeft, akBottom]
       Caption = '&Help'
       TabOrder = 4
       OnClick = btnHelpClick
