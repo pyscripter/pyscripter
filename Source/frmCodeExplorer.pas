@@ -224,7 +224,7 @@ type
     procedure ExplorerTreeExpanded(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
     procedure ExplorerTreeScroll(Sender: TBaseVirtualTree; DeltaX,
-      DeltaY: Integer);
+      DeltaY: TDimension);
     procedure mnFollowEditorClick(Sender: TObject);
     procedure ExplorerTreeGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
@@ -408,7 +408,7 @@ begin
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeScroll(Sender: TBaseVirtualTree;
-  DeltaX, DeltaY: Integer);
+  DeltaX, DeltaY: TDimension);
 begin
   if Assigned(FModuleNode) then
     TModuleCENode(FModuleNode).OffsetXY := ExplorerTree.OffsetXY;

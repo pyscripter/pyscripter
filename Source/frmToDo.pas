@@ -195,7 +195,7 @@ type
     procedure actFileAbortExecute(Sender: TObject);
     procedure ToDoViewShortenString(Sender: TBaseVirtualTree;
       TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
-      const S: string; TextSpace: Integer; var Result: string;
+      const S: string; TextSpace: TDimension; var Result: string;
       var Done: Boolean);
     procedure ToDoViewHeaderClick(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
   private
@@ -917,7 +917,7 @@ end;
 
 procedure TToDoWindow.ToDoViewShortenString(Sender: TBaseVirtualTree;
   TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
-  const S: string; TextSpace: Integer; var Result: string;
+  const S: string; TextSpace: TDimension; var Result: string;
   var Done: Boolean);
 begin
   if Column = 2 then begin
