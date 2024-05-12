@@ -1228,7 +1228,7 @@ type
     procedure tbiBrowsePreviousClick(Sender: TObject);
     procedure NextListClick(Sender: TObject; S : string);
     procedure tbiBrowseNextClick(Sender: TObject);
-    function ApplicationHelp(Command: Word; Data: NativeInt;
+    function ApplicationHelp(Command: Word; Data: THelpEventData;
       var CallHelp: Boolean): Boolean;
     procedure FormShow(Sender: TObject);
     procedure actAddWatchAtCursorExecute(Sender: TObject);
@@ -4579,7 +4579,7 @@ begin
   end;
 end;
 
-function TPyIDEMainForm.ApplicationHelp(Command: Word; Data: NativeInt;
+function TPyIDEMainForm.ApplicationHelp(Command: Word; Data: THelpEventData;
   var CallHelp: Boolean): Boolean;
 Var
   KeyWord : string;

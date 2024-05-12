@@ -97,7 +97,7 @@ type
     procedure SynCodeCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var x, y: Integer;
       var CanExecute: Boolean);
-    function FormHelp(Command: Word; Data: NativeInt;
+    function FormHelp(Command: Word; Data: THelpEventData;
       var CallHelp: Boolean): Boolean;
     procedure FormActivate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -1422,7 +1422,7 @@ begin
   end;
 end;
 
-function TPythonIIForm.FormHelp(Command: Word; Data: NativeInt;
+function TPythonIIForm.FormHelp(Command: Word; Data: THelpEventData;
   var CallHelp: Boolean): Boolean;
 Var
   KeyWord : string;
