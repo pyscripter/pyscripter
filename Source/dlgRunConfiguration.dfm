@@ -92,7 +92,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object Label3: TLabel
         Left = 8
-        Top = 85
+        Top = 87
         Width = 252
         Height = 13
         Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
@@ -108,19 +108,18 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object SynFileName: TSynEdit
         Left = 105
-        Top = 16
+        Top = 17
         Width = 224
-        Height = 18
+        Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
-        Font.Name = 'Courier New'
+        Font.Name = 'Consolas'
         Font.Style = []
         Font.Quality = fqClearTypeNatural
         TabOrder = 0
         OnEnter = SynEditEnter
         UseCodeFolding = False
-        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -151,19 +150,18 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object SynParameters: TSynEdit
         Left = 105
-        Top = 40
+        Top = 42
         Width = 268
-        Height = 18
+        Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
-        Font.Name = 'Courier New'
+        Font.Name = 'Consolas'
         Font.Style = []
         Font.Quality = fqClearTypeNatural
         TabOrder = 2
         OnEnter = SynEditEnter
         UseCodeFolding = False
-        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -194,19 +192,18 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object SynWorkDir: TSynEdit
         Left = 120
-        Top = 64
+        Top = 66
         Width = 231
-        Height = 18
+        Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
-        Font.Name = 'Courier New'
+        Font.Name = 'Consolas'
         Font.Style = []
         Font.Quality = fqClearTypeNatural
         TabOrder = 3
         OnEnter = SynEditEnter
         UseCodeFolding = False
-        ExtraLineSpacing = 0
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -237,7 +234,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object btnFileName: TButton
         Left = 335
-        Top = 14
+        Top = 17
         Width = 19
         Height = 20
         ImageIndex = 0
@@ -248,7 +245,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object btnWorkDir: TButton
         Left = 357
-        Top = 62
+        Top = 66
         Width = 19
         Height = 20
         ImageIndex = 1
@@ -259,7 +256,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object btnRemoteFileName: TButton
         Left = 357
-        Top = 14
+        Top = 17
         Width = 19
         Height = 20
         ImageIndex = 2

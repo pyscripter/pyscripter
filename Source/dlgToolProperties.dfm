@@ -283,8 +283,8 @@ inherited ToolProperties: TToolProperties
             FocusControl = SynWorkDir
           end
           object Label3: TLabel
-            Left = 8
-            Top = 86
+            Left = 6
+            Top = 87
             Width = 272
             Height = 15
             Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
@@ -292,20 +292,19 @@ inherited ToolProperties: TToolProperties
           end
           object SynApplication: TSynEdit
             Left = 90
-            Top = 18
+            Top = 15
             Width = 303
-            Height = 18
+            Height = 20
             Anchors = [akLeft, akTop, akRight]
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
-            Font.Name = 'Courier New'
+            Font.Name = 'Consolas'
             Font.Style = []
             Font.Quality = fqClearTypeNatural
             TabOrder = 0
             OnEnter = SynEditEnter
             UseCodeFolding = False
-            ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
@@ -336,20 +335,19 @@ inherited ToolProperties: TToolProperties
           end
           object SynParameters: TSynEdit
             Left = 90
-            Top = 41
+            Top = 40
             Width = 325
-            Height = 18
+            Height = 20
             Anchors = [akLeft, akTop, akRight]
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
-            Font.Name = 'Courier New'
+            Font.Name = 'Consolas'
             Font.Style = []
             Font.Quality = fqClearTypeNatural
             TabOrder = 2
             OnEnter = SynEditEnter
             UseCodeFolding = False
-            ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
@@ -380,20 +378,19 @@ inherited ToolProperties: TToolProperties
           end
           object SynWorkDir: TSynEdit
             Left = 114
-            Top = 64
+            Top = 65
             Width = 275
-            Height = 18
+            Height = 20
             Anchors = [akLeft, akTop, akRight]
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
-            Font.Name = 'Courier New'
+            Font.Name = 'Consolas'
             Font.Style = []
             Font.Quality = fqClearTypeNatural
             TabOrder = 3
             OnEnter = SynEditEnter
             UseCodeFolding = False
-            ExtraLineSpacing = 0
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
@@ -434,7 +431,7 @@ inherited ToolProperties: TToolProperties
           end
           object btnWorkDir: TButton
             Left = 395
-            Top = 63
+            Top = 65
             Width = 19
             Height = 20
             Anchors = [akTop, akRight]
