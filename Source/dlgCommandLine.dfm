@@ -45,11 +45,11 @@ inherited CommandLineDlg: TCommandLineDlg
       Left = 11
       Top = 84
       Width = 484
-      Height = 18
+      Height = 20
       Anchors = [akLeft, akRight, akBottom]
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Consolas'
       Font.Style = []
       Font.Quality = fqClearTypeNatural
@@ -60,7 +60,7 @@ inherited CommandLineDlg: TCommandLineDlg
       Gutter.Font.Charset = DEFAULT_CHARSET
       Gutter.Font.Color = clWindowText
       Gutter.Font.Height = -11
-      Gutter.Font.Name = 'Courier New'
+      Gutter.Font.Name = 'Consolas'
       Gutter.Font.Style = []
       Gutter.Font.Quality = fqClearTypeNatural
       Gutter.Visible = False
@@ -88,9 +88,9 @@ inherited CommandLineDlg: TCommandLineDlg
     end
     object TBXButton1: TSpTBXButton
       Left = 501
-      Top = 83
-      Width = 19
-      Height = 19
+      Top = 84
+      Width = 20
+      Height = 20
       Hint = 'History'
       Anchors = [akRight, akBottom]
       ParentShowHint = False

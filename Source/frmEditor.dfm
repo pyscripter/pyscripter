@@ -77,7 +77,7 @@ object EditorForm: TEditorForm
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
-          Font.Name = 'Courier New'
+          Font.Name = 'Consolas'
           Font.Style = []
           Font.Quality = fqClearTypeNatural
           ParentShowHint = False
@@ -98,7 +98,7 @@ object EditorForm: TEditorForm
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
-          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Name = 'Consolas'
           Gutter.Font.Style = []
           Gutter.Font.Quality = fqClearTypeNatural
           Gutter.Gradient = True
@@ -153,7 +153,7 @@ object EditorForm: TEditorForm
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
-          Font.Name = 'Courier New'
+          Font.Name = 'Consolas'
           Font.Style = []
           Font.Quality = fqClearTypeNatural
           ParentShowHint = False
@@ -174,7 +174,7 @@ object EditorForm: TEditorForm
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
-          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Name = 'Consolas'
           Gutter.Font.Style = []
           Gutter.Font.Quality = fqClearTypeNatural
           Gutter.Bands = <

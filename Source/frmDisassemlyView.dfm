@@ -18,7 +18,7 @@ object DisForm: TDisForm
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
-    Font.Name = 'Courier New'
+    Font.Name = 'Consolas'
     Font.Style = []
     Font.Quality = fqClearTypeNatural
     TabOrder = 0
@@ -26,7 +26,7 @@ object DisForm: TDisForm
     Gutter.Font.Charset = DEFAULT_CHARSET
     Gutter.Font.Color = clWindowText
     Gutter.Font.Height = -11
-    Gutter.Font.Name = 'Courier New'
+    Gutter.Font.Name = 'Consolas'
     Gutter.Font.Style = []
     Gutter.Font.Quality = fqClearTypeNatural
     Gutter.ShowLineNumbers = True

@@ -113,7 +113,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Consolas'
         Font.Style = []
         Font.Quality = fqClearTypeNatural
@@ -123,7 +123,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
-        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Name = 'Consolas'
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
@@ -155,7 +155,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Consolas'
         Font.Style = []
         Font.Quality = fqClearTypeNatural
@@ -165,7 +165,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
-        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Name = 'Consolas'
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
@@ -197,7 +197,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Consolas'
         Font.Style = []
         Font.Quality = fqClearTypeNatural
@@ -207,7 +207,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
-        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Name = 'Consolas'
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
@@ -357,13 +357,13 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object SynOutputFileName: TSynEdit
         Left = 105
-        Top = 45
+        Top = 42
         Width = 246
-        Height = 18
+        Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
+        Font.Height = -12
+        Font.Name = 'Consolas'
         Font.Style = []
         Font.Quality = fqClearTypeNatural
         TabOrder = 1
@@ -373,7 +373,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
-        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Name = 'Consolas'
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
@@ -400,7 +400,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object btnOutputFileName: TButton
         Left = 357
-        Top = 43
+        Top = 42
         Width = 19
         Height = 20
         ImageIndex = 0

@@ -19,9 +19,9 @@ inherited OutputWindow: TOutputWindow
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -12
-        Font.Name = 'Courier New'
+        Font.Name = 'Consolas'
         Font.Style = []
-        ItemHeight = 15
+        ItemHeight = 14
         ParentCtl3D = False
         ParentFont = False
         PopupMenu = OutputPopup
