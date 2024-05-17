@@ -1063,4 +1063,50 @@ object CommandsDataModule: TCommandsDataModule
     Left = 384
     Top = 168
   end
+  object pmSpelling: TSpTBXPopupMenu
+    Left = 90
+    Top = 164
+    object mnSpelling: TSpTBXSubmenuItem
+      Caption = 'Spelling'
+      OnPopup = mnSpellingPopup
+      object mnSpellCheckTopSeparator: TSpTBXSeparatorItem
+      end
+      object mnSpellCheckAdd: TSpTBXItem
+        Action = actSynSpellErrorAdd
+      end
+      object mnSpellCheckDelete: TSpTBXItem
+        Action = actSynSpellErrorDelete
+      end
+      object mnSpellCheckIgnore: TSpTBXItem
+        Action = actSynSpellErrorIgnore
+      end
+      object mnSpellCheckIgnoreOnce: TSpTBXItem
+        Action = actSynSpellErrorIgnoreOnce
+      end
+      object mnSpellCheckSecondSeparator: TSpTBXSeparatorItem
+      end
+      object SpTBXItem20: TSpTBXItem
+        Action = actSynSpellCheckWord
+      end
+      object SpTBXItem21: TSpTBXItem
+        Action = actSynSpellCheckLine
+      end
+      object SpTBXItem22: TSpTBXItem
+        Action = actSynSpellCheckSelection
+      end
+      object SpTBXItem23: TSpTBXItem
+        Action = actSynSpellCheckFile
+      end
+      object SpTBXSeparatorItem24: TSpTBXSeparatorItem
+      end
+      object SpTBXItem24: TSpTBXItem
+        Action = actSynSpellClearErrors
+      end
+      object SpTBXSeparatorItem25: TSpTBXSeparatorItem
+      end
+      object SpTBXItem25: TSpTBXItem
+        Action = actSynSpellCheckAsYouType
+      end
+    end
+  end
 end

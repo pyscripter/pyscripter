@@ -8,7 +8,8 @@
         <MainSource>PyScripter.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectGuid>{FD7531E1-BDA2-4EF3-A3E8-074B952317EF}</ProjectGuid>
-        <ProjectVersion>19.5</ProjectVersion>
+        <ProjectName Condition="'$(ProjectName)'==''">PyScripter</ProjectName>
+        <ProjectVersion>20.1</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -320,6 +321,11 @@ $(PostBuildEvent)]]>
         <DCCReference Include="SynEditLsp.pas"/>
         <DCCReference Include="JediLspClient.pas"/>
         <DCCReference Include="uSysUtils.pas"/>
+        <DCCReference Include="uLLMSupport.pas"/>
+        <DCCReference Include="frmLLMChat.pas">
+            <Form>LLMChatForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="PyScripter.todo"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

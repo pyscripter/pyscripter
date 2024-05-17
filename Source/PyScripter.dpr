@@ -118,7 +118,9 @@ uses
   LspUtils in 'LspUtils.pas',
   SynEditLsp in 'SynEditLsp.pas',
   JediLspClient in 'JediLspClient.pas',
-  uSysUtils in 'uSysUtils.pas';
+  uSysUtils in 'uSysUtils.pas',
+  uLLMSupport in 'uLLMSupport.pas',
+  frmLLMChat in 'frmLLMChat.pas' {LLMChatForm};
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

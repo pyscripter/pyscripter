@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 246
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -383,45 +383,7 @@ object PyIDEMainForm: TPyIDEMainForm
           Caption = 'Spelling'
           ImageIndex = 102
           ImageName = 'SpellCheck'
-          OnPopup = mnSpellingPopup
-          object mnSpellCheckTopSeparator: TSpTBXSeparatorItem
-          end
-          object mnSpellCheckAdd: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellErrorAdd
-          end
-          object mnSpellCheckDelete: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellErrorDelete
-          end
-          object mnSpellCheckIgnore: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellErrorIgnore
-          end
-          object mnSpellCheckIgnoreOnce: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellErrorIgnoreOnce
-          end
-          object mnSpellCheckSecondSeparator: TSpTBXSeparatorItem
-          end
-          object SpTBXItem20: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellCheckWord
-          end
-          object SpTBXItem21: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellCheckLine
-          end
-          object SpTBXItem22: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellCheckSelection
-          end
-          object SpTBXItem23: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellCheckFile
-          end
-          object SpTBXSeparatorItem24: TSpTBXSeparatorItem
-          end
-          object SpTBXItem24: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellClearErrors
-          end
-          object SpTBXSeparatorItem25: TSpTBXSeparatorItem
-          end
-          object SpTBXItem25: TSpTBXItem
-            Action = CommandsDataModule.actSynSpellCheckAsYouType
-          end
+          LinkSubitems = CommandsDataModule.mnSpelling
         end
         object TBXSeparatorItem13: TSpTBXSeparatorItem
         end
@@ -538,52 +500,135 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object ViewMenu: TSpTBXSubmenuItem
         Caption = '&View'
-        object mnNextEditor: TSpTBXItem
-          Action = actViewNextEditor
-        end
-        object mnPreviousEditor: TSpTBXItem
-          Action = actViewPreviousEditor
-        end
-        object mnSplitEditors: TSpTBXSubmenuItem
-          Caption = 'Split Editor'
-          object mnSplitEditorVer: TSpTBXItem
-            Action = actViewSplitEditorVer
+        object sbmnNavigate: TSpTBXSubmenuItem
+          Caption = 'Navi&gate'
+          object mnNavEditor: TSpTBXItem
+            Action = actNavEditor
           end
-          object mnSplitEditorHor: TSpTBXItem
-            Action = actViewSplitEditorHor
+          object TBXSeparatorItem24: TSpTBXSeparatorItem
           end
-          object SpTBXSeparatorItem15: TSpTBXSeparatorItem
+          object sbmnIDEWindows: TSpTBXSubmenuItem
+            Caption = 'IDE &Windows'
+            object mnNavInterpreter: TSpTBXItem
+              Action = actNavInterpreter
+            end
+            object SpTBXSeparatorItem26: TSpTBXSeparatorItem
+            end
+            object mnNavCodeExplorer: TSpTBXItem
+              Action = actNavCodeExplorer
+            end
+            object mnNavFileExplorer: TSpTBXItem
+              Action = actNavFileExplorer
+            end
+            object mnNavProjectExplorer: TSpTBXItem
+              Action = actNavProjectExplorer
+            end
+            object SpTBXSeparatorItem28: TSpTBXSeparatorItem
+            end
+            object SpTBXItem16: TSpTBXItem
+              Action = actNavChat
+            end
+            object SpTBXSeparatorItem27: TSpTBXSeparatorItem
+            end
+            object mnNavOutput: TSpTBXItem
+              Action = actNavOutput
+            end
+            object mnNavUnitTests: TSpTBXItem
+              Action = actNavUnitTests
+            end
+            object mnNavTodo: TSpTBXItem
+              Action = actNavTodo
+            end
+            object mnNavRegExp: TSpTBXItem
+              Action = actNavRegExp
+            end
+            object mnNavFindResults: TSpTBXItem
+              Action = actNavFindResults
+            end
           end
-          object mnHideSecondEditor: TSpTBXItem
-            Action = actViewHideSecondEditor
+          object sbmnDebugWindows: TSpTBXSubmenuItem
+            Caption = '&Debug Windows'
+            object mnNavBreakpoints: TSpTBXItem
+              Action = actNavBreakpoints
+            end
+            object mnNavCallStack: TSpTBXItem
+              Action = actNavCallStack
+            end
+            object mnNavMessages: TSpTBXItem
+              Action = actNavMessages
+            end
+            object mnNavVariables: TSpTBXItem
+              Action = actNavVariables
+            end
+            object mnNavWatches: TSpTBXItem
+              Action = actNavWatches
+            end
           end
         end
-        object mnSplitWorkspace: TSpTBXSubmenuItem
-          Caption = 'Split Workspace'
-          object SpTBXItem8: TSpTBXItem
-            Action = actViewSplitWorkspaceVer
+        object sbmnViewEditor: TSpTBXSubmenuItem
+          Caption = '&Editor'
+          object mnNextEditor: TSpTBXItem
+            Action = actViewNextEditor
           end
-          object SpTBXItem7: TSpTBXItem
-            Action = actViewSplitWorkspaceHor
+          object mnPreviousEditor: TSpTBXItem
+            Action = actViewPreviousEditor
           end
-          object SpTBXSeparatorItem14: TSpTBXSeparatorItem
+          object TBXSeparatorItem20: TSpTBXSeparatorItem
           end
-          object SpTBXItem9: TSpTBXItem
-            Action = actViewHideSecondaryWorkspace
+          object mnZoomIn: TSpTBXItem
+            Action = actEditorZoomIn
+          end
+          object mnZoomOut: TSpTBXItem
+            Action = actEditorZoomOut
+          end
+          object mnResetZoom: TSpTBXItem
+            Action = actEditorZoomReset
+          end
+          object N10: TSpTBXSeparatorItem
+          end
+          object mnSyntax: TSpTBXSubmenuItem
+            Caption = '&Syntax'
+            OnPopup = mnSyntaxPopup
+            object TBXSeparatorItem19: TSpTBXSeparatorItem
+            end
+            object mnNoSyntax: TSpTBXItem
+              Caption = '&No Syntax'
+              Hint = 'Do not use syntax highlighting'
+              OnClick = mnSyntaxClick
+            end
+          end
+          object TBXSeparatorItem16: TSpTBXSeparatorItem
+          end
+          object mnSplitEditors: TSpTBXSubmenuItem
+            Caption = 'Split Editor'
+            object mnSplitEditorVer: TSpTBXItem
+              Action = actViewSplitEditorVer
+            end
+            object mnSplitEditorHor: TSpTBXItem
+              Action = actViewSplitEditorHor
+            end
+            object SpTBXSeparatorItem15: TSpTBXSeparatorItem
+            end
+            object mnHideSecondEditor: TSpTBXItem
+              Action = actViewHideSecondEditor
+            end
+          end
+          object mnSplitWorkspace: TSpTBXSubmenuItem
+            Caption = 'Split Workspace'
+            object SpTBXItem8: TSpTBXItem
+              Action = actViewSplitWorkspaceVer
+            end
+            object SpTBXItem7: TSpTBXItem
+              Action = actViewSplitWorkspaceHor
+            end
+            object SpTBXSeparatorItem14: TSpTBXSeparatorItem
+            end
+            object SpTBXItem9: TSpTBXItem
+              Action = actViewHideSecondaryWorkspace
+            end
           end
         end
-        object TBXSeparatorItem20: TSpTBXSeparatorItem
-        end
-        object mnZoomIn: TSpTBXItem
-          Action = actEditorZoomIn
-        end
-        object mnZoomOut: TSpTBXItem
-          Action = actEditorZoomOut
-        end
-        object mnResetZoom: TSpTBXItem
-          Action = actEditorZoomReset
-        end
-        object N10: TSpTBXSeparatorItem
+        object TBXSeparatorItem18: TSpTBXSeparatorItem
         end
         object mnuToolbars: TSpTBXSubmenuItem
           Caption = '&Toolbars'
@@ -628,115 +673,6 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnViewStatusBar: TSpTBXItem
           Action = actViewStatusBar
-        end
-        object TBXSeparatorItem18: TSpTBXSeparatorItem
-        end
-        object TBXSubmenuItem4: TSpTBXSubmenuItem
-          Caption = 'IDE &Windows'
-          object mnViewII: TSpTBXItem
-            Action = actViewII
-          end
-          object mnViewProjectExplorer: TSpTBXItem
-            Action = actViewProjectExplorer
-          end
-          object mnViewFileExplorer: TSpTBXItem
-            Action = actViewFileExplorer
-          end
-          object mnViewCodeExplorer: TSpTBXItem
-            Action = actViewCodeExplorer
-          end
-          object mnViewToDoList: TSpTBXItem
-            Action = actViewToDoList
-          end
-          object mnViewRegExpTester: TSpTBXItem
-            Action = actViewRegExpTester
-          end
-          object mnViewFindResults: TSpTBXItem
-            Action = actViewFindResults
-          end
-          object mnViewOutput: TSpTBXItem
-            Action = actViewOutput
-          end
-          object mnViewUnitTests: TSpTBXItem
-            Action = actViewUnitTests
-          end
-        end
-        object DebugWindows1: TSpTBXSubmenuItem
-          Caption = '&Debug Windows'
-          object mnViewBreakpoints: TSpTBXItem
-            Action = actBreakPointsWin
-          end
-          object mnViewCallStack: TSpTBXItem
-            Action = actCallStackWin
-          end
-          object mnViewMessages: TSpTBXItem
-            Action = actMessagesWin
-          end
-          object mnViewVariables: TSpTBXItem
-            Action = actVariablesWin
-          end
-          object mnViewWatches: TSpTBXItem
-            Action = actWatchesWin
-          end
-        end
-        object TBXSubmenuItem6: TSpTBXSubmenuItem
-          Caption = 'Navi&gate'
-          object mnNavEditor: TSpTBXItem
-            Action = actNavEditor
-          end
-          object mnNavInterpreter: TSpTBXItem
-            Action = actNavInterpreter
-          end
-          object TBXSeparatorItem24: TSpTBXSeparatorItem
-          end
-          object mnNavCodeExplorer: TSpTBXItem
-            Action = actNavCodeExplorer
-          end
-          object mnNavFileExplorer: TSpTBXItem
-            Action = actNavFileExplorer
-          end
-          object mnNavProjectExplorer: TSpTBXItem
-            Action = actNavProjectExplorer
-          end
-          object mnNavUnitTests: TSpTBXItem
-            Action = actNavUnitTests
-          end
-          object mnNavOutput: TSpTBXItem
-            Action = actNavOutput
-          end
-          object mnNavTodo: TSpTBXItem
-            Action = actNavTodo
-          end
-          object TBXSeparatorItem25: TSpTBXSeparatorItem
-          end
-          object mnNavBreakpoints: TSpTBXItem
-            Action = actNavBreakpoints
-          end
-          object mnNavCallStack: TSpTBXItem
-            Action = actNavCallStack
-          end
-          object mnNavMessages: TSpTBXItem
-            Action = actNavMessages
-          end
-          object mnNavVariables: TSpTBXItem
-            Action = actNavVariables
-          end
-          object mnNavWatches: TSpTBXItem
-            Action = actNavWatches
-          end
-        end
-        object TBXSeparatorItem16: TSpTBXSeparatorItem
-        end
-        object mnSyntax: TSpTBXSubmenuItem
-          Caption = '&Syntax'
-          OnPopup = mnSyntaxPopup
-          object TBXSeparatorItem19: TSpTBXSeparatorItem
-          end
-          object mnNoSyntax: TSpTBXItem
-            Caption = '&No Syntax'
-            Hint = 'Do not use syntax highlighting'
-            OnClick = mnSyntaxClick
-          end
         end
         object TBXSeparatorItem21: TSpTBXSeparatorItem
         end
@@ -1095,7 +1031,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Action = CommandsDataModule.actFindInFiles
       end
       object mnuFindInFilesResults: TSpTBXItem
-        Action = actViewFindResults
+        Action = actNavFindResults
       end
       object TBXSeparatorItem5: TSpTBXSeparatorItem
       end
@@ -1527,28 +1463,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ShortCut = 16505
       OnExecute = actViewMainMenuExecute
     end
-    object actCallStackWin: TAction
-      Category = 'Debug Windows'
-      Caption = '&Call Stack'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Call Stack window'
-      ImageIndex = 41
-      ImageName = 'CallStack'
-      OnExecute = actCallStackWinExecute
-    end
-    object actVariablesWin: TAction
-      Category = 'Debug Windows'
-      Caption = '&Variables'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Variables window'
-      ImageIndex = 42
-      ImageName = 'VariablesWin'
-      OnExecute = actVariablesWinExecute
-    end
     object actSyntaxCheck: TAction
       Category = 'Run'
       Caption = '&Syntax Check'
@@ -1800,111 +1714,16 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'BreakpointsRemove'
       OnExecute = actClearAllBreakpointsExecute
     end
-    object actBreakPointsWin: TAction
-      Category = 'Debug Windows'
-      Caption = '&Breakpoints'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Breakpoints window'
-      ImageIndex = 44
-      ImageName = 'BreakpointsWin'
-      OnExecute = actBreakPointsWinExecute
-    end
-    object actWatchesWin: TAction
-      Category = 'Debug Windows'
-      Caption = '&Watches'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Watches window'
-      ImageIndex = 43
-      ImageName = 'WatchesWin'
-      OnExecute = actWatchesWinExecute
-    end
-    object actMessagesWin: TAction
-      Category = 'Debug Windows'
-      Caption = '&Messages'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Messages window'
-      ImageIndex = 49
-      ImageName = 'MessagesWin'
-      OnExecute = actMessagesWinExecute
-    end
-    object actViewII: TAction
-      Category = 'View'
-      Caption = '&Interactive Interpreter'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Interactive Interpreter'
-      ImageIndex = 83
-      ImageName = 'Python'
-      OnExecute = actViewIIExecute
-    end
-    object actViewCodeExplorer: TAction
-      Category = 'View'
-      Caption = '&Code Explorer'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Code Explorer'
-      ImageIndex = 50
-      ImageName = 'CodeExplorer'
-      OnExecute = actViewCodeExplorerExecute
-    end
-    object actViewFileExplorer: TAction
-      Category = 'View'
-      Caption = '&File Explorer'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide File Explorer'
-      ImageIndex = 57
-      ImageName = 'FileExplorer'
-      OnExecute = actViewFileExplorerExecute
-    end
-    object actViewToDoList: TAction
-      Category = 'View'
-      Caption = '&To-Do List'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide To Do List'
-      ImageIndex = 58
-      ImageName = 'TodoWin'
-      OnExecute = actViewToDoListExecute
-    end
-    object actViewFindResults: TAction
-      Category = 'View'
+    object actNavFindResults: TAction
+      Category = 'IDE Navigation'
       Caption = 'Find &in Files Results'
       HelpContext = 360
       HelpType = htContext
-      Hint = 'View/Hide Find in Files Results'
+      Hint = 'Activate the Find in Files Results window'
       ImageIndex = 60
       ImageName = 'FindResults'
       ShortCut = 49222
-      OnExecute = actViewFindResultsExecute
-    end
-    object actViewOutput: TAction
-      Category = 'View'
-      Caption = '&Output Window'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Output Window'
-      ImageIndex = 62
-      ImageName = 'CmdOuputWin'
-      OnExecute = actViewOutputExecute
-    end
-    object actViewUnitTests: TAction
-      Category = 'View'
-      Caption = '&Unit Tests'
-      HelpType = htContext
-      Hint = 'View/Hide Unit Tests Window'
-      ImageIndex = 68
-      ImageName = 'UnitTestWin'
-      OnExecute = actViewUnitTestsExecute
+      OnExecute = actNavFindResultsExecute
     end
     object actFindDefinition: TAction
       Category = 'Refactoring'
@@ -1944,16 +1763,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'ArrowRight'
       ShortCut = 32807
       OnExecute = tbiBrowseNextClick
-    end
-    object actViewRegExpTester: TAction
-      Category = 'View'
-      Caption = '&Regular Expression Tester'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Regular Expression Tester'
-      ImageIndex = 66
-      ImageName = 'RegExp'
-      OnExecute = actViewRegExpTesterExecute
     end
     object actLayoutSave: TAction
       Category = 'View'
@@ -2267,16 +2076,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Customize the toolbars'
       OnExecute = actViewCustomizeToolbarsExecute
     end
-    object actViewProjectExplorer: TAction
-      Category = 'View'
-      Caption = '&Project Explorer'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Project Explorer'
-      ImageIndex = 85
-      ImageName = 'ProjectExplorer'
-      OnExecute = actViewProjectExplorerExecute
-    end
     object actNavProjectExplorer: TAction
       Category = 'IDE Navigation'
       Caption = '&Project Explorer'
@@ -2353,6 +2152,24 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'ZoomReset'
       ShortCut = 32864
       OnExecute = actEditorZoomResetExecute
+    end
+    object actNavRegExp: TAction
+      Category = 'IDE Navigation'
+      Caption = 'Regular Expression Tester'
+      Hint = 'Activate the Regular Expression Tester window'
+      ImageIndex = 66
+      ImageName = 'RegExp'
+      ShortCut = 49234
+      OnExecute = actNavRegExpExecute
+    end
+    object actNavChat: TAction
+      Category = 'IDE Navigation'
+      Caption = 'Chat'
+      Hint = 'Activate the Chat window'
+      ImageIndex = 104
+      ImageName = 'Chat'
+      ShortCut = 49217
+      OnExecute = actNavChatExecute
     end
   end
   object LocalAppStorage: TJvAppIniFileStorage
@@ -2888,6 +2705,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 141
         CollectionName = 'ZoomReset'
         Name = 'ZoomReset'
+      end
+      item
+        CollectionIndex = 142
+        CollectionName = 'Chat\Chat'
+        Name = 'Chat'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True

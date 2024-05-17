@@ -27,6 +27,7 @@ uses
   Vcl.StdActns,
   Vcl.ImgList,
   Vcl.BaseImageCollection,
+  Vcl.Menus,
   SVGIconImageCollection,
   SVGIconImage,
   SynEdit,
@@ -52,6 +53,8 @@ uses
   JvProgramVersionCheck,
   JvPropertyStore,
   JvStringHolder,
+  TB2Item,
+  SpTBXItem,
   VirtualExplorerTree,
   VirtualShellNotifier,
   dlgSynEditOptions,
@@ -188,6 +191,22 @@ type
     actSynSpellErrorIgnoreOnce: TSynSpellErrorIgnoreOnce;
     actSynSpellErrorIgnore: TSynSpellErrorIgnore;
     actSynSpellErrorDelete: TSynSpellErrorDelete;
+    pmSpelling: TSpTBXPopupMenu;
+    mnSpelling: TSpTBXSubmenuItem;
+    mnSpellCheckTopSeparator: TSpTBXSeparatorItem;
+    mnSpellCheckAdd: TSpTBXItem;
+    mnSpellCheckDelete: TSpTBXItem;
+    mnSpellCheckIgnore: TSpTBXItem;
+    mnSpellCheckIgnoreOnce: TSpTBXItem;
+    mnSpellCheckSecondSeparator: TSpTBXSeparatorItem;
+    SpTBXItem20: TSpTBXItem;
+    SpTBXItem21: TSpTBXItem;
+    SpTBXItem22: TSpTBXItem;
+    SpTBXItem23: TSpTBXItem;
+    SpTBXSeparatorItem24: TSpTBXSeparatorItem;
+    SpTBXItem24: TSpTBXItem;
+    SpTBXSeparatorItem25: TSpTBXSeparatorItem;
+    SpTBXItem25: TSpTBXItem;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -290,6 +309,7 @@ type
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actDonateExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
+    procedure mnSpellingPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure SynSpellCheckChange(Sender: TObject);
   private
     fConfirmReplaceDialogRect: TRect;
@@ -337,6 +357,7 @@ uses
   WinApi.WinInet,
   WinApi.ShlObj,
   WinApi.ShellAPI,
+  WinApi.ActiveX,
   System.Win.Registry,
   System.StrUtils,
   System.DateUtils,
@@ -349,7 +370,6 @@ uses
   MPShellUtilities,
   MPCommonUtilities,
   SpTBXMDIMRU,
-  SpTBXItem,
   SpTBXTabs,
   PythonEngine,
   JclDebug,
@@ -1800,7 +1820,7 @@ begin
   if Screen.ActiveControl is TCustomSynEdit then begin
     actParameterCompletion.Enabled := True;
     actModifierCompletion.Enabled := True;
-    actReplaceParameters.Enabled := Assigned(GI_ActiveEditor);
+    actReplaceParameters.Enabled := True;
     actInsertTemplate.Enabled := Assigned(GI_ActiveEditor);
   end else begin
     actParameterCompletion.Enabled := False;
@@ -2345,6 +2365,96 @@ begin
       Editor := GI_PyIDEServices.ActiveEditor;
       if Assigned(Editor) then
         Result := Editor as ISearchCommands
+    end;
+  end;
+end;
+
+procedure TCommandsDataModule.mnSpellingPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+var
+  Error: ISpellingError;
+  CorrectiveAction: CORRECTIVE_ACTION;
+  Replacement: PChar;
+  MenuItem: TTBCustomItem;
+  Action: TSynSpellErrorReplace;
+  Suggestions: IEnumString;
+  Suggestion: PWideChar;
+  Fetched: LongInt;
+  Indicator: TSynIndicator;
+  AWord: string;
+  HaveError: Boolean;
+  Editor: TCustomSynEdit;
+begin
+  Editor := SynSpellCheck.Editor;
+  if not Assigned(Editor) then
+    Exit;
+
+  // Remove replacement menu items and actions;
+  repeat
+    MenuItem := mnSpelling.Items[0];
+    if MenuItem.Action is TSynSpellErrorReplace then
+    begin
+      mnSpelling.Remove(MenuItem);
+      MenuItem.Action.Free;
+      MenuItem.Free;
+    end
+    else
+      Break;
+  until (False);
+
+  if not Assigned(SynSpellCheck.SpellChecker()) then
+  begin
+    mnSpelling.Visible := False;
+    Exit;
+  end;
+
+  if Editor.Indicators.IndicatorAtPos(Editor.CaretXY,
+   TSynSpellCheck.SpellErrorIndicatorId, Indicator)
+  then
+     AWord := Copy(Editor.Lines[Editor.CaretY - 1], Indicator.CharStart,
+       Indicator.CharEnd - Indicator.CharStart)
+  else
+    AWord := '';
+
+  //SynSpellCheck.Editor := Editor;
+  Error := SynSpellCheck.ErrorAtPos(Editor.CaretXY);
+  HaveError := Assigned(Error) and (AWord <> '');
+
+  mnSpellCheckTopSeparator.Visible := HaveError;
+  mnSpellCheckSecondSeparator.Visible := HaveError;
+  mnSpellCheckAdd.Visible := HaveError;
+  mnSpellCheckIgnore.Visible := HaveError;
+  mnSpellCheckIgnoreOnce.Visible := HaveError;
+  mnSpellCheckDelete.Visible := HaveError;
+
+
+  if HaveError then
+  begin
+    Error.Get_CorrectiveAction(CorrectiveAction);
+    case CorrectiveAction of
+      CORRECTIVE_ACTION_GET_SUGGESTIONS:
+        begin
+          CheckOSError(SynSpellCheck.SpellChecker.Suggest(
+            PChar(AWord), Suggestions));
+          while Suggestions.Next(1, Suggestion, @Fetched) = S_OK do
+          begin
+            Action := TSynSpellErrorReplace.Create(Self);
+            Action.Caption := Suggestion;
+            MenuItem := TSpTBXItem.Create(Self);
+            MenuItem.Action := Action;
+            mnSpelling.Insert(mnSpelling.IndexOf(mnSpellCheckTopSeparator), MenuItem);
+            CoTaskMemFree(Suggestion);
+          end;
+        end;
+      CORRECTIVE_ACTION_REPLACE:
+        begin
+          Error.Get_Replacement(Replacement);
+          Action := TSynSpellErrorReplace.Create(Self);
+          Action.Caption := Replacement;
+          MenuItem := TSpTBXItem.Create(Self);
+          MenuItem.Action := Action;
+          mnSpelling.Insert(0, MenuItem);
+        end;
     end;
   end;
 end;

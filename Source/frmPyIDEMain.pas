@@ -574,6 +574,8 @@
   History:   v 4.3.5
           New Features
             - Python 3.13 support added.  Dropped support for python 3.7
+            - New IDE Window Chat for interacting with Large Language Models
+            - OpenAI and local LLM models using Ollama supported.
           Issues addressed
             #1228, #1275, #1278, #1296, #1297
 
@@ -762,18 +764,7 @@ type
     N10: TSpTBXSeparatorItem;
     mnuToolbars: TSpTBXSubmenuItem;
     mnViewStatusBar: TSpTBXItem;
-    mnViewII: TSpTBXItem;
-    mnViewFileExplorer: TSpTBXItem;
-    mnViewCodeExplorer: TSpTBXItem;
-    mnViewToDoList: TSpTBXItem;
-    mnViewFindResults: TSpTBXItem;
-    mnViewOutput: TSpTBXItem;
-    DebugWindows1: TSpTBXSubmenuItem;
-    mnViewCallStack: TSpTBXItem;
-    mnViewVariables: TSpTBXItem;
-    mnViewBreakpoints: TSpTBXItem;
-    mnViewWatches: TSpTBXItem;
-    mnViewMessages: TSpTBXItem;
+    mnNavFindResults: TSpTBXItem;
     HelpMenu: TSpTBXSubmenuItem;
     mnHelpPythonManuals: TSpTBXItem;
     N18: TSpTBXSeparatorItem;
@@ -856,11 +847,9 @@ type
     mnHelpEditorShortcuts: TSpTBXItem;
     TBXSeparatorItem15: TSpTBXSeparatorItem;
     mnCheckForUpdates: TSpTBXItem;
-    mnViewRegExpTester: TSpTBXItem;
     mnCommandLineParams: TSpTBXItem;
     mnIDEShortCuts: TSpTBXItem;
     mnUnitTestWizard: TSpTBXItem;
-    mnViewUnitTests: TSpTBXItem;
     TBXSeparatorItem16: TSpTBXSeparatorItem;
     mnLayouts: TSpTBXSubmenuItem;
     mnLayOutSeparator: TSpTBXSeparatorItem;
@@ -871,7 +860,6 @@ type
     mnMaximizeEditor: TSpTBXItem;
     TBXSeparatorItem17: TSpTBXSeparatorItem;
     TBXSeparatorItem18: TSpTBXSeparatorItem;
-    TBXSubmenuItem4: TSpTBXSubmenuItem;
     TBXSeparatorItem19: TSpTBXSeparatorItem;
     mnNoSyntax: TSpTBXItem;
     TBXSeparatorItem20: TSpTBXSeparatorItem;
@@ -891,7 +879,7 @@ type
     mnEditAnsi: TSpTBXItem;
     mnEditUtf8NoBom: TSpTBXItem;
     mnuFindInFilesResults: TSpTBXItem;
-    TBXSubmenuItem6: TSpTBXSubmenuItem;
+    sbmnNavigate: TSpTBXSubmenuItem;
     mnNavEditor: TSpTBXItem;
     TBXSeparatorItem24: TSpTBXSeparatorItem;
     mnNavCodeExplorer: TSpTBXItem;
@@ -899,7 +887,6 @@ type
     mnNavUnitTests: TSpTBXItem;
     mnNavOutput: TSpTBXItem;
     mnNavTodo: TSpTBXItem;
-    TBXSeparatorItem25: TSpTBXSeparatorItem;
     mnNavMessages: TSpTBXItem;
     mnNavBreakpoints: TSpTBXItem;
     mnNavWatches: TSpTBXItem;
@@ -965,7 +952,6 @@ type
     mnViewCustomizeToolbars: TSpTBXItem;
     UserToolbar: TSpTBXToolbar;
     mnNavProjectExplorer: TSpTBXItem;
-    mnViewProjectExplorer: TSpTBXItem;
     ProjectMenu: TSpTBXSubmenuItem;
     mnProjectSaveAs: TSpTBXItem;
     mnProjectSave: TSpTBXItem;
@@ -1002,7 +988,6 @@ type
     actViewNextEditor: TAction;
     actlStandard: TActionList;
     actNavProjectExplorer: TAction;
-    actViewProjectExplorer: TAction;
     actViewCustomizeToolbars: TAction;
     actPostMortem: TAction;
     actViewHideSecondEditor: TAction;
@@ -1034,21 +1019,11 @@ type
     actLayoutDebug: TAction;
     actLayoutsDelete: TAction;
     actLayoutSave: TAction;
-    actViewRegExpTester: TAction;
     actBrowseForward: TAction;
     actBrowseBack: TAction;
     actFindReferences: TAction;
     actFindDefinition: TAction;
-    actViewUnitTests: TAction;
-    actViewOutput: TAction;
-    actViewFindResults: TAction;
-    actViewToDoList: TAction;
-    actViewFileExplorer: TAction;
-    actViewCodeExplorer: TAction;
-    actViewII: TAction;
-    actMessagesWin: TAction;
-    actWatchesWin: TAction;
-    actBreakPointsWin: TAction;
+    actNavFindResults: TAction;
     actClearAllBreakpoints: TAction;
     actToggleBreakPoint: TAction;
     actRunLastScript: TAction;
@@ -1073,8 +1048,6 @@ type
     actCommandLine: TAction;
     actRun: TAction;
     actSyntaxCheck: TAction;
-    actVariablesWin: TAction;
-    actCallStackWin: TAction;
     actViewMainMenu: TAction;
     tbiRecentFileList: TSpTBXMRUListItem;
     mnPreviousList: TSpTBXMRUListItem;
@@ -1152,22 +1125,18 @@ type
     vilTabDecorators: TVirtualImageList;
     SpTBXSeparatorItem10: TSpTBXSeparatorItem;
     mnSpelling: TSpTBXSubmenuItem;
-    mnSpellCheckAdd: TSpTBXItem;
-    mnSpellCheckDelete: TSpTBXItem;
-    mnSpellCheckIgnore: TSpTBXItem;
-    mnSpellCheckIgnoreOnce: TSpTBXItem;
-    mnSpellCheckSecondSeparator: TSpTBXSeparatorItem;
-    mnSpellCheckTopSeparator: TSpTBXSeparatorItem;
-    SpTBXItem20: TSpTBXItem;
-    SpTBXItem21: TSpTBXItem;
-    SpTBXItem22: TSpTBXItem;
-    SpTBXItem23: TSpTBXItem;
-    SpTBXSeparatorItem24: TSpTBXSeparatorItem;
-    SpTBXItem24: TSpTBXItem;
-    SpTBXSeparatorItem25: TSpTBXSeparatorItem;
-    SpTBXItem25: TSpTBXItem;
     actEditorZoomReset: TAction;
     mnResetZoom: TSpTBXItem;
+    sbmnDebugWindows: TSpTBXSubmenuItem;
+    sbmnIDEWindows: TSpTBXSubmenuItem;
+    sbmnViewEditor: TSpTBXSubmenuItem;
+    SpTBXSeparatorItem26: TSpTBXSeparatorItem;
+    SpTBXSeparatorItem27: TSpTBXSeparatorItem;
+    actNavRegExp: TAction;
+    mnNavRegExp: TSpTBXItem;
+    actNavChat: TAction;
+    SpTBXSeparatorItem28: TSpTBXSeparatorItem;
+    SpTBXItem16: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1176,10 +1145,8 @@ type
     procedure actLayoutDebugExecute(Sender: TObject);
     procedure actLayoutsDeleteExecute(Sender: TObject);
     procedure actLayoutSaveExecute(Sender: TObject);
-    procedure actViewUnitTestsExecute(Sender: TObject);
     procedure actCommandLineExecute(Sender: TObject);
     procedure JvAppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
-    procedure actViewRegExpTesterExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure TabContolContextPopup(Sender: TObject; MousePos: TPoint;
@@ -1194,22 +1161,14 @@ type
     procedure actStepOutExecute(Sender: TObject);
     procedure actRunToCursorExecute(Sender: TObject);
     procedure actDebugAbortExecute(Sender: TObject);
-    procedure actViewIIExecute(Sender: TObject);
-    procedure actMessagesWinExecute(Sender: TObject);
     procedure actNextEditorExecute(Sender: TObject);
     procedure actPreviousEditorExecute(Sender: TObject);
-    procedure actCallStackWinExecute(Sender: TObject);
-    procedure actVariablesWinExecute(Sender: TObject);
-    procedure actBreakPointsWinExecute(Sender: TObject);
-    procedure actWatchesWinExecute(Sender: TObject);
-    procedure actViewCodeExplorerExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actViewStatusBarExecute(Sender: TObject);
     procedure actFileExitExecute(Sender: TObject);
     procedure actFileNewModuleExecute(Sender: TObject);
     procedure actFileOpenExecute(Sender: TObject);
     procedure actFileCloseAllExecute(Sender: TObject);
-    procedure actViewFileExplorerExecute(Sender: TObject);
     procedure TabControlTabClosing(Sender: TObject; var Allow, CloseAndFree: Boolean);
     procedure DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
         State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
@@ -1217,9 +1176,7 @@ type
         var ARect: TRect; var PaintDefault: Boolean);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure actImportModuleExecute(Sender: TObject);
-    procedure actViewToDoListExecute(Sender: TObject);
-    procedure actViewFindResultsExecute(Sender: TObject);
-    procedure actViewOutputExecute(Sender: TObject);
+    procedure actNavFindResultsExecute(Sender: TObject);
     procedure actExternalRunExecute(Sender: TObject);
     procedure actExternalRunConfigureExecute(Sender: TObject);
     procedure actFindDefinitionExecute(Sender: TObject);
@@ -1251,6 +1208,7 @@ type
     procedure actPythonReinitializeExecute(Sender: TObject);
     procedure actPythonEngineExecute(Sender: TObject);
     procedure actExecSelectionExecute(Sender: TObject);
+    procedure actNavChatExecute(Sender: TObject);
     procedure actRestoreEditorExecute(Sender: TObject);
     procedure actViewMainMenuExecute(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
@@ -1270,8 +1228,8 @@ type
     procedure actViewCustomizeToolbarsExecute(Sender: TObject);
     procedure SpTBXCustomizerGetCustomizeForm(Sender: TObject;
       var CustomizeFormClass: TSpTBXCustomizeFormClass);
-    procedure actViewProjectExplorerExecute(Sender: TObject);
     procedure actNavProjectExplorerExecute(Sender: TObject);
+    procedure actNavRegExpExecute(Sender: TObject);
     procedure actRunLastScriptExternalExecute(Sender: TObject);
     procedure actRunLastScriptExecute(Sender: TObject);
     procedure actRunDebugLastScriptExecute(Sender: TObject);
@@ -1294,7 +1252,6 @@ type
     procedure lbPythonVersionClick(Sender: TObject);
     procedure lbPythonEngineClick(Sender: TObject);
     procedure lbStatusCaretClick(Sender: TObject);
-    procedure mnSpellingPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure mnSyntaxClick(Sender : TObject);
   private
     DSAAppStorage: TDSAAppStorage;
@@ -1451,7 +1408,6 @@ uses
   SynEditHighlighter,
   SynEditKeyCmds,
   SynCompletionProposal,
-  SynSpellCheck,
   PythonEngine,
   PythonVersions,
   JvGnugettext,
@@ -1481,6 +1437,7 @@ uses
   frmUnitTests,
   frmToDo,
   frmFindResults,
+  frmLLMChat,
   frmWebPreview,
   frmModSpTBXCustomize,
   cTools,
@@ -1642,6 +1599,9 @@ begin
   FindResultsWindow.PopupParent := Self;
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
   ProjectExplorerWindow.PopupParent := Self;
+  LLMChatForm := TLLMChatForm.Create(Self);
+  LLMChatForm.PopupParent := Self;
+
 
   // And now translate after all the docking forms have been created
   // They will be translated as well
@@ -2624,25 +2584,9 @@ begin
     StatusBar.Top := Height - StatusBar.Height;
 end;
 
-procedure TPyIDEMainForm.actViewIIExecute(Sender: TObject);
-begin
-  if not PythonIIForm.Visible then
-    ShowDockForm(PythonIIForm)
-  else
-    HideDockForm(PythonIIForm);
-end;
-
 procedure TPyIDEMainForm.actViewMainMenuExecute(Sender: TObject);
 begin
   MainMenu.Visible := not MainMenu.Visible;
-end;
-
-procedure TPyIDEMainForm.actViewCodeExplorerExecute(Sender: TObject);
-begin
-  if not CodeExplorerWindow.Visible then
-    ShowDockForm(CodeExplorerWindow)
-  else
-    HideDockForm(CodeExplorerWindow);
 end;
 
 procedure TPyIDEMainForm.actViewCustomizeToolbarsExecute(Sender: TObject);
@@ -2650,61 +2594,9 @@ begin
   SpTBXCustomizer.Show;
 end;
 
-procedure TPyIDEMainForm.actViewFileExplorerExecute(Sender: TObject);
+procedure TPyIDEMainForm.actNavFindResultsExecute(Sender: TObject);
 begin
-  if not FileExplorerWindow.Visible then
-    ShowDockForm(FileExplorerWindow)
-  else
-    HideDockForm(FileExplorerWindow);
-end;
-
-procedure TPyIDEMainForm.actViewToDoListExecute(Sender: TObject);
-begin
-  if not ToDoWindow.Visible then begin
-    ShowDockForm(ToDoWindow);
-    ToDoWindow.ToDoView.SetFocus;
-  end else
-    HideDockForm(ToDoWindow);
-end;
-
-procedure TPyIDEMainForm.actViewRegExpTesterExecute(Sender: TObject);
-begin
-  if not RegExpTesterWindow.Visible then
-    ShowDockForm(RegExpTesterWindow)
-  else
-    HideDockForm(RegExpTesterWindow);
-end;
-
-procedure TPyIDEMainForm.actViewUnitTestsExecute(Sender: TObject);
-begin
-  if not UnitTestWindow.Visible then
-    ShowDockForm(UnitTestWindow)
-  else
-    HideDockForm(UnitTestWindow);
-end;
-
-procedure TPyIDEMainForm.actViewOutputExecute(Sender: TObject);
-begin
-  if not OutputWindow.Visible then
-    ShowDockForm(OutputWindow)
-  else
-    HideDockForm(OutputWindow);
-end;
-
-procedure TPyIDEMainForm.actViewProjectExplorerExecute(Sender: TObject);
-begin
-  if not ProjectExplorerWindow.Visible then
-    ShowDockForm(ProjectExplorerWindow)
-  else
-    HideDockForm(ProjectExplorerWindow);
-end;
-
-procedure TPyIDEMainForm.actViewFindResultsExecute(Sender: TObject);
-begin
-  if not FindResultsWindow.Visible then begin
-    ShowDockForm(FindResultsWindow);
-  end else
-    HideDockForm(FindResultsWindow);
+  ShowDockForm(FindResultsWindow);
 end;
 
 procedure TPyIDEMainForm.actViewHideSecondaryWorkspaceExecute(Sender: TObject);
@@ -2746,30 +2638,6 @@ begin
     Editor.SplitEditorHide;
 end;
 
-procedure TPyIDEMainForm.actMessagesWinExecute(Sender: TObject);
-begin
-  if not MessagesWindow.Visible then
-    ShowDockForm(MessagesWindow)
-  else
-    HideDockForm(MessagesWindow);
-end;
-
-procedure TPyIDEMainForm.actCallStackWinExecute(Sender: TObject);
-begin
-  if not CallStackWindow.Visible then
-    ShowDockForm(CallStackWindow)
-  else
-    HideDockForm(CallStackWindow);
-end;
-
-procedure TPyIDEMainForm.actVariablesWinExecute(Sender: TObject);
-begin
-  if not VariablesWindow.Visible then
-    ShowDockForm(VariablesWindow)
-  else
-    HideDockForm(VariablesWindow);
-end;
-
 procedure TPyIDEMainForm.actAddWatchAtCursorExecute(Sender: TObject);
 var
   Editor : IEditor;
@@ -2777,22 +2645,6 @@ begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
     TEditorForm(Editor.Form).AddWatchAtCursor;
-end;
-
-procedure TPyIDEMainForm.actBreakPointsWinExecute(Sender: TObject);
-begin
-  if not BreakPointsWindow.Visible then
-    ShowDockForm(BreakPointsWindow)
-  else
-    HideDockForm(BreakPointsWindow);
-end;
-
-procedure TPyIDEMainForm.actWatchesWinExecute(Sender: TObject);
-begin
-  if not WatchesWindow.Visible then
-    ShowDockForm(WatchesWindow)
-  else
-    HideDockForm(WatchesWindow);
 end;
 
 function TPyIDEMainForm.GetActiveEditor : IEditor;
@@ -3449,19 +3301,6 @@ procedure TPyIDEMainForm.UpdateStandardActions;
 Var
   L, R : Boolean;
 begin
-  actBreakPointsWin.Checked := BreakPointsWindow.Visible;
-  actCallStackWin.Checked := CallStackWindow.Visible;
-  actMessagesWin.Checked := MessagesWindow.Visible;
-  actVariablesWin.Checked := VariablesWindow.Visible;
-  actViewCodeExplorer.Checked := CodeExplorerWindow.Visible;
-  actViewFileExplorer.Checked := FileExplorerWindow.Visible;
-  actViewToDoList.Checked := ToDoWindow.Visible;
-  actViewRegExpTester.Checked := RegExpTesterWindow.Visible;
-  actViewUnitTests.Checked := UnitTestWindow.Visible;
-  actViewOutput.Checked := OutputWindow.Visible;
-  actViewFindResults.Checked := FindResultsWindow.Visible;
-  actVIewII.Checked := PythonIIForm.Visible;
-  actViewProjectExplorer.Checked := ProjectExplorerWindow.Visible;
   actViewSplitEditorHor.Enabled := Assigned(GI_ActiveEditor);
   actViewSplitEditorVer.Enabled := Assigned(GI_ActiveEditor);
   actViewHideSecondEditor.Enabled := Assigned(GI_ActiveEditor)
@@ -3471,8 +3310,6 @@ begin
   actEditorZoomIn.Enabled := ActiveControl is TSynEdit;
   actEditorZoomOut.Enabled := actEditorZoomIn.Enabled;
   actEditorZoomReset.Enabled := actEditorZoomIn.Enabled;
-
-  actWatchesWin.Checked := WatchesWindow.Visible;
 
   actViewStatusbar.Checked := StatusBar.Visible;
   actViewMainMenu .Checked := MainMenu.Visible;
@@ -4799,6 +4636,16 @@ begin
   end;
 end;
 
+procedure TPyIDEMainForm.actNavChatExecute(Sender: TObject);
+begin
+  ShowDockForm(LLMChatForm);
+end;
+
+procedure TPyIDEMainForm.actNavRegExpExecute(Sender: TObject);
+begin
+  ShowDockForm(RegExpTesterWindow);
+end;
+
 procedure TPyIDEMainForm.mnFilesClick(Sender: TObject);
 //Fill in the Files submenu of the Tabs popup menu
 Var
@@ -4840,96 +4687,6 @@ begin
   ChangeLanguage(fLanguageList[(Sender as TSpTBXItem).Tag]);
   SetupSyntaxMenu;
   SetupToolsMenu;
-end;
-
-procedure TPyIDEMainForm.mnSpellingPopup(Sender: TTBCustomItem; FromLink:
-    Boolean);
-var
-  Error: ISpellingError;
-  CorrectiveAction: CORRECTIVE_ACTION;
-  Replacement: PChar;
-  MenuItem: TTBCustomItem;
-  Action: TSynSpellErrorReplace;
-  Suggestions: IEnumString;
-  Suggestion: PWideChar;
-  Fetched: LongInt;
-  Indicator: TSynIndicator;
-  AWord: string;
-  HaveError: Boolean;
-  Editor: TCustomSynEdit;
-begin
-  Editor := CommandsDataModule.SynSpellCheck.Editor;
-  if not Assigned(Editor) then
-    Exit;
-
-  // Remove replacement menu items and actions;
-  repeat
-    MenuItem := mnSpelling.Items[0];
-    if MenuItem.Action is TSynSpellErrorReplace then
-    begin
-      mnSpelling.Remove(MenuItem);
-      MenuItem.Action.Free;
-      MenuItem.Free;
-    end
-    else
-      Break;
-  until (False);
-
-  if not Assigned(CommandsDataModule.SynSpellCheck.SpellChecker()) then
-  begin
-    mnSpelling.Visible := False;
-    Exit;
-  end;
-
-  if Editor.Indicators.IndicatorAtPos(Editor.CaretXY,
-   TSynSpellCheck.SpellErrorIndicatorId, Indicator)
-  then
-     AWord := Copy(Editor.Lines[Editor.CaretY - 1], Indicator.CharStart,
-       Indicator.CharEnd - Indicator.CharStart)
-  else
-    AWord := '';
-
-  CommandsDataModule.SynSpellCheck.Editor := Editor;
-  Error := CommandsDataModule.SynSpellCheck.ErrorAtPos(Editor.CaretXY);
-  HaveError := Assigned(Error) and (AWord <> '');
-
-  mnSpellCheckTopSeparator.Visible := HaveError;
-  mnSpellCheckSecondSeparator.Visible := HaveError;
-  mnSpellCheckAdd.Visible := HaveError;
-  mnSpellCheckIgnore.Visible := HaveError;
-  mnSpellCheckIgnoreOnce.Visible := HaveError;
-  mnSpellCheckDelete.Visible := HaveError;
-
-
-  if HaveError then
-  begin
-    Error.Get_CorrectiveAction(CorrectiveAction);
-    case CorrectiveAction of
-      CORRECTIVE_ACTION_GET_SUGGESTIONS:
-        begin
-          CheckOSError(CommandsDataModule.SynSpellCheck.SpellChecker.Suggest(
-            PChar(AWord), Suggestions));
-          while Suggestions.Next(1, Suggestion, @Fetched) = S_OK do
-          begin
-            Action := TSynSpellErrorReplace.Create(Self);
-            Action.Caption := Suggestion;
-            MenuItem := TSpTBXItem.Create(Self);
-            MenuItem.Action := Action;
-            mnSpelling.Insert(mnSpelling.IndexOf(mnSpellCheckTopSeparator), MenuItem);
-            CoTaskMemFree(Suggestion);
-          end;
-        end;
-      CORRECTIVE_ACTION_REPLACE:
-        begin
-          Error.Get_Replacement(Replacement);
-          Action := TSynSpellErrorReplace.Create(Self);
-          Action.Caption := Replacement;
-          MenuItem := TSpTBXItem.Create(Self);
-          MenuItem.Action := Action;
-          mnSpelling.Insert(0, MenuItem);
-        end;
-    end;
-  end;
 end;
 
 procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);

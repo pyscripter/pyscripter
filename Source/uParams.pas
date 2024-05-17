@@ -171,8 +171,9 @@ var
 begin
   Result:= '';
   if (AFileName = '') or SameText('ActiveDoc', AFileName) then
-    AEditor:= GI_ActiveEditor
-  else AEditor:= GI_EditorFactory.GetEditorByName(AFileName);
+    AEditor:= GI_PyIDEServices.ActiveEditor
+  else
+    AEditor:= GI_EditorFactory.GetEditorByName(AFileName);
   if Assigned(AEditor) then
     Result:= AEditor.GetSynEdit.SelText;
 end;

@@ -1,0 +1,454 @@
+﻿unit frmLLMChat;
+
+interface
+
+uses
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  System.Actions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Menus,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.Buttons,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  Vcl.ComCtrls,
+  Vcl.WinXPanels,
+  Vcl.WinXCtrls,
+  Vcl.ActnList,
+  Vcl.AppEvnts,
+  SynEdit,
+  SynEditHighlighter,
+  SynHighlighterMulti,
+  SVGIconImage,
+  JvComponentBase,
+  JvDockControlForm,
+  SpTBXItem,
+  SpTBXControls,
+  SpTBXDkPanels,
+  TB2Dock,
+  TB2Toolbar,
+  TB2Item,
+  SpTBXEditors,
+  SpTBXSkins,
+  frmIDEDockWin,
+  uLLMSupport;
+
+type
+
+  TLLMChatForm = class(TIDEDockWindow)
+    pnlQuestion: TPanel;
+    vilImages: TVirtualImageList;
+    ScrollBox: TScrollBox;
+    QAStackPanel: TStackPanel;
+    aiBusy: TActivityIndicator;
+    ActionList: TActionList;
+    actChatSave: TAction;
+    sbAsk: TSpeedButton;
+    ApplicationEvents: TApplicationEvents;
+    SpTBXDock: TSpTBXDock;
+    SpTBXToolbar: TSpTBXToolbar;
+    spiSave: TSpTBXItem;
+    SpTBXSubmenuItem1: TSpTBXSubmenuItem;
+    spiApiKey: TSpTBXEditItem;
+    SpTBXRightAlignSpacerItem: TSpTBXRightAlignSpacerItem;
+    spiEndpoint: TSpTBXEditItem;
+    spiModel: TSpTBXEditItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    spiTimeout: TSpTBXEditItem;
+    spiMaxTokens: TSpTBXEditItem;
+    spiSystemPrompt: TSpTBXEditItem;
+    actChatRemove: TAction;
+    actChatNew: TAction;
+    actChatPrevious: TAction;
+    actChatNext: TAction;
+    SpTBXItem1: TSpTBXItem;
+    SpTBXItem2: TSpTBXItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    SpTBXItem3: TSpTBXItem;
+    SpTBXItem4: TSpTBXItem;
+    actCopyText: TAction;
+    actAskQuestion: TAction;
+    SynMultiSyn: TSynMultiSyn;
+    synQuestion: TSynEdit;
+    Splitter: TSpTBXSplitter;
+    pmAsk: TSpTBXPopupMenu;
+    mnCopy: TSpTBXItem;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    mnSpelling: TSpTBXSubmenuItem;
+    mnPaste: TSpTBXItem;
+    pmTextMenu: TSpTBXPopupMenu;
+    mnCopyText: TSpTBXItem;
+    procedure actChatSaveExecute(Sender: TObject);
+    procedure ApplicationEventsMessage(var Msg: TMsg; var Handled: Boolean);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure synQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure AcceptSettings(Sender: TObject; var NewText: string; var
+        Accept: Boolean);
+    procedure actAskQuestionExecute(Sender: TObject);
+    procedure actChatNewExecute(Sender: TObject);
+    procedure actChatNextExecute(Sender: TObject);
+    procedure actChatPreviousExecute(Sender: TObject);
+    procedure actChatRemoveExecute(Sender: TObject);
+    procedure actCopyTextExecute(Sender: TObject);
+    procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
+    procedure SpTBXSubmenuItem1InitPopup(Sender: TObject; PopupView: TTBView);
+    procedure synQuestionEnter(Sender: TObject);
+  private
+    procedure PanelQAResize(Sender: TObject);
+    procedure DisplayQA(const QA, ImgName: string);
+    procedure ClearConversation;
+    procedure DisplayActiveChatTopic;
+    procedure PythonHighlighterChange(Sender: TObject);
+    procedure OnLLMResponse(Sender: TObject; const Question, Answer: string);
+    procedure OnLLMError(Sender: TObject; const Error: string);
+  protected
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
+  public
+    LLMChat: TLLMChat;
+  end;
+
+const
+  GPT_4_Settings: TLLMSettings = (
+    EndPoint: 'https://api.openai.com/v1/chat/completions';
+    ApiKey: '';
+    Model: 'gpt-4';
+    TimeOut: 20000;
+    MaxTokens: 1000;
+    SystemPrompt: 'You are my expert python coding assistant.');
+
+  GPT_35_Settings: TLLMSettings = (
+    EndPoint: 'https://api.openai.com/v1/chat/completions';
+    ApiKey: '';
+    Model: 'gpt-3.5-turbo';
+    TimeOut: 20000;
+    MaxTokens: 1000;
+    SystemPrompt: 'You are my expert python coding assistant.');
+
+  GPT_35_Instruct_Settings: TLLMSettings = (
+    EndPoint: 'https://api.openai.com/v1/completions';
+    ApiKey: '';
+    Model: 'gpt-3.5-turbo-instruct';
+    TimeOut: 20000;
+    MaxTokens: 1000;
+    SystemPrompt: '');
+
+  OllamaSettings: TLLMSettings = (
+    EndPoint: 'http://localhost:11434/api/chat';
+    ApiKey: '';
+    Model: 'codegema';
+    //Model: 'starcoder2';
+    //Model: 'codellama:';
+    //Model: 'stable-code';
+    TimeOut: 60000;
+    MaxTokens: 1000;
+    SystemPrompt: 'You are my expert python coding assistant.');
+
+var
+  LLMChatForm: TLLMChatForm;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  System.Math,
+  System.IOUtils,
+  Vcl.Themes,
+  Vcl.Clipbrd,
+  dmCommands,
+  dmResources,
+  cParameters,
+  cPyScripterSettings;
+
+procedure TLLMChatForm.actChatSaveExecute(Sender: TObject);
+begin
+  var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'Chat history.json');
+  LLMChat.SaveChat(FileName);
+end;
+
+procedure TLLMChatForm.FormDestroy(Sender: TObject);
+begin
+  ResourcesDataModule.SynPythonSyn.UnhookAttrChangeEvent(PythonHighlighterChange);
+
+  var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'Chat Settings.json');
+  LLMChat.SaveSettings(FileName);
+  LLMChat.Free;
+end;
+
+procedure TLLMChatForm.PanelQAResize(Sender: TObject);
+begin
+  var pnlAnswer := Sender as TSpTBXPanel;
+  var synAnswer := pnlAnswer.Controls[1] as TSynEdit;
+  var NewHeight := Max(MulDiv(30, CurrentPPI, 96), 2 * Margins.Bottom +
+    synAnswer.DisplayRowCount * synAnswer.LineHeight);
+  if NewHeight <> pnlAnswer.Height then
+    pnlAnswer.Height := NewHeight;
+end;
+
+procedure TLLMChatForm.PythonHighlighterChange(Sender: TObject);
+begin
+  SynMultiSyn.Schemes[0].MarkerAttri.Foreground :=
+    ResourcesDataModule.SynPythonSyn.WhitespaceAttribute.Foreground;
+end;
+
+procedure TLLMChatForm.ApplicationEventsMessage(var Msg: TMsg; var Handled: Boolean);
+begin
+  if Msg.message = WM_MOUSEWHEEL then
+  begin
+    var Window := WindowFromPoint(Msg.pt);
+    var WinControl := FindControl(Window);
+    if (WinControl is TSynEdit) and string(WinControl.Name).StartsWith('synQA') then
+    begin
+      SendMessage(WinControl.Parent.Handle, WM_MOUSEWHEEL, Msg.WParam, Msg.LParam);
+      Handled := True;
+    end;
+  end;
+end;
+
+procedure TLLMChatForm.ClearConversation;
+begin
+  while QAStackPanel.ControlCount > 0  do
+    QAStackPanel.Controls[QAStackPanel.ControlCount - 1].Free;
+end;
+
+procedure TLLMChatForm.DisplayQA(const QA, ImgName: string);
+begin
+  var PanelQA := TSpTBXPanel.Create(Self);
+  with PanelQA do begin
+    Name := 'PanelQA' + QAStackPanel.ControlCount.ToString;
+    Color := StyleServices.GetSystemColor(clWindow);
+    Anchors := [akLeft,akTop,akRight];
+    Width := 570;
+    Height := 50;
+    Anchors := [akLeft, akTop, akRight];
+    Borders := False;
+    AlignWithMargins := True;
+  end;
+  var SvgImage := TSVGIconImage.Create(Self);
+  with SvgImage do begin
+    Left := 0;
+    Top := 0;
+    Width := 24;
+    Height := 24;
+    AutoSize := False;
+    ImageList := vilImages;
+    ImageName := ImgName;
+    Anchors := [akLeft, akTop];
+    FixedColor := StyleServices.GetSystemColor(clWindowText);
+    Parent := PanelQA;
+  end;
+  var synQA := TSynEdit.Create(Self);
+  with synQA do begin
+    Name := 'synQA' + QAStackPanel.ControlCount.ToString;
+    Font.Color := StyleServices.GetSystemColor(clWindowText);
+    Color := StyleServices.GetSystemColor(clWindow);
+    BorderStyle := bsNone;
+    Anchors := [akLeft, akRight, akTop, akBottom];
+    UseCodeFolding := False;
+    Highlighter := SynMultiSyn;
+    ReadOnly := True;
+    RightEdge := 0;
+    Top := 0;
+    Left := 40;
+    Width := PanelQA.Width - 40;
+    Height := PanelQA.Height;
+    Font.Name := 'Consolas';
+    Font.Size := 10;
+    Gutter.Visible := False;
+    PopUpMenu := pmTextMenu;
+    ScrollBars := ssNone;
+    Parent := PanelQA;
+  end;
+  PanelQA.ScaleForPPI(CurrentPPI);
+  PanelQA.Parent := QAStackPanel;
+  synQA.WordWrap := True;
+  synQA.Text := QA.Trim;
+  PanelQA.OnResize :=  PanelQAResize;
+  // Resize twice! - The first time the Scrollbox scrollbar may be shown
+  PanelQAResize(PanelQA);
+  PanelQAResize(PanelQA);
+  ScrollBox.VertScrollBar.Position := ScrollBox.VertScrollBar.Range - 1;
+end;
+
+procedure TLLMChatForm.DisplayActiveChatTopic;
+begin
+  ClearConversation;
+  for var Response in LLMChat.ActiveTopic do
+  begin
+    DisplayQA(Response.Question, 'UserQuestion');
+    DisplayQA(Response.Answer, 'ChatGPT');
+  end;
+end;
+
+procedure TLLMChatForm.FormCreate(Sender: TObject);
+begin
+  ImageName := 'Chat\Chat';
+  inherited;
+
+  synQuestion.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  synQuestion.Color := StyleServices.GetSystemColor(clWindow);
+
+  SynMultiSyn.Schemes[0].Highlighter := ResourcesDataModule.SynPythonSyn;
+  SynMultiSyn.Schemes[0].MarkerAttri.Foreground :=
+    ResourcesDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+  ResourcesDataModule.SynPythonSyn.HookAttrChangeEvent(PythonHighlighterChange);
+  LLMChat := TLLMChat.Create(GPT_35_Settings);
+  LLMChat.OnLLMError := OnLLMError;
+  LLMChat.OnLLMResponse := OnLLMResponse;
+
+  // Restore settings and history
+  var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'Chat history.json');
+  LLMChat.LoadChat(FileName);
+
+  FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'Chat Settings.json');
+  LLMChat.LoadSettrings(FileName);
+end;
+
+procedure TLLMChatForm.FormShow(Sender: TObject);
+begin
+  DisplayActiveChatTopic;
+end;
+
+procedure TLLMChatForm.OnLLMError(Sender: TObject; const Error: string);
+begin
+  aiBusy.Animate := False;
+  MessageDlg(Error, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
+end;
+
+procedure TLLMChatForm.OnLLMResponse(Sender: TObject; const Question,
+  Answer: string);
+begin
+  aiBusy.Animate := False;
+  DisplayQA(Question, 'UserQuestion');
+  DisplayQA(Answer, 'ChatGPT');
+  synQuestion.Clear;
+end;
+
+procedure TLLMChatForm.synQuestionKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+  if (Shift * [ssShift, ssCtrl] <> []) and  (Key = vkReturn) then
+    actAskQuestion.Execute;
+end;
+
+procedure TLLMChatForm.AcceptSettings(Sender: TObject; var NewText:
+    string; var Accept: Boolean);
+begin
+  Accept := False;
+  try
+    if Sender = spiEndpoint then
+      LLMChat.Settings.EndPoint := NewText
+    else if Sender = spiModel then
+      LLMChat.Settings.Model := NewText
+    else if Sender = spiApiKey then
+      LLMChat.Settings.ApiKey := NewText
+    else if Sender = spiTimeout then
+      LLMChat.Settings.TimeOut := NewText.ToInteger * 1000
+    else if Sender = spiMaxTokens then
+      LLMChat.Settings.MaxTokens := NewText.ToInteger
+    else if Sender = spiSystemPrompt then
+      LLMChat.Settings.SystemPrompt := NewText;
+    LLMChat.ClearContext;
+    Accept := True;
+  except
+    on E: Exception do
+      MessageDlg(E.Message, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
+  end;
+end;
+
+procedure TLLMChatForm.actAskQuestionExecute(Sender: TObject);
+begin
+  if synQuestion.Text = '' then
+    Exit;
+  aiBusy.Animate := True;
+  LLMChat.Ask(Parameters.ReplaceInText(synQuestion.Text));
+end;
+
+procedure TLLMChatForm.actChatNewExecute(Sender: TObject);
+begin
+  LLMChat.NewTopic;
+  DisplayActiveChatTopic;
+end;
+
+procedure TLLMChatForm.actChatNextExecute(Sender: TObject);
+begin
+  LLMChat.NextTopic;
+  DisplayActiveChatTopic;
+end;
+
+procedure TLLMChatForm.actChatPreviousExecute(Sender: TObject);
+begin
+  LLMChat.PreviousTopic;
+  DisplayActiveChatTopic;
+end;
+
+procedure TLLMChatForm.actChatRemoveExecute(Sender: TObject);
+begin
+  LLMChat.RemoveTopic;
+  DisplayActiveChatTopic;
+end;
+
+procedure TLLMChatForm.actCopyTextExecute(Sender: TObject);
+begin
+  if pmTextMenu.PopupComponent is TSynEdit then with TSynEdit(pmTextMenu.PopupComponent) do
+  begin
+    if SelAvail then
+      Clipboard.AsText := SelText
+    else
+      Clipboard.AsText := Text;
+  end
+  else if pmTextMenu.PopupComponent is TSpTBXLabel then
+    Clipboard.AsText := TSpTBXLabel(pmTextMenu.PopupComponent).Caption;
+end;
+
+procedure TLLMChatForm.ActionListUpdate(Action: TBasicAction; var Handled:
+    Boolean);
+begin
+  Handled := True;
+  actChatNew.Enabled := ScrollBox.ControlCount > 0;
+  actChatNext.Enabled := LLMChat.ActiveTopicIndex < High(LLMChat.ChatTopics);
+  actChatPrevious.Enabled := LLMChat.ActiveTopicIndex > 0;
+end;
+
+procedure TLLMChatForm.SpTBXSubmenuItem1InitPopup(Sender: TObject; PopupView:
+    TTBView);
+begin
+  spiEndpoint.Text := LLMChat.Settings.EndPoint;
+  spiModel.Text := LLMChat.Settings.Model;
+  spiApiKey.Text := LLMChat.Settings.ApiKey;
+  spiTimeout.Text := (LLMChat.Settings.TimeOut div 1000).ToString;
+  spiMaxTokens.Text := LLMChat.Settings.MaxTokens.ToString;
+  spiSystemPrompt.Text := LLMChat.Settings.SystemPrompt;
+end;
+
+procedure TLLMChatForm.synQuestionEnter(Sender: TObject);
+begin
+  // Spell Checking
+  CommandsDataModule.SynSpellCheck.Editor := synQuestion;
+end;
+
+procedure TLLMChatForm.WMSpSkinChange(var Message: TMessage);
+begin
+  inherited;
+  synQuestion.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  synQuestion.Color := StyleServices.GetSystemColor(clWindow);
+  DisplayActiveChatTopic;
+end;
+
+end.

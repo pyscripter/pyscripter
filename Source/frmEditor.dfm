@@ -261,7 +261,7 @@ object EditorForm: TEditorForm
       Caption = 'Spelling'
       ImageIndex = 102
       ImageName = 'SpellCheck'
-      LinkSubitems = PyIDEMainForm.mnSpelling
+      LinkSubitems = CommandsDataModule.mnSpelling
     end
     object SpTBXSeparatorItem8: TSpTBXSeparatorItem
     end

@@ -1634,6 +1634,9 @@ begin
     OnAfterExecute := AutoCompleteAfterExecute;
   end;
 
+  // Spell Checking
+  CommandsDataModule.SynSpellCheck.Editor := ASynEdit;
+
   if ASynEdit.Highlighter is TSynWebBase then
   begin
     // SynCodeCompletion
