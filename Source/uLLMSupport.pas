@@ -36,13 +36,16 @@ type
     function EndpointType: TEndpointType;
   end;
 
-  TLLMResponse = record
+  TQAItem = record
     Question: string;
     Answer: string;
     constructor Create(const AQuestion, AnAnswer: string);
   end;
 
-  TChatTopic = TArray<TLLMResponse>;
+  TChatTopic = record
+    Title: string;
+    QAItems: TArray<TQAItem>;
+  end;
   TChatTopics = TArray<TChatTopic>;
 
   TOnLLMResponseEvent = procedure(Sender: TObject; const Question, Answer: string) of object;
@@ -198,10 +201,10 @@ begin
     // start with the system message
     Messages.Add(NewMessage('system', Settings.SystemPrompt));
     // add the history
-    for var LLMResponse in ActiveTopic do
+    for var QAItem in ActiveTopic.QAItems do
     begin
-      Messages.Add(NewMessage('user', LLMResponse.Question));
-      Messages.Add(NewMessage('assistant', LLMResponse.Answer));
+      Messages.Add(NewMessage('user', QAItem.Question));
+      Messages.Add(NewMessage('assistant', QAItem.Answer));
     end;
     // finally add the new prompt
     Messages.Add(NewMessage('user', Prompt));
@@ -221,7 +224,7 @@ end;
 
 procedure TLLMChat.ClearTopic;
 begin
-  ChatTopics[ActiveTopicIndex] := [];
+  ChatTopics[ActiveTopicIndex] := default(TChatTopic);
   ClearContext;
 end;
 
@@ -269,7 +272,7 @@ begin
 
   FSerializer := TJsonSerializer.Create;
 
-  ChatTopics := [[]];
+  ChatTopics := [default(TChatTopic)];
   ActiveTopicIndex := 0;
 end;
 
@@ -303,10 +306,10 @@ end;
 
 procedure TLLMChat.NewTopic;
 begin
-  if Length(ActiveTopic) = 0 then
+  if Length(ActiveTopic.QAItems) = 0 then
     Exit;
-  if Length(ChatTopics[High(ChatTopics)]) > 0 then
-    ChatTopics := ChatTopics + [[]];
+  if Length(ChatTopics[High(ChatTopics)].QAItems) > 0 then
+    ChatTopics := ChatTopics + [default(TChatTopic)];
   ActiveTopicIndex := High(ChatTopics);
 end;
 
@@ -362,7 +365,7 @@ begin
 
   if ResponseOK then
   begin
-    ChatTopics[ActiveTopicIndex] := ActiveTopic + [TLLMResponse.Create(FLastPrompt, Msg)];
+    ChatTopics[ActiveTopicIndex].QAItems := ActiveTopic.QAItems + [TQAItem.Create(FLastPrompt, Msg)];
     if Assigned(FOnLLMResponse)  then
       FOnLLMResponse(Self, FLastPrompt, Msg);
   end
@@ -402,7 +405,7 @@ begin
     if ActiveTopicIndex > 0 then
       Dec(ActiveTopicIndex)
     else
-      ChatTopics := ChatTopics + [[]];
+      ChatTopics := [default(TChatTopic)];
   end;
   ClearContext;
 end;
@@ -422,9 +425,9 @@ begin
   end;
 end;
 
-{ TLLMResponse }
+{ TQAItem }
 
-constructor TLLMResponse.Create(const AQuestion, AnAnswer: string);
+constructor TQAItem.Create(const AQuestion, AnAnswer: string);
 begin
   Self.Question := AQuestion;
   Self.Answer := AnAnswer;

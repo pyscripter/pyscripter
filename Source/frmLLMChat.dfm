@@ -165,8 +165,13 @@ inherited LLMChatForm: TLLMChatForm
       object spiSave: TSpTBXItem
         Action = actChatSave
       end
+      object SpTBXSeparatorItem4: TSpTBXSeparatorItem
+      end
+      object spiTitle: TSpTBXItem
+        Action = actTopicTitle
+      end
       object SpTBXRightAlignSpacerItem: TSpTBXRightAlignSpacerItem
-        CustomWidth = 382
+        CustomWidth = 345
       end
       object SpTBXItem2: TSpTBXItem
         Action = actChatPrevious
@@ -235,54 +240,59 @@ inherited LLMChatForm: TLLMChatForm
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 108
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 99
+        CollectionIndex = 104
         CollectionName = 'Save'
         Name = 'Save'
       end
       item
-        CollectionIndex = 16
+        CollectionIndex = 21
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 142
+        CollectionIndex = 11
         CollectionName = 'Chat\Chat'
         Name = 'Chat'
       end
       item
-        CollectionIndex = 143
+        CollectionIndex = 13
         CollectionName = 'Chat\ChatPlus'
         Name = 'ChatPlus'
       end
       item
-        CollectionIndex = 144
+        CollectionIndex = 15
         CollectionName = 'Chat\ChatRemove'
         Name = 'ChatRemove'
       end
       item
-        CollectionIndex = 145
+        CollectionIndex = 14
         CollectionName = 'Chat\ChatQuestion'
         Name = 'ChatQuestion'
       end
       item
-        CollectionIndex = 146
+        CollectionIndex = 138
         CollectionName = 'Chat\UserQuestion'
         Name = 'UserQuestion'
       end
       item
-        CollectionIndex = 147
+        CollectionIndex = 12
         CollectionName = 'Chat\ChatGPT'
         Name = 'ChatGPT'
       end
       item
-        CollectionIndex = 65
+        CollectionIndex = 70
         CollectionName = 'Paste'
         Name = 'Paste'
+      end
+      item
+        CollectionIndex = 126
+        CollectionName = 'Title'
+        Name = 'Title'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     Width = 24
@@ -290,12 +300,13 @@ inherited LLMChatForm: TLLMChatForm
     Left = 32
     Top = 504
   end
-  object ActionList: TActionList
+  object ChatActionList: TActionList
     Images = vilImages
-    OnUpdate = ActionListUpdate
+    OnUpdate = ChatActionListUpdate
     Left = 32
     Top = 440
     object actChatSave: TAction
+      Category = 'Chat'
       Caption = 'Save chat'
       Hint = 'Save chat history'
       ImageIndex = 3
@@ -303,6 +314,7 @@ inherited LLMChatForm: TLLMChatForm
       OnExecute = actChatSaveExecute
     end
     object actChatRemove: TAction
+      Category = 'Chat'
       Caption = 'Remove Chat Topic'
       Hint = 'Remove current chat topic'
       ImageIndex = 7
@@ -310,6 +322,7 @@ inherited LLMChatForm: TLLMChatForm
       OnExecute = actChatRemoveExecute
     end
     object actChatNew: TAction
+      Category = 'Chat'
       Caption = 'New Chat Topic'
       Hint = 'Add a new chat topic'
       ImageIndex = 6
@@ -317,6 +330,7 @@ inherited LLMChatForm: TLLMChatForm
       OnExecute = actChatNewExecute
     end
     object actChatPrevious: TAction
+      Category = 'Chat'
       Caption = 'Previous Chat Topic'
       Hint = 'Show previous chat topic'
       ImageIndex = 0
@@ -324,6 +338,7 @@ inherited LLMChatForm: TLLMChatForm
       OnExecute = actChatPreviousExecute
     end
     object actChatNext: TAction
+      Category = 'Chat'
       Caption = 'Next Chat Topic'
       Hint = 'Show next chat topic'
       ImageIndex = 1
@@ -331,6 +346,7 @@ inherited LLMChatForm: TLLMChatForm
       OnExecute = actChatNextExecute
     end
     object actCopyText: TAction
+      Category = 'Chat'
       Caption = 'Copy '
       Hint = 'Copy text'
       ImageIndex = 4
@@ -338,23 +354,40 @@ inherited LLMChatForm: TLLMChatForm
       OnExecute = actCopyTextExecute
     end
     object actAskQuestion: TAction
+      Category = 'Chat'
       Hint = 'Ask question'
       ImageIndex = 8
       ImageName = 'ChatQuestion'
       OnExecute = actAskQuestionExecute
     end
+    object actTopicTitle: TAction
+      Category = 'Chat'
+      Caption = 'Topic Title'
+      Hint = 'Set the title of the chat topic'
+      ImageIndex = 12
+      ImageName = 'Title'
+      OnExecute = actTopicTitleExecute
+    end
   end
-  object ApplicationEvents: TApplicationEvents
-    OnMessage = ApplicationEventsMessage
+  object AppEvents: TApplicationEvents
+    OnMessage = AppEventsMessage
     Left = 32
     Top = 320
   end
   object SynMultiSyn: TSynMultiSyn
     Schemes = <
       item
+        StartExpr = '```python'
+        EndExpr = '```'
+        MarkerAttri.Background = clNone
+        MarkerAttri.Style = []
+        SchemeName = 'Python'
+      end
+      item
         StartExpr = '```'
         EndExpr = '```'
         MarkerAttri.Background = clNone
+        MarkerAttri.Style = []
         SchemeName = 'Python'
       end>
     Left = 32

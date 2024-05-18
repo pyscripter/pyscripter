@@ -479,102 +479,102 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 46
+        CollectionIndex = 51
         CollectionName = 'Folders'
         Name = 'Folders'
       end
       item
-        CollectionIndex = 32
+        CollectionIndex = 37
         CollectionName = 'ExternalRun'
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 31
+        CollectionIndex = 36
         CollectionName = 'Expand'
         Name = 'Expand'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 20
         CollectionName = 'Collapse'
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 98
         CollectionName = 'Run'
         Name = 'Run'
       end
       item
-        CollectionIndex = 18
+        CollectionIndex = 23
         CollectionName = 'Debug'
         Name = 'Debug'
       end
       item
-        CollectionIndex = 75
+        CollectionIndex = 80
         CollectionName = 'ProjectFile'
         Name = 'ProjectFile'
       end
       item
-        CollectionIndex = 76
+        CollectionIndex = 81
         CollectionName = 'ProjectOpen'
         Name = 'ProjectOpen'
       end
       item
-        CollectionIndex = 73
+        CollectionIndex = 78
         CollectionName = 'ProjectAdd'
         Name = 'ProjectAdd'
       end
       item
-        CollectionIndex = 77
+        CollectionIndex = 82
         CollectionName = 'ProjectRemove'
         Name = 'ProjectRemove'
       end
       item
-        CollectionIndex = 45
+        CollectionIndex = 50
         CollectionName = 'FolderAdd'
         Name = 'FolderAdd'
       end
       item
-        CollectionIndex = 26
+        CollectionIndex = 31
         CollectionName = 'Editor'
         Name = 'Editor'
       end
       item
-        CollectionIndex = 78
+        CollectionIndex = 83
         CollectionName = 'ProjectSave'
         Name = 'ProjectSave'
       end
       item
-        CollectionIndex = 94
+        CollectionIndex = 99
         CollectionName = 'RunConfigAdd'
         Name = 'RunConfigAdd'
       end
       item
-        CollectionIndex = 95
+        CollectionIndex = 100
         CollectionName = 'RunConfigEdit'
         Name = 'RunConfigEdit'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 44
         CollectionName = 'FileProperties'
         Name = 'FileProperties'
       end
       item
-        CollectionIndex = 23
+        CollectionIndex = 28
         CollectionName = 'Download'
         Name = 'Download'
       end
       item
-        CollectionIndex = 96
+        CollectionIndex = 101
         CollectionName = 'RunLast'
         Name = 'RunLast'
       end
       item
-        CollectionIndex = 19
+        CollectionIndex = 24
         CollectionName = 'DebugLast'
         Name = 'DebugLast'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 38
         CollectionName = 'ExternalRunLast'
         Name = 'ExternalRunLast'
       end>

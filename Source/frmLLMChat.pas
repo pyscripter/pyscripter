@@ -51,10 +51,10 @@ type
     ScrollBox: TScrollBox;
     QAStackPanel: TStackPanel;
     aiBusy: TActivityIndicator;
-    ActionList: TActionList;
+    ChatActionList: TActionList;
     actChatSave: TAction;
     sbAsk: TSpeedButton;
-    ApplicationEvents: TApplicationEvents;
+    AppEvents: TApplicationEvents;
     SpTBXDock: TSpTBXDock;
     SpTBXToolbar: TSpTBXToolbar;
     spiSave: TSpTBXItem;
@@ -88,8 +88,11 @@ type
     mnPaste: TSpTBXItem;
     pmTextMenu: TSpTBXPopupMenu;
     mnCopyText: TSpTBXItem;
+    actTopicTitle: TAction;
+    SpTBXSeparatorItem4: TSpTBXSeparatorItem;
+    spiTitle: TSpTBXItem;
     procedure actChatSaveExecute(Sender: TObject);
-    procedure ApplicationEventsMessage(var Msg: TMsg; var Handled: Boolean);
+    procedure AppEventsMessage(var Msg: TMsg; var Handled: Boolean);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -102,10 +105,12 @@ type
     procedure actChatPreviousExecute(Sender: TObject);
     procedure actChatRemoveExecute(Sender: TObject);
     procedure actCopyTextExecute(Sender: TObject);
-    procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
+    procedure actTopicTitleExecute(Sender: TObject);
+    procedure ChatActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure SpTBXSubmenuItem1InitPopup(Sender: TObject; PopupView: TTBView);
     procedure synQuestionEnter(Sender: TObject);
   private
+    procedure DisplayTopicTitle(Title: string);
     procedure PanelQAResize(Sender: TObject);
     procedure DisplayQA(const QA, ImgName: string);
     procedure ClearConversation;
@@ -167,6 +172,7 @@ uses
   System.IOUtils,
   Vcl.Themes,
   Vcl.Clipbrd,
+  JvGnugettext,
   dmCommands,
   dmResources,
   cParameters,
@@ -203,9 +209,11 @@ procedure TLLMChatForm.PythonHighlighterChange(Sender: TObject);
 begin
   SynMultiSyn.Schemes[0].MarkerAttri.Foreground :=
     ResourcesDataModule.SynPythonSyn.WhitespaceAttribute.Foreground;
+  SynMultiSyn.Schemes[1].MarkerAttri.Foreground :=
+    ResourcesDataModule.SynPythonSyn.WhitespaceAttribute.Foreground;
 end;
 
-procedure TLLMChatForm.ApplicationEventsMessage(var Msg: TMsg; var Handled: Boolean);
+procedure TLLMChatForm.AppEventsMessage(var Msg: TMsg; var Handled: Boolean);
 begin
   if Msg.message = WM_MOUSEWHEEL then
   begin
@@ -284,13 +292,22 @@ begin
   ScrollBox.VertScrollBar.Position := ScrollBox.VertScrollBar.Range - 1;
 end;
 
+procedure TLLMChatForm.DisplayTopicTitle(Title: string);
+begin
+  if Title = '' then
+    Caption := _('Chat')
+  else
+    Caption := _('Chat') + ' - ' + Title;
+end;
+
 procedure TLLMChatForm.DisplayActiveChatTopic;
 begin
   ClearConversation;
-  for var Response in LLMChat.ActiveTopic do
+  DisplayTopicTitle(LLMChat.ActiveTopic.Title);
+  for var QAItem in LLMChat.ActiveTopic.QAItems do
   begin
-    DisplayQA(Response.Question, 'UserQuestion');
-    DisplayQA(Response.Answer, 'ChatGPT');
+    DisplayQA(QAItem.Question, 'UserQuestion');
+    DisplayQA(QAItem.Answer, 'ChatGPT');
   end;
 end;
 
@@ -304,6 +321,9 @@ begin
 
   SynMultiSyn.Schemes[0].Highlighter := ResourcesDataModule.SynPythonSyn;
   SynMultiSyn.Schemes[0].MarkerAttri.Foreground :=
+    ResourcesDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+  SynMultiSyn.Schemes[1].Highlighter := ResourcesDataModule.SynPythonSyn;
+  SynMultiSyn.Schemes[1].MarkerAttri.Foreground :=
     ResourcesDataModule.SynPythonSyn.IdentifierAttri.Foreground;
   ResourcesDataModule.SynPythonSyn.HookAttrChangeEvent(PythonHighlighterChange);
   LLMChat := TLLMChat.Create(GPT_35_Settings);
@@ -417,7 +437,17 @@ begin
     Clipboard.AsText := TSpTBXLabel(pmTextMenu.PopupComponent).Caption;
 end;
 
-procedure TLLMChatForm.ActionListUpdate(Action: TBasicAction; var Handled:
+procedure TLLMChatForm.actTopicTitleExecute(Sender: TObject);
+var
+  Title: string;
+begin
+  Title := LLMChat.ChatTopics[LLMChat.ActiveTopicIndex].Title;
+  if InputQuery(_('Topic Title'), _('Enter title:'), Title) then
+  LLMChat.ChatTopics[LLMChat.ActiveTopicIndex].Title := Title;
+  DisplayTopicTitle(Title);
+end;
+
+procedure TLLMChatForm.ChatActionListUpdate(Action: TBasicAction; var Handled:
     Boolean);
 begin
   Handled := True;
