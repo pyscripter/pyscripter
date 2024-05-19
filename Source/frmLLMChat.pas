@@ -116,6 +116,7 @@ type
     procedure ClearConversation;
     procedure DisplayActiveChatTopic;
     procedure PythonHighlighterChange(Sender: TObject);
+    procedure SetQuestionTextHint;
     procedure OnLLMResponse(Sender: TObject; const Question, Answer: string);
     procedure OnLLMError(Sender: TObject; const Error: string);
   protected
@@ -123,42 +124,6 @@ type
   public
     LLMChat: TLLMChat;
   end;
-
-const
-  GPT_4_Settings: TLLMSettings = (
-    EndPoint: 'https://api.openai.com/v1/chat/completions';
-    ApiKey: '';
-    Model: 'gpt-4';
-    TimeOut: 20000;
-    MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
-
-  GPT_35_Settings: TLLMSettings = (
-    EndPoint: 'https://api.openai.com/v1/chat/completions';
-    ApiKey: '';
-    Model: 'gpt-3.5-turbo';
-    TimeOut: 20000;
-    MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
-
-  GPT_35_Instruct_Settings: TLLMSettings = (
-    EndPoint: 'https://api.openai.com/v1/completions';
-    ApiKey: '';
-    Model: 'gpt-3.5-turbo-instruct';
-    TimeOut: 20000;
-    MaxTokens: 1000;
-    SystemPrompt: '');
-
-  OllamaSettings: TLLMSettings = (
-    EndPoint: 'http://localhost:11434/api/chat';
-    ApiKey: '';
-    Model: 'codegema';
-    //Model: 'starcoder2';
-    //Model: 'codellama:';
-    //Model: 'stable-code';
-    TimeOut: 60000;
-    MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
 
 var
   LLMChatForm: TLLMChatForm;
@@ -177,6 +142,10 @@ uses
   dmResources,
   cParameters,
   cPyScripterSettings;
+
+resourcestring
+  SQuestionHintValid = 'Ask me anything';
+  SQuestionHintInvalid = 'Chat setup incomplete';
 
 procedure TLLMChatForm.actChatSaveExecute(Sender: TObject);
 begin
@@ -326,9 +295,10 @@ begin
   SynMultiSyn.Schemes[1].MarkerAttri.Foreground :=
     ResourcesDataModule.SynPythonSyn.IdentifierAttri.Foreground;
   ResourcesDataModule.SynPythonSyn.HookAttrChangeEvent(PythonHighlighterChange);
-  LLMChat := TLLMChat.Create(GPT_35_Settings);
+  LLMChat := TLLMChat.Create;
   LLMChat.OnLLMError := OnLLMError;
   LLMChat.OnLLMResponse := OnLLMResponse;
+
 
   // Restore settings and history
   var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
@@ -338,6 +308,8 @@ begin
   FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
     'Chat Settings.json');
   LLMChat.LoadSettrings(FileName);
+
+  SetQuestionTextHint;
 end;
 
 procedure TLLMChatForm.FormShow(Sender: TObject);
@@ -390,6 +362,8 @@ begin
     on E: Exception do
       MessageDlg(E.Message, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
   end;
+  if Accept then
+    SetQuestionTextHint;
 end;
 
 procedure TLLMChatForm.actAskQuestionExecute(Sender: TObject);
@@ -454,6 +428,18 @@ begin
   actChatNew.Enabled := ScrollBox.ControlCount > 0;
   actChatNext.Enabled := LLMChat.ActiveTopicIndex < High(LLMChat.ChatTopics);
   actChatPrevious.Enabled := LLMChat.ActiveTopicIndex > 0;
+  actAskQuestion.Enabled := LLMChat.ValidateSettings = svValid;
+end;
+
+procedure TLLMChatForm.SetQuestionTextHint;
+begin
+  var Validation := LLMChat.ValidateSettings;
+
+  if Validation = svValid then
+    synQuestion.TextHint := SQuestionHintValid
+  else
+    synQuestion.TextHint := SQuestionHintInvalid + ': ' + LLMChat.ValidationErrMsg(Validation);
+  synQuestion.Invalidate;
 end;
 
 procedure TLLMChatForm.SpTBXSubmenuItem1InitPopup(Sender: TObject; PopupView:

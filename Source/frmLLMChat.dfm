@@ -58,7 +58,6 @@ inherited LLMChatForm: TLLMChatForm
           Font.Quality = fqClearTypeNatural
           PopupMenu = pmAsk
           TabOrder = 0
-          TextHint = 'Ask me anything'
           OnEnter = synQuestionEnter
           OnKeyDown = synQuestionKeyDown
           UseCodeFolding = False
@@ -89,6 +88,7 @@ inherited LLMChatForm: TLLMChatForm
             end>
           HideSelection = True
           Highlighter = SynMultiSyn
+          RightEdge = 0
           ScrollBars = ssVertical
           SelectedColor.Alpha = 0.400000005960464500
           WordWrap = True
