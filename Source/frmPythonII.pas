@@ -796,16 +796,18 @@ begin
            ((Pos(PS2, Line) = 1) and (SynEdit.CaretX <= Length(PS2)+1)) then
           Command := ecNone;  // do not processed it further
       end;
-    ecLineStart :
+    ecLineStart, ecSelLineStart:
       begin
-        Line := SynEdit.Lines[SynEdit.CaretY - 1];
-        if Pos(PS1, Line) = 1 then begin
-          Command := ecNone;  // do not processed it further
-          SynEdit.CaretX := Length(PS1) + 1;
-        end else if Pos(PS2, Line) = 1 then begin
-          Command := ecNone;  // do not processed it further
-          SynEdit.CaretX := Length(PS2) + 1;
-        end;
+        var DC := SynEdit.DisplayXY;
+        Line := SynEdit.Rows[DC.Row];
+        if Pos(PS1, Line) = 1 then
+          DC.Column := Length(PS1) + 1
+        else if Pos(PS2, Line) = 1 then
+          DC.Column := Length(PS2) + 1
+        else
+          Exit;
+        SynEdit.MoveDisplayPosAndSelection(DC, Command = ecSelLineStart);
+        Command := ecNone;  // do not processed it further
       end;
     ecChar, ecDeleteChar, ecDeleteWord, ecCut, ecPaste:
       begin
