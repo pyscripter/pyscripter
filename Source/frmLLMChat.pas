@@ -58,7 +58,7 @@ type
     SpTBXDock: TSpTBXDock;
     SpTBXToolbar: TSpTBXToolbar;
     spiSave: TSpTBXItem;
-    SpTBXSubmenuItem1: TSpTBXSubmenuItem;
+    spiSettings: TSpTBXSubmenuItem;
     spiApiKey: TSpTBXEditItem;
     SpTBXRightAlignSpacerItem: TSpTBXRightAlignSpacerItem;
     spiEndpoint: TSpTBXEditItem;
@@ -71,11 +71,11 @@ type
     actChatNew: TAction;
     actChatPrevious: TAction;
     actChatNext: TAction;
-    SpTBXItem1: TSpTBXItem;
-    SpTBXItem2: TSpTBXItem;
+    spiNextTopic: TSpTBXItem;
+    spiPreviousTopic: TSpTBXItem;
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
-    SpTBXItem3: TSpTBXItem;
-    SpTBXItem4: TSpTBXItem;
+    spiNewTopic: TSpTBXItem;
+    spiRemoveTopic: TSpTBXItem;
     actCopyText: TAction;
     actAskQuestion: TAction;
     SynMultiSyn: TSynMultiSyn;
@@ -91,6 +91,13 @@ type
     actTopicTitle: TAction;
     SpTBXSeparatorItem4: TSpTBXSeparatorItem;
     spiTitle: TSpTBXItem;
+    actCancelRequest: TAction;
+    spiCancel: TTBItem;
+    actCopyCode: TAction;
+    SpTBXItem1: TSpTBXItem;
+    actCopyToNewEditor: TAction;
+    SpTBXSeparatorItem5: TSpTBXSeparatorItem;
+    SpTBXItem2: TSpTBXItem;
     procedure actChatSaveExecute(Sender: TObject);
     procedure AppEventsMessage(var Msg: TMsg; var Handled: Boolean);
     procedure FormDestroy(Sender: TObject);
@@ -100,16 +107,21 @@ type
     procedure AcceptSettings(Sender: TObject; var NewText: string; var
         Accept: Boolean);
     procedure actAskQuestionExecute(Sender: TObject);
+    procedure actCancelRequestExecute(Sender: TObject);
     procedure actChatNewExecute(Sender: TObject);
     procedure actChatNextExecute(Sender: TObject);
     procedure actChatPreviousExecute(Sender: TObject);
     procedure actChatRemoveExecute(Sender: TObject);
+    procedure actCopyCodeExecute(Sender: TObject);
     procedure actCopyTextExecute(Sender: TObject);
+    procedure actCopyToNewEditorExecute(Sender: TObject);
     procedure actTopicTitleExecute(Sender: TObject);
     procedure ChatActionListUpdate(Action: TBasicAction; var Handled: Boolean);
-    procedure SpTBXSubmenuItem1InitPopup(Sender: TObject; PopupView: TTBView);
+    procedure pmTextMenuPopup(Sender: TObject);
+    procedure spiSettingsInitPopup(Sender: TObject; PopupView: TTBView);
     procedure synQuestionEnter(Sender: TObject);
   private
+    function GetCodeBlock(Editor: TSynEdit): string;
     procedure DisplayTopicTitle(Title: string);
     procedure PanelQAResize(Sender: TObject);
     procedure DisplayQA(const QA, ImgName: string);
@@ -140,6 +152,7 @@ uses
   JvGnugettext,
   dmCommands,
   dmResources,
+  uEditAppIntfs,
   cParameters,
   cPyScripterSettings;
 
@@ -226,6 +239,7 @@ begin
     ImageName := ImgName;
     Anchors := [akLeft, akTop];
     FixedColor := StyleServices.GetSystemColor(clWindowText);
+    ApplyFixedColorToRootOnly := True;
     Parent := PanelQA;
   end;
   var synQA := TSynEdit.Create(Self);
@@ -235,6 +249,7 @@ begin
     Color := StyleServices.GetSystemColor(clWindow);
     BorderStyle := bsNone;
     Anchors := [akLeft, akRight, akTop, akBottom];
+    Options := Options + [eoRightMouseMovesCursor];
     UseCodeFolding := False;
     Highlighter := SynMultiSyn;
     ReadOnly := True;
@@ -276,7 +291,7 @@ begin
   for var QAItem in LLMChat.ActiveTopic.QAItems do
   begin
     DisplayQA(QAItem.Question, 'UserQuestion');
-    DisplayQA(QAItem.Answer, 'ChatGPT');
+    DisplayQA(QAItem.Answer, 'Assistant');
   end;
 end;
 
@@ -314,21 +329,52 @@ end;
 
 procedure TLLMChatForm.FormShow(Sender: TObject);
 begin
-  DisplayActiveChatTopic;
+  TThread.ForceQueue(nil, procedure
+  begin
+    DisplayActiveChatTopic;
+  end);
+end;
+
+function TLLMChatForm.GetCodeBlock(Editor: TSynEdit): string;
+var
+  Token: String;
+  Attri: TSynHighlighterAttributes;
+  Code: string;
+begin
+  Result := '';
+  var BC := Editor.CaretXY;
+
+  Editor.GetHighlighterAttriAtRowCol(BC, Token, Attri);
+  if SynMultiSyn.CurrScheme < 0 then // not inside python code
+    Exit;
+
+  var StartLine := BC.Line;
+  var EndLine := BC.Line;
+
+  while (StartLine > 1) and  not Editor.Lines[StartLine -1].StartsWith('```') do
+    Dec(StartLine);
+  while (EndLine < Editor.Lines.Count) and not Editor.Lines[EndLine -1].StartsWith('```') do
+    Inc(EndLine);
+
+  Result := '';
+  for var Line := StartLine + 1 to EndLine - 1 do
+  begin
+    Result := Result + Editor.Lines[Line - 1];
+    if Line < EndLine - 1 then
+      Result := Result + sLineBreak;
+  end;
 end;
 
 procedure TLLMChatForm.OnLLMError(Sender: TObject; const Error: string);
 begin
-  aiBusy.Animate := False;
   MessageDlg(Error, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
 end;
 
 procedure TLLMChatForm.OnLLMResponse(Sender: TObject; const Question,
   Answer: string);
 begin
-  aiBusy.Animate := False;
   DisplayQA(Question, 'UserQuestion');
-  DisplayQA(Answer, 'ChatGPT');
+  DisplayQA(Answer, 'Assistant');
   synQuestion.Clear;
 end;
 
@@ -370,8 +416,12 @@ procedure TLLMChatForm.actAskQuestionExecute(Sender: TObject);
 begin
   if synQuestion.Text = '' then
     Exit;
-  aiBusy.Animate := True;
   LLMChat.Ask(Parameters.ReplaceInText(synQuestion.Text));
+end;
+
+procedure TLLMChatForm.actCancelRequestExecute(Sender: TObject);
+begin
+  LLMChat.CancelRequest;
 end;
 
 procedure TLLMChatForm.actChatNewExecute(Sender: TObject);
@@ -398,6 +448,17 @@ begin
   DisplayActiveChatTopic;
 end;
 
+procedure TLLMChatForm.actCopyCodeExecute(Sender: TObject);
+begin
+  if not (pmTextMenu.PopupComponent is TSynEdit) then
+    Exit;
+
+  var Editor := TSynEdit(pmTextMenu.PopupComponent);
+  var Code := GetCodeBlock(Editor);
+  if Code <> '' then
+    Clipboard.AsText := Code;
+end;
+
 procedure TLLMChatForm.actCopyTextExecute(Sender: TObject);
 begin
   if pmTextMenu.PopupComponent is TSynEdit then with TSynEdit(pmTextMenu.PopupComponent) do
@@ -409,6 +470,23 @@ begin
   end
   else if pmTextMenu.PopupComponent is TSpTBXLabel then
     Clipboard.AsText := TSpTBXLabel(pmTextMenu.PopupComponent).Caption;
+end;
+
+procedure TLLMChatForm.actCopyToNewEditorExecute(Sender: TObject);
+begin
+  if not (pmTextMenu.PopupComponent is TSynEdit) then
+    Exit;
+
+  var Editor := TSynEdit(pmTextMenu.PopupComponent);
+  var Code := GetCodeBlock(Editor);
+
+  if Code = '' then
+    Exit;
+
+  var NewEditor := GI_EditorFactory.NewEditor;
+  NewEditor.OpenFile('', 'Python');
+  NewEditor.SynEdit.Text := Code;
+  NewEditor.Activate;
 end;
 
 procedure TLLMChatForm.actTopicTitleExecute(Sender: TObject);
@@ -429,6 +507,31 @@ begin
   actChatNext.Enabled := LLMChat.ActiveTopicIndex < High(LLMChat.ChatTopics);
   actChatPrevious.Enabled := LLMChat.ActiveTopicIndex > 0;
   actAskQuestion.Enabled := LLMChat.ValidateSettings = svValid;
+
+  var IsBusy := LLMChat.IsBusy;
+  if aiBusy.Animate <> IsBusy then
+    aiBusy.Animate := IsBusy;
+  actCancelRequest.Visible := IsBusy;
+  actCancelRequest.Enabled := IsBusy;
+end;
+
+procedure TLLMChatForm.pmTextMenuPopup(Sender: TObject);
+var
+  Token: String;
+  Attri: TSynHighlighterAttributes;
+begin
+  actCopyCode.Enabled := False;
+  actCopyToNewEditor.Enabled := False;
+  if not (pmTextMenu.PopupComponent is TSynEdit) then
+    Exit;
+
+  var Editor := TSynEdit(pmTextMenu.PopupComponent);
+  var BC := Editor.CaretXY;
+
+  Editor.GetHighlighterAttriAtRowCol(BC, Token, Attri);
+  actCopyCode.Enabled := (SynMultiSyn.CurrScheme >= 0) and
+    not Editor.Lines[BC.Line - 1].StartsWith('```');
+  actCopyToNewEditor.Enabled := actCopyCode.Enabled;
 end;
 
 procedure TLLMChatForm.SetQuestionTextHint;
@@ -442,7 +545,7 @@ begin
   synQuestion.Invalidate;
 end;
 
-procedure TLLMChatForm.SpTBXSubmenuItem1InitPopup(Sender: TObject; PopupView:
+procedure TLLMChatForm.spiSettingsInitPopup(Sender: TObject; PopupView:
     TTBView);
 begin
   spiEndpoint.Text := LLMChat.Settings.EndPoint;
@@ -464,6 +567,7 @@ begin
   inherited;
   synQuestion.Font.Color := StyleServices.GetSystemColor(clWindowText);
   synQuestion.Color := StyleServices.GetSystemColor(clWindow);
+  aiBusy.IndicatorCustomColor := StyleServices.GetSystemColor(clWindowText);
   DisplayActiveChatTopic;
 end;
 

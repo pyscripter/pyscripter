@@ -61,15 +61,16 @@ type
   TLLMBase = class
   private
     FHttpClient: TNetHTTPClient;
+    FHttpResponse: IHTTPResponse;
     FSourceStream: TStringStream;
     FOnLLMResponse: TOnLLMResponseEvent;
     FOnLLMError: TOnLLMErrorEvent;
     FLastPrompt: string;
     FContext: TJSONValue;
     FEndPointType: TEndpointType;
-    FIsBusy: Boolean;
     procedure OnRequestError(const Sender: TObject; const AError: string);
     procedure OnRequestCompleted(const Sender: TObject; const AResponse: IHTTPResponse);
+    function GetIsBusy: Boolean;
   protected
     FSerializer: TJsonSerializer;
     procedure DoResponseOK(const Msg: string); virtual;
@@ -85,10 +86,11 @@ type
     destructor Destroy; override;
 
     procedure Ask(const Question: string);
+    procedure CancelRequest;
     procedure SaveSettings(const FName: string);
     procedure LoadSettrings(const FName: string);
 
-    property IsBusy: Boolean read FIsBusy;
+    property IsBusy: Boolean read GetIsBusy;
     property OnLLMResponse: TOnLLMResponseEvent read FOnLLMResponse write FOnLLMResponse;
     property OnLLMError: TOnLLMErrorEvent read FOnLLMError write FOnLLMError;
   end;
@@ -196,7 +198,7 @@ var
 begin
   if Question = '' then Exit;
 
-  if FIsBusy then
+  if Assigned(FHttpResponse) then
     ErrMsg := sLLMBusy
   else
   begin
@@ -216,19 +218,24 @@ begin
   FHttpClient.ResponseTimeout := Settings.TimeOut * 2;
 
   FLastPrompt := Question;
-  FIsBusy := True;
-
   Params := RequestParams(Question);
 
   FSourceStream.Clear;
   FSourceStream.WriteString(Params);
   FSourceStream.Position := 0;
 
+  FHttpClient.CustHeaders.Clear;
   if FEndPointType in [etOpenAICompletion, etOpenAIChatCompletion] then
     FHttpClient.CustomHeaders['Authorization'] := 'Bearer ' + Settings.ApiKey;
   FHttpClient.CustomHeaders['Content-Type'] := 'application/json';
   FHttpClient.CustomHeaders['AcceptEncoding'] := 'deflate, gzip;q=1.0, *;q=0.5';
-  FHttpClient.Post(Settings.EndPoint , FSourceStream);
+  FHttpResponse := FHttpClient.Post(Settings.EndPoint , FSourceStream);
+end;
+
+procedure TLLMBase.CancelRequest;
+begin
+  if Assigned(FHttpResponse) then
+    FHttpResponse.AsyncResult.Cancel;
 end;
 
 procedure TLLMBase.ClearContext;
@@ -264,6 +271,11 @@ begin
   // Do nothing
 end;
 
+function TLLMBase.GetIsBusy: Boolean;
+begin
+  Result := Assigned(FHttpResponse);
+end;
+
 procedure TLLMBase.LoadSettrings(const FName: string);
 begin
   if FileExists(FName) then
@@ -280,6 +292,9 @@ var
   ResponseOK: Boolean;
   ErrMsg, Msg: string;
 begin
+  FHttpResponse := nil;
+  if AResponse.AsyncResult.IsCancelled then
+    Exit;
   ResponseOK := False;
   if AResponse.ContentStream.Size > 0 then
   begin
@@ -327,14 +342,13 @@ begin
     if Assigned(FOnLLMError) then
       FOnLLMError(Self, ErrMsg);
   end;
-  FIsBusy := False;
 end;
 
 procedure TLLMBase.OnRequestError(const Sender: TObject; const AError: string);
 begin
+  FHttpResponse := nil;
   if Assigned(FOnLLMError) then
     FOnLLMError(Self, AError);
-  FIsBusy := False;
 end;
 
 procedure TLLMBase.SaveSettings(const FName: string);

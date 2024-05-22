@@ -7,15 +7,15 @@ inherited LLMChatForm: TLLMChatForm
   OnShow = FormShow
   TextHeight = 15
   inherited BGPanel: TPanel
-    Top = 34
     Width = 586
-    Height = 621
+    Height = 655
+    FullRepaint = False
     inherited FGPanel: TPanel
       Width = 582
-      Height = 617
+      Height = 651
       object pnlQuestion: TPanel
         Left = 0
-        Top = 532
+        Top = 566
         Width = 582
         Height = 85
         Align = alBottom
@@ -39,6 +39,7 @@ inherited LLMChatForm: TLLMChatForm
           Left = 542
           Top = 44
           Anchors = [akRight, akBottom]
+          IndicatorColor = aicCustom
           IndicatorType = aitSectorRing
         end
         object synQuestion: TSynEdit
@@ -96,7 +97,7 @@ inherited LLMChatForm: TLLMChatForm
       end
       object ScrollBox: TScrollBox
         Left = 0
-        Top = 0
+        Top = 34
         Width = 582
         Height = 527
         HorzScrollBar.Visible = False
@@ -124,7 +125,7 @@ inherited LLMChatForm: TLLMChatForm
       end
       object Splitter: TSpTBXSplitter
         Left = 0
-        Top = 527
+        Top = 561
         Width = 582
         Height = 5
         Cursor = crSizeNS
@@ -132,94 +133,99 @@ inherited LLMChatForm: TLLMChatForm
         ParentColor = False
         MinSize = 90
       end
-    end
-  end
-  object SpTBXDock: TSpTBXDock [1]
-    Left = 0
-    Top = 0
-    Width = 586
-    Height = 34
-    object SpTBXToolbar: TSpTBXToolbar
-      Left = 0
-      Top = 0
-      CloseButton = False
-      DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 0
-      DragHandleStyle = dhNone
-      FullSize = True
-      Images = vilImages
-      ParentShowHint = False
-      ShowHint = True
-      ShrinkMode = tbsmNone
-      Stretch = True
-      TabOrder = 0
-      Customizable = False
-      object SpTBXItem3: TSpTBXItem
-        Action = actChatNew
-      end
-      object SpTBXItem4: TSpTBXItem
-        Action = actChatRemove
-      end
-      object SpTBXSeparatorItem2: TSpTBXSeparatorItem
-      end
-      object spiSave: TSpTBXItem
-        Action = actChatSave
-      end
-      object SpTBXSeparatorItem4: TSpTBXSeparatorItem
-      end
-      object spiTitle: TSpTBXItem
-        Action = actTopicTitle
-      end
-      object SpTBXRightAlignSpacerItem: TSpTBXRightAlignSpacerItem
-        CustomWidth = 345
-      end
-      object SpTBXItem2: TSpTBXItem
-        Action = actChatPrevious
-      end
-      object SpTBXItem1: TSpTBXItem
-        Action = actChatNext
-      end
-      object SpTBXSubmenuItem1: TSpTBXSubmenuItem
-        Caption = 'Settings:'
-        ImageIndex = 2
-        ImageName = 'Setup'
-        Options = [tboDropdownArrow]
-        OnInitPopup = SpTBXSubmenuItem1InitPopup
-        object spiEndpoint: TSpTBXEditItem
-          CustomWidth = 100
-          EditCaption = 'Endpoint:'
-          ExtendedAccept = True
-          OnAcceptText = AcceptSettings
-        end
-        object spiModel: TSpTBXEditItem
-          CustomWidth = 100
-          EditCaption = 'Model:'
-          ExtendedAccept = True
-          OnAcceptText = AcceptSettings
-        end
-        object spiApiKey: TSpTBXEditItem
-          CustomWidth = 300
-          EditCaption = 'Api key: '
-          ExtendedAccept = True
-          PasswordChar = #9679
-          OnAcceptText = AcceptSettings
-        end
-        object SpTBXSeparatorItem1: TSpTBXSeparatorItem
-        end
-        object spiTimeout: TSpTBXEditItem
-          EditCaption = 'Timeout (in seconds):'
-          ExtendedAccept = True
-          OnAcceptText = AcceptSettings
-        end
-        object spiMaxTokens: TSpTBXEditItem
-          EditCaption = 'Maximum number of response tokens:'
-          ExtendedAccept = True
-          OnAcceptText = AcceptSettings
-        end
-        object spiSystemPrompt: TSpTBXEditItem
-          EditCaption = 'System prompt:'
-          ExtendedAccept = True
-          OnAcceptText = AcceptSettings
+      object SpTBXDock: TSpTBXDock
+        Left = 0
+        Top = 0
+        Width = 582
+        Height = 34
+        AllowDrag = False
+        DoubleBuffered = True
+        object SpTBXToolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          CloseButton = False
+          DockMode = dmCannotFloatOrChangeDocks
+          DockPos = 0
+          DragHandleStyle = dhNone
+          FullSize = True
+          Images = vilImages
+          ParentShowHint = False
+          ShowHint = True
+          ShrinkMode = tbsmNone
+          Stretch = True
+          TabOrder = 0
+          Customizable = False
+          object spiNewTopic: TSpTBXItem
+            Action = actChatNew
+          end
+          object spiRemoveTopic: TSpTBXItem
+            Action = actChatRemove
+          end
+          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object spiSave: TSpTBXItem
+            Action = actChatSave
+          end
+          object SpTBXSeparatorItem4: TSpTBXSeparatorItem
+          end
+          object spiTitle: TSpTBXItem
+            Action = actTopicTitle
+          end
+          object spiCancel: TTBItem
+            Action = actCancelRequest
+          end
+          object SpTBXRightAlignSpacerItem: TSpTBXRightAlignSpacerItem
+            CustomWidth = 310
+          end
+          object spiPreviousTopic: TSpTBXItem
+            Action = actChatPrevious
+          end
+          object spiNextTopic: TSpTBXItem
+            Action = actChatNext
+          end
+          object spiSettings: TSpTBXSubmenuItem
+            Caption = 'Settings:'
+            ImageIndex = 2
+            ImageName = 'Setup'
+            Options = [tboDropdownArrow]
+            OnInitPopup = spiSettingsInitPopup
+            object spiEndpoint: TSpTBXEditItem
+              CustomWidth = 100
+              EditCaption = 'Endpoint:'
+              ExtendedAccept = True
+              OnAcceptText = AcceptSettings
+            end
+            object spiModel: TSpTBXEditItem
+              CustomWidth = 100
+              EditCaption = 'Model:'
+              ExtendedAccept = True
+              OnAcceptText = AcceptSettings
+            end
+            object spiApiKey: TSpTBXEditItem
+              CustomWidth = 300
+              EditCaption = 'Api key: '
+              ExtendedAccept = True
+              PasswordChar = #9679
+              OnAcceptText = AcceptSettings
+            end
+            object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+            end
+            object spiTimeout: TSpTBXEditItem
+              EditCaption = 'Timeout (in seconds):'
+              ExtendedAccept = True
+              OnAcceptText = AcceptSettings
+            end
+            object spiMaxTokens: TSpTBXEditItem
+              EditCaption = 'Maximum number of response tokens:'
+              ExtendedAccept = True
+              OnAcceptText = AcceptSettings
+            end
+            object spiSystemPrompt: TSpTBXEditItem
+              EditCaption = 'System prompt:'
+              ExtendedAccept = True
+              OnAcceptText = AcceptSettings
+            end
+          end
         end
       end
     end
@@ -240,59 +246,69 @@ inherited LLMChatForm: TLLMChatForm
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 108
+        CollectionIndex = 109
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 104
+        CollectionIndex = 105
         CollectionName = 'Save'
         Name = 'Save'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 22
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 11
+        CollectionIndex = 12
         CollectionName = 'Chat\Chat'
         Name = 'Chat'
       end
       item
-        CollectionIndex = 13
+        CollectionIndex = 14
         CollectionName = 'Chat\ChatPlus'
         Name = 'ChatPlus'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 16
         CollectionName = 'Chat\ChatRemove'
         Name = 'ChatRemove'
       end
       item
-        CollectionIndex = 14
+        CollectionIndex = 15
         CollectionName = 'Chat\ChatQuestion'
         Name = 'ChatQuestion'
       end
       item
-        CollectionIndex = 138
+        CollectionIndex = 139
         CollectionName = 'Chat\UserQuestion'
         Name = 'UserQuestion'
       end
       item
-        CollectionIndex = 12
-        CollectionName = 'Chat\ChatGPT'
-        Name = 'ChatGPT'
-      end
-      item
-        CollectionIndex = 70
+        CollectionIndex = 71
         CollectionName = 'Paste'
         Name = 'Paste'
       end
       item
-        CollectionIndex = 126
+        CollectionIndex = 127
         CollectionName = 'Title'
         Name = 'Title'
+      end
+      item
+        CollectionIndex = 5
+        CollectionName = 'Assistant'
+        Name = 'Assistant'
+      end
+      item
+        CollectionIndex = 27
+        CollectionName = 'Delete'
+        Name = 'Delete'
+      end
+      item
+        CollectionIndex = 91
+        CollectionName = 'PythonScript'
+        Name = 'PythonScript'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     Width = 24
@@ -364,9 +380,31 @@ inherited LLMChatForm: TLLMChatForm
       Category = 'Chat'
       Caption = 'Topic Title'
       Hint = 'Set the title of the chat topic'
-      ImageIndex = 12
+      ImageIndex = 11
       ImageName = 'Title'
       OnExecute = actTopicTitleExecute
+    end
+    object actCancelRequest: TAction
+      Category = 'Chat'
+      Caption = 'Cancel Request'
+      Hint = 'Cancel active request'
+      ImageIndex = 13
+      ImageName = 'Delete'
+      OnExecute = actCancelRequestExecute
+    end
+    object actCopyCode: TAction
+      Category = 'Chat'
+      Caption = 'Copy Code'
+      Hint = 'Copy the python code'
+      OnExecute = actCopyCodeExecute
+    end
+    object actCopyToNewEditor: TAction
+      Category = 'Chat'
+      Caption = 'Copy Code to New Editor'
+      Hint = 'Copy the python code to a new editor'
+      ImageIndex = 14
+      ImageName = 'PythonScript'
+      OnExecute = actCopyToNewEditorExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -411,10 +449,19 @@ inherited LLMChatForm: TLLMChatForm
   end
   object pmTextMenu: TSpTBXPopupMenu
     Images = vilImages
+    OnPopup = pmTextMenuPopup
     Left = 32
     Top = 152
     object mnCopyText: TSpTBXItem
       Action = actCopyText
+    end
+    object SpTBXItem1: TSpTBXItem
+      Action = actCopyCode
+    end
+    object SpTBXSeparatorItem5: TSpTBXSeparatorItem
+    end
+    object SpTBXItem2: TSpTBXItem
+      Action = actCopyToNewEditor
     end
   end
 end
