@@ -14,7 +14,8 @@ uses
   System.JSON,
   System.JSON.Serializers,
   System.Net.HttpClient,
-  System.Net.HttpClientComponent;
+  System.Net.HttpClientComponent,
+  uEditAppIntfs;
 
 type
 
@@ -122,7 +123,12 @@ type
   public
     function ValidateSettings: TLLMSettingsValidation; override;
     constructor Create;
+
+    procedure Suggest(Editor: IEditor);
   end;
+
+var
+  LLMAssistant: TLLMAssistant;
 
 const
   GPT_4_Settings: TLLMSettings = (
@@ -164,7 +170,8 @@ implementation
 
 uses
   System.Math,
-  System.IOUtils;
+  System.IOUtils,
+  cPyScripterSettings;
 
 resourcestring
   sLLMBusy = 'The LLM client is busy';
@@ -534,9 +541,9 @@ begin
   Result := etUnsupported;
   if Endpoint.Contains('openai') then
   begin
-    if EndPoint.EndsWith('chat/completions') then
+    if EndPoint = 'https://api.openai.com/v1/chat/completions' then
       Result := etOpenAIChatCompletion
-    else if EndPoint.EndsWith('completions') then
+    else if EndPoint = 'https://api.openai.com/v1/completions' then
       Result := etOpenAICompletion;
   end
   else
@@ -605,6 +612,13 @@ begin
   end;
 end;
 
+procedure TLLMAssistant.Suggest(Editor: IEditor);
+begin
+  if IsBusy or not Assigned(Editor) then Exit;
+
+  var SynEd := Editor.ActiveSynEdit;
+end;
+
 function TLLMAssistant.ValidateSettings: TLLMSettingsValidation;
 begin
   Result := Settings.Validate;
@@ -614,5 +628,17 @@ begin
     Result := svInvalidEndpoint;
 end;
 
+initialization
+  LLMAssistant := TLLMAssistant.Create;
+  LLMAssistant.Settings := GPT_35_Instruct_Settings;
 
+  var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'Assistant Settings.json');
+  LLMAssistant.LoadSettrings(FileName);
+finalization
+  var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
+    'Assistant Settings.json');
+  LLMAssistant.SaveSettings(FileName);
+
+  LLMAssistant.Free;
 end.

@@ -153,6 +153,7 @@ uses
   dmCommands,
   dmResources,
   uEditAppIntfs,
+  uCommonFunctions,
   cParameters,
   cPyScripterSettings;
 
@@ -339,7 +340,6 @@ function TLLMChatForm.GetCodeBlock(Editor: TSynEdit): string;
 var
   Token: String;
   Attri: TSynHighlighterAttributes;
-  Code: string;
 begin
   Result := '';
   var BC := Editor.CaretXY;
@@ -367,7 +367,7 @@ end;
 
 procedure TLLMChatForm.OnLLMError(Sender: TObject; const Error: string);
 begin
-  MessageDlg(Error, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
+  StyledMessageDlg(Error, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
 end;
 
 procedure TLLMChatForm.OnLLMResponse(Sender: TObject; const Question,
@@ -406,7 +406,7 @@ begin
     Accept := True;
   except
     on E: Exception do
-      MessageDlg(E.Message, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
+      StyledMessageDlg(E.Message, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
   end;
   if Accept then
     SetQuestionTextHint;
