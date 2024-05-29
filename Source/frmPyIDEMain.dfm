@@ -2710,6 +2710,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 12
         CollectionName = 'Chat\Chat'
         Name = 'Chat'
+      end
+      item
+        CollectionIndex = 5
+        CollectionName = 'Assistant'
+        Name = 'Assistant'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True

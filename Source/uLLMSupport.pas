@@ -18,6 +18,9 @@ uses
   uEditAppIntfs;
 
 type
+  TLLMProvider = (
+    llmProviderOpenAI,
+    llmProviderOllama);
 
   TEndpointType = (
     etUnsupported,
@@ -42,6 +45,12 @@ type
     function Validate: TLLMSettingsValidation;
     function IsLocal: Boolean;
     function EndpointType: TEndpointType;
+  end;
+
+  TLLMProviders = record
+    Provider: TLLMProvider;
+    OpenAI: TLLMSettings;
+    Ollama: TLLMSettings;
   end;
 
   TQAItem = record
@@ -72,12 +81,13 @@ type
     procedure OnRequestError(const Sender: TObject; const AError: string);
     procedure OnRequestCompleted(const Sender: TObject; const AResponse: IHTTPResponse);
     function GetIsBusy: Boolean;
+    function GetLLMSettings: TLLMSettings;
   protected
     FSerializer: TJsonSerializer;
     procedure DoResponseOK(const Msg: string); virtual;
     function RequestParams(const Prompt: string): string; virtual; abstract;
   public
-    Settings: TLLMSettings;
+    Providers: TLLMProviders;
     ActiveTopicIndex: Integer;
     ChatTopics: TArray<TChatTopic>;
     procedure ClearContext;
@@ -91,6 +101,7 @@ type
     procedure SaveSettings(const FName: string);
     procedure LoadSettrings(const FName: string);
 
+    property Settings: TLLMSettings read GetLLMSettings;
     property IsBusy: Boolean read GetIsBusy;
     property OnLLMResponse: TOnLLMResponseEvent read FOnLLMResponse write FOnLLMResponse;
     property OnLLMError: TOnLLMErrorEvent read FOnLLMError write FOnLLMError;
@@ -131,23 +142,16 @@ var
   LLMAssistant: TLLMAssistant;
 
 const
-  GPT_4_Settings: TLLMSettings = (
+  OpenaiChatSettings: TLLMSettings = (
     EndPoint: 'https://api.openai.com/v1/chat/completions';
     ApiKey: '';
     Model: 'gpt-4o';
+    //Model: 'gpt-3.5-turbo';
     TimeOut: 20000;
     MaxTokens: 1000;
     SystemPrompt: 'You are my expert python coding assistant.');
 
-  GPT_35_Settings: TLLMSettings = (
-    EndPoint: 'https://api.openai.com/v1/chat/completions';
-    ApiKey: '';
-    Model: 'gpt-3.5-turbo';
-    TimeOut: 20000;
-    MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
-
-  GPT_35_Instruct_Settings: TLLMSettings = (
+  OpenaiCompletionSettings: TLLMSettings = (
     EndPoint: 'https://api.openai.com/v1/completions';
     ApiKey: '';
     Model: 'gpt-3.5-turbo-instruct';
@@ -155,13 +159,21 @@ const
     MaxTokens: 1000;
     SystemPrompt: '');
 
-  OllamaSettings: TLLMSettings = (
+  OllamaChatSettings: TLLMSettings = (
     EndPoint: 'http://localhost:11434/api/chat';
     ApiKey: '';
-    Model: 'codegema';
+    Model: 'codellama';
+    //Model: 'codegema';
     //Model: 'starcoder2';
-    //Model: 'codellama:';
     //Model: 'stable-code';
+    TimeOut: 60000;
+    MaxTokens: 1000;
+    SystemPrompt: 'You are my expert python coding assistant.');
+
+  OllamaCompletionSettings: TLLMSettings = (
+    EndPoint: 'http://localhost:11434/api/generate';
+    ApiKey: '';
+    Model: 'codellama:code';
     TimeOut: 60000;
     MaxTokens: 1000;
     SystemPrompt: 'You are my expert python coding assistant.');
@@ -253,7 +265,6 @@ end;
 constructor TLLMBase.Create;
 begin
   inherited;
-  Settings := GPT_4_Settings;
   FHttpClient := TNetHTTPClient.Create(nil);
   FHttpClient.OnRequestCompleted := OnRequestCompleted;
   FHttpClient.OnRequestError := OnRequestError;
@@ -283,12 +294,20 @@ begin
   Result := Assigned(FHttpResponse);
 end;
 
+function TLLMBase.GetLLMSettings: TLLMSettings;
+begin
+  case Providers.Provider of
+    llmProviderOpenAI: Result := Providers.OpenAI;
+    llmProviderOllama: Result := Providers.Ollama;
+  end;
+end;
+
 procedure TLLMBase.LoadSettrings(const FName: string);
 begin
   if FileExists(FName) then
   begin
-    Settings := FSerializer.Deserialize<TLLMSettings>(TFile.ReadAllText(FName));
-    Settings.ApiKey := Obfuscate(Settings.ApiKey);
+    Providers := FSerializer.Deserialize<TLLMProviders>(TFile.ReadAllText(FName));
+    Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
   end;
 end;
 
@@ -360,11 +379,11 @@ end;
 
 procedure TLLMBase.SaveSettings(const FName: string);
 begin
-  Settings.ApiKey := Obfuscate(Settings.ApiKey);
+  Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
   try
-    TFile.WriteAllText(FName, FSerializer.Serialize<TLLMSettings>(Settings));
+    TFile.WriteAllText(FName, FSerializer.Serialize<TLLMProviders>(Providers));
   finally
-    Settings.ApiKey := Obfuscate(Settings.ApiKey);
+    Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
   end;
 end;
 
@@ -399,7 +418,9 @@ end;
 constructor TLLMChat.Create;
 begin
   inherited;
-  Settings := GPT_4_Settings;
+  Providers.Provider := llmProviderOpenAI;
+  Providers.OpenAI := OpenaiChatSettings;
+  Providers.Ollama := OllamaChatSettings;
 
   ChatTopics := [default(TChatTopic)];
   ActiveTopicIndex := 0;
@@ -579,7 +600,9 @@ end;
 constructor TLLMAssistant.Create;
 begin
   inherited;
-  Settings := GPT_35_Instruct_Settings;
+  Providers.Provider := llmProviderOpenAI;
+  Providers.OpenAI := OpenaiCompletionSettings;
+  Providers.Ollama := OllamaCompletionSettings;
 end;
 
 function TLLMAssistant.RequestParams(const Prompt: string): string;
@@ -630,7 +653,6 @@ end;
 
 initialization
   LLMAssistant := TLLMAssistant.Create;
-  LLMAssistant.Settings := GPT_35_Instruct_Settings;
 
   var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
     'Assistant Settings.json');

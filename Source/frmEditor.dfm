@@ -245,6 +245,12 @@ object EditorForm: TEditorForm
     end
     object TBXSeparatorItem9: TSpTBXSeparatorItem
     end
+    object mniAssistant: TSpTBXSubmenuItem
+      Caption = 'Assistant'
+      ImageIndex = 105
+      ImageName = 'Assistant'
+      LinkSubitems = CommandsDataModule.spiAssistant
+    end
     object mnSourceCode: TSpTBXSubmenuItem
       Caption = 'Source Code'
       LinkSubitems = PyIDEMainForm.mnSourceCode

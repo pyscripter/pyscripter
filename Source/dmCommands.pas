@@ -61,7 +61,7 @@ uses
   dlgOptionsEditor,
   uEditAppIntfs,
   cPyBaseDebugger,
-  SynSpellCheck;
+  SynSpellCheck, SpTBXEditors;
 
 type
   TSynGeneralSyn = class(SynHighlighterGeneral.TSynGeneralSyn)
@@ -207,6 +207,19 @@ type
     SpTBXItem24: TSpTBXItem;
     SpTBXSeparatorItem25: TSpTBXSeparatorItem;
     SpTBXItem25: TSpTBXItem;
+    pmAssistant: TSpTBXPopupMenu;
+    spiAssistant: TSpTBXSubmenuItem;
+    spiSettings: TSpTBXSubmenuItem;
+    spiOpenAI: TSpTBXItem;
+    spiOllama: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    spiEndpoint: TSpTBXEditItem;
+    spiModel: TSpTBXEditItem;
+    spiApiKey: TSpTBXEditItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    spiTimeout: TSpTBXEditItem;
+    spiMaxTokens: TSpTBXEditItem;
+    spiSystemPrompt: TSpTBXEditItem;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -309,7 +322,11 @@ type
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actDonateExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
+    procedure mnProviderClick(Sender: TObject);
     procedure mnSpellingPopup(Sender: TTBCustomItem; FromLink: Boolean);
+    procedure spiAcceptSettings(Sender: TObject; var NewText: string; var
+        Accept: Boolean);
+    procedure spiSettingsInitPopup(Sender: TObject; PopupView: TTBView);
     procedure SynSpellCheckChange(Sender: TObject);
   private
     fConfirmReplaceDialogRect: TRect;
@@ -404,6 +421,7 @@ uses
   uParams,
   uCommonFunctions,
   uSearchHighlighter,
+  uLLMSupport,
   cTools,
   cPySupportTypes,
   cPyScripterSettings,
@@ -1762,7 +1780,7 @@ begin
   if Assigned(GI_ActiveEditor) then begin
     actEditLineNumbers.Checked := GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;
     actEditWordWrap.Checked := GI_ActiveEditor.ActiveSynEdit.WordWrap;
-    actEditShowSpecialChars.Checked := eoShowSpecialChars in GI_ActiveEditor.ActiveSynEdit.Options;
+    actEditShowSpecialChars.Checked := not (GI_ActiveEditor.ActiveSynEdit.VisibleSpecialChars = []);
   end else begin
     actEditLineNumbers.Checked := False;
     actEditWordWrap.Checked := False;
@@ -2035,13 +2053,19 @@ procedure TCommandsDataModule.actEditShowSpecialCharsExecute(
 begin
   if Assigned(GI_ActiveEditor) then
   begin
-    var Options := GI_ActiveEditor.ActiveSynEdit.Options;
-    GI_ActiveEditor.ActiveSynEdit.Options := Options + [eoShowSpecialChars] - Options * [eoShowSpecialChars];
+    var VisibleSpecialChars := GI_ActiveEditor.ActiveSynEdit.VisibleSpecialChars;
+    if VisibleSpecialChars = [] then
+      GI_ActiveEditor.ActiveSynEdit.VisibleSpecialChars := [scWhitespace, scControlChars, scEOL]
+    else
+      GI_ActiveEditor.ActiveSynEdit.VisibleSpecialChars := [];
   end
   else if GI_PyInterpreter.Editor.Focused then
   begin
-    var Options := GI_PyInterpreter.Editor.Options;
-    GI_PyInterpreter.Editor.Options := Options + [eoShowSpecialChars] - Options * [eoShowSpecialChars];
+    var VisibleSpecialChars := GI_PyInterpreter.Editor.Options;
+    if VisibleSpecialChars = [] then
+      GI_PyInterpreter.Editor.VisibleSpecialChars := [scWhitespace, scControlChars, scEOL]
+    else
+      GI_PyInterpreter.Editor.VisibleSpecialChars := [];
   end;
 end;
 
@@ -2369,6 +2393,16 @@ begin
   end;
 end;
 
+procedure TCommandsDataModule.mnProviderClick(Sender: TObject);
+begin
+  if Sender = spiOpenai then
+    LLMAssistant.Providers.Provider := llmProviderOpenAI
+  else if Sender = spiOllama then
+    LLMAssistant.Providers.Provider := llmProviderOllama;
+
+  spiSettingsInitPopup(Sender, nil);
+end;
+
 procedure TCommandsDataModule.mnSpellingPopup(Sender: TTBCustomItem; FromLink:
     Boolean);
 var
@@ -2616,6 +2650,55 @@ begin
       [CommandsDataModule.SynSpellCheck.LanguageCode]),
       mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
   end);
+end;
+
+procedure TCommandsDataModule.spiAcceptSettings(Sender: TObject; var
+    NewText: string; var Accept: Boolean);
+begin
+  Accept := False;
+  try
+    var Settings := LLMAssistant.Settings;
+    if Sender = spiEndpoint then
+      Settings.EndPoint := NewText
+    else if Sender = spiModel then
+      Settings.Model := NewText
+    else if Sender = spiApiKey then
+      Settings.ApiKey := NewText
+    else if Sender = spiTimeout then
+      Settings.TimeOut := NewText.ToInteger * 1000
+    else if Sender = spiMaxTokens then
+      Settings.MaxTokens := NewText.ToInteger
+    else if Sender = spiSystemPrompt then
+      Settings.SystemPrompt := NewText;
+
+    case LLMAssistant.Providers.Provider of
+      llmProviderOpenAI: LLMAssistant.Providers.OpenAI := Settings;
+      llmProviderOllama: LLMAssistant.Providers.Ollama := Settings;
+    end;
+
+    LLMAssistant.ClearContext;
+    Accept := True;
+  except
+    on E: Exception do
+      StyledMessageDlg(E.Message, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
+  end;
+end;
+
+procedure TCommandsDataModule.spiSettingsInitPopup(Sender: TObject; PopupView:
+    TTBView);
+begin
+  case LLMAssistant.Providers.Provider of
+    llmProviderOpenAI: spiOpenai.Checked := True;
+    llmProviderOllama: spiOllama.Checked := True;
+  end;
+
+  var Settings := LLMAssistant.Settings;
+  spiEndpoint.Text := Settings.EndPoint;
+  spiModel.Text := Settings.Model;
+  spiApiKey.Text := Settings.ApiKey;
+  spiTimeout.Text := (Settings.TimeOut div 1000).ToString;
+  spiMaxTokens.Text := Settings.MaxTokens.ToString;
+  spiSystemPrompt.Text := Settings.SystemPrompt;
 end;
 
 procedure TCommandsDataModule.SynSpellCheckChange(Sender: TObject);

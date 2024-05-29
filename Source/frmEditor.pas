@@ -121,6 +121,7 @@ type
     vilCodeImages: TVirtualImageList;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
     SpTBXSeparatorItem8: TSpTBXSeparatorItem;
+    mniAssistant: TSpTBXSubmenuItem;
     class procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: boolean);

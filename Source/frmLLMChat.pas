@@ -98,6 +98,9 @@ type
     actCopyToNewEditor: TAction;
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     SpTBXItem2: TSpTBXItem;
+    SpTBXSeparatorItem6: TSpTBXSeparatorItem;
+    spiOpenai: TSpTBXItem;
+    spiOllama: TSpTBXItem;
     procedure actChatSaveExecute(Sender: TObject);
     procedure AppEventsMessage(var Msg: TMsg; var Handled: Boolean);
     procedure FormDestroy(Sender: TObject);
@@ -117,6 +120,7 @@ type
     procedure actCopyToNewEditorExecute(Sender: TObject);
     procedure actTopicTitleExecute(Sender: TObject);
     procedure ChatActionListUpdate(Action: TBasicAction; var Handled: Boolean);
+    procedure mnProviderClick(Sender: TObject);
     procedure pmTextMenuPopup(Sender: TObject);
     procedure spiSettingsInitPopup(Sender: TObject; PopupView: TTBView);
     procedure synQuestionEnter(Sender: TObject);
@@ -264,6 +268,8 @@ begin
     Gutter.Visible := False;
     PopUpMenu := pmTextMenu;
     ScrollBars := ssNone;
+    WantTabs := True;
+    WantReturns := True;
     Parent := PanelQA;
   end;
   PanelQA.ScaleForPPI(CurrentPPI);
@@ -294,6 +300,8 @@ begin
     DisplayQA(QAItem.Question, 'UserQuestion');
     DisplayQA(QAItem.Answer, 'Assistant');
   end;
+  if SynQuestion.HandleAllocated then
+    synQuestion.SetFocus;
 end;
 
 procedure TLLMChatForm.FormCreate(Sender: TObject);
@@ -390,18 +398,25 @@ procedure TLLMChatForm.AcceptSettings(Sender: TObject; var NewText:
 begin
   Accept := False;
   try
+    var Settings := LLMChat.Settings;
     if Sender = spiEndpoint then
-      LLMChat.Settings.EndPoint := NewText
+      Settings.EndPoint := NewText
     else if Sender = spiModel then
-      LLMChat.Settings.Model := NewText
+      Settings.Model := NewText
     else if Sender = spiApiKey then
-      LLMChat.Settings.ApiKey := NewText
+      Settings.ApiKey := NewText
     else if Sender = spiTimeout then
-      LLMChat.Settings.TimeOut := NewText.ToInteger * 1000
+      Settings.TimeOut := NewText.ToInteger * 1000
     else if Sender = spiMaxTokens then
-      LLMChat.Settings.MaxTokens := NewText.ToInteger
+      Settings.MaxTokens := NewText.ToInteger
     else if Sender = spiSystemPrompt then
-      LLMChat.Settings.SystemPrompt := NewText;
+      Settings.SystemPrompt := NewText;
+
+    case LLMChat.Providers.Provider of
+      llmProviderOpenAI: LLMChat.Providers.OpenAI := Settings;
+      llmProviderOllama: LLMChat.Providers.Ollama := Settings;
+    end;
+
     LLMChat.ClearContext;
     Accept := True;
   except
@@ -515,6 +530,17 @@ begin
   actCancelRequest.Enabled := IsBusy;
 end;
 
+procedure TLLMChatForm.mnProviderClick(Sender: TObject);
+begin
+  if Sender = spiOpenai then
+    LLMChat.Providers.Provider := llmProviderOpenAI
+  else if Sender = spiOllama then
+    LLMChat.Providers.Provider := llmProviderOllama;
+
+  spiSettingsInitPopup(Sender, nil);
+  SetQuestionTextHint;
+end;
+
 procedure TLLMChatForm.pmTextMenuPopup(Sender: TObject);
 var
   Token: String;
@@ -548,12 +574,18 @@ end;
 procedure TLLMChatForm.spiSettingsInitPopup(Sender: TObject; PopupView:
     TTBView);
 begin
-  spiEndpoint.Text := LLMChat.Settings.EndPoint;
-  spiModel.Text := LLMChat.Settings.Model;
-  spiApiKey.Text := LLMChat.Settings.ApiKey;
-  spiTimeout.Text := (LLMChat.Settings.TimeOut div 1000).ToString;
-  spiMaxTokens.Text := LLMChat.Settings.MaxTokens.ToString;
-  spiSystemPrompt.Text := LLMChat.Settings.SystemPrompt;
+  case LLMChat.Providers.Provider of
+    llmProviderOpenAI: spiOpenai.Checked := True;
+    llmProviderOllama: spiOllama.Checked := True;
+  end;
+
+  var Settings := LLMChat.Settings;
+  spiEndpoint.Text := Settings.EndPoint;
+  spiModel.Text := Settings.Model;
+  spiApiKey.Text := Settings.ApiKey;
+  spiTimeout.Text := (Settings.TimeOut div 1000).ToString;
+  spiMaxTokens.Text := Settings.MaxTokens.ToString;
+  spiSystemPrompt.Text := Settings.SystemPrompt;
 end;
 
 procedure TLLMChatForm.synQuestionEnter(Sender: TObject);

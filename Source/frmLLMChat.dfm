@@ -189,6 +189,23 @@ inherited LLMChatForm: TLLMChatForm
             ImageName = 'Setup'
             Options = [tboDropdownArrow]
             OnInitPopup = spiSettingsInitPopup
+            object spiOpenai: TSpTBXItem
+              Caption = 'Openai'
+              Hint = 'Use Openai'
+              AutoCheck = True
+              Checked = True
+              GroupIndex = 1
+              OnClick = mnProviderClick
+            end
+            object spiOllama: TSpTBXItem
+              Caption = 'Ollama'
+              Hint = 'Use Ollama'
+              AutoCheck = True
+              GroupIndex = 1
+              OnClick = mnProviderClick
+            end
+            object SpTBXSeparatorItem6: TSpTBXSeparatorItem
+            end
             object spiEndpoint: TSpTBXEditItem
               CustomWidth = 100
               EditCaption = 'Endpoint:'

@@ -1109,4 +1109,70 @@ object CommandsDataModule: TCommandsDataModule
       end
     end
   end
+  object pmAssistant: TSpTBXPopupMenu
+    Left = 168
+    Top = 164
+    object spiAssistant: TSpTBXSubmenuItem
+      Caption = 'Assistant'
+      object spiSettings: TSpTBXSubmenuItem
+        Caption = 'Settings'
+        ImageName = 'Setup'
+        Images = PyIDEMainForm.vilImages
+        OnInitPopup = spiSettingsInitPopup
+        object spiOpenAI: TSpTBXItem
+          Caption = 'Openai'
+          Hint = 'Use Openai'
+          AutoCheck = True
+          Checked = True
+          GroupIndex = 1
+          OnClick = mnProviderClick
+        end
+        object spiOllama: TSpTBXItem
+          Caption = 'Ollama'
+          Hint = 'Use Ollama'
+          AutoCheck = True
+          GroupIndex = 1
+          OnClick = mnProviderClick
+        end
+        object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+        end
+        object spiEndpoint: TSpTBXEditItem
+          CustomWidth = 100
+          EditCaption = 'Endpoint:'
+          ExtendedAccept = True
+          OnAcceptText = spiAcceptSettings
+        end
+        object spiModel: TSpTBXEditItem
+          CustomWidth = 100
+          EditCaption = 'Model:'
+          ExtendedAccept = True
+          OnAcceptText = spiAcceptSettings
+        end
+        object spiApiKey: TSpTBXEditItem
+          CustomWidth = 300
+          EditCaption = 'Api key: '
+          ExtendedAccept = True
+          PasswordChar = #9679
+          OnAcceptText = spiAcceptSettings
+        end
+        object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+        end
+        object spiTimeout: TSpTBXEditItem
+          EditCaption = 'Timeout (in seconds):'
+          ExtendedAccept = True
+          OnAcceptText = spiAcceptSettings
+        end
+        object spiMaxTokens: TSpTBXEditItem
+          EditCaption = 'Maximum number of response tokens:'
+          ExtendedAccept = True
+          OnAcceptText = spiAcceptSettings
+        end
+        object spiSystemPrompt: TSpTBXEditItem
+          EditCaption = 'System prompt:'
+          ExtendedAccept = True
+          OnAcceptText = spiAcceptSettings
+        end
+      end
+    end
+  end
 end

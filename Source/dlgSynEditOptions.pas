@@ -314,10 +314,10 @@ type
     FSynGutter: TSynGutter;
     FColor: TColor;
     FActiveLineColor : TColor;
+    FVisibleSpecialChars: TSynVisibleSpecialChars;
     procedure SetBookMarks(const Value: TSynBookMarkOpt);
     procedure SetFont(const Value: TFont);
     procedure SetKeystrokes(const Value: TSynEditKeyStrokes);
-    procedure SetOptions(const Value: TSynEditorOptions);
     procedure SetSynGutter(const Value: TSynGutter);
   public
     constructor Create(AOwner : TComponent); override;
@@ -326,7 +326,7 @@ type
     procedure AssignTo(Dest : TPersistent); override;
     property BookMarkOptions : TSynBookMarkOpt read FBookmarks write SetBookMarks;
   published
-    property Options : TSynEditorOptions read FOptions write SetOptions;
+    property Options : TSynEditorOptions read FOptions write FOptions;
     property Color : TColor read FColor write FColor;
     property Font : TFont read FFont write SetFont;
     property ExtraLineSpacing : Integer read FExtraLineSpacing write FExtraLineSpacing;
@@ -344,6 +344,8 @@ type
     property TabWidth : Integer read FTabWidth write FTabWidth;
     property Keystrokes : TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
     property ActiveLineColor : TColor read FActiveLineColor write FActiveLineColor;
+    property VisibleSpecialChars: TSynVisibleSpecialChars
+      read FVisibleSpecialChars write FVisibleSpecialChars;
   end;
 
 implementation
@@ -550,6 +552,7 @@ begin
     Self.WantTabs := TCustomSynEdit(Source).WantTabs;
     Self.WordWrap := TCustomSynEdit(Source).WordWrap;
     Self.ActiveLineColor := TCustomSynEdit(Source).ActiveLineColor;
+    Self.VisibleSpecialChars := TCustomSynEdit(Source).VisibleSpecialChars;
   end else if Assigned(Source) and (Source is TSynEditorOptionsContainer) then
   begin
     Self.Font.Assign(TSynEditorOptionsContainer(Source).Font);
@@ -571,6 +574,7 @@ begin
     Self.WantTabs := TSynEditorOptionsContainer(Source).WantTabs;
     Self.WordWrap := TSynEditorOptionsContainer(Source).WordWrap;
     Self.ActiveLineColor := TSynEditorOptionsContainer(Source).ActiveLineColor;
+    Self.VisibleSpecialChars := TSynEditorOptionsContainer(Source).VisibleSpecialChars;
   end else
     inherited;
 end;
@@ -599,6 +603,7 @@ begin
       TCustomSynEdit(Dest).WantTabs := Self.WantTabs;
       TCustomSynEdit(Dest).WordWrap := Self.WordWrap;
       TCustomSynEdit(Dest).ActiveLineColor := Self.ActiveLineColor;
+      TCustomSynEdit(Dest).VisibleSpecialChars := Self.VisibleSpecialChars;
     finally
       TCustomSynEdit(Dest).EndUpdate;
     end;
@@ -666,12 +671,6 @@ procedure TSynEditorOptionsContainer.SetKeystrokes(
   const Value: TSynEditKeyStrokes);
 begin
   FKeystrokes.Assign(Value);
-end;
-
-procedure TSynEditorOptionsContainer.SetOptions(
-  const Value: TSynEditorOptions);
-begin
-  FOptions:= Value;
 end;
 
 procedure TSynEditorOptionsContainer.SetSynGutter(const Value: TSynGutter);
@@ -752,7 +751,7 @@ begin
   ckGroupUndo.Checked := eoGroupUndo in FSynEdit.Options;
   ckDisableScrollArrows.Checked := eoDisableScrollArrows in FSynEdit.Options;
   ckHideShowScrollbars.Checked := eoHideShowScrollbars in FSynEdit.Options;
-  ckShowSpecialChars.Checked := eoShowSpecialChars in FSynEdit.Options;
+  ckShowSpecialChars.Checked := FSynEdit.VisibleSpecialChars <> [];
   ckShowLigatures.Checked := eoShowLigatures in FSynEdit.Options;
   //Caret
   cInsertCaret.ItemIndex:= ord(FSynEdit.InsertCaret);
@@ -837,9 +836,12 @@ begin
   SetFlag(eoScrollHintFollows, ckScrollHintFollows.Checked);
   SetFlag(eoDisableScrollArrows, ckDisableScrollArrows.Checked);
   SetFlag(eoHideShowScrollbars, ckHideShowScrollbars.Checked);
-  SetFlag(eoShowSpecialChars, ckShowSpecialChars.Checked);
   SetFlag(eoShowLigatures, ckShowLigatures.Checked);
   FSynEdit.Options := vOptions;
+  if ckShowSpecialChars.Checked then
+    FSynEdit.VisibleSpecialChars := [scWhitespace, scControlChars, scEOL]
+  else
+    FSynEdit.VisibleSpecialChars := [];
   //Caret
   FSynEdit.InsertCaret:= TSynEditCaretType(cInsertCaret.ItemIndex);
   FSynEdit.OverwriteCaret:= TSynEditCaretType(cOverwriteCaret.ItemIndex);
