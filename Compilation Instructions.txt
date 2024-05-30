@@ -1,9 +1,11 @@
 INSTRUCTIONS FOR COMPILIING PyScripter
 ======================================
 
-I am using Delphi 11 to compile PyScripter.  You can use the free Delphi Community edition to compile PyScripter.
+I am using Delphi 12 to compile PyScripter. 
+You can use the free Delphi Community edition to compile PyScripter.
+Delphi 10.4 and 11 Should also be supported.
 
-** Third Party Components: **
+** Third Party Components: (Read next section below before cloning manually) **
   1. JCL (https://github.com/project-jedi/jcl) - at Github.com 
   2. JVCL (https://github.com/project-jedi/jvcl) - at Github.com (use developer install option)
   3. Python for Delphi (https://github.com/pyscripter/python4delphi)
@@ -12,7 +14,7 @@ I am using Delphi 11 to compile PyScripter.  You can use the free Delphi Communi
      - Common Library (https://github.com/pyscripter/MustangpeakCommonLib)
      - EasyListView (https://github.com/pyscripter/MustangpeakEasyListview)
      - VirtualShellTools (https://github.com/pyscripter/MustangpeakVirtualshellTools)
-  6. Toolbar2000 (http://www.innosetup.com/tb2k.php)
+  6. Toolbar2000 (https://jrsoftware.org/tb2kdl.php)
   7. SpTBXLib (https://github.com/SilverpointDev/sptbxlib)
   8. SynEdit - (https://github.com/pyscripter/SynEdit-2)
   9. SynWeb Highlighters (https://github.com/KrystianBigaj/synweb)
@@ -28,7 +30,7 @@ C. Clone or download JCL and JVCL and use provided installers (run install.bat)
 D. Use Multiinstaller.exe in the Components\ThirdParty folder to download  
    dependencies 3-12 to a folder of your choice and install in one step.
 E. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
-F. In SVGIconImageList\Source SVGIconImageList.inc define PreferNativeSvgSupport
+F. In SVGIconImageList\Source\SVGIconImageList.inc define PreferNativeSvgSupport
 G. Install the "EdgeView2 SDK" from Getit
 
-If you have managed to do all the above then open PythonIDE.dproj and compile :)
+If you have managed to do all the above then open PyScripter.dproj and compile :)
