@@ -280,9 +280,6 @@ begin
   // Resize twice! - The first time the Scrollbox scrollbar may be shown
   PanelQAResize(PanelQA);
   PanelQAResize(PanelQA);
-  {$IF CompilerVersion >= 36}
-  ScrollBox.UseWheelForScrolling := True
-  {$ENDIF}
   ScrollBox.VertScrollBar.Position := ScrollBox.VertScrollBar.Range - 1;
 end;
 
@@ -312,6 +309,9 @@ begin
   ImageName := 'Chat\Chat';
   inherited;
 
+  {$IF CompilerVersion >= 36}
+  ScrollBox.UseWheelForScrolling := True;
+  {$ENDIF}
   synQuestion.Font.Color := StyleServices.GetSystemColor(clWindowText);
   synQuestion.Color := StyleServices.GetSystemColor(clWindow);
 
