@@ -39,7 +39,6 @@ inherited LLMChatForm: TLLMChatForm
           Left = 542
           Top = 44
           Anchors = [akRight, akBottom]
-          IndicatorColor = aicCustom
           IndicatorType = aitSectorRing
         end
         object synQuestion: TSynEdit
@@ -105,7 +104,6 @@ inherited LLMChatForm: TLLMChatForm
         Align = alClient
         ParentBackground = True
         TabOrder = 1
-        UseWheelForScrolling = True
         object QAStackPanel: TStackPanel
           AlignWithMargins = True
           Left = 3
