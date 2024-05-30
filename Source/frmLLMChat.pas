@@ -280,6 +280,9 @@ begin
   // Resize twice! - The first time the Scrollbox scrollbar may be shown
   PanelQAResize(PanelQA);
   PanelQAResize(PanelQA);
+  {$IF CompilerVersion >= 36}
+  ScrollBox.UseWheelForScrolling := True
+  {$ENDIF}
   ScrollBox.VertScrollBar.Position := ScrollBox.VertScrollBar.Range - 1;
 end;
 
@@ -599,7 +602,10 @@ begin
   inherited;
   synQuestion.Font.Color := StyleServices.GetSystemColor(clWindowText);
   synQuestion.Color := StyleServices.GetSystemColor(clWindow);
+  {$IF CompilerVersion >= 36}
+  aiBusy.IndicatorColor := aicCustom;
   aiBusy.IndicatorCustomColor := StyleServices.GetSystemColor(clWindowText);
+  {$ENDIF}
   DisplayActiveChatTopic;
 end;
 
