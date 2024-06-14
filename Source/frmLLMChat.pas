@@ -133,7 +133,7 @@ type
     procedure DisplayActiveChatTopic;
     procedure PythonHighlighterChange(Sender: TObject);
     procedure SetQuestionTextHint;
-    procedure OnLLMResponse(Sender: TObject; const Question, Answer: string);
+    procedure OnLLMResponse(Sender: TObject; const Prompt, Answer: string);
     procedure OnLLMError(Sender: TObject; const Error: string);
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
@@ -297,7 +297,7 @@ begin
   DisplayTopicTitle(LLMChat.ActiveTopic.Title);
   for var QAItem in LLMChat.ActiveTopic.QAItems do
   begin
-    DisplayQA(QAItem.Question, 'UserQuestion');
+    DisplayQA(QAItem.Prompt, 'UserQuestion');
     DisplayQA(QAItem.Answer, 'Assistant');
   end;
   if SynQuestion.HandleAllocated then
@@ -381,10 +381,10 @@ begin
   StyledMessageDlg(Error, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
 end;
 
-procedure TLLMChatForm.OnLLMResponse(Sender: TObject; const Question,
+procedure TLLMChatForm.OnLLMResponse(Sender: TObject; const Prompt,
   Answer: string);
 begin
-  DisplayQA(Question, 'UserQuestion');
+  DisplayQA(Prompt, 'UserQuestion');
   DisplayQA(Answer, 'Assistant');
   synQuestion.Clear;
 end;

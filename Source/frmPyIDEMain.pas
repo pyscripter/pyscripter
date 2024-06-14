@@ -654,7 +654,7 @@ uses
   cPyBaseDebugger,
   cPyDebugger,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl, Vcl.WinXCtrls;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1137,6 +1137,8 @@ type
     actNavChat: TAction;
     SpTBXSeparatorItem28: TSpTBXSeparatorItem;
     SpTBXItem16: TSpTBXItem;
+    ActivityIndicator: TActivityIndicator;
+    spiAssistant: TTBControlItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1320,6 +1322,7 @@ type
     procedure SaveEnvironment;
     procedure SaveFileModules;
     procedure SetRunLastScriptHints(const ScriptName : string);
+    procedure SetActivityIndicator(TurnOn: Boolean; Hint: string = ''; OnClick: TNotifyEvent = nil);
     function GetStoredScript(const Name: string): TStrings;
     function GetMessageServices: IMessageServices;
     function GetUnitTestServices: IUnitTestServices;
@@ -1559,6 +1562,9 @@ begin
 
   // GI_PyIDEServices
   GI_PyIDEServices := Self;
+
+  // Activity Indicator
+  SetActivityIndicator(False);
 
   // Application Storage
   AppStorage.Encoding := TEncoding.UTF8;
@@ -2323,6 +2329,18 @@ end;
 procedure TPyIDEMainForm.SetActiveTabControl(const Value: TSpTBXCustomTabControl);
 begin
   ActiveTabControlIndex := TabControlIndex(Value);
+end;
+
+type
+  TCrackActivityIndicator = class(TActivityIndicator);
+
+procedure TPyIDEMainForm.SetActivityIndicator(TurnOn: Boolean; Hint: string;
+  OnClick: TNotifyEvent);
+begin
+  ActivityIndicator.Visible := TurnOn;
+  ActivityIndicator.Hint := Hint;
+  ActivityIndicator.Animate := TurnOn;
+  TCrackActivityIndicator(ActivityIndicator).OnClick := OnClick;
 end;
 
 procedure TPyIDEMainForm.SetRunLastScriptHints(const ScriptName: string);
@@ -4133,6 +4151,10 @@ begin
     UserToolbar.EndUpdate;
     FindToolbar.EndUpdate;
   end;
+  {$IF CompilerVersion >= 36}
+  ActivityIndicator.IndicatorColor := aicCustom;
+  ActivityIndicator.IndicatorCustomColor := StyleServices.GetSystemColor(clWindowText);
+  {$ENDIF}
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;

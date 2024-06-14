@@ -120,7 +120,8 @@ uses
   JediLspClient in 'JediLspClient.pas',
   uSysUtils in 'uSysUtils.pas',
   uLLMSupport in 'uLLMSupport.pas',
-  frmLLMChat in 'frmLLMChat.pas' {LLMChatForm};
+  frmLLMChat in 'frmLLMChat.pas' {LLMChatForm},
+  frmSuggest in 'frmSuggest.pas' {SuggestWindow};
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

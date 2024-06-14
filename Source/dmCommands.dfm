@@ -969,6 +969,39 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Spell Checking'
       Caption = 'Delete'
     end
+    object actAssistantSuggest: TAction
+      Category = 'Assistant'
+      Caption = 'Suggest'
+      Hint = 'Provide a suggestion for code completion'
+      ShortCut = 49184
+      OnExecute = actAssistantSuggestExecute
+    end
+    object actAssistantCancel: TAction
+      Category = 'Assistant'
+      Caption = 'Cancel'
+      Hint = 'Cancel Assistant action'
+      ImageIndex = 106
+      ImageName = 'Cancel'
+      OnExecute = actAssistantCancelExecute
+    end
+    object actAssistantOptimize: TAction
+      Category = 'Assistant'
+      Caption = 'Optimize'
+      Hint = 'Optimize the selected code'
+      OnExecute = actAssistantOptimizeExecute
+    end
+    object actAssistantFixBugs: TAction
+      Category = 'Assistant'
+      Caption = 'Fix Bugs'
+      Hint = 'Fix bugs in the selected code'
+      OnExecute = actAssistantFixBugsExecute
+    end
+    object actAssistantComments: TAction
+      Category = 'Assistant'
+      Caption = 'Add Comments'
+      Hint = 'Add comments explaining the selected code'
+      OnExecute = actAssistantCommentsExecute
+    end
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -1114,8 +1147,28 @@ object CommandsDataModule: TCommandsDataModule
     Top = 164
     object spiAssistant: TSpTBXSubmenuItem
       Caption = 'Assistant'
+      object spiSuggest: TSpTBXItem
+        Action = actAssistantSuggest
+      end
+      object spiAssistantComments: TSpTBXItem
+        Action = actAssistantComments
+      end
+      object spiFixBugs: TSpTBXItem
+        Action = actAssistantFixBugs
+      end
+      object spiOptimize: TSpTBXItem
+        Action = actAssistantOptimize
+      end
+      object SpTBXSeparatorItem4: TSpTBXSeparatorItem
+      end
+      object spiAssistantCancel: TSpTBXItem
+        Action = actAssistantCancel
+      end
+      object SpTBXSeparatorItem3: TSpTBXSeparatorItem
+      end
       object spiSettings: TSpTBXSubmenuItem
         Caption = 'Settings'
+        ImageIndex = 101
         ImageName = 'Setup'
         Images = PyIDEMainForm.vilImages
         OnInitPopup = spiSettingsInitPopup

@@ -15,6 +15,8 @@ uses
   System.JSON.Serializers,
   System.Net.HttpClient,
   System.Net.HttpClientComponent,
+  SynEditTypes,
+  SynEdit,
   uEditAppIntfs;
 
 type
@@ -33,6 +35,7 @@ type
     svValid,
     svModelEmpty,
     svInvalidEndpoint,
+    svInvalidModel,
     svAPIKeyMissing);
 
   TLLMSettings = record
@@ -54,7 +57,7 @@ type
   end;
 
   TQAItem = record
-    Question: string;
+    Prompt: string;
     Answer: string;
     constructor Create(const AQuestion, AnAnswer: string);
   end;
@@ -65,7 +68,7 @@ type
   end;
   TChatTopics = TArray<TChatTopic>;
 
-  TOnLLMResponseEvent = procedure(Sender: TObject; const Question, Answer: string) of object;
+  TOnLLMResponseEvent = procedure(Sender: TObject; const Prompt, Answer: string) of object;
   TOnLLMErrorEvent = procedure(Sender: TObject; const Error: string) of object;
 
   TLLMBase = class
@@ -84,8 +87,10 @@ type
     function GetLLMSettings: TLLMSettings;
   protected
     FSerializer: TJsonSerializer;
+    procedure DoResponseCompleted(const AResponse: IHTTPResponse); virtual;
+    procedure DoResponseCreated(const AResponse: IHTTPResponse); virtual;
     procedure DoResponseOK(const Msg: string); virtual;
-    function RequestParams(const Prompt: string): string; virtual; abstract;
+    function RequestParams(const Prompt: string; const Suffix: string = ''): string; virtual; abstract;
   public
     Providers: TLLMProviders;
     ActiveTopicIndex: Integer;
@@ -96,7 +101,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure Ask(const Question: string);
+    procedure Ask(const Prompt: string; const Suffix: string = '');
     procedure CancelRequest;
     procedure SaveSettings(const FName: string);
     procedure LoadSettrings(const FName: string);
@@ -110,7 +115,7 @@ type
   TLLMChat = class(TLLMBase)
   protected
     procedure DoResponseOK(const Msg: string); override;
-    function RequestParams(const Prompt: string): string; override;
+    function RequestParams(const Prompt: string; const Suffix: string = ''): string; override;
   public
     ActiveTopicIndex: Integer;
     ChatTopics: TArray<TChatTopic>;
@@ -129,13 +134,28 @@ type
   end;
 
   TLLMAssistant = class(TLLMBase)
+  private
+    FActiveEditor: TCustomSynEdit;
+    FCaret: TBufferCoord;
+    FSelText: string;
+    FStopSequence: TArray<string>;
+    procedure DoCancelRequest(Sender: TObject);
   protected
-    function RequestParams(const Prompt: string): string; override;
+    const MaxPrefixLines = 100;
+    const MaxSuffixLines = 50;
+    procedure DoResponseCompleted(const AResponse: IHTTPResponse); override;
+    procedure DoResponseCreated(const AResponse: IHTTPResponse); override;
+    procedure DoResponseOK(const Msg: string); override;
+    procedure ShowError(Sender: TObject; const Error: string);
+    function RequestParams(const Prompt: string; const Suffix: string = ''): string; override;
   public
     function ValidateSettings: TLLMSettingsValidation; override;
     constructor Create;
 
-    procedure Suggest(Editor: IEditor);
+    procedure Suggest;
+    procedure Optimize;
+    procedure FixBugs;
+    procedure AddComments;
   end;
 
 var
@@ -183,6 +203,9 @@ implementation
 uses
   System.Math,
   System.IOUtils,
+  JvGnugettext,
+  Vcl.Forms,
+  frmSuggest,
   cPyScripterSettings;
 
 resourcestring
@@ -191,6 +214,7 @@ resourcestring
   sNoAPIKey = 'The LLM API key is missing';
   sNoModel = 'The LLM model has not been set';
   sUnsupportedEndpoint = 'The LLM endpoint is missing or not supported';
+  sUnsupportedModel = 'The LLM model is not supported';
   sUnexpectedResponse = 'Unexpected response from the LLM Server';
 
 function Obfuscate(const s: string): string;
@@ -210,12 +234,12 @@ end;
 
 { TLLMBase }
 
-procedure TLLMBase.Ask(const Question: string);
+procedure TLLMBase.Ask(const Prompt: string; const Suffix: string = '');
 var
   ErrMsg: string;
   Params: string;
 begin
-  if Question = '' then Exit;
+  if Prompt = '' then Exit;
 
   if Assigned(FHttpResponse) then
     ErrMsg := sLLMBusy
@@ -236,8 +260,8 @@ begin
   FHttpClient.ConnectionTimeout := Settings.TimeOut;
   FHttpClient.ResponseTimeout := Settings.TimeOut * 2;
 
-  FLastPrompt := Question;
-  Params := RequestParams(Question);
+  FLastPrompt := Prompt;
+  Params := RequestParams(Prompt, Suffix);
 
   FSourceStream.Clear;
   FSourceStream.WriteString(Params);
@@ -249,6 +273,7 @@ begin
   FHttpClient.CustomHeaders['Content-Type'] := 'application/json';
   FHttpClient.CustomHeaders['AcceptEncoding'] := 'deflate, gzip;q=1.0, *;q=0.5';
   FHttpResponse := FHttpClient.Post(Settings.EndPoint , FSourceStream);
+  DoResponseCreated(FHttpResponse);
 end;
 
 procedure TLLMBase.CancelRequest;
@@ -282,6 +307,16 @@ begin
   FHttpClient.Free;
   FContext.Free;
   inherited;
+end;
+
+procedure TLLMBase.DoResponseCompleted(const AResponse: IHTTPResponse);
+begin
+  // Do nothing
+end;
+
+procedure TLLMBase.DoResponseCreated(const AResponse: IHTTPResponse);
+begin
+  // Do Nothing
 end;
 
 procedure TLLMBase.DoResponseOK(const Msg: string);
@@ -319,6 +354,7 @@ var
   ErrMsg, Msg: string;
 begin
   FHttpResponse := nil;
+  DoResponseCompleted(AResponse);
   if AResponse.AsyncResult.IsCancelled then
     Exit;
   ResponseOK := False;
@@ -398,6 +434,7 @@ begin
     svValid: Result := '';
     svModelEmpty: Result := sNoModel;
     svInvalidEndpoint: Result := sUnsupportedEndpoint;
+    svInvalidModel: Result := sUnsupportedModel;
     svAPIKeyMissing: Result := sNoAPIKey;
   end;
 end;
@@ -469,7 +506,7 @@ begin
   end;
 end;
 
-function TLLMChat.RequestParams(const Prompt: string): string;
+function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = ''): string;
 
   function NewMessage(const Role, Content: string): TJsonObject;
   begin
@@ -505,7 +542,7 @@ begin
     // add the history
     for var QAItem in ActiveTopic.QAItems do
     begin
-      Messages.Add(NewMessage('user', QAItem.Question));
+      Messages.Add(NewMessage('user', QAItem.Prompt));
       Messages.Add(NewMessage('assistant', QAItem.Answer));
     end;
     // finally add the new prompt
@@ -551,7 +588,7 @@ end;
 
 constructor TQAItem.Create(const AQuestion, AnAnswer: string);
 begin
-  Self.Question := AQuestion;
+  Self.Prompt := AQuestion;
   Self.Answer := AnAnswer;
 end;
 
@@ -597,17 +634,155 @@ end;
 
 { TLLMAssistant }
 
+procedure TLLMAssistant.AddComments;
+const
+  CommentsPrompt: string =
+     'Please analyze the following python code and add detailed python comments ' +
+     'and docstrings explaining what each part of the code is doing. '  +
+     'The comments should be comprehensive and should help users ' +
+     'understand the logic and functionality of the code. ' +
+     'Ensure that the explanations and comments are integrated into the source ' +
+     'code. The final output should be valid python code.'#$A#$A +
+     'Here is the source code that needs comments:'#10'```'#$A + '%s'#$A'```';
+begin
+  if IsBusy or not Assigned(GI_ActiveEditor) then Exit;
+
+  FActiveEditor := GI_ActiveEditor.ActiveSynEdit;
+  FCaret := FActiveEditor.CaretXY;
+  FSelText := FActiveEditor.SelText;
+
+  if FSelText = '' then Exit;
+
+  var Prompt := Format(CommentsPrompt, [FSelText]);
+  Ask(Prompt);
+end;
+
 constructor TLLMAssistant.Create;
 begin
   inherited;
+  OnLLMError := ShowError;
   Providers.Provider := llmProviderOpenAI;
   Providers.OpenAI := OpenaiCompletionSettings;
   Providers.Ollama := OllamaCompletionSettings;
 end;
 
-function TLLMAssistant.RequestParams(const Prompt: string): string;
+procedure TLLMAssistant.DoCancelRequest(Sender: TObject);
+begin
+  CancelRequest;
+end;
+
+procedure TLLMAssistant.DoResponseCompleted(const AResponse: IHTTPResponse);
+begin
+  inherited;
+  GI_PyIDEServices.SetActivityIndicator(False);
+end;
+
+procedure TLLMAssistant.DoResponseCreated(const AResponse: IHTTPResponse);
+begin
+  inherited;
+  GI_PyIDEServices.SetActivityIndicator(True,
+    _('Assistant is busy. Click to cancel.'), DoCancelRequest);
+end;
+
+procedure TLLMAssistant.DoResponseOK(const Msg: string);
+
+  procedure RemoveLeadingLB(var S: string);
+  var
+    Count: Integer;
+  begin
+    Count := 0;
+    if S.StartsWith(#13) then
+      Inc(Count);
+    if S.StartsWith(#10) then
+      Inc(Count);
+    if Count > 0 then
+      S := Copy(S, Count);
+  end;
+
+begin
+  if not Assigned(GI_ActiveEditor) or
+    (FActiveEditor <> GI_ActiveEditor.ActiveSynEdit) or
+    (FCaret <> GI_ActiveEditor.ActiveSynEdit.CaretXY) or
+    (FSelText <> FActiveEditor.SelText)
+  then
+    Exit;
+
+  var Code := Msg;
+  var CodeStart :=  Pos('```', Code);
+  if CodeStart > 0 then
+  begin
+    Inc(CodeStart, 3);
+    var CodeEnd := Pos('```', Code, CodeStart);
+    Code := Copy(Code, CodeStart, CodeEnd - CodeStart);
+    RemoveLeadingLB(Code);
+  end;
+
+  if Code.StartsWith('python') then
+  begin
+    Code := Copy(Code, 7);
+    RemoveLeadingLB(Code);
+  end;
+  Code := Code.TrimLeft;
+  if Code <> '' then
+  begin
+    if not Assigned(SuggestWindow) then
+      SuggestWindow := TSuggestWindow.Create(Application.MainForm);
+    SuggestWindow.seSuggest.Text := Code;
+    SuggestWindow.ShowModal;
+  end;
+
+//    FActiveEditor.SelText := Code;
+end;
+
+procedure TLLMAssistant.FixBugs;
+const
+  FixBugsPrompt: string =
+    'Please analyze the following python code, identify any bugs, ' +
+    'and provide fixes. The response should contain the fixed code ' +
+    'and should be complete and ready to run. ' +
+    'Along with the fixes, insert detailed python comments explaining the nature ' +
+    'of the original issues and how they were resolved.'#$A#$A +
+    'Here is the source code that needs fixing:'#10'```'#$A + '%s'#$A'```';
+begin
+  if IsBusy or not Assigned(GI_ActiveEditor) then Exit;
+
+  FActiveEditor := GI_ActiveEditor.ActiveSynEdit;
+  FCaret := FActiveEditor.CaretXY;
+  FSelText := FActiveEditor.SelText;
+
+  if FSelText = '' then Exit;
+
+  var Prompt := Format(FixBugsPrompt, [FSelText]);
+  Ask(Prompt);
+end;
+
+procedure TLLMAssistant.Optimize;
+const
+  OptimizePrompt: string =
+    'Please analyze the following python code and suggest optimizations to ' +
+    'reduce the number of operations during execution. The optimizations '+
+    'should maintain the original functionality of the code.'#10#10 +
+    'The response should contain only the optimized code ' +
+    'and should be complete and ready to run.'#$A#$A +
+    'Here is the source code that needs optimization:'#$A'```'#10'%s'#$A'```';
+begin
+  if IsBusy or not Assigned(GI_ActiveEditor) then Exit;
+
+  FActiveEditor := GI_ActiveEditor.ActiveSynEdit;
+  FCaret := FActiveEditor.CaretXY;
+  FSelText := FActiveEditor.SelText;
+
+  if FSelText = '' then Exit;
+
+  var Prompt := Format(OptimizePrompt, [FSelText]);
+  Ask(Prompt);
+end;
+
+function TLLMAssistant.RequestParams(const Prompt: string; const Suffix: string = ''): string;
 var
   JSON: TJsonObject;
+const
+  Temperature = 0.2;
 begin
   JSON := TJSONObject.Create;
   try
@@ -618,15 +793,27 @@ begin
       etOllamaGenerate:
         begin
           JSON.AddPair('system', Settings.SystemPrompt);
-          if Assigned(FContext) then
-            JSON.AddPair('context', FContext);
 
           var Options := TJSONObject.Create;
+          if Length(FStopSequence) > 0 then
+          begin
+            var StopArray := TJSONArray.Create;
+            for var Term in FStopSequence do
+              StopArray.Add(Term);
+            Options.AddPair('stop', StopArray);
+          end;
           Options.AddPair('num_predict', Settings.MaxTokens);
+          Options.AddPair('temperature', Temperature);
           JSON.AddPair('options', Options);
+          //JSON.AddPair('raw', True);
         end;
       etOpenAICompletion:
-        JSON.AddPair('max_tokens', Settings.MaxTokens);
+        begin
+          JSON.AddPair('max_tokens', Settings.MaxTokens);
+          JSON.AddPair('temperature', Temperature);
+          if Suffix <> '' then
+            JSON.AddPair('suffix', Suffix);
+        end;
     end;
 
     Result := JSON.ToJSON;
@@ -635,11 +822,61 @@ begin
   end;
 end;
 
-procedure TLLMAssistant.Suggest(Editor: IEditor);
+procedure TLLMAssistant.ShowError(Sender: TObject; const Error: string);
 begin
-  if IsBusy or not Assigned(Editor) then Exit;
+  GI_PyIDEServices.SetActivityIndicator(False);
+  GI_PyIDEServices.WriteStatusMsg(Error);
+end;
 
-  var SynEd := Editor.ActiveSynEdit;
+procedure TLLMAssistant.Suggest;
+const
+  OpenAISuggestPrompt: string =
+    'You are my Python coding assistant.  Please complete the following Python code'#13#10 +
+    'returning only the missing part:'#13#10 +
+    '%s';
+
+  CodellamaSuggestPrompt = '<PRE> %s <SUF> %s <MID>';
+
+  function GetPrefix: string;
+  begin
+    Result := '';
+    for var I := Max(0, FCaret.Line - MaxPrefixLines) to FCaret.Line - 2 do
+      Result := Result + FActiveEditor.Lines[I] + sLineBreak;
+    Result := Result + Copy(FActiveEditor.Lines[FCaret.Line - 1], 1, FCaret.Char - 1);
+  end;
+
+  function GetSuffix: string;
+  begin
+    Result := Copy(FActiveEditor.Lines[FCaret.Line - 1], FCaret.Char + 1);
+    for var I := FCaret.Line to Min(FActiveEditor.Lines.Count - 1, FCaret.Line + MaxSuffixLines) do
+      Result := Result + sLineBreak + FActiveEditor.Lines[I];
+  end;
+
+begin
+  if IsBusy or not Assigned(GI_ActiveEditor) then Exit;
+
+  FActiveEditor := GI_ActiveEditor.ActiveSynEdit;
+  FCaret := FActiveEditor.CaretXY;
+  FSelText := FActiveEditor.SelText;
+
+  if FSelText <> '' then Exit;
+
+
+  case Settings.EndPointType of
+    etOpenAICompletion:
+      begin
+        var Prompt := Format(OpenAISuggestPrompt, [GetPrefix]);
+        Ask(Prompt, GetSuffix);
+      end;
+    etOllamaGenerate:
+      begin
+        FStopSequence := ['<END>', '<EOD>', '<EOT>'];
+        var Prompt := Format(CodellamaSuggestPrompt, [GetPrefix, GetSuffix]);
+        Ask(Prompt, '');
+        FStopSequence := [];
+      end;
+  end;
+
 end;
 
 function TLLMAssistant.ValidateSettings: TLLMSettingsValidation;
@@ -648,7 +885,11 @@ begin
   if (Result = svValid) and
     not (Settings.EndPointType in [etOllamaGenerate, etOpenAICompletion])
   then
-    Result := svInvalidEndpoint;
+    Result := svInvalidEndpoint
+  else if (Settings.EndPointType = etOllamaGenerate) and
+    not Settings.Model.StartsWith('codellama')
+  then
+    Result := svInvalidModel;
 end;
 
 initialization

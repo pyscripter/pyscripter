@@ -39,7 +39,9 @@ inherited LLMChatForm: TLLMChatForm
           Left = 542
           Top = 44
           Anchors = [akRight, akBottom]
-          IndicatorType = aitSectorRing
+          Animate = True
+          FrameDelay = 150
+          IndicatorType = aitRotatingSector
         end
         object synQuestion: TSynEdit
           AlignWithMargins = True
@@ -261,52 +263,52 @@ inherited LLMChatForm: TLLMChatForm
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 109
+        CollectionIndex = 110
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 105
+        CollectionIndex = 106
         CollectionName = 'Save'
         Name = 'Save'
       end
       item
-        CollectionIndex = 22
+        CollectionIndex = 23
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 12
+        CollectionIndex = 13
         CollectionName = 'Chat\Chat'
         Name = 'Chat'
       end
       item
-        CollectionIndex = 14
+        CollectionIndex = 15
         CollectionName = 'Chat\ChatPlus'
         Name = 'ChatPlus'
       end
       item
-        CollectionIndex = 16
+        CollectionIndex = 17
         CollectionName = 'Chat\ChatRemove'
         Name = 'ChatRemove'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 16
         CollectionName = 'Chat\ChatQuestion'
         Name = 'ChatQuestion'
       end
       item
-        CollectionIndex = 139
+        CollectionIndex = 140
         CollectionName = 'Chat\UserQuestion'
         Name = 'UserQuestion'
       end
       item
-        CollectionIndex = 71
+        CollectionIndex = 72
         CollectionName = 'Paste'
         Name = 'Paste'
       end
       item
-        CollectionIndex = 127
+        CollectionIndex = 128
         CollectionName = 'Title'
         Name = 'Title'
       end
@@ -316,12 +318,12 @@ inherited LLMChatForm: TLLMChatForm
         Name = 'Assistant'
       end
       item
-        CollectionIndex = 27
+        CollectionIndex = 28
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 91
+        CollectionIndex = 92
         CollectionName = 'PythonScript'
         Name = 'PythonScript'
       end>

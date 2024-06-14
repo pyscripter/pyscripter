@@ -243,6 +243,7 @@ type
     procedure SaveEnvironment;
     procedure SaveFileModules;
     procedure SetRunLastScriptHints(const ScriptName : string);
+    procedure SetActivityIndicator(TurnOn: Boolean; Hint: string = ''; OnClick: TNotifyEvent = nil);
     function GetStoredScript(const Name: string): TStrings;
     function GetMessageServices: IMessageServices;
     function GetUnitTestServices: IUnitTestServices;

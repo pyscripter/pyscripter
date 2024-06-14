@@ -220,6 +220,18 @@ type
     spiTimeout: TSpTBXEditItem;
     spiMaxTokens: TSpTBXEditItem;
     spiSystemPrompt: TSpTBXEditItem;
+    actAssistantSuggest: TAction;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    spiSuggest: TSpTBXItem;
+    actAssistantCancel: TAction;
+    spiAssistantCancel: TSpTBXItem;
+    SpTBXSeparatorItem4: TSpTBXSeparatorItem;
+    actAssistantOptimize: TAction;
+    spiOptimize: TSpTBXItem;
+    actAssistantFixBugs: TAction;
+    spiFixBugs: TSpTBXItem;
+    actAssistantComments: TAction;
+    spiAssistantComments: TSpTBXItem;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -258,6 +270,11 @@ type
     procedure actIDEOptionsExecute(Sender: TObject);
     procedure actPythonPathExecute(Sender: TObject);
     procedure actAboutExecute(Sender: TObject);
+    procedure actAssistantCommentsExecute(Sender: TObject);
+    procedure actAssistantCancelExecute(Sender: TObject);
+    procedure actAssistantFixBugsExecute(Sender: TObject);
+    procedure actAssistantOptimizeExecute(Sender: TObject);
+    procedure actAssistantSuggestExecute(Sender: TObject);
     procedure actPythonManualsExecute(Sender: TObject);
     procedure UpdateMainActions;
     procedure actSearchGoToLineExecute(Sender: TObject);
@@ -1653,6 +1670,37 @@ begin
   end;
 end;
 
+procedure TCommandsDataModule.actAssistantCommentsExecute(Sender: TObject);
+begin
+   LLMAssistant.AddComments;
+end;
+
+procedure TCommandsDataModule.actAssistantCancelExecute(Sender: TObject);
+begin
+  if LLMAssistant.IsBusy then
+    LLMAssistant.CancelRequest;
+end;
+
+procedure TCommandsDataModule.actAssistantFixBugsExecute(Sender: TObject);
+begin
+  LLMAssistant.FixBugs;
+end;
+
+procedure TCommandsDataModule.actAssistantOptimizeExecute(Sender: TObject);
+begin
+  LLMAssistant.Optimize;
+end;
+
+procedure TCommandsDataModule.actAssistantSuggestExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+  begin
+    SynCodeCompletion.CancelCompletion;
+    SynParamCompletion.CancelCompletion;
+    LLMAssistant.Suggest;
+  end;
+end;
+
 procedure TCommandsDataModule.actPythonManualsExecute(Sender: TObject);
 begin
   var PythonHelpFile := PyControl.PythonHelpFile;
@@ -1846,6 +1894,13 @@ begin
     actReplaceParameters.Enabled := False;
     actInsertTemplate.Enabled := False;
   end;
+  // Assistant actions
+  var HasPythonFile := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
+  actAssistantSuggest.Enabled := HasPythonFile and not SelAvail;
+  actAssistantOptimize.Enabled := HasPythonFile and SelAvail;
+  actAssistantFixBugs.Enabled := HasPythonFile and SelAvail;
+  actAssistantComments.Enabled := HasPythonFile and SelAvail;
+  actAssistantCancel.Enabled := LLMAssistant.IsBusy;
   // Other actions
   actPythonPath.Enabled := GI_PyControl.PythonLoaded;
 end;

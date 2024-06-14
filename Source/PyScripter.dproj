@@ -326,6 +326,10 @@ $(PostBuildEvent)]]>
             <Form>LLMChatForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="frmSuggest.pas">
+            <Form>SuggestWindow</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="PyScripter.todo"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
