@@ -353,6 +353,7 @@ Uses
   System.Character,
   System.Math,
   System.Win.ComObj,
+  System.NetEncoding,
   Vcl.ExtCtrls,
   Vcl.Themes,
   JclFileUtils,
@@ -1942,9 +1943,10 @@ end;
 
 function URIToFilePath(URI: string): string;
 begin
+  var DecodedURI := TURLEncoding.URL.Decode(URI);
   var BufferLen: DWORD := MAX_PATH;
   SetLength(Result, BufferLen);
-  OleCheck(PathCreateFromUrl(PChar(URI), PChar(Result), @BufferLen, 0));
+  OleCheck(PathCreateFromUrl(PChar(DecodedURI), PChar(Result), @BufferLen, 0));
   SetLength(Result, BufferLen);
 end;
 

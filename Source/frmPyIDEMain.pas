@@ -577,7 +577,7 @@
             - New IDE Window Chat for interacting with Large Language Models
             - OpenAI and local LLM models using Ollama supported.
           Issues addressed
-            #1228, #1275, #1278, #1296, #1297, #1300
+            #1228, #1275, #1278, #1296, #1297, #1300, #1306
 
 
 {------------------------------------------------------------------------------}
