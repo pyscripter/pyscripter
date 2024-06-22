@@ -724,12 +724,7 @@ begin
   end;
   Code := Code.TrimLeft;
   if Code <> '' then
-  begin
-    if not Assigned(SuggestWindow) then
-      SuggestWindow := TSuggestWindow.Create(Application.MainForm);
-    SuggestWindow.seSuggest.Text := Code;
-    SuggestWindow.ShowModal;
-  end;
+    ShowSuggestion(Code, GI_ActiveEditor.ActiveSynEdit);
 
 //    FActiveEditor.SelText := Code;
 end;

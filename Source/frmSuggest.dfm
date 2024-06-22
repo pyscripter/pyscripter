@@ -3,7 +3,7 @@ object SuggestWindow: TSuggestWindow
   Top = 0
   BorderStyle = bsSingle
   BorderWidth = 1
-  ClientHeight = 439
+  ClientHeight = 327
   ClientWidth = 622
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,13 +12,14 @@ object SuggestWindow: TSuggestWindow
   Font.Name = 'Segoe UI'
   Font.Style = []
   StyleElements = [seClient]
+  OnClose = FormClose
   OnCreate = FormCreate
   TextHeight = 15
   object seSuggest: TSynEdit
     Left = 0
     Top = 0
     Width = 622
-    Height = 417
+    Height = 305
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -33,6 +34,7 @@ object SuggestWindow: TSuggestWindow
     Gutter.Font.Height = -11
     Gutter.Font.Name = 'Consolas'
     Gutter.Font.Style = []
+    Gutter.Font.Quality = fqClearTypeNatural
     Gutter.Visible = False
     Gutter.Bands = <
       item
@@ -57,7 +59,7 @@ object SuggestWindow: TSuggestWindow
   end
   object SpTBXDock: TSpTBXDock
     Left = 0
-    Top = 417
+    Top = 305
     Width = 622
     Height = 22
     Position = dpBottom
@@ -71,17 +73,49 @@ object SuggestWindow: TSuggestWindow
       Font.Height = -9
       Font.Name = 'Segoe UI'
       Font.Style = []
+      FullSize = True
       Images = vilImages
       ParentFont = False
+      ProcessShortCuts = True
+      ShrinkMode = tbsmNone
+      Stretch = True
       SystemFont = False
       TabOrder = 0
       Caption = 'SpTBXToolbar'
+      Customizable = False
       object spiAccept: TSpTBXItem
-        Caption = 'Accept'
+        Caption = 'Accept (Tab)'
         DisplayMode = nbdmImageAndText
         ImageIndex = 1
         ImageName = 'Check'
         ShortCut = 9
+        OnClick = spiAcceptClick
+      end
+      object spiAcceptWord: TSpTBXItem
+        Caption = 'Accept Word (Ctrl+Right)'
+        Hint = 'Accept the first suggested word'
+        ShortCut = 16423
+        OnClick = spiAcceptWordClick
+      end
+      object spiAcceptLine: TSpTBXItem
+        Caption = 'Accept Line (Ctrl+Enter)'
+        Hint = 'Accept the first suggested line'
+        ShortCut = 16397
+        OnClick = spiAcceptLineClick
+      end
+      object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+        CustomWidth = 261
+      end
+      object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+      end
+      object spiCancel: TSpTBXItem
+        Caption = 'Cancel (Esc)'
+        Hint = 'Close the form'
+        DisplayMode = nbdmImageAndText
+        ImageIndex = 0
+        ImageName = 'Cancel'
+        ShortCut = 27
+        OnClick = spiCancelClick
       end
     end
   end
@@ -102,6 +136,6 @@ object SuggestWindow: TSuggestWindow
     Width = 10
     Height = 10
     Left = 16
-    Top = 352
+    Top = 240
   end
 end

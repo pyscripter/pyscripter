@@ -9,14 +9,18 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  TB2Item,
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
-  SynEdit, TB2Item, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList;
+  SynEdit;
 
 type
   TSuggestWindow = class(TForm)
@@ -25,12 +29,25 @@ type
     SpTBXToolbar: TSpTBXToolbar;
     vilImages: TVirtualImageList;
     spiAccept: TSpTBXItem;
+    spiCancel: TSpTBXItem;
+    SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    spiAcceptLine: TSpTBXItem;
+    spiAcceptWord: TSpTBXItem;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure spiAcceptClick(Sender: TObject);
+    procedure spiAcceptLineClick(Sender: TObject);
+    procedure spiAcceptWordClick(Sender: TObject);
+    procedure spiCancelClick(Sender: TObject);
     procedure WMNCHitTest(var Message: TWMNCHitTest); message WM_NCHITTEST;
   protected
+    FEditor: TCustomSynEdit;
     procedure CreateParams(var Params: TCreateParams); override;
   public
   end;
+
+procedure ShowSuggestion(const Suggestion: string; Editor: TCustomSynEdit);
 
 var
   SuggestWindow: TSuggestWindow;
@@ -40,6 +57,9 @@ implementation
 {$R *.dfm}
 
 uses
+  System.Math,
+  SynEditTypes,
+  SynEditKeyCmds,
   dmResources;
 
 procedure TSuggestWindow.FormCreate(Sender: TObject);
@@ -107,6 +127,93 @@ begin
     WindowClass.style := WindowClass.style or CS_DROPSHADOW;
   end;
 
+end;
+
+procedure TSuggestWindow.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+  SuggestWindow := nil;
+end;
+
+procedure TSuggestWindow.spiAcceptClick(Sender: TObject);
+begin
+  FEditor.SelText := seSuggest.Text;
+  Close;
+end;
+
+procedure TSuggestWindow.spiAcceptLineClick(Sender: TObject);
+begin
+  var Line := seSuggest.Lines[0];
+  if seSuggest.Lines.Count > 1 then
+    Line := Line + sLineBreak;
+  seSuggest.Lines.Delete(0);
+  FEditor.SelText := Line;
+  if seSuggest.Lines.Count = 0 then
+    Close;
+end;
+
+procedure TSuggestWindow.spiAcceptWordClick(Sender: TObject);
+begin
+  seSuggest.BlockBegin := BufferCoord(0, 0);
+  seSuggest.ExecuteCommand(ecSelWordRight, ' ', nil);
+  var FirstWord := seSuggest.SelText;
+  seSuggest.SelText := '';
+  var TrimTrailingSpaces := eoTrimTrailingSpaces in FEditor.Options;
+  FEditor.Options := FEditor.Options - [eoTrimTrailingSpaces];
+  FEditor.SelText := FirstWord;
+  if TrimTrailingSpaces then
+    FEditor.Options := FEditor.Options + [eoTrimTrailingSpaces];
+
+  if seSuggest.Text = '' then
+    Close;
+end;
+
+procedure TSuggestWindow.spiCancelClick(Sender: TObject);
+begin
+  Close;
+end;
+
+
+procedure ShowSuggestion(const Suggestion: string; Editor: TCustomSynEdit);
+const
+  MaxLines = 10;
+  BordersSize = 8;
+begin
+  if not Assigned(SuggestWindow) then
+    SuggestWindow := TSuggestWindow.Create(Application.MainForm);
+
+  SuggestWindow.FEditor := Editor;
+  if Editor.SelAvail then
+  begin
+    SuggestWindow.spiAcceptWord.Visible := False;
+    SuggestWindow.spiAcceptWord.Enabled := False;
+    SuggestWindow.spiAcceptLine.Visible := False;
+    SuggestWindow.spiAcceptLine.Enabled := False;
+  end;
+
+
+  var Monitor := Screen.MonitorFromWindow(Editor.Handle);
+  var BC := Editor.BlockBegin;
+  var DC := Editor.BufferToDisplayPos(BC);
+  var Point := Editor.RowColumnToPixels(DC);
+  var SP := Editor.ClientToScreen(Point);
+
+  SuggestWindow.seSuggest.Text := Suggestion;
+  var LineCount := Min(MaxLines, SuggestWindow.seSuggest.Lines.Count);
+
+  SuggestWindow.ScaleForPPI(Editor.CurrentPPI);
+  // Window size
+  var Height := LineCount * SuggestWindow.seSuggest.LineHeight +
+    SuggestWindow.SpTBXToolbar.Height + BordersSize;
+  var Width := SuggestWindow.seSuggest.CharWidth * 80 + BordersSize;
+  // Window position
+  var Left := Min(SP.X, Monitor.Left + Monitor.Width - Width);
+  var Top := SP.Y - Height;
+  if Top < Monitor.Top then
+     Top := SP.Y + Editor.LineHeight;
+  SuggestWindow.SetBounds(Left, Top, Width, Height);
+
+  SuggestWindow.ShowModal;
 end;
 
 end.

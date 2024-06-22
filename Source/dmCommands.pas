@@ -1896,10 +1896,10 @@ begin
   end;
   // Assistant actions
   var HasPythonFile := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
-  actAssistantSuggest.Enabled := HasPythonFile and not SelAvail;
-  actAssistantOptimize.Enabled := HasPythonFile and SelAvail;
-  actAssistantFixBugs.Enabled := HasPythonFile and SelAvail;
-  actAssistantComments.Enabled := HasPythonFile and SelAvail;
+  actAssistantSuggest.Enabled := HasPythonFile and not SelAvail and not LLMAssistant.IsBusy;
+  actAssistantOptimize.Enabled := HasPythonFile and SelAvail and not LLMAssistant.IsBusy;
+  actAssistantFixBugs.Enabled := HasPythonFile and SelAvail and not LLMAssistant.IsBusy;
+  actAssistantComments.Enabled := HasPythonFile and SelAvail and not LLMAssistant.IsBusy;
   actAssistantCancel.Enabled := LLMAssistant.IsBusy;
   // Other actions
   actPythonPath.Enabled := GI_PyControl.PythonLoaded;
