@@ -6,15 +6,15 @@
 # Translators:
 # Vincenzo Campanella <vinz65@gmail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2023
-# ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2023
+# ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2023-12-16 14:36\n"
+"POT-Creation-Date: 2024-06-24 17:25\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2023\n"
+"Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3417,6 +3417,137 @@ msgstr "Ignora"
 msgid "Delete"
 msgstr "Elimina"
 
+#. CommandsDataModule..actlMain..actAssistantSuggest..Caption
+#: dmCommands.dfm
+msgid "Suggest"
+msgstr "Suggerisci"
+
+#. CommandsDataModule..actlMain..actAssistantSuggest..Hint
+#: dmCommands.dfm
+msgid "Provide a suggestion for code completion"
+msgstr "Fornisci un suggerimento per il completamento del codice"
+
+#. CommandsDataModule..actlMain..actAssistantCancel..Caption
+#. Programmer's name for it: SDlgCancel
+#: dmCommands.dfm StringResources.pas
+msgid "Cancel"
+msgstr "Annulla"
+
+#. CommandsDataModule..actlMain..actAssistantCancel..Hint
+#: dmCommands.dfm
+msgid "Cancel Assistant action"
+msgstr "Annulla azione Assistente"
+
+#. CommandsDataModule..actlMain..actAssistantOptimize..Caption
+#: dmCommands.dfm
+msgid "Optimize"
+msgstr "Ottimizza"
+
+#. CommandsDataModule..actlMain..actAssistantOptimize..Hint
+#: dmCommands.dfm
+msgid "Optimize the selected code"
+msgstr "Ottimizza codice selezionato"
+
+#. CommandsDataModule..actlMain..actAssistantFixBugs..Caption
+#: dmCommands.dfm
+msgid "Fix Bugs"
+msgstr "Correggi bug"
+
+#. CommandsDataModule..actlMain..actAssistantFixBugs..Hint
+#: dmCommands.dfm
+msgid "Fix bugs in the selected code"
+msgstr "Correggi bug nel codice selezionato"
+
+#. CommandsDataModule..actlMain..actAssistantComments..Caption
+#: dmCommands.dfm
+msgid "Add Comments"
+msgstr "Aggiungi commenti"
+
+#. CommandsDataModule..actlMain..actAssistantComments..Hint
+#: dmCommands.dfm
+msgid "Add comments explaining the selected code"
+msgstr "Aggiungi commenti che spiegano il codice selezionato"
+
+#. CommandsDataModule..pmSpelling..mnSpelling..Caption
+#. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
+#. LLMChatForm..pmAsk..mnSpelling..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSpelling..Caption
+#: dmCommands.dfm frmEditor.dfm frmLLMChat.dfm frmPyIDEMain.dfm
+msgid "Spelling"
+msgstr "Ortografia"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..Caption
+#. EditorForm..pmnuEditor..mniAssistant..Caption
+#: dmCommands.dfm frmEditor.dfm
+msgid "Assistant"
+msgstr "Assistente"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..Caption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..Caption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Settings"
+msgstr "Impostazioni"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Caption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Caption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Openai"
+msgstr "Openai"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Use Openai"
+msgstr "Usa Openai"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Caption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Caption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Ollama"
+msgstr "Ollama"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Hint
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Use Ollama"
+msgstr "Usa Ollama"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiEndpoint..EditCaption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiEndpoint..EditCaption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Endpoint:"
+msgstr "Punto finale:"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiModel..EditCaption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiModel..EditCaption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Model:"
+msgstr "Modello:"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiApiKey..EditCaption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiApiKey..EditCaption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Api key:"
+msgstr "Chiave API:"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiTimeout..EditCaption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiTimeout..EditCaption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Timeout (in seconds):"
+msgstr "Timeout (in secondi):"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiMaxTokens..EditCaption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiMaxTokens..EditCaption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Maximum number of response tokens:"
+msgstr "Numero massimo di token di risposta:"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiSystemPrompt..EditCaption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiSystemPrompt..EditCaption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "System prompt:"
+msgstr "Prompt sistema:"
+
 #. ResourcesDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
 #: dmResources.dfm StringResources.pas
@@ -3723,12 +3854,6 @@ msgstr "Codice sorgente"
 #: frmEditor.dfm frmRegExpTester.dfm
 msgid "Search"
 msgstr "Cerca"
-
-#. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSpelling..Caption
-#: frmEditor.dfm frmPyIDEMain.dfm
-msgid "Spelling"
-msgstr "Ortografia"
 
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm
@@ -4120,6 +4245,117 @@ msgstr "&Vai"
 msgid "Goto implementation"
 msgstr "Vai all'implementazione"
 
+#. LLMChatForm..Caption
+#. PyIDEMainForm..actlStandard..actNavChat..Caption
+#: frmLLMChat.dfm frmPyIDEMain.dfm frmLLMChat.pas
+msgid "Chat"
+msgstr "Chat"
+
+#. LLMChatForm..ChatActionList..actChatSave..Caption
+#: frmLLMChat.dfm
+msgid "Save chat"
+msgstr "Salva chat"
+
+#. LLMChatForm..ChatActionList..actChatSave..Hint
+#: frmLLMChat.dfm
+msgid "Save chat history"
+msgstr "Salva cronologia chat"
+
+#. LLMChatForm..ChatActionList..actChatRemove..Caption
+#: frmLLMChat.dfm
+msgid "Remove Chat Topic"
+msgstr "Rimuovi argomento chat"
+
+#. LLMChatForm..ChatActionList..actChatRemove..Hint
+#: frmLLMChat.dfm
+msgid "Remove current chat topic"
+msgstr "Rimuovi argomento attuale chat"
+
+#. LLMChatForm..ChatActionList..actChatNew..Caption
+#: frmLLMChat.dfm
+msgid "New Chat Topic"
+msgstr "Nuovo argomento chat"
+
+#. LLMChatForm..ChatActionList..actChatNew..Hint
+#: frmLLMChat.dfm
+msgid "Add a new chat topic"
+msgstr "Aggiungi un nuovo argomento chat"
+
+#. LLMChatForm..ChatActionList..actChatPrevious..Caption
+#: frmLLMChat.dfm
+msgid "Previous Chat Topic"
+msgstr "Argomento precedente chat"
+
+#. LLMChatForm..ChatActionList..actChatPrevious..Hint
+#: frmLLMChat.dfm
+msgid "Show previous chat topic"
+msgstr "Visualizza argomento precedente chat"
+
+#. LLMChatForm..ChatActionList..actChatNext..Caption
+#: frmLLMChat.dfm
+msgid "Next Chat Topic"
+msgstr "Argomento successivo chat"
+
+#. LLMChatForm..ChatActionList..actChatNext..Hint
+#: frmLLMChat.dfm
+msgid "Show next chat topic"
+msgstr "Visualizza argomento successivo chat"
+
+#. LLMChatForm..ChatActionList..actCopyText..Caption
+#: frmLLMChat.dfm
+msgid "Copy "
+msgstr "Copia"
+
+#. LLMChatForm..ChatActionList..actCopyText..Hint
+#: frmLLMChat.dfm
+msgid "Copy text"
+msgstr "Copia testo"
+
+#. LLMChatForm..ChatActionList..actAskQuestion..Hint
+#: frmLLMChat.dfm
+msgid "Ask question"
+msgstr "Fai una domanda"
+
+#. LLMChatForm..ChatActionList..actTopicTitle..Caption
+#: frmLLMChat.dfm frmLLMChat.pas
+msgid "Topic Title"
+msgstr "Titolo argomento"
+
+#. LLMChatForm..ChatActionList..actTopicTitle..Hint
+#: frmLLMChat.dfm
+msgid "Set the title of the chat topic"
+msgstr "Imposta il titolo dell'argomento chat"
+
+#. LLMChatForm..ChatActionList..actCancelRequest..Caption
+#: frmLLMChat.dfm
+msgid "Cancel Request"
+msgstr "Annulla richiesta"
+
+#. LLMChatForm..ChatActionList..actCancelRequest..Hint
+#: frmLLMChat.dfm
+msgid "Cancel active request"
+msgstr "Annulla richiesta attiva"
+
+#. LLMChatForm..ChatActionList..actCopyCode..Caption
+#: frmLLMChat.dfm
+msgid "Copy Code"
+msgstr "Copia codice"
+
+#. LLMChatForm..ChatActionList..actCopyCode..Hint
+#: frmLLMChat.dfm
+msgid "Copy the python code"
+msgstr "Copia il codice Python"
+
+#. LLMChatForm..ChatActionList..actCopyToNewEditor..Caption
+#: frmLLMChat.dfm
+msgid "Copy Code to New Editor"
+msgstr "Copia codice nel nuovo editor"
+
+#. LLMChatForm..ChatActionList..actCopyToNewEditor..Hint
+#: frmLLMChat.dfm
+msgid "Copy the python code to a new editor"
+msgstr "Copia il codice Python in un nuovo editor"
+
 #. MessagesWindow..Caption
 #: frmMessages.dfm
 msgid "Messages"
@@ -4468,12 +4704,48 @@ msgstr "Formato del file"
 msgid "&View"
 msgstr "&Visualizza"
 
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitEditors..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnNavigate..Caption
+#: frmPyIDEMain.dfm
+msgid "Navi&gate"
+msgstr "Navi&ga"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnNavigate..sbmnIDEWindows..Caption
+#: frmPyIDEMain.dfm
+msgid "IDE &Windows"
+msgstr "Finestre IDE"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnNavigate..sbmnDebugWindows..Caption
+#: frmPyIDEMain.dfm
+msgid "&Debug Windows"
+msgstr "Finestre di &debug"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..Caption
+#. PyIDEMainForm..actlStandard..actNavEditor..Caption
+#: frmPyIDEMain.dfm
+msgid "&Editor"
+msgstr "&Editor"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..Caption
+#: frmPyIDEMain.dfm
+msgid "&Syntax"
+msgstr "&Sintassi"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..mnNoSyntax..Caption
+#: frmPyIDEMain.dfm
+msgid "&No Syntax"
+msgstr "&Nessuna sintassi"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..mnNoSyntax..Hint
+#: frmPyIDEMain.dfm
+msgid "Do not use syntax highlighting"
+msgstr "Non usare l'evidenziazione della sintassi"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSplitEditors..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor"
 msgstr "Dividi editor"
 
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSplitWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace"
 msgstr "Dividi spazio di lavoro"
@@ -4534,36 +4806,6 @@ msgstr "Ba&rra strumenti utente"
 #: frmPyIDEMain.dfm
 msgid "User toolbar|Show/Hide the User toolbar"
 msgstr "Barra utente|Visualizza/nascondi barra degli strumenti utente"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
-#: frmPyIDEMain.dfm
-msgid "IDE &Windows"
-msgstr "Finestre IDE"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
-#: frmPyIDEMain.dfm
-msgid "&Debug Windows"
-msgstr "Finestre di &debug"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
-#: frmPyIDEMain.dfm
-msgid "Navi&gate"
-msgstr "Navi&ga"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
-#: frmPyIDEMain.dfm
-msgid "&Syntax"
-msgstr "&Sintassi"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..mnNoSyntax..Caption
-#: frmPyIDEMain.dfm
-msgid "&No Syntax"
-msgstr "&Nessuna sintassi"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..mnNoSyntax..Hint
-#: frmPyIDEMain.dfm
-msgid "Do not use syntax highlighting"
-msgstr "Non usare l'evidenziazione della sintassi"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
@@ -4779,28 +5021,6 @@ msgstr "Men&u principale"
 #: frmPyIDEMain.dfm
 msgid "View/Hide main menu"
 msgstr "Visualizza/nascondi il menu interattivo"
-
-#. PyIDEMainForm..actlStandard..actCallStackWin..Caption
-#. PyIDEMainForm..actlStandard..actNavCallStack..Caption
-#: frmPyIDEMain.dfm
-msgid "&Call Stack"
-msgstr "Stack &chiamata"
-
-#. PyIDEMainForm..actlStandard..actCallStackWin..Hint
-#: frmPyIDEMain.dfm
-msgid "Show/Hide Call Stack window"
-msgstr "Visualizza/nascondi finestra stack chiamate"
-
-#. PyIDEMainForm..actlStandard..actVariablesWin..Caption
-#. PyIDEMainForm..actlStandard..actNavVariables..Caption
-#: frmPyIDEMain.dfm
-msgid "&Variables"
-msgstr "&Variabili"
-
-#. PyIDEMainForm..actlStandard..actVariablesWin..Hint
-#: frmPyIDEMain.dfm
-msgid "Show/Hide Variables window"
-msgstr "Visualizza/nascondi finestra variabili"
 
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Caption
 #: frmPyIDEMain.dfm
@@ -5032,108 +5252,15 @@ msgstr "Rimuovi tutti i punti interruzione"
 msgid "Clear all breakpoints"
 msgstr "Rimuovi tutti i punti interruzione"
 
-#. PyIDEMainForm..actlStandard..actBreakPointsWin..Caption
-#: frmPyIDEMain.dfm
-msgid "&Breakpoints"
-msgstr "&Punti interruzione"
-
-#. PyIDEMainForm..actlStandard..actBreakPointsWin..Hint
-#: frmPyIDEMain.dfm
-msgid "Show/Hide Breakpoints window"
-msgstr "Visualizza/nascondi finestra punti interruzione"
-
-#. PyIDEMainForm..actlStandard..actWatchesWin..Caption
-#. PyIDEMainForm..actlStandard..actNavWatches..Caption
-#: frmPyIDEMain.dfm
-msgid "&Watches"
-msgstr "&Monitoraggi"
-
-#. PyIDEMainForm..actlStandard..actWatchesWin..Hint
-#: frmPyIDEMain.dfm
-msgid "Show/Hide Watches window"
-msgstr "Visualizza/nascondi finestra monitoraggi"
-
-#. PyIDEMainForm..actlStandard..actMessagesWin..Caption
-#: frmPyIDEMain.dfm
-msgid "&Messages"
-msgstr "&Messaggi"
-
-#. PyIDEMainForm..actlStandard..actMessagesWin..Hint
-#: frmPyIDEMain.dfm
-msgid "Show/Hide Messages window"
-msgstr "Visualizza/nascondi finestra messaggi"
-
-#. PyIDEMainForm..actlStandard..actViewII..Caption
-#: frmPyIDEMain.dfm
-msgid "&Interactive Interpreter"
-msgstr "&Interprete interattivo"
-
-#. PyIDEMainForm..actlStandard..actViewII..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide Interactive Interpreter"
-msgstr "Visualizza/nascondi interprete interattivo"
-
-#. PyIDEMainForm..actlStandard..actViewCodeExplorer..Caption
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "&Code Explorer"
-msgstr "Explorer &codice"
-
-#. PyIDEMainForm..actlStandard..actViewCodeExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide Code Explorer"
-msgstr "Visualizza/nascondi Explorer codice"
-
-#. PyIDEMainForm..actlStandard..actViewFileExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "&File Explorer"
-msgstr "&File Explorer"
-
-#. PyIDEMainForm..actlStandard..actViewFileExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide File Explorer"
-msgstr "Visualizza/nascondi Explorer file"
-
-#. PyIDEMainForm..actlStandard..actViewToDoList..Caption
-#: frmPyIDEMain.dfm
-msgid "&To-Do List"
-msgstr "Elenco cose da fare"
-
-#. PyIDEMainForm..actlStandard..actViewToDoList..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide To Do List"
-msgstr "Visualizza/nascondi Elenco cose da fare"
-
-#. PyIDEMainForm..actlStandard..actViewFindResults..Caption
+#. PyIDEMainForm..actlStandard..actNavFindResults..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &in Files Results"
 msgstr "Risultati ricerca ne&i file"
 
-#. PyIDEMainForm..actlStandard..actViewFindResults..Hint
+#. PyIDEMainForm..actlStandard..actNavFindResults..Hint
 #: frmPyIDEMain.dfm
-msgid "View/Hide Find in Files Results"
-msgstr "Visualizza/nascondi i risultati della ricerca nei file"
-
-#. PyIDEMainForm..actlStandard..actViewOutput..Caption
-#: frmPyIDEMain.dfm
-msgid "&Output Window"
-msgstr "Finestra &output"
-
-#. PyIDEMainForm..actlStandard..actViewOutput..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide Output Window"
-msgstr "Visualizza/nascondi finestra output"
-
-#. PyIDEMainForm..actlStandard..actViewUnitTests..Caption
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
-#: frmPyIDEMain.dfm
-msgid "&Unit Tests"
-msgstr "Test &unità"
-
-#. PyIDEMainForm..actlStandard..actViewUnitTests..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide Unit Tests Window"
-msgstr "Visualizza/nascondi finestra test unità"
+msgid "Activate the Find in Files Results window"
+msgstr "Attiva la ricerca nella finestra Risultati file"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
@@ -5174,16 +5301,6 @@ msgstr "Naviga &avanti"
 #: frmPyIDEMain.dfm
 msgid "Browse forward"
 msgstr "Naviga in avanti"
-
-#. PyIDEMainForm..actlStandard..actViewRegExpTester..Caption
-#: frmPyIDEMain.dfm
-msgid "&Regular Expression Tester"
-msgstr "Tester di espressioni &regolari"
-
-#. PyIDEMainForm..actlStandard..actViewRegExpTester..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide Regular Expression Tester"
-msgstr "Visualizza/nascondi il tester delle espressioni regolari"
 
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5291,6 +5408,11 @@ msgstr "Nuovo file..."
 msgid "New file from template"
 msgstr "Nuovo file da modello"
 
+#. PyIDEMainForm..actlStandard..actNavWatches..Caption
+#: frmPyIDEMain.dfm
+msgid "&Watches"
+msgstr "&Monitoraggi"
+
 #. PyIDEMainForm..actlStandard..actNavWatches..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Watches window"
@@ -5316,10 +5438,20 @@ msgstr "&Interprete"
 msgid "Activate the Interpreter window"
 msgstr "Attiva la finestra dell'interprete"
 
+#. PyIDEMainForm..actlStandard..actNavVariables..Caption
+#: frmPyIDEMain.dfm
+msgid "&Variables"
+msgstr "&Variabili"
+
 #. PyIDEMainForm..actlStandard..actNavVariables..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Variables window"
 msgstr "Attiva la finestra delle variabili"
+
+#. PyIDEMainForm..actlStandard..actNavCallStack..Caption
+#: frmPyIDEMain.dfm
+msgid "&Call Stack"
+msgstr "Stack &chiamata"
 
 #. PyIDEMainForm..actlStandard..actNavCallStack..Hint
 #: frmPyIDEMain.dfm
@@ -5346,6 +5478,11 @@ msgstr "File E&xplorer"
 msgid "Activate the File Explorer window"
 msgstr "Attiva finestra Explorer file"
 
+#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
+#: frmPyIDEMain.dfm
+msgid "&Code Explorer"
+msgstr "Explorer &codice"
+
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Code Explorer window"
@@ -5362,6 +5499,11 @@ msgstr "&Cose da fare"
 msgid "Activate the Todo List window"
 msgstr "Attiva la finestra delle cose da fare"
 
+#. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
+#: frmPyIDEMain.dfm
+msgid "&Unit Tests"
+msgstr "Test &unità"
+
 #. PyIDEMainForm..actlStandard..actNavOutput..Caption
 #: frmPyIDEMain.dfm
 msgid "Command &Output"
@@ -5371,11 +5513,6 @@ msgstr "&Output comando"
 #: frmPyIDEMain.dfm
 msgid "Activate the Command Output window"
 msgstr "Attiva la finestra dell'output del comando"
-
-#. PyIDEMainForm..actlStandard..actNavEditor..Caption
-#: frmPyIDEMain.dfm
-msgid "&Editor"
-msgstr "&Editor"
 
 #. PyIDEMainForm..actlStandard..actNavEditor..Hint
 #: frmPyIDEMain.dfm
@@ -5442,16 +5579,10 @@ msgstr "Personalizza..."
 msgid "Customize the toolbars"
 msgstr "Personalizza le barre degli strumenti"
 
-#. PyIDEMainForm..actlStandard..actViewProjectExplorer..Caption
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project Explorer"
 msgstr "Explorer &progetto"
-
-#. PyIDEMainForm..actlStandard..actViewProjectExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "View/Hide Project Explorer"
-msgstr "Visualizza/nascondi Explorer progetto"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
@@ -5530,6 +5661,21 @@ msgstr "&Ripristina zoom"
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
 msgstr "Ripristina la dimensione del font dell'editor al valore predefinito"
+
+#. PyIDEMainForm..actlStandard..actNavRegExp..Caption
+#: frmPyIDEMain.dfm
+msgid "Regular Expression Tester"
+msgstr "Tester espressioni regolari"
+
+#. PyIDEMainForm..actlStandard..actNavRegExp..Hint
+#: frmPyIDEMain.dfm
+msgid "Activate the Regular Expression Tester window"
+msgstr "Attiva la finestra Tester espressioni regolari"
+
+#. PyIDEMainForm..actlStandard..actNavChat..Hint
+#: frmPyIDEMain.dfm
+msgid "Activate the Chat window"
+msgstr "Attiva la finestra Chat"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -5691,6 +5837,46 @@ msgstr "Corrispondenze:"
 #: frmRegExpTester.dfm
 msgid "Show a found match"
 msgstr "Visualizza corrispondenza trovata"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..Caption
+#: frmSuggest.dfm
+msgid "SpTBXToolbar"
+msgstr "BarraStrumentiSpTBX"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAccept..Caption
+#: frmSuggest.dfm
+msgid "Accept (Tab)"
+msgstr "Accetta (tab)"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Caption
+#: frmSuggest.dfm
+msgid "Accept Word (Ctrl+Right)"
+msgstr "Accetta parola (Ctrl+Destra)"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Hint
+#: frmSuggest.dfm
+msgid "Accept the first suggested word"
+msgstr "Accetta la prima parola suggerita"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Caption
+#: frmSuggest.dfm
+msgid "Accept Line (Ctrl+Enter)"
+msgstr "Accetta riga (Ctrl+Invio)"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Hint
+#: frmSuggest.dfm
+msgid "Accept the first suggested line"
+msgstr "Accetta la prima riga suggerita"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Caption
+#: frmSuggest.dfm
+msgid "Cancel (Esc)"
+msgstr "Annulla (Esc)"
+
+#. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Hint
+#: frmSuggest.dfm
+msgid "Close the form"
+msgstr "Chiudi il modulo"
 
 #. ToDoWindow..Caption
 #: frmToDo.dfm
@@ -6648,6 +6834,20 @@ msgstr "Modulo processato in %g secondi"
 msgid "Invalid index number"
 msgstr "Numero di indice non valido"
 
+#. Programmer's name for it: SQuestionHintValid
+#: frmLLMChat.pas
+msgid "Ask me anything"
+msgstr "Chiedimi qualunque cosa"
+
+#. Programmer's name for it: SQuestionHintInvalid
+#: frmLLMChat.pas
+msgid "Chat setup incomplete"
+msgstr "Configurazione chat non completa"
+
+#: frmLLMChat.pas
+msgid "Enter title:"
+msgstr "Inserisci titolo:"
+
 #. Programmer's name for it: SFileTemplateCategoryOther
 #: frmModSpTBXCustomize.pas StringResources.pas
 msgid "Other"
@@ -7494,11 +7694,6 @@ msgstr "Conferma"
 #: StringResources.pas
 msgid "OK"
 msgstr "OK"
-
-#. Programmer's name for it: SDlgCancel
-#: StringResources.pas
-msgid "Cancel"
-msgstr "Annulla"
 
 #. Programmer's name for it: SDlgRetry
 #: StringResources.pas
@@ -8430,6 +8625,12 @@ msgid "PyScripter Command Line Options"
 msgstr "Opzioni della riga di comando di PyScripter"
 
 #. Command Window
+#. Programmer's name for it: SProcessSuccessful
+#: StringResources.pas
+#, object-pascal-format
+msgid "Process \"%s\" ended successfully."
+msgstr "Elaborazione \"%s\" completata correttamente."
+
 #. Programmer's name for it: SProcessTerminated
 #: StringResources.pas
 #, object-pascal-format
@@ -8908,6 +9109,45 @@ msgstr "Prompt"
 #: SynHighlighterPython.pas
 msgid "System Command"
 msgstr "Comando di sistema"
+
+#. Programmer's name for it: sLLMBusy
+#: uLLMSupport.pas
+msgid "The LLM client is busy"
+msgstr "Il client LLM è occupato"
+
+#. Programmer's name for it: sNoResponse
+#: uLLMSupport.pas
+msgid "No response from the LLM Server"
+msgstr "Nessuna risposta dal server LLM"
+
+#. Programmer's name for it: sNoAPIKey
+#: uLLMSupport.pas
+msgid "The LLM API key is missing"
+msgstr "Manca la chiave API LLM"
+
+#. Programmer's name for it: sNoModel
+#: uLLMSupport.pas
+msgid "The LLM model has not been set"
+msgstr "Non è stato impostato il modello LLM "
+
+#. Programmer's name for it: sUnsupportedEndpoint
+#: uLLMSupport.pas
+msgid "The LLM endpoint is missing or not supported"
+msgstr "Il punto finale LLM manca o non è supportato"
+
+#. Programmer's name for it: sUnsupportedModel
+#: uLLMSupport.pas
+msgid "The LLM model is not supported"
+msgstr "Il modello LLM non è supportato"
+
+#. Programmer's name for it: sUnexpectedResponse
+#: uLLMSupport.pas
+msgid "Unexpected response from the LLM Server"
+msgstr "Risposta imprevista dal server LLM"
+
+#: uLLMSupport.pas
+msgid "Assistant is busy. Click to cancel."
+msgstr "L'assistente è occupato. Fai clic per annullare."
 
 #. Python Paths etc.
 #: uParams.pas
