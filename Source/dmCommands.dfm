@@ -1203,7 +1203,7 @@ object CommandsDataModule: TCommandsDataModule
         end
         object spiApiKey: TSpTBXEditItem
           CustomWidth = 300
-          EditCaption = 'Api key: '
+          EditCaption = 'Api key:'
           ExtendedAccept = True
           PasswordChar = #9679
           OnAcceptText = spiAcceptSettings

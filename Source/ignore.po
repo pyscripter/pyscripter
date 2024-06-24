@@ -30,6 +30,12 @@ msgstr ""
 msgid "Tahoma"
 msgstr ""
 
+msgid "Consolas"
+msgstr ""
+
+msgid "Consolas 10pt"
+msgstr ""
+
 msgid "Terminal"
 msgstr ""
 
@@ -226,3 +232,5 @@ msgstr ""
 msgid "()[]{}<>"
 msgstr ""
 
+msgid "●"
+msgstr ""

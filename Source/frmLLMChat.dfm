@@ -184,7 +184,7 @@ inherited LLMChatForm: TLLMChatForm
             Action = actChatNext
           end
           object spiSettings: TSpTBXSubmenuItem
-            Caption = 'Settings:'
+            Caption = 'Settings'
             ImageIndex = 2
             ImageName = 'Setup'
             Options = [tboDropdownArrow]
@@ -220,7 +220,7 @@ inherited LLMChatForm: TLLMChatForm
             end
             object spiApiKey: TSpTBXEditItem
               CustomWidth = 300
-              EditCaption = 'Api key: '
+              EditCaption = 'Api key:'
               ExtendedAccept = True
               PasswordChar = #9679
               OnAcceptText = AcceptSettings
