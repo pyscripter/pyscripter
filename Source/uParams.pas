@@ -30,10 +30,6 @@
   If you do not delete the provisions above, a recipient may use your version
   of this file under either the MPL or the GPL.
 
-  You may retrieve the latest version of this file at the  home page,
-  located at http://syn.sourceforge.net
-
- $Id: uParams.pas,v 1.12 2004/06/07 23:03:48 neum Exp $
  }
 unit uParams;
 interface
@@ -538,12 +534,6 @@ begin
   end;
 end;
 
-function ExpandUNCFileName(const FileName: string): string;
-begin
-  { In the absense of a better solution use the ANSI function }
-  Result := ExpandUNCFileName(FileName);
-end;
-
 function StripExtension(const AFileName: string): string;
 begin
   Result := ChangeFileExt(AFileName, '');
@@ -646,7 +636,6 @@ begin
     RegisterModifier('NoExt', _('File name without extension'), StripExtension);
     RegisterModifier('Drive', _('File drive'), ExtractFileDrive);
     RegisterModifier('Full', _('Expanded file name'), ExpandFileName);
-    RegisterModifier('UNC', _('Expanded UNC file name'), ExpandUNCFileName);
     RegisterModifier('Long', _('Long file name'), GetLongFileName);
     RegisterModifier('Short', _('Short file name'), GetShortFileName);
     RegisterModifier('Sep', _('Path with final path delimiter added'), IncludeTrailingPathDelimiter);
