@@ -579,7 +579,7 @@
             - Code Assistant functionality (Suggest, Find bugs, Optimize, Comment)
             - Python 3.13 support added.  Dropped support for python 3.7
           Issues addressed
-            #1228, #1275, #1278, #1296, #1297, #1300, #1306
+            #1164, #1228, #1275, #1278, #1296, #1297, #1300, #1306
 
 
 {------------------------------------------------------------------------------}

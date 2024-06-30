@@ -1,6 +1,7 @@
 inherited LLMChatForm: TLLMChatForm
   Left = 0
   Top = 0
+  HelpContext = 497
   Caption = 'Chat'
   ClientHeight = 655
   ClientWidth = 586
@@ -39,7 +40,6 @@ inherited LLMChatForm: TLLMChatForm
           Left = 542
           Top = 44
           Anchors = [akRight, akBottom]
-          Animate = True
           FrameDelay = 150
           IndicatorType = aitRotatingSector
         end

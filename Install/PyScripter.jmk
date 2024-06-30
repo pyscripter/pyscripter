@@ -56,9 +56,9 @@ begin jvcsutils.batchinternal
   Ignore=0
   ReplaceVars=1
   BatchLineCount=3
-  BatchLine1="c:\Program Files (x86)\HTML Help Workshop\hhc.exe" %AppPath%\Help\Source\pyscripter.hhp
-  BatchLine2=copy /Y %AppPath%\Help\Source\PyScripter.chm %AppPath%
-  BatchLine3=del %AppPath%\Help\Source\PyScripter.chm
+  BatchLine1=pushd %AppPath%\Help
+  BatchLine2=CompileHelp
+  BatchLine3=popd
 end
 begin command.comment
   Caption=CREATE CLEAN PYSCRIPTER.INI

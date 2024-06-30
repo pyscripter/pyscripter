@@ -168,7 +168,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     object actProjectExtraPythonPath: TAction
       Category = 'Project'
       Caption = 'Extra Python &Path...'
-      HelpKeyword = '435'
+      HelpContext = 435
       HelpType = htContext
       ImageIndex = 0
       ImageName = 'Folders'

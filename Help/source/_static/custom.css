@@ -1,0 +1,32 @@
+/* -- page layout ----------------------------------------------------------- */
+
+body {
+    font-family: 'Calibri', 'Lucida Sans Unicode', 'Geneva',
+                 'Verdana', sans-serif;
+    font-size: 1em;
+    letter-spacing: -0.01em;
+    line-height: 150%;
+    text-align: center;
+    background-color: #BFD1D4;
+    color: black;
+    padding: 0;
+    border: 1px solid #aaa;
+
+    margin: 0px 1em 0px 1em;
+    min-width: 46.25em;
+}
+
+div.body {
+    min-width: 22.5em;
+    max-width: 50em;
+    padding: 0.5em 1.25em 1.25em 1.25em;
+}
+
+div.related ul {
+    background-image: none;
+    background-color: #ededed;
+    height: 2em;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+

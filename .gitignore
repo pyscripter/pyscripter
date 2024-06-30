@@ -36,6 +36,7 @@ __recovery/
 *.local
 *.prjmgc
 *.user
+*.dsv
 
 # Output Folders  #
 ###################
@@ -53,3 +54,4 @@ VirtualTreeView.zip
 *.chw
 /Lib/Lsp/jls/jedilsp
 /WebView2Loader.dll
+/Help/build
