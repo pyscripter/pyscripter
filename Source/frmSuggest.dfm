@@ -1,6 +1,7 @@
 object SuggestWindow: TSuggestWindow
   Left = 0
   Top = 0
+  HelpContext = 755
   BorderStyle = bsSingle
   BorderWidth = 1
   ClientHeight = 327

@@ -13,10 +13,6 @@
 *.mo
 *.chm
 
-# Generated source #
-###################
-*.hpp
-
 # Backup files    #
 ###################
 *.~*

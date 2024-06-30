@@ -1168,6 +1168,7 @@ object CommandsDataModule: TCommandsDataModule
       end
       object spiSettings: TSpTBXSubmenuItem
         Caption = 'Settings'
+        HelpContext = 760
         ImageIndex = 101
         ImageName = 'Setup'
         Images = PyIDEMainForm.vilImages

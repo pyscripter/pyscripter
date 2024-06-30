@@ -571,13 +571,14 @@
             #1172, #1195, #1197, #1198, #1199, #1200, #1208, #1210, #1212, #1214,
             #1221, #1227, #1268, #1269,
 
-  History:   v 4.4
+  History:   v 5.0.0
           New Features
             - Integrated LLM support
             - OpenAI and local LLM models using Ollama supported.
             - New IDE Window Chat for interacting with Large Language Models
             - Code Assistant functionality (Suggest, Find bugs, Optimize, Comment)
             - Python 3.13 support added.  Dropped support for python 3.7
+            - Updated and improved documentation (Help file)
           Issues addressed
             #1164, #1228, #1275, #1278, #1296, #1297, #1300, #1306
 

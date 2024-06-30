@@ -185,6 +185,7 @@ inherited LLMChatForm: TLLMChatForm
           end
           object spiSettings: TSpTBXSubmenuItem
             Caption = 'Settings'
+            HelpContext = 770
             ImageIndex = 2
             ImageName = 'Setup'
             Options = [tboDropdownArrow]

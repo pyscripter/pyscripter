@@ -9,7 +9,6 @@ interpreter
 codeexplorer
 fileexplorer
 projectexplorer
-chatwindow
 outputwindow
 unittestwindow
 todolistwindow

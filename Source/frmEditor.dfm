@@ -247,6 +247,7 @@ object EditorForm: TEditorForm
     end
     object mniAssistant: TSpTBXSubmenuItem
       Caption = 'Assistant'
+      HelpContext = 750
       ImageIndex = 105
       ImageName = 'Assistant'
       LinkSubitems = CommandsDataModule.spiAssistant

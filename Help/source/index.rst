@@ -17,6 +17,7 @@ PyScripter's documentation
    ide_windows
    debug_windows
    editor
+   llmintegration
    running_python
    programmer_utilities
    customization
