@@ -2649,7 +2649,7 @@ begin
   else
     URL := ARemotePath + ARemoteFileName;
 
-  if DownloadUrlToFile(URL, LocalFileName) and  FileExists(LocalFileName) then
+  if DownloadUrlToFile(URL, LocalFileName) and FileExists(LocalFileName) then
     Result := LocalFileName
   else
   begin
@@ -2657,7 +2657,7 @@ begin
       DeleteFile(LocalFileName);
     ProgramVersionHTTPLocation.DownloadError := _('File download failed');
   end;
-      Result := LocalFileName;
+  Result := LocalFileName;
 end;
 
 procedure TCommandsDataModule.PyIDEOptionsChanged;

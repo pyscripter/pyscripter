@@ -48,6 +48,7 @@ object CommandsDataModule: TCommandsDataModule
     AppStoragePath = 'Check for Updates'
     CheckFrequency = 0
     LocalDirectory = 'Updates'
+    LocalInstallerFileName = 'PyScripter-Setup.exe'
     LocalVersionInfoFileName = 'versioninfo.ini'
     LocationHTTP = ProgramVersionHTTPLocation
     LocationType = pvltHTTP
