@@ -1174,8 +1174,8 @@ object CommandsDataModule: TCommandsDataModule
         Images = PyIDEMainForm.vilImages
         OnInitPopup = spiSettingsInitPopup
         object spiOpenAI: TSpTBXItem
-          Caption = 'Openai'
-          Hint = 'Use Openai'
+          Caption = 'OpenAI'
+          Hint = 'Use OpenAI'
           AutoCheck = True
           Checked = True
           GroupIndex = 1

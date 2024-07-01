@@ -1,4 +1,4 @@
-﻿en.PyScripterHelp=PyScripter Aide
-en.EditwithPyScripter=Editer avec PyScripter
-en.ShellIntegrationEditwithPyScripter=Ajouter 'Editer avec PyScripter' au menu contextuel de l'Explorateur
-en.ShellIntegration=Integration au Shell
+﻿fr.PyScripterHelp=PyScripter Aide
+fr.EditwithPyScripter=Editer avec PyScripter
+fr.ShellIntegrationEditwithPyScripter=Ajouter 'Editer avec PyScripter' au menu contextuel de l'Explorateur
+fr.ShellIntegration=Integration au Shell

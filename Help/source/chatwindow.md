@@ -115,6 +115,9 @@ Shift+Ctrl+M.
 
 You can also spell check the prompt by using the prompt context menu.
 
+To submit your request, press *Ctrl+Enter* or click on the chat icon on the right of 
+the question.
+
 ---
 
 You can see video demos of using the PyScripter Chat at this 

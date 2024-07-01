@@ -191,8 +191,8 @@ inherited LLMChatForm: TLLMChatForm
             Options = [tboDropdownArrow]
             OnInitPopup = spiSettingsInitPopup
             object spiOpenai: TSpTBXItem
-              Caption = 'Openai'
-              Hint = 'Use Openai'
+              Caption = 'OpenAI'
+              Hint = 'Use OpenAI'
               AutoCheck = True
               Checked = True
               GroupIndex = 1

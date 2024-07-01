@@ -5,7 +5,7 @@
 
 [Large Language Models](https://en.wikipedia.org/wiki/Large_language_model) (LLMs) have the
 potential of transforming the coding experience and increasing programmer productivity
-to new levels.  PyScripter has built in support for LLM assisted coding. which comes
+to new levels.  PyScripter has built-in support for LLM-assisted coding, which comes
 in two forms.
 
 1. A coding [***Assistant***](assistant) available in the Editor
