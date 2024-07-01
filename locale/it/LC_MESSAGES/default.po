@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-06-24 17:25\n"
+"POT-Creation-Date: 2024-07-01 02:47\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -3491,14 +3491,14 @@ msgstr "Impostazioni"
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Caption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Caption
 #: dmCommands.dfm frmLLMChat.dfm
-msgid "Openai"
-msgstr "Openai"
+msgid "OpenAI"
+msgstr "OpenAI"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
-msgid "Use Openai"
-msgstr "Usa Openai"
+msgid "Use OpenAI"
+msgstr "Usa OpenAI"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Caption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Caption
@@ -9240,10 +9240,6 @@ msgstr "Unità file"
 #: uParams.pas
 msgid "Expanded file name"
 msgstr "Nome file espanso"
-
-#: uParams.pas
-msgid "Expanded UNC file name"
-msgstr "Nome file UNC espanso"
 
 #: uParams.pas
 msgid "Long file name"
