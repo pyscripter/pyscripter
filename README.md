@@ -5,6 +5,7 @@ languages.
 
 * [![Download PyScripter](https://img.shields.io/sourceforge/dt/pyscripter.svg)](https://sourceforge.net/projects/pyscripter/files/)
 * [Features](https://github.com/pyscripter/pyscripter/wiki/Features)
+* [LLM-assisted coding](https://github.com/pyscripter/pyscripter/wiki/LLM_Support)
 * [Screenshots](https://github.com/pyscripter/pyscripter/wiki/Screenshots)
 * [Blog](https://pyscripter.blogspot.com/)
 * [Support](https://groups.google.com/forum/#!forum/pyscripter)
