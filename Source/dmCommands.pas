@@ -755,9 +755,7 @@ begin
   end;
 
   //Program Version Check
-  ProgramVersionCheck.ThreadDialog.DialogOptions.ShowModal := False;
-  ProgramVersionCheck.ThreadDialog.DialogOptions.Caption := 'Downloading...';
-  ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
+  ProgramVersionCheck.ThreadDialog.DialogOptions.ShowDialog := False;
   {$IFDEF CPUX64}
   ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo-x64.ini';
   {$ELSE}
@@ -2649,15 +2647,19 @@ begin
   else
     URL := ARemotePath + ARemoteFileName;
 
-  if DownloadUrlToFile(URL, LocalFileName) and FileExists(LocalFileName) then
-    Result := LocalFileName
-  else
-  begin
-    if FileExists(LocalFileName) then
-      DeleteFile(LocalFileName);
-    ProgramVersionHTTPLocation.DownloadError := _('File download failed');
+  GI_PyIDEServices.SetActivityIndicator(True, _('Downloading...'));
+  try
+    if DownloadUrlToFile(URL, LocalFileName) and FileExists(LocalFileName) then
+      Result := LocalFileName
+    else
+    begin
+      if FileExists(LocalFileName) then
+        DeleteFile(LocalFileName);
+      ProgramVersionHTTPLocation.DownloadError := _('File download failed');
+    end;
+  finally
+    GI_PyIDEServices.SetActivityIndicator(False);
   end;
-  Result := LocalFileName;
 end;
 
 procedure TCommandsDataModule.PyIDEOptionsChanged;

@@ -386,6 +386,7 @@ object CommandsDataModule: TCommandsDataModule
     object actPythonManuals: THelpContents
       Category = 'Help'
       Caption = '&Python Manuals'
+      Enabled = False
       HelpContext = 370
       HelpType = htContext
       Hint = 'Show Python Manuals'

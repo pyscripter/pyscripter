@@ -328,6 +328,7 @@ $(PostBuildEvent)]]>
             <Form>SuggestWindow</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="JvProgramVersionCheck.pas"/>
         <None Include="PyScripter.todo"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

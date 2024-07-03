@@ -121,10 +121,10 @@ uses
   uSysUtils in 'uSysUtils.pas',
   uLLMSupport in 'uLLMSupport.pas',
   frmLLMChat in 'frmLLMChat.pas' {LLMChatForm},
-  frmSuggest in 'frmSuggest.pas' {SuggestWindow};
+  frmSuggest in 'frmSuggest.pas' {SuggestWindow},
+  JvProgramVersionCheck in 'JvProgramVersionCheck.pas';
 
 {$R *.RES}
-{$R WebCopyAvi.RES}
 
 {$SetPEFlags IMAGE_FILE_RELOCS_STRIPPED
   or IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP
