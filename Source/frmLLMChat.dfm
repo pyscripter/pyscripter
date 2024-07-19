@@ -198,6 +198,12 @@ inherited LLMChatForm: TLLMChatForm
               GroupIndex = 1
               OnClick = mnProviderClick
             end
+            object spiGemini: TSpTBXItem
+              Caption = 'Gemini'
+              Hint = 'Use Gemini'
+              GroupIndex = 1
+              OnClick = mnProviderClick
+            end
             object spiOllama: TSpTBXItem
               Caption = 'Ollama'
               Hint = 'Use Ollama'

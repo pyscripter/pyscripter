@@ -101,6 +101,7 @@ type
     SpTBXSeparatorItem6: TSpTBXSeparatorItem;
     spiOpenai: TSpTBXItem;
     spiOllama: TSpTBXItem;
+    spiGemini: TSpTBXItem;
     procedure actChatSaveExecute(Sender: TObject);
     procedure AppEventsMessage(var Msg: TMsg; var Handled: Boolean);
     procedure FormDestroy(Sender: TObject);
@@ -417,6 +418,7 @@ begin
 
     case LLMChat.Providers.Provider of
       llmProviderOpenAI: LLMChat.Providers.OpenAI := Settings;
+      llmProviderGemini: LLMChat.Providers.Gemini := Settings;
       llmProviderOllama: LLMChat.Providers.Ollama := Settings;
     end;
 
@@ -538,7 +540,9 @@ begin
   if Sender = spiOpenai then
     LLMChat.Providers.Provider := llmProviderOpenAI
   else if Sender = spiOllama then
-    LLMChat.Providers.Provider := llmProviderOllama;
+    LLMChat.Providers.Provider := llmProviderOllama
+  else if Sender = spiGemini then
+    LLMChat.Providers.Provider := llmProviderGemini;
 
   spiSettingsInitPopup(Sender, nil);
   SetQuestionTextHint;
@@ -579,6 +583,7 @@ procedure TLLMChatForm.spiSettingsInitPopup(Sender: TObject; PopupView:
 begin
   case LLMChat.Providers.Provider of
     llmProviderOpenAI: spiOpenai.Checked := True;
+    llmProviderGemini: spiGemini.Checked := True;
     llmProviderOllama: spiOllama.Checked := True;
   end;
 

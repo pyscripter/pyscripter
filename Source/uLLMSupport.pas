@@ -22,6 +22,7 @@ uses
 type
   TLLMProvider = (
     llmProviderOpenAI,
+    llmProviderGemini,
     llmProviderOllama);
 
   TEndpointType = (
@@ -29,7 +30,8 @@ type
     etOllamaGenerate,
     etOllamaChat,
     etOpenAICompletion,
-    etOpenAIChatCompletion);
+    etOpenAIChatCompletion,
+    etGemini);
 
   TLLMSettingsValidation = (
     svValid,
@@ -53,6 +55,7 @@ type
   TLLMProviders = record
     Provider: TLLMProvider;
     OpenAI: TLLMSettings;
+    Gemini: TLLMSettings;
     Ollama: TLLMSettings;
   end;
 
@@ -178,6 +181,14 @@ const
     TimeOut: 20000;
     MaxTokens: 1000;
     SystemPrompt: '');
+
+  GeminiSettings: TLLMSettings = (
+    EndPoint: 'https://generativelanguage.googleapis.com/v1beta';
+    ApiKey: '';
+    Model: 'gemini-1.5-flash';
+    TimeOut: 20000;
+    MaxTokens: 1000;
+    SystemPrompt: 'You are my expert python coding assistant.');
 
   OllamaChatSettings: TLLMSettings = (
     EndPoint: 'http://localhost:11434/api/chat';
@@ -334,6 +345,7 @@ begin
   case Providers.Provider of
     llmProviderOpenAI: Result := Providers.OpenAI;
     llmProviderOllama: Result := Providers.Ollama;
+    llmProviderGemini: Result := Providers.Gemini;
   end;
 end;
 
@@ -458,6 +470,7 @@ begin
   Providers.Provider := llmProviderOpenAI;
   Providers.OpenAI := OpenaiChatSettings;
   Providers.Ollama := OllamaChatSettings;
+  Providers.Gemini := GeminiSettings;
 
   ChatTopics := [default(TChatTopic)];
   ActiveTopicIndex := 0;
@@ -597,7 +610,9 @@ end;
 function TLLMSettings.EndpointType: TEndpointType;
 begin
   Result := etUnsupported;
-  if Endpoint.Contains('openai') then
+  if Endpoint.Contains('googleapis') then
+    Result := etGemini
+  else if Endpoint.Contains('openai') then
   begin
     if EndPoint = 'https://api.openai.com/v1/chat/completions' then
       Result := etOpenAIChatCompletion
@@ -624,7 +639,7 @@ begin
     Exit(svModelEmpty);
   case EndpointType of
     etUnsupported: Exit(svInvalidEndpoint);
-    etOpenAICompletion, etOpenAIChatCompletion:
+    etOpenAICompletion, etOpenAIChatCompletion, etGemini:
       if ApiKey = '' then
         Exit(svAPIKeyMissing);
   end;
@@ -664,6 +679,7 @@ begin
   Providers.Provider := llmProviderOpenAI;
   Providers.OpenAI := OpenaiCompletionSettings;
   Providers.Ollama := OllamaCompletionSettings;
+  Providers.Gemini := GeminiSettings;
 end;
 
 procedure TLLMAssistant.DoCancelRequest(Sender: TObject);
@@ -855,7 +871,6 @@ begin
   FSelText := FActiveEditor.SelText;
 
   if FSelText <> '' then Exit;
-
 
   case Settings.EndPointType of
     etOpenAICompletion:
