@@ -121,8 +121,7 @@ uses
   uSysUtils in 'uSysUtils.pas',
   uLLMSupport in 'uLLMSupport.pas',
   frmLLMChat in 'frmLLMChat.pas' {LLMChatForm},
-  frmSuggest in 'frmSuggest.pas' {SuggestWindow},
-  JvProgramVersionCheck in 'JvProgramVersionCheck.pas';
+  frmSuggest in 'frmSuggest.pas' {SuggestWindow};
 
 {$R *.RES}
 
