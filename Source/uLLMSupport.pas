@@ -217,7 +217,8 @@ uses
   JvGnugettext,
   Vcl.Forms,
   frmSuggest,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  uCommonFunctions;
 
 resourcestring
   sLLMBusy = 'The LLM client is busy';
@@ -279,11 +280,21 @@ begin
   FSourceStream.Position := 0;
 
   FHttpClient.CustHeaders.Clear;
-  if FEndPointType in [etOpenAICompletion, etOpenAIChatCompletion] then
-    FHttpClient.CustomHeaders['Authorization'] := 'Bearer ' + Settings.ApiKey;
+  var EndPoint := Settings.EndPoint;
+  case FEndPointType of
+    etOpenAICompletion, etOpenAIChatCompletion:
+      FHttpClient.CustomHeaders['Authorization'] := 'Bearer ' + Settings.ApiKey;
+    etGemini:
+      begin
+        EndPoint := Format('%s/models/%s:generateContent',
+          [Settings.EndPoint, Settings.Model]);
+        FHttpClient.CustomHeaders['x-api-key'] := Settings.ApiKey;
+      end;
+  end;
+
   FHttpClient.CustomHeaders['Content-Type'] := 'application/json';
   FHttpClient.CustomHeaders['AcceptEncoding'] := 'deflate, gzip;q=1.0, *;q=0.5';
-  FHttpResponse := FHttpClient.Post(Settings.EndPoint , FSourceStream);
+  FHttpResponse := FHttpClient.Post(EndPoint , FSourceStream);
   DoResponseCreated(FHttpResponse);
 end;
 
@@ -521,6 +532,27 @@ end;
 
 function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = ''): string;
 
+  function GeminiParams: string;
+  begin
+    // start with the system message
+    if Settings.SystemPrompt <> '' then
+    begin
+      var JSON := TSmartPtr.Make(TJSONObject.Create)();
+
+      var JsonText := TJsonObject.Create();
+      JsonText.AddPair('text', Settings.SystemPrompt);
+
+      var JsonParts := TJsonObject.Create();
+      JsonParts.AddPair('parts', JsonText);
+
+      JSON.AddPair('system_instruction', JsonParts);
+    end;
+
+    // then add the Contents
+
+  end;
+
+
   function NewMessage(const Role, Content: string): TJsonObject;
   begin
     Result := TJsonObject.Create;
@@ -528,45 +560,42 @@ function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = '')
     Result.AddPair('content', Content);
   end;
 
-var
-  JSON: TJsonObject;
-  Messages: TJSONArray;
 begin
-  JSON := TJSONObject.Create;
-  try
-    JSON.AddPair('model', Settings.Model);
-    JSON.AddPair('stream', False);
+  if FEndPointType = etGemini then
+    Exit(GeminiParams);
 
-    case FEndPointType of
-      etOllamaChat:
-        begin
-          var Options := TJSONObject.Create;
-          Options.AddPair('num_predict', Settings.MaxTokens);
-          JSON.AddPair('options', Options);
-        end;
-      etOpenAIChatCompletion:
-        JSON.AddPair('max_tokens', Settings.MaxTokens);
-    end;
 
-    Messages := TJSONArray.Create;
-    // start with the system message
-    if Settings.SystemPrompt <> '' then
-      Messages.Add(NewMessage('system', Settings.SystemPrompt));
-    // add the history
-    for var QAItem in ActiveTopic.QAItems do
-    begin
-      Messages.Add(NewMessage('user', QAItem.Prompt));
-      Messages.Add(NewMessage('assistant', QAItem.Answer));
-    end;
-    // finally add the new prompt
-    Messages.Add(NewMessage('user', Prompt));
+  var JSON := TSmartPtr.Make(TJSONObject.Create)();
+  JSON.AddPair('model', Settings.Model);
+  JSON.AddPair('stream', False);
 
-    JSON.AddPair('messages', Messages);
-
-    Result := JSON.ToJSON;
-  finally
-    JSON.Free;
+  case FEndPointType of
+    etOllamaChat:
+      begin
+        var Options := TJSONObject.Create;
+        Options.AddPair('num_predict', Settings.MaxTokens);
+        JSON.AddPair('options', Options);
+      end;
+    etOpenAIChatCompletion:
+      JSON.AddPair('max_tokens', Settings.MaxTokens);
   end;
+
+  var Messages := TJSONArray.Create;
+  // start with the system message
+  if Settings.SystemPrompt <> '' then
+    Messages.Add(NewMessage('system', Settings.SystemPrompt));
+  // add the history
+  for var QAItem in ActiveTopic.QAItems do
+  begin
+    Messages.Add(NewMessage('user', QAItem.Prompt));
+    Messages.Add(NewMessage('assistant', QAItem.Answer));
+  end;
+  // finally add the new prompt
+  Messages.Add(NewMessage('user', Prompt));
+
+  JSON.AddPair('messages', Messages);
+
+  Result := JSON.ToJSON;
 end;
 
 procedure TLLMChat.RemoveTopic;
