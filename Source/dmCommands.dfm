@@ -1183,6 +1183,13 @@ object CommandsDataModule: TCommandsDataModule
           GroupIndex = 1
           OnClick = mnProviderClick
         end
+        object spiGemini: TSpTBXItem
+          Caption = 'Gemini'
+          Hint = 'Use Gemini'
+          AutoCheck = True
+          GroupIndex = 1
+          OnClick = mnProviderClick
+        end
         object spiOllama: TSpTBXItem
           Caption = 'Ollama'
           Hint = 'Use Ollama'

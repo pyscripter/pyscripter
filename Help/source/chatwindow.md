@@ -48,30 +48,33 @@ Chat settings are automatically saved when PyScripter exits and restored when
 PyScripter starts, in a Json file named "Chat Settings.json" in the same directory 
 as PyScripter.ini.
 
-![graphic](images/chatsettings.png){align=center width="23.81em" height="13.87em"}
+![graphic](images/chatsettings.png){align=center width="24.06em" height="15.87em"}
 
 The following settings can be modified:
 
-*Openai/Ollama*\
-Choose whether you want to use cloud-based OpenAI models or local Ollama models.
+*Openai/Gemini/Ollama*\
+Choose whether you want to use cloud-based OpenAI/Gemini models or local Ollama models.
 
 *Endpoint*\
 The base URL for accessing the LLM API.  You shouldn't need to change the provided
 defaults: 
 - https://api.openai.com/v1/chat/completions for OpenAI
+- https://generativelanguage.googleapis.com/v1beta for Gemini
 - http://localhost:11434/api/chat for Ollama
 
 *Model*\
 The model you want to use.   
-- OpenAI models
+- OpenAI models\
   **GPT-3.5 Turbo** is good for coding tasks.  **GPT-4o model** is newer, ten times more expensive, but possibly better.
-- Ollama
+- Gemini models\
+  Use **gemini-1.5-flash** (faster and cheeper) or **gemini-1.5-pro** or any newer Gemini model.
+- Ollama\
   You have a wide choice of good models. See the 
   [instructions](llmprerequisites.md#install-ollama-models) for chosing and installing 
-  Ollama models
+  Ollama models.
 
 *API key*\
-Enter your OpenAI [API key](llmprerequisites.md#openai). Leave blank for Ollama models.
+Enter your OpenAI/Gemini [API key](llmprerequisites). Leave blank for Ollama models.
 
 *Timeout*\
 How long you are prepared to wait for a response in seconds.

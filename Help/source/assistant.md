@@ -8,7 +8,8 @@ You can access the Assistant from the context menu of the editor.
 ![graphic](images/assistantmenu.png){align=center width="28.19em" height="10.81em"}
 
 *Suggest*\
-Request from the Assistant a suggestion for code completion.   This is only available when there is no selection in the editor.
+Request from the Assistant a suggestion for code completion.   This is only available when there
+is no selection in the editor.
 
 The following three commands are only available when a part of the code is selected.
 
@@ -26,7 +27,8 @@ Ask the Assistant to fix optimize the selected piece of code. The optimizations
 should maintain the original functionality of the code.
 
 *Cancel*\
-Cancel a pending request. In all the above cases an activity indicator will appear in the PyScripter Status Bar.  You can also cancel a request by clicking on the activity 
+Cancel a pending request. In all the above cases an activity indicator will appear in the
+PyScripter Status Bar.  You can also cancel a request by clicking on the activity 
 indicator.
 
 *Settings*\
@@ -43,20 +45,23 @@ differences:
 
 *Endpoint*\
 The base URL for accessing the LLM API.  You shouldn't need to change the provided
-defaults (which are different from chat): 
+defaults (which for OpenAI and Olama are different from chat): 
 - https://api.openai.com/v1/completions for OpenAI
 - http://localhost:11434/api/generate for Ollama
 
 *Model*\
 The model you want to use. Currently the Assistant works only with the following models:
-- OpenAI model: **gpt-3.5-turbo-instruct**
-  -  The reason is that this is the only OpenAI model that has been trained for 
+- OpenAI model:\
+ **gpt-3.5-turbo-instruct**\
+   The reason is that this is the only OpenAI model that has been trained for 
   [Fill-in-the-middle](https://codeium.com/blog/why-code-completion-needs-fill-in-the-middle) 
   (FIM) tasks. And FIM is important for code completion.
-- Ollama model: **codellama:code** and its variants (e.g. **codellama:7b-code-q6_K** will work).
+- Gemini model:\
+  **gemini-1.5-flash**, **gemini-1.5-pro** or any newer Gemini model
+- Ollama model:\
+  **codellama:code** and its variants (e.g. **codellama:7b-code-q6_K** will work).
 
 Wider choice of Assistant models will be provided in the future.
-
 
 
 ## The Suggestion Window

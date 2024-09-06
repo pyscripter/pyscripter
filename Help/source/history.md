@@ -6,7 +6,7 @@
 ### Version 5.0.0 (July 1, 2024)
 
 * *New features:*
-	+ Integrated LLM support
+	+ [Integrated LLM support](llmintegration)
 	+ OpenAI and local LLM models using Ollama supported.
 	+ New IDE Window Chat for interacting with Large Language Models
 	+ Code Assistant functionality (Suggest, Find bugs, Optimize, Comment)

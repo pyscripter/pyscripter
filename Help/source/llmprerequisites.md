@@ -16,6 +16,12 @@ A $10 credit can get a long way when using OpenAI with PyScripter.  See also the
 model is 10 times cheaper than the newer **GPT-4o model**, which is also much cheaper than its 
 predecesors **gpt-4-turbo** and **gpt-4**.
 
+## Gemini
+
+You need to [get an API key](https://aistudio.google.com/app/apikey).  Although this is a 
+commercial service, light usage is actually free, so it is a great choice for using  with
+PyScripter.  See [pricing](https://ai.google.dev/pricing) for details.
+
 ## Local Models using Ollama
 
 Why you may want to run LLMs locally? Here are a few reasons:

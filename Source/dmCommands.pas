@@ -210,7 +210,7 @@ type
     pmAssistant: TSpTBXPopupMenu;
     spiAssistant: TSpTBXSubmenuItem;
     spiSettings: TSpTBXSubmenuItem;
-    spiOpenAI: TSpTBXItem;
+    spiGemini: TSpTBXItem;
     spiOllama: TSpTBXItem;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     spiEndpoint: TSpTBXEditItem;
@@ -232,6 +232,7 @@ type
     spiFixBugs: TSpTBXItem;
     actAssistantComments: TAction;
     spiAssistantComments: TSpTBXItem;
+    spiOpenAI: TSpTBXItem;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -2450,6 +2451,8 @@ procedure TCommandsDataModule.mnProviderClick(Sender: TObject);
 begin
   if Sender = spiOpenai then
     LLMAssistant.Providers.Provider := llmProviderOpenAI
+  else if Sender = spiGemini then
+    LLMAssistant.Providers.Provider := llmProviderGemini
   else if Sender = spiOllama then
     LLMAssistant.Providers.Provider := llmProviderOllama;
 
@@ -2730,6 +2733,7 @@ begin
 
     case LLMAssistant.Providers.Provider of
       llmProviderOpenAI: LLMAssistant.Providers.OpenAI := Settings;
+      llmProviderGemini: LLMAssistant.Providers.Gemini := Settings;
       llmProviderOllama: LLMAssistant.Providers.Ollama := Settings;
     end;
 
@@ -2746,6 +2750,7 @@ procedure TCommandsDataModule.spiSettingsInitPopup(Sender: TObject; PopupView:
 begin
   case LLMAssistant.Providers.Provider of
     llmProviderOpenAI: spiOpenai.Checked := True;
+    llmProviderGemini: spiGemini.Checked := True;
     llmProviderOllama: spiOllama.Checked := True;
   end;
 

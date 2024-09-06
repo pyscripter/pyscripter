@@ -13,9 +13,10 @@ in two forms.
 
 Both cloud-based and local LLM are supported:
 
-- Cloud-based LLM
+- Cloud-based LLMs
   - [OpenAI](https://openai.com/) models such as (GPT-3.5 Turbo and GPT-4o)
-- Local LLM models (support is provided by using [Ollama](https://github.com/ollama/ollama)).
+  - [Gemini](https://gemini.google.com/) models such as (1.5 Flash and 1.5 Pro) by Google 
+- Local LLMs (support is provided by using [Ollama](https://github.com/ollama/ollama)).
   Choice of [models](https://ollama.com/library) include:
   - llama3 and codellama by Meta
   - gemma by Google
@@ -23,8 +24,8 @@ Both cloud-based and local LLM are supported:
   - phi and wizardlm by Microsoft
   - and many many others
 
-Support for other cloud-based LLM services such as [Gemini](https://gemini.google.com/) by Google and [Claude](https://www.anthropic.com/claude) by Anthropic is planned in future
-versions of PyScripter
+Support for other cloud-based LLM services such as [Claude](https://www.anthropic.com/claude) by Anthropic is planned in future
+versions of PyScripter.
 
 :::{toctree}
 llmprerequisites

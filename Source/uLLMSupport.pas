@@ -94,6 +94,9 @@ type
     procedure DoResponseCreated(const AResponse: IHTTPResponse); virtual;
     procedure DoResponseOK(const Msg: string); virtual;
     function RequestParams(const Prompt: string; const Suffix: string = ''): string; virtual; abstract;
+    // Gemini support
+    procedure AddGeminiSystemPrompt(Params: TJSONObject);
+    function GeminiMessage(const Role, Content: string): TJsonObject;
   public
     Providers: TLLMProviders;
     ActiveTopicIndex: Integer;
@@ -165,6 +168,8 @@ var
   LLMAssistant: TLLMAssistant;
 
 const
+  DefaultSystemPrompt = 'You are my expert python coding assistant.';
+
   OpenaiChatSettings: TLLMSettings = (
     EndPoint: 'https://api.openai.com/v1/chat/completions';
     ApiKey: '';
@@ -172,7 +177,7 @@ const
     //Model: 'gpt-3.5-turbo';
     TimeOut: 20000;
     MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
+    SystemPrompt: DefaultSystemPrompt);
 
   OpenaiCompletionSettings: TLLMSettings = (
     EndPoint: 'https://api.openai.com/v1/completions';
@@ -188,7 +193,7 @@ const
     Model: 'gemini-1.5-flash';
     TimeOut: 20000;
     MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
+    SystemPrompt: DefaultSystemPrompt);
 
   OllamaChatSettings: TLLMSettings = (
     EndPoint: 'http://localhost:11434/api/chat';
@@ -199,7 +204,7 @@ const
     //Model: 'stable-code';
     TimeOut: 60000;
     MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
+    SystemPrompt: DefaultSystemPrompt);
 
   OllamaCompletionSettings: TLLMSettings = (
     EndPoint: 'http://localhost:11434/api/generate';
@@ -207,7 +212,7 @@ const
     Model: 'codellama:code';
     TimeOut: 60000;
     MaxTokens: 1000;
-    SystemPrompt: 'You are my expert python coding assistant.');
+    SystemPrompt: DefaultSystemPrompt);
 
 implementation
 
@@ -245,6 +250,20 @@ begin
 end;
 
 { TLLMBase }
+
+procedure TLLMBase.AddGeminiSystemPrompt(Params: TJSONObject);
+begin
+  if Settings.SystemPrompt <> '' then
+  begin
+    var JsonText := TJsonObject.Create();
+    JsonText.AddPair('text', Settings.SystemPrompt);
+
+    var JsonParts := TJsonObject.Create();
+    JsonParts.AddPair('parts', JsonText);
+
+    Params.AddPair('system_instruction', JsonParts);
+  end;
+end;
 
 procedure TLLMBase.Ask(const Prompt: string; const Suffix: string = '');
 var
@@ -285,11 +304,8 @@ begin
     etOpenAICompletion, etOpenAIChatCompletion:
       FHttpClient.CustomHeaders['Authorization'] := 'Bearer ' + Settings.ApiKey;
     etGemini:
-      begin
-        EndPoint := Format('%s/models/%s:generateContent',
-          [Settings.EndPoint, Settings.Model]);
-        FHttpClient.CustomHeaders['x-api-key'] := Settings.ApiKey;
-      end;
+      EndPoint := Format('%s/models/%s:generateContent?key=%s',
+        [Settings.EndPoint, Settings.Model, Settings.ApiKey]);
   end;
 
   FHttpClient.CustomHeaders['Content-Type'] := 'application/json';
@@ -346,6 +362,15 @@ begin
   // Do nothing
 end;
 
+function TLLMBase.GeminiMessage(const Role, Content: string): TJsonObject;
+begin
+  Result := TJsonObject.Create;
+  Result.AddPair('role', Role);
+  var Parts := TJsonObject.Create;
+  Parts.AddPair('text', Content);
+  Result.AddPair('parts', Parts);
+end;
+
 function TLLMBase.GetIsBusy: Boolean;
 begin
   Result := Assigned(FHttpResponse);
@@ -366,6 +391,10 @@ begin
   begin
     Providers := FSerializer.Deserialize<TLLMProviders>(TFile.ReadAllText(FName));
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
+    Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
+    // backward compatibility
+    if (Providers.Gemini.EndPoint = '') and (Providers.Gemini.Model = '') then
+      Providers.Gemini := GeminiSettings;
   end;
 end;
 
@@ -399,6 +428,8 @@ begin
             ResponseOK := JsonResponse.TryGetValue('response', Msg);
           etOllamaChat:
             ResponseOK := JsonResponse.TryGetValue('message.content', Msg);
+          etGemini:
+            ResponseOK := JsonResponse.TryGetValue('candidates[0].content.parts[0].text', Msg);
         end;
 
       if FEndPointType = etOllamaGenerate then
@@ -439,10 +470,12 @@ end;
 procedure TLLMBase.SaveSettings(const FName: string);
 begin
   Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
+  Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
   try
     TFile.WriteAllText(FName, FSerializer.Serialize<TLLMProviders>(Providers));
   finally
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
+    Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
   end;
 end;
 
@@ -534,24 +567,29 @@ function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = '')
 
   function GeminiParams: string;
   begin
+    var JSON := TSmartPtr.Make(TJSONObject.Create)();
+
     // start with the system message
-    if Settings.SystemPrompt <> '' then
+    AddGeminiSystemPrompt(JSON);
+
+    // then add the chat history
+    var Contents := TJSONArray.Create;
+    for var QAItem in ActiveTopic.QAItems do
     begin
-      var JSON := TSmartPtr.Make(TJSONObject.Create)();
-
-      var JsonText := TJsonObject.Create();
-      JsonText.AddPair('text', Settings.SystemPrompt);
-
-      var JsonParts := TJsonObject.Create();
-      JsonParts.AddPair('parts', JsonText);
-
-      JSON.AddPair('system_instruction', JsonParts);
+      Contents.Add(GeminiMessage('user', QAItem.Prompt));
+      Contents.Add(GeminiMessage('model', QAItem.Answer));
     end;
+    // finally add the new prompt
+    Contents.Add(GeminiMessage('user', Prompt));
+    JSON.AddPair('contents', Contents);
 
-    // then add the Contents
+    // now add parameters
+    var GenerationConfig := TJsonObject.Create();
+    GenerationConfig.AddPair('maxOutputTokens', Settings.MaxTokens);
+    JSON.AddPair('generationConfig', GenerationConfig);
 
+    Result := JSON.ToJSON;
   end;
-
 
   function NewMessage(const Role, Content: string): TJsonObject;
   begin
@@ -563,7 +601,6 @@ function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = '')
 begin
   if FEndPointType = etGemini then
     Exit(GeminiParams);
-
 
   var JSON := TSmartPtr.Make(TJSONObject.Create)();
   JSON.AddPair('model', Settings.Model);
@@ -621,7 +658,7 @@ function TLLMChat.ValidateSettings: TLLMSettingsValidation;
 begin
   Result := Settings.Validate;
   if (Result = svValid) and
-    not (Settings.EndPointType in [etOllamaChat, etOpenAIChatCompletion])
+    not (Settings.EndPointType in [etOllamaChat, etGemini, etOpenAIChatCompletion])
   then
     Result := svInvalidEndpoint;
 end;
@@ -741,7 +778,7 @@ procedure TLLMAssistant.DoResponseOK(const Msg: string);
     if S.StartsWith(#10) then
       Inc(Count);
     if Count > 0 then
-      S := Copy(S, Count);
+      S := Copy(S, Count + 1);
   end;
 
 begin
@@ -767,11 +804,9 @@ begin
     Code := Copy(Code, 7);
     RemoveLeadingLB(Code);
   end;
-  Code := Code.TrimLeft;
+  //Code := Code.TrimLeft;
   if Code <> '' then
     ShowSuggestion(Code, GI_ActiveEditor.ActiveSynEdit);
-
-//    FActiveEditor.SelText := Code;
 end;
 
 procedure TLLMAssistant.FixBugs;
@@ -819,47 +854,71 @@ begin
 end;
 
 function TLLMAssistant.RequestParams(const Prompt: string; const Suffix: string = ''): string;
-var
-  JSON: TJsonObject;
 const
   Temperature = 0.2;
-begin
-  JSON := TJSONObject.Create;
-  try
-    JSON.AddPair('model', Settings.Model);
-    JSON.AddPair('stream', False);
-    JSON.AddPair('prompt', Prompt);
-    case FEndPointType of
-      etOllamaGenerate:
-        begin
-          JSON.AddPair('system', Settings.SystemPrompt);
 
-          var Options := TJSONObject.Create;
-          if Length(FStopSequence) > 0 then
-          begin
-            var StopArray := TJSONArray.Create;
-            for var Term in FStopSequence do
-              StopArray.Add(Term);
-            Options.AddPair('stop', StopArray);
-          end;
-          Options.AddPair('num_predict', Settings.MaxTokens);
-          Options.AddPair('temperature', Temperature);
-          JSON.AddPair('options', Options);
-          //JSON.AddPair('raw', True);
-        end;
-      etOpenAICompletion:
-        begin
-          JSON.AddPair('max_tokens', Settings.MaxTokens);
-          JSON.AddPair('temperature', Temperature);
-          if Suffix <> '' then
-            JSON.AddPair('suffix', Suffix);
-        end;
+  function GeminiParams: string;
+  begin
+    var JSON := TSmartPtr.Make(TJSONObject.Create)();
+
+    // start with the system message
+    AddGeminiSystemPrompt(JSON);
+
+    // Add the prompt
+    JSON.AddPair('contents', GeminiMessage('user', Prompt));
+
+    // now add parameters
+    var GenerationConfig := TJsonObject.Create();
+    GenerationConfig.AddPair('maxOutputTokens', Settings.MaxTokens);
+    GenerationConfig.AddPair('temperature', Temperature);
+    if Length(FStopSequence) > 0 then
+    begin
+      var StopArray := TJSONArray.Create;
+      for var Term in FStopSequence do
+        StopArray.Add(Term);
+      GenerationConfig.AddPair('stopSequences', StopArray);
     end;
+    JSON.AddPair('generationConfig', GenerationConfig);
 
     Result := JSON.ToJSON;
-  finally
-    JSON.Free;
   end;
+
+begin
+  if FEndPointType = etGemini then
+    Exit(GeminiParams);
+
+  var JSON := TSmartPtr.Make(TJSONObject.Create)();
+  JSON.AddPair('model', Settings.Model);
+  JSON.AddPair('stream', False);
+  JSON.AddPair('prompt', Prompt);
+  case FEndPointType of
+    etOllamaGenerate:
+      begin
+        JSON.AddPair('system', Settings.SystemPrompt);
+
+        var Options := TJSONObject.Create;
+        if Length(FStopSequence) > 0 then
+        begin
+          var StopArray := TJSONArray.Create;
+          for var Term in FStopSequence do
+            StopArray.Add(Term);
+          Options.AddPair('stop', StopArray);
+        end;
+        Options.AddPair('num_predict', Settings.MaxTokens);
+        Options.AddPair('temperature', Temperature);
+        JSON.AddPair('options', Options);
+        //JSON.AddPair('raw', True);
+      end;
+    etOpenAICompletion:
+      begin
+        JSON.AddPair('max_tokens', Settings.MaxTokens);
+        JSON.AddPair('temperature', Temperature);
+        if Suffix <> '' then
+          JSON.AddPair('suffix', Suffix);
+      end;
+  end;
+
+  Result := JSON.ToJSON;
 end;
 
 procedure TLLMAssistant.ShowError(Sender: TObject; const Error: string);
@@ -871,11 +930,11 @@ end;
 procedure TLLMAssistant.Suggest;
 const
   OpenAISuggestPrompt: string =
-    'You are my Python coding assistant.  Please complete the following Python code'#13#10 +
-    'returning only the missing part:'#13#10 +
-    '%s';
-
+    'You are my Python coding assistant.  Please complete the following' +
+    ' Python code. Return only the missing part:'#13#10'%s';
   CodellamaSuggestPrompt = '<PRE> %s <SUF> %s <MID>';
+  GeminiSuggestPrompt = //'%s____%s';
+    'Please complete the following Python code. Return only the missing part:'#13#10'```%s____%s```';
 
   function GetPrefix: string;
   begin
@@ -914,6 +973,13 @@ begin
         Ask(Prompt, '');
         FStopSequence := [];
       end;
+    etGemini:
+      begin
+        FStopSequence := ['____'];
+        var Prompt := Format(GeminiSuggestPrompt, [GetPrefix, GetSuffix]);
+        Ask(Prompt, '');
+        FStopSequence := [];
+      end;
   end;
 
 end;
@@ -922,7 +988,7 @@ function TLLMAssistant.ValidateSettings: TLLMSettingsValidation;
 begin
   Result := Settings.Validate;
   if (Result = svValid) and
-    not (Settings.EndPointType in [etOllamaGenerate, etOpenAICompletion])
+    not (Settings.EndPointType in [etOllamaGenerate, etOpenAICompletion, etGemini])
   then
     Result := svInvalidEndpoint
   else if (Settings.EndPointType = etOllamaGenerate) and
