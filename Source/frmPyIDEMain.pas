@@ -1312,6 +1312,7 @@ type
   private
     OldMonitorProfile : string;
     FShellImages: TCustomImageList;
+    IsUpgrade: Boolean;
     // IIDELayouts implementation
     function LayoutExists(const Layout: string): Boolean;
     procedure LoadLayout(const Layout : string);
@@ -3104,7 +3105,8 @@ Const
 begin
   var PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
   AppStorage.StorageOptions.SetAsString :=
-    CompareVersions(PyScripterVersion, '4.2.9') >= 0;
+    CompareVersions(PyScripterVersion, '4.2.9') <= 0;
+  IsUpgrade := CompareVersions(ApplicationVersion, PyScripterVersion) < 0;
 
   // Change language
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
@@ -4540,6 +4542,13 @@ begin
 
     TThread.ForceQueue(nil, procedure
     begin
+      if IsUpgrade then
+      begin
+        // Show history help topic
+        PyIDEMainForm.MenuHelpRequested := True;
+        Application.HelpJump('history');
+        PyIDEMainForm.MenuHelpRequested := False;
+      end;
       CommandsDataModule.AutoCheckForUpdates;
     end, 1000);
 

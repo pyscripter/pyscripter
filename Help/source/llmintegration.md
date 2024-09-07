@@ -11,7 +11,7 @@ in two forms.
 1. A coding [***Assistant***](assistant) available in the Editor
 2. Integrated [***Chat***](chatwindow) for interacting with LLM models
 
-Both cloud-based and local LLM are supported:
+Both cloud-based and local LLMs are supported:
 
 - Cloud-based LLMs
   - [OpenAI](https://openai.com/) models such as (GPT-3.5 Turbo and GPT-4o)
