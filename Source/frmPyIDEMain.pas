@@ -585,7 +585,8 @@
   History:   v 5.1.0
           New Features
             - Support for Google's Gemini LLM
-
+          Issues addressed
+            #1271
 
 {------------------------------------------------------------------------------}
 

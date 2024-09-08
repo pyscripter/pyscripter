@@ -148,8 +148,6 @@ inherited VariablesWindow: TVariablesWindow
     end
   end
   inherited DockClient: TJvDockClient
-    LeftDock = False
-    RightDock = False
     Left = 24
     Top = 26
   end
