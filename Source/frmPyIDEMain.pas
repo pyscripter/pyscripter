@@ -586,7 +586,7 @@
           New Features
             - Support for Google's Gemini LLM
           Issues addressed
-            #1271
+            #1227, #1271
 
 {------------------------------------------------------------------------------}
 

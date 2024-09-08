@@ -11,10 +11,24 @@ unit dlgOptionsEditor;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, dlgPyIDEBase, zBase,
-  zObjInspector, Vcl.ExtCtrls, System.Generics.Collections,
-  cPyScripterSettings, Vcl.StdCtrls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Generics.Collections,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Vcl.StdCtrls,
+  dlgPyIDEBase,
+  zBase,
+  zObjInspector,
+  JvAppStorage,
+  cPyScripterSettings;
 
 type
 
@@ -48,6 +62,8 @@ type
     FriendlyNames : TDictionary<string, string>;
   public
     { Public declarations }
+    procedure StoreSettings(AppStorage: TJvCustomAppStorage);
+    procedure RestoreSettings(AppStorage: TJvCustomAppStorage);
     procedure Setup(OptionsObject : TBaseOptions; Categories : array of TOptionCategory);
   end;
 
@@ -56,6 +72,9 @@ function InspectOptions(OptionsObject : TBaseOptions;
   HelpCntxt : integer = 0; ShowCategories: boolean = True): boolean;
 
 implementation
+
+uses
+  uEditAppIntfs;
 
 {$R *.dfm}
 
@@ -80,9 +99,31 @@ begin
   Inspector.UpdateProperties;
 end;
 
+procedure TOptionsInspector.StoreSettings(AppStorage: TJvCustomAppStorage);
+begin
+  var H := Muldiv(Height, Screen.DefaultPixelsPerInch, FCurrentPPI);
+  var W := Muldiv(Width, Screen.DefaultPixelsPerInch, FCurrentPPI);
+  var SplitterPos := Muldiv(Inspector.SplitterPos, Screen.DefaultPixelsPerInch, FCurrentPPI);
+  var Path := Caption + ' dialog';
+  AppStorage.WriteInteger(Path + '\Height', H);
+  AppStorage.WriteInteger(Path + '\Width', W);
+  AppStorage.WriteInteger(Path + '\Splitter Position', SplitterPos);
+end;
+
 procedure TOptionsInspector.OKButtonClick(Sender: TObject);
 begin
   fOptionsObject.Assign(fTempOptionsObject);
+end;
+
+procedure TOptionsInspector.RestoreSettings(AppStorage: TJvCustomAppStorage);
+begin
+  var Path := Caption + ' dialog';
+  Height := MulDiv(AppStorage.ReadInteger(Path + '\Height', 340), FCurrentPPI,
+    Screen.DefaultPixelsPerInch);
+  Width := MulDiv(AppStorage.ReadInteger(Path + '\Width', 650), FCurrentPPI,
+    Screen.DefaultPixelsPerInch);
+  Inspector.SplitterPos := MulDiv(AppStorage.ReadInteger(
+    Path + '\Splitter Position', 360),FCurrentPPI, Screen.DefaultPixelsPerInch);
 end;
 
 procedure TOptionsInspector.FormCreate(Sender: TObject);
@@ -104,10 +145,12 @@ function InspectOptions(OptionsObject : TBaseOptions;
 begin
   with TOptionsInspector.Create(Application) do begin
     Caption := FormCaption;
+    RestoreSettings(GI_PyIDEServices.AppStorage);
     HelpContext := HelpCntxt;
     Inspector.SortByCategory := ShowCategories;
     Setup(OptionsObject, Categories);
     Result := ShowModal = mrOK;
+    StoreSettings(GI_PyIDEServices.AppStorage);
     Release;
   end;
 end;

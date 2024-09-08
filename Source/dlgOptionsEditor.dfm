@@ -57,6 +57,7 @@ inherited OptionsInspector: TOptionsInspector
       ObjectVisibility = mvPublished
       FloatPreference.MaxDigits = 2
       FloatPreference.ExpPrecision = 6
+      DoubleBuffered = True
       OnGetItemFriendlyName = InspectorGetItemFriendlyName
     end
   end
