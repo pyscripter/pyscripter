@@ -330,10 +330,13 @@ begin
   end;
   {$ENDIF CPUX86}
   // shut down tunnel
-  if Assigned(TunnelTask) and (TunnelTask.Status = TTaskStatus.Running) then
-    TerminateProcessTree(TunnelProcessInfo.dwProcessId);
-  TunnelTask.Wait;
-  TunnelTask := nil;
+  if Assigned(TunnelTask) then
+  begin
+    if TunnelTask.Status = TTaskStatus.Running then
+      TerminateProcessTree(TunnelProcessInfo.dwProcessId);
+    TunnelTask.Wait;
+    TunnelTask := nil;
+  end;
 end;
 
 procedure TPySSHInterpreter.StoreTunnelProcessInfo(const ProcessInfo:

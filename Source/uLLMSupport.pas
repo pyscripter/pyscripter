@@ -933,8 +933,11 @@ const
     'You are my Python coding assistant.  Please complete the following' +
     ' Python code. Return only the missing part:'#13#10'%s';
   CodellamaSuggestPrompt = '<PRE> %s <SUF> %s <MID>';
+//  GeminiSuggestPrompt = //'%s____%s';
+//    'Please complete the following Python code. Return only the missing part:'#13#10'```%s____%s```';
   GeminiSuggestPrompt = //'%s____%s';
-    'Please complete the following Python code. Return only the missing part:'#13#10'```%s____%s```';
+    'Please fill the blank indicated by "____" in the following Python code. '+
+    'Return only what is missing and nothing else:'#13#10'```%s____%s```';
 
   function GetPrefix: string;
   begin
