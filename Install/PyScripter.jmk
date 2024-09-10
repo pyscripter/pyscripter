@@ -1,10 +1,10 @@
 {796D9287-1850-46A8-9C28-24E627FBC446} Version=3
 begin jvcsmak.setvariable
-  Caption=Set variable <PyScripterVersion> = 5.0.0
+  Caption=Set variable <PyScripterVersion> = 5.0.1
   Ignore=0
   Varname=PyScripterVersion
   DataType=0
-  Value=5.0.0
+  Value=5.0.1
   Operation=0
   Append=0
   Versionfilename=

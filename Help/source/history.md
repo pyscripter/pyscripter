@@ -3,6 +3,15 @@
 
 # History
 
+### Version 5.0.1 (September 10, 2024)
+
+* *New features:*
+	+ Support for Google's Gemini LLM
+* *Issues addressed:*
+	+ *#1227*, *#1271*, *#1319*
+
+
+
 ### Version 5.0.0 (July 1, 2024)
 
 * *New features:*

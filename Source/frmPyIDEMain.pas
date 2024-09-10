@@ -582,11 +582,11 @@
           Issues addressed
             #1164, #1228, #1275, #1278, #1296, #1297, #1300, #1306
 
-  History:   v 5.1.0
+  History:   v 5.0.1
           New Features
             - Support for Google's Gemini LLM
           Issues addressed
-            #1227, #1271
+            #1227, #1271, #1319
 
 {------------------------------------------------------------------------------}
 
