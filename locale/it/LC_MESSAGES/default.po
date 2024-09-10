@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-07-01 02:47\n"
+"POT-Creation-Date: 2024-09-10 17:12\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -3488,23 +3488,17 @@ msgstr "Assistente"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Caption
-#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Caption
-#: dmCommands.dfm frmLLMChat.dfm
-msgid "OpenAI"
-msgstr "OpenAI"
-
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use OpenAI"
 msgstr "Usa OpenAI"
 
-#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Caption
-#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Caption
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiGemini..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGemini..Hint
 #: dmCommands.dfm frmLLMChat.dfm
-msgid "Ollama"
-msgstr "Ollama"
+msgid "Use Gemini"
+msgstr "Usa Gemini"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Hint
@@ -6756,6 +6750,10 @@ msgstr "Controllo ortografico token sintassi"
 #: dmCommands.pas
 msgid "Configure Tools"
 msgstr "Configura strumenti"
+
+#: dmCommands.pas
+msgid "Downloading..."
+msgstr "Download..."
 
 #: dmCommands.pas
 msgid "File download failed"
