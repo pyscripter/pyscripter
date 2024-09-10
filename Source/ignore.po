@@ -234,3 +234,12 @@ msgstr ""
 
 msgid "●"
 msgstr ""
+
+msgid "OpenAI"
+msgstr ""
+
+msgid "Ollama"
+msgstr ""
+
+msgid "Gemini"
+msgstr ""

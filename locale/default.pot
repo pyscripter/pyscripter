@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-07-01 02:47\n"
+"POT-Creation-Date: 2024-09-10 17:12\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -3428,22 +3428,16 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Caption
-#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Caption
-#: dmCommands.dfm frmLLMChat.dfm
-msgid "OpenAI"
-msgstr ""
-
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use OpenAI"
 msgstr ""
 
-#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Caption
-#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Caption
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiGemini..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGemini..Hint
 #: dmCommands.dfm frmLLMChat.dfm
-msgid "Ollama"
+msgid "Use Gemini"
 msgstr ""
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Hint
@@ -6681,6 +6675,10 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Configure Tools"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Downloading..."
 msgstr ""
 
 #: dmCommands.pas
