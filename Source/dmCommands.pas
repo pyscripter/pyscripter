@@ -61,7 +61,7 @@ uses
   dlgOptionsEditor,
   uEditAppIntfs,
   cPyBaseDebugger,
-  SynSpellCheck, SpTBXEditors;
+  SynSpellCheck, SpTBXEditors, Vcl.ExtActns;
 
 type
   TSynGeneralSyn = class(SynHighlighterGeneral.TSynGeneralSyn)
@@ -85,8 +85,6 @@ type
     actEditCopy: TEditCopy;
     actEditCut: TEditCut;
     actFileCloseAllOther: TAction;
-    actHelpWebGroupSupport: TAction;
-    actHelpWebProjectHome: TAction;
     actSearchGoToDebugLine: TAction;
     actEditWordWrap: TAction;
     actSearchHighlight: TAction;
@@ -154,7 +152,6 @@ type
     actFileSave: TAction;
     actEditCopyFileName: TAction;
     actToolsEditStartupScripts: TAction;
-    actHelpWebBlog: TAction;
     actFoldVisible: TAction;
     actFoldAll: TAction;
     actUnfoldAll: TAction;
@@ -175,7 +172,6 @@ type
     actFileCloseAllToTheRight: TAction;
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
-    actDonate: TAction;
     SynWebCompletion: TSynCompletionProposal;
     SynParamCompletion: TSynCompletionProposal;
     SynCodeCompletion: TSynCompletionProposal;
@@ -233,6 +229,10 @@ type
     actAssistantComments: TAction;
     spiAssistantComments: TSpTBXItem;
     spiOpenAI: TSpTBXItem;
+    actHelpWebBlog: TBrowseURL;
+    actHelpWebGroupSupport: TBrowseURL;
+    actHelpWebProjectHome: TBrowseURL;
+    actDonate: TBrowseURL;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -313,12 +313,9 @@ type
     procedure actSearchHighlightExecute(Sender: TObject);
     procedure actEditWordWrapExecute(Sender: TObject);
     procedure actSearchGoToDebugLineExecute(Sender: TObject);
-    procedure actHelpWebProjectHomeExecute(Sender: TObject);
-    procedure actHelpWebGroupSupportExecute(Sender: TObject);
     procedure actFileCloseWorkspaceTabsExecute(Sender: TObject);
     procedure actEditCopyFileNameExecute(Sender: TObject);
     procedure actToolsEditStartupScriptsExecute(Sender: TObject);
-    procedure actHelpWebBlogExecute(Sender: TObject);
     procedure actFoldVisibleExecute(Sender: TObject);
     procedure actFoldAllExecute(Sender: TObject);
     procedure actUnfoldAllExecute(Sender: TObject);
@@ -338,7 +335,6 @@ type
     procedure actUnfoldFunctionsExecute(Sender: TObject);
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
-    procedure actDonateExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
     procedure mnProviderClick(Sender: TObject);
     procedure mnSpellingPopup(Sender: TTBCustomItem; FromLink: Boolean);
@@ -412,7 +408,6 @@ uses
   JvAppIniStorage,
   JvAppStorage,
   JvDSADialogs,
-  JvJCLUtils,
   JvDynControlEngineVCL,
   JvGnugettext,
   dmResources,
@@ -1995,26 +1990,6 @@ begin
   PyIDEMainForm.MenuHelpRequested := False;
 end;
 
-procedure TCommandsDataModule.actHelpWebBlogExecute(Sender: TObject);
-begin
-  OpenObject('http://pyscripter.blogspot.com/');
-end;
-
-procedure TCommandsDataModule.actHelpWebGroupSupportExecute(Sender: TObject);
-begin
-  OpenObject('http://groups.google.com/group/PyScripter');
-end;
-
-procedure TCommandsDataModule.actHelpWebProjectHomeExecute(Sender: TObject);
-begin
-  OpenObject('https://github.com/pyscripter/pyscripter');
-end;
-
-procedure TCommandsDataModule.actDonateExecute(Sender: TObject);
-begin
-  OpenObject('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SX9B6G2GF5K4U');
-end;
-
 procedure TCommandsDataModule.actHelpExternalToolsExecute(Sender: TObject);
 begin
   PyIDEMainForm.MenuHelpRequested := True;
@@ -2273,10 +2248,10 @@ function TCommandsDataModule.DoSearchReplaceText(SynEdit : TSynEdit;
   begin
     if ABackwards then
       Result := Format(_(SReachedTheStart),
-              [iif(SelectionOnly, _(SOfTheSelection), _(SOfTheDocument))])
+              [IfThen(SelectionOnly, _(SOfTheSelection), _(SOfTheDocument))])
     else
       Result := Format(_(SReachedTheEnd),
-              [iif(SelectionOnly, _(SOfTheSelection), _(SOfTheDocument))]);
+              [IfThen(SelectionOnly, _(SOfTheSelection), _(SOfTheDocument))]);
   end;
 
 var
@@ -2798,6 +2773,7 @@ initialization
   TP_GlobalIgnoreClassProperty(TObject,'ImageName');
   TP_GlobalIgnoreClassProperty(TControl,'HelpKeyword');
   TP_GlobalIgnoreClassProperty(TControl,'StyleName');
+  TP_GlobalIgnoreClassProperty(TBrowseURL,'URL');
 
   //JCL Debug
   AddIgnoredException(EClipboardException);

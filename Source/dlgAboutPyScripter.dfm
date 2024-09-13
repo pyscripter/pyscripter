@@ -8,7 +8,7 @@ inherited AboutBox: TAboutBox
   KeyPreview = True
   StyleElements = [seFont, seBorder]
   OnKeyPress = FormKeyPress
-  TextHeight = 25
+  TextHeight = 15
   object SpTBXTabControl: TSpTBXTabControl
     Left = 0
     Top = 0

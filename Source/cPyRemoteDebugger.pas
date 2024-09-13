@@ -187,7 +187,6 @@ uses
   Vcl.Dialogs,
   VarPyth,
   JclSysInfo,
-  JvJCLUtils,
   JvDSADialogs,
   JvGnugettext,
   StringResources,

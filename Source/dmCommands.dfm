@@ -398,6 +398,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Help'
       Caption = 'About...'
       HelpContext = 370
+      HelpType = htContext
       Hint = 'About|Info about the application'
       ImageIndex = 25
       ImageName = 'Info'
@@ -461,6 +462,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Help'
       Caption = '&Parameters'
       HelpContext = 370
+      HelpType = htContext
       Hint = 'Help on custom parameters'
       OnExecute = actHelpParametersExecute
     end
@@ -508,6 +510,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Help'
       Caption = 'External &Tools'
       HelpContext = 370
+      HelpType = htContext
       Hint = 'Help on External Tools'
       OnExecute = actHelpExternalToolsExecute
     end
@@ -592,6 +595,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Help'
       Caption = 'Editor &Shortcuts'
       HelpContext = 370
+      HelpType = htContext
       Hint = 'Help on editor shortcuts'
       OnExecute = actHelpEditorShortcutsExecute
     end
@@ -740,23 +744,25 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Go to the current position of the debugger'
       OnExecute = actSearchGoToDebugLineExecute
     end
-    object actHelpWebProjectHome: TAction
+    object actHelpWebProjectHome: TBrowseURL
       Category = 'Help'
       Caption = '&Project Home'
       HelpContext = 370
+      HelpType = htContext
       Hint = 'Go to the project home page'
       ImageIndex = 90
       ImageName = 'Link'
-      OnExecute = actHelpWebProjectHomeExecute
+      URL = 'https://github.com/pyscripter/pyscripter'
     end
-    object actHelpWebGroupSupport: TAction
+    object actHelpWebGroupSupport: TBrowseURL
       Category = 'Help'
       Caption = '&Group Support'
       HelpContext = 370
+      HelpType = htContext
       Hint = 'Go to the PyScripter Internet group'
       ImageIndex = 90
       ImageName = 'Link'
-      OnExecute = actHelpWebGroupSupportExecute
+      URL = 'http://groups.google.com/group/PyScripter'
     end
     object actFileCloseAllOther: TAction
       Tag = 1
@@ -790,15 +796,6 @@ object CommandsDataModule: TCommandsDataModule
       HelpType = htContext
       Hint = 'Edit PyScripter initialization files'
       OnExecute = actToolsEditStartupScriptsExecute
-    end
-    object actHelpWebBlog: TAction
-      Category = 'Help'
-      Caption = '&Blog'
-      HelpContext = 370
-      Hint = 'Go to the PyScripter Blog'
-      ImageIndex = 90
-      ImageName = 'Link'
-      OnExecute = actHelpWebBlogExecute
     end
     object actFoldVisible: TAction
       Category = 'Code Folding'
@@ -914,14 +911,15 @@ object CommandsDataModule: TCommandsDataModule
       ImageName = 'Upload'
       OnExecute = actFileSaveToRemoteExecute
     end
-    object actDonate: TAction
+    object actHelpWebBlog: TBrowseURL
       Category = 'Help'
-      Caption = '&Donate'
+      Caption = '&Blog'
       HelpContext = 370
-      Hint = 'Donate to the PyScripter project'
+      HelpType = htContext
+      Hint = 'Go to the PyScripter Blog'
       ImageIndex = 90
       ImageName = 'Link'
-      OnExecute = actDonateExecute
+      URL = 'http://pyscripter.blogspot.com/'
     end
     object actToolsRestartLS: TAction
       Category = 'Tools'
@@ -1003,6 +1001,18 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Add Comments'
       Hint = 'Add comments explaining the selected code'
       OnExecute = actAssistantCommentsExecute
+    end
+    object actDonate: TBrowseURL
+      Category = 'Help'
+      Caption = '&Donate'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Donate to the PyScripter project'
+      ImageIndex = 90
+      ImageName = 'Link'
+      URL = 
+        'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_butto' +
+        'n_id=SX9B6G2GF5K4U'
     end
   end
   object SynWebCompletion: TSynCompletionProposal
