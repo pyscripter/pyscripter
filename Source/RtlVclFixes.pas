@@ -542,6 +542,8 @@ end;
 
 procedure Detour_FontDialog_SetFont(const Self: TObject; Value: TFont);
 begin
+  // The Font dialog operates in a DPI-anware mode,
+  // hence its PixelsPerInch should match the system PPI
   TFontDialog(Self).Font.IsScreenFont := True;
   TFontDialog(Self).Font.Assign(Value);
 end;
@@ -560,22 +562,24 @@ var
 
 
 procedure Detour_Font_Assign(const Self: TObject; Source: TPersistent);
-var
-  OldIsDPIRelated: Boolean;
-  CallChanged: Boolean;
 begin
-  CallChanged := False;
-  OldIsDPIRelated := False;
+  var CallChanged := False;
+  var OldIsDPIRelated := False;
 
   if Source is TFont then
   begin
     OldIsDPIRelated := TFont(Source).IsDPIRelated;
+    // The PixelsPerInch of screen fonts should not change
+    // and match the system PPI
     if TFont(Self).IsScreenFont then
       TFont(Source).IsDPIRelated := False
+    {$IF (CompilerVersion = 36) and not Declared(RTLVersion122)}
+    //  RSP-43270 fixed in Delphi 12.2
     else
       CallChanged := not TFont(Source).IsScreenFont and
         (TFont(Self).PixelsPerInch <> TFont(Source).PixelsPerInch) and
         (TFont(Self).IsDPIRelated or TFont(Source).IsDPIRelated);
+    {$ENDIF}
   end;
 
   if Assigned(Trampoline_Font_Assign) then
@@ -593,7 +597,7 @@ end;
 {$ENDREGION}
 
 {$REGION 'Fix Delphi 12 InputQuery - https://embt.atlassian.net/servicedesk/customer/portal/1/RSS-867'}
-{$IF CompilerVersion >= 36}
+{$IF (CompilerVersion = 36) and not Declared(RTLVersion122)}
 type
   TInputQuery = function (const ACaption: string; const APrompts: array of string; var AValues: array of string; CloseQueryFunc: TInputCloseQueryFunc = nil): Boolean;
 
@@ -929,7 +933,7 @@ initialization
   Trampoline_Font_Assign := InterceptCreate(@TFont.Assign, @Detour_Font_Assign);
   {$ENDIF}
 
-  {$IF CompilerVersion >= 36}
+  {$IF (CompilerVersion = 36) and not Declared(RTLVersion122)}
   Trampoline_InputQuery := InterceptCreate(@Vcl.Dialogs.InputQuery, @Detour_InputQuery);
   {$ENDIF}
 
@@ -960,7 +964,7 @@ finalization
   InterceptRemove(Trampoline_FontDialog_SetFont);
   InterceptRemove(@Trampoline_Font_Assign);
   {$ENDIF}
-  {$IF CompilerVersion >= 36}
+  {$IF (CompilerVersion = 36) and not Declared(RTLVersion122)}
   InterceptRemove(Trampoline_InputQuery);
   {$ENDIF}
   {$IF CompilerVersion >= 36}
