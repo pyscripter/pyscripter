@@ -534,9 +534,15 @@ begin
     end;
     // Kernel change notification
     if (fFileName <> '') and FileExists(fFileName) then
+    begin
+      // Register Kernel Notification
+      ChangeNotifier.RegisterKernelChangeNotify(fForm, [vkneFileName, vkneDirName,
+        vkneLastWrite, vkneCreation]);
+
       ChangeNotifier.NotifyWatchFolder(fForm, TPath.GetDirectoryName(fFileName))
+    end
     else
-      ChangeNotifier.NotifyWatchFolder(fForm, '');
+      ChangeNotifier.UnRegisterKernelChangeNotify(fForm);  // just in case it was registered
   end;
 end;
 
@@ -2146,7 +2152,7 @@ begin
           (ASynEdit.Highlighter is TSynPythonSyn)
           and not fAutoCompleteActive then
         begin
-          { CaretY should never be lesser than 2 right after ecLineBreak, so there's
+          { CaretY should never be less than 2 right after ecLineBreak, so there's
             no need for a check }
           iPrevLine := TrimRight(ASynEdit.Lines[ASynEdit.CaretY - 2]);
 
@@ -2313,10 +2319,6 @@ begin
 
   // PyIDEOptions change notification
   PyIDEOptions.OnChange.AddHandler(ApplyPyIDEOptions);
-
-  // Register Kernel Notification
-  ChangeNotifier.RegisterKernelChangeNotify(Self, [vkneFileName, vkneDirName,
-    vkneLastWrite, vkneCreation]);
 
   SkinManager.AddSkinNotification(Self);
 
@@ -2505,10 +2507,11 @@ end;
 
 procedure TEditorForm.WMFolderChangeNotify(var Msg: TMessage);
 begin
+  if fEditor.fFileName <> '' then
     TThread.ForceQueue(nil, procedure
-  begin
-    CommandsDataModule.ProcessFolderChange(TPath.GetDirectoryName(fEditor.fFileName));
-  end, 200);
+    begin
+      CommandsDataModule.ProcessFolderChange(TPath.GetDirectoryName(fEditor.fFileName));
+    end, 200);
 end;
 
 procedure TEditorForm.AddWatchAtCursor;

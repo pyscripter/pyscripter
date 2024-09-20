@@ -588,7 +588,12 @@
           Issues addressed
             #1227, #1271, #1319
 
-{------------------------------------------------------------------------------}
+   History:   v 5.0.2
+          New Features
+          Issues addressed
+            #1321
+
+ {------------------------------------------------------------------------------}
 
 // Bugs and minor features
 // TODO : Review Search and Replace
