@@ -270,9 +270,9 @@ Var
   Res : Boolean;
 begin
   with GetPythonEngine do begin
-    Res := SyncWideInputQuery('PyScripter - Input requested', 'Input:', Data);
+    Res := SyncWideInputQuery(_('PyScripter - Input requested'), _('Input:'), Data);
     if not Res then
-      PyErr_SetString(PyExc_KeyboardInterrupt^, 'Operation cancelled')
+      PyErr_SetString(PyExc_KeyboardInterrupt^, PAnsiChar(EncodeString(_('Operation cancelled'))))
     else
       Data := Data + #10;
   end;
