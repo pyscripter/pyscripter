@@ -268,10 +268,12 @@ type
     function Running: boolean;
     function Inactive: boolean;
     function GetPythonVersion: TPythonVersion;
+    function GetActiveSSHServerName: string;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
     property PythonVersion: TPythonVersion read GetPythonVersion;
+    property ActiveSSHServerName: string read GetActiveSSHServerName;
     property OnPythonVersionChange: TJclNotifyEventBroadcast
       read GetOnPythonVersionChange;
   end;

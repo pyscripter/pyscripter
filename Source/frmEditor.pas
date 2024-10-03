@@ -522,15 +522,18 @@ end;
 
 procedure TEditor.DoSetFileName(AFileName: string);
 begin
+  if ((AFileName <> '') or (fRemoteFileName <> '')) and (fUntitledNumber <> -1) then
+  begin
+    UntitledNumbers[fUntitledNumber] := False;
+    fUntitledNumber := -1;
+  end;
   if AFileName <> fFileName then
   begin
     fFileName := AFileName;
-    fRemoteFileName := '';
-    fSSHServer := '';
-    if ((AFileName <> '') or (fRemoteFileName <> '')) and (fUntitledNumber <> -1) then
+    if AFileName <> '' then
     begin
-      UntitledNumbers[fUntitledNumber] := False;
-      fUntitledNumber := -1;
+      fRemoteFileName := '';
+      fSSHServer := '';
     end;
     // Kernel change notification
     if (fFileName <> '') and FileExists(fFileName) then
@@ -1942,6 +1945,10 @@ Var
   Edit : IEditor;
 begin
   Assert(fEditor <> nil);
+  if fEditor.fFileName <> '' then
+    FileName := TPath.GetFileName(fEditor.fFileName)
+  else if fEditor.fRemoteFileName <> '' then
+    FileName := fEditor.fRemoteFileName;
   if ExecuteRemoteFileDialog(FileName, Server, rfdSave) then
   begin
     Edit := GI_EditorFactory.GetEditorByName(TSSHFileName.Format(Server, FileName));

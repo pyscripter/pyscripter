@@ -80,6 +80,7 @@ type
     function Running: boolean;
     function Inactive: boolean;
     function GetPythonVersion: TPythonVersion;
+    function GetActiveSSHServerName: string;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
@@ -125,7 +126,7 @@ type
     property RegPythonVersions: TPythonVersions read fRegPythonVersions;
     property PythonEngineType: TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
-    property ActiveSSHServerName: string read fActiveSSHServerName write fActiveSSHServerName;
+    property ActiveSSHServerName: string read GetActiveSSHServerName write fActiveSSHServerName;
     property InternalPython: TInternalPython read fInternalPython;
     property InternalInterpreter: TPyBaseInterpreter read GetInternalInterpreter;
     property ActiveInterpreter: TPyBaseInterpreter read fActiveInterpreter
@@ -219,6 +220,11 @@ begin
   FreeAndNil(fOnPythonVersionChange);
   fRunConfig.Free;
   inherited;
+end;
+
+function TPythonControl.GetActiveSSHServerName: string;
+begin
+  Result := fActiveSSHServerName;
 end;
 
 function TPythonControl.GetInternalInterpreter: TPyBaseInterpreter;
