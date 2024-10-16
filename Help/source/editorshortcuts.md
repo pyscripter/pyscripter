@@ -55,22 +55,23 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Scroll Left |  | Scroll left one char leaving cursor position unchanged |
 | Scroll Right |  | Scroll right one char leaving cursor position unchanged |
 | Scroll Up | Ctrl+Up | Scroll up one line leaving cursor position unchanged |
-| Sel Down |  | Extend selection one line down |
-| Sel Editor Bottom | Shft+Ctrl+End | Extend selection to the end of file |
-| Sel Editor Top | Shft+Ctrl+Home | Extend selection to the start of file |
-| Sel Left | Shft+Left | Extend selection one char left |
-| Sel Line End | Shft+End | Extend selection to the end of line |
-| Sel Line Start | Shft+Home | Extend selection to the start of line |
-| Sel Page Bottom | Shft+Ctrl+PgDn | Extend selection to the bottom of the page |
-| Sel Page Down | Shft+PgDn | Extend selection one page down |
-| Sel Page Left |  | Extend selection one page left |
-| Sel Page Right |  | Extend selection one page right |
-| Sel Page Top | Shft+Ctrl+PgUp | Extend selection to the top of the page |
-| Sel Page Up | Shft+PgUp | Extend selection one page up |
-| Sel Right | Shft+Right | Extend selection one char right |
-| Sel Up | Shft+Up | Extend selection one line up |
-| Sel Word Left | Shft+Ctrl+Left | Extend selection one word to the left |
-| Sel Word Right | Shft+Ctrl+Right | Extend selection one word to the right |
+| Select Down |  | Extend selection one line down |
+| Select Editor Bottom | Shft+Ctrl+End | Extend selection to the end of file |
+| Select Editor Top | Shft+Ctrl+Home | Extend selection to the start of file |
+| Select Left | Shft+Left | Extend selection one char left |
+| Select Line End | Shft+End | Extend selection to the end of line |
+| Select Line Start | Shft+Home | Extend selection to the start of line |
+| Select Page Bottom | Shft+Ctrl+PgDn | Extend selection to the bottom of the page |
+| Select Page Down | Shft+PgDn | Extend selection one page down |
+| Select Page Left |  | Extend selection one page left |
+| Select Page Right |  | Extend selection one page right |
+| Select Page Top | Shft+Ctrl+PgUp | Extend selection to the top of the page |
+| Select Page Up | Shft+PgUp | Extend selection one page up |
+| Select Right | Shft+Right | Extend selection one char right |
+| Select Up | Shft+Up | Extend selection one line up |
+| Select Word | Ctrl+W | Select word at caret.  If pressed again, add next occurence to selections. |
+| Select Word Left | Shft+Ctrl+Left | Extend selection one word to the left |
+| Select Word Right | Shft+Ctrl+Right | Extend selection one word to the right |
 | Select All | Ctrl+A | Select all text in the editor |
 | Set Marker i | Shft+Ctrl+i | Set numbered bookmark i at the current position (i=0..9) |
 | Shift Tab | Shft+Tab | Action dependent on [indentation options](editoroptions) |
