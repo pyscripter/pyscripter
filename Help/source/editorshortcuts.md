@@ -13,7 +13,6 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Block Indent | Shft+Ctrl+I | Indent selection |
 | Block Unindent | Shft+Ctrl+U | Unindent selection |
 | Clear All |  | Delete everything |
-| Column Select | Shft+Ctrl+C | Set Column selection mode |
 | Context Help | F1 | Context Sensitive Help |
 | Copy | Ctrl+C     Ctrl+Ins | Copy selection to Clipboard |
 | Copy Line Down | Shft+Alt+Down | Copy  line(s) down |
@@ -36,14 +35,12 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Left | Left | Move cursor left one char |
 | Line Break | Ctrl+M | Break line at current position, move caret to new line |
 | Line End | End | Move cursor to end of line |
-| Line Select | Shft+Ctrl+L | Set selection mode to Line |
 | Line Start | Home | Move cursor to beginning of line |
 | Lower Case | Ctrl+K, Ctrl+L | Change word at cursor or selection to lower case |
 | Match Bracket | Ctrl+] | Go to matching bracket |
 | Select to Bracket | Shift+Ctrl+] | Go to matching bracket extending the selection |
 | Move  Line Down | Alt+Down | Move  line(s) down |
 | Move  Line Up | Alt+Up | Move  line(s) up |
-| Normal Select | Shift+Ctrl+N | Set selection mode to Normal |
 | Overwrite mode |  | Set editor mode to overwrite mode |
 | Page Bottom | Ctrl+PgDn | Move cursor to bottom of page |
 | Page Down | PgDn | Move cursor down one page |
@@ -106,6 +103,17 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Unfold Functions |  | Unfold all functions (IDE command) |
 | Fold Classes |  | Fold all classes (IDE command) |
 | Unfold Classes |  | Unfold all classes (IDE command) |
+| **Multi-caret commands** | | |
+| Cancel Selections | Esc | Cancel multiple carets and selections |
+| Select Column Left | Shft+Alt+Left | Expand column selection left  |
+| Select Column Right | Shft+Alt+Right | Expand column selection right  |
+| Select Column Up | Shft+Alt+Up | Expand column selection up  |
+| Select Column Down | Shft+Alt+Down | Expand column selection down  |
+| Select Column Page Up | Shft+Alt+PgUp | Expand column selection a page up  |
+| Select Column Page Down | Shft+Alt+PgDown | Expand column selection a page down  |
+| Select Matching Text | Shft+Ctrl+W | Select all occurences of the currently selected text  |
+| Select Column Page Down | Shft+Alt+PgDown | Expand column selection a page down  |
+| Carets At Line Ends | Alt+End | Add carets to line ends of the current selection  |
 | **Other shortcuts available in the editor** | | |
 | Code completion | Ctrl+Space | Start [code completion](codecompletion.md#code-completion) |
 | Call tips | Shft+Ctrl+Space | Show a [call tip](codecompletion.md#call-tips) |

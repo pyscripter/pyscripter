@@ -766,7 +766,7 @@ begin
   SearchCmds := FindSearchTarget;
   if Assigned(SearchCmds) then with SearchCmds do begin
     EditorSearchOptions.InitSearch;
-    DoSearchReplaceText(SearchTarget, True, EditorSearchOptions.SearchBackwards);
+    DoSearchReplaceText(SearchTarget, True, False);
   end;
 end;
 
@@ -1068,7 +1068,8 @@ var
   Offset: integer;
   OldBlockBegin, OldBlockEnd : TBufferCoord;
 begin
-  if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
+  if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do
+  begin
     OldBlockBegin := BlockBegin;
     OldBlockEnd := BlockEnd;
     if SelAvail then begin // has selection
@@ -1097,14 +1098,15 @@ begin
         Inc(OldBlockEnd.Char, 2);
       BlockEnd := BufferCoord(OldBlockEnd.Char, OldBlockEnd.Line);
     end
-    else  begin // no selection; easy stuff ;)
+    else
+    begin // no selection; easy stuff ;)
       // Do with selection to be able to undo
       //LineText:='##'+LineText;
       CaretXY := BufferCoord(1, CaretY);
       SelText := '##';
       CaretXY := BufferCoord(OldBlockEnd.Char + 2, OldBlockEnd.Line);
     end;
-    UpdateCaret;
+    UpdateCarets;
   end;
 end;
 
@@ -1130,7 +1132,7 @@ begin
       SelText := TPyRegExpr.CodeCommentLineRE.Replace(SelText, '$1');
       CaretXY := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end;
-    UpdateCaret;
+    UpdateCarets;
   end;
 end;
 
@@ -1141,7 +1143,7 @@ begin
     begin
        SelText :=  StringReplace(SelText,
          StringOfChar(' ',GI_ActiveEditor.SynEdit.TabWidth), #9, [rfReplaceAll]);
-       UpdateCaret;
+       UpdateCarets;
     end;
   end;
 end;
@@ -1153,7 +1155,7 @@ begin
     begin
        SelText :=  StringReplace(SelText, #9,
          StringOfChar(' ',GI_ActiveEditor.SynEdit.TabWidth), [rfReplaceAll]);
-       UpdateCaret;
+       UpdateCarets;
     end;
   end;
 end;
@@ -2258,7 +2260,7 @@ var
   Options: TSynSearchOptions;
   IsNewSearch : Boolean;
   MsgText : string;
-  OldCaretXY, OldBlockBegin, OldBlockEnd : TBufferCoord;
+  BB, BE: TBufferCoord;
   dlgID : integer;
   OldNoReplaceCount : integer;
 begin
@@ -2274,7 +2276,7 @@ begin
   else
     SynEdit.SearchEngine := SynEditSearch;
 
-  IsNewSearch := (EditorSearchOptions.InitBlockBegin.Char = 0) or
+  IsNewSearch := (not EditorSearchOptions.InitCaretXY.IsValid) or
                  (EditorSearchOptions.BackwardSearch <> ABackwards);
   if IsNewSearch then
     EditorSearchOptions.NewSearch(SynEdit, ABackwards);
@@ -2292,55 +2294,62 @@ begin
         Include(Options, ssoMatchCase);
     scsCaseSensitive : Include(Options, ssoMatchCase);
   end;
-  if not EditorSearchOptions.TempSearchFromCaret then
-    Include(Options, ssoEntireScope);
   if EditorSearchOptions.SearchWholeWords then
     Include(Options, ssoWholeWord);
 
-  if EditorSearchOptions.TempSelectionOnly then with EditorSearchOptions do begin
-    Options := Options + [ssoSelectedOnly, ssoEntireScope];
-    // we need to restrict the scope of search within the orginal selection
-    if not IsNewSearch then begin
-      OldCaretXY := SynEdit.CaretXY;
-      OldBlockBegin := SynEdit.BlockBegin;
-      OldBlockEnd := SynEdit.BlockEnd;
-      if ABackwards then
-        SynEdit.SetCaretAndSelection(SynEdit.BlockBegin, InitBlockBegin, SynEdit.BlockBegin)
+  with EditorSearchOptions do
+    if EditorSearchOptions.TempSelectionOnly then
+    begin
+      Options := Options + [ssoSelectedOnly] - [ssoEntireScope];
+      BE := TBufferCoord.Invalid;
+      if IsNewSearch then
+        BB := TBufferCoord.Invalid
       else
-        SynEdit.SetCaretAndSelection(SynEdit.CaretXY, SynEdit.CaretXY, InitBlockEnd);
-    end;
-  end;
-
-  with EditorSearchOptions do begin
-    if WrappedSearch and CanWrapSearch then begin
-      // we need to restrict the scope of search within the remaining space
-      CanWrapSearch := False;  //Only do this block once
-      TempSelectionOnly := True;
-      Options := Options + [ssoSelectedOnly, ssoEntireScope];
-      if ABackwards then begin
-        InitBlockBegin := InitCaretXY;
-        InitCaretXY := InitBlockEnd;
-      end else begin
-        InitBlockEnd := InitCaretXY;
-        InitCaretXY := InitBlockBegin;
+      begin
+        BB := SynEdit.CaretXY;
+        SynEdit.Selections.Restore(SelStorage);
       end;
-      SynEdit.SetCaretAndSelection(InitCaretXY, InitBlockBegin, InitBlockEnd);
-      if (ssoReplace in Options) and (LastReplaceAction = raReplaceAll) then
-        Options := Options - [ssoPrompt];
+    end
+    else if WrappedSearch then
+    begin
+      if ABackwards then begin
+        BB := InitCaretXY;
+        if CanWrapSearch then
+          BE := BufferCoord(Length(SynEdit.Lines[SynEdit.Lines.Count - 1]) + 1,
+            SynEdit.Lines.Count)
+        else
+          BE := SynEdit.CaretXY;
+      end else begin
+        BE := InitCaretXY;
+        if CanWrapSearch then
+          BB := BufferCoord(1,1)
+        else
+          BB := SynEdit.CaretXY;
+      end;
+      CanWrapSearch := False;  //Do not wrap again!
+    end
+    else
+    begin
+      BB := BufferCoord(1,1);
+      BE := BufferCoord(Length(SynEdit.Lines[SynEdit.Lines.Count - 1]) + 1,
+        SynEdit.Lines.Count);
+      if TempSearchFromCaret then
+      begin
+        if ABackwards then
+          BE := SynEdit.CaretXY
+        else
+          BB := SynEdit.CaretXY;
+      end;
     end;
-  end;
 
   GI_PyIDEServices.WriteStatusMsg('');
 
-  if (EditorSearchOptions.TempSelectionOnly and
-     (SynEdit.BlockBegin.Char = Synedit.BlockEnd.Char) and
-     (SynEdit.BlockBegin.Line = Synedit.BlockEnd.Line))
-  then
+  if EditorSearchOptions.TempSelectionOnly and SynEdit.Selections.IsEmpty then
     Result := 0
   else
     try
         Result := SynEdit.SearchReplace(EditorSearchOptions.SearchText,
-         EditorSearchOptions.ReplaceText, Options);
+         EditorSearchOptions.ReplaceText, Options, BB, BE);
     except
       on E: ESynRegEx do begin
         Result := 0;
@@ -2350,57 +2359,70 @@ begin
       end;
     end;
 
-  if (Result = 0) or (ssoReplace in Options) then with EditorSearchOptions do begin
-    MessageBeep(MB_ICONASTERISK);
-    TempSearchFromCaret := False;
-    if TempSelectionOnly and not WrappedSearch then
-      // Restore the original selection
-      SynEdit.SetCaretAndSelection(InitCaretXY, InitBlockBegin, InitBlockEnd)
-    else if TempSelectionOnly and WrappedSearch and not (ssoReplace in Options) then
-      SynEdit.SetCaretAndSelection(OldCaretXY, OldBlockBegin, OldBlockEnd);
+  with EditorSearchOptions do
+  begin
+    // Further searches will be from caret. Only applies if not SelectionOnly
+    TempSearchFromCaret := True;
 
-    if WrappedSearch then begin
-      MsgText := _(SStartReached);
-      GI_PyIDEServices.WriteStatusMsg(MsgText);
-      DSAMessageDlg(dsaSearchStartReached, 'PyScripter', MsgText,
-         mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
-      InitSearch;
-    end else begin
-      MsgText := EndReached(ABackwards, TempSelectionOnly);
-      if Result = 0 then
-        GI_PyIDEServices.WriteStatusMsg(Format(_(SNotFound), [SearchText]))
-      else
-        GI_PyIDEServices.WriteStatusMsg(MsgText);
-      if CanWrapSearch and (LastReplaceAction <> raCancel) then begin
-        dlgID := IfThen(ssoReplace in Options, dsaReplaceFromStart, dsaSearchFromStart);
-        MsgText :=  Format(MsgText + sLineBreak + _(SContinueSearch),
-          [IfThen(ssoReplace in Options, _(STheSearchAndReplace), _(STheSearch)),
-           IfThen(ABackwards, _(SFromTheEnd), _(SFromTheStart))]);
+    if (Result = 0) or (ssoReplace in Options) then
+    // We have reached the end of the search range
+    begin
+      MessageBeep(MB_ICONASTERISK);
+      if TempSelectionOnly and not AReplace then
+        // All done - Restore the original selection
+        SynEdit.Selections.Restore(SelStorage);
 
-        if  IsIncremental or (DSAMessageDlg(dlgID, 'PyScripter', MsgText,
-           mtConfirmation, [mbYes, mbNo], 0, dckActiveForm, 0, mbYes, mbNo) = mrYes) then
-        begin
-          WrappedSearch := True;
-          OldNoReplaceCount := NoReplaceCount;
-          Result := Result + DoSearchReplaceText(SynEdit,  AReplace, ABackwards, IsIncremental);
-        end;
-      end else begin
+      if WrappedSearch then begin
         MsgText := _(SStartReached);
-        if (Result = 0) and not (ssoReplace in Options) then
+        GI_PyIDEServices.WriteStatusMsg(MsgText);
+        DSAMessageDlg(dsaSearchStartReached, 'PyScripter', MsgText,
+           mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
+        InitSearch;
+      end
+      else
+      begin
+        MsgText := EndReached(ABackwards, TempSelectionOnly);
+        if Result = 0 then
           GI_PyIDEServices.WriteStatusMsg(Format(_(SNotFound), [SearchText]))
         else
           GI_PyIDEServices.WriteStatusMsg(MsgText);
-        InitSearch;
-      end;
-      if (ssoReplace in Options) and (Result > 0) then begin
-        MsgText := Format(_(SItemsReplaced), [Result, Result - NoReplaceCount - OldNoReplaceCount]);
-        GI_PyIDEServices.WriteStatusMsg(MsgText);
-        DSAMessageDlg(dsaReplaceNumber, 'PyScripter', MsgText,
-           mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
+        if CanWrapSearch and (LastReplaceAction <> raCancel) then
+        begin
+          dlgID := IfThen(ssoReplace in Options, dsaReplaceFromStart, dsaSearchFromStart);
+          MsgText :=  Format(MsgText + sLineBreak + _(SContinueSearch),
+            [IfThen(ssoReplace in Options, _(STheSearchAndReplace), _(STheSearch)),
+             IfThen(ABackwards, _(SFromTheEnd), _(SFromTheStart))]);
+
+          if  IsIncremental or (DSAMessageDlg(dlgID, 'PyScripter', MsgText,
+             mtConfirmation, [mbYes, mbNo], 0, dckActiveForm, 0, mbYes, mbNo) = mrYes) then
+          begin
+            WrappedSearch := True;
+            OldNoReplaceCount := NoReplaceCount;
+            Result := Result + DoSearchReplaceText(SynEdit,  AReplace, ABackwards, IsIncremental);
+            WrappedSearch := False;
+          end;
+        end
+        else
+        begin
+          MsgText := _(SStartReached);
+          if (Result = 0) and not (ssoReplace in Options) then
+            GI_PyIDEServices.WriteStatusMsg(Format(_(SNotFound), [SearchText]))
+          else
+            GI_PyIDEServices.WriteStatusMsg(MsgText);
+          InitSearch;
+        end;
       end;
     end;
-  end else
-    EditorSearchOptions.TempSearchFromCaret := True;
+
+    if (ssoReplace in Options) and (Result > 0) and not WrappedSearch then
+    begin
+      MsgText := Format(_(SItemsReplaced),
+        [Result + NoReplaceCount + OldNoReplaceCount, Result]);
+      GI_PyIDEServices.WriteStatusMsg(MsgText);
+      DSAMessageDlg(dsaReplaceNumber, 'PyScripter', MsgText,
+         mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
+    end;
+  end;
 
   if ConfirmReplaceDialog <> nil then
     ConfirmReplaceDialog.Free;
@@ -2602,7 +2624,7 @@ begin
   end;
   EditorSearchOptions.LastReplaceAction := Action;
   if Action in [raSkip, raCancel] then
-    EditorSearchOptions.NoReplaceCount := EditorSearchOptions.NoReplaceCount + 1;
+    Inc(EditorSearchOptions.NoReplaceCount);
 end;
 
 function TCommandsDataModule.ProgramVersionHTTPLocationLoadFileFromRemote(

@@ -18,6 +18,9 @@ The editing  component of PyScripter is based on
 - Track changes bar
 - Brace Highlighting
 - Spell checking
+- [Side-by-side  file editing](splitworkspace)
+- [Work with remote files](remotefiles)
+- [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html)
 
 PyScripter has adapted Synedit for the purpose of editing Python files and has added the 
 following features:

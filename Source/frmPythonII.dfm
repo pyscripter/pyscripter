@@ -5,15 +5,18 @@ inherited PythonIIForm: TPythonIIForm
   Caption = 'Python Interpreter'
   ClientHeight = 451
   ClientWidth = 701
+  StyleElements = [seFont, seClient, seBorder]
   OnHelp = FormHelp
   TextHeight = 15
   inherited BGPanel: TPanel
     Width = 701
     Height = 451
+    StyleElements = [seFont]
     inherited FGPanel: TPanel
       Width = 697
       Height = 447
       Color = clInactiveBorder
+      StyleElements = [seFont, seClient, seBorder]
       object SynEdit: TSynEdit
         Left = 0
         Top = 0
@@ -237,37 +240,37 @@ inherited PythonIIForm: TPythonIIForm
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 17
+        CollectionIndex = 24
         CollectionName = 'Cut'
         Name = 'Cut'
       end
       item
-        CollectionIndex = 16
+        CollectionIndex = 23
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 65
+        CollectionIndex = 72
         CollectionName = 'Paste'
         Name = 'Paste'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 28
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 27
+        CollectionIndex = 34
         CollectionName = 'EditOptions'
         Name = 'EditOptions'
       end
       item
-        CollectionIndex = 84
+        CollectionIndex = 91
         CollectionName = 'Python'
         Name = 'Python'
       end
       item
-        CollectionIndex = 81
+        CollectionIndex = 88
         CollectionName = 'PySetup'
         Name = 'PySetup'
       end>

@@ -590,8 +590,9 @@
 
    History:   v 5.0.2
           New Features
+            - Multi-caret and multi-selection editing #483
           Issues addressed
-            #1321, #1329
+            #1321, #1329, #1336
 
  {------------------------------------------------------------------------------}
 
@@ -1268,6 +1269,7 @@ type
     procedure lbPythonEngineClick(Sender: TObject);
     procedure lbStatusCaretClick(Sender: TObject);
     procedure mnSyntaxClick(Sender : TObject);
+    procedure tbiReplaceTextExit(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -3910,8 +3912,7 @@ end;
 
 procedure TPyIDEMainForm.actExecSelectionExecute(Sender: TObject);
 begin
-  if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile and
-    GI_ActiveEditor.SynEdit.SelAvail
+  if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile
   then
     GI_ActiveEditor.ExecuteSelection;
 end;
@@ -4870,6 +4871,11 @@ begin
   EditorSearchOptions.ReplaceText := tbiReplaceText.Text;
   EditorSearchOptions.InitSearch;
   CommandsDataModule.UpdateMainActions;
+end;
+
+procedure TPyIDEMainForm.tbiReplaceTextExit(Sender: TObject);
+begin
+    tbiReplaceTextAcceptText(tbiReplaceText.Text);
 end;
 
 procedure TPyIDEMainForm.tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);

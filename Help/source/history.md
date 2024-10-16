@@ -3,6 +3,15 @@
 
 # History
 
+### Version 5.0.2 
+
+* *New features:*
+	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
+* *Issues addressed:*
+	+ *#1321*, *#1329*, *#1336*
+
+
+
 ### Version 5.0.1 (September 10, 2024)
 
 * *New features:*

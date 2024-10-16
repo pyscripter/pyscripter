@@ -529,6 +529,8 @@ end;
 { TSynEditorOptionsContainer }
 
 procedure TSynEditorOptionsContainer.Assign(Source: TPersistent);
+var
+  PPI: Integer;
 begin
   if Assigned(Source) and (Source is TCustomSynEdit) then
   begin
@@ -553,6 +555,10 @@ begin
     Self.WordWrap := TCustomSynEdit(Source).WordWrap;
     Self.ActiveLineColor := TCustomSynEdit(Source).ActiveLineColor;
     Self.VisibleSpecialChars := TCustomSynEdit(Source).VisibleSpecialChars;
+    // store unscaled
+    PPI := TCustomSynEdit(Source).CurrentPPI;
+    Self.BookMarkOptions.ChangeScale(96, PPI);
+    Self.ExtraLineSpacing := MulDiv(Self.ExtraLineSpacing, 96, PPI);
   end else if Assigned(Source) and (Source is TSynEditorOptionsContainer) then
   begin
     Self.Font.Assign(TSynEditorOptionsContainer(Source).Font);
@@ -580,6 +586,8 @@ begin
 end;
 
 procedure TSynEditorOptionsContainer.AssignTo(Dest: TPersistent);
+var
+  PPI: Integer;
 begin
   if Assigned(Dest) and (Dest is TCustomSynEdit) then
   begin
@@ -604,6 +612,11 @@ begin
       TCustomSynEdit(Dest).WordWrap := Self.WordWrap;
       TCustomSynEdit(Dest).ActiveLineColor := Self.ActiveLineColor;
       TCustomSynEdit(Dest).VisibleSpecialChars := Self.VisibleSpecialChars;
+      // scale for editor PPI
+      PPI := TCustomSynEdit(Dest).CurrentPPI;
+      TCustomSynEdit(Dest).BookMarkOptions.ChangeScale(PPI, 96);
+      TCustomSynEdit(Dest).ExtraLineSpacing :=
+        MulDiv(TCustomSynEdit(Dest).ExtraLineSpacing, PPI, 96);
     finally
       TCustomSynEdit(Dest).EndUpdate;
     end;

@@ -20,9 +20,9 @@ object PyIDEMainForm: TPyIDEMainForm
   TextHeight = 15
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 499
+    Top = 517
     Width = 868
-    Height = 28
+    Height = 10
     SizeGrip = False
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
@@ -107,8 +107,8 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
     end
     object ActivityIndicator: TActivityIndicator
-      Left = 802
-      Top = 0
+      Left = 864
+      Top = 6
       FrameDelay = 150
       IndicatorSize = aisSmall
       IndicatorType = aitRefresh
@@ -118,7 +118,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 9
     Top = 85
     Width = 850
-    Height = 405
+    Height = 423
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
@@ -128,7 +128,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 0
       Top = 0
       Width = 846
-      Height = 405
+      Height = 423
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -180,7 +180,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 846
       Top = 0
       Width = 0
-      Height = 405
+      Height = 423
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -233,7 +233,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 846
       Top = 0
       Width = 4
-      Height = 405
+      Height = 423
       Cursor = crSizeWE
       Align = alRight
       ParentColor = False
@@ -1281,10 +1281,12 @@ object PyIDEMainForm: TPyIDEMainForm
         Width = 160
         Height = 23
         AutoDropDownWidth = True
+        AutoCloseUp = True
         ItemHeight = 15
         TabOrder = 1
         Visible = False
         OnChange = tbiReplaceTextChange
+        OnExit = tbiReplaceTextExit
         OnKeyPress = tbiReplaceTextKeyPress
       end
     end
@@ -1303,7 +1305,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 85
     Width = 9
-    Height = 405
+    Height = 423
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
@@ -1313,7 +1315,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 859
     Top = 85
     Width = 9
-    Height = 405
+    Height = 423
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
@@ -1321,7 +1323,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
-    Top = 490
+    Top = 508
     Width = 868
     Height = 9
     FixAlign = True

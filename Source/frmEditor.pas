@@ -146,10 +146,6 @@ type
     procedure SynCodeCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: boolean);
-    procedure SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: boolean);
-    procedure SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: boolean);
     procedure SynCodeCompletionClose(Sender: TObject);
     procedure SynWebCompletionExecute(Kind: SynCompletionType; Sender: TObject;
       var CurrentInput: string; var X, Y: Integer; var CanExecute: boolean);
@@ -174,6 +170,10 @@ type
         Integer; var Cursor: TCursor);
     procedure EditorShowHint(var HintStr: string; var CanShow: Boolean; var
         HintInfo: Vcl.Controls.THintInfo);
+    procedure SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos:
+        TPoint; var Handled: Boolean);
+    procedure SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos:
+        TPoint; var Handled: Boolean);
   private
     const HotIdentIndicatorSpec: TGUID = '{8715589E-C990-4423-978F-F00F26041AEF}';
   private
@@ -319,7 +319,6 @@ type
     fRemoteFileName : string;
     fSSHServer : string;
     fForm: TEditorForm;
-    fHasSelection: boolean;
     fUntitledNumber: Integer;
     FSynLsp: TLspSynEditPlugin;
     function IsEmpty: boolean;
@@ -916,7 +915,7 @@ end;
 
 function TEditor.CanCopy: boolean;
 begin
-  Result := GetActiveSynEdit.SelAvail or (GetActiveSynEdit.LineText <> '');
+  Result := not GetActiveSynEdit.Selections.IsEmpty or (GetActiveSynEdit.LineText <> '');
 end;
 
 function TEditor.CanCut: boolean;
@@ -1024,15 +1023,7 @@ begin
   ExecType := 'exec';
 
   // If nothing is selected then try to eval the word at cursor
-  if not fHasSelection then
-  begin
-    Source := Editor.WordAtCursor;
-    if Source <> '' then
-      ExecType := 'single'
-    else
-      Exit;
-  end
-  else
+  if Editor.SelAvail then
   begin
     Source := Editor.SelText;
     // if a single line or part of a line is selected then eval the selection
@@ -1040,6 +1031,14 @@ begin
       ExecType := 'single'
     else
       Source := Source + sLineBreak; // issue 291
+  end
+  else
+  begin
+    Source := Editor.WordAtCursor;
+    if Source <> '' then
+      ExecType := 'single'
+    else
+      Exit;
   end;
 
   // Dedent the selection
@@ -1632,6 +1631,7 @@ procedure TEditorForm.SynEditEnter(Sender: TObject);
 Var
   ASynEdit: TSynEdit;
 begin
+  EditorSearchOptions.InitSearch;
   ASynEdit := Sender as TSynEdit;
   fActiveSynEdit := ASynEdit;
   fOldCaretY := ASynEdit.CaretY;
@@ -1713,8 +1713,6 @@ Var
 begin
   ASynEdit := Sender as TSynEdit;
   Assert(fEditor <> nil);
-  if Changes * [scAll, scSelection] <> [] then
-    fEditor.fHasSelection := ASynEdit.SelAvail;
   if scModified in Changes then
   begin
     PyIDEMainForm.UpdateCaption;
@@ -2071,7 +2069,7 @@ var
   OpenBracketPos: Integer;
   Line: string;
   CharRight, CharLeft: WideChar;
-  Caret, BC: TBufferCoord;
+  Caret: TBufferCoord;
 begin
   ASynEdit := Sender as TSynEdit;
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
@@ -2081,43 +2079,10 @@ begin
 
   if not AfterProcessing then
   begin
+    if (Command <> ecCancelSelections) and (ASynEdit.Selections.Count > 1) then
+      Exit;
+
     case Command of
-      ecCut:
-        if not ASynEdit.SelAvail then
-          with ASynEdit do
-          begin
-            // Cut the current line to the Clipboard
-            BeginUpdate;
-            try
-              ExecuteCommand(ecLineStart, AChar, Data);
-              ExecuteCommand(ecSelLineEnd, AChar, Data);
-              ActiveSelectionMode := smLine;
-              ExecuteCommand(ecCut, AChar, Data);
-              ActiveSelectionMode := SelectionMode;
-            finally
-              EndUpdate;
-            end;
-            Handled := True;
-          end;
-      ecCopy:
-        if not ASynEdit.SelAvail then
-          with ASynEdit do
-          begin
-            // Copy the current line to the Clipboard
-            BC := ASynEdit.CaretXY;
-            BeginUpdate;
-            try
-              ExecuteCommand(ecLineStart, AChar, Data);
-              ExecuteCommand(ecSelLineEnd, AChar, Data);
-              ActiveSelectionMode := smLine;
-              ExecuteCommand(ecCopy, AChar, Data);
-              SetCaretAndSelection(BC, BC, BC);
-              ActiveSelectionMode := SelectionMode;
-            finally
-              EndUpdate;
-            end;
-            Handled := True;
-          end;
       ecCodeCompletion:
         if ASynEdit.Highlighter is TSynPythonSyn then
         begin
@@ -2135,29 +2100,19 @@ begin
           CommandsDataModule.SynParamCompletion.ActivateCompletion;
           Handled := True;
         end;
-      ecLeft: // Implement Visual Studio like behaviour when selection is available
-        if ASynEdit.SelAvail then
-          with ASynEdit do
-          begin
-            CaretXY := BlockBegin;
-            Handled := True;
-          end;
-      ecRight: // Implement Visual Studio like behaviour when selection is available
-        if ASynEdit.SelAvail then
-          with ASynEdit do
-          begin
-            CaretXY := BlockEnd;
-            Handled := True;
-          end;
+      ecCancelSelections:
+        ClearSearchHighlight(FEditor);
     end;
   end
   else
   begin // AfterProcessing
     case Command of
       ecLineBreak: // Python Mode
-        if ASynEdit.InsertMode and (eoAutoIndent in ASynEdit.Options) and
-          (ASynEdit.Highlighter is TSynPythonSyn)
-          and not fAutoCompleteActive then
+        if ASynEdit.InsertMode and (eoAutoIndent in ASynEdit.Options)
+          and (ASynEdit.Highlighter is TSynPythonSyn)
+          and (ASynEdit.Selections.Count = 1)
+          and not fAutoCompleteActive
+        then
         begin
           { CaretY should never be less than 2 right after ecLineBreak, so there's
             no need for a check }
@@ -2177,9 +2132,10 @@ begin
             ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
           //end;
         end;
-      ecChar: // Autocomplete brackets
+      ecChar:
+        // Trigger auto-complection on completion trigger chars
         begin
-          if PyIDEOptions.EditorCodeCompletion then
+          if PyIDEOptions.EditorCodeCompletion and (ASynEdit.Selections.Count = 1) then
           begin
             if (TIDECompletion.EditorCodeCompletion.CompletionInfo.Editor = nil)
               and (Pos(AChar, CommandsDataModule.SynCodeCompletion.TriggerChars) > 0)
@@ -2194,7 +2150,10 @@ begin
             end;
           end;
 
-          if not fAutoCompleteActive and PyIDEOptions.AutoCompleteBrackets then
+          // Autocomplete brackets
+          if not fAutoCompleteActive and PyIDEOptions.AutoCompleteBrackets and
+             (ASynEdit.Selections.Count = 1)
+          then
             with ASynEdit do
             begin
               if ASynEdit.Highlighter is TSynPythonSyn then
@@ -2407,20 +2366,6 @@ begin
       fHotIdentInfo.StartCoord.Line);
     SetCursor(TCustomSynEdit(Sender).Cursor);
   end;
-end;
-
-procedure TEditorForm.SynEditMouseWheelDown(Sender: TObject;
-  Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
-begin
-  EditorMouseWheel(+1, Shift);
-  Handled := True;
-end;
-
-procedure TEditorForm.SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: boolean);
-begin
-  EditorMouseWheel(-1, Shift);
-  Handled := True;
 end;
 
 procedure TEditorForm.SynEditMouseCursor(Sender: TObject;
@@ -3211,6 +3156,20 @@ begin
     FHintFuture := nil;
   end;
 
+end;
+
+procedure TEditorForm.SynEditMouseWheelDown(Sender: TObject; Shift:
+    TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  EditorMouseWheel(+1, Shift );
+  Handled := True;
+end;
+
+procedure TEditorForm.SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
+    MousePos: TPoint; var Handled: Boolean);
+begin
+  EditorMouseWheel(-1, Shift );
+  Handled := True;
 end;
 
 initialization

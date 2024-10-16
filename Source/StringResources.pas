@@ -58,7 +58,6 @@ Const
   SEdCmdBlockIndent = 'Block Indent';
   SEdCmdBlockUnindent = 'Block Unindent';
   SEdCmdClearAll = 'Clear All';
-  SEdCmdColumnSelect = 'Column Select';
   SEdCmdCommentBlock = 'Comment Block';
   SEdCmdContextHelp = 'Context Help';
   SEdCmdCopy = 'Copy';
@@ -96,13 +95,11 @@ Const
   SEdCmdLeft = 'Left';
   SEdCmdLineBreak = 'Line Break';
   SEdCmdLineEnd = 'Line End';
-  SEdCmdLineSelect = 'Line Select';
   SEdCmdLineStart = 'Line Start';
   SEdCmdLowerCase = 'Lower Case';
   SEdCmdMatchBracket = 'Match Bracket';
   SEdCmdMoveLineDown = 'Move Line Down';
   SEdCmdMoveLineUp = 'Move Line Up';
-  SEdCmdNormalSelect = 'Normal Select';
   SEdCmdOverwriteMode = 'Overwrite Mode';
   SEdCmdPageBottom = 'Page Bottom';
   SEdCmdPageDown = 'Page Down';
@@ -161,6 +158,17 @@ Const
   SEdCmdUpperCase = 'Upper Case';
   SEdCmdWordLeft = 'Word Left';
   SEdCmdWordRight = 'Word Right';
+  // Multi-caret
+  SEdCmdCancelSelections = 'Cancel Selections';
+  SEdCmdSelColumnLeft = 'Selelct Column Left';
+  SEdCmdSelColumnRight = 'Select Column Right';
+  SEdCmdSelColumnUp = 'Select Column Up';
+  SEdCmdSelColumnDown = 'Select Column Down';
+  SEdCmdSelColumnPageUp = 'Select Column Page Up';
+  SEdCmdSelColumnPageDown = 'Select Column Page Down';
+  SEdCmdSelMatchingText = 'Select Matching Text';
+  SEdCmdCaretsAtLineEnds = 'Carets At Line Ends';
+
   // User editor commands
   SEdCmdCodeCompletion = 'Code Completion';
   SEdCmdParameterCompletion = 'Parameter Completion';

@@ -303,15 +303,10 @@ begin
       if not IsPending then
         TThread.ForceQueue(nil, procedure
         begin
+          Sleep(100);
           WritePendingMessages;
-        end, 100);
-//      Queue a call to WritePendingMessages now if buffer becomes big enough
-//      else if fOutputStream.Size > 1000 then
-//        TThread.ForceQueue(nil, procedure
-//        begin
-//          WritePendingMessages;
-//        end);
-
+        end);
+        WakeMainThread(nil);
     finally
       fCriticalSection.Leave;
     end;
@@ -736,10 +731,16 @@ Var
 begin
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
+
+  if SynEdit.Selections.Count > 1 then
+    SynEdit.Selections.Clear;
+
   case Command of
     ecLineBreak :
       begin
         Command := ecNone;  // do not processed it further
+
+        SynEdit.Selections.Clear;
 
         fCommandHistoryPrefix := '';
 
@@ -791,6 +792,7 @@ begin
       end;
     ecDeleteLastChar, ecDeleteLastWord :
       begin
+        SynEdit.Selections.Clear;
         Line := SynEdit.Lines[SynEdit.CaretY - 1];
         if ((Pos(PS1, Line) = 1) and (SynEdit.CaretX <= Length(PS1)+1)) or
            ((Pos(PS2, Line) = 1) and (SynEdit.CaretX <= Length(PS2)+1)) then
@@ -798,6 +800,7 @@ begin
       end;
     ecLineStart, ecSelLineStart:
       begin
+        SynEdit.Selections.Clear;
         var DC := SynEdit.DisplayXY;
         Line := SynEdit.Rows[DC.Row];
         if Pos(PS1, Line) = 1 then
@@ -811,6 +814,7 @@ begin
       end;
     ecChar, ecDeleteChar, ecDeleteWord, ecCut, ecPaste:
       begin
+        SynEdit.Selections.Clear;
         Line := SynEdit.Lines[SynEdit.CaretY - 1];
         if ((Pos(PS1, Line) = 1) and (SynEdit.CaretX <= Length(PS1))) or
              ((Pos(PS2, Line) = 1) and (SynEdit.CaretX <= Length(PS2)))
@@ -819,6 +823,7 @@ begin
       end;
     ecUp, ecDown :
       begin
+        SynEdit.Selections.Clear;
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
         if IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
@@ -832,16 +837,6 @@ begin
           SynEditProcessUserCommand(Self, NewCommand, WChar, nil);
           Command := ecNone;  // do not processed it further
         end;
-      end;
-    ecLeft :  // Implement Visual Studio like behaviour when selection is available
-      if SynEdit.SelAvail then with SynEdit do begin
-        CaretXY := BlockBegin;
-        Command := ecNone;  // do not processed it further
-      end;
-    ecRight :  // Implement Visual Studio like behaviour when selection is available
-      if SynEdit.SelAvail then with SynEdit do begin
-        CaretXY := BlockEnd;
-        Command := ecNone;  // do not processed it further
       end;
     ecLostFocus:
       if not (CommandsDataModule.SynCodeCompletion.Form.Visible or SynEdit.Focused) then
@@ -865,7 +860,9 @@ Var
   Caret, BC : TBufferCoord;
 begin
   // Should AutoCompletion be trigerred?
-  if (Command = ecChar) and  PyIDEOptions.InterpreterCodeCompletion then
+  if (Command = ecChar) and  PyIDEOptions.InterpreterCodeCompletion and
+    (SynEdit.Selections.Count = 1)
+  then
   begin
     if (TIDECompletion.InterpreterCodeCompletion.CompletionInfo.Editor = nil)
       and (Pos(AChar, CommandsDataModule.SynCodeCompletion.TriggerChars) > 0)
@@ -880,7 +877,9 @@ begin
     end;
   end;
 
-  if (Command = ecChar) and PyIDEOptions.AutoCompleteBrackets then
+  if (Command = ecChar) and PyIDEOptions.AutoCompleteBrackets and
+    (SynEdit.Selections.Count = 1)
+  then
   with SynEdit do begin
     Line := LineText;
     Len := Length(LineText);
@@ -966,6 +965,7 @@ end;
 procedure TPythonIIForm.SynEditEnter(Sender: TObject);
 begin
   inherited;
+  EditorSearchOptions.InitSearch;
   EditorSearchOptions.InterpreterIsSearchTarget := True;
   GI_SearchCmds := Self;
   // SynCodeCompletion
@@ -1014,9 +1014,12 @@ Var
   LineN, StartLineN, EndLineN, i: integer;
   IsCode: Boolean;
   Source, BlockSource : string;
-  Buffer : array of string;
-  P1, P2 : PWideChar;
+  Buffer: array of string;
+  P1, P2: PWideChar;
 begin
+  if SynEdit.Selections.Count > 1 then
+    SynEdit.Selections.Clear;
+
   case Command of
     ecCodeCompletion :
       begin
@@ -1033,7 +1036,7 @@ begin
       end;
     ecRecallCommandPrev,
     ecRecallCommandNext,
-    ecRecallCommandEsc :
+    ecRecallCommandEsc:
       begin
         if (Command = ecRecallCommandEsc) and CommandsDataModule.SynParamCompletion.Form.Visible then
           CommandsDataModule.SynParamCompletion.CancelCompletion
@@ -1136,6 +1139,9 @@ begin
             SynEdit.EndUpdate;
           end;
         end;
+
+        if Command = ecRecallCommandEsc then
+          SynEdit.ExecuteCommand(ecCancelSelections, ' ', nil);
       end;
   end;
   Command := ecNone;  // do not processed it further

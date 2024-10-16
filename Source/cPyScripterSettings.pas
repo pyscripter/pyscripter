@@ -332,7 +332,6 @@ type
 
   TEditorSearchOptions = class(TPersistent)
   private
-    fSearchBackwards: boolean;
     fSearchCaseSensitiveType: TSearchCaseSensitiveType;
     fSearchFromCaret: boolean;
     fSearchSelectionOnly: boolean;
@@ -340,41 +339,24 @@ type
     fSearchWholeWords: boolean;
     fUseRegExp: boolean;
     fIncrementalSearch: boolean;
-
-    fSearchText: string;
     fSearchTextHistory: string;
-    fReplaceText: string;
     fReplaceTextHistory: string;
-
-    fTempSearchFromCaret: boolean;
-    fInitBlockBegin : TBufferCoord;
-    fInitBlockEnd : TBufferCoord;
-    fInitCaretXY : TBufferCoord;
-    fLastReplaceAction: TSynReplaceAction;
-    fTempSelectionOnly : boolean;
-    fNoReplaceCount : integer;
-    fWrappedSearch : boolean;
-    fCanWrapSearch : boolean;
-    fBackwardSearch : boolean;
-    fInterpreterIsSearchTarget : Boolean;
   public
+    SearchText: string;
+    ReplaceText: string;
+    TempSearchFromCaret: Boolean;
+    TempSelectionOnly: Boolean;
+    NoReplaceCount: Integer;
+    LastReplaceAction: TSynReplaceAction;
+    CanWrapSearch: Boolean;
+    WrappedSearch: Boolean;
+    BackwardSearch: Boolean;
+    InitCaretXY: TBufferCoord;
+    InterpreterIsSearchTarget: Boolean;
+    SelStorage: TSynSelStorage;
     procedure Assign(Source: TPersistent); override;
     procedure InitSearch;
     procedure NewSearch(SynEdit : TCustomSynEdit; ABackwards : Boolean);
-    property SearchBackwards: boolean read fSearchBackwards write fSearchBackwards;
-    property SearchText: string read fSearchText write fSearchText;
-    property ReplaceText: string read fReplaceText write fReplaceText;
-    property TempSearchFromCaret: boolean read fTempSearchFromCaret write fTempSearchFromCaret;
-    property TempSelectionOnly: boolean read fTempSelectionOnly write fTempSelectionOnly;
-    property NoReplaceCount: integer read fNoReplaceCount write fNoReplaceCount;
-    property LastReplaceAction: TSynReplaceAction read fLastReplaceAction write fLastReplaceAction;
-    property CanWrapSearch: boolean read fCanWrapSearch write fCanWrapSearch;
-    property WrappedSearch: boolean read fWrappedSearch write fWrappedSearch;
-    property BackwardSearch: boolean read fBackwardSearch write fBackwardSearch;
-    property InitBlockBegin : TBufferCoord read fInitBlockBegin write fInitBlockBegin;
-    property InitBlockEnd : TBufferCoord read fInitBlockEnd write fInitBlockEnd;
-    property InitCaretXY : TBufferCoord read fInitCaretXY write fInitCaretXY;
-    property InterpreterIsSearchTarget : Boolean read fInterpreterIsSearchTarget write fInterpreterIsSearchTarget;
   published
     property SearchTextHistory: string read fSearchTextHistory write fSearchTextHistory;
     property ReplaceTextHistory: string read fReplaceTextHistory write fReplaceTextHistory;
@@ -431,6 +413,7 @@ uses
   System.UITypes,
   System.SysUtils,
   System.IOUtils,
+  System.Math,
   Vcl.Forms,
   Vcl.Dialogs,
   uHighlighterProcs,
@@ -698,20 +681,19 @@ procedure TEditorSearchOptions.Assign(Source: TPersistent);
 begin
   if Source is TEditorSearchOptions then
     with TEditorSearchOptions(Source) do begin
-      Self.fSearchBackwards := SearchBackwards;
-      Self.fSearchCaseSensitiveType := SearchCaseSensitiveType;
-      Self.fSearchFromCaret := SearchFromCaret;
-      Self.fTempSearchFromCaret := TempSearchFromCaret;
-      Self.fSearchSelectionOnly := SearchSelectionOnly;
-      Self.fSearchTextAtCaret := SearchTextAtCaret;
-      Self.fSearchWholeWords := SearchWholeWords;
-      Self.fUseRegExp := UseRegExp;
-      Self.fIncrementalSearch := IncrementalSearch;
+      Self.SearchCaseSensitiveType := SearchCaseSensitiveType;
+      Self.SearchFromCaret := SearchFromCaret;
+      Self.TempSearchFromCaret := TempSearchFromCaret;
+      Self.SearchSelectionOnly := SearchSelectionOnly;
+      Self.SearchTextAtCaret := SearchTextAtCaret;
+      Self.SearchWholeWords := SearchWholeWords;
+      Self.UseRegExp := UseRegExp;
+      Self.IncrementalSearch := IncrementalSearch;
 
-      Self.fSearchText := SearchText;
-      Self.fSearchTextHistory := SearchTextHistory;
-      Self.fReplaceText := ReplaceText;
-      Self.fReplaceTextHistory := ReplaceTextHistory;
+      Self.SearchText := SearchText;
+      Self.SearchTextHistory := SearchTextHistory;
+      Self.ReplaceText := ReplaceText;
+      Self.ReplaceTextHistory := ReplaceTextHistory;
     end
   else
     inherited;
@@ -721,95 +703,80 @@ procedure TEditorSearchOptions.InitSearch;
 begin
   TempSearchFromCaret := SearchFromCaret;
   LastReplaceAction := raReplace;
-  InitBlockBegin := BufferCoord(0, 0);
+  InitCaretXY := TBufferCoord.Invalid;
+  SelStorage.Selections := [];
 end;
 
-procedure TEditorSearchOptions.NewSearch(SynEdit : TCustomSynEdit; ABackwards :
+procedure TEditorSearchOptions.NewSearch(SynEdit: TCustomSynEdit; ABackwards:
     Boolean);
 
-  function FindTextInBlock(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : Boolean;
-  Var
-    Line :  integer;
-    S : string;
+  function FindTextInBlock(Strings : TStrings; BB, BE : TBufferCoord) : Boolean;
+  var
+    StartChar, StopChar:  integer;
+    S: string;
   begin
     Result := False;
     // preconditions start
-    Assert(BlockBegin.Line <= Strings.Count);
-    Assert(BlockEnd.Line <= Strings.Count);
-    Assert(BlockBegin.Line <= BlockEnd.Line);
-    if BlockBegin.Line <= 0 then Exit;
-    if BlockEnd.Line <= 0 then Exit;
+    Assert(BB.Line <= Strings.Count);
+    Assert(BE.Line <= Strings.Count);
+    Assert(BB.Line <= BE.Line);
+    if BB.Line <= 0 then Exit;
+    if BE.Line <= 0 then Exit;
     // preconditions end
 
-    // work backwards
-    Line := BlockEnd.Line;
-    S := Copy(Strings[Line-1], 1, BlockEnd.Char - 1);
-    Repeat
-      Result := SynEdit.SearchEngine.FindAll(S) > 0;
-      Dec(Line);
-      if Line >= BlockBegin.Line then
-        S := Strings[Line-1]
-      else
-        break;
-      if Line = BlockBegin.Line then
-        Delete(S, 1, BlockBegin.Char -1);
-    Until Result;
+    for var Line := BB.Line to BE.Line do
+    begin
+      S := Strings[Line - 1];
+      StartChar := IfThen(Line = BB.Line, BB.Char, 1);
+      StopChar := IfThen(Line = BE.Line, BE.Char, S.Length + 1);
+      Result := SynEdit.SearchEngine.FindAll(S, StartChar, StopChar) > 0;
+      if Result then Break;
+    end;
   end;
 
-Var
-  //TextLeft : string;
-  SearchOptions : TSynSearchOptions;
+var
+  SearchOptions: TSynSearchOptions;
+  BB: TBufferCoord;
+  BE: TBufferCoord;
 begin
   InitSearch;
   BackwardSearch := ABackwards;
   WrappedSearch := False;
-  TempSelectionOnly := SearchSelectionOnly and SynEdit.SelAvail;
-  if TempSelectionOnly then begin
-    InitBlockBegin := SynEdit.BlockBegin;
-    InitBlockEnd := SynEdit.BlockEnd;
-  end else begin
-    InitBlockBegin := BufferCoord(1, 1);
-    InitBlockEnd  := BufferCoord(Length(SynEdit.Lines[SynEdit.Lines.Count - 1]) + 1,
-                                 SynEdit.Lines.Count);
+  InitCaretXY := SynEdit.CaretXY;
+  TempSelectionOnly := SearchSelectionOnly and not SynEdit.Selections.IsEmpty;
+  if TempSelectionOnly then
+    SynEdit.Selections.Store(SelStorage)
+  else
+  begin
+    BB := BufferCoord(1, 1);
+    BE  := BufferCoord(Length(SynEdit.Lines[SynEdit.Lines.Count - 1]) + 1,
+      SynEdit.Lines.Count);
   end;
 
-  if TempSelectionOnly then begin
-    if ABackwards then
-      InitCaretXY := InitBlockEnd
-    else
-      InitCaretXY := InitBlockBegin;
-  end else begin
-    if ABackwards then
-      SynEdit.CaretXY := SynEdit.BlockBegin
-    else
-      SynEdit.CaretXY := SynEdit.BlockEnd;
-    InitCaretXY := SynEdit.CaretXY;
-  end;
-
-  CanWrapSearch := (ABackwards and (InitBlockEnd > InitCaretXY) or
-             (not ABackwards and (InitCaretXY > InitBlockBegin)));
+  CanWrapSearch := SearchFromCaret and not TempSelectionOnly and
+    (ABackwards and (BE > InitCaretXY) or
+    (not ABackwards and (InitCaretXY > BB)));
   if CanWrapSearch then begin
-//    if ABackwards then
-//      TextLeft := GetBlockText(SynEdit.Lines, InitCaretXY, InitBlockEnd)
-//    else
-//      TextLeft := GetBlockText(SynEdit.Lines, InitBlockBegin, InitCaretXY);
     SearchOptions := [];
 
     case SearchCaseSensitiveType of
-      scsAuto:           if LowerCase(SearchText) <> SearchText then
-                           Include(SearchOptions, ssoMatchCase);
-      scsCaseSensitive : Include(SearchOptions, ssoMatchCase);
+      scsAuto:
+        if LowerCase(SearchText) <> SearchText then
+          Include(SearchOptions, ssoMatchCase);
+      scsCaseSensitive :
+        Include(SearchOptions, ssoMatchCase);
     end;
     if SearchWholeWords then
       Include(SearchOptions, ssoWholeWord);
+
     SynEdit.SearchEngine.Options := SearchOptions;
     try
       SynEdit.SearchEngine.Pattern := ''; //  To deal with case sensitivity
       SynEdit.SearchEngine.Pattern := SearchText;
       if ABackwards then
-        CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitCaretXY, InitBlockEnd)
+        CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitCaretXY, BE)
       else
-        CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitBlockBegin, InitCaretXY);
+        CanWrapSearch := FindTextInBlock(SynEdit.Lines, BB, InitCaretXY);
     except
       on E: ESynRegEx do begin
         CanWrapSearch := False;
@@ -1211,9 +1178,6 @@ begin
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;
-
-    // Scale BookmarkOptions
-    BookMarkOptions.ChangeScale(Screen.PixelsPerInch, 96);
 
     RegisterEditorUserCommands(EditorOptions.Keystrokes);
   end;

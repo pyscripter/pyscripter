@@ -3425,6 +3425,8 @@ begin
         // So that param completion is not hidden when you display code completion
         //ecGotFocus, ecLostFocus:
         //  CancelCompletion;
+        ecCancelSelections:
+          CancelCompletion;
         ecLineBreak:
           DoExecute(Sender as TCustomSynEdit);
         ecChar:
