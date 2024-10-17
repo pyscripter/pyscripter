@@ -220,7 +220,8 @@ type
     FUserCommand: TSynEditorOptionsUserCommand;
     FAllUserCommands: TSynEditorOptionsAllUserCommands;
     FExtended: Boolean;
-    FColorTheme: String;
+    FColorTheme: string;
+    FBgColor: TColor;
 
     procedure GetData;
     procedure PutData;
@@ -436,6 +437,7 @@ begin
                    fColorThemeHighlighter.Assign(wHighlighter);
                    FForm.SynThemeSample.Highlighter := fColorThemeHighlighter;
                    FForm.SynThemeSample.Lines.Text := fColorThemeHighlighter.SampleSource;
+                   FForm.FBgColor := fColorThemeHighlighter.WhitespaceAttribute.Background;
                  end;
               end;
            end;
@@ -965,9 +967,10 @@ end;
 
 procedure TfmEditorOptionsDialog.btnApplyThemeClick(Sender: TObject);
 Var
-  i : integer;
-  AppStorage : TJvAppIniFileStorage;
-  FileName : string;
+  i: integer;
+  AppStorage: TJvAppIniFileStorage;
+  FileName: string;
+  LineColor: TColor;
 begin
   if lbColorThemes.ItemIndex >= 0 then
   begin
@@ -993,6 +996,20 @@ begin
         AppStorage.Free;
     end;
     FColorTheme:= lbColorThemes.Items[lbColorThemes.ItemIndex];
+
+    // Adjust active line color
+    if (FSynEdit.ActiveLineColor <> clNone) and Assigned(SynThemeSample.Highlighter) then
+    begin
+      LineColor := SynThemeSample.Highlighter.WhitespaceAttribute.Background;
+      // Only change if we swithcing from dart to light or vice versa.
+      if IsColorDark(LineColor) xor IsColorDark(FBgColor) then
+      begin
+        if IsColorDark(LineColor) then
+          cbActiveLineColor.SelectedColor := LightenColor(LineColor, 20)
+        else
+          cbActiveLineColor.SelectedColor := DarkenColor(LineColor, 20);
+      end;
+    end;
   end;
 end;
 

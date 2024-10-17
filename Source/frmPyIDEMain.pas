@@ -2962,8 +2962,8 @@ begin
   PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
   if PyIDEOptions.ShowTabCloseButton then begin
-    TabControl1.TabCloseButton := tcbOnHotTrack;
-    TabControl2.TabCloseButton := tcbOnHotTrack;
+    TabControl1.TabCloseButton := tcbAll;
+    TabControl2.TabCloseButton := tcbAll;
   end else begin
     TabControl1.TabCloseButton := tcbNone;
     TabControl2.TabCloseButton := tcbNone;
