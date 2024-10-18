@@ -937,13 +937,9 @@ end;
 procedure TfmEditorOptionsDialog.btnUpdateKeyClick(Sender: TObject);
 
 var
-//  Cmd          : Integer;
-//  KeyLoc       : Integer;
-//  TmpCommand   : string;
   OldShortcut  : TShortcut;
   OldShortcut2 : TShortcut;
   Key : TSynEditKeyStroke;
-  S : string;
 begin
   if KeyList.Selected = nil then Exit;
   if cKeyCommand.ItemIndex < 0 then Exit;
@@ -955,10 +951,9 @@ begin
     UpdateKey(Key);
   except
      on E: ESynKeyError do begin
-       S := _(SDuplicateKey);
        Key.ShortCut := OldShortcut;
        Key.ShortCut2 := OldShortcut2;
-       MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
+       StyledMessageDlg(_(SDuplicateKey), mtError, [TMsgDlgBtn.mbOK], 0);
      end;
   end;
   FillInKeystrokeInfo(TSynEditKeyStroke(KeyList.Selected.Data), KeyList.Selected);
@@ -1015,7 +1010,6 @@ end;
 procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var
   Item : TListItem;
-  S : string;
 begin
   if cKeyCommand.ItemIndex < 0 then Exit;
   Item:= KeyList.Items.Add;
@@ -1026,8 +1020,7 @@ begin
     Item.Selected:= True;
   except
      on E: ESynKeyError do begin
-       S := _(SDuplicateKey);
-       MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
+       StyledMessageDlg(_(SDuplicateKey), mtError, [TMsgDlgBtn.mbOK], 0);
        TSynEditKeyStroke(Item.Data).Free;
        Item.Delete;
      end;
