@@ -2780,7 +2780,10 @@ begin
   Editor := GI_ActiveEditor;
   if Editor <> nil then begin
     ptCaret := Editor.GetCaretPos;
-    if (ptCaret.X > 0) and (ptCaret.Y > 0) then
+    if Editor.ActiveSynEdit.Selections.Count > 1 then
+      lbStatusCaret.Caption := IntToStr(Editor.ActiveSynEdit.Selections.Count) +
+      ' ' + _('carets')
+    else if (ptCaret.X > 0) and (ptCaret.Y > 0) then
       lbStatusCaret.Caption := Format('%d:%d', [ptCaret.Y, ptCaret.X])
     else
       lbStatusCaret.Caption := '';
