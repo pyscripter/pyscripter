@@ -201,8 +201,6 @@ type
     procedure btnOkClick(Sender: TObject);
     procedure btnGutterFontClick(Sender: TObject);
     procedure cbGutterFontClick(Sender: TObject);
-    procedure cKeyCommandKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure cbHighlightersChange(Sender: TObject);
     procedure lbElementsClick(Sender: TObject);
     procedure cbElementForegroundChange(Sender: TObject);
@@ -212,6 +210,7 @@ type
     procedure KeyListSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure lbColorThemesClick(Sender: TObject);
     procedure btnApplyThemeClick(Sender: TObject);
+    procedure cKeyCommandChange(Sender: TObject);
     procedure ckGutterAutosizeClick(Sender: TObject);
   private
     FHandleChanges : Boolean;  //Normally true, can prevent unwanted execution of event handlers
@@ -1101,15 +1100,18 @@ procedure TfmEditorOptionsDialog.KeyListSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
 begin
   if not (Selected and Assigned(Item)) then Exit;
+  cKeyCommand.OnChange := nil;
   cKeyCommand.Text      := Item.Caption;
   cKeyCommand.ItemIndex := cKeyCommand.Items.IndexOf(Item.Caption);
   eKeyShort1.HotKey     := TSynEditKeyStroke(Item.Data).ShortCut;
   eKeyShort2.HotKey     := TSynEditKeyStroke(Item.Data).ShortCut2;
+  btnUpdateKey.Enabled := True;
+  btnRemKey.Enabled := True;
+  cKeyCommand.OnChange := cKeyCommandChange;
 end;
 
 procedure TfmEditorOptionsDialog.btnOkClick(Sender: TObject);
 begin
-//  btnUpdateKey.Click;
   // Bug fix of SpTBXColorEdit
   btnOk.SetFocus;
   Application.ProcessMessages;
@@ -1165,12 +1167,6 @@ var TmpString: string;      begin
 
     AItem.SubItems.Add(TmpString);
   end;
-end;
-
-procedure TfmEditorOptionsDialog.cKeyCommandKeyUp(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  if Key = SYNEDIT_RETURN then btnUpdateKey.Click;
 end;
 
 procedure TfmEditorOptionsDialog.ckGutterAutosizeClick(Sender: TObject);
@@ -1346,6 +1342,30 @@ end;
 procedure TfmEditorOptionsDialog.btnHelpClick(Sender: TObject);
 begin
   Application.HelpContext(HelpContext);
+end;
+
+procedure TfmEditorOptionsDialog.cKeyCommandChange(Sender: TObject);
+var
+  LI: TListItem;
+begin
+  for LI in KeyList.Items do
+  begin
+    if TSynEditKeyStroke(LI.Data).Command =
+      Integer(cKeyCommand.Items.Objects[cKeyCommand.ItemIndex])
+    then
+    begin
+      LI.Selected := True;
+      LI.MakeVisible(False);
+      Exit;
+    end;
+  end;
+
+  // If Command does not exist
+  KeyList.Selected := nil;
+  eKeyShort1.HotKey := 0;
+  eKeyShort2.HotKey := 0;
+  btnUpdateKey.Enabled := False;
+  btnRemKey.Enabled := False;
 end;
 
 procedure TfmEditorOptionsDialog.SynSyntaxSampleClick(Sender: TObject);
