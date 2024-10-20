@@ -142,6 +142,9 @@ Const
   SEdCmdSetBookmark7 = 'Set Bookmark 7';
   SEdCmdSetBookmark8 = 'Set Bookmark 8';
   SEdCmdSetBookmark9 = 'Set Bookmark 9';
+  SEdCmdZoomIn = 'Zoom In';
+  SEdCmdZoomOut = 'Zoom Out';
+  SEdCmdZoomReset = 'Zoom Reset';
   SEdCmdShiftTab = 'Shift Tab';
   SEdCmdTab = 'Tab';
   SEdCmdTitleCase = 'Title Case';

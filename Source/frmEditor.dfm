@@ -90,8 +90,6 @@ object EditorForm: TEditorForm
           OnKeyDown = SynEditKeyDown
           OnKeyUp = SynEditKeyUp
           OnMouseDown = SynEditMouseDown
-          OnMouseWheelDown = SynEditMouseWheelDown
-          OnMouseWheelUp = SynEditMouseWheelUp
           UseCodeFolding = False
           BorderStyle = bsNone
           Gutter.BorderStyle = gbsNone
@@ -167,8 +165,6 @@ object EditorForm: TEditorForm
           OnKeyDown = SynEditKeyDown
           OnKeyUp = SynEditKeyUp
           OnMouseDown = SynEditMouseDown
-          OnMouseWheelDown = SynEditMouseWheelDown
-          OnMouseWheelUp = SynEditMouseWheelUp
           UseCodeFolding = False
           BorderStyle = bsNone
           Gutter.Font.Charset = DEFAULT_CHARSET

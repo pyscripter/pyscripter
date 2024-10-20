@@ -170,10 +170,6 @@ type
         Integer; var Cursor: TCursor);
     procedure EditorShowHint(var HintStr: string; var CanShow: Boolean; var
         HintInfo: Vcl.Controls.THintInfo);
-    procedure SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos:
-        TPoint; var Handled: Boolean);
-    procedure SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos:
-        TPoint; var Handled: Boolean);
   private
     const HotIdentIndicatorSpec: TGUID = '{8715589E-C990-4423-978F-F00F26041AEF}';
   private
@@ -208,8 +204,6 @@ type
   protected
     procedure Retranslate;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
-    procedure EditorZoom(theZoom: Integer);
-    procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState);
   public
     BorderHighlight : TColor;
     BorderNormal : TColor;
@@ -2017,46 +2011,6 @@ begin
     DefaultExtension := '';
 end;
 
-procedure TEditorForm.EditorMouseWheel(theDirection: Integer;
-  Shift: TShiftState);
-Var
-  ASynEdit: TSynEdit;
-
-  function OwnScroll(Shift: TShiftState; LinesInWindow: Integer): Integer;
-  begin
-    if (ssShift in Shift) or (Mouse.WheelScrollLines = -1) then
-      Result := LinesInWindow shr Ord(eoHalfPageScroll in ASynEdit.Options)
-    else
-      Result := Mouse.WheelScrollLines;
-  end;
-
-//
-begin
-  { *
-    Manage Zoom in and out, Page up and down, Line scroll - with the Mouse Wheel
-    * }
-  if ssCtrl in Shift then
-    EditorZoom(theDirection)
-  else
-  begin
-    ASynEdit := fEditor.GetActiveSynEdit;
-
-    ASynEdit.TopLine := ASynEdit.TopLine + (theDirection * OwnScroll(Shift,
-        ASynEdit.LinesInWindow));
-  end;
-end;
-
-procedure TEditorForm.EditorZoom(theZoom: Integer);
-begin
-  if (theZoom <= 1) and (SynEdit.Font.Size > 3) then
-  begin
-    SynEdit.Font.Size := Max(SynEdit.Font.Size - theZoom, 4);
-    SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size - 2, 1);
-    SynEdit2.Font.Size := SynEdit.Font.Size;
-    SynEdit2.Gutter.Font.Size := SynEdit.Gutter.Font.Size;
-  end;
-end;
-
 procedure TEditorForm.EditorCommandHandler(Sender: TObject;
   AfterProcessing: boolean; var Handled: boolean;
   var Command: TSynEditorCommand; var AChar: WideChar;
@@ -3156,20 +3110,6 @@ begin
     FHintFuture := nil;
   end;
 
-end;
-
-procedure TEditorForm.SynEditMouseWheelDown(Sender: TObject; Shift:
-    TShiftState; MousePos: TPoint; var Handled: Boolean);
-begin
-  EditorMouseWheel(+1, Shift );
-  Handled := True;
-end;
-
-procedure TEditorForm.SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
-    MousePos: TPoint; var Handled: Boolean);
-begin
-  EditorMouseWheel(-1, Shift );
-  Handled := True;
 end;
 
 initialization

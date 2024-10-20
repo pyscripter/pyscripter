@@ -5,18 +5,15 @@ inherited PythonIIForm: TPythonIIForm
   Caption = 'Python Interpreter'
   ClientHeight = 451
   ClientWidth = 701
-  StyleElements = [seFont, seClient, seBorder]
   OnHelp = FormHelp
   TextHeight = 15
   inherited BGPanel: TPanel
     Width = 701
     Height = 451
-    StyleElements = [seFont]
     inherited FGPanel: TPanel
       Width = 697
       Height = 447
       Color = clInactiveBorder
-      StyleElements = [seFont, seClient, seBorder]
       object SynEdit: TSynEdit
         Left = 0
         Top = 0
@@ -36,8 +33,6 @@ inherited PythonIIForm: TPythonIIForm
         OnEnter = SynEditEnter
         OnExit = SynEditExit
         OnMouseDown = SynEditMouseDown
-        OnMouseWheelDown = SynEditMouseWheelDown
-        OnMouseWheelUp = SynEditMouseWheelUp
         UseCodeFolding = False
         BorderStyle = bsNone
         Gutter.BorderStyle = gbsNone

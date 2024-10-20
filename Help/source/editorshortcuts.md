@@ -104,6 +104,10 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Unfold Functions |  | Unfold all functions (IDE command) |
 | Fold Classes |  | Fold all classes (IDE command) |
 | Unfold Classes |  | Unfold all classes (IDE command) |
+| **Zooming** | | You can also zoom in/out using Ctrl+Mouse wheel |
+| Zoom In | Alt+Num + | Increase editor and gutter font size |
+| Zoom Out | Alt+Num - | Decrease editor and gutter font size |
+| Zoom Resut | Alt+Num 0 | Restore original editor and gutter font size |
 | **Multi-caret commands** | | |
 | Cancel Selections | Esc | Cancel multiple carets and selections |
 | Select Column Left | Shft+Alt+Left | Expand column selection left  |

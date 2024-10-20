@@ -4658,30 +4658,20 @@ end;
 
 procedure TPyIDEMainForm.actEditorZoomOutExecute(Sender: TObject);
 begin
-  if ActiveControl is TSynEdit then begin
-    TSynEdit(ActiveControl).Font.Size :=
-      Max(TSynEdit(ActiveControl).Font.Size - 1, 4);
-    TSynEdit(ActiveControl).Gutter.Font.Size :=
-      TSynEdit(ActiveControl).Font.Size - 2;
-  end;
+  if ActiveControl is TSynEdit then
+    TSynEdit(ActiveControl).Zoom(-1);
 end;
 
 procedure TPyIDEMainForm.actEditorZoomInExecute(Sender: TObject);
 begin
-  if ActiveControl is TSynEdit then begin
-    TSynEdit(ActiveControl).Font.Size :=
-      TSynEdit(ActiveControl).Font.Size + 1;
-    TSynEdit(ActiveControl).Gutter.Font.Size :=
-      TSynEdit(ActiveControl).Font.Size - 2;
-  end;
+  if ActiveControl is TSynEdit then
+    TSynEdit(ActiveControl).Zoom(1);
 end;
 
 procedure TPyIDEMainForm.actEditorZoomResetExecute(Sender: TObject);
 begin
-  if ActiveControl is TSynEdit then begin
-    TSynEdit(ActiveControl).Font.Size := EditorOptions.Font.Size;
-    TSynEdit(ActiveControl).Gutter.Font.Size := EditorOptions.Gutter.Font.Size;
-  end;
+  if ActiveControl is TSynEdit then
+    TSynEdit(ActiveControl).ZoomReset;
 end;
 
 procedure TPyIDEMainForm.actNavChatExecute(Sender: TObject);
