@@ -77,12 +77,8 @@ interpreter window.
   
 Various other editor options. 
 
-![graphic](images/editoroptions2.JPG){align=center width="42em" height="25em"}
+![graphic](images/editoroptions2.JPG){align=center width="37em" height="22.875em"}
   
-*ALT sets column mode*\
-If activated then the Alt key sets the editor in column selection
-mode. i.e. you'll be able to select columns from a text. 
-
 *Auto indent*\
 Enables automatic indentation whereby a new line keeps the indent of
 the previous line.

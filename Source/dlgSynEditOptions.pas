@@ -158,7 +158,6 @@ type
     ckSmartTabs: TCheckBox;
     ckTabIndent: TCheckBox;
     ckKeepCaretX: TCheckBox;
-    ckAltSetsColumnMode: TCheckBox;
     ckWordWrap: TCheckBox;
     ckDragAndDropEditing: TCheckBox;
     ckAutoIndent: TCheckBox;
@@ -748,7 +747,6 @@ begin
   ckDragAndDropEditing.Checked:= eoDragDropEditing in FSynEdit.Options;
   ckTabIndent.Checked:= eoTabIndent in FSynEdit.Options;
   ckSmartTabs.Checked:= eoSmartTabs in FSynEdit.Options;
-  ckAltSetsColumnMode.Checked:= eoAltSetsColumnMode in FSynEdit.Options;
   ckHalfPageScroll.Checked:= eoHalfPageScroll in FSynEdit.Options;
   ckScrollByOneLess.Checked:= eoScrollByOneLess in FSynEdit.Options;
   ckScrollPastEOF.Checked:= eoScrollPastEof in FSynEdit.Options;
@@ -833,7 +831,6 @@ begin
   SetFlag(eoDragDropEditing, ckDragAndDropEditing.Checked);
   SetFlag(eoTabIndent, ckTabIndent.Checked);
   SetFlag(eoSmartTabs, ckSmartTabs.Checked);
-  SetFlag(eoAltSetsColumnMode, ckAltSetsColumnMode.Checked);
   SetFlag(eoHalfPageScroll, ckHalfPageScroll.Checked);
   SetFlag(eoScrollByOneLess, ckScrollByOneLess.Checked);
   SetFlag(eoScrollPastEof, ckScrollPastEOF.Checked);
