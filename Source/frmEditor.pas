@@ -197,6 +197,8 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
     procedure ApplyPyIDEOptions;
+    procedure ScrollbarAnnotationGetInfo(Sender: TObject; AnnType:
+      TSynScrollbarAnnType; var Rows: TArray<Integer>; var Colors: TArray<TColor>);
     class procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     class procedure SymbolsChanged(Sender: TObject);
     class var fOldEditorForm: TEditorForm;
@@ -2182,6 +2184,23 @@ begin
   end;
 end;
 
+procedure TEditorForm.ScrollbarAnnotationGetInfo(Sender: TObject;
+  AnnType: TSynScrollbarAnnType; var Rows: TArray<Integer>;
+  var Colors: TArray<TColor>);
+begin
+  Rows := [];
+  Colors := [];
+  if HasSyntaxError then
+  begin
+    var List := FEditor.FSynLsp.Diagnostics;
+    if List.Count > 0 then
+    begin
+      Rows := [fActiveSynEdit.BufferToDisplayPos(List[0].BlockBegin).Row];
+      Colors := [$3C14DC];
+    end;
+  end;
+end;
+
 class procedure TEditorForm.SymbolsChanged(Sender: TObject);
 begin
   CodeExplorerWindow.UpdateWindow(Sender as TDocSymbols, ceuSymbolsChanged);
@@ -2489,39 +2508,48 @@ begin
 end;
 
 procedure TEditorForm.ApplyPyIDEOptions;
-begin
-  Synedit.CodeFolding.Assign(PyIDEOptions.CodeFolding);
-  Synedit2.CodeFolding.Assign(PyIDEOptions.CodeFolding);
-
-  Synedit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
-  Synedit2.SelectedColor.Assign(PyIDEOptions.SelectionColor);
-
-  Synedit.IndentGuides.Assign(PyIDEOptions.IndentGuides);
-  Synedit2.IndentGuides.Assign(PyIDEOptions.IndentGuides);
-
-  SynEdit.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
-  SynEdit2.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
-
-  RegisterSearchHighlightIndicatorSpec(fEditor);
-
-  if PyIDEOptions.CompactLineNumbers then
+  procedure  ApplyOptionsToEditor(Editor: TCustomSynEdit);
   begin
-    SynEdit.OnGutterGetText := SynEditGutterGetText;
-    SynEdit2.OnGutterGetText := SynEditGutterGetText;
-  end
-  else
-  begin
-    SynEdit.OnGutterGetText := nil;
-    SynEdit2.OnGutterGetText := nil;
+    Editor.CodeFolding.Assign(PyIDEOptions.CodeFolding);
+
+    Editor.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+
+    Editor.IndentGuides.Assign(PyIDEOptions.IndentGuides);
+
+    Editor.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
+
+    if PyIDEOptions.CompactLineNumbers then
+      Editor.OnGutterGetText := SynEditGutterGetText
+    else
+      Editor.OnGutterGetText := nil;
+    Editor.InvalidateGutter;
+
+    if PyIDEOptions.ScrollbarAnnotation then
+    begin
+      SynEdit.ScrollbarAnnotations.SetDefaultAnnotations;
+      with SynEdit.ScrollbarAnnotations.Add as TSynScrollbarAnnItem do
+      begin
+        AnnType := sbaCustom1;
+        AnnPos := sbpFullWidth;
+        FullRow := True;
+        OnGetInfo := ScrollbarAnnotationGetInfo;
+      end;
+    end
+    else
+      Editor.ScrollbarAnnotations.Clear;
   end;
-  SynEdit.InvalidateGutter;
-  SynEdit2.InvalidateGutter;
+
+begin
+  RegisterSearchHighlightIndicatorSpec(fEditor);
 
   // Tab position
   if PyIDEOptions.EditorsTabPosition = ttpTop then
     ViewsTabControl.TabPosition := ttpBottom
   else  //ttpBottom:
     ViewsTabControl.TabPosition := ttpTop;
+
+  ApplyOptionsToEditor(SynEdit);
+  ApplyOptionsToEditor(SynEdit2);
 end;
 
 procedure TEditorForm.AutoCompleteAfterExecute(Sender: TObject);

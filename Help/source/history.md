@@ -7,6 +7,8 @@
 
 * *New features:*
 	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
+	+ [Annotated scrollbars](https://pyscripter.blogspot.com/2024/10/teaser-annotated-scrollbars-are-coming.html)
+
 * *Issues addressed:*
 	+ *#1321*, *#1329*, *#1336*
 

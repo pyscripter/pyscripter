@@ -591,6 +591,7 @@
    History:   v 5.0.2
           New Features
             - Multi-caret and multi-selection editing #483
+            - Annotated scrollbars
           Issues addressed
             #1321, #1329, #1336
 

@@ -1475,7 +1475,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 22);
+    SetLength(Options, 23);
     Options[0].PropertyName := 'SearchTextAtCaret';
     Options[0].DisplayName := _('Search text at caret');
     Options[1].PropertyName := 'CreateBackupFiles';
@@ -1520,6 +1520,8 @@ begin
     Options[20].DisplayName := _('Selection color');
     Options[21].PropertyName := 'IndentGuides';
     Options[21].DisplayName := _('Indentation Guides');
+    Options[22].PropertyName := 'ScrollbarAnnotation';
+    Options[22].DisplayName := _('Scrollbar Annotation');
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');

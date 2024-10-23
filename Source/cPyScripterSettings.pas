@@ -139,6 +139,7 @@ type
     fSpellCheckAsYouType: Boolean;
     fAutoRestart: Boolean;
     fLoggingEnabled: Boolean;
+    fScrollbarAnnotation: Boolean;
     fUIContentFontSize: Integer;
     fTrackChanges: TSynTrackChanges;
     fSelectionColor: TSynSelectedColor;
@@ -324,6 +325,7 @@ type
       write fSpellCheckAsYouType default False;
     property AutoRestart: Boolean read fAutoRestart write fAutoRestart default True;
     property LoggingEnabled: Boolean read fLoggingEnabled write fLoggingEnabled default False;
+    property ScrollbarAnnotation: Boolean read fScrollbarAnnotation write fScrollbarAnnotation default True;
     property UIContentFontSize: Integer read fUIContentFontSize write fUIContentFontSize default 9;
   end;
 {$METHODINFO OFF}
@@ -521,6 +523,7 @@ begin
       Self.fSpellCheckAsYouType := SpellCheckAsYouType;
       Self.fAutoRestart := AutoRestart;
       Self.fLoggingEnabled := LoggingEnabled;
+      Self.fScrollbarAnnotation := ScrollbarAnnotation;
       Self.fUIContentFontSize := UIContentFontSize;
     end
   else
@@ -622,6 +625,7 @@ begin
   fSpellCheckAsYouType := False;
   fAutoRestart := True;
   fLoggingEnabled := False;
+  fScrollbarAnnotation := True;
   fUIContentFontSize := 9;
   fCodeFolding := TSynCodeFolding.Create;
   fCodeFolding.GutterShapeSize := 9;  // default value

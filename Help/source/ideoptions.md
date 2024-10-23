@@ -98,6 +98,10 @@ Indentation guides help you visualize the indentation level of different blocks 
 code. These options determine, whether they are visible and their
 style and color.
 
+*Scrollbar Annotation*\
+If checked, the vertical scrollbar displays visual information about the 
+position of the caret(s), bookmarks, errors and line modification information.
+
 *Search text at caret*\
 If checked, when the search function is invoked the search expression is
 set to the word containing the editor caret.

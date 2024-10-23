@@ -24,6 +24,7 @@
   - [Side-by-side  file editing](splitworkspace)
   - [Work with remote files](remotefiles)
   - [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html)
+  - [Annotated scrollbars](https://pyscripter.blogspot.com/2024/10/teaser-annotated-scrollbars-are-coming.html)
 - [Integrated Python Interpreter](interpreter)
 - Integrated Python Debugging
   - [Remote  Python](pythonengines) Debugger
