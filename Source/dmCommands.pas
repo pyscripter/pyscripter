@@ -1363,6 +1363,7 @@ Var
   Reg : TRegistry;
   IsRegistered : Boolean;
   Key : string;
+  IgnoredProperties: TArray<string>;
 begin
   SetLength(Categories, 12);
   with Categories[0] do begin
@@ -1609,7 +1610,23 @@ begin
 
   PyIDEOptions.SearchTextAtCaret := EditorSearchOptions.SearchTextAtCaret;
 
-  if InspectOptions(PyIDEOptions, Categories, _(SIDEOptions), 610) then begin
+  IgnoredProperties := ['StructureColors', 'UseStructureColors'];
+
+  var AdditionalFriendlyNames := TSmartPtr.Make(TStringList.Create)();
+  AdditionalFriendlyNames.AddPair('StructureHighlight', _('Highlight structure'));
+  AdditionalFriendlyNames.AddPair('ShowHintMark', _('Show hint mark'));
+  AdditionalFriendlyNames.AddPair('GutterShapeSize', _('Gutter shape size'));
+  AdditionalFriendlyNames.AddPair('ShowCollapsedLine', _('Show collapsed line'));
+  AdditionalFriendlyNames.AddPair('CollapsedLineColor', _('Collapsed line color'));
+  AdditionalFriendlyNames.AddPair('FolderBarLinesColor', _('Folder bar lines color'));
+  AdditionalFriendlyNames.AddPair('FillWholeLines', _('Fill whole lines'));
+  AdditionalFriendlyNames.AddPair('ModifiedColor', _('Modified color'));
+  AdditionalFriendlyNames.AddPair('OriginalColor', _('Original color'));
+  AdditionalFriendlyNames.AddPair('SavedColor', _('Saved color'));
+  AdditionalFriendlyNames.AddPair('SavedModifiedColor', _('Saved and modified color'));
+
+  if InspectOptions(PyIDEOptions, Categories, _(SIDEOptions), IgnoredProperties,
+    AdditionalFriendlyNames, 610) then begin
     PyIDEOptions.Changed;
     PyIDEMainForm.StoreApplicationData;
     if PyIDEOptions.FileExplorerContextMenu <> IsRegistered then begin

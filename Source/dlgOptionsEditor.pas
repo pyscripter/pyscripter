@@ -60,15 +60,20 @@ type
     fOptionsObject,
     fTempOptionsObject : TPersistent;
     FriendlyNames : TDictionary<string, string>;
+    FIgnoreList: TArray<string>;
+    function BeforeAddItem(Sender: TControl; PItem: PPropItem): Boolean;
   public
     { Public declarations }
     procedure StoreSettings(AppStorage: TJvCustomAppStorage);
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage);
-    procedure Setup(OptionsObject : TBaseOptions; Categories : array of TOptionCategory);
+    procedure Setup(OptionsObject: TBaseOptions;
+      Categories: array of TOptionCategory;
+      AdditionalFriendlyNames: TStrings);
   end;
 
 function InspectOptions(OptionsObject : TBaseOptions;
   Categories : array of TOptionCategory; FormCaption : string;
+  IgnoredProperties: TArray<string>; AdditionalFriendlyNames: TStrings;
   HelpCntxt : integer = 0; ShowCategories: boolean = True): boolean;
 
 implementation
@@ -81,7 +86,7 @@ uses
 { TIDEOptionsWindow }
 
 procedure TOptionsInspector.Setup(OptionsObject: TBaseOptions;
-  Categories: array of TOptionCategory);
+  Categories: array of TOptionCategory; AdditionalFriendlyNames: TStrings);
 var
   i, j : integer;
 begin
@@ -96,6 +101,12 @@ begin
         FriendlyNames.Add(Options[j].PropertyName, Options[j].DisplayName);
       end;
     end;
+
+  if Assigned(AdditionalFriendlyNames) then
+  for I := 0 to AdditionalFriendlyNames.Count - 1 do
+    FriendlyNames.Add(AdditionalFriendlyNames.Names[I],
+      AdditionalFriendlyNames.ValueFromIndex[I]);
+
   Inspector.UpdateProperties;
 end;
 
@@ -126,6 +137,15 @@ begin
     Path + '\Splitter Position', 360),FCurrentPPI, Screen.DefaultPixelsPerInch);
 end;
 
+function TOptionsInspector.BeforeAddItem(Sender: TControl;
+  PItem: PPropItem): Boolean;
+begin
+  Result := True;
+  for var S in FIgnoreList do
+    if LowerCase(S) = LowerCase(PItem^.Name) then
+      Exit(False);
+end;
+
 procedure TOptionsInspector.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -139,16 +159,19 @@ begin
   FriendlyNames.Free;
 end;
 
-function InspectOptions(OptionsObject : TBaseOptions;
-  Categories : array of TOptionCategory; FormCaption : string;
-  HelpCntxt : integer = 0; ShowCategories: boolean = True): boolean;
+function InspectOptions(OptionsObject : TBaseOptions; Categories : array of
+    TOptionCategory; FormCaption : string; IgnoredProperties: TArray<string>;
+    AdditionalFriendlyNames: TStrings; HelpCntxt : integer = 0;
+    ShowCategories: boolean = True): boolean;
 begin
   with TOptionsInspector.Create(Application) do begin
+    Inspector.OnBeforeAddItem := BeforeAddItem;
+    FIgnoreList := IgnoredProperties;
     Caption := FormCaption;
     RestoreSettings(GI_PyIDEServices.AppStorage);
     HelpContext := HelpCntxt;
     Inspector.SortByCategory := ShowCategories;
-    Setup(OptionsObject, Categories);
+    Setup(OptionsObject, Categories, AdditionalFriendlyNames);
     Result := ShowModal = mrOK;
     StoreSettings(GI_PyIDEServices.AppStorage);
     Release;

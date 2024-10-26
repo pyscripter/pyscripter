@@ -28,11 +28,6 @@ under the MPL, indicate your decision by deleting the provisions above and
 replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
-
-You may retrieve the latest version of this file at the SynEdit home page,
-located at http://SynEdit.SourceForge.net
-
-Known Issues:
 -------------------------------------------------------------------------------}
 {
 @abstract(A Python language highlighter for SynEdit)
@@ -68,7 +63,8 @@ type
                  rsTraceback  // used in the interpreter
                 );
 
-type
+  TPyFoldType = (pftCodeBlock, pftMultiLineStringFoldType, pftClassDefType, pftFunctionDefType);
+
   TSynPythonSyn = class(TSynCustomCodeFoldingHighlighter)
   private
     fStringStarter: WideChar;  // used only for rsMultilineString3 stuff
@@ -121,13 +117,13 @@ type
     property TokenID: TtkTokenKind read FTokenID;
     procedure DispatchProc; virtual;
   public
-    function IsIdentChar(AChar: WideChar): Boolean; override;
-    property Keywords: TStringList read FKeywords;
+    class function GetCapabilities: TSynHighlighterCapabilities; override;
     class function GetLanguageName: string; override;
     class function GetFriendlyLanguageName: UnicodeString; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    function IsIdentChar(AChar: WideChar): Boolean; override;
     function GetDefaultAttribute(Index: integer): TSynHighlighterAttributes;
       override;
     function GetEol: Boolean; override;
@@ -142,6 +138,9 @@ type
     procedure InitFoldRanges(FoldRanges : TSynFoldRanges); override;
     procedure ScanForFoldRanges(FoldRanges: TSynFoldRanges;
       LinesToScan: TStrings; FromLine: Integer; ToLine: Integer); override;
+    procedure AdjustFoldRanges(FoldRanges: TSynFoldRanges;
+      LinesToScan: TStrings); override;
+    property Keywords: TStringList read FKeywords;
   published
     property CommentAttri: TSynHighlighterAttributes read fCommentAttri
       write fCommentAttri;
@@ -628,6 +627,19 @@ begin
   else
     inc(Run);
   end;
+end;
+
+procedure TSynPythonSyn.AdjustFoldRanges(FoldRanges: TSynFoldRanges;
+  LinesToScan: TStrings);
+var
+  I: Integer;
+  Range: TSynFoldRange;
+begin
+  inherited;
+  for I := 0 to FoldRanges.Count - 1 do
+    with FoldRanges.Ranges.List[I] do
+      if FoldType <> Integer(pftCodeBlock) then
+        Indent := 0;
 end;
 
 procedure TSynPythonSyn.CommentProc;
@@ -1324,6 +1336,11 @@ begin
   inherited;
 end;
 
+class function TSynPythonSyn.GetCapabilities: TSynHighlighterCapabilities;
+begin
+  Result := inherited GetCapabilities + [hcStructureHighlight];
+end;
+
 function TSynPythonSyn.GetDefaultAttribute(Index: integer): TSynHighlighterAttributes;
 begin
   case Index of
@@ -1407,11 +1424,6 @@ var
   Indent : Integer;
   TabW : integer;
   FoldType : integer;
-const
-  MultiLineStringFoldType = 2;
-  ClassDefType = 3;
-  FunctionDefType = 4;
-
 
   function IsMultiLineString(Line : integer; Range : TRangeState; Fold : Boolean): Boolean;
   begin
@@ -1419,13 +1431,13 @@ const
     if TRangeState(GetLineRange(LinesToScan, Line)) = Range then
     begin
       if (TRangeState(GetLineRange(LinesToScan, Line - 1)) <> Range) and Fold then
-        FoldRanges.StartFoldRange(Line + 1, MultiLineStringFoldType)
+        FoldRanges.StartFoldRange(Line + 1, Integer(pftMultiLineStringFoldType))
       else
         FoldRanges.NoFoldInfo(Line + 1);
     end
     else if (TRangeState(GetLineRange(LinesToScan, Line - 1)) = Range) and Fold then
     begin
-      FoldRanges.StopFoldRange(Line + 1, MultiLineStringFoldType);
+      FoldRanges.StopFoldRange(Line + 1, Integer(pftMultiLineStringFoldType));
     end else
       Result := False;
   end;
@@ -1482,11 +1494,11 @@ begin
       if Success then
       begin
         if Groups[1].Value = 'class' then
-          FoldType := ClassDefType
+          FoldType := Integer(pftClassDefType)
         else if Pos('def', Groups[1].Value) >= 1 then
-          FoldType := FunctionDefType
+          FoldType := Integer(pftFunctionDefType)
         else
-          FoldType := 1;
+          FoldType := Integer(pftCodeBlock);
 
         FoldRanges.StartFoldRange(Line + 1, FoldType, Indent);
         Continue;

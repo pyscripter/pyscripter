@@ -267,7 +267,7 @@ begin
   end;
 
   Result := InspectOptions((Item as TSSHServerItem).fSSHServer,
-     Categories, _('Edit SSH Server'), 580, False);
+     Categories, _('Edit SSH Server'), [], nil, 580, False);
 end;
 
 
