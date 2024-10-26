@@ -634,7 +634,6 @@ begin
   fTrackChanges.Width := 3;
   fSelectionColor := TSynSelectedColor.Create;
   fIndentGuides := TSynIndentGuides.Create;
-  fIndentGuides.StructureColors.Clear;
 end;
 
 destructor TPythonIDEOptions.Destroy;
