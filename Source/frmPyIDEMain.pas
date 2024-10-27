@@ -596,7 +596,7 @@
             - Display of program flow control symbols
 
           Issues addressed
-            #1321, #1329, #1336
+            #1307, #1321, #1329, #1336
 
  {------------------------------------------------------------------------------}
 
@@ -2569,12 +2569,17 @@ begin
         if (Editor <> GetActiveEditor) or FocusEditor then
           Editor.Activate(False);
         if (Line > 0) then
-          with Editor.ActiveSynEdit do begin
-            CaretXY := BufferCoord(Offset,Line);
-            EnsureCursorPosVisibleEx(ForceToMiddle);
+        begin
+          MouseCapture := True;
+          with Editor.ActiveSynEdit do
+          begin
+            var Caret := BufferCoord(Offset,Line);
+            SetCaretAndSelection(Caret, Caret, Caret, True, ForceToMiddle);
             if SelLen > 0 then
                SelLength := SelLen;
           end;
+          MouseCapture := False;
+        end;
       end);
     end;
   end;

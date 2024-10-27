@@ -1032,7 +1032,7 @@ object ResourcesDataModule: TResourcesDataModule
           '        except:'
           '            return self.saferepr(value)'
           ''
-          '    def showsyntaxerror(self, filename=None):'
+          '    def showsyntaxerror(self, filename=None, **kwargs):'
           '        import sys, code'
           '        old_excepthook = sys.excepthook'
           '        sys.excepthook = sys.__excepthook__'

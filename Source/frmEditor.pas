@@ -2357,8 +2357,9 @@ begin
 
   fHotIdentInfo.HaveHotIdent := False;
   if ASynEdit.Focused and (HiWord(GetAsyncKeyState(VK_CONTROL)) > 0)
-    and fEditor.HasPythonFile and not ASynEdit.IsPointInSelection
-    (aLineCharPos) then
+    and fEditor.HasPythonFile and
+    not ASynEdit.IsPointInSelection(aLineCharPos)
+  then
     with ASynEdit do
     begin
       GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
