@@ -303,6 +303,7 @@ type
     FRightEdge: Integer;
     FSelectedColor: TSynSelectedColor;
     FIndentGuides: TSynIndentGuides;
+    FDisplayFlowControl: TSynDisplayFlowControl;
     FRightEdgeColor: TColor;
     FFont: TFont;
     FBookmarks: TSynBookMarkOpt;
@@ -338,8 +339,9 @@ type
     property OverwriteCaret : TSynEditCaretType read FOverwriteCaret write FOverwriteCaret;
     property HideSelection : Boolean read FHideSelection write FHideSelection;
     property MaxUndo : Integer read FMaxUndo write FMaxUndo;
-    property SelectedColor : TSynSelectedColor read FSelectedColor write FSelectedColor;
+    property SelectedColor : TSynSelectedColor read FSelectedColor;
     property IndentGuides: TSynIndentGuides read FIndentGuides;
+    property DisplayFlowControl: TSynDisplayFlowControl read FDisplayFlowControl;
     property TabWidth : Integer read FTabWidth write FTabWidth;
     property Keystrokes : TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
     property ActiveLineColor : TColor read FActiveLineColor write FActiveLineColor;
@@ -598,6 +600,8 @@ begin
       TCustomSynEdit(Dest).Gutter.Assign(Self.Gutter);
       TCustomSynEdit(Dest).Keystrokes.Assign(Self.Keystrokes);
       TCustomSynEdit(Dest).SelectedColor.Assign(Self.SelectedColor);
+      TCustomSynEdit(Dest).IndentGuides.Assign(Self.IndentGuides);
+      TCustomSynEdit(Dest).DisplayFlowControl.Assign(Self.DisplayFlowControl);
       TCustomSynEdit(Dest).Color := Self.Color;
       TCustomSynEdit(Dest).Options := Self.Options;
       TCustomSynEdit(Dest).ExtraLineSpacing := Self.ExtraLineSpacing;
@@ -635,6 +639,7 @@ begin
   FIndentGuides := TSynIndentGuides.Create;
   FSelectedColor.Foreground := clHighlightText;
   FSelectedColor.Background := clHighlight;
+  FDisplayFlowControl := TSynDisplayFlowControl.Create;
   fActiveLineColor := clNone;
   FFont := TFont.Create;
   FFont.Name := DefaultCodeFontName;
@@ -664,6 +669,7 @@ begin
   FKeyStrokes.Free;
   FSynGutter.Free;
   FSelectedColor.Free;
+  FDisplayFlowControl.Free;
   FIndentGuides.Free;
   FFont.Free;
   inherited;

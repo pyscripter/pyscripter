@@ -2511,11 +2511,9 @@ procedure TEditorForm.ApplyPyIDEOptions;
   procedure  ApplyOptionsToEditor(Editor: TCustomSynEdit);
   begin
     Editor.CodeFolding.Assign(PyIDEOptions.CodeFolding);
-
     Editor.SelectedColor.Assign(PyIDEOptions.SelectionColor);
-
     Editor.IndentGuides.Assign(PyIDEOptions.IndentGuides);
-
+    Editor.DisplayFlowControl.Assign(PyIDEOptions.DisplayFlowControl);
     Editor.Gutter.TrackChanges.Assign(PyIDEOptions.TrackChanges);
 
     if PyIDEOptions.CompactLineNumbers then
@@ -2526,8 +2524,8 @@ procedure TEditorForm.ApplyPyIDEOptions;
 
     if PyIDEOptions.ScrollbarAnnotation then
     begin
-      SynEdit.ScrollbarAnnotations.SetDefaultAnnotations;
-      with SynEdit.ScrollbarAnnotations.Add as TSynScrollbarAnnItem do
+      Editor.ScrollbarAnnotations.SetDefaultAnnotations;
+      with Editor.ScrollbarAnnotations.Add as TSynScrollbarAnnItem do
       begin
         AnnType := sbaCustom1;
         AnnPos := sbpFullWidth;

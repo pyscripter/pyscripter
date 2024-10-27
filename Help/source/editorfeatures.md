@@ -22,6 +22,8 @@ The editing  component of PyScripter is based on
 - [Work with remote files](remotefiles)
 - [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html)
 - [Annotated scrollbars](https://pyscripter.blogspot.com/2024/10/teaser-annotated-scrollbars-are-coming.html)
+- [Display of program flow control symbols](https://pyscripter.blogspot.com/2024/10/teaser-display-of-program-flow-control.html)
+- [Color highlighting of program structure](https://pyscripter.blogspot.com/2024/10/teaser-highlight-program-structure-is.html)
 
 PyScripter has adapted Synedit for the purpose of editing Python files and has added the 
 following features:

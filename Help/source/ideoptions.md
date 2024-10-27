@@ -71,6 +71,11 @@ Controls the line break format for new files. Options: sffDos, sffUnix,
 sffMac, sffUnicode. The last option although available is not
 currently supported.
 
+*Display flow control symbols*\
+These options determine whether program flow control symbols (small arrows next to 
+return/continue/break/yield statements) are displayed in the editor and the color 
+of the symbols.
+
 *Display packages names*\
 Display package names instead of file names for package files (\_\_init\_\_.py) in
 editor tabs.
@@ -96,7 +101,8 @@ the editor are highlighted.
 *Indentation guides*\
 Indentation guides help you visualize the indentation level of different blocks of
 code. These options determine, whether they are visible and their
-style and color.
+style and color.  Set "Highlight Sturcture" to display 
+[colored code structure](https://pyscripter.blogspot.com/2024/10/teaser-highlight-program-structure-is.html).
 
 *Scrollbar Annotation*\
 If checked, the vertical scrollbar displays visual information about the 
