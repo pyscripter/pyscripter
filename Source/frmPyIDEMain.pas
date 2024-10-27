@@ -3011,7 +3011,7 @@ begin
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
 
-    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides']);
+    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'DisplayFlowControl']);
     AppStorage.DeleteSubTree('Editor Options');
     AppStorage.WritePersistent('Editor Options', EditorOptions, True, TempStringList);
 
@@ -3138,7 +3138,7 @@ begin
   var TempStringList := TSmartPtr.Make(TStringList.Create)();
   if AppStorage.PathExists('Editor Options') then
   begin
-    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides, DisplayFlowControl']);
+    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'DisplayFlowControl']);
     AppStorage.ReadPersistent('Editor Options', EditorOptions, True, True, TempStringList);
     EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight, eoAccessibility];
   end;
