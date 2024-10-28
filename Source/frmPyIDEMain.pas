@@ -594,6 +594,7 @@
             - Annotated scrollbars
             - Colored code structure highlight
             - Display of program flow control symbols
+            - Support for TOML files added
 
           Issues addressed
             #1307, #1321, #1329, #1336

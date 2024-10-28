@@ -42,6 +42,7 @@ Type
     procedure AddJSTemplate;
     procedure AddJupyterTemplate;
     procedure AddPHPTemplate;
+    procedure AddTOMLTemplate;
     procedure AddPlainTextTemplate;
     procedure Assign(Source: TFileTemplates);
     function TemplateByName(const Name : string) : TFileTemplate;
@@ -146,6 +147,7 @@ begin
    if NoCheck or not Assigned(TemplateByExt('js')) then AddJSTemplate;
    if NoCheck or not Assigned(TemplateByExt('php')) then AddPHPTemplate;
    if NoCheck or not Assigned(TemplateByExt('ipynb')) then AddJupyterTemplate;
+   if NoCheck or not Assigned(TemplateByExt('toml')) then AddTOMLTemplate;
    if NoCheck or not Assigned(TemplateByExt('txt')) then AddPlainTextTemplate;
 end;
 
@@ -189,7 +191,7 @@ begin
 end;
 
 procedure TFileTemplates.AddPHPTemplate;
-Var
+var
   FileTemplate : TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
@@ -197,6 +199,19 @@ begin
   FileTemplate.Extension := 'php';
   FileTemplate.Category := _(SFileTemplateCategoryOther);
   FileTemplate.Highlighter := 'PHP';
+  FileTemplate.Template := '';
+  Add(FileTemplate);
+end;
+
+procedure TFileTemplates.AddTOMLTemplate;
+var
+  FileTemplate : TFileTemplate;
+begin
+  FileTemplate := TFileTemplate.Create;
+  FileTemplate.Name := _(STOMLTemplateName);
+  FileTemplate.Extension := 'toml';
+  FileTemplate.Category := _(SFileTemplateCategoryOther);
+  FileTemplate.Highlighter := 'INI';
   FileTemplate.Template := '';
   Add(FileTemplate);
 end;

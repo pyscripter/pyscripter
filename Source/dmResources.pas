@@ -70,6 +70,7 @@ type
     FLogger: TJclSimpleLog;
     FHighlighters: THighlighterList;
     procedure SynPythonSynChanged(Sender: TObject);
+    procedure SynIniSynChanged(Sender: TObject);
     procedure PyIDEOptionsChanged;
   public
     SynPythonSyn: TSynPythonSyn;
@@ -80,6 +81,7 @@ type
     procedure UpdateImageCollections;
     procedure ExportHighlighters;
     procedure ImportHighlighters;
+    procedure SetDefaultFileFilters;
     class function IsHighlighterStored(Highlighter: TObject): Boolean;
     property Logger: TJclSimpleLog read FLogger;
     property Highlighters: THighlighterList read FHighlighters;
@@ -267,8 +269,9 @@ begin
   FHighlighters.GetHighlighters(Self, False);
 
   SynPythonSyn := TSynPythonSyn.Create(Self);
-  SynPythonSyn.HookAttrChangeEvent(SynPythonSynChanged);
   FHighlighters.Insert(0, SynPythonSyn);
+  SynPythonSyn.HookAttrChangeEvent(SynPythonSynChanged);
+  SynIniSyn.HookAttrChangeEvent(SynIniSynChanged);
 
   //  Place General highlighter last
   var Index := FHighlighters.IndexOf(SynGeneralSyn);
@@ -276,11 +279,10 @@ begin
   fHighlighters.Add(SynGeneralSyn);
 
   // SynWeb Highlighters do not provide default filters
-  SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
-  SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
-  SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
-  SynWebEsSyn.DefaultFilter := PyIDEOptions.JSFileFilter;
-  SynWebPhpPlainSyn.DefaultFilter := PyIDEOptions.PHPFileFilter;
+  SetDefaultFileFilters;
+
+  // Use the toml INI highlighting type
+  SynIniSyn.IniHighlightType := typeToml;
 
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 end;
@@ -372,15 +374,7 @@ begin
   DockStyle.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);
 
   // Filters
-  SynPythonSyn.DefaultFilter := PyIDEOptions.PythonFileFilter;
-  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
-  SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
-  SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
-  SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
-  SynCppSyn.DefaultFilter := PyIDEOptions.CPPFileFilter;
-  SynYAMLSyn.DefaultFilter := PyIDEOptions.YAMLFileFilter;
-  SynJSONSyn.DefaultFilter := PyIDEOptions.JSONFileFilter;
-  SynGeneralSyn.DefaultFilter := PyIDEOptions.GeneralFileFilter;
+  SetDefaultFileFilters;
 
   // Logging
   with FLogger do
@@ -406,6 +400,27 @@ begin
 
   // Code Templates
   CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(PyIDEOptions.AutoCompletionFont);
+end;
+
+procedure TResourcesDataModule.SetDefaultFileFilters;
+begin
+  SynPythonSyn.DefaultFilter := PyIDEOptions.PythonFileFilter;
+  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
+  SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
+  SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
+  SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
+  SynCppSyn.DefaultFilter := PyIDEOptions.CPPFileFilter;
+  SynWebEsSyn.DefaultFilter := PyIDEOptions.JSFileFilter;
+  SynWebPhpPlainSyn.DefaultFilter := PyIDEOptions.PHPFileFilter;
+  SynYAMLSyn.DefaultFilter := PyIDEOptions.YAMLFileFilter;
+  SynJSONSyn.DefaultFilter := PyIDEOptions.JSONFileFilter;
+  SynGeneralSyn.DefaultFilter := PyIDEOptions.GeneralFileFilter;
+end;
+
+procedure TResourcesDataModule.SynIniSynChanged(Sender: TObject);
+begin
+  SynIniSyn.KeyAttri.Assign(SynPythonSyn.FunctionNameAttri);
+  SynIniSyn.KeywordAttri.Assign(SynPythonSyn.KeyAttri);
 end;
 
 procedure TResourcesDataModule.SynPythonSynChanged(Sender: TObject);

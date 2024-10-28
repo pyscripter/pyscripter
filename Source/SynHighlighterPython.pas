@@ -59,7 +59,7 @@ type
     tkBanner, tkOutput, tkTraceback,
     tkPrompt, tkSystemCmd);
 
-  TRangeState = (rsANil, rsComment, rsUnKnown, rsMultilineString, rsMultilineString2,
+  TRangeState = (rsUnKnown, rsMultilineString, rsMultilineString2,
                  rsMultilineString3, //this is to indicate if a string is made multiline by backslash char at line end (as in C++ highlighter)
                  rsTraceback  // used in the interpreter
                 );

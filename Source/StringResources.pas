@@ -466,6 +466,7 @@ Const
   SYAMLTemplateName = 'YAML File';
   SJSTemplateName = 'JavaScript Code';
   SPHPTemplateName = 'PHP Code';
+  STOMLTemplateName = 'TOML document';
   SJupyterTemplateName = 'Jupyter Notebook';
 
   // Python Versions
