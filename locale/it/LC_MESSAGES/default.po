@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-09-10 17:12\n"
+"POT-Creation-Date: 2024-10-27 15:08\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -884,6 +884,10 @@ msgstr "Apri prompt comandi per la versione Python selezionata"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
 #. CommandsDataModule..actlMain..actPythonManuals..Category
+#. CommandsDataModule..actlMain..actHelpWebProjectHome..Category
+#. CommandsDataModule..actlMain..actHelpWebGroupSupport..Category
+#. CommandsDataModule..actlMain..actHelpWebBlog..Category
+#. CommandsDataModule..actlMain..actDonate..Category
 #. FindResultsWindow..Actions..actHelpHelp..Hint
 #. FunctionListWindow..Actions..actHelpHelp..Hint
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
@@ -1115,37 +1119,6 @@ msgstr "Tema colore"
 msgid "Syntax Colors"
 msgstr "Colorazione sintassi"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Opzioni combinazione tasti"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Comando:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr "Combinazione 2:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr "Combinazione 1:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Comando"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr "Combinazione"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
@@ -1207,6 +1180,37 @@ msgstr "&Sottolineato"
 msgid "&Strike Out"
 msgstr "&Elimina"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Opzioni combinazione tasti"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Comando:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr "Combinazione 2:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr "Combinazione 1:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Comando"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr "Combinazione"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
@@ -1220,20 +1224,6 @@ msgstr ""
 #: dlgSynEditOptions.dfm
 msgid "Auto indent"
 msgstr "Indentazione automatica"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"When clicking with the right mouse for a popup menu, move the cursor to that"
-" location"
-msgstr ""
-"Dopo un clic con il tasto destro del mouse per il menu di popup, muovi il "
-"cursore in tale posizione"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
-#: dlgSynEditOptions.dfm
-msgid "Right mouse moves cursor"
-msgstr "Il mouse destro muove il cursore"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing....Hint
 #: dlgSynEditOptions.dfm
@@ -1259,16 +1249,6 @@ msgstr "Usa il tasto 'Fine' in modo avanzato come in JDeveloper"
 msgid "Enhance End Key"
 msgstr "Uso avanzato tasto 'Fine'"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Hint
-#: dlgSynEditOptions.dfm
-msgid "Enable wrapping of long lines"
-msgstr "Abilita ritorno a capo automatico linee lunghe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Caption
-#: dlgSynEditOptions.dfm
-msgid "Word wrap"
-msgstr "Ritorno a capo automatico"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "enhances home key positioning, similar to visual studio"
@@ -1279,29 +1259,20 @@ msgstr "uso avanzato tasto 'Home' come in Visual Studio"
 msgid "Enhance Home Key"
 msgstr "Uso avanzato tasto 'Home'"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAltSetsColumnMode....Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
-"Holding down the Alt Key will put the selection mode into columnar format"
+"When undoing/redoing actions, handle all continuous changes of the same kind"
+" in one call instead undoing/redoing each command separately"
 msgstr ""
-"Tenendo premuto il tasto 'Alt' si imposta la modalità di selezione a colonne"
+"Quando si annullano o si ripetono le azioni, gestire tutte le modifiche "
+"continue dello stesso tipo in una sola volta anziché ripetere il comando di "
+"annullamento o ripetizione"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAltSetsColumnMode..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
-msgid "Alt sets column mode"
-msgstr "'Alt' imposta la modalità colonne"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
-#: dlgSynEditOptions.dfm
-msgid "Converts a tab character to the number of spaces in Tab Width"
-msgstr ""
-"Converti una tabulazione nel numero di spazi specificato da 'Larghezza "
-"tabulazione'"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
-#: dlgSynEditOptions.dfm
-msgid "Tabs to spaces"
-msgstr "Tabulazioni in spazi"
+msgid "Group undo"
+msgstr "Annulla il raggruppamento"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX....Hint
 #: dlgSynEditOptions.dfm
@@ -1312,6 +1283,34 @@ msgstr "Mantieni la posizione nella colonna nei movimenti per riga"
 #: dlgSynEditOptions.dfm
 msgid "Maintain caret column"
 msgstr "Mantieni cursore colonna"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
+#: dlgSynEditOptions.dfm
+msgid ""
+"When clicking with the right mouse for a popup menu, move the cursor to that"
+" location"
+msgstr ""
+"Dopo un clic con il tasto destro del mouse per il menu di popup, muovi il "
+"cursore in tale posizione"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
+#: dlgSynEditOptions.dfm
+msgid "Right mouse moves cursor"
+msgstr "Il mouse destro muove il cursore"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
+#: dlgSynEditOptions.dfm
+msgid ""
+"When tabbing, the cursor will go to the next non-white space character of "
+"the previous line"
+msgstr ""
+"La tabulazione sposta il cursore in corrispondenza del prossimo carattere "
+"non vuoto della riga precedente"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
+#: dlgSynEditOptions.dfm
+msgid "Smart tabs"
+msgstr "Tabulazioni intelligenti"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
 #: dlgSynEditOptions.dfm
@@ -1334,73 +1333,27 @@ msgstr "'Tab' per indentare, 'Maiusc+Tab' per togliere l'indentamento"
 msgid "Tab Indent"
 msgstr "'Tab' per indentare"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
 #: dlgSynEditOptions.dfm
-msgid ""
-"When tabbing, the cursor will go to the next non-white space character of "
-"the previous line"
+msgid "Converts a tab character to the number of spaces in Tab Width"
 msgstr ""
-"La tabulazione sposta il cursore in corrispondenza del prossimo carattere "
-"non vuoto della riga precedente"
+"Converti una tabulazione nel numero di spazi specificato da 'Larghezza "
+"tabulazione'"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
-msgid "Smart tabs"
-msgstr "Tabulazioni intelligenti"
+msgid "Tabs to spaces"
+msgstr "Tabulazioni in spazi"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"When scrolling with page-up and page-down commands, only scroll a half page "
-"at a time"
-msgstr "Scorrimento di metà pagina con i comandi pagina-sù e pagina-giù"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
-#: dlgSynEditOptions.dfm
-msgid "Half page scroll"
-msgstr "Scorri di mezza pagina"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckTrimTrailingSpaces..Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Spaces at the end of lines will be trimmed and not saved"
 msgstr "Gli spazi alla fine della riga verrano eliminati e non salvati"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckTrimTrailingSpaces..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Trim trailing spaces"
 msgstr "Elimina spazi in coda"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
-#: dlgSynEditOptions.dfm
-msgid "Forces scrolling to be one less"
-msgstr "Forza lo scorrimento di una pagina meno una riga"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
-#: dlgSynEditOptions.dfm
-msgid "Scroll by one less"
-msgstr "Scorri la pagina meno una riga"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
-#: dlgSynEditOptions.dfm
-msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr ""
-"Visualizza interruzioni di pagina, spazi vuoti e i tabulatori con l'utilizzo"
-" dei simboli speciali"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show special chars"
-msgstr "Visualizza caratteri speciali"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
-#: dlgSynEditOptions.dfm
-msgid "Allows the cursor to go past the end of file marker"
-msgstr "Consenti al cursore di muoversi oltre la fine del file"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
-#: dlgSynEditOptions.dfm
-msgid "Scroll past end of file"
-msgstr "Scorrimento dopo la fine del file"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
 #: dlgSynEditOptions.dfm
@@ -1416,45 +1369,17 @@ msgstr ""
 msgid "Disable scroll arrows"
 msgstr "Disabilita le frecce di scorrimento"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
-"Allows the cursor to go past the last character into the white space at the "
-"end of a line"
-msgstr ""
-"Consenti al cursore di muoversi nello spazio vuoto oltre la fine della riga"
+"When scrolling with page-up and page-down commands, only scroll a half page "
+"at a time"
+msgstr "Scorrimento di metà pagina con i comandi pagina-sù e pagina-giù"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
 #: dlgSynEditOptions.dfm
-msgid "Scroll past end of line"
-msgstr "Scorrimento dopo la fine della riga"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo....Hint
-#: dlgSynEditOptions.dfm
-msgid ""
-"When undoing/redoing actions, handle all continuous changes of the same kind"
-" in one call instead undoing/redoing each command separately"
-msgstr ""
-"Quando si annullano o si ripetono le azioni, gestire tutte le modifiche "
-"continue dello stesso tipo in una sola volta anziché ripetere il comando di "
-"annullamento o ripetizione"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
-#: dlgSynEditOptions.dfm
-msgid "Group undo"
-msgstr "Annulla il raggruppamento"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
-#: dlgSynEditOptions.dfm
-msgid "Shows a hint of the visible line numbers when scrolling vertically"
-msgstr ""
-"Visualizza un suggerimento dei numeri delle righe visibili durante lo "
-"scorrimento verticale"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
-#: dlgSynEditOptions.dfm
-msgid "Show scroll hint"
-msgstr "Visualizza suggerimenti sullo scorrimento"
+msgid "Half page scroll"
+msgstr "Scorri di mezza pagina"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars....Hint
 #: dlgSynEditOptions.dfm
@@ -1471,6 +1396,51 @@ msgstr ""
 #: dlgSynEditOptions.dfm
 msgid "Hide scrollbars as necessary"
 msgstr "Nascondi barre scorrimento"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
+#: dlgSynEditOptions.dfm
+msgid "Forces scrolling to be one less"
+msgstr "Forza lo scorrimento di una pagina meno una riga"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
+#: dlgSynEditOptions.dfm
+msgid "Scroll by one less"
+msgstr "Scorri la pagina meno una riga"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
+#: dlgSynEditOptions.dfm
+msgid "Allows the cursor to go past the end of file marker"
+msgstr "Consenti al cursore di muoversi oltre la fine del file"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
+#: dlgSynEditOptions.dfm
+msgid "Scroll past end of file"
+msgstr "Scorrimento dopo la fine del file"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
+#: dlgSynEditOptions.dfm
+msgid ""
+"Allows the cursor to go past the last character into the white space at the "
+"end of a line"
+msgstr ""
+"Consenti al cursore di muoversi nello spazio vuoto oltre la fine della riga"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
+#: dlgSynEditOptions.dfm
+msgid "Scroll past end of line"
+msgstr "Scorrimento dopo la fine della riga"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
+#: dlgSynEditOptions.dfm
+msgid "Shows a hint of the visible line numbers when scrolling vertically"
+msgstr ""
+"Visualizza un suggerimento dei numeri delle righe visibili durante lo "
+"scorrimento verticale"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show scroll hint"
+msgstr "Visualizza suggerimenti sullo scorrimento"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
 #: dlgSynEditOptions.dfm
@@ -1494,6 +1464,28 @@ msgstr ""
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
 msgstr "Visualizza legature caratteri"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
+#: dlgSynEditOptions.dfm
+msgid "Shows line breaks, spaces and tabs using special symbols"
+msgstr ""
+"Visualizza interruzioni di pagina, spazi vuoti e i tabulatori con l'utilizzo"
+" dei simboli speciali"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
+#: dlgSynEditOptions.dfm
+msgid "Show special chars"
+msgstr "Visualizza caratteri speciali"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Hint
+#: dlgSynEditOptions.dfm
+msgid "Enable wrapping of long lines"
+msgstr "Abilita ritorno a capo automatico linee lunghe"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Caption
+#: dlgSynEditOptions.dfm
+msgid "Word wrap"
+msgstr "Ritorno a capo automatico"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -3178,16 +3170,6 @@ msgstr "Modifica &script di avvio"
 msgid "Edit PyScripter initialization files"
 msgstr "Modifica file inizializzazione PyScripter"
 
-#. CommandsDataModule..actlMain..actHelpWebBlog..Caption
-#: dmCommands.dfm
-msgid "&Blog"
-msgstr "&Blog"
-
-#. CommandsDataModule..actlMain..actHelpWebBlog..Hint
-#: dmCommands.dfm
-msgid "Go to the PyScripter Blog"
-msgstr "Vai al blog di PyScripter"
-
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
 #: dmCommands.dfm
 msgid "Code Folding"
@@ -3338,15 +3320,15 @@ msgstr "Salva nel file remoto"
 msgid "Save to remote file with SSH"
 msgstr "Salva nel file remoto con SSH"
 
-#. CommandsDataModule..actlMain..actDonate..Caption
+#. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
-msgid "&Donate"
-msgstr "&Dona"
+msgid "&Blog"
+msgstr "&Blog"
 
-#. CommandsDataModule..actlMain..actDonate..Hint
+#. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
-msgid "Donate to the PyScripter project"
-msgstr "Dona contributo al progetto PyScripter"
+msgid "Go to the PyScripter Blog"
+msgstr "Vai al blog di PyScripter"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Caption
 #: dmCommands.dfm
@@ -3467,6 +3449,16 @@ msgstr "Aggiungi commenti"
 #: dmCommands.dfm
 msgid "Add comments explaining the selected code"
 msgstr "Aggiungi commenti che spiegano il codice selezionato"
+
+#. CommandsDataModule..actlMain..actDonate..Caption
+#: dmCommands.dfm
+msgid "&Donate"
+msgstr "&Dona"
+
+#. CommandsDataModule..actlMain..actDonate..Hint
+#: dmCommands.dfm
+msgid "Donate to the PyScripter project"
+msgstr "Dona contributo al progetto PyScripter"
 
 #. CommandsDataModule..pmSpelling..mnSpelling..Caption
 #. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
@@ -6648,6 +6640,14 @@ msgstr "Colore selezione"
 msgid "Indentation Guides"
 msgstr "Guide indentazione"
 
+#: dmCommands.pas
+msgid "Scrollbar annotation"
+msgstr "Barra scorrimento annotazione"
+
+#: dmCommands.pas
+msgid "Display flow control symbols"
+msgstr "Visualizza simboli controllo flusso"
+
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
@@ -6746,6 +6746,50 @@ msgstr "Controllo ortografico durante digitazione"
 #: dmCommands.pas
 msgid "Spell checked syntax tokens"
 msgstr "Controllo ortografico token sintassi"
+
+#: dmCommands.pas
+msgid "Highlight structure"
+msgstr "Evidenzia struttura"
+
+#: dmCommands.pas
+msgid "Show hint mark"
+msgstr "Visualizza marcatore suggerimento"
+
+#: dmCommands.pas
+msgid "Gutter shape size"
+msgstr "Dimensioni forma rilegatura"
+
+#: dmCommands.pas
+msgid "Show collapsed line"
+msgstr "Visualizza linea compressa"
+
+#: dmCommands.pas
+msgid "Collapsed line color"
+msgstr "Colore linea compressa"
+
+#: dmCommands.pas
+msgid "Folder bar lines color"
+msgstr "Colore linee barra cartella"
+
+#: dmCommands.pas
+msgid "Fill whole lines"
+msgstr "Riempi linee intere"
+
+#: dmCommands.pas
+msgid "Modified color"
+msgstr "Colore modificato"
+
+#: dmCommands.pas
+msgid "Original color"
+msgstr "Colore originale"
+
+#: dmCommands.pas
+msgid "Saved color"
+msgstr "Colore salvato"
+
+#: dmCommands.pas
+msgid "Saved and modified color"
+msgstr "Colore salvato e modificato"
 
 #: dmCommands.pas
 msgid "Configure Tools"
@@ -6890,12 +6934,28 @@ msgid "Debugger state: "
 msgstr "Stato debugger: "
 
 #: frmPyIDEMain.pas
+msgid "carets"
+msgstr "cursori"
+
+#: frmPyIDEMain.pas
 msgid "Python Not Available"
 msgstr "Python non disponibile"
 
 #: frmPyIDEMain.pas
 msgid "Not available"
 msgstr "Non disponibile"
+
+#: frmPythonII.pas
+msgid "PyScripter - Input requested"
+msgstr "PyScripter: input richiesto"
+
+#: frmPythonII.pas
+msgid "Input:"
+msgstr "Input:"
+
+#: frmPythonII.pas
+msgid "Operation cancelled"
+msgstr "Operazione annullata"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
@@ -7157,11 +7217,6 @@ msgstr "Rimuovi indentazione blocco"
 msgid "Clear All"
 msgstr "Azzera tutto"
 
-#. Programmer's name for it: SEdCmdColumnSelect
-#: StringResources.pas
-msgid "Column Select"
-msgstr "Selezione colonna"
-
 #. Programmer's name for it: SEdCmdCommentBlock
 #: StringResources.pas
 msgid "Comment Block"
@@ -7337,11 +7392,6 @@ msgstr "Interruzione linea"
 msgid "Line End"
 msgstr "Fine linea"
 
-#. Programmer's name for it: SEdCmdLineSelect
-#: StringResources.pas
-msgid "Line Select"
-msgstr "Selezione linea"
-
 #. Programmer's name for it: SEdCmdLineStart
 #: StringResources.pas
 msgid "Line Start"
@@ -7366,11 +7416,6 @@ msgstr "Sposta linea giù"
 #: StringResources.pas
 msgid "Move Line Up"
 msgstr "Sposta linea su"
-
-#. Programmer's name for it: SEdCmdNormalSelect
-#: StringResources.pas
-msgid "Normal Select"
-msgstr "Selezione normale"
 
 #. Programmer's name for it: SEdCmdOverwriteMode
 #: StringResources.pas
@@ -7572,6 +7617,21 @@ msgstr "Imposta segnalibro 8"
 msgid "Set Bookmark 9"
 msgstr "Imposta segnalibro 9"
 
+#. Programmer's name for it: SEdCmdZoomIn
+#: StringResources.pas
+msgid "Zoom In"
+msgstr "Zoom +"
+
+#. Programmer's name for it: SEdCmdZoomOut
+#: StringResources.pas
+msgid "Zoom Out"
+msgstr "Zoom -"
+
+#. Programmer's name for it: SEdCmdZoomReset
+#: StringResources.pas
+msgid "Zoom Reset"
+msgstr "Zoom predefinito"
+
 #. Programmer's name for it: SEdCmdShiftTab
 #: StringResources.pas
 msgid "Shift Tab"
@@ -7651,6 +7711,52 @@ msgstr "Parola a sinistra"
 #: StringResources.pas
 msgid "Word Right"
 msgstr "Parola a destra"
+
+#. Multi-caret
+#. Programmer's name for it: SEdCmdCancelSelections
+#: StringResources.pas
+msgid "Cancel Selections"
+msgstr "Annulla selezioni"
+
+#. Programmer's name for it: SEdCmdSelColumnLeft
+#: StringResources.pas
+msgid "Selelct Column Left"
+msgstr "Seleziona colonna a sinistra"
+
+#. Programmer's name for it: SEdCmdSelColumnRight
+#: StringResources.pas
+msgid "Select Column Right"
+msgstr "Seleziona colonna a destra"
+
+#. Programmer's name for it: SEdCmdSelColumnUp
+#: StringResources.pas
+msgid "Select Column Up"
+msgstr "Seleziona colonna su"
+
+#. Programmer's name for it: SEdCmdSelColumnDown
+#: StringResources.pas
+msgid "Select Column Down"
+msgstr "Seleziona colonna giù"
+
+#. Programmer's name for it: SEdCmdSelColumnPageUp
+#: StringResources.pas
+msgid "Select Column Page Up"
+msgstr "Seleziona colonna pagina su"
+
+#. Programmer's name for it: SEdCmdSelColumnPageDown
+#: StringResources.pas
+msgid "Select Column Page Down"
+msgstr "Seleziona colonna pagina giù"
+
+#. Programmer's name for it: SEdCmdSelMatchingText
+#: StringResources.pas
+msgid "Select Matching Text"
+msgstr "Seleziona testo corrispondente"
+
+#. Programmer's name for it: SEdCmdCaretsAtLineEnds
+#: StringResources.pas
+msgid "Carets At Line Ends"
+msgstr "Cursori estremità fine riga"
 
 #. Programmer's name for it: SEdCmdParameterCompletion
 #: StringResources.pas
