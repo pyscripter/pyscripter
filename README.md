@@ -12,5 +12,5 @@ languages.
 * [Licence: MIT](https://github.com/pyscripter/pyscripter/blob/master/LICENSE)
 * [![paypal](https://img.shields.io/badge/Donate-PayPal-brightgreen.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SX9B6G2GF5K4U)
 
-![Screenshot](https://raw.githubusercontent.com/wiki/pyscripter/pyscripter/images/CodeFolding.jpg)
+![Screenshot](https://raw.githubusercontent.com/wiki/pyscripter/pyscripter/images/PyScripter_main_window.png)
 

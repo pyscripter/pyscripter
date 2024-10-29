@@ -3,7 +3,7 @@
 
 # Main Features
 
-- Syntax Highlighting [Editor](editorfeatures)
+- **Syntax Highlighting [Editor](editorfeatures)**
   - Unicode  based
   - Full  support for [encoded  Python source files](encodedsourcefiles)
   - Code folding
@@ -25,8 +25,8 @@
   - [Work with remote files](remotefiles)
   - [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html)
   - [Annotated scrollbars](https://pyscripter.blogspot.com/2024/10/teaser-annotated-scrollbars-are-coming.html)
-- [Integrated Python Interpreter](interpreter)
-- Integrated Python Debugging
+- **[Integrated Python Interpreter](interpreter)**
+- **Integrated Python Debugging**
   - [Remote  Python](pythonengines) Debugger
   - [Thread debugging](https://pyscripter.blogspot.gr/2018/03/thread-debugging.html)
   - [Call  Stack](callstackwindow)
@@ -37,34 +37,34 @@
   - [Post-mortem](postmortemanalysis) analysis
   - Can run or debug files without first saving them 
   - [Run/debug scipts remotely on Windows and Linux servers](pythonengines.md#ssh-engine)
-- Editor Views
+- **Built-in integration with LLM models**
+  - Assistant functionality in the editor (Suggest, Find Bugs, Optimize, etc.)
+  - Chat window for interacting with LLM.
+  - [Openai](https://openai.com/), [Gemini](https://gemini.google.com/)  and local LLM models supported- Editor Views
   - [Disassembly](disassemblyview)
   - [HTML Documentation](documentationview) (pydoc)
   - [Code Explorer](codeexplorer)
-- [File Explorer](fileexplorer)
+- **[File Explorer](fileexplorer)**
   - Easy configuration and browsing of the Python Path
   - Integrated Version Control using [TortoiseGit](https://tortoisegit.org/),
    [Tortoise SVN](http://tortoisesvn.tigris.org/) or [Tortoise CVS](http://www.tortoisecvs.org/)
-- [Project Explorer](projectexplorer)
+- **[Project Explorer](projectexplorer)**
   - Import existing paths
   - Multiple run configurations
-- Integrated Unit testing
+- **Integrated Unit testing**
   - [Automatic generation of tests](unittesting)
   - [Unit testing GUI](unittestwindow)
-- Access to Python manuals through the Help menu 
-- [To Do List](todolistwindow)
-- [Find and Replace in Files](findinfileswindow)
-- Integrated [regular expression testing](regularexpressiontesting)
-- Switching between Python versions
-- Run Python Script externally (highly configurable)
--[External Tools](externaltools) (External run and capture output)
-  - Integration  with Python tools such as PyLint, TabNanny, Profile etc.
-  - Powerful [parameter](parameters) functionality for customized external tool integration
-- [Find Definition](finddefinition)/[Find references](findreferences)
-- Find  definition by clicking and browsing history
-- Modern  GUI with docked forms and configurable look&feel (themes)
-- [Persistent configurable IDE options](persistentoptions)
-- Built-in integration with LLM models
-  - Assistant functionality in the editor (Suggest, Find Bugs, Optimize, etc.)
-  - Chat window for interacting with LLM.
-  - Both [Openai](https://openai.com/) and local LLM models supported
+- **Other features**
+  - Access to Python manuals through the Help menu 
+  - [To Do List](todolistwindow)
+  - [Find and Replace in Files](findinfileswindow)
+  - Integrated [regular expression testing](regularexpressiontesting)
+  - Switching between Python versions
+  - Run Python Script externally (highly configurable)
+  -[External Tools](externaltools) (External run and capture output)
+    - Integration  with Python tools such as PyLint, TabNanny, Profile etc.
+    - Powerful [parameter](parameters) functionality for customized external tool integration
+  - [Find Definition](finddefinition)/[Find references](findreferences)
+  - Find  definition by clicking and browsing history
+  - Modern  GUI with docked forms and configurable look&feel (themes)
+  - [Persistent configurable IDE options](persistentoptions)
