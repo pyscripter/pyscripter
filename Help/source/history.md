@@ -3,16 +3,17 @@
 
 # History
 
-### Version 5.0.2 
+### Version 5.1.0 (October 29, 2024) 
 
 * *New features:*
 	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
 	+ [Annotated scrollbars](https://pyscripter.blogspot.com/2024/10/teaser-annotated-scrollbars-are-coming.html)
 	+ [Colored code structure highlight](https://pyscripter.blogspot.com/2024/10/teaser-highlight-program-structure-is.html)
 	+ [Display of program flow control symbols](https://pyscripter.blogspot.com/2024/10/teaser-display-of-program-flow-control.html)
+	+ Support for TOML files added
 
 * *Issues addressed:*
-	+ *#1321*, *#1329*, *#1336*
+	+ *#1307*, *#1321*, *#1329*, *#1336*
 
 
 
