@@ -523,6 +523,7 @@ begin
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);
   SynEdit.Highlighter.Assign(ResourcesDataModule.SynPythonSyn);
+  SynEdit.ScrollbarAnnotations.Clear;
 
   ApplyEditorOptions;
 
