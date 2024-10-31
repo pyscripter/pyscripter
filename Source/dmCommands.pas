@@ -1020,13 +1020,13 @@ end;
 procedure TCommandsDataModule.actEditIndentExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecBlockIndent, ' ', nil);
+    GI_ActiveEditor.ActiveSynEdit.CommandProcessor(ecBlockIndent, ' ', nil);
 end;
 
 procedure TCommandsDataModule.actEditDedentExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecBlockUnIndent, ' ', nil);
+    GI_ActiveEditor.ActiveSynEdit.CommandProcessor(ecBlockUnIndent, ' ', nil);
 end;
 
 procedure TCommandsDataModule.actEditToggleCommentExecute(Sender: TObject);
