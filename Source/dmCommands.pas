@@ -2162,13 +2162,13 @@ end;
 procedure TCommandsDataModule.actFoldClassesExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    GI_ActiveEditor.ActiveSynEdit.CollapseFoldType(3);
+    GI_ActiveEditor.ActiveSynEdit.CollapseFoldType(Integer(pftClassDefType));
 end;
 
 procedure TCommandsDataModule.actFoldFunctionsExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    GI_ActiveEditor.ActiveSynEdit.CollapseFoldType(4);
+    GI_ActiveEditor.ActiveSynEdit.CollapseFoldType(Integer(pftFunctionDefType));
 end;
 
 procedure TCommandsDataModule.actFoldLevel1Execute(Sender: TObject);
