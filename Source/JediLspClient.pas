@@ -129,7 +129,8 @@ const
 begin
   if Assigned(LspClient) then
     LspClient.OnLspNotification := nil;
-  FreeAndNil(LspClient);
+  LspClient.Free;
+  LspClient := nil;
 
   if not GI_PyControl.PythonLoaded then Exit;
 
