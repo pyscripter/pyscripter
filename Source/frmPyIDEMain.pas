@@ -1352,6 +1352,7 @@ type
     function GetLocalAppStorage: TJvCustomAppStorage;
     function GetLogger: TJclSimpleLog;
     procedure MRUAddEditor(Editor: IEditor);
+    procedure RemoveEoAltSetsColumnMode;
   public
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
@@ -1586,6 +1587,10 @@ begin
 
   // Activity Indicator
   SetActivityIndicator(False);
+
+  // remove eoAltSetsColumnMode to avoid an exception
+  if FileExists(TPyScripterSettings.OptionsFileName) then
+    RemoveEoAltSetsColumnMode;
 
   // Application Storage
   AppStorage.Encoding := TEncoding.UTF8;
@@ -4920,6 +4925,18 @@ end;
 procedure TPyIDEMainForm.SelectEditor(Sender: TObject);
 begin
     ShowFilePosition((Sender as TTBCustomItem).Hint, -1, -1);
+end;
+
+procedure TPyIDEMainForm.RemoveEoAltSetsColumnMode;
+  // since 5.11 to avoid an exception
+begin
+  var SL:= TStringList.Create;
+  SL.LoadFromFile(TPyScripterSettings.OptionsFileName);
+  var s:= SL.Text;
+  s:= StringReplace(s, 'eoAltSetsColumnMode, ', '', [rfReplaceAll, rfIgnoreCase]);
+  SL.Text:= s;
+  SL.SaveToFile(TPyScripterSettings.OptionsFileName);
+  FreeAndNil(SL);
 end;
 
 { TTSpTBXTabControl }
