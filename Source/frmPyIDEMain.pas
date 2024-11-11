@@ -1352,7 +1352,7 @@ type
     function GetLocalAppStorage: TJvCustomAppStorage;
     function GetLogger: TJclSimpleLog;
     procedure MRUAddEditor(Editor: IEditor);
-    procedure RemoveEoAltSetsColumnMode;
+    procedure RemoveDefunctEditorOptions;
   public
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
@@ -1587,10 +1587,6 @@ begin
 
   // Activity Indicator
   SetActivityIndicator(False);
-
-  // remove eoAltSetsColumnMode to avoid an exception
-  if FileExists(TPyScripterSettings.OptionsFileName) then
-    RemoveEoAltSetsColumnMode;
 
   // Application Storage
   AppStorage.Encoding := TEncoding.UTF8;
@@ -3130,6 +3126,11 @@ Const
   DefaultFooter='$PAGENUM$\\.$PAGECOUNT$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
 begin
   var PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
+  if CompareVersions(PyScripterVersion, '5.1.0') >= 0 then begin
+    RemoveDefunctEditorOptions;
+    AppStorage.Reload;
+  end;
+
   AppStorage.StorageOptions.SetAsString :=
     CompareVersions(PyScripterVersion, '4.2.9') <= 0;
   IsUpgrade := CompareVersions(ApplicationVersion, PyScripterVersion) < 0;
@@ -4927,16 +4928,15 @@ begin
     ShowFilePosition((Sender as TTBCustomItem).Hint, -1, -1);
 end;
 
-procedure TPyIDEMainForm.RemoveEoAltSetsColumnMode;
-  // since 5.11 to avoid an exception
+procedure TPyIDEMainForm.RemoveDefunctEditorOptions;
+// since 5.11 to avoid an exception
 begin
-  var SL:= TStringList.Create;
+  var SL:= TSmartPtr.Make(TStringList.Create)();
   SL.LoadFromFile(TPyScripterSettings.OptionsFileName);
-  var s:= SL.Text;
-  s:= StringReplace(s, 'eoAltSetsColumnMode, ', '', [rfReplaceAll, rfIgnoreCase]);
-  SL.Text:= s;
+  var S:= SL.Text;
+  S:= StringReplace(S, 'eoAltSetsColumnMode, ', '', [rfReplaceAll, rfIgnoreCase]);
+  SL.Text:= S;
   SL.SaveToFile(TPyScripterSettings.OptionsFileName);
-  FreeAndNil(SL);
 end;
 
 { TTSpTBXTabControl }
