@@ -735,7 +735,6 @@ begin
     UnRegisterModifier('NoExt');
     UnRegisterModifier('Drive');
     UnRegisterModifier('Full');
-    UnRegisterModifier('UNC');
     UnRegisterModifier('Long');
     UnRegisterModifier('Short');
     UnRegisterModifier('Sep');
