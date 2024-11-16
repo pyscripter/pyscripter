@@ -117,7 +117,6 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Select Column Page Up | Shft+Alt+PgUp | Expand column selection a page up  |
 | Select Column Page Down | Shft+Alt+PgDown | Expand column selection a page down  |
 | Select Matching Text | Shft+Ctrl+W | Select all occurences of the currently selected text  |
-| Select Column Page Down | Shft+Alt+PgDown | Expand column selection a page down  |
 | Carets At Line Ends | Alt+End | Add carets to line ends of the current selection  |
 | **Other shortcuts available in the editor** | | |
 | Code completion | Ctrl+Space | Start [code completion](codecompletion.md#code-completion) |
