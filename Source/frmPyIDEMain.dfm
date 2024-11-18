@@ -12,6 +12,7 @@ object PyIDEMainForm: TPyIDEMainForm
   ShowHint = True
   StyleElements = [seFont, seClient]
   OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyUp = FormKeyUp
   OnShortCut = FormShortCut
@@ -19,9 +20,9 @@ object PyIDEMainForm: TPyIDEMainForm
   TextHeight = 15
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 520
+    Top = 538
     Width = 948
-    Height = 28
+    Height = 10
     SizeGrip = False
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
@@ -29,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 302
+      CustomWidth = 290
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -106,17 +107,17 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
     end
     object ActivityIndicator: TActivityIndicator
-      Left = 882
-      Top = 0
+      Left = 944
+      Top = 6
       FrameDelay = 150
       IndicatorSize = aisSmall
     end
   end
   object BGPanel: TPanel
-    Left = 0
-    Top = 18
-    Width = 948
-    Height = 502
+    Left = 9
+    Top = 85
+    Width = 930
+    Height = 444
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
@@ -125,8 +126,8 @@ object PyIDEMainForm: TPyIDEMainForm
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
-      Width = 948
-      Height = 502
+      Width = 926
+      Height = 444
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -137,7 +138,7 @@ object PyIDEMainForm: TPyIDEMainForm
       OnActiveTabChange = TabControlActiveTabChange
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 822
+        CustomWidth = 800
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
@@ -175,10 +176,10 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object TabControl2: TSpTBXTabControl
-      Left = 846
+      Left = 926
       Top = 0
       Width = 0
-      Height = 423
+      Height = 444
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -228,10 +229,10 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object TabSplitter: TSpTBXSplitter
-      Left = 846
+      Left = 926
       Top = 0
       Width = 4
-      Height = 423
+      Height = 444
       Cursor = crSizeWE
       Align = alRight
       ParentColor = False
@@ -242,7 +243,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 0
     Width = 948
-    Height = 18
+    Height = 85
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
       Left = 0
@@ -256,7 +257,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabOrder = 0
       Customizable = False
       MenuBar = True
-      SavedAtRunTime = True
       object FileMenu: TSpTBXSubmenuItem
         Caption = '&File'
         object TBXSubmenuItem5: TSpTBXSubmenuItem
@@ -726,12 +726,10 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = '&Project'
         object mnProjectNew: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectNew
-          ImageName = 'Print'
           Images = ProjectExplorerWindow.vilImages
         end
         object mnProjectOpen: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectOpen
-          ImageName = 'Undo'
           Images = ProjectExplorerWindow.vilImages
         end
         object SpTBXSubmenuItem1: TSpTBXSubmenuItem
@@ -746,7 +744,6 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnProjectSave: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSave
-          ImageName = 'Delete'
           Images = ProjectExplorerWindow.vilImages
         end
         object mnProjectSaveAs: TSpTBXItem
@@ -992,7 +989,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Images = vilImages
       TabOrder = 1
       Caption = 'Main Toolbar'
-      SavedAtRunTime = True
       object tbiFileNewModule: TSpTBXItem
         Action = actFileNewModule
       end
@@ -1053,14 +1049,13 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object DebugToolbar: TSpTBXToolbar
-      Left = 472
+      Left = 352
       Top = 25
       DockPos = 352
       DockRow = 1
       Images = vilImages
       TabOrder = 2
       Caption = 'Debug Toolbar'
-      SavedAtRunTime = True
       object tbiRunRun: TSpTBXItem
         Action = actRun
       end
@@ -1097,14 +1092,13 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object ViewToolbar: TSpTBXToolbar
-      Left = 1034
+      Left = 849
       Top = 25
       DockPos = 709
       DockRow = 1
       Images = vilImages
       TabOrder = 4
       Caption = 'View Toolbar'
-      SavedAtRunTime = True
       object tbiSelectPythonVersion: TSpTBXSubmenuItem
         Caption = 'Python Versions'
         ImageIndex = 83
@@ -1124,14 +1118,13 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object EditorToolbar: TSpTBXToolbar
-      Left = 764
+      Left = 579
       Top = 25
       DockPos = 555
       DockRow = 1
       Images = vilImages
       TabOrder = 3
       Caption = 'Editor Toolbar'
-      SavedAtRunTime = True
       object tbiBrowsePrevious: TSpTBXSubmenuItem
         Action = actBrowseBack
         Options = [tboDropdownArrow]
@@ -1190,7 +1183,6 @@ object PyIDEMainForm: TPyIDEMainForm
       OnVisibleChanged = FindToolbarVisibleChanged
       Caption = 'Find Toolbar'
       Customizable = False
-      SavedAtRunTime = True
       object tbiFindLabel: TSpTBXLabelItem
         Caption = 'Find:'
       end
@@ -1270,8 +1262,8 @@ object PyIDEMainForm: TPyIDEMainForm
         end
       end
       object tbiSearchText: TSpTBXComboBox
-        Left = 35
-        Top = 7
+        Left = 36
+        Top = 1
         Width = 160
         Height = 23
         AutoDropDownWidth = True
@@ -1306,24 +1298,23 @@ object PyIDEMainForm: TPyIDEMainForm
       TabOrder = 6
       Visible = False
       Caption = 'User Toolbar'
-      SavedAtRunTime = True
     end
   end
   object TBXDockLeft: TSpTBXDock
     Left = 0
-    Top = 55
-    Width = 0
-    Height = 465
+    Top = 85
+    Width = 9
+    Height = 444
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
     DoubleBuffered = True
   end
   object TBXDockRight: TSpTBXDock
-    Left = 948
-    Top = 55
-    Width = 0
-    Height = 465
+    Left = 939
+    Top = 85
+    Width = 9
+    Height = 444
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
@@ -1331,9 +1322,9 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
-    Top = 520
+    Top = 529
     Width = 948
-    Height = 0
+    Height = 9
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpBottom
