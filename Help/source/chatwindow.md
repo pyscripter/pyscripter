@@ -95,10 +95,10 @@ A string providing context to the LLM, e.g. "You are my expert python coding ass
 *Copy*\
 Copies a the question or response under the cursor to the Clipboard.
 
-*Copy code*\
+*Copy Code*\
 Copies the python code under the cursor to the Clipboard.
 
-*Copy code*\
+*Copy Code to New Editor*\
 Copies the python code under the cursor to a new editor, so that you can 
 readliy test it.
 

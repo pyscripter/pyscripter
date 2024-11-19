@@ -22,7 +22,7 @@ Ask the Assistant to fix the bugs in the selected piece of code.  The Assistant 
 expected to explain the nature of the original issues and how they were resolved, using comments
 in the code.
 
-*Optiimize*\
+*Optimize*\
 Ask the Assistant to fix optimize the selected piece of code. The optimizations
 should maintain the original functionality of the code.
 
@@ -80,7 +80,7 @@ Insert the contents of the suggestion at the cursor position.
 *Accept Word (Ctrl+Right)*\
 Accept only the first word of the suggestion.
 
-*Accept Line (Ctrl+Right)*\
+*Accept Line (Ctrl+Enter)*\
 Accept only the first line of the suggestion.
 
 *Cancel (Esc)*\
