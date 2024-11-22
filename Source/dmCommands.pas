@@ -226,8 +226,8 @@ type
     spiOptimize: TSpTBXItem;
     actAssistantFixBugs: TAction;
     spiFixBugs: TSpTBXItem;
-    actAssistantComments: TAction;
-    spiAssistantComments: TSpTBXItem;
+    actAssistantExplain: TAction;
+    spiAssistantExplain: TSpTBXItem;
     spiOpenAI: TSpTBXItem;
     actHelpWebBlog: TBrowseURL;
     actHelpWebGroupSupport: TBrowseURL;
@@ -271,7 +271,7 @@ type
     procedure actIDEOptionsExecute(Sender: TObject);
     procedure actPythonPathExecute(Sender: TObject);
     procedure actAboutExecute(Sender: TObject);
-    procedure actAssistantCommentsExecute(Sender: TObject);
+    procedure actAssistantExplainExecute(Sender: TObject);
     procedure actAssistantCancelExecute(Sender: TObject);
     procedure actAssistantFixBugsExecute(Sender: TObject);
     procedure actAssistantOptimizeExecute(Sender: TObject);
@@ -1687,9 +1687,9 @@ begin
   end;
 end;
 
-procedure TCommandsDataModule.actAssistantCommentsExecute(Sender: TObject);
+procedure TCommandsDataModule.actAssistantExplainExecute(Sender: TObject);
 begin
-   LLMAssistant.AddComments;
+   LLMAssistant.Explain;
 end;
 
 procedure TCommandsDataModule.actAssistantCancelExecute(Sender: TObject);
@@ -1916,7 +1916,7 @@ begin
   actAssistantSuggest.Enabled := HasPythonFile and not SelAvail and not LLMAssistant.IsBusy;
   actAssistantOptimize.Enabled := HasPythonFile and SelAvail and not LLMAssistant.IsBusy;
   actAssistantFixBugs.Enabled := HasPythonFile and SelAvail and not LLMAssistant.IsBusy;
-  actAssistantComments.Enabled := HasPythonFile and SelAvail and not LLMAssistant.IsBusy;
+  actAssistantExplain.Enabled := HasPythonFile and SelAvail and not LLMAssistant.IsBusy;
   actAssistantCancel.Enabled := LLMAssistant.IsBusy;
   // Other actions
   actPythonPath.Enabled := GI_PyControl.PythonLoaded;

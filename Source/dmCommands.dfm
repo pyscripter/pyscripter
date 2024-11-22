@@ -996,11 +996,11 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Fix bugs in the selected code'
       OnExecute = actAssistantFixBugsExecute
     end
-    object actAssistantComments: TAction
+    object actAssistantExplain: TAction
       Category = 'Assistant'
-      Caption = 'Add Comments'
+      Caption = 'Explain'
       Hint = 'Add comments explaining the selected code'
-      OnExecute = actAssistantCommentsExecute
+      OnExecute = actAssistantExplainExecute
     end
     object actDonate: TBrowseURL
       Category = 'Help'
@@ -1162,8 +1162,8 @@ object CommandsDataModule: TCommandsDataModule
       object spiSuggest: TSpTBXItem
         Action = actAssistantSuggest
       end
-      object spiAssistantComments: TSpTBXItem
-        Action = actAssistantComments
+      object spiAssistantExplain: TSpTBXItem
+        Action = actAssistantExplain
       end
       object spiFixBugs: TSpTBXItem
         Action = actAssistantFixBugs

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-10-27 15:08\n"
+"POT-Creation-Date: 2024-11-22 14:10\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -3381,12 +3381,12 @@ msgstr ""
 msgid "Fix bugs in the selected code"
 msgstr ""
 
-#. CommandsDataModule..actlMain..actAssistantComments..Caption
+#. CommandsDataModule..actlMain..actAssistantExplain..Caption
 #: dmCommands.dfm
-msgid "Add Comments"
+msgid "Explain"
 msgstr ""
 
-#. CommandsDataModule..actlMain..actAssistantComments..Hint
+#. CommandsDataModule..actlMain..actAssistantExplain..Hint
 #: dmCommands.dfm
 msgid "Add comments explaining the selected code"
 msgstr ""
@@ -8873,6 +8873,11 @@ msgstr ""
 #. Programmer's name for it: SPHPTemplateName
 #: StringResources.pas
 msgid "PHP Code"
+msgstr ""
+
+#. Programmer's name for it: STOMLTemplateName
+#: StringResources.pas
+msgid "TOML document"
 msgstr ""
 
 #. Programmer's name for it: SJupyterTemplateName

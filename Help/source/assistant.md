@@ -13,8 +13,8 @@ is no selection in the editor.
 
 The following three commands are only available when a part of the code is selected.
 
-*Add Comments*\
-Ask the Assistant to add comments to the selected piece of code.  The comments should help
+*Explain*\
+Ask the Assistant to add comments explaining the selected piece of code.  The comments should help
 users to understand the logic and functionality of the code.
 
 *Fix bugs*\
