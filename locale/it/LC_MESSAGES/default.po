@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-10-27 15:08\n"
+"POT-Creation-Date: 2024-11-22 14:10\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -3440,12 +3440,12 @@ msgstr "Correggi bug"
 msgid "Fix bugs in the selected code"
 msgstr "Correggi bug nel codice selezionato"
 
-#. CommandsDataModule..actlMain..actAssistantComments..Caption
+#. CommandsDataModule..actlMain..actAssistantExplain..Caption
 #: dmCommands.dfm
-msgid "Add Comments"
-msgstr "Aggiungi commenti"
+msgid "Explain"
+msgstr "Spiega"
 
-#. CommandsDataModule..actlMain..actAssistantComments..Hint
+#. CommandsDataModule..actlMain..actAssistantExplain..Hint
 #: dmCommands.dfm
 msgid "Add comments explaining the selected code"
 msgstr "Aggiungi commenti che spiegano il codice selezionato"
@@ -9021,6 +9021,11 @@ msgstr "Codice Javascript"
 #: StringResources.pas
 msgid "PHP Code"
 msgstr "Codice PHP"
+
+#. Programmer's name for it: STOMLTemplateName
+#: StringResources.pas
+msgid "TOML document"
+msgstr "Documento TOML"
 
 #. Programmer's name for it: SJupyterTemplateName
 #: StringResources.pas
