@@ -599,6 +599,10 @@
           Issues addressed
             #1307, #1321, #1329, #1336, #1341
 
+   History:   v 5.1.2
+          New Features
+          Issues addressed
+            #1346
  {------------------------------------------------------------------------------}
 
 // Bugs and minor features

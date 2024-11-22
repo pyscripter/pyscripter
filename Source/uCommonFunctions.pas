@@ -1934,10 +1934,14 @@ begin
 end;
 
 function FilePathToURI(FilePath: string): string;
+const
+  // The use of this flag in UrlCreateFromPath is undocumented.
+  // It is used in URLEscape.  Its use fixes #1346.
+  URL_ESCAPE_AS_UTF8: DWORD = $00040000;
 begin
   var BufferLen: DWORD := INTERNET_MAX_URL_LENGTH;
   SetLength(Result, BufferLen);
-  OleCheck(UrlCreateFromPath(PChar(FilePath), PChar(Result), @BufferLen, 0));
+  OleCheck(UrlCreateFromPath(PChar(FilePath), PChar(Result), @BufferLen, URL_ESCAPE_AS_UTF8));
   SetLength(Result, BufferLen);
 end;
 
