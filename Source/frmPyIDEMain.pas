@@ -588,7 +588,7 @@
           Issues addressed
             #1227, #1271, #1319
 
-   History:   v 5.1.1
+   History:   v 5.1.2
           New Features
             - Multi-caret and multi-selection editing #483
             - Annotated scrollbars
@@ -597,12 +597,8 @@
             - Support for TOML files added
 
           Issues addressed
-            #1307, #1321, #1329, #1336, #1341
+            #1307, #1321, #1329, #1336, #1341, #1346, #1347
 
-   History:   v 5.1.2
-          New Features
-          Issues addressed
-            #1346
  {------------------------------------------------------------------------------}
 
 // Bugs and minor features

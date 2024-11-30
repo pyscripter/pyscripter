@@ -3,7 +3,7 @@
 
 # History
 
-### Version 5.1.1 (October 31, 2024) 
+### Version 5.1.2 (November 30, 2024) 
 
 * *New features:*
 	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
@@ -13,7 +13,7 @@
 	+ Support for TOML files added
 
 * *Issues addressed:*
-	+ *#1307*, *#1321*, *#1329*, *#1336*
+	+ *#1307*, *#1321*, *#1329*, *#1336*, *#1341*, *#1346*, *#1347*
 
 
 
