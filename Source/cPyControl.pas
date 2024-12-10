@@ -86,7 +86,7 @@ type
     procedure Pickle(AValue: Variant; FileName: string);
   public
     const MinPyVersion = '3.8';
-    const MaxPyVersion = '3.13';
+    const MaxPyVersion = '3.14';
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -309,7 +309,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON312') then
     expectedVersion := '3.12'
   else if CmdLineReader.readFlag('PYTHON313') then
-    expectedVersion := '3.13';
+    expectedVersion := '3.13'
+  else if CmdLineReader.readFlag('PYTHON314') then
+    expectedVersion := '3.14';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);

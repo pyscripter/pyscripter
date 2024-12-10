@@ -588,13 +588,14 @@
           Issues addressed
             #1227, #1271, #1319
 
-   History:   v 5.1.2
+   History:   v 5.1.3
           New Features
             - Multi-caret and multi-selection editing #483
             - Annotated scrollbars
             - Colored code structure highlight
             - Display of program flow control symbols
             - Support for TOML files added
+            - Support for Python 3.14
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347
