@@ -623,9 +623,9 @@ object ResourcesDataModule: TResourcesDataModule
             '                  self.debug_manager.thread_status(self.ident, s' +
             'elf.name, self.debug_manager.thrdFinished)'
           ''
-          '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
+          '    class IDEDebugger(__import__("bdb").Bdb):'
           '        def __init__(self):'
-          '            super().__init__()'
+          '            super().__init__(["bdb"])'
           '            self.locals = globals()'
           '            self.breaks = self.debug_manager.breakpoints'
           '            self.InitStepIn = False'
