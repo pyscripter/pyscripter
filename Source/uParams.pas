@@ -69,6 +69,7 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   cPyScripterSettings,
+  cPySupportTypes,
   cParameters,
   cPyBaseDebugger,
   cProjectClasses,
@@ -196,11 +197,11 @@ end;
 
 function SelectDir(const ATitle: string): string;
 var
-  Directories : TArray<string>;
+  Directory : string;
 begin
-  if SelectDirectory('', Directories, [], ATitle) then
+  if SelectDirectory(ATitle, '', Directory, [sdNewFolder, sdNewUI]) then
   begin
-    Result := Directories[0];
+    Result := Directory;
     Parameters.ChangeParameter('SelectedDir', Result);
   end;
 end;
@@ -478,7 +479,15 @@ end;
 function GetActivePythonExe : string;
 begin
   if GI_PyControl.PythonLoaded then
-    Result := PyControl.PythonVersion.PythonExecutable
+  begin
+    if (PyIDEOptions.PythonEngineType = peRemote) and
+      PyIDEOptions.PreferFreeThreaded and
+      (PyControl.PythonVersion.PythonFreeThreadedExecutable <> '')
+    then
+      Result := PyControl.PythonVersion.PythonFreeThreadedExecutable
+    else
+      Result := PyControl.PythonVersion.PythonExecutable
+  end
   else
     Result := 'python.exe';
 end;
@@ -486,7 +495,7 @@ end;
 function GetActivePythonwExe : string;
 begin
   Result :=  GetActivePythonExe;
-  Result := Copy(Result, 1, Length(Result)- 4) + 'w.exe';
+  Insert('w', Result, 6);
 end;
 
 function GetPythonDir (VersionString : string) : string;

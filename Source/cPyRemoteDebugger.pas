@@ -799,13 +799,22 @@ begin
 end;
 
 procedure TPyRemoteInterpreter.CreateAndRunServerProcess;
+var
+  ExeName: string;
 begin
   fServerIsAvailable := False;
 
   // Repeat here to make sure it is set right
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
-  ServerProcessOptions.CommandLine := AddQuotesUnless(PrepareCommandLine('$[PythonExe]')) +
+  if PyIDEOptions.PreferFreeThreaded and
+    (PyControl.PythonVersion.PythonFreeThreadedExecutable <> '')
+  then
+    ExeName := PyControl.PythonVersion.PythonFreeThreadedExecutable
+  else
+    ExeName := PyControl.PythonVersion.PythonExecutable;
+
+  ServerProcessOptions.CommandLine := AddQuotesUnless(ExeName) +
         Format(' -u -X utf8 "%s" %d "%s"', [fServerFile, fSocketPort, fRpycPath]);
   ServerTask := TTask.Create(procedure
     begin
@@ -1091,6 +1100,9 @@ begin
     if PyIDEOptions.PrettyPrintOutput then
       RPI.setupdisplayhook();
     GetPythonEngine.CheckError;
+
+    fPythonVersion := Conn.modules.sys.version;
+    fPythonPlatform := Conn.modules.sys.platform;
 
     Initialize;
   end;

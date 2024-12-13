@@ -596,6 +596,7 @@
             - Display of program flow control symbols
             - Support for TOML files added
             - Support for Python 3.14
+            - Support free-threaded python
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347
@@ -1159,6 +1160,9 @@ type
     SpTBXItem16: TSpTBXItem;
     ActivityIndicator: TActivityIndicator;
     spiAssistant: TTBControlItem;
+    actPythonFreeThreaded: TAction;
+    SpTBXSeparatorItem24: TSpTBXSeparatorItem;
+    mnFreeThreaded: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1252,6 +1256,7 @@ type
       var CustomizeFormClass: TSpTBXCustomizeFormClass);
     procedure actNavProjectExplorerExecute(Sender: TObject);
     procedure actNavRegExpExecute(Sender: TObject);
+    procedure actPythonFreeThreadedExecute(Sender: TObject);
     procedure actRunLastScriptExternalExecute(Sender: TObject);
     procedure actRunLastScriptExecute(Sender: TObject);
     procedure actRunDebugLastScriptExecute(Sender: TObject);
@@ -3391,6 +3396,12 @@ begin
     peSSH : actPythonSSH.Checked := True;
   end;
 
+  actPythonFreeThreaded.Enabled :=
+    (PyIDEOptions.PythonEngineType = peRemote) and
+    (PyControl.PythonVersion.PythonFreeThreadedExecutable <> '');
+  actPythonFreeThreaded.Checked :=
+    PyIDEOptions.PreferFreeThreaded;
+
   // Scroll Buttons
   TabControl1.ScrollState(L, R);
   tbiScrollLeft.Enabled := L;
@@ -4698,6 +4709,12 @@ end;
 procedure TPyIDEMainForm.actNavRegExpExecute(Sender: TObject);
 begin
   ShowDockForm(RegExpTesterWindow);
+end;
+
+procedure TPyIDEMainForm.actPythonFreeThreadedExecute(Sender: TObject);
+begin
+  PyIDEOptions.PreferFreeThreaded := actPythonFreeThreaded.Checked;
+  actPythonReinitializeExecute(Sender);
 end;
 
 procedure TPyIDEMainForm.mnFilesClick(Sender: TObject);

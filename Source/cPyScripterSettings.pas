@@ -141,6 +141,7 @@ type
     fLoggingEnabled: Boolean;
     fScrollbarAnnotation: Boolean;
     fUIContentFontSize: Integer;
+    fPreferFreeThreaded: Boolean;
     fTrackChanges: TSynTrackChanges;
     fSelectionColor: TSynSelectedColor;
     fIndentGuides: TSynIndentGuides;
@@ -331,6 +332,7 @@ type
     property LoggingEnabled: Boolean read fLoggingEnabled write fLoggingEnabled default False;
     property ScrollbarAnnotation: Boolean read fScrollbarAnnotation write fScrollbarAnnotation default True;
     property UIContentFontSize: Integer read fUIContentFontSize write fUIContentFontSize default 9;
+    property PreferFreeThreaded: Boolean read fPreferFreeThreaded write fPreferFreeThreaded default False;
   end;
 {$METHODINFO OFF}
 
@@ -530,6 +532,7 @@ begin
       Self.fLoggingEnabled := LoggingEnabled;
       Self.fScrollbarAnnotation := ScrollbarAnnotation;
       Self.fUIContentFontSize := UIContentFontSize;
+      Self.fPreferFreeThreaded := PreferFreeThreaded;
     end
   else
     inherited;

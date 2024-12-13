@@ -51,8 +51,6 @@ type
     PythonCommand : string;
     PathSeparator : Char;
     TempDir : string;
-    PythonVersion : string;
-    RemotePlatform : string;
     function ToPythonFileName(const FileName: string): string; override;
     function FromPythonFileName(const FileName: string): string; override;
 
@@ -184,10 +182,6 @@ begin
 
   inherited Create(peSSH);
   DebuggerClass := TPyRemDebugger;
-  if fConnected then begin
-    PythonVersion := Conn.modules.sys.version;
-    RemotePlatform := Conn.modules.sys.platform;
-  end;
 end;
 
 procedure TPySSHInterpreter.CreateAndRunServerProcess;

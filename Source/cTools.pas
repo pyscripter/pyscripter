@@ -366,8 +366,8 @@ initialization
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := _('Install Packages with pip');
     Description := _('Install Python packages');
-    ApplicationName := '$[PythonDir-Short]Scripts\pip.exe';
-    Parameters := 'install -U $[Package?Package Name]';
+    ApplicationName := '"$[PythonExe]"';
+    Parameters := '-m pip install -U $[Package?Package Name]';
     ParseMessages := False;
     CaptureOutput := True;
     ConsoleHidden := True;

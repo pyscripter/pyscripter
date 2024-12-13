@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-11-22 14:10\n"
+"POT-Creation-Date: 2024-12-13 13:38\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -5592,6 +5592,16 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actNavChat..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Chat window"
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Caption
+#: frmPyIDEMain.dfm
+msgid "Free-Threaded"
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Hint
+#: frmPyIDEMain.dfm
+msgid "Use the free-trheaded version of Python"
 msgstr ""
 
 #. PythonIIForm..Caption

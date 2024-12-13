@@ -101,6 +101,8 @@ type
     fInterpreterCapabilities : TInterpreterCapabilities;
     fEngineType : TPythonEngineType;
     fCanDoPostMortem : Boolean;
+    fPythonVersion: string;
+    fPythonPlatform: string;
     function SystemTempFolder: string; virtual;
     function GetInterpreter: Variant; virtual; abstract;
   public
@@ -137,6 +139,8 @@ type
     function UnitTestResult : Variant; virtual; abstract;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; virtual; abstract;
     procedure Pickle(AValue: Variant; const FileName: string); virtual; abstract;
+    property PythonVersion: string read fPythonVersion;
+    property PythonPlatform: string read fPythonPlatform;
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
     property CanDoPostMortem: Boolean read fCanDoPostMortem write fCanDoPostMortem;

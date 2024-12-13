@@ -31,7 +31,9 @@ Clear all interpreter output.
 Shows the Editor Options Dialog (see the [Editor Options](editoroptions) topic for details) for the Interpreter 
 Window.
 
-The Python engine submenu is the same to the one available in the [Run menu](runmenu).  
+*Python Engine*\
+The Python engine submenu is the same to the one available in the 
+[Run menu](runmenu.md#python-engine-submenu).  
 
 **Command History**  
 - Alt-Up : previous command  

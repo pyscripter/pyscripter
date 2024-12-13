@@ -1017,6 +1017,9 @@ begin
   fII := II;
   fDebugger := II.debugger;
 
+  fPythonVersion := SysModule.version;
+  fPythonPlatform := SysModule.platform;
+
   // sys.displayhook
   if PyIDEOptions.PrettyPrintOutput then
     fII.setupdisplayhook()

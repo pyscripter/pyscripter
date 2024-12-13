@@ -387,13 +387,12 @@ var
   S: string;
 begin
   Py := SafePyEngine;
-  if AVersion = '' then AVersion := SysModule.version;
-  if APlatform = '' then APlatform := SysModule.platform;
+  if AVersion = '' then AVersion := PyControl.ActiveInterpreter.PythonVersion;
+  if APlatform = '' then APlatform := PyControl.ActiveInterpreter.PythonPlatform;
   AVersion := AVersion.Replace(Char($A), ' ');
   S := Format('*** Python %s on %s. ***' + sLineBreak, [AVersion, APlatform]);
   if SynEdit.Lines.Count > 0 then AppendText(sLineBreak);
   AppendText(S);
-  AppendText(PS1);
 end;
 
 procedure TPythonIIForm.AppendPrompt;
@@ -419,6 +418,7 @@ procedure TPythonIIForm.ClearDisplay;
 begin
   Synedit.ClearAll;
   PrintInterpreterBanner;
+  AppendPrompt;
 end;
 
 procedure TPythonIIForm.ClearLastPrompt;

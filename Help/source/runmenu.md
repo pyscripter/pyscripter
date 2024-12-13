@@ -84,10 +84,13 @@ Manage the python versions that PyScripter knows about. See the
 
 ### Python Engine submenu
 
-![graphic](images/runmenu3.png){width="15.31em"  height="8.31em"}
+![graphic](images/runmenu3.png){width="16.81em"  height="11.06em"}
 
 From this submenu you can select the active Python engine. See the 
 [Python Engines](pythonengines) topic for details.
+
+*Free-Threaded*\
+Click to switch between the standard and the [free-threaded](https://docs.python.org/3/howto/free-threading-python.html) versions of Python. It is checked if the free-threaded python is used. It is disabled if the free-threaded Python is not available.
 
 *Reinitialize Python engine*\
 This option is only available with the remote Python engines. It restarts the active 

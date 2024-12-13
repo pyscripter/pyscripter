@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 290
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -848,6 +848,11 @@ object PyIDEMainForm: TPyIDEMainForm
           end
           object mnPythonEngineSSH: TSpTBXItem
             Action = actPythonSSH
+          end
+          object SpTBXSeparatorItem24: TSpTBXSeparatorItem
+          end
+          object mnFreeThreaded: TSpTBXItem
+            Action = actPythonFreeThreaded
           end
           object TBXSeparatorItem26: TSpTBXSeparatorItem
           end
@@ -2181,6 +2186,13 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'Chat'
       ShortCut = 49217
       OnExecute = actNavChatExecute
+    end
+    object actPythonFreeThreaded: TAction
+      Category = 'Run'
+      AutoCheck = True
+      Caption = 'Free-Threaded'
+      Hint = 'Use the free-trheaded version of Python'
+      OnExecute = actPythonFreeThreadedExecute
     end
   end
   object LocalAppStorage: TJvAppIniFileStorage

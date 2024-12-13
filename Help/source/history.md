@@ -3,7 +3,7 @@
 
 # History
 
-### Version 5.1.2 (November 30, 2024) 
+### Version 5.1.3 (November 30, 2024) 
 
 * *New features:*
 	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
@@ -11,6 +11,9 @@
 	+ [Colored code structure highlight](https://pyscripter.blogspot.com/2024/10/teaser-highlight-program-structure-is.html)
 	+ [Display of program flow control symbols](https://pyscripter.blogspot.com/2024/10/teaser-display-of-program-flow-control.html)
 	+ Support for TOML files added
+	+ Support for Python 3.14
+	+ Support [free-threaded python](https://pyscripter.blogspot.com/2024/12/free-threaded-python-support-is-coming.html)
+	+ New external tool "Create [venv](https://docs.python.org/3/library/venv.html)"
 
 * *Issues addressed:*
 	+ *#1307*, *#1321*, *#1329*, *#1336*, *#1341*, *#1346*, *#1347*

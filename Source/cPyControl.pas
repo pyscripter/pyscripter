@@ -499,7 +499,6 @@ Var
   Cursor : IInterface;
   RemoteInterpreter : TPyRemoteInterpreter;
   Connected : Boolean;
-  Msg : string;
   SSHServer: TSSHServer;
 begin
   if not InternalPython.Loaded or ((Value = PythonEngineType) and not
@@ -571,19 +570,6 @@ begin
         end;
       end;
   end;
-
-  case PyIDEOptions.PythonEngineType of
-    peInternal :  Msg := Format(_(SEngineActive), [_('Internal')]);
-    peRemote : Msg := Format(_(SEngineActive), [_('Remote')]);
-    peRemoteTk : Msg := Format(_(SEngineActive), [_('Remote (Tk)')]);
-    peRemoteWx : Msg := Format(_(SEngineActive), ['Remote (Wx)']);
-    peSSH : Msg := Format(_(SEngineActive), [Format('"%s" SSH', [ActiveSSHServerName])]);
-  end;
-  GI_PyInterpreter.ClearLastPrompt;
-  GI_PyInterpreter.AppendText(sLineBreak + Msg);
-  if PyIDEOptions.PythonEngineType = peSSH then with ActiveInterpreter as TPySSHInterpreter do
-    GI_PyInterpreter.PrintInterpreterBanner(PythonVersion, RemotePlatform);
-  GI_PyInterpreter.AppendPrompt;
 
   DebuggerState := dsInactive;
 end;
@@ -757,6 +743,7 @@ end;
 procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
 Var
   II : Variant;   // wrapping sys and code modules
+  Msg: string;
 begin
   if InternalPython.Loaded then
     GI_PyIDEServices.ClearPythonWindows;
@@ -769,7 +756,6 @@ begin
   if InternalPython.LoadPython(APythonVersion) then
   begin
     fPythonHelpFile := APythonVersion.HelpFile;
-    GI_PyInterpreter.PrintInterpreterBanner;
 
     // Create internal Interpreter and Debugger
     II := VarPythonEval('_II');
@@ -800,6 +786,17 @@ begin
     //  Set the current PythonEngine
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
+    case PyIDEOptions.PythonEngineType of
+      peInternal :  Msg := Format(_(SEngineActive), [_('Internal')]);
+      peRemote : Msg := Format(_(SEngineActive), [_('Remote')]);
+      peRemoteTk : Msg := Format(_(SEngineActive), [_('Remote (Tk)')]);
+      peRemoteWx : Msg := Format(_(SEngineActive), ['Remote (Wx)']);
+      peSSH : Msg := Format(_(SEngineActive), [Format('"%s" SSH', [ActiveSSHServerName])]);
+    end;
+
+    GI_PyInterpreter.PrintInterpreterBanner;
+    GI_PyInterpreter.AppendText(Msg);
+    GI_PyInterpreter.AppendPrompt;
   end else
     StyledMessageDlg(Format(_(SPythonLoadError), [MinPyVersion]), mtError, [mbOK], 0);
 end;
