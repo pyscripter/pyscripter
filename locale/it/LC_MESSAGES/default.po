@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-11-22 14:10\n"
+"POT-Creation-Date: 2024-12-13 18:13\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -5663,6 +5663,16 @@ msgstr "Attiva la finestra Tester espressioni regolari"
 msgid "Activate the Chat window"
 msgstr "Attiva la finestra Chat"
 
+#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Caption
+#: frmPyIDEMain.dfm
+msgid "Free-Threaded"
+msgstr "Thread free"
+
+#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Hint
+#: frmPyIDEMain.dfm
+msgid "Use the free-trheaded version of Python"
+msgstr "Usa la versione free thread di Python"
+
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
 #: frmPythonII.dfm cTools.pas dmCommands.pas
@@ -6146,6 +6156,14 @@ msgstr "Installa pacchetti con pip"
 #: cTools.pas
 msgid "Install Python packages"
 msgstr "Installa pacchetti Python"
+
+#: cTools.pas
+msgid "Create Virtual Environment"
+msgstr "Creare ambiente virtuale"
+
+#: cTools.pas
+msgid "Create virtual environment using the venv module"
+msgstr "Crea un ambiente virtuale usando il modulo venv"
 
 #: cTools.pas
 msgid "Python&Win help"
