@@ -355,7 +355,7 @@ initialization
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := _('Python &Interpreter');
     Description := _('External Python Interpreter');
-    ApplicationName := '$[PythonExe-Short]';
+    ApplicationName := '$[PythonExe]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     SaveFiles := sfAll;
     ParseMessages := False;
@@ -366,8 +366,18 @@ initialization
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := _('Install Packages with pip');
     Description := _('Install Python packages');
-    ApplicationName := '"$[PythonExe]"';
+    ApplicationName := '$[PythonExe]';
     Parameters := '-m pip install -U $[Package?Package Name]';
+    ParseMessages := False;
+    CaptureOutput := True;
+    ConsoleHidden := True;
+  end;
+
+  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
+    Caption := _('Create Virtual Environment');
+    Description := _('Create virtual environment using the venv module');
+    ApplicationName := '$[PythonExe]';
+    Parameters := '-m venv $''Select venv folder''-SelectDir]';
     ParseMessages := False;
     CaptureOutput := True;
     ConsoleHidden := True;

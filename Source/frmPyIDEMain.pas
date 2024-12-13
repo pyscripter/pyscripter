@@ -597,6 +597,7 @@
             - Support for TOML files added
             - Support for Python 3.14
             - Support free-threaded python
+            - Added "Create Virtual Environment" external tool.
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347

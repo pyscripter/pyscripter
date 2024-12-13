@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-12-13 13:38\n"
+"POT-Creation-Date: 2024-12-13 18:13\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -6084,6 +6084,14 @@ msgstr ""
 
 #: cTools.pas
 msgid "Install Python packages"
+msgstr ""
+
+#: cTools.pas
+msgid "Create Virtual Environment"
+msgstr ""
+
+#: cTools.pas
+msgid "Create virtual environment using the venv module"
 msgstr ""
 
 #: cTools.pas

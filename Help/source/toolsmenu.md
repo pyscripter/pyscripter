@@ -105,4 +105,4 @@ that can be run independently or interact with the IDE editor. The
 Tools submenu shows you the currently defined external tools. The picture 
 below shows you some of the pre-defined tools.
 
-![graphic](images/toolsmenu5.png){width="14.50em"  height="15.10em"}
+![graphic](images/toolsmenu5.png){width="15.50em"  height="17.125em"}
