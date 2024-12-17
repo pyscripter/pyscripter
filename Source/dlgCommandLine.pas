@@ -3,16 +3,9 @@ unit dlgCommandLine;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.ExtCtrls,
-  Vcl.Forms,
-  Vcl.Buttons,
   Vcl.Menus,
   Vcl.StdCtrls,
   SynEdit,
@@ -46,10 +39,10 @@ type
       const Filename: string);
   private
     const FBasePath = 'Command Line';
+    class var FParameters: string;
+    class var FInUse: Boolean;
+    class var FReadFromStorage: Boolean;
   public
-    class var Parameters: string;
-    class var InUse: Boolean;
-    class var ReadFromStorage: Boolean;
     class procedure ReadFromAppStorage;
     class function Execute: Boolean;
   end;
@@ -59,6 +52,8 @@ function CommandLineParams: string;
 implementation
 
 uses
+  Vcl.Graphics,
+  Vcl.Forms,
   Vcl.Themes,
   JvAppIniStorage,
   dmResources,
@@ -82,15 +77,15 @@ class function TCommandLineDlg.Execute: Boolean;
 begin
   with TCommandLineDlg.Create(Application.MainForm) do begin
     ReadFromAppStorage;
-    SynParameters.Text := Parameters;
-    cbUseCommandLine.Checked := InUse;
+    SynParameters.Text := FParameters;
+    cbUseCommandLine.Checked := FInUse;
 
     Result := ShowModal = mrOk;
     if Result then begin
-      Parameters := SynParameters.Text;
-      InUse := cbUseCommandLine.Checked;
-      GI_PyIDEServices.AppStorage.WriteString(FBasePath + '\Parameters', Parameters);
-      GI_PyIDEServices.AppStorage.WriteBoolean(FBasePath + '\InUse', InUse);
+      FParameters := SynParameters.Text;
+      FInUse := cbUseCommandLine.Checked;
+      GI_PyIDEServices.AppStorage.WriteString(FBasePath + '\Parameters', FParameters);
+      GI_PyIDEServices.AppStorage.WriteBoolean(FBasePath + '\InUse', FInUse);
     end;
     Free;
   end;
@@ -128,13 +123,13 @@ end;
 
 class procedure TCommandLineDlg.ReadFromAppStorage;
 begin
-  if not ReadFromStorage then
+  if not FReadFromStorage then
   begin
-    Parameters :=
+    FParameters :=
       GI_PyIDEServices.AppStorage.ReadString(FBasePath + '\Parameters', '');
-    InUse :=
+    FInUse :=
       GI_PyIDEServices.AppStorage.ReadBoolean(FBasePath + '\InUse', False);
-    ReadFromStorage := True;
+    FReadFromStorage := True;
   end;
 end;
 
@@ -146,8 +141,8 @@ end;
 function CommandLineParams: string;
 begin
   TCommandLineDlg.ReadFromAppStorage;
-  if TCommandLineDlg.InUse then
-    Result := TCommandLineDlg.Parameters
+  if TCommandLineDlg.FInUse then
+    Result := TCommandLineDlg.FParameters
   else
     Result := '';
 end;

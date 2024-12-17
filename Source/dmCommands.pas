@@ -2620,10 +2620,8 @@ begin
     APos := SynEdit.ClientToScreen(
       SynEdit.RowColumnToPixels(
       SynEdit.BufferToDisplayPos(
-      BufferCoord(Column, Line) ) ) );
-    EditRect := SynEdit.ClientRect;
-    EditRect.TopLeft := SynEdit.ClientToScreen(EditRect.TopLeft);
-    EditRect.BottomRight := SynEdit.ClientToScreen(EditRect.BottomRight);
+      BufferCoord(Column, Line))));
+    EditRect := SynEdit.ClientToScreen(SynEdit.ClientRect);
 
     if ConfirmReplaceDialog = nil then begin
       ConfirmReplaceDialog := TConfirmReplaceDialog.Create(Application);

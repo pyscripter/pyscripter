@@ -36,8 +36,11 @@ unit dlgAskParam;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, 
-  StdCtrls, ExtCtrls, dlgPyIDEBase;
+  System.Classes,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  dlgPyIDEBase;
 
 type
   (* asks for parameter value and optionally stores parameter to file *)
@@ -64,7 +67,9 @@ var
 implementation
 
 uses
-  uParams, cParameters;
+  Vcl.Forms,
+  uParams,
+  cParameters;
 
 {$R *.DFM}
 
@@ -74,7 +79,7 @@ class function TAskParamForm.AskForParameter(Sender: TObject; const AName: strin
 begin
   with TAskParamForm.Create(Application) do try
     ParamName:= AName;
-    Result:= ShowModal = mrOK;
+    Result:= ShowModal = mrOk;
     if Result then
       with Parameters do begin
         AValue:= ReplaceInText(txtParamValue.Text);

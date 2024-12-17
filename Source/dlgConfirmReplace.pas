@@ -25,13 +25,6 @@ under the MPL, indicate your decision by deleting the provisions above and
 replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
-
-$Id: dlgConfirmReplace.pas,v 1.2 2000/11/22 08:37:05 mghie Exp $
-
-You may retrieve the latest version of this file at the SynEdit home page,
-located at http://SynEdit.SourceForge.net
-
-Known Issues:
 -------------------------------------------------------------------------------}
 
 unit dlgConfirmReplace;
@@ -42,13 +35,9 @@ interface
 
 uses
   Winapi.Windows,
-  Winapi.Messages,
-  System.SysUtils,
   System.Classes,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.ExtCtrls, 
+  Vcl.ExtCtrls,
   Vcl.StdCtrls,
   dlgPyIDEBase;
 
@@ -64,7 +53,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   public
-    procedure PrepareShow(AEditorRect: TRect; X, Y1, Y2: integer;
+    procedure PrepareShow(AEditorRect: TRect; X, Y1, Y2: Integer;
       AReplaceText: string);
   end;
 
@@ -72,6 +61,9 @@ var
   ConfirmReplaceDialog: TConfirmReplaceDialog;
 
 implementation
+
+uses
+  System.SysUtils;
 
 {$R *.DFM}
 
@@ -92,21 +84,21 @@ begin
 end;
 
 procedure TConfirmReplaceDialog.PrepareShow(AEditorRect: TRect;
-  X, Y1, Y2: integer; AReplaceText: string);
+  X, Y1, Y2: Integer; AReplaceText: string);
 var
-  nW, nH: integer;
+  RectWidth, RectHeight: Integer;
 begin
   lblConfirmation.Caption := Format(SAskReplaceText, [AReplaceText]);
-  nW := AEditorRect.Right - AEditorRect.Left;
-  nH := AEditorRect.Bottom - AEditorRect.Top;
+  RectWidth := AEditorRect.Width;
+  RectHeight := AEditorRect.Height;
 
-  if nW <= Width then
-    X := AEditorRect.Left - (Width - nW) div 2
+  if RectWidth <= Width then
+    X := AEditorRect.Left - (Width - RectWidth) div 2
   else begin
     if X + Width > AEditorRect.Right then
       X := AEditorRect.Right - Width;
   end;
-  if Y2 > AEditorRect.Top + MulDiv(nH, 2, 3) then
+  if Y2 > AEditorRect.Top + MulDiv(RectHeight, 2, 3) then
     Y2 := Y1 - Height - 4
   else
     Inc(Y2, 4);

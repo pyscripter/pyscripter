@@ -11,13 +11,9 @@ unit dlgDirectoryList;
 interface
 
 uses
-  Winapi.Windows,
-  System.Types,
-  System.SysUtils,
   System.Classes,
   System.ImageList,
   Vcl.Controls,
-  Vcl.Forms,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ImgList,
@@ -57,24 +53,23 @@ type
   end;
 
 function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory List';
-  HelpCntxt : integer = 0): Boolean;
+  HelpCntxt : Integer = 0): Boolean;
 
 implementation
 
 uses
   Winapi.ShLwApi,
+  System.Types,
+  Vcl.Forms,
   Vcl.FileCtrl,
-  Vcl.Themes,
-  Vcl.Graphics,
   System.Math,
-  JVBoxProcs,
-  JvGnuGetText,
-  dmResources;
+  JvBoxProcs,
+  JvGnugettext;
 
 {$R *.dfm}
 
 function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory List';
-  HelpCntxt : integer = 0): Boolean; overload;
+  HelpCntxt : Integer = 0): Boolean; overload;
 begin
   Assert(Assigned(Folders));
   with TDirectoryListDialog.Create(Application) do
@@ -84,7 +79,7 @@ begin
     DirectoryList.Items.Assign(Folders);
     SHAutoComplete(edPath.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
       SHACF_AUTOSUGGEST_FORCE_OFF);
-    Result := ShowModal = mrOK;
+    Result := ShowModal = mrOk;
     if Result then
       Folders.Assign(DirectoryList.Items);
   finally
@@ -96,7 +91,7 @@ end;
 //=== { TJvDirectoryListDialog } =============================================
 
 procedure TDirectoryListDialog.CheckButtons;
-Var
+var
   ItemSelected : Boolean;
 begin
   btnAdd.Enabled := edPath.Text <> '';
@@ -144,8 +139,8 @@ begin
 end;
 
 procedure TDirectoryListDialog.btnMoveDownClick(Sender: TObject);
-Var
-  Index : integer;
+var
+  Index : Integer;
 begin
   Index := DirectoryList.ItemIndex;
   if (Index >= 0) and (Index < DirectoryList.Items.Count - 1) then begin
@@ -156,8 +151,8 @@ begin
 end;
 
 procedure TDirectoryListDialog.btnMoveUpClick(Sender: TObject);
-Var
-  Index : integer;
+var
+  Index : Integer;
 begin
   Index := DirectoryList.ItemIndex;
   if Index > 0 then begin
