@@ -144,15 +144,6 @@ type
 function GetPropertyValue(AObject: TObject;
                           const AObjectName, APropertyName: string): string;
 
-(* adds markers for finding replaced text later *)
-function SetMarkers(const AParameters: string): string;
-
-(* returns positions of the markers in the text *)
-function FindMarkers(var AText: string; out Start, Stop: Integer): Boolean;
-
-(* clears markers, set before *)
-procedure ClearMarkers(var AText: string);
-
 var
   (* moment state of all parameters *)
   Parameters: TParameterList;
@@ -163,6 +154,7 @@ uses
   System.UITypes,
   System.TypInfo,
   System.Variants,
+  System.Math,
   Vcl.Dialogs,
   Vcl.Controls,
   JvGnugettext,
@@ -184,35 +176,6 @@ begin
                                     [AObjectName, APropertyName]), mtError, [mbOK], 0);
     Abort;
   end else Result:= AValue;
-end;
-
-function SetMarkers(const AParameters: string): string;
-(* adds markers for finding replaced text later *)
-begin
-  Result:= Concat('$[>]', AParameters, '$[<]');
-end;
-
-function FindMarkers(var AText: string; out Start, Stop: Integer): Boolean;
-(* returns positions of the markers in the text *)
-begin
-  Start:= Pos('$[>]', AText);
-  Result:= Start > 0;
-  if Result then begin
-    Delete(AText, Start, 4);
-    Stop:= Pos('$[<]', Copy(AText, Start, MaxInt));
-    if Stop > 0 then begin
-      Inc(Stop, Start - 1);
-      Delete(AText, Stop, 4);
-    end;
-  end;
-end;
-
-procedure ClearMarkers(var AText: string);
-(* clears markers, set before *)
-var
-  Start, Stop: Integer;
-begin
-  while FindMarkers(AText, Start, Stop) do ;
 end;
 
 { TParameterList }
@@ -412,15 +375,6 @@ const
 
 (* evalutes simple paramater condition *)
 
-  function CompareValue(ALeft, ARight: Extended): Integer;
-  begin
-    if Abs(ALeft - ARight) < 0.0000001 then
-      Result:= 0
-    else if ALeft < ARight then
-      Result:= -1
-    else Result:= 1;
-  end;
-
 var
   I: Integer;
   ALeft, AOperation, ARight: string;
@@ -450,7 +404,7 @@ begin
       Result:= True;
       Inc(AText);
       while CharInSet(AText^, WhiteSpaces) do Inc(AText);
-      case MessageDlg(ALeft, mtConfirmation, mbYesNoCancel, 0) of
+      case StyledMessageDlg(ALeft, mtConfirmation, mbYesNoCancel, 0) of
         mrYes:  Result:= True;
         mrNo:   Result:= False;
         else    Abort;
