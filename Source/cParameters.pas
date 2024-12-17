@@ -18,8 +18,6 @@
   Portions created by Danail Traichev are Copyright © 2002 Danail Traichev.
   All Rights Reserved.
 
-  Contributor(s): .
-
   Alternatively, the contents of this file may be used under the terms of the
   GNU General Public License Version 2 or later (the "GPL"), in which case
   the provisions of the GPL are applicable instead of those above.
@@ -30,12 +28,7 @@
   If you do not delete the provisions above, a recipient may use your version
   of this file under either the MPL or the GPL.
 
-  You may retrieve the latest version of this file at the syn home page,
-  located at http://syn.sourceforge.net/
-
   parameters related functions and classes
-
- $Id: cEdParam.pas,v 1.22 2004/03/02 13:20:33 seier Exp $
 
  Simplified version for the purposes of PyScripter by Kiriakos Vlahos
 
@@ -46,12 +39,8 @@ unit cParameters;
 interface
 
 uses
-  Winapi.Windows,
-  System.UITypes,
   System.Classes,
-  System.SysUtils,
-  Vcl.Dialogs,
-  Vcl.Controls;
+  System.SysUtils;
 
 type
   (* function, that returns value of a system parameter *)
@@ -110,7 +99,6 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
-  public
     (* system parameters *)
     procedure RegisterParameter(const AName, AValue: string; GetProc: TGetParameterProc);
     procedure UnRegisterParameter(const AName: string);
@@ -119,14 +107,12 @@ type
                               CanAdd: Boolean = False);
     property OnUnknownParameter: TUnknownParameterFunction
               read FOnUnknownParameter write FOnUnknownParameter;
-  public
     (* parameter modifiers *)
     procedure RegisterModifier(const AName, Comment: string; AFunc: TParameterFunction);
     procedure UnRegisterModifier(const AName: string);
     property Modifiers: TStrings read FModifiers write SetModifiers;
     property OnUnknownModifier: TUnknownParameterFunction
               read FOnUnknownModifier write FOnUnknownModifier;
-  public
     (* objects and their properties *)
     procedure RegisterObject(const AName: string; AObject: TObject);
     procedure UnRegisterObject(const AName: string);
@@ -139,7 +125,6 @@ type
               read FOnUnknownObject write FOnUnknownObject;
     property OnUnknownProperty: TUnknownPropertyFunction
               read FOnUnknownProperty write FOnUnknownProperty;
-  public
     (* parameter usage *)
     function ReplaceInText(const AText: string): string;
     function ReplaceInTextEx(const AText, AStartMask, AStopMask: string): string;
@@ -175,8 +160,11 @@ var
 implementation
 
 uses
+  System.UITypes,
   System.TypInfo,
   System.Variants,
+  Vcl.Dialogs,
+  Vcl.Controls,
   JvGnugettext,
   StringResources,
   uCommonFunctions;
@@ -222,9 +210,9 @@ end;
 procedure ClearMarkers(var AText: string);
 (* clears markers, set before *)
 var
-  T1, T2: Integer;
+  Start, Stop: Integer;
 begin
-  while FindMarkers(AText, T1, T2) do ;
+  while FindMarkers(AText, Start, Stop) do ;
 end;
 
 { TParameterList }
@@ -307,16 +295,16 @@ end;
 procedure TParameterList.DoChangeParameter(const AName, AValue: string;
   GetProc: TGetParameterProc; CanAdd: Boolean);
 var
-  i, L : Integer;
+  Idx, Len : Integer;
   Param: string;
   DoAdd: Boolean;
 begin
   Param:= AName + '=';
-  L:= Length(Param);
+  Len:= Length(Param);
   DoAdd := False;
-  for i:= Count - 1 downto 0 do
-    if SameText(Param, Copy(Strings[i], 1, L)) then begin
-      Delete(I);
+  for Idx:= Count - 1 downto 0 do
+    if SameText(Param, Copy(Strings[Idx], 1, Len)) then begin
+      Delete(Idx);
       DoAdd := True;
       Break;
     end;
@@ -326,14 +314,14 @@ end;
 
 procedure TParameterList.DoRemoveParameter(const AName: string);
 var
-  i, L: Integer;
+  Idx, Len: Integer;
   Param: string;
 begin
   Param:= AName + '=';
-  L:= Length(Param);
-  for i:= Count - 1 downto 0 do
-    if SameText(Param, Copy(Strings[i], 1, L)) then begin
-      Delete(i);
+  Len:= Length(Param);
+  for Idx:= Count - 1 downto 0 do
+    if SameText(Param, Copy(Strings[Idx], 1, Len)) then begin
+      Delete(Idx);
       Break;
     end;
 end;
@@ -382,12 +370,12 @@ begin
         if (AParam <> '') and (IndexOfName(AParam) < 0) then begin
           try
             FindValue(AParam, AValue);
-          except ;
+          except
           end;
           Add(Concat(AParam, '=', AValue));
         end;
         Inc(PParam, Length(StopMask));
-      end
+      end;
     until PParam = nil;
   finally
     EndUpdate;
@@ -398,12 +386,12 @@ function TParameterList.FindValue(const AName: string;
    var AValue: string): Boolean;
 var
   Temp: string;
-  i: Integer;
+  I: Integer;
 begin
-  i:= IndexOfName(AName);
+  I:= IndexOfName(AName);
   Result:= I >= 0;
   if Result then
-    Split(i, Temp, AValue, True);
+    Split(I, Temp, AValue, True);
 end;
 
 function TParameterList.GetValue(const Name: string): string;
@@ -424,7 +412,7 @@ const
 
 (* evalutes simple paramater condition *)
 
-  function CompareValue(ALeft, ARight: Extended): integer;
+  function CompareValue(ALeft, ARight: Extended): Integer;
   begin
     if Abs(ALeft - ARight) < 0.0000001 then
       Result:= 0
@@ -434,7 +422,7 @@ const
   end;
 
 var
-  i: Integer;
+  I: Integer;
   ALeft, AOperation, ARight: string;
   ELeft, ERight: Extended;
 begin
@@ -491,16 +479,16 @@ begin
   end;
   (* compare numbers *)
   if Extended.TryParse(ALeft, ELeft) and Extended.TryParse(ARight, ERight) then
-    i:= CompareValue(ELeft, ERight)
+    I:= CompareValue(ELeft, ERight)
   (* compare strings *)
   else
-    i:= AnsiCompareText(ALeft, ARight);
-  Result:= ((AOperation = '=')  and  (i = 0)) or
-           ((AOperation = '>')  and  (i > 0)) or
-           ((AOperation = '<')  and  (i < 0)) or
-           ((AOperation = '>=') and ((i = 0) or (i > 0))) or
-           ((AOperation = '<=') and ((i = 0) or (i < 0))) or
-           ((AOperation = '<>') and ((i < 0) or (i > 0)));
+    I:= AnsiCompareText(ALeft, ARight);
+  Result:= ((AOperation = '=')  and  (I = 0)) or
+           ((AOperation = '>')  and  (I > 0)) or
+           ((AOperation = '<')  and  (I < 0)) or
+           ((AOperation = '>=') and ((I = 0) or (I > 0))) or
+           ((AOperation = '<=') and ((I = 0) or (I < 0))) or
+           ((AOperation = '<>') and ((I < 0) or (I > 0)));
 end;
 
 function TParameterList.ReadParameters(var AText: PChar): string;
@@ -537,7 +525,7 @@ var
         Result:= ''
       else begin
         Inc(AText);
-        Result:= ReadParameterValue(AText, Separators)
+        Result:= ReadParameterValue(AText, Separators);
       end;
     end;
   end;
@@ -602,16 +590,16 @@ var
   procedure CalcModifierValue(const AModifier: string);
   (* modifies calculated parameter value *)
   var
-    i: Integer;
+    I: Integer;
   begin
     (* quoted modifier is returned as it is *)
     if PChar(AModifier)^ = '''' then
-      Result:= Concat(Result, '-''', ReplaceInText(StrUnquote(AModifier)), '''')
+      Result:= Concat(Result, '-''', ReplaceInText(StrUnQuote(AModifier)), '''')
     else begin
-      i:= Modifiers.IndexOfName(AModifier);
+      I:= Modifiers.IndexOfName(AModifier);
       (* modify parameter value *)
-      if i >= 0 then
-        Result:= TParameterFunction(Modifiers.Objects[i])(Result)
+      if I >= 0 then
+        Result:= TParameterFunction(Modifiers.Objects[I])(Result)
       (* check if someone can help us *)
       else if not Assigned(FOnUnknownModifier) then begin
         StyledMessageDlg(Format(_(SModifierNotFound), [AModifier]), mtError, [mbOK], 0);
@@ -629,13 +617,13 @@ var
   procedure CalcPropertyValue(const APropertyName: string);
   (* calculates property value *)
   var
-    i: Integer;
+    I: Integer;
   begin
     Result:= Concat(AObjectName, '.', APropertyName);
-    i:= FProperties.IndexOf(Result);
+    I:= FProperties.IndexOf(Result);
     (* get value, if it's registered *)
-    if i >= 0 then begin
-      Result:= TObjectPropertyFunction(FProperties.Objects[i])(AObject,
+    if I >= 0 then begin
+      Result:= TObjectPropertyFunction(FProperties.Objects[I])(AObject,
                                                                AObjectName,
                                                                APropertyName);
       AObject:= nil;
@@ -650,13 +638,13 @@ var
     end
     (* maybe this is a subobject *)
     else if not EndOfText then begin
-      if TStringList(ObjectNames).Find(Result, i) then
-        AObject:= ObjectNames.Objects[i]
+      if TStringList(ObjectNames).Find(Result, I) then
+        AObject:= ObjectNames.Objects[I]
       (* or even sub-sub-object :) *)
       else if not Assigned(FOnUnknownObject) or
               not FOnUnknownObject(Self, Result, AObject) then
-        if (i >= 0) and (i < ObjectNames.Count) and SameText(Result + '.',
-                                Copy(ObjectNames[i], 1, Length(Result)+1)) then
+        if (I >= 0) and (I < ObjectNames.Count) and SameText(Result + '.',
+                                Copy(ObjectNames[I], 1, Length(Result)+1)) then
           AObject:= nil
         else if Assigned(FOnUnknownObject) then Abort // quiet exit after helper event
         else begin
@@ -677,7 +665,7 @@ var
 
 var
   AName: string;
-  i: Integer;
+  I: Integer;
 begin
   Result:= '';
   (* empty parameter *)
@@ -715,22 +703,22 @@ begin
         if AObjectName = '' then AObjectName:= AName
         else AObjectName:= Concat(AObjectName, '.', AName);
         (* is it registered? *)
-        if not TStringList(ObjectNames).Find(AObjectName, i) then begin
+        if not TStringList(ObjectNames).Find(AObjectName, I) then begin
           if not Assigned(FOnUnknownObject) or
              not FOnUnknownObject(Self, AObjectName, AObject) then begin
             (* check if there is subobject of this object *)
-            if (i >= 0) and (i < ObjectNames.Count) and
+            if (I >= 0) and (I < ObjectNames.Count) and
                SameText(AObjectName + '.',
-                        Copy(ObjectNames[i], 1, Length(AObjectName)+1)) then
+                        Copy(ObjectNames[I], 1, Length(AObjectName)+1)) then
               AObject:= nil
             else if Assigned(FOnUnknownObject) then Abort // quiet exit after helper event
             else begin
               StyledMessageDlg(Format(_(SObjectNotFound), [AObjectName]), mtError, [mbOK], 0);
               Abort;
             end;
-          end
+          end;
         end
-        else AObject:= ObjectNames.Objects[i];
+        else AObject:= ObjectNames.Objects[I];
         StartOfText:= AObject = nil;
       end;
     end
@@ -771,7 +759,7 @@ procedure TParameterList.RegisterModifier(const AName, Comment: string;
 begin
   if Modifiers.IndexOfName(AName) >= 0  then
     raise Exception.CreateFmt(SDuplicateModifier, [AName]);
-  Modifiers.AddObject(AName + '=' + Comment, TObject(@AFunc))
+  Modifiers.AddObject(AName + '=' + Comment, TObject(@AFunc));
 end;
 
 procedure TParameterList.RegisterObject(const AName: string; AObject: TObject);
@@ -789,7 +777,7 @@ procedure TParameterList.RegisterProperty(const AObjectName,
   APropertyName: string; GetProc: TObjectPropertyFunction = nil);
 begin
   if not Assigned(GetProc) then GetProc:= GetPropertyValue;
-  FProperties.AddObject(Concat(AObjectName, '.', APropertyName), TObject(@GetProc))
+  FProperties.AddObject(Concat(AObjectName, '.', APropertyName), TObject(@GetProc));
 end;
 
 function TParameterList.ReplaceInText(const AText: string): string;
@@ -896,22 +884,22 @@ end;
 procedure TParameterList.Split(AIndex: Integer; var AName, AValue: string;
   DoCalc: Boolean);
 var
-  i, ui: Integer;
+  Idx, UI: Integer;
   P: PChar;
 begin
   // get parameter name and value
   AName:= Strings[AIndex];
-  i:= Pos('=', AName);
-  if i > 0 then begin
-    AValue:= Copy(AName, i+1, MaxInt);
-    System.Delete(AName, i, MaxInt);
+  Idx:= Pos('=', AName);
+  if Idx > 0 then begin
+    AValue:= Copy(AName, Idx+1, MaxInt);
+    System.Delete(AName, Idx, MaxInt);
   end
   else AValue:= '';
   if not DoCalc then Exit;
 
   // check for circular references
   try
-    ui:= FUsedParameters.Add(AName);
+    UI:= FUsedParameters.Add(AName);
   except
     raise Exception.CreateFmt(_(SParamCircularReference), [AName]);
   end;
@@ -930,29 +918,29 @@ begin
       else if StrIsLeft(PChar(AValue), PChar(StartMask)) then
         AValue:= CalcValue(Copy(AValue, Length(StartMask)+1, MaxInt));
   finally
-    FUsedParameters.Delete(ui);
+    FUsedParameters.Delete(UI);
   end;
 end;
 
 procedure TParameterList.UnRegisterModifier(const AName: string);
 (* unregisters parameter modifier *)
 var
-  i: Integer;
+  I: Integer;
 begin
   with Modifiers do begin
-    i:= IndexOfName(AName);
-    if i >= 0 then Delete(i);
+    I:= IndexOfName(AName);
+    if I >= 0 then Delete(I);
   end;
 end;
 
 procedure TParameterList.UnRegisterObject(const AName: string);
 (* unregisters parameter modifier *)
 var
-  i: Integer;
+  I: Integer;
 begin
   with ObjectNames do begin
-    i:= IndexOf(AName);
-    if i >= 0 then Delete(i);
+    I:= IndexOf(AName);
+    if I >= 0 then Delete(I);
   end;
 end;
 
@@ -964,11 +952,11 @@ end;
 procedure TParameterList.UnRegisterProperty(const AObjectName,
   APropertyName: string);
 var
-  i: Integer;
+  I: Integer;
 begin
   with Properties do begin
-    i:= IndexOf(Concat(AObjectName, '.', APropertyName));
-    if i >= 0 then Delete(i);
+    I:= IndexOf(Concat(AObjectName, '.', APropertyName));
+    if I >= 0 then Delete(I);
   end;
 end;
 
