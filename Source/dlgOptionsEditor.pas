@@ -11,17 +11,10 @@ unit dlgOptionsEditor;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
   System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Generics.Collections,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
-  Vcl.Buttons,
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
   dlgPyIDEBase,
@@ -57,9 +50,9 @@ type
       PItem: PPropItem): string;
   private
     { Private declarations }
-    fOptionsObject,
-    fTempOptionsObject : TPersistent;
-    FriendlyNames : TDictionary<string, string>;
+    FOptionsObject,
+    FTempOptionsObject : TPersistent;
+    FFriendlyNames : TDictionary<string, string>;
     FIgnoreList: TArray<string>;
     function BeforeAddItem(Sender: TControl; PItem: PPropItem): Boolean;
   public
@@ -74,11 +67,13 @@ type
 function InspectOptions(OptionsObject : TBaseOptions;
   Categories : array of TOptionCategory; FormCaption : string;
   IgnoredProperties: TArray<string>; AdditionalFriendlyNames: TStrings;
-  HelpCntxt : integer = 0; ShowCategories: boolean = True): boolean;
+  HelpCntxt : Integer = 0; ShowCategories: Boolean = True): Boolean;
 
 implementation
 
 uses
+  Winapi.Windows,
+  Vcl.Forms,
   uEditAppIntfs;
 
 {$R *.dfm}
@@ -88,23 +83,23 @@ uses
 procedure TOptionsInspector.Setup(OptionsObject: TBaseOptions;
   Categories: array of TOptionCategory; AdditionalFriendlyNames: TStrings);
 var
-  i, j : integer;
+  I, J : Integer;
 begin
-  fOptionsObject := OptionsObject;
-  fTempOptionsObject := TBaseOptionsClass(OptionsObject.ClassType).Create;
-  fTempOptionsObject.Assign(fOptionsObject);
-  Inspector.Component := fTempOptionsObject;
-  for i := Low(Categories) to High(Categories) do
-    with Categories[i] do begin
-      for j := Low(Options) to High(Options) do begin
-        Inspector.RegisterPropertyInCategory(Categories[i].DisplayName, Options[j].PropertyName);
-        FriendlyNames.Add(Options[j].PropertyName, Options[j].DisplayName);
+  FOptionsObject := OptionsObject;
+  FTempOptionsObject := TBaseOptionsClass(OptionsObject.ClassType).Create;
+  FTempOptionsObject.Assign(FOptionsObject);
+  Inspector.Component := FTempOptionsObject;
+  for I := Low(Categories) to High(Categories) do
+    with Categories[I] do begin
+      for J := Low(Options) to High(Options) do begin
+        Inspector.RegisterPropertyInCategory(Categories[I].DisplayName, Options[J].PropertyName);
+        FFriendlyNames.Add(Options[J].PropertyName, Options[J].DisplayName);
       end;
     end;
 
   if Assigned(AdditionalFriendlyNames) then
   for I := 0 to AdditionalFriendlyNames.Count - 1 do
-    FriendlyNames.Add(AdditionalFriendlyNames.Names[I],
+    FFriendlyNames.Add(AdditionalFriendlyNames.Names[I],
       AdditionalFriendlyNames.ValueFromIndex[I]);
 
   Inspector.UpdateProperties;
@@ -112,9 +107,9 @@ end;
 
 procedure TOptionsInspector.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
-  var H := Muldiv(Height, Screen.DefaultPixelsPerInch, FCurrentPPI);
-  var W := Muldiv(Width, Screen.DefaultPixelsPerInch, FCurrentPPI);
-  var SplitterPos := Muldiv(Inspector.SplitterPos, Screen.DefaultPixelsPerInch, FCurrentPPI);
+  var H := MulDiv(Height, Screen.DefaultPixelsPerInch, FCurrentPPI);
+  var W := MulDiv(Width, Screen.DefaultPixelsPerInch, FCurrentPPI);
+  var SplitterPos := MulDiv(Inspector.SplitterPos, Screen.DefaultPixelsPerInch, FCurrentPPI);
   var Path := Caption + ' dialog';
   AppStorage.WriteInteger(Path + '\Height', H);
   AppStorage.WriteInteger(Path + '\Width', W);
@@ -123,7 +118,7 @@ end;
 
 procedure TOptionsInspector.OKButtonClick(Sender: TObject);
 begin
-  fOptionsObject.Assign(fTempOptionsObject);
+  FOptionsObject.Assign(FTempOptionsObject);
 end;
 
 procedure TOptionsInspector.RestoreSettings(AppStorage: TJvCustomAppStorage);
@@ -141,28 +136,27 @@ function TOptionsInspector.BeforeAddItem(Sender: TControl;
   PItem: PPropItem): Boolean;
 begin
   Result := True;
-  for var S in FIgnoreList do
-    if LowerCase(S) = LowerCase(PItem^.Name) then
+  for var Ignored in FIgnoreList do
+    if CompareText(Ignored, PItem^.Name) = 0 then
       Exit(False);
 end;
 
 procedure TOptionsInspector.FormCreate(Sender: TObject);
 begin
   inherited;
-  FriendlyNames := TDictionary<string,string>.Create;
+  FFriendlyNames := TDictionary<string,string>.Create;
 end;
 
 procedure TOptionsInspector.FormDestroy(Sender: TObject);
 begin
-  if Assigned(fTempOptionsObject) then
-    FreeAndNil(fTempOptionsObject);
-  FriendlyNames.Free;
+  FTempOptionsObject.Free;
+  FFriendlyNames.Free;
 end;
 
 function InspectOptions(OptionsObject : TBaseOptions; Categories : array of
     TOptionCategory; FormCaption : string; IgnoredProperties: TArray<string>;
-    AdditionalFriendlyNames: TStrings; HelpCntxt : integer = 0;
-    ShowCategories: boolean = True): boolean;
+    AdditionalFriendlyNames: TStrings; HelpCntxt : Integer = 0;
+    ShowCategories: Boolean = True): Boolean;
 begin
   with TOptionsInspector.Create(Application) do begin
     Inspector.OnBeforeAddItem := BeforeAddItem;
@@ -172,7 +166,7 @@ begin
     HelpContext := HelpCntxt;
     Inspector.SortByCategory := ShowCategories;
     Setup(OptionsObject, Categories, AdditionalFriendlyNames);
-    Result := ShowModal = mrOK;
+    Result := ShowModal = mrOk;
     StoreSettings(GI_PyIDEServices.AppStorage);
     Release;
   end;
@@ -187,8 +181,8 @@ end;
 function TOptionsInspector.InspectorGetItemFriendlyName(Sender: TControl;
   PItem: PPropItem): string;
 begin
-  if FriendlyNames.ContainsKey(PItem.Name) then
-    Result := FriendlyNames[PItem.Name]
+  if FFriendlyNames.ContainsKey(PItem.Name) then
+    Result := FFriendlyNames[PItem.Name]
   else
     Result := PItem.Name;
 end;

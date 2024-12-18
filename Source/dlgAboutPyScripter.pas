@@ -11,9 +11,19 @@ unit dlgAboutPyScripter;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, SysUtils, Classes, Graphics, Forms, Controls,
-  Buttons, ExtCtrls, dlgPyIDEBase, SpTBXControls, SpTBXItem, SpTBXTabs, TB2Item,
-  SpTBXPageScroller, Vcl.StdCtrls, Vcl.ComCtrls, SVGIconImage;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.Classes,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  Vcl.StdCtrls,
+  Vcl.ComCtrls,
+  dlgPyIDEBase,
+  SpTBXItem,
+  SpTBXTabs,
+  TB2Item,
+  SpTBXPageScroller,
+  SVGIconImage;
 
 type
   TRichEdit = class(Vcl.ComCtrls.TRichEdit)
@@ -45,10 +55,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure reCreditsResizeRequest(Sender: TObject; Rect: TRect);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
   end;
 
 var
@@ -57,24 +63,30 @@ var
 implementation
 
 uses
-  Winapi.ShellAPI, Winapi.RichEdit, uCommonFunctions, JvGnugettext;
+  Winapi.ShellAPI,
+  Winapi.RichEdit,
+  System.SysUtils,
+  Vcl.Graphics,
+  Vcl.Forms,
+  uCommonFunctions,
+  JvGnugettext;
 
 {$R *.dfm}
 const
   SAboutBoxCredits =
-    'Python for Delphi (www.github.com/pyscripter/python4delphi)'+ SLineBreak +
-    'Rpyc (www.github.com/tomerfiliba/rpyc)'+ SLineBreak +
-    'JVCL (www.github.com/project-jedi/jvcl)'+ SLineBreak +
-    'SynEdit (www.sourceforge.net/projects/synedit)'+ SLineBreak +
-    'VirtualTreeView (www.github.com/Virtual-TreeView/)'+ SLineBreak +
-    'VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)'+ SLineBreak +
-    'GExperts (www.gexperts.org)'+ SLineBreak +
-    'Syn Editor (www.sourceforge.net/projects/syn)'+ SLineBreak +
-    'Syn Web highlighters (www.github.com/KrystianBigaj/synweb)' + SLineBreak +
-    'Toolbar2000 (www.jrsoftware.org/tb2k.php)'+ SLineBreak +
-    'SpTBXLib (www.silverpointdevelopment.com)' + SLineBreak +
-    'SVGIconImageList (https://github.com/EtheaDev/SVGIconImageList)' + SLineBreak +
-    'zControls/Detours library (https://github.com/MahdiSafsafi)' + SLineBreak +
+    'Python for Delphi (www.github.com/pyscripter/python4delphi)'+ sLineBreak +
+    'Rpyc (www.github.com/tomerfiliba/rpyc)'+ sLineBreak +
+    'JVCL (www.github.com/project-jedi/jvcl)'+ sLineBreak +
+    'SynEdit (www.sourceforge.net/projects/synedit)'+ sLineBreak +
+    'VirtualTreeView (www.github.com/Virtual-TreeView/)'+ sLineBreak +
+    'VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)'+ sLineBreak +
+    'GExperts (www.gexperts.org)'+ sLineBreak +
+    'Syn Editor (www.sourceforge.net/projects/syn)'+ sLineBreak +
+    'Syn Web highlighters (www.github.com/KrystianBigaj/synweb)' + sLineBreak +
+    'Toolbar2000 (www.jrsoftware.org/tb2k.php)'+ sLineBreak +
+    'SpTBXLib (www.silverpointdevelopment.com)' + sLineBreak +
+    'SVGIconImageList (https://github.com/EtheaDev/SVGIconImageList)' + sLineBreak +
+    'zControls/Detours library (https://github.com/MahdiSafsafi)' + sLineBreak +
     'TCommandLineReader (www.benibela.de)';
 
 resourcestring
@@ -99,7 +111,7 @@ resourcestring
   SAboutBoxCreditsTranslationSpanish = 'Spanish: %s';
 
   SAboutBoxCreditsDonations =
-    'Donations from numerous users have provided a strong incentive to develop this project.' + SLineBreak +
+    'Donations from numerous users have provided a strong incentive to develop this project.' + sLineBreak +
     'Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, ' +
     'the programming environment with which PyScripter is built, and generous support '+
     'from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) '+
@@ -107,9 +119,9 @@ resourcestring
 
   SAboutBoxLinks =
     'The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)'+
-  SLineBreak+
+  sLineBreak+
     'Internet group support is available at https://groups.google.com/group/PyScripter'+
-  SLineBreak +
+  sLineBreak +
     'Please submit bug reports and questions about PyScripter to pyscripter@gmail.com.';
 
 const
@@ -155,18 +167,18 @@ const
   );
 
   cAboutBoxCreditsThemeDesign =
-    'Adriana Díaz - Aumenta Software (https://aumenta.mx/)' + SLineBreak +
-    'Salim Saddaquzzaman (https://github.com/sk-Prime)'+ SLineBreak +
-    'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
+    'Adriana Díaz - Aumenta Software (https://aumenta.mx/)' + sLineBreak +
+    'Salim Saddaquzzaman (https://github.com/sk-Prime)'+ sLineBreak +
+    'Tanmaya Meher (www.github.com/tanmayameher)'+ sLineBreak +
     'jprzywoski (www.github.com/jprzywoski)';
 
 procedure TRichEdit.CreateWnd;
 var
-  mask: LResult;
+  Μask: LRESULT;
 begin
   inherited;
-  mask := SendMessage(Handle, EM_GETEVENTMASK, 0, 0);
-  SendMessage(Handle, EM_SETEVENTMASK, 0, mask or ENM_LINK);
+  Μask := SendMessage(Handle, EM_GETEVENTMASK, 0, 0);
+  SendMessage(Handle, EM_SETEVENTMASK, 0, Μask or ENM_LINK);
   SendMessage(Handle, EM_AUTOURLDETECT, AURL_ENABLEURL, 0);
 end;
 
@@ -174,13 +186,13 @@ procedure TRichEdit.CNNotify(var Message: TWMNotify);
 type
   PENLink = ^TENLink;
 var
-  p: PENLink;
-  tr: TEXTRANGE;
-  url: array of Char;
+  PenLnk: PENLink;
+  TR: TEXTRANGE;
+  Url: array of Char;
 begin
   if (Message.NMHdr.code = EN_LINK) then begin
-    p := PENLink(Message.NMHdr);
-    if (p.Msg = WM_LBUTTONDOWN) then begin
+    PenLnk := PENLink(Message.NMHdr);
+    if (PenLnk.Msg = WM_LBUTTONDOWN) then begin
       { optionally, enable this:
       if CheckWin32Version(6, 2) then begin
         // on Windows 8+, returning EN_LINK_DO_DEFAULT directs
@@ -190,11 +202,11 @@ begin
       end;
       }
       try
-        SetLength(url, p.chrg.cpMax - p.chrg.cpMin + 1);
-        tr.chrg := p.chrg;
-        tr.lpstrText := PChar(url);
-        SendMessage(Handle, EM_GETTEXTRANGE, 0, LPARAM(@tr));
-        ShellExecute(Handle, nil, PChar(url), nil, nil, SW_SHOWNORMAL);
+        SetLength(Url, PenLnk.chrg.cpMax - PenLnk.chrg.cpMin + 1);
+        TR.chrg := PenLnk.chrg;
+        TR.lpstrText := PChar(Url);
+        SendMessage(Handle, EM_GETTEXTRANGE, 0, LPARAM(@TR));
+        ShellExecute(Handle, nil, PChar(Url), nil, nil, SW_SHOWNORMAL);
       except
         {ignore}
       end;
@@ -221,37 +233,37 @@ begin
 end;
 
 procedure TAboutBox.FormCreate(Sender: TObject);
-Var
-  winplatform : string;
+var
+  Winplatform : string;
   AboutBoxCreditsTranslations : string;
   Language : ECreditLanguages;
 begin
   {$IFDEF WIN64}
-  winplatform := 'x64';
+  Winplatform := 'x64';
   {$ELSE}
-  winplatform := 'x86';
+  Winplatform := 'x86';
   {$ENDIF}
   inherited;
   Copyright.Caption := #$00A9' Kiriakos Vlahos 2005-' + CurrentYear.ToString;
-  Version.Caption := Format('Version %s %s', [ApplicationVersion, winplatform]);
+  Version.Caption := Format('Version %s %s', [ApplicationVersion, Winplatform]);
 
-  AddFormatText(reLinks, _('Links') + SLineBreak, [fsBold]);
+  AddFormatText(reLinks, _('Links') + sLineBreak, [fsBold]);
   reLinks.Paragraph.Numbering := nsBullet;
   AddFormatText(reLinks,SAboutBoxLinks);
   reLinks.ReadOnly := True;
 
-  AddFormatText(reCredits, _('Credits') + SLineBreak, [fsBold]);
-  AddFormatText(reCredits,SAboutBoxCreditsIntro + SLineBreak);
+  AddFormatText(reCredits, _('Credits') + sLineBreak, [fsBold]);
+  AddFormatText(reCredits,SAboutBoxCreditsIntro + sLineBreak);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,SAboutBoxCredits + SLineBreak);
+  AddFormatText(reCredits,SAboutBoxCredits + sLineBreak);
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits, SLineBreak + _('Translation manager') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, sLineBreak + _('Translation manager') + ':' + sLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,cAboutTranslationManager + SLineBreak);
+  AddFormatText(reCredits,cAboutTranslationManager + sLineBreak);
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits, SLineBreak + _('Translators') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, sLineBreak + _('Translators') + ':' + sLineBreak, [fsItalic]);
 
   for Language := Low(ECreditLanguages) to High(ECreditLanguages) do
     AboutBoxCreditsTranslations := AboutBoxCreditsTranslations +
@@ -260,15 +272,15 @@ begin
   AddFormatText(reCredits,AboutBoxCreditsTranslations);
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits, SLineBreak + _('Artwork and theme design') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, sLineBreak + _('Artwork and theme design') + ':' + sLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits, cAboutBoxCreditsThemeDesign + SLineBreak);
+  AddFormatText(reCredits, cAboutBoxCreditsThemeDesign + sLineBreak);
   reCredits.Paragraph.Numbering := nsNone;
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits, SLineBreak + _('Donations') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, sLineBreak + _('Donations') + ':' + sLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,SAboutBoxCreditsDonations + SLineBreak);
+  AddFormatText(reCredits,SAboutBoxCreditsDonations + sLineBreak);
   reCredits.Paragraph.Numbering := nsNone;
 
   reCredits.SelStart := 0;

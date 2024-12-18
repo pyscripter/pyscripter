@@ -25,13 +25,6 @@ under the MPL, indicate your decision by deleting the provisions above and
 replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
-
-$Id: DTestPrintPreview.pas,v 1.2 2000/11/22 08:37:05 mghie Exp $
-
-You may retrieve the latest version of this file at the SynEdit home page,
-located at http://SynEdit.SourceForge.net
-
-Known Issues:
 -------------------------------------------------------------------------------}
 
 unit dlgSynPrintPreview;
@@ -41,18 +34,12 @@ unit dlgSynPrintPreview;
 interface
 
 uses
-  Winapi.Windows,
-  System.SysUtils,
   System.Classes,
   System.Actions,
   System.ImageList,
-  Vcl.Graphics,
-  Vcl.Forms,
   Vcl.Controls,
-  Vcl.Buttons,
   Vcl.ActnList,
   Vcl.ImgList,
-  Vcl.Dialogs,
   Vcl.Printers,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
@@ -118,10 +105,6 @@ type
     procedure SynEditPrintPreviewPreviewPage(Sender: TObject;
       PageNumber: Integer);
     procedure ProcessHint(var HintStr: string; var CanShow: Boolean);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
   end;
 
 var
@@ -130,7 +113,9 @@ var
 implementation
 
 uses
-  Vcl.Themes,
+  System.SysUtils,
+  Vcl.Graphics,
+  Vcl.Forms,
   uCommonFunctions;
 
 {$R *.DFM}

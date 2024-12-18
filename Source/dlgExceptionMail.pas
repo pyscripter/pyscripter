@@ -16,11 +16,7 @@
 { Portions created by Petr Vones are Copyright (C) of Petr Vones.                                  }
 {                                                                                                  }
 {**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date:: 2011-12-28 22:59:49 +0200 (Τετ, 28 Δεκ 2011)                      $ }
-{ Revision:      $Rev:: 3655                                                                     $ }
 { Author:        $Author:: outchy                                                                $ }
-{                                                                                                  }
 {**************************************************************************************************}
 
 unit dlgExceptionMail;
@@ -28,13 +24,17 @@ unit dlgExceptionMail;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, AppEvnts, JclSysUtils, JclMapi,
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  JclUnitVersioningProviders,
-  {$ENDIF UNITVERSIONING}
-  JclDebug, dlgPyIDEBase;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  JclSysUtils,
+  JclMapi,
+  JclDebug,
+  dlgPyIDEBase;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
@@ -53,16 +53,14 @@ type
     procedure FormShow(Sender: TObject);
     procedure DetailsBtnClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
   private
-    private
     FDetailsVisible: Boolean;
     FThreadID: DWORD;
     FLastActiveControl: TWinControl;
     FNonDetailsHeight: Integer;
     FFullHeight: Integer;
-    WinPlatform: string;
+    FWinPlatform: string;
     function GetReportAsText: string;
     procedure SetDetailsVisible(const Value: Boolean);
     procedure UMCreateDetails(var Message: TMessage); message UM_CREATEDETAILS;
@@ -95,9 +93,23 @@ implementation
 {$R *.dfm}
 
 uses
-  ClipBrd, Math, JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings,
-  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo,
-  uEditAppIntfs, cPySupportTypes, cPyScripterSettings;
+  System.TypInfo,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Clipbrd,
+  Vcl.AppEvnts,
+  JclBase,
+  JclFileUtils,
+  JclHookExcept,
+  JclPeImage,
+  JclStrings,
+  JclSysInfo,
+  JclWin32,
+  uCommonFunctions,
+  PythonEngine,
+  uEditAppIntfs,
+  cPySupportTypes,
+  cPyScripterSettings;
 
 resourcestring
   RsAppError = '%s - application error';
@@ -160,7 +172,7 @@ begin
     and (ExceptObject.InstanceSize >= Exception.InstanceSize) then
     TExceptionDialogMail.ExceptionHandler(nil, Exception(ExceptObject))
   else
-    SysUtils.ShowException(ExceptObject, ExceptAddr);
+    System.SysUtils.ShowException(ExceptObject, ExceptAddr);
 end;
 
 //----------------------------------------------------------------------------
@@ -192,9 +204,11 @@ var
       if Result then
       begin
         if IsCompiledWithPackages then
-          Result := PeMapImgResolvePackageThunk(Pointer(SizeInt(CallAddress) + Integer(PCALLInstruction(CallAddress)^.Address) + SizeOf(CALLInstruction))) = SysUtilsShowExceptionAddr
+          Result := PeMapImgResolvePackageThunk(Pointer(SizeInt(CallAddress) +
+            Integer(PCALLInstruction(CallAddress)^.Address) + SizeOf(CALLInstruction))) = SysUtilsShowExceptionAddr
         else
-          Result := PCALLInstruction(CallAddress)^.Address = SizeInt(SysUtilsShowExceptionAddr) - SizeInt(CallAddress) - SizeOf(CALLInstruction);
+          Result := PCALLInstruction(CallAddress)^.Address =
+            SizeInt(SysUtilsShowExceptionAddr) - SizeInt(CallAddress) - SizeOf(CALLInstruction);
       end;
     except
       Result := False;
@@ -203,7 +217,7 @@ var
 
 begin
   TApplicationHandleExceptionAddr := PeMapImgResolvePackageThunk(@TApplication.HandleException);
-  SysUtilsShowExceptionAddr := PeMapImgResolvePackageThunk(@SysUtils.ShowException);
+  SysUtilsShowExceptionAddr := PeMapImgResolvePackageThunk(@System.SysUtils.ShowException);
   if Assigned(TApplicationHandleExceptionAddr) and Assigned(SysUtilsShowExceptionAddr) then
   begin
     Result := CheckAddressForOffset(CallOffset) or CheckAddressForOffset(CallOffsetDebug) or
@@ -254,8 +268,8 @@ begin
   try
     ParentWnd := Application.Handle;
     Recipients.Add(AnsiString(RsSendBugReportAddress));
-    Subject := AnsiString(RsSendBugReportSubject);
-    Body := AnsiString(ReportAsText);
+    Subject := UTF8Encode(RsSendBugReportSubject);
+    Body := UTF8Encode(ReportAsText);
     SaveTaskWindows;
     if AnyClientInstalled then
       try
@@ -264,7 +278,7 @@ begin
         RestoreTaskWindows;
       end
     else
-      ShowMessage(Format(RsNoMailClient, [WinPlatform]));
+      ShowMessage(Format(RsNoMailClient, [FWinPlatform]));
   finally
     Free;
   end;
@@ -274,7 +288,7 @@ end;
 
 procedure TExceptionDialogMail.CopyReportToClipboard;
 begin
-  ClipBoard.AsText := ReportAsText;
+  Clipboard.AsText := ReportAsText;
 end;
 
 //----------------------------------------------------------------------------
@@ -308,7 +322,7 @@ var
   NtHeaders64: PImageNtHeaders64;
   ModuleBase: TJclAddr;
   ImageBaseStr: string;
-  C: TWinControl;
+  Cntl: TWinControl;
   CpuInfo: TCpuInfo;
   ProcessorDetails: string;
   StackList: TJclStackInfoList;
@@ -324,7 +338,7 @@ begin
   try
     // Version Info
     DetailsMemo.Lines.Add(Format('%s version : %s %s', [Application.Title,
-      ApplicationVersion, WinPlatform]));
+      ApplicationVersion, FWinPlatform]));
     if GI_PyControl.PythonLoaded then
     begin
       DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
@@ -424,22 +438,6 @@ begin
             end
         else
           DetailsMemo.Lines.Add(ImageBaseStr + RsMissingVersionInfo);
-{$IFDEF UNITVERSIONING}
-        for ModuleIndex := 0 to UnitVersioning.ModuleCount - 1 do
-        begin
-          UnitVersioningModule := UnitVersioning.Modules[ModuleIndex];
-          if UnitVersioningModule.Instance = ModuleBase then
-          begin
-            if UnitVersioningModule.Count > 0 then
-              DetailsMemo.Lines.Add(StrRepeat(' ', 11) + LoadResString(PResStringRec(@RsUnitVersioningIntro)));
-            for UnitIndex := 0 to UnitVersioningModule.Count - 1 do
-            begin
-              UnitVersion := UnitVersioningModule.Items[UnitIndex];
-              DetailsMemo.Lines.Add(Format('%s%s %s %s %s', [StrRepeat(' ', 13), UnitVersion.LogPath, UnitVersion.RCSfile, UnitVersion.Revision, UnitVersion.Date]));
-            end;
-          end;
-        end;
-{$ENDIF UNITVERSIONING}
       end;
       NextDetailBlock;
     end;
@@ -448,11 +446,11 @@ begin
     if (FLastActiveControl <> nil) then
     begin
       DetailsMemo.Lines.Add(RsActiveControl);
-      C := FLastActiveControl;
-      while C <> nil do
+      Cntl := FLastActiveControl;
+      while Cntl <> nil do
       begin
-        DetailsMemo.Lines.Add(Format('%s "%s"', [C.ClassName, C.Name]));
-        C := C.Parent;
+        DetailsMemo.Lines.Add(Format('%s "%s"', [Cntl.ClassName, Cntl.Name]));
+        Cntl := Cntl.Parent;
       end;
       NextDetailBlock;
     end;
@@ -522,17 +520,10 @@ begin
   DetailsVisible := False;
   Caption := Format(RsAppError, [Application.Title]);
   {$IFDEF WIN64}
-  winplatform := 'x64';
+  FWinPlatform := 'x64';
   {$ELSE}
-  winplatform := 'x86';
+  FWinPlatform := 'x86';
   {$ENDIF}
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-procedure TExceptionDialogMail.FormDestroy(Sender: TObject);
-begin
-
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -624,7 +615,7 @@ begin
     else
       Height := FNonDetailsHeight;
     Constraints.MinHeight := FNonDetailsHeight;
-    Constraints.MaxHeight := FNonDetailsHeight
+    Constraints.MaxHeight := FNonDetailsHeight;
   end;
   DetailsBtn.Caption := DetailsCaption;
   DetailsMemo.Enabled := Value;
@@ -712,7 +703,7 @@ procedure UnInitializeHandler;
 begin
   if AppEvents <> nil then
   begin
-    FreeAndNil(AppEvents);
+    AppEvents.Free;
     JclDebugThreadList.OnSyncException := nil;
     JclUnhookExceptions;
     JclStopExceptionTracking;

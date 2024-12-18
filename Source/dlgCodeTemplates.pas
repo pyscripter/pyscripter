@@ -11,17 +11,12 @@ unit dlgCodeTemplates;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
   System.UITypes,
   System.ImageList,
   System.Actions,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   Vcl.Controls,
   Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.ActnList,
   Vcl.ComCtrls,
@@ -57,7 +52,7 @@ type
     Label3: TLabel;
     edDescription: TEdit;
     edShortcut: TEdit;
-    lvItems: TListview;
+    lvItems: TListView;
     vilImages: TVirtualImageList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -73,11 +68,9 @@ type
     procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
   private
-    { Private declarations }
     FOldIndex: Integer;
     procedure AskToUpdate(Sender: TObject);
   public
-    { Public declarations }
     CodeTemplateText : string;
     procedure SetItems;
     procedure GetItems;
@@ -86,6 +79,8 @@ type
 implementation
 
 uses
+  System.SysUtils,
+  Vcl.Dialogs,
   Vcl.Themes,
   Vcl.Graphics,
   JvGnugettext,
@@ -110,21 +105,20 @@ procedure TCodeTemplates.edShortcutKeyPress(Sender: TObject; var Key: Char);
 begin
   if not CharInSet(Key, ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
     Key := #0;
-  inherited;
 end;
 
 procedure TCodeTemplates.GetItems;
-Var
- i, j : integer;
+var
+ I, J : Integer;
 begin
   CodeTemplateText := '';
-  for i := 0 to lvItems.Items.Count - 1 do begin
-    CodeTemplateText := CodeTemplateText + lvItems.Items[i].Caption + sLineBreak;
-    if lvItems.Items[i].SubItems[0] <> '' then
-      CodeTemplateText := CodeTemplateText +'|' + lvItems.Items[i].SubItems[0] + sLineBreak;
-    for j := 0 to TStringList(lvItems.Items[i].Data).Count - 1 do
+  for I := 0 to lvItems.Items.Count - 1 do begin
+    CodeTemplateText := CodeTemplateText + lvItems.Items[I].Caption + sLineBreak;
+    if lvItems.Items[I].SubItems[0] <> '' then
+      CodeTemplateText := CodeTemplateText +'|' + lvItems.Items[I].SubItems[0] + sLineBreak;
+    for J := 0 to TStringList(lvItems.Items[I].Data).Count - 1 do
       CodeTemplateText := CodeTemplateText + '=' +
-        TStringList(lvItems.Items[i].Data)[j] + sLineBreak;
+        TStringList(lvItems.Items[I].Data)[J] + sLineBreak;
   end;
 end;
 
@@ -138,35 +132,35 @@ begin
 end;
 
 procedure TCodeTemplates.SetItems;
-Var
- i, Count : integer;
+var
+ Idx, Count : Integer;
  List : TStringList;
 begin
   lvItems.Items.Clear;
-  i := 0;
+  Idx := 0;
   Count := 0;
   List := TStringList.Create;
   try
     List.Text := CodeTemplateText;
-    while i < List.Count do begin
-      if Length(List[i]) <= 0 then // Delphi's string list adds a blank line at the end
-        Inc(i)
-      else if not CharInSet(List[i][1], ['|', '=']) then begin
+    while Idx < List.Count do begin
+      if Length(List[Idx]) <= 0 then // Delphi's string list adds a blank line at the end
+        Inc(Idx)
+      else if not CharInSet(List[Idx][1], ['|', '=']) then begin
         Inc(Count);
-        with lvItems.Items.Add() do begin
-          Caption := List[i];
+        with lvItems.Items.Add do begin
+          Caption := List[Idx];
           Data := TStringList.Create;
-          Inc(i);
-          if List[i][1] = '|' then begin
-            SubItems.Add(Copy(List[i], 2, MaxInt));
-            Inc(i);
+          Inc(Idx);
+          if List[Idx][1] = '|' then begin
+            SubItems.Add(Copy(List[Idx], 2, MaxInt));
+            Inc(Idx);
           end else
             SubItems.Add('');
         end;
       end else begin
-        if (Count > 0) and (List[i][1] = '=') then
-          TStringList(lvItems.Items[Count-1].Data).Add(Copy(List[i], 2, MaxInt));
-        Inc(i);
+        if (Count > 0) and (List[Idx][1] = '=') then
+          TStringList(lvItems.Items[Count-1].Data).Add(Copy(List[Idx], 2, MaxInt));
+        Inc(Idx);
       end;
     end;
   finally
@@ -181,30 +175,29 @@ begin
   actMoveUp.Enabled := lvItems.ItemIndex >= 1;
   actMoveDown.Enabled := (lvItems.ItemIndex >= 0) and
                          (lvItems.ItemIndex < lvItems.Items.Count - 1);
-  actAddItem.Enabled := edShortCut.Text <> '';
-  actUpdateItem.Enabled := (edShortCut.Text <> '') and (lvItems.ItemIndex >= 0);
+  actAddItem.Enabled := edShortcut.Text <> '';
+  actUpdateItem.Enabled := (edShortcut.Text <> '') and (lvItems.ItemIndex >= 0);
   Handled := True;
 end;
 
 procedure TCodeTemplates.actAddItemExecute(Sender: TObject);
-Var
-  Item : TListItem;
-  i : Integer;
+var
+  Item: TListItem;
 begin
-  if edShortCut.Text <> '' then begin
+  if edShortcut.Text <> '' then begin
     SynTemplate.Modified := False;
-    for i := 0 to lvItems.Items.Count - 1 do
-      if CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0 then begin
-        Item := lvItems.Items[i];
-        Item.Caption := edShortCut.Text;
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if CompareText(lvItems.Items[I].Caption, edShortcut.Text) = 0 then begin
+        Item := lvItems.Items[I];
+        Item.Caption := edShortcut.Text;
         Item.SubItems[0] := edDescription.Text;
         TStringList(Item.Data).Assign(SynTemplate.Lines);
         Item.Selected := True;
         Exit;
       end;
 
-    with lvItems.Items.Add() do begin
-      Caption := edShortCut.Text;
+    with lvItems.Items.Add do begin
+      Caption := edShortcut.Text;
       SubItems.Add(edDescription.Text);
       Data := Pointer(TStringList.Create);
       TStringList(Data).Assign(SynTemplate.Lines);
@@ -221,19 +214,17 @@ begin
 end;
 
 procedure TCodeTemplates.actUpdateItemExecute(Sender: TObject);
-Var
-  i : integer;
 begin
-  if (edShortCut.Text <> '') and (FOldIndex >= 0) then begin
-    for i := 0 to lvItems.Items.Count - 1 do
-      if (CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0) and
-         (i <> FOldIndex) then
+  if (edShortcut.Text <> '') and (FOldIndex >= 0) then begin
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if (CompareText(lvItems.Items[I].Caption, edShortcut.Text) = 0) and
+         (I <> FOldIndex) then
       begin
         StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[FOldIndex] do begin
-      Caption := edShortCut.Text;
+      Caption := edShortcut.Text;
       SubItems[0] := edDescription.Text;
       TStringList(Data).Assign(SynTemplate.Lines);
       SynTemplate.Modified := False;
@@ -247,10 +238,10 @@ begin
 end;
 
 procedure TCodeTemplates.actMoveUpExecute(Sender: TObject);
-Var
+var
   Name, Value : string;
   P : Pointer;
-  Index : integer;
+  Index : Integer;
 begin
   if lvItems.ItemIndex > 0 then begin
     Index := lvItems.ItemIndex;
@@ -271,10 +262,10 @@ begin
 end;
 
 procedure TCodeTemplates.actMoveDownExecute(Sender: TObject);
-Var
+var
   Name, Value : string;
   P : Pointer;
-  Index : integer;
+  Index : Integer;
 begin
   if lvItems.ItemIndex < lvItems.Items.Count - 1 then
   begin
@@ -306,13 +297,13 @@ procedure TCodeTemplates.lvItemsSelectItem(Sender: TObject; Item: TListItem;
 begin
   if Selected then begin
     FOldIndex := Item.Index;
-    edShortCut.Text := Item.Caption;
+    edShortcut.Text := Item.Caption;
     edDescription.Text := Item.SubItems[0];
     SynTemplate.Lines.Assign(TStringList(Item.Data));
   end else begin
     AskToUpdate(Sender);
     FOldIndex := -1;
-    edShortCut.Text := '';
+    edShortcut.Text := '';
     edDescription.Text := '';
     SynTemplate.Text := '';
   end;

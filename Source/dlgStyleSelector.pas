@@ -3,40 +3,26 @@ unit dlgStyleSelector;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.SysUtils,
-  System.Variants,
-  System.Types,
   System.Classes,
   System.Actions,
   System.Generics.Collections,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.StdCtrls,
-  Vcl.ComCtrls,
   Vcl.ExtCtrls,
   Vcl.ActnList,
-  Vcl.PlatformDefaultStyleActnCtrls,
-  Vcl.ActnMan,
-  Vcl.ToolWin,
-  Vcl.Themes,
-  Vcl.Styles,
-  Vcl.Styles.PyScripter,
+  VCL.Styles.PyScripter,
   dlgPyIDEBase;
 
 type
   TStyleSelectorForm = class(TPyIDEDlgBase)
     Label1: TLabel;
-    ActionManager1: TActionManager;
-    ActionApplyStyle: TAction;
     Panel1: TPanel;
     Button2: TButton;
     LBStyleNames: TListBox;
     Label2: TLabel;
     Button1: TButton;
+    ActionList: TActionList;
+    actApplyStyle: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -44,23 +30,26 @@ type
     procedure ActionApplyStyleExecute(Sender: TObject);
     procedure LBStyleNamesClick(Sender: TObject);
   private
-    Loading : Boolean;
+    FLoading : Boolean;
     FStylesPath : string;
     FPreview:TVclStylesPreview;
-    ExternalStyleFilesDict :  TDictionary<string, string>;
+    FExternalStyleFilesDict :  TDictionary<string, string>;
+    class var FLoadedStylesDict :  TDictionary<string, string>;
     procedure FillVclStylesList;
   public
-    class var LoadedStylesDict :  TDictionary<string, string>;
     class var CurrentSkinName : string;
     class procedure Execute;
     class procedure SetStyle(StyleName : string);
   end;
 
-
 implementation
 
 uses
+  System.Types,
+  System.SysUtils,
   System.IOUtils,
+  Vcl.Forms,
+  Vcl.Themes,
   cPyScripterSettings;
 
 type
@@ -71,9 +60,9 @@ type
 procedure TStyleSelectorForm.FormCreate(Sender: TObject);
 begin
   inherited;
-  Loading:=False;
+  FLoading:=False;
   LBStyleNames.Sorted := True;
-  ExternalStyleFilesDict := TDictionary<string, string>.Create;
+  FExternalStyleFilesDict := TDictionary<string, string>.Create;
   FStylesPath := TPyScripterSettings.StylesFilesDir;
   FPreview:=TVclStylesPreview.Create(Self);
   FPreview.Parent:=Panel1;
@@ -84,14 +73,14 @@ end;
 
 procedure TStyleSelectorForm.FormDestroy(Sender: TObject);
 begin
-  ExternalStyleFilesDict.Free;
+  FExternalStyleFilesDict.Free;
   FPreview.Free;
 end;
 
 procedure TStyleSelectorForm.FormShow(Sender: TObject);
 //  Todo Select active style
-Var
-  Index : integer;
+var
+  Index : Integer;
 begin
    if (LBStyleNames.Items.Count> 0) then
    begin
@@ -114,17 +103,17 @@ begin
   if LBStyleNames.ItemIndex >= 0 then
   begin
     StyleName := LBStyleNames.Items[LBStyleNames.ItemIndex];
-    if Integer(LBStyleNames.Items.Objects[LbStylenames.ItemIndex]) = 1 then
+    if NativeUInt(LBStyleNames.Items.Objects[LBStyleNames.ItemIndex]) = 1 then
     begin
       // FileName
-      if not Loading then
+      if not FLoading then
       begin
-        FileName := ExternalStyleFilesDict.Items[StyleName];
+        FileName := FExternalStyleFilesDict[StyleName];
         TStyleManager.LoadFromFile(FileName);
         LStyle := TStyleManager.Style[StyleName];
-        TStyleSelectorForm.LoadedStylesDict.Add(StyleName, FileName);
+        TStyleSelectorForm.FLoadedStylesDict.Add(StyleName, FileName);
         //  The Style is now loaded and registerd
-        LBStyleNames.Items.Objects[LbStylenames.ItemIndex] := nil;
+        LBStyleNames.Items.Objects[LBStyleNames.ItemIndex] := nil;
       end;
     end
     else
@@ -134,7 +123,7 @@ begin
     end;
   end;
 
-  if Assigned(LStyle) and not Loading  then
+  if Assigned(LStyle) and not FLoading  then
   begin
     FPreview.Caption:=StyleName;
     FPreview.Style:=LStyle;
@@ -164,8 +153,8 @@ begin
     begin
        // Resource style
       TStyleManager.SetStyle(StyleName);
-      if TStyleSelectorForm.LoadedStylesDict.ContainsKey(StyleName) then
-        TStyleSelectorForm.CurrentSkinName := TStyleSelectorForm.LoadedStylesDict[StyleName]
+      if TStyleSelectorForm.FLoadedStylesDict.ContainsKey(StyleName) then
+        TStyleSelectorForm.CurrentSkinName := TStyleSelectorForm.FLoadedStylesDict[StyleName]
       else
         TStyleSelectorForm.CurrentSkinName := StyleName;
       Exit;
@@ -177,7 +166,7 @@ begin
     if not TStyleManager.TrySetStyle(StyleInfo.Name, False) then
     begin
       TStyleManager.LoadFromFile(StyleName);
-      TStyleSelectorForm.LoadedStylesDict.Add(StyleInfo.Name, StyleName);
+      TStyleSelectorForm.FLoadedStylesDict.Add(StyleInfo.Name, StyleName);
     end;
     TStyleManager.SetStyle(StyleInfo.Name);
     TStyleSelectorForm.CurrentSkinName := StyleName;
@@ -191,10 +180,10 @@ var
 begin
   if LBStyleNames.ItemIndex >= 0 then begin
     StyleName := LBStyleNames.Items[LBStyleNames.ItemIndex];
-    if Integer(LBStyleNames.Items.Objects[LbStylenames.ItemIndex]) = 1 then
+    if NativeUInt(LBStyleNames.Items.Objects[LBStyleNames.ItemIndex]) = 1 then
     begin
       // FileName
-      FileName := ExternalStyleFilesDict.Items[StyleName];
+      FileName := FExternalStyleFilesDict[StyleName];
       TStyleSelectorForm.SetStyle(FileName);
     end
     else
@@ -212,7 +201,7 @@ end;
 
 
 class procedure TStyleSelectorForm.Execute;
-Var
+var
   Owner : TCustomForm;
 begin
   if Assigned(Screen.ActiveCustomForm) then
@@ -229,11 +218,11 @@ begin
 end;
 
 procedure TStyleSelectorForm.FillVclStylesList;
-Var
+var
   FileName : string;
   StyleInfo:  TStyleInfo;
 begin
-   Loading:=True;
+   FLoading:=True;
 
    // First add resource styles
    LBStyleNames.Items.AddStrings(TStyleManager.StyleNames);
@@ -250,19 +239,19 @@ begin
           begin
             // TObject(1) denotes external file
             LBStyleNames.Items.AddObject(StyleInfo.Name, TObject(1));
-            ExternalStyleFilesDict.Add(StyleInfo.Name, FileName);
+            FExternalStyleFilesDict.Add(StyleInfo.Name, FileName);
           end;
        end;
 
     except
     end;
 
-   Loading:=False;
+   FLoading:=False;
 end;
 
 initialization
   TStyleSelectorForm.CurrentSkinName := TStyleManager.ActiveStyle.Name;
-  TStyleSelectorForm.LoadedStylesDict := TDictionary<string, string>.Create;
+  TStyleSelectorForm.FLoadedStylesDict := TDictionary<string, string>.Create;
 finalization
-  TStyleSelectorForm.LoadedStylesDict.Free;
+  TStyleSelectorForm.FLoadedStylesDict.Free;
 end.

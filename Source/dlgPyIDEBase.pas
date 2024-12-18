@@ -3,16 +3,11 @@ unit dlgPyIDEBase;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs;
+  Vcl.Forms;
 
 type
   TPyIDEDlgBase = class(TForm)
     procedure FormCreate(Sender: TObject);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
   end;
 
 var

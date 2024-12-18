@@ -258,16 +258,16 @@ end;
 procedure TParameterList.DoChangeParameter(const AName, AValue: string;
   GetProc: TGetParameterProc; CanAdd: Boolean);
 var
-  Idx, Len : Integer;
+  Len: Integer;
   Param: string;
   DoAdd: Boolean;
 begin
   Param:= AName + '=';
   Len:= Length(Param);
   DoAdd := False;
-  for Idx:= Count - 1 downto 0 do
-    if SameText(Param, Copy(Strings[Idx], 1, Len)) then begin
-      Delete(Idx);
+  for var I := Count - 1 downto 0 do
+    if SameText(Param, Copy(Strings[I], 1, Len)) then begin
+      Delete(I);
       DoAdd := True;
       Break;
     end;
@@ -277,14 +277,14 @@ end;
 
 procedure TParameterList.DoRemoveParameter(const AName: string);
 var
-  Idx, Len: Integer;
+  Len: Integer;
   Param: string;
 begin
   Param:= AName + '=';
   Len:= Length(Param);
-  for Idx:= Count - 1 downto 0 do
-    if SameText(Param, Copy(Strings[Idx], 1, Len)) then begin
-      Delete(Idx);
+  for var I := Count - 1 downto 0 do
+    if SameText(Param, Copy(Strings[I], 1, Len)) then begin
+      Delete(I);
       Break;
     end;
 end;

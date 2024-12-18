@@ -7,7 +7,9 @@
 
 GExperts License Agreement
 GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
-authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+authors who have submitted their code for inclusion. This license agreement
+only covers code written by GExperts, Inc and Erik Berry. You should contact
+the other authors concerning their respective copyrights and conditions.
 
 The rules governing the use of GExperts and the GExperts source code are derived
 from the official Open Source Definition, available at http://www.opensource.org.
@@ -48,8 +50,6 @@ uses
   System.Classes,
   System.ImageList,
   Vcl.Controls,
-  Vcl.Graphics,
-  Vcl.Forms,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ImgList,
@@ -113,12 +113,13 @@ uses
   System.UITypes,
   System.SysUtils,
   System.StrUtils,
+  Vcl.Graphics,
+  Vcl.Forms,
   Vcl.FileCtrl,
   Vcl.Dialogs,
   JvGnugettext,
   uEditAppIntfs,
   uCommonFunctions,
-  dmResources,
   frmFindResults,
   StringResources,
   cPyScripterSettings,
@@ -165,7 +166,6 @@ end;
 
 procedure TFindInFilesDialog.cbDirectoryDropDown(Sender: TObject);
 var
-  i: Integer;
   MaxWidth: Integer;
   Bitmap: Vcl.Graphics.TBitmap;
 begin
@@ -173,9 +173,9 @@ begin
   Bitmap := Vcl.Graphics.TBitmap.Create;
   try
     Bitmap.Canvas.Font.Assign(cbDirectory.Font);
-    for i := 0 to cbDirectory.Items.Count - 1 do
-      MaxWidth := Max(MaxWidth, Bitmap.Canvas.TextWidth(cbDirectory.Items[i]) + 10);
-  finally;
+    for var I := 0 to cbDirectory.Items.Count - 1 do
+      MaxWidth := Max(MaxWidth, Bitmap.Canvas.TextWidth(cbDirectory.Items[I]) + 10);
+  finally
     FreeAndNil(Bitmap);
   end;
   if cbDirectory.Items.Count > cbDirectory.DropDownCount then
@@ -184,7 +184,7 @@ begin
   if MaxWidth > cbDirectory.Width then
     SendMessage(cbDirectory.Handle, CB_SETDROPPEDWIDTH, MaxWidth, 0)
   else
-    SendMessage(cbDirectory.Handle, CB_SETDROPPEDWIDTH, 0, 0)
+    SendMessage(cbDirectory.Handle, CB_SETDROPPEDWIDTH, 0, 0);
 end;
 
 procedure TFindInFilesDialog.btnOKClick(Sender: TObject);
@@ -199,7 +199,7 @@ begin
     Dirs := SplitString(cbDirectory.Text, ';');
     for Dir in Dirs do
     begin
-      if Dir = '' then continue;
+      if Dir = '' then Continue;
       DirName := ExpandFileName(GI_PyIDEServices.ReplaceParams(Dir));
       if not System.SysUtils.DirectoryExists(DirName) then begin
         StyledMessageDlg(Format(_(SSearchDirectoryDoesNotExist), [DirName]), mtError, [mbOK], 0);
@@ -252,7 +252,7 @@ procedure TFindInFilesDialog.LoadFormSettings;
   function RetrieveEditorBlockSelection: string;
   var
     Temp: string;
-    i: Integer;
+    Idx: Integer;
   begin
     if Assigned(GI_ActiveEditor) then
       Temp := GI_ActiveEditor.SynEdit.SelText
@@ -261,10 +261,9 @@ procedure TFindInFilesDialog.LoadFormSettings;
     // Only use the currently selected text if the length is between 1 and 80
     if (Length(Trim(Temp)) >= 1) and (Length(Trim(Temp)) <= 80) then
     begin
-      i := Min(Pos(#13, Temp), Pos(#10, Temp));
-      if i > 0 then
-        Temp := Copy(Temp, 1, i - 1);
-      Temp := Temp;
+      Idx := Min(Pos(#13, Temp), Pos(#10, Temp));
+      if Idx > 0 then
+        Temp := Copy(Temp, 1, Idx - 1);
     end else
       Temp := '';
     Result := Temp;

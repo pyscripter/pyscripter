@@ -10,13 +10,9 @@ unit dlgCollectionEditor;
 interface
 
 uses
-  WinApi.Windows,
-  System.Types,
   System.UITypes,
-  System.SysUtils,
   System.Classes,
   Vcl.Controls,
-  Vcl.Forms,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   dlgPyIDEBase;
@@ -50,31 +46,32 @@ type
     procedure ItemDoubleClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
-    fCollection : TCollection;
-    fItemEdit : TItemEditFunction;
+    FCollection : TCollection;
+    FItemEdit : TItemEditFunction;
+    FDialogType : TCEDialogType;
     procedure CheckButtons;
     procedure UpdateList;
-  public
-    DialogType : TCEDialogType;
   end;
 
- function EditCollection(ACollection: TCollection;
+function EditCollection(ACollection: TCollection;
    ItemClass: TCollectionItemClass; ACaption : string;
    ItemEditFunction: TItemEditFunction;
-   AHelpContext: integer): Boolean;
+   AHelpContext: Integer): Boolean;
 
 function SelectFromCollection(ACollection: TCollection;
    ItemClass: TCollectionItemClass; ACaption : string;
    ItemEditFunction: TItemEditFunction;
-   AHelpContext: integer; var SelectedIndex : integer;
+   AHelpContext: Integer; var SelectedIndex : Integer;
    ADialogType : TCEDialogType = cetSelect): Boolean;
 
 implementation
 
 uses
   System.Math,
+  System.Types,
+  Vcl.Forms,
   Vcl.Dialogs,
-  JVBoxProcs,
+  JvBoxProcs,
   JvGnugettext,
   uCommonFunctions;
 
@@ -83,9 +80,9 @@ uses
 function EditCollection(ACollection: TCollection;
    ItemClass: TCollectionItemClass; ACaption : string;
    ItemEditFunction: TItemEditFunction;
-   AHelpContext: integer): Boolean;
-Var
-  SelectedIndex : integer;
+   AHelpContext: Integer): Boolean;
+var
+  SelectedIndex : Integer;
 begin
   Result := SelectFromCollection(ACollection, ItemClass, ACaption,
     ItemEditFunction, AHelpContext, SelectedIndex, cetEdit);
@@ -94,7 +91,7 @@ end;
 function SelectFromCollection(ACollection: TCollection;
    ItemClass: TCollectionItemClass; ACaption : string;
    ItemEditFunction: TItemEditFunction;
-   AHelpContext: integer; var SelectedIndex : integer;
+   AHelpContext: Integer; var SelectedIndex : Integer;
    ADialogType : TCEDialogType = cetSelect): Boolean;
 begin
   Result := False;
@@ -103,19 +100,19 @@ begin
 
   with TCollectionEditor.Create(Application) do
   try
-    fCollection := TCollection.Create(ItemClass);
-    DialogType := ADialogType;
-    if DialogType = cetSelect then
+    FCollection := TCollection.Create(ItemClass);
+    FDialogType := ADialogType;
+    if FDialogType = cetSelect then
       ItemList.OnDblClick := ItemDoubleClick;
     Caption := ACaption;
     HelpContext := AHelpContext;
-    fItemEdit := ItemEditFunction;
-    fCollection.Assign(ACollection);
+    FItemEdit := ItemEditFunction;
+    FCollection.Assign(ACollection);
     UpdateList;
-    Result := ShowModal = mrOK;
+    Result := ShowModal = mrOk;
     if Result then
     begin
-      ACollection.Assign(fCollection);
+      ACollection.Assign(FCollection);
       SelectedIndex := ItemList.ItemIndex;
       Assert((ADialogType = cetEdit) or (SelectedIndex >= 0));
     end;
@@ -138,21 +135,21 @@ end;
 
 procedure TCollectionEditor.AddBtnClick(Sender: TObject);
 begin
-  if fItemEdit(fCollection.Add) then begin
+  if FItemEdit(FCollection.Add) then begin
     UpdateList;
     ItemList.ItemIndex := ItemList.Count - 1;
     CheckButtons;
   end else
-    fCollection.Delete(fCollection.Count - 1);
+    FCollection.Delete(FCollection.Count - 1);
 end;
 
 procedure TCollectionEditor.ModifyBtnClick(Sender: TObject);
-Var
-  Index : integer;
+var
+  Index : Integer;
 begin
   Index := ItemList.ItemIndex;
-  if (Index >= 0) and fItemEdit(fCollection.FindItemID(
-      Integer(ItemList.Items.Objects[Index])))
+  if (Index >= 0) and FItemEdit(FCollection.FindItemID(
+      NativeInt(ItemList.Items.Objects[Index])))
   then begin
     UpdateList;
     ItemList.ItemIndex := Index;
@@ -163,8 +160,8 @@ end;
 procedure TCollectionEditor.RemoveBtnClick(Sender: TObject);
 begin
   if ItemList.ItemIndex >= 0 then begin
-    fCollection.Delete(fCollection.FindItemID(
-      Integer(ItemList.Items.Objects[ItemList.ItemIndex])).Index);
+    FCollection.Delete(FCollection.FindItemID(
+      NativeInt(ItemList.Items.Objects[ItemList.ItemIndex])).Index);
     UpdateList;
   end;
 end;
@@ -188,7 +185,7 @@ procedure TCollectionEditor.ItemListDragDrop(Sender, Source: TObject;
   X, Y: Integer);
 begin
   if ItemList.ItemIndex >= 0 then begin
-    fCollection.Items[ItemList.ItemIndex].Index :=
+    FCollection.Items[ItemList.ItemIndex].Index :=
       ItemList.ItemAtPos(Point(X, Y), True);
     UpdateList;
   end;
@@ -204,34 +201,32 @@ end;
 procedure TCollectionEditor.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
-   CanClose := (DialogType = cetEdit) or (ModalResult = mrCancel) or (ItemList.ItemIndex >= 0);
+   CanClose := (FDialogType = cetEdit) or (ModalResult = mrCancel) or (ItemList.ItemIndex >= 0);
    if not CanClose then
       StyledMessageDlg(_('Please make a selection'), mtError, [mbOK], 0);
 end;
 
 procedure TCollectionEditor.FormDestroy(Sender: TObject);
 begin
-  fCollection.Free;
+  FCollection.Free;
 end;
 
 procedure TCollectionEditor.UpdateList;
-var
-  I: Integer;
 begin
   ItemList.Clear;
-  for i := 0 to fCollection.Count - 1 do
-    ItemList.Items.AddObject(fCollection.Items[i].DisplayName,
-      TObject(fCollection.Items[i].ID));
+  for var I := 0 to FCollection.Count - 1 do
+    ItemList.Items.AddObject(FCollection.Items[I].DisplayName,
+      TObject(FCollection.Items[I].ID));
   CheckButtons;
 end;
 
 procedure TCollectionEditor.MoveDownBtnClick(Sender: TObject);
-Var
-  Index : integer;
+var
+  Index : Integer;
 begin
   Index := ItemList.ItemIndex;
   if InRange(Index, 0, ItemList.Count - 2) then begin
-    fCollection.Items[Index].Index := fCollection.Items[Index].Index + 1;
+    FCollection.Items[Index].Index := FCollection.Items[Index].Index + 1;
     UpdateList;
     ItemList.ItemIndex := Index + 1;
     CheckButtons;
@@ -239,12 +234,12 @@ begin
 end;
 
 procedure TCollectionEditor.MoveUpBtnClick(Sender: TObject);
-Var
-  Index : integer;
+var
+  Index : Integer;
 begin
   Index := ItemList.ItemIndex;
   if Index > 0 then begin
-    fCollection.Items[Index].Index := fCollection.Items[Index].Index - 1;
+    FCollection.Items[Index].Index := FCollection.Items[Index].Index - 1;
     UpdateList;
     ItemList.ItemIndex := Index - 1;
     CheckButtons;

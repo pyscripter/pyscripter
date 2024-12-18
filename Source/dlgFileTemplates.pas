@@ -11,18 +11,12 @@ unit dlgFileTemplates;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
   System.UITypes,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
-  System.Contnrs,
   System.Actions,
   System.ImageList,
   Vcl.Controls,
   Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.ActnList,
   Vcl.ComCtrls,
@@ -59,7 +53,7 @@ type
     Label3: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    lvItems: TListview;
+    lvItems: TListView;
     CBHighlighters: TComboBox;
     edName: TEdit;
     edCategory: TEdit;
@@ -80,12 +74,10 @@ type
       Selected: Boolean);
   private
     FOldIndex: Integer;
+    FTempFileTemplates : TFileTemplates;
     procedure StoreFieldsToFileTemplate(FileTemplate: TFileTemplate);
     procedure AskToUpdate(Sender: TObject);
-    { Private declarations }
   public
-    { Public declarations }
-    TempFileTemplates : TFileTemplates;
     procedure SetItems;
     procedure GetItems;
   end;
@@ -93,6 +85,9 @@ type
 implementation
 
 uses
+  System.SysUtils,
+  System.Contnrs,
+  Vcl.Dialogs,
   SynEditHighlighter,
   JvGnugettext,
   uCommonFunctions,
@@ -105,9 +100,9 @@ procedure TFileTemplatesDialog.FormCreate(Sender: TObject);
 begin
   inherited;
   FOldIndex := -1;
-  TempFileTemplates := TFileTemplates.Create;
+  FTempFileTemplates := TFileTemplates.Create;
   for var Highlighter in ResourcesDataModule.Highlighters do
-    cbHighlighters.Items.AddObject(_(Highlighter.FriendlyLanguageName),
+    CBHighlighters.Items.AddObject(_(Highlighter.FriendlyLanguageName),
       Highlighter);
   SynTemplate.Highlighter := nil;
   ResourcesDataModule.ParameterCompletion.Editor := SynTemplate;
@@ -116,12 +111,12 @@ end;
 
 procedure TFileTemplatesDialog.FormDestroy(Sender: TObject);
 begin
-  TempFileTemplates.Free;
+  FTempFileTemplates.Free;
 end;
 
 procedure TFileTemplatesDialog.GetItems;
 begin
-  FileTemplates.Assign(TempFileTemplates);
+  FileTemplates.Assign(FTempFileTemplates);
 end;
 
 procedure TFileTemplatesDialog.AskToUpdate(Sender: TObject);
@@ -144,18 +139,16 @@ begin
 end;
 
 procedure TFileTemplatesDialog.SetItems;
-Var
- i : integer;
 begin
-  TempFileTemplates.Assign(FileTemplates);
+  FTempFileTemplates.Assign(FileTemplates);
   lvItems.Items.BeginUpdate;
   try
     lvItems.Items.Clear;
-    for i := 0 to TempFileTemplates.Count - 1 do
-      with lvItems.Items.Add() do begin
-        Caption := (TempFileTemplates[i] as TFileTemplate).Name;
-        Data := TempFileTemplates[i];
-        SubItems.Add(TFileTemplate(TempFileTemplates[i]).Category);
+    for var I := 0 to FTempFileTemplates.Count - 1 do
+      with lvItems.Items.Add do begin
+        Caption := (FTempFileTemplates[I] as TFileTemplate).Name;
+        Data := FTempFileTemplates[I];
+        SubItems.Add(TFileTemplate(FTempFileTemplates[I]).Category);
       end;
   finally
     lvItems.Items.EndUpdate;
@@ -175,17 +168,16 @@ begin
 end;
 
 procedure TFileTemplatesDialog.actAddItemExecute(Sender: TObject);
-Var
-  Item : TListItem;
-  FileTemplate : TFileTemplate;
-  i : Integer;
+var
+  Item: TListItem;
+  FileTemplate: TFileTemplate;
 begin
   if (edName.Text <> '') and (edCategory.Text <> '') then begin
-    for i := 0 to lvItems.Items.Count - 1 do
-      if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
-         (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) then
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if (CompareText(lvItems.Items[I].Caption, edName.Text) = 0) and
+         (CompareText(lvItems.Items[I].SubItems[0], edCategory.Text) = 0) then
       begin
-        Item := lvItems.Items[i];
+        Item := lvItems.Items[I];
         FileTemplate := TFileTemplate(Item.Data);
         StoreFieldsToFileTemplate(FileTemplate);
         Item.Caption := edName.Text;
@@ -196,9 +188,9 @@ begin
       end;
 
     FileTemplate := TFileTemplate.Create;
-    TempFileTemplates.Add(FileTemplate);
+    FTempFileTemplates.Add(FileTemplate);
     StoreFieldsToFileTemplate(FileTemplate);
-    with lvItems.Items.Add() do begin
+    with lvItems.Items.Add do begin
       Caption := edName.Text;
       SubItems.Add(edCategory.Text);
       Data := FileTemplate;
@@ -211,20 +203,18 @@ end;
 procedure TFileTemplatesDialog.actDeleteItemExecute(Sender: TObject);
 begin
   if lvItems.ItemIndex >= 0 then begin
-    TempFileTemplates.Delete(lvItems.ItemIndex);
+    FTempFileTemplates.Delete(lvItems.ItemIndex);
     lvItems.Items.Delete(lvItems.ItemIndex);
   end;
 end;
 
 procedure TFileTemplatesDialog.actUpdateItemExecute(Sender: TObject);
-Var
-  i : integer;
 begin
   if (edName.Text <> '') and (FOldIndex >= 0) then begin
-    for i := 0 to lvItems.Items.Count - 1 do
-      if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
-         (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) and
-         (i <> FOldIndex) then
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if (CompareText(lvItems.Items[I].Caption, edName.Text) = 0) and
+         (CompareText(lvItems.Items[I].SubItems[0], edCategory.Text) = 0) and
+         (I <> FOldIndex) then
       begin
         StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
@@ -279,10 +269,10 @@ begin
 end;
 
 procedure TFileTemplatesDialog.actMoveUpExecute(Sender: TObject);
-Var
+var
   Name, Value : string;
   P : Pointer;
-  Index : integer;
+  Index : Integer;
 begin
   if lvItems.ItemIndex > 0 then begin
     Index := lvItems.ItemIndex;
@@ -297,15 +287,15 @@ begin
       Data := P;
       Selected := True;
     end;
-    TempFileTemplates.Move(Index, Index - 1);
+    FTempFileTemplates.Move(Index, Index - 1);
   end;
 end;
 
 procedure TFileTemplatesDialog.actMoveDownExecute(Sender: TObject);
-Var
+var
   Name, Value : string;
   P : Pointer;
-  Index : integer;
+  Index : Integer;
 begin
   if lvItems.ItemIndex < lvItems.Items.Count - 1 then begin
     Index := lvItems.ItemIndex;
@@ -320,7 +310,7 @@ begin
       Data := P;
       Selected := True;
     end;
-    TempFileTemplates.Move(Index, Index + 1);
+    FTempFileTemplates.Move(Index, Index + 1);
   end;
 end;
 

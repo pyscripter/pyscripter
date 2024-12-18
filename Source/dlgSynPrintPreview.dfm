@@ -10,8 +10,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
   ShowHint = True
   StyleElements = [seFont, seClient]
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object SynEditPrintPreview: TSynEditPrintPreview
     Left = 0
     Top = 30
@@ -118,7 +117,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     object LeftStatusLabel: TSpTBXLabelItem
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 455
+      CustomWidth = 468
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -194,49 +193,40 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     end
   end
   object vilPrintPreview: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 1
         CollectionName = 'PrintPreview\First'
-        Disabled = False
         Name = 'First'
       end
       item
         CollectionIndex = 4
         CollectionName = 'PrintPreview\Previous'
-        Disabled = False
         Name = 'Previous'
       end
       item
         CollectionIndex = 3
         CollectionName = 'PrintPreview\Next'
-        Disabled = False
         Name = 'Next'
       end
       item
         CollectionIndex = 2
         CollectionName = 'PrintPreview\Last'
-        Disabled = False
         Name = 'Last'
       end
       item
         CollectionIndex = 6
         CollectionName = 'PrintPreview\ZoomIn'
-        Disabled = False
         Name = 'ZoomIn'
       end
       item
         CollectionIndex = 5
         CollectionName = 'PrintPreview\Print'
-        Disabled = False
         Name = 'Print'
       end
       item
         CollectionIndex = 0
         CollectionName = 'PrintPreview\Exit'
-        Disabled = False
         Name = 'Exit'
       end>
     ImageCollection = icPrintPreview

@@ -1,17 +1,13 @@
-inherited fmToDoOptions: TfmToDoOptions
+inherited ToDoOptionsDlg: TToDoOptionsDlg
   Left = 347
   Top = 241
   HelpContext = 465
   Caption = 'To Do Options'
   ClientHeight = 283
   ClientWidth = 512
-  OldCreateOrder = True
   Position = poScreenCenter
   OnShow = FormShow
-  ExplicitWidth = 518
-  ExplicitHeight = 312
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object pnlBG: TPanel
     Left = 0
     Top = 0
@@ -35,8 +31,8 @@ inherited fmToDoOptions: TfmToDoOptions
       object lblPriority: TLabel
         Left = 131
         Top = 202
-        Width = 34
-        Height = 13
+        Width = 38
+        Height = 15
         Anchors = [akRight, akBottom]
         Caption = '&Priority'
         Color = clNone
@@ -46,8 +42,8 @@ inherited fmToDoOptions: TfmToDoOptions
       object lblToken: TLabel
         Left = 131
         Top = 149
-        Width = 29
-        Height = 13
+        Width = 32
+        Height = 15
         Anchors = [akRight, akBottom]
         Caption = 'To&ken'
         Color = clNone
@@ -58,7 +54,7 @@ inherited fmToDoOptions: TfmToDoOptions
         Left = 131
         Top = 168
         Width = 96
-        Height = 21
+        Height = 23
         Anchors = [akRight, akBottom]
         TabOrder = 4
         OnChange = edTokenChange
@@ -67,7 +63,7 @@ inherited fmToDoOptions: TfmToDoOptions
         Left = 131
         Top = 221
         Width = 96
-        Height = 21
+        Height = 23
         Style = csDropDownList
         Anchors = [akRight, akBottom]
         TabOrder = 5
@@ -83,7 +79,7 @@ inherited fmToDoOptions: TfmToDoOptions
         Width = 118
         Height = 243
         Anchors = [akLeft, akTop, akRight, akBottom]
-        ItemHeight = 13
+        ItemHeight = 15
         Sorted = True
         TabOrder = 0
         OnClick = lstTokensClick
@@ -157,7 +153,6 @@ inherited fmToDoOptions: TfmToDoOptions
         ScrollBars = ssBoth
         TabOrder = 4
         WordWrap = False
-        Zoom = 100
       end
       object chkInclude: TCheckBox
         Left = 10

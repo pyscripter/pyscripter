@@ -9,7 +9,6 @@ inherited ExceptionDialogMail: TExceptionDialogMail
   KeyPreview = True
   Position = poScreenCenter
   ShowHint = True
-  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnPaint = FormPaint
   OnResize = FormResize

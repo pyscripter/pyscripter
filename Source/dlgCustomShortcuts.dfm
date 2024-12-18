@@ -9,10 +9,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
   Position = poOwnerFormCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ExplicitWidth = 465
-  ExplicitHeight = 405
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -33,13 +30,12 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       Height = 2
       Anchors = [akLeft, akRight, akBottom]
       Shape = bsTopLine
-      ExplicitWidth = 348
     end
     object lblNewShortcutKey: TLabel
       Left = 8
       Top = 205
-      Width = 116
-      Height = 13
+      Width = 123
+      Height = 15
       Caption = 'Press &new shortcut key:'
       Color = clNone
       ParentColor = False
@@ -47,8 +43,8 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     object lblCategories: TLabel
       Left = 10
       Top = 9
-      Width = 56
-      Height = 13
+      Width = 59
+      Height = 15
       Caption = '&Categories:'
       Color = clNone
       ParentColor = False
@@ -56,8 +52,8 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     object lblCommands: TLabel
       Left = 200
       Top = 9
-      Width = 56
-      Height = 13
+      Width = 65
+      Height = 15
       Caption = 'C&ommands:'
       Color = clNone
       ParentColor = False
@@ -65,8 +61,8 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     object lblCurrent: TLabel
       Left = 8
       Top = 251
-      Width = 107
-      Height = 13
+      Width = 115
+      Height = 15
       Caption = 'Currently assigned to:'
       Color = clNone
       ParentColor = False
@@ -75,8 +71,8 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     object lblAssignedTo: TLabel
       Left = 8
       Top = 270
-      Width = 65
-      Height = 13
+      Width = 74
+      Height = 15
       Caption = 'lblAssignedTo'
       Color = clNone
       ParentColor = False
@@ -85,8 +81,8 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     object lblCurrentKeys: TLabel
       Left = 200
       Top = 205
-      Width = 67
-      Height = 13
+      Width = 70
+      Height = 15
       Caption = 'C&urrent Keys:'
       Color = clNone
       ParentColor = False
@@ -144,7 +140,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       Top = 28
       Width = 184
       Height = 97
-      ItemHeight = 13
+      ItemHeight = 15
       TabOrder = 1
       OnClick = lbCategoriesClick
     end
@@ -154,7 +150,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       Width = 249
       Height = 97
       Anchors = [akLeft, akTop, akRight]
-      ItemHeight = 13
+      ItemHeight = 15
       Sorted = True
       TabOrder = 2
       OnClick = lbCommandsClick
@@ -165,7 +161,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       Width = 249
       Height = 57
       Anchors = [akLeft, akTop, akRight]
-      ItemHeight = 13
+      ItemHeight = 15
       TabOrder = 5
     end
     object gbDescription: TGroupBox
@@ -178,15 +174,14 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       TabOrder = 0
       object lblDescription: TLabel
         Left = 2
-        Top = 15
+        Top = 17
         Width = 437
-        Height = 44
+        Height = 42
         Align = alClient
         AutoSize = False
         Color = clNone
         ParentColor = False
         Transparent = True
-        ExplicitWidth = 324
       end
     end
   end

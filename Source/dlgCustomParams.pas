@@ -3,17 +3,10 @@ unit dlgCustomParams;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.UITypes,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Actions,
   System.ImageList,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.ActnList,
   Vcl.ComCtrls,
@@ -46,7 +39,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     edName: TEdit;
-    lvItems: TListview;
+    lvItems: TListView;
     vilImages: TVirtualImageList;
     procedure FormShow(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
@@ -58,10 +51,7 @@ type
     procedure actMoveDownExecute(Sender: TObject);
     procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
-  private
-    { Private declarations }
   public
-    { Public declarations }
     procedure SetItems(List : TStrings);
     procedure GetItems(List : TStrings);
   end;
@@ -69,6 +59,8 @@ type
 implementation
 
 uses
+  System.SysUtils,
+  Vcl.Dialogs,
   Vcl.Themes,
   Vcl.Graphics,
   JvGnugettext,
@@ -89,34 +81,29 @@ end;
 
 procedure TCustomizeParams.edNameKeyPress(Sender: TObject; var Key: Char);
 begin
-  if not CharInset(Key, ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
+  if not CharInSet(Key, ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
     Key := #0;
-  inherited;
 end;
 
 procedure TCustomizeParams.GetItems(List: TStrings);
-Var
- i : integer;
 begin
   List.Clear;
   List.BeginUpdate;
   try
-    for i := 0 to lvItems.Items.Count - 1 do
-      List.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].SubItems[0]);
+    for var I := 0 to lvItems.Items.Count - 1 do
+      List.Add(lvItems.Items[I].Caption + '=' + lvItems.Items[I].SubItems[0]);
   finally
     List.EndUpdate;
   end;
 end;
 
 procedure TCustomizeParams.SetItems(List: TStrings);
-Var
- i : integer;
 begin
   lvItems.Items.Clear;
-  for i := 0 to List.Count - 1 do
-    with lvItems.Items.Add() do begin
-      Caption := List.Names[i];
-      SubItems.Add(List.Values[List.Names[i]]);
+  for var I := 0 to List.Count - 1 do
+    with lvItems.Items.Add do begin
+      Caption := List.Names[I];
+      SubItems.Add(List.Values[List.Names[I]]);
     end;
 end;
 
@@ -133,22 +120,21 @@ begin
 end;
 
 procedure TCustomizeParams.actAddItemExecute(Sender: TObject);
-Var
-  Item : TListItem;
-  i : Integer;
+var
+  Item: TListItem;
 begin
   if edName.Text <> '' then begin
-    for i := 0 to lvItems.Items.Count - 1 do
-      if CompareText(lvItems.Items[i].Caption, edName.Text) = 0 then begin
-        Item := lvItems.Items[i];
-        Item.Caption := EdName.Text;
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if CompareText(lvItems.Items[I].Caption, edName.Text) = 0 then begin
+        Item := lvItems.Items[I];
+        Item.Caption := edName.Text;
         Item.SubItems[0] := SynValue.Text;
         Item.Selected := True;
         Item.MakeVisible(False);
         Exit;
       end;
 
-    with lvItems.Items.Add() do begin
+    with lvItems.Items.Add do begin
       Caption := edName.Text;
       SubItems.Add(SynValue.Text);
       Selected := True;
@@ -164,19 +150,17 @@ begin
 end;
 
 procedure TCustomizeParams.actUpdateItemExecute(Sender: TObject);
-Var
-  i : integer;
 begin
   if (edName.Text <> '') and (lvItems.ItemIndex >= 0) then begin
-    for i := 0 to lvItems.Items.Count - 1 do
-      if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
-         (i <> lvItems.ItemIndex) then
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if (CompareText(lvItems.Items[I].Caption, edName.Text) = 0) and
+         (I <> lvItems.ItemIndex) then
       begin
         StyledMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
-      Caption := EdName.Text;
+      Caption := edName.Text;
       SubItems[0] := SynValue.Text;
     end;
   end;
@@ -195,9 +179,9 @@ begin
 end;
 
 procedure TCustomizeParams.actMoveUpExecute(Sender: TObject);
-Var
+var
   Name, Value : string;
-  Index : integer;
+  Index : Integer;
 begin
   if lvItems.ItemIndex > 0 then begin
     Index := lvItems.ItemIndex;
@@ -214,9 +198,9 @@ begin
 end;
 
 procedure TCustomizeParams.actMoveDownExecute(Sender: TObject);
-Var
+var
   Name, Value : string;
-  Index : integer;
+  Index : Integer;
 begin
   if (lvItems.ItemIndex >= 0) and
     (lvItems.ItemIndex < lvItems.Items.Count - 1) then

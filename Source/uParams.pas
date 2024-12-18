@@ -95,15 +95,13 @@ begin
 end;
 
 function GetModFiles: string;
-var
-  Idx: Integer;
 begin
   Result := '';
   if Assigned(GI_EditorFactory) then
   begin
     with GI_EditorFactory do
-      for Idx := 0 to GetEditorCount - 1 do
-        with Editor[Idx] do
+      for var I := 0 to GetEditorCount - 1 do
+        with Editor[I] do
           if Modified and (FileName <> '') then
             Result := Result + ' ' + ExtractShortPathName(FileName);
     Delete(Result, 1, 1);
@@ -111,15 +109,13 @@ begin
 end;
 
 function GetOpenFiles: string;
-var
-  Idx: Integer;
 begin
   Result := '';
   if Assigned(GI_EditorFactory) then
   begin
     with GI_EditorFactory do
-      for Idx := 0 to GetEditorCount - 1 do
-        with Editor[Idx] do
+      for var I := 0 to GetEditorCount - 1 do
+        with Editor[I] do
           if GetFileName <> '' then
             Result := Result + ' ' + ExtractShortPathName(FileName);
     Delete(Result, 1, 1);
@@ -224,11 +220,9 @@ begin
 end;
 
 function GetDate(const AText: string): string;
-var
-  V: Variant;
 begin
   try
-    V := AText;
+    var V: Variant := AText;
     VarCast(V, V, varDate);
     Result := DateToStr(V);
   except
@@ -237,11 +231,9 @@ begin
 end;
 
 function GetTime(const AText: string): string;
-var
-  V: Variant;
 begin
   try
-    V := AText;
+    var V: Variant := AText;
     VarCast(V, V, varDate);
     Result := TimeToStr(V);
   except
@@ -328,13 +320,11 @@ end;
 function GetDateFormated(const AText: string): string;
 // Delphi's string to date conversion fails when the date contains month names
 // so use variant conversion instead
-var
-  V: Variant;
 begin
   with TRegEx.Match(AText, '([^'']+)-''([^'']+)''') do
     if Success then
       try
-        V := GroupValue(1);
+        var V: Variant := GroupValue(1);
         VarCast(V, V, varDate);
         Exit(FormatDateTime(GroupValue(2), V));
       except
@@ -824,7 +814,6 @@ end;
 
 procedure RegisterCustomParams;
 var
-  Idx: Integer;
   ParamName: string;
 begin
   with Parameters do
@@ -832,9 +821,9 @@ begin
     Clear;
     Modifiers.Clear;
     RegisterStandardParametersAndModifiers;
-    for Idx := 0 to CustomParams.Count - 1 do
+    for var I := 0 to CustomParams.Count - 1 do
     begin
-      ParamName := CustomParams.Names[Idx];
+      ParamName := CustomParams.Names[I];
       if ParamName <> '' then
         RegisterParameter(ParamName, CustomParams.Values[ParamName], nil);
     end;

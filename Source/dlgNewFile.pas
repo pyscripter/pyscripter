@@ -3,22 +3,18 @@ unit dlgNewFile;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.SysUtils,
   System.Classes,
-  System.Contnrs,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
-  VirtualTrees.Types,
-  VirtualTrees.BaseTree,
-  VirtualTrees,
-  cFileTemplates,
-  dlgPyIDEBase,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
-  Vcl.ComCtrls, VirtualTrees.BaseAncestorVCL, VirtualTrees.AncestorVCL;
+  Vcl.ComCtrls,
+  VirtualTrees.Types,
+  VirtualTrees.BaseTree,
+  VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.AncestorVCL,
+  VirtualTrees,
+  cFileTemplates,
+  dlgPyIDEBase;
 
 type
   TNewFileDialog = class(TPyIDEDlgBase)
@@ -33,7 +29,7 @@ type
     btnCreate: TButton;
     btnManageTemplates: TButton;
     Splitter1: TSplitter;
-    lvTemplates: TListview;
+    lvTemplates: TListView;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure tvCategoriesGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -46,10 +42,8 @@ type
       Selected: Boolean);
     procedure lvTemplatesDblClick(Sender: TObject);
   private
-    { Private declarations }
+    FCategories : TStringList;
   public
-    { Public declarations }
-    Categories : TStringList;
     SelectedTemplate : TFileTemplate;
     procedure SetUp;
   end;
@@ -57,7 +51,12 @@ type
 implementation
 
 uses
-  Winapi.ShellAPI, dmCommands, MPCommonObjects;
+  Winapi.Windows,
+  Winapi.ShellAPI,
+  System.SysUtils,
+  System.Contnrs,
+  MPCommonObjects,
+  dmCommands;
 
 {$R *.dfm}
 
@@ -65,7 +64,7 @@ procedure TNewFileDialog.btnCreateClick(Sender: TObject);
 begin
   if Assigned(lvTemplates.Selected) then begin
     SelectedTemplate := TFileTemplate(lvTemplates.Selected.Data);
-    ModalResult := mrOK;
+    ModalResult := mrOk;
   end;
 end;
 
@@ -78,14 +77,14 @@ end;
 procedure TNewFileDialog.FormCreate(Sender: TObject);
 begin
   inherited;
-  Categories := TStringList.Create;
-  Categories.CaseSensitive := False;
+  FCategories := TStringList.Create;
+  FCategories.CaseSensitive := False;
   lvTemplates.LargeImages := LargeSysImages;
 end;
 
 procedure TNewFileDialog.FormDestroy(Sender: TObject);
 begin
-  Categories.Free;
+  FCategories.Free;
 end;
 
 procedure TNewFileDialog.FormShow(Sender: TObject);
@@ -105,24 +104,22 @@ begin
 end;
 
 procedure TNewFileDialog.SetUp;
-var
-  i : integer;
 begin
-  Categories.Clear;
+  FCategories.Clear;
   tvCategories.Clear;
   lvTemplates.Items.Clear;
-  for i  := 0 to FileTemplates.Count - 1 do
-    if Categories.IndexOf(TFileTemplate(FileTemplates[i]).Category) < 0 then
-      Categories.Add(TFileTemplate(FileTemplates[i]).Category);
-  tvCategories.RootNodeCount := Categories.Count;
-  if Categories.Count > 0 then
+  for var I  := 0 to FileTemplates.Count - 1 do
+    if FCategories.IndexOf(TFileTemplate(FileTemplates[I]).Category) < 0 then
+      FCategories.Add(TFileTemplate(FileTemplates[I]).Category);
+  tvCategories.RootNodeCount := FCategories.Count;
+  if FCategories.Count > 0 then
     tvCategories.Selected[tvCategories.RootNode.FirstChild] := True;
 end;
 
 procedure TNewFileDialog.tvCategoriesChange(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
-Var
-  i, Index : integer;
+var
+  I, Index : Integer;
   FileTemplate : TFileTemplate;
   FName : string;
   FileInfo: TSHFileInfo;
@@ -130,9 +127,9 @@ begin
   if Assigned(Node) and (vsSelected in Node.States) then begin
     lvTemplates.Items.Clear;
     Index := Node.Index;
-    for i := 0 to FileTemplates.Count - 1 do begin
-      FileTemplate := FileTemplates[i] as TFileTemplate;
-      if CompareText(Categories[Index], FileTemplate.Category) = 0 then begin
+    for I := 0 to FileTemplates.Count - 1 do begin
+      FileTemplate := FileTemplates[I] as TFileTemplate;
+      if CompareText(FCategories[Index], FileTemplate.Category) = 0 then begin
         with lvTemplates.Items.Add do begin
           Caption := FileTemplate.Name;
           Data := FileTemplate;
@@ -160,7 +157,7 @@ procedure TNewFileDialog.tvCategoriesGetText(Sender: TBaseVirtualTree;
   var CellText: string);
 begin
   if TextType = ttNormal then
-    CellText := Categories[Node.Index]
+    CellText := FCategories[Node.Index];
 end;
 
 end.

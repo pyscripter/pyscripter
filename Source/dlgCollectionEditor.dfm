@@ -4,14 +4,10 @@ inherited CollectionEditor: TCollectionEditor
   BorderIcons = [biSystemMenu]
   ClientHeight = 267
   ClientWidth = 301
-  OldCreateOrder = True
   OnCloseQuery = FormCloseQuery
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ExplicitWidth = 307
-  ExplicitHeight = 296
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -32,7 +28,7 @@ inherited CollectionEditor: TCollectionEditor
       Height = 251
       Anchors = [akLeft, akTop, akRight, akBottom]
       DragMode = dmAutomatic
-      ItemHeight = 13
+      ItemHeight = 15
       TabOrder = 5
       OnClick = ItemListClick
       OnDblClick = ModifyBtnClick

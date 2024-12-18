@@ -3,16 +3,10 @@ unit dlgImportDirectory;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
   Vcl.Controls,
   Vcl.ExtCtrls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
@@ -30,10 +24,7 @@ type
     DirectoryEdit: TButtonedEdit;
     vilImages: TVirtualImageList;
     procedure DirectoryEditBtnClick(Sender: TObject);
-  private
-    { Private declarations }
   public
-    { Public declarations }
     class var FileMasks : string;
     class var Directory : string;
     class var Recursive : Boolean;
@@ -46,10 +37,8 @@ implementation
 uses
   Winapi.ShLwApi,
   Vcl.FileCtrl,
-  Vcl.Graphics,
-  Vcl.Themes,
-  JvGnuGetText,
-  dmResources;
+  Vcl.Forms,
+  JvGnugettext;
 
 {$R *.dfm}
 
@@ -66,7 +55,7 @@ begin
 end;
 
 class function TImportDirectoryForm.Execute: Boolean;
-Var
+var
   Owner : TCustomForm;
 begin
   if Assigned(Screen.ActiveCustomForm) then
@@ -80,7 +69,7 @@ begin
     cbRecursive.Checked := Recursive;
     SHAutoComplete(DirectoryEdit.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
       SHACF_AUTOSUGGEST_FORCE_OFF);
-    if ShowModal = mrOK then begin
+    if ShowModal = mrOk then begin
       Result := True;
       FileMasks := ebMask.Text;
       Directory := DirectoryEdit.Text;

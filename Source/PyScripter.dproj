@@ -192,7 +192,7 @@ $(PostBuildEvent)]]>
             <Form>ToDoWindow</Form>
         </DCCReference>
         <DCCReference Include="dlgToDoOptions.pas">
-            <Form>fmToDoOptions</Form>
+            <Form>ToDoOptionsDlg</Form>
         </DCCReference>
         <DCCReference Include="cFileSearch.pas"/>
         <DCCReference Include="cFindInFiles.pas"/>
@@ -286,7 +286,7 @@ $(PostBuildEvent)]]>
         </DCCReference>
         <DCCReference Include="JvDockInfo.pas"/>
         <DCCReference Include="dlgSynEditOptions.pas">
-            <Form>fmEditorOptionsDialog</Form>
+            <Form>EditorOptionsDialog</Form>
             <DesignClass>TForm</DesignClass>
         </DCCReference>
         <DCCReference Include="JvDockSupportControl.pas"/>

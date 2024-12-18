@@ -8,7 +8,9 @@
 
 GExperts License Agreement
 GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
-authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+authors who have submitted their code for inclusion. This license agreement only
+covers code written by GExperts, Inc and Erik Berry. You should contact the
+other authors concerning their respective copyrights and conditions.
 
 The rules governing the use of GExperts and the GExperts source code are derived
 from the official Open Source Definition, available at http://www.opensource.org.
@@ -49,13 +51,12 @@ uses
   System.Classes,
   Vcl.Controls,
   Vcl.StdCtrls,
-  Vcl.Forms,
   Vcl.ComCtrls,
   Vcl.ExtCtrls,
   dlgPyIDEBase;
 
 type
-  TfmToDoOptions = class(TPyIDEDlgBase)
+  TToDoOptionsDlg = class(TPyIDEDlgBase)
     gbxTokens: TGroupBox;
     gbxOptions: TGroupBox;
     gbxSearchFiles: TGroupBox;
@@ -99,8 +100,8 @@ implementation
 {$R *.dfm}
 
 uses
-  System.UITypes,
   System.SysUtils,
+  Vcl.Forms,
   Vcl.Dialogs,
   Vcl.Graphics,
   JvGnugettext,
@@ -109,7 +110,7 @@ uses
   dlgDirectoryList,
   StringResources;
 
-procedure TfmToDoOptions.UpdateButtonState;
+procedure TToDoOptionsDlg.UpdateButtonState;
 var
   HasTokenText: Boolean;
   TokenTextInList: Boolean;
@@ -135,12 +136,12 @@ begin
     end;
 end;
 
-procedure TfmToDoOptions.btnBrowseClick(Sender: TObject);
+procedure TToDoOptionsDlg.btnBrowseClick(Sender: TObject);
 begin
-  EditFolderList(meDirectories.Lines, _('''To Do'' search path'))
+  EditFolderList(meDirectories.Lines, _('''To Do'' search path'));
 end;
 
-procedure TfmToDoOptions.DirEnable(New: Boolean);
+procedure TToDoOptionsDlg.DirEnable(New: Boolean);
 begin
   meDirectories.Enabled := New;
   chkInclude.Enabled   := New;
@@ -151,7 +152,7 @@ begin
     meDirectories.Color := clWindow;
 end;
 
-procedure TfmToDoOptions.btnInsertClick(Sender: TObject);
+procedure TToDoOptionsDlg.btnInsertClick(Sender: TObject);
 var
   TokenInfo: TTokenInfo;
   TokenString: string;
@@ -161,7 +162,7 @@ begin
   begin
     TokenInfo := TTokenInfo.Create;
     TokenInfo.Token := TokenString.ToUpper;
-    TokenInfo.Priority := TTodoPriority(cboPriority.ItemIndex);
+    TokenInfo.Priority := TToDoPriority(cboPriority.ItemIndex);
     lstTokens.Items.AddObject(TokenInfo.Token, TokenInfo);
   end
   else
@@ -172,7 +173,7 @@ begin
   UpdateButtonState;
 end;
 
-procedure TfmToDoOptions.btnRemoveClick(Sender: TObject);
+procedure TToDoOptionsDlg.btnRemoveClick(Sender: TObject);
 begin
   with lstTokens do
     if ItemIndex <> -1 then
@@ -183,7 +184,7 @@ begin
   UpdateButtonState;
 end;
 
-procedure TfmToDoOptions.btnApplyClick(Sender: TObject);
+procedure TToDoOptionsDlg.btnApplyClick(Sender: TObject);
 var
   TokenText: string;
 begin
@@ -195,7 +196,7 @@ begin
        Assigned(Items.Objects[ItemIndex]) then
     begin
       Items[ItemIndex] := TokenText;
-      with TTokeninfo(Items.Objects[ItemIndex]) do
+      with TTokenInfo(Items.Objects[ItemIndex]) do
       begin
         Token := TokenText.ToUpper;
         Priority := TToDoPriority(cboPriority.ItemIndex);
@@ -205,18 +206,18 @@ begin
   UpdateButtonState;
 end;
 
-procedure TfmToDoOptions.edTokenChange(Sender: TObject);
+procedure TToDoOptionsDlg.edTokenChange(Sender: TObject);
 begin
   UpdateButtonState;
 end;
 
-procedure TfmToDoOptions.FormShow(Sender: TObject);
+procedure TToDoOptionsDlg.FormShow(Sender: TObject);
 begin
   cboPriority.ItemIndex := 1;
   UpdateButtonState;
 end;
 
-procedure TfmToDoOptions.lstTokensClick(Sender: TObject);
+procedure TToDoOptionsDlg.lstTokensClick(Sender: TObject);
 begin
   UpdateButtonState;
   if lstTokens.ItemIndex > -1 then
@@ -224,28 +225,28 @@ begin
     with lstTokens do
     begin
       cboPriority.ItemIndex := Ord(TTokenInfo(Items.Objects[ItemIndex]).Priority);
-      edToken.Text := Items[ItemIndex]
+      edToken.Text := Items[ItemIndex];
     end;
   end;
 end;
 
-procedure TfmToDoOptions.cboPriorityChange(Sender: TObject);
+procedure TToDoOptionsDlg.cboPriorityChange(Sender: TObject);
 begin
   UpdateButtonState;
 end;
 
-procedure TfmToDoOptions.FormCreate(Sender: TObject);
+procedure TToDoOptionsDlg.FormCreate(Sender: TObject);
 begin
   inherited;
   DirEnable(radScanDir.Checked);
 end;
 
-procedure TfmToDoOptions.radScanDirClick(Sender: TObject);
+procedure TToDoOptionsDlg.radScanDirClick(Sender: TObject);
 begin
   DirEnable(radScanDir.Checked);
 end;
 
-procedure TfmToDoOptions.btnHelpClick(Sender: TObject);
+procedure TToDoOptionsDlg.btnHelpClick(Sender: TObject);
 begin
   Application.HelpContext(HelpContext);
 end;

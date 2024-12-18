@@ -7,7 +7,9 @@
 
 GExperts License Agreement
 GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
-authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+authors who have submitted their code for inclusion. This license agreement only
+covers code written by GExperts, Inc and Erik Berry. You should contact the
+other authors concerning their respective copyrights and conditions.
 
 The rules governing the use of GExperts and the GExperts source code are derived
 from the official Open Source Definition, available at http://www.opensource.org.
@@ -49,7 +51,6 @@ uses
   Vcl.Controls,
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
-  Vcl.Forms,
   cFindInFiles,
   dlgPyIDEBase;
 
@@ -88,6 +89,7 @@ implementation
 
 uses
   System.SysUtils,
+  Vcl.Forms,
   frmFindResults;
 
 constructor TReplaceInFilesDialog.Create(AOwner: TComponent);

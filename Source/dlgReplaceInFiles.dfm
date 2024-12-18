@@ -6,10 +6,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
   ClientHeight = 158
   ClientWidth = 401
   Position = poScreenCenter
-  ExplicitWidth = 407
-  ExplicitHeight = 187
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -23,8 +20,8 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     object lblReplaceString: TLabel
       Left = 92
       Top = 8
-      Width = 49
-      Height = 13
+      Width = 52
+      Height = 15
       Caption = 'TestString'
       Color = clNone
       ParentColor = False
@@ -33,8 +30,8 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     object lblWith: TLabel
       Left = 10
       Top = 33
-      Width = 22
-      Height = 13
+      Width = 25
+      Height = 15
       Caption = '&With'
       Color = clNone
       FocusControl = cbReplace
@@ -44,7 +41,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
       Left = 10
       Top = 57
       Width = 10
-      Height = 13
+      Height = 15
       Caption = 'In'
       Color = clNone
       ParentColor = False
@@ -52,8 +49,8 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     object lblReplace: TLabel
       Left = 10
       Top = 8
-      Width = 38
-      Height = 13
+      Width = 41
+      Height = 15
       Caption = 'Replace'
       Color = clNone
       ParentColor = False
@@ -62,7 +59,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
       Left = 92
       Top = 57
       Width = 3
-      Height = 13
+      Height = 15
       Anchors = [akLeft, akTop, akRight]
       Color = clNone
       ParentColor = False
@@ -72,7 +69,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
       Left = 92
       Top = 30
       Width = 302
-      Height = 21
+      Height = 23
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
     end

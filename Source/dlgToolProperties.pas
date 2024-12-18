@@ -11,27 +11,18 @@ unit dlgToolProperties;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.Types,
-  System.SysUtils,
   System.Classes,
   System.Actions,
   System.ImageList,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.Menus,
   Vcl.ActnList,
   Vcl.ComCtrls,
-  Vcl.Samples.Spin,
   Vcl.ExtCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
   TB2Item,
-  SpTBXControls,
-  SpTBXEditors,
   SpTBXItem,
   SpTBXTabs,
   SynEdit,
@@ -102,7 +93,7 @@ type
     tabProperties: TSpTBXTabSheet;
     SpTBXTabItem2: TSpTBXTabItem;
     tabEnvironment: TSpTBXTabSheet;
-    lvItems: TListview;
+    lvItems: TListView;
     vilImages: TVirtualImageList;
     cbUTF8IO: TCheckBox;
     procedure FormShow(Sender: TObject);
@@ -122,20 +113,21 @@ type
       Selected: Boolean);
     procedure SynEditEnter(Sender: TObject);
   private
-    { Private declarations }
-    fEnvStrings : TStrings;
-    hkShortCut: TSynHotKey;
-  public
-    { Public declarations }
+    FEnvStrings : TStrings;
+    FHotKeyEditor: TSynHotKey;
   end;
 
-  function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
-  function EditToolItem(Item : TCollectionItem) : Boolean;
+function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
+function EditToolItem(Item : TCollectionItem) : Boolean;
 
 implementation
 
 uses
+  System.Types,
   System.UITypes,
+  System.SysUtils,
+  Vcl.Forms,
+  Vcl.Dialogs,
   Vcl.Graphics,
   Vcl.Themes,
   Vcl.FileCtrl,
@@ -148,8 +140,6 @@ uses
 {$R *.dfm}
 
 function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
-Var
-  i : integer;
 begin
   Result := False;
   if not Assigned(Tool) then Exit;
@@ -162,7 +152,7 @@ begin
       SynParameters.Text := Parameters;
       SynWorkDir.Text := WorkingDirectory;
       cbContext.ItemIndex := Integer(Context);
-      hkShortCut.HotKey := ShortCut;
+      FHotKeyEditor.HotKey := ShortCut;
       cbSaveFiles.ItemIndex := Integer(SaveFiles);
       cbStandardInput.ItemIndex := Integer(ProcessInput);
       cbStandardOutput.ItemIndex := Integer(ProcessOutput);
@@ -174,18 +164,18 @@ begin
       cbUTF8IO.Checked := Utf8IO;
       cbUseCustomEnv.Checked := UseCustomEnvironment;
       if UseCustomEnvironment then
-        fEnvStrings.Assign(Environment)
+        FEnvStrings.Assign(Environment)
       else
         GetEnvironmentVars(fEnvStrings);
     end;
     if IsExternalRun then begin
       Caption := _('External Run Properties');
-      hkShortCut.Enabled := False;
+      FHotKeyEditor.Enabled := False;
       lbShortcut.Enabled := False;
       cbContext.Enabled := False;
       lbContext.Enabled := False;
     end;
-    Result := (ShowModal = mrOK) and (edName.Text <> '');
+    Result := (ShowModal = mrOk) and (edName.Text <> '');
     if Result then with Tool do begin
       Caption := edName.Text;
       Description := edDescription.Text;
@@ -193,7 +183,7 @@ begin
       Parameters := SynParameters.Text;
       WorkingDirectory := SynWorkDir.Text;
       Context := TToolContext(cbContext.ItemIndex);
-      ShortCut := hkShortCut.HotKey;
+      ShortCut := FHotKeyEditor.HotKey;
       SaveFiles := TSaveFiles(cbSaveFiles.ItemIndex);
       ProcessInput := TProcessStdInputOption(cbStandardInput.ItemIndex);
       ProcessOutput := TProcessStdOutputOption(cbStandardOutput.ItemIndex);
@@ -206,8 +196,8 @@ begin
       UseCustomEnvironment := cbUseCustomEnv.Checked;
       Environment.Clear;
       if UseCustomEnvironment then begin
-        for i := 0 to lvItems.Items.Count - 1 do
-          Environment.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].SubItems[0]);
+        for var I := 0 to lvItems.Items.Count - 1 do
+          Environment.Add(lvItems.Items[I].Caption + '=' + lvItems.Items[I].SubItems[0]);
       end;
     end;
   finally
@@ -233,12 +223,12 @@ end;
 procedure TToolProperties.FormCreate(Sender: TObject);
 begin
   inherited;
-  fEnvStrings := TStringList.Create;
+  FEnvStrings := TStringList.Create;
 
-  hkShortCut := TSynHotKey.Create(Self);
-  with hkShortCut do
+  FHotKeyEditor := TSynHotKey.Create(Self);
+  with FHotKeyEditor do
   begin
-    Name := 'hkShortCut';
+    Name := 'FHotKeyEditor';
     Parent := GroupBox4;
     Left := PPIScale(86);
     Top := PPIScale(15);
@@ -263,7 +253,7 @@ end;
 
 procedure TToolProperties.FormDestroy(Sender: TObject);
 begin
-  fEnvStrings.Free;
+  FEnvStrings.Free;
 end;
 
 procedure TToolProperties.btnWorkDirClick(Sender: TObject);
@@ -299,28 +289,28 @@ begin
 end;
 
 procedure TToolProperties.actAddItemExecute(Sender: TObject);
-Var
-  Item : TListItem;
-  i : Integer;
+var
+  Item: TListItem;
 begin
   if edEnvName.Text <> '' then begin
-    for i := 0 to lvItems.Items.Count - 1 do
-      if CompareText(lvItems.Items[i].Caption, EdEnvName.Text) = 0 then begin
-        Item := lvItems.Items[i];
-        Item.Caption := EdEnvName.Text;
-        Item.SubItems[0] := EdEnvValue.Text;
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if CompareText(lvItems.Items[I].Caption, edEnvName.Text) = 0 then begin
+        Item := lvItems.Items[I];
+        Item.Caption := edEnvName.Text;
+        Item.SubItems[0] := edEnvValue.Text;
         Item.Selected := True;
         Item.MakeVisible(False);
         Exit;
       end;
 
-    with lvItems.Items.Add() do begin
+    with lvItems.Items.Add do begin
       Caption := edEnvName.Text;
       SubItems.Add(edEnvValue.Text);
       Selected := True;
       MakeVisible(False);
     end;
-  end;end;
+  end;
+end;
 
 procedure TToolProperties.actDeleteItemExecute(Sender: TObject);
 begin
@@ -329,20 +319,19 @@ begin
 end;
 
 procedure TToolProperties.actUpdateItemExecute(Sender: TObject);
-Var
-  i : integer;
 begin
   if (edEnvName.Text <> '') and (lvItems.ItemIndex >= 0) then begin
-    for i := 0 to lvItems.Items.Count - 1 do
-      if (CompareText(lvItems.Items[i].Caption, edEnvName.Text) = 0) and
-         (i <> lvItems.ItemIndex) then
+    for var I := 0 to lvItems.Items.Count - 1 do
+      if (CompareText(lvItems.Items[I].Caption, edEnvName.Text) = 0) and
+         (I <> lvItems.ItemIndex) then
       begin
         Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    with lvItems.Items[lvItems.ItemIndex] do begin
-      Caption := EdEnvName.Text;
-      SubItems[0] := EdEnvValue.Text;
+    with lvItems.Items[lvItems.ItemIndex] do
+    begin
+      Caption := edEnvName.Text;
+      SubItems[0] := edEnvValue.Text;
     end;
   end;
 end;
@@ -372,30 +361,28 @@ end;
 
 procedure TToolProperties.btnStdFormatsClick(Sender: TObject);
 var
-  button: TControl;
-  lowerLeft: TPoint;
+  Button: TControl;
+  LowerLeft: TPoint;
 begin
   if Sender is TControl then
   begin
-    button := TControl(Sender);
-    lowerLeft := Point(0, button.Height);
-    lowerLeft := button.ClientToScreen(lowerLeft);
-    FormatsPopup.Popup(lowerLeft.X, lowerLeft.Y);
+    Button := TControl(Sender);
+    LowerLeft := Point(0, Button.Height);
+    LowerLeft := Button.ClientToScreen(LowerLeft);
+    FormatsPopup.Popup(LowerLeft.X, LowerLeft.Y);
   end;
 end;
 
 procedure TToolProperties.FormShow(Sender: TObject);
-Var
-  i : integer;
 begin
   lvItems.Items.Clear;
   lvItems.Items.BeginUpdate;
   try
-    for i := 0 to fEnvStrings.Count - 1 do
-      if fEnvStrings.Names[i] <> '' then
-        with lvItems.Items.Add() do begin
-          Caption := fEnvStrings.Names[i];
-          SubItems.Add(fEnvStrings.Values[Caption]);
+    for var I := 0 to FEnvStrings.Count - 1 do
+      if FEnvStrings.Names[I] <> '' then
+        with lvItems.Items.Add do begin
+          Caption := FEnvStrings.Names[I];
+          SubItems.Add(FEnvStrings.Values[Caption]);
         end;
   finally
     lvItems.Items.EndUpdate;
