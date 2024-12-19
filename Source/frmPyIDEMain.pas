@@ -598,6 +598,7 @@
             - Support for Python 3.14
             - Support free-threaded python
             - Added "Create Virtual Environment" external tool.
+            - Support tqdm and similar modules in the interactive interpreter (#812)
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347

@@ -211,6 +211,7 @@ Uses
   JvGnugettext,
   SynEditKeyCmds,
   SynEditMiscProcs,
+  SynUnicode,
   StringResources,
   frmPyIDEMain,
   dmResources,
@@ -430,6 +431,69 @@ end;
 procedure TPythonIIForm.WritePendingMessages;
 var
   WS: string;
+
+  procedure ProcessOutput;
+  // Handle single CR used by python modules such as tdqm
+  var
+    P, PStart: PChar;
+
+    procedure AddLine(AddLB: Boolean);
+    var
+      S: string;
+    begin
+      if P <= PStart then Exit;
+
+      SetString(S, PStart, P - PStart);
+      SynEdit.Lines[SynEdit.Lines.Count - 1] :=
+        SynEdit.Lines[SynEdit.Lines.Count - 1] + S;
+
+      if AddLB then
+        SynEdit.Lines.Add('');
+
+      PStart := P + 1;
+    end;
+
+  begin
+    SynEdit.BeginUpdate;
+    try
+      if SynEdit.Lines.Count = 0 then
+        SynEdit.Lines.Add('');
+
+      PStart := PChar(WS);
+      P := PStart;
+
+      while True do
+      begin
+        case P^ of
+          WideNull:
+            begin
+              AddLine(False);
+              Break;
+            end;
+          WideCR:
+            begin
+              if (P + 1)^ = WideLF then
+              begin
+                AddLine(True);
+                Inc(PStart);
+                Inc(P);
+              end
+              else
+              begin
+                SynEdit.Lines[SynEdit.Lines.Count - 1] := '';
+                PStart := P + 1;
+              end;
+            end;
+          WideLF: AddLine(True);
+        end;
+        Inc(P);
+      end;
+      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+    finally
+      SynEdit.EndUpdate;
+    end;
+  end;
+
 begin
   Assert(GetCurrentThreadId = MainThreadId);
   fCriticalSection.Enter;
@@ -438,8 +502,8 @@ begin
       SetLength(WS, fOutputStream.Size div 2);
       fOutputStream.Position := 0;
       fOutputStream.Read(WS[1], Length(WS) * 2);
-      AppendText(WS);
       fOutputStream.Size := 0;
+      ProcessOutput;
     end;
   finally
     fCriticalSection.Leave;
