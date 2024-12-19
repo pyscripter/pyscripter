@@ -88,18 +88,31 @@ uses
 
 {$R *.dfm}
 
-procedure Prune(Symbols: TJSONArray);
+procedure Prune(Symbols: TJSONArray; ModuleFileName: string);
 
-  function PruneChild(Value: TJSONValue; IsClass: Boolean): Boolean;
+  function IsImported(Symbol: TJSONValue; Kind: Integer): Boolean;
+  var
+    Line: Integer;
+  begin
+    Result := Symbol.TryGetValue<Integer>('selectionRange.start.line', Line);
+    if Result then
+    begin
+      var LineSource := GetNthSourceLine(ModuleFileName, Line + 1).TrimLeft;
+      Result := LineSource.StartsWith('from') or
+        ((Kind = Ord(TSymbolKind._Function)) and not LineSource.StartsWith('def'));
+    end;
+  end;
+
+  function PruneChildren(Symbol: TJSONValue; IsClass: Boolean): Boolean;
   var
     Kind: Integer;
   begin
     Result := False;
-    var Children := Value.FindValue('children');
+    var Children := Symbol.FindValue('children');
     if Assigned(Children) and (Children is TJSONArray) then
     begin
       var Arr := TJSONArray(Children);
-      for var I := Arr.Count -1 downto 0 do
+      for var I := Arr.Count - 1 downto 0 do
       begin
          var Val := Arr[I];
          if not IsClass or not Val.TryGetValue<Integer>('kind', Kind) or not
@@ -117,15 +130,12 @@ begin
   for var I := Symbols.Count -1 downto 0 do
   begin
      var Value := Symbols[I];
-     if not Value.TryGetValue<Integer>('kind', Kind) or not
-       (Kind in [Ord(TSymbolKind._Class), Ord(TSymbolKind._Function)])
+     if not Value.TryGetValue<Integer>('kind', Kind) or
+       not (Kind in [Ord(TSymbolKind._Class), Ord(TSymbolKind._Function)]) or
+       IsImported(Value, Kind) or
+       PruneChildren(Value, Kind = Ord(TSymbolKind._Class))
      then
-       Symbols.Remove(I).Free
-     else
-     begin
-       if PruneChild(Value, Kind = Ord(TSymbolKind._Class)) then
-         Symbols.Remove(I).Free;
-     end;
+       Symbols.Remove(I).Free;
   end;
 end;
 
@@ -164,7 +174,7 @@ begin
 
   LSymbols := TJedi.DocumentSymbols(ModuleFName);
   if not Assigned(LSymbols) then Exit;
-  Prune(LSymbols);
+  Prune(LSymbols, ModuleFName);
   if LSymbols.Count = 0 then
   begin
     LSymbols.Free;
