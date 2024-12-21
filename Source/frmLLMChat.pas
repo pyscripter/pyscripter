@@ -44,6 +44,11 @@ uses
   uLLMSupport;
 
 type
+  // Interposer class to prevent the auto-scrolling when clicking
+  TScrollBox = class(Vcl.Forms.TScrollBox)
+  protected
+    procedure AutoScrollInView(AControl: TControl); override;
+  end;
 
   TLLMChatForm = class(TIDEDockWindow)
     pnlQuestion: TPanel;
@@ -157,6 +162,7 @@ uses
   JvGnugettext,
   dmCommands,
   dmResources,
+  SynMarkdownViewer,
   uEditAppIntfs,
   uCommonFunctions,
   cParameters,
@@ -248,7 +254,7 @@ begin
     ApplyFixedColorToRootOnly := True;
     Parent := PanelQA;
   end;
-  var synQA := TSynEdit.Create(Self);
+  var synQA := TSynMarkdownViewer.Create(Self);
   with synQA do begin
     Name := 'synQA' + QAStackPanel.ControlCount.ToString;
     Font.Color := StyleServices.GetSystemColor(clWindowText);
@@ -256,10 +262,7 @@ begin
     BorderStyle := bsNone;
     Anchors := [akLeft, akRight, akTop, akBottom];
     Options := Options + [eoRightMouseMovesCursor];
-    UseCodeFolding := False;
     Highlighter := SynMultiSyn;
-    ReadOnly := True;
-    RightEdge := 0;
     Top := 0;
     Left := 40;
     Width := PanelQA.Width - 40;
@@ -271,12 +274,12 @@ begin
     ScrollBars := ssNone;
     WantTabs := True;
     WantReturns := True;
+    HideSelection := True;
     Parent := PanelQA;
   end;
   PanelQA.ScaleForPPI(CurrentPPI);
   PanelQA.Parent := QAStackPanel;
-  synQA.WordWrap := True;
-  synQA.Text := QA.Trim;
+  synQA.Markdown := QA.Trim;
   PanelQA.OnResize :=  PanelQAResize;
   // Resize twice! - The first time the Scrollbox scrollbar may be shown
   PanelQAResize(PanelQA);
@@ -612,6 +615,13 @@ begin
   aiBusy.IndicatorCustomColor := StyleServices.GetSystemColor(clWindowText);
   {$ENDIF}
   DisplayActiveChatTopic;
+end;
+
+{ TScrollBox }
+
+// To avoid the jumping of the cursor
+procedure TScrollBox.AutoScrollInView(AControl: TControl);
+begin
 end;
 
 end.

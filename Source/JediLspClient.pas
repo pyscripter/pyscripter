@@ -528,7 +528,7 @@ begin
       AResult.TryGetValue<string>('contents.value', Result);
       Result := GetLineRange(Result, 1, 20, True);
     end;
-    Result := StringReplace(Result, '<br>---<br>', '<hr >', []);
+    Result := StringReplace(Result, '<br>---<br>', '<hr>', []);
 
     FindDefinitionByCoordinates(FileName, BC, DefFileName, DefBC);
     if (DefFileName <> '') then begin
