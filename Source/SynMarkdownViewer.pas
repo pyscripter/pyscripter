@@ -239,8 +239,11 @@ procedure TSynMarkdownViewer.SetMarkdown(Value: string);
       if liCode in PrevLI then
       begin
         if Line.StartsWith('```') then
+        begin
           // End of code block -
           AddEmptyLineAfter(LineNo);
+          PrevLI := [];
+        end;
         Inc(LineNo);
         Continue;
       end;
