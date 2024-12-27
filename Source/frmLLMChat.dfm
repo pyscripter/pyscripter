@@ -92,7 +92,14 @@ inherited LLMChatForm: TLLMChatForm
           Highlighter = SynMultiSyn
           RightEdge = 0
           ScrollBars = ssVertical
+          ScrollbarAnnotations = <
+            item
+              AnnType = sbaCarets
+              AnnPos = sbpFullWidth
+              FullRow = False
+            end>
           SelectedColor.Alpha = 0.400000005960464500
+          VisibleSpecialChars = []
           WordWrap = True
         end
       end
@@ -106,20 +113,23 @@ inherited LLMChatForm: TLLMChatForm
         Align = alClient
         ParentBackground = True
         TabOrder = 1
+        StyleElements = [seFont, seBorder]
         object QAStackPanel: TStackPanel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 574
+          Left = 0
+          Top = 0
+          Width = 580
           Height = 23
           Align = alTop
           AutoSize = True
           BevelOuter = bvNone
           ControlCollection = <>
-          DoubleBuffered = True
+          DoubleBuffered = False
+          FullRepaint = False
           HorizontalPositioning = sphpFill
-          ParentColor = True
+          ParentBackground = False
           ParentDoubleBuffered = False
+          StyleElements = []
+          StyleName = 'Windows'
           TabOrder = 0
         end
       end
@@ -161,6 +171,18 @@ inherited LLMChatForm: TLLMChatForm
           object spiRemoveTopic: TSpTBXItem
             Action = actChatRemove
           end
+          object SpTBXSeparatorItem7: TSpTBXSeparatorItem
+          end
+          object spiPreviousTopic: TSpTBXItem
+            Action = actChatPrevious
+            ImageIndex = 16
+            ImageName = 'ChatPrev'
+          end
+          object spiNextTopic: TSpTBXItem
+            Action = actChatNext
+            ImageIndex = 15
+            ImageName = 'ChatNext'
+          end
           object SpTBXSeparatorItem2: TSpTBXSeparatorItem
           end
           object spiSave: TSpTBXItem
@@ -175,13 +197,7 @@ inherited LLMChatForm: TLLMChatForm
             Action = actCancelRequest
           end
           object SpTBXRightAlignSpacerItem: TSpTBXRightAlignSpacerItem
-            CustomWidth = 310
-          end
-          object spiPreviousTopic: TSpTBXItem
-            Action = actChatPrevious
-          end
-          object spiNextTopic: TSpTBXItem
-            Action = actChatNext
+            CustomWidth = 304
           end
           object spiSettings: TSpTBXSubmenuItem
             Caption = 'Settings'
@@ -270,17 +286,17 @@ inherited LLMChatForm: TLLMChatForm
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 110
+        CollectionIndex = 112
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 106
+        CollectionIndex = 108
         CollectionName = 'Save'
         Name = 'Save'
       end
       item
-        CollectionIndex = 23
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
@@ -290,32 +306,32 @@ inherited LLMChatForm: TLLMChatForm
         Name = 'Chat'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 16
         CollectionName = 'Chat\ChatPlus'
         Name = 'ChatPlus'
       end
       item
-        CollectionIndex = 17
+        CollectionIndex = 19
         CollectionName = 'Chat\ChatRemove'
         Name = 'ChatRemove'
       end
       item
-        CollectionIndex = 16
+        CollectionIndex = 18
         CollectionName = 'Chat\ChatQuestion'
         Name = 'ChatQuestion'
       end
       item
-        CollectionIndex = 140
+        CollectionIndex = 142
         CollectionName = 'Chat\UserQuestion'
         Name = 'UserQuestion'
       end
       item
-        CollectionIndex = 72
+        CollectionIndex = 74
         CollectionName = 'Paste'
         Name = 'Paste'
       end
       item
-        CollectionIndex = 128
+        CollectionIndex = 130
         CollectionName = 'Title'
         Name = 'Title'
       end
@@ -325,14 +341,24 @@ inherited LLMChatForm: TLLMChatForm
         Name = 'Assistant'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 94
         CollectionName = 'PythonScript'
         Name = 'PythonScript'
+      end
+      item
+        CollectionIndex = 15
+        CollectionName = 'Chat\ChatNext'
+        Name = 'ChatNext'
+      end
+      item
+        CollectionIndex = 17
+        CollectionName = 'Chat\ChatPrev'
+        Name = 'ChatPrev'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     Width = 24

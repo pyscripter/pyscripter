@@ -9,6 +9,7 @@
               - emphasis,
               - links
               - horizontal rules,
+              - code tags (backticks)
               - bullets and
               - <br>.
 -----------------------------------------------------------------------------}
@@ -29,6 +30,7 @@ uses
 type
   TMarkdownIndicators = record
   private
+    const IdInlineCode: TGUID = '{ADA75BAF-9AEC-42A3-A328-9F655FEED90D}';
     const IdHeading1: TGUID = '{36F82F10-1EE0-4CA2-88B7-1D1D3F3AB200}';
     const IdHeading2: TGUID = '{336DA2C9-2E1C-4910-B2FD-CED4C764567A}';
     const IdHeading3: TGUID = '{401785F5-562E-4CFE-A631-E62B09081E6C}';
@@ -39,6 +41,7 @@ type
     const IdUnderline: TGUID = '{CB9B253C-94DA-4B6C-9E35-DC98A986EB08}';
     const IdLink: TGUID = '{55740423-8BA6-41C7-B0FA-0B768387796D}';
   public
+    InlineCode: TSynIndicatorSpec;
     Heading1: TSynIndicatorSpec;
     Heading2: TSynIndicatorSpec;
     Heading3: TSynIndicatorSpec;
@@ -52,7 +55,9 @@ type
   end;
 
   TMarkDownRegEx = record
+    Backticks: TRegex;
     Bullets: TRegEx;
+    NumList: TRegEx;
     MergeLines: TRegEx;
     SplitLines: TRegEx;
     Emphasis: TRegEx;
@@ -197,7 +202,9 @@ begin
 end;
 
 procedure TSynMarkdownViewer.SetMarkdown(Value: string);
-
+// Process the Markdown input and set the control text
+// to the processed input.
+// Uses indicators to render much of the Markdown syntax.
 
   procedure FormatParagraphs(var Lines: TArray<string>);
   type
@@ -255,6 +262,8 @@ procedure TSynMarkdownViewer.SetMarkdown(Value: string);
       else if RegExps.HorzRule.IsMatch(Line) then
         Include(CurrLI, liRuler)
       else if RegExps.Bullets.IsMatch(Line) then
+        Include(CurrLI, liBullet)
+      else if RegExps.NumList.IsMatch(Line) then
         Include(CurrLI, liBullet)
       else if Line.StartsWith('```') then
       begin
@@ -330,40 +339,53 @@ procedure TSynMarkdownViewer.SetMarkdown(Value: string);
     - Bullets
     - Emphasis (bold, italic, bold-italic
     - Links
+    - Code tags (backticks)
   }
 
   type
-    TLink = record
-      CharIdx: Integer;
-      DisplayString: string;
+    TTag = record
+      Start, Stop: Integer;
+      TagLen: Integer;
+      Guid: TGuid;
       Link: string;
     end;
 
   var
-    Links: TArray<TLink>;
+    Tags: TArray<TTag>;
 
-  procedure AdjustLinks(Start, Stop, CharsRemoved: Integer);
+  procedure AdjustTags;
   var
-    Idx: Integer;
+    I, J: Integer;
   begin
-    for Idx := 0 to High(Links) do
+    for I := Low(Tags) to High(Tags) do
     begin
-      if Start < Links[Idx].CharIdx then
-        Dec(Links[Idx].CharIdx, CharsRemoved);
-      if Stop < Links[Idx].CharIdx then
-        Dec(Links[Idx].CharIdx, CharsRemoved);
+      if Tags[I].TagLen = 0 then
+        Continue;
+      for J := Low(Tags) to High(Tags) do
+      begin
+        if J <> I then
+        begin
+          if Tags[J].Start >= Tags[I].Stop then
+            Dec(Tags[J].Start, Tags[I].TagLen * 2)
+          else if Tags[J].Start > Tags[I].Start then
+            Dec(Tags[J].Start, Tags[I].TagLen);
+          if Tags[J].Stop >= Tags[I].Stop then
+            Dec(Tags[J].Stop, Tags[I].TagLen * 2)
+          else if Tags[J].Stop >= Tags[I].Start then
+            Dec(Tags[J].Stop, Tags[I].TagLen);
+        end;
+      end;
+      Dec(Tags[I].Stop, 2 * Tags[I].TagLen);
     end;
   end;
 
   var
     LineNo: Integer;
     HeaderGuid: TGuid;
-    EmphasisGuid: TGuid;
-    Start, Stop: Integer;
     Match: TMatch;
-    Matches: TMatchCollection;
-    DeletedChars: Integer;
-    Link: TLink;
+    EmphasisMatches: TMatchCollection;
+    TickMatches: TMatchCollection;
+    Tag: TTag;
   begin
     // Headers
     HeaderGuid := TGuid.Empty;
@@ -388,90 +410,95 @@ procedure TSynMarkdownViewer.SetMarkdown(Value: string);
       Exit;
     end;
 
-   // Horizontal Rules
-   if RegExps.HorzRule.IsMatch(Line.Trim) then
-   begin
-     LineNo := Lines.Add('');
-     FHorzRules.Add(LineNo + 1);
-     Exit;
-   end;
-
-   // Bullets
-   // Show a real bullet and indend by 2 spaces
-   Line := RegExps.Bullets.Replace(Line, '  $1' + #$2022+ ' ');
-
-   // Preprocess Links
-   Links := [];
-   Match := RegExps.Links.Match(Line);
-   while Match.Success do
-   begin
-     // after the replacement the display string will
-     // start at the start of the start of the match
-     Link.CharIdx := Match.Index;
-     Link.Link := Match.Groups[2].Value;
-     // the display string may contain emphasis tags
-     Link.DisplayString :=  RegExps.Emphasis.Replace(
-       Match.Groups[1].Value, '$1$2$3');
-     Links := Links + [Link];
-     // Keep just the display string
-     Line := RegExps.Links.Replace(Line, '$1', 1);
-     Match := RegExps.Links.Match(Line);
-   end;
-
-   // Emphasis tags
-   DeletedChars := 0;
-   EmphasisGuid := TGuid.Empty;
-   Matches := RegExps.Emphasis.Matches(Line);
-   //Add the line without the *
-   if Matches.Count > 0 then
-     Line := RegExps.Emphasis.Replace(Line, '$1$2$3');
-   LineNo := Lines.Add(Line);
-   // Add the emphasis indicators
-   for Match in Matches do
-   begin
-     Start := 0;  // To avoid compiler warning
-     Stop := 0;
-     if Match.Groups[1].Length > 0 then
-     begin
-       EmphasisGuid := MarkdownIndicators.IdBoldItalic;
-       Start := Match.Groups[1].Index - DeletedChars - 3;
-       Stop := Start + Match.Groups[1].Length;
-       Inc(DeletedChars, 6);
-       AdjustLinks(Start, Stop, 3);
-     end
-     else if Match.Groups[2].Length > 0 then
-     begin
-       EmphasisGuid := MarkdownIndicators.IdBold;
-       Start := Match.Groups[2].Index - DeletedChars - 2;
-       Stop := Start + Match.Groups[2].Length;
-       Inc(DeletedChars, 4);
-       AdjustLinks(Start, Stop, 2);
-     end
-     else if Match.Groups[3].Length > 0 then
-     begin
-       EmphasisGuid := MarkdownIndicators.IdItalic;
-       Start := Match.Groups[3].Index - DeletedChars - 1;
-       Stop := Start + Match.Groups[3].Length;
-       Inc(DeletedChars, 2);
-       AdjustLinks(Start, Stop, 1);
-     end;
-     Indicators.Add(LineNo + 1,
-        TSynIndicator.New(EmphasisGuid, Start, Stop), False);
+    // Horizontal Rules
+    if RegExps.HorzRule.IsMatch(Line.Trim) then
+    begin
+      LineNo := Lines.Add('');
+      FHorzRules.Add(LineNo + 1);
+      Exit;
     end;
 
-    // Finally process links
-    for Link in Links do
-      Indicators.Add(LineNo + 1, TSynIndicator.New(
-        TMarkdownIndicators.IdLink,
-        Link.CharIdx,
-        Link.CharIdx + Link.DisplayString.Length,
-        FLinks.Add(Link.Link)));
+    // Bullets
+    // Show a real bullet and indend by 2 spaces
+    Line := RegExps.Bullets.Replace(Line, '  $1' + #$2022+ ' ');
+
+    Tags := [];
+    // Preprocess Links
+    Match := RegExps.Links.Match(Line);
+    while Match.Success do
+    begin
+      Tag.Guid := TMarkdownIndicators.IdLink;
+      // after the replacement the display string will
+      // start at the start of the start of the match
+      Tag.Start := Match.Index;
+      Tag.Stop := Tag.Start +  Match.Groups[1].Length;
+      Tag.Link := Match.Groups[2].Value;
+      Tag.TagLen := 0;
+      Tags := Tags + [Tag];
+      // Keep just the display string
+      Line := RegExps.Links.Replace(Line, '$1', 1);
+      Match := RegExps.Links.Match(Line);
+    end;
+    Tag.Link := '';
+
+    // Emphasis
+    EmphasisMatches := RegExps.Emphasis.Matches(Line);
+    for Match in EmphasisMatches do
+    begin
+      Tag.Start := Match.Index;
+      Tag.Stop := Tag.Start + Match.Length;
+      if Match.Groups[1].Length > 0 then
+      begin
+        Tag.Guid := MarkdownIndicators.IdBoldItalic;
+        Tag.TagLen := 3;
+      end
+      else if Match.Groups[2].Length > 0 then
+      begin
+        Tag.Guid := MarkdownIndicators.IdBold;
+        Tag.TagLen := 2;
+      end
+      else if Match.Groups[3].Length > 0 then
+      begin
+        Tag.Guid := MarkdownIndicators.IdItalic;
+        Tag.TagLen := 1;
+      end;
+      Tags := Tags + [Tag];
+    end;
+
+    // Backticks
+    TickMatches := RegExps.Backticks.Matches(Line);
+    for Match in TickMatches do
+    begin
+      Tag.Guid := MarkdownIndicators.IdInlineCode;
+      Tag.Start := Match.Index;
+      Tag.Stop := Tag.Start + Match.Length;
+      Tag.TagLen := 1;
+      Tags := Tags + [Tag];
+    end;
+
+    //Add the line without the tags
+    if EmphasisMatches.Count > 0 then
+      Line := RegExps.Emphasis.Replace(Line, '$1$2$3');
+    if TickMatches.Count > 0 then
+      Line := RegExps.Backticks.Replace(Line, '$1');
+    LineNo := Lines.Add(Line);
+
+    // Process Tags by adding appropriate indicators
+    if Length(Tags) >0 then
+    begin
+      AdjustTags;
+      for Tag in Tags do
+        Indicators.Add(LineNo + 1, TSynIndicator.New(
+          Tag.Guid, Tag.Start, Tag.Stop,
+          IfThen(Tag.Guid = TMarkdownIndicators.IdLink,
+          FLinks.Add(Tag.Link), 0)));
+    end;
   end;
 
 var
   LineArr: TArray<string>;
   Line: string;
-
+  InCodeBlock: Boolean;
 begin
   ClearAll;
   FHorzRules.Clear;
@@ -486,8 +513,16 @@ begin
   // Final step: process each line for Markdown syntax
   BeginUpdate;
   try
+    InCodeBlock := False;
     for Line in LineArr do
-      ProcessLine(Line);
+    begin
+      if Line.StartsWith('```') then
+        InCodeBlock := not InCodeBlock;
+      if InCodeBlock then
+        Lines.Add(Line)
+      else
+        ProcessLine(Line);
+    end;
   finally
     EndUpdate;
   end;
@@ -497,6 +532,7 @@ end;
 
 constructor TMarkdownIndicators.Create(Editor: TCustomSynEdit);
 begin
+  InlineCode.Create(sisFilledRectangle, clNoneF, D2D1ColorF(clGray, 0.4), []);
   Heading1.Create(sisTextDecoration, clNoneF, clNoneF, [TFontStyle.fsBold, TFontStyle.fsItalic]);
   Heading2.Create(sisTextDecoration, clNoneF, clNoneF, [TFontStyle.fsBold, TFontStyle.fsItalic, TFontStyle.fsUnderline]);
   Heading3.Create(sisTextDecoration, clNoneF, clNoneF, [TFontStyle.fsBold, TFontStyle.fsUnderline]);
@@ -507,6 +543,7 @@ begin
   Underline.Create(sisTextDecoration, clNoneF, clNoneF, [TFontStyle.fsUnderline]);
   Link.Create(sisTextDecoration, D2D1ColorF(TColor($E16941)), clNoneF, []); //Royal blue color
 
+  Editor.Indicators.RegisterSpec(IdInlineCode, InlineCode);
   Editor.Indicators.RegisterSpec(IdHeading1, Heading1);
   Editor.Indicators.RegisterSpec(IdHeading2, Heading2);
   Editor.Indicators.RegisterSpec(IdHeading3, Heading3);
@@ -521,23 +558,25 @@ end;
 { TMarkDownRegEx }
 
 function TMarkDownRegEx.New: TMarkDownRegEx;
+  function NewRegEx(const Pattern: string): TRegEx;
+  begin
+    Result := TRegEx.Create(Pattern, [roCompiled]);
+    {$IF (CompilerVersion >= 35)}
+    Result.Study([preJIT]);
+    {$ENDIF}
+  end;
+
 begin
-  Result.Bullets := TRegEx.Create('^(\s*)[\-\*\+] ', [roCompiled]);
-  Result.Bullets.Study([preJIT]);
-  Result.MergeLines := TRegEx.Create('(\r?\n){3,}', [roCompiled]);
-  Result.MergeLines.Study([preJIT]);
-  Result.SplitLines := TRegEx.Create('\r?\n', [roCompiled]);
-  Result.SplitLines.Study([preJIT]);
-  Result.Emphasis := TRegEx.Create('\*\*\*(.*?)\*\*\*|\*\*(.*?)\*\*|\*(.*?)\*', [roCompiled]);
-  Result.Emphasis.Study([preJIT]);
-  Result.HorzRule := TRegEx.Create('^(\-\-\-|\*\*\*|___)$', [roCompiled]);
-  Result.HorzRule.Study([preJIT]);
-  Result.Header := TRegEx.Create('^(#{1,6}) .*', [roCompiled]);
-  Result.Header.Study([preJIT]);
-  Result.SoftLineBreak := TRegEx.Create('(  |\\|<br>)$', [roCompiled]);
-  Result.SoftLineBreak.Study([preJIT]);
-  Result.Links := TRegEx.Create('\[(.+?)\]\((.+?)\)', [roCompiled]);
-  Result.Links.Study([preJIT]);
+  Result.Backticks := NewRegEx('`([^`]+?)`');
+  Result.Bullets := NewRegEx('^(\s*)[\-\*\+] ');
+  Result.NumList := NewRegEx('^(\s*)\d+\. ');
+  Result.MergeLines := NewRegEx('(\r?\n){3,}');
+  Result.SplitLines := NewRegEx('\r?\n');
+  Result.Emphasis := NewRegEx('\*\*\*(.+?)\*\*\*|\*\*(.+?)\*\*|\*(.+?)\*');
+  Result.HorzRule := NewRegEx('^(\-\-\-|\*\*\*|___)$');
+  Result.Header := NewRegEx('^(#{1,6}) .*');
+  Result.SoftLineBreak := NewRegEx('(  |\\|<br>)$');
+  Result.Links := NewRegEx('\[(.+?)\]\((.+?)\)');
 end;
 
 end.
