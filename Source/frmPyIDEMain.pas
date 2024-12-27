@@ -1576,6 +1576,9 @@ begin
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
+  // In zip distributions the help file may be blocked
+  if IsFileBlocked(Application.HelpFile) then
+    UnblockFile(Application.HelpFile);
 
   DockServer.DockStyle := ResourcesDataModule.DockStyle; // JvDockVSNetStyleSpTBX;
 

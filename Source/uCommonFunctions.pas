@@ -247,6 +247,11 @@ function RegisterApplicationRestart(Flags: DWORD = 0): Boolean;
 {UnregisterApplicationRestart}
 procedure UnregisterApplicationRestart;
 
+{Checks whether a file downloaded from the Internet is blocked}
+function IsFileBlocked(const FileName: string): Boolean;
+
+{Unblock a file downloaded from the Internet}
+procedure UnblockFile(const FileName: string);
 
 type
   TMatchHelper = record helper for TMatch
@@ -1976,6 +1981,34 @@ begin
   @UnregisterApplicationRestart := GetProcAddress(GetModuleHandle('kernel32.dll'), 'UnregisterApplicationRestart');
   if @UnregisterApplicationRestart <> nil then
     UnRegisterApplicationRestart();
+end;
+
+function IsFileBlocked(const FileName: string): Boolean;
+const
+  STREAM_NAME: PChar = ':Zone.Identifier';
+var
+  FileHandle: THandle;
+begin
+  FileHandle := CreateFile(PChar(FileName + STREAM_NAME), GENERIC_READ,
+    FILE_SHARE_READ, nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+  Result := FileHandle <> INVALID_HANDLE_VALUE;
+  if Result then
+    CloseHandle(FileHandle);
+end;
+
+procedure UnblockFile(const FileName: string);
+const
+  STREAM_NAME: PChar = ':Zone.Identifier';
+var
+  FileHandle: THandle;
+begin
+  FileHandle := CreateFile(PChar(FileName + STREAM_NAME), GENERIC_WRITE, 0, nil,
+    OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+  if FileHandle <> INVALID_HANDLE_VALUE then
+  begin
+    CloseHandle(FileHandle);
+    DeleteFile(PChar(FileName + STREAM_NAME));
+  end;
 end;
 
 { TMatchHelper }
