@@ -154,6 +154,7 @@ type
     procedure AppendPrompt;
     procedure RemovePrompt;
     procedure AppendText(const S: string);
+    procedure PrintEngineType;
     procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
     procedure WritePendingMessages;
     procedure ClearPendingMessages;
@@ -382,17 +383,30 @@ begin
   end);
 end;
 
-procedure TPythonIIForm.PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
+procedure TPythonIIForm.PrintEngineType;
 var
-  Py: IPyEngineAndGIL;
-  S: string;
+  Msg: string;
 begin
-  Py := SafePyEngine;
+  case PyIDEOptions.PythonEngineType of
+    peInternal :  Msg := Format(_(SEngineActive), [_('Internal')]);
+    peRemote : Msg := Format(_(SEngineActive), [_('Remote')]);
+    peRemoteTk : Msg := Format(_(SEngineActive), [_('Remote (Tk)')]);
+    peRemoteWx : Msg := Format(_(SEngineActive), ['Remote (Wx)']);
+    peSSH : Msg := Format(_(SEngineActive),
+      [Format('"%s" SSH', [GI_PyControl.ActiveSSHServerName])]);
+  end;
+
+  GI_PyInterpreter.AppendText(SLineBreak + Msg);
+  GI_PyInterpreter.AppendPrompt;
+end;
+
+procedure TPythonIIForm.PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
+begin
   if AVersion = '' then AVersion := PyControl.ActiveInterpreter.PythonVersion;
   if APlatform = '' then APlatform := PyControl.ActiveInterpreter.PythonPlatform;
   AVersion := AVersion.Replace(Char($A), ' ');
-  S := Format('*** Python %s on %s. ***' + sLineBreak, [AVersion, APlatform]);
   if SynEdit.Lines.Count > 0 then AppendText(sLineBreak);
+  var S := Format('*** Python %s on %s. ***', [AVersion, APlatform]);
   AppendText(S);
 end;
 

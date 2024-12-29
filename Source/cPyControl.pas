@@ -495,7 +495,7 @@ begin
 end;
 
 procedure TPythonControl.SetPythonEngineType(const Value: TPythonEngineType);
-Var
+var
   Cursor : IInterface;
   RemoteInterpreter : TPyRemoteInterpreter;
   Connected : Boolean;
@@ -741,9 +741,6 @@ begin
 end;
 
 procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
-Var
-  II : Variant;   // wrapping sys and code modules
-  Msg: string;
 begin
   if InternalPython.Loaded then
     GI_PyIDEServices.ClearPythonWindows;
@@ -757,8 +754,8 @@ begin
   begin
     fPythonHelpFile := APythonVersion.HelpFile;
 
+    var II := VarPythonEval('_II'); // wrapping sys and code modules
     // Create internal Interpreter and Debugger
-    II := VarPythonEval('_II');
     InternalPython.PythonEngine.ExecString('del _II');
 
     fInternalInterpreter := TPyInternalInterpreter.Create(II);
@@ -786,17 +783,8 @@ begin
     //  Set the current PythonEngine
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
-    case PyIDEOptions.PythonEngineType of
-      peInternal :  Msg := Format(_(SEngineActive), [_('Internal')]);
-      peRemote : Msg := Format(_(SEngineActive), [_('Remote')]);
-      peRemoteTk : Msg := Format(_(SEngineActive), [_('Remote (Tk)')]);
-      peRemoteWx : Msg := Format(_(SEngineActive), ['Remote (Wx)']);
-      peSSH : Msg := Format(_(SEngineActive), [Format('"%s" SSH', [ActiveSSHServerName])]);
-    end;
-
     GI_PyInterpreter.PrintInterpreterBanner;
-    GI_PyInterpreter.AppendText(Msg);
-    GI_PyInterpreter.AppendPrompt;
+    GI_PyInterpreter.PrintEngineType;
   end else
     StyledMessageDlg(Format(_(SPythonLoadError), [MinPyVersion]), mtError, [mbOK], 0);
 end;

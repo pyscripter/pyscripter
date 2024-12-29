@@ -2074,6 +2074,7 @@ begin
       Exit;
   end;
   PyControl.PythonEngineType := EngineType;
+  GI_PyInterpreter.PrintEngineType;
 end;
 
 procedure TPyIDEMainForm.actPythonReinitializeExecute(Sender: TObject);

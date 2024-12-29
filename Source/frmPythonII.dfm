@@ -61,8 +61,10 @@ inherited PythonIIForm: TPythonIIForm
           end>
         Options = [eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
         RightEdge = 0
+        ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
         TabWidth = 4
+        VisibleSpecialChars = []
         WantTabs = True
         WordWrap = True
         OnCommandProcessed = SynEditCommandProcessed
@@ -235,37 +237,37 @@ inherited PythonIIForm: TPythonIIForm
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 24
+        CollectionIndex = 26
         CollectionName = 'Cut'
         Name = 'Cut'
       end
       item
-        CollectionIndex = 23
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 72
+        CollectionIndex = 74
         CollectionName = 'Paste'
         Name = 'Paste'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 34
+        CollectionIndex = 36
         CollectionName = 'EditOptions'
         Name = 'EditOptions'
       end
       item
-        CollectionIndex = 91
+        CollectionIndex = 93
         CollectionName = 'Python'
         Name = 'Python'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 90
         CollectionName = 'PySetup'
         Name = 'PySetup'
       end>
