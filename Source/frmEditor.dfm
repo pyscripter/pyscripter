@@ -131,9 +131,26 @@ object EditorForm: TEditorForm
               Background = gbbEditor
             end>
           IndentGuides.Style = igsDotted
+          ScrollbarAnnotations = <
+            item
+              AnnType = sbaCarets
+              AnnPos = sbpFullWidth
+              FullRow = False
+            end
+            item
+              AnnType = sbaBookmark
+              AnnPos = sbpLeft
+              FullRow = True
+            end
+            item
+              AnnType = sbaTrackChanges
+              AnnPos = sbpRight
+              FullRow = True
+            end>
           SelectedColor.Background = clSkyBlue
           SelectedColor.Alpha = 0.400000005960464500
           TabWidth = 4
+          VisibleSpecialChars = []
           WantTabs = True
           OnChange = SynEditChange
           OnGutterGetText = SynEditGutterGetText
@@ -193,7 +210,24 @@ object EditorForm: TEditorForm
               Width = 2
               Background = gbbEditor
             end>
+          ScrollbarAnnotations = <
+            item
+              AnnType = sbaCarets
+              AnnPos = sbpFullWidth
+              FullRow = False
+            end
+            item
+              AnnType = sbaBookmark
+              AnnPos = sbpLeft
+              FullRow = True
+            end
+            item
+              AnnType = sbaTrackChanges
+              AnnPos = sbpRight
+              FullRow = True
+            end>
           SelectedColor.Alpha = 0.400000005960464500
+          VisibleSpecialChars = []
           OnMouseCursor = SynEditMouseCursor
           OnShowHint = EditorShowHint
           OnSpecialLineColors = SynEditSpecialLineColors

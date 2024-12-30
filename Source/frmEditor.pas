@@ -1421,7 +1421,13 @@ function TEditorFactory.GetEditorByName(const Name: string): IEditor;
 Var
   FullName: string;
 begin
-  FullName := GetLongFileName(ExpandFileName(Name));
+  // The Name may contain invalid characters and ExpandFileName will raise an
+  // exception.  This is the case with exceptions raised by pywin32 COM objects
+  try
+    FullName := GetLongFileName(ExpandFileName(Name));
+  except
+    Exit(nil);
+  end;
   Result := FirstEditorCond(function(Editor: IEditor): boolean
   begin
     Result := AnsiSameText(Editor.GetFileName, FullName);
