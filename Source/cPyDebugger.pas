@@ -11,14 +11,10 @@ unit cPyDebugger;
 interface
 
 uses
-  WinApi.Windows,
-  System.UITypes,
   System.SysUtils,
   System.Classes,
-  System.Contnrs,
   System.Generics.Collections,
   System.SyncObjs,
-  Vcl.Forms,
   PythonEngine,
   uEditAppIntfs,
   cPySupportTypes,
@@ -27,18 +23,18 @@ uses
 type
   TFrameInfo = class(TBaseFrameInfo)
   private
-    fPyFrame : Variant;
+    FPyFrame : Variant;
   protected
   // Implementation of the Base class for the internal debugger
     function GetFunctionName : string; override;
     function GetFileName : string; override;
-    function GetLine : integer; override;
+    function GetLine : Integer; override;
   public
     constructor Create(Frame : Variant);
-    property PyFrame : Variant read fPyFrame;
+    property PyFrame : Variant read FPyFrame;
   end;
 
-Const
+const
   oi_Initialized = 1;
   oi_Has__dict__ = 2;
   oi_IsModule    = 4;
@@ -51,38 +47,37 @@ type
   TNameSpaceItem = class(TBaseNameSpaceItem)
   // Implementation of the Base class for the internal debugger
   protected
-    fChildCount : integer;
-    fChildNodes : TStringList;
-    fName : string;
-    fObjectInfo : Integer;
-  protected
-    function GetName : string; override;
-    function GetObjectType : string; override;
-    function GetValue : string; override;
-    function GetDocString : string; override;
-    function GetChildCount : integer; override;
-    function GetChildNode(Index: integer): TBaseNameSpaceItem; override;
-    function GetObjectInfo : integer;
+    FChildCount : Integer;
+    FChildNodes : TStringList;
+    FName : string;
+    FObjectInfo : Integer;
+    function GetName: string; override;
+    function GetObjectType: string; override;
+    function GetValue: string; override;
+    function GetDocString: string; override;
+    function GetChildCount: Integer; override;
+    function GetChildNode(Index: Integer): TBaseNameSpaceItem; override;
+    function GetObjectInfo: Integer;
     procedure FillObjectInfo; virtual;
   public
-    constructor Create(aName : string; const aPyObject : Variant);
+    constructor Create(AName : string; const APyObject : Variant);
     destructor Destroy; override;
-    function IsClass : Boolean; override;
-    function IsDict : Boolean; override;
-    function IsModule : Boolean; override;
-    function IsFunction : Boolean; override;
-    function IsMethod : Boolean; override;
-    function Has__dict__ : Boolean; override;
-    function IndexOfChild(AName : string): integer; override;
+    function IsClass: Boolean; override;
+    function IsDict: Boolean; override;
+    function IsModule: Boolean; override;
+    function IsFunction: Boolean; override;
+    function IsMethod: Boolean; override;
+    function Has__dict__: Boolean; override;
+    function IndexOfChild(AName: string): Integer; override;
     procedure GetChildNodes; override;
-    property ObjectInfo : integer read GetObjectInfo;
+    property ObjectInfo: Integer read GetObjectInfo;
   end;
 
   TPyInternalInterpreter = class(TPyBaseInterpreter)
   private
-    fII : Variant;  // Python VarPyth wrapper to the interactive interpreter
-    fDebugger : Variant;
-    fOldargv : Variant;
+    FII: Variant;  // Python VarPyth wrapper to the interactive interpreter
+    FDebugger: Variant;
+    FOldargv: Variant;
   protected
     function GetInterpreter: Variant; override;
   public
@@ -90,40 +85,40 @@ type
     function CreateDebugger: TPyBaseDebugger; override;
 
     procedure Initialize; override;
-    function SysPathAdd(const Path : string) : boolean; override;
-    function SysPathRemove(const Path : string) : boolean; override;
-    procedure SysPathToStrings(Strings : TStrings); override;
-    procedure StringsToSysPath(Strings : TStrings); override;
-    function Compile(ARunConfig : TRunConfiguration) : Variant;
-    function GetGlobals : TBaseNameSpaceItem; override;
-    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
-    function CallTipFromExpression(const Expr : string;
-      var DisplayString, DocString : string) : Boolean; override;
-    procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
+    function SysPathAdd(const Path: string) : Boolean; override;
+    function SysPathRemove(const Path: string) : Boolean; override;
+    procedure SysPathToStrings(Strings: TStrings); override;
+    procedure StringsToSysPath(Strings: TStrings); override;
+    function Compile(ARunConfig: TRunConfiguration) : Variant;
+    function GetGlobals: TBaseNameSpaceItem; override;
+    function NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem; override;
+    function CallTipFromExpression(const Expr: string;
+      var DisplayString, DocString: string): Boolean; override;
+    procedure SetCommandLine(ARunConfig: TRunConfiguration); override;
     procedure RestoreCommandLine; override;
-    function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
-    procedure Run(ARunConfig : TRunConfiguration); override;
-    function SyntaxCheck(Editor : IEditor; out ErrorPos: TEditorPos; Quiet : Boolean = False) : Boolean;
-    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
-    function EvalCode(const Expr : string) : Variant; override;
-    procedure SystemCommand(const Cmd : string); override;
-    function GetObjectType(Ob : Variant) : string; override;
-    function UnitTestResult : Variant; override;
-    function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
+    function ImportModule(Editor: IEditor; AddToNameSpace: Boolean = False): Variant; override;
+    procedure Run(ARunConfig: TRunConfiguration); override;
+    function SyntaxCheck(Editor: IEditor; out ErrorPos: TEditorPos; Quiet: Boolean = False): Boolean;
+    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; override;
+    function EvalCode(const Expr: string): Variant; override;
+    procedure SystemCommand(const Cmd: string); override;
+    function GetObjectType(Obj: Variant): string; override;
+    function UnitTestResult: Variant; override;
+    function NameSpaceItemFromPyObject(AName: string; APyObject: Variant): TBaseNameSpaceItem; override;
     procedure Pickle(AValue: Variant; const FileName: string); override;
-    property Debugger : Variant read fDebugger;
+    property Debugger: Variant read FDebugger;
   end;
 
   TPyInternalDebugger = class(TPyBaseDebugger)
   // pdb based internal debugger
   private
-    fDebuggerCommand: TDebuggerCommand;
-    fLineCache: Variant;
-    fMainThread: TThreadInfo;
-    fDebugEvent: TSimpleEvent;
-    InternalInterpreter : TPyInternalInterpreter;
+    FDebuggerCommand: TDebuggerCommand;
+    FLineCache: Variant;
+    FMainThread: TThreadInfo;
+    FDebugEvent: TSimpleEvent;
+    InternalInterpreter: TPyInternalInterpreter;
   protected
-    procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
+    procedure SetCommandLine(ARunConfig: TRunConfiguration); override;
     procedure RestoreCommandLine; override;
     procedure SetDebuggerBreakpoints; override;
     procedure LoadLineCache;
@@ -133,17 +128,17 @@ type
     procedure UserException(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserYield(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     // Fills in CallStackList with TBaseFrameInfo objects
-    procedure GetCallStack(CallStackList : TObjectList<TBaseFrameInfo>;
-      Frame, Botframe : Variant);
-    function GetPostMortemEnabled: boolean; override;
+    procedure GetCallStack(CallStackList: TObjectList<TBaseFrameInfo>;
+      Frame, Botframe: Variant);
+    function GetPostMortemEnabled: Boolean; override;
   public
     constructor Create;
     destructor Destroy; override;
 
     // Debugging
-    procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
-          RunToCursorLine : integer = -1); override;
-    procedure RunToCursor(Editor : IEditor; ALine: integer); override;
+    procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
+          RunToCursorLine: Integer = -1); override;
+    procedure RunToCursor(Editor : IEditor; ALine: Integer); override;
     procedure StepInto; override;
     procedure StepOver; override;
     procedure StepOut; override;
@@ -151,18 +146,18 @@ type
     procedure Pause; override;
     procedure Abort; override;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr : string; out ObjType, Value : string); overload; override;
-    function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; override;
+    procedure Evaluate(const Expr: string; out ObjType, Value: string); overload; override;
+    function Evaluate(const Expr: string): TBaseNameSpaceItem; overload; override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
+    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
-    function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
-    function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
-    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
-    procedure MakeThreadActive(Thread : TThreadInfo); override;
-    procedure MakeFrameActive(Frame : TBaseFrameInfo); override;
+    function GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; override;
+    function GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; override;
+    function NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem; override;
+    procedure MakeThreadActive(Thread: TThreadInfo); override;
+    procedure MakeFrameActive(Frame: TBaseFrameInfo); override;
     // post mortem stuff
-    function HaveTraceback : boolean; override;
+    function HaveTraceback: Boolean; override;
     procedure EnterPostMortem; override;
     procedure ExitPostMortem; override;
   end;
@@ -170,11 +165,12 @@ type
 implementation
 
 uses
-  WinApi.MMSystem,
+  Winapi.Windows,
+  Winapi.MMSystem,
+  System.UITypes,
   System.Math,
-  System.Variants,
-  System.StrUtils,
   System.IOUtils,
+  Vcl.Forms,
   Vcl.Dialogs,
   JvDSADialogs,
   JvGnugettext,
@@ -189,102 +185,96 @@ uses
 
 constructor TFrameInfo.Create(Frame: Variant);
 begin
-  fPyFrame := Frame;
+  FPyFrame := Frame;
   inherited Create;
 end;
 
 function TFrameInfo.GetFileName: string;
 begin
-  Result := fPyFrame.f_code.co_filename;
+  Result := FPyFrame.f_code.co_filename;
 end;
 
 function TFrameInfo.GetFunctionName: string;
 begin
-  Result := fPyFrame.f_code.co_name;
+  Result := FPyFrame.f_code.co_name;
 end;
 
-function TFrameInfo.GetLine: integer;
+function TFrameInfo.GetLine: Integer;
 begin
-  Result := fPyFrame.f_lineno;
+  Result := FPyFrame.f_lineno;
 end;
 
 { TNameSpaceItem }
 
-constructor TNameSpaceItem.Create(aName : string; const aPyObject: Variant);
+constructor TNameSpaceItem.Create(AName: string; const APyObject: Variant);
 begin
-  Assert(VarIsPython(aPyObject));
-  fName := aName;
-  fPyObject := aPyObject;
-  fChildCount := -1;  // unknown
-  fObjectInfo := 0;
-  fExpandSequences := True;
+  Assert(VarIsPython(APyObject), 'TNameSpaceItem.Create');
+  FName := AName;
+  FPyObject := APyObject;
+  FChildCount := -1;  // unknown
+  FObjectInfo := 0;
+  FExpandSequences := True;
 end;
 
 destructor TNameSpaceItem.Destroy;
-Var
-  i : integer;
 begin
-  if Assigned(fChildNodes) then begin;
-    for i := 0 to fChildNodes.Count - 1 do
-      fChildNodes.Objects[i].Free;
-    fChildNodes.Free;
+  if Assigned(FChildNodes) then begin
+    for var I := 0 to FChildNodes.Count - 1 do
+      FChildNodes.Objects[I].Free;
+    FChildNodes.Free;
   end;
   inherited;
 end;
 
-function TNameSpaceItem.GetChildCount: integer;
-var
-  SuppressOutput : IInterface;
+function TNameSpaceItem.GetChildCount: Integer;
 begin
-  if Assigned(fChildNodes) then
-    Result := fChildNodes.Count
-  else if fChildCount >= 0 then
-    Result := fChildCount
+  if Assigned(FChildNodes) then
+    Result := FChildNodes.Count
+  else if FChildCount >= 0 then
+    Result := FChildCount
   else begin
-    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+    var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      Result := PyControl.InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, ExpandSequences,
+      Result := PyControl.InternalInterpreter.PyInteractiveInterpreter.membercount(FPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
     except
       Result := 0;
     end;
-    fChildCount := Result;
+    FChildCount := Result;
   end;
 end;
 
-function TNameSpaceItem.GetChildNode(Index: integer): TBaseNameSpaceItem;
+function TNameSpaceItem.GetChildNode(Index: Integer): TBaseNameSpaceItem;
 begin
   Assert(Index >= 0, 'TNameSpaceItem.GetChildNode');
-  if not Assigned(fChildNodes) then
+  if not Assigned(FChildNodes) then
     GetChildNodes;
-  Assert(Index < fChildNodes.Count, 'TNameSpaceItem.GetChildNode');
-  Result := fChildNodes.Objects[Index] as TBaseNameSpaceItem;
+  Assert(Index < FChildNodes.Count, 'TNameSpaceItem.GetChildNode');
+  Result := FChildNodes.Objects[Index] as TBaseNameSpaceItem;
 end;
 
 procedure TNameSpaceItem.GetChildNodes;
-Var
+var
   FullInfoTuple, APyObject: Variant;
   PyFullInfoTuple, PyMemberInfo, PyFullInfo: PPyObject;
-  i : integer;
-  ObjName : string;
-  NameSpaceItem : TNameSpaceItem;
-  SuppressOutput : IInterface;
+  ObjName: string;
+  NameSpaceItem: TNameSpaceItem;
 begin
-  if not (Assigned(fChildNodes) or GotChildNodes) then begin
-    GotChildNodes := True;
-    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  if not (Assigned(FChildNodes) or FGotChildNodes) then begin
+    FGotChildNodes := True;
+    var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      FullInfoTuple := PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, ExpandSequences,
+      FullInfoTuple := PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(FPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
-      fChildCount := len(FullInfoTuple);
+      FChildCount := len(FullInfoTuple);
 
-      if fChildCount > 0 then begin
-        fChildNodes := TStringList.Create;
-        fChildNodes.CaseSensitive := True;
+      if FChildCount > 0 then begin
+        FChildNodes := TStringList.Create;
+        FChildNodes.CaseSensitive := True;
 
         PyFullInfoTuple := ExtractPythonObjectFrom(FullInfoTuple);
-        for i := 0 to fChildCount - 1 do with GetPythonEngine do begin
-          PyMemberInfo := PyTuple_GetItem(PyFullInfoTuple, i);
+        for var I := 0 to FChildCount - 1 do with GetPythonEngine do begin
+          PyMemberInfo := PyTuple_GetItem(PyFullInfoTuple, I);
           ObjName :=  PyUnicodeAsString(PyTuple_GetItem(PyMemberInfo, 0));
           PyFullInfo := PyTuple_GetItem(PyMemberInfo, 1);
           APyObject := VarPythonCreate(PyTuple_GetItem(PyFullInfo, 0));
@@ -293,35 +283,31 @@ begin
           NameSpaceItem.ExpandCommonTypes := ExpandCommonTypes;
           NameSpaceItem.ExpandSequences := ExpandSequences;
 
-          //NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
-          //NameSpaceItem.GotBufferedValue := True;
-          NameSpaceItem.fQualifiedObjectType := PyUnicodeAsString(PyTuple_GetItem(PyFullInfo, 1));
-          NameSpaceItem.fObjectInfo := PyLong_AsLong(PyTuple_GetItem(PyFullInfo, 2));
-          //NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
+          //NameSpaceItem.FBufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
+          //NameSpaceItem.FGotBufferedValue := True;
+          NameSpaceItem.FQualifiedObjectType := PyUnicodeAsString(PyTuple_GetItem(PyFullInfo, 1));
+          NameSpaceItem.FObjectInfo := PyLong_AsLong(PyTuple_GetItem(PyFullInfo, 2));
+          //NameSpaceItem.FChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
 
-          fChildNodes.AddObject(ObjName, NameSpaceItem);
+          FChildNodes.AddObject(ObjName, NameSpaceItem);
         end;
         GetPythonEngine.CheckError;
         if (ObjectType <> 'list') and (ObjectType <> 'tuple') then
-          fChildNodes.CustomSort(ComparePythonIdents);
+          FChildNodes.CustomSort(ComparePythonIdents);
       end;
-      // VarClear(APyObject);
-      // VarClear(FullInfoTuple);
     except
-      fChildCount := 0;
-      StyledMessageDlg(Format(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
+      FChildCount := 0;
+      StyledMessageDlg(Format(_(SErrorGettingNamespace), [FName]), mtError, [mbAbort], 0);
       System.SysUtils.Abort;
     end;
   end;
 end;
 
 function TNameSpaceItem.GetDocString: string;
-Var
-  SuppressOutput : IInterface;
 begin
-  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    Result := Import('inspect').getdoc(fPyObject);
+    Result := Import('inspect').getdoc(FPyObject);
   except
     Result := '';
   end;
@@ -329,36 +315,32 @@ end;
 
 function TNameSpaceItem.GetName: string;
 begin
-  Result := fName;
+  Result := FName;
 end;
 
 procedure TNameSpaceItem.FillObjectInfo;
-var
-  SuppressOutput : IInterface;
 begin
-  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    fObjectInfo := PyControl.InternalInterpreter.PyInteractiveInterpreter.objectinfo(fPyObject);
+    FObjectInfo := PyControl.InternalInterpreter.PyInteractiveInterpreter.objectinfo(FPyObject);
   except
-    fObjectInfo := 0;
+    FObjectInfo := 0;
   end;
 end;
 
 function TNameSpaceItem.GetObjectType: string;
 begin
-  if fQualifiedObjectType <> '' then
-    Result := fQualifiedObjectType.Substring(fQualifiedObjectType.LastIndexOf('.') + 1)
+  if FQualifiedObjectType <> '' then
+    Result := FQualifiedObjectType.Substring(fQualifiedObjectType.LastIndexOf('.') + 1)
   else
-    Result := PyControl.InternalInterpreter.GetObjectType(fPyObject);
+    Result := PyControl.InternalInterpreter.GetObjectType(FPyObject);
 end;
 
 function TNameSpaceItem.GetValue: string;
-Var
-  SuppressOutput : IInterface;
 begin
-  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    Result :=  PyControl.InternalInterpreter.PyInteractiveInterpreter.saferepr(fPyObject);
+    Result :=  PyControl.InternalInterpreter.PyInteractiveInterpreter.saferepr(FPyObject);
   except
     Result := '';
   end;
@@ -369,24 +351,24 @@ begin
   Result := (ObjectInfo and oi_Has__dict__) = oi_Has__dict__;
 end;
 
-function TNameSpaceItem.IndexOfChild(AName: string): integer;
+function TNameSpaceItem.IndexOfChild(AName: string): Integer;
 var
   L, H, I, C: Integer;
-  Found : Boolean;
+  Found: Boolean;
 begin
-  if not Assigned(fChildNodes) then
+  if not Assigned(FChildNodes) then
     GetChildNodes;
-  if Assigned(fChildNodes) then begin
+  if Assigned(FChildNodes) then begin
     // Child nodes are sorted with ComparePythonIdents
     // Do a quick search
     Result := -1;
     Found := False;
     L := 0;
-    H := fChildNodes.Count - 1;
+    H := FChildNodes.Count - 1;
     while L <= H do
     begin
       I := (L + H) shr 1;
-      C := ComparePythonIdents(fChildNodes[I], AName);
+      C := ComparePythonIdents(FChildNodes[I], AName);
       if C < 0 then L := I + 1 else
       begin
         H := I - 1;
@@ -399,7 +381,7 @@ begin
     end;
     if Found then
       Result := L;
-    //Result := fChildNodes.IndexOf(AName)
+    //Result := FChildNodes.IndexOf(AName)
   end else
     Result := -1;
 end;
@@ -429,11 +411,11 @@ begin
   Result := (ObjectInfo and oi_IsModule) = oi_IsModule;
 end;
 
-function TNameSpaceItem.GetObjectInfo: integer;
+function TNameSpaceItem.GetObjectInfo: Integer;
 begin
-  if (fObjectInfo and oi_Initialized) = 0 then
+  if (FObjectInfo and oi_Initialized) = 0 then
     FillObjectInfo;
-  Result := fObjectInfo;
+  Result := FObjectInfo;
 end;
 
 { TPyDebugger }
@@ -441,17 +423,17 @@ end;
 constructor TPyInternalDebugger.Create;
 begin
   inherited Create;
-  fDebugEvent := TSimpleEvent.Create(nil, False, False, '');
+  FDebugEvent := TSimpleEvent.Create(nil, False, False, '');
 
   InternalInterpreter := PyControl.InternalInterpreter as TPyInternalInterpreter;
 
-  fLineCache := Import('linecache');
+  FLineCache := Import('linecache');
 
-  fMainThread := TThreadInfo.Create;
-  fMainThread.Name := 'MainThread';
-  fMainThread.Status := thrdRunning;
+  FMainThread := TThreadInfo.Create;
+  FMainThread.Name := 'MainThread';
+  FMainThread.Status := thrdRunning;
 
-  fDebuggerCommand := dcNone;
+  FDebuggerCommand := dcNone;
   PyControl.BreakPointsChanged := True;
 end;
 
@@ -465,17 +447,17 @@ begin
     Items[dbie_user_yield].OnExecute := nil;
   end;
 
-  FreeAndNil(fMainThread);
-  FreeAndNil(fDebugEvent);
+  FreeAndNil(FMainThread);
+  FreeAndNil(FDebugEvent);
   inherited;
 end;
 
 procedure TPyInternalDebugger.EnterPostMortem;
 var
   Py: IPyEngineAndGIL;
-  Frame, BotFrame, TraceBack : Variant;
+  Frame, BotFrame, TraceBack: Variant;
 begin
-  Py:= SafePyEngine;
+  Py := SafePyEngine;
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
     Exit;
 
@@ -483,56 +465,54 @@ begin
   GI_PyInterpreter.AppendPrompt;
 
   TraceBack := SysModule.last_traceback;
-  Botframe := TraceBack.tb_frame;
+  BotFrame := TraceBack.tb_frame;
   while not VarIsNone(TraceBack.tb_next) do
     TraceBack := TraceBack.tb_next;
   Frame := TraceBack.tb_frame;
 
   PyControl.DebuggerState := dsPostMortem;
-  fMainThread.Status := thrdBroken;
-  GetCallStack(fMainThread.CallStack, Frame, Botframe);
-  TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctAdded );
+  FMainThread.Status := thrdBroken;
+  GetCallStack(FMainThread.CallStack, Frame, BotFrame);
+  TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctAdded );
 
   DSAMessageDlg(dsaPostMortemInfo, 'PyScripter', _(SPostMortemInfo),
      mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
 end;
 
-function TPyInternalDebugger.Evaluate(const Expr: string): TBaseNamespaceItem;
+function TPyInternalDebugger.Evaluate(const Expr: string): TBaseNameSpaceItem;
 var
   Py: IPyEngineAndGIL;
-  SuppressOutput : IInterface;
-  V : Variant;
+  Value: Variant;
 begin
   Result := nil;
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
-    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+    var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       Py := SafePyEngine;
       // evalcode knows we are in the debugger and uses current frame locals/globals
-      V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
-      Result := TNameSpaceItem.Create(Expr, V);
+      Value := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
+      Result := TNameSpaceItem.Create(Expr, Value);
     except
       // fail quitely
     end;
   end;
 end;
 
-procedure TPyInternalDebugger.Evaluate(const Expr : string; out ObjType, Value : string);
+procedure TPyInternalDebugger.Evaluate(const Expr: string; out ObjType, Value: string);
 var
   Py: IPyEngineAndGIL;
-  SuppressOutput : IInterface;
-  V : Variant;
+  ExprValue : Variant;
 begin
   ObjType := _(SNotAvailable);
   Value := _(SNotAvailable);
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
-    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+    var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       Py := SafePyEngine;
       // evalcode knows we are in the debugger and uses current frame locals/globals
-      V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
-      ObjType := InternalInterpreter.PyInteractiveInterpreter.objecttype(V);
-      Value := InternalInterpreter.PyInteractiveInterpreter.saferepr(V);
+      ExprValue := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
+      ObjType := InternalInterpreter.PyInteractiveInterpreter.objecttype(ExprValue);
+      Value := InternalInterpreter.PyInteractiveInterpreter.saferepr(ExprValue);
     except
       // fail quitely
     end;
@@ -544,22 +524,22 @@ begin
   GI_PyInterpreter.SetPyInterpreterPrompt(pipNormal);
   GI_PyInterpreter.AppendPrompt;
 
-  fMainThread.Status := thrdRunning;
-  fMainThread.CallStack.Clear;
-  TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
+  FMainThread.Status := thrdRunning;
+  FMainThread.CallStack.Clear;
+  TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctStatusChange);
   MakeFrameActive(nil);
   PyControl.DebuggerState := dsInactive;
 end;
 
 procedure TPyInternalDebugger.GetCallStack(CallStackList: TObjectList<TBaseFrameInfo>;
-  Frame, Botframe : Variant);
+  Frame, Botframe: Variant);
 begin
   CallStackList.Clear;
   if VarIsPython(Frame) then begin
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
       CallStackList.Add(TFrameInfo.Create(Frame));
       Frame := Frame.f_back;
-      if VarIsSame(Frame, Botframe) then break;
+      if VarIsSame(Frame, Botframe) then Break;
     end;
     if CallStackList.Count = 0  then
       CallStackList.Add(TFrameInfo.Create(Frame));
@@ -571,7 +551,7 @@ begin
   Result := nil;
   if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
-  Result := TNameSpaceItem.Create('globals', (Frame as TFrameInfo).fPyFrame.f_globals);
+  Result := TNameSpaceItem.Create('globals', (Frame as TFrameInfo).FPyFrame.f_globals);
 end;
 
 function TPyInternalDebugger.GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
@@ -579,15 +559,15 @@ begin
   Result := nil;
   if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
-  Result := TNameSpaceItem.Create('locals', (Frame as TFrameInfo).fPyFrame.f_locals);
+  Result := TNameSpaceItem.Create('locals', (Frame as TFrameInfo).FPyFrame.f_locals);
 end;
 
-function TPyInternalDebugger.GetPostMortemEnabled: boolean;
+function TPyInternalDebugger.GetPostMortemEnabled: Boolean;
 begin
   Result := InternalInterpreter.CanDoPostMortem;
 end;
 
-function TPyInternalDebugger.HaveTraceback: boolean;
+function TPyInternalDebugger.HaveTraceback: Boolean;
 var
   Py: IPyEngineAndGIL;
 begin
@@ -601,8 +581,8 @@ end;
 
 procedure TPyInternalDebugger.Pause;
 begin
-  fDebuggerCommand := dcPause;
-  if PyControl.DebuggerState = dsPaused then fDebugEvent.SetEvent;
+  FDebuggerCommand := dcPause;
+  if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
 end;
 
 // Timer callback function
@@ -613,26 +593,26 @@ end;
 
 procedure TPyInternalDebugger.Resume;
 begin
-  fDebuggerCommand := dcRun;
-  if PyControl.DebuggerState = dsPaused then fDebugEvent.SetEvent;
+  FDebuggerCommand := dcRun;
+  if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
 end;
 
 procedure TPyInternalDebugger.Debug(ARunConfig: TRunConfiguration;
-  InitStepIn: Boolean = False; RunToCursorLine : integer = -1);
+  InitStepIn: Boolean = False; RunToCursorLine : Integer = -1);
 var
-  Code : Variant;
-  Path, OldPath : string;
-  PythonPathAdder : IInterface;
+  Code: Variant;
+  Path, OldPath: string;
+  PythonPathAdder: IInterface;
   ReturnFocusToEditor: Boolean;
-  [weak] Editor : IEditor;
+  [Weak] Editor: IEditor;
 begin
   InternalInterpreter.CanDoPostMortem := False;
 
   // Repeat here to make sure it is set right
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
-  fDebuggerCommand := dcRun;
-  Assert(PyControl.DebuggerState = dsInactive);
+  FDebuggerCommand := dcRun;
+  Assert(PyControl.DebuggerState = dsInactive, 'TPyInternalDebugger.Debug');
 
   //Compile
   Code := InternalInterpreter.Compile(ARunConfig);
@@ -658,13 +638,13 @@ begin
 
     // Change the current path
     try
-      SetCurrentDir(Path)
+      SetCurrentDir(Path);
     except
       StyledMessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
     end;
 
     PyControl.DebuggerState := dsDebugging;
-    TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctAdded );
+    TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctAdded );
 
     GI_PyIDEServices.Messages.ClearMessages;
     Editor := GI_ActiveEditor;
@@ -696,7 +676,7 @@ begin
     SetCommandLine(ARunConfig);
 
     //set breakpoints
-    SetDebuggerBreakPoints;
+    SetDebuggerBreakpoints;
 
     ThreadPythonExec(procedure
     begin
@@ -749,64 +729,64 @@ begin
   end;
 end;
 
-function TPyInternalDebugger.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
+function TPyInternalDebugger.RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean;
 // The internal interpreter RunSource calls II.runsource which differs
 // according to whether we debugging or not
-Var
-  OldCurrentPos : TEditorPos;
+var
+  OldCurrentPos: TEditorPos;
 begin
   OldCurrentPos := PyControl.CurrentPos;
   try
-    Result := InternalInterpreter.RunSource(Source, FileName, symbol);
+    Result := InternalInterpreter.RunSource(Source, FileName, Symbol);
   finally
     PyControl.CurrentPos := OldCurrentPos;
   end;
 end;
 
-procedure TPyInternalDebugger.RunToCursor(Editor : IEditor; ALine: integer);
+procedure TPyInternalDebugger.RunToCursor(Editor: IEditor; ALine: Integer);
 var
   Py: IPyEngineAndGIL;
-  FName : string;
+  FName: string;
 begin
-  Assert(PyControl.DebuggerState = dsPaused);
+  Assert(PyControl.DebuggerState = dsPaused, 'TPyInternalDebugger.RunToCursor');
   // Set Temporary breakpoint
-  SetDebuggerBreakPoints;  // So that this one is not cleared
+  SetDebuggerBreakpoints;  // So that this one is not cleared
   FName := InternalInterpreter.ToPythonFileName(Editor.FileId);
   Py := SafePyEngine;
   InternalInterpreter.Debugger.set_break(VarPythonCreate(FName), ALine, 1);
 
-  fDebuggerCommand := dcRunToCursor;
-  if PyControl.DebuggerState = dsPaused then fDebugEvent.SetEvent;
+  FDebuggerCommand := dcRunToCursor;
+  if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
 end;
 
 procedure TPyInternalDebugger.StepInto;
 begin
-  fDebuggerCommand := dcStepInto;
-  if PyControl.DebuggerState = dsPaused then fDebugEvent.SetEvent;
+  FDebuggerCommand := dcStepInto;
+  if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
 end;
 
 procedure TPyInternalDebugger.StepOver;
 begin
-  fDebuggerCommand := dcStepOver;
-  if PyControl.DebuggerState = dsPaused then fDebugEvent.SetEvent;
+  FDebuggerCommand := dcStepOver;
+  if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
 end;
 
 procedure TPyInternalDebugger.StepOut;
 begin
-  fDebuggerCommand := dcStepOut;
-  if PyControl.DebuggerState = dsPaused then fDebugEvent.SetEvent;
+  FDebuggerCommand := dcStepOut;
+  if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
 end;
 
 procedure TPyInternalDebugger.Abort;
 begin
   case PyControl.DebuggerState of
     dsPostMortem: ExitPostMortem;
-    dsDebugging: fDebuggerCommand := dcAbort;
+    dsDebugging: FDebuggerCommand := dcAbort;
     //dsRunning: GetPythonEngine.PyErr_SetInterrupt;  //Generate Keyboard interrupt signal
     dsPaused:
       begin
-        fDebuggerCommand := dcAbort;
-        fDebugEvent.SetEvent;;
+        FDebuggerCommand := dcAbort;
+        FDebugEvent.SetEvent;
       end;
   end;
 end;
@@ -814,23 +794,21 @@ end;
 procedure TPyInternalDebugger.UserCall(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-   // GI_PyInterpreter.AppendText('UserCall'+sLineBreak);
    Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPyInternalDebugger.UserException(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-   // GI_PyInterpreter.AppendText('UserException'+sLineBreak);
    Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPyInternalDebugger.UserLine(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
-Var
-  Frame : Variant;
-  FName : string;
-  LineNo: integer;
+var
+  Frame: Variant;
+  FName: string;
+  LineNo: Integer;
   CanBreak: Boolean;
 begin
   Result := GetPythonEngine.ReturnNone;
@@ -853,12 +831,12 @@ begin
   begin
     if PyControl.DebuggerState = dsDebugging then
       PyControl.DebuggerState := dsPaused;
-    fMainThread.Status := thrdBroken;
-    GetCallStack(fMainThread.CallStack, Frame, InternalInterpreter.Debugger.botframe);
+    FMainThread.Status := thrdBroken;
+    GetCallStack(FMainThread.CallStack, Frame, InternalInterpreter.Debugger.botframe);
     TPythonThread.Py_Begin_Allow_Threads;
     TThread.Synchronize(nil, procedure
     begin
-      TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
+      TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctStatusChange);
     end);
     TPythonThread.Py_End_Allow_Threads;
 
@@ -872,18 +850,18 @@ begin
 
     if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
-    fMainThread.Status := thrdRunning;
+    FMainThread.Status := thrdRunning;
 
     TPythonThread.Py_Begin_Allow_Threads;
     TThread.Synchronize(nil, procedure
     begin
-      TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
-      fMainThread.CallStack.Clear;
+      TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctStatusChange);
+      FMainThread.CallStack.Clear;
     end);
     TPythonThread.Py_End_Allow_Threads;
   end;
 
-  case fDebuggerCommand of
+  case FDebuggerCommand of
     dcRun         : InternalInterpreter.Debugger.set_continue();
     dcStepInto    : InternalInterpreter.Debugger.set_step();
     dcStepOver    : InternalInterpreter.Debugger.set_next(Frame);
@@ -911,19 +889,19 @@ end;
 procedure TPyInternalDebugger.UserYield(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-  if fDebuggerCommand = dcAbort then begin
+  if FDebuggerCommand = dcAbort then begin
     InternalInterpreter.Debugger.set_quit();
     TThread.Synchronize(nil, procedure
     begin
       GI_PyIDEServices.Messages.AddMessage(_(SDebuggingAborted));
       GI_PyIDEServices.Messages.ShowWindow;
     end);
-  end else if fDebuggerCommand = dcPause then
+  end else if FDebuggerCommand = dcPause then
     InternalInterpreter.Debugger.set_step();
   Result := GetPythonEngine.ReturnNone;
 end;
 
-procedure TPyInternalDebugger.SetCommandLine(ARunConfig : TRunConfiguration);
+procedure TPyInternalDebugger.SetCommandLine(ARunConfig: TRunConfiguration);
 begin
   InternalInterpreter.SetCommandLine(ARunConfig);
 end;
@@ -940,7 +918,7 @@ begin
 
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   var
-    FName : string;
+    FName: string;
   begin
     FName := InternalInterpreter.ToPythonFileName(Editor.FileId);
     for var I := 0 to Editor.BreakPoints.Count - 1 do begin
@@ -963,7 +941,7 @@ end;
 procedure TPyInternalDebugger.LoadLineCache;
 begin
   // inject unsaved code into LineCache
-  fLineCache.cache.clear();
+  FLineCache.cache.clear();
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   var
     FName, Source, LineList: Variant;
@@ -978,7 +956,7 @@ begin
         Source := CleanEOLs(SynEdit.Text)+WideLF;
         LineList := VarPythonCreate(Source);
         LineList := LineList.splitlines(True);
-        fLineCache.cache.SetItem(VarPythonCreate(FName),
+        FLineCache.cache.SetItem(VarPythonCreate(FName),
           VarPythonCreate([Length(Source), None, LineList, FName], stTuple));
       end;
     end;
@@ -991,7 +969,7 @@ var
 begin
   Py := SafePyEngine;
   if Assigned(Frame) then
-    InternalInterpreter.Debugger.currentframe := (Frame as TFrameInfo).fPyFrame
+    InternalInterpreter.Debugger.currentframe := (Frame as TFrameInfo).FPyFrame
   else
     InternalInterpreter.Debugger.currentframe := None;
 end;
@@ -1013,16 +991,16 @@ end;
 
 constructor TPyInternalInterpreter.Create(II: Variant);
 begin
-  fEngineType := peInternal;
-  fII := II;
-  fDebugger := II.debugger;
+  FEngineType := peInternal;
+  FII := II;
+  FDebugger := II.debugger;
 
-  fPythonVersion := SysModule.version;
-  fPythonPlatform := SysModule.platform;
+  FPythonVersion := SysModule.version;
+  FPythonPlatform := SysModule.platform;
 
   // sys.displayhook
   if PyIDEOptions.PrettyPrintOutput then
-    fII.setupdisplayhook()
+    FII.setupdisplayhook()
 end;
 
 function TPyInternalInterpreter.CreateDebugger: TPyBaseDebugger;
@@ -1033,7 +1011,7 @@ end;
 function TPyInternalInterpreter.EvalCode(const Expr: string): Variant;
 begin
   // may raise exceptions
-  Result := fII.evalcode(Expr);
+  Result := FII.evalcode(Expr);
 end;
 
 function TPyInternalInterpreter.CallTipFromExpression(const Expr: string;
@@ -1041,7 +1019,6 @@ function TPyInternalInterpreter.CallTipFromExpression(const Expr: string;
 var
   Py: IPyEngineAndGIL;
   LookupObj, ArgText, PyDocString: Variant;
-  SuppressOutput : IInterface;
 begin
   Result := False;
   DisplayString := '';
@@ -1049,11 +1026,11 @@ begin
   if Expr = '' then Exit;
 
   Py := SafePyEngine;
-  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     //Evaluate the lookup expression and get the hint text
-    LookupObj := fII.evalcode(Expr);
-    ArgText := fII.get_arg_text(LookupObj);
+    LookupObj := FII.evalcode(Expr);
+    ArgText := FII.get_arg_text(LookupObj);
     DisplayString := ArgText.__getitem__(0);
     PyDocString := ArgText.__getitem__(1);
     Result := True;
@@ -1071,9 +1048,9 @@ end;
 function TPyInternalInterpreter.Compile(ARunConfig: TRunConfiguration): Variant;
 var
   Py: IPyEngineAndGIL;
-  co : PPyObject;
-  FName, Source : AnsiString;
-  Editor : IEditor;
+  co: PPyObject;
+  FName, Source: AnsiString;
+  Editor: IEditor;
 begin
   if PyControl.DebuggerState <> dsInactive then begin
     StyledMessageDlg(_(SCannotCompileWhileRunning),
@@ -1090,10 +1067,10 @@ begin
 
   Editor := GI_EditorFactory.GetEditorByFileId(ARunConfig.ScriptName);
   if Assigned(Editor) then begin
-    Source := CleanEOLs(Editor.EncodedText) + AnsiString(#10);
+    Source := CleanEOLs(Editor.EncodedText) + #10;
   end else begin
     try
-      Source := CleanEOLs(FileToEncodedStr(ARunConfig.ScriptName)) + AnsiString(#10);
+      Source := CleanEOLs(FileToEncodedStr(ARunConfig.ScriptName)) + #10;
     except
       on E: Exception do begin
         StyledMessageDlg(Format(_(SFileOpenError), [ARunConfig.ScriptName, E.Message]), mtError, [mbOK], 0);
@@ -1138,20 +1115,18 @@ begin
   Result := TNameSpaceItem.Create('globals', VarPythonEval('globals()'));
 end;
 
-function TPyInternalInterpreter.GetObjectType(Ob: Variant): string;
-Var
-  SuppressOutput : IInterface;
+function TPyInternalInterpreter.GetObjectType(Obj: Variant): string;
 begin
-  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    Result := fII.objecttype(Ob);
+    Result := FII.objecttype(Obj);
   except
     Result := 'Unknown type';
   end;
 end;
 
 function TPyInternalInterpreter.ImportModule(Editor: IEditor;
-  AddToNameSpace : Boolean = False) : Variant;
+  AddToNameSpace: Boolean = False) : Variant;
 {
   Imports Editor text without saving the file.
   Does not add the module name to the locals()
@@ -1159,16 +1134,15 @@ function TPyInternalInterpreter.ImportModule(Editor: IEditor;
 }
 var
   Py: IPyEngineAndGIL;
-  Code : Variant;
-  Path, NameOfModule : string;
-  //PyObject, Module : PPyObject;
-  PythonPathAdder : IInterface;
-  RunConfiguration : TRunConfiguration;
+  Code: Variant;
+  Path, NameOfModule: string;
+  PythonPathAdder: IInterface;
+  RunConfiguration: TRunConfiguration;
 begin
   Py := SafePyEngine;
-  Assert(Assigned(Editor));
+  Assert(Assigned(Editor), 'TPyInternalInterpreter.ImportModule');
   VarClear(Result);
-  //Compile
+  //Compile                           ,
   RunConfiguration := TRunConfiguration.Create;
   try
     RunConfiguration.ScriptName := Editor.FileId;
@@ -1196,7 +1170,7 @@ begin
   PyControl.DebuggerState := dsRunning;
   try
     try
-      Result := fII._import(NameOfModule, Code);
+      Result := FII._import(NameOfModule, Code);
       Py.PythonEngine.CheckError;
     except
       on E: EPythonError do begin
@@ -1230,33 +1204,29 @@ function TPyInternalInterpreter.NameSpaceFromExpression(
   const Expr: string): TBaseNameSpaceItem;
 var
   InspectModule, LookupObj, ItemsDict: Variant;
-  SuppressOutput : IInterface;
 begin
-  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   InspectModule := Import('inspect');
   try
     if Expr <> '' then begin
       //Evaluate the lookup expression and get the hint text
-      LookupObj := fII.evalcode(Expr);
+      LookupObj := FII.evalcode(Expr);
       Result := TNameSpaceItem.Create(Expr, LookupObj);
-//      ItemsDict := fII.safegetmembers(LookupObj);
-//      Result := TNameSpaceItem.Create(Expr, ItemsDict);
     end else begin
       ItemsDict := NewPythonDict;
       ItemsDict.update(BuiltinModule.__dict__);
-      ItemsDict.update(fII.evalcode('vars()'));
+      ItemsDict.update(FII.evalcode('vars()'));
       Result := TNameSpaceItem.Create(Expr, ItemsDict);
     end;
   except
     Result := nil;
-    //Result := TNameSpaceItem.Create(Expr, None);
   end;
 end;
 
-function TPyInternalInterpreter.NameSpaceItemFromPyObject(aName: string;
-  aPyObject: Variant): TBaseNameSpaceItem;
+function TPyInternalInterpreter.NameSpaceItemFromPyObject(AName: string;
+  APyObject: Variant): TBaseNameSpaceItem;
 begin
-  Result := TNameSpaceItem.Create(aName, aPyObject);
+  Result := TNameSpaceItem.Create(AName, APyObject);
 end;
 
 procedure TPyInternalInterpreter.RestoreCommandLine;
@@ -1264,19 +1234,19 @@ var
   Py: IPyEngineAndGIL;
 begin
   Py := SafePyEngine;
-  SysModule.argv := fOldargv;
+  SysModule.argv := FOldargv;
 end;
 
-procedure TPyInternalInterpreter.SetCommandLine(ARunConfig : TRunConfiguration);
+procedure TPyInternalInterpreter.SetCommandLine(ARunConfig: TRunConfiguration);
 var
   Py: IPyEngineAndGIL;
-  SysMod : Variant;
-  S, Param : string;
-  P : PChar;
+  SysMod: Variant;
+  S, Param: string;
+  P: PChar;
 begin
   Py := SafePyEngine;
   SysMod := SysModule;
-  fOldargv := SysMod.argv;
+  FOldargv := SysMod.argv;
   SysMod.argv := NewPythonList;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
@@ -1289,7 +1259,7 @@ begin
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      SysMod.argv.append(VarPythonCreate(Param))
+      SysMod.argv.append(VarPythonCreate(Param));
     end;
     GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [S]));
   end;
@@ -1298,41 +1268,39 @@ end;
 procedure TPyInternalInterpreter.StringsToSysPath(Strings: TStrings);
 var
   Py: IPyEngineAndGIL;
-  i: Integer;
   PythonPath: Variant;
 begin
   Py := SafePyEngine;
   PythonPath := NewPythonList;
-  for i := 0 to Strings.Count - 1 do
-    PythonPath.append(Strings[i]);
+  for var I := 0 to Strings.Count - 1 do
+    PythonPath.append(Strings[I]);
   SysModule.path := PythonPath;
 end;
 
-procedure TimeCallBack(TimerID, Msg: Uint; dwUser, dw1, dw2: DWORD); stdcall;
+procedure TimeCallBack(TimerID, Msg: UINT; dwUser, dw1, dw2: DWORD_PTR); stdcall;
 begin
-  if PLongWord(dwUser)^ = 0 then Exit;
+  if PUINT(dwUser)^ = 0 then Exit;
   if (MessageBoxW(0, PWideChar(_(SInterruptRunningScript)),
     'ScriptTimeOut', MB_ICONWARNING or MB_YESNO) = idYes) then
   begin
     GetPythonEngine.PyErr_SetInterrupt;  //Generate Keyboard interrupt signal
-    TimeKillEvent(PLongWord(dwUser)^);
-    PLongWord(dwUser)^ := 0;
+    timeKillEvent(PUINT(dwUser)^);
+    PUINT(dwUser)^ := 0;
   end;
 end;
 
 function TPyInternalInterpreter.GetInterpreter: Variant;
 begin
-  Result := fII;
+  Result := FII;
 end;
 
 procedure TPyInternalInterpreter.Pickle(AValue: Variant; const FileName: string);
 var
   f: Variant;
   Py: IPyEngineAndGIL;
-  SuppressOutput : IInterface;
 begin
   Py := SafePyEngine;
-  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
+  var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     f := BuiltinModule.open(Filename, 'wb');
   except
@@ -1351,13 +1319,13 @@ end;
 procedure TPyInternalInterpreter.Run(ARunConfig: TRunConfiguration);
 var
   Py: IPyEngineAndGIL;
-  Code : Variant;
-  mmResult,Resolution : LongWord;
-  tc : TTimeCaps;
-  Path, OldPath : string;
-  PythonPathAdder : IInterface;
-  ReturnFocusToEditor : Boolean;
-  [weak] Editor : IEditor;
+  Code: Variant;
+  mmResult, Resolution: UINT;
+  TimeCaps: TTimeCaps;
+  Path, OldPath: string;
+  PythonPathAdder: IInterface;
+  ReturnFocusToEditor: Boolean;
+  [Weak] Editor: IEditor;
 begin
   CanDoPostMortem := False;
 
@@ -1394,7 +1362,7 @@ begin
     OldPath := GetCurrentDir;
 
     try
-      SetCurrentDir(Path)
+      SetCurrentDir(Path);
     except
       StyledMessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
     end;
@@ -1409,17 +1377,17 @@ begin
     try
       // Set Multimedia Timer
       if (PyIDEOptions.TimeOut > 0) and
-        (timeGetDevCaps(@tc, SizeOf(tc))=TIMERR_NOERROR) then
+        (timeGetDevCaps(@TimeCaps, SizeOf(TimeCaps)) = TIMERR_NOERROR) then
       begin
-        Resolution := Min(Resolution,tc.wPeriodMax);
-        TimeBeginPeriod(Resolution);
-        mmResult := TimeSetEvent(PyIDEOptions.TimeOut, resolution,
-          @TimeCallBack, DWORD(@mmResult), TIME_PERIODIC or 256);
+        Resolution := Min(Resolution, TimeCaps.wPeriodMax);
+        timeBeginPeriod(Resolution);
+        mmResult := timeSetEvent(PyIDEOptions.TimeOut, Resolution,
+          @TimeCallBack, DWORD_PTR(@mmResult), TIME_PERIODIC or 256);
       end;
       Py := SafePyEngine;
       try
         try
-          fII.run_nodebug(Code);
+          FII.run_nodebug(Code);
         finally
           VarClear(Code);
         end;
@@ -1435,8 +1403,8 @@ begin
       end;
     finally
       if PyIDEOptions.TimeOut > 0 then begin
-        if (mmResult <> 0) then TimeKillEvent(mmResult);
-        TimeEndPeriod(Resolution);
+        if (mmResult <> 0) then timeKillEvent(mmResult);
+        timeEndPeriod(Resolution);
       end;
       GI_PyInterpreter.AppendPrompt;
 
@@ -1458,11 +1426,11 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
+function TPyInternalInterpreter.RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean;
 var
   Py: IPyEngineAndGIL;
-  OldDebuggerState : TDebuggerState;
-  OldPos : TEditorPos;
+  OldDebuggerState: TDebuggerState;
+  OldPos: TEditorPos;
 begin
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
 
@@ -1474,7 +1442,7 @@ begin
     // Workaround due to PREFER_UNICODE flag to make sure
     // no conversion to Unicode and back will take place
     var PySource := VarPythonCreate(Source);
-    Result := fII.runsource(PySource, FileName, symbol);
+    Result := FII.runsource(PySource, FileName, Symbol);
   finally
     PyControl.DebuggerState := OldDebuggerState;
     if OldDebuggerState = dsPaused then
@@ -1482,7 +1450,7 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; out ErrorPos: TEditorPos; Quiet : Boolean = False): Boolean;
+function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; out ErrorPos: TEditorPos; Quiet: Boolean = False): Boolean;
 var
   Py: IPyEngineAndGIL;
   FName: string;
@@ -1531,20 +1499,20 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.SysPathAdd(const Path: string): boolean;
+function TPyInternalInterpreter.SysPathAdd(const Path: string): Boolean;
 var
   Py: IPyEngineAndGIL;
 begin
   Py := SafePyEngine;
   if SysModule.path.__contains__(Path) then
-    Result := false
+    Result := False
   else begin
     SysModule.path.insert(0, Path);
-    Result := true;
+    Result := True;
   end;
 end;
 
-function TPyInternalInterpreter.SysPathRemove(const Path: string): boolean;
+function TPyInternalInterpreter.SysPathRemove(const Path: string): Boolean;
 var
   Py: IPyEngineAndGIL;
 begin
@@ -1559,11 +1527,10 @@ end;
 procedure TPyInternalInterpreter.SysPathToStrings(Strings: TStrings);
 var
   Py: IPyEngineAndGIL;
-  i: Integer;
 begin
   Py := SafePyEngine;
-  for i := 0 to Len(SysModule.path) - 1  do
-    Strings.Add(SysModule.path.__getitem__(i));
+  for var I := 0 to len(SysModule.path) - 1  do
+    Strings.Add(SysModule.path.__getitem__(I));
 end;
 
 procedure TPyInternalInterpreter.SystemCommand(const Cmd: string);
@@ -1571,7 +1538,7 @@ var
   Py: IPyEngineAndGIL;
 begin
   Py := SafePyEngine;
-  fII.system_command(Cmd);
+  FII.system_command(Cmd);
 end;
 
 function TPyInternalInterpreter.UnitTestResult: Variant;

@@ -9,11 +9,8 @@ unit cPyBaseDebugger;
 
 interface
 uses
-  WinApi.Windows,
-  System.SysUtils,
   System.Classes,
   System.Generics.Collections,
-  Vcl.Forms,
   uEditAppIntfs,
   cPySupportTypes,
   PythonEngine;
@@ -33,21 +30,21 @@ type
   // Base (abstract) class for Call Stack frame information
   TBaseFrameInfo = class(TObject)
   protected
-    function GetFunctionName : string; virtual; abstract;
-    function GetFileName : string; virtual; abstract;
-    function GetLine : integer; virtual; abstract;
+    function GetFunctionName: string; virtual; abstract;
+    function GetFileName: string; virtual; abstract;
+    function GetLine: Integer; virtual; abstract;
   public
-    property FunctionName : string read GetFunctionName;
-    property FileName : string read GetFileName;
-    property Line : integer read GetLine;
+    property FunctionName: string read GetFunctionName;
+    property FileName: string read GetFileName;
+    property Line: Integer read GetLine;
   end;
 
   // Base (abstract) class for thread information
   TThreadInfo = class(TObject)
-    Thread_ID : Int64;
-    Name : string;
-    Status : TThreadStatus;
-    CallStack : TObjectList<TBaseFrameInfo>;
+    Thread_ID: Int64;
+    Name: string;
+    Status: TThreadStatus;
+    CallStack: TObjectList<TBaseFrameInfo>;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -55,42 +52,42 @@ type
   // Base (abstract) class for Namespace item information
   TBaseNameSpaceItem = class(TObject)
   protected
-    fPyObject : Variant;
-    fExpandCommonTypes : Boolean;
-    fExpandSequences : Boolean;
-    GotChildNodes : Boolean;
-    GotBufferedValue : Boolean;
-    BufferedValue : string;
-    fQualifiedObjectType: string;
-    function GetOrCalculateValue : string;
-    function GetName : string; virtual; abstract;
-    function GetObjectType : string; virtual; abstract;
-    function GetValue : string; virtual; abstract;
-    function GetDocString : string; virtual; abstract;
-    function GetChildCount : integer; virtual; abstract;
-    function GetChildNode(Index: integer): TBaseNameSpaceItem; virtual; abstract;
+    FPyObject: Variant;
+    FExpandCommonTypes: Boolean;
+    FExpandSequences: Boolean;
+    FGotChildNodes: Boolean;
+    FGotBufferedValue: Boolean;
+    FBufferedValue: string;
+    FQualifiedObjectType: string;
+    function GetOrCalculateValue: string;
+    function GetName: string; virtual; abstract;
+    function GetObjectType: string; virtual; abstract;
+    function GetValue: string; virtual; abstract;
+    function GetDocString: string; virtual; abstract;
+    function GetChildCount: Integer; virtual; abstract;
+    function GetChildNode(Index: Integer): TBaseNameSpaceItem; virtual; abstract;
   public
-    Attributes : TNamespaceItemAttributes;
-    function IsClass : Boolean; virtual; abstract;
-    function IsDict : Boolean; virtual; abstract;
-    function IsModule : Boolean; virtual; abstract;
-    function IsFunction : Boolean; virtual; abstract;
-    function IsMethod : Boolean; virtual; abstract;
-    function Has__dict__ : Boolean; virtual; abstract;
-    function IndexOfChild(AName : string): integer; virtual; abstract;
+    Attributes: TNamespaceItemAttributes;
+    function IsClass: Boolean; virtual; abstract;
+    function IsDict: Boolean; virtual; abstract;
+    function IsModule: Boolean; virtual; abstract;
+    function IsFunction: Boolean; virtual; abstract;
+    function IsMethod: Boolean; virtual; abstract;
+    function Has__dict__: Boolean; virtual; abstract;
+    function IndexOfChild(AName: string): Integer; virtual; abstract;
     procedure GetChildNodes; virtual; abstract;
-    procedure CompareToOldItem(OldItem : TBaseNameSpaceItem); virtual;
-    property Name : string read GetName;
-    property ObjectType : string read GetObjectType;
-    property Value : string read GetOrCalculateValue;
-    property DocString : string read GetDocString;
-    property ChildCount : integer read GetChildCount;
-    property ChildNode[Index : integer] : TBaseNameSpaceItem
+    procedure CompareToOldItem(OldItem: TBaseNameSpaceItem); virtual;
+    property Name: string read GetName;
+    property ObjectType: string read GetObjectType;
+    property Value: string read GetOrCalculateValue;
+    property DocString: string read GetDocString;
+    property ChildCount: Integer read GetChildCount;
+    property ChildNode[Index: Integer]: TBaseNameSpaceItem
       read GetChildNode;
-    property PyObject : Variant read fPyObject;
-    property QualifiedObjectType: string read fQualifiedObjectType;
-    property ExpandCommonTypes : Boolean read fExpandCommonTypes write fExpandCommonTypes;
-    property ExpandSequences : Boolean read fExpandSequences write fExpandSequences;
+    property PyObject: Variant read FPyObject;
+    property QualifiedObjectType: string read FQualifiedObjectType;
+    property ExpandCommonTypes: Boolean read FExpandCommonTypes write FExpandCommonTypes;
+    property ExpandSequences: Boolean read FExpandSequences write FExpandSequences;
   end;
 
   TPyBaseDebugger = class;
@@ -98,11 +95,11 @@ type
   TPyBaseInterpreter = class(TObject)
   //  Base (abstract) class for implementing Python Interpreters
   protected
-    fInterpreterCapabilities : TInterpreterCapabilities;
-    fEngineType : TPythonEngineType;
-    fCanDoPostMortem : Boolean;
-    fPythonVersion: string;
-    fPythonPlatform: string;
+    FInterpreterCapabilities: TInterpreterCapabilities;
+    FEngineType: TPythonEngineType;
+    FCanDoPostMortem: Boolean;
+    FPythonVersion: string;
+    FPythonPlatform: string;
     function SystemTempFolder: string; virtual;
     function GetInterpreter: Variant; virtual; abstract;
   public
@@ -110,59 +107,60 @@ type
     // Create matching debugger
     function CreateDebugger: TPyBaseDebugger; virtual; abstract;
     // Python Path
-    function SysPathAdd(const Path : string) : boolean; virtual; abstract;
-    function SysPathRemove(const Path : string) : boolean; virtual; abstract;
-    function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
-    procedure SysPathToStrings(Strings : TStrings); virtual; abstract;
-    procedure StringsToSysPath(Strings : TStrings); virtual; abstract;
+    function SysPathAdd(const Path: string): Boolean; virtual; abstract;
+    function SysPathRemove(const Path: string): Boolean; virtual; abstract;
+    function AddPathToPythonPath(const Path: string; AutoRemove: Boolean = True): IInterface;
+    procedure SysPathToStrings(Strings: TStrings); virtual; abstract;
+    procedure StringsToSysPath(Strings: TStrings); virtual; abstract;
     // NameSpace
-    function GetGlobals : TBaseNameSpaceItem; virtual; abstract;
-    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
-    function CallTipFromExpression(const Expr : string;
-      var DisplayString, DocString : string) : Boolean; virtual; abstract;
+    function GetGlobals: TBaseNameSpaceItem; virtual; abstract;
+    function NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem; virtual; abstract;
+    function CallTipFromExpression(const Expr: string;
+      var DisplayString, DocString: string): Boolean; virtual; abstract;
     // Service routines
-    procedure HandlePyException(Traceback: TPythonTraceback; ErrorMsg : string; SkipFrames : integer = 1); virtual;
-    procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
+    procedure HandlePyException(Traceback: TPythonTraceback; ErrorMsg: string;
+      SkipFrames: Integer = 1); virtual;
+    procedure SetCommandLine(ARunConfig: TRunConfiguration); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure ReInitialize; virtual;
     // FileName conversion
     function ToPythonFileName(const FileName: string): string; virtual;
     function FromPythonFileName(const FileName: string): string; virtual;
     // Main interface
-    function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
-    procedure Run(ARunConfig : TRunConfiguration); virtual; abstract;
-    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
-    procedure RunScript(FileName : string); virtual;
-    function EvalCode(const Expr : string) : Variant; virtual; abstract;
-    procedure SystemCommand(const Cmd : string); virtual; abstract;
-    function GetObjectType(Ob : Variant) : string; virtual; abstract;
-    function UnitTestResult : Variant; virtual; abstract;
-    function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; virtual; abstract;
+    function ImportModule(Editor: IEditor; AddToNameSpace: Boolean = False): Variant; virtual; abstract;
+    procedure Run(ARunConfig: TRunConfiguration); virtual; abstract;
+    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; virtual; abstract;
+    procedure RunScript(FileName: string); virtual;
+    function EvalCode(const Expr: string): Variant; virtual; abstract;
+    procedure SystemCommand(const Cmd: string); virtual; abstract;
+    function GetObjectType(Obj: Variant): string; virtual; abstract;
+    function UnitTestResult: Variant; virtual; abstract;
+    function NameSpaceItemFromPyObject(AName: string; APyObject: Variant): TBaseNameSpaceItem; virtual; abstract;
     procedure Pickle(AValue: Variant; const FileName: string); virtual; abstract;
-    property PythonVersion: string read fPythonVersion;
-    property PythonPlatform: string read fPythonPlatform;
-    property EngineType : TPythonEngineType read fEngineType;
-    property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
-    property CanDoPostMortem: Boolean read fCanDoPostMortem write fCanDoPostMortem;
-    property PyInteractiveInterpreter : Variant read GetInterpreter;
+    property PythonVersion: string read FPythonVersion;
+    property PythonPlatform: string read FPythonPlatform;
+    property EngineType: TPythonEngineType read FEngineType;
+    property InterpreterCapabilities: TInterpreterCapabilities read FInterpreterCapabilities;
+    property CanDoPostMortem: Boolean read FCanDoPostMortem write FCanDoPostMortem;
+    property PyInteractiveInterpreter: Variant read GetInterpreter;
   end;
 
   TThreadChangeType = (tctAdded, tctRemoved, tctStatusChange);
-  TThreadChangeNotifyEvent = procedure(Thread : TThreadInfo;
-    ChangeType : TThreadChangeType) of object;
+  TThreadChangeNotifyEvent = procedure(Thread: TThreadInfo;
+    ChangeType: TThreadChangeType) of object;
 
   TPyBaseDebugger = class(TObject)
   {  Base (abstract) class for implementing Python Debuggers }
   protected
-    procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
+    procedure SetCommandLine(ARunConfig: TRunConfiguration); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure SetDebuggerBreakpoints; virtual; abstract;
-    function GetPostMortemEnabled: boolean; virtual;
+    function GetPostMortemEnabled: Boolean; virtual;
   public
     // Debugging
-    procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
-            RunToCursorLine : integer = -1); virtual; abstract;
-    procedure RunToCursor(Editor : IEditor; ALine: integer); virtual; abstract;
+    procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
+            RunToCursorLine: Integer = -1); virtual; abstract;
+    procedure RunToCursor(Editor: IEditor; ALine: Integer); virtual; abstract;
     procedure StepInto; virtual; abstract;
     procedure StepOver; virtual; abstract;
     procedure StepOut; virtual; abstract;
@@ -170,26 +168,26 @@ type
     procedure Pause; virtual; abstract;
     procedure Abort; virtual; abstract;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr : string; out ObjType, Value : string); overload; virtual; abstract;
-    function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; virtual; abstract;
+    procedure Evaluate(const Expr: string; out ObjType, Value: string); overload; virtual; abstract;
+    function Evaluate(const Expr: string): TBaseNameSpaceItem; overload; virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
+    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; virtual; abstract;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
-    function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
-    function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
-    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
-    procedure MakeThreadActive(Thread : TThreadInfo); virtual; abstract;
-    procedure MakeFrameActive(Frame : TBaseFrameInfo); virtual; abstract;
+    function GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; virtual; abstract;
+    function GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; virtual; abstract;
+    function NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem; virtual; abstract;
+    procedure MakeThreadActive(Thread: TThreadInfo); virtual; abstract;
+    procedure MakeFrameActive(Frame: TBaseFrameInfo); virtual; abstract;
     // post mortem stuff
-    property PostMortemEnabled: boolean read GetPostMortemEnabled;
-    function HaveTraceback : boolean; virtual; abstract;
+    function HaveTraceback: Boolean; virtual; abstract;
     procedure EnterPostMortem; virtual; abstract;
     procedure ExitPostMortem; virtual; abstract;
-
-    class var ThreadChangeNotify : TThreadChangeNotifyEvent;
+    property PostMortemEnabled: Boolean read GetPostMortemEnabled;
+  public
+    class var ThreadChangeNotify: TThreadChangeNotifyEvent;
   end;
 
-Const
+const
  CommonTypes: array[1..29] of TIdentMapEntry = (
       (Value: 0; Name: 'NoneType'),
       (Value: 1; Name: 'NotImplementedType'),
@@ -225,64 +223,59 @@ Const
 implementation
 
 uses
-  System.UITypes,
-  System.Contnrs,
+  System.SysUtils,
   System.IOUtils,
   Vcl.Dialogs,
-  VarPyth,
-  JvGnuGettext,
+  JvGnugettext,
   JclSysInfo,
   StringResources,
   uCommonFunctions,
   cPyControl,
-  cPyDebugger,
   cPyScripterSettings,
   cSSHSupport;
 
 { TPythonPathAdder }
 type
 
-  TSysPathFunction = function(const Path : string) : boolean of object;
+  TSysPathFunction = function(const Path: string): Boolean of object;
 
   TPythonPathAdder = class(TInterfacedObject, IInterface)
   private
-    fPath : string;
-    fPathAdded : boolean;
-    PackageRootAdder : IInterface;
-    fAutoRemove : Boolean;
-    fSysPathRemove : TSysPathFunction;
+    FPath: string;
+    FPathAdded: Boolean;
+    FPackageRootAdder: IInterface;
+    FAutoRemove: Boolean;
+    FSysPathRemove: TSysPathFunction;
   public
-    constructor Create(SysPathAdd, SysPathRemove : TSysPathFunction;
-      const Path : string; AutoRemove : Boolean = True);
+    constructor Create(SysPathAdd, SysPathRemove: TSysPathFunction;
+      const Path: string; AutoRemove: Boolean = True);
     destructor Destroy; override;
   end;
 
-constructor TPythonPathAdder.Create(SysPathAdd, SysPathRemove : TSysPathFunction;
-  const Path: string; AutoRemove : Boolean = True);
-var
-  S : string;
+constructor TPythonPathAdder.Create(SysPathAdd, SysPathRemove: TSysPathFunction;
+  const Path: string; AutoRemove: Boolean = True);
 begin
   inherited Create;
-  fPath := ExcludeTrailingPathDelimiter(Path);
-  fAutoRemove := AutoRemove;
-  fSysPathRemove := SysPathRemove;
-  if (fPath <> '') then begin
+  FPath := ExcludeTrailingPathDelimiter(Path);
+  FAutoRemove := AutoRemove;
+  FSysPathRemove := SysPathRemove;
+  if (FPath <> '') then begin
     // Add parent directory of the root of the package first
-    if DirIsPythonPackage(fPath) then begin
-      S := TPath.GetDirectoryName(GetPackageRootDir(fPath));
-      if S <> fPath then
-        PackageRootAdder :=
-          TPythonPathAdder.Create(SysPathAdd, SysPathRemove, S, AutoRemove);
+    if DirIsPythonPackage(FPath) then begin
+      var ParentDir := TPath.GetDirectoryName(GetPackageRootDir(FPath));
+      if ParentDir <> FPath then
+        FPackageRootAdder := TPythonPathAdder.Create(SysPathAdd, SysPathRemove,
+          ParentDir, AutoRemove);
     end;
-    fPathAdded := SysPathAdd(fPath);
+    FPathAdded := SysPathAdd(FPath);
   end;
 end;
 
 destructor TPythonPathAdder.Destroy;
 begin
-  PackageRootAdder := nil;  // will remove package root
-  if fPathAdded and FAutoRemove then
-    fSysPathRemove(fPath);
+  FPackageRootAdder := nil;  // will remove package root
+  if FPathAdded and FAutoRemove then
+    FSysPathRemove(FPath);
   inherited;
 end;
 
@@ -293,31 +286,32 @@ function TPyBaseInterpreter.AddPathToPythonPath(const Path: string;
 begin
   Result := nil;
   // DirectoryExists would fail when TPythonPathAdder is used with the SSH engine.
-  if (fEngineType = peSSH) or DirectoryExists(Path)  then
-    Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove)
+  if (FEngineType = peSSH) or DirectoryExists(Path)  then
+    Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
 end;
 
-procedure TPyBaseInterpreter.HandlePyException(Traceback: TPythonTraceback; ErrorMsg : string; SkipFrames : integer = 1);
-Var
-  TI : TTracebackItem;
-  FileName : string;
-  Editor : IEditor;
+procedure TPyBaseInterpreter.HandlePyException(Traceback: TPythonTraceback;
+  ErrorMsg: string; SkipFrames: Integer = 1);
+var
+  TBItem: TTracebackItem;
+  FileName: string;
+  Editor: IEditor;
 begin
   GI_PyIDEServices.Messages.ShowPythonTraceback(Traceback, SkipFrames);
   GI_PyIDEServices.Messages.AddMessage(ErrorMsg);
   with Traceback do begin
     if ItemCount > 0 then begin
-      TI := Items[ItemCount -1];
-      FileName := FromPythonFileName(TI.FileName);
+      TBItem := Items[ItemCount -1];
+      FileName := FromPythonFileName(TBItem.FileName);
       Editor := GI_EditorFactory.GetEditorByFileId(FileName);
       // Check whether the error occurred in the active editor
       if (Assigned(Editor) and (Editor = GI_PyIDEServices.ActiveEditor)) or
         PyIDEOptions.JumpToErrorOnException then
       begin
-        if GI_PyIDEServices.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
+        if GI_PyIDEServices.ShowFilePosition(TBItem.FileName, TBItem.LineNo, 1) and
           Assigned(GI_ActiveEditor)
         then
-          PyControl.ErrorPos := TEditorPos.NPos(GI_ActiveEditor, TI.LineNo);
+          PyControl.ErrorPos := TEditorPos.NPos(GI_ActiveEditor, TBItem.LineNo);
       end;
     end;
   end;
@@ -341,8 +335,8 @@ begin
 end;
 
 procedure TPyBaseInterpreter.RunScript(FileName: string);
-Var
-  Source : string;
+var
+  Source: string;
 begin
   if FileExists(FileName) then begin
     Source := CleanEOLs(FileToStr(FileName))+#10;
@@ -366,8 +360,8 @@ begin
 end;
 
 function TPyBaseInterpreter.ToPythonFileName(const FileName: string): string;
-Var
-  Server, FName : string;
+var
+  Server, FName: string;
 begin
   // check for untitled or remote files
   if (FileName.IndexOfAny(['\', '/', '.']) < 0) or TSSHFileName.Parse(FileName, Server, FName) then
@@ -380,16 +374,16 @@ end;
 
 procedure TBaseNameSpaceItem.CompareToOldItem(OldItem: TBaseNameSpaceItem);
 var
-  I, Index : integer;
-  Child, OldChild : TBaseNameSpaceItem;
+  Index: Integer;
+  Child, OldChild: TBaseNameSpaceItem;
 begin
-  if OldItem.GotBufferedValue then begin
-    if OldItem.BufferedValue <> Value then
+  if OldItem.FGotBufferedValue then begin
+    if OldItem.FBufferedValue <> Value then
       Attributes := [nsaChanged];
   end;
-  if OldItem.GotChildNodes then begin
+  if OldItem.FGotChildNodes then begin
     GetChildNodes;
-    for I := 0 to ChildCount - 1 do begin
+    for var I := 0 to ChildCount - 1 do begin
       Child := ChildNode[I];
       if (ObjectType <> 'list') and (ObjectType <> 'tuple') then
         Index := OldItem.IndexOfChild(Child.Name)
@@ -399,7 +393,7 @@ begin
         Index := -1;
       if Index >= 0 then begin
         OldChild := OldItem.ChildNode[Index];
-        if OldChild.GotBufferedValue then
+        if OldChild.FGotBufferedValue then
           Child.CompareToOldItem(OldChild);
       end else
         Child.Attributes := [nsaNew];
@@ -409,18 +403,18 @@ end;
 
 function TBaseNameSpaceItem.GetOrCalculateValue: string;
 begin
-  if GotBufferedValue then
-    Result := BufferedValue
+  if FGotBufferedValue then
+    Result := FBufferedValue
   else begin
-    BufferedValue := GetValue;
-    GotBufferedValue := True;
-    Result := BufferedValue;
+    FBufferedValue := GetValue;
+    FGotBufferedValue := True;
+    Result := FBufferedValue;
   end;
 end;
 
 { TPyBaseDebugger }
 
-function TPyBaseDebugger.GetPostMortemEnabled: boolean;
+function TPyBaseDebugger.GetPostMortemEnabled: Boolean;
 begin
   Result := HaveTraceback;
 end;
