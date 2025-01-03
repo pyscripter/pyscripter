@@ -107,12 +107,12 @@ inherited BreakPointsWindow: TBreakPointsWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 16
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 7
+        CollectionIndex = 8
         CollectionName = 'BreakpointsRemove'
         Name = 'BreakpointsRemove'
       end>

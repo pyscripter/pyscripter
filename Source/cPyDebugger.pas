@@ -170,6 +170,7 @@ uses
   System.UITypes,
   System.Math,
   System.IOUtils,
+  System.Contnrs,
   Vcl.Forms,
   Vcl.Dialogs,
   JvDSADialogs,

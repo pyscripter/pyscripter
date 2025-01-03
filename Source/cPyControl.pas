@@ -11,13 +11,11 @@ unit cPyControl;
 
 interface
 
-Uses
-  System.SysUtils,
+uses
   System.Classes,
   JclNotify,
   JvAppStorage,
   PythonVersions,
-  PythonEngine,
   uEditAppIntfs,
   cPySupportTypes,
   cPyBaseDebugger,
@@ -33,7 +31,7 @@ type
                        dlErrorLine);
   TDebuggerLineInfos = set of TDebuggerLineInfo;
 
-  TBreakpointChangeEvent = procedure(Sender: TObject; Editor : IEditor; ALine: integer) of object;
+  TBreakpointChangeEvent = procedure(Sender: TObject; Editor: IEditor; ALine: integer) of object;
   TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
   TDebuggerPosChangeEvent = procedure(Sender: TObject; const OldPos, NewPos: TEditorPos) of object;
 
@@ -43,42 +41,42 @@ type
     Holds information Breakpoints, ErrorPos, CurrentPos
   }
   private
-    fCurrentPos: TEditorPos;
-    fErrorPos: TEditorPos;
-    fFinalizing: Boolean;
-    fBreakPointsChanged: Boolean;
-    fDebuggerState: TDebuggerState;
-    fOnBreakpointChange: TBreakpointChangeEvent;
-    fOnCurrentPosChange: TDebuggerPosChangeEvent;
-    fOnErrorPosChange: TDebuggerPosChangeEvent;
-    fOnStateChange: TDebuggerStateChangeEvent;
-    fOnPythonVersionChange: TJclNotifyEventBroadcast;
-    fActiveInterpreter: TPyBaseInterpreter;
-    fActiveDebugger: TPyBaseDebugger ;
-    fRunConfig: TRunConfiguration;
-    fPythonVersionIndex: integer;
-    fRegPythonVersions: TPythonVersions;
-    fInternalPython: TInternalPython;
-    fInternalInterpreter: TPyBaseInterpreter;
-    fActiveSSHServerName: string;
-    fPythonHelpFile: string;
+    FCurrentPos: TEditorPos;
+    FErrorPos: TEditorPos;
+    FFinalizing: Boolean;
+    FBreakPointsChanged: Boolean;
+    FDebuggerState: TDebuggerState;
+    FOnBreakpointChange: TBreakpointChangeEvent;
+    FOnCurrentPosChange: TDebuggerPosChangeEvent;
+    FOnErrorPosChange: TDebuggerPosChangeEvent;
+    FOnStateChange: TDebuggerStateChangeEvent;
+    FOnPythonVersionChange: TJclNotifyEventBroadcast;
+    FActiveInterpreter: TPyBaseInterpreter;
+    FActiveDebugger: TPyBaseDebugger ;
+    FRunConfig: TRunConfiguration;
+    FPythonVersionIndex: Integer;
+    FRegPythonVersions: TPythonVersions;
+    FInternalPython: TInternalPython;
+    FInternalInterpreter: TPyBaseInterpreter;
+    FActiveSSHServerName: string;
+    FPythonHelpFile: string;
     function InitPythonVersions : Boolean;
-    procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
+    procedure DoOnBreakpointChanged(Editor: IEditor; ALine: Integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
-    procedure SetDebuggerState(NewState : TDebuggerState);
-    procedure SetCurrentPos(const NewPos : TEditorPos);
-    procedure SetErrorPos(const NewPos : TEditorPos);
+    procedure SetDebuggerState(NewState: TDebuggerState);
+    procedure SetCurrentPos(const NewPos: TEditorPos);
+    procedure SetErrorPos(const NewPos: TEditorPos);
     function GetPythonEngineType: TPythonEngineType;
     procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
     procedure PrepareRun;
     function GetInternalInterpreter: TPyBaseInterpreter;
-    procedure SetPythonVersionIndex(const Value: integer);
+    procedure SetPythonVersionIndex(const Value: Integer);
     // IPyControl implementation
     function PythonLoaded: Boolean;
-    function Running: boolean;
-    function Inactive: boolean;
+    function Running: Boolean;
+    function Inactive: Boolean;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
@@ -95,24 +93,24 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     // Breakpoint related
-    procedure ToggleBreakpoint(Editor : IEditor; ALine: integer;
-      CtrlPressed : Boolean = False);
-    procedure SetBreakPoint(FileName : string; ALine : integer;
-      Disabled : Boolean; Condition : string);
+    procedure ToggleBreakpoint(Editor: IEditor; ALine: Integer;
+      CtrlPressed: Boolean = False);
+    procedure SetBreakPoint(FileName: string; ALine: Integer;
+      Disabled: Boolean; Condition: string);
     procedure ClearAllBreakpoints;
     // Editor related
-    function GetLineInfos(Editor : IEditor; ALine: integer): TDebuggerLineInfos;
-    function IsBreakpointLine(Editor: IEditor; ALine: integer;
-      var Disabled : boolean): boolean;
-    function IsExecutableLine(Editor: IEditor; ALine: integer): boolean;
+    function GetLineInfos(Editor : IEditor; ALine: Integer): TDebuggerLineInfos;
+    function IsBreakpointLine(Editor: IEditor; ALine: Integer;
+      var Disabled : Boolean): Boolean;
+    function IsExecutableLine(Editor: IEditor; ALine: Integer): Boolean;
     // Running Python Scripts
-    procedure Run(ARunConfig : TRunConfiguration);
-    procedure Debug(ARunConfig : TRunConfiguration;  InitStepIn : Boolean = False;
-      RunToCursorLine : integer = -1);
-    procedure ExternalRun(ARunConfig : TRunConfiguration);
+    procedure Run(ARunConfig: TRunConfiguration);
+    procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
+      RunToCursorLine: Integer = -1);
+    procedure ExternalRun(ARunConfig: TRunConfiguration);
     // InternalPython
     procedure LoadPythonEngine; overload;
-    procedure LoadPythonEngine(const APythonVersion : TPythonVersion); overload;
+    procedure LoadPythonEngine(const APythonVersion: TPythonVersion); overload;
     // (Re)storing PythonVersions
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
       out SysVersion, InstallPath: string);
@@ -122,43 +120,44 @@ type
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
     property PythonVersion: TPythonVersion read GetPythonVersion;
-    property PythonVersionIndex: integer read fPythonVersionIndex write SetPythonVersionIndex;
-    property RegPythonVersions: TPythonVersions read fRegPythonVersions;
+    property PythonVersionIndex: Integer read FPythonVersionIndex write SetPythonVersionIndex;
+    property RegPythonVersions: TPythonVersions read FRegPythonVersions;
     property PythonEngineType: TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
-    property ActiveSSHServerName: string read GetActiveSSHServerName write fActiveSSHServerName;
-    property InternalPython: TInternalPython read fInternalPython;
+    property ActiveSSHServerName: string read GetActiveSSHServerName write FActiveSSHServerName;
+    property InternalPython: TInternalPython read FInternalPython;
     property InternalInterpreter: TPyBaseInterpreter read GetInternalInterpreter;
-    property ActiveInterpreter: TPyBaseInterpreter read fActiveInterpreter
+    property ActiveInterpreter: TPyBaseInterpreter read FActiveInterpreter
       write SetActiveInterpreter;
-    property PythonHelpFile: string read fPythonHelpFile;
-    property ActiveDebugger: TPyBaseDebugger read fActiveDebugger
+    property PythonHelpFile: string read FPythonHelpFile;
+    property ActiveDebugger: TPyBaseDebugger read FActiveDebugger
       write SetActiveDebugger;
-    property CurrentPos: TEditorPos read fCurrentPos write SetCurrentPos;
-    property ErrorPos: TEditorPos read fErrorPos write SetErrorPos;
-    property BreakPointsChanged : Boolean read fBreakPointsChanged
-      write fBreakPointsChanged;
-    property DebuggerState: TDebuggerState read fDebuggerState write SetDebuggerState;
-    property RunConfig: TRunConfiguration read fRunConfig;
-    property Finalizing: Boolean read fFinalizing;
-    property OnBreakpointChange: TBreakpointChangeEvent read fOnBreakpointChange
-      write fOnBreakpointChange;
-    property OnCurrentPosChange: TDebuggerPosChangeEvent read fOnCurrentPosChange
-      write fOnCurrentPosChange;
-    property OnErrorPosChange: TDebuggerPosChangeEvent read fOnErrorPosChange
-      write fOnErrorPosChange;
-    property OnStateChange: TDebuggerStateChangeEvent read fOnStateChange
-      write fOnStateChange;
+    property CurrentPos: TEditorPos read FCurrentPos write SetCurrentPos;
+    property ErrorPos: TEditorPos read FErrorPos write SetErrorPos;
+    property BreakPointsChanged : Boolean read FBreakPointsChanged
+      write FBreakPointsChanged;
+    property DebuggerState: TDebuggerState read FDebuggerState write SetDebuggerState;
+    property RunConfig: TRunConfiguration read FRunConfig;
+    property Finalizing: Boolean read FFinalizing;
+    property OnBreakpointChange: TBreakpointChangeEvent read FOnBreakpointChange
+      write FOnBreakpointChange;
+    property OnCurrentPosChange: TDebuggerPosChangeEvent read FOnCurrentPosChange
+      write FOnCurrentPosChange;
+    property OnErrorPosChange: TDebuggerPosChangeEvent read FOnErrorPosChange
+      write FOnErrorPosChange;
+    property OnStateChange: TDebuggerStateChangeEvent read FOnStateChange
+      write FOnStateChange;
     property OnPythonVersionChange: TJclNotifyEventBroadcast read GetOnPythonVersionChange;
   end;
 
 var
-  PyControl : TPythonControl = nil;
+  PyControl: TPythonControl = nil;
 
 implementation
 
 uses
-  WinApi.Windows,
+  Winapi.Windows,
+  System.SysUtils,
   System.Contnrs,
   System.UITypes,
   System.Math,
@@ -166,6 +165,7 @@ uses
   Vcl.Dialogs,
   JvGnugettext,
   JvJVCLUtils,
+  PythonEngine,
   VarPyth,
   StringResources,
   uCmdLine,
@@ -183,17 +183,17 @@ constructor TPythonControl.Create(AOwner: TComponent);
 begin
   inherited;
   GI_PyControl := Self;
-  fDebuggerState := dsInactive;
-  fCurrentPos.Clear;
-  fErrorPos.Clear;
-  fRunConfig := TRunConfiguration.Create;
-  fInternalPython := TInternalPython.Create;
-  fRegPythonVersions := GetRegisteredPythonVersions(MinPyVersion, MaxPyVersion);
-  fOnPythonVersionChange := TJclNotifyEventBroadcast.Create;
+  FDebuggerState := dsInactive;
+  FCurrentPos.Clear;
+  FErrorPos.Clear;
+  FRunConfig := TRunConfiguration.Create;
+  FInternalPython := TInternalPython.Create;
+  FRegPythonVersions := GetRegisteredPythonVersions(MinPyVersion, MaxPyVersion);
+  FOnPythonVersionChange := TJclNotifyEventBroadcast.Create;
 end;
 
-procedure TPythonControl.Debug(ARunConfig: TRunConfiguration; InitStepIn : Boolean = False;
-      RunToCursorLine : integer = -1);
+procedure TPythonControl.Debug(ARunConfig: TRunConfiguration;
+  InitStepIn: Boolean = False; RunToCursorLine: Integer = -1);
 begin
   SetRunConfig(ARunConfig);
 
@@ -201,13 +201,13 @@ begin
 
   PrepareRun;
 
-  if fRunConfig.WriteOutputToFile then
-    GI_PyInterpreter.StartOutputMirror(GI_PyIDEServices.ReplaceParams(fRunConfig.OutputFileName),
-      fRunConfig.AppendToFile);
+  if FRunConfig.WriteOutputToFile then
+    GI_PyInterpreter.StartOutputMirror(GI_PyIDEServices.ReplaceParams(FRunConfig.OutputFileName),
+      FRunConfig.AppendToFile);
   try
-    ActiveDebugger.Debug(fRunConfig, InitStepIn, RunToCursorLine);
+    ActiveDebugger.Debug(FRunConfig, InitStepIn, RunToCursorLine);
   finally
-    if fRunConfig.WriteOutputToFile then
+    if FRunConfig.WriteOutputToFile then
       GI_PyInterpreter.StopFileMirror;
   end;
 end;
@@ -215,31 +215,31 @@ end;
 destructor TPythonControl.Destroy;
 begin
   GI_PyControl := nil;
-  FreeAndNil(fInternalInterpreter);
-  FreeAndNil(fInternalPython);
-  FreeAndNil(fOnPythonVersionChange);
-  fRunConfig.Free;
+  FreeAndNil(FInternalInterpreter);
+  FreeAndNil(FInternalPython);
+  FreeAndNil(FOnPythonVersionChange);
+  FRunConfig.Free;
   inherited;
 end;
 
 function TPythonControl.GetActiveSSHServerName: string;
 begin
-  Result := fActiveSSHServerName;
+  Result := FActiveSSHServerName;
 end;
 
 function TPythonControl.GetInternalInterpreter: TPyBaseInterpreter;
 begin
-  Result := fInternalInterpreter;
-  if not (InternalPython.Loaded and Assigned(fInternalInterpreter)) then
+  Result := FInternalInterpreter;
+  if not (InternalPython.Loaded and Assigned(FInternalInterpreter)) then
   begin
     StyledMessageDlg(_(SInterpreterNA), mtError, [mbAbort], 0);
     Abort;
   end;
 end;
 
-function TPythonControl.GetLineInfos(Editor : IEditor; ALine: integer): TDebuggerLineInfos;
-Var
-  Disabled : boolean;
+function TPythonControl.GetLineInfos(Editor : IEditor; ALine: Integer): TDebuggerLineInfos;
+var
+  Disabled : Boolean;
 begin
   Result := [];
   if ALine > 0 then begin
@@ -260,7 +260,7 @@ end;
 
 function TPythonControl.GetOnPythonVersionChange: TJclNotifyEventBroadcast;
 begin
-  Result := fOnPythonVersionChange;
+  Result := FOnPythonVersionChange;
 end;
 
 function TPythonControl.GetPythonEngineType: TPythonEngineType;
@@ -273,87 +273,86 @@ end;
 
 function TPythonControl.GetPythonVersion: TPythonVersion;
 begin
-  if (fPythonVersionIndex >= 0) and (fPythonVersionIndex < Length(fRegPythonVersions)) then
-    Result := fRegPythonVersions[fPythonVersionIndex]
-  else if (fPythonVersionIndex < 0) and (-fPythonVersionIndex <= Length(CustomPythonVersions)) then
-    Result := CustomPythonVersions[-fPythonVersionIndex -1]
+  if (FPythonVersionIndex >= 0) and (FPythonVersionIndex < Length(FRegPythonVersions)) then
+    Result := FRegPythonVersions[FPythonVersionIndex]
+  else if (FPythonVersionIndex < 0) and (-FPythonVersionIndex <= Length(CustomPythonVersions)) then
+    Result := CustomPythonVersions[-FPythonVersionIndex -1]
   else
     Assert(False, 'Invalid PythonVersionIndex');
 end;
 
-function TPythonControl.Inactive: boolean;
+function TPythonControl.Inactive: Boolean;
 begin
-  Result := InternalPython.Loaded and (fDebuggerState = dsInactive);
+  Result := InternalPython.Loaded and (FDebuggerState = dsInactive);
 end;
 
 function TPythonControl.InitPythonVersions: Boolean;
-Var
-  expectedVersion,
+var
+  ExpectedVersion,
   LastVersion,
   LastInstallPath,
-  DLLPath : string;
-  Version : TPythonVersion;
-  I : integer;
+  DLLPath: string;
+  Version: TPythonVersion;
 begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
-  expectedVersion := '';
+  ExpectedVersion := '';
 
   if CmdLineReader.readFlag('PYTHON38') then
-    expectedVersion := '3.8'
+    ExpectedVersion := '3.8'
   else if CmdLineReader.readFlag('PYTHON39') then
-    expectedVersion := '3.9'
+    ExpectedVersion := '3.9'
   else if CmdLineReader.readFlag('PYTHON310') then
-    expectedVersion := '3.10'
+    ExpectedVersion := '3.10'
   else if CmdLineReader.readFlag('PYTHON311') then
-    expectedVersion := '3.11'
+    ExpectedVersion := '3.11'
   else if CmdLineReader.readFlag('PYTHON312') then
-    expectedVersion := '3.12'
+    ExpectedVersion := '3.12'
   else if CmdLineReader.readFlag('PYTHON313') then
-    expectedVersion := '3.13'
+    ExpectedVersion := '3.13'
   else if CmdLineReader.readFlag('PYTHON314') then
-    expectedVersion := '3.14';
-  DllPath := CmdLineReader.readString('PYTHONDLLPATH');
+    ExpectedVersion := '3.14';
+  DLLPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);
-  if (DllPath = '') and (expectedVersion = '') then
+  if (DLLPath = '') and (ExpectedVersion = '') then
   begin
-    expectedVersion := LastVersion;
+    ExpectedVersion := LastVersion;
     DLLPath := LastInstallPath;
   end;
 
   Result := False;
-  if (DllPath = '') and (expectedVersion = '') then
+  if (DLLPath = '') and (ExpectedVersion = '') then
   begin
-    if Length(fRegPythonVersions) > 0 then begin
-      fPythonVersionIndex := 0;
+    if Length(FRegPythonVersions) > 0 then begin
+      FPythonVersionIndex := 0;
       Result := True;
     end;
   end
-  else if DllPath = '' then
+  else if DLLPath = '' then
   begin
-    for I := 0 to Length(fRegPythonVersions) - 1 do
-      if fRegPythonVersions[I].SysVersion = expectedVersion then
+    for var I := 0 to Length(FRegPythonVersions) - 1 do
+      if FRegPythonVersions[I].SysVersion = ExpectedVersion then
       begin
-        fPythonVersionIndex := I;
+        FPythonVersionIndex := I;
         Result := True;
-        break;
+        Break;
       end;
-    // if the expectedVersion is not available load the latest registred version
-    if not Result and (Length(fRegPythonVersions) > 0) then
+    // if the ExpectedVersion is not available load the latest registred version
+    if not Result and (Length(FRegPythonVersions) > 0) then
     begin
-      fPythonVersionIndex := 0;
+      FPythonVersionIndex := 0;
       Result := True;
     end;
   end
   else
   begin
-    for I := 0 to Length(CustomPythonVersions) -1 do
+    for var I := 0 to Length(CustomPythonVersions) -1 do
       if (CustomPythonVersions[I].DLLPath = DLLPath) or
          (CustomPythonVersions[I].InstallPath = DLLPath) then
       begin
         Result := True;
-        fPythonVersionIndex := -(I + 1);
-        break;
+        FPythonVersionIndex := -(I + 1);
+        Break;
       end;
     if not Result then begin
       Result := PythonVersionFromPath(DLLPath, Version, True,
@@ -361,67 +360,66 @@ begin
       if Result then begin
         SetLength(CustomPythonVersions, Length(CustomPythonVersions) + 1);
         CustomPythonVersions[Length(CustomPythonVersions)-1] := Version;
-        fPythonVersionIndex := - Length(CustomPythonVersions);
+        FPythonVersionIndex := - Length(CustomPythonVersions);
       end;
     end;
     // if the loading from path fails load the latest registered version
-    if not Result and (Length(fRegPythonVersions) > 0) then
+    if not Result and (Length(FRegPythonVersions) > 0) then
     begin
-      fPythonVersionIndex := 0;
+      FPythonVersionIndex := 0;
       Result := True;
     end;
   end;
 end;
 
-function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: integer;
-  var Disabled : boolean): boolean;
-Var
-  i: integer;
+function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: Integer;
+  var Disabled : Boolean): Boolean;
+var
+  Idx: Integer;
 begin
-  Result := FALSE;
+  Result := False;
   if ALine > 0 then begin
-    i := Editor.Breakpoints.Count - 1;
-    while i >= 0 do begin
-      if TBreakPoint(Editor.Breakpoints[i]).LineNo = ALine then begin
-        Disabled := TBreakPoint(Editor.Breakpoints[i]).Disabled;
-        Result := TRUE;
-        break;
+    Idx := Editor.BreakPoints.Count - 1;
+    while Idx >= 0 do begin
+      if TBreakPoint(Editor.BreakPoints[Idx]).LineNo = ALine then begin
+        Disabled := TBreakPoint(Editor.BreakPoints[Idx]).Disabled;
+        Result := True;
+        Break;
       end;
-      Dec(i);
+      Dec(Idx);
     end;
   end;
 end;
 
-function TPythonControl.IsExecutableLine(Editor: IEditor; ALine: integer): boolean;
+function TPythonControl.IsExecutableLine(Editor: IEditor; ALine: Integer): Boolean;
 begin
-  Assert(Assigned(Editor));
+  Assert(Assigned(Editor), 'TPythonControl.IsExecutableLine');
   with Editor.SynEdit do begin
     Result := TPyRegExpr.IsExecutableLine(Lines[ALine-1]);
   end;
 end;
 
-procedure TPythonControl.ToggleBreakpoint(Editor : IEditor; ALine: integer;
+procedure TPythonControl.ToggleBreakpoint(Editor: IEditor; ALine: Integer;
   CtrlPressed : Boolean = False);
 var
-  Index : integer;
-  i: integer;
+  Index : NativeInt;
   BreakPoint : TBreakPoint;
 begin
   if ALine > 0 then begin
-    Index := Editor.Breakpoints.Count;  // append at the end
-    for i := 0 to Editor.Breakpoints.Count - 1 do begin
-      if TBreakPoint(Editor.Breakpoints[i]).LineNo = ALine then begin
+    Index := Editor.BreakPoints.Count;  // append at the end
+    for var I := 0 to Editor.BreakPoints.Count - 1 do begin
+      if TBreakPoint(Editor.BreakPoints[I]).LineNo = ALine then begin
         if CtrlPressed then
           // Toggle disabled
-          TBreakPoint(Editor.Breakpoints[i]).Disabled :=
-            not TBreakPoint(Editor.Breakpoints[i]).Disabled
+          TBreakPoint(Editor.BreakPoints[I]).Disabled :=
+            not TBreakPoint(Editor.BreakPoints[I]).Disabled
         else
-          Editor.Breakpoints.Delete(i);
+          Editor.BreakPoints.Delete(I);
         Index := -1;
-        break;
-      end else if TBreakPoint(Editor.Breakpoints[i]).LineNo > ALine then begin
-        Index := i;
-        break;
+        Break;
+      end else if TBreakPoint(Editor.BreakPoints[I]).LineNo > ALine then begin
+        Index := I;
+        Break;
       end;
     end;
     if Index >= 0 then begin
@@ -429,7 +427,7 @@ begin
       BreakPoint.LineNo := ALine;
       if CtrlPressed then
         BreakPoint.Disabled := True;
-      Editor.Breakpoints.Insert(Index, BreakPoint);
+      Editor.BreakPoints.Insert(Index, BreakPoint);
     end;
     DoOnBreakpointChanged(Editor, ALine);
   end;
@@ -437,54 +435,53 @@ end;
 
 procedure TPythonControl.SetActiveDebugger(const Value: TPyBaseDebugger);
 begin
-  if fActiveDebugger <> Value then begin
-    if Assigned(fActiveDebugger) then
+  if FActiveDebugger <> Value then begin
+    if Assigned(FActiveDebugger) then
     begin
       var Py := SafePyEngine;
-      FreeAndNil(fActiveDebugger);
+      FreeAndNil(FActiveDebugger);
     end;
-    fActiveDebugger := Value;
+    FActiveDebugger := Value;
   end;
 end;
 
 procedure TPythonControl.SetActiveInterpreter(const Value: TPyBaseInterpreter);
 begin
-  if fActiveInterpreter <> Value then begin
-    if Assigned(fActiveInterpreter) and
-      (fActiveInterpreter <> fInternalInterpreter)
+  if FActiveInterpreter <> Value then begin
+    if Assigned(FActiveInterpreter) and
+      (FActiveInterpreter <> FInternalInterpreter)
     then
     begin
       var Py := SafePyEngine;
-      FreeAndNil(fActiveInterpreter);
+      FreeAndNil(FActiveInterpreter);
     end;
-    fActiveInterpreter := Value;
+    FActiveInterpreter := Value;
   end;
 end;
 
-procedure TPythonControl.SetBreakPoint(FileName: string; ALine: integer;
-  Disabled : Boolean; Condition: string);
+procedure TPythonControl.SetBreakPoint(FileName: string; ALine: Integer;
+  Disabled: Boolean; Condition: string);
 var
-  Editor : IEditor;
-  i: integer;
-  BreakPoint : TBreakPoint;
+  Editor: IEditor;
+  BreakPoint: TBreakPoint;
 begin
   Editor := GI_EditorFactory.GetEditorByFileId(FileName);
 
   BreakPoint := nil;
   if Assigned(Editor) and (ALine > 0) then begin
-    for i := 0 to Editor.Breakpoints.Count - 1 do begin
-      if TBreakPoint(Editor.Breakpoints[i]).LineNo = ALine then begin
-        BreakPoint := TBreakPoint(Editor.Breakpoints[i]);
-        break;
-      end else if TBreakPoint(Editor.Breakpoints[i]).LineNo > ALine then begin
+    for var I := 0 to Editor.BreakPoints.Count - 1 do begin
+      if TBreakPoint(Editor.BreakPoints[I]).LineNo = ALine then begin
+        BreakPoint := TBreakPoint(Editor.BreakPoints[I]);
+        Break;
+      end else if TBreakPoint(Editor.BreakPoints[I]).LineNo > ALine then begin
         BreakPoint := TBreakPoint.Create;
-        Editor.Breakpoints.Insert(i, BreakPoint);
-        break;
+        Editor.BreakPoints.Insert(I, BreakPoint);
+        Break;
       end;
     end;
     if not Assigned(BreakPoint) then begin
       BreakPoint := TBreakPoint.Create;
-      Editor.Breakpoints.Add(BreakPoint);
+      Editor.BreakPoints.Add(BreakPoint);
     end;
     BreakPoint.LineNo := ALine;
     BreakPoint.Disabled := Disabled;
@@ -519,7 +516,7 @@ begin
   case Value of
     peInternal:
       begin
-        ActiveInterpreter := fInternalInterpreter;
+        ActiveInterpreter := FInternalInterpreter;
         ActiveDebugger := ActiveInterpreter.CreateDebugger;
         PyIDEOptions.PythonEngineType := peInternal;
       end;
@@ -539,7 +536,6 @@ begin
             Exit;
           end;
         end;
-        //Application.ProcessMessages;
         Cursor := WaitCursor;
         // Destroy any active remote interpeter
         ActiveDebugger := nil;
@@ -564,7 +560,7 @@ begin
         end else begin
           // failed to connect
           FreeAndNil(RemoteInterpreter);
-          ActiveInterpreter := fInternalInterpreter;
+          ActiveInterpreter := FInternalInterpreter;
           ActiveDebugger := TPyInternalDebugger.Create;
           PyIDEOptions.PythonEngineType := peInternal;
         end;
@@ -574,10 +570,10 @@ begin
   DebuggerState := dsInactive;
 end;
 
-procedure TPythonControl.SetPythonVersionIndex(const Value: integer);
+procedure TPythonControl.SetPythonVersionIndex(const Value: Integer);
 begin
-  if (Value <> fPythonVersionIndex) and (DebuggerState = dsInactive) then begin
-    fPythonVersionIndex := Value;
+  if (Value <> FPythonVersionIndex) and (DebuggerState = dsInactive) then begin
+    FPythonVersionIndex := Value;
     LoadPythonEngine(PythonVersion);
   end;
 end;
@@ -591,79 +587,79 @@ procedure TPythonControl.ClearAllBreakpoints;
 begin
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   begin
-    if Editor.Breakpoints.Count > 0 then begin
-      Editor.Breakpoints.Clear;
+    if Editor.BreakPoints.Count > 0 then begin
+      Editor.BreakPoints.Clear;
       DoOnBreakpointChanged(Editor, -1);
     end;
   end);
 end;
 
-procedure TPythonControl.SetCurrentPos(const NewPos : TEditorPos);
+procedure TPythonControl.SetCurrentPos(const NewPos: TEditorPos);
 begin
-  if Assigned(fOnCurrentPosChange) then
+  if Assigned(FOnCurrentPosChange) then
   begin
-    if (GetCurrentThreadId = MainThreadId) then
-      fOnCurrentPosChange(Self, fCurrentPos, NewPos)
+    if (GetCurrentThreadId = MainThreadID) then
+      FOnCurrentPosChange(Self, FCurrentPos, NewPos)
     else
       TThread.Synchronize(nil, procedure
       begin
-        fOnCurrentPosChange(Self, fCurrentPos, NewPos);
+        FOnCurrentPosChange(Self, FCurrentPos, NewPos);
       end);
   end;
-  fCurrentPos := NewPos;
+  FCurrentPos := NewPos;
 end;
 
-procedure TPythonControl.SetErrorPos(const NewPos : TEditorPos);
+procedure TPythonControl.SetErrorPos(const NewPos: TEditorPos);
 begin
-  if Assigned(fOnErrorPosChange) then
+  if Assigned(FOnErrorPosChange) then
   begin
-    if (GetCurrentThreadId = MainThreadId) then
-      fOnErrorPosChange(Self, fErrorPos, NewPos)
+    if (GetCurrentThreadId = MainThreadID) then
+      FOnErrorPosChange(Self, FErrorPos, NewPos)
     else
       TThread.Synchronize(nil, procedure
       begin
-        fOnErrorPosChange(Self, fErrorPos, NewPos);
+        FOnErrorPosChange(Self, FErrorPos, NewPos);
       end);
   end;
-  fErrorPos := NewPos;
+  FErrorPos := NewPos;
 end;
 
-procedure TPythonControl.DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
+procedure TPythonControl.DoOnBreakpointChanged(Editor: IEditor; ALine: Integer);
 begin
-  fBreakPointsChanged := True;
-  if Assigned(fOnBreakpointChange) then
+  FBreakPointsChanged := True;
+  if Assigned(FOnBreakpointChange) then
   begin
-    if (GetCurrentThreadId = MainThreadId) then
-      fOnBreakpointChange(Self, Editor, ALine)
+    if (GetCurrentThreadId = MainThreadID) then
+      FOnBreakpointChange(Self, Editor, ALine)
     else
       TThread.Synchronize(nil, procedure
       begin
-        fOnBreakpointChange(Self, Editor, ALine);
+        FOnBreakpointChange(Self, Editor, ALine);
       end);
   end;
 end;
 
-procedure TPythonControl.SetDebuggerState(NewState : TDebuggerState);
-Var
+procedure TPythonControl.SetDebuggerState(NewState: TDebuggerState);
+var
   OldDebuggerState: TDebuggerState;
 begin
-  OldDebuggerState := fDebuggerState;
+  OldDebuggerState := FDebuggerState;
   if NewState in [dsInactive, dsDebugging, dsRunning] then
     CurrentPos := TEditorPos.EmptyPos
   else
     ErrorPos := TEditorPos.EmptyPos;
-  fDebuggerState := NewState;
-  if Assigned(fOnStateChange) then
+  FDebuggerState := NewState;
+  if Assigned(FOnStateChange) then
   begin
-    if (GetCurrentThreadId = MainThreadId) then
-      fOnStateChange(Self, OldDebuggerState, NewState)
+    if (GetCurrentThreadId = MainThreadID) then
+      FOnStateChange(Self, OldDebuggerState, NewState)
     else
     begin
       TPythonThread.Py_Begin_Allow_Threads;
       try
         TThread.Synchronize(nil, procedure
         begin
-          fOnStateChange(Self, OldDebuggerState, NewState);
+          FOnStateChange(Self, OldDebuggerState, NewState);
         end);
       finally
         TPythonThread.Py_End_Allow_Threads;
@@ -675,7 +671,7 @@ end;
 procedure TPythonControl.ExternalRun(ARunConfig: TRunConfiguration);
 begin
   SetRunConfig(ARunConfig);
-  fRunConfig.ExternalRun.Execute;
+  FRunConfig.ExternalRun.Execute;
 end;
 
 procedure TPythonControl.Pickle(AValue: Variant; FileName: string);
@@ -684,7 +680,7 @@ begin
 end;
 
 procedure TPythonControl.PrepareRun;
-Var
+var
   Server, FName: string;
 begin
   if PyIDEOptions.SaveFilesBeforeRun then begin
@@ -696,14 +692,14 @@ begin
   if PyIDEOptions.ClearOutputBeforeRun then
     GI_PyInterpreter.ClearDisplay;
 
-  if (fRunConfig.EngineType <> PythonEngineType) or ((PythonEngineType = peSSH) and
-    TSSHFileName.Parse(fRunConfig.ScriptName, Server, FName) and (Server <> ActiveSSHServerName))
+  if (FRunConfig.EngineType <> PythonEngineType) or ((PythonEngineType = peSSH) and
+    TSSHFileName.Parse(FRunConfig.ScriptName, Server, FName) and (Server <> ActiveSSHServerName))
   then begin
     if Server <> '' then
       ActiveSSHServerName := Server;
-    PythonEngineType := fRunConfig.EngineType
+    PythonEngineType := FRunConfig.EngineType;
   end else if (icReInitialize in ActiveInterpreter.InterpreterCapabilities) and
-    fRunConfig.ReinitializeBeforeRun
+    FRunConfig.ReinitializeBeforeRun
   then begin
     ActiveInterpreter.ReInitialize;
     GI_PyInterpreter.ClearLastPrompt;
@@ -717,19 +713,19 @@ end;
 
 procedure TPythonControl.SetRunConfig(ARunConfig: TRunConfiguration);
 begin
-  if ARunConfig <> fRunConfig then
+  if ARunConfig <> FRunConfig then
   begin
-    fRunConfig.Assign(ARunConfig);
+    FRunConfig.Assign(ARunConfig);
     // Expand Parameters in filename
-    fRunConfig.ScriptName := '';  // to avoid circular substitution
-    fRunConfig.ScriptName := GI_PyIDEServices.ReplaceParams(ARunConfig.ScriptName);
-    GI_PyIDEServices.SetRunLastScriptHints(fRunConfig.ScriptName);
+    FRunConfig.ScriptName := '';  // to avoid circular substitution
+    FRunConfig.ScriptName := GI_PyIDEServices.ReplaceParams(ARunConfig.ScriptName);
+    GI_PyIDEServices.SetRunLastScriptHints(FRunConfig.ScriptName);
   end;
 end;
 
-function TPythonControl.Running: boolean;
+function TPythonControl.Running: Boolean;
 begin
-  Result := fDebuggerState in [dsDebugging, dsRunning];
+  Result := FDebuggerState in [dsDebugging, dsRunning];
 end;
 
 procedure TPythonControl.LoadPythonEngine;
@@ -740,7 +736,7 @@ begin
     StyledMessageDlg(Format(_(SPythonLoadError), [MinPyVersion]), mtError, [mbOK], 0);
 end;
 
-procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
+procedure TPythonControl.LoadPythonEngine(const APythonVersion: TPythonVersion);
 begin
   if InternalPython.Loaded then
     GI_PyIDEServices.ClearPythonWindows;
@@ -748,29 +744,29 @@ begin
   // Destroy Active debugger and interpreter
   PyControl.ActiveDebugger := nil;
   PyControl.ActiveInterpreter := nil;
-  FreeAndNil(fInternalInterpreter);
+  FreeAndNil(FInternalInterpreter);
 
   if InternalPython.LoadPython(APythonVersion) then
   begin
-    fPythonHelpFile := APythonVersion.HelpFile;
+    FPythonHelpFile := APythonVersion.HelpFile;
 
     var II := VarPythonEval('_II'); // wrapping sys and code modules
     // Create internal Interpreter and Debugger
     InternalPython.PythonEngine.ExecString('del _II');
 
-    fInternalInterpreter := TPyInternalInterpreter.Create(II);
-    fActiveInterpreter := fInternalInterpreter;
-    fActiveDebugger := TPyInternalDebugger.Create;
+    FInternalInterpreter := TPyInternalInterpreter.Create(II);
+    FActiveInterpreter := FInternalInterpreter;
+    FActiveDebugger := TPyInternalDebugger.Create;
 
     // Allow threads
     TPythonThread.Py_Begin_Allow_Threads;
 
     // Execute python_init.py
-    fInternalInterpreter.Initialize;
+    FInternalInterpreter.Initialize;
 
     // Execute pyscripter_init.py
     try
-      fInternalInterpreter.RunScript(TPyScripterSettings.PyScripterInitFile);
+      FInternalInterpreter.RunScript(TPyScripterSettings.PyScripterInitFile);
     except
       on E: Exception do
         StyledMessageDlg(Format(_(SErrorInitScript),
@@ -778,7 +774,7 @@ begin
     end;
 
     // Notify Python Version Change
-    fOnPythonVersionChange.Notify(Self);
+    FOnPythonVersionChange.Notify(Self);
 
     //  Set the current PythonEngine
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
@@ -797,13 +793,13 @@ begin
 
   PrepareRun;
 
-  if fRunConfig.WriteOutputToFile then
-    GI_PyInterpreter.StartOutputMirror(GI_PyIDEServices.ReplaceParams(fRunConfig.OutputFileName),
-      fRunConfig.AppendToFile);
+  if FRunConfig.WriteOutputToFile then
+    GI_PyInterpreter.StartOutputMirror(GI_PyIDEServices.ReplaceParams(FRunConfig.OutputFileName),
+      FRunConfig.AppendToFile);
   try
-    ActiveInterpreter.Run(fRunConfig);
+    ActiveInterpreter.Run(FRunConfig);
   finally
-    if fRunConfig.WriteOutputToFile then
+    if FRunConfig.WriteOutputToFile then
       GI_PyInterpreter.StopFileMirror;
   end;
 end;
@@ -819,13 +815,13 @@ end;
 
 procedure TPythonControl.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   out SysVersion, InstallPath: string);
-Var
-  Index : integer;
-  CustomVersions : TStringList;
-  Version : TPythonVersion;
-  Path : string;
-  Name : string;
-  Count : integer;
+var
+  Index: Integer;
+  CustomVersions: TStringList;
+  Version: TPythonVersion;
+  Path: string;
+  Name: string;
+  Count: Integer;
 begin
   if not AppStorage.PathExists(PythonVersionsKey+'\Custom Versions') then Exit;
   CustomVersions := TStringList.Create;
@@ -873,9 +869,9 @@ begin
 end;
 
 procedure TPythonControl.WriteToAppStorage(AppStorage: TJvCustomAppStorage);
-Var
-  CustomVersions : TStringList;
-  Version : TPythonVersion;
+var
+  CustomVersions: TStringList;
+  Version: TPythonVersion;
 begin
   AppStorage.DeleteSubTree(PythonVersionsKey);
   CustomVersions := TStringList.Create;
@@ -888,7 +884,7 @@ begin
   end;
 
   if InternalPython.Loaded then begin
-    if fPythonVersionIndex >= 0 then
+    if FPythonVersionIndex >= 0 then
       AppStorage.WriteString(PythonVersionsKey+'\SysVerion', PythonVersion.SysVersion)
     else
       AppStorage.WriteString(PythonVersionsKey+'\InstallPath', PythonVersion.InstallPath);
@@ -900,7 +896,7 @@ end;
 initialization
   PyControl := TPythonControl.Create(nil);
 finalization
-  PyControl.fFinalizing := True;
+  PyControl.FFinalizing := True;
   // Destroy Active debugger outside PyControl.Destory
   PyControl.ActiveDebugger := nil;
   PyControl.ActiveInterpreter := nil;

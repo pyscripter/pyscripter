@@ -10,11 +10,9 @@ unit cPySupportTypes;
 
 interface
 
-Uses
-  System.SysUtils,
+uses
   System.Classes,
   System.RegularExpressions,
-  PythonEngine,
   uEditAppIntfs,
   cTools;
 
@@ -27,7 +25,7 @@ type
       peRemoteWx,
       peSSH);       // SSH Python engine
 
-Const
+const
   // Defined DebugIDE events
   dbie_user_call            = 0;
   dbie_user_line            = 1;
@@ -35,7 +33,6 @@ Const
   dbie_user_exception       = 3;
   dbie_user_yield           = 4;
 
-const
   EngineTypeName : array [TPythonEngineType] of string =
     ('Internal', 'Remote', 'Remote TK', 'Remote Wx', 'SSH');
   FilePosInfoFormat : string = '%s (%d:%d)';
@@ -45,17 +42,17 @@ const
 type
   TEditorPos = record
   public
-    [weak] Editor : IEditor;
-    Line : integer;
-    Char : integer;
-    IsSyntax : Boolean;
-    ErrorMsg : string;
+    [Weak] Editor: IEditor;
+    Line: Integer;
+    Char: Integer;
+    IsSyntax: Boolean;
+    ErrorMsg: string;
     procedure Clear;
-    procedure NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+    procedure NewPos(AEditor: IEditor; ALine: Integer; AChar: Integer = -1;
       IsSyntaxError : Boolean = False; AErrorMsg : string = '');
     class function EmptyPos: TEditorPos; static;
-    class function NPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
-      IsSyntaxError : Boolean = False; AErrorMsg : string = ''): TEditorPos; static;
+    class function NPos(AEditor: IEditor; ALine: Integer; AChar: Integer = -1;
+      IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos; static;
   end;
 
   {
@@ -64,34 +61,34 @@ type
   }
   TRunConfiguration = class(TPersistent)
   private
-    fScriptName: string;
-    fEngineType: TPythonEngineType;
-    fWorkingDir: string;
-    fParameters: string;
-    fReinitializeBeforeRun: Boolean;
-    fOutputFileName: string;
-    fWriteOutputToFile: Boolean;
-    fAppendToFile: Boolean;
-    fExternalRun: TExternalRun;
-    fDescription: string;
+    FScriptName: string;
+    FEngineType: TPythonEngineType;
+    FWorkingDir: string;
+    FParameters: string;
+    FReinitializeBeforeRun: Boolean;
+    FOutputFileName: string;
+    FWriteOutputToFile: Boolean;
+    FAppendToFile: Boolean;
+    FExternalRun: TExternalRun;
+    FDescription: string;
     procedure SetExternalRun(const Value: TExternalRun);
   public
     constructor Create;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   published
-    property ScriptName : string read fScriptName write fScriptName;
-    property Description : string read fDescription write fDescription;
-    property EngineType : TPythonEngineType read fEngineType write fEngineType;
-    property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
-      write fReinitializeBeforeRun;
-    property Parameters : string read fParameters write fParameters;
-    property WorkingDir : string read fWorkingDir write fWorkingDir;
-    property WriteOutputToFile : Boolean read fWriteOutputToFile
-      write fWriteOutputToFile;
-    property OutputFileName : string read fOutputFileName write fOutputFileName;
-    property AppendToFile : Boolean read fAppendToFile write fAppendToFile;
-    property ExternalRun : TExternalRun read fExternalRun write SetExternalRun;
+    property ScriptName: string read FScriptName write FScriptName;
+    property Description: string read FDescription write FDescription;
+    property EngineType: TPythonEngineType read FEngineType write FEngineType;
+    property ReinitializeBeforeRun: Boolean read FReinitializeBeforeRun
+      write FReinitializeBeforeRun;
+    property Parameters: string read FParameters write FParameters;
+    property WorkingDir: string read FWorkingDir write FWorkingDir;
+    property WriteOutputToFile: Boolean read FWriteOutputToFile
+      write FWriteOutputToFile;
+    property OutputFileName: string read FOutputFileName write FOutputFileName;
+    property AppendToFile: Boolean read FAppendToFile write FAppendToFile;
+    property ExternalRun: TExternalRun read FExternalRun write SetExternalRun;
   end;
 
   { Python related regular expressions }
@@ -102,36 +99,38 @@ type
     class var NonExecutableLineRE : TRegEx;
     class var FunctionCallRE : TRegEx;
     class constructor Create;
-    class function IsBlockOpener(S : string) : Boolean;
-    class function IsBlockCloser(S : string) : Boolean;
+    class function IsBlockOpener(Line : string) : Boolean;
+    class function IsBlockCloser(Line : string) : Boolean;
     class function IsExecutableLine(Line : string) : Boolean;
   end;
 
-Const
+const
   IdentRE = '[_\p{L}]\w*';
   DottedIdentRE = '[_\p{L}][\w\.]*';
 
 implementation
 
-Uses
-  Winapi.Windows,
+uses
+  System.SysUtils,
   uCommonFunctions;
 
 { TRunConfiguration }
 
 procedure TRunConfiguration.Assign(Source: TPersistent);
 begin
-  if Source is TRunConfiguration then with TRunConfiguration(Source) do begin
-    Self.fScriptName := ScriptName;
-    Self.fDescription := Description;
-    Self.fEngineType := EngineType;
-    Self.fWorkingDir := WorkingDir;
-    Self.fParameters := fParameters;
-    Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
-    Self.fWriteOutputToFile := WriteOutputToFile;
-    Self.fOutputFileName := OutputFileName;
-    Self.fAppendToFile := AppendToFile;
-    Self.fExternalRun.Assign(fExternalRun);
+  if Source is TRunConfiguration then
+  begin
+    var SourceRC := TRunConfiguration(Source);
+    FScriptName := SourceRC.ScriptName;
+    FDescription := SourceRC.Description;
+    FEngineType := SourceRC.EngineType;
+    FWorkingDir := SourceRC.WorkingDir;
+    FParameters := SourceRC.Parameters;
+    FReinitializeBeforeRun := SourceRC.ReinitializeBeforeRun;
+    FWriteOutputToFile := SourceRC.WriteOutputToFile;
+    FOutputFileName := SourceRC.OutputFileName;
+    FAppendToFile := SourceRC.AppendToFile;
+    FExternalRun.Assign(SourceRC.ExternalRun);
   end else
     inherited;
 end;
@@ -139,12 +138,12 @@ end;
 constructor TRunConfiguration.Create;
 begin
   inherited;
-  fEngineType := peRemote;
-  fReinitializeBeforeRun := True;
-  fOutputFileName := '$[ActiveScript-NoExt].log';
-  fWorkingDir := '$[ActiveScript-Dir]';
-  fExternalRun := TExternalRun.Create;
-  with fExternalRun do begin
+  FEngineType := peRemote;
+  FReinitializeBeforeRun := True;
+  FOutputFileName := '$[ActiveScript-NoExt].log';
+  FWorkingDir := '$[ActiveScript-Dir]';
+  FExternalRun := TExternalRun.Create;
+  with FExternalRun do begin
     Caption := 'External Run';
     Description := 'Run script using an external Python Interpreter';
     ApplicationName := '$[PythonExe-Short]';
@@ -160,34 +159,34 @@ end;
 
 destructor TRunConfiguration.Destroy;
 begin
-  fExternalRun.Free;
+  FExternalRun.Free;
   inherited;
 end;
 
 procedure TRunConfiguration.SetExternalRun(const Value: TExternalRun);
 begin
-  fExternalRun.Assign(Value);
+  FExternalRun.Assign(Value);
 end;
 
 { TPyRegExpr }
 
 class constructor TPyRegExpr.Create;
 begin
-  BlockOpenerRE.Create(':\s*(#.*)?$');
-  BlockCloserRE.Create('\s*(return|break|continue|raise|pass)\b');
-  CodeCommentLineRE.Create('^([ \t]*)##', [roNotEmpty, roMultiLine]);
-  NonExecutableLineRE.Create('(^\s*(class|def)\b)|(^\s*#)|(^\s*$)');
+  BlockOpenerRE := CompiledRegEx(':\s*(#.*)?$');
+  BlockCloserRE := CompiledRegEx('\s*(return|break|continue|raise|pass)\b');
+  CodeCommentLineRE := CompiledRegEx('^([ \t]*)##', [roNotEmpty, roMultiLine]);
+  NonExecutableLineRE := CompiledRegEx('(^\s*(class|def)\b)|(^\s*#)|(^\s*$)');
   FunctionCallRE := CompiledRegEx(Format('^[ \t]*(%s)(\(?)', [DottedIdentRE]));
 end;
 
-class function TPyRegExpr.IsBlockCloser(S: string): Boolean;
+class function TPyRegExpr.IsBlockCloser(Line: string): Boolean;
 begin
-  Result := TPyRegExpr.BlockCloserRE.IsMatch(S);
+  Result := TPyRegExpr.BlockCloserRE.IsMatch(Line);
 end;
 
-class function TPyRegExpr.IsBlockOpener(S: string): Boolean;
+class function TPyRegExpr.IsBlockOpener(Line: string): Boolean;
 begin
-  Result := TPyRegExpr.BlockOpenerRE.IsMatch(S);
+  Result := TPyRegExpr.BlockOpenerRE.IsMatch(Line);
 end;
 
 class function TPyRegExpr.IsExecutableLine(Line: string): Boolean;
@@ -208,8 +207,8 @@ begin
   end;
 end;
 
-procedure TEditorPos.NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
-                 IsSyntaxError : Boolean = False; AErrorMsg : string = '');
+procedure TEditorPos.NewPos(AEditor: IEditor; ALine: Integer;
+  AChar: Integer = -1; IsSyntaxError: Boolean = False; AErrorMsg: string = '');
 begin
   Editor := AEditor;
   Line := ALine;
@@ -218,7 +217,7 @@ begin
   ErrorMsg := AErrorMsg;
 end;
 
-class function TEditorPos.NPos(AEditor: IEditor; ALine, AChar: integer;
+class function TEditorPos.NPos(AEditor: IEditor; ALine, AChar: Integer;
   IsSyntaxError: Boolean; AErrorMsg: string): TEditorPos;
 begin
   with Result do begin
