@@ -3793,7 +3793,7 @@ begin
           end;
         if not IsOnToolbar then
         begin
-          // Find items of External actions on UserToolbars
+          // Find toolbar items of External actions
           Item := FindComponent('tb' + Action.Name) as TTBCustomItem;
           if not Assigned(Item) then begin
             Item := TSpTBXItem.Create(Self);

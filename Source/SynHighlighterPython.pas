@@ -527,10 +527,9 @@ begin
   FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
 
-  BlockOpenerRE.Create(
+  BlockOpenerRE := CompiledRegEx(
      '^(def|class|while|for|if|else|elif|try|except|finally|with'+
      '|(async[ \t]+def)|(async[ \t]+with)|(async[ \t]+for))\b');
-  BlockOpenerRE.Study([preJIT]);
 
   fRange := rsUnknown;
   fCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);
@@ -1602,12 +1601,9 @@ begin
   fSystemCmdAttri := TSynHighlighterAttributes.Create(SYNS_AttrSystemCmd, SYNS_FriendlyAttrSystemCmd);
   fSystemCmdAttri.Foreground := clFuchsia;
   AddAttribute(fSystemCmdAttri);
-  fTracebackStartRE.Create('^Traceback \(|File ".*line');
-  fTracebackStartRE.Study([preJIT]);
-  fTracebackEndRE.Create('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
-  fTracebackEndRE.Study([preJIT]);
-  fSystemCmdRE.Create(Format('^(%s)?%s\s*!', [fDbg, fPS1]));
-  fSystemCmdRE.Study([preJIT]);
+  fTracebackStartRE := CompiledRegEx('^Traceback \(|File ".*line');
+  fTracebackEndRE := CompiledRegEx('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
+  fSystemCmdRE := CompiledRegEx(Format('^(%s)?%s\s*!', [fDbg, fPS1]));
 
   SetAttributesOnChange(DefHighlightChange);
 end;

@@ -103,7 +103,8 @@ uses
   System.Math,
   System.RegularExpressionsCore,
   Vcl.Graphics,
-  SynDWrite;
+  SynDWrite,
+  SynEditMiscProcs;
 
 { TSynMarkdownViewer }
 
@@ -558,25 +559,17 @@ end;
 { TMarkDownRegEx }
 
 function TMarkDownRegEx.New: TMarkDownRegEx;
-  function NewRegEx(const Pattern: string): TRegEx;
-  begin
-    Result := TRegEx.Create(Pattern, [roCompiled]);
-    {$IF (CompilerVersion >= 35)}
-    Result.Study([preJIT]);
-    {$ENDIF}
-  end;
-
 begin
-  Result.Backticks := NewRegEx('`([^`]+?)`');
-  Result.Bullets := NewRegEx('^(\s*)[\-\*\+] ');
-  Result.NumList := NewRegEx('^(\s*)\d+\. ');
-  Result.MergeLines := NewRegEx('(\r?\n){3,}');
-  Result.SplitLines := NewRegEx('\r?\n');
-  Result.Emphasis := NewRegEx('\*\*\*(.+?)\*\*\*|\*\*(.+?)\*\*|\*(.+?)\*');
-  Result.HorzRule := NewRegEx('^(\-\-\-|\*\*\*|___)$');
-  Result.Header := NewRegEx('^(#{1,6}) .*');
-  Result.SoftLineBreak := NewRegEx('(  |\\|<br>)$');
-  Result.Links := NewRegEx('\[(.+?)\]\((.+?)\)');
+  Result.Backticks := CompiledRegEx('`([^`]+?)`');
+  Result.Bullets := CompiledRegEx('^(\s*)[\-\*\+] ');
+  Result.NumList := CompiledRegEx('^(\s*)\d+\. ');
+  Result.MergeLines := CompiledRegEx('(\r?\n){3,}');
+  Result.SplitLines := CompiledRegEx('\r?\n');
+  Result.Emphasis := CompiledRegEx('\*\*\*(.+?)\*\*\*|\*\*(.+?)\*\*|\*(.+?)\*');
+  Result.HorzRule := CompiledRegEx('^(\-\-\-|\*\*\*|___)$');
+  Result.Header := CompiledRegEx('^(#{1,6}) .*');
+  Result.SoftLineBreak := CompiledRegEx('(  |\\|<br>)$');
+  Result.Links := CompiledRegEx('\[(.+?)\]\((.+?)\)');
 end;
 
 end.
