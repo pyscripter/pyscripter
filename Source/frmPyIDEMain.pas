@@ -3752,51 +3752,46 @@ end;
 
 procedure TPyIDEMainForm.SetupCustomizer;
 var
-  K: Integer;
   ItemStyle: TTBItemStyle;
-  ActionList: TActionList;
-  Action: TContainedAction;
   ItemsList: TList;
-  I: Integer;
   ParentItem: TTBCustomItem;
-  C: TComponent;
-  J: Integer;
   Item: TTBCustomItem;
 begin
   SpTBXCustomizer.Items.Clear;
   ItemsList := TList.Create;
   try
-    for I := 0 to ComponentCount - 1 do
+    // Add to ItemList all suitable items on customizable toolbars
+    for var Comp in Self do
     begin
       ParentItem := nil;
-      C := Components[I];
-      if C is TSpTBXToolbar and TSpTBXToolbar(C).Customizable then
-        ParentItem := TSpTBXToolbar(C).Items;
+      if Comp is TSpTBXToolbar and TSpTBXToolbar(Comp).Customizable then
+        ParentItem := TSpTBXToolbar(Comp).Items;
       if Assigned(ParentItem) then
       begin
-        for J := 0 to ParentItem.Count - 1 do
+        for var I := 0 to ParentItem.Count - 1 do
         begin
-          Item := ParentItem[j];
+          Item := ParentItem[I];
           ItemStyle := TTBCustomItemAccess(Item).ItemStyle;
           // Exclude the submenus, separators, labels, groups and edit items
-          if (ItemStyle * [tbisSubMenu, tbisSeparator, tbisEmbeddedGroup, tbisClicksTransparent] = []) and not (Item is TTBEditItem) then
+          if (ItemStyle * [tbisSubMenu, tbisSeparator, tbisEmbeddedGroup,
+            tbisClicksTransparent] = []) and not (Item is TTBEditItem)
+          then
             ItemsList.Add(Item);
         end;
       end;
     end;
-    for I := Low(TActionProxyCollection.ActionLists) to High(TActionProxyCollection.ActionLists) do
+    for var ActionList in TActionProxyCollection.ActionLists do
     begin
-      ActionList := TActionProxyCollection.ActionLists[I];
-      for J := 0 to ActionList.ActionCount - 1 do
+      for var Action in ActionList do
       begin
-        Action := ActionList.Actions[J];
-        for K := 0 to ItemsList.Count - 1 do
-          if TTBCustomItem(ItemsList[K]).Action = Action then
+        var IsOnToolbar := False;
+        for var I := 0 to ItemsList.Count - 1 do
+          if TTBCustomItem(ItemsList[I]).Action = Action then
           begin
-            Action := nil;
+            IsOnToolbar := True;
             break;
           end;
-        if Assigned(Action) then
+        if not IsOnToolbar then
         begin
           // Find items of External actions on UserToolbars
           Item := FindComponent('tb' + Action.Name) as TTBCustomItem;
