@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 290
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -606,36 +606,6 @@ object PyIDEMainForm: TPyIDEMainForm
               OnClick = mnSyntaxClick
             end
           end
-          object TBXSeparatorItem16: TSpTBXSeparatorItem
-          end
-          object mnSplitEditors: TSpTBXSubmenuItem
-            Caption = 'Split Editor'
-            object mnSplitEditorVer: TSpTBXItem
-              Action = actViewSplitEditorVer
-            end
-            object mnSplitEditorHor: TSpTBXItem
-              Action = actViewSplitEditorHor
-            end
-            object SpTBXSeparatorItem15: TSpTBXSeparatorItem
-            end
-            object mnHideSecondEditor: TSpTBXItem
-              Action = actViewHideSecondEditor
-            end
-          end
-          object mnSplitWorkspace: TSpTBXSubmenuItem
-            Caption = 'Split Workspace'
-            object SpTBXItem8: TSpTBXItem
-              Action = actViewSplitWorkspaceVer
-            end
-            object SpTBXItem7: TSpTBXItem
-              Action = actViewSplitWorkspaceHor
-            end
-            object SpTBXSeparatorItem14: TSpTBXSeparatorItem
-            end
-            object SpTBXItem9: TSpTBXItem
-              Action = actViewHideSecondaryWorkspace
-            end
-          end
         end
         object TBXSeparatorItem18: TSpTBXSeparatorItem
         end
@@ -720,6 +690,36 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object SpTBXItem5: TSpTBXItem
           Action = actSelectStyle
+        end
+        object TBXSeparatorItem16: TSpTBXSeparatorItem
+        end
+        object mnSplitEditors: TSpTBXSubmenuItem
+          Caption = 'Split Editor'
+          object mnSplitEditorVer: TSpTBXItem
+            Action = actViewSplitEditorVer
+          end
+          object mnSplitEditorHor: TSpTBXItem
+            Action = actViewSplitEditorHor
+          end
+          object SpTBXSeparatorItem15: TSpTBXSeparatorItem
+          end
+          object mnHideSecondEditor: TSpTBXItem
+            Action = actViewHideSecondEditor
+          end
+        end
+        object mnSplitWorkspace: TSpTBXSubmenuItem
+          Caption = 'Split Workspace'
+          object SpTBXItem8: TSpTBXItem
+            Action = actViewSplitWorkspaceVer
+          end
+          object SpTBXItem7: TSpTBXItem
+            Action = actViewSplitWorkspaceHor
+          end
+          object SpTBXSeparatorItem14: TSpTBXSeparatorItem
+          end
+          object SpTBXItem9: TSpTBXItem
+            Action = actViewHideSecondaryWorkspace
+          end
         end
       end
       object ProjectMenu: TSpTBXSubmenuItem

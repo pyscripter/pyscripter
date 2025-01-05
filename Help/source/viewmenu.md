@@ -3,7 +3,7 @@
 
 # The View Menu
 
-![graphic](images/viewmenu.png){width="7.625em"  height="12.69em"}
+![graphic](images/viewmenu.png){width="10.1875em"  height="16.6875em"}
 
 ***Commands/Actions:***
 
@@ -19,6 +19,12 @@ Allows you to change the visual appearance (style) of the application.
 
 Use the navigation commands to show and activate the editor and the various 
 IDE and Debug Windows.
+
+***Commands/Actions:***
+
+*Editor*\
+Move the input focus to the active editor.
+
 
 ##### The IDE Windows submenu
 
@@ -77,7 +83,7 @@ Activates the [Watches](watcheswindow) window.
 
 ### The Editor submenu
 
-![graphic](images/viewmenu7.png){width="16.06em"  height="14.69em"}
+![graphic](images/viewmenu7.png){width="16.4375em"  height="11em"}
 
 *Next/Previous Editor*\
 Shows the next/previous editor.
@@ -98,36 +104,6 @@ The Syntax submenu allows you to select the syntax highlighting scheme for the a
 
 ![graphic](images/viewmenu8.png){width="7.625em"  height="21.75em"}
 
-
-#### The Split Editor submenu
-
-![graphic](images/viewmenu2.png){width="12.69em"  height="5.5em"}
-  
-*Split Editor Vertically*\
-Creates two editor views arranged side by sided. This allows the editing of two different
-sections of the **same file**.
-  
-*Split Editor Horizontally*\
-Similar to the previous option, but the editor views are arranged one above the other.
-  
-*Hide Second Editor*\
-Reverses the impact of the previous two commands hiding the second editor.
-
-#### The Split Workspace submenu
-
-The following commands allow [side-by-side file editing](splitworkspace).
-  
-![graphic](images/viewmenu3.png){width="14.5em"  height="5.5em"}
-
-*Split Workspace Vertically*\
-View secondary workspace vertically aligned to the primary one.
-
-*Split Workspace Horizontally*\
-View secondary Workspace horizontally aligned to the primary one.
-
-*Hide Secondary Tabs*\
-Hide the secondary workspace and move all contained tabs to the primary one.
-  
 
 ### The Toolbars submenu
   
@@ -169,3 +145,33 @@ Maximize the editor window by auto-hiding all other IDE windows.
 
 *Restore editor*\
 Restore the maximized editor window to each state before maximizing.
+
+
+### The Split Editor submenu
+
+![graphic](images/viewmenu2.png){width="12.69em"  height="5.5em"}
+  
+*Split Editor Vertically*\
+Creates two editor views arranged side by sided. This allows the editing of two different
+sections of the **same file**.
+  
+*Split Editor Horizontally*\
+Similar to the previous option, but the editor views are arranged one above the other.
+  
+*Hide Second Editor*\
+Reverses the impact of the previous two commands hiding the second editor.
+
+### The Split Workspace submenu
+
+The following commands allow [side-by-side file editing](splitworkspace).
+  
+![graphic](images/viewmenu3.png){width="14.5em"  height="5.5em"}
+
+*Split Workspace Vertically*\
+View secondary workspace vertically aligned to the primary one.
+
+*Split Workspace Horizontally*\
+View secondary Workspace horizontally aligned to the primary one.
+
+*Hide Secondary Tabs*\
+Hide the secondary workspace and move all contained tabs to the primary one.
