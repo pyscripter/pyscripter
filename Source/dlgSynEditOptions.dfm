@@ -1,4 +1,4 @@
-inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
+inherited EditorOptionsDialog: TEditorOptionsDialog
   Left = 521
   Top = 154
   HelpContext = 620
