@@ -61,7 +61,12 @@ inherited PythonIIForm: TPythonIIForm
           end>
         Options = [eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
         RightEdge = 0
-        ScrollbarAnnotations = <>
+        ScrollbarAnnotations = <
+          item
+            AnnType = sbaCarets
+            AnnPos = sbpFullWidth
+            FullRow = False
+          end>
         SelectedColor.Alpha = 0.400000005960464500
         TabWidth = 4
         VisibleSpecialChars = []
