@@ -440,7 +440,6 @@ begin
       llmProviderOllama: LLMChat.Providers.Ollama := Settings;
     end;
 
-    LLMChat.ClearContext;
     Accept := True;
   except
     on E: Exception do

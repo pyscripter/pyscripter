@@ -59,7 +59,10 @@ The model you want to use. Currently the Assistant works only with the following
 - Gemini model:\
   **gemini-1.5-flash**, **gemini-1.5-pro** or any newer Gemini model
 - Ollama model:\
-  **codellama:code** and its variants (e.g. **codellama:7b-code-q6_K** will work).
+  Can use any model that supports FIM, such as:
+  - **codellama:code** and its variants, e.g. **codellama:7b-code-q6_K** will work
+  - **deepseek-coder-v2** (recommended)
+  - **codegemma:code** and its variants, e.g **codegemma:7b-code**
 
 Wider choice of Assistant models will be provided in the future.
 

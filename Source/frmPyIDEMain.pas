@@ -596,10 +596,11 @@
             - Display of program flow control symbols
             - Support for TOML files added
             - Support for Python 3.14
-            - Support free-threaded python
+            - Support for free-threaded python
             - Added "Create Virtual Environment" external tool.
             - Support tqdm and similar modules in the interactive interpreter (#812)
             - The Chat Window renders Markdown
+            - The Assistant can use a greater variety of Ollama models
             - Layouts now include the secondary workspace status (#494)
 
           Issues addressed

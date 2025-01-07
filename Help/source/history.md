@@ -12,8 +12,12 @@
 	+ [Display of program flow control symbols](https://pyscripter.blogspot.com/2024/10/teaser-display-of-program-flow-control.html)
 	+ Support for TOML files added
 	+ Support for Python 3.14
-	+ Support [free-threaded python](https://pyscripter.blogspot.com/2024/12/free-threaded-python-support-is-coming.html)
-	+ New external tool "Create [venv](https://docs.python.org/3/library/venv.html)"
+	+ Support for [free-threaded python](https://pyscripter.blogspot.com/2024/12/free-threaded-python-support-is-coming.html)
+	+ New external tool "[Create venv](https://docs.python.org/3/library/venv.html)"
+    + Support tqdm and similar modules in the interactive interpreter (*#812*)
+    + The Chat Window renders Markdown
+	+ The Assistant can use a greater variety of Ollama models
+    + Layouts now include the secondary workspace status (*#494*)
 
 * *Issues addressed:*
 	+ *#1307*, *#1321*, *#1329*, *#1336*, *#1341*, *#1346*, *#1347*

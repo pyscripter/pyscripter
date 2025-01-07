@@ -2753,7 +2753,6 @@ begin
       llmProviderOllama: LLMAssistant.Providers.Ollama := Settings;
     end;
 
-    LLMAssistant.ClearContext;
     Accept := True;
   except
     on E: Exception do

@@ -56,7 +56,14 @@ object SuggestWindow: TSuggestWindow
         Width = 3
       end>
     RightEdge = 0
+    ScrollbarAnnotations = <
+      item
+        AnnType = sbaCarets
+        AnnPos = sbpFullWidth
+        FullRow = False
+      end>
     SelectedColor.Alpha = 0.400000005960464500
+    VisibleSpecialChars = []
   end
   object SpTBXDock: TSpTBXDock
     Left = 0
@@ -128,7 +135,7 @@ object SuggestWindow: TSuggestWindow
         Name = 'Cancel'
       end
       item
-        CollectionIndex = 18
+        CollectionIndex = 20
         CollectionName = 'Check'
         Name = 'Check'
       end>
