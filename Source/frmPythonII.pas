@@ -1011,28 +1011,27 @@ end;
 
 procedure TPythonIIForm.SynEditDblClick(Sender: TObject);
 var
-   RegEx : TRegEx;
+   RegExTraceback, RegExWarning : TRegEx;
    Match : TMatch;
-   ErrLineNo : integer;
+   ErrLineNo, LineNo : integer;
    FileName : string;
 begin
-  RegEx := CompiledRegEx(STracebackFilePosExpr);
-  Match := RegEx.Match(Synedit.LineText);
-  if Match.Success then begin
-    ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
-    FileName := Match.GroupValue(1);
-    //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
-    if Assigned(PyControl.ActiveInterpreter) then
-      FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
-    GI_PyIDEServices.ShowFilePosition(FileName, ErrLineNo, 1);
-  end else begin
-    RegEx := CompiledRegEx(SWarningFilePosExpr);
-    Match := RegEx.Match(Synedit.LineText);
+  RegExTraceback := CompiledRegEx(STracebackFilePosExpr);
+  RegExWarning := CompiledRegEx(SWarningFilePosExpr);
+  LineNo:= Synedit.CaretY - 1;
+  while LineNo > 0 do begin
+    Match := RegExTraceback.Match(Synedit.Lines[LineNo]);
+    if not Match.Success then
+      Match := RegExWarning.Match(Synedit.Lines[LineNo]);
     if Match.Success then begin
       ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
       FileName := Match.GroupValue(1);
+      if Assigned(PyControl.ActiveInterpreter) then
+        FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
       GI_PyIDEServices.ShowFilePosition(FileName, ErrLineNo, 1);
-    end;
+      LineNo:= 0;
+    end else
+      Dec(LineNo);
   end;
 end;
 
