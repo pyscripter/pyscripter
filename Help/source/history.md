@@ -3,7 +3,7 @@
 
 # History
 
-### Version 5.1.3 (November 30, 2024) 
+### Version 5.1.3 (January 7, 2025) 
 
 * *New features:*
 	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
