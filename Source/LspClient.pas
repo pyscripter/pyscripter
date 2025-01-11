@@ -7,7 +7,7 @@ unit LspClient;
 
 interface
 
-Uses
+uses
   Winapi.Windows,
   System.SysUtils,
   System.Classes,
@@ -20,8 +20,8 @@ Uses
 
 type
 
-  THandleResponse = procedure(Id: NativeUInt; Result, Error: TJsonValue) of object;
-  THandleNotify = procedure(const Method: string; Params: TJsonValue) of object;
+  THandleResponse = procedure(Id: NativeUInt; Result, Error: TJSONValue) of object;
+  THandleNotify = procedure(const Method: string; Params: TJSONValue) of object;
   THandleErrorOutput = procedure(const ErrorOutput: string) of object;
 
   // partial list of server capabilities
@@ -68,11 +68,11 @@ type
     FOnLspNotification: THandleNotify;
     FOnInitialized: TNotifyEvent;
     FOnShutdown: TNotifyEvent;
-    procedure ProcessServerCapabilities(SC: TJsonObject);
+    procedure ProcessServerCapabilities(SC: TJSONObject);
     procedure ServerTerminated(Sender: TObject);
-    procedure HandleInitialize(id: NativeUInt; Result, Error: TJsonValue);
-    procedure HandleSyncRequest(Id: NativeUInt; AResult, AError: TJsonValue);
-    procedure HandleShutdown(id: NativeUInt; Result, Error: TJsonValue);
+    procedure HandleInitialize(Id: NativeUInt; Result, Error: TJSONValue);
+    procedure HandleSyncRequest(Id: NativeUInt; AResult, AError: TJSONValue);
+    procedure HandleShutdown(Id: NativeUInt; Result, Error: TJSONValue);
     procedure ReceiveData(const Bytes: TBytes; BytesRead: Cardinal);
     procedure ReceiveErrorOutput(const Bytes: TBytes; BytesRead: Cardinal);
   public
@@ -85,30 +85,29 @@ type
     function Request(const Method, Params: string; Handler: THandleResponse): NativeUInt;
     // Synchronous request - Free Result and Error!
     procedure SyncRequest(const Method, Params: string;
-      out Result, Error: TJsonValue; Timeout: Cardinal = INFINITE);
+      out Result, Error: TJSONValue; Timeout: Cardinal = INFINITE);
     procedure CancelRequest(Id: NativeUInt);
     procedure Notify(const Method, Params: string);
     // LSP protocol
     procedure Initialize(const ClientName, ClientVersion: string;
-      ClientCapabilities: TJsonObject;
-      InitializationOptions: TJsonObject = nil);
+      ClientCapabilities: TJSONObject;
+      InitializationOptions: TJSONObject = nil);
     procedure Shutdown;
     property Status: TLspServerStatus read FStatus;
-    property ServerCapabilities: TLspServerCapabilities read fServerCapabilities;
-    property OnErrorOutput: THandleErrorOutput read fOnErrorOuput
-      write fOnErrorOuput;
-    property OnLspNotification: THandleNotify read fOnLspNotification
-      write fOnLspNotification;
+    property ServerCapabilities: TLspServerCapabilities read FServerCapabilities;
+    property OnErrorOutput: THandleErrorOutput read FOnErrorOuput
+      write FOnErrorOuput;
+    property OnLspNotification: THandleNotify read FOnLspNotification
+      write FOnLspNotification;
     property OnInitialized: TNotifyEvent read FOnInitialized write FOnInitialized;
     property OnShutdown: TNotifyEvent read FOnShutdown write FOnShutdown;
   end;
 
 implementation
 
-Uses
-  System.Diagnostics,
-  System.Variants,
-  LspUtils;
+uses
+  LspUtils,
+  uCommonFunctions;
 
 const
    LspHeader =
@@ -139,10 +138,10 @@ type
 
   TLspServerThread = class(TThread)
   private
-    fProcessHandle: THandle;
-    fExCmdOptions: TJclExecuteCmdProcessOptions;
-    fAbortEvent: TJclEvent;
-    fLspClient: TLspClient;
+    FProcessHandle: THandle;
+    FExCmdOptions: TJclExecuteCmdProcessOptions;
+    FAbortEvent: TJclEvent;
+    FLspClient: TLspClient;
     procedure BeforeResume(const ProcessInfo: TProcessInformation; WriteHandle:
         PHandle);
   protected
@@ -156,8 +155,8 @@ type
 
   TSyncRequestHelper = class
     SyncEvent: TSimpleEvent;
-    Result: TJsonValue;
-    Error: TJsonValue;
+    Result: TJSONValue;
+    Error: TJSONValue;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -169,7 +168,7 @@ begin
   FRequestsLock.Enter;
   try
     if FPendingRequests.ContainsKey(Id) then
-      fPendingRequests.Remove(Id);
+      FPendingRequests.Remove(Id);
   finally
     FRequestsLock.Leave;
   end;
@@ -178,15 +177,15 @@ end;
 constructor TLspClient.Create(ServerPath: string);
 begin
   inherited Create;
-  fReadLock.Initialize;
+  FReadLock.Initialize;
   FRequestsLock.Initialize;
   FSyncRequestLock.Initialize;
-  fContentHeaderRE.Create('^(?:[^\r\n]+\r\n)*' +
-                    'Content-Length: (?P<length>\d+)\r\n' +
-                    '(?:[^\r\n]+\r\n)*\r\n' +
-                    '(?={)', //look ahead not part of the capture
-                    [roMultiLine, roCompiled]);
-  fSyncHelper := TSyncRequestHelper.Create;
+  FContentHeaderRE := CompiledRegEx('^(?:[^\r\n]+\r\n)*' +
+    'Content-Length: (?P<length>\d+)\r\n' +
+    '(?:[^\r\n]+\r\n)*\r\n' +
+    '(?={)', //look ahead not part of the capture
+    [roMultiLine]);
+  FSyncHelper := TSyncRequestHelper.Create;
   FPendingRequests := TDictionary<NativeUInt, THandleResponse>.Create;
   FExCmdOptions := TJclExecuteCmdProcessOptions.Create(ServerPath);
 end;
@@ -205,7 +204,7 @@ begin
   inherited;
 end;
 
-procedure TLspClient.HandleInitialize(id: NativeUInt; Result, Error: TJsonValue);
+procedure TLspClient.HandleInitialize(Id: NativeUInt; Result, Error: TJSONValue);
 begin
   if Assigned(Result) then
   begin
@@ -224,14 +223,14 @@ begin
   Error.Free;
 end;
 
-procedure TLspClient.HandleShutdown(id: NativeUInt; Result, Error: TJsonValue);
+procedure TLspClient.HandleShutdown(Id: NativeUInt; Result, Error: TJSONValue);
 begin
   Notify('exit', 'null');
   Result.Free;
   Error.Free;
 end;
 
-procedure TLspClient.HandleSyncRequest(Id: NativeUInt; AResult, AError: TJsonValue);
+procedure TLspClient.HandleSyncRequest(Id: NativeUInt; AResult, AError: TJSONValue);
 begin
   if FSyncRequestLock.TryEnter then
     try
@@ -243,9 +242,9 @@ begin
     end
   else
   begin
-    TSyncRequestHelper(fSyncHelper).Result := AResult;
-    TSyncRequestHelper(fSyncHelper).Error := AError;
-    TSyncRequestHelper(fSyncHelper).SyncEvent.SetEvent;
+    TSyncRequestHelper(FSyncHelper).Result := AResult;
+    TSyncRequestHelper(FSyncHelper).Error := AError;
+    TSyncRequestHelper(FSyncHelper).SyncEvent.SetEvent;
   end;
 end;
 
@@ -254,31 +253,31 @@ var
   Response,
   Result,
   Error,
-  Params: TJsonValue;
-  method: string;
+  Params: TJSONValue;
+  Method: string;
   ResponseHandler: THandleResponse;
   Id: NativeUInt;
 begin
-  fReadLock.Enter;
+  FReadLock.Enter;
   try
     FReadBuffer := FReadBuffer + Copy(Bytes, 0, BytesRead);
     while Length(FReadBuffer) > 0 do
     begin
-      var Content := TEncoding.Utf8.GetString(fReadBuffer);
-      var Match := fContentHeaderRE.Match(Content);
+      var Content := TEncoding.UTF8.GetString(FReadBuffer);
+      var Match := FContentHeaderRE.Match(Content);
       if Match.Success then
       begin
         var BodyLen := StrToInt(Match.Groups['length'].Value);
         // Match.Length should be equal to the bytes count
         // since the header contains only ascii characters
-        if BodyLen + Match.Length <= Length(fReadBuffer) then
+        if BodyLen + Match.Length <= Length(FReadBuffer) then
         begin
           // We have the complete content
-          var json: TBytes := Copy(fReadBuffer, Match.Length, BodyLen);
+          var Json: TBytes := Copy(FReadBuffer, Match.Length, BodyLen);
           // keep the additional bytes
-          fReadBuffer := Copy(fReadBuffer, Match.Length + BodyLen);
+          FReadBuffer := Copy(FReadBuffer, Match.Length + BodyLen);
           try
-            Response := TJSONObject.ParseJSONValue(json, 0, True);
+            Response := TJSONObject.ParseJSONValue(Json, 0, True);
           except
             // Should not happen
             // Todo:  handle error
@@ -297,24 +296,23 @@ begin
               else
               begin
                 // Notification
-                if Assigned(fOnLspNotification) and
+                if Assigned(FOnLspNotification) and
                   Response.TryGetValue('params', Params)
                 then
                 begin
                   Params.Owned := False;
                   FreeAndNil(Response);
-                  fOnLspNotification(Method, Params);
+                  FOnLspNotification(Method, Params);
                 end;
               end;
             end
             else if Response.TryGetValue<NativeUInt>('id', Id) then
             begin
-              //OutputDebugString(PChar(Format('Lsp response %d received', [Id])));
-              // id, but not method -> should be a response
+              // Id, but not Method -> should be a response
               FRequestsLock.Enter;
               try
                 if FPendingRequests.TryGetValue(Id, ResponseHandler) then
-                  fPendingRequests.Remove(Id)
+                  FPendingRequests.Remove(Id)
                 else
                   ResponseHandler := nil;
               finally
@@ -340,10 +338,10 @@ begin
           end;
         end
         else
-          break;
+          Break;
       end
       else
-        break;
+        Break;
     end;
   finally
     FReadLock.Leave;
@@ -352,27 +350,27 @@ end;
 
 procedure TLspClient.ReceiveErrorOutput(const Bytes: TBytes; BytesRead: Cardinal);
 begin
-  if Assigned(fOnErrorOuput) then
-    fOnErrorOuput(TEncoding.UTF8.GetString(Copy(Bytes, 0, BytesRead)));
+  if Assigned(FOnErrorOuput) then
+    FOnErrorOuput(TEncoding.UTF8.GetString(Copy(Bytes, 0, BytesRead)));
 end;
 
 procedure TLspClient.Initialize(const ClientName, ClientVersion: string;
-  ClientCapabilities: TJsonObject;
-  InitializationOptions: TJsonObject);
+  ClientCapabilities: TJSONObject;
+  InitializationOptions: TJSONObject);
 var
-  Params: TJsonObject;
+  Params: TJSONObject;
 begin
   if FStatus <> lspStarted then Exit;
 
   Params := LSPInitializeParams(ClientName, ClientVersion,
     ClientCapabilities, InitializationOptions);
 
-  Request('initialize', Params.ToJson, HandleInitialize);
+  Request('initialize', Params.ToJSON, HandleInitialize);
   Params.Free;
 end;
 
 procedure TLspClient.Notify(const Method, Params: string);
-Var
+var
   Header: string;
   Content: string;
   ContentBytes: TBytes;
@@ -386,14 +384,14 @@ begin
 end;
 
 function TLspClient.Request(const Method, Params: string; Handler: THandleResponse): NativeUInt;
-Var
+var
   Id: NativeUInt;
   Header: string;
   Content: string;
   ContentBytes: TBytes;
   HeaderBytes: TBytes;
 begin
-  Id := AtomicIncrement(fId);
+  Id := AtomicIncrement(FId);
   Result := Id;
   Content := Format(LspRequest, [Id, Method, Params]);
   ContentBytes := TEncoding.UTF8.GetBytes(Content);
@@ -401,7 +399,7 @@ begin
   HeaderBytes := TEncoding.UTF8.GetBytes(Header);
   FRequestsLock.Enter;
   try
-    fPendingRequests.Add(Id, Handler);
+    FPendingRequests.Add(Id, Handler);
   finally
     FRequestsLock.Leave;
   end;
@@ -432,11 +430,10 @@ begin
       FServerThread.WaitFor;
     end;
     FreeAndNil(FServerThread);
-    Assert(FStatus = lspInactive);
+    Assert(FStatus = lspInactive, 'Shutdown');
   end;
   // TThread destroy calls Terminate and then WaitFor
-  if Assigned(FSendDataThread) then
-    FreeAndNil(FSendDataThread);
+  FreeAndNil(FSendDataThread);
 end;
 
 procedure TLspClient.StartServer;
@@ -446,46 +443,46 @@ begin
   FExCmdOptions.OutputBufferCallback := ReceiveData;
   FExCmdOptions.ErrorBufferCallback := ReceiveErrorOutput;
   FExCmdOptions.BufferSize := 65536;
-  FServerThread := TLspServerThread.Create(Self, fExCmdOptions);
+  FServerThread := TLspServerThread.Create(Self, FExCmdOptions);
   FServerThread.OnTerminate := ServerTerminated;
   FServerThread.Start;
   FStatus := lspStarted;
 end;
 
 procedure TLspClient.SyncRequest(const Method, Params: string;
-  out Result, Error: TJsonValue; Timeout: Cardinal);
+  out Result, Error: TJSONValue; Timeout: Cardinal);
 begin
   FSyncRequestLock.Enter;
   try
     Result := nil;
     Error := nil;
-    TSyncRequestHelper(fSyncHelper).Result := nil;
-    TSyncRequestHelper(fSyncHelper).Error := nil;
-    TSyncRequestHelper(fSyncHelper).SyncEvent.ResetEvent;
+    TSyncRequestHelper(FSyncHelper).Result := nil;
+    TSyncRequestHelper(FSyncHelper).Error := nil;
+    TSyncRequestHelper(FSyncHelper).SyncEvent.ResetEvent;
     Request(Method, Params, HandleSyncRequest);
-    TSyncRequestHelper(fSyncHelper).SyncEvent.WaitFor(Timeout);
-    Result := TSyncRequestHelper(fSyncHelper).Result;
-    Error := TSyncRequestHelper(fSyncHelper).Error;
-    TSyncRequestHelper(fSyncHelper).Result := nil;
-    TSyncRequestHelper(fSyncHelper).Error := nil;
+    TSyncRequestHelper(FSyncHelper).SyncEvent.WaitFor(Timeout);
+    Result := TSyncRequestHelper(FSyncHelper).Result;
+    Error := TSyncRequestHelper(FSyncHelper).Error;
+    TSyncRequestHelper(FSyncHelper).Result := nil;
+    TSyncRequestHelper(FSyncHelper).Error := nil;
   finally
     FSyncRequestLock.Leave;
   end;
 end;
 
-procedure TLspClient.ProcessServerCapabilities(SC: TJsonObject);
+procedure TLspClient.ProcessServerCapabilities(SC: TJSONObject);
   procedure CheckCapability(Name: string; LspCapability: TLspServerCapability);
   var
-    Capability: TJsonValue;
+    Capability: TJSONValue;
   begin
     if SC.TryGetValue(Name, Capability) and not Capability.Null
       and not (Capability is TJSONFalse)
     then
-      fServerCapabilities := fServerCapabilities + [LspCapability];
+      FServerCapabilities := FServerCapabilities + [LspCapability];
   end;
 
 begin
-  fServerCapabilities := [];
+  FServerCapabilities := [];
 
   CheckCapability('completionProvider', lspscCompletion);
   CheckCapability('hoverProvider', lspscHover);
@@ -497,26 +494,26 @@ begin
   CheckCapability('documentSymbolProvider', lspscDocSymbol);
   CheckCapability('renameProvider', lspscRename);
   CheckCapability('workspace', lspWorkspaceFolders);
-  if lspWorkspaceFolders in fServerCapabilities then
+  if lspWorkspaceFolders in FServerCapabilities then
   begin
     var Supported := SC.FindValue('workspace.workspaceFolders.supported');
-    if not Assigned(Supported) or not (Supported is TJsonTrue) then
-      fServerCapabilities := fServerCapabilities - [lspWorkspaceFolders];
+    if not Assigned(Supported) or not (Supported is TJSONTrue) then
+      FServerCapabilities := FServerCapabilities - [lspWorkspaceFolders];
   end;
   var TextDocSync := SC.FindValue('textDocumentSync');
   if Assigned(TextDocSync) then
   begin
     // TextDocSync can be either a number or a JSON object
-    if TextDocSync is TJsonNumber then
+    if TextDocSync is TJSONNumber then
     begin
       if TextDocSync.GetValue<Integer> = 2 then
-        fServerCapabilities := fServerCapabilities + [lspscIncrementalSync];
+        FServerCapabilities := FServerCapabilities + [lspscIncrementalSync];
     end
     else
     begin
       var IncrementalSync := TextDocSync.FindValue('change');
       if Assigned(IncrementalSync) and (IncrementalSync.GetValue<Integer> = 2) then
-        fServerCapabilities := fServerCapabilities + [lspscIncrementalSync];
+        FServerCapabilities := FServerCapabilities + [lspscIncrementalSync];
     end;
   end;
   CheckCapability('textDocumentSync.openClose', lspscOpenCloseNotify);
@@ -529,7 +526,7 @@ end;
 procedure TLspServerThread.BeforeResume(const ProcessInfo: TProcessInformation;
   WriteHandle: PHandle);
 begin
-  fProcessHandle := ProcessInfo.hProcess;
+  FProcessHandle := ProcessInfo.hProcess;
   TSendDataThread(FLspClient.FSendDataThread).SetWriteHandle(WriteHandle^);
   FLspClient.FSendDataThread.Start;
 end;
@@ -539,11 +536,11 @@ constructor TLspServerThread.Create(LspClient: TLspClient;
 begin
   inherited Create(True);
   FLspClient := LspClient;
-  fExCmdOptions := ExCmdOptions;
-  fAbortEvent := TJclEvent.Create(nil, True, False, '');
-  with fExCmdOptions do
+  FExCmdOptions := ExCmdOptions;
+  FAbortEvent := TJclEvent.Create(nil, True, False, '');
+  with FExCmdOptions do
   begin
-    AbortEvent := fAbortEvent;
+    AbortEvent := FAbortEvent;
     BeforeResume := Self.BeforeResume;
     AutoConvertOem := False;
     RawOutput := True;
@@ -556,21 +553,21 @@ end;
 destructor TLspServerThread.Destroy;
 begin
   inherited;
-  fAbortEvent.Free;
-  fExCmdOptions.AbortEvent := nil;
-  fExCmdOptions.BeforeResume := nil;
+  FAbortEvent.Free;
+  FExCmdOptions.AbortEvent := nil;
+  FExCmdOptions.BeforeResume := nil;
 end;
 
 procedure TLspServerThread.Execute;
 begin
   NameThreadForDebugging('Lsp Server');
-  ExecuteCmdProcess(fExCmdOptions);
+  ExecuteCmdProcess(FExCmdOptions);
 end;
 
 procedure TLspServerThread.TerminatedSet;
 begin
   inherited;
-  fAbortEvent.Pulse;
+  FAbortEvent.Pulse;
 end;
 
 { TSyncRequestHelper }

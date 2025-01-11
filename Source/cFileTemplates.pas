@@ -10,10 +10,12 @@ unit cFileTemplates;
 
 interface
 
-Uses
-  Classes, SysUtils, Contnrs, JvAppStorage;
+uses
+  System.Classes,
+  System.Contnrs,
+  JvAppStorage;
 
-Type
+type
 
   TFileTemplate = class(TInterfacedPersistent, IJvAppStorageHandler)
   protected
@@ -25,7 +27,7 @@ Type
     Template: string;
     Extension: string;
     Category: string;
-    Highlighter : string;
+    Highlighter: string;
     procedure Assign(Source: TPersistent); override;
   end;
 
@@ -45,17 +47,19 @@ Type
     procedure AddTOMLTemplate;
     procedure AddPlainTextTemplate;
     procedure Assign(Source: TFileTemplates);
-    function TemplateByName(const Name : string) : TFileTemplate;
-    function TemplateByExt(const Ext : string) : TFileTemplate;
+    function TemplateByName(const Name: string): TFileTemplate;
+    function TemplateByExt(const Ext: string): TFileTemplate;
     procedure AddDefaultTemplates(NoCheck: Boolean= False);
   end;
 
 var
-  FileTemplates : TFileTemplates;
+  FileTemplates: TFileTemplates;
 
 implementation
 
-uses StringResources, JvGnugettext;
+uses
+  StringResources,
+  JvGnugettext;
 
 { TFileTemplate }
 
@@ -73,14 +77,12 @@ end;
 
 procedure TFileTemplate.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
-Var
-  SL : TStringList;
 begin
   Name := AppStorage.ReadString(BasePath+'\Name', '');
   Highlighter := AppStorage.ReadString(BasePath+'\Highlighter', '');
   Extension := AppStorage.ReadString(BasePath+'\Extension', '');
   Category := AppStorage.ReadString(BasePath+'\Category', '');
-  SL := TStringList.Create;
+  var SL := TStringList.Create;
   try
     AppStorage.ReadStringList(BasePath+'\Template', SL);
     Template := SL.Text;
@@ -91,14 +93,12 @@ end;
 
 procedure TFileTemplate.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
-Var
-  SL : TStringList;
 begin
   AppStorage.WriteString(BasePath+'\Name', Name);
   AppStorage.WriteString(BasePath+'\Highlighter', Highlighter);
   AppStorage.WriteString(BasePath+'\Extension', Extension);
   AppStorage.WriteString(BasePath+'\Category', Category);
-  SL := TStringList.Create;
+  var SL := TStringList.Create;
   try
     SL.Text := Template;
     AppStorage.WriteStringList(BasePath+'\Template', SL);
@@ -110,10 +110,8 @@ end;
 { TFileTemplates }
 
 procedure TFileTemplates.AddCSSTemplate;
-Var
-  FileTemplate : TFileTemplate;
 begin
-  FileTemplate := TFileTemplate.Create;
+  var FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SCSSFileTemplateName);
   FileTemplate.Extension := 'css';
   FileTemplate.Category := _(SFileTemplateCategoryInternet);
@@ -123,10 +121,8 @@ begin
 end;
 
 procedure TFileTemplates.AddCythonTemplate;
-Var
-  FileTemplate : TFileTemplate;
 begin
-  FileTemplate := TFileTemplate.Create;
+  var FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SCythonTemplateName);
   FileTemplate.Extension := 'pyx';
   FileTemplate.Category := 'Python';
@@ -152,8 +148,8 @@ begin
 end;
 
 procedure TFileTemplates.AddHTMLTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SHTMLFileTemplateName);
@@ -165,8 +161,8 @@ begin
 end;
 
 procedure TFileTemplates.AddJSTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SJSTemplateName);
@@ -178,8 +174,8 @@ begin
 end;
 
 procedure TFileTemplates.AddJupyterTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SJupyterTemplateName);
@@ -192,7 +188,7 @@ end;
 
 procedure TFileTemplates.AddPHPTemplate;
 var
-  FileTemplate : TFileTemplate;
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SPHPTemplateName);
@@ -205,7 +201,7 @@ end;
 
 procedure TFileTemplates.AddTOMLTemplate;
 var
-  FileTemplate : TFileTemplate;
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(STOMLTemplateName);
@@ -217,8 +213,8 @@ begin
 end;
 
 procedure TFileTemplates.AddPlainTextTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(STextFileTemplateName);
@@ -230,8 +226,8 @@ begin
 end;
 
 procedure TFileTemplates.AddPythonTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SPythonTemplateName);
@@ -243,8 +239,8 @@ begin
 end;
 
 procedure TFileTemplates.AddXMLTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SXMLTemplateName);
@@ -256,8 +252,8 @@ begin
 end;
 
 procedure TFileTemplates.AddJSONTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SJSONTemplateName);
@@ -269,8 +265,8 @@ begin
 end;
 
 procedure TFileTemplates.AddYAMLTemplate;
-Var
-  FileTemplate : TFileTemplate;
+var
+  FileTemplate: TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SYAMLTemplateName);
@@ -282,15 +278,12 @@ begin
 end;
 
 procedure TFileTemplates.Assign(Source: TFileTemplates);
-var
-  i : Integer;
-  FileTemplate: TFileTemplate;
 begin
   Clear;
-  for i := 0 to Source.Count - 1 do begin
-    FileTemplate := TFileTemplate.Create;
-    FileTemplate.Assign(Source[i] as TFileTemplate);
-    Add(FileTemplate)
+  for var I := 0 to Source.Count - 1 do begin
+    var FileTemplate := TFileTemplate.Create;
+    FileTemplate.Assign(Source[I] as TFileTemplate);
+    Add(FileTemplate);
   end;
 end;
 
@@ -301,27 +294,19 @@ begin
 end;
 
 function TFileTemplates.TemplateByExt(const Ext: string): TFileTemplate;
-var
-  i: Integer;
 begin
  Result := nil;
- for i := 0 to Count - 1 do
-   if TFileTemplate(Items[i]).Extension = Ext then begin
-     Result := TFileTemplate(Items[i]);
-     break;
-   end;
+ for var I := 0 to Count - 1 do
+   if TFileTemplate(Items[I]).Extension = Ext then
+     Exit(TFileTemplate(Items[I]));
 end;
 
 function TFileTemplates.TemplateByName(const Name: string): TFileTemplate;
-var
-  i: Integer;
 begin
  Result := nil;
- for i := 0 to Count - 1 do
-   if TFileTemplate(Items[i]).Name = Name then begin
-     Result := TFileTemplate(Items[i]);
-     break;
-   end;
+ for var I := 0 to Count - 1 do
+   if TFileTemplate(Items[I]).Name = Name then
+     Exit(TFileTemplate(Items[I]));
 end;
 
 initialization

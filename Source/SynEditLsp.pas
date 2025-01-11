@@ -10,7 +10,6 @@ interface
 
 uses
   Winapi.Windows,
-  System.SysUtils,
   System.Classes,
   System.JSON,
   System.SyncObjs,
@@ -41,7 +40,7 @@ type
     function GetFileId: string;
   public
     ModuleNode: TObject;  // for storing Code Explorer TModuleNodeCE
-    Symbols: TJsonArray;
+    Symbols: TJSONArray;
     constructor Create(PlugIn: TLspSynEditPlugin);
     destructor Destroy; override;
     procedure Clear;
@@ -74,7 +73,7 @@ type
   protected
     procedure LinesInserted(FirstLine, Count: Integer); override;
     procedure LinesDeleted(FirstLine, Count: Integer); override;
-    procedure LinePut(aIndex: Integer; const OldLine: string); override;
+    procedure LinePut(AIndex: Integer; const OldLine: string); override;
     procedure LinesChanged; override;
   public
     constructor Create(AOwner: TCustomSynEdit);
@@ -85,8 +84,8 @@ type
     procedure FileSavedAs(const FileId: string; LangId: TLangId);
     procedure ApplyNewDiagnostics;
     procedure ClearDiagnostics;
-    property TransmitChanges: boolean read fTransmitChanges
-      write fTransmitChanges;
+    property TransmitChanges: Boolean read FTransmitChanges
+      write FTransmitChanges;
     property Diagnostics: TList<TDiagnostic> read FDiagnostics;
     property NeedToRefreshSymbols: Boolean read FNeedToRefreshSymbols;
     property DocSymbols: TDocSymbols read FDocSymbols;
@@ -94,20 +93,20 @@ type
     class destructor Destroy;
     class procedure RefreshSymbols(const AFileId: string);
     class procedure OnLspShutDown(Sender: TObject);
-    class procedure HandleLspNotify(const Method: string; Params: TJsonValue);
+    class procedure HandleLspNotify(const Method: string; Params: TJSONValue);
   end;
 
-function LspPosition(const BC: TBufferCoord): TJsonObject; overload;
-function LspDocPosition(const FileName: string; const BC: TBufferCoord): TJsonObject; overload;
-function LspRange(const BlockBegin, BlockEnd: TBufferCoord): TJsonObject;
-procedure RangeFromJson(Json: TJsonObject; out BlockBegin, BlockEnd: TBufferCoord);
+function LspPosition(const BC: TBufferCoord): TJSONObject; overload;
+function LspDocPosition(const FileName: string; const BC: TBufferCoord): TJSONObject; overload;
+function LspRange(const BlockBegin, BlockEnd: TBufferCoord): TJSONObject;
+procedure RangeFromJson(Json: TJSONObject; out BlockBegin, BlockEnd: TBufferCoord);
 
 implementation
 
 uses
+  System.SysUtils,
   System.UITypes,
   System.Threading,
-  System.Math,
   SynEditMiscProcs,
   SynEditMiscClasses,
   SynDWrite,
@@ -164,9 +163,9 @@ begin
   then
     Exit;
 
-  var Params := TSmartPtr.Make(TJsonObject.Create)();
+  var Params := TSmartPtr.Make(TJSONObject.Create)();
   Params.AddPair('textDocument', LspTextDocumentIdentifier(OldFileId));
-  TJedi.LspClient.Notify('textDocument/didClose', Params.ToJson);
+  TJedi.LspClient.Notify('textDocument/didClose', Params.ToJSON);
 end;
 
 procedure TLspSynEditPlugin.FileOpened(const FileId: string; LangId: TLangId);
@@ -174,7 +173,7 @@ procedure TLspSynEditPlugin.FileOpened(const FileId: string; LangId: TLangId);
   but I assume that is supported by the Server even if it does not say so
   or not (lspscOpenCloseNotify in fLspClient.ServerCapabilities) }
 begin
-  Assert(FileId <> '');
+  Assert(FileId <> '', 'TLspSynEditPlugin.FileOpened');
   FFileId := FileId;
   FLangId := LangId;
   FNeedToRefreshSymbols := False;
@@ -186,10 +185,10 @@ begin
     Exit;
   end;
 
-  var Params := TSmartPtr.Make(TJsonObject.Create)();
+  var Params := TSmartPtr.Make(TJSONObject.Create)();
   Params.AddPair('textDocument', LspTextDocumentItem(FileId, 'python',
     Editor.Text, 0));
-  TJedi.LspClient.Notify('textDocument/didOpen', Params.ToJson);
+  TJedi.LspClient.Notify('textDocument/didOpen', Params.ToJSON);
 
   FTransmitChanges := True;
   RefreshSymbols(FileId);
@@ -202,9 +201,9 @@ begin
   then
     Exit;
 
-  var Params := TSmartPtr.Make(TJsonObject.Create)();
+  var Params := TSmartPtr.Make(TJSONObject.Create)();
   Params.AddPair('textDocument', LspTextDocumentIdentifier(FFileId));
-  TJedi.LspClient.Notify('textDocument/didSave', Params.ToJson);
+  TJedi.LspClient.Notify('textDocument/didSave', Params.ToJSON);
 end;
 
 procedure TLspSynEditPlugin.FileSavedAs(const FileId: string; LangId: TLangId);
@@ -233,7 +232,7 @@ begin
 end;
 
 class procedure TLspSynEditPlugin.HandleLspNotify(const Method: string;
-  Params: TJsonValue);
+  Params: TJSONValue);
 begin
   if GI_PyIDEServices.IsClosing or (Method <> 'textDocument/publishDiagnostics') then
   begin
@@ -250,7 +249,7 @@ begin
     try
       var Uri: string;
       if not Params.TryGetValue('uri', Uri) then Exit;
-      LFileId := FileIdFromUri(Uri);
+      LFileId := FileIdFromURI(Uri);
       if LFileId = '' then Exit;
 
       // compare versions
@@ -265,16 +264,16 @@ begin
       var Diagnostics := Params.FindValue('diagnostics');
       if not (Diagnostics is TJSONArray) then Exit;
 
-      var Diag: TJsonValue;
-      SetLength(DiagArray, TJsonArray(Diagnostics).Count);
+      var Diag: TJSONValue;
+      SetLength(DiagArray, TJSONArray(Diagnostics).Count);
 
-      for var I := 0  to TJsonArray(Diagnostics).Count - 1 do
+      for var I := 0  to TJSONArray(Diagnostics).Count - 1 do
       begin
-        Diag := TJsonArray(Diagnostics).Items[I];
-        DiagArray[I].Severity := TDiagnositicSeverity(Diag.GetValue<integer>('severity'));
+        Diag := TJSONArray(Diagnostics).Items[I];
+        DiagArray[I].Severity := TDiagnositicSeverity(Diag.GetValue<Integer>('severity'));
         DiagArray[I].Msg := Diag.GetValue<string>('message');
         DiagArray[I].Source := Diag.GetValue<string>('source');
-        RangeFromJson(Diag as TJsonObject, DiagArray[I].BlockBegin, DiagArray[I].BlockEnd);
+        RangeFromJson(Diag as TJSONObject, DiagArray[I].BlockBegin, DiagArray[I].BlockEnd);
       end;
     finally
       Params.Free;
@@ -284,20 +283,20 @@ begin
     var Plugin := FindPluginWithFileId(LFileId);
     if not Assigned(Plugin) then Exit;
 
-    var List := PlugIn.FNewDiagnostics.LockList;
+    var List := Plugin.FNewDiagnostics.LockList;
     try
       List.Clear;
       List.AddRange(DiagArray);
       Plugin.FNeedToRefreshDiagnostics := True;
     finally
-      PlugIn.FNewDiagnostics.UnLockList;
+      Plugin.FNewDiagnostics.UnlockList;
     end;
   end);
   Task.Start;
 end;
 
 class procedure TLspSynEditPlugin.HandleSymbolsResponse(Id: NativeUInt; Result,
-  Error: TJsonValue);
+  Error: TJSONValue);
 begin
   FDocSymbolsLock.Enter;
   try
@@ -309,11 +308,11 @@ begin
 
     FSymbolsRequests.Delete(Index);
 
-    var DocSymbols := Plugin.DocSymbols;
+    var DocSymbols := PlugIn.DocSymbols;
     FreeAndNil(DocSymbols.Symbols);
     if (Result <> nil) and (Result is TJSONArray) then
     begin
-      DocSymbols.Symbols := TJsonArray(Result);
+      DocSymbols.Symbols := TJSONArray(Result);
       Result := nil;
     end
     else
@@ -349,7 +348,7 @@ begin
   then
     Exit;
 
-  var Params := TSmartPtr.Make(TJsonObject.Create)();
+  var Params := TSmartPtr.Make(TJSONObject.Create)();
   try
     Params.AddPair('textDocument', LspVersionedTextDocumentIdentifier(FFileId,
       FVersion));
@@ -361,13 +360,13 @@ begin
       FIncChanges.Clear;
       var Text := Editor.Text;
 
-      var Change := TJsonObject.Create;
-      Change.AddPair('text', TJsonString.Create(Text));
+      var Change := TJSONObject.Create;
+      Change.AddPair('text', TJSONString.Create(Text));
 
       FIncChanges.Add(Change);
     end;
-    Params.AddPair('contentChanges', FIncChanges as TJsonValue);
-    TJedi.LspClient.Notify('textDocument/didChange', Params.ToJson);
+    Params.AddPair('contentChanges', FIncChanges as TJSONValue);
+    TJedi.LspClient.Notify('textDocument/didChange', Params.ToJSON);
   finally
     FIncChanges.Clear;
   end;
@@ -382,7 +381,7 @@ procedure TLspSynEditPlugin.LinesDeleted(FirstLine, Count: Integer);
    Lines.Count may be 0
 }
 var
-  Change: TJsonObject;
+  Change: TJSONObject;
   BB, BE: TBufferCoord;
 begin
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
@@ -397,10 +396,10 @@ begin
     BE := BufferCoord(Editor.Lines[FirstLine + Count - 1].Length + 1, FirstLine + Count)
   else
     BE := BufferCoord(1, FirstLine + Count + 1);
-  Change := TJsonObject.Create;
+  Change := TJSONObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
-  Change.AddPair('text', TJsonString.Create(''));
-  fIncChanges.Add(Change);
+  Change.AddPair('text', TJSONString.Create(''));
+  FIncChanges.Add(Change);
 end;
 
 procedure TLspSynEditPlugin.LinesInserted(FirstLine, Count: Integer);
@@ -410,10 +409,10 @@ procedure TLspSynEditPlugin.LinesInserted(FirstLine, Count: Integer);
    0 <= FirstLine <= Lines.Count - Count
 }
 var
-  Change: TJsonObject;
+  Change: TJSONObject;
   BB, BE: TBufferCoord;
 begin
-  if not TJedi.Ready or (FFileId = '') or (FlangId <> lidPython) or
+  if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
     not FTransmitChanges or (Count <= 0) or
     not (lspscIncrementalSync in TJedi.LspClient.ServerCapabilities)
   then
@@ -428,24 +427,24 @@ begin
 
   var TextAdded := '';
   for var I := FirstLine to FirstLine + Count - 1 do
-    TextAdded := TextAdded + Editor.Lines[I]  + SLineBreak;
+    TextAdded := TextAdded + Editor.Lines[I]  + sLineBreak;
   if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
     // Lines added at the end
-    TextAdded := SLineBreak + TextAdded;
+    TextAdded := sLineBreak + TextAdded;
   if (FirstLine = Editor.Lines.Count - Count) then
     // Lines added at the end
-    Delete(TextAdded, TextAdded.Length - Length(SLineBreak) + 1, Length(SLineBreak));
+    Delete(TextAdded, TextAdded.Length - Length(sLineBreak) + 1, Length(sLineBreak));
 
-  Change := TJsonObject.Create;
+  Change := TJSONObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
-  Change.AddPair('text', TJsonString.Create(TextAdded));
-  fIncChanges.Add(Change);
+  Change.AddPair('text', TJSONString.Create(TextAdded));
+  FIncChanges.Add(Change);
 end;
 
-procedure TLspSynEditPlugin.LinePut(aIndex: Integer; const OldLine: string);
+procedure TLspSynEditPlugin.LinePut(AIndex: Integer; const OldLine: string);
 var
   NewLine: string;
-  Start, OldLen, NewLen: integer;
+  Start, OldLen, NewLen: Integer;
 begin
   if not TJedi.Ready or (FFileId = '') or (FLangId <> lidPython) or
     not FTransmitChanges or
@@ -453,19 +452,19 @@ begin
   then
     Exit;
 
-  NewLine := Editor.Lines[aIndex];
+  NewLine := Editor.Lines[AIndex];
   LineDiff(NewLine, OldLine, Start, OldLen, NewLen);
 
   var Diff := Copy(NewLine, Start, NewLen);
-  var BB := BufferCoord(Start, aIndex + 1);
-  var BE := BufferCoord(Start + OldLen, aIndex + 1);
+  var BB := BufferCoord(Start, AIndex + 1);
+  var BE := BufferCoord(Start + OldLen, AIndex + 1);
 
   if (Diff = '') and (BB = BE) then Exit;  // no change
 
-  var Change := TJsonObject.Create;
+  var Change := TJSONObject.Create;
   Change.AddPair('range', LspRange(BB, BE));
-  Change.AddPair('text', TJsonString.Create(Diff));
-  fIncChanges.Add(Change);
+  Change.AddPair('text', TJSONString.Create(Diff));
+  FIncChanges.Add(Change);
 end;
 
 class procedure TLspSynEditPlugin.RefreshSymbols(const AFileId: string);
@@ -475,8 +474,8 @@ begin
   var Task := TTask.Create(procedure
   begin
     var PlugIn := FindPluginWithFileId(AFileId);
-    if not Assigned(PlugIn) or Plugin.DocSymbols.FRefreshing then Exit;
-    Plugin.DocSymbols.FRefreshing := True;
+    if not Assigned(PlugIn) or PlugIn.DocSymbols.FRefreshing then Exit;
+    PlugIn.DocSymbols.FRefreshing := True;
 
     FDocSymbolsLock.Enter;
     try
@@ -486,41 +485,41 @@ begin
         TJedi.LspClient.CancelRequest(NativeUInt(FSymbolsRequests.Objects[Index]));
         FSymbolsRequests.Delete(Index);
       end;
-      var Param := TSmartPtr.Make(TJsonObject.Create)();
+      var Param := TSmartPtr.Make(TJSONObject.Create)();
       Param.AddPair('textDocument', LspTextDocumentIdentifier(AFileId));
 
       var Id := TJedi.LspClient.Request('textDocument/documentSymbol',
-        Param.ToJson, HandleSymbolsResponse);
+        Param.ToJSON, HandleSymbolsResponse);
       FSymbolsRequests.AddObject(AFileId, TObject(Id));
     finally
-      Plugin.DocSymbols.FRefreshing := False;
-      Plugin.FNeedToRefreshSymbols := False;
+      PlugIn.DocSymbols.FRefreshing := False;
+      PlugIn.FNeedToRefreshSymbols := False;
       FDocSymbolsLock.Leave;
     end;
   end);
   Task.Start;
 end;
 
-function LspPosition(const BC: TBufferCoord): TJsonObject; overload;
+function LspPosition(const BC: TBufferCoord): TJSONObject; overload;
 begin
-  Result := TJsonObject.Create;
+  Result := TJSONObject.Create;
   Result.AddPair('line', TJSONNumber.Create(BC.Line - 1));
   Result.AddPair('character', TJSONNumber.Create(BC.Char - 1));
 end;
 
-function LspDocPosition(const FileName: string; const BC: TBufferCoord): TJsonObject; overload;
+function LspDocPosition(const FileName: string; const BC: TBufferCoord): TJSONObject; overload;
 begin
   Result := LspDocPosition(FileName, BC.Line - 1, BC.Char - 1);
 end;
 
-function LspRange(const BlockBegin, BlockEnd: TBufferCoord): TJsonObject;
+function LspRange(const BlockBegin, BlockEnd: TBufferCoord): TJSONObject;
 begin
-  Result := TJsonObject.Create;
+  Result := TJSONObject.Create;
   Result.AddPair('start', LspPosition(BlockBegin));
   Result.AddPair('end', LspPosition(BlockEnd));
 end;
 
-procedure RangeFromJson(Json: TJsonObject; out BlockBegin, BlockEnd: TBufferCoord);
+procedure RangeFromJson(Json: TJSONObject; out BlockBegin, BlockEnd: TBufferCoord);
 begin
   BlockBegin := Default(TBufferCoord);
   BlockEnd := BlockBegin;
@@ -539,7 +538,7 @@ end;
 procedure TLspSynEditPlugin.ApplyNewDiagnostics;
 begin
   { Should be called from the main thread }
-  Assert(GetCurrentThreadId = MainThreadId);
+  Assert(GetCurrentThreadId = MainThreadID, 'TLspSynEditPlugin.ApplyNewDiagnostics');
   if not FNeedToRefreshDiagnostics then Exit;
 
   ClearDiagnostics;
@@ -590,7 +589,7 @@ begin
     if Assigned(FOnNotify) then
       FOnNotify(Self);
   finally
-    UnLock;
+    Unlock;
   end;
 end;
 
@@ -608,7 +607,7 @@ end;
 
 function TDocSymbols.GetFileId: string;
 begin
-  Result := FPlugin.FFileId;
+  Result := FPlugIn.FFileId;
 end;
 
 procedure TDocSymbols.Lock;

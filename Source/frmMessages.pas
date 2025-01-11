@@ -10,10 +10,6 @@ unit frmMessages;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Contnrs,
   System.Actions,
@@ -21,10 +17,7 @@ uses
   Vcl.StdCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.Menus,
   Vcl.ExtCtrls,
   Vcl.ActnList,
@@ -32,9 +25,6 @@ uses
   JvDockControlForm,
   JvAppStorage,
   TB2Item,
-  TB2Dock,
-  TB2Toolbar,
-  SpTBXSkins,
   SpTBXItem,
   VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
@@ -80,15 +70,15 @@ type
     procedure FormActivate(Sender: TObject);
   private
     const FBasePath = 'Messages Window Options'; // Used for storing settings
-    var fMessageHistory : TObjectList;
-    fHistoryIndex : integer;
-    fHistorySize : integer;
+    var FMessageHistory: TObjectList;
+    FHistoryIndex: Integer;
+    FHistorySize: Integer;
     // IMessageServices implementation
     procedure ShowWindow;
-    procedure AddMessage(const Msg: string; const FileName : string = '';
-       Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
+    procedure AddMessage(const Msg: string; const FileName: string = '';
+       Line: Integer = 0; Offset: Integer = 0; SelLen: Integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames : integer = 1; ShowWindow : Boolean = False);
+    procedure ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames: Integer = 1; ShowWindow: Boolean = False);
   protected
     procedure StoreTopNodeIndex;
     procedure RestoreTopNodeIndex;
@@ -98,8 +88,8 @@ type
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
 
     procedure ShowPythonSyntaxError(E: EPySyntaxError); overload;
-    procedure ShowPythonSyntaxError(ErrorClass : string; E: Variant); overload;
-    procedure JumpToPosition(Node : PVirtualNode);
+    procedure ShowPythonSyntaxError(ErrorClass: string; E: Variant); overload;
+    procedure JumpToPosition(Node: PVirtualNode);
     procedure UpdateMsgActions;
   end;
 
@@ -109,49 +99,49 @@ var
 implementation
 
 uses
+  System.SysUtils,
   Vcl.Clipbrd,
   dmResources,
   frmPyIDEMain,
   uCommonFunctions,
   JvGnugettext,
-  StringResources,
-  cPyControl;
+  StringResources;
 
 {$R *.dfm}
-Type
+type
   TMsg = class
     Msg: string;
-    FileName : string;
-    Line : integer;
-    Offset : integer;
-    SelLen : integer;
+    FileName: string;
+    Line: Integer;
+    Offset: Integer;
+    SelLen: Integer;
   end;
 
   PMsgRec = ^TMsgRec;
   TMsgRec = record
-    Msg : TMsg;
+    Msg: TMsg;
   end;
 
   TMessageList = class(TObjectList)
   private
-    fTopNodeIndex : Cardinal;
+    FTopNodeIndex: Cardinal;
   public
-    property TopNodeIndex : Cardinal read fTopNodeIndex;
+    property TopNodeIndex: Cardinal read FTopNodeIndex;
   end;
 
 { TMessagesWindow }
 
 procedure TMessagesWindow.AddMessage(const Msg, FileName: string;
-   Line, Offset, SelLen : integer);
-Var
-  NewMsg : TMsg;
+   Line, Offset, SelLen: Integer);
+var
+  NewMsg: TMsg;
 begin
-  if fMessageHistory.Count = 0 then
+  if FMessageHistory.Count = 0 then
     // Create New List
-    fHistoryIndex := fMessageHistory.Add(TMessageList.Create(True))
-  else if fHistoryIndex <> fMessageHistory.Count - 1 then begin
+    FHistoryIndex := FMessageHistory.Add(TMessageList.Create(True))
+  else if FHistoryIndex <> FMessageHistory.Count - 1 then begin
     StoreTopNodeIndex;
-    fHistoryIndex := fMessageHistory.Count - 1;
+    FHistoryIndex := FMessageHistory.Count - 1;
     MessagesView.Clear;
   end;
 
@@ -162,29 +152,31 @@ begin
    NewMsg.Offset := Offset;
    NewMsg.SelLen := SelLen;
 
-   TObjectList(fMessageHistory[fHistoryIndex]).Add(NewMsg);
+   TObjectList(FMessageHistory[FHistoryIndex]).Add(NewMsg);
   // ReInitializes the list
-  MessagesView.RootNodeCount := TObjectList(fMessageHistory[fHistoryIndex]).Count;
+  MessagesView.RootNodeCount := TObjectList(FMessageHistory[FHistoryIndex]).Count;
   RestoreTopNodeIndex;
   UpdateMsgActions;
 end;
 
 procedure TMessagesWindow.ClearMessages;
 begin
-  if fMessageHistory.Count = 0 then
+  if FMessageHistory.Count = 0 then
     // Create New List
-    fHistoryIndex := fMessageHistory.Add(TMessageList.Create(True))  // Onwns objects
-  else if TObjectList(fMessageHistory[fMessageHistory.Count-1]).Count = 0 then begin
+    FHistoryIndex := FMessageHistory.Add(TMessageList.Create(True))  // Onwns objects
+  else if TObjectList(FMessageHistory.Last).Count = 0 then
+  begin
     // Reuse last list
     StoreTopNodeIndex;
-    fHistoryIndex := fMessageHistory.Count - 1;
+    FHistoryIndex := FMessageHistory.Count - 1;
   end else begin
     // Create new list
     StoreTopNodeIndex;
-    fHistoryIndex := fMessageHistory.Add(TMessageList.Create(True));
-    if fMessageHistory.Count > fHistorySize then begin
-      fMessageHistory.Delete(0);
-      fHistoryIndex := fMessageHistory.Count - 1;
+    FHistoryIndex := FMessageHistory.Add(TMessageList.Create(True));
+    if FMessageHistory.Count > FHistorySize then
+    begin
+      FMessageHistory.Delete(0);
+      FHistoryIndex := FMessageHistory.Count - 1;
     end;
   end;
   MessagesView.Clear;
@@ -193,24 +185,22 @@ end;
 
 procedure TMessagesWindow.ClearAllExecute(Sender: TObject);
 begin
-  fMessageHistory.Clear;
+  FMessageHistory.Clear;
   ClearMessages;
 end;
 
 procedure TMessagesWindow.actCopyToClipboardExecute(Sender: TObject);
 begin
-  Clipboard.AsText := string(MessagesView.ContentToText(tstAll, #9));
+  Clipboard.AsText := MessagesView.ContentToText(tstAll, #9);
 end;
 
-procedure TMessagesWindow.ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames : integer; ShowWindow : Boolean);
-Var
-  i : integer;
+procedure TMessagesWindow.ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames: Integer; ShowWindow: Boolean);
 begin
-  with TraceBack do begin
+  with Traceback do begin
     if ItemCount > 0 then begin
       AddMessage('Traceback');
-      for i := SkipFrames {don't show base frame} to ItemCount-1 do
-        with Items[i] do
+      for var I := SkipFrames {don't show base frame} to ItemCount-1 do
+        with Items[I] do
           AddMessage('    '+Context, FileName, LineNo);
       end;
       if ShowWindow then ShowDockForm(Self);
@@ -226,10 +216,10 @@ begin
   end;
 end;
 
-procedure TMessagesWindow.ShowPythonSyntaxError(ErrorClass : string; E: Variant);
-Var
-  Msg, FileName : string;
-  LineNo, Offset : integer;
+procedure TMessagesWindow.ShowPythonSyntaxError(ErrorClass: string; E: Variant);
+var
+  Msg, FileName: string;
+  LineNo, Offset: Integer;
 begin
   try
     Msg := E;
@@ -249,18 +239,18 @@ end;
 
 procedure TMessagesWindow.StoreTopNodeIndex;
 begin
-  if (fHistoryIndex >= 0) and (fMessageHistory.Count > fHistoryIndex) then begin
+  if (FHistoryIndex >= 0) and (FMessageHistory.Count > FHistoryIndex) then begin
     if Assigned(MessagesView.TopNode) then
-      TMessageList(fMessageHistory[fHistoryIndex]).fTopNodeIndex :=
+      TMessageList(FMessageHistory[FHistoryIndex]).FTopNodeIndex :=
         MessagesView.TopNode.Index
     else
-      TMessageList(fMessageHistory[fHistoryIndex]).fTopNodeIndex := 0;
+      TMessageList(FMessageHistory[FHistoryIndex]).FTopNodeIndex := 0;
   end;
 end;
 
-procedure TMessagesWindow.JumpToPosition(Node : PVirtualNode);
-Var
-  Msg : TMsg;
+procedure TMessagesWindow.JumpToPosition(Node: PVirtualNode);
+var
+  Msg: TMsg;
 begin
   if Assigned(Node) then begin
     MessagesView.Selected[Node] := True;
@@ -282,40 +272,41 @@ procedure TMessagesWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'MessagesWin';
   inherited;
-  fMessageHistory := TObjectList.Create(True);  // Onwns objects
-  fHistoryIndex := -1;
+  FMessageHistory := TObjectList.Create(True);  // Onwns objects
+  FHistoryIndex := -1;
   // 10 sounds reasonable
   // Could become user defined
-  fHistorySize := 10;
+  FHistorySize := 10;
   // Let the tree know how much data space we need.
   MessagesView.NodeDataSize := SizeOf(TMsgRec);
 end;
 
 procedure TMessagesWindow.FormDestroy(Sender: TObject);
 begin
-  fMessageHistory.Free;
+  FMessageHistory.Free;
   inherited;
 end;
 
 procedure TMessagesWindow.MessagesViewInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
 begin
-  Assert(ParentNode = nil);
-  Assert(Integer(Node.Index) < TObjectList(fMessageHistory[fHistoryIndex]).Count);
+  Assert(ParentNode = nil, 'TMessagesWindow.MessagesViewInitNode');
+  Assert(Integer(Node.Index) < TObjectList(FMessageHistory[FHistoryIndex]).Count,
+     'TMessagesWindow.MessagesViewInitNode');
   PMsgRec(MessagesView.GetNodeData(Node))^.Msg :=
-    TMsg(TObjectList(fMessageHistory[fHistoryIndex])[Node.Index]);
+    TMsg(TObjectList(FMessageHistory[FHistoryIndex])[Node.Index]);
 end;
 
 procedure TMessagesWindow.RestoreTopNodeIndex;
-Var
-  i, Index : Cardinal;
-  Node : PVirtualNode;
+var
+  I, Index: Cardinal;
+  Node: PVirtualNode;
 begin
-  if (fHistoryIndex >= 0) and (fMessageHistory.Count > fHistoryIndex) then begin
-    Index := TMessageList(fMessageHistory[fHistoryIndex]).fTopNodeIndex;
+  if (FHistoryIndex >= 0) and (FMessageHistory.Count > FHistoryIndex) then begin
+    Index := TMessageList(FMessageHistory[FHistoryIndex]).FTopNodeIndex;
     Node := MessagesView.RootNode.FirstChild;
-    i := 0;
-    while(Assigned(Node) and Assigned(Node.NextSibling) and (i<Index)) do
+    I := 0;
+    while(Assigned(Node) and Assigned(Node.NextSibling) and (I < Index)) do
       Node := Node.NextSibling;
     if Assigned(Node) then MessagesView.TopNode := Node;
   end;
@@ -325,7 +316,8 @@ procedure TMessagesWindow.MessagesViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
 begin
-  Assert(Integer(Node.Index) < TObjectList(fMessageHistory[fHistoryIndex]).Count);
+  Assert(Integer(Node.Index) < TObjectList(FMessageHistory[FHistoryIndex]).Count,
+    'TMessagesWindow.MessagesViewGetText');
   with PMsgRec(MessagesView.GetNodeData(Node))^.Msg do
     case Column of
       0:  CellText := Msg;
@@ -346,15 +338,15 @@ end;
 procedure TMessagesWindow.MessagesViewDblClick(Sender: TObject);
 begin
   if Assigned(MessagesView.GetFirstSelected()) then
-    JumpToPosition(MessagesView.GetFirstSelected)
+    JumpToPosition(MessagesView.GetFirstSelected);
 end;
 
 procedure TMessagesWindow.actNextMsgsExecute(Sender: TObject);
 begin
-  if fHistoryIndex < fMessageHistory.Count - 1 then begin
+  if FHistoryIndex < FMessageHistory.Count - 1 then begin
     StoreTopNodeIndex;
-    Inc(fHistoryIndex);
-    MessagesView.RootNodeCount := TObjectList(fMessageHistory[fHistoryIndex]).Count;
+    Inc(FHistoryIndex);
+    MessagesView.RootNodeCount := TObjectList(FMessageHistory[FHistoryIndex]).Count;
     MessagesView.ReinitNode(MessagesView.RootNode, True);
     RestoreTopNodeIndex;
     MessagesView.Invalidate;
@@ -364,10 +356,10 @@ end;
 
 procedure TMessagesWindow.actPreviousMsgsExecute(Sender: TObject);
 begin
-  if fHistoryIndex > 0 then begin
+  if FHistoryIndex > 0 then begin
     StoreTopNodeIndex;
-    Dec(fHistoryIndex);
-    MessagesView.RootNodeCount := TObjectList(fMessageHistory[fHistoryIndex]).Count;
+    Dec(FHistoryIndex);
+    MessagesView.RootNodeCount := TObjectList(FMessageHistory[FHistoryIndex]).Count;
     MessagesView.ReinitNode(MessagesView.RootNode, True);
     RestoreTopNodeIndex;
     MessagesView.Invalidate;
@@ -377,8 +369,8 @@ end;
 
 procedure TMessagesWindow.UpdateMsgActions;
 begin
-  actPreviousMsgs.Enabled := fHistoryIndex > 0 ;
-  actNextMsgs.Enabled := fHistoryIndex < fMessageHistory.Count - 1;
+  actPreviousMsgs.Enabled := FHistoryIndex > 0 ;
+  actNextMsgs.Enabled := FHistoryIndex < FMessageHistory.Count - 1;
   BtnPrevMsg.Enabled := actPreviousMsgs.Enabled;
   BtnNextMsg.Enabled := actNextMsgs.Enabled;
   actClearAll.Enabled := MessagesView.RootNodeCount <> 0;

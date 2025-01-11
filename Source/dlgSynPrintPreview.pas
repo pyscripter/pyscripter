@@ -116,7 +116,8 @@ uses
   System.SysUtils,
   Vcl.Graphics,
   Vcl.Forms,
-  uCommonFunctions;
+  uCommonFunctions,
+  dmResources;
 
 {$R *.DFM}
 

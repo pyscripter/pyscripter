@@ -103,7 +103,7 @@ inherited RemoteFileDialog: TRemoteFileDialog
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 103
+        CollectionIndex = 112
         CollectionName = 'Setup'
         Name = 'Setup'
       end>

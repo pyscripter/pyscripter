@@ -11,13 +11,11 @@ unit dmResources;
 interface
 
 uses
-  System.SysUtils,
   System.Classes,
   Vcl.Dialogs,
   Vcl.BaseImageCollection,
   JclSysUtils,
   JvStringHolder,
-  JvDockVIDStyle,
   JvDockVSNetStyleSpTBX,
   SVGIconImageCollection,
   SynEditHighlighter,
@@ -61,11 +59,11 @@ type
     procedure ModifierCompletionCodeCompletion(Sender: TObject; var Value: string;
         Shift: TShiftState; Index: Integer; EndToken: Char);
     procedure ModifierCompletionExecute(Kind: SynCompletionType; Sender: TObject;
-        var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
+        var CurrentInput: string; var X, Y: Integer; var CanExecute: Boolean);
     procedure ParameterCompletionCodeCompletion(Sender: TObject; var Value: string;
         Shift: TShiftState; Index: Integer; EndToken: Char);
     procedure ParameterCompletionExecute(Kind: SynCompletionType; Sender: TObject;
-        var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
+        var CurrentInput: string; var X, Y: Integer; var CanExecute: Boolean);
   private
     FLogger: TJclSimpleLog;
     FHighlighters: THighlighterList;
@@ -77,7 +75,7 @@ type
     SynCythonSyn: TSynCythonSyn;
     DockStyle: TJvDockVSNetStyleSpTBX;
     function GetSaveFileName(var ANewName: string;
-      AHighlighter: TSynCustomHighlighter; DefaultExtension : string): boolean;
+      AHighlighter: TSynCustomHighlighter; DefaultExtension: string): Boolean;
     procedure UpdateImageCollections;
     procedure ExportHighlighters;
     procedure ImportHighlighters;
@@ -109,10 +107,12 @@ implementation
 
 uses
   System.UITypes,
+  System.SysUtils,
   System.IOUtils,
   Vcl.Themes,
   JvAppStorage,
   JvAppIniStorage,
+  JvDockVIDStyle,
   JvGnugettext,
   TB2Item,
   StringResources,
@@ -161,7 +161,7 @@ begin
 end;
 
 function TResourcesDataModule.GetSaveFileName(var ANewName: string;
-  AHighlighter: TSynCustomHighlighter; DefaultExtension: string): boolean;
+  AHighlighter: TSynCustomHighlighter; DefaultExtension: string): Boolean;
 begin
   with dlgFileSave do begin
     if ANewName <> '' then begin
@@ -185,9 +185,9 @@ begin
 
     if Execute then begin
       ANewName := FileName;
-      Result := TRUE;
+      Result := True;
     end else
-      Result := FALSE;
+      Result := False;
   end;
 end;
 
@@ -277,7 +277,7 @@ begin
   //  Place General highlighter last
   var Index := FHighlighters.IndexOf(SynGeneralSyn);
   if Index >= 0 then FHighlighters.Delete(Index);
-  fHighlighters.Add(SynGeneralSyn);
+  FHighlighters.Add(SynGeneralSyn);
 
   // SynWeb Highlighters do not provide default filters
   SetDefaultFileFilters;
@@ -292,30 +292,30 @@ procedure TResourcesDataModule.ModifierCompletionCodeCompletion(Sender:
     TObject; var Value: string; Shift: TShiftState; Index: Integer; EndToken:
     Char);
 var
-  L: Integer;
+  Len: Integer;
 begin
   if Assigned(ModifierCompletion.Form.CurrentEditor) then
     with ModifierCompletion.Form.CurrentEditor do begin
       SelText := '';
-      L:= Length(Parameters.StopMask);
-      if (CaretX > 0) and (Copy(LineText, CaretX-L, L) = Parameters.StopMask) then
+      Len:= Length(Parameters.StopMask);
+      if (CaretX > 0) and (Copy(LineText, CaretX-Len, Len) = Parameters.StopMask) then
       begin
-        CaretX:= CaretX - L;
+        CaretX:= CaretX - Len;
         Value := '-' + Value;
       end else if not ((CaretX > 1) and (Lines[CaretY-1][CaretX-1] = '-')) then
       begin
-        L:= LineText.LastIndexOf(Parameters.StopMask);
-        if L >= 0 then CaretX := L + 1;
+        Len:= LineText.LastIndexOf(Parameters.StopMask);
+        if Len >= 0 then CaretX := Len + 1;
         Value := '-' + Value;
       end;
     end;
 end;
 
 procedure TResourcesDataModule.ModifierCompletionExecute(Kind:
-    SynCompletionType; Sender: TObject; var CurrentInput: string; var x, y:
+    SynCompletionType; Sender: TObject; var CurrentInput: string; var X, Y:
     Integer; var CanExecute: Boolean);
 var
-  ModName, ModComment : string;
+  ModName, ModComment: string;
 begin
   with ModifierCompletion do
   begin
@@ -345,10 +345,10 @@ begin
 end;
 
 procedure TResourcesDataModule.ParameterCompletionExecute(Kind:
-    SynCompletionType; Sender: TObject; var CurrentInput: string; var x, y:
+    SynCompletionType; Sender: TObject; var CurrentInput: string; var X, Y:
     Integer; var CanExecute: Boolean);
 var
-  ParamName, ParamValue : string;
+  ParamName, ParamValue: string;
 begin
   with ParameterCompletion do
   begin
@@ -400,15 +400,15 @@ begin
   ModifierCompletion.TitleFont.Style := [TFontStyle.fsBold];
 
   // Code Templates
-  CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(PyIDEOptions.AutoCompletionFont);
+  CodeTemplatesCompletion.GetCompletionProposal.Font.Assign(PyIDEOptions.AutoCompletionFont);
 end;
 
 procedure TResourcesDataModule.SetDefaultFileFilters;
 begin
   SynPythonSyn.DefaultFilter := PyIDEOptions.PythonFileFilter;
   SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
-  SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
-  SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
+  SynWebHtmlSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
+  SynWebXmlSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
   SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
   SynCppSyn.DefaultFilter := PyIDEOptions.CPPFileFilter;
   SynWebEsSyn.DefaultFilter := PyIDEOptions.JSFileFilter;

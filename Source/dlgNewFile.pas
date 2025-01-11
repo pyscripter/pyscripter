@@ -42,9 +42,9 @@ type
       Selected: Boolean);
     procedure lvTemplatesDblClick(Sender: TObject);
   private
-    FCategories : TStringList;
+    FCategories: TStringList;
   public
-    SelectedTemplate : TFileTemplate;
+    SelectedTemplate: TFileTemplate;
     procedure SetUp;
   end;
 
@@ -119,9 +119,9 @@ end;
 procedure TNewFileDialog.tvCategoriesChange(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 var
-  I, Index : Integer;
-  FileTemplate : TFileTemplate;
-  FName : string;
+  I, Index: Integer;
+  FileTemplate: TFileTemplate;
+  FName: string;
   FileInfo: TSHFileInfo;
 begin
   if Assigned(Node) and (vsSelected in Node.States) then begin

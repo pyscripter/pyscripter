@@ -6,7 +6,9 @@
 
 GExperts License Agreement
 GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
-authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+authors who have submitted their code for inclusion. This license agreement
+only covers code written by GExperts, Inc and Erik Berry. You should contact
+the other authors concerning their respective copyrights and conditions.
 
 The rules governing the use of GExperts and the GExperts source code are derived
 from the official Open Source Definition, available at http://www.opensource.org.
@@ -46,23 +48,17 @@ unit frmToDo;
 interface
 
 uses
-  Winapi.Windows,
   Winapi.Messages,
   System.UITypes,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
   System.Contnrs,
   System.Actions,
   Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.ActnList,
   Vcl.ImgList,
-  Vcl.ComCtrls,
   Vcl.Menus,
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
@@ -72,7 +68,6 @@ uses
   TB2Toolbar,
   SpTBXSkins,
   SpTBXItem,
-  SpTBXControls,
   JvDockControlForm,
   JvAppStorage,
   JvComponentBase,
@@ -81,7 +76,6 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
-  SynUnicode,
   uCommonFunctions,
   frmIDEDockWin;
 
@@ -148,9 +142,9 @@ type
     PopupMenu: TSpTBXPopupMenu;
     mnGoto: TSpTBXItem;
     mnRefresh: TSpTBXItem;
-    N1: TSpTBXSeparatorItem;
+    mnSeparator1: TSpTBXSeparatorItem;
     mnCopyAll: TSpTBXItem;
-    N2: TSpTBXSeparatorItem;
+    mnSeparator2: TSpTBXSeparatorItem;
     mnPrint: TSpTBXItem;
     mnOptions: TSpTBXItem;
     ToDoView: TVirtualStringTree;
@@ -195,7 +189,7 @@ type
     procedure actFileAbortExecute(Sender: TObject);
     procedure ToDoViewShortenString(Sender: TBaseVirtualTree;
       TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
-      const S: string; TextSpace: TDimension; var Result: string;
+      const Str: string; TextSpace: TDimension; var Result: string;
       var Done: Boolean);
     procedure ToDoViewHeaderClick(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
   private
@@ -229,10 +223,14 @@ var
 implementation
 
 uses
+  System.SysUtils,
+  Winapi.Windows,
   System.Math,
   System.IOUtils,
-  Vcl.Themes,
+  Vcl.Forms,
+  Vcl.ComCtrls,
   Vcl.Clipbrd,
+  Vcl.Themes,
   MPCommonUtilities,
   uEditAppIntfs,
   cProjectClasses,
@@ -242,37 +240,33 @@ uses
 
 {$R *.dfm}
 
-Type
+type
 
   PToDoRec = ^TToDoRec;
   TToDoRec = record
-    ToDoInfo : TToDoInfo;
+    ToDoInfo: TToDoInfo;
   end;
 
-function WideCaseInsensitivePos(const SubString, S: string): Integer;
+function WideCaseInsensitivePos(const SubString, Str: string): Integer;
 begin
-  Result := Pos(SubString.ToUpper, S.ToUpper);
+  Result := Pos(SubString.ToUpper, Str.ToUpper);
 end;
 
 procedure TToDoWindow.actEditCopyExecute(Sender: TObject);
-var
-  ClipText: TStrings;
-  i: Integer;
 begin
-  inherited;
-
-  ClipText := TStringList.Create;
+  var ClipText := TStringList.Create;
   try
-    for i := 0 to fDataList.Count - 1 do
-    with TToDoInfo(fDataList[i]) do begin
-      ClipText.Add(IntToStr(Ord(Priority)) + #9 +
-        Display + #9 +
-        TPath.GetFileName(FileName) + #9 +
-        IntToStr(LineNo));
-    end;
+    for var I := 0 to FDataList.Count - 1 do
+      with TToDoInfo(FDataList[I]) do
+      begin
+        ClipText.Add(IntToStr(Ord(Priority)) + #9 +
+          Display + #9 +
+          TPath.GetFileName(FileName) + #9 +
+          IntToStr(LineNo));
+      end;
     Clipboard.AsText := ClipText.Text;
   finally
-    FreeAndNil(ClipText);
+    ClipText.Free;
   end;
 end;
 
@@ -287,8 +281,8 @@ function TToDoWindow.GetPreCallback: TDirectoryWalkProc;
 begin
   Result :=
     function (const Path: string; const FileInfo: TSearchRec): Boolean
-    Var
-      Name : string;
+    var
+      Name: string;
     begin
       Result := not FAbortSignalled;
 
@@ -303,11 +297,9 @@ begin
 end;
 
 function TToDoWindow.GetSelectedItem: TToDoInfo;
-Var
-  Node : PVirtualNode;
 begin
   Result := nil;
-  Node := ToDoView.GetFirstSelected();
+  var Node := ToDoView.GetFirstSelected;
   if Assigned(Node) then
     Result := PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo;
 end;
@@ -318,10 +310,8 @@ begin
 end;
 
 procedure TToDoWindow.actEditGotoExecute(Sender: TObject);
-Var
-  SelectedItem: TToDoInfo;
 begin
-  SelectedItem := GetSelectedItem;
+  var SelectedItem := GetSelectedItem;
   if SelectedItem = nil then Exit;
 
   GI_PyIDEServices.ShowFilePosition(SelectedItem.FileName, SelectedItem.LineNo+1, 1);
@@ -348,9 +338,8 @@ resourcestring
   STodoItems = 'To Do Items';
 var
   RichEdit: TRichEdit;
-  i: Integer;
 begin
-  if fDataList.Count = 0 then
+  if FDataList.Count = 0 then
     Exit;
 
   RichEdit := TRichEdit.Create(Self);
@@ -370,16 +359,16 @@ begin
       RichEdit.Lines.Add(STodoItems);
       Style := [];
     end;
-    for i := 0 to FDataList.Count - 1 do
+    for var I := 0 to FDataList.Count - 1 do
     begin
-      with TToDoInfo(FDataList[i]) do
+      with TToDoInfo(FDataList[I]) do
       begin
         with RichEdit.SelAttributes do
         begin
           case Priority of
-            tpHigh   : Style := [fsBold];
-            tpMed : Style := [];
-            tpLow    : Style := [fsItalic];
+            tpHigh: Style := [fsBold];
+            tpMed: Style := [];
+            tpLow: Style := [fsItalic];
           end;
           Size := 10;
         end;
@@ -387,7 +376,7 @@ begin
           #09 + PriorityText[Priority] + #9 + Display);
       end;
     end;
-    RichEdit.Print(SToDoItems);
+    RichEdit.Print(STodoItems);
   finally
     FreeAndNil(RichEdit);
   end;
@@ -431,10 +420,8 @@ end;
 
 procedure TTokenList.AddToken(const Token: string;
   Priority: TToDoPriority);
-Var
-  TokenInfo: TTokenInfo;
 begin
-  TokenInfo := TTokenInfo.Create;
+  var TokenInfo := TTokenInfo.Create;
   TokenInfo.Token := Token.ToUpper;
   TokenInfo.Priority := Priority;
 
@@ -442,11 +429,9 @@ begin
 end;
 
 destructor TTokenList.Destroy;
-var
-  i: Integer;
 begin
-  for i := Count - 1 downto 0 do
-    Objects[i].Free;
+  for var I := Count - 1 downto 0 do
+    Objects[I].Free;
   inherited;
 end;
 
@@ -539,12 +524,11 @@ end;
 
 procedure TToDoExpert.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
-Var
-  i : integer;
-  NTokens : integer;
-  Priority : TToDoPriority;
-  Token : string;
-  SL : TStringList;
+var
+  NTokens: Integer;
+  Priority: TToDoPriority;
+  Token: string;
+  SL: TStringList;
 begin
   with AppStorage do begin
     FShowTokens := ReadBoolean(BasePath+'\ShowTokens');
@@ -561,10 +545,10 @@ begin
     if NTokens > 0 then begin
       FTokenList.Free;
       FTokenList := TTokenList.Create;
-      for i := 0 to NTokens - 1 do begin
-        Token := ReadString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Token']));
+      for var I := 0 to NTokens - 1 do begin
+        Token := ReadString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(I), 'Token']));
         Priority := tpMed;
-        ReadEnumeration(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Priority']),
+        ReadEnumeration(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(I), 'Priority']),
           TypeInfo(TToDoPriority), Priority, Priority);
         FTokenList.AddToken(Token, Priority);
       end;
@@ -578,9 +562,8 @@ end;
 
 procedure TToDoExpert.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
-Var
-  i : integer;
-  SL : TStringList;
+var
+  SL: TStringList;
 begin
   with AppStorage do begin
     DeleteSubTree(BasePath);
@@ -596,16 +579,16 @@ begin
     WriteBoolean(BasePath+'\RecurseDirScan', FRecurseDirScan);
 
     WriteInteger(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Count']), FTokenList.Count);
-    for i := 0 to FTokenList.Count - 1 do begin
-      WriteString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Token']),
-        FTokenList[i]);
-      WriteEnumeration(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Priority']),
-        TypeInfo(TToDoPriority), TTokenInfo(FTokenList.Objects[i]).Priority);
+    for var I := 0 to FTokenList.Count - 1 do begin
+      WriteString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(I), 'Token']),
+        FTokenList[I]);
+      WriteEnumeration(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(I), 'Priority']),
+        TypeInfo(TToDoPriority), TTokenInfo(FTokenList.Objects[I]).Priority);
     end;
     AppStorage.WriteInteger(BasePath+'\FileName Width',
-      ToDoWindow.PPIUnScale(TodoWindow.TodoView.Header.Columns[2].Width));
+      ToDoWindow.PPIUnScale(ToDoWindow.TodoView.Header.Columns[2].Width));
     AppStorage.WriteInteger(BasePath+'\Line Width',
-      ToDoWindow.PPIUnScale(TodoWindow.TodoView.Header.Columns[3].Width));
+      ToDoWindow.PPIUnScale(ToDoWindow.TodoView.Header.Columns[3].Width));
   end;
 end;
 
@@ -613,28 +596,28 @@ resourcestring
   SDoneTodoDesignation = 'Done';
 
 function TToDoWindow.ParseComment(const FileName, SComment, EComment,
-  TokenString: string; LineNumber: Integer) : TToDoInfo;
+  TokenString: string; LineNumber: Integer): TToDoInfo;
 var
-  i, j, k, n, m, TokenPos, NextCharPos: Integer;
+  I, J, K, N, M, TokenPos, NextCharPos: Integer;
   IsDoneTodoItem: Boolean;
   ParsingString: string;
   OptionChar: WideChar;
 begin
   // Token string is alread trimmed and without SComment
   Result := nil;
-  for i := 0 to FToDoExpert.FTokenList.Count - 1 do
+  for I := 0 to FToDoExpert.FTokenList.Count - 1 do
   begin
     if TokenString.StartsWith(
-      TTokenInfo(FToDoExpert.FTokenList.Objects[i]).Token, True) then
+      TTokenInfo(FToDoExpert.FTokenList.Objects[I]).Token, True) then
     begin
       // We found a token that looks like a TODO comment and is in the position 1.
-      n := 1;
+      N := 1;
       // Remove comment characters
       ParsingString := TokenString;
       TokenPos := 1;
 
       // The TODO token should be followed by a non-alphanumeric character
-      NextCharPos := TokenPos + Length(FToDoExpert.FTokenList[i]);
+      NextCharPos := TokenPos + Length(FToDoExpert.FTokenList[I]);
       if (NextCharPos <= Length(ParsingString)) and IsCharAlphaNumericW(ParsingString[NextCharPos]) then
         Continue;
 
@@ -642,28 +625,28 @@ begin
       Result := TToDoInfo.Create;
 
       // Remove token from string
-      Delete(ParsingString, 1, Length(FToDoExpert.FTokenList[i]));
+      Delete(ParsingString, 1, Length(FToDoExpert.FTokenList[I]));
       ParsingString := TrimRight(ParsingString);
 
       // Identify numeric priority (if there is one)
-      j := 0;
-      while j < Length(ParsingString) do
+      J := 0;
+      while J < Length(ParsingString) do
       begin
-        if not CharInSet(ParsingString[j + 1], [Char('0')..Char('9')]) then
+        if not CharInSet(ParsingString[J + 1], ['0'..'9']) then
           Break;
-        Inc(j);
+        Inc(J);
       end;
-      Result.NumericPriority := StrToIntDef(Copy(ParsingString, 1, j), 0);
-      Delete(ParsingString, 1, j);
+      Result.NumericPriority := StrToIntDef(Copy(ParsingString, 1, J), 0);
+      Delete(ParsingString, 1, J);
       ParsingString := TrimLeft(ParsingString);
 
       IsDoneTodoItem := (WideCaseInsensitivePos(SDoneTodoDesignation, ParsingString) = 1);
 
       { zTODO -oTestCase: -cIssue <-- test case for colon }
       // Delete everything being with a possible trailing colon:
-      j := Pos(WideChar(':'), ParsingString);
-      if j > 0 then
-        Delete(ParsingString, j, Length(ParsingString))
+      J := Pos(':', ParsingString);
+      if J > 0 then
+        Delete(ParsingString, J, Length(ParsingString))
       else
         ParsingString := '';
 
@@ -680,7 +663,7 @@ begin
           <-- Multiline test }
       // Identify owner of TODO item (-o)
       // Identify class of TODO item (-c)
-      while Pos(WideChar('-'), ParsingString) > 0 do
+      while Pos('-', ParsingString) > 0 do
       begin
         if Length(ParsingString) > 1 then
         begin
@@ -691,20 +674,20 @@ begin
           Break;
 
         // Find char immediately preceding the next option switch
-        j := Pos('-', ParsingString) - 1;
-        if j > 0 then
-          k := j
+        J := Pos('-', ParsingString) - 1;
+        if J > 0 then
+          K := J
         else
-          k := Length(ParsingString);
+          K := Length(ParsingString);
 
         case OptionChar of
-          'O': Result.Owner := Trim(Copy(ParsingString, 1, k));
-          'C': Result.ToDoClass := Trim(Copy(ParsingString, 1, k));
+          'O': Result.Owner := Trim(Copy(ParsingString, 1, K));
+          'C': Result.ToDoClass := Trim(Copy(ParsingString, 1, K));
         end;
 
         // Delete everything up to, but not including, the
         // next option switch
-        Delete(ParsingString, 1, j);
+        Delete(ParsingString, 1, J);
       end;
 
       Result.Raw := TokenString;
@@ -712,27 +695,27 @@ begin
       if IsDoneTodoItem then
         Result.Priority := tpDone
       else
-        Result.Priority := TTokenInfo(FToDoExpert.FTokenList.Objects[i]).Priority;
+        Result.Priority := TTokenInfo(FToDoExpert.FTokenList.Objects[I]).Priority;
 
       if not FToDoExpert.FShowTokens then begin
-        n := n + Length(FToDoExpert.FTokenList[i]);
+        N := N + Length(FToDoExpert.FTokenList[I]);
         // Do not show anything up to ':'
-        n := Max(n, Pos(':', TokenString)+1);
+        N := Max(N, Pos(':', TokenString)+1);
       end;
       if EComment <> '' then // Trim end-comment token.
-        m := WideCaseInsensitivePos(EComment, TokenString) - 1
+        M := WideCaseInsensitivePos(EComment, TokenString) - 1
       else
-        m := Length(TokenString);
-      if m < 1 then
-        m := Length(TokenString);
+        M := Length(TokenString);
+      if M < 1 then
+        M := Length(TokenString);
       // Prevent multi-line to do notes
-      j := Pos(WideChar(#13), TokenString);
-      k := Pos(WideChar(#10), TokenString);
-      if j = 0 then j := 999999;
-      if k = 0 then k := 999999;
-      m := Min(m, Min(j, k));
+      J := Pos(#$000D, TokenString);
+      K := Pos(#$000A, TokenString);
+      if J = 0 then J := 999999;
+      if K = 0 then K := 999999;
+      M := Min(M, Min(J, K));
       // The +1 is necessary to match IDE's line numbering
-      Result.Display := Trim(Copy(TokenString, n, (m - n) + 1));
+      Result.Display := Trim(Copy(TokenString, N, (M - N) + 1));
       Result.LineNo := LineNumber;
       Result.FileName := FileName;
       FDataList.Add(Result);
@@ -743,13 +726,13 @@ begin
 end;
 
 procedure TToDoWindow.LoadFile(const FileName: string);
-Var
-  SourceCode : TStringList;
-  Editor : IEditor;
-  i, Index : integer;
-  TokenString : string;
-  Info, OldInfo : TToDoInfo;
-  PStart : PWideChar;
+var
+  SourceCode: TStringList;
+  Editor: IEditor;
+  I, Index: Integer;
+  TokenString: string;
+  Info, OldInfo: TToDoInfo;
+  PStart: PWideChar;
 begin
   SourceCode := TStringList.Create;
   try
@@ -762,14 +745,14 @@ begin
     end;
 
     // scan source code
-    i := 0;
+    I := 0;
     OldInfo := nil;
-    while i < SourceCode.Count do begin
-      TokenString := SourceCode[i];
+    while I < SourceCode.Count do begin
+      TokenString := SourceCode[I];
       PStart := StrScan(PWideChar(TokenString), '#');
       if Assigned(PStart) then begin
         if Assigned(OldInfo) then begin
-          if TrimLeft(TokenString)[1] <> WideChar('#') then
+          if TrimLeft(TokenString)[1] <> '#' then
             OldInfo := nil;  // it is not a multiline comments
         end;
 
@@ -777,7 +760,7 @@ begin
         TokenString := Copy(TokenString, Index + 1, MaxInt);  // We delete the #
         TokenString := Trim(TokenString);
 
-        Info := ParseComment(FileName, '#', '', Tokenstring, i);
+        Info := ParseComment(FileName, '#', '', TokenString, I);
         if Assigned(Info) then begin
           OldInfo := Info;
         end else if Assigned(OldInfo) then
@@ -785,7 +768,7 @@ begin
           OldInfo.Display := OldInfo.Display + ' ' + TokenString;
       end else
         OldInfo := nil;
-      Inc(i);
+      Inc(I);
     end;
   finally
     SourceCode.Free;
@@ -823,7 +806,7 @@ begin
     end
     else
       actEditGoto.Enabled := False;
-    fAbortSignalled := True;
+    FAbortSignalled := True;
     actFileRefresh.Enabled := True;
     actFileAbort.Enabled := False;
   end;
@@ -844,14 +827,14 @@ end;
 procedure TToDoWindow.EnumerateFilesByDirectory;
 var
   PreCallback: TDirectoryWalkProc;
-  Paths : string;
+  Paths: string;
 begin
-  Paths := StringReplace(FToDoExpert.FDirsToScan, SLineBreak, ';', [rfReplaceAll]);
+  Paths := StringReplace(FToDoExpert.FDirsToScan, sLineBreak, ';', [rfReplaceAll]);
   if Paths[Length(Paths)] = ';' then
     Delete(Paths, Length(Paths), 1);
-  PreCallBack := GetPreCallBack();
+  PreCallback := GetPreCallback();
   WalkThroughDirectories(Paths,
-    PyIDEOptions.PythonFileExtensions, PreCallBack,
+    PyIDEOptions.PythonFileExtensions, PreCallback,
     FToDoExpert.FRecurseDirScan);
 end;
 
@@ -864,14 +847,13 @@ begin
     else
       Result := False;
     var FileName := Editor.FileId;
-    // Application.ProcessMessages; // dangerous the user may close files
     LoadFile(FileName);
   end);
 end;
 
-function ProcessProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
+function ProcessProjectFile(Node: TAbstractProjectNode; Data: Pointer): Boolean;
 var
-  FileName : string;
+  FileName: string;
 begin
    if TToDoWindow(Data).FAbortSignalled then begin
      Result := True;
@@ -880,10 +862,10 @@ begin
      Application.ProcessMessages;
      Result := False;
    end;
-   if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') then begin
+   if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') then
+   begin
      FileName := GI_PyIDEServices.ReplaceParams(TProjectFileNode(Node).FileName);
-     if GI_PyIDEServices.FileIsPythonSource(FileName)
-     then
+     if GI_PyIDEServices.FileIsPythonSource(FileName) then
        TToDoWindow(Data).LoadFile(FileName);
    end;
 end;
@@ -903,12 +885,11 @@ begin
   end;
   if CanActuallyFocus(ToDoView) then
     ToDoView.SetFocus;
-  //PostMessage(ToDoView.Handle, WM_SETFOCUS, 0, 0);
 end;
 
 procedure TToDoWindow.TodoViewKeyPress(Sender: TObject; var Key: Char);
 begin
-  if key = #13 then begin
+  if Key = #13 then begin
     actEditGotoExecute(Self);
     Key := #0;
   end;
@@ -916,13 +897,13 @@ end;
 
 procedure TToDoWindow.ToDoViewShortenString(Sender: TBaseVirtualTree;
   TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
-  const S: string; TextSpace: TDimension; var Result: string;
+  const Str: string; TextSpace: TDimension; var Result: string;
   var Done: Boolean);
 begin
   if Column = 2 then begin
-    Result := ShortenStringEx(TargetCanvas.Handle, S, TextSpace,
+    Result := ShortenStringEx(TargetCanvas.Handle, Str, TextSpace,
       Application.UseRightToLeftReading, sseFilePathMiddle);
-    Done := True
+    Done := True;
   end;
 end;
 
@@ -942,17 +923,17 @@ procedure TToDoWindow.ToDoViewInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
 begin
-  Assert(ParentNode = nil);
-  Assert(Integer(Node.Index) < fDataList.Count);
+  Assert(ParentNode = nil, 'ToDoViewShortenString');
+  Assert(Integer(Node.Index) < FDataList.Count, 'ToDoViewShortenString');
   PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo :=
-    fDataList[Node.Index] as TToDoInfo;
+    FDataList[Node.Index] as TToDoInfo;
 end;
 
 procedure TToDoWindow.ToDoViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
 begin
-  Assert(Integer(Node.Index) < fDataList.Count);
+  Assert(Integer(Node.Index) < FDataList.Count, 'ToDoViewGetText');
   with PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo do
     case Column of
       0:  CellText := '';
@@ -965,7 +946,6 @@ end;
 procedure TToDoWindow.ToDoViewHeaderClick(Sender: TVTHeader;
   HitInfo: TVTHeaderHitInfo);
 begin
-  inherited;
   if ToDoView.Header.SortColumn = HitInfo.Column then begin
     if ToDoView.Header.SortDirection = sdAscending then
       ToDoView.Header.SortDirection := sdDescending
@@ -984,7 +964,7 @@ procedure TToDoWindow.ToDoViewGetImageIndex(Sender: TBaseVirtualTree;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
   if (Kind in [ikNormal, ikSelected]) and (Column = 0) then begin
-    Assert(Integer(Node.Index) < fDataList.Count);
+    Assert(Integer(Node.Index) < FDataList.Count, 'ToDoViewGetImageIndex');
     with PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo do
       if Priority = tpMed then
         ImageIndex := -1
@@ -1001,12 +981,12 @@ end;
 
 procedure TToDoWindow.ToDoViewCompareNodes(Sender: TBaseVirtualTree; Node1,
   Node2: PVirtualNode; Column: TColumnIndex; var Result: Integer);
-Var
-  ToDoInfo1, ToDoInfo2 : TTodoInfo;
+var
+  ToDoInfo1, ToDoInfo2: TToDoInfo;
 begin
-  Assert(Assigned(Node1) and Assigned(Node2));
-  ToDoInfo1 := PToDoRec(TodoView.GetNodeData(Node1))^.ToDoInfo;
-  ToDoInfo2 := PToDoRec(TodoView.GetNodeData(Node2))^.ToDoInfo;
+  Assert(Assigned(Node1) and Assigned(Node2), 'ToDoViewCompareNodes');
+  ToDoInfo1 := PToDoRec(ToDoView.GetNodeData(Node1))^.ToDoInfo;
+  ToDoInfo2 := PToDoRec(ToDoView.GetNodeData(Node2))^.ToDoInfo;
   case Column of
     -1: Result := 0;
     0: Result := Ord(ToDoInfo1.Priority) - Ord(ToDoInfo2.Priority);

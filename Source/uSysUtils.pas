@@ -65,9 +65,9 @@ function Execute(const CommandLine: string; AbortEvent: TJclEvent;
   ProcessPriority: TJclProcessPriority = ppNormal; AutoConvertOem: Boolean = False): Cardinal; overload;
 
 (* Oveloads with different defaults than Jcl (mainly RawOuput is True) *)
-function ExecuteCmd(Command : string; out CmdOutput: string): Cardinal; overload;
+function ExecuteCmd(Command: string; out CmdOutput: string): Cardinal; overload;
 (* Ignores Error output *)
-function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): Cardinal; overload;
+function ExecuteCmd(Command: string; out CmdOutput, CmdError: string): Cardinal; overload;
 
 type
   TJclExecuteCmdProcessOptionBeforeResumeEvent =
@@ -103,6 +103,8 @@ type
     function GetEnvironment: TStrings;
     procedure SetEnvironment(const Value: TStrings);
   public
+    constructor Create(const ACommandLine: string);
+    destructor Destroy; override;
     // in:
     property CommandLine: string read FCommandLine write FCommandLine;
     property AbortPtr: PBoolean read FAbortPtr write FAbortPtr;
@@ -131,9 +133,6 @@ type
     property ExitCode: Cardinal read FExitCode;
     property Output: string read FOutput;
     property Error: string read FError;
-  public
-    constructor Create(const ACommandLine: string);
-    destructor Destroy; override;
   end;
 
 function ExecuteCmdProcess(Options: TJclExecuteCmdProcessOptions): Boolean;
@@ -151,7 +150,7 @@ function TerminateProcessTree(ProcessID: DWORD): Boolean;
 
   function GetChildrenProcesses(const Process: DWORD; const IncludeParent: Boolean): TProcessArray;
   var
-    Snapshot: Cardinal;
+    Snapshot: THandle;
     ProcessList: PROCESSENTRY32;
     Current: Integer;
   begin
@@ -169,7 +168,7 @@ function TerminateProcessTree(ProcessID: DWORD): Boolean;
           SetLength(Result, Length(Result) + 1);
           Result[Length(Result) - 1] := ProcessList.th32ProcessID;
         end;
-      until Process32Next(Snapshot, ProcessList) = False;
+      until Process32Next(Snapshot, ProcessList);
       Inc(Current);
     until Current >= Length(Result);
     if not IncludeParent then
@@ -186,14 +185,14 @@ begin
   for I := Length(List) - 1 downto 0 do
     if Result then
     begin
-      Handle := OpenProcess(PROCESS_TERMINATE, false, List[I]);
+      Handle := OpenProcess(PROCESS_TERMINATE, False, List[I]);
       Result := (Handle <> 0) and
         TerminateProcess(Handle, Cardinal(ABORT_EXIT_CODE)) and
         CloseHandle(Handle);
     end;
 end;
 
-function CtrlHandler(fdwCtrlType : DWORD): LongBool; stdcall;
+function CtrlHandler(fdwCtrlType: DWORD): LongBool; stdcall;
 begin
   Result := True;
 end;
@@ -219,7 +218,7 @@ begin
 end;
 
 // memory initialization
-procedure ResetMemory(out P; Size: Longint);
+procedure ResetMemory(out P; Size: LongInt);
 begin
   if Size > 0 then
   begin
@@ -304,7 +303,7 @@ procedure InternalExecuteProcessBuffer(var PipeInfo: TPipeInfo; PipeBytesRead: C
 var
   CR, LF: Integer;
   LineLen, Len: Integer;
-  S: AnsiString;
+  Buf: AnsiString;
 begin
   if Assigned(PipeInfo.BufferHandler) then
   begin
@@ -321,8 +320,8 @@ begin
   end
   else
   begin
-    SetString(S, PAnsiChar(PipeInfo.Buffer), PipeBytesRead); // interpret as ANSI
-    PipeInfo.Line := PipeInfo.Line + string(S); // ANSI => UNICODE
+    SetString(Buf, PAnsiChar(PipeInfo.Buffer), PipeBytesRead); // interpret as ANSI
+    PipeInfo.Line := PipeInfo.Line + string(Buf); // ANSI => UNICODE
   end;
   if Assigned(PipeInfo.TextHandler) then
     repeat
@@ -436,7 +435,8 @@ begin
   // and thread id in the name of the pipe.
   // This was found to happen while simply starting 7 instances
   // of the same exe file in parallel.
-  PipeName := Format('\\.\Pipe\AsyncAnonPipe.%.8x.%.8x.%.8x', [GetCurrentProcessId, GetCurrentThreadId, AsyncPipeCounter]);
+  PipeName := Format('\\.\Pipe\AsyncAnonPipe.%.8x.%.8x.%.8x',
+    [GetCurrentProcessId, GetCurrentThreadId, AsyncPipeCounter]);
 
   PipeReadHandle := CreateNamedPipe(PChar(PipeName), PIPE_ACCESS_INBOUND or FILE_FLAG_OVERLAPPED,
       PIPE_TYPE_BYTE or PIPE_WAIT, 1, nSize, nSize, 120 * 1000, lpPipeAttributes);
@@ -503,7 +503,7 @@ begin
     Options.FExitCode := GetLastError;
     Exit;
   end;
-  if not  DuplicateHandle(GetCurrentProcess, InputWritetmp, GetCurrentProcess,
+  if not  DuplicateHandle(GetCurrentProcess, InputWriteTmp, GetCurrentProcess,
     @InWritePipe, 0, False, DUPLICATE_SAME_ACCESS or DUPLICATE_CLOSE_SOURCE) then
   begin
     SafeCloseHandle(InReadPipe);
@@ -543,7 +543,8 @@ begin
       OutPipeInfo.Event.Free;
       Exit;
     end;
-    ErrorPipeInfo.Event := TJclEvent.Create(@SecurityAttr, False {automatic reset}, False {not flagged}, '' {anonymous});
+    ErrorPipeInfo.Event := TJclEvent.Create(@SecurityAttr,
+      False {automatic reset}, False {not flagged}, '' {anonymous});
   end;
 
   ResetMemory(StartupInfo, SizeOf(TStartupInfo));
@@ -684,7 +685,7 @@ begin
         SafeCloseHandle(ProcessInfo.hThread);
         if OutPipeInfo.PipeRead <> 0 then
           // read data remaining in output pipe
-          InternalExecuteFlushPipe(OutPipeinfo, OutOverlapped);
+          InternalExecuteFlushPipe(OutPipeInfo, OutOverlapped);
         if not Options.MergeError and (ErrorPipeInfo.PipeRead <> 0) then
           // read data remaining in error pipe
           InternalExecuteFlushPipe(ErrorPipeInfo, ErrorOverlapped);
@@ -865,16 +866,14 @@ begin
 end;
 
 
-function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): Cardinal; overload;
-Var
-  ProcessOptions : TJclExecuteCmdProcessOptions;
+function ExecuteCmd(Command: string; out CmdOutput, CmdError: string): Cardinal; overload;
 begin
-  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
+  var ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
   try
     ProcessOptions.MergeError := False;
     ProcessOptions.RawOutput := True;
     ProcessOptions.RawError := True;
-    ProcessOptions.AutoConvertOEM := False;
+    ProcessOptions.AutoConvertOem := False;
     ProcessOptions.CreateProcessFlags :=
       ProcessOptions.CreateProcessFlags or
        CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;
@@ -887,8 +886,8 @@ begin
   end;
 end;
 
-function ExecuteCmd(Command : string; out CmdOutput: string): Cardinal; overload;
-Var
+function ExecuteCmd(Command: string; out CmdOutput: string): Cardinal; overload;
+var
   CmdError: string;
 begin
   Result := ExecuteCmd(Command, CmdOutput, CmdError);

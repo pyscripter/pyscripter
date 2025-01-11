@@ -3,18 +3,13 @@ unit frmUnitTests;
 interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
+  Winapi.Windows,
+  Winapi.Messages,
   System.UITypes,
   System.ImageList,
   System.Actions,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ImgList,
@@ -33,7 +28,6 @@ uses
   TB2Dock,
   TB2Toolbar,
   SpTBXDkPanels,
-  SpTBXControls,
   SpTBXItem,
   SpTBXSkins,
   uEditAppIntfs,
@@ -110,9 +104,11 @@ type
     procedure actRefreshExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
-    { Private declarations }
-    TestClasses : TStringList;
-    TestSuite, TestResult : Variant;
+    TestClasses: TStringList;
+    TestSuite, TestResult: Variant;
+    Status: TUnitTestWindowStatus;
+    TestsRun, TestsFailed, TestErrors: Integer;
+    ElapsedTime: Double;
   // IUnitTestServices implementaton
     procedure StartTest(Test: Variant);
     procedure StopTest(Test: Variant);
@@ -124,12 +120,9 @@ type
     procedure UpdateActions; override;
   public
     { Public declarations }
-    Status : TUnitTestWindowStatus;
-    TestsRun, TestsFailed, TestErrors : integer;
-    ElapsedTime : double;
     procedure ClearAll;
-    function SelectedTestCount : integer;
-    function FindTestNode(Test : Variant) : PVirtualNode;
+    function SelectedTestCount: Integer;
+    function FindTestNode(Test: Variant): PVirtualNode;
   end;
 
 var
@@ -138,7 +131,11 @@ var
 implementation
 
 uses
+  System.SysUtils,
   System.StrUtils,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Dialogs,
   Vcl.Themes,
   JvJVCLUtils,
   JvGnugettext,
@@ -146,8 +143,6 @@ uses
   VarPyth,
   StringResources,
   uCommonFunctions,
-  cPyBaseDebugger,
-  cPyDebugger,
   cPyControl,
   dmResources;
 
@@ -155,32 +150,32 @@ uses
 
 { Indexes of the color images used in the test tree and failure list }
 
-Type
+type
   TTestStatus = (tsNotRun, tsRunning, tsRun, tsFailed, tsError);
 
   PNodeDataRec = ^TNodeDataRec;
   TNodeDataRec = record
   end;
 
-Const
+const
   FoundTestsLabel = 'Found %d test%s';
   RunTestsLabel = 'Ran %d test%s%s';
   ElapsedTimeFormat = ' in %.3fs';
-  FailuresLabel = 'Failures/Errors : %d/%d';
+  FailuresLabel = 'Failures/Errors: %d/%d';
 { TUnitTestWindow }
 
 procedure TUnitTestWindow.actRefreshExecute(Sender: TObject);
-Var
+var
   Py: IPyEngineAndGIL;
-  i, j, Index : integer;
-  Editor : IEditor;
+  Index: Integer;
+  Editor: IEditor;
   UnitTest, Module, InnerTestSuite,
-  TestCase : Variant;
-  ClassName, TestName : string;
-  SL : TStringList;
-  Cursor : IInterface;
-  PyTestCase : PPyObject;
-  TestCount : integer;
+  TestCase: Variant;
+  ClassName, TestName: string;
+  SL: TStringList;
+  Cursor: IInterface;
+  PyTestCase: PPyObject;
+  TestCount: Integer;
 begin
   Py := SafePyEngine;
   ClearAll;
@@ -198,13 +193,13 @@ begin
     //  each of which contains TestCases corresponding to
     //  a TestCase class in the module!!!
     TestCount := 0;
-    for i := 0 to Len(TestSuite._tests) - 1 do begin
-      InnerTestSuite := TestSuite._tests.__getitem__(i);
-      for j := 0 to Len(InnerTestSuite._tests) - 1 do begin
-        TestCase := InnerTestSuite._tests.__getitem__(j);
+    for var I := 0 to len(TestSuite._tests) - 1 do begin
+      InnerTestSuite := TestSuite._tests.__getitem__(I);
+      for var J := 0 to len(InnerTestSuite._tests) - 1 do begin
+        TestCase := InnerTestSuite._tests.__getitem__(J);
         //  set the TestStatus
         TestCase.testStatus := Ord(tsNotRun);
-        TestCase.errMsg := string('');
+        TestCase.errMsg := '';
         TestCase.enabled := True;
         ClassName := PyControl.ActiveInterpreter.GetObjectType(TestCase);
         Index := TestClasses.IndexOf(ClassName);
@@ -269,19 +264,18 @@ end;
 procedure TUnitTestWindow.ClearAll;
 var
   Py: IPyEngineAndGIL;
-  i, j : integer;
-  SL : TStringList;
-  PyTestCase : PPyObject;
+  SL: TStringList;
+  PyTestCase: PPyObject;
 begin
   UnitTests.Clear;
   if (TestClasses.Count > 0) or VarIsPython(TestSuite) then
   begin
     Py := SafePyEngine;
 
-    for i := 0 to TestClasses.Count - 1 do begin
-      SL := TStringList(TestClasses.Objects[i]);
-      for j := 0 to SL.Count - 1 do begin
-        PyTestCase := PPyObject(SL.Objects[j]);
+    for var I := 0 to TestClasses.Count - 1 do begin
+      SL := TStringList(TestClasses.Objects[I]);
+      for var J := 0 to SL.Count - 1 do begin
+        PyTestCase := PPyObject(SL.Objects[J]);
         Py.PythonEngine.Py_XDECREF(PyTestCase);
       end;
       SL.Free;
@@ -314,7 +308,7 @@ begin
     if TStringList(TestClasses.Objects[Node.Index]).Count > 0 then
       InitialStates := [ivsHasChildren, ivsExpanded]
     else
-      InitialStates := []
+      InitialStates := [];
   end else begin
     Node.CheckType := ctCheckBox;
     InitialStates := [];
@@ -338,16 +332,16 @@ begin
   if UnitTests.GetNodeLevel(Node) = 0 then
     CellText := TestClasses[Node.Index]
   else
-    CellText := TStringList(TestClasses.Objects[Node.Parent.Index])[Node.Index]
+    CellText := TStringList(TestClasses.Objects[Node.Parent.Index])[Node.Index];
 end;
 
 procedure TUnitTestWindow.UnitTestsGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
-  PyTestCase, PytestStatus : PPyObject;
+  PyTestCase, PytestStatus: PPyObject;
 begin
-  if not (Kind in [ikNormal, ikSelected]) then exit;
+  if not (Kind in [ikNormal, ikSelected]) then Exit;
   if UnitTests.GetNodeLevel(Node) = 0 then begin
     if vsExpanded in Node.States then
       ImageIndex := 6
@@ -367,8 +361,8 @@ procedure TUnitTestWindow.UnitTestsGetHint(Sender: TBaseVirtualTree;
   var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: string);
 var
   Py: IPyEngineAndGIL;
-  PyTestCase : PPyObject;
-  TestCase : Variant;
+  PyTestCase: PPyObject;
+  TestCase: Variant;
 begin
   HintText := '';
   Py := SafePyEngine;
@@ -401,8 +395,8 @@ begin
 end;
 
 procedure TUnitTestWindow.actSelectAllExecute(Sender: TObject);
-Var
-  Node : PVirtualNode;
+var
+  Node: PVirtualNode;
 begin
    Node := UnitTests.RootNode^.FirstChild;
    while Assigned(Node) do begin
@@ -412,8 +406,8 @@ begin
 end;
 
 procedure TUnitTestWindow.actDeselectAllExecute(Sender: TObject);
-Var
-  Node : PVirtualNode;
+var
+  Node: PVirtualNode;
 begin
    Node := UnitTests.RootNode^.FirstChild;
    while Assigned(Node) do begin
@@ -425,7 +419,7 @@ end;
 procedure TUnitTestWindow.actSelectFailedExecute(Sender: TObject);
 var
  Py: IPyEngineAndGIL;
- ClassNode, TestCaseNode : PVirtualNode;
+ ClassNode, TestCaseNode: PVirtualNode;
 begin
   actDeselectAllExecute(Sender);
 
@@ -456,13 +450,13 @@ begin
 end;
 
 procedure TUnitTestWindow.actRunExecute(Sender: TObject);
-Var
+var
   Py: IPyEngineAndGIL;
-  UnitTestModule, TempTestSuite : Variant;
-  PyTestCase : PPyObject;
-  TestCase : Variant;
-  ClassNode, TestCaseNode : PVirtualNode;
-  StartTime, StopTime, Freq : Int64;
+  UnitTestModule, TempTestSuite: Variant;
+  PyTestCase: PPyObject;
+  TestCase: Variant;
+  ClassNode, TestCaseNode: PVirtualNode;
+  StartTime, StopTime, Freq: Int64;
 begin
   // Only allow when PyControl.ActiveDebugger is inactive
   if not GI_PyControl.Inactive then Exit;
@@ -481,7 +475,7 @@ begin
         PPyObject(TStringList(TestClasses.Objects[TestCaseNode.Parent.Index]).Objects[TestCaseNode.Index]);
       TestCase := VarPythonCreate(PyTestCase);
       TestCase.testStatus := Ord(tsNotRun);
-      TestCase.errMsg := string('');
+      TestCase.errMsg := '';
       if TestCase.enabled then
         TempTestSuite._tests.append(TestCase);
       TestCaseNode := TestCaseNode.NextSibling;
@@ -501,7 +495,7 @@ begin
   PyControl.DebuggerState := dsRunning;
   Application.ProcessMessages;
 
-  TestResult := PyControl.ActiveInterpreter.UnitTestResult();
+  TestResult := PyControl.ActiveInterpreter.UnitTestResult;
   try
     QueryPerformanceCounter(StartTime);
     TempTestSuite.run(TestResult);
@@ -524,8 +518,8 @@ end;
 
 procedure TUnitTestWindow.AddFailure(Test, Err: Variant);
 // Called from IDETestResult
-Var
-  TestCaseNode : PVirtualNode;
+var
+  TestCaseNode: PVirtualNode;
 begin
   Test.testStatus := Ord(tsFailed);
   Test.errMsg := Err;
@@ -541,8 +535,8 @@ end;
 
 procedure TUnitTestWindow.AddSuccess(Test: Variant);
 // Called from IDETestResult
-Var
-  TestCaseNode : PVirtualNode;
+var
+  TestCaseNode: PVirtualNode;
 begin
   Test.testStatus := Ord(tsRun);
   TestCaseNode := FindTestNode(Test);
@@ -563,8 +557,8 @@ end;
 
 procedure TUnitTestWindow.StartTest(Test: Variant);
 // Called from IDETestResult
-Var
-  TestCaseNode : PVirtualNode;
+var
+  TestCaseNode: PVirtualNode;
 begin
   Test.testStatus := Ord(tsRunning);
   TestCaseNode := FindTestNode(Test);
@@ -577,8 +571,8 @@ end;
 
 procedure TUnitTestWindow.AddError(Test, Err: Variant);
 // Called from IDETestResult
-Var
-  TestCaseNode : PVirtualNode;
+var
+  TestCaseNode: PVirtualNode;
 begin
   Test.testStatus := Ord(tsError);
   Test.errMsg := Err;
@@ -593,10 +587,10 @@ begin
 end;
 
 function TUnitTestWindow.FindTestNode(Test: Variant): PVirtualNode;
-Var
-  PyTestCase : PPyObject;
-  TestCase : Variant;
-  ClassNode, TestCaseNode : PVirtualNode;
+var
+  PyTestCase: PPyObject;
+  TestCase: Variant;
+  ClassNode, TestCaseNode: PVirtualNode;
 begin
   Result := nil;
   ClassNode := UnitTests.RootNode^.FirstChild;
@@ -638,9 +632,9 @@ begin
   ClearAll;
 end;
 
-function TUnitTestWindow.SelectedTestCount: integer;
-Var
-  ClassNode, TestCaseNode : PVirtualNode;
+function TUnitTestWindow.SelectedTestCount: Integer;
+var
+  ClassNode, TestCaseNode: PVirtualNode;
 begin
   Result := 0;
   ClassNode := UnitTests.RootNode^.FirstChild;
@@ -656,8 +650,8 @@ begin
 end;
 
 procedure TUnitTestWindow.UpdateActions;
-Var
-  Count : integer;
+var
+  Count: Integer;
 begin
   Count := SelectedTestCount;
 
@@ -702,12 +696,12 @@ end;
 procedure TUnitTestWindow.UnitTestsDblClick(Sender: TObject);
 var
   Py: IPyEngineAndGIL;
-  InspectModule : Variant;
-  Node : PVirtualNode;
-  PyTestCase : PPyObject;
-  TestCase, PythonObject : Variant;
-  FileName, TestName : string;
-  NodeLevel, LineNo : integer;
+  InspectModule: Variant;
+  Node: PVirtualNode;
+  PyTestCase: PPyObject;
+  TestCase, PythonObject: Variant;
+  FileName, TestName: string;
+  NodeLevel, LineNo: Integer;
 begin
   Node := UnitTests.HotNode;
   if Assigned(Node) then begin
@@ -721,15 +715,19 @@ begin
     TestCase := VarPythonCreate(PyTestCase);
     if NodeLevel = 0 then
       PythonObject := TestCase.__class__
-    else begin
+    else
+    begin
       TestName := TestCase._testMethodName;
       PythonObject := BuiltinModule.getattr(TestCase, TestName);
     end;
-    if VarIsPython(PythonObject) then begin
+    if VarIsPython(PythonObject) then
+    begin
       InspectModule := PyControl.ActiveInterpreter.EvalCode('__import__("inspect")');
-      if InspectModule.ismethod(PythonObject) then begin
+      if InspectModule.ismethod(PythonObject) then
+      begin
         FileName := InspectModule.getsourcefile(PythonObject);
-        if FileName = 'None' then begin
+        if FileName = 'None' then
+        begin
           FileName := PythonObject.__func__.__code__.co_filename;
           if ExtractFileExt(FileName) <> '' then
             Exit;

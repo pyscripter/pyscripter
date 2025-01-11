@@ -47,8 +47,7 @@ unit frmFunctionList;
 interface
 
 uses
-  WinApi.Messages,
-  WinApi.Windows,
+  Winapi.Messages,
   System.Classes,
   System.Actions,
   System.ImageList,
@@ -61,9 +60,6 @@ uses
   Vcl.ExtCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
-  SpTBXControls,
-  Vcl.Graphics,
-  SpTBXEditors,
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
@@ -91,7 +87,6 @@ type
     property ProcIndex: Integer read FProcIndex write FProcIndex;
   end;
 
-type
   TFunctionListWindow = class(TPyIDEDlgBase)
     pnHolder: TPanel;
     pnlHeader: TPanel;
@@ -126,7 +121,7 @@ type
     SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     RightStatusLabel: TSpTBXLabelItem;
-    lvProcs: TListview;
+    lvProcs: TListView;
     vilCodeImages: TVirtualImageList;
     vilImages: TVirtualImageList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -176,20 +171,19 @@ implementation
 {$R *.dfm}
 
 uses
+  Winapi.Windows,
   System.Generics.Collections,
   System.SysUtils,
   System.StrUtils,
   System.Math,
   System.IOUtils,
   System.JSON,
+  Vcl.Graphics,
   Vcl.Clipbrd,
   JvJVCLUtils,
-  JvGnuGetText,
-  SynEditTypes,
+  JvGnugettext,
   dmResources,
   uEditAppIntfs,
-  SynEditLsp,
-  LspClient,
   LspUtils,
   JediLspClient,
   uCommonFunctions;
@@ -218,8 +212,8 @@ end;
 
 procedure TFunctionListWindow.LoadProcs;
 
-  procedure ProcessSymbol(Symbol : TJsonValue; const ParentClass: string);
-  Var
+  procedure ProcessSymbol(Symbol: TJSONValue; const ParentClass: string);
+  var
     ProcInfo: TProcInfo;
     LineNo,
     Char,
@@ -227,9 +221,9 @@ procedure TFunctionListWindow.LoadProcs;
     Name,
     KlassName: string;
   begin
-    if not (Symbol.TryGetValue<integer>('selectionRange.start.line', LineNo) and
-      Symbol.TryGetValue<integer>('selectionRange.start.character', Char) and
-      Symbol.TryGetValue<integer>('kind', Kind) and
+    if not (Symbol.TryGetValue<Integer>('selectionRange.start.line', LineNo) and
+      Symbol.TryGetValue<Integer>('selectionRange.start.character', Char) and
+      Symbol.TryGetValue<Integer>('kind', Kind) and
       Symbol.TryGetValue<string>('name', Name))
     then
       Exit;
@@ -253,22 +247,22 @@ procedure TFunctionListWindow.LoadProcs;
         end;
     end;
 
-    if Symbol.P['children'] is TJsonArray then
+    if Symbol.P['children'] is TJSONArray then
     begin
-      var Children := TJsonArray(Symbol.P['children']);
+      var Children := TJSONArray(Symbol.P['children']);
       for var I := 0 to Children.Count - 1 do
-        ProcessSymbol(Children.Items[i], KlassName);
+        ProcessSymbol(Children[I], KlassName);
     end;
   end;
 
-  procedure ProcessSymbolArray(Symbols : TJsonArray);
+  procedure ProcessSymbolArray(Symbols: TJSONArray);
   begin
     for var I := 0 to Symbols.Count - 1 do
-      ProcessSymbol(Symbols.Items[I], '');
+      ProcessSymbol(Symbols[I], '');
   end;
 
 var
-  DocSymbols: TJsonArray;
+  DocSymbols: TJSONArray;
 begin
   Caption := Caption + ' - ' + TPath.GetFileName(FFileName);
   DocSymbols := TSmartPtr.Make(TJedi.DocumentSymbols(FFileName))();
@@ -298,7 +292,6 @@ end;
 
 procedure TFunctionListWindow.FillListBox;
 var
-  i: Integer;
   ProcName: string;
   IsObject: Boolean;
   ProcInfo: TProcInfo;
@@ -330,12 +323,14 @@ begin
     lvProcs.Items.Clear;
     if (Length(edtMethods.Text) = 0) and (cbxObjects.Text = SAllString) then
     begin
-      for i := 0 to FProcList.Count - 1 do
-        AddListItem(TProcInfo(FProcList.Objects[i]));
-    end else begin
-      for i := 0 to FProcList.Count - 1 do
+      for var I := 0 to FProcList.Count - 1 do
+        AddListItem(TProcInfo(FProcList.Objects[I]));
+    end
+    else
+    begin
+      for var I := 0 to FProcList.Count - 1 do
       begin
-        ProcInfo := TProcInfo(FProcList.Objects[i]);
+        ProcInfo := TProcInfo(FProcList.Objects[I]);
         IsObject := Length(ProcInfo.ProcClass) > 0;
 
         // Is it the object we want?
@@ -445,17 +440,14 @@ procedure TFunctionListWindow.QuickSort(L, R: Integer);
 resourcestring
   SInvalidIndex = 'Invalid index number';
 
-  function GetValue(idx: Integer): string;
-  var
-    i: Integer;
-    TabPos: Integer;
+  function GetValue(Idx: Integer): string;
   begin
-    if idx >= FProcList.Count then
+    if Idx >= FProcList.Count then
       raise Exception.Create(SInvalidIndex);
-    Result := FProcList.Strings[idx];
-    for i := 0 to FSortOnColumn - 1 do
+    Result := FProcList[Idx];
+    for var I := 0 to FSortOnColumn - 1 do
     begin
-      TabPos := Pos(#9, Result);
+      var TabPos := Pos(#9, Result);
       if TabPos > 0 then
         Delete(Result, 1, TabPos)
       else
@@ -463,49 +455,49 @@ resourcestring
     end;
     if FSortOnColumn = 2 then
     begin
-      for i := Length(Result) to 5 do
+      for var I := Length(Result) to 5 do
         Result := ' ' + Result;
     end;
   end;
 
 var
-  i, j: Integer;
-  P: string;
+  I, J: Integer;
+  Value: string;
 begin
   if FProcList.Count = 0 then
     Exit;
   repeat
-    i := L;
-    j := R;
-    P := GetValue((L + R) shr 1);
+    I := L;
+    J := R;
+    Value := GetValue((L + R) shr 1);
     repeat
-      while AnsiCompareText(GetValue(i), P) < 0 do
-        Inc(i);
-      while AnsiCompareText(GetValue(j), P) > 0 do
-        Dec(j);
-      if i <= j then
+      while AnsiCompareText(GetValue(I), Value) < 0 do
+        Inc(I);
+      while AnsiCompareText(GetValue(J), Value) > 0 do
+        Dec(J);
+      if I <= J then
       begin
-        FProcList.Exchange(i, j);
-        Inc(i);
-        Dec(j);
+        FProcList.Exchange(I, J);
+        Inc(I);
+        Dec(J);
       end;
-    until i > j;
-    if L < j then
-      QuickSort(L, j);
-    L := i;
-  until i >= R;
+    until I > J;
+    if L < J then
+      QuickSort(L, J);
+    L := I;
+  until I >= R;
 end;
 
 procedure TFunctionListWindow.lvProcsColumnClick(Sender: TObject; Column: TListColumn);
 var
-  i: Integer;
+  Idx: Integer;
   Cursor: IInterface;
 begin
-  i := Column.Index;
-  if i <> 0 then
+  Idx := Column.Index;
+  if Idx <> 0 then
   begin
     Cursor := WaitCursor;
-    FSortOnColumn := i;
+    FSortOnColumn := Idx;
     QuickSort(0, FProcList.Count - 1);
     FillListBox;
   end;
@@ -587,15 +579,14 @@ end;
 
 procedure TFunctionListWindow.actEditCopyExecute(Sender: TObject);
 var
-  i: Integer;
   Procs: TStringList;
   ProcInfo: TProcInfo;
 begin
   Procs := TStringList.Create;
   try
-    for i := 0 to lvProcs.Items.Count - 1 do
+    for var I := 0 to lvProcs.Items.Count - 1 do
     begin
-      ProcInfo := TProcInfo(lvProcs.Items[i].Data);
+      ProcInfo := TProcInfo(lvProcs.Items[I].Data);
       if ProcInfo <> nil then
         Procs.Add(Signature(ProcInfo));
     end;
@@ -665,22 +656,20 @@ begin
     ProcInfo := lvProcs.Selected.Data;
     if ProcInfo <> nil then
     begin
-      GI_PyIDEServices.ShowFilePosition(fFileName, ProcInfo.LineNo, 1);
+      GI_PyIDEServices.ShowFilePosition(FFileName, ProcInfo.LineNo, 1);
       ModalResult := mrOk;
     end;
   end;
 end;
 
 destructor TFunctionListWindow.Destroy;
-var
-  i: Integer;
 begin
   FreeAndNil(FObjectStrings);
 
   if FProcList <> nil then
   begin
-    for i := 0 to FProcList.Count - 1 do
-      FProcList.Objects[i].Free;
+    for var I := 0 to FProcList.Count - 1 do
+      FProcList.Objects[I].Free;
     FreeAndNil(FProcList);
   end;
 

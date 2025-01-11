@@ -11,22 +11,15 @@ unit frmVariables;
 interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
+  Winapi.Messages,
   System.UITypes,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
   System.Generics.Collections,
   Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.Menus,
-  Vcl.StdCtrls,
   Vcl.ExtCtrls,
-  Vcl.ComCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
   JvComponentBase,
@@ -35,8 +28,6 @@ uses
   SpTBXDkPanels,
   SpTBXSkins,
   SpTBXPageScroller,
-  SpTBXItem,
-  SpTBXControls,
   VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
   VirtualTrees.AncestorVCL,
@@ -44,7 +35,6 @@ uses
   VirtualTrees.HeaderPopup,
   VirtualTrees,
   SynEdit,
-  SynEditMiscClasses,
   frmIDEDockWin,
   cPyBaseDebugger;
 
@@ -81,8 +71,8 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   private
     { Private declarations }
-    CurrentModule, CurrentFunction : string;
-    GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
+    CurrentModule, CurrentFunction: string;
+    GlobalsNameSpace, LocalsNameSpace: TBaseNameSpaceItem;
     class var DebugInspectorsRegister: TDictionary<string, string>;
   protected
     const FBasePath = 'Variables Window Options'; // Used for storing settings
@@ -106,12 +96,15 @@ var
 implementation
 
 uses
-  WinApi.ShellAPI,
+  Winapi.Windows,
+  Winapi.ShellAPI,
+  System.SysUtils,
   System.Math,
   System.IOUtils,
+  Vcl.Dialogs,
   Vcl.Themes,
-  JvJVCLUtils,
   JvGnugettext,
+  SynEditMiscClasses,
   SynDWrite,
   StringResources,
   PythonEngine,
@@ -124,14 +117,14 @@ uses
   cPyScripterSettings;
 
 {$R *.dfm}
-Type
+type
   PNodeData = ^TNodeData;
   TNodeData = record
-    Name : string;
-    ObjectType : string;
-    Value : string;
-    ImageIndex : Integer;
-    NameSpaceItem : TBaseNameSpaceItem;
+    Name: string;
+    ObjectType: string;
+    Value: string;
+    ImageIndex: Integer;
+    NameSpaceItem: TBaseNameSpaceItem;
   end;
 
 procedure TVariablesWindow.FormCreate(Sender: TObject);
@@ -143,10 +136,10 @@ begin
 
   var FBoldIndicatorSpec := TSynIndicatorSpec.Create(sisTextDecoration,
     clNoneF, clNoneF, [fsBold]);
-  synInfo.Indicators.RegisterSpec(FBoldIndicatorId, FBoldIndicatorSpec);
+  synInfo.Indicators.RegisterSpec(FBoldIndicatorID, FBoldIndicatorSpec);
   var FItalicIndicatorSpec := TSynIndicatorSpec.Create(sisTextDecoration,
     clNoneF, clNoneF, [fsItalic]);
-  synInfo.Indicators.RegisterSpec(FItalicIndicatorId, FItalicIndicatorSpec);
+  synInfo.Indicators.RegisterSpec(FItalicIndicatorID, FItalicIndicatorSpec);
 end;
 
 procedure TVariablesWindow.VariablesTreeInitChildren(Sender: TBaseVirtualTree;
@@ -185,20 +178,20 @@ begin
   Py := SafePyEngine;
   if ParentNode = nil then begin
     // Top level
-    Assert(Node.Index <= 1);
+    Assert(Node.Index <= 1, 'VariablesTreeInitNode');
     if CurrentModule <> '' then begin
       if Node.Index = 0 then begin
-        Assert(Assigned(GlobalsNameSpace));
+        Assert(Assigned(GlobalsNameSpace), 'VariablesTreeInitNode');
         Data.NameSpaceItem := GlobalsNameSpace;
         InitialStates := [ivsHasChildren];
       end else if Node.Index = 1 then begin
-        Assert(Assigned(LocalsNameSpace));
+        Assert(Assigned(LocalsNameSpace), 'VariablesTreeInitNode');
         Data.NameSpaceItem := LocalsNameSpace;
         InitialStates := [ivsExpanded, ivsHasChildren];
       end;
     end else begin
-      Assert(Node.Index = 0);
-      Assert(Assigned(GlobalsNameSpace));
+      Assert(Node.Index = 0, 'VariablesTreeInitNode');
+      Assert(Assigned(GlobalsNameSpace), 'VariablesTreeInitNode');
       Data.NameSpaceItem := GlobalsNameSpace;
       InitialStates := [ivsExpanded, ivsHasChildren];
     end;
@@ -250,7 +243,7 @@ procedure TVariablesWindow.VariablesTreePaintText(Sender: TBaseVirtualTree;
   const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
   TextType: TVSTTextType);
 var
-  Data : PNodeData;
+  Data: PNodeData;
 begin
   Data := Node.GetData;
   if VariablesTree.Enabled and Assigned(Data) and Assigned(Data.NameSpaceItem) then
@@ -297,7 +290,7 @@ procedure TVariablesWindow.VariablesTreeGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
-  Data : PNodeData;
+  Data: PNodeData;
   Folder: string;
 begin
   Data := Node.GetData;
@@ -316,15 +309,15 @@ end;
 procedure TVariablesWindow.VariablesTreeGetCellText(
   Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 var
-  Data : PNodeData;
+  Data: PNodeData;
 begin
   Data := E.Node.GetData;
   if Assigned(Data) and Assigned(Data.NameSpaceItem) then
     case E.Column of
-      0 : E.CellText := Data.Name;
-      1 : E.CellText := Data.ObjectType;
-      2 : E.CellText := Data.Value;
-      3 : E.CellText := '';
+      0: E.CellText := Data.Name;
+      1: E.CellText := Data.ObjectType;
+      2: E.CellText := Data.Value;
+      3: E.CellText := '';
     end
   else
     E.CellText := 'NA';
@@ -333,12 +326,12 @@ end;
 procedure TVariablesWindow.UpdateWindow;
 var
   Py: IPyEngineAndGIL;
-  CurrentFrame : TBaseFrameInfo;
-  SameFrame : boolean;
-  RootNodeCount : Cardinal;
-  OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
+  CurrentFrame: TBaseFrameInfo;
+  SameFrame: Boolean;
+  RootNodeCount: Cardinal;
+  OldGlobalsNameSpace, OldLocalsNamespace: TBaseNameSpaceItem;
 begin
-  if ((PyControl.PythonEngineType = peSSH) and (PyIDEOptions.SSHDisableVariablesWin)) or
+  if ((PyControl.PythonEngineType = peSSH) and PyIDEOptions.SSHDisableVariablesWin) or
      not (GI_PyControl.PythonLoaded and
           Assigned(CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and
@@ -400,8 +393,8 @@ begin
   if (RootNodeCount > 0) and SameFrame and (RootNodeCount = VariablesTree.RootNodeCount) then begin
     if Assigned(GlobalsNameSpace) and Assigned(OldGlobalsNameSpace) then
       GlobalsNameSpace.CompareToOldItem(OldGlobalsNameSpace);
-    if Assigned(LocalsNameSpace) and Assigned(OldLocalsNameSpace) then
-      LocalsNameSpace.CompareToOldItem(OldLocalsNameSpace);
+    if Assigned(LocalsNameSpace) and Assigned(OldLocalsNamespace) then
+      LocalsNameSpace.CompareToOldItem(OldLocalsNamespace);
     VariablesTree.BeginUpdate;
     try
       // The following will Reinitialize only initialized nodes
@@ -416,7 +409,7 @@ begin
     VariablesTree.RootNodeCount := RootNodeCount;
   end;
   FreeAndNil(OldGlobalsNameSpace);
-  FreeAndNil(OldLocalsNameSpace);
+  FreeAndNil(OldLocalsNamespace);
 
   VariablesTree.TreeOptions.AnimationOptions :=
     VariablesTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
@@ -442,8 +435,8 @@ class constructor TVariablesWindow.Create;
     var SL := TSmartPtr.Make(TStringList.Create)();
     try
       SL.LoadFromFile(TPath.Combine(SubFolder, 'handled_classes.txt'));
-      for var S in SL do
-        DebugInspectorsRegister.TryAdd(S, SubFolder);
+      for var Klass in SL do
+        DebugInspectorsRegister.TryAdd(Klass, SubFolder);
     except
     end;
   end;
@@ -491,7 +484,7 @@ procedure TVariablesWindow.VariablesTreeAddToSelection(Sender: TBaseVirtualTree;
   var
     Indicator: TSynIndicator;
   begin
-    var Lines := S.Split([SLineBreak]);
+    var Lines := S.Split([sLineBreak]);
     for var I := 0 to Length(Lines) - 1 do
     begin
       if (I > 0) or (ASynEdit.Lines.Count = 0) then
@@ -511,7 +504,7 @@ procedure TVariablesWindow.VariablesTreeAddToSelection(Sender: TBaseVirtualTree;
           else
             Indicator := TSynIndicator.Create(FBoldIndicatorID,
               OldLine.Length + 1, OldLine.Length + Lines[I].Length + 1);
-           ASynEdit.Indicators.Add(ASynEdit.Lines.Count, Indicator)
+           ASynEdit.Indicators.Add(ASynEdit.Lines.Count, Indicator);
         end;
       end;
     end;
@@ -546,16 +539,16 @@ begin
       ObjectValue := Data.Value;
       DocString :=  Data.NameSpaceItem.DocString;
 
-      AddFormatText(synInfo, SLineBreak+_('Name')+': ', [fsBold]);
+      AddFormatText(synInfo, sLineBreak+_('Name')+': ', [fsBold]);
       AddFormatText(synInfo, ObjectName, [fsItalic]);
-      AddFormatText(synInfo, SLineBreak + _('Type') + ': ', [fsBold]);
+      AddFormatText(synInfo, sLineBreak + _('Type') + ': ', [fsBold]);
       AddFormatText(synInfo, ObjectType);
       if ObjectValue <> '' then begin
-        AddFormatText(synInfo, SLineBreak + _('Value') + ':' + SLineBreak, [fsBold]);
+        AddFormatText(synInfo, sLineBreak + _('Value') + ':' + sLineBreak, [fsBold]);
         AddFormatText(synInfo, ObjectValue);
       end;
-      AddFormatText(synInfo, SLineBreak + _('DocString') + ':' + SLineBreak, [fsBold]);
-      AddFormatText(synInfo, AdjustLineBreaks(Docstring, System.tlbsCRLF));
+      AddFormatText(synInfo, sLineBreak + _('DocString') + ':' + sLineBreak, [fsBold]);
+      AddFormatText(synInfo, AdjustLineBreaks(DocString, System.tlbsCRLF));
     end;
   finally
     synInfo.EndUpdate;

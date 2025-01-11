@@ -12,13 +12,10 @@ interface
 
 uses
   Winapi.Windows,
-  System.SysUtils,
   System.Classes,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.ExtCtrls,
   Vcl.Graphics,
-  JvHTControls,
+  JvHtControls,
   JvTypes;
 
 type
@@ -37,15 +34,15 @@ type
       const AHint: THintString; AData: Pointer): TRect; override;
     function ShouldHideHint: Boolean; override;
     procedure ActivateHintData(Rect: TRect; const AHint: string; AData: TCustomData); override;
-    class property HintFont: TFont read FHintFont write SetHintFont;
     class constructor Create;
     class destructor Destroy;
+    class property HintFont: TFont read FHintFont write SetHintFont;
   end;
 
 implementation
 
 uses
-  Winapi.Messages,
+  Vcl.Forms,
   System.Types,
   System.Math,
   Vcl.Themes,
@@ -107,7 +104,7 @@ function TCodeHintWindow.CalcHintRect(MaxWidth: Integer;
 begin
   HtLabel.Font.Assign(FHintFont);
   if Screen.ActiveCustomForm <> nil then
-    HtLabel.Font.Height := Muldiv(HtLabel.Font.Height,
+    HtLabel.Font.Height := MulDiv(HtLabel.Font.Height,
       Screen.ActiveCustomForm.CurrentPPI, Screen.PixelsPerInch);
 
   var LStyle := StyleServices;

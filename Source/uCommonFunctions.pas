@@ -9,37 +9,30 @@
 unit uCommonFunctions;
 
 interface
-Uses
+uses
   Winapi.Windows,
   System.Classes,
   System.SysUtils,
   System.Diagnostics,
-  System.RegularExpressionsAPI,
-  System.RegularExpressionsCore,
   System.RegularExpressions,
   Vcl.Controls,
   Vcl.ComCtrls,
   Vcl.Graphics,
-  Vcl.Forms,
   Vcl.Dialogs,
   SynEditTypes,
-  SynUnicode,
   SynEdit;
 
 const
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
   STracebackFilePosExpr =  '"\<?' + SFileExpr + '\>?", line (\d+)(, in ([\<\>\?\w]+))?';
   SWarningFilePosExpr = '\<?' +SFileExpr + '\>?:(\d+):';
-  WideLF = WideChar(#10);
-  WideNull = WideChar(#0);
-  AnsiLineFeed       = AnsiChar(#10);
-  AnsiCarriageReturn = AnsiChar(#13);
-  AnsiCrLf           = AnsiString(#13#10);
-  WordBreakString = ',.;:"�`�^!?&$@�%#~[](){}<>-=+*/\| ';
+  WideLF = #$000A;
+  WideNull = #$0000;
+  WordBreakString = ',.;:"´`°^!?&$@§%#~[](){}<>-=+*/\| ';
 
 (* returns the System ImageList index of the icon of a given file *)
 function GetIconIndexFromFile(const AFileName: string;
-  const ASmall: boolean): integer;
+  const ASmall: Boolean): Integer;
 
 (* returns long file name even for nonexisting files *)
 function GetLongFileName(const APath: string): string;
@@ -49,75 +42,75 @@ function GetLongFileName(const APath: string): string;
 function StrIsLeft(AText, ALeft: PWideChar): Boolean;
 
 (* returns next token - based on Classes.ExtractStrings *)
-function StrGetToken(var Content: PChar;
-  Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
+function StrGetToken(var Str: PChar; Separators, WhiteSpace,
+  QuoteChars: TSysCharSet): string;
 
 (* removes quotes to AText, if needed *)
 function StrUnQuote(const AText: string): string;
 
 (* Lighten a given Color by a certain percentage *)
-function LightenColor(Color:TColor; Percentage:integer):TColor;
+function LightenColor(Color: TColor; Percentage: Integer): TColor;
 
 (* Darken a given Color by a certain percentage *)
-function DarkenColor(Color:TColor; Percentage:integer):TColor;
+function DarkenColor(Color: TColor; Percentage: Integer):TColor;
 
 (* Get Exe File Version string *)
-function ApplicationVersion : string;
+function ApplicationVersion: string;
 
 (* Checks whether we are connected to the Internet *)
-function ConnectedToInternet : boolean;
+function ConnectedToInternet: Boolean;
 
 (* Extracts the nth line from a string *)
-function GetNthLine(const S : string; LineNo : integer) : string;
+function GetNthLine(const Str: string; LineNo: Integer): string;
 
 (* Extracts a range of lines from a string *)
-function GetLineRange(const S : string; StartLine, EndLine : integer;
-  HtmlBreaks: Boolean = False) : string;
+function GetLineRange(const Str: string; StartLine, EndLine: Integer;
+  HtmlBreaks: Boolean = False): string;
 
 (* Extracts a word from a string *)
 function GetWordAtPos(const LineText: string; Start: Integer;
-  AllowDot: boolean; ScanBackwards: boolean = True; ScanForward: boolean = True;
-  HandleBrackets: Boolean = False) : string;
+  AllowDot: Boolean; ScanBackwards: Boolean = True; ScanForward: Boolean = True;
+  HandleBrackets: Boolean = False): string;
 
 (* Format a doc string by removing left space and blank lines at start and bottom *)
-function FormatDocString(const DocString : string) : string;
+function FormatDocString(const DocString: string): string;
 
 (* check if a directory is a Python Package *)
-function DirIsPythonPackage(Dir : string): boolean;
+function DirIsPythonPackage(Dir: string): Boolean;
 
 (* check if a directory is a Python Package *)
-function FileIsPythonPackage(FileName : string): boolean;
+function FileIsPythonPackage(FileName: string): Boolean;
 
 (* Get Python Package Root directory *)
-function GetPackageRootDir(Dir : string): string;
+function GetPackageRootDir(const Dir: string): string;
 
 (* Python FileName to possibly dotted ModuleName accounting for packages *)
-function FileNameToModuleName(const FileName : string): string;
+function FileNameToModuleName(const FileName: string): string;
 
 (* Convert <  > to &lt; &gt; *)
-function HTMLSafe(const S : string): string;
+function HTMLSafe(const Str: string): string;
 
 (* Parses command line parameters *)
 // From Delphi's system.pas unit! Need to rewrite
 function GetParamStr(P: PChar; var Param: string): PChar;
 
 (* Parse a line for a Python encoding spec *)
-function ParsePySourceEncoding(Textline : string): string;
+function ParsePySourceEncoding(TextLine: string): string;
 
 (* Version of InputQuery that can be called from threads and executes in the main thread *)
 function SyncWideInputQuery(const ACaption, APrompt: string; var Value: string): Boolean;
 
 (* Covert all line breaks to #10 *)
-function CleanEOLs(S: AnsiString): AnsiString; overload;
-function CleanEOLs(S: string): string; overload;
+function CleanEOLs(Str: AnsiString): AnsiString; overload;
+function CleanEOLs(Str: string): string; overload;
 
 (* Similar to Delphi's IdentToInt but operating on sorted IdentMapEntries *)
-function SortedIdentToInt(const Ident: string; var Int: Longint;
+function SortedIdentToInt(const Ident: string; var Int: LongInt;
                           const SortedMap: array of TIdentMapEntry;
-                          CaseSensitive : Boolean = False): Boolean;
+                          CaseSensitive: Boolean = False): Boolean;
 
 (* Used for sorting Python Identifiers *)
-function ComparePythonIdents(const S1, S2 : string): Integer; overload;
+function ComparePythonIdents(const Ident1, Ident2: string): Integer; overload;
 function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
 
 (* Used to get Vista and code fonts *)
@@ -126,36 +119,36 @@ procedure SetDefaultUIFont(const AFont: TFont);
 procedure SetContentFont(const AFont: TFont);
 
 (* Get the text between two Synedit Block coordinates *)
-function GetBlockText(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : string;
+function GetBlockText(Strings: TStrings; BlockBegin, BlockEnd: TBufferCoord): string;
 
 (* Extract Error information from a VarPyth variant containing the Python error *)
 procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
 
 (* Get Encoded Ansi string from WideStrings ttaking into account Python file encodings *)
 function WideStringsToEncodedText(const AFileName: string;
-  Lines : TStrings; var EncodedText: AnsiString;
+  Lines: TStrings; var EncodedText: AnsiString;
   InformationLossWarning: Boolean = False;
-  IsPython: Boolean = False) : Boolean;
+  IsPython: Boolean = False): Boolean;
 
 (* Load file into WideStrings taking into account Python file encodings *)
 function LoadFileIntoWideStrings(const AFileName: string;
-  Lines : TStrings): boolean;
+  Lines: TStrings): Boolean;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: string;
-  Lines : TStrings;  DoBackup : Boolean = True) : boolean;
+  Lines: TStrings;  DoBackup: Boolean = True): Boolean;
 
 (* Read File contents. Allows reading of locked files *)
 function FileToAnsiStr(const FileName: string): AnsiString;
 
 (* Read File contents into encoded string. Takes into account Python encodings *)
-function FileToEncodedStr(const AFileName : string) : AnsiString;
+function FileToEncodedStr(const AFileName: string): AnsiString;
 
 (* Read File contents into Widestring. Takes into account Python encodings *)
-function FileToStr(const AFileName : string) : string;
+function FileToStr(const AFileName: string): string;
 
 (* Get Nth Line of file *)
-function GetNthSourceLine(const AFileName : string; LineNo: integer): string;
+function GetNthSourceLine(const AFileName: string; LineNo: Integer): string;
 
 
 type
@@ -172,47 +165,44 @@ procedure WalkThroughDirectories(const Paths, Masks: string;
 (*
    Find files and place them in FileList. Paths and Masks are semi-colon delimited lists.
 *)
-procedure GetFilesInPaths(Paths, Masks : string; FileList: TStrings; Recursive : Boolean = True);
+procedure GetFilesInPaths(Paths, Masks: string; FileList: TStrings; Recursive: Boolean = True);
 
 (*
    Find directories and place them in DirList. Paths and Masks are semi-colon delimited lists.
 *)
-procedure GetDirectoriesInPaths(Paths, Masks : string; DirList: TStrings; Recursive : Boolean = True);
+procedure GetDirectoriesInPaths(Paths, Masks: string; DirList: TStrings; Recursive: Boolean = True);
 
 (* Extracts a token and returns the remainder of a string *)
-function StrToken(var S: string; Separator: Char): string;
+function StrToken(var Str: string; Separator: Char): string;
 
 (* Strips a given character from a string *)
-function StrStripChar(const S: string; const AChar: Char): string;
+function StrStripChar(const Str: string; const AChar: Char): string;
 
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 
 (* Create a PCRE Regular Expression and compile it *)
-function CompiledRegEx(Expr : string; Options: TRegExOptions = [roNotEmpty];
-  UCP : Boolean = True): TRegEx;
+function CompiledRegEx(Expr: string; Options: TRegExOptions = [roNotEmpty];
+  UCP: Boolean = True): TRegEx;
 
 (* Checks whether S contains digits only *)
-function IsDigits(S : string): Boolean;
+function IsDigits(Str: string): Boolean;
 
 (* Remove the white space in front of the first line from all lines *)
-function Dedent (const S : string) : string;
+function Dedent (const Str: string): string;
 
 (* Returns true for dark colors *)
-function IsColorDark(AColor : TColor) : boolean;
+function IsColorDark(AColor: TColor): Boolean;
 
 (* Returns true if the styled clWindows system oolor is dark *)
-function IsStyledWindowsColorDark : boolean;
+function IsStyledWindowsColorDark: Boolean;
 
 (* Calculates styled border colors *)
 procedure StyledBorderColors(out BorderNormal, BorderHighlight: TColor);
 
 (* Adds formated text to a Richedit control *)
-procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
+procedure AddFormatText(RE: TRichEdit; const Str: string;  FontStyle: TFontStyles = [];
  const FontColor: TColor = clDefault; FontSize: Integer = 0);
-
-(* Resize Bitmap *)
-procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 
 (* Returns string with Desktop size *)
 function MonitorProfile: string;
@@ -225,9 +215,9 @@ procedure RedirectFunction(OrgProc, NewProc: Pointer);
 
 { Styled MessageDlg (do not use TaskDialog) }
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
-  Buttons: TMsgDlgButtons; HelpCtx: Longint): Integer; overload;
+  Buttons: TMsgDlgButtons; HelpCtx: LongInt): Integer; overload;
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
-  Buttons: TMsgDlgButtons; HelpCtx: Longint; DefaultButton: TMsgDlgBtn): Integer; overload;
+  Buttons: TMsgDlgButtons; HelpCtx: LongInt; DefaultButton: TMsgDlgBtn): Integer; overload;
 
 {Style adjusted svg FixedColor}
 function SvgFixedColor(Color: TColor): TColor;
@@ -256,18 +246,18 @@ procedure UnblockFile(const FileName: string);
 type
   TMatchHelper = record helper for TMatch
   public
-    function GroupIndex(Index: integer): integer;
-    function GroupLength(Index: integer): integer;
-    function GroupValue(Index: integer): string;
+    function GroupIndex(Index: Integer): Integer;
+    function GroupLength(Index: Integer): Integer;
+    function GroupValue(Index: Integer): string;
   end;
 
   (*  Helper method for forms *)
   TControlHelper = class helper for TControl
   public
     (* Scale a value according to the FCurrentPPI *)
-    function PPIScale(ASize: integer): integer;
+    function PPIScale(ASize: Integer): Integer;
     (* Reverse PPI Scaling  *)
-    function PPIUnScale(ASize: integer): integer;
+    function PPIUnScale(ASize: Integer): Integer;
   end;
 
   (*
@@ -283,23 +273,23 @@ type
   *)
   TXStringList = class(TStringList)
   private
-    fUTF8CheckLen: Integer;
-    fOnInfoLoss: TSynInfoLossEvent;
-    fDetectUTF8: Boolean;
+    FUTF8CheckLen: Integer;
+    FOnInfoLoss: TSynInfoLossEvent;
+    FDetectUTF8: Boolean;
   public
     constructor Create; overload;
     procedure SetTextAndFileFormat(const Value: string);
     procedure LoadFromStream(Stream: TStream; Encoding: TEncoding); override;
     procedure SaveToStream(Stream: TStream; Encoding: TEncoding); override;
   published
-    property UTF8CheckLen: Integer read fUTF8CheckLen write fUTF8CheckLen default -1;
-    property DetectUTF8: Boolean read fDetectUTF8 write fDetectUTF8 default True;
-    property OnInfoLoss: TSynInfoLossEvent read fOnInfoLoss write fOnInfoLoss;
+    property UTF8CheckLen: Integer read FUTF8CheckLen write FUTF8CheckLen default -1;
+    property DetectUTF8: Boolean read FDetectUTF8 write FDetectUTF8 default True;
+    property OnInfoLoss: TSynInfoLossEvent read FOnInfoLoss write FOnInfoLoss;
   end;
 
   (*
     Interfaced based Timer that can be used with anonymous methods
-     Developed by  : Nuno Picado (https://github.com/nunopicado/Reusable-Objects)
+     Developed by: Nuno Picado (https://github.com/nunopicado/Reusable-Objects)
   *)
   ITimer = interface(IInvokable)
   ['{1C06BCF6-1C6D-473E-993F-2B231B17D4F5}']
@@ -308,7 +298,7 @@ type
     function Restart: ITimer;
   end;
 
-  function NewTimer(Interval: Cardinal): ITimer;
+function NewTimer(Interval: Cardinal): ITimer;
 
 type
 (*
@@ -340,16 +330,14 @@ type
     property Style default [];
   end;
 
-Var
-  StopWatch: TStopWatch;
+var
+  StopWatch: TStopwatch;
 
 implementation
-Uses
+
+uses
   Winapi.UrlMon,
-  Winapi.CommCtrl,
-  Winapi.TlHelp32,
-  Winapi.Wincodec,
-  WinApi.WinInet,
+  Winapi.WinInet,
   Winapi.ShLwApi,
   System.Types,
   System.AnsiStrings,
@@ -359,28 +347,28 @@ Uses
   System.Math,
   System.Win.ComObj,
   System.NetEncoding,
+  System.RegularExpressionsAPI,
+  System.RegularExpressionsCore,
+  Vcl.Forms,
   Vcl.ExtCtrls,
   Vcl.Themes,
   JclFileUtils,
   JclPeImage,
   JvGnugettext,
-  MPCommonUtilities,
-  MPCommonObjects,
   MPShellUtilities,
+  SynUnicode,
   SynEditMiscProcs,
-  SynEditMiscClasses,
   SynEditTextBuffer,
-  SynEditHighlighter,
   VarPyth,
   PythonEngine,
   StringResources,
   uEditAppIntfs;
 
 function GetIconIndexFromFile(const AFileName: string;
-  const ASmall: boolean): integer;
-Var
-  NameSpace : TNameSpace;
-  IconSize : TIconSize;
+  const ASmall: Boolean): Integer;
+var
+  NameSpace: TNamespace;
+  IconSize: TIconSize;
 begin
   Result:= -1;
   // swallow any exceptions (bug report by Colin Williams)
@@ -390,7 +378,7 @@ begin
         IconSize := icSmall
       else
         IconSize := icLarge;
-      NameSpace := TNameSpace.CreateFromFileName(AFileName);
+      NameSpace := TNamespace.CreateFromFileName(AFileName);
       try
         Result := NameSpace.GetIconIndex(False, IconSize);
       finally
@@ -435,8 +423,8 @@ begin
   Result := ALeft^ = #0;
 end;
 
-function StrGetToken(var Content: PChar;
-                     Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
+function StrGetToken(var Str: PChar;  Separators, WhiteSpace,
+  QuoteChars: TSysCharSet): string;
 (* returns next token - based on Classes.ExtractStrings *)
 var
   Head, Tail: PChar;
@@ -444,8 +432,8 @@ var
   QuoteChar: Char;
 begin
   Result:= '';
-  if (Content = nil) or (Content^=#0) then Exit;
-  Tail := Content;
+  if (Str = nil) or (Str^=#0) then Exit;
+  Tail := Str;
   InQuote := False;
   QuoteChar := #0;
   while CharInSet(Tail^, WhiteSpace) do Inc(Tail);
@@ -463,7 +451,7 @@ begin
   end;
   if (Head <> Tail) and (Head^ <> #0) then begin
     SetString(Result, Head, Tail - Head);
-    Content:= Tail;
+    Str:= Tail;
   end;
 end;
 
@@ -481,31 +469,31 @@ end;
 
 (* from cStrings end *)
 
-function LightenColor(Color:TColor; Percentage:integer):TColor;
+function LightenColor(Color: TColor; Percentage: Integer): TColor;
 var
-   wRGB, wR, wG, wB : longint;
+   wRGB, wR, wG, wB: LongInt;
 begin
    wRGB := ColorToRGB(Color);
-   wR := Min(round(GetRValue(wRGB) * (1+(percentage / 100))), 255);
-   wG := Min(round(GetGValue(wRGB) * (1+(percentage / 100))), 255);
-   wB := Min(round(GetBValue(wRGB) * (1+(percentage / 100))), 255);
-   result := RGB(wR, wG, wB);
+   wR := Min(Round(GetRValue(wRGB) * (1+(Percentage / 100))), 255);
+   wG := Min(Round(GetGValue(wRGB) * (1+(Percentage / 100))), 255);
+   wB := Min(Round(GetBValue(wRGB) * (1+(Percentage / 100))), 255);
+   Result := RGB(wR, wG, wB);
 end;
 
-function DarkenColor(Color:TColor; Percentage:integer):TColor;
+function DarkenColor(Color: TColor; Percentage: Integer): TColor;
 var
-   wRGB, wR, wG, wB : longint;
+   wRGB, wR, wG, wB: LongInt;
 begin
    wRGB := ColorToRGB(Color);
-   wR := round(GetRValue(wRGB) / (1+(percentage / 100)));
-   wG := round(GetGValue(wRGB) / (1+(percentage / 100)));
-   wB := round(GetBValue(wRGB) / (1+(percentage / 100)));
-   result := RGB(wR, wG, wB);
+   wR := Round(GetRValue(wRGB) / (1+(Percentage / 100)));
+   wG := Round(GetGValue(wRGB) / (1+(Percentage / 100)));
+   wB := Round(GetBValue(wRGB) / (1+(Percentage / 100)));
+   Result := RGB(wR, wG, wB);
 end;
 
-function ApplicationVersion : string;
+function ApplicationVersion: string;
 var
-  ExeFile : string;
+  ExeFile: string;
 begin
   ExeFile := Application.ExeName;
   if VersionResourceAvailable(ExeFile) then begin
@@ -517,7 +505,7 @@ begin
     Result := '1.0.0';
 end;
 
-function ConnectedToInternet : boolean;
+function ConnectedToInternet: Boolean;
 {
 Call SHELL32.DLL for Win < Win98
 otherwise call URL.dll
@@ -536,7 +524,7 @@ var
   dwReserved: DWORD;
   dwConnectionTypes: DWORD;
   fn_InternetGetConnectedState: function(lpdwFlags: LPDWORD; dwReserved: DWORD): BOOL; stdcall;
-  InetIsOffline : function(dwFlags: DWORD): BOOL; stdcall;
+  InetIsOffline: function(dwFlags: DWORD): BOOL; stdcall;
 begin
   Result := False;
   hURLDLL := SafeLoadLibrary(URLDLL);
@@ -544,7 +532,7 @@ begin
   begin
     @InetIsOffline := GetProcAddress(hURLDLL,'InetIsOffline');
     if Assigned(InetIsOffline) then begin
-      if InetIsOffLine(0) then
+      if InetIsOffline(0) then
         Result := False
       else
         Result := True;
@@ -570,13 +558,13 @@ begin
   end;
 end;
 
-function GetNthLine(const S : string; LineNo : integer) : string;
+function GetNthLine(const Str: string; LineNo: Integer): string;
 var
-  SL : TStringList;
+  SL: TStringList;
 begin
   SL := TStringList.Create;
   try
-    SL.Text := S;
+    SL.Text := Str;
     if LineNo <= SL.Count then
       Result := SL[LineNo-1]
     else
@@ -586,70 +574,70 @@ begin
   end;
 end;
 
-function GetLineRange(const S : string; StartLine, EndLine : integer;
-   HtmlBreaks: Boolean) : string;
+function GetLineRange(const Str: string; StartLine, EndLine: Integer;
+   HtmlBreaks: Boolean): string;
 var
-  SL : TStringList;
-  i, LastLine : integer;
+  SL: TStringList;
+  LastLine: Integer;
   LB: string;
 begin
   Result := '';
   if HtmlBreaks then
     LB := '<br>'
   else
-    LB:= SLineBreak;
+    LB:= sLineBreak;
   SL := TStringList.Create;
   try
-    SL.Text := S;
+    SL.Text := Str;
     LastLine := Min(EndLine-1, SL.Count -1);
-    for i := Max(0, StartLine-1) to LastLine do
-      if i = LastLine then
-        Result := Result + SL[i]
+    for var I := Max(0, StartLine-1) to LastLine do
+      if I = LastLine then
+        Result := Result + SL[I]
       else
-        Result := Result + SL[i] + LB;
+        Result := Result + SL[I] + LB;
   finally
     SL.Free;
   end;
 end;
 
 function GetWordAtPos(const LineText: string; Start: Integer;
-  AllowDot: boolean; ScanBackwards: boolean = True; ScanForward: boolean = True;
-  HandleBrackets: Boolean = False) : string;
+  AllowDot: Boolean; ScanBackwards: Boolean = True; ScanForward: Boolean = True;
+  HandleBrackets: Boolean = False): string;
 
-  function IsIdentChar(C: Char): boolean;
+  function IsIdentChar(Chr: Char): Boolean;
   begin
-    Result := C.IsLetterOrDigit or (C = '_') or (AllowDot and (C = '.'));
+    Result := Chr.IsLetterOrDigit or (Chr = '_') or (AllowDot and (Chr = '.'));
   end;
 
-Var
-  i : integer;
-  L, WordStart, WordEnd, ParenCounter, NewStart : integer;
-  Bracket, MatchingBracket : WideChar;
-Const
+var
+  I: Integer;
+  Len, WordStart, WordEnd, ParenCounter, NewStart: Integer;
+  Bracket, MatchingBracket: WideChar;
+const
   AllBrackets = '()[]{}';
   CloseBrackets = [')', ']', '}'];
   OpenBrackets = ['(', '[', '{'];
 begin
-  L := Length(LineText);
+  Len := Length(LineText);
   WordStart := Start;
   WordEnd := Start;
-  if (Start <= 0) or (Start > L) then
+  if (Start <= 0) or (Start > Len) then
     Exit('')
   else if not IsIdentChar(LineText[Start]) then
     Result := ''
   else begin
     if ScanBackwards then begin
-      i := Start;
-      while (i > 1) and IsIdentChar(LineText[i-1])
+      I := Start;
+      while (I > 1) and IsIdentChar(LineText[I-1])
       do
-        Dec(i);
-      WordStart := i;
+        Dec(I);
+      WordStart := I;
     end;
     if ScanForward then begin
-      i := Start;
-      while (i < L) and IsIdentChar(LineText[i+1]) do
-        Inc(i);
-      WordEnd := i;
+      I := Start;
+      while (I < Len) and IsIdentChar(LineText[I+1]) do
+        Inc(I);
+      WordEnd := I;
     end;
     Result := Copy(LineText, WordStart, WordEnd - WordStart + 1);
   end;
@@ -667,27 +655,27 @@ begin
       MatchingBracket := AllBrackets[AllBrackets.IndexOf(Bracket)]; // IndexOf is zero based!
 
       ParenCounter := 1;
-      i := NewStart - 1;
-      while (i > 0) and (ParenCounter > 0) do
+      I := NewStart - 1;
+      while (I > 0) and (ParenCounter > 0) do
       begin
-        if Linetext[i] = Bracket then inc(ParenCounter)
-        else if Linetext[i] = MatchingBracket then dec(ParenCounter);
-        Dec(i);
+        if LineText[I] = Bracket then Inc(ParenCounter)
+        else if LineText[I] = MatchingBracket then Dec(ParenCounter);
+        Dec(I);
       end;
-      WordStart := i+1;
+      WordStart := I+1;
       Result := Copy(LineText, WordStart, NewStart - WordStart + 1) + Result;
       if WordStart > 1 then
         // Recursive call
         Result := GetWordAtPos(LineText, WordStart - 1, AllowDot,
-          ScanBackWards, False, True) + Result;
+          ScanBackwards, False, True) + Result;
     end;
   end;
 end;
 
-function FormatDocString(const DocString : string) : string;
+function FormatDocString(const DocString: string): string;
 var
-  SL : TStringList;
-  i, Margin : integer;
+  SL: TStringList;
+  I, Margin: Integer;
 begin
   Result := DocString;
   if Result = '' then Exit;
@@ -705,15 +693,15 @@ begin
       SL[0] := Trim(SL[0]);
 
     //  Remove left margin and clear empty lines
-    for i := 1 to SL.Count - 1 do
-      if Trim(SL[i]) = '' then
-        SL[i] := ''
+    for I := 1 to SL.Count - 1 do
+      if Trim(SL[I]) = '' then
+        SL[I] := ''
       else
-        Margin := Min(Margin, LeftSpaces(SL[i], True, 4));
+        Margin := Min(Margin, LeftSpaces(SL[I], True, 4));
     if (Margin > 0) and (Margin < MaxInt) then
-      for i := 1 to SL.Count - 1 do
-        if SL[i] <> '' then
-          SL[i] := Copy(SL[i], Margin + 1);
+      for I := 1 to SL.Count - 1 do
+        if SL[I] <> '' then
+          SL[I] := Copy(SL[I], Margin + 1);
     Result := SL.Text;
     // Remove any trailing or leading blank lines.
     Result.Trim([#10, #13]);
@@ -722,33 +710,32 @@ begin
   end;
 end;
 
-function DirIsPythonPackage(Dir : string): boolean;
+function DirIsPythonPackage(Dir: string): Boolean;
 begin
   Result :=  System.SysUtils.DirectoryExists(Dir) and
     FileExists(IncludeTrailingPathDelimiter(Dir) + '__init__.py');
 end;
 
-function FileIsPythonPackage(FileName : string): boolean;
+function FileIsPythonPackage(FileName: string): Boolean;
 begin
   Result := TPath.GetFileName(FileName) = '__init__.py';
 end;
 
-function GetPackageRootDir(Dir : string): string;
-Var
-  S : string;
+function GetPackageRootDir(const Dir: string): string;
 begin
   if not DirIsPythonPackage(Dir) then
     raise Exception.CreateFmt('"%s" is not a Python package', [Dir]);
-  S := Dir;
-  Repeat
-    Result := S;
-    S := TPath.GetDirectoryName(S);
-  Until (Result = S) or (not DirIsPythonPackage(S));
+
+  var CurrDir := Dir;
+  repeat
+    Result := CurrDir;
+    CurrDir := TPath.GetDirectoryName(CurrDir);
+  until (Result = CurrDir) or (not DirIsPythonPackage(CurrDir));
 end;
 
-function FileNameToModuleName(const FileName : string): string;
-Var
-  Path, Dir, Server : string;
+function FileNameToModuleName(const FileName: string): string;
+var
+  Path, Dir, Server: string;
 begin
   Result := ChangeFileExt(TPath.GetFileName(FileName), '');
   if GI_SSHServices.ParseFileName(FileName, Server, Path) then Exit;
@@ -767,9 +754,9 @@ begin
   end;
 end;
 
-function HTMLSafe(const S : string): string;
+function HTMLSafe(const Str: string): string;
 begin
-  Result := StringReplace(S, '<', '&lt;', [rfReplaceAll]);
+  Result := StringReplace(Str, '<', '&lt;', [rfReplaceAll]);
   Result := StringReplace(Result, '>', '&gt;', [rfReplaceAll]);
   Result := StringReplace(Result, #13#10, '<br>', [rfReplaceAll]);
   Result := StringReplace(Result, #13, '<br>', [rfReplaceAll]);
@@ -779,7 +766,7 @@ end;
 function GetParamStr(P: PChar; var Param: string): PChar;
 // From Delphi's system.pas unit!
 var
-  i, Len: Integer;
+  I, Len: Integer;
   Start, S, Q: PChar;
 begin
   while True do
@@ -816,7 +803,7 @@ begin
 
   P := Start;
   S := Pointer(Param);
-  i := 0;
+  I := 0;
   while P[0] > ' ' do
   begin
     if P[0] = '"' then
@@ -827,9 +814,9 @@ begin
         Q := CharNext(P);
         while P < Q do
         begin
-          S[i] := P^;
+          S[I] := P^;
           Inc(P);
-          Inc(i);
+          Inc(I);
         end;
       end;
       if P[0] <> #0 then P := CharNext(P);
@@ -839,9 +826,9 @@ begin
       Q := CharNext(P);
       while P < Q do
       begin
-        S[i] := P^;
+        S[I] := P^;
         Inc(P);
-        Inc(i);
+        Inc(I);
       end;
     end;
   end;
@@ -849,7 +836,7 @@ begin
   Result := P;
 end;
 
-function ParsePySourceEncoding(Textline : string): string;
+function ParsePySourceEncoding(TextLine: string): string;
 begin
   Result := '';
   with TRegEx.Match(TextLine, 'coding[:=]\s*([-\w.]+)') do
@@ -859,24 +846,24 @@ end;
 
 function GetAveCharSize(Canvas: TCanvas): TPoint;
 var
-  I: Integer;
   Buffer: array[0..51] of WideChar;
-  tm: TTextMetric;
+  TM: TTextMetric;
 begin
-  for I := 0 to 25 do Buffer[I] := WideChar(I + Ord('A'));
-  for I := 0 to 25 do Buffer[I + 26] := WideChar(I + Ord('a'));
-  GetTextMetrics(Canvas.Handle, tm);
+  for var I := 0 to 25 do Buffer[I] := WideChar(I + Ord('A'));
+  for var I := 0 to 25 do Buffer[I + 26] := WideChar(I + Ord('a'));
+  GetTextMetrics(Canvas.Handle, TM);
   GetTextExtentPointW(Canvas.Handle, Buffer, 52, TSize(Result));
   Result.X := (Result.X div 26 + 1) div 2;
-  Result.Y := tm.tmHeight;
+  Result.Y := TM.tmHeight;
 end;
 
 type
   TSyncInputQuery = class
-    public
-    Caption, Prompt, Value : string;
-    Res : Boolean;
-    constructor Create(ACaption, APrompt, AValue : string);
+  private
+    FCaption, FPrompt, FValue: string;
+    FRes: Boolean;
+  public
+    constructor Create(ACaption, APrompt, AValue: string);
     procedure InputQuery;
   end;
 
@@ -884,22 +871,22 @@ type
 
 constructor TSyncInputQuery.Create(ACaption, APrompt, AValue: string);
 begin
-  Caption := ACaption;
-  Prompt := APrompt;
-  Value := AValue;
+  FCaption := ACaption;
+  FPrompt := APrompt;
+  FValue := AValue;
 end;
 
 procedure TSyncInputQuery.InputQuery;
 begin
-  Res := Vcl.Dialogs.InputQuery(Caption, Prompt, Value);
+  FRes := Vcl.Dialogs.InputQuery(FCaption, FPrompt, FValue);
 end;
 
 function SyncWideInputQuery(const ACaption, APrompt: string; var Value: string): Boolean;
 var
-  SyncInputQuery : TSyncInputQuery;
+  SyncInputQuery: TSyncInputQuery;
   SaveThreadState: PPyThreadState;
 begin
-  if GetCurrentThreadId = MainThreadId then
+  if GetCurrentThreadId = MainThreadID then
     Result := InputQuery(ACaption, APrompt, Value)
   else begin
     SyncInputQuery := TSyncInputQuery.Create(ACaption, APrompt, Value);
@@ -913,73 +900,74 @@ begin
           PyEval_RestoreThread(SaveThreadState);
         end;
       end;
-      Result := SyncInputQuery.Res;
-      Value := SyncInputQuery.Value;
+      Result := SyncInputQuery.FRes;
+      Value := SyncInputQuery.FValue;
     finally
       SyncInputQuery.Free;
     end;
   end;
 end;
 
-function CleanEOLs(S: AnsiString): AnsiString;
+function CleanEOLs(Str: AnsiString): AnsiString;
 begin
-  Result := System.AnsiStrings.AdjustLineBreaks(S, System.tlbsLF)
+  Result := System.AnsiStrings.AdjustLineBreaks(Str, System.tlbsLF);
 end;
 
-function CleanEOLs(S: string): string;
+function CleanEOLs(Str: string): string;
 begin
-  Result := System.SysUtils.AdjustLineBreaks(S, System.tlbsLF)
+  Result := System.SysUtils.AdjustLineBreaks(Str, System.tlbsLF);
 end;
 
-function SortedIdentToInt(const Ident: string; var Int: Longint;
+function SortedIdentToInt(const Ident: string; var Int: LongInt;
                           const SortedMap: array of TIdentMapEntry;
-                          CaseSensitive : Boolean = False): Boolean;
+                          CaseSensitive: Boolean = False): Boolean;
 var
-  m, n, k, I: Integer;
+  M, N, K, I: Integer;
 begin
-  m := Low(SortedMap); n := High(SortedMap);
-  while m<=n do
+  M := Low(SortedMap);
+  N := High(SortedMap);
+  while M<=N do
     begin
-      k := m+(n-m) div 2;
+      K := M+(N-M) div 2;
       if CaseSensitive then
-        I := CompareStr(Ident, SortedMap[k].Name)
+        I := CompareStr(Ident, SortedMap[K].Name)
       else
-        I := CompareText(Ident, SortedMap[k].Name);
+        I := CompareText(Ident, SortedMap[K].Name);
       if I = 0 then begin
-          Result := true;
-          Int := SortedMap[k].Value;
-          exit;
+          Result := True;
+          Int := SortedMap[K].Value;
+          Exit;
       end else if I > 0 then
-         m := k+1
+         M := K+1
       else
-        n := k-1;
+        N := K-1;
     end;
-  Result := false
+  Result := False;
 end;
 
-function ComparePythonIdents(const S1, S2 : string): Integer; overload;
-Var
-  L1, L2 : integer;
+function ComparePythonIdents(const Ident1, Ident2: string): Integer; overload;
+var
+  Len1, Len2: Integer;
 begin
-  L1 := Length(S1);
-  L2 := Length(S2);
-  if (L1 > 0) and (S1[1] = Char('_')) and (L2>0) and (S2[1] = Char('_')) then
-    Result := CompareText(S1, S2)
-  else if (L1 > 0) and (S1[1] = Char('_')) then
+  Len1 := Length(Ident1);
+  Len2 := Length(Ident2);
+  if (Len1 > 0) and (Ident1[1] = '_') and (Len2>0) and (Ident2[1] = '_') then
+    Result := CompareText(Ident1, Ident2)
+  else if (Len1 > 0) and (Ident1[1] = '_') then
     Result := 1
-  else if (L2>0) and (S2[1] = Char('_')) then
+  else if (Len2>0) and (Ident2[1] = '_') then
     Result := -1
   else
-    Result := CompareText(S1, S2)
+    Result := CompareText(Ident1, Ident2);
 end;
 
 function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
-Var
-  S1, S2 : string;
+var
+  Str1, Str2: string;
 begin
-  S1 := List[Index1];
-  S2 := List[Index2];
-  Result := ComparePythonIdents(S1, S2);
+  Str1 := List[Index1];
+  Str2 := List[Index2];
+  Result := ComparePythonIdents(Str1, Str2);
 end;
 
 function DefaultCodeFontName: string;
@@ -996,7 +984,7 @@ begin
 end;
 
 procedure SetDefaultUIFont(const AFont: TFont);
-Const
+const
   UIFont = 'Segoe UI';
 begin
   if CheckWin32Version(6) and (Screen.Fonts.IndexOf(UIFont) >= 0) then
@@ -1007,7 +995,7 @@ begin
 end;
 
 procedure SetContentFont(const AFont: TFont);
-Const
+const
   VistaContentFont = 'Calibri';
 begin
   if CheckWin32Version(6)
@@ -1019,14 +1007,14 @@ begin
   end;
 end;
 
-function GetBlockText(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : string;
-Var
-  Line :  integer;
+function GetBlockText(Strings: TStrings; BlockBegin, BlockEnd: TBufferCoord): string;
+var
+  Line: Integer;
 begin
   // preconditions start
-  Assert(BlockBegin.Line <= Strings.Count);
-  Assert(BlockEnd.Line <= Strings.Count);
-  Assert(BlockBegin.Line <= BlockEnd.Line);
+  Assert(BlockBegin.Line <= Strings.Count, 'GetBlockText');
+  Assert(BlockEnd.Line <= Strings.Count, 'GetBlockText');
+  Assert(BlockBegin.Line <= BlockEnd.Line, 'GetBlockText');
   if BlockBegin.Line <= 0 then Exit;
   if BlockEnd.Line <= 0 then Exit;
   // preconditions end
@@ -1034,7 +1022,7 @@ begin
   // work backwards
   Line := BlockEnd.Line;
   Result := Copy(Strings[Line-1], 1, BlockEnd.Char - 1);
-  While (Line > BlockBegin.Line) and (Line > 1) do begin
+  while (Line > BlockBegin.Line) and (Line > 1) do begin
     Dec(Line);
     Result := Strings[Line-1] + WideCRLF + Result;
   end;
@@ -1062,16 +1050,16 @@ begin
 end;
 
 function WideStringsToEncodedText(const AFileName: string;
-  Lines : TStrings; var EncodedText: AnsiString;
+  Lines: TStrings; var EncodedText: AnsiString;
   InformationLossWarning: Boolean = False;
-  IsPython: Boolean = False) : Boolean;
+  IsPython: Boolean = False): Boolean;
 // AFileName is passed just for the warning
 var
-  PyEncoding : string;
-  UniPy, EncodedString : PPyObject;
-  wStr: string;
-  SuppressOutput : IInterface;
-  OldLineBreak : string;
+  PyEncoding: AnsiString;
+  UniPy, EncodedString: PPyObject;
+  WStr: string;
+  SuppressOutput: IInterface;
+  OldLineBreak: string;
 begin
   Result := True;
 
@@ -1080,7 +1068,7 @@ begin
   if Lines.LineBreak = WideLineSeparator then
     Lines.LineBreak := sLineBreak;
 
-  wStr := Lines.Text;
+  WStr := Lines.Text;
   Lines.LineBreak := OldLineBreak;
 
   if GI_PyControl.PythonLoaded and
@@ -1088,42 +1076,47 @@ begin
   begin
     PyEncoding := '';
     if Lines.Count > 0 then
-      PyEncoding := ParsePySourceEncoding(Lines[0]);
+      PyEncoding := UTF8Encode(ParsePySourceEncoding(Lines[0]));
     if (PyEncoding = '') and (Lines.Count > 1) then
-      PyEncoding := ParsePySourceEncoding(Lines[1]);
+      PyEncoding := UTF8Encode(ParsePySourceEncoding(Lines[1]));
 
-    with SafePyEngine.PythonEngine do begin
+    with SafePyEngine.PythonEngine do
+    begin
       if PyEncoding = '' then
-        PyEncoding := SysModule.getdefaultencoding();
+        PyEncoding := UTF8Encode(SysModule.getdefaultencoding());
       SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
       UniPy := nil;
       EncodedString := nil;
       try
         try
-          UniPy := PyUnicode_FromWideChar(PWideChar(wStr), Length(wStr));
+          UniPy := PyUnicode_FromWideChar(PWideChar(WStr), Length(WStr));
           CheckError;
           if InformationLossWarning then begin
             try
-              EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'strict');
+              EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(PyEncoding), 'strict');
               CheckError;
               EncodedText := PyBytesAsAnsiString(EncodedString);
               CheckError;
             except
-              on UnicodeEncodeError do begin
+              on UnicodeEncodeError do
+              begin
                 Result :=
                   StyledMessageDlg(Format(_(SFileEncodingWarning),
                     [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
-                if Result then begin
+                if Result then
+                begin
                   EncodedString := PyUnicode_AsEncodedString(UniPy,
-                    PAnsiChar(AnsiString(PyEncoding)), PAnsiChar(AnsiString('replace')));
+                    PAnsiChar(PyEncoding), 'replace');
                   CheckError;
                   EncodedText := PyBytesAsAnsiString(EncodedString);
                   CheckError;
                 end;
               end;
             end;
-          end else begin
-            EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'replace');
+          end
+          else
+          begin
+            EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(PyEncoding), 'replace');
             CheckError;
             EncodedText := PyBytesAsAnsiString(EncodedString);
             CheckError;
@@ -1134,16 +1127,18 @@ begin
         end;
       except
         PyErr_Clear;
-        EncodedText := AnsiString(wStr);
+        EncodedText := AnsiString(WStr);
         if InformationLossWarning then
           Result :=
             StyledMessageDlg(Format(_(SFileEncodingWarning),
               [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
       end;
     end;
-  end else begin
-    EncodedText := AnsiString(wStr);
-    if InformationLossWarning and not IsAnsiOnly(wStr) then begin
+  end
+  else
+  begin
+    EncodedText := AnsiString(WStr);
+    if InformationLossWarning and not IsAnsiOnly(WStr) then begin
       Result :=
         StyledMessageDlg(Format(_(SFileEncodingWarning),
         [AFileName, 'ANSI']), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
@@ -1151,27 +1146,26 @@ begin
   end;
 end;
 
-function LoadFileIntoWideStrings(const AFileName: string; Lines : TStrings): boolean;
+function LoadFileIntoWideStrings(const AFileName: string; Lines: TStrings): Boolean;
 
-  procedure LoadFromString(S: string);
+  procedure LoadFromString(Str: string);
   begin
     if Lines is TSynEditStringList then begin
-      TSynEditStringList(Lines).SetTextAndFileFormat(S);
+      TSynEditStringList(Lines).SetTextAndFileFormat(Str);
       TSynEditStringList(Lines).SetEncoding(TEncoding.ANSI);
     end else if Lines is TXStringList then begin
-      TXStringList(Lines).SetTextAndFileFormat(S);
+      TXStringList(Lines).SetTextAndFileFormat(Str);
       TXStringList(Lines).SetEncoding(TEncoding.ANSI);
     end else
-      Lines.Text := S;
+      Lines.Text := Str;
   end;
 
-Var
-  Reader : TStreamReader;
+var
+  Reader: TStreamReader;
   FileStream: TFileStream;
-  FileText, PyEncoding : AnsiString;
-  S: String;
-  Len : integer;
-  PyWstr : PPyObject;
+  FileText, PyEncoding: AnsiString;
+  Len: Integer;
+  PyWstr: PPyObject;
 begin
   Result := True;
   if (AFileName = '') or not FileExists(AFileName) then Exit(False);
@@ -1188,7 +1182,7 @@ begin
     Reader := TStreamReader.Create(AFileName, TEncoding.Default, True, 128);
     try
       // Reads the first Line - Also sets the CurrentEncoding
-      S := Reader.ReadLine;
+      var Line := Reader.ReadLine;
       if Reader.CurrentEncoding <> TEncoding.ANSI then
       begin
           // BOM found
@@ -1197,10 +1191,11 @@ begin
       end;
 
       // Detect an encoding spec
-      PyEncoding := AnsiString(ParsePySourceEncoding(S));
-      if PyEncoding = '' then begin
-        S := Reader.ReadLine;
-        PyEncoding := AnsiString(ParsePySourceEncoding(S));
+      PyEncoding := UTF8Encode(ParsePySourceEncoding(Line));
+      if PyEncoding = '' then
+      begin
+        Line := Reader.ReadLine;
+        PyEncoding := UTF8Encode(ParsePySourceEncoding(Line));
       end;
     finally
       Reader.Free;
@@ -1244,7 +1239,7 @@ begin
       StyledMessageDlg(Format(_(SDecodingError),
          [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
       LoadFromString(string(FileText));
-    end
+    end;
 
   except
     on E: Exception do begin
@@ -1259,10 +1254,10 @@ type
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: string;
-  Lines : TStrings;  DoBackup : Boolean = True) : boolean;
-Var
-  FileStream : TFileStream;
-  S : AnsiString;
+  Lines: TStrings;  DoBackup: Boolean = True): Boolean;
+var
+  FileStream: TFileStream;
+  EncodedText: AnsiString;
 begin
   try
     // Create Backup
@@ -1277,19 +1272,19 @@ begin
       end;
     end;
 
-    if not GI_PyIDEServices.FileIsPythonSource(AFileName) or (Lines.Encoding <> TEncoding.Ansi) then
+    if not GI_PyIDEServices.FileIsPythonSource(AFileName) or (Lines.Encoding <> TEncoding.ANSI) then
     begin
       Lines.SaveToFile(AFileName);
       Exit(True);
     end;
 
     // For Ansi encoded Python files you have deal with coding comments
-    Result := WideStringsToEncodedText(AFileName, Lines, S, True);
+    Result := WideStringsToEncodedText(AFileName, Lines, EncodedText, True);
 
     if Result then begin
       FileStream := TFileStream.Create(AFileName, fmCreate);
       try
-        FileStream.WriteBuffer(S[1], Length(S))
+        FileStream.WriteBuffer(EncodedText[1], Length(EncodedText));
       finally
         FileStream.Free;
       end;
@@ -1305,24 +1300,24 @@ end;
 function FileToAnsiStr(const FileName: string): AnsiString;
 (* allows reading of locked files *)
 var
-  fs: TFileStream;
-  len: Integer;
+  Stream: TFileStream;
+  Len: Integer;
 begin
-  fs := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
+  Stream := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
   try
-    len := fs.Size;
-    SetLength(Result, len);
-    if len > 0 then
-      fs.ReadBuffer(Result[1], len);
+    Len := Stream.Size;
+    SetLength(Result, Len);
+    if Len > 0 then
+      Stream.ReadBuffer(Result[1], Len);
   finally
-    fs.Free;
+    Stream.Free;
   end;
 end;
 
-function FileToEncodedStr(const AFileName : string) : AnsiString;
-Var
-  SL : TStrings;
-  Server, FName, TempFileName, ErrorMsg : string;
+function FileToEncodedStr(const AFileName: string): AnsiString;
+var
+  SL: TStrings;
+  Server, FName, TempFileName, ErrorMsg: string;
 begin
   if GI_SSHServices.ParseFileName(AFileName, Server, FName) then
   begin
@@ -1347,10 +1342,10 @@ begin
 end;
 
 
-function FileToStr(const AFileName : string) : string;
-Var
-  SL : TStrings;
-  Server, FName, TempFileName, ErrorMsg : string;
+function FileToStr(const AFileName: string): string;
+var
+  SL: TStrings;
+  Server, FName, TempFileName, ErrorMsg: string;
 begin
   if GI_SSHServices.ParseFileName(AFileName, Server, FName) then
   begin
@@ -1362,7 +1357,7 @@ begin
     end;
   end
   else
-     TempFileName := AFileName;
+    TempFileName := AFileName;
 
   SL := TStringList.Create;
   try
@@ -1375,7 +1370,7 @@ begin
 end;
 
 
-function GetNthSourceLine(const AFileName : string; LineNo: integer): string;
+function GetNthSourceLine(const AFileName: string; LineNo: Integer): string;
 var
   TempS: string;
 begin
@@ -1403,14 +1398,14 @@ end;
 (*
    Single directory traversal function used in WalkThroughDirectories
 *)
-procedure WalkThroughDirectory(const Path: string; Masks : TStringDynArray;
+procedure WalkThroughDirectory(const Path: string; Masks: TStringDynArray;
   const PreCallback: TDirectoryWalkProc;
   const Recursive: Boolean);
 var
   SearchRec: TSearchRec;
   Match: Boolean;
   Stop: Boolean;
-  PathWithSep, Mask : string;
+  PathWithSep, Mask: string;
 begin
   PathWithSep := IncludeTrailingPathDelimiter(Path);
   if FindFirst(PathWithSep + '*', faAnyFile, SearchRec) = 0 then
@@ -1437,7 +1432,6 @@ begin
            (SearchRec.Name <> '..') then
           WalkThroughDirectory(PathWithSep + SearchRec.Name,
             Masks, PreCallback, Recursive);
-
       end;
     until Stop or (FindNext(SearchRec) <> 0);
   finally
@@ -1448,9 +1442,9 @@ end;
 procedure WalkThroughDirectories(const Paths, Masks: string;
   const PreCallback: TDirectoryWalkProc;
   const Recursive: Boolean);
-Var
-  Path, PathName : string;
-  PathList, MaskList : TArray<string>;
+var
+  Path, PathName: string;
+  PathList, MaskList: TArray<string>;
 begin
   PathList := Paths.Split([';']);
   MaskList := Masks.Split([';']);
@@ -1462,8 +1456,8 @@ begin
   end;
 end;
 
-procedure GetFilesInPaths(Paths, Masks : string; FileList: TStrings; Recursive : Boolean = True);
-Var
+procedure GetFilesInPaths(Paths, Masks: string; FileList: TStrings; Recursive: Boolean = True);
+var
   PreCallback: TDirectoryWalkProc;
 begin
   PreCallback :=
@@ -1478,8 +1472,8 @@ begin
   WalkThroughDirectories(Paths, Masks, PreCallback, Recursive);
 end;
 
-procedure GetDirectoriesInPaths(Paths, Masks : string; DirList: TStrings; Recursive : Boolean = True);
-Var
+procedure GetDirectoriesInPaths(Paths, Masks: string; DirList: TStrings; Recursive: Boolean = True);
+var
   PreCallback: TDirectoryWalkProc;
 begin
   PreCallback :=
@@ -1495,32 +1489,32 @@ begin
   WalkThroughDirectories(Paths, Masks, PreCallback, Recursive);
 end;
 
-function StrToken(var S: string; Separator: Char): string;
+function StrToken(var Str: string; Separator: Char): string;
 var
   I: Integer;
 begin
-  I := S.IndexOf(Separator);
+  I := Str.IndexOf(Separator);
   if I >= 0 then
   begin
-    Result := S.Substring(0, I);
-    Delete(S, 1, I + 1);
+    Result := Str.Substring(0, I);
+    Delete(Str, 1, I + 1);
   end
   else
   begin
-    Result := S;
-    S := '';
+    Result := Str;
+    Str := '';
   end;
 end;
 
-function StrStripChar(const S: string; const AChar: Char): string;
+function StrStripChar(const Str: string; const AChar: Char): string;
 var
   Source, Dest: PChar;
-  Len, Index:   NativeInt;
+  Len, Index: Integer;
 begin
-  Len := Length(S);
+  Len := Length(Str);
   SetLength(Result, Len);
   UniqueString(Result);
-  Source := PChar(S);
+  Source := PChar(Str);
   Dest := PChar(Result);
   for Index := 0 to Len - 1 do
   begin
@@ -1546,58 +1540,56 @@ begin
   end;
 end;
 
-function IsDigits(S : string): Boolean;
+function IsDigits(Str: string): Boolean;
 begin
   Result := True;
-  for var I := 1 to S.Length do
-    if not CharInSet(S[I], ['0'..'9']) then begin
-      Result := False;
-      break;
-    end;
+  for var I := 1 to Str.Length do
+    if not CharInSet(Str[I], ['0'..'9']) then
+      Exit(False);
 end;
 
-function Dedent(const S : string) : string;
+function Dedent(const Str: string): string;
 begin
-  with TRegEx.Match(S, '^\s+') do
+  with TRegEx.Match(Str, '^\s+') do
     if Success then
       // to avoid repeated replacements of initial space
-      Exit(TRegEx.Replace(TRegEx.Replace(S,
+      Exit(TRegEx.Replace(TRegEx.Replace(Str,
          '^'+Groups[0].Value , '!', [roNotEmpty, roMultiLine]),
          '^!' , '', [roNotEmpty, roMultiLine]))
     else
-      Exit(S)
+      Exit(Str);
 end;
 
-function CompiledRegEx(Expr : string; Options: TRegExOptions = [roNotEmpty];
-  UCP : Boolean = True): TRegEx;
+function CompiledRegEx(Expr: string; Options: TRegExOptions = [roNotEmpty];
+  UCP: Boolean = True): TRegEx;
 begin
   try
-    Result.Create(Expr, Options);
+    Result := TRegEx.Create(Expr, Options);
     if UCP then
       Result.AddRawOptions(PCRE_UCP);
-    Result.Study([preJIT])
+    Result.Study([preJIT]);
   except
     on E: ERegularExpressionError do
       begin
         StyledMessageDlg(Format(_(SInvalidRegularExpression), [E.Message]),
           mtError, [mbOK], 0);
         Abort;
-      end
+      end;
     else
       raise;
   end;
 end;
 
-function IsColorDark(AColor : TColor) : boolean;
+function IsColorDark(AColor: TColor): Boolean;
 var
-  ACol: Longint;
+  ACol: LongInt;
 begin
   ACol := ColorToRGB(AColor) and $00FFFFFF;
   Result := ((2.99 * GetRValue(ACol) + 5.87 * GetGValue(ACol) +
                  1.14 * GetBValue(ACol)) < $400);
 end;
 
-function IsStyledWindowsColorDark : boolean;
+function IsStyledWindowsColorDark: Boolean;
 begin
   Result := IsColorDark(StyleServices.GetSystemColor(clWindow));
 end;
@@ -1618,9 +1610,9 @@ end;
 constructor TXStringList.Create;
 begin
   inherited Create;
-  fUTF8CheckLen := -1;
+  FUTF8CheckLen := -1;
   Options := Options - [soWriteBOM, soTrailingLineBreak];
-  fDetectUTF8 := True;
+  FDetectUTF8 := True;
 end;
 
 procedure TXStringList.LoadFromStream(Stream: TStream; Encoding: TEncoding);
@@ -1646,26 +1638,26 @@ begin
 end;
 
 procedure TXStringList.SaveToStream(Stream: TStream; Encoding: TEncoding);
-Var
+var
   Cancel: Boolean;
-  S: string;
+  Content: string;
   Buffer, Preamble: TBytes;
 begin
   if Encoding = nil then
     Encoding := DefaultEncoding;
 
-  S := GetTextStr;
+  Content := GetTextStr;
   Cancel := False;
-  if (Encoding = TEncoding.ANSI) and Assigned(fOnInfoLoss) and not IsAnsiOnly(S) then
+  if (Encoding = TEncoding.ANSI) and Assigned(FOnInfoLoss) and not IsAnsiOnly(Content) then
   begin
-    fOnInfoLoss(Encoding, Cancel);
+    FOnInfoLoss(Encoding, Cancel);
     if Cancel then
       Exit;
     if Encoding <> TEncoding.ANSI then
       SetEncoding(Encoding);
   end;
 
-  Buffer := Encoding.GetBytes(S);
+  Buffer := Encoding.GetBytes(Content);
   if WriteBOM then
   begin
     Preamble := Encoding.GetPreamble;
@@ -1677,14 +1669,14 @@ end;
 
 procedure TXStringList.SetTextAndFileFormat(const Value: string);
 var
-  S: string;
+  LineText: string;
   Size: Integer;
   P, Start, Pmax: PWideChar;
-  fCR, fLF, fUnicodeSeparator: Boolean;
+  HasCR, HasLF, UnicodeSeparator: Boolean;
 begin
-  fUnicodeSeparator := False;
-  fCR := False;
-  fLF := False;
+  UnicodeSeparator := False;
+  HasCR := False;
+  HasLF := False;
   BeginUpdate;
   try
     Clear;
@@ -1702,22 +1694,22 @@ begin
         end;
         if P<>Start then
         begin
-          SetString(S, Start, P - Start);
-          Insert(Count, S);
+          SetString(LineText, Start, P - Start);
+          Insert(Count, LineText);
         end else Insert(Count, '');
         if P^ = WideLineSeparator then
         begin
-          fUnicodeSeparator := True;
+          UnicodeSeparator := True;
           Inc(P);
         end;
         if P^ = WideCR then
         begin
-          fCR := True;
+          HasCR := True;
           Inc(P);
         end;
         if P^ = WideLF then
         begin
-          fLF := True;
+          HasLF := True;
           Inc(P);
         end;
       end;
@@ -1730,17 +1722,17 @@ begin
   finally
     EndUpdate;
   end;
-  if fUnicodeSeparator then
+  if UnicodeSeparator then
     LineBreak := WideLineSeparator
-  else if fCR and not fLF then
+  else if HasCR and not HasLF then
     LineBreak := WideCR
-  else if fLF and not fCR then
+  else if HasLF and not HasCR then
     LineBreak := WideLF
   else
     LineBreak := WideCRLF;
 end;
 
-procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
+procedure AddFormatText(RE: TRichEdit; const Str: string;  FontStyle: TFontStyles = [];
  const FontColor: TColor = clDefault; FontSize: Integer = 0);
 begin
   with RE do
@@ -1757,49 +1749,7 @@ begin
     else
       SelAttributes.Color := DefAttributes.Color;
 
-    SelText := S;
-  end;
-end;
-
-//procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
-//var
-//  buffer: TBitmap;
-//begin
-//  buffer := TBitmap.Create;
-//  try
-//    buffer.SetSize(NewWidth, NewHeight);
-//    buffer.AlphaFormat := afDefined;
-//    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
-//    Bitmap.SetSize(NewWidth, NewHeight);
-//    Bitmap.Canvas.Draw(0, 0, buffer);
-//  finally
-//    buffer.Free;
-//  end;
-//end;
-
-procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
-var
-  Factory: IWICImagingFactory;
-  Scaler: IWICBitmapScaler;
-  Source : TWICImage;
-begin
-  //Bitmap.AlphaFormat := afDefined;
-  Source := TWICImage.Create;
-  try
-    Source.Assign(Bitmap);
-    Factory := TWICImage.ImagingFactory;
-    Factory.CreateBitmapScaler(Scaler);
-    try
-      Scaler.Initialize(Source.Handle, NewWidth, NewHeight,
-        WICBitmapInterpolationModeHighQualityCubic);
-      Source.Handle := IWICBitmap(Scaler);
-    finally
-      Scaler := nil;
-      Factory := nil;
-    end;
-    Bitmap.Assign(Source);
-  finally
-    Source.Free;
+    SelText := Str;
   end;
 end;
 
@@ -1809,27 +1759,27 @@ function MonitorProfile: string;
   begin
     Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
   end;
-Const
-  strMask = '%d:%dDPI(%s,%d,%d,%d,%d)';
-Var
-  iMonitor: Integer;
-  M: TMonitor;
-Begin
+const
+  StrMask = '%d:%dDPI(%s,%d,%d,%d,%d)';
+var
+  MonitorNumber: Integer;
+  Monitor: TMonitor;
+begin
   Result := DesktopSizeString;
-  for iMonitor := 0 To Screen.MonitorCount - 1 Do
+  for MonitorNumber := 0 to Screen.MonitorCount - 1 do
     begin
-        M := Screen.Monitors[iMonitor];
-        Result := Result + Format(strMask, [
-        M.MonitorNum,
-        M.PixelsPerInch,
-        BoolToStr(M.Primary, True),
-        M.Left,
-        M.Top,
-        M.Width,
-        M.Height
+        Monitor := Screen.Monitors[MonitorNumber];
+        Result := Result + Format(StrMask, [
+        Monitor.MonitorNum,
+        Monitor.PixelsPerInch,
+        BoolToStr(Monitor.Primary, True),
+        Monitor.Left,
+        Monitor.Top,
+        Monitor.Width,
+        Monitor.Height
       ]);
     end;
-End;
+end;
 
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 begin
@@ -1840,9 +1790,8 @@ end;
 type
   TTimer = class(TInterfacedObject, ITimer)
   private var
-    FTimer: VCL.ExtCtrls.TTimer;
+    FTimer: Vcl.ExtCtrls.TTimer;
     FAction: TProc;
-  private
     procedure RunAction(Sender: TObject);
   public
     constructor Create(const Interval: Cardinal);
@@ -1857,7 +1806,7 @@ type
 
 constructor TTimer.Create(const Interval: Cardinal);
 begin
-  FTimer          := VCL.ExtCtrls.TTimer.Create(nil);
+  FTimer          := Vcl.ExtCtrls.TTimer.Create(nil);
   FTimer.Enabled  := False;
   FTimer.Interval := Interval;
   FTimer.OnTimer  := RunAction;
@@ -1892,7 +1841,7 @@ begin
   FTimer.Enabled := False;
 end;
 
-function TTimer.ReStart: ITimer;
+function TTimer.Restart: ITimer;
 begin
   Result         := Self;
   FTimer.Enabled := True;
@@ -1904,7 +1853,7 @@ begin
 end;
 
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
-  Buttons: TMsgDlgButtons; HelpCtx: Longint): Integer;
+  Buttons: TMsgDlgButtons; HelpCtx: LongInt): Integer;
 begin
   UseLatestCommonDialogs := False;
   Result := Vcl.Dialogs.MessageDlg(Msg, DlgType, Buttons, HelpCtx);
@@ -1912,7 +1861,7 @@ begin
 end;
 
 function StyledMessageDlg(const Msg: string; DlgType: TMsgDlgType;
-  Buttons: TMsgDlgButtons; HelpCtx: Longint; DefaultButton: TMsgDlgBtn): Integer;
+  Buttons: TMsgDlgButtons; HelpCtx: LongInt; DefaultButton: TMsgDlgBtn): Integer;
 begin
   UseLatestCommonDialogs := False;
   Result := Vcl.Dialogs.MessageDlg(Msg, DlgType, Buttons, HelpCtx, DefaultButton);
@@ -1974,13 +1923,13 @@ end;
 
 procedure UnregisterApplicationRestart;
 type
-  TPKernelUnregisterApplicationRestart = function(): HRESULT; stdcall;
+  TPKernelUnregisterApplicationRestart = function: HRESULT; stdcall;
 var
   UnregisterApplicationRestart: TPKernelUnregisterApplicationRestart;
 begin
   @UnregisterApplicationRestart := GetProcAddress(GetModuleHandle('kernel32.dll'), 'UnregisterApplicationRestart');
   if @UnregisterApplicationRestart <> nil then
-    UnRegisterApplicationRestart();
+    UnregisterApplicationRestart();
 end;
 
 function IsFileBlocked(const FileName: string): Boolean;
@@ -2013,7 +1962,7 @@ end;
 
 { TMatchHelper }
 
-function TMatchHelper.GroupIndex(Index: integer): integer;
+function TMatchHelper.GroupIndex(Index: Integer): Integer;
 begin
   if Index < Groups.Count then
     Result := Groups[Index].Index
@@ -2021,7 +1970,7 @@ begin
     Result := -1;
 end;
 
-function TMatchHelper.GroupLength(Index: integer): integer;
+function TMatchHelper.GroupLength(Index: Integer): Integer;
 begin
   if Index < Groups.Count then
     Result := Groups[Index].Length
@@ -2029,7 +1978,7 @@ begin
     Result := 0;
 end;
 
-function TMatchHelper.GroupValue(Index: integer): string;
+function TMatchHelper.GroupValue(Index: Integer): string;
 begin
   if Index < Groups.Count then
     Result := Groups[Index].Value
@@ -2049,18 +1998,17 @@ type
     Offset: Integer;
   end;
 var
-  n: NativeUInt;
+  BytesWritten: NativeUInt;
   JmpBuffer: TJmpBuffer;
 begin
   JmpBuffer.Jmp := $E9;
   JmpBuffer.Offset := PByte(NewProc) - (PByte(OrgProc) + 5);
-  if not WriteProcessMemory(GetCurrentProcess, OrgProc, @JmpBuffer, SizeOf(JmpBuffer), n) then
+  if not WriteProcessMemory(GetCurrentProcess, OrgProc,
+    @JmpBuffer, SizeOf(JmpBuffer), BytesWritten)
+  then
     RaiseLastOSError;
-  FlushInstructionCache(GetCurrentProcess, OrgProc, SizeOf(JmpBuffer))
+  FlushInstructionCache(GetCurrentProcess, OrgProc, SizeOf(JmpBuffer));
 end;
-
-
-{https://stackoverflow.com/questions/20142166/explain-errors-from-getkeystate-getcursorpos}
 
 function PatchedGetCursorPos(var lpPoint: TPoint): BOOL; stdcall;
 (* The GetCursorPos API in user32 fails if it is passed a memory address >2GB
@@ -2072,6 +2020,8 @@ function PatchedGetCursorPos(var lpPoint: TPoint): BOOL; stdcall;
    re-authenticates. This problem initially appeared with XP SP1 and is brought
    about because TMouse.GetCursorPos checks the return value of the GetCursorPos
    API call and raises an OS exception if the API has failed.
+
+   https://stackoverflow.com/questions/20142166/explain-errors-from-getkeystate-getcursorpos
 *)
 var
   CursorInfo: TCursorInfo;
@@ -2090,12 +2040,12 @@ var
 
 { TFormHelper }
 
-function TControlHelper.PPIScale(ASize: integer): integer;
+function TControlHelper.PPIScale(ASize: Integer): Integer;
 begin
    Result := MulDiv(ASize, FCurrentPPI, 96);
 end;
 
-function TControlHelper.PPIUnScale(ASize: integer): integer;
+function TControlHelper.PPIUnScale(ASize: Integer): Integer;
 begin
    Result := MulDiv(ASize, 96, FCurrentPPI);
 end;
@@ -2110,6 +2060,7 @@ end;
 destructor TSmartPtr.TObjectHandle<T>.Destroy;
 begin
   FValue.Free;
+  inherited;
 end;
 
 function TSmartPtr.TObjectHandle<T>.Invoke: T;
@@ -2123,7 +2074,7 @@ begin
 end;
 
 initialization
-  StopWatch := TStopWatch.StartNew;
+  StopWatch := TStopwatch.StartNew;
 
   @OldGetCursorPos := GetProcAddress(GetModuleHandle(user32), 'GetCursorPos');
   with TJclPeMapImgHooks do

@@ -6,9 +6,9 @@
  Features:  Syntax Highlighting
             Brace Highlighting
             Command History
-                    - Alt-UP : previous command
-                    - Alt-Down : next command
-                    - Esc : clear command
+                    - Alt-UP: previous command
+                    - Alt-Down: next command
+                    - Esc: clear command
             Code Completion
             Call Tips
 
@@ -19,23 +19,15 @@ unit frmPythonII;
 interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
-  System.Types,
+  Winapi.Windows,
+  Winapi.Messages,
   System.UITypes,
-  System.Contnrs,
-  System.SysUtils,
   System.Classes,
-  System.Variants,
   System.Actions,
-  System.SyncObjs,
   System.ImageList,
-  Vcl.Clipbrd,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.ExtCtrls,
   Vcl.Forms,
-  Vcl.Dialogs ,
   Vcl.Menus,
   Vcl.ActnList,
   Vcl.ImgList,
@@ -43,22 +35,16 @@ uses
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
-  SynHighlighterPython,
-  SynEditHighlighter,
   dlgSynEditOptions,
   TB2Item,
   SpTBXItem,
   SpTBXSkins,
-  SpTBXControls,
   SynEdit,
   SynEditTypes,
   SynCompletionProposal,
   PythonEngine,
-  WrapDelphi,
   frmIDEDockWin,
-  uEditAppIntfs,
-  cPySupportTypes,
-  cCodeCompletion;
+  uEditAppIntfs;
 
 const
   WM_REINITINTERPRETER = WM_USER + 1030;
@@ -95,14 +81,14 @@ type
     procedure SynEditProcessUserCommand(Sender: TObject;
       var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
     procedure SynCodeCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: string; var x, y: Integer;
+      Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: Boolean);
     function FormHelp(Command: Word; Data: THelpEventData;
       var CallHelp: Boolean): Boolean;
     procedure FormActivate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: string; var x, y: Integer;
+      Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: Boolean);
     procedure SynEditCommandProcessed(Sender: TObject;
       var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
@@ -120,79 +106,79 @@ type
       const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
   private
     { Private declarations }
-    fCommandHistory : TStringList;
-    fCommandHistorySize : integer;
-    fCommandHistoryPointer : integer;
-    fCommandHistoryPrefix : string;
-    fShowOutput : Boolean;
-    FCriticalSection : TRTLCriticalSection;
-    fOutputStream : TMemoryStream;
-    fCloseBracketChar: WideChar;
-    fOutputMirror : TFileStream;
-    procedure GetBlockBoundary(LineN: integer; var StartLineN,
-              EndLineN: integer; var IsCode: Boolean);
-    function GetPromptPrefix(line: string): string;
-    procedure SetCommandHistorySize(const Value: integer);
+    FCommandHistory: TStringList;
+    FCommandHistorySize: Integer;
+    FCommandHistoryPointer: Integer;
+    FCommandHistoryPrefix: string;
+    FShowOutput: Boolean;
+    FCriticalSection: TRTLCriticalSection;
+    FOutputStream: TMemoryStream;
+    FCloseBracketChar: WideChar;
+    FOutputMirror: TFileStream;
+    procedure GetBlockBoundary(LineN: Integer; var StartLineN,
+              EndLineN: Integer; var IsCode: Boolean);
+    function GetPromptPrefix(Line: string): string;
+    procedure SetCommandHistorySize(const Value: Integer);
     procedure GetBlockCode(var Source: string;
       var Buffer: array of string; EndLineN: Integer; StartLineN: Integer);
     procedure DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
     procedure ApplyPyIDEOptions;
     // ISearchCommands implementation
-    function CanFind: boolean;
-    function CanFindNext: boolean;
+    function CanFind: Boolean;
+    function CanFindNext: Boolean;
     function ISearchCommands.CanFindPrev = CanFindNext;
-    function CanReplace: boolean;
-    function GetSearchTarget : TSynEdit;
+    function CanReplace: Boolean;
+    function GetSearchTarget: TSynEdit;
     procedure ExecFind;
     procedure ExecFindNext;
     procedure ExecFindPrev;
     procedure ExecReplace;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
-      AIndex: Integer; var Info : string);
+      AIndex: Integer; var Info: string);
     // Implementation of IPyInterpreter
     procedure ShowWindow;
     procedure AppendPrompt;
     procedure RemovePrompt;
-    procedure AppendText(const S: string);
+    procedure AppendText(const Str: string);
     procedure PrintEngineType;
     procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
     procedure WritePendingMessages;
     procedure ClearPendingMessages;
     procedure ClearDisplay;
     procedure ClearLastPrompt;
-    function OutputSuppressor : IInterface;
-    procedure StartOutputMirror(const AFileName : string; Append : Boolean);
+    function OutputSuppressor: IInterface;
+    procedure StartOutputMirror(const AFileName: string; Append: Boolean);
     procedure StopFileMirror;
     procedure UpdatePythonKeywords;
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
     procedure ReinitInterpreter;
     function GetEditor: TCustomSynEdit;
     function GetPythonIO: TPythonInputOutput;
-    function GetShowOutput: boolean;
-    procedure SetShowOutput(const Value: boolean);
+    function GetShowOutput: Boolean;
+    procedure SetShowOutput(const Value: Boolean);
   protected
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
   public
     { Public declarations }
-    PS1, PS2 : string;
+    PS1, PS2: string;
     // AppStorage
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
 
     procedure PythonIOSendData(Sender: TObject; const Data: string);
-    procedure AppendToPrompt(const Buffer : array of string);
-    function IsEmpty : Boolean;
+    procedure AppendToPrompt(const Buffer: array of string);
+    function IsEmpty: Boolean;
     procedure UpdateInterpreterActions;
     procedure RegisterHistoryCommands;
     procedure ValidateEditorOptions(SynEditOptions: TSynEditorOptionsContainer);
     procedure ApplyEditorOptions;
     procedure ExecuteStatement(const SourceCode: string; WaitToFinish: Boolean = False);
-    property ShowOutput : boolean read GetShowOutput write SetShowOutput;
-    property CommandHistory : TStringList read fCommandHistory;
-    property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
-    property CommandHistorySize : integer read fCommandHistorySize write SetCommandHistorySize;
+    property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
+    property CommandHistory: TStringList read FCommandHistory;
+    property CommandHistoryPointer: Integer read FCommandHistoryPointer write FCommandHistoryPointer;
+    property CommandHistorySize: Integer read FCommandHistorySize write SetCommandHistorySize;
   end;
 
 var
@@ -200,16 +186,22 @@ var
 
 implementation
 
-Uses
+uses
+  System.Types,
+  System.SysUtils,
+  System.Contnrs,
   System.Math,
-  System.Win.Registry,
   System.RegularExpressions,
   System.Threading,
+  System.SyncObjs,
+  Vcl.Dialogs ,
+  Vcl.Clipbrd,
   VarPyth,
   JclStrings,
-  JvJVCLUtils,
   JvAppIniStorage,
   JvGnugettext,
+  SynHighlighterPython,
+  SynEditHighlighter,
   SynEditKeyCmds,
   SynEditMiscProcs,
   SynUnicode,
@@ -217,40 +209,39 @@ Uses
   frmPyIDEMain,
   dmResources,
   dmCommands,
-  frmUnitTests,
   uCommonFunctions,
-  uCmdLine,
-  cPyDebugger,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl,
+  cPySupportTypes,
+  cCodeCompletion;
 
 {$R *.dfm}
 
 { Class TSuppressOuptput modelled after JVCL.WaitCursor}
 type
-TSuppressOutput = class(TInterfacedObject, IInterface)
-private
-  fPythonIIForm : TPythonIIForm;
-  OldShowOutput : Boolean;
-public
-  constructor Create(PythonIIForm : TPythonIIForm);
-  destructor Destroy; override;
-end;
+  TSuppressOutput = class(TInterfacedObject, IInterface)
+  private
+    FPythonIIForm: TPythonIIForm;
+    FOldShowOutput: Boolean;
+  public
+    constructor Create(PythonIIForm: TPythonIIForm);
+    destructor Destroy; override;
+  end;
 
-constructor TSuppressOutput.Create(PythonIIForm : TPythonIIForm);
+constructor TSuppressOutput.Create(PythonIIForm: TPythonIIForm);
 begin
   inherited Create;
-  fPythonIIForm := PythonIIForm;
-  if Assigned(fPythonIIForm) then begin
-    OldShowOutput := PythonIIForm.ShowOutput;
+  FPythonIIForm := PythonIIForm;
+  if Assigned(FPythonIIForm) then begin
+    FOldShowOutput := PythonIIForm.ShowOutput;
     PythonIIForm.ShowOutput := False;
   end;
 end;
 
 destructor TSuppressOutput.Destroy;
 begin
-  if Assigned(fPythonIIForm) then
-    fPythonIIForm.ShowOutput := OldShowOutput;
+  if Assigned(FPythonIIForm) then
+    FPythonIIForm.ShowOutput := FOldShowOutput;
   inherited Destroy;
 end;
 
@@ -263,8 +254,8 @@ end;
 
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;
   var Data: string);
-Var
-  Res : Boolean;
+var
+  Res: Boolean;
 begin
   with GetPythonEngine do begin
     Res := SyncWideInputQuery(_('PyScripter - Input requested'), _('Input:'), Data);
@@ -276,21 +267,18 @@ begin
 end;
 
 procedure TPythonIIForm.PythonIOSendData(Sender: TObject; const Data: string);
-Var
-  S : AnsiString;
-  IsPending: Boolean;
 begin
   if Data.Length = 0 then Exit;
 
-  if fShowOutput then begin
-    fCriticalSection.Enter;
+  if FShowOutput then begin
+    FCriticalSection.Enter;
     try
-      IsPending := fOutputStream.Size > 0;
+      var IsPending := FOutputStream.Size > 0;
 
-      fOutputStream.Write(Data[1], Length (Data) * 2);
-      if Assigned(fOutputMirror) then begin
-        S := Utf8Encode(Data);
-        fOutputMirror.Write(S[1], Length(S));
+      FOutputStream.Write(Data[1], Length (Data) * 2);
+      if Assigned(FOutputMirror) then begin
+        var MirrorData := UTF8Encode(Data);
+        FOutputMirror.Write(MirrorData[1], Length(MirrorData));
       end;
 
       // If IsPending then a previous request to WritePendingMessages will be
@@ -305,7 +293,7 @@ begin
         end);
         WakeMainThread(nil);
     finally
-      fCriticalSection.Leave;
+      FCriticalSection.Leave;
     end;
   end;
 end;
@@ -317,14 +305,12 @@ end;
 
 procedure TPythonIIForm.actCopyHistoryExecute(Sender: TObject);
 begin
-  Clipboard.AsText :=  fCommandHistory.Text;
+  Clipboard.AsText :=  FCommandHistory.Text;
 end;
 
 procedure TPythonIIForm.actCopyWithoutPromptsExecute(Sender: TObject);
-Var
-  SelText : string;
 begin
-  SelText := SynEdit.SelText;
+  var SelText := SynEdit.SelText;
   if SelText = '' then Exit;
 
   SelText := TRegEx.Replace(SelText,
@@ -334,10 +320,10 @@ begin
 end;
 
 procedure TPythonIIForm.actPasteAndExecuteExecute(Sender: TObject);
-Var
+var
   Buffer: TArray<string>;
   Buffers: TArray<TArray<string>>;
-  Text : string;
+  Text: string;
 begin
   Text := Clipboard.AsText;
   if Text = '' then Exit;
@@ -367,12 +353,12 @@ begin
     Buffers := Buffers + [Copy(Buffer)];
 
   TThread.ForceQueue(nil, procedure
-    procedure ExecuteBuffer(Buffer : TArray<string>; WaitToFinish: Boolean);
+    procedure ExecuteBuffer(Buffer: TArray<string>; WaitToFinish: Boolean);
     begin
       if Length(Buffer) > 1 then
         Buffer := Buffer + [''];
       AppendToPrompt(Buffer);
-      var Code := String.Join(#10, Buffer);
+      var Code := string.Join(#10, Buffer);
       ExecuteStatement(Code, WaitToFinish);
     end;
 
@@ -388,15 +374,15 @@ var
   Msg: string;
 begin
   case PyIDEOptions.PythonEngineType of
-    peInternal :  Msg := Format(_(SEngineActive), [_('Internal')]);
-    peRemote : Msg := Format(_(SEngineActive), [_('Remote')]);
-    peRemoteTk : Msg := Format(_(SEngineActive), [_('Remote (Tk)')]);
-    peRemoteWx : Msg := Format(_(SEngineActive), ['Remote (Wx)']);
-    peSSH : Msg := Format(_(SEngineActive),
+    peInternal:  Msg := Format(_(SEngineActive), [_('Internal')]);
+    peRemote: Msg := Format(_(SEngineActive), [_('Remote')]);
+    peRemoteTk: Msg := Format(_(SEngineActive), [_('Remote (Tk)')]);
+    peRemoteWx: Msg := Format(_(SEngineActive), ['Remote (Wx)']);
+    peSSH: Msg := Format(_(SEngineActive),
       [Format('"%s" SSH', [GI_PyControl.ActiveSSHServerName])]);
   end;
 
-  GI_PyInterpreter.AppendText(SLineBreak + Msg);
+  GI_PyInterpreter.AppendText(sLineBreak + Msg);
   GI_PyInterpreter.AppendPrompt;
 end;
 
@@ -406,8 +392,8 @@ begin
   if APlatform = '' then APlatform := PyControl.ActiveInterpreter.PythonPlatform;
   AVersion := AVersion.Replace(Char($A), ' ');
   if SynEdit.Lines.Count > 0 then AppendText(sLineBreak);
-  var S := Format('*** Python %s on %s. ***', [AVersion, APlatform]);
-  AppendText(S);
+  var Str := Format('*** Python %s on %s. ***', [AVersion, APlatform]);
+  AppendText(Str);
 end;
 
 procedure TPythonIIForm.AppendPrompt;
@@ -421,17 +407,17 @@ end;
 
 procedure TPythonIIForm.ClearPendingMessages;
 begin
-  fCriticalSection.Enter;
+  FCriticalSection.Enter;
   try
-    fOutputStream.Clear;
+    FOutputStream.Clear;
   finally
-    fCriticalSection.Leave;
+    FCriticalSection.Leave;
   end;
 end;
 
 procedure TPythonIIForm.ClearDisplay;
 begin
-  Synedit.ClearAll;
+  SynEdit.ClearAll;
   PrintInterpreterBanner;
   AppendPrompt;
 end;
@@ -453,13 +439,13 @@ var
 
     procedure AddLine(AddLB: Boolean);
     var
-      S: string;
+      Str: string;
     begin
       if P <= PStart then Exit;
 
-      SetString(S, PStart, P - PStart);
+      SetString(Str, PStart, P - PStart);
       SynEdit.Lines[SynEdit.Lines.Count - 1] :=
-        SynEdit.Lines[SynEdit.Lines.Count - 1] + S;
+        SynEdit.Lines[SynEdit.Lines.Count - 1] + Str;
 
       if AddLB then
         SynEdit.Lines.Add('');
@@ -509,30 +495,30 @@ var
   end;
 
 begin
-  Assert(GetCurrentThreadId = MainThreadId);
-  fCriticalSection.Enter;
+  Assert(GetCurrentThreadId = MainThreadID, 'WritePendingMessages');
+  FCriticalSection.Enter;
   try
-    if fOutputStream.Size > 0 then begin
-      SetLength(WS, fOutputStream.Size div 2);
-      fOutputStream.Position := 0;
-      fOutputStream.Read(WS[1], Length(WS) * 2);
-      fOutputStream.Size := 0;
+    if FOutputStream.Size > 0 then begin
+      SetLength(WS, FOutputStream.Size div 2);
+      FOutputStream.Position := 0;
+      FOutputStream.Read(WS[1], Length(WS) * 2);
+      FOutputStream.Size := 0;
       ProcessOutput;
     end;
   finally
-    fCriticalSection.Leave;
+    FCriticalSection.Leave;
   end;
 end;
 
-procedure TPythonIIForm.AppendText(const S: string);
+procedure TPythonIIForm.AppendText(const Str: string);
 begin
   SynEdit.BeginUpdate;
   try
     SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-    if Pos(#0, S) > 0 then
-      SynEdit.SelText := StrStripChar(S, #0)
+    if Pos(#0, Str) > 0 then
+      SynEdit.SelText := StrStripChar(Str, #0)
     else
-      SynEdit.SelText := S;
+      SynEdit.SelText := Str;
     SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
     SynEdit.EnsureCursorPosVisible;
   finally
@@ -541,9 +527,9 @@ begin
 end;
 
 procedure TPythonIIForm.AppendToPrompt(const Buffer: array of string);
-Var
-  LineCount, i : integer;
-  Line : string;
+var
+  LineCount: Integer;
+  Line: string;
 begin
   LineCount := SynEdit.Lines.Count;
   Line := SynEdit.Lines[LineCount-1];
@@ -553,8 +539,8 @@ begin
       if Line <> '' then AppendText(sLineBreak);
       AppendText(PS1);
     end;
-    for i := Low(Buffer) to High(Buffer) - 1  do
-        AppendText(Buffer[i] + sLineBreak + PS2);
+    for var I := Low(Buffer) to High(Buffer) - 1  do
+        AppendText(Buffer[I] + sLineBreak + PS2);
     if Length(Buffer) > 0 then AppendText(Buffer[High(Buffer)]);
   finally
     SynEdit.EndUpdate;
@@ -611,15 +597,15 @@ begin
   PythonIO.UnicodeIO := True;
   PythonIO.RawOutput := True;
 
-  fShowOutput := True;
+  FShowOutput := True;
   // For handling output from Python threads
   FCriticalSection.Initialize;
-  fOutputStream := TMemoryStream.Create;
+  FOutputStream := TMemoryStream.Create;
 
   //  For recalling old commands in Interactive Window;
-  fCommandHistory := TStringList.Create();
-  fCommandHistorySize := 50;
-  fCommandHistoryPointer := 0;
+  FCommandHistory := TStringList.Create;
+  FCommandHistorySize := 50;
+  FCommandHistoryPointer := 0;
 
   SetPyInterpreterPrompt(pipNormal);
 
@@ -635,15 +621,15 @@ begin
   PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
 
   GI_PyInterpreter := nil;
-  FreeAndNil(fCommandHistory);
+  FreeAndNil(FCommandHistory);
   FCriticalSection.Destroy;
-  FreeAndNil(fOutputStream);
-  FreeAndNil(fOutputMirror);
+  FreeAndNil(FOutputStream);
+  FreeAndNil(FOutputMirror);
   inherited;
 end;
 
-procedure TPythonIIForm.GetBlockBoundary(LineN: integer; var StartLineN,
-  EndLineN: integer; var IsCode: Boolean);
+procedure TPythonIIForm.GetBlockBoundary(LineN: Integer; var StartLineN,
+  EndLineN: Integer; var IsCode: Boolean);
 {-----------------------------------------------------------------------------
 	  GetBlockBoundary takes a line number, and will return the
 	  start and end line numbers of the block, and a flag indicating if the
@@ -654,23 +640,23 @@ procedure TPythonIIForm.GetBlockBoundary(LineN: integer; var StartLineN,
 	  and backward until a prompt _is_ found, and all lines in between without
 	  prompts are returned, and the IsCode is false.
 -----------------------------------------------------------------------------}
-Var
-  Line, Prefix : string;
-  MaxLineNo : integer;
+var
+  Line, Prefix: string;
+  MaxLineNo: Integer;
 begin
   Line := SynEdit.Lines[LineN];
   MaxLineNo := SynEdit.Lines.Count - 1;
-  Prefix := GetPromptPrefix(line);
+  Prefix := GetPromptPrefix(Line);
   if Prefix = '' then begin
     IsCode := False;
     StartLineN := LineN;
     while StartLineN > 0 do begin
-      if GetPromptPrefix(SynEdit.Lines[StartLineN-1]) <> '' then break;
+      if GetPromptPrefix(SynEdit.Lines[StartLineN-1]) <> '' then Break;
       Dec(StartLineN);
     end;
     EndLineN := LineN;
     while EndLineN < MaxLineNo do begin
-      if GetPromptPrefix(SynEdit.Lines[EndLineN+1]) <> '' then break;
+      if GetPromptPrefix(SynEdit.Lines[EndLineN+1]) <> '' then Break;
       Inc(EndLineN);
     end;
   end else begin
@@ -678,23 +664,23 @@ begin
     StartLineN := LineN;
     while (StartLineN > 0) and (Prefix <> PS1) do begin
       Prefix := GetPromptPrefix(SynEdit.Lines[StartLineN-1]);
-      if Prefix = '' then break;
+      if Prefix = '' then Break;
       Dec(StartLineN);
     end;
     EndLineN := LineN;
     while EndLineN < MaxLineNo do begin
       Prefix := GetPromptPrefix(SynEdit.Lines[EndLineN+1]);
-      if (Prefix = PS1) or (Prefix = '') then break;
+      if (Prefix = PS1) or (Prefix = '') then Break;
       Inc(EndLineN);
     end;
   end;
 end;
 
-function TPythonIIForm.GetPromptPrefix(line: string): string;
+function TPythonIIForm.GetPromptPrefix(Line: string): string;
 begin
-  if Copy(line, 1, Length(PS1)) = PS1 then
+  if Copy(Line, 1, Length(PS1)) = PS1 then
     Result := PS1
-  else if Copy(line, 1, Length(PS2)) = PS2 then
+  else if Copy(Line, 1, Length(PS2)) = PS2 then
     Result := PS2
   else
     Result := '';
@@ -710,15 +696,15 @@ begin
   Result := SynEdit;
 end;
 
-function TPythonIIForm.GetShowOutput: boolean;
+function TPythonIIForm.GetShowOutput: Boolean;
 begin
-  Result := fShowOutput;
+  Result := FShowOutput;
 end;
 
 procedure TPythonIIForm.ExecuteStatement(const SourceCode: string; WaitToFinish: Boolean = False);
 { Execute a possibly incomplete python statement }
 var
-  NeedIndent : boolean;
+  NeedIndent: Boolean;
   LineN: Integer;
 begin
   NeedIndent := False;  // True denotes an incomplete statement
@@ -742,8 +728,8 @@ begin
     end,
     procedure
     var
-      Buffer : array of string;
-      Index, Position: integer;
+      Buffer: array of string;
+      Index, Position: Integer;
       CurLine, Indent: string;
     begin
       if not NeedIndent then begin
@@ -754,16 +740,16 @@ begin
         AppendToPrompt(Buffer);
 
         //  Add the command executed to History
-        Index := fCommandHistory.IndexOf(SourceCode);
+        Index := FCommandHistory.IndexOf(SourceCode);
         if Index >= 0  then
-          fCommandHistory.Delete(Index);
+          FCommandHistory.Delete(Index);
         FCommandHistory.Add(SourceCode);
-        SetCommandHistorySize(fCommandHistorySize);
-        fCommandHistoryPointer := fCommandHistory.Count;
+        SetCommandHistorySize(FCommandHistorySize);
+        FCommandHistoryPointer := FCommandHistory.Count;
         SynEdit.Refresh;
       end else begin
         // Now attempt to correct indentation
-        CurLine := Copy(SynEdit.Lines[lineN], Length(PS2)+1); //!!
+        CurLine := Copy(SynEdit.Lines[LineN], Length(PS2)+1); //!!
         Position := 1;
         Indent := '';
         while (Length(CurLine)>=Position) and
@@ -776,7 +762,7 @@ begin
           if eoTabsToSpaces in SynEdit.Options then
             Indent := Indent + StringOfChar(' ', SynEdit.TabWidth)
           else
-            Indent := indent + #9;
+            Indent := Indent + #9;
         end else if TPyRegExpr.IsBlockCloser(CurLine) then begin
           if (eoTabsToSpaces in SynEdit.Options) and (Length(Indent) > 0) and
             (Indent[Length(Indent)] <> #9)
@@ -794,14 +780,14 @@ end;
 
 procedure TPythonIIForm.SynEditProcessCommand(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
-Var
-  LineN, StartLineN, EndLineN: integer;
-  IsCode : Boolean;
-  Line, Source : string;
-  Buffer : array of string;
-  NewCommand : TSynEditorCommand;
-  WChar : WideChar;
-  Match : TMatch;
+var
+  LineN, StartLineN, EndLineN: Integer;
+  IsCode: Boolean;
+  Line, Source: string;
+  Buffer: array of string;
+  NewCommand: TSynEditorCommand;
+  WChar: WideChar;
+  Match: TMatch;
 begin
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
@@ -816,7 +802,7 @@ begin
 
         SynEdit.Selections.Clear;
 
-        fCommandHistoryPrefix := '';
+        FCommandHistoryPrefix := '';
 
         CommandsDataModule.SynParamCompletion.CancelCompletion;
         CommandsDataModule.SynCodeCompletion.CancelCompletion;
@@ -855,7 +841,7 @@ begin
                   procedure
                   begin
                     PyControl.ActiveInterpreter.SystemCommand(GI_PyIDEServices.ReplaceParams(Match.Groups[1].Value));
-                  end)
+                  end);
               end
               else
                 ExecuteStatement(Source);
@@ -921,17 +907,17 @@ end;
 procedure TPythonIIForm.SynEditCommandProcessed(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
 const
-  OpenBrackets : string = '([{"''';
-  CloseBrackets : string = ')]}"''';
-Var
-  OpenBracketPos : integer;
+  OpenBrackets: string = '([{"''';
+  CloseBrackets: string = ')]}"''';
+var
+  OpenBracketPos: Integer;
   Line: string;
-  Len, Position : Integer;
+  Len, Position: Integer;
   CharRight: WideChar;
   CharLeft: WideChar;
   Attr: TSynHighlighterAttributes;
-  DummyToken : string;
-  Caret, BC : TBufferCoord;
+  DummyToken: string;
+  Caret, BC: TBufferCoord;
 begin
   // Should AutoCompletion be trigerred?
   if (Command = ecChar) and  PyIDEOptions.InterpreterCodeCompletion and
@@ -958,12 +944,12 @@ begin
     Line := LineText;
     Len := Length(LineText);
 
-    if aChar = fCloseBracketChar then begin
-      if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
-        ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
-      fCloseBracketChar := #0;
-    end else if CharInSet(aChar, [')', ']', '}']) then begin
-      fCloseBracketChar := #0;
+    if AChar = FCloseBracketChar then begin
+      if InsertMode and (CaretX <= Len) and (Line[CaretX] = FCloseBracketChar) then
+        ExecuteCommand(ecDeleteChar, #0, nil);
+      FCloseBracketChar := #0;
+    end else if CharInSet(AChar, [')', ']', '}']) then begin
+      FCloseBracketChar := #0;
       Position := CaretX;
       if Position <= Len then
         CharRight := Line[Position]
@@ -972,13 +958,13 @@ begin
       if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
         ExecuteCommand(ecDeleteChar, #0, nil);
     end else begin
-      fCloseBracketChar := #0;
-      OpenBracketPos := Pos(aChar, OpenBrackets);
+      FCloseBracketChar := #0;
+      OpenBracketPos := Pos(AChar, OpenBrackets);
 
       BC := CaretXY;
       Dec(BC.Char, 2);
       if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-        ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute)) then
+        ((Attr = Highlighter.StringAttribute) or (Attr = Highlighter.CommentAttribute)) then
           OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
 
       if (OpenBracketPos > 0) then begin
@@ -997,12 +983,12 @@ begin
           CharLeft := Line[Position];
 
         if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and
-          not (CharInSet(aChar, ['"', '''']) and
-           (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+          not (CharInSet(AChar, ['"', '''']) and
+           (Highlighter.IsIdentChar(CharLeft) or (CharLeft= AChar))) then
         begin
           SelText := CloseBrackets[OpenBracketPos];
           CaretX := CaretX - 1;
-          fCloseBracketChar := CloseBrackets[OpenBracketPos];
+          FCloseBracketChar := CloseBrackets[OpenBracketPos];
         end;
       end;
     end;
@@ -1011,23 +997,22 @@ end;
 
 procedure TPythonIIForm.SynEditDblClick(Sender: TObject);
 var
-   RegEx : TRegEx;
-   Match : TMatch;
-   ErrLineNo : integer;
-   FileName : string;
+   RegEx: TRegEx;
+   Match: TMatch;
+   ErrLineNo: Integer;
+   FileName: string;
 begin
   RegEx := CompiledRegEx(STracebackFilePosExpr);
-  Match := RegEx.Match(Synedit.LineText);
+  Match := RegEx.Match(SynEdit.LineText);
   if Match.Success then begin
     ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
     FileName := Match.GroupValue(1);
-    //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
     if Assigned(PyControl.ActiveInterpreter) then
       FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
     GI_PyIDEServices.ShowFilePosition(FileName, ErrLineNo, 1);
   end else begin
     RegEx := CompiledRegEx(SWarningFilePosExpr);
-    Match := RegEx.Match(Synedit.LineText);
+    Match := RegEx.Match(SynEdit.LineText);
     if Match.Success then begin
       ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
       FileName := Match.GroupValue(1);
@@ -1038,7 +1023,6 @@ end;
 
 procedure TPythonIIForm.SynEditEnter(Sender: TObject);
 begin
-  inherited;
   EditorSearchOptions.InitSearch;
   EditorSearchOptions.InterpreterIsSearchTarget := True;
   GI_SearchCmds := Self;
@@ -1056,7 +1040,6 @@ end;
 
 procedure TPythonIIForm.SynEditExit(Sender: TObject);
 begin
-  inherited;
   GI_SearchCmds := nil;
 end;
 
@@ -1070,10 +1053,10 @@ end;
 
 procedure TPythonIIForm.SynEditProcessUserCommand(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
-Var
-  LineN, StartLineN, EndLineN, i: integer;
+var
+  LineN, StartLineN, EndLineN, I: Integer;
   IsCode: Boolean;
-  Source, BlockSource : string;
+  Source, BlockSource: string;
   Buffer: array of string;
   P1, P2: PWideChar;
 begin
@@ -1086,7 +1069,6 @@ begin
         if CommandsDataModule.SynCodeCompletion.Form.Visible then
           CommandsDataModule.SynCodeCompletion.CancelCompletion;
         DoCodeCompletion(SynEdit, SynEdit.CaretXY);
-        //SynCodeCompletion.ActivateCompletion;
       end;
     ecParamCompletion:
       begin
@@ -1108,43 +1090,46 @@ begin
           SetLength(Buffer, EndLineN-StartLineN + 1);
           GetBlockCode(BlockSource, Buffer, EndLineN, StartLineN);
           // Prefix
-          if fCommandHistoryPrefix <> '' then begin
+          if FCommandHistoryPrefix <> '' then
+          begin
             if not (IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
                     (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
-                    InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
-                    (BlockSource =  fCommandHistory[fCommandHistoryPointer])) then
-              fCommandHistoryPrefix := ''
-          end else begin
+                    InRange(FCommandHistoryPointer, 0, FCommandHistory.Count-1) and
+                    (BlockSource =  FCommandHistory[FCommandHistoryPointer])) then
+              FCommandHistoryPrefix := '';
+          end else
+          begin
             if IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
                     (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
-                    not (InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
-                    (BlockSource =  fCommandHistory[fCommandHistoryPointer]))
+                    not (InRange(FCommandHistoryPointer, 0, FCommandHistory.Count-1) and
+                    (BlockSource =  FCommandHistory[FCommandHistoryPointer]))
             then
-              fCommandHistoryPrefix := BlockSource;
+              FCommandHistoryPrefix := BlockSource;
           end;
 
           Source := '';
           if Command = ecRecallCommandEsc then begin
-           fCommandHistoryPointer := fCommandHistory.Count;
-           fCommandHistoryPrefix := '';
+           FCommandHistoryPointer := FCommandHistory.Count;
+           FCommandHistoryPrefix := '';
           end else
-            Repeat
+            repeat
               if Command = ecRecallCommandPrev then
-                Dec(fCommandHistoryPointer)
+                Dec(FCommandHistoryPointer)
               else if Command = ecRecallCommandNext then
-                Inc(fCommandHistoryPointer);
-              fCommandHistoryPointer := EnsureRange(fCommandHistoryPointer, -1, fCommandHistory.Count);
-            Until not InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) or
-              (fCommandHistoryPrefix = '') or
-              fCommandHistory[fCommandHistoryPointer].StartsWith(fCommandHistoryPrefix);
+                Inc(FCommandHistoryPointer);
+              FCommandHistoryPointer := EnsureRange(FCommandHistoryPointer, -1, FCommandHistory.Count);
+            until not InRange(FCommandHistoryPointer, 0, FCommandHistory.Count-1) or
+              (FCommandHistoryPrefix = '') or
+              FCommandHistory[FCommandHistoryPointer].StartsWith(FCommandHistoryPrefix);
 
-          if InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) then
-            Source := fCommandHistory[fCommandHistoryPointer]
-          else begin
+          if InRange(FCommandHistoryPointer, 0, FCommandHistory.Count-1) then
+            Source := FCommandHistory[FCommandHistoryPointer]
+          else
+          begin
             if Command <> ecRecallCommandEsc then
-              Beep();
-            Source := fCommandHistoryPrefix;
-            fCommandHistoryPrefix := '';
+              Beep;
+            Source := FCommandHistoryPrefix;
+            FCommandHistoryPrefix := '';
           end;
 
           SynEdit.BeginUpdate;
@@ -1152,14 +1137,17 @@ begin
           try
             if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
               // already at the bottom and inside the prompt
-             if (BlockSource <> Source) then begin
-                for i := EndLineN downto StartLineN do
-                  SynEdit.Lines.Delete(i);
+             if (BlockSource <> Source) then
+             begin
+                for I := EndLineN downto StartLineN do
+                  SynEdit.Lines.Delete(I);
                 //Append new prompt if needed
                 SetLength(Buffer, 0);
                 AppendToPrompt(Buffer);
              end;  // else do nothing
-            end else begin
+            end
+            else
+            begin
               SetLength(Buffer, 0);
               AppendToPrompt(Buffer);
             end;
@@ -1167,35 +1155,38 @@ begin
             if (Source <> '') and
               ((BlockSource <> Source) or (EndLineN < SynEdit.Lines.Count - 1)) then
             begin
-              i := 0;
+              I := 0;
               P1 := PWideChar(Source);
-              while P1 <> nil do begin
+              while P1 <> nil do
+              begin
                 P1 := StrScan(P1, WideLF);
                 if Assigned(P1) then Inc(P1);
-                Inc(i);
+                Inc(I);
               end;
-              SetLength(Buffer, i);
+              SetLength(Buffer, I);
 
-              i := 0;
+              I := 0;
               P1 := PWideChar(Source);
-              while P1 <> nil do begin
+              while P1 <> nil do
+              begin
                 P2 := StrScan(P1, WideLF);
                 if P2 = nil then
-                  Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
+                  Buffer[I] := Copy(Source, P1 - PWideChar(Source) + 1,
                     Length(Source) - (P1 - PWideChar(Source)))
-                else begin
-                  Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1, P2 - P1);
+                else
+                begin
+                  Buffer[I] := Copy(Source, P1 - PWideChar(Source) + 1, P2 - P1);
                   Inc(P2);
                 end;
                 P1 := P2;
-                Inc(i);
+                Inc(I);
               end;
               AppendToPrompt(Buffer);
             end;
             SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
             SynEdit.EnsureCursorPosVisible;
           finally
-            SynEdit.UnLockDrawing;
+            SynEdit.UnlockDrawing;
             SynEdit.EndUpdate;
           end;
         end;
@@ -1208,13 +1199,11 @@ begin
 end;
 
 
-procedure TPythonIIForm.SetCommandHistorySize(const Value: integer);
-Var
-  i : integer;
+procedure TPythonIIForm.SetCommandHistorySize(const Value: Integer);
 begin
-  fCommandHistorySize := Value;
+  FCommandHistorySize := Value;
   if FCommandHistory.Count > Value then begin
-    for i := 1 to FCommandHistory.Count - Value do
+    for var I := 1 to FCommandHistory.Count - Value do
       FCommandHistory.Delete(0);
   end;
 end;
@@ -1245,9 +1234,9 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.SetShowOutput(const Value: boolean);
+procedure TPythonIIForm.SetShowOutput(const Value: Boolean);
 begin
-  fShowOutput := Value;
+  FShowOutput := Value;
 end;
 
 procedure TPythonIIForm.ShowWindow;
@@ -1258,7 +1247,8 @@ end;
 procedure TPythonIIForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
   const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
 begin
-  if Value.EndsWith('()') then begin
+  if Value.EndsWith('()') then
+  begin
     SynEdit.CaretX:= SynEdit.CaretX - 1;
     EndToken:= '(';
   end;
@@ -1279,7 +1269,7 @@ end;
 
 procedure TPythonIIForm.DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
 var
-  locline: string;
+  LocLine: string;
   Attr: TSynHighlighterAttributes;
   Highlighter: TSynCustomHighlighter;
   Prompt, DummyToken: string;
@@ -1296,16 +1286,16 @@ begin
   Highlighter := SynEdit.Highlighter;
   Dec(Caret.Char);
   SynEdit.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr);
-  locLine := SynEdit.LineText.PadRight(Caret.Char); // to deal with trim trailing spaces
+  LocLine := SynEdit.LineText.PadRight(Caret.Char); // to deal with trim trailing spaces
   Inc(Caret.Char);
 
-  Prompt := GetPromptPrefix(locLine);
+  Prompt := GetPromptPrefix(LocLine);
   if Prompt <> '' then begin
     // Replace prompt with spaces
     for var I := 1 to Length(Prompt) do
-      locline[I] := ' ';
+      LocLine[I] := ' ';
     // Exit if it is a system command
-    if TRegEx.IsMatch(locLine, '^\s*!') then
+    if TRegEx.IsMatch(LocLine, '^\s*!') then
       Exit;
   end else
     Exit;  // This is not a code line
@@ -1333,7 +1323,7 @@ begin
       for var I := 0 to CC.SkipHandlers.Count -1 do
       begin
         var SkipHandler := CC.SkipHandlers[I] as TBaseCodeCompletionSkipHandler;
-        Skipped := SkipHandler.SkipCodeCompletion(locline, '', Caret, Highlighter, Attr);
+        Skipped := SkipHandler.SkipCodeCompletion(LocLine, '', Caret, Highlighter, Attr);
         if Skipped then Break;
       end;
 
@@ -1345,7 +1335,7 @@ begin
           var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
           CompletionHandler.Initialize;
           try
-            Handled := CompletionHandler.HandleCodeCompletion(locline, '',
+            Handled := CompletionHandler.HandleCodeCompletion(LocLine, '',
               Caret, Highlighter, Attr, InsertText, DisplayText);
           except
           end;
@@ -1375,7 +1365,7 @@ begin
 end;
 
 procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var x, y: Integer;
+  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
   var CanExecute: Boolean);
 begin
   var CC := TIDECompletion.InterpreterCodeCompletion;
@@ -1434,14 +1424,14 @@ begin
 end;
 
 procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var x, y: Integer;
+  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
   var CanExecute: Boolean);
 var
   StartX,
-  ArgIndex : Integer;
-  DisplayString, DocString : string;
-  p : TPoint;
-  ParamString : string;
+  ArgIndex: Integer;
+  DisplayString, DocString: string;
+  Pt: TPoint;
+  ParamString: string;
 begin
   CanExecute := False;
   if not GI_PyControl.PythonLoaded or GI_PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
@@ -1461,7 +1451,7 @@ begin
     if (DocString <> '') then
     begin
       DisplayString := DisplayString + sLineBreak;
-      DocString := GetLineRange(DocString, 1, 20) // 20 lines max
+      DocString := GetLineRange(DocString, 1, 20); // 20 lines max
     end;
 
     // Determine active argument
@@ -1470,7 +1460,8 @@ begin
     ParamString := ParamString + ' ';  // To deal with for instance '1,'
     ArgIndex := 0;
     GetParameter(ParamString);
-    While ParamString <> '' do begin
+    while ParamString <> '' do
+    begin
       Inc(ArgIndex);
       GetParameter(ParamString);
     end;
@@ -1479,11 +1470,11 @@ begin
     CP.ItemList.Text := DisplayString + DocString;
 
     //  position the hint window at and just below the opening bracket
-    p := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels(
+    Pt := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels(
       SynEdit.BufferToDisplayPos(BufferCoord(Succ(StartX), SynEdit.CaretY))));
-    Inc(p.y, SynEdit.LineHeight);
-    x := p.X;
-    y := p.Y;
+    Inc(Pt.Y, SynEdit.LineHeight);
+    X := Pt.X;
+    Y := Pt.Y;
   end else begin
     CP.ItemList.Clear;
     CP.InsertList.Clear;
@@ -1492,14 +1483,14 @@ end;
 
 function TPythonIIForm.FormHelp(Command: Word; Data: THelpEventData;
   var CallHelp: Boolean): Boolean;
-Var
-  KeyWord : string;
+var
+  Keyword: string;
 begin
   Keyword := SynEdit.WordAtCursor;
   if not PyIDEMainForm.PythonKeywordHelpRequested and
     not PyIDEMainForm.MenuHelpRequested and (Keyword <> '') then
   begin
-    CallHelp := not CommandsDataModule.ShowPythonKeywordHelp(KeyWord);
+    CallHelp := not CommandsDataModule.ShowPythonKeywordHelp(Keyword);
     Result := True;
   end else begin
     CallHelp := True;
@@ -1509,41 +1500,41 @@ end;
 
 procedure TPythonIIForm.StartOutputMirror(const AFileName: string;
   Append: Boolean);
-Var
-  Mode : integer;
+var
+  Mode: Integer;
 begin
-  fCriticalSection.Enter;
+  FCriticalSection.Enter;
   try
-    FreeAndNil(fOutputMirror);
+    FreeAndNil(FOutputMirror);
     try
       if Append and FileExists(AFileName) then
         Mode := fmOpenReadWrite
       else
         Mode := fmCreate;
-      fOutputMirror := TFileStream.Create(AFileName, Mode or fmShareDenyWrite);
+      FOutputMirror := TFileStream.Create(AFileName, Mode or fmShareDenyWrite);
 
-      if Append and (fOutputMirror.Size > 0) then
-        fOutputMirror.Seek(0, soFromEnd)
+      if Append and (FOutputMirror.Size > 0) then
+        FOutputMirror.Seek(0, soFromEnd)
       else
       begin
         var BOM := TEncoding.UTF8.GetPreamble;
-        fOutputMirror.Write(BOM, Length(BOM));  // save in utf8 encoding
+        FOutputMirror.Write(BOM, Length(BOM));  // save in utf8 encoding
       end;
     except
       StyledMessageDlg(Format(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
     end;
   finally
-    fCriticalSection.Leave;
+    FCriticalSection.Leave;
   end;
 end;
 
 procedure TPythonIIForm.StopFileMirror;
 begin
-  fCriticalSection.Enter;
+  FCriticalSection.Enter;
   try
-    FreeAndNil(fOutputMirror);
+    FreeAndNil(FOutputMirror);
   finally
-    fCriticalSection.Leave;
+    FCriticalSection.Leave;
   end;
 end;
 
@@ -1554,22 +1545,21 @@ begin
 end;
 
 procedure TPythonIIForm.UpdatePythonKeywords;
-Var
-  Keywords, Builtins, BuiltInMod : Variant;
-  i : integer;
+var
+  Keywords, Builtins, BuiltInMod: Variant;
 begin
   with ResourcesDataModule do begin
     SynPythonSyn.Keywords.Clear;
     SynPythonSyn.Keywords.Sorted := False;
     Keywords := Import('keyword').kwlist;
-    for i := 0 to Len(Keywords) - 1 do
-      SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
+    for var I := 0 to len(Keywords) - 1 do
+      SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(I), Pointer(Ord(tkKey)));
     // Avoid adding duplicates (None, True, False)
     SynPythonSyn.Keywords.Sorted := True;
     BuiltInMod := VarPyth.BuiltinModule;
-    Builtins := BuiltinMod.dir(BuiltinMod);
-    for i := 0 to Len(Builtins) - 1 do
-      SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
+    Builtins := BuiltInMod.dir(BuiltinMod);
+    for var I := 0 to len(Builtins) - 1 do
+      SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(I), Pointer(Ord(tkNonKeyword)));
     // add pseudo keyword self
     SynPythonSyn.Keywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
 
@@ -1593,7 +1583,7 @@ end;
 procedure TPythonIIForm.FormActivate(Sender: TObject);
 begin
   inherited;
-  if CanActuallyFocus(Synedit) then
+  if CanActuallyFocus(SynEdit) then
     SynEdit.SetFocus;
 end;
 
@@ -1611,46 +1601,46 @@ begin
     PyControl.ActiveInterpreter.ReInitialize;
 end;
 
-function TPythonIIForm.IsEmpty : Boolean;
+function TPythonIIForm.IsEmpty: Boolean;
 begin
   Result := (SynEdit.Lines.Count  = 0) or
     ((SynEdit.Lines.Count  = 1) and (SynEdit.Lines[0] = ''));
 end;
 
-function TPythonIIForm.CanFind: boolean;
+function TPythonIIForm.CanFind: Boolean;
 begin
   Result := not IsEmpty;
 end;
 
-function TPythonIIForm.CanFindNext: boolean;
+function TPythonIIForm.CanFindNext: Boolean;
 begin
   Result := not IsEmpty and
     (EditorSearchOptions.SearchText <> '');
 end;
 
-function TPythonIIForm.CanReplace: boolean;
+function TPythonIIForm.CanReplace: Boolean;
 begin
   Result := not IsEmpty;
 end;
 
 procedure TPythonIIForm.ExecFind;
 begin
-  CommandsDataModule.ShowSearchReplaceDialog(SynEdit, FALSE);
+  CommandsDataModule.ShowSearchReplaceDialog(SynEdit, False);
 end;
 
 procedure TPythonIIForm.ExecFindNext;
 begin
-  CommandsDataModule.DoSearchReplaceText(SynEdit, FALSE, FALSE);
+  CommandsDataModule.DoSearchReplaceText(SynEdit, False, False);
 end;
 
 procedure TPythonIIForm.ExecFindPrev;
 begin
-  CommandsDataModule.DoSearchReplaceText(SynEdit, FALSE, TRUE);
+  CommandsDataModule.DoSearchReplaceText(SynEdit, False, True);
 end;
 
 procedure TPythonIIForm.ExecReplace;
 begin
-  CommandsDataModule.ShowSearchReplaceDialog(SynEdit, TRUE);
+  CommandsDataModule.ShowSearchReplaceDialog(SynEdit, True);
 end;
 
 procedure TPythonIIForm.ReinitInterpreter;
@@ -1672,7 +1662,7 @@ begin
     try
       SynEdit.BlockBegin := BufferCoord(1, LastLine);
       SynEdit.BlockEnd := BufferCoord(Length(PS1) + 1, LastLine);
-      SynEdit.SelText := ''
+      SynEdit.SelText := '';
     finally
       SynEdit.EndUpdate;
     end;
@@ -1684,17 +1674,16 @@ procedure TPythonIIForm.GetBlockCode(var Source: string;
 var
   Len: Integer;
   Line: string;
-  i: Integer;
 begin
-  Assert(Length(Buffer) = EndLineN-StartLineN + 1);
+  Assert(Length(Buffer) = EndLineN-StartLineN + 1, 'TPythonIIForm.GetBlockCode');
 
   Source := '';
-  for i := StartLineN to EndLineN do
+  for var I := StartLineN to EndLineN do
   begin
-    Line := SynEdit.Lines[i];
+    Line := SynEdit.Lines[I];
     Len := Length(GetPromptPrefix(Line));
-    Buffer[i - StartLineN] := Copy(Line, Len + 1, MaxInt);
-    Source := Source + Buffer[i - StartLineN] + WideLF;
+    Buffer[I - StartLineN] := Copy(Line, Len + 1, MaxInt);
+    Source := Source + Buffer[I - StartLineN] + WideLF;
   end;
   Delete(Source, Length(Source), 1);
 end;
@@ -1707,7 +1696,7 @@ end;
 procedure TPythonIIForm.RegisterHistoryCommands;
 // Register the Recall History Command
 
-  procedure AddEditorCommand(Cmd: TSynEditorCommand; SC: TShortcut);
+  procedure AddEditorCommand(Cmd: TSynEditorCommand; SC: TShortCut);
   begin
     // Remove if it exists
     var Index :=  SynEdit.Keystrokes.FindShortcut(SC);
@@ -1745,7 +1734,7 @@ begin
   // Save Interpreter History
   TempStringList.Clear;
   for var I := 0 to CommandHistory.Count - 1 do
-    TempStringList.Add(StrStringToEscaped(CommandHistory[i]));
+    TempStringList.Add(StrStringToEscaped(CommandHistory[I]));
   var AppIniStorageOptions := TJvAppIniStorageOptions(AppStorage.StorageOptions);
   var OldPreserveLeadingTrailingBlanks := AppIniStorageOptions.PreserveLeadingTrailingBlanks;
   AppIniStorageOptions.PreserveLeadingTrailingBlanks := True;
@@ -1791,7 +1780,7 @@ begin
 
   CommandHistory.Clear;
   for var I := 0 to TempStringList.Count - 1 do
-    CommandHistory.Add(StrEscapedToString(TempStringList[i]));
+    CommandHistory.Add(StrEscapedToString(TempStringList[I]));
   CommandHistoryPointer := TempStringList.Count;  // one after the last one
 end;
 

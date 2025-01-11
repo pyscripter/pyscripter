@@ -44,7 +44,7 @@ uses
 
 type
   (* function, that returns value of a system parameter *)
-  TGetParameterProc = function : string;
+  TGetParameterProc = function: string;
 
   (* function, that will be replaced in texts with its value *)
   TParameterFunction = function (const AParameters: string): string;

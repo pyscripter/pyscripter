@@ -208,7 +208,7 @@ type
     FHotKeyEditor1: TSynHotKey;
     FHotKeyEditor2: TSynHotKey;
 
-    FHandleChanges : Boolean;  //Normally true, can prevent unwanted execution of event handlers
+    FHandleChanges: Boolean;  //Normally true, can prevent unwanted execution of event handlers
 
     FSynEdit: TSynEditorOptionsContainer;
     FUserCommand: TSynEditorOptionsUserCommand;
@@ -227,7 +227,7 @@ type
     procedure UpdateColorFontStyle;
     procedure CMDialogChar( var Msg: TCMDialogChar ); message CM_DIALOGCHAR;
   public
-    function Execute(EditOptions : TSynEditorOptionsContainer) : Boolean;
+    function Execute(EditOptions: TSynEditorOptionsContainer): Boolean;
     property GetUserCommandNames: TSynEditorOptionsUserCommand read FUserCommand
       write FUserCommand;
     property GetAllUserCommands: TSynEditorOptionsAllUserCommands
@@ -248,12 +248,12 @@ type
   TSynEditOptionsDialog = class(TComponent)
   private
     FForm: TEditorOptionsDialog;
-    FPages : TSynOptionPages;
+    FPages: TSynOptionPages;
     FHighlighterCountEvent: TSynHighlighterCountEvent;
     FGetHighlighterEvent: TSynGetHighlighterEvent;
     FSetHighlighterEvent: TSynSetHighlighterEvent;
-    FHighlighters : TList;
-    FColorThemeHighlighter : TSynCustomHighlighter;
+    FHighlighters: TList;
+    FColorThemeHighlighter: TSynCustomHighlighter;
     function GetUserCommandNames: TSynEditorOptionsUserCommand;
     procedure SetUserCommandNames(
       const Value: TSynEditorOptionsUserCommand);
@@ -266,10 +266,10 @@ type
     procedure SetOptionPages(const Value: TSynOptionPages);
     procedure ClearHighlighters;
   public
-    class var HighlighterFileDir : string;
-    constructor Create(AOwner : TComponent); override;
+    class var HighlighterFileDir: string;
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function Execute(EditOptions : TSynEditorOptionsContainer) : Boolean;
+    function Execute(EditOptions: TSynEditorOptionsContainer): Boolean;
     procedure UpdateHighlighters;
     property Form: TEditorOptionsDialog read FForm;
   published
@@ -280,10 +280,10 @@ type
       read GetUserCommands
       write SetUserCommands;
     property UseExtendedStrings: Boolean read GetExtended write SetExtended;
-    property VisiblePages : TSynOptionPages read GetOptionPages write SetOptionPages;
-    property OnGetHighlighterCount : TSynHighlighterCountEvent read FHighlighterCountEvent write FHighlighterCountEvent;
-    property OnGetHighlighter : TSynGetHighlighterEvent read FGetHighlighterEvent write FGetHighlighterEvent;
-    property OnSetHighlighter : TSynSetHighlighterEvent read FSetHighlighterEvent write FSetHighlighterEvent;
+    property VisiblePages: TSynOptionPages read GetOptionPages write SetOptionPages;
+    property OnGetHighlighterCount: TSynHighlighterCountEvent read FHighlighterCountEvent write FHighlighterCountEvent;
+    property OnGetHighlighter: TSynGetHighlighterEvent read FGetHighlighterEvent write FGetHighlighterEvent;
+    property OnSetHighlighter: TSynSetHighlighterEvent read FSetHighlighterEvent write FSetHighlighterEvent;
   end;
 
   //This class is assignable to a SynEdit without modifying key properties that affect function
@@ -308,38 +308,38 @@ type
     FOptions: TSynEditorOptions;
     FSynGutter: TSynGutter;
     FColor: TColor;
-    FActiveLineColor : TColor;
+    FActiveLineColor: TColor;
     FVisibleSpecialChars: TSynVisibleSpecialChars;
     procedure SetBookMarks(const Value: TSynBookMarkOpt);
     procedure SetFont(const Value: TFont);
     procedure SetKeystrokes(const Value: TSynEditKeyStrokes);
     procedure SetSynGutter(const Value: TSynGutter);
   public
-    constructor Create(AOwner : TComponent); override;
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure Assign(Source : TPersistent); override;
-    procedure AssignTo(Dest : TPersistent); override;
-    property BookMarkOptions : TSynBookMarkOpt read FBookmarks write SetBookMarks;
+    procedure Assign(Source: TPersistent); override;
+    procedure AssignTo(Dest: TPersistent); override;
+    property BookMarkOptions: TSynBookMarkOpt read FBookmarks write SetBookMarks;
   published
-    property Options : TSynEditorOptions read FOptions write FOptions;
-    property Color : TColor read FColor write FColor;
-    property Font : TFont read FFont write SetFont;
-    property ExtraLineSpacing : Integer read FExtraLineSpacing write FExtraLineSpacing;
-    property Gutter : TSynGutter read FSynGutter write SetSynGutter;
-    property RightEdge : Integer read FRightEdge write FRightEdge;
-    property RightEdgeColor : TColor read FRightEdgeColor write FRightEdgeColor;
-    property WantTabs : Boolean read FWantTabs write FWantTabs;
-    property WordWrap : Boolean read FWordWrap write FWordWrap;
-    property InsertCaret : TSynEditCaretType read FInsertCaret write FInsertCaret;
-    property OverwriteCaret : TSynEditCaretType read FOverwriteCaret write FOverwriteCaret;
-    property HideSelection : Boolean read FHideSelection write FHideSelection;
-    property MaxUndo : Integer read FMaxUndo write FMaxUndo;
-    property SelectedColor : TSynSelectedColor read FSelectedColor;
+    property Options: TSynEditorOptions read FOptions write FOptions;
+    property Color: TColor read FColor write FColor;
+    property Font: TFont read FFont write SetFont;
+    property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
+    property Gutter: TSynGutter read FSynGutter write SetSynGutter;
+    property RightEdge: Integer read FRightEdge write FRightEdge;
+    property RightEdgeColor: TColor read FRightEdgeColor write FRightEdgeColor;
+    property WantTabs: Boolean read FWantTabs write FWantTabs;
+    property WordWrap: Boolean read FWordWrap write FWordWrap;
+    property InsertCaret: TSynEditCaretType read FInsertCaret write FInsertCaret;
+    property OverwriteCaret: TSynEditCaretType read FOverwriteCaret write FOverwriteCaret;
+    property HideSelection: Boolean read FHideSelection write FHideSelection;
+    property MaxUndo: Integer read FMaxUndo write FMaxUndo;
+    property SelectedColor: TSynSelectedColor read FSelectedColor;
     property IndentGuides: TSynIndentGuides read FIndentGuides;
     property DisplayFlowControl: TSynDisplayFlowControl read FDisplayFlowControl;
-    property TabWidth : Integer read FTabWidth write FTabWidth;
-    property Keystrokes : TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
-    property ActiveLineColor : TColor read FActiveLineColor write FActiveLineColor;
+    property TabWidth: Integer read FTabWidth write FTabWidth;
+    property Keystrokes: TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
+    property ActiveLineColor: TColor read FActiveLineColor write FActiveLineColor;
     property VisibleSpecialChars: TSynVisibleSpecialChars
       read FVisibleSpecialChars write FVisibleSpecialChars;
   end;
@@ -381,7 +381,7 @@ begin
   inherited;
 end;
 
-function TSynEditOptionsDialog.Execute(EditOptions : TSynEditorOptionsContainer) : Boolean;
+function TSynEditOptionsDialog.Execute(EditOptions: TSynEditorOptionsContainer): Boolean;
 type
   TSynHClass = class of TSynCustomHighlighter;
 var
@@ -700,7 +700,7 @@ end;
 
 { TfmEditorOptionsDialog }
 
-function TEditorOptionsDialog.Execute(EditOptions : TSynEditorOptionsContainer) : Boolean;
+function TEditorOptionsDialog.Execute(EditOptions: TSynEditorOptionsContainer): Boolean;
 begin
   if (EditOptions = nil) then
   begin
@@ -718,8 +718,8 @@ begin
 end;
 
 procedure TEditorOptionsDialog.GetData;
-var I : Integer;
-    Item : TListItem;
+var I: Integer;
+    Item: TListItem;
 begin
   ckWordWrap.Checked := FSynEdit.WordWrap;
   //Gutter
@@ -931,9 +931,9 @@ end;
 procedure TEditorOptionsDialog.btnUpdateKeyClick(Sender: TObject);
 
 var
-  OldShortcut  : TShortCut;
-  OldShortcut2 : TShortCut;
-  Key : TSynEditKeyStroke;
+  OldShortcut: TShortCut;
+  OldShortcut2: TShortCut;
+  Key: TSynEditKeyStroke;
 begin
   if KeyList.Selected = nil then Exit;
   if cKeyCommand.ItemIndex < 0 then Exit;
@@ -1002,7 +1002,7 @@ end;
 
 procedure TEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var
-  Item : TListItem;
+  Item: TListItem;
 begin
   if cKeyCommand.ItemIndex < 0 then Exit;
   Item:= KeyList.Items.Add;
@@ -1163,7 +1163,7 @@ begin
   EDigits.Enabled:= not ckGutterAutosize.Checked;
 end;
 
-procedure TEditorOptionsDialog.cbHighlightersChange(Sender : TObject);
+procedure TEditorOptionsDialog.cbHighlightersChange(Sender: TObject);
 var
   SynH: TSynCustomHighlighter;
 begin
@@ -1200,8 +1200,8 @@ end;
 
 procedure TEditorOptionsDialog.lbColorThemesClick(Sender: TObject);
 var
-  AppStorage : TJvAppIniFileStorage;
-  FileName : string;
+  AppStorage: TJvAppIniFileStorage;
+  FileName: string;
 begin
   if lbColorThemes.ItemIndex >= 0 then
   begin
@@ -1225,10 +1225,10 @@ begin
   end;
 end;
 
-procedure TEditorOptionsDialog.lbElementsClick(Sender : TObject);
+procedure TEditorOptionsDialog.lbElementsClick(Sender: TObject);
 var
-  SynH : TSynCustomHighlighter;
-  SynAttr : TSynHighlighterAttributes;
+  SynH: TSynCustomHighlighter;
+  SynAttr: TSynHighlighterAttributes;
 
 begin
   if lbElements.ItemIndex <> -1 then
@@ -1253,14 +1253,14 @@ begin
     EnableColorItems(False);
 end;
 
-function TEditorOptionsDialog.SelectedHighlighter : TSynCustomHighlighter;
+function TEditorOptionsDialog.SelectedHighlighter: TSynCustomHighlighter;
 begin
   Result := nil;
   if cbHighlighters.ItemIndex > -1 then
     Result := cbHighlighters.Items.Objects[cbHighlighters.ItemIndex] as TSynCustomHighlighter;
 end;
 
-procedure TEditorOptionsDialog.EnableColorItems(AEnable : Boolean);
+procedure TEditorOptionsDialog.EnableColorItems(AEnable: Boolean);
 begin
   cbElementForeground.Enabled := AEnable;
   cbElementBackground.Enabled := AEnable;
@@ -1277,8 +1277,8 @@ end;
 procedure TEditorOptionsDialog.cbElementForegroundChange(
   Sender: TObject);
 var
-  SynH : TSynCustomHighlighter;
-  SynAttr : TSynHighlighterAttributes;
+  SynH: TSynCustomHighlighter;
+  SynAttr: TSynHighlighterAttributes;
 begin
   SynH := SelectedHighlighter;
   SynAttr := SynH.Attribute[lbElements.ItemIndex];
@@ -1288,8 +1288,8 @@ end;
 procedure TEditorOptionsDialog.cbElementBackgroundChange(
   Sender: TObject);
 var
-  SynH : TSynCustomHighlighter;
-  SynAttr : TSynHighlighterAttributes;
+  SynH: TSynCustomHighlighter;
+  SynAttr: TSynHighlighterAttributes;
 begin
   SynH := SelectedHighlighter;
   SynAttr := SynH.Attribute[lbElements.ItemIndex];
@@ -1298,9 +1298,9 @@ end;
 
 procedure TEditorOptionsDialog.UpdateColorFontStyle;
 var
-  FontStyles : TFontStyles;
-  SynH : TSynCustomHighlighter;
-  SynAttr : TSynHighlighterAttributes;
+  FontStyles: TFontStyles;
+  SynH: TSynCustomHighlighter;
+  SynAttr: TSynHighlighterAttributes;
 begin
   FontStyles := [];
   SynH := SelectedHighlighter;

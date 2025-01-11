@@ -13,8 +13,6 @@ unit cProjectClasses;
 interface
 
 uses
-  System.Types,
-  System.SysUtils,
   System.Classes,
   System.Contnrs,
   JvAppStorage,
@@ -24,13 +22,13 @@ type
   TAbstractProjectNode = class;
   TAbstractProjectNodeClass = class of TAbstractProjectNode;
 
-  TProjectNodeAction = function (Node: TAbstractProjectNode; Data : Pointer):boolean;
+  TProjectNodeAction = function (Node: TAbstractProjectNode; Data: Pointer): Boolean;
 
   TAbstractProjectNode = class(TInterfacedPersistent, IJvAppStorageHandler, IJvAppStoragePublishedProps)
   private
-    fChildren : TObjectList;
-    fParent : TAbstractProjectNode;
-    fModified : Boolean;
+    FChildren: TObjectList;
+    FParent: TAbstractProjectNode;
+    FModified: Boolean;
     function GetRootNode: TAbstractProjectNode;
     function GetModified: Boolean;
     procedure SetModified(const Value: Boolean);
@@ -54,19 +52,19 @@ type
     function FirstThat(Proc: TProjectNodeAction; Data:Pointer = nil): TAbstractProjectNode;
     procedure SortChildren; virtual;
 
-    property Parent : TAbstractProjectNode read fParent write SetParent;
-    property Children : TObjectList read fChildren;
-    property RootNode : TAbstractProjectNode read GetRootNode;
-    property Modified : Boolean read GetModified write SetModified;
-    property Caption : string read GetCaption;
+    property Parent: TAbstractProjectNode read FParent write SetParent;
+    property Children: TObjectList read FChildren;
+    property RootNode: TAbstractProjectNode read GetRootNode;
+    property Modified: Boolean read GetModified write SetModified;
+    property Caption: string read GetCaption;
   end;
 
   TProjectRootNode = class(TAbstractProjectNode)
   private
-    fFileName: string;
-    fStoreRelativePaths : Boolean;
-    fShowFileExtensions : Boolean;
-    fExtraPythonPath: TStrings;
+    FFileName: string;
+    FStoreRelativePaths: Boolean;
+    FShowFileExtensions: Boolean;
+    FExtraPythonPath: TStrings;
     function GetName: string;
   protected
     function GetCaption: string; override;
@@ -77,15 +75,15 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
-    function HasFile(const FileName : string) : Boolean;
+    function HasFile(const FileName: string): Boolean;
     procedure AppendExtraPaths;
     procedure RemoveExtraPaths;
-    property Name : string read GetName;
-    property FileName : string read fFileName write fFileName;
+    property Name: string read GetName;
+    property FileName: string read FFileName write FFileName;
   published
-    property StoreRelativePaths : Boolean read fStoreRelativePaths write fStoreRelativePaths;
-    property ShowFileExtensions : Boolean read fShowFileExtensions write fShowFileExtensions;
-    property ExtraPythonPath: TStrings read fExtraPythonPath;
+    property StoreRelativePaths: Boolean read FStoreRelativePaths write FStoreRelativePaths;
+    property ShowFileExtensions: Boolean read FShowFileExtensions write FShowFileExtensions;
+    property ExtraPythonPath: TStrings read FExtraPythonPath;
   end;
 
   TProjectFileNode = class;
@@ -100,24 +98,24 @@ type
     function GetCaption: string; override;
   public
     procedure SortChildren; override;
-    procedure ImportDirectory(const Directory, Masks : string; Recursive : Boolean);
-    property  FileChild[FileName : string] : TProjectFileNode read GetFileChild;
-    property  FolderChild[FolderName : string] : TProjectFolderNode read GetFolderChild;
+    procedure ImportDirectory(const Directory, Masks: string; Recursive: Boolean);
+    property  FileChild[FileName: string]: TProjectFileNode read GetFileChild;
+    property  FolderChild[FolderName: string]: TProjectFolderNode read GetFolderChild;
   end;
 
   TProjectFolderNode = class(TProjectFilesNode)
   {Like ProjectFilesNode but with a name that can be changed}
   private
-    fName: string;
+    FName: string;
   protected
     function GetCaption: string; override;
   published
-    property Name : string read fName write fName;
+    property Name: string read FName write FName;
   end;
 
   TProjectFileNode = class(TAbstractProjectNode)
   private
-    fFileName: string;
+    FFileName: string;
     function GetName: string;
   protected
     function GetCaption: string; override;
@@ -126,8 +124,8 @@ type
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage;
       const BasePath: string); override;
   public
-    property Name : string read GetName;
-    property FileName : string read fFileName write fFileName;
+    property Name: string read GetName;
+    property FileName: string read FFileName write FFileName;
   end;
 
   TProjectRunConfiguationsNode = class(TAbstractProjectNode)
@@ -137,26 +135,28 @@ type
 
   TProjectRunConfiguationNode = class(TAbstractProjectNode)
   private
-    fName: string;
-    fRunConfig : TRunConfiguration;
+    FName: string;
+    FRunConfig: TRunConfiguration;
     procedure SetRunConfig(const Value: TRunConfiguration);
   protected
     function GetCaption: string; override;
   published
     constructor Create; override;
     destructor Destroy; override;
-    property Name : string read fName write fName;
-    property RunConfig : TRunConfiguration read FRunConfig write SetRunConfig;
+    property Name: string read FName write FName;
+    property RunConfig: TRunConfiguration read FRunConfig write SetRunConfig;
   end;
 
-Var
-  ActiveProject : TProjectRootNode;
+var
+  ActiveProject: TProjectRootNode;
 
 implementation
 
 uses
+  System.Types,
+  System.SysUtils,
   System.IOUtils,
-  JvGnuGetText,
+  JvGnugettext,
   uCommonFunctions,
   cPyControl,
   uEditAppIntfs;
@@ -165,22 +165,22 @@ uses
 
 procedure TAbstractProjectNode.AddChild(Child: TAbstractProjectNode);
 begin
-  fChildren.Add(Child);
-  Child.fParent := Self;
-  if fChildren.Count > 1 then SortChildren;
-  fModified := True;
+  FChildren.Add(Child);
+  Child.FParent := Self;
+  if FChildren.Count > 1 then SortChildren;
+  FModified := True;
 end;
 
 procedure TAbstractProjectNode.ClearChildren;
 begin
-  while fChildren.Count > 0 do
-    fChildren.Last.Free;
+  while FChildren.Count > 0 do
+    FChildren.Last.Free;
 end;
 
 constructor TAbstractProjectNode.Create;
 begin
   inherited;
-  fChildren := TObjectList.Create(False);
+  FChildren := TObjectList.Create(False);
 end;
 
 function TAbstractProjectNode.CreateListItem(Sender: TJvCustomAppStorage;
@@ -191,9 +191,9 @@ function TAbstractProjectNode.CreateListItem(Sender: TJvCustomAppStorage;
     raise Exception.Create('Error in reading project data');
   end;
 
-Var
-  ClassName : string;
-  NodeClass : TAbstractProjectNodeClass;
+var
+  ClassName: string;
+  NodeClass: TAbstractProjectNodeClass;
 begin
   Result := nil;
   ClassName := Sender.ReadString(Path + '\ClassName');
@@ -213,44 +213,40 @@ destructor TAbstractProjectNode.Destroy;
 begin
   SetParent(nil);
   ClearChildren;
-  fChildren.Free;
+  FChildren.Free;
   inherited;
 end;
 
 function TAbstractProjectNode.FirstThat(Proc: TProjectNodeAction;
   Data: Pointer): TAbstractProjectNode;
-var
-  i : integer;
 begin
   Result := nil;
   if Proc(Self, Data) then
     Result := Self
   else
-    for i := 0 to fChildren.Count-1 do begin
-      Result := TAbstractProjectNode(fChildren[i]).FirstThat(Proc, Data);
-      if Result <> nil then exit;
+    for var Child in FChildren do begin
+      Result := TAbstractProjectNode(Child).FirstThat(Proc, Data);
+      if Result <> nil then Exit;
     end;
 end;
 
 procedure TAbstractProjectNode.ForEach(Proc: TProjectNodeAction; Data: Pointer);
-var
-  i : integer;
 begin
   Proc(Self, Data);
-  for i := 0 to fChildren.Count-1 do
-    TAbstractProjectNode(Children[i]).ForEach(Proc, Data);
+  for var Child in FChildren do
+    TAbstractProjectNode(Child).ForEach(Proc, Data);
 end;
 
-function CheckModified(Node: TAbstractProjectNode; Data : Pointer):boolean;
+function CheckModified(Node: TAbstractProjectNode; Data: Pointer): Boolean;
 begin
-  Result := Node.fModified;
+  Result := Node.FModified;
 end;
 
 function TAbstractProjectNode.GetModified: Boolean;
 var
-  Node : TAbstractProjectNode;
+  Node: TAbstractProjectNode;
 begin
-  Result := fModified;
+  Result := FModified;
   if not Result then begin
     Node := FirstThat(CheckModified);
     Result := Assigned(Node);
@@ -259,45 +255,43 @@ end;
 
 function TAbstractProjectNode.GetRootNode: TAbstractProjectNode;
 begin
-  if fParent = nil then
+  if FParent = nil then
     Result := Self
   else
-    Result := fParent.RootNode;
+    Result := FParent.RootNode;
 end;
 
 procedure TAbstractProjectNode.ReadFromAppStorage(
   AppStorage: TJvCustomAppStorage; const BasePath: string);
-var
-  i : integer;
 begin
   if AppStorage.PathExists(BasePath+'\ChildNodes') then begin
     ClearChildren;
-    AppStorage.ReadObjectList(BasePath+'\ChildNodes', fChildren, CreateListItem, True, 'Node');
-    for i := 0 to fChildren.Count - 1 do
-      TAbstractProjectNode(fChildren[i]).fParent := Self;
-    if fChildren.Count > 1 then SortChildren;
+    AppStorage.ReadObjectList(BasePath+'\ChildNodes', FChildren, CreateListItem, True, 'Node');
+    for var Child in FChildren do
+      TAbstractProjectNode(Child).FParent := Self;
+    if FChildren.Count > 1 then SortChildren;
   end;
 end;
 
 procedure TAbstractProjectNode.RemoveChild(Child: TAbstractProjectNode);
 begin
-  if Child = fChildren.Last then
-    fChildren.Delete(fChildren.Count - 1)  //speed up when destroying
+  if Child = FChildren.Last then
+    FChildren.Delete(FChildren.Count - 1)  //speed up when destroying
   else
-    fChildren.Remove(Child);
-  Child.fParent := nil;
-  fModified := True;
+    FChildren.Remove(Child);
+  Child.FParent := nil;
+  FModified := True;
 end;
 
-function ReSetModified(Node: TAbstractProjectNode; Data : Pointer):boolean;
+function ReSetModified(Node: TAbstractProjectNode; Data: Pointer): Boolean;
 begin
-  Node.fModified := False;
+  Node.FModified := False;
   Result := True;
 end;
 
 procedure TAbstractProjectNode.SetModified(const Value: Boolean);
 begin
-  fModified := Value;
+  FModified := Value;
   // Only apply to children if Modified is False
   if not Value then
     ForEach(ReSetModified);
@@ -305,9 +299,9 @@ end;
 
 procedure TAbstractProjectNode.SetParent(const Value: TAbstractProjectNode);
 begin
-  if fParent <> Value then
+  if FParent <> Value then
   begin
-    if  fParent <> nil then fParent.RemoveChild(Self);
+    if  FParent <> nil then FParent.RemoveChild(Self);
     if Value <> nil then Value.AddChild(Self);
   end;
 end;
@@ -321,22 +315,21 @@ procedure TAbstractProjectNode.WriteToAppStorage(
   AppStorage: TJvCustomAppStorage; const BasePath: string);
 begin
   AppStorage.WriteString(BasePath+'\ClassName', Self.ClassName);
-  if fChildren.Count > 0 then
-    AppStorage.WriteObjectList(BasePath+'\ChildNodes', fChildren, 'Node');
+  if FChildren.Count > 0 then
+    AppStorage.WriteObjectList(BasePath+'\ChildNodes', FChildren, 'Node');
 end;
 
 { TProjectRootNode }
 
 procedure TProjectRootNode.AppendExtraPaths;
-var
-  i: Integer;
 begin
   if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
 
-  for i := 0 to fExtraPythonPath.Count-1 do begin
-    PyControl.InternalInterpreter.SysPathAdd(fExtraPythonPath[i]);
+  for var Path in FExtraPythonPath do
+  begin
+    PyControl.InternalInterpreter.SysPathAdd(Path);
     if PyControl.ActiveInterpreter <> PyControl.InternalInterpreter then
-      PyControl.ActiveInterpreter.SysPathAdd(fExtraPythonPath[i]);
+      PyControl.ActiveInterpreter.SysPathAdd(Path);
   end;
 end;
 
@@ -346,14 +339,14 @@ begin
   AddChild(TProjectFilesNode.Create);
   AddChild(TProjectRunConfiguationsNode.Create);
   Modified := False;
-  fExtraPythonPath := TStringList.Create;
-  fStoreRelativePaths := True;
+  FExtraPythonPath := TStringList.Create;
+  FStoreRelativePaths := True;
 end;
 
 destructor TProjectRootNode.Destroy;
 begin
   RemoveExtraPaths;
-  FreeAndNil(fExtraPythonPath);
+  FreeAndNil(FExtraPythonPath);
   inherited;
 end;
 
@@ -364,13 +357,13 @@ end;
 
 function TProjectRootNode.GetName: string;
 begin
-  if fFileName <> '' then
-    Result := ChangeFileExt(TPath.GetFileName(fFileName), '')
+  if FFileName <> '' then
+    Result := ChangeFileExt(TPath.GetFileName(FFileName), '')
   else
     Result := _('Untitled');
 end;
 
-function NodeHasFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
+function NodeHasFile(Node: TAbstractProjectNode; Data: Pointer): Boolean;
 begin
   Result := False;
   if (Node is TProjectFileNode) and
@@ -389,21 +382,20 @@ procedure TProjectRootNode.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
 begin
   inherited;
   RemoveExtraPaths;
-  fExtraPythonPath.Clear;
-  AppStorage.ReadStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
+  FExtraPythonPath.Clear;
+  AppStorage.ReadStringList(BasePath+'\ExtraPythonPath', FExtraPythonPath);
   AppendExtraPaths;
 end;
 
 procedure TProjectRootNode.RemoveExtraPaths;
-var
-  i: Integer;
 begin
   if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
 
-  for i := 0 to fExtraPythonPath.Count-1 do begin
-    PyControl.InternalInterpreter.SysPathRemove(fExtraPythonPath[i]);
+  for var Path in FExtraPythonPath do
+  begin
+    PyControl.InternalInterpreter.SysPathRemove(Path);
     if PyControl.ActiveInterpreter <> PyControl.InternalInterpreter then
-      PyControl.ActiveInterpreter.SysPathRemove(fExtraPythonPath[i]);
+      PyControl.ActiveInterpreter.SysPathRemove(Path);
   end;
 end;
 
@@ -411,14 +403,14 @@ procedure TProjectRootNode.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   inherited;
-  AppStorage.WriteStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
+  AppStorage.WriteStringList(BasePath+'\ExtraPythonPath', FExtraPythonPath);
 end;
 
 { TProjectFolderNode }
 
 function TProjectFolderNode.GetCaption: string;
 begin
-  Result := fName;
+  Result := FName;
 end;
 
 { TProjectFilesNode }
@@ -428,9 +420,9 @@ begin
   Result := _('Files');
 end;
 
-function CompareFolderChildren(P1, P2: Pointer): integer;
-Var
-  Node1, Node2 : TAbstractProjectNode;
+function CompareFolderChildren(P1, P2: Pointer): Integer;
+var
+  Node1, Node2: TAbstractProjectNode;
 begin
   Result := 0;  // to keep compiler happy...
   Node1 := TAbstractProjectNode(P1);
@@ -448,44 +440,31 @@ begin
 end;
 
 function TProjectFilesNode.GetFileChild(FileName: string): TProjectFileNode;
-var
-  i: Integer;
 begin
   Result := nil;
-  for i := 0 to fChildren.Count - 1 do begin
-    if (fChildren[i] is TProjectFileNode) and
-       (AnsiCompareText(TProjectFileNode(fChildren[i]).fFileName, FileName) = 0) then
-     begin
-       Result := TProjectFileNode(fChildren[i]);
-       break;
-     end;
-  end;
+  for var Child in FChildren do
+    if (TObject(Child) is TProjectFileNode) and
+       (AnsiCompareText(TProjectFileNode(Child).FFileName, FileName) = 0)
+    then
+       Exit(TProjectFileNode(Child));
 end;
 
 function TProjectFilesNode.GetFolderChild(FolderName: string): TProjectFolderNode;
-var
-  i: Integer;
 begin
   Result := nil;
-  for i := 0 to fChildren.Count - 1 do begin
-    if (fChildren[i] is TProjectFolderNode) and
-       (AnsiCompareText(TProjectFolderNode(fChildren[i]).fName, FolderName) = 0) then
-     begin
-       Result := TProjectFolderNode(fChildren[i]);
-       break;
-     end;
-  end;
+  for var Child in FChildren do
+    if (TObject(Child) is TProjectFolderNode) and
+      (AnsiCompareText(TProjectFolderNode(Child).FName, FolderName) = 0) then
+       Exit(TProjectFolderNode(Child));
 end;
 
 procedure TProjectFilesNode.ImportDirectory(const Directory, Masks: string;
   Recursive: Boolean);
-Var
+var
   FileList: TStringList;
-  i : integer;
-  FileNode : TProjectFileNode;
-  FolderNode : TProjectFolderNode;
-  FolderName : string;
-  FileName : string;
+  FileNode: TProjectFileNode;
+  FolderNode: TProjectFolderNode;
+  FolderName: string;
 begin
   FolderName := TPath.GetFileName(Directory);
   if (FolderName = '.') or (FolderName = '..') then
@@ -494,18 +473,18 @@ begin
   FolderNode := FolderChild[FolderName];
   if not Assigned(FolderNode) then begin
     FolderNode := TProjectFolderNode.Create;
-    FolderNode.fName := FolderName;
+    FolderNode.FName := FolderName;
     AddChild(FolderNode);
   end;
 
   FileList := TStringList.Create;
   try
     GetFilesInPaths(Directory, Masks, FileList, False);
-    for i := 0 to FileList.Count - 1 do begin
-      FileName := FileList[i];
+    for var FileName in FileList do
+    begin
       if not Assigned(FileChild[FileName]) then begin
         FileNode := TProjectFileNode.Create;
-        FileNode.fFileName := FileName;
+        FileNode.FFileName := FileName;
         FolderNode.AddChild(FileNode);
       end;
     end;
@@ -513,10 +492,10 @@ begin
     if Recursive then begin
       FileList.Clear;
       GetDirectoriesInPaths(Directory, '*.*', FileList, False);
-      for i := 0 to FileList.Count - 1 do begin
-        FolderName := FileList[i];
+      for FolderName in FileList do
+      begin
         if (FolderName = '.') or (FolderName = '..') then
-          continue;
+          Continue;
         FolderNode.ImportDirectory(FolderName, Masks, Recursive);
       end;
     end;
@@ -531,7 +510,7 @@ end;
 
 procedure TProjectFilesNode.SortChildren;
 begin
-  fChildren.Sort(CompareFolderChildren);
+  FChildren.Sort(CompareFolderChildren);
 end;
 
 { TProjectRunConfiguationsNode }
@@ -550,8 +529,8 @@ end;
 
 function TProjectFileNode.GetName: string;
 begin
-  if fFileName <> '' then  begin
-    Result := TPath.GetFileName(GI_PyIDEServices.ReplaceParams(fFileName));
+  if FFileName <> '' then  begin
+    Result := TPath.GetFileName(GI_PyIDEServices.ReplaceParams(FFileName));
     if not ActiveProject.ShowFileExtensions then
       Result := ChangeFileExt(Result, '');
   end else
@@ -567,25 +546,25 @@ end;
 
 procedure TProjectFileNode.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
-Var
-  BaseDir : string;
+var
+  BaseDir: string;
 begin
   inherited;
 
   BaseDir := '';
   if ActiveProject.StoreRelativePaths then begin
-    BaseDir := ExtractFilePath(ActiveProject.fFileName);
+    BaseDir := ExtractFilePath(ActiveProject.FFileName);
 
     if BaseDir <> '' then begin
-      if Pos(BaseDir, fFileName) = 1 then begin
-        Delete(fFileName, 1, Length(BaseDir));
-        fFileName := '$[Project-Path]'+fFileName;
+      if Pos(BaseDir, FFileName) = 1 then begin
+        Delete(FFileName, 1, Length(BaseDir));
+        FFileName := '$[Project-Path]'+FFileName;
       end;
     end;
   end else
-    fFileName := GI_PyIDEServices.ReplaceParams(fFileName);
+    FFileName := GI_PyIDEServices.ReplaceParams(FFileName);
 
-  AppStorage.WriteString(BasePath + '\FileName', fFileName);
+  AppStorage.WriteString(BasePath + '\FileName', FFileName);
 end;
 
 { TProjectRunConfiguationNode }
@@ -593,12 +572,12 @@ end;
 constructor TProjectRunConfiguationNode.Create;
 begin
   inherited;
-  fRunConfig := TRunConfiguration.Create;
+  FRunConfig := TRunConfiguration.Create;
 end;
 
 destructor TProjectRunConfiguationNode.Destroy;
 begin
-  fRunConfig.Free;
+  FRunConfig.Free;
   inherited;
 end;
 

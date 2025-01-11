@@ -13,19 +13,15 @@ interface
 uses
   Winapi.Windows,
   Winapi.Messages,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
-  SpTBXSkins,
-  SpTBXItem;
+  SpTBXSkins;
 
 type
   TIDEDockWindow = class(TForm)
@@ -41,15 +37,12 @@ type
     procedure FormDeactivate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure CMParentFontChanged(var Message: TCMParentFontChanged); message CM_PARENTFONTCHANGED;
-  private
-    { Private declarations }
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
-    { Public declarations }
-    BorderHighlight : TColor;
-    BorderNormal : TColor;
-    HasFocus : Boolean;
+    BorderHighlight: TColor;
+    BorderNormal: TColor;
+    HasFocus: Boolean;
     ImageName: string;
     procedure CreateFormIcon;
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); virtual;
@@ -63,13 +56,12 @@ uses
   Vcl.Themes,
   Vcl.SysStyles,
   SVGInterfaces,
-  SVGIconImageCollection,
   dmResources,
   uCommonFunctions;
 
 {$R *.dfm}
 
-function SvgToIcon(SVG: ISVG; Size: integer; FixedColor: TColor): HIcon;
+function SvgToIcon(SVG: ISVG; Size: Integer; FixedColor: TColor): HICON;
 begin
   var LBitmap := TSmartPtr.Make(TBitmap.Create)();
   LBitmap.PixelFormat := TPixelFormat.pf32bit;   // 32bit bitmap
@@ -171,7 +163,7 @@ begin
      var Color: TColor;
      if not StyleServices.GetElementColor(Details, ecTextColor, Color) then
        Color := StyleServices.GetSystemColor(clBtnText);
-     Icon.Handle := SvgToIcon(SVGItem.Svg, PPIScale(20), Color);
+     Icon.Handle := SvgToIcon(SVGItem.SVG, PPIScale(20), Color);
    end;
 end;
 

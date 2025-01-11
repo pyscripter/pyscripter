@@ -223,7 +223,7 @@ inherited FunctionListWindow: TFunctionListWindow
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 514
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -356,32 +356,32 @@ inherited FunctionListWindow: TFunctionListWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 16
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 60
         CollectionName = 'GoToLine'
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 52
+        CollectionIndex = 61
         CollectionName = 'Help'
         Name = 'Help'
       end
       item
-        CollectionIndex = 47
+        CollectionIndex = 56
         CollectionName = 'Font'
         Name = 'Font'
       end
       item
-        CollectionIndex = 133
+        CollectionIndex = 144
         CollectionName = 'ViewAny'
         Name = 'ViewAny'
       end
       item
-        CollectionIndex = 134
+        CollectionIndex = 145
         CollectionName = 'ViewStart'
         Name = 'ViewStart'
       end>

@@ -127,25 +127,13 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
-        Gutter.Bands = <
-          item
-            Kind = gbkMarks
-            Width = 15
-          end
-          item
-            Kind = gbkLineNumbers
-          end
-          item
-            Kind = gbkFold
-          end
-          item
-            Kind = gbkMargin
-            Width = 2
-          end>
+        Gutter.Bands = <>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
+        VisibleSpecialChars = []
         WantReturns = False
       end
       object SynParameters: TSynEdit
@@ -169,25 +157,13 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
-        Gutter.Bands = <
-          item
-            Kind = gbkMarks
-            Width = 15
-          end
-          item
-            Kind = gbkLineNumbers
-          end
-          item
-            Kind = gbkFold
-          end
-          item
-            Kind = gbkMargin
-            Width = 2
-          end>
+        Gutter.Bands = <>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
+        VisibleSpecialChars = []
         WantReturns = False
       end
       object SynWorkDir: TSynEdit
@@ -211,25 +187,13 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
-        Gutter.Bands = <
-          item
-            Kind = gbkMarks
-            Width = 15
-          end
-          item
-            Kind = gbkLineNumbers
-          end
-          item
-            Kind = gbkFold
-          end
-          item
-            Kind = gbkMargin
-            Width = 2
-          end>
+        Gutter.Bands = <>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
+        VisibleSpecialChars = []
         WantReturns = False
       end
       object btnFileName: TButton
@@ -279,7 +243,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object Label1: TLabel
         Left = 8
         Top = 18
-        Width = 66
+        Width = 67
         Height = 15
         Caption = 'Engine &Type:'
         Color = clNone
@@ -377,25 +341,13 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Font.Style = []
         Gutter.Font.Quality = fqClearTypeNatural
         Gutter.Visible = False
-        Gutter.Bands = <
-          item
-            Kind = gbkMarks
-            Width = 15
-          end
-          item
-            Kind = gbkLineNumbers
-          end
-          item
-            Kind = gbkFold
-          end
-          item
-            Kind = gbkMargin
-            Width = 2
-          end>
+        Gutter.Bands = <>
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
+        VisibleSpecialChars = []
         WantReturns = False
       end
       object btnOutputFileName: TButton
@@ -467,17 +419,17 @@ inherited RunConfigurationForm: TRunConfigurationForm
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 38
+        CollectionIndex = 47
         CollectionName = 'FileOpen'
         Name = 'FileOpen'
       end
       item
-        CollectionIndex = 63
+        CollectionIndex = 72
         CollectionName = 'OpenFolder'
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 23
+        CollectionIndex = 32
         CollectionName = 'Download'
         Name = 'Download'
       end>

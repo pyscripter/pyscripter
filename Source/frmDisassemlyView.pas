@@ -8,22 +8,13 @@
 
 unit frmDisassemlyView;         
 
-interface                          
+interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
-  Vcl.Dialogs,
-  SynEditHighlighter,
-  SynHighlighterPython,
   SynEdit,
-  SynEditCodeFolding,
   uEditAppIntfs;
 
 type
@@ -31,28 +22,25 @@ type
     DisSynEdit: TSynEdit;
     procedure FormCreate(Sender: TObject);
   private
-    { Private declarations }
-    procedure UpdateView(Editor : IEditor);
-  public
-    { Public declarations }
+    procedure UpdateView(Editor: IEditor);
   end;
 
   TDisView = class(TInterfacedObject, IEditorViewFactory)
   private
-    function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : string;
-    function GetTabCaption : string;
-    function GetMenuCaption : string;
-    function GetHint : string;
-    function GetImageName : string;
-    function GetShortCut : TShortCut;
-    procedure GetContextHighlighters(List : TList);
+    function CreateForm(Editor: IEditor; AOwner: TComponent): TCustomForm;
+    function GetName: string;
+    function GetTabCaption: string;
+    function GetMenuCaption: string;
+    function GetHint: string;
+    function GetImageName: string;
+    function GetShortCut: TShortCut;
+    procedure GetContextHighlighters(List: TList);
   end;
-
 
 implementation
 
 uses
+  System.SysUtils,
   JvJVCLUtils,
   JvGnugettext,
   PythonEngine,
@@ -74,9 +62,9 @@ end;
 procedure TDisForm.UpdateView(Editor: IEditor);
 var
   Py: IPyEngineAndGIL;
-  getdis, module : Variant;
-  Cursor : IInterface;
-Const
+  getdis, module: Variant;
+  Cursor: IInterface;
+const
   Code =
   'def GetDis(m):'#10 +
 	     #9'import dis'#10 +
@@ -132,7 +120,7 @@ end;
 
 function TDisView.GetName: string;
 begin
-  Result := 'Disassembly'
+  Result := 'Disassembly';
 end;
 
 function TDisView.GetShortCut: TShortCut;

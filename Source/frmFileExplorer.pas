@@ -11,19 +11,12 @@ unit frmFileExplorer;
 interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Actions,
   System.ImageList,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.ActnList,
   Vcl.Menus,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
@@ -31,7 +24,6 @@ uses
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
-  SpTBXControls,
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
@@ -62,17 +54,17 @@ type
     mnBack: TSpTBXItem;
     mnForward: TSpTBXItem;
     mnGoUp: TSpTBXItem;
-    N1: TSpTBXSeparatorItem;
+    mnSeparator1: TSpTBXSeparatorItem;
     mnBrowsePath: TSpTBXSubmenuItem;
     Desktop: TSpTBXItem;
     MyComputer: TSpTBXItem;
     MyDocuments: TSpTBXItem;
     CurrentDirectory: TSpTBXItem;
     mnManagePythonPath: TSpTBXItem;
-    N2: TSpTBXSeparatorItem;
+    mnSeparator2: TSpTBXSeparatorItem;
     mnEnableFilter: TSpTBXItem;
     mnChangeFilter: TSpTBXItem;
-    N3: TSpTBXSeparatorItem;
+    mnSeparator3: TSpTBXSeparatorItem;
     mnRefresh: TSpTBXItem;
     mnPythonPath: TSpTBXSubmenuItem;
     ShellContextPopUp: TPopupMenu;
@@ -87,14 +79,14 @@ type
     TBXItem2: TSpTBXItem;
     TBXItem7: TSpTBXItem;
     TBXSeparatorItem5: TSpTBXSeparatorItem;
-    N4: TMenuItem;
+    mnSeparator4: TMenuItem;
     AddToFavorites1: TMenuItem;
     TBXSeparatorItem6: TSpTBXSeparatorItem;
     TBXSubmenuItem2: TSpTBXSubmenuItem;
     TBXSubmenuItem3: TSpTBXSubmenuItem;
     TBXSeparatorItem4: TSpTBXSeparatorItem;
     mnNewFolder: TSpTBXItem;
-    N5: TMenuItem;
+    mnSeparator5: TMenuItem;
     CreateNewFolder1: TMenuItem;
     tbiNewFolder: TSpTBXItem;
     FileExplorerActions: TActionList;
@@ -148,21 +140,18 @@ type
     procedure actNewFolderExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
-    fFavorites: TStringList;
-    { Private declarations }
+    FFavorites: TStringList;
     procedure PathItemClick(Sender: TObject);
     function GetExplorerPath: string;
     procedure ApplyPyIDEOptions;
     procedure SetExplorerPath(const Value: string);
   public
-    { Public declarations }
-    procedure UpdateWindow;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
-    procedure ConfigureThreads(FCN : TFileChangeNotificationType;
-      BackgroundProcessing : Boolean);
-    property Favorites : TStringList read fFavorites;
-    property ExplorerPath : string read GetExplorerPath write SetExplorerPath;
+    procedure ConfigureThreads(FCN: TFileChangeNotificationType;
+      BackgroundProcessing: Boolean);
+    property Favorites: TStringList read FFavorites;
+    property ExplorerPath: string read GetExplorerPath write SetExplorerPath;
   end;
 
 var
@@ -171,8 +160,11 @@ var
 implementation
 
 uses
-  WinApi.SHlObj,
+  Winapi.Windows,
+  Winapi.ShlObj,
+  System.SysUtils,
   System.IOUtils,
+  Vcl.Dialogs,
   Vcl.FileCtrl,
   MPCommonObjects,
   JvGnugettext,
@@ -182,20 +174,15 @@ uses
   frmFindResults,
   dlgDirectoryList,
   uEditAppIntfs,
-  cPyBaseDebugger,
   cFindInFiles,
   cPyControl;
 
 {$R *.dfm}
 
-procedure TFileExplorerWindow.UpdateWindow;
-begin
-end;
-
 procedure TFileExplorerWindow.FileExplorerTreeEnumFolder(
   Sender: TCustomVirtualExplorerTree; Namespace: TNamespace;
   var AllowAsChild: Boolean);
-Var
+var
   FileExt: string;
 begin
   AllowAsChild := True;
@@ -208,7 +195,7 @@ end;
 
 procedure TFileExplorerWindow.DesktopClick(Sender: TObject);
 begin
-  FileExplorerTree.RootFolder := rfDeskTop;
+  FileExplorerTree.RootFolder := rfDesktop;
 end;
 
 procedure TFileExplorerWindow.MyComputerClick(Sender: TObject);
@@ -264,8 +251,8 @@ end;
 
 procedure TFileExplorerWindow.ActiveScriptClick(Sender: TObject);
 var
-  Editor : IEditor;
-  FileName : string;
+  Editor: IEditor;
+  FileName: string;
 begin
   Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
@@ -289,8 +276,8 @@ begin
 end;
 
 procedure TFileExplorerWindow.FileExplorerTreeDblClick(Sender: TObject);
-Var
-  NameSpace : TNameSpace;
+var
+  NameSpace: TNamespace;
 begin
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
       not NameSpace.Folder and NameSpace.FileSystem
@@ -299,8 +286,8 @@ begin
 end;
 
 procedure TFileExplorerWindow.ExploreHereClick(Sender: TObject);
-Var
-  NameSpace : TNameSpace;
+var
+  NameSpace: TNamespace;
 begin
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
     NameSpace.Folder and Assigned(NameSpace.AbsolutePIDL)
@@ -312,8 +299,8 @@ begin
 end;
 
 procedure TFileExplorerWindow.actSearchPathExecute(Sender: TObject);
-Var
-  NameSpace : TNameSpace;
+var
+  NameSpace: TNamespace;
 begin
   if not Assigned(FindResultsWindow) then Exit;
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
@@ -322,7 +309,7 @@ begin
     AddMRUString(NameSpace.NameForParsing,
        FindResultsWindow.FindInFilesExpert.DirList, True);
     FindResultsWindow.FindInFilesExpert.GrepSearch := 3;  //Directory
-    FindResultsWindow.Execute(False)
+    FindResultsWindow.Execute(False);
   end;
 end;
 
@@ -348,19 +335,18 @@ end;
 procedure TFileExplorerWindow.mnFavoritesPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 var
-  i : integer;
-  Item : TSpTBXItem;
+  Item: TSpTBXItem;
 begin
   while mnFavorites.Count > 3 do
-    mnFavorites.Items[0].Free;
-  if fFavorites.Count = 0 then begin
+    mnFavorites[0].Free;
+  if FFavorites.Count = 0 then begin
     Item := TSpTBXItem.Create(mnFavorites);
     Item.Caption := _(SEmptyList);
     mnFavorites.Insert(0, Item);
   end else
-    for i := fFavorites.Count - 1 downto 0 do begin
+    for var I := FFavorites.Count - 1 downto 0 do begin
       Item := TSpTBXItem.Create(mnFavorites);
-      Item.Caption := fFavorites[i];
+      Item.Caption := FFavorites[I];
       Item.OnClick := PathItemClick;
       mnFavorites.Insert(0, Item);
     end;
@@ -387,7 +373,7 @@ begin
 end;
 
 procedure TFileExplorerWindow.actGoUpExecute(Sender: TObject);
-Var
+var
   PIDL: PItemIDList;
 begin
   if not Assigned(FileExplorerTree.RootFolderNamespace) or
@@ -403,16 +389,16 @@ begin
 end;
 
 procedure TFileExplorerWindow.actAddToFavoritesExecute(Sender: TObject);
-Var
-  NameSpace : TNameSpace;
-  Path : string;
+var
+  NameSpace: TNamespace;
+  Path: string;
 begin
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
     NameSpace.Folder
   then begin
     Path := NameSpace.NameForParsing;
-    if fFavorites.IndexOf(Path) < 0 then
-      fFavorites.Add(Path);
+    if FFavorites.IndexOf(Path) < 0 then
+      FFavorites.Add(Path);
   end;
 end;
 
@@ -431,12 +417,12 @@ end;
 
 procedure TFileExplorerWindow.actManageFavoritesExecute(Sender: TObject);
 begin
-  EditFolderList(fFavorites, _('File Explorer favorites'));
+  EditFolderList(FFavorites, _('File Explorer favorites'));
 end;
 
 procedure TFileExplorerWindow.actNewFolderExecute(Sender: TObject);
-Var
-  SelectedNode : PVirtualNode;
+var
+  SelectedNode: PVirtualNode;
 begin
   SelectedNode := FileExplorerTree.GetFirstSelected;
   if Assigned(SelectedNode) then
@@ -450,8 +436,8 @@ end;
 
 procedure TFileExplorerWindow.FileExplorerActionsUpdate(
   Action: TBasicAction; var Handled: Boolean);
-Var
-  NameSpace : TNameSpace;
+var
+  NameSpace: TNamespace;
 begin
   actSearchPath.Enabled :=
     FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
@@ -475,16 +461,16 @@ procedure TFileExplorerWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'FileExplorer';
   inherited;
-  fFavorites := TStringList.Create;
-  fFavorites.Duplicates := dupIgnore;
-  fFavorites.Sorted := True;
+  FFavorites := TStringList.Create;
+  FFavorites.Duplicates := dupIgnore;
+  FFavorites.Sorted := True;
   PyIDEOptions.OnChange.AddHandler(ApplyPyIDEOptions);
 end;
 
 procedure TFileExplorerWindow.FormDestroy(Sender: TObject);
 begin
   PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
-  fFavorites.Free;
+  FFavorites.Free;
   FileExplorerWindow := nil;
   inherited;
 end;
@@ -504,9 +490,8 @@ end;
 procedure TFileExplorerWindow.BrowsePathPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 var
-  i : integer;
-  Item : TSpTBXItem;
-  Paths : TStringList;
+  Item: TSpTBXItem;
+  Paths: TStringList;
 begin
   mnPythonPath.Clear;
   if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
@@ -514,14 +499,14 @@ begin
   Paths := TStringList.Create;
   try
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
-    for i := 0 to Paths.Count - 1  do begin
-      if Paths[i] <> '' then begin
+    for var Path in Paths do
+      if Path <> '' then
+      begin
         Item := TSpTBXItem.Create(mnPythonPath);
-        Item.Caption := Paths[i];
+        Item.Caption := Path;
         Item.OnClick := PathItemClick;
         mnPythonPath.Add(Item);
       end;
-    end;
   finally
     Paths.Free;
   end;
@@ -530,7 +515,7 @@ end;
 procedure TFileExplorerWindow.FileExplorerTreeKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  if Key = Char(VK_Return) then
+  if Key = Char(VK_RETURN) then
     FileExplorerTreeDblClick(Sender);
 end;
 
@@ -538,13 +523,15 @@ procedure TFileExplorerWindow.VirtualShellHistoryChange(
   Sender: TBaseVirtualShellPersistent; ItemIndex: Integer;
   ChangeType: TVSHChangeType);
 begin
-  if not Assigned(VirtualShellHistory.VirtualExplorerTree) then exit;
-  if ChangeType = hctSelected then begin
+  if not Assigned(VirtualShellHistory.VirtualExplorerTree) then Exit;
+  if ChangeType = hctSelected then
+  begin
       if not ILIsParent(FileExplorerTree.RootFolderNamespace.AbsolutePIDL,
-        VirtualShellHistory.Items[ItemIndex].AbsolutePIDL, False) then begin
+        VirtualShellHistory[ItemIndex].AbsolutePIDL, False) then
+      begin
          VirtualShellHistory.VirtualExplorerTree := nil;
          FileExplorerTree.RootFolderCustomPIDL :=
-           VirtualShellHistory.Items[ItemIndex].AbsolutePIDL;
+           VirtualShellHistory[ItemIndex].AbsolutePIDL;
          VirtualShellHistory.VirtualExplorerTree := FileExplorerTree;
       end;
   end;

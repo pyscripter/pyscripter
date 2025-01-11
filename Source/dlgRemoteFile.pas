@@ -44,7 +44,8 @@ uses
   cSSHSupport,
   JvGnugettext,
   uCommonFunctions,
-  uEditAppIntfs;
+  uEditAppIntfs,
+  dmResources;
 
 {$R *.dfm}
 

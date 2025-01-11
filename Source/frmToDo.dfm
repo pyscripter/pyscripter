@@ -138,12 +138,12 @@ inherited ToDoWindow: TToDoWindow
     object mnRefresh: TSpTBXItem
       Action = actFileRefresh
     end
-    object N1: TSpTBXSeparatorItem
+    object mnSeparator1: TSpTBXSeparatorItem
     end
     object mnCopyAll: TSpTBXItem
       Action = actEditCopy
     end
-    object N2: TSpTBXSeparatorItem
+    object mnSeparator2: TSpTBXSeparatorItem
     end
     object mnPrint: TSpTBXItem
       Action = actFilePrint
@@ -253,32 +253,32 @@ inherited ToDoWindow: TToDoWindow
   object vicImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 70
+        CollectionIndex = 79
         CollectionName = 'Print'
         Name = 'Print'
       end
       item
-        CollectionIndex = 16
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 112
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 60
         CollectionName = 'GoToLine'
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 52
+        CollectionIndex = 61
         CollectionName = 'Help'
         Name = 'Help'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 97
         CollectionName = 'Refresh'
         Name = 'Refresh'
       end

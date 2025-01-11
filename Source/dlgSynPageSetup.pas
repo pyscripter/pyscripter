@@ -212,6 +212,7 @@ uses
   System.SysUtils,
   SynEditPrintTypes,
   JvGnugettext,
+  dmResources,
   StringResources,
   uCommonFunctions;
 

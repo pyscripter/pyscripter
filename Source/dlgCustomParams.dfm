@@ -163,7 +163,9 @@ inherited CustomizeParams: TCustomizeParams
         HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
+        ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
+        VisibleSpecialChars = []
         WantReturns = False
       end
       object edName: TEdit
@@ -243,27 +245,27 @@ inherited CustomizeParams: TCustomizeParams
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 21
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 97
         CollectionName = 'Refresh'
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 130
+        CollectionIndex = 140
         CollectionName = 'Up'
         Name = 'Up'
       end
       item
-        CollectionIndex = 22
+        CollectionIndex = 31
         CollectionName = 'Down'
         Name = 'Down'
       end
       item
-        CollectionIndex = 68
+        CollectionIndex = 77
         CollectionName = 'Plus'
         Name = 'Plus'
       end>

@@ -52,8 +52,8 @@ type
     procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
   public
-    procedure SetItems(List : TStrings);
-    procedure GetItems(List : TStrings);
+    procedure SetItems(List: TStrings);
+    procedure GetItems(List: TStrings);
   end;
 
 implementation
@@ -180,8 +180,8 @@ end;
 
 procedure TCustomizeParams.actMoveUpExecute(Sender: TObject);
 var
-  Name, Value : string;
-  Index : Integer;
+  Name, Value: string;
+  Index: Integer;
 begin
   if lvItems.ItemIndex > 0 then begin
     Index := lvItems.ItemIndex;
@@ -199,8 +199,8 @@ end;
 
 procedure TCustomizeParams.actMoveDownExecute(Sender: TObject);
 var
-  Name, Value : string;
-  Index : Integer;
+  Name, Value: string;
+  Index: Integer;
 begin
   if (lvItems.ItemIndex >= 0) and
     (lvItems.ItemIndex < lvItems.Items.Count - 1) then

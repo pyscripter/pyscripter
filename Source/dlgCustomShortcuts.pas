@@ -31,15 +31,15 @@ type
     procedure SetSecondaryShortCuts(const Value: TCustomShortCutList);
     function GetSecondaryShortCuts: TCustomShortCutList;
   protected
-    function GetDisplayName : string;  override;
+    function GetDisplayName: string;  override;
   public
-    Category : string;
-    Caption : string;
-    Hint : string;
+    Category: string;
+    Caption: string;
+    Hint: string;
     destructor Destroy; override;
   published
-    property ActionListName : string read FActionListName write FActionListName;
-    property ActionName : string read FActionName write FActionName;
+    property ActionListName: string read FActionListName write FActionListName;
+    property ActionName: string read FActionName write FActionName;
     property ShortCut: TShortCut read FShortCut write FShortCut default 0;
     property SecondaryShortCuts: TCustomShortCutList read GetSecondaryShortCuts
       write SetSecondaryShortCuts stored IsSecondaryShortCutsStored;
@@ -50,12 +50,12 @@ type
   TActionProxyCollectionCreateType = (apcctEmpty, apcctAll, apcctChanged);
 
   TActionProxyCollection = class(TCollection)
-    constructor Create(CreateType : TActionProxyCollectionCreateType);
+    constructor Create(CreateType: TActionProxyCollectionCreateType);
     procedure ApplyShortCuts;
   private
     class var FChangedActions: TList<TCustomAction>;
   public
-    class var ActionLists : TActionListArray;
+    class var ActionLists: TActionListArray;
     class constructor Create;
     class destructor Destroy;
   end;
@@ -102,15 +102,15 @@ type
     procedure AssignKeysToActionProxy(var CurAction: TActionProxyItem);
     { Private declarations }
   public
-    Categories   : TStringList;
-    FunctionList : TStringList;
-    KeyList      : TStringList;
-    ActionProxyCollection   : TActionProxyCollection;
+    Categories: TStringList;
+    FunctionList: TStringList;
+    KeyList: TStringList;
+    ActionProxyCollection: TActionProxyCollection;
 
     procedure PrepActions;
-    function Execute : Boolean;
+    function Execute: Boolean;
 
-    property CurrentAction : TActionProxyItem
+    property CurrentAction: TActionProxyItem
       read GetCurrentAction;
 
     { Public declarations }
@@ -131,7 +131,7 @@ uses
 
 { TfrmCustomKeyboard }
 
-function TfrmCustomKeyboard.Execute : Boolean;
+function TfrmCustomKeyboard.Execute: Boolean;
 begin
   Result := False;
   DoneItems;
@@ -148,7 +148,7 @@ end;
 
 procedure TfrmCustomKeyboard.actAssignShortcutUpdate(Sender: TObject);
 var
-  Enabled : Boolean;
+  Enabled: Boolean;
 begin
   Enabled := False;
   if edNewShortcut.HotKey = 0 then begin
@@ -269,7 +269,7 @@ end;
 
 procedure TfrmCustomKeyboard.lbCommandsClick(Sender: TObject);
 var
-  ActionProxy : TActionProxyItem;
+  ActionProxy: TActionProxyItem;
 begin
   if lbCommands.ItemIndex < 0 then Exit;
 
@@ -288,8 +288,8 @@ end;
 
 procedure TfrmCustomKeyboard.btnAssignClick(Sender: TObject);
 var
-  ShortCut : TShortCut;
-  CurAction : TActionProxyItem;
+  ShortCut: TShortCut;
+  CurAction: TActionProxyItem;
 begin
   if lbCommands.ItemIndex < 0 then Exit;
   if edNewShortcut.HotKey <> 0 then begin
@@ -334,8 +334,8 @@ end;
 
 procedure TfrmCustomKeyboard.FillFunctionList;
 var
-  I, J, Idx : Integer;
-  ActionProxy : TActionProxyItem;
+  I, J, Idx: Integer;
+  ActionProxy: TActionProxyItem;
 begin
   for I := 0 to ActionProxyCollection.Count - 1 do begin
     ActionProxy := TActionProxyItem(ActionProxyCollection.Items[I]);
@@ -364,8 +364,8 @@ end;
 
 procedure TfrmCustomKeyboard.btnRemoveClick(Sender: TObject);
 var
-  CurAction : TActionProxyItem;
-  Index : Integer;
+  CurAction: TActionProxyItem;
+  Index: Integer;
 begin
   if (lbCurrentKeys.ItemIndex < 0) or (lbCommands.ItemIndex < 0) then Exit;
   CurAction := CurrentAction;
@@ -415,12 +415,12 @@ end;
 
 { TActionProxyCollection }
 
-constructor TActionProxyCollection.Create(CreateType : TActionProxyCollectionCreateType);
+constructor TActionProxyCollection.Create(CreateType: TActionProxyCollectionCreateType);
 var
-  i, j, Index : Integer;
-  Action : TCustomAction;
-  ActionList : TActionList;
-  ActionProxyItem : TActionProxyItem;
+  i, j, Index: Integer;
+  Action: TCustomAction;
+  ActionList: TActionList;
+  ActionProxyItem: TActionProxyItem;
 begin
   inherited Create(TActionProxyItem);
   if CreateType = apcctEmpty then Exit;
@@ -446,8 +446,8 @@ begin
   end;
 end;
 
-function FindActionListByName(Name : string;
-  ActionListArray: TActionListArray) : TActionList;
+function FindActionListByName(Name: string;
+  ActionListArray: TActionListArray): TActionList;
 begin
   Result := nil;
   for var I := Low(TActionProxyCollection.ActionLists) to High(TActionProxyCollection.ActionLists) do
@@ -457,7 +457,7 @@ begin
     end;
 end;
 
-function FindActionByName(Name : string; ActionList : TActionList): TCustomAction;
+function FindActionByName(Name: string; ActionList: TActionList): TCustomAction;
 begin
   Result := nil;
   for var I := 0 to ActionList.ActionCount - 1 do
@@ -467,7 +467,7 @@ begin
     end;
 end;
 
-function SameShortcuts(Action : TCustomAction; ActionProxy : TActionProxyItem): Boolean;
+function SameShortcuts(Action: TCustomAction; ActionProxy: TActionProxyItem): Boolean;
 begin
   //  No PyScripter action has secondary shortcuts by default  
   Result := (Action.ShortCut = ActionProxy.ShortCut)
@@ -476,11 +476,11 @@ end;
 
 procedure TActionProxyCollection.ApplyShortCuts();
 var
-  I : Integer;
-  Index : Integer;
-  ActionProxyItem : TActionProxyItem;
-  ActionList : TActionList;
-  Action : TCustomAction;
+  I: Integer;
+  Index: Integer;
+  ActionProxyItem: TActionProxyItem;
+  ActionList: TActionList;
+  Action: TCustomAction;
 begin
   for I := 0 to Count - 1 do begin
     ActionProxyItem := Items[I] as TActionProxyItem;

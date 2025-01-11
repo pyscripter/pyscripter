@@ -167,7 +167,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     object mnGoUp: TSpTBXItem
       Action = actGoUp
     end
-    object N1: TSpTBXSeparatorItem
+    object mnSeparator1: TSpTBXSeparatorItem
     end
     object mnBrowsePath: TSpTBXSubmenuItem
       Caption = 'Browse Path'
@@ -207,7 +207,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = 'Python Path'
       OnPopup = BrowsePathPopup
     end
-    object N2: TSpTBXSeparatorItem
+    object mnSeparator2: TSpTBXSeparatorItem
     end
     object mnManagePythonPath: TSpTBXItem
       Caption = 'Manage Python &Path...'
@@ -223,7 +223,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Caption = '&Change Filter...'
       OnClick = mnChangeFilterClick
     end
-    object N3: TSpTBXSeparatorItem
+    object mnSeparator3: TSpTBXSeparatorItem
     end
     object mnNewFolder: TSpTBXItem
       Action = actNewFolder
@@ -247,13 +247,13 @@ inherited FileExplorerWindow: TFileExplorerWindow
     object AddToFavorites1: TMenuItem
       Action = actAddToFavorites
     end
-    object N4: TMenuItem
+    object mnSeparator4: TMenuItem
       Caption = '-'
     end
     object CreateNewFolder1: TMenuItem
       Action = actNewFolder
     end
-    object N5: TMenuItem
+    object mnSeparator5: TMenuItem
       Caption = '-'
     end
     object SearchPath1: TMenuItem
@@ -373,42 +373,42 @@ inherited FileExplorerWindow: TFileExplorerWindow
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 97
         CollectionName = 'Refresh'
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 63
+        CollectionIndex = 72
         CollectionName = 'OpenFolder'
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 49
         CollectionName = 'Filter'
         Name = 'Filter'
       end
       item
-        CollectionIndex = 36
+        CollectionIndex = 45
         CollectionName = 'FileExplorer'
         Name = 'FileExplorer'
       end
       item
-        CollectionIndex = 102
+        CollectionIndex = 111
         CollectionName = 'SearchFolder'
         Name = 'SearchFolder'
       end
       item
-        CollectionIndex = 35
+        CollectionIndex = 44
         CollectionName = 'Favorite'
         Name = 'Favorite'
       end
       item
-        CollectionIndex = 45
+        CollectionIndex = 54
         CollectionName = 'FolderAdd'
         Name = 'FolderAdd'
       end
       item
-        CollectionIndex = 46
+        CollectionIndex = 55
         CollectionName = 'Folders'
         Name = 'Folders'
       end>

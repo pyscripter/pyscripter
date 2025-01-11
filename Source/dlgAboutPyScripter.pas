@@ -134,7 +134,7 @@ type
   ECreditLanguages = (ar,zh,fr,de,el,it,ja,kab,pt_BR,pt_PT,ru,sk,es);
 
 const
-  cAboutLanguages : array[ECreditLanguages] of string = (
+  cAboutLanguages: array[ECreditLanguages] of string = (
     SAboutBoxCreditsTranslationArabic,
     SAboutBoxCreditsTranslationChinese,
     SAboutBoxCreditsTranslationFrench,
@@ -150,7 +150,7 @@ const
     SAboutBoxCreditsTranslationSpanish
   );
   cAboutTranslationManager = 'Lübbe Onken';
-  cAboutTranslators : array[ECreditLanguages] of string = (
+  cAboutTranslators: array[ECreditLanguages] of string = (
     'Mohammed Nasman, Raouf Rahiche',
     '"Love China"',
     'Groupe AmiensPython, Vincent Maille, Phil Prost',
@@ -234,9 +234,9 @@ end;
 
 procedure TAboutBox.FormCreate(Sender: TObject);
 var
-  Winplatform : string;
-  AboutBoxCreditsTranslations : string;
-  Language : ECreditLanguages;
+  Winplatform: string;
+  AboutBoxCreditsTranslations: string;
+  Language: ECreditLanguages;
 begin
   {$IFDEF WIN64}
   Winplatform := 'x64';

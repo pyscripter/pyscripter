@@ -3,27 +3,19 @@ unit frmModSpTBXCustomize;
 interface
 
 uses
-  WinApi.Windows, 
-  WinApi.Messages,
-  System.UITypes,
-  System.SysUtils, 
-  System.Variants, 
-  System.Classes, 
-  Vcl.Graphics, 
-  Vcl.Controls, 
-  Vcl.Forms,
-  Vcl.Dialogs, 
-  Vcl.StdCtrls, 
-  Vcl.ComCtrls, 
+  Winapi.Windows,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.ComCtrls,
   Vcl.ExtCtrls,
-  Vcl.CheckLst, 
-  TB2Item, 
-  SpTBXCustomizer,
-  SpTBXCustomizerForm, 
+  Vcl.CheckLst,
+  TB2Item,
+  SpTBXCustomizerForm,
   SpTBXEditors,
   SpTBXControls,
-  SpTBXItem, 
-  SpTBXSkins, 
+  SpTBXItem,
   SpTBXTabs;
 
 type
@@ -41,16 +33,13 @@ type
     procedure lbCommandsEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure lbCategoriesClick(Sender: TObject);
     procedure ResetButtonClick(Sender: TObject);
-  private
-    { Private declarations }
   protected
     procedure DoFillCommands(ToolbarList, ItemList, ShortcutsList: TStringList); override;
   public
-    { Public declarations }
     procedure SortCommands;
   end;
 
-Const
+const
   CategoryOther = 'Other';
 
 var
@@ -60,9 +49,12 @@ implementation
 
 {$R *.dfm}
 
-Uses
-  Vcl.ActnList, 
+uses
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ActnList,
   JvGnugettext,
+  SpTBXCustomizer,
   uCommonFunctions,
   frmPyIDEMain;
 
@@ -78,14 +70,13 @@ end;
 procedure TSpTBXCustomizeFormMod.DoFillCommands(ToolbarList, ItemList,
   ShortcutsList: TStringList);
 var
-  i : Integer;
-  Item : TTBCustomItem;
+  Item: TTBCustomItem;
 begin
   inherited;
 
   lbCategories.Clear;
-  for i := 0 to ItemList.Count - 1 do begin
-    Item := ItemList.Objects[i] as TTBCustomItem;
+  for var I := 0 to ItemList.Count - 1 do begin
+    Item := ItemList.Objects[I] as TTBCustomItem;
     if Assigned(Item) and Assigned(Item.Action) and (Item.Action is TCustomAction) then begin
       if lbCategories.Items.IndexOf(_((Item.Action as TCustomAction).Category)) < 0 then
         lbCategories.Items.Add(_((Item.Action as TCustomAction).Category));
@@ -101,10 +92,9 @@ begin
 end;
 
 procedure TSpTBXCustomizeFormMod.lbCategoriesClick(Sender: TObject);
-Var
-  Category : string;
-  i: Integer;
-  Item : TTBCustomItem;
+var
+  Category: string;
+  Item: TTBCustomItem;
 begin
   if lbCategories.ItemIndex < 0 then Exit;
   Category := lbCategories.Items[lbCategories.ItemIndex];
@@ -112,20 +102,20 @@ begin
   lbCommands.Clear;
 
   if Category = _(CategoryOther) then begin
-    for i := 1 to fItemList.Count - 1 do begin  // Skip the first item
-      Item := FItemList.Objects[i] as TTBCustomItem;
+    for var I := 1 to FItemList.Count - 1 do begin  // Skip the first item
+      Item := FItemList.Objects[I] as TTBCustomItem;
       if not Assigned(Item) or not Assigned(Item.Action) or
         not (Item.Action is TCustomAction)
       then
-        lbCommands.Items.AddObject(FItemList[i], Item);
+        lbCommands.Items.AddObject(FItemList[I], Item);
     end;
   end else begin
-    for i := 1 to fItemList.Count - 1 do begin  // Skip the first item
-      Item := FItemList.Objects[i] as TTBCustomItem;
+    for var I := 1 to FItemList.Count - 1 do begin  // Skip the first item
+      Item := FItemList.Objects[I] as TTBCustomItem;
       if Assigned(Item) and Assigned(Item.Action) and (Item.Action is TCustomAction) and
         (_((Item.Action as TCustomAction).Category) = Category)
       then
-        lbCommands.Items.AddObject(FItemList[i], Item);
+        lbCommands.Items.AddObject(FItemList[I], Item);
     end;
   end;
   if FItemList.Count > 0 then
@@ -137,9 +127,9 @@ procedure TSpTBXCustomizeFormMod.lbCommandsDragDrop(Sender, Source: TObject; X,
   Y: Integer);
 var
   OrigItem: TTBCustomItem;
-  WS: WideString;
-  Category : string;
-  Index : Integer;
+  Str: string;
+  Category: string;
+  Index: Integer;
 begin
   if Assigned(Source) and (Source is TSpTBXItemDragObject) and
     (TSpTBXItemDragObject(Source).SourceControl <> Sender) then
@@ -149,12 +139,12 @@ begin
     OrigItem.Parent.Remove(OrigItem);
     // Add the item to the Customizer.Items property
     Customizer.Items.Add(OrigItem);
-    WS := SpCustomizerGetWideCaption(OrigItem);
+    Str := SpCustomizerGetWideCaption(OrigItem);
     // Add the item entry in the commands list
     if OrigItem is TTBSeparatorItem then
-      FSeparatorList.InsertObject(0, WS, OrigItem) // Insert the separator in the first position
+      FSeparatorList.InsertObject(0, Str, OrigItem) // Insert the separator in the first position
     else begin
-      FItemList.AddObject(WS, OrigItem);
+      FItemList.AddObject(Str, OrigItem);
       if Assigned(OrigItem.Action) and (OrigItem.Action is TCustomAction) then
          Category := (OrigItem.Action as TCustomAction).Category
       else
@@ -172,15 +162,13 @@ procedure TSpTBXCustomizeFormMod.lbCommandsDrawItem(Sender: TObject;
   ACanvas: TCanvas; var ARect: TRect; Index: Integer;
   const State: TOwnerDrawState; const PaintStage: TSpTBXPaintStage;
   var PaintDefault: Boolean);
-var
-  R: TRect;
 begin
   if PaintStage <> pstPrePaint then Exit;
   if Index = 0 then begin
     // Draw the separator
-    R := ARect;
-    InflateRect(R, -20, -4);
-    SpDrawXPMenuSeparator(nil, ACanvas, R, False, False, FCurrentPPI);
+    var Rect := ARect;
+    InflateRect(Rect, -20, -4);
+    SpDrawXPMenuSeparator(nil, ACanvas, Rect, False, False, FCurrentPPI);
     PaintDefault := False;
   end
   else
@@ -199,14 +187,13 @@ begin
     I := lbCommands.ItemIndex;
     if I > -1 then
       if I = 0 then begin
-        // SpOutputDebugString('End ' + FSeparatorList[0]);
         FSeparatorList.Delete(0);
       end
       else begin
         for J := 0 to FItemList.Count - 1 do
-          if fItemList.Objects[J] = lbCommands.Items.Objects[I] then begin
-            fItemList.Delete(J);
-            break;
+          if FItemList.Objects[J] = lbCommands.Items.Objects[I] then begin
+            FItemList.Delete(J);
+            Break;
           end;
         lbCategoriesClick(Self);
       end;
@@ -215,24 +202,26 @@ end;
 
 procedure TSpTBXCustomizeFormMod.ResetButtonClick(Sender: TObject);
 begin
-  if StyledMessageDlg(_('This option will reset IDE toolbars and shortcuts to the factory settings.'+#13+#10+'Do you want to proceed?'),
+  if StyledMessageDlg(
+    'This option will reset IDE toolbars and shortcuts to the factory settings.'
+    +#13+#10+'Do you want to proceed?',
     mtWarning, [mbOK, mbCancel], 0) = mrOk
   then
     PyIDEMainForm.LoadToolbarItems(FactoryToolbarItems);
 end;
 
 procedure TSpTBXCustomizeFormMod.SortCommands;
-Var
-  WS : string;
-  Item : TObject;
+var
+  Separator: string;
+  Item: TObject;
 begin
   if lbCommands.Count = 0 then Exit;
-  WS := lbCommands.Items[0];
+  Separator := lbCommands.Items[0];
   Item := lbCommands.Items.Objects[0];
   lbCommands.Items.Delete(0);
   lbCommands.Sorted := True;
   lbCommands.Sorted := False;
-  lbCommands.Items.InsertObject(0, WS, Item);
+  lbCommands.Items.InsertObject(0, Separator, Item);
 end;
 
 end.

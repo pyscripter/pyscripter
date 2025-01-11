@@ -90,13 +90,14 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   cPyControl,
-  PythonVersions;
+  PythonVersions,
+  dmResources;
 
 procedure TPythonVersionsDialog.actlPythonVersionsUpdate(Action: TBasicAction;
   var Handled: Boolean);
 var
-  Node : PVirtualNode;
-  Level : Integer;
+  Node: PVirtualNode;
+  Level: Integer;
 begin
   Node := vtPythonVersions.GetFirstSelected;
   Level := -1;  // to avoid compiler warning
@@ -119,8 +120,8 @@ end;
 
 procedure TPythonVersionsDialog.actPVActivateExecute(Sender: TObject);
 var
-  Node : PVirtualNode;
-  Level : Integer;
+  Node: PVirtualNode;
+  Level: Integer;
 begin
   Node := vtPythonVersions.GetFirstSelected;
   if Assigned(Node) then begin
@@ -184,8 +185,8 @@ end;
 
 procedure TPythonVersionsDialog.actPVRemoveExecute(Sender: TObject);
 var
-  Node : PVirtualNode;
-  Level : Integer;
+  Node: PVirtualNode;
+  Level: Integer;
 begin
   Node := vtPythonVersions.GetFirstSelected;
   if Assigned(Node) then begin
@@ -271,7 +272,7 @@ end;
 procedure TPythonVersionsDialog.vtPythonVersionsGetCellText(
   Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 var
-  Level : Integer;
+  Level: Integer;
 begin
   Level := vtPythonVersions.GetNodeLevel(E.Node);
   case Level of
@@ -303,7 +304,7 @@ procedure TPythonVersionsDialog.vtPythonVersionsGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
-  Level : Integer;
+  Level: Integer;
 begin
   ImageIndex := -1;
   if not (Kind in [ikNormal, ikSelected]) or (Column <> 0) then Exit;
@@ -318,7 +319,7 @@ end;
 procedure TPythonVersionsDialog.vtPythonVersionsInitChildren(
   Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
 var
-  Level : Integer;
+  Level: Integer;
 begin
   Level := vtPythonVersions.GetNodeLevel(Node);
   if Level = 0 then begin
@@ -333,7 +334,7 @@ procedure TPythonVersionsDialog.vtPythonVersionsInitNode(
   Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
 var
-  Level : Integer;
+  Level: Integer;
 begin
   Level := vtPythonVersions.GetNodeLevel(Node);
   if Level = 0 then begin

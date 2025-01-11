@@ -30,16 +30,16 @@ type
     procedure ActionApplyStyleExecute(Sender: TObject);
     procedure LBStyleNamesClick(Sender: TObject);
   private
-    FLoading : Boolean;
-    FStylesPath : string;
+    FLoading: Boolean;
+    FStylesPath: string;
     FPreview:TVclStylesPreview;
-    FExternalStyleFilesDict :  TDictionary<string, string>;
-    class var FLoadedStylesDict :  TDictionary<string, string>;
+    FExternalStyleFilesDict:  TDictionary<string, string>;
+    class var FLoadedStylesDict:  TDictionary<string, string>;
     procedure FillVclStylesList;
   public
-    class var CurrentSkinName : string;
+    class var CurrentSkinName: string;
     class procedure Execute;
-    class procedure SetStyle(StyleName : string);
+    class procedure SetStyle(StyleName: string);
   end;
 
 implementation
@@ -80,7 +80,7 @@ end;
 procedure TStyleSelectorForm.FormShow(Sender: TObject);
 //  Todo Select active style
 var
-  Index : Integer;
+  Index: Integer;
 begin
    if (LBStyleNames.Items.Count> 0) then
    begin
@@ -95,9 +95,9 @@ end;
 
 procedure TStyleSelectorForm.LBStyleNamesClick(Sender: TObject);
 var
-  LStyle : TCustomStyleServices;
-  FileName : string;
-  StyleName : string;
+  LStyle: TCustomStyleServices;
+  FileName: string;
+  StyleName: string;
 begin
   LStyle:=nil;
   if LBStyleNames.ItemIndex >= 0 then
@@ -135,8 +135,8 @@ end;
 class procedure TStyleSelectorForm.SetStyle(StyleName: string);
 // StyleName can be either a resource of a file name
 var
-  SName : string;
-  StyleInfo : TStyleInfo;
+  SName: string;
+  StyleInfo: TStyleInfo;
 begin
   if CompareText(StyleName, TStyleManager.ActiveStyle.Name) = 0 then
     Exit;
@@ -175,8 +175,8 @@ end;
 
 procedure TStyleSelectorForm.ActionApplyStyleExecute(Sender: TObject);
 var
-  StyleName : string;
-  FileName : string;
+  StyleName: string;
+  FileName: string;
 begin
   if LBStyleNames.ItemIndex >= 0 then begin
     StyleName := LBStyleNames.Items[LBStyleNames.ItemIndex];
@@ -202,7 +202,7 @@ end;
 
 class procedure TStyleSelectorForm.Execute;
 var
-  Owner : TCustomForm;
+  Owner: TCustomForm;
 begin
   if Assigned(Screen.ActiveCustomForm) then
     Owner := Screen.ActiveCustomForm
@@ -219,7 +219,7 @@ end;
 
 procedure TStyleSelectorForm.FillVclStylesList;
 var
-  FileName : string;
+  FileName: string;
   StyleInfo:  TStyleInfo;
 begin
    FLoading:=True;

@@ -11,17 +11,11 @@ unit frmRegExpTester;
 interface
 
 uses
-  Winapi.Windows,
   Winapi.Messages,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
   System.Generics.Collections,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   JvDockControlForm,
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
@@ -103,11 +97,11 @@ type
     procedure SpinMatchesValueChanged(Sender: TObject);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   private
-    OldRegExp : string;
-    OldSearchText : string;
-    RegExp : Variant;
-    MatchObject : Variant;
-    MatchList : TList<Variant>;
+    FOldRegExp: string;
+    FOldSearchText: string;
+    FRegExp: Variant;
+    FMatchObject: Variant;
+    FMatchList: TList<Variant>;
   protected
     const FBasePath = 'RegExp Tester Options'; // Used for storing settings
     const FHighlightIndicatorID: TGUID = '{10FBEC66-4210-49F5-9F7D-189B6252080B}';
@@ -126,6 +120,9 @@ var
 implementation
 
 uses
+  System.SysUtils,
+  Vcl.Graphics,
+  Vcl.Forms,
   Vcl.Themes,
   JvGnugettext,
   JvAppIniStorage,
@@ -164,9 +161,9 @@ begin
   if GI_PyControl.PythonLoaded then
   begin
     var Py := SafePyEngine;
-    VarClear(RegExp);
-    VarClear(MatchObject);
-    MatchList.Clear;
+    VarClear(FRegExp);
+    VarClear(FMatchObject);
+    FMatchList.Clear;
   end;
 end;
 
@@ -176,13 +173,13 @@ begin
   if RegExpText.CanFocus then
     RegExpText.SetFocus;
 //    PostMessage(RegExpText.Handle, WM_SETFOCUS, 0, 0);
- end;
+end;
 
 procedure TRegExpTesterWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'RegExp';
   inherited;
-  MatchList := TList<Variant>.Create;
+  FMatchList := TList<Variant>.Create;
 
   GroupsView.NodeDataSize := 0;
 end;
@@ -190,7 +187,7 @@ end;
 procedure TRegExpTesterWindow.FormDestroy(Sender: TObject);
 begin
   Clear;
-  FreeAndNil(MatchList);
+  FreeAndNil(FMatchList);
   inherited;
 end;
 
@@ -210,8 +207,8 @@ begin
 end;
 
 procedure TRegExpTesterWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
-Var
-  SearchType : integer;
+var
+  SearchType: Integer;
 begin
   inherited;
   if RI_findall.Checked then
@@ -284,29 +281,29 @@ procedure TRegExpTesterWindow.RegExpTextChange(Sender: TObject);
 //  various changes.  So we need to check that the text has changed
 begin
   if Visible and
-     ((OldRegExp <> RegExpText.Text) or (OldSearchText <> SearchText.Text))
+     ((FOldRegExp <> RegExpText.Text) or (FOldSearchText <> SearchText.Text))
   then
     ClearHighlight;
   if CI_AutoExecute.Checked and (RegExpText.Text <> '') and
     (SearchText.Text <> '') and Visible and
-    ((OldRegExp <> RegExpText.Text) or (OldSearchText <> SearchText.Text))
+    ((FOldRegExp <> RegExpText.Text) or (FOldSearchText <> SearchText.Text))
   then
     TIExecuteClick(Self);
 end;
 
 procedure TRegExpTesterWindow.SpinMatchesValueChanged(Sender: TObject);
-Var
+var
   Py: IPyEngineAndGIL;
-  Index : Integer;
+  Index: Integer;
 begin
   Py := SafePyEngine;
   Index := Trunc(SpinMatches.Value);
-  if (Index > 0) and (Index <= MatchList.Count) then begin
+  if (Index > 0) and (Index <= FMatchList.Count) then begin
     GroupsView.Clear;
-    MatchObject := MatchList[Index-1];
-    MatchText.Text := MatchObject.group();
-    GroupsView.RootNodeCount := len(MatchObject.groups());
-    lblMatch.Caption := Format(_('Match %d of %d'), [Index, MatchList.Count]);
+    FMatchObject := FMatchList[Index-1];
+    MatchText.Text := FMatchObject.group();
+    GroupsView.RootNodeCount := len(FMatchObject.groups());
+    lblMatch.Caption := Format(_('Match %d of %d'), [Index, FMatchList.Count]);
   end;
 end;
 
@@ -317,10 +314,10 @@ begin
 end;
 
 procedure TRegExpTesterWindow.TIExecuteClick(Sender: TObject);
-Var
+var
   Py: IPyEngineAndGIL;
   re: Variant;
-  Flags: integer;
+  Flags: Integer;
   FindIter: Variant;
   AdjSearchText: string;
   OutputSuppressor: IInterface;
@@ -349,13 +346,13 @@ begin
     Flags := Flags or re.VERBOSE;
 
   // Save text values
-  OldRegExp := RegExpText.Text;
-  OldSearchText := SearchText.Text;
+  FOldRegExp := RegExpText.Text;
+  FOldSearchText := SearchText.Text;
 
   // Compile Regular Expression
   try
     OutputSuppressor := GI_PyInterpreter.OutputSuppressor;
-    RegExp := re.compile(RegExpText.Text, Flags);
+    FRegExp := re.compile(RegExpText.Text, Flags);
   except
     on E: Exception do begin
       with lbStatusBar do begin
@@ -370,20 +367,20 @@ begin
   AdjSearchText := AdjustLineBreaks(SearchText.Text, tlbsLF);
   try
     if RI_Search.Checked then begin
-      MatchObject := RegExp.search(AdjSearchText, 0);
-      if VarIsPython(MatchObject) and not VarIsNone(MatchObject) then
-        MatchList.Add(MatchObject);
+      FMatchObject := FRegExp.search(AdjSearchText, 0);
+      if VarIsPython(FMatchObject) and not VarIsNone(FMatchObject) then
+        FMatchList.Add(FMatchObject);
     end else if RI_Match.Checked then begin
-      MatchObject := RegExp.match(AdjSearchText);
-      if VarIsPython(MatchObject) and not VarIsNone(MatchObject) then
-        MatchList.Add(MatchObject);
+      FMatchObject := FRegExp.match(AdjSearchText);
+      if VarIsPython(FMatchObject) and not VarIsNone(FMatchObject) then
+        FMatchList.Add(FMatchObject);
     end else begin
-      FindIter := RegExp.finditer(AdjSearchText);
+      FindIter := FRegExp.finditer(AdjSearchText);
       try
         while True do begin
-          MatchObject := FindIter.__next__();
+          FMatchObject := FindIter.__next__();
           Py.PythonEngine.CheckError(True);
-          MatchList.Add(MatchObject);
+          FMatchList.Add(FMatchObject);
         end;
       except
         on EPyStopIteration do begin end;
@@ -399,21 +396,21 @@ begin
     end;
   end;
 
-  if MatchList.Count > 0 then
-    MatchObject := MatchList[0]
+  if FMatchList.Count > 0 then
+    FMatchObject := FMatchList[0]
   else
-    MatchObject := None;
+    FMatchObject := None;
 
   SpinMatches.Value := 1;
   SpinMatches.Enabled := False;
-  if MatchList.Count > 1 then begin
+  if FMatchList.Count > 1 then begin
     SpinMatches.SpinOptions.MinValue := 1;
-    SpinMatches.SpinOptions.MaxValue := MatchList.Count;
+    SpinMatches.SpinOptions.MaxValue := FMatchList.Count;
     SpinMatches.Enabled := True;
-    lblMatch.Caption := Format(_('Match %d of %d'), [1, MatchList.Count]);
+    lblMatch.Caption := Format(_('Match %d of %d'), [1, FMatchList.Count]);
   end;
 
-  if (not VarIsPython(MatchObject)) or VarIsNone(MatchObject) then begin
+  if (not VarIsPython(FMatchObject)) or VarIsNone(FMatchObject) then begin
     with lbStatusBar do begin
       ImageIndex := 3;
       Caption := 'Search text did not match';
@@ -423,8 +420,8 @@ begin
       ImageIndex := 2;
       Caption := 'Search text matched';
     end;
-    MatchText.Text := MatchObject.group();
-    GroupsView.RootNodeCount := len(MatchObject.groups());
+    MatchText.Text := FMatchObject.group();
+    GroupsView.RootNodeCount := len(FMatchObject.groups());
     HighlightMatches;
   end;
 end;
@@ -432,31 +429,30 @@ end;
 procedure TRegExpTesterWindow.GroupsViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
-Var
+var
   Py: IPyEngineAndGIL;
-  GroupDict, Keys : Variant;
-  i : integer;
+  GroupDict, Keys: Variant;
 begin
   Py := SafePyEngine;
-  Assert(VarIsPython(MatchObject) and not VarIsNone(MatchObject));
-  Assert(Integer(Node.Index) < len(MatchObject.groups()));
+  Assert(VarIsPython(FMatchObject) and not VarIsNone(FMatchObject));
+  Assert(Integer(Node.Index) < len(FMatchObject.groups()));
   case Column of
     0:  CellText := IntToStr(Node.Index + 1);
     1:  begin
           CellText := '';
-          GroupDict := RegExp.groupindex;
+          GroupDict := FRegExp.groupindex;
           Keys := BuiltinModule.list(Groupdict.keys());
 
-          for i := 0 to len(Keys) - 1 do
-            if Groupdict.__getitem__(Keys.__getitem__(i)) = Node.Index + 1 then begin
-              CellText := Keys.__getitem__(i);
-              break;
+          for var I := 0 to len(Keys) - 1 do
+            if GroupDict.__getitem__(Keys.__getitem__(I)) = Node.Index + 1 then begin
+              CellText := Keys.__getitem__(I);
+              Break;
             end;
         end;
-    2:  if VarIsNone(MatchObject.groups(Node.Index+1)) then
+    2:  if VarIsNone(FMatchObject.groups(Node.Index+1)) then
           CellText := ''
         else
-          CellText := MatchObject.group(Node.Index+1);
+          CellText := FMatchObject.group(Node.Index+1);
   end;
 end;
 
@@ -486,10 +482,10 @@ procedure TRegExpTesterWindow.HighlightMatches;
 
 var
   Py: IPyEngineAndGIL;
-  VMatch : Variant;
+  VMatch: Variant;
 begin
   Py := SafePyEngine;
-  for VMatch in MatchList do
+  for VMatch in FMatchList do
     HighlightText(VMatch.start(), VMatch.end());
 end;
 

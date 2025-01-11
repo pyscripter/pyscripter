@@ -11,20 +11,12 @@ unit frmWatches;
 interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
-  WinApi.ActiveX,
   System.Types,
   System.UITypes,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Contnrs,
   System.ImageList,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.Menus,
   Vcl.ExtCtrls,
   Vcl.ImgList,
@@ -34,8 +26,6 @@ uses
   JvAppStorage,
   JvDockControlForm,
   TB2Item,
-  SpTBXSkins,
-  SpTBXControls,
   SpTBXItem,
   VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
@@ -90,7 +80,7 @@ type
     procedure WatchesViewFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
   private
     const FBasePath = 'Watches'; // Used for storing settings
-    var fWatchesList: TObjectList;
+    var FWatchesList: TObjectList;
   protected
     function CreateWatch(Sender: TJvCustomAppStorage; const Path: string;
       Index: Integer): TPersistent;
@@ -100,7 +90,7 @@ type
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
 
     procedure UpdateWindow(DebuggerState: TDebuggerState);
-    procedure AddWatch(S: string);
+    procedure AddWatch(Str: string);
   end;
 
 var
@@ -109,6 +99,9 @@ var
 implementation
 
 uses
+  Winapi.Windows,
+  System.SysUtils,
+  Vcl.Dialogs,
   Vcl.Clipbrd,
   SynEdit,
   JvGnugettext,
@@ -117,39 +110,36 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   dmResources,
-  frmPyIDEMain,
-  frmCallStack,
-  cPySupportTypes,
   cPyBaseDebugger;
 
 {$R *.dfm}
 
-Type
+type
   TWatchInfo = class(TPersistent)
   private
-    fWatch: string;
-    fNS: TBaseNameSpaceItem;
+    FWatch: string;
+    FNS: TBaseNameSpaceItem;
   public
     destructor Destroy; override;
   published
-    property Watch: string read fWatch write fWatch;
+    property Watch: string read FWatch write FWatch;
   end;
 
   PWatchRec = ^TWatchRec;
   TWatchRec = record
-    Name : string;
-    ObjectType : string;
-    Value : string;
-    ImageIndex : integer;
+    Name: string;
+    ObjectType: string;
+    Value: string;
+    ImageIndex: Integer;
     NS: TBaseNameSpaceItem;
   end;
 
 destructor TWatchInfo.Destroy;
 begin
-  if Assigned(fNS) then
+  if Assigned(FNS) then
   begin
     var Py := SafePyEngine;
-    FreeAndNil(fNS);
+    FreeAndNil(FNS);
   end;
   inherited;
 end;
@@ -160,8 +150,7 @@ procedure TWatchesWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'WatchesWin';
   inherited;
-//  AllocConsole;
-  fWatchesList := TObjectList.Create(True); // Onwns objects
+  FWatchesList := TObjectList.Create(True); // Onwns objects
   // Let the tree know how much data space we need.
   WatchesView.NodeDataSize := SizeOf(TWatchRec);
 end;
@@ -175,11 +164,11 @@ begin
 
   if WatchesView.GetNodeLevel(Node) = 0 then
   begin
-    Assert(Integer(Node.Index) < fWatchesList.Count);
+    Assert(Integer(Node.Index) < FWatchesList.Count, 'WatchesViewInitChildren');
     if Assigned(Data.NS) then
     begin
       var Py := SafePyEngine;
-      ChildCount := Data.NS.ChildCount
+      ChildCount := Data.NS.ChildCount;
     end
     else
       ChildCount := 0;
@@ -188,7 +177,7 @@ begin
   begin
     var Py := SafePyEngine;
     ParentData := Node.Parent.GetData;
-    Assert(Assigned(ParentData.NS));
+    Assert(Assigned(ParentData.NS), 'WatchesViewInitChildren');
     Data.NS := ParentData.NS.ChildNode[Node.Index];
     ChildCount := Data.NS.ChildCount;
   end;
@@ -199,7 +188,7 @@ procedure TWatchesWindow.WatchesViewInitNode(Sender: TBaseVirtualTree;
   var InitialStates: TVirtualNodeInitStates);
 var
   Data, ParentData: PWatchRec;
-  ChildCount : integer;
+  ChildCount: Integer;
 begin
   Data := Node.GetData;
   if not WatchesView.Enabled then
@@ -210,12 +199,12 @@ begin
   else
   if WatchesView.GetNodeLevel(Node) = 0 then
   begin
-    Assert(Integer(Node.Index) < fWatchesList.Count);
-    Data.NS := TWatchInfo(fWatchesList[Node.Index]).fNS;
+    Assert(Integer(Node.Index) < FWatchesList.Count, 'WatchesViewInitNode');
+    Data.NS := TWatchInfo(FWatchesList[Node.Index]).FNS;
     if Assigned(Data.NS) then
     begin
       var Py := SafePyEngine;
-      ChildCount := Data.NS.ChildCount
+      ChildCount := Data.NS.ChildCount;
     end else
       ChildCount := 0;
   end
@@ -223,7 +212,7 @@ begin
   begin
     var Py := SafePyEngine;
     ParentData := ParentNode.GetData;
-    Assert(Assigned(ParentData.NS));
+    Assert(Assigned(ParentData.NS), 'WatchesViewInitNode');
     Data.NS := ParentData.NS.ChildNode[Node.Index];
     ChildCount := Data.NS.ChildCount;
   end;
@@ -240,7 +229,7 @@ begin
      Data.Value := Data.NS.Value;
   end else begin
     if WatchesView.GetNodeLevel(Node) = 0 then
-      Data.Name  := TWatchInfo(fWatchesList[Node.Index]).Watch
+      Data.Name  := TWatchInfo(FWatchesList[Node.Index]).Watch
     else
       Data.Name := _(SNotAvailable);
     Data.ObjectType := _(SNotAvailable);
@@ -274,24 +263,22 @@ begin
     Data.ImageIndex := -1;
 end;
 
-procedure TWatchesWindow.AddWatch(S: string);
+procedure TWatchesWindow.AddWatch(Str: string);
 var
   WatchInfo: TWatchInfo;
 begin
   WatchInfo := TWatchInfo.Create;
-  WatchInfo.Watch := S;
-  fWatchesList.Add(WatchInfo);
+  WatchInfo.Watch := Str;
+  FWatchesList.Add(WatchInfo);
   UpdateWindow(PyControl.DebuggerState);
 end;
 
 procedure TWatchesWindow.mnAddWatchClick(Sender: TObject);
-var
-  S: string;
 begin
-  S := InputBox('Add Watch', 'Enter watch expression:', '');
-  if S <> '' then
+  var Watch := InputBox('_(Add Watch)', _('Enter watch expression:'), '');
+  if Watch <> '' then
   begin
-    AddWatch(S);
+    AddWatch(Watch);
   end;
 end;
 
@@ -300,16 +287,16 @@ var
   Node: PVirtualNode;
   WatchInfo: TWatchInfo;
 begin
-  Node := WatchesView.GetFirstSelected();
+  Node := WatchesView.GetFirstSelected;
 
   if Assigned(Node) then
   begin
     while Assigned(Node.Parent) and (Node.Parent <> WatchesView.RootNode) do
       Node := Node.Parent;
-    WatchInfo := fWatchesList[Node.Index] as TWatchInfo;
+    WatchInfo := FWatchesList[Node.Index] as TWatchInfo;
     WatchInfo.Watch := InputBox(_('Edit Watch'), _('Enter new expression:'), WatchInfo.Watch);
     if WatchInfo.Watch = '' then
-      fWatchesList.Remove(WatchInfo);
+      FWatchesList.Remove(WatchInfo);
     UpdateWindow(PyControl.DebuggerState);
   end;
 end;
@@ -319,14 +306,14 @@ var
   Node: PVirtualNode;
   WatchInfo: TWatchInfo;
 begin
-  Node := WatchesView.GetFirstSelected();
+  Node := WatchesView.GetFirstSelected;
 
   if Assigned(Node) then
   begin
     while Assigned(Node.Parent) and (Node.Parent <> WatchesView.RootNode) do
       Node := Node.Parent;
-    WatchInfo := fWatchesList[Node.Index] as TWatchInfo;
-    fWatchesList.Remove(WatchInfo);
+    WatchInfo := FWatchesList[Node.Index] as TWatchInfo;
+    FWatchesList.Remove(WatchInfo);
     WatchesView.Clear;
     UpdateWindow(PyControl.DebuggerState);
   end;
@@ -334,7 +321,7 @@ end;
 
 procedure TWatchesWindow.mnClearAllClick(Sender: TObject);
 begin
-  fWatchesList.Clear;
+  FWatchesList.Clear;
   WatchesView.Clear;
 end;
 
@@ -376,7 +363,7 @@ end;
 procedure TWatchesWindow.WatchesViewFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 var
-  Data : PWatchRec;
+  Data: PWatchRec;
 begin
   Data := Node.GetData;
   Finalize(Data^);
@@ -384,7 +371,7 @@ end;
 
 procedure TWatchesWindow.mnCopyToClipboardClick(Sender: TObject);
 begin
-  Clipboard.AsText := string(WatchesView.ContentToText(tstAll, #9));
+  Clipboard.AsText := WatchesView.ContentToText(tstAll, #9);
 end;
 
 procedure TWatchesWindow.FormActivate(Sender: TObject);
@@ -397,15 +384,14 @@ end;
 
 procedure TWatchesWindow.FormDestroy(Sender: TObject);
 begin
-  fWatchesList.Free;
+  FWatchesList.Free;
   inherited;
 end;
 
 procedure TWatchesWindow.WatchesViewKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  inherited;
-  if Key = VK_Delete then
+  if Key = VK_DELETE then
   begin
     mnRemoveWatchClick(Sender);
     Key := 0;
@@ -438,13 +424,12 @@ begin
     0: CellText := Data.Name;
     1: CellText := Data.ObjectType;
     2: CellText := Data.Value;
-  end
+  end;
 end;
 
 procedure TWatchesWindow.UpdateWindow(DebuggerState: TDebuggerState);
 var
   Py: IPyEngineAndGIL;
-  i: Integer;
 begin
   if not GI_PyControl.PythonLoaded or GI_PyControl.Running then begin
     WatchesView.Enabled := False;
@@ -454,12 +439,12 @@ begin
 
   Py := SafePyEngine;
   // Clear NameSpace Items
-  for i := 0 to fWatchesList.Count - 1 do
-    with TWatchInfo(fWatchesList[i]) do
+  for var I := 0 to FWatchesList.Count - 1 do
+    with TWatchInfo(FWatchesList[I]) do
       begin
-        FreeAndNil(fNS);
+        FreeAndNil(FNS);
         if DebuggerState in [dsPaused, dsPostMortem] then
-        fNS := PyControl.ActiveDebugger.Evaluate(Watch);
+        FNS := PyControl.ActiveDebugger.Evaluate(Watch);
       end;
 
   // Turn off Animation to speed things up
@@ -468,7 +453,7 @@ begin
 
   WatchesView.BeginUpdate;
   try
-    WatchesView.RootNodeCount := fWatchesList.Count;
+    WatchesView.RootNodeCount := FWatchesList.Count;
     // The following will Reinitialize only initialized nodes
     // No need to initialize other nodes they will be initialized as needed
     WatchesView.ReinitChildren(nil, True);
@@ -484,14 +469,14 @@ procedure TWatchesWindow.TBXPopupMenuPopup(Sender: TObject);
 begin
   mnRemoveWatch.Enabled := Assigned(WatchesView.GetFirstSelected());
   mnEditWatch.Enabled := mnRemoveWatch.Enabled;
-  mnClearall.Enabled := fWatchesList.Count > 0;
-  mnCopyToClipboard.Enabled := fWatchesList.Count > 0;
+  mnClearall.Enabled := FWatchesList.Count > 0;
+  mnCopyToClipboard.Enabled := FWatchesList.Count > 0;
 end;
 
 procedure TWatchesWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
 begin
   inherited;
-  AppStorage.WriteObjectList(FBasePath, fWatchesList, 'Watch');
+  AppStorage.WriteObjectList(FBasePath, FWatchesList, 'Watch');
   AppStorage.WriteInteger(FBasePath + '\WatchesWidth',
     PPIUnScale(WatchesView.Header.Columns[0].Width));
   AppStorage.WriteInteger(FBasePath+'\Types Width',
@@ -502,7 +487,7 @@ procedure TWatchesWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
   inherited;
   mnClearAllClick(Self);
-  AppStorage.ReadObjectList(FBasePath, fWatchesList, CreateWatch, True,
+  AppStorage.ReadObjectList(FBasePath, FWatchesList, CreateWatch, True,
     'Watch');
   WatchesView.Header.Columns[0].Width :=
     PPIScale(AppStorage.ReadInteger(FBasePath + '\WatchesWidth', 200));

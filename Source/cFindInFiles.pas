@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
  Unit Name: cFindInFiles
  Author:    Kiriakos Vlahos
  Date:      29-May-2005
@@ -7,7 +7,9 @@
 
 GExperts License Agreement
 GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
-authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+authors who have submitted their code for inclusion. This license agreement only
+covers code written by GExperts, Inc and Erik Berry. You should contact the
+other authors concerning their respective copyrights and conditions.
 
 The rules governing the use of GExperts and the GExperts source code are derived
 from the official Open Source Definition, available at http://www.opensource.org.
@@ -38,7 +40,7 @@ The conditions and limitations are as follows:
       warranties of merchantability and fitness for a particular purpose. In
       other words, we accept no liability for any damage that may result from
       using GExperts or programs that use the GExperts source code.
------------------------------------------------------------------------------}
+-------------------------------------------------------------------------------}
 
 unit cFindInFiles;
 
@@ -61,7 +63,7 @@ type
     WholeWord: Boolean;
     RegEx: Boolean;
     IncludeSubdirs: Boolean;
-    BackupModified : Boolean;
+    BackupModified: Boolean;
     Directories: string;
     Mask: string;
     Pattern: string;
@@ -70,7 +72,6 @@ type
     CanRefresh: Boolean;
   end;
 
-type
   // Individual grep match in a line
   TMatchResult = class(TCollectionItem)
   private
@@ -78,10 +79,10 @@ type
     FEPos: Integer;
     FShowBold: Boolean;
   public
+    constructor Create(Collection: TCollection); override;
     property SPos: Integer read FSPos write FSPos;
     property EPos: Integer read FEPos write FEPos;
     property ShowBold: Boolean read FShowBold write FShowBold;
-    constructor Create(Collection: TCollection); override;
   end;
 
   // Collection of TMatchResult
@@ -107,7 +108,6 @@ type
     constructor Create(Collection: TCollection); override;
     destructor Destroy; override;
     function Add: TMatchResult;
-  public
     property Line: string read FLine write FLine;
     property LineNo: Integer read FLineNo write FLineNo;
     // Collection of all matches in a line
@@ -140,7 +140,6 @@ type
     property TotalMatches: Integer read FTotalMatches write FTotalMatches;
   end;
 
-type
   TOnHitMatch = procedure(Sender: TObject; LineNo: Integer; const Line: string;
       SPos, EPos: Integer) of object;
   TOnSearchFile = procedure(Sender: TObject; const FileName: string) of object;
@@ -157,11 +156,10 @@ type
     FFileResult: TFileResult;
     FSearcher: TSearcher;
     FSearchRoot: string;
+    FGrepSettings: TGrepSettings;
     procedure FoundIt(Sender: TObject; LineNo: Integer; const Line: string;
       SPos, EPos: Integer);
     procedure StartFileSearch(Sender: TObject);
-  private
-    FGrepSettings: TGrepSettings;
     procedure GrepFile(const FileName: string);
   protected
     procedure DoHitMatch(LineNo: Integer; const Line: string;
@@ -180,7 +178,7 @@ type
     property AbortSignalled: Boolean read FAbortSignalled write FAbortSignalled;
   end;
 
- TFindInFilesExpert = class(TInterfacedPersistent, IJvAppStorageHandler)
+  TFindInFilesExpert = class(TInterfacedPersistent, IJvAppStorageHandler)
   private
     FGrepMiddle: Boolean;
     FGrepSave: Boolean;
@@ -318,20 +316,19 @@ end;
 
 procedure TFileResult.GetMatchesOnLine(Line: Integer; var Matches: TMatchArray);
 var
-  i, j: Integer;
   LineMatches: TLineResult;
   MR: TMatchResult;
 begin
   SetLength(Matches, 0);
-  for i := 0 to Count - 1 do
+  for var I := 0 to Count - 1 do
   begin
-    LineMatches := GetItem(i);
+    LineMatches := GetItem(I);
     if LineMatches.FLineNo = Line then
     begin
-      for j := 0 to LineMatches.Matches.Count - 1 do
+      for var J := 0 to LineMatches.Matches.Count - 1 do
       begin
         SetLength(Matches, Length(Matches) + 1);
-        MR := LineMatches.Matches.GetItem(j);
+        MR := LineMatches.Matches.GetItem(J);
         Matches[Length(Matches) - 1] := MR;
       end;
     end;
@@ -360,7 +357,7 @@ constructor TGrepSearchRunner.Create(const Settings: TGrepSettings; StorageTarge
 begin
   inherited Create;
 
-  Assert(Assigned(StorageTarget));
+  Assert(Assigned(StorageTarget), 'TGrepSearchRunner.Create');
   FStorageTarget := StorageTarget;
   FGrepSettings := Settings;
 end;
@@ -372,7 +369,7 @@ begin
   Result :=
     function (const Path: string; const FileInfo: TSearchRec): Boolean
     var
-      Name : string;
+      Name: string;
     begin
       Result := not FAbortSignalled;
 
@@ -390,7 +387,7 @@ resourcestring
   SNoFileOpen = 'No editor is currently active';
 var
   CurrentFile: string;
-  Editor : IEditor;
+  Editor: IEditor;
 begin
   Editor := GI_PyIDEServices.ActiveEditor;
   if Assigned(Editor) then begin
@@ -416,7 +413,7 @@ end;
 
 procedure TGrepSearchRunner.GrepOpenFiles;
 begin
-  GI_EditorFactory.FirstEditorCond(function(Editor: IEditor):boolean
+  GI_EditorFactory.FirstEditorCond(function(Editor: IEditor): Boolean
   begin
       if FAbortSignalled then
         Exit(True)
@@ -428,9 +425,9 @@ begin
   end);
 end;
 
-function GrepProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
+function GrepProjectFile(Node: TAbstractProjectNode; Data: Pointer): Boolean;
 var
-  FileName : string;
+  FileName: string;
 begin
    Result := TGrepSearchRunner(Data).FAbortSignalled;
    if not Result and (Node is TProjectFileNode) and
@@ -448,9 +445,9 @@ end;
 
 procedure TGrepSearchRunner.GrepDirectories(const Dir: string; const Mask: string);
 var
-  PreCallBack : TDirectoryWalkProc;
+  PreCallBack: TDirectoryWalkProc;
 begin
-  PreCallBack := GetPreCallBack();
+  PreCallBack := GetPreCallback();
   WalkThroughDirectories(Dir, Mask, PreCallBack, FGrepSettings.IncludeSubdirs);
 end;
 
@@ -546,7 +543,7 @@ end;
 
 procedure TGrepSearchRunner.StartFileSearch(Sender: TObject);
 begin
-  Assert(Assigned(Sender as TSearcher));
+  Assert(Assigned(Sender as TSearcher), 'TGrepSearchRunner.StartFileSearch');
   Inc(FFileSearchCount);
   if Assigned(FOnSearchFile) then
     FOnSearchFile(Self, FSearcher.FileName);
@@ -573,7 +570,7 @@ procedure AddMRUString(Text: string; List: TStrings; DeleteTrailingDelimiter: Bo
   var
     Index: Integer;
   begin
-    Assert(Assigned(List));
+    Assert(Assigned(List), 'DeleteStringFromList');
     Index := List.IndexOf(Item);
     if Index >= 0 then
       List.Delete(Index);
@@ -755,5 +752,3 @@ begin
 end;
 
 end.
-
-

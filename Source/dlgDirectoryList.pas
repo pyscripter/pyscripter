@@ -52,8 +52,8 @@ type
     procedure CheckButtons;
   end;
 
-function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory List';
-  HelpCntxt : Integer = 0): Boolean;
+function EditFolderList(Folders: TStrings; FormCaption: string = 'Directory List';
+  HelpCntxt: Integer = 0): Boolean;
 
 implementation
 
@@ -64,12 +64,13 @@ uses
   Vcl.FileCtrl,
   System.Math,
   JvBoxProcs,
-  JvGnugettext;
+  JvGnugettext,
+  dmResources;
 
 {$R *.dfm}
 
-function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory List';
-  HelpCntxt : Integer = 0): Boolean; overload;
+function EditFolderList(Folders: TStrings; FormCaption: string = 'Directory List';
+  HelpCntxt: Integer = 0): Boolean; overload;
 begin
   Assert(Assigned(Folders));
   with TDirectoryListDialog.Create(Application) do
@@ -92,7 +93,7 @@ end;
 
 procedure TDirectoryListDialog.CheckButtons;
 var
-  ItemSelected : Boolean;
+  ItemSelected: Boolean;
 begin
   btnAdd.Enabled := edPath.Text <> '';
 
@@ -119,7 +120,7 @@ end;
 procedure TDirectoryListDialog.BtnPathClick(Sender: TObject);
 var
   NewDir: string;
-  Directories : TArray<string>;
+  Directories: TArray<string>;
 begin
   NewDir := edPath.Text;
   if SelectDirectory(NewDir, Directories, [], _('Select directory')) then
@@ -140,7 +141,7 @@ end;
 
 procedure TDirectoryListDialog.btnMoveDownClick(Sender: TObject);
 var
-  Index : Integer;
+  Index: Integer;
 begin
   Index := DirectoryList.ItemIndex;
   if (Index >= 0) and (Index < DirectoryList.Items.Count - 1) then begin
@@ -152,7 +153,7 @@ end;
 
 procedure TDirectoryListDialog.btnMoveUpClick(Sender: TObject);
 var
-  Index : Integer;
+  Index: Integer;
 begin
   Index := DirectoryList.ItemIndex;
   if Index > 0 then begin

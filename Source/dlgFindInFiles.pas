@@ -123,7 +123,8 @@ uses
   frmFindResults,
   StringResources,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl,
+  dmResources;
 
 function GetScrollbarWidth: Integer;
 begin
@@ -132,8 +133,8 @@ end;
 
 procedure TFindInFilesDialog.btnBrowseClick(Sender: TObject);
 var
-  NewDir : string;
-  Directories : TArray<string>;
+  NewDir: string;
+  Directories: TArray<string>;
 begin
   NewDir := cbDirectory.Text;
   if SelectDirectory(NewDir, Directories, [], _('Directory To Search:')) then
@@ -190,7 +191,7 @@ end;
 procedure TFindInFilesDialog.btnOKClick(Sender: TObject);
 var
   Dirs: TStringDynArray;
-  Dir, DirName : string;
+  Dir, DirName: string;
 begin
   if rbDirectories.Checked then
   begin

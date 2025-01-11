@@ -234,28 +234,13 @@ inherited UnitTestWindow: TUnitTestWindow
             Gutter.Font.Style = []
             Gutter.Font.Quality = fqClearTypeNatural
             Gutter.Visible = False
-            Gutter.Bands = <
-              item
-                Kind = gbkMarks
-                Width = 13
-              end
-              item
-                Kind = gbkLineNumbers
-              end
-              item
-                Kind = gbkFold
-              end
-              item
-                Kind = gbkTrackChanges
-              end
-              item
-                Kind = gbkMargin
-                Width = 3
-              end>
+            Gutter.Bands = <>
             HideSelection = True
             ReadOnly = True
             RightEdge = 0
+            ScrollbarAnnotations = <>
             SelectedColor.Alpha = 0.400000005960464500
+            VisibleSpecialChars = []
           end
         end
       end
@@ -388,22 +373,22 @@ inherited UnitTestWindow: TUnitTestWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 21
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 31
+        CollectionIndex = 40
         CollectionName = 'Expand'
         Name = 'Expand'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 24
         CollectionName = 'Collapse'
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 97
         CollectionName = 'Refresh'
         Name = 'Refresh'
       end
@@ -413,22 +398,22 @@ inherited UnitTestWindow: TUnitTestWindow
         Name = 'Abort'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 102
         CollectionName = 'Run'
         Name = 'Run'
       end
       item
-        CollectionIndex = 126
+        CollectionIndex = 136
         CollectionName = 'TreeSelectAll'
         Name = 'TreeSelectAll'
       end
       item
-        CollectionIndex = 125
+        CollectionIndex = 135
         CollectionName = 'TreeDeselectAll'
         Name = 'TreeDeselectAll'
       end
       item
-        CollectionIndex = 118
+        CollectionIndex = 127
         CollectionName = 'TestsFailed'
         Name = 'TestsFailed'
       end>

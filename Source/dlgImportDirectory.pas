@@ -25,9 +25,9 @@ type
     vilImages: TVirtualImageList;
     procedure DirectoryEditBtnClick(Sender: TObject);
   public
-    class var FileMasks : string;
-    class var Directory : string;
-    class var Recursive : Boolean;
+    class var FileMasks: string;
+    class var Directory: string;
+    class var Recursive: Boolean;
     class function Execute: Boolean;
   end;
 
@@ -38,7 +38,8 @@ uses
   Winapi.ShLwApi,
   Vcl.FileCtrl,
   Vcl.Forms,
-  JvGnugettext;
+  JvGnugettext,
+  dmResources;
 
 {$R *.dfm}
 
@@ -47,7 +48,7 @@ uses
 procedure TImportDirectoryForm.DirectoryEditBtnClick(Sender: TObject);
 var
   NewDir: string;
-  Directories : TArray<string>;
+  Directories: TArray<string>;
 begin
   NewDir := DirectoryEdit.Text;
   if SelectDirectory(NewDir, Directories, [], _('Select directory')) then
@@ -56,7 +57,7 @@ end;
 
 class function TImportDirectoryForm.Execute: Boolean;
 var
-  Owner : TCustomForm;
+  Owner: TCustomForm;
 begin
   if Assigned(Screen.ActiveCustomForm) then
     Owner := Screen.ActiveCustomForm

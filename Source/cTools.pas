@@ -9,8 +9,8 @@
 unit cTools;
 
 interface
+
 uses
-  System.SysUtils,
   System.Classes,
   Vcl.ActnList;
 
@@ -42,13 +42,13 @@ type
     FDescription: string;
     FCaption: string;
     FShortCut: TShortCut;
-    FParseMessages : boolean;
-    FParseTraceback : boolean;
-    FMessagesFormat : string;
+    FParseMessages: Boolean;
+    FParseTraceback: Boolean;
+    FMessagesFormat: string;
     FContext: TToolContext;
-    FSaveFiles : TSaveFiles;
-    FEnvironment : TStrings;
-    FUseCustomEnvironment : Boolean;
+    FSaveFiles: TSaveFiles;
+    FEnvironment: TStrings;
+    FUseCustomEnvironment: Boolean;
     FUtf8IO: Boolean;
     procedure SetEnvironment(const Value: TStrings);
     function IsMessageFormatStore: Boolean;
@@ -60,25 +60,25 @@ type
     procedure Assign(Source: TPersistent); override;
   published
     // The caption of the Menu Item corresponding to this tool
-    property Caption : string read FCaption write FCaption;
+    property Caption: string read FCaption write FCaption;
     // The hint of the Menu Item corresponding to this tool
-    property Description : string read FDescription write FDescription;
+    property Description: string read FDescription write FDescription;
     property ApplicationName: string read FApplicationName write FApplicationName;
     property Parameters: string read FParameters write FParameters;
-    property WorkingDirectory : string read FWorkingDirectory write FWorkingDirectory;
-    property ShortCut : TShortCut read FShortCut write FShortCut default 0;
+    property WorkingDirectory: string read FWorkingDirectory write FWorkingDirectory;
+    property ShortCut: TShortCut read FShortCut write FShortCut default 0;
     // External Tool action context (tcAlwaysEnabled, tcActiveFile, tcSelectionAvailable)
-    property Context : TToolContext read FContext write FContext
+    property Context: TToolContext read FContext write FContext
       default tcAlwaysEnabled;
     // Save file option (sfNone, sfActive, sfAll)
-    property SaveFiles : TSaveFiles read FSaveFiles write FSaveFiles default sfNone;
+    property SaveFiles: TSaveFiles read FSaveFiles write FSaveFiles default sfNone;
     // Standard Input option
     //  piNone:  No standard input
     //  piWordAtCursor: Word at cursor
     //  piCurrentLine: Current line
     //  piSelection: Selection
     //  piActiveFile: active file
-    property ProcessInput : TProcessStdInputOption read FProcessInput
+    property ProcessInput: TProcessStdInputOption read FProcessInput
       write FProcessInput default piNone;
     // Standard output option
     //  poNone:  Do nothing
@@ -87,28 +87,28 @@ type
     //  poSelection: Replace selection
     //  poActiveFile: Replace active file
     //  poNewFile: Place in new file
-    property ProcessOutput : TProcessStdOutputOption read FProcessOutput
+    property ProcessOutput: TProcessStdOutputOption read FProcessOutput
       write FProcessOutput default poNone;
     // Parse File Line LinePos info from output and put it in the Messages Window
-    property ParseMessages : boolean read FParseMessages write FParseMessages
+    property ParseMessages: Boolean read FParseMessages write FParseMessages
       default False;
     // Parse TraceBack and Syntax Errors from Python output and put it in the Messages Window
-    property ParseTraceback : boolean read FParseTraceback write FParseTraceback
+    property ParseTraceback: Boolean read FParseTraceback write FParseTraceback
       default False;
     // Grep Expression for the parsing output lines for file/Line/Pos information
     // Can use the parameters $[Filename], $[LineNumber], $[Line], $[Column]
-    property MessagesFormat : string read FMessagesFormat write FMessagesFormat
+    property MessagesFormat: string read FMessagesFormat write FMessagesFormat
       stored IsMessageFormatStore;
     // Capture command line output and place it in the Output Window
-    property CaptureOutput : Boolean read FCaptureOutput write FCaptureOutput
+    property CaptureOutput: Boolean read FCaptureOutput write FCaptureOutput
       default True;
     // Hide Console or External Tool window
-    property ConsoleHidden : Boolean read FConsoleHidden write FConsoleHidden
+    property ConsoleHidden: Boolean read FConsoleHidden write FConsoleHidden
       default True;
-    property UseCustomEnvironment : boolean read FUseCustomEnvironment
+    property UseCustomEnvironment: Boolean read FUseCustomEnvironment
       write FUseCustomEnvironment default False;
     // Custom Enviroment
-    property Environment : TStrings read FEnvironment write SetEnvironment
+    property Environment: TStrings read FEnvironment write SetEnvironment
       stored FUseCustomEnvironment;
     property Utf8IO: Boolean read FUtf8IO write FUtf8IO default False;
   end;
@@ -123,7 +123,7 @@ type
 
   TToolItem = class(TCollectionItem)
   private
-    fExternalTool : TExternalTool;
+    FExternalTool: TExternalTool;
   protected
     function GetDisplayName: string; override;
   public
@@ -131,71 +131,72 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   published
-    property ExternalTool : TExternalTool read fExternalTool
-      write fExternalTool;
+    property ExternalTool: TExternalTool read FExternalTool
+      write FExternalTool;
   end;
 
   TExternalToolAction = class(TAction)
   private
-    fExternalTool : TExternalTool;
+    FExternalTool: TExternalTool;
   protected
     procedure Change; override;
   public
     function Execute: Boolean; override;
     function Update: Boolean; override;
-    constructor CreateExtToolAction(AOwner: TComponent; ExternalTool : TExternalTool);
+    constructor CreateExtToolAction(AOwner: TComponent; ExternalTool: TExternalTool);
   end;
 
 { Expands environment variables }
-function ExpandEnv(const S: string): string;
+function ExpandEnv(const Str: string): string;
 { Surrounds string with quotes when it contains spaces and is not quoted }
-function AddQuotesUnless(const S: string): string;
+function AddQuotesUnless(const Str: string): string;
 { Prepares an application name or the command line parameters for execution }
-function PrepareCommandLine(S: string): string;
+function PrepareCommandLine(Str: string): string;
 
-Const
+const
   GrepFileNameParam = '$[FileName]';
   GrepLineNumberParam = '$[LineNumber]';
   GrepColumnNumberParam = '$[ColumnNumber]';
 
-Var
+var
   { A persisted collection of user-defined tools }
-  ToolsCollection : TCollection;
+  ToolsCollection: TCollection;
   { External Python Tool }
-  ExternalPython : TExternalTool;
+  ExternalPython: TExternalTool;
 
 implementation
 
 uses
   Winapi.Windows,
+  System.SysUtils,
   Vcl.Menus,
   JclStrings,
-  JvGnuGetText,
+  JvGnugettext,
   uEditAppIntfs,
   uCommonFunctions;
 
 
-function ExpandEnv(const S: string): string;
+function ExpandEnv(const Str: string): string;
 var
-  r: array[0..MAX_PATH] of WideChar;
+  Res: array[0..MAX_PATH] of WideChar;
 begin
-  ExpandEnvironmentStringsW(PWideChar(S), @r, MAX_PATH);
-  Result := r;
+  ExpandEnvironmentStringsW(PWideChar(Str), @Res, MAX_PATH);
+  Result := Res;
 end;
 
-function AddQuotesUnless(const S: string): string;
+function AddQuotesUnless(const Str: string): string;
 begin
-  Result := Trim(S);
+  Result := Trim(Str);
   if (Pos(' ', Result) <> 0) and
      ((Result[1] <> '"') or (Result[Length(Result)] <> '"')) then
     Result := '"' + Result + '"';
 end;
 
-function PrepareCommandLine(S: string): string;
+function PrepareCommandLine(Str: string): string;
 begin
-  S := ExpandEnv(S);
-  S:= GI_PyIDEServices.ReplaceParams(S);
-  Result := Trim(S);
+  Str := ExpandEnv(Str);
+  Str:= GI_PyIDEServices.ReplaceParams(Str);
+  Result := Trim(Str);
 end;
 
 { TTool }
@@ -203,7 +204,7 @@ end;
 procedure TToolItem.Assign(Source: TPersistent);
 begin
   if Source is TToolItem then with TToolItem(Source) do begin
-    Self.fExternalTool.Assign(ExternalTool);
+    Self.FExternalTool.Assign(ExternalTool);
   end else
     inherited;
 end;
@@ -211,18 +212,18 @@ end;
 constructor TToolItem.Create(Collection: TCollection);
 begin
   inherited;
-  fExternalTool := TExternalTool.Create;
+  FExternalTool := TExternalTool.Create;
 end;
 
 destructor TToolItem.Destroy;
 begin
-  fExternalTool.Free;
+  FExternalTool.Free;
   inherited;
 end;
 
 function TToolItem.GetDisplayName: string;
 begin
-  Result := StripHotKey(_(fExternalTool.Caption));
+  Result := StripHotkey(_(FExternalTool.Caption));
 end;
 
 { TExternalTool }
@@ -255,20 +256,20 @@ end;
 constructor TExternalTool.Create;
 begin
   inherited;
-  fProcessInput := piNone;
-  fProcessOutput := poNone;
-  fCaptureOutput := True;
-  fConsoleHidden := True;
-  fParseMessages := False;
-  fContext := tcAlwaysEnabled;
-  fSaveFiles := sfNone;
-  fMessagesFormat := GrepFileNameParam + ' ' + GrepLineNumberParam;
-  fEnvironment := TStringList.Create;
+  FProcessInput := piNone;
+  FProcessOutput := poNone;
+  FCaptureOutput := True;
+  FConsoleHidden := True;
+  FParseMessages := False;
+  FContext := tcAlwaysEnabled;
+  FSaveFiles := sfNone;
+  FMessagesFormat := GrepFileNameParam + ' ' + GrepLineNumberParam;
+  FEnvironment := TStringList.Create;
 end;
 
 destructor TExternalTool.Destroy;
 begin
-  fEnvironment.Free;
+  FEnvironment.Free;
   inherited;
 end;
 
@@ -300,7 +301,7 @@ end;
 constructor TExternalToolAction.CreateExtToolAction(AOwner: TComponent;
   ExternalTool: TExternalTool);
 var
-  S: string;
+  ToolId: string;
   AppFile: string;
 begin
   inherited Create(AOwner);
@@ -308,14 +309,14 @@ begin
   if Assigned(FExternalTool) then begin
     ShortCut := FExternalTool.ShortCut;
     Caption := _(FExternalTool.Caption);
-    S := StrRemoveChars(Caption , [' ', '&', '.']);  // Fix error reported by David Funtowiez
-    if IsValidIdent(S) then
-      Name := 'actTools' + S;
+    ToolId := StrRemoveChars(Caption , [' ', '&', '.']);  // Fix error reported by David Funtowiez
+    if IsValidIdent(ToolId) then
+      Name := 'actTools' + ToolId;
     Category := 'External Tools';
     Hint := _(FExternalTool.Description);
     ImageIndex := -1;
-    if (fExternalTool.ApplicationName <> '') then begin
-      AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
+    if (FExternalTool.ApplicationName <> '') then begin
+      AppFile := PrepareCommandLine(FExternalTool.ApplicationName);
       if FileExists(AppFile) then
         ImageIndex := GetIconIndexFromFile(AppFile, True);
     end;
@@ -338,11 +339,11 @@ begin
   Result := True;
   if Assigned(FExternalTool) then begin
     case FExternalTool.Context of
-      tcAlwaysEnabled : Enabled := True;
-      tcActiveFile : Enabled := Assigned(GI_ActiveEditor);
+      tcAlwaysEnabled: Enabled := True;
+      tcActiveFile: Enabled := Assigned(GI_ActiveEditor);
       tcActivePythonFile :
         Enabled := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
-      tcSelectionAvailable : Enabled :=
+      tcSelectionAvailable: Enabled :=
         Assigned(GI_ActiveEditor) and GI_ActiveEditor.SynEdit.SelAvail;
     end;
   end else
@@ -398,7 +399,7 @@ initialization
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '-m tabnanny "$[ActiveDoc]"';
     WorkingDirectory := '$[ActiveDoc-Dir]';
-    ShortCut := Vcl.Menus.Shortcut(Ord('T'), [ssShift, ssCtrl]);
+    ShortCut := Vcl.Menus.ShortCut(Ord('T'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
     SaveFiles := sfActive;
     ParseTraceback := True;
@@ -437,7 +438,7 @@ initialization
     Description := _('PyLint tool (www.pylint.org)');
     ApplicationName :=  '$[PythonDir-Short]Scripts\pylint.exe';
     Parameters := '-f parseable "$[ActiveDoc]"';
-    ShortCut := Vcl.Menus.Shortcut(Ord('L'), [ssShift, ssCtrl]);
+    ShortCut := Vcl.Menus.ShortCut(Ord('L'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
     SaveFiles := sfAll;
     ParseTraceback := True;
@@ -467,7 +468,7 @@ initialization
     Description := _('Format selected code using the "black" module');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '-m black -';
-    ShortCut := Vcl.Menus.Shortcut(Ord('F'), [ssShift, ssAlt]);
+    ShortCut := Vcl.Menus.ShortCut(Ord('F'), [ssShift, ssAlt]);
     Context := tcSelectionAvailable;
     SaveFiles := sfNone;
     ProcessInput := piSelection;
@@ -483,7 +484,7 @@ initialization
     Description := _('Sort the selected editor block ("one-liner" demo)');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '-c "import sys;l=sys.stdin.readlines();l.sort();sys.stdout.writelines(l)"';
-    ShortCut := Vcl.Menus.Shortcut(Ord('S'), [ssShift, ssCtrl]);
+    ShortCut := Vcl.Menus.ShortCut(Ord('S'), [ssShift, ssCtrl]);
     Context := tcSelectionAvailable;
     SaveFiles := sfNone;
     ProcessInput := piSelection;

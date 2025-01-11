@@ -26,13 +26,13 @@ uses
 type
 
   TOption = record
-    PropertyName : string;
-    DisplayName : string;
+    PropertyName: string;
+    DisplayName: string;
   end;
 
   TOptionCategory = record
-    DisplayName : string;
-    Options : array of TOption;
+    DisplayName: string;
+    Options: array of TOption;
   end;
 
   TOptionsInspector = class(TPyIDEDlgBase)
@@ -51,8 +51,8 @@ type
   private
     { Private declarations }
     FOptionsObject,
-    FTempOptionsObject : TPersistent;
-    FFriendlyNames : TDictionary<string, string>;
+    FTempOptionsObject: TPersistent;
+    FFriendlyNames: TDictionary<string, string>;
     FIgnoreList: TArray<string>;
     function BeforeAddItem(Sender: TControl; PItem: PPropItem): Boolean;
   public
@@ -64,10 +64,10 @@ type
       AdditionalFriendlyNames: TStrings);
   end;
 
-function InspectOptions(OptionsObject : TBaseOptions;
-  Categories : array of TOptionCategory; FormCaption : string;
+function InspectOptions(OptionsObject: TBaseOptions;
+  Categories: array of TOptionCategory; FormCaption: string;
   IgnoredProperties: TArray<string>; AdditionalFriendlyNames: TStrings;
-  HelpCntxt : Integer = 0; ShowCategories: Boolean = True): Boolean;
+  HelpCntxt: Integer = 0; ShowCategories: Boolean = True): Boolean;
 
 implementation
 
@@ -83,7 +83,7 @@ uses
 procedure TOptionsInspector.Setup(OptionsObject: TBaseOptions;
   Categories: array of TOptionCategory; AdditionalFriendlyNames: TStrings);
 var
-  I, J : Integer;
+  I, J: Integer;
 begin
   FOptionsObject := OptionsObject;
   FTempOptionsObject := TBaseOptionsClass(OptionsObject.ClassType).Create;
@@ -153,9 +153,9 @@ begin
   FFriendlyNames.Free;
 end;
 
-function InspectOptions(OptionsObject : TBaseOptions; Categories : array of
-    TOptionCategory; FormCaption : string; IgnoredProperties: TArray<string>;
-    AdditionalFriendlyNames: TStrings; HelpCntxt : Integer = 0;
+function InspectOptions(OptionsObject: TBaseOptions; Categories: array of
+    TOptionCategory; FormCaption: string; IgnoredProperties: TArray<string>;
+    AdditionalFriendlyNames: TStrings; HelpCntxt: Integer = 0;
     ShowCategories: Boolean = True): Boolean;
 begin
   with TOptionsInspector.Create(Application) do begin

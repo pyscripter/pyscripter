@@ -12,19 +12,12 @@ interface
 
 uses
   Winapi.Windows,
-  Winapi.Messages,
-  System.UITypes,
   System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Actions,
   System.ImageList,
-  System.SyncObjs,
   System.RegularExpressions,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
   Vcl.Menus,
@@ -33,15 +26,12 @@ uses
   Vcl.VirtualImageList,
   TB2Item,
   SpTBXItem,
-  SpTBXControls,
   JclSynch,
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
-  SynEditTypes,
   frmIDEDockWin,
   uSysUtils,
-  uEditAppIntfs,
   cTools;
 
 type
@@ -54,10 +44,10 @@ type
     OutputPopup: TSpTBXPopupMenu;
     RunningProcess: TSpTBXSubmenuItem;
     mnTerminate: TSpTBXItem;
-    N1: TSpTBXSeparatorItem;
+    siSeparator1: TSpTBXSeparatorItem;
     mnCopy: TSpTBXItem;
     mnClear: TSpTBXItem;
-    N2: TSpTBXSeparatorItem;
+    siSeparator2: TSpTBXSeparatorItem;
     mnFont: TSpTBXItem;
     OutputActions: TActionList;
     actToolTerminate: TAction;
@@ -76,12 +66,12 @@ type
     procedure FormActivate(Sender: TObject);
   private
     const FBasePath = 'Breakpoints Window Options'; // Used for storing settings
-    var FTool : TExternalTool;
+    var FTool: TExternalTool;
     FCmdOptions: TJclExecuteCmdProcessOptions;
     FAbortEvent: TJclEvent;
     FIsRunning: Boolean;
-    FRegEx : TRegEx;
-    FItemMaxWidth : Integer;  // Calculating max width to show hor scrollbar
+    FRegEx: TRegEx;
+    FItemMaxWidth: Integer;  // Calculating max width to show hor scrollbar
     {Process Output stuff}
     FOutputLock: TRTLCriticalSection;
     FInputEncoding: TEncoding;
@@ -102,11 +92,11 @@ type
     procedure ProcessTerminate;
     procedure WriteOutput(OutputType: TOutputType);
   public
-    procedure AddNewLine(const S: string; OutputType: TOutputType = TOutputType.Normal);
-    procedure AppendToLastLine(const S: string; OutputType: TOutputType);
+    procedure AddNewLine(const Str: string; OutputType: TOutputType = TOutputType.Normal);
+    procedure AppendToLastLine(const Str: string; OutputType: TOutputType);
     procedure ClearScreen;
     procedure FontOrColorUpdated;
-    procedure ExecuteTool(Tool : TExternalTool);
+    procedure ExecuteTool(Tool: TExternalTool);
     procedure StoreSettings(Storage: TJvCustomAppStorage); override;
     procedure RestoreSettings(Storage: TJvCustomAppStorage); override;
     property IsRunning: Boolean read FIsRunning;
@@ -121,11 +111,17 @@ implementation
 uses
   Winapi.ShellAPI,
   System.Math,
+  System.SyncObjs,
   System.Threading,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Dialogs,
   Vcl.Clipbrd,
   JvGnugettext,
+  SynEditTypes,
   SynEdit,
   StringResources,
+  uEditAppIntfs,
   dmResources,
   dmCommands,
   frmPyIDEMain,
@@ -133,15 +129,15 @@ uses
 
 {$R *.dfm}
 
-procedure TOutputWindow.AddNewLine(const S: string; OutputType: TOutputType);
+procedure TOutputWindow.AddNewLine(const Str: string; OutputType: TOutputType);
 begin
   with lsbConsole do
   begin
     //  Add the string and calculate the Max Length
-    Items.AddObject(S, TObject(OutputType));
+    Items.AddObject(Str, TObject(OutputType));
     Canvas.Font := Font;
-    fItemMaxWidth := Max(lsbConsole.Canvas.TextWidth(S), fItemMaxWidth);
-    ScrollWidth := fItemMaxWidth + 5;
+    FItemMaxWidth := Max(lsbConsole.Canvas.TextWidth(Str), FItemMaxWidth);
+    ScrollWidth := FItemMaxWidth + 5;
     ItemIndex := Count - 1;
   end;
 end;
@@ -173,18 +169,18 @@ begin
   end;
 end;
 
-procedure TOutputWindow.AppendToLastLine(const S: string; OutputType: TOutputType);
+procedure TOutputWindow.AppendToLastLine(const Str: string; OutputType: TOutputType);
 begin
   with lsbConsole do
   begin
     if (Count > 0) and (Items.Objects[Count - 1] = TObject(OutputType)) then begin
-      Items[Count - 1] := Items[Count - 1] + S;
+      Items[Count - 1] := Items[Count - 1] + Str;
       Canvas.Font := Font;
-      fItemMaxWidth := Max(Canvas.TextWidth(S), fItemMaxWidth);
-      ScrollWidth := fItemMaxWidth + 5;
+      FItemMaxWidth := Max(Canvas.TextWidth(Str), FItemMaxWidth);
+      ScrollWidth := FItemMaxWidth + 5;
       ItemIndex := Count - 1;
     end else
-      AddNewLine(S, OutputType);
+      AddNewLine(Str, OutputType);
   end;
 end;
 
@@ -192,7 +188,7 @@ procedure TOutputWindow.ClearScreen;
 begin
   lsbConsole.Clear;
   lsbConsole.ScrollWidth := 0;
-  fItemMaxWidth := 0;
+  FItemMaxWidth := 0;
 end;
 
 procedure TOutputWindow.actOutputFontExecute(Sender: TObject);
@@ -243,18 +239,18 @@ procedure TOutputWindow.ProcessTerminate;
    Called when a proces created with WaitForTermination set to true is finished
    Can parse Traceback info and Messages (ParseTraceback and ParseMessages Tool options
 }
-Var
+var
  FilePos, LinePos, ColPos: Integer;
 
-  function ReplacePos(var S : string; const FromText, ToText: string): integer;
+  function ReplacePos(var Str: string; const FromText, ToText: string): Integer;
   begin
-    Result:= Pos(UpperCase(FromText), UpperCase(S));
+    Result:= Pos(UpperCase(FromText), UpperCase(Str));
     if Result > 0 then
-      S := Copy(S, 1, Result-1) + ToText +
-           Copy(S, Result + Length(FromText), MaxInt);
+      Str := Copy(Str, 1, Result-1) + ToText +
+           Copy(Str, Result + Length(FromText), MaxInt);
   end;
 
-  function MatchIndex(APos: integer): integer;
+  function MatchIndex(APos: Integer): Integer;
   // find pos of Match
   begin
     if APos = 0 then
@@ -267,14 +263,14 @@ Var
     end;
   end;
 
- Var
-  LineNo, ErrLineNo, ColNo, Indx : integer;
-  ErrorMsg, RE, FileName, OutStr, OldCurrentDir : string;
+ var
+  LineNo, ErrLineNo, ColNo, Indx: Integer;
+  ErrorMsg, RE, FileName, OutStr, OldCurrentDir: string;
   ActiveEditor: IEditor;
 begin
   if GI_PyIDEServices.IsClosing then Exit;
 
-  Assert(Assigned(FTool));
+  Assert(Assigned(FTool), 'TOutputWindow.ProcessTerminate');
 
   if FTool.CaptureOutput then
   begin
@@ -284,18 +280,18 @@ begin
   end;
 
   if FCmdOptions.ExitCode = 0 then
-    ErrorMsg := Format(_(sProcessSuccessful), [fTool.Caption.Replace('&', '')])
+    ErrorMsg := Format(_(SProcessSuccessful), [FTool.Caption.Replace('&', '')])
   else
-    ErrorMsg := Format(_(sProcessTerminated), [fTool.Caption.Replace('&', ''), FCmdOptions.ExitCode]);
+    ErrorMsg := Format(_(SProcessTerminated), [FTool.Caption.Replace('&', ''), FCmdOptions.ExitCode]);
   AddNewLine('');
   AddNewLine(ErrorMsg);
   GI_PyIDEServices.WriteStatusMsg(ErrorMsg);
 
-  if fTool.CaptureOutput then
+  if FTool.CaptureOutput then
     ShowDockForm(Self);
 
   //Standard Output
-  if (FTool.ProcessOutput <> poNone) or FTool.ParseMessages then
+  if (FTool.ProcessOutput <> TProcessStdOutputOption.poNone) or FTool.ParseMessages then
   begin
     FOutputReader[TOutputType.Normal].Rewind;
     OutStr := FOutputReader[TOutputType.Normal].ReadToEnd;
@@ -307,7 +303,7 @@ begin
     if Assigned(ActiveEditor) and (ActiveEditor.FileId <> FActiveEditorId) then
       ActiveEditor := nil;
 
-    case fTool.ProcessOutput of
+    case FTool.ProcessOutput of
       poWordAtCursor:
         if Assigned(ActiveEditor) then with ActiveEditor.ActiveSynEdit do
         begin
@@ -321,7 +317,7 @@ begin
           SetCaretAndSelection(BlockEnd, BufferCoord(1, CaretXY.Line), BlockEnd);
           SelText := OutStr;
         end;
-      poSelection :
+      TProcessStdOutputOption.poSelection:
         if Assigned(ActiveEditor) then with ActiveEditor.ActiveSynEdit do begin
           SelText := OutStr;
         end;
@@ -330,7 +326,7 @@ begin
           SynEdit.SelectAll;
           SynEdit.SelText := OutStr;
         end;
-      poNewFile :
+      poNewFile:
         begin
           PyIDEMainForm.DoOpenFile(''); // NewFile
           if Assigned(GI_ActiveEditor) then
@@ -339,19 +335,19 @@ begin
     end;
 
     // ParseMessages
-    if fTool.ParseMessages then
+    if FTool.ParseMessages then
     begin
       GI_PyIDEServices.Messages.ClearMessages;
       //  Parse TraceBack and Syntax Errors from Python output
       var Strings := OutStr.Split([#10,#13], TStringSplitOptions.ExcludeEmpty);
 
-      RE := fTool.MessagesFormat;
+      RE := FTool.MessagesFormat;
       // build actual regular expression
       FilePos:= ReplacePos(RE, GrepFileNameParam, SFileExpr);
       LinePos:= ReplacePos(RE, GrepLineNumberParam, '(\d+)');
       ColPos:=  ReplacePos(RE, GrepColumnNumberParam, '(\d+)');
 
-      fRegEx := CompiledRegEx(RE+'(.*)');
+      FRegEx := CompiledRegEx(RE+'(.*)');
 
       if FCmdOptions.CurrentDir <> '' then begin
          OldCurrentDir := GetCurrentDir;
@@ -361,7 +357,7 @@ begin
       try
         LineNo := 0;
         while LineNo < Length(Strings) do begin
-          with fRegEx.Match(Strings[LineNo]) do
+          with FRegEx.Match(Strings[LineNo]) do
             if Success then begin
               Indx := MatchIndex(FilePos);
               if Indx > 0 then begin
@@ -392,7 +388,7 @@ begin
     end;
   end;
 
-  if fTool.ParseTraceback then
+  if FTool.ParseTraceback then
   begin
     //Standard Error
     FOutputReader[TOutputType.Error].Rewind;
@@ -402,7 +398,7 @@ begin
       GI_PyIDEServices.Messages.ClearMessages;
       var Strings := OutStr.Split([#10,#13], TStringSplitOptions.ExcludeEmpty);
       //  Parse TraceBack and Syntax Errors from Python output
-      fRegEx := CompiledRegEx(STracebackFilePosExpr);
+      FRegEx := CompiledRegEx(STracebackFilePosExpr);
       LineNo := 0;
       while LineNo < Length(Strings) do begin
         if Strings[LineNo].StartsWith('Traceback') then begin
@@ -410,7 +406,7 @@ begin
           GI_PyIDEServices.Messages.AddMessage('Traceback');
           Inc(LineNo);
           while (LineNo < Length(Strings)) and (Strings[LineNo][1] = ' ') do begin
-            with fRegEx.Match(Strings[LineNo]) do
+            with FRegEx.Match(Strings[LineNo]) do
               if Success then begin
                 ErrLineNo := StrToIntDef(GroupValue(3), 0);
                 // add traceback info (function name, filename, linenumber)
@@ -423,7 +419,7 @@ begin
           if LineNo < Length(Strings) then
             GI_PyIDEServices.Messages.AddMessage(Strings[LineNo]);
           GI_PyIDEServices.Messages.ShowWindow;
-          break;  // finished processing traceback
+          Break;  // finished processing traceback
         end else if Strings[LineNo].StartsWith('SyntaxError:')
           and (LineNo > 2) then
         begin
@@ -432,7 +428,7 @@ begin
           Dec(LineNo);
           ColNo := Pos('^', Strings[LineNo]) - 4; // line indented by 4 spaces
           Dec(LineNo, 2);
-          with fRegEx.Match(Strings[LineNo]) do
+          with FRegEx.Match(Strings[LineNo]) do
           if Success then begin
             ErrLineNo := StrToIntDef(GroupValue(3), 0);
             // add Syntax error info (error message, filename, linenumber)
@@ -442,7 +438,7 @@ begin
           end;
           GI_PyIDEServices.Messages.ShowWindow;
           MessageBeep(MB_ICONEXCLAMATION);
-          break;  // finished processing Syntax Error
+          Break;  // finished processing Syntax Error
         end;
         Inc(LineNo);
       end;
@@ -476,8 +472,8 @@ begin
   Storage.WritePersistent(FBasePath, StoredFont);
 end;
 
-procedure TOutputWindow.ExecuteTool(Tool : TExternalTool);
-Var
+procedure TOutputWindow.ExecuteTool(Tool: TExternalTool);
+var
   AppName, Arguments, WorkDir: string;
   WaitForTerminate: Boolean;
 
@@ -496,20 +492,20 @@ begin
   Arguments := PrepareCommandLine(Tool.Parameters);
   WorkDir := PrepareCommandLine(Tool.WorkingDirectory);
 
-  if (Workdir <> '') and not DirectoryExists(WorkDir) then begin
+  if (WorkDir <> '') and not DirectoryExists(WorkDir) then begin
     StyledMessageDlg(Format(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
     Exit;
   end;
 
   // In all these cases we need to wait for termination
   WaitForTerminate := Tool.CaptureOutput or
-    (Tool.ProcessInput <> piNone) or (Tool.ProcessOutput <> poNone) or
+    (Tool.ProcessInput <> piNone) or (Tool.ProcessOutput <> TProcessStdOutputOption.poNone) or
     Tool.ParseMessages or Tool.ParseTraceback or Tool.UseCustomEnvironment;
 
   // Check / do Save all files.
   case Tool.SaveFiles of
-    sfActive :  if Assigned(GI_ActiveEditor) then GI_FileCmds.ExecSave;
-    sfAll    :  CommandsDataModule.actFileSaveAllExecute(nil);
+    sfActive:  if Assigned(GI_ActiveEditor) then GI_FileCmds.ExecSave;
+    sfAll:     CommandsDataModule.actFileSaveAllExecute(nil);
   end;
 
   // Clear old output
@@ -613,7 +609,7 @@ begin
   FOutputLock.Enter;
   try
     OutputReader := FOutputReader[OutType];
-    Assert(Assigned(OutputReader));
+    Assert(Assigned(OutputReader), 'TOutputWindow.ProcessOutput');
     OutputPending :=
       not (OutputReader.BaseStream.Position = OutputReader.BaseStream.Size);
     OutputReader.BaseStream.Write(Bytes, BytesRead);
@@ -649,7 +645,7 @@ procedure TOutputWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'CmdOuputWin';
   inherited;
-  fTool := TExternalTool.Create;
+  FTool := TExternalTool.Create;
   FCmdOptions := TJclExecuteCmdProcessOptions.Create('');
   FAbortEvent := TJclEvent.Create(nil, True, False, '');
 
@@ -720,7 +716,8 @@ begin
       FNewLine[OutputType] := True;
     end;
     FLastStreamPos[OutputType] := OutputReader.BaseStream.Position;
-    Assert(OutputReader.BaseStream.Position = OutputReader.BaseStream.Size);
+    Assert(OutputReader.BaseStream.Position = OutputReader.BaseStream.Size,
+      'TOutputWindow.WriteOutput');
 
     OutputReader.BaseStream.Seek(-1, soEnd);
     //  If the last char was not a CR or LF then set FNewLine to False

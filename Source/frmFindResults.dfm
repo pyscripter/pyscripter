@@ -172,7 +172,9 @@ inherited FindResultsWindow: TFindResultsWindow
           IndentGuides.Visible = False
           ReadOnly = True
           RightEdge = 0
+          ScrollbarAnnotations = <>
           SelectedColor.Alpha = 0.400000005960464500
+          VisibleSpecialChars = []
           OnSpecialLineColors = reContextSpecialLineColors
         end
       end
@@ -212,7 +214,7 @@ inherited FindResultsWindow: TFindResultsWindow
     object mitFileAbort1: TSpTBXItem
       Action = actFileAbort
     end
-    object N5: TSpTBXSeparatorItem
+    object mnSeparator5: TSpTBXSeparatorItem
     end
     object mitFilePrint1: TSpTBXItem
       Action = actFilePrint
@@ -220,7 +222,7 @@ inherited FindResultsWindow: TFindResultsWindow
     object mitFileSave1: TSpTBXItem
       Action = actFileSave
     end
-    object N2: TSpTBXSeparatorItem
+    object mnSeparator2: TSpTBXSeparatorItem
     end
     object mitViewToolBar1: TSpTBXItem
       Action = actViewToolBar
@@ -231,7 +233,7 @@ inherited FindResultsWindow: TFindResultsWindow
     object miViewShowMatchContext1: TSpTBXItem
       Action = actViewShowContext
     end
-    object N1: TSpTBXSeparatorItem
+    object mnSeparator1: TSpTBXSeparatorItem
     end
     object mitReplaceReplaceAll1: TSpTBXItem
       Action = actReplaceAll
@@ -239,12 +241,12 @@ inherited FindResultsWindow: TFindResultsWindow
     object mitReplaceSelected1: TSpTBXItem
       Action = actReplaceSelected
     end
-    object N3: TSpTBXSeparatorItem
+    object mnSeparator3: TSpTBXSeparatorItem
     end
     object mitViewOptions1: TSpTBXItem
       Action = actViewOptions
     end
-    object N4: TSpTBXSeparatorItem
+    object mnSeparator4: TSpTBXSeparatorItem
     end
     object mitHelp: TSpTBXItem
       Action = actHelpHelp
@@ -394,57 +396,57 @@ inherited FindResultsWindow: TFindResultsWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 99
+        CollectionIndex = 108
         CollectionName = 'Save'
         Name = 'Save'
       end
       item
-        CollectionIndex = 70
+        CollectionIndex = 79
         CollectionName = 'Print'
         Name = 'Print'
       end
       item
-        CollectionIndex = 16
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 101
+        CollectionIndex = 110
         CollectionName = 'Search'
         Name = 'Search'
       end
       item
-        CollectionIndex = 91
+        CollectionIndex = 100
         CollectionName = 'Replace'
         Name = 'Replace'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 101
         CollectionName = 'ReplaceAll'
         Name = 'ReplaceAll'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 112
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 31
+        CollectionIndex = 40
         CollectionName = 'Expand'
         Name = 'Expand'
       end
       item
-        CollectionIndex = 15
+        CollectionIndex = 24
         CollectionName = 'Collapse'
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 60
         CollectionName = 'GoToLine'
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 52
+        CollectionIndex = 61
         CollectionName = 'Help'
         Name = 'Help'
       end
@@ -454,7 +456,7 @@ inherited FindResultsWindow: TFindResultsWindow
         Name = 'Abort'
       end
       item
-        CollectionIndex = 43
+        CollectionIndex = 52
         CollectionName = 'FindRefresh'
         Name = 'FindRefresh'
       end>

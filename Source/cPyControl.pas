@@ -31,7 +31,7 @@ type
                        dlErrorLine);
   TDebuggerLineInfos = set of TDebuggerLineInfo;
 
-  TBreakpointChangeEvent = procedure(Sender: TObject; Editor: IEditor; ALine: integer) of object;
+  TBreakpointChangeEvent = procedure(Sender: TObject; Editor: IEditor; ALine: Integer) of object;
   TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
   TDebuggerPosChangeEvent = procedure(Sender: TObject; const OldPos, NewPos: TEditorPos) of object;
 
@@ -60,7 +60,7 @@ type
     FInternalInterpreter: TPyBaseInterpreter;
     FActiveSSHServerName: string;
     FPythonHelpFile: string;
-    function InitPythonVersions : Boolean;
+    function InitPythonVersions: Boolean;
     procedure DoOnBreakpointChanged(Editor: IEditor; ALine: Integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
@@ -99,9 +99,9 @@ type
       Disabled: Boolean; Condition: string);
     procedure ClearAllBreakpoints;
     // Editor related
-    function GetLineInfos(Editor : IEditor; ALine: Integer): TDebuggerLineInfos;
+    function GetLineInfos(Editor: IEditor; ALine: Integer): TDebuggerLineInfos;
     function IsBreakpointLine(Editor: IEditor; ALine: Integer;
-      var Disabled : Boolean): Boolean;
+      var Disabled: Boolean): Boolean;
     function IsExecutableLine(Editor: IEditor; ALine: Integer): Boolean;
     // Running Python Scripts
     procedure Run(ARunConfig: TRunConfiguration);
@@ -134,7 +134,7 @@ type
       write SetActiveDebugger;
     property CurrentPos: TEditorPos read FCurrentPos write SetCurrentPos;
     property ErrorPos: TEditorPos read FErrorPos write SetErrorPos;
-    property BreakPointsChanged : Boolean read FBreakPointsChanged
+    property BreakPointsChanged: Boolean read FBreakPointsChanged
       write FBreakPointsChanged;
     property DebuggerState: TDebuggerState read FDebuggerState write SetDebuggerState;
     property RunConfig: TRunConfiguration read FRunConfig;
@@ -237,9 +237,9 @@ begin
   end;
 end;
 
-function TPythonControl.GetLineInfos(Editor : IEditor; ALine: Integer): TDebuggerLineInfos;
+function TPythonControl.GetLineInfos(Editor: IEditor; ALine: Integer): TDebuggerLineInfos;
 var
-  Disabled : Boolean;
+  Disabled: Boolean;
 begin
   Result := [];
   if ALine > 0 then begin
@@ -373,7 +373,7 @@ begin
 end;
 
 function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: Integer;
-  var Disabled : Boolean): Boolean;
+  var Disabled: Boolean): Boolean;
 var
   Idx: Integer;
 begin
@@ -400,10 +400,10 @@ begin
 end;
 
 procedure TPythonControl.ToggleBreakpoint(Editor: IEditor; ALine: Integer;
-  CtrlPressed : Boolean = False);
+  CtrlPressed: Boolean = False);
 var
-  Index : NativeInt;
-  BreakPoint : TBreakPoint;
+  Index: NativeInt;
+  BreakPoint: TBreakPoint;
 begin
   if ALine > 0 then begin
     Index := Editor.BreakPoints.Count;  // append at the end
@@ -493,9 +493,9 @@ end;
 
 procedure TPythonControl.SetPythonEngineType(const Value: TPythonEngineType);
 var
-  Cursor : IInterface;
-  RemoteInterpreter : TPyRemoteInterpreter;
-  Connected : Boolean;
+  Cursor: IInterface;
+  RemoteInterpreter: TPyRemoteInterpreter;
+  Connected: Boolean;
   SSHServer: TSSHServer;
 begin
   if not InternalPython.Loaded or ((Value = PythonEngineType) and not

@@ -33,10 +33,10 @@ const
   dbie_user_exception       = 3;
   dbie_user_yield           = 4;
 
-  EngineTypeName : array [TPythonEngineType] of string =
+  EngineTypeName: array [TPythonEngineType] of string =
     ('Internal', 'Remote', 'Remote TK', 'Remote Wx', 'SSH');
-  FilePosInfoFormat : string = '%s (%d:%d)';
-  FilePosInfoRegExpr : string = '(.+) \((\d+):(\d+)\)$';
+  FilePosInfoFormat: string = '%s (%d:%d)';
+  FilePosInfoRegExpr: string = '(.+) \((\d+):(\d+)\)$';
 
 
 type
@@ -49,7 +49,7 @@ type
     ErrorMsg: string;
     procedure Clear;
     procedure NewPos(AEditor: IEditor; ALine: Integer; AChar: Integer = -1;
-      IsSyntaxError : Boolean = False; AErrorMsg : string = '');
+      IsSyntaxError: Boolean = False; AErrorMsg: string = '');
     class function EmptyPos: TEditorPos; static;
     class function NPos(AEditor: IEditor; ALine: Integer; AChar: Integer = -1;
       IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos; static;
@@ -93,15 +93,15 @@ type
 
   { Python related regular expressions }
   TPyRegExpr = class
-    class var BlockOpenerRE : TRegEx;
-    class var BlockCloserRE : TRegEx;
-    class var CodeCommentLineRE : TRegEx;
-    class var NonExecutableLineRE : TRegEx;
-    class var FunctionCallRE : TRegEx;
+    class var BlockOpenerRE: TRegEx;
+    class var BlockCloserRE: TRegEx;
+    class var CodeCommentLineRE: TRegEx;
+    class var NonExecutableLineRE: TRegEx;
+    class var FunctionCallRE: TRegEx;
     class constructor Create;
-    class function IsBlockOpener(Line : string) : Boolean;
-    class function IsBlockCloser(Line : string) : Boolean;
-    class function IsExecutableLine(Line : string) : Boolean;
+    class function IsBlockOpener(Line: string): Boolean;
+    class function IsBlockCloser(Line: string): Boolean;
+    class function IsExecutableLine(Line: string): Boolean;
   end;
 
 const

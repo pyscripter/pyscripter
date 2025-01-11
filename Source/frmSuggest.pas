@@ -3,17 +3,11 @@ unit frmSuggest;
 interface
 
 uses
-  Winapi.Windows,
   Winapi.Messages,
-  System.Types,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ImgList,
   Vcl.VirtualImageList,
   TB2Item,
@@ -44,7 +38,6 @@ type
   protected
     FEditor: TCustomSynEdit;
     procedure CreateParams(var Params: TCreateParams); override;
-  public
   end;
 
 procedure ShowSuggestion(const Suggestion: string; Editor: TCustomSynEdit);
@@ -57,6 +50,8 @@ implementation
 {$R *.dfm}
 
 uses
+  Winapi.Windows,
+  System.Types,
   System.Math,
   SynEditTypes,
   SynEditKeyCmds,
@@ -100,7 +95,7 @@ begin
     if P.X < D then
       Message.Result := HTLEFT
     else if P.X > ClientWidth - D then
-      Message.Result := HTRIGHT
+      Message.Result := HTRIGHT;
   end;
 
   if Message.Result = 0 then

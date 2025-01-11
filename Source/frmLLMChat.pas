@@ -5,23 +5,16 @@ interface
 uses
   Winapi.Windows,
   Winapi.Messages,
-  System.UITypes,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
   System.Actions,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Menus,
-  Vcl.Dialogs,
-  Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.Buttons,
   Vcl.ImgList,
   Vcl.VirtualImageList,
-  Vcl.ComCtrls,
   Vcl.WinXPanels,
   Vcl.WinXCtrls,
   Vcl.ActnList,
@@ -29,11 +22,9 @@ uses
   SynEdit,
   SynEditHighlighter,
   SynHighlighterMulti,
-  SVGIconImage,
   JvComponentBase,
   JvDockControlForm,
   SpTBXItem,
-  SpTBXControls,
   SpTBXDkPanels,
   TB2Dock,
   TB2Toolbar,
@@ -156,10 +147,17 @@ implementation
 {$R *.dfm}
 
 uses
+  System.UITypes,
+  System.SysUtils,
   System.Math,
   System.IOUtils,
+  Vcl.Graphics,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
   Vcl.Themes,
   Vcl.Clipbrd,
+  SpTBXControls,
+  SVGIconImage,
   JvGnugettext,
   dmCommands,
   dmResources,
@@ -192,12 +190,12 @@ end;
 
 procedure TLLMChatForm.PanelQAResize(Sender: TObject);
 begin
-  var pnlAnswer := Sender as TSpTBXPanel;
-  var synAnswer := pnlAnswer.Controls[1] as TSynEdit;
+  var PnlAnswer := Sender as TSpTBXPanel;
+  var SynAnswer := PnlAnswer.Controls[1] as TSynEdit;
   var NewHeight := Max(MulDiv(30, CurrentPPI, 96),
-    synAnswer.DisplayRowCount * synAnswer.LineHeight);
-  if NewHeight <> pnlAnswer.Height then
-    pnlAnswer.Height := NewHeight;
+    SynAnswer.DisplayRowCount * SynAnswer.LineHeight);
+  if NewHeight <> PnlAnswer.Height then
+    PnlAnswer.Height := NewHeight;
 end;
 
 procedure TLLMChatForm.PythonHighlighterChange(Sender: TObject);
@@ -216,7 +214,7 @@ begin
     var WinControl := FindControl(Window);
     if (WinControl is TSynEdit) and string(WinControl.Name).StartsWith('synQA') then
     begin
-      SendMessage(WinControl.Parent.Handle, WM_MOUSEWHEEL, Msg.WParam, Msg.LParam);
+      SendMessage(WinControl.Parent.Handle, WM_MOUSEWHEEL, Msg.wParam, Msg.lParam);
       Handled := True;
     end;
   end;
@@ -256,8 +254,8 @@ begin
     ApplyFixedColorToRootOnly := True;
     Parent := PanelQA;
   end;
-  var synQA := TSynMarkdownViewer.Create(Self);
-  with synQA do begin
+  var SynQA := TSynMarkdownViewer.Create(Self);
+  with SynQA do begin
     Name := 'synQA' + QAStackPanel.ControlCount.ToString;
     Font.Color := StyleServices.GetSystemColor(clWindowText);
     Color := StyleServices.GetSystemColor(clWindow);
@@ -272,7 +270,7 @@ begin
     Font.Name := 'Consolas';
     Font.Size := 10;
     Gutter.Visible := False;
-    PopUpMenu := pmTextMenu;
+    PopupMenu := pmTextMenu;
     ScrollBars := ssNone;
     WantTabs := True;
     WantReturns := True;
@@ -282,9 +280,9 @@ begin
   PanelQA.ScaleForPPI(CurrentPPI);
   PanelQA.Parent := QAStackPanel;
   if ImgName = 'Assistant' then
-    synQA.Markdown := QA.Trim
+    SynQA.Markdown := QA.Trim
   else
-    synQA.Text := QA.Trim;
+    SynQA.Text := QA.Trim;
   PanelQA.OnResize :=  PanelQAResize;
   // Resize twice! - The first time the Scrollbox scrollbar may be shown
   PanelQAResize(PanelQA);
@@ -316,7 +314,7 @@ begin
     QAStackPanel.UnlockDrawing;
   end;
 
-  if SynQuestion.HandleAllocated then
+  if synQuestion.HandleAllocated then
     synQuestion.SetFocus;
 end;
 
@@ -346,11 +344,23 @@ begin
   // Restore settings and history
   var FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
     'Chat history.json');
-  LLMChat.LoadChat(FileName);
+  try
+    LLMChat.LoadChat(FileName);
+  except
+    StyledMessageDlg(_('Could read the Chat history'), TMsgDlgType.mtError,
+      [TMsgDlgBtn.mbOK], 0);
+    DeleteFile(FileName);
+  end;
 
   FileName := TPath.Combine(TPyScripterSettings.UserDataPath,
     'Chat Settings.json');
-  LLMChat.LoadSettrings(FileName);
+  try
+    LLMChat.LoadSettrings(FileName);
+  except
+    StyledMessageDlg(_('Could not read the Chat settings'), TMsgDlgType.mtError,
+      [TMsgDlgBtn.mbOK], 0);
+    DeleteFile(FileName);
+  end;
 
   SetQuestionTextHint;
 end;
@@ -365,7 +375,7 @@ end;
 
 function TLLMChatForm.GetCodeBlock(Editor: TSynEdit): string;
 var
-  Token: String;
+  Token: string;
   Attri: TSynHighlighterAttributes;
 begin
   Result := '';
@@ -567,7 +577,7 @@ end;
 
 procedure TLLMChatForm.pmTextMenuPopup(Sender: TObject);
 var
-  Token: String;
+  Token: string;
   Attri: TSynHighlighterAttributes;
 begin
   actCopyCode.Enabled := False;

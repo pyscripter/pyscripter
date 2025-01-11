@@ -10,18 +10,12 @@ unit frmCallStack;
 interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
   System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Generics.Collections,
   System.Actions,
   System.ImageList,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.ActnList,
   Vcl.ImgList,
@@ -29,9 +23,6 @@ uses
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
-  SpTBXSkins,
-  SpTBXItem,
-  SpTBXControls,
   SpTBXDkPanels,
   VirtualTrees.Types,
   VirtualTrees.BaseAncestorVCL,
@@ -79,9 +70,9 @@ type
       var E: TVSTGetCellTextEventArgs);
   private
     const FBasePath = 'Call Stack Window Options'; // Used for storing settings
-    var fActiveThread : TThreadInfo;
-    fThreads : TList<TThreadInfo>;
-    procedure ThreadChangeNotify(Thread : TThreadInfo; ChangeType : TThreadChangeType);
+    var FActiveThread: TThreadInfo;
+    FThreads: TList<TThreadInfo>;
+    procedure ThreadChangeNotify(Thread: TThreadInfo; ChangeType: TThreadChangeType);
     procedure UpdateCallStack;
     procedure SetActiveThread(const Value: TThreadInfo);
   public
@@ -89,10 +80,10 @@ type
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
 
-    procedure ClearAll(IncludeThreads : Boolean = True);
-    function GetSelectedStackFrame : TBaseFrameInfo;
-    procedure UpdateWindow(DebuggerState, OldState : TDebuggerState);
-    property ActiveThread: TThreadInfo read fActiveThread write SetActiveThread;
+    procedure ClearAll(IncludeThreads: Boolean = True);
+    function GetSelectedStackFrame: TBaseFrameInfo;
+    procedure UpdateWindow(DebuggerState, OldState: TDebuggerState);
+    property ActiveThread: TThreadInfo read FActiveThread write SetActiveThread;
   end;
 
 var
@@ -117,9 +108,9 @@ uses
 type
   PFrameData = ^TFrameData;
   TFrameData = record
-    Func : string;
-    FileName : string;
-    Line : integer;
+    Func: string;
+    FileName: string;
+    Line: Integer;
   end;
 
 { TCallStackWindow }
@@ -127,17 +118,16 @@ type
 procedure TCallStackWindow.UpdateCallStack;
 var
   Py: IPyEngineAndGIL;
-  FirstNode : PVirtualNode;
-  FrameData : PFrameData;
-  Editor : IEditor;
+  FirstNode: PVirtualNode;
+  FrameData: PFrameData;
+  Editor: IEditor;
 begin
-  if Assigned(fActiveThread) and (fActiveThread.CallStack.Count > 0) then begin
+  if Assigned(FActiveThread) and (FActiveThread.CallStack.Count > 0) then begin
     CallStackView.BeginUpdate;
     try
-      // OutputDebugString('Call Stack filled');
       Py := SafePyEngine;
-      CallStackView.RootNodeCount := fActiveThread.CallStack.Count;  // Fills the View
-      CallStackView.ReInitNode(nil, True, True);
+      CallStackView.RootNodeCount := FActiveThread.CallStack.Count;  // Fills the View
+      CallStackView.ReinitNode(nil, True, True);
     finally
       CallStackView.EndUpdate;
     end;
@@ -158,7 +148,7 @@ begin
     ClearAll(False);
 end;
 
-procedure TCallStackWindow.UpdateWindow(DebuggerState, OldState : TDebuggerState);
+procedure TCallStackWindow.UpdateWindow(DebuggerState, OldState: TDebuggerState);
 // ThreadView is always showing while debugging
 // The Call Stack is visible only when paused or in Post Mortem
 // The visibility of the Call stack is controlled by ThreadChangeNotify
@@ -198,24 +188,21 @@ begin
   if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);
 end;
 
-procedure TCallStackWindow.ClearAll(IncludeThreads : Boolean = True);
+procedure TCallStackWindow.ClearAll(IncludeThreads: Boolean = True);
 begin
   CallStackView.Clear;
-  // OutputDebugString(PChar(Format('Call Stack cleared - RootNodeCount: %d', [CallStackView.RootNodeCount])));
   CallStackView.Enabled := False;
   if IncludeThreads then begin
     ThreadView.Clear;
-    fThreads.Clear;
+    FThreads.Clear;
     ThreadView.Enabled := False;
-    fActiveThread := nil;
+    FActiveThread := nil;
   end;
 end;
 
 procedure TCallStackWindow.actNextFrameExecute(Sender: TObject);
-Var
-  SelectedNode : PVirtualNode;
 begin
-  SelectedNode := CallStackView.GetFirstSelected;
+  var SelectedNode := CallStackView.GetFirstSelected;
   if CallStackView.Enabled and Assigned(SelectedNode) and
     Assigned(SelectedNode.PrevSibling)
   then
@@ -223,10 +210,8 @@ begin
 end;
 
 procedure TCallStackWindow.actPreviousFrameExecute(Sender: TObject);
-Var
-  SelectedNode : PVirtualNode;
 begin
-  SelectedNode := CallStackView.GetFirstSelected;
+  var SelectedNode := CallStackView.GetFirstSelected;
   if CallStackView.Enabled and Assigned(SelectedNode) and
     Assigned(SelectedNode.NextSibling)
   then
@@ -238,9 +223,9 @@ procedure TCallStackWindow.CallStackViewAddToSelection(Sender: TBaseVirtualTree;
 begin
   if Assigned(Node) and not CallStackView.IsUpdating then
   begin
-    Assert(Assigned(fActiveThread));
-    Assert(Integer(Node.Index) < fActiveThread.CallStack.Count);
-    PyControl.ActiveDebugger.MakeFrameActive(fActiveThread.CallStack[Node.Index]);
+    Assert(Assigned(FActiveThread), 'CallStackViewAddToSelection');
+    Assert(Integer(Node.Index) < FActiveThread.CallStack.Count, 'CallStackViewAddToSelection');
+    PyControl.ActiveDebugger.MakeFrameActive(FActiveThread.CallStack[Node.Index]);
 
     // Update the Variables Window
     if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
@@ -250,13 +235,14 @@ end;
 
 procedure TCallStackWindow.CallStackViewDblClick(Sender: TObject);
 var
-  SelectedNode : PVirtualNode;
-  FrameData : PFrameData;
+  SelectedNode: PVirtualNode;
+  FrameData: PFrameData;
 begin
   SelectedNode := CallStackView.GetFirstSelected;
-  if Assigned(SelectedNode) then begin
-    Assert(Assigned(fActiveThread));
-    Assert(Integer(SelectedNode.Index) < fActiveThread.CallStack.Count);
+  if Assigned(SelectedNode) then
+  begin
+    Assert(Assigned(FActiveThread), 'CallStackViewDblClick');
+    Assert(Integer(SelectedNode.Index) < FActiveThread.CallStack.Count, 'CallStackViewDblClick');
     FrameData := SelectedNode.GetData;
     if FrameData.FileName <> '' then
       GI_PyIDEServices.ShowFilePosition(FrameData.FileName, FrameData.Line, 1);
@@ -266,7 +252,7 @@ end;
 procedure TCallStackWindow.CallStackViewFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 var
-  FrameData : PFrameData;
+  FrameData: PFrameData;
 begin
   FrameData := Node.GetData;
   Finalize(FrameData^);
@@ -285,7 +271,7 @@ begin
   inherited;
   CallStackView.NodeDataSize := SizeOf(TFrameData);
   // Let the tree know how much data space we need.
-  fThreads := TList<TThreadInfo>.Create(TComparer<TThreadInfo>.Construct(
+  FThreads := TList<TThreadInfo>.Create(TComparer<TThreadInfo>.Construct(
     function(const L, R: TThreadInfo): Integer
     begin
       if L = R then
@@ -307,17 +293,17 @@ end;
 procedure TCallStackWindow.FormDestroy(Sender: TObject);
 begin
   CallStackWindow := nil;
-  fThreads.Free;
+  FThreads.Free;
   inherited;
 end;
 
 procedure TCallStackWindow.CallStackViewGetCellText(
   Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 var
-  FrameData : PFrameData;
+  FrameData: PFrameData;
 begin
-  Assert(CallStackView.GetNodeLevel(E.Node) = 0);
-  Assert(Assigned(fActiveThread));
+  Assert(CallStackView.GetNodeLevel(E.Node) = 0, 'CallStackViewGetCellText');
+  Assert(Assigned(FActiveThread), 'CallStackViewGetCellText');
   FrameData := E.Node.GetData;
   case E.Column of
     0:  E.CellText := FrameData.Func;
@@ -340,13 +326,13 @@ end;
 procedure TCallStackWindow.CallStackViewInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
 var
-  FrameData : PFrameData;
+  FrameData: PFrameData;
 begin
-  Assert(ParentNode = nil);
-  Assert(Assigned(fActiveThread));
-  Assert(Integer(Node.Index) < fActiveThread.CallStack.Count);
+  Assert(ParentNode = nil, 'CallStackViewInitNode');
+  Assert(Assigned(FActiveThread), 'CallStackViewInitNode');
+  Assert(Integer(Node.Index) < FActiveThread.CallStack.Count, 'CallStackViewInitNode');
   FrameData := Node.GetData;
-  with fActiveThread.CallStack[Node.Index] do
+  with FActiveThread.CallStack[Node.Index] do
   begin
     FrameData.Func := FunctionName;
     FrameData.FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
@@ -356,75 +342,73 @@ end;
 
 function TCallStackWindow.GetSelectedStackFrame: TBaseFrameInfo;
 var
-  SelectedNode : PVirtualNode;
+  SelectedNode: PVirtualNode;
 begin
   Result := nil;
   SelectedNode := CallStackView.GetFirstSelected;
-  if Assigned(SelectedNode) then begin
-    Assert(Assigned(fActiveThread));
-    Assert(Integer(SelectedNode.Index) < fActiveThread.CallStack.Count);
-    Result := fActiveThread.CallStack[SelectedNode.Index];
+  if Assigned(SelectedNode) then
+  begin
+    Assert(Assigned(FActiveThread), 'GetSelectedStackFrame');
+    Assert(Integer(SelectedNode.Index) < FActiveThread.CallStack.Count, 'GetSelectedStackFrame');
+    Result := FActiveThread.CallStack[SelectedNode.Index];
   end;
 end;
 
 procedure TCallStackWindow.ThreadChangeNotify(Thread: TThreadInfo;
-  ChangeType : TThreadChangeType);
+  ChangeType: TThreadChangeType);
 {
   Updates the ThreadView while debugging
   When a Thread is selected the CallStackView is filled, the Top stack gets
   selected and the Variables and Watches Windows are updated as well
 }
-  function NodeFromThread(T : TThreadInfo) : PVirtualNode;
+  function NodeFromThread(ThreadInfo: TThreadInfo): PVirtualNode;
   var
-    I : Integer;
-    N : PVirtualNode;
+    Idx: Integer;
+    Node: PVirtualNode;
   begin
     Result := nil;
-    if fThreads.BinarySearch(T, I) then
-      for N in ThreadView.Nodes do
-        if Integer(N.Index) = I then begin
-          Result := N;
-          break;
-        end;
+    if FThreads.BinarySearch(ThreadInfo, Idx) then
+      for Node in ThreadView.Nodes do
+        if Integer(Node.Index) = Idx then
+          Exit(Node);
   end;
 
 var
   Py: IPyEngineAndGIL;
-  Index : integer;
+  Index: Integer;
   Node,
-  Node1 : PVirtualNode;
-  T : TThreadInfo;
+  Node1: PVirtualNode;
+  ThreadInfo: TThreadInfo;
 begin
-  // OutputDebugString(PChar(Format('status: %d change: %d', [Ord(Thread.Status), Ord(ChangeType)])));
   Py := SafePyEngine;
   case ChangeType of
     tctAdded:
       begin
         // Keep sorted
-        if not fThreads.BinarySearch(Thread, Index) then begin
-          fThreads.Insert(Index, Thread);
-          ThreadView.RootNodeCount := fThreads.Count;
+        if not FThreads.BinarySearch(Thread, Index) then begin
+          FThreads.Insert(Index, Thread);
+          ThreadView.RootNodeCount := FThreads.Count;
         end;
-        if (fActiveThread = nil) and (Thread.Status = thrdBroken) then begin
+        if (FActiveThread = nil) and (Thread.Status = thrdBroken) then begin
           ActiveThread := Thread;
         end;
         ThreadView.Invalidate;
       end;
     tctRemoved:
       begin
-        if fActiveThread = Thread then begin
+        if FActiveThread = Thread then begin
           // Should not happen since a broken thread is first
           // changed to running before finishing
           // Select another broken thread
           ActiveThread := nil;
         end;
-        fThreads.Remove(Thread);
-        ThreadView.RootNodeCount := fThreads.Count;
-        if not Assigned(fActiveThread) then begin
-          for T in fThreads do
-            if T.Status = thrdBroken then begin
-              ActiveThread := T;
-              break;
+        FThreads.Remove(Thread);
+        ThreadView.RootNodeCount := FThreads.Count;
+        if not Assigned(FActiveThread) then begin
+          for ThreadInfo in FThreads do
+            if ThreadInfo.Status = thrdBroken then begin
+              ActiveThread := ThreadInfo;
+              Break;
             end;
         end;
         ThreadView.Invalidate;
@@ -433,21 +417,21 @@ begin
       begin
         Node := NodeFromThread(Thread);
         if Assigned(Node) then begin
-          if (Thread.Status = thrdRunning) and (fActiveThread = Thread) then begin
+          if (Thread.Status = thrdRunning) and (FActiveThread = Thread) then begin
             ActiveThread := nil;
-            for T in fThreads do
-              if T.Status = thrdBroken then begin
-                ActiveThread := T;
-                Node1 := NodeFromThread(fActiveThread);
+            for ThreadInfo in FThreads do
+              if ThreadInfo.Status = thrdBroken then begin
+                ActiveThread := ThreadInfo;
+                Node1 := NodeFromThread(FActiveThread);
                 ThreadView.InvalidateNode(Node1);
-                break;
+                Break;
               end;
           end
           else if Thread.Status = thrdBroken then
           begin
-            if Assigned(fActiveThread) then
+            if Assigned(FActiveThread) then
             begin
-              Node1 := NodeFromThread(fActiveThread);
+              Node1 := NodeFromThread(FActiveThread);
               ThreadView.InvalidateNode(Node1);
             end;
             ActiveThread := Thread;
@@ -462,11 +446,11 @@ end;
 procedure TCallStackWindow.ThreadViewAddToSelection(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
-  Assert(Integer(Node.Index) < fThreads.Count);
-  if (fThreads[Node.Index].Status = thrdBroken) and
-    (fActiveThread <> fThreads[Node.Index]) then
+  Assert(Integer(Node.Index) < FThreads.Count, 'ThreadViewAddToSelection');
+  if (FThreads[Node.Index].Status = thrdBroken) and
+    (FActiveThread <> FThreads[Node.Index]) then
   begin
-    ActiveThread := fThreads[Node.Index];
+    ActiveThread := FThreads[Node.Index];
     ThreadView.Invalidate;
   end;
 end;
@@ -474,21 +458,21 @@ end;
 procedure TCallStackWindow.ThreadViewGetCellText(
   Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 begin
-  Assert(Integer(E.Node.Index) < fThreads.Count);
-  E.CellText := fThreads[E.Node.Index].Name;
+  Assert(Integer(E.Node.Index) < FThreads.Count, 'ThreadViewGetCellText');
+  E.CellText := FThreads[E.Node.Index].Name;
 end;
 
 procedure TCallStackWindow.ThreadViewGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
-  Assert(Integer(Node.Index) < fThreads.Count);
+  Assert(Integer(Node.Index) < FThreads.Count, 'ThreadViewGetImageIndex');
   if Kind in [ikNormal, ikSelected] then begin
-    if fThreads[Node.Index].Status = thrdRunning then
+    if FThreads[Node.Index].Status = thrdRunning then
       ImageIndex := 1
     else
-      ImageIndex := 2
-  end else if (Kind = ikState) and (fThreads[Node.Index] = fActiveThread) then
+      ImageIndex := 2;
+  end else if (Kind = ikState) and (FThreads[Node.Index] = FActiveThread) then
     ImageIndex := 0;
 end;
 
@@ -516,9 +500,9 @@ end;
 
 procedure TCallStackWindow.SetActiveThread(const Value: TThreadInfo);
 begin
-  if fActiveThread <> Value then begin
-    fActiveThread := Value;
-    PyControl.ActiveDebugger.MakeThreadActive(fActiveThread);
+  if FActiveThread <> Value then begin
+    FActiveThread := Value;
+    PyControl.ActiveDebugger.MakeThreadActive(FActiveThread);
     UpdateCallStack;
   end;
 end;

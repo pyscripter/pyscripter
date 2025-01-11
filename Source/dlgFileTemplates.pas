@@ -74,7 +74,7 @@ type
       Selected: Boolean);
   private
     FOldIndex: Integer;
-    FTempFileTemplates : TFileTemplates;
+    FTempFileTemplates: TFileTemplates;
     procedure StoreFieldsToFileTemplate(FileTemplate: TFileTemplate);
     procedure AskToUpdate(Sender: TObject);
   public
@@ -245,7 +245,7 @@ end;
 procedure TFileTemplatesDialog.lvItemsSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
 var
-  FileTemplate : TFileTemplate;
+  FileTemplate: TFileTemplate;
 begin
   if Selected then begin
     FOldIndex := Item.Index;
@@ -270,9 +270,9 @@ end;
 
 procedure TFileTemplatesDialog.actMoveUpExecute(Sender: TObject);
 var
-  Name, Value : string;
-  P : Pointer;
-  Index : Integer;
+  Name, Value: string;
+  P: Pointer;
+  Index: Integer;
 begin
   if lvItems.ItemIndex > 0 then begin
     Index := lvItems.ItemIndex;
@@ -293,9 +293,9 @@ end;
 
 procedure TFileTemplatesDialog.actMoveDownExecute(Sender: TObject);
 var
-  Name, Value : string;
-  P : Pointer;
-  Index : Integer;
+  Name, Value: string;
+  P: Pointer;
+  Index: Integer;
 begin
   if lvItems.ItemIndex < lvItems.Items.Count - 1 then begin
     Index := lvItems.ItemIndex;

@@ -60,10 +60,10 @@ type
     procedure cbSaveOutputClick(Sender: TObject);
     procedure btnRemoteFileNameClick(Sender: TObject);
   private
-    FRunConfig : TRunConfiguration;
+    FRunConfig: TRunConfiguration;
   end;
 
-function EditRunConfiguration(ARunConfig : TRunConfiguration) : Boolean;
+function EditRunConfiguration(ARunConfig: TRunConfiguration): Boolean;
 
 implementation
 
@@ -87,7 +87,7 @@ uses
 
 { TRunConfigurationForm }
 
-function EditRunConfiguration(ARunConfig : TRunConfiguration) : Boolean;
+function EditRunConfiguration(ARunConfig: TRunConfiguration): Boolean;
 begin
   Result := False;
   if not Assigned(ARunConfig) then Exit;
@@ -155,7 +155,7 @@ end;
 
 procedure TRunConfigurationForm.btnOutputFileNameClick(Sender: TObject);
 var
-  OldOpenOptions : TOpenOptions;
+  OldOpenOptions: TOpenOptions;
 begin
   with ResourcesDataModule.dlgFileOpen do begin
     Title := _(SSelectOutputFile);
@@ -191,7 +191,7 @@ end;
 procedure TRunConfigurationForm.btnWorkDirClick(Sender: TObject);
 var
   DefaultDir: string;
-  Directories : TArray<string>;
+  Directories: TArray<string>;
 begin
   if ActiveProject.FileName <> '' then
     DefaultDir := TPath.GetDirectoryName(ActiveProject.FileName);
@@ -217,8 +217,8 @@ end;
 
 procedure TRunConfigurationForm.FormCreate(Sender: TObject);
 var
-  SynEditArray : TArray<TSynEdit>;
-  SynEdit : TSynEdit;
+  SynEditArray: TArray<TSynEdit>;
+  SynEdit: TSynEdit;
 begin
   inherited;
   FRunConfig := TRunConfiguration.Create;

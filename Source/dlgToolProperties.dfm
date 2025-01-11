@@ -312,25 +312,13 @@ inherited ToolProperties: TToolProperties
             Gutter.Font.Style = []
             Gutter.Font.Quality = fqClearTypeNatural
             Gutter.Visible = False
-            Gutter.Bands = <
-              item
-                Kind = gbkMarks
-                Width = 15
-              end
-              item
-                Kind = gbkLineNumbers
-              end
-              item
-                Kind = gbkFold
-              end
-              item
-                Kind = gbkMargin
-                Width = 2
-              end>
+            Gutter.Bands = <>
             HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
+            ScrollbarAnnotations = <>
             SelectedColor.Alpha = 0.400000005960464500
+            VisibleSpecialChars = []
             WantReturns = False
           end
           object SynParameters: TSynEdit
@@ -355,25 +343,13 @@ inherited ToolProperties: TToolProperties
             Gutter.Font.Style = []
             Gutter.Font.Quality = fqClearTypeNatural
             Gutter.Visible = False
-            Gutter.Bands = <
-              item
-                Kind = gbkMarks
-                Width = 15
-              end
-              item
-                Kind = gbkLineNumbers
-              end
-              item
-                Kind = gbkFold
-              end
-              item
-                Kind = gbkMargin
-                Width = 2
-              end>
+            Gutter.Bands = <>
             HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
+            ScrollbarAnnotations = <>
             SelectedColor.Alpha = 0.400000005960464500
+            VisibleSpecialChars = []
             WantReturns = False
           end
           object SynWorkDir: TSynEdit
@@ -398,25 +374,13 @@ inherited ToolProperties: TToolProperties
             Gutter.Font.Style = []
             Gutter.Font.Quality = fqClearTypeNatural
             Gutter.Visible = False
-            Gutter.Bands = <
-              item
-                Kind = gbkMarks
-                Width = 15
-              end
-              item
-                Kind = gbkLineNumbers
-              end
-              item
-                Kind = gbkFold
-              end
-              item
-                Kind = gbkMargin
-                Width = 2
-              end>
+            Gutter.Bands = <>
             HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
+            ScrollbarAnnotations = <>
             SelectedColor.Alpha = 0.400000005960464500
+            VisibleSpecialChars = []
             WantReturns = False
           end
           object btnAppDir: TButton
@@ -461,7 +425,7 @@ inherited ToolProperties: TToolProperties
           object lbContext: TLabel
             Left = 6
             Top = 40
-            Width = 45
+            Width = 44
             Height = 15
             Caption = 'Conte&xt:'
             FocusControl = cbContext
@@ -723,17 +687,17 @@ inherited ToolProperties: TToolProperties
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 21
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 97
         CollectionName = 'Refresh'
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 68
+        CollectionIndex = 77
         CollectionName = 'Plus'
         Name = 'Plus'
       end>

@@ -10,19 +10,15 @@ unit uSearchHighlighter;
 interface
 
 uses
-  Winapi.Windows,
-  System.Classes,
-  System.SysUtils,
-  Synedit,
   SynEditTypes,
   SynEditMiscClasses,
   uEditAppIntfs;
 
-  procedure RegisterSearchHighlightIndicatorSpec(Editor: IEditor);
-  procedure HighligthtSearchTerm(ATerm : string; Editor: IEditor;
-    SearchEngine : TSynEditSearchCustom; SearchOptions : TSynSearchOptions);
-  procedure ClearSearchHighlight(Editor: IEditor);
-  procedure ClearAllHighlightedTerms;
+procedure RegisterSearchHighlightIndicatorSpec(Editor: IEditor);
+procedure HighligthtSearchTerm(ATerm: string; Editor: IEditor;
+  SearchEngine: TSynEditSearchCustom; SearchOptions: TSynSearchOptions);
+procedure ClearSearchHighlight(Editor: IEditor);
+procedure ClearAllHighlightedTerms;
 
 implementation
 
@@ -62,25 +58,23 @@ begin
   end;
 end;
 
-procedure HighligthtSearchTerm(ATerm : string; Editor: IEditor;
-  SearchEngine : TSynEditSearchCustom; SearchOptions : TSynSearchOptions);
+procedure HighligthtSearchTerm(ATerm: string; Editor: IEditor;
+  SearchEngine: TSynEditSearchCustom; SearchOptions: TSynSearchOptions);
 var
-  I: Integer;
-  J: Integer;
   Indicator: TSynIndicator;
 begin
   ClearSearchHighlight(Editor);
   if ATerm = '' then Exit;
 
   Indicator.Id := SearchHighlightIndicatorId;
-  for I := 0 to Editor.SynEdit.Lines.Count - 1 do begin
+  for var I := 0 to Editor.SynEdit.Lines.Count - 1 do begin
     SearchEngine.Options := SearchOptions;
     SearchEngine.Pattern := ATerm;
-    SearchEngine.FindAll(Editor.SynEdit.Lines[i]);
+    SearchEngine.FindAll(Editor.SynEdit.Lines[I]);
 
-    for J := 0 to SearchEngine.ResultCount - 1 do begin
-      Indicator.CharStart := SearchEngine.Results[j];
-      Indicator.CharEnd := Indicator.CharStart + SearchEngine.Lengths[j];
+    for var J := 0 to SearchEngine.ResultCount - 1 do begin
+      Indicator.CharStart := SearchEngine.Results[J];
+      Indicator.CharEnd := Indicator.CharStart + SearchEngine.Lengths[J];
       Editor.SynEdit.Indicators.Add(I + 1, Indicator);
       Editor.SynEdit2.Indicators.Add(I + 1, Indicator);
     end;

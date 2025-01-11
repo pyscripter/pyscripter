@@ -12,7 +12,6 @@ interface
 
 uses
   System.Classes,
-  Generics.Defaults,
   Generics.Collections,
   SynEditHighlighter;
 
@@ -28,8 +27,8 @@ type
     function HighlighterFromFileName(const FileName: string): TSynCustomHighlighter;
   end;
 
-function FileMaskFromFileFilter(const Filter : string) : string;
-function DefaultExtensionFromFilter(const Filter : string) : string;
+function FileMaskFromFileFilter(const Filter: string): string;
+function DefaultExtensionFromFilter(const Filter: string): string;
 function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
 
 implementation
@@ -37,21 +36,20 @@ implementation
 uses
   System.SysUtils,
   System.IOUtils,
-  JvGNUGetText;
+  Generics.Defaults,
+  JvGnugettext;
 
-function FileMaskFromFileFilter(const Filter : string) : string;
-Var
-  j : integer;
+function FileMaskFromFileFilter(const Filter: string): string;
 begin
   Result := '';
-  j := Pos('|', Filter);
-  if j > 0 then begin
+  var VBarPos := Pos('|', Filter);
+  if VBarPos > 0 then begin
     Result := Filter;
-    Delete(Result, 1, j);
+    Delete(Result, 1, VBarPos);
   end;
 end;
 
-function DefaultExtensionFromFilter(const Filter : string) : string;
+function DefaultExtensionFromFilter(const Filter: string): string;
 begin
   var Mask := FileMaskFromFileFilter(Filter);
   var Len := Mask.Length;
@@ -66,7 +64,7 @@ end;
 
 function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
 var
-  j, ExtLen: Integer;
+  VBarPos, ExtLen: Integer;
 begin
   Result := False;
   ExtLen := FileExt.Length;
@@ -74,12 +72,12 @@ begin
     Exit;
   FileExt := LowerCase(FileExt);
   FileFilter := LowerCase(FileFilter);
-  j := Pos('|', FileFilter);
-  if j > 0 then begin
-    Delete(FileFilter, 1, j);
-    j := Pos(FileExt, FileFilter);
-    if (j > 0) and
-       ((j + ExtLen > Length(FileFilter)) or (FileFilter[j + ExtLen] = ';'))
+  VBarPos := Pos('|', FileFilter);
+  if VBarPos > 0 then begin
+    Delete(FileFilter, 1, VBarPos);
+    VBarPos := Pos(FileExt, FileFilter);
+    if (VBarPos > 0) and
+       ((VBarPos + ExtLen > Length(FileFilter)) or (FileFilter[VBarPos + ExtLen] = ';'))
     then
       Exit(True);
   end;

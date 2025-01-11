@@ -9,44 +9,43 @@
 unit cFilePersist;
 
 interface
-Uses
+uses
   System.Classes,
-  System.SysUtils,
   System.Contnrs,
   Vcl.Controls,
   JvAppStorage,
   uEditAppIntfs,
   dlgSynEditOptions;
 
-Type
+type
   TBookMarkInfo = class(TPersistent)
   private
-    fLine, fChar, fBookmarkNumber : integer;
+    FLine, FChar, FBookmarkNumber: Integer;
   published
-    property Line : integer read fLine write fLine;
-    property Char : integer read fChar write fChar;
-    property BookmarkNumber : integer read fBookmarkNumber write fBookmarkNumber;
+    property Line: Integer read FLine write FLine;
+    property Char: Integer read FChar write FChar;
+    property BookmarkNumber: Integer read FBookmarkNumber write FBookmarkNumber;
   end;
 
   TFilePersistInfo = class (TInterfacedPersistent, IJvAppStorageHandler)
   //  For storage/loading of a file's persistent info
   private
-    TabControlIndex : integer;
-    Line, Char, TopLine : integer;
-    BreakPoints : TObjectList;
-    BookMarks : TObjectList;
-    FileName : string;
-    Highlighter : string;
+    TabControlIndex: Integer;
+    Line, Char, TopLine: Integer;
+    BreakPoints: TObjectList;
+    BookMarks: TObjectList;
+    FileName: string;
+    Highlighter: string;
     UseCodeFolding: Boolean;
-    EditorOptions : TSynEditorOptionsContainer;
-    EditorOptions2 : TSynEditorOptionsContainer;
-    SecondEditorVisible : Boolean;
-    SecondEditorAlign : TAlign;
-    SecondEditorSize : integer;
+    EditorOptions: TSynEditorOptionsContainer;
+    EditorOptions2: TSynEditorOptionsContainer;
+    SecondEditorVisible: Boolean;
+    SecondEditorAlign: TAlign;
+    SecondEditorSize: Integer;
     SecondEditorUseCodeFolding: Boolean;
-    ReadOnly : Boolean;
-    FoldState : string;
-    FoldState2 : string;
+    ReadOnly: Boolean;
+    FoldState: string;
+    FoldState2: string;
   protected
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
@@ -55,7 +54,7 @@ Type
       Index: Integer): TPersistent;
   public
     constructor Create;
-    constructor CreateFromEditor(Editor : IEditor);
+    constructor CreateFromEditor(Editor: IEditor);
     destructor Destroy; override;
   end;
 
@@ -63,15 +62,15 @@ Type
   // Stores/loads open editor file information through the class methods
   // WriteToAppStorage and ReadFromAppStorage
   private
-    fFileInfoList : TObjectList;
+    FFileInfoList: TObjectList;
     function CreateListItem(Sender: TJvCustomAppStorage; const Path: string;
       Index: Integer): TPersistent;
   public
     constructor Create;
     destructor Destroy; override;
     procedure GetFileInfo;
-    class procedure WriteToAppStorage(AppStorage : TJvCustomAppStorage; Path : string);
-    class procedure ReadFromAppStorage(AppStorage : TJvCustomAppStorage; Path : string);
+    class procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; Path: string);
+    class procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; Path: string);
   end;
 
   TTabsPersistInfo = class (TInterfacedPersistent, IJvAppStorageHandler)
@@ -79,12 +78,13 @@ Type
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
   end;
 
-Var
-  TabsPersistsInfo : TTabsPersistInfo;   // Singleton
+var
+  TabsPersistsInfo: TTabsPersistInfo;   // Singleton
 
 implementation
 
 uses
+  System.SysUtils,
   System.Math,
   SynEditTypes,
   SynEdit,
@@ -93,8 +93,6 @@ uses
   JvJCLUtils,
   dmResources,
   frmPyIDEMain,
-  uHighlighterProcs,
-  cPyBaseDebugger,
   cPyControl,
   cPyScripterSettings;
 
@@ -112,7 +110,7 @@ end;
 procedure TFilePersistInfo.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 var
-  IgnoreProperties : TStringList;
+  IgnoreProperties: TStringList;
 begin
    AppStorage.WriteString(BasePath+'\FileName', FileName);
    AppStorage.WriteInteger(BasePath+'\TabControlIndex', TabControlIndex);
@@ -201,8 +199,8 @@ end;
 constructor TFilePersistInfo.CreateFromEditor(Editor: IEditor);
 
   procedure GetFoldInfo(SynEdit: TSynEdit; var UseCodeFolding: Boolean; var FoldState: string);
-  Var
-    Stream : TMemoryStream;
+  var
+    Stream: TMemoryStream;
   begin
     UseCodeFolding := SynEdit.UseCodeFolding;
     if UseCodeFolding then begin
@@ -216,38 +214,37 @@ constructor TFilePersistInfo.CreateFromEditor(Editor: IEditor);
     end;
   end;
 
-Var
-  i : integer;
-  BookMark : TBookMarkInfo;
-  BreakPoint : TBreakPoint;
 begin
   Create;
   FileName := Editor.FileId;
   TabControlIndex := Editor.TabControlIndex;
   Char := Editor.SynEdit.CaretX;
   Line := Editor.SynEdit.CaretY;
-  TopLine := Editor.Synedit.TopLine;
+  TopLine := Editor.SynEdit.TopLine;
+
   if Assigned(Editor.SynEdit.Highlighter) then
     Highlighter := Editor.SynEdit.Highlighter.FriendlyLanguageName;
+
   if Assigned(Editor.SynEdit.Marks) then
-    for i := 0 to Editor.SynEdit.Marks.Count - 1 do
-      if Editor.SynEdit.Marks[i].IsBookmark then with Editor.SynEdit.Marks[i] do
+    for var Mark in Editor.SynEdit.Marks do
+      if Mark.IsBookmark then
       begin
-        BookMark := TBookMarkInfo.Create;
-        BookMark.fChar := Char;
-        BookMark.fLine := Line;
-        BookMark.fBookmarkNumber := BookmarkNumber;
+        var BookMark := TBookMarkInfo.Create;
+        BookMark.FChar := Mark.Char;
+        BookMark.FLine := Mark.Line;
+        BookMark.FBookmarkNumber := Mark.BookmarkNumber;
         BookMarks.Add(BookMark);
       end;
-  for i := 0 to Editor.BreakPoints.Count - 1 do begin
-    BreakPoint := TBreakPoint.Create;
-    with TBreakPoint(Editor.BreakPoints[i]) do begin
-      BreakPoint.LineNo := LineNo;
-      BreakPoint.Disabled := Disabled;
-      BreakPoint.Condition := Condition;
-      BreakPoints.Add(BreakPoint);
-    end;
+
+  for var BPoint in Editor.BreakPoints do
+  begin
+    var BreakPoint := TBreakPoint.Create;
+    BreakPoint.LineNo := TBreakPoint(BPoint).LineNo;
+    BreakPoint.Disabled := TBreakPoint(BPoint).Disabled;
+    BreakPoint.Condition := TBreakPoint(BPoint).Condition;
+    BreakPoints.Add(BreakPoint);
   end;
+
   EditorOptions.Assign(Editor.SynEdit);
   GetFoldInfo(Editor.SynEdit, UseCodeFolding, FoldState);
   ReadOnly := Editor.ReadOnly;
@@ -266,14 +263,14 @@ end;
 
 constructor TPersistFileInfo.Create;
 begin
-  fFileInfoList := TObjectList.Create(True);
+  FFileInfoList := TObjectList.Create(True);
 end;
 
 class procedure TPersistFileInfo.ReadFromAppStorage(
-  AppStorage: TJvCustomAppStorage; Path : string);
+  AppStorage: TJvCustomAppStorage; Path: string);
 
   procedure RestoreFoldInfo(SynEdit: TSynEdit; UseCodeFolding: Boolean; FoldState: string);
-  Var
+  var
     Stream: TMemoryStream;
   begin
     SynEdit.UseCodeFolding := UseCodeFolding;
@@ -292,19 +289,16 @@ class procedure TPersistFileInfo.ReadFromAppStorage(
     end;
   end;
 
-Var
-  PersistFileInfo : TPersistFileInfo;
-  FilePersistInfo : TFilePersistInfo;
-  Editor : IEditor;
-  i, j : integer;
-  FName : string;
+var
+  Editor: IEditor;
 begin
-  PersistFileInfo := TPersistFileInfo.Create;
+  var PersistFileInfo := TPersistFileInfo.Create;
   try
-    AppStorage.ReadObjectList(Path, PersistFileInfo.fFileInfoList,
+    AppStorage.ReadObjectList(Path, PersistFileInfo.FFileInfoList,
       PersistFileInfo.CreateListItem,  True, 'File');
-    for i := 0 to PersistFileInfo.fFileInfoList.Count - 1 do begin
-      FilePersistInfo := TFilePersistInfo(PersistFileInfo.fFileInfoList[i]);
+    for var Obj in PersistFileInfo.FFileInfoList do
+    begin
+      var FilePersistInfo := TFilePersistInfo(Obj);
       try
         Editor := PyIDEMainForm.DoOpenFile(FilePersistInfo.FileName, '',
           FilePersistInfo.TabControlIndex);
@@ -314,13 +308,16 @@ begin
       if Assigned(Editor) then begin
         Editor.SynEdit.TopLine := FilePersistInfo.TopLine;
         Editor.SynEdit.CaretXY := BufferCoord(FilePersistInfo.Char, FilePersistInfo.Line);
-        for j := 0 to FilePersistInfo.BreakPoints.Count - 1 do
-          with TBreakPoint(FilePersistInfo.BreakPoints[j]) do
+
+        for var BPoint in FilePersistInfo.BreakPoints do
+          with TBreakPoint(BPoint) do
             PyControl.SetBreakPoint(FilePersistInfo.FileName,
               LineNo, Disabled, Condition);
-        for j := 0 to FilePersistInfo.BookMarks.Count - 1 do
-          with TBookMarkInfo(FilePersistInfo.BookMarks[j]) do
-            Editor.SynEdit.SetBookMark(BookMarkNumber, Char, Line);
+
+        for var BookMark in FilePersistInfo.BookMarks do
+          with TBookMarkInfo(BookMark) do
+            Editor.SynEdit.SetBookMark(BookmarkNumber, Char, Line);
+
         if FilePersistInfo.Highlighter <> '' then begin
           Editor.SynEdit.Highlighter := ResourcesDataModule.Highlighters.
            HighlighterFromFriendlyName(FilePersistInfo.Highlighter);
@@ -348,7 +345,8 @@ begin
   finally
     PersistFileInfo.Free;
   end;
-  FName := AppStorage.ReadString(Path+'\ActiveEditor', FName);
+
+  var FName := AppStorage.ReadString(Path+'\ActiveEditor');
   if FName <> '' then begin
     Editor := GI_EditorFactory.GetEditorByName(FName);
     if Assigned(Editor) then
@@ -364,21 +362,21 @@ end;
 
 destructor TPersistFileInfo.Destroy;
 begin
-  fFileInfoList.Free;
+  FFileInfoList.Free;
   inherited;
 end;
 
 class procedure TPersistFileInfo.WriteToAppStorage(
-  AppStorage: TJvCustomAppStorage; Path : string);
-Var
-  PersistFileInfo : TPersistFileInfo;
-  ActiveEditor : IEditor;
-  FName : string;
+  AppStorage: TJvCustomAppStorage; Path: string);
+var
+  PersistFileInfo: TPersistFileInfo;
+  ActiveEditor: IEditor;
+  FName: string;
 begin
   PersistFileInfo := TPersistFileInfo.Create;
   try
     PersistFileInfo.GetFileInfo;
-    AppStorage.WriteObjectList(Path, PersistFileInfo.fFileInfoList, 'File');
+    AppStorage.WriteObjectList(Path, PersistFileInfo.FFileInfoList, 'File');
   finally
     PersistFileInfo.Free;
   end;
@@ -392,22 +390,21 @@ end;
 
 procedure TPersistFileInfo.GetFileInfo;
 
-  procedure ProcessTabControl(TabControl : TSpTBXCustomTabControl);
+  procedure ProcessTabControl(TabControl: TSpTBXCustomTabControl);
   var
-    I: Integer;
     IV: TTBItemViewer;
-    Editor : IEditor;
-    FilePersistInfo : TFilePersistInfo;
+    Editor: IEditor;
+    FilePersistInfo: TFilePersistInfo;
   begin
     // Note that the Pages property may have a different order than the
     // physical order of the tabs
-    for I := 0 to TabControl.View.ViewerCount - 1 do begin
+    for var I := 0 to TabControl.View.ViewerCount - 1 do begin
       IV := TabControl.View.Viewers[I];
       if IV.Item is TSpTBXTabItem then begin
         Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
         if Assigned(Editor) and ((Editor.FileName <> '') or (Editor.RemoteFileName <> '')) then begin
           FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
-          fFileInfoList.Add(FilePersistInfo);
+          FFileInfoList.Add(FilePersistInfo);
           // We need to do it here before we call SaveEnvironement
           GI_PyIDEServices.MRUAddEditor(Editor);
         end;
@@ -423,17 +420,13 @@ end;
 
 procedure TTabsPersistInfo.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
-Var
-  IsVisible : Boolean;
-  Size : integer;
-  Alignment : TAlign;
 begin
-  IsVisible := AppStorage.ReadBoolean(BasePath+'\Visible', False);
+  var IsVisible := AppStorage.ReadBoolean(BasePath+'\Visible', False);
   if IsVisible then begin
-    Alignment := alRight;
+    var Alignment := alRight;
     AppStorage.ReadEnumeration(BasePath+'\Align', TypeInfo(TAlign),
       Alignment, Alignment);
-    Size := AppStorage.ReadInteger(BasePath+'\Size', -1);
+    var Size := AppStorage.ReadInteger(BasePath+'\Size', -1);
     PyIDEMainForm.SplitWorkspace(True, Alignment, Size);
   end else
     PyIDEMainForm.SplitWorkspace(False);

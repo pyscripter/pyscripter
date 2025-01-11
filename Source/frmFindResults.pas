@@ -7,7 +7,9 @@
 
 GExperts License Agreement
 GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
-authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+authors who have submitted their code for inclusion. This license agreement
+only covers code written by GExperts, Inc and Erik Berry. You should contact
+the other authors concerning their respective copyrights and conditions.
 
 The rules governing the use of GExperts and the GExperts source code are derived
 from the official Open Source Definition, available at http://www.opensource.org.
@@ -49,19 +51,14 @@ uses
   Winapi.Windows,
   Winapi.Messages,
   System.Types,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.Actions,
   System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.Menus,
   Vcl.ActnList,
-  Vcl.ComCtrls,
   Vcl.StdCtrls,
   Vcl.ImgList,
   Vcl.VirtualImageList,
@@ -75,9 +72,7 @@ uses
   SpTBXItem,
   SpTBXEditors,
   SpTBXDkPanels,
-  SpTBXControls,
   SynEdit,
-  SynEditMiscClasses,
   frmIDEDockWin,
   cFindInFiles;
 
@@ -109,19 +104,19 @@ type
     mitFileSearch1: TSpTBXItem;
     mitFileRefresh1: TSpTBXItem;
     mitFileAbort1: TSpTBXItem;
-    N5: TSpTBXSeparatorItem;
+    mnSeparator5: TSpTBXSeparatorItem;
     mitFilePrint1: TSpTBXItem;
     mitFileSave1: TSpTBXItem;
-    N2: TSpTBXSeparatorItem;
+    mnSeparator2: TSpTBXSeparatorItem;
     mitViewToolBar1: TSpTBXItem;
     StatusBar1: TSpTBXItem;
     miViewShowMatchContext1: TSpTBXItem;
-    N1: TSpTBXSeparatorItem;
+    mnSeparator1: TSpTBXSeparatorItem;
     mitReplaceReplaceAll1: TSpTBXItem;
     mitReplaceSelected1: TSpTBXItem;
-    N3: TSpTBXSeparatorItem;
+    mnSeparator3: TSpTBXSeparatorItem;
     mitViewOptions1: TSpTBXItem;
-    N4: TSpTBXSeparatorItem;
+    mnSeparator4: TSpTBXSeparatorItem;
     TBXSeparatorItem8: TSpTBXSeparatorItem;
     tbiHelp: TSpTBXItem;
     mitHelp: TSpTBXItem;
@@ -178,7 +173,7 @@ type
     procedure actHelpHelpExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure reContextSpecialLineColors(Sender: TObject; Line: Integer; var
-        Special: Boolean; var FG, BG: TColor);
+        Special: Boolean; var FgColor, BgColor: TColor);
   private
     FSearchInProgress: Boolean;
     FReplaceInProgress: Boolean;
@@ -186,7 +181,7 @@ type
     FSearcher: TGrepSearchRunner;
     FShowContext: Boolean;
     FDoSearchReplace: Boolean;
-    FSearchResults : TStrings;
+    FSearchResults: TStrings;
     FREMatchLineNo: Integer;
     procedure RefreshContextLines;
     procedure SetShowContext(Value: Boolean);
@@ -210,7 +205,7 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure AssignSettingsToForm;
   public
-    FindInFilesExpert : TFindInFilesExpert;
+    FindInFilesExpert: TFindInFilesExpert;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Execute(DoRefresh: Boolean);
@@ -243,8 +238,12 @@ implementation
 
 uses
   System.UITypes,
+  System.SysUtils,
   System.RegularExpressions,
   System.Math,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ComCtrls,
   Vcl.Themes,
   JclFileUtils,
   JvJVCLUtils,
@@ -255,6 +254,7 @@ uses
   dlgReplaceInFiles,
   SynEditTypes,
   SynDWrite,
+  SynEditMiscClasses,
   uEditAppIntfs,
   uCommonFunctions;
 
@@ -275,9 +275,7 @@ end;
 
 procedure TFindResultsWindow.FormResize(Sender: TObject);
 begin
-  inherited;
   FGPanel.Realign;
-//  StatusBar.Panels.Items[0].Size := StatusBar.Width - 70;
   lbResults.Invalidate;
   lbResults.Refresh;
 end;
@@ -343,15 +341,10 @@ var
   TopColor: TColor;
   BottomColor: TColor;
   ResultsCanvas: TCanvas;
-  c: Integer;
-  p: Integer;
-  i: Integer;
-  TempString, S: string;
-  sb: TColor;
-  sf: TColor;
-  nb: TColor;
-  nf: TColor;
-  MIndx: Integer; // Matches Index number
+  SBgColor: TColor;
+  SFgColor: TColor;
+  NBgColor: TColor;
+  NFgColor: TColor;
   AMatchResult: TMatchResult;
   ALineResult: TLineResult;
   FileString: string;
@@ -380,21 +373,20 @@ begin
     end;
 
     ResultsCanvas.Brush.Style := bsClear;
-    i := ResultsCanvas.TextWidth('+');
+    var PlusWidth := ResultsCanvas.TextWidth('+');
     FileString := FileResult.RelativeFileName;
-    ResultsCanvas.TextOut(ARect.Left + i + PPIScale(8), ARect.Top, FileString);
-    //c:=ARect.Top+((ARect.Bottom-ARect.Top) div 2);
+    ResultsCanvas.TextOut(ARect.Left + PlusWidth + PPIScale(8), ARect.Top, FileString);
 
     if FileResult.Expanded then
       ResultsCanvas.TextOut(ARect.Left + PPIScale(3), ARect.Top, '-')
     else
       ResultsCanvas.TextOut(ARect.Left + PPIScale(3), ARect.Top, '+');
 
-    TempString := Format(_(SItemMatch), [FileResult.TotalMatches]);
+    var Info := Format(_(SItemMatch), [FileResult.TotalMatches]);
 
-    p := ResultsCanvas.TextWidth(TempString) + PPIScale(10);
-    if (ResultsCanvas.TextWidth(FileString) + i + PPIScale(10)) <= ARect.Right - p then
-      ResultsCanvas.TextOut(lbResults.ClientWidth - p, ARect.Top, TempString);
+    var InfoWidth := ResultsCanvas.TextWidth(Info) + PPIScale(10);
+    if (ResultsCanvas.TextWidth(FileString) + PlusWidth + PPIScale(10)) <= ARect.Right - InfoWidth then
+      ResultsCanvas.TextOut(lbResults.ClientWidth - InfoWidth, ARect.Top, Info);
   end
   else
   begin
@@ -403,49 +395,48 @@ begin
 
     if odSelected in State then
     begin
-      nb := StyleServices.GetSystemColor(clHighlight);
-      nf := StyleServices.GetSystemColor(clHighLightText);
-      sb := StyleServices.GetSystemColor(clWindow);
-      sf := StyleServices.GetSystemColor(clWindowText);
+      NBgColor := StyleServices.GetSystemColor(clHighlight);
+      NFgColor := StyleServices.GetSystemColor(clHighlightText);
+      SBgColor := StyleServices.GetSystemColor(clWindow);
+      SFgColor := StyleServices.GetSystemColor(clWindowText);
     end
     else
     begin
-      sb := StyleServices.GetSystemColor(clHighlight);
-      sf := StyleServices.GetSystemColor(clHighLightText);
-      nb := StyleServices.GetSystemColor(clWindow);
-      nf := StyleServices.GetSystemColor(clWindowText);
+      SBgColor := StyleServices.GetSystemColor(clHighlight);
+      SFgColor := StyleServices.GetSystemColor(clHighlightText);
+      NBgColor := StyleServices.GetSystemColor(clWindow);
+      NFgColor := StyleServices.GetSystemColor(clWindowText);
     end;
 
-    ResultsCanvas.Brush.Color := nb;
-    ResultsCanvas.Font.Color := nf;
+    ResultsCanvas.Brush.Color := NBgColor;
+    ResultsCanvas.Font.Color := NFgColor;
     ResultsCanvas.FillRect(ARect);
     ResultsCanvas.TextOut(ARect.Left + PPIScale(10), ARect.Top + PPIScale(1), IntToStr(ALineResult.LineNo));
 
-    TempString := lbResults.Items[Index];
-    c := LeftTrimChars(TempString);
-
-    p := ARect.Left + PPIScale(60);
-    i := 1;
-    for MIndx := 0 to ALineResult.Matches.Count-1 do begin
+    var ResLine := lbResults.Items[Index];
+    var TrimmedCount := LeftTrimChars(ResLine);
+    var XPos := ARect.Left + PPIScale(60);
+    var I := 1;
+    for var MIndx := 0 to ALineResult.Matches.Count-1 do begin
       AMatchResult := ALineResult.Matches[MIndx];
-      ResultsCanvas.Font.Color := nf;
-      ResultsCanvas.Brush.Color := nb;
-      S := Copy(TempString, i, AMatchResult.SPos - c - i);
-      ResultsCanvas.TextOut(p, ARect.Top + PPIScale(1), S);
-      p := ResultsCanvas.PenPos.X;
+      ResultsCanvas.Font.Color := NFgColor;
+      ResultsCanvas.Brush.Color := NBgColor;
+      var TempS := Copy(ResLine, I, AMatchResult.SPos - TrimmedCount - I);
+      ResultsCanvas.TextOut(XPos, ARect.Top + PPIScale(1), TempS);
+      XPos := ResultsCanvas.PenPos.X;
 
-      ResultsCanvas.Font.Color := sf;
-      ResultsCanvas.Brush.Color := sb;
-      S := Copy(TempString, AMatchResult.SPos - c, AMatchResult.EPos - AMatchResult.SPos + 1);
-      ResultsCanvas.TextOut(p, ARect.Top + PPIScale(1), S);
-      p := ResultsCanvas.PenPos.X;
+      ResultsCanvas.Font.Color := SFgColor;
+      ResultsCanvas.Brush.Color := SBgColor;
+      TempS := Copy(ResLine, AMatchResult.SPos - TrimmedCount, AMatchResult.EPos - AMatchResult.SPos + 1);
+      ResultsCanvas.TextOut(XPos, ARect.Top + PPIScale(1), TempS);
+      XPos := ResultsCanvas.PenPos.X;
 
-      i := AMatchResult.EPos - c + 1;
+      I := AMatchResult.EPos - TrimmedCount + 1;
     end;
-    ResultsCanvas.Font.Color := nf;
-    ResultsCanvas.Brush.Color := nb;
-    S := Copy(TempString, i, Length(TempString) -  i + 1);
-    ResultsCanvas.TextOut(p, ARect.Top + PPIScale(1), S);
+    ResultsCanvas.Font.Color := NFgColor;
+    ResultsCanvas.Brush.Color := NBgColor;
+    ResultsCanvas.TextOut(XPos, ARect.Top + PPIScale(1),
+      Copy(ResLine, I, Length(ResLine) -  I + 1));
   end;
 end;
 
@@ -564,7 +555,7 @@ var
   MatchesFound: Integer;
   Cursor: IInterface;
 begin
-  Assert(not DoingSearchOrReplace);
+  Assert(not DoingSearchOrReplace, 'TFindResultsWindow.actReplaceAllExecute');
 
   if not QueryUserForReplaceOptions(_(SAllMatchedFiles)) then
     Exit;
@@ -593,7 +584,7 @@ var
   ResultObject: TObject;
   Cursor: IInterface;
 begin
-  Assert(not DoingSearchOrReplace);
+  Assert(not DoingSearchOrReplace, 'TFindResultsWindow.actReplaceSelectedExecute');
 
   ResultIndex := lbResults.ItemIndex;
   if ResultIndex < 0 then
@@ -641,7 +632,7 @@ end;
 
 procedure TFindResultsWindow.AssignSettingsToForm;
 begin
-  Assert(Assigned(FindInFilesExpert));
+  Assert(Assigned(FindInFilesExpert), 'TFindResultsWindow.AssignSettingsToForm');
   reContext.Font.Assign(FindInFilesExpert.ContextFont);
   reContext.Font.Color := StyleServices.GetSystemColor(clWindowText);
   reContext.Color := StyleServices.GetSystemColor(clWindow);
@@ -650,14 +641,12 @@ begin
 end;
 
 procedure TFindResultsWindow.ClearResultsListbox;
-var
-  i: Integer;
 begin
   if not (csDestroying in ComponentState) then  // Wierd crash on Exit
     lbResults.Clear;
-  for i := 0 to FSearchResults.Count - 1 do
-    if FSearchResults.Objects[i] is TFileResult then
-      FSearchResults.Objects[i].Free;
+  for var I := 0 to FSearchResults.Count - 1 do
+    if FSearchResults.Objects[I] is TFileResult then
+      FSearchResults.Objects[I].Free;
   FSearchResults.Clear;
 end;
 
@@ -672,13 +661,12 @@ begin
   inherited;
   FSearchResults := TStringList.Create;
   FSearchInProgress := False;
-//  lbResults.DoubleBuffered := True;
   ShowContext := True;
   ResizeListBox;
   FindInFilesExpert := TFindInFilesExpert.Create;
   var FBoldIndicatorSpec := TSynIndicatorSpec.Create(sisTextDecoration,
     clNoneF, clNoneF, [fsBold]);
-  reContext.Indicators.RegisterSpec(FBoldIndicatorId, FBoldIndicatorSpec);
+  reContext.Indicators.RegisterSpec(FBoldIndicatorID, FBoldIndicatorSpec);
 end;
 
 destructor TFindResultsWindow.Destroy;
@@ -764,45 +752,45 @@ procedure TFindResultsWindow.ExpandOrContractList(Expand: Boolean);
   function ExpandFileResult(ListBoxIndex: Integer): Integer;
   var
     FileResult: TFileResult;
-    t: Integer;
   begin
     FileResult := lbResults.Items.Objects[ListBoxIndex] as TFileResult;
 
-    for t := FileResult.Count - 1 downto 0 do
-      lbResults.Items.InsertObject(ListBoxIndex + 1, FileResult.Items[t].Line, FileResult.Items[t]);
+    for var I := FileResult.Count - 1 downto 0 do
+      lbResults.Items.InsertObject(ListBoxIndex + 1, FileResult[I].Line,
+        FileResult[I]);
 
     FileResult.Expanded := True;
     Result := ListBoxIndex + FileResult.Count - 1;
   end;
 
 var
-  i: Integer;
+  Idx: Integer;
 begin
   lbResults.Items.BeginUpdate;
   try
     RefreshContextLines;
 
-    i := 0;
-    while i <= lbResults.Items.Count - 1 do
+    Idx := 0;
+    while Idx <= lbResults.Items.Count - 1 do
     begin
       if Expand then
       begin
-        if lbResults.Items.Objects[i] is TFileResult then
+        if lbResults.Items.Objects[Idx] is TFileResult then
         begin
-          if not TFileResult(lbResults.Items.Objects[i]).Expanded then
-            i := ExpandFileResult(i);
+          if not TFileResult(lbResults.Items.Objects[Idx]).Expanded then
+            Idx := ExpandFileResult(Idx);
         end;
 
-        Inc(i);
+        Inc(Idx);
       end
       else // Contract
       begin
-       if lbResults.Items.Objects[i] is TLineResult then
-          lbResults.Items.Delete(i)
+       if lbResults.Items.Objects[Idx] is TLineResult then
+          lbResults.Items.Delete(Idx)
         else
         begin
-          (lbResults.Items.Objects[i] as TFileResult).Expanded := False;
-          Inc(i);
+          (lbResults.Items.Objects[Idx] as TFileResult).Expanded := False;
+          Inc(Idx);
         end;
       end;
     end;
@@ -891,10 +879,8 @@ begin
 end;
 
 function GetFileAsText(const FileName: string; Lines: TStrings): Boolean;
-Var
-  Editor : IEditor;
 begin
-  Editor := GI_EditorFactory.GetEditorByFileId(FileName);
+  var Editor := GI_EditorFactory.GetEditorByFileId(FileName);
   if Assigned(Editor) then begin
     Lines.Assign(Editor.SynEdit.Lines);
     Result := True;
@@ -908,7 +894,6 @@ var
   MatchLineNo, BeginLineNo, EndLineNo: Integer;
   FileLines: TStringList;
   FileName: string;
-  i: Integer;
 begin
   if not ShowContext then
     Exit;
@@ -918,7 +903,7 @@ begin
     reContext.Clear;
     if (lbResults.ItemIndex < 0) then
       Exit;
-    if (ShowContext) and (FindInFilesExpert.NumContextLines > 0) then
+    if ShowContext and (FindInFilesExpert.NumContextLines > 0) then
     begin
       if (lbResults.Items.Objects[lbResults.ItemIndex] is TLineResult) then
       begin
@@ -942,10 +927,10 @@ begin
           FREMatchLineNo := 0;
           //reContext.SelStart := reContext.GetTextLen;
           reContext.Lines.Clear;
-          for i := BeginLineNo to EndLineNo do
+          for var I := BeginLineNo to EndLineNo do
           begin
-            reContext.Lines.Add(FileLines[i]);
-            if i = MatchLineNo then
+            reContext.Lines.Add(FileLines[I]);
+            if I = MatchLineNo then
               FREMatchLineNo := reContext.Lines.Count;
           end;
         finally
@@ -960,7 +945,7 @@ begin
 end;
 
 procedure TFindResultsWindow.ResizeListBox;
-Const
+const
   SAllAlphaNumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
 begin
   lbResults.Canvas.Font.PixelsPerInch := FCurrentPPI;
@@ -1002,7 +987,6 @@ procedure TFindResultsWindow.ToggleFileResultExpanded(
   ListBoxIndex: Integer);
 var
   AFileResult: TFileResult;
-  i: Integer;
 begin
   if FSearchInProgress or
      (ListBoxIndex < 0) or (ListBoxIndex >= lbResults.Items.Count) then
@@ -1027,10 +1011,10 @@ begin
       end
       else
       begin
-        for i := AFileResult.Count - 1 downto 0 do
-          lbResults.Items.InsertObject(ListBoxIndex + 1, AFileResult.Items[i].Line, AFileResult.Items[i]);
+        for var I := AFileResult.Count - 1 downto 0 do
+          lbResults.Items.InsertObject(ListBoxIndex + 1, AFileResult[I].Line, AFileResult[I]);
         AFileResult.Expanded := True;
-      end
+      end;
     finally
       lbResults.Items.EndUpdate;
     end;
@@ -1043,20 +1027,19 @@ type
 // Replaces the string between SPos and EPos with the replace string from TGrepSettings
 function ReplacePatternInString(CurrentLine: TLineResult; GrepSettings: TGrepSettings; RegEx: TRegEx): string;
 var
-  i: Integer;
   FindPos: Integer;
   FindLen: Integer;
   CurrentMatch: TMatchResult;
 begin
   if GrepSettings.RegEx then begin
     Result := RegEx.Replace(CurrentLine.Line, GrepSettings.Replace);
-   	for i := CurrentLine.Matches.Count - 1 downto 0 do
-     	CurrentLine.Matches[i].ShowBold := False;
+    for var I := CurrentLine.Matches.Count - 1 downto 0 do
+      CurrentLine.Matches[I].ShowBold := False;
   end else begin
     Result := CurrentLine.Line;
-    for i := CurrentLine.Matches.Count - 1 downto 0 do
+    for var I := CurrentLine.Matches.Count - 1 downto 0 do
     begin
-      CurrentMatch := CurrentLine.Matches.Items[i];
+      CurrentMatch := CurrentLine.Matches[I];
       FindPos := CurrentMatch.SPos;
       FindLen := CurrentMatch.EPos - CurrentMatch.SPos + 1;
       Delete(Result, FindPos, FindLen);
@@ -1068,38 +1051,36 @@ end;
 
 function ReplaceAll(ResultList: TStrings; GrepSettings: TGrepSettings): Integer;
 var
-  i: Integer;
   Replaced: Integer;
 begin
   Result := 0;
-  for i := 0 to ResultList.Count - 1 do
+  for var I := 0 to ResultList.Count - 1 do
   begin
-    if ResultList.Objects[i] is TFileResult then
+    if ResultList.Objects[I] is TFileResult then
      begin
-       Replaced := ReplaceAllInFile(ResultList.Objects[i] as TFileResult, GrepSettings);
+       Replaced := ReplaceAllInFile(ResultList.Objects[I] as TFileResult, GrepSettings);
        Inc(Result, Replaced);
      end;
   end;
 end;
 
-function InternalReplace(LineMode: Boolean; ALineResult: TLineResult; AFileResult: TFileResult; GrepSettings: TGrepSettings): Integer;
+function InternalReplace(LineMode: Boolean; ALineResult: TLineResult;
+  AFileResult: TFileResult; GrepSettings: TGrepSettings): Integer;
 var
   TempString: string;
   MatchFile: string;
   TempFile: TStrings;
-  LineResult : TLineResult;
+  LineResult: TLineResult;
   RegEx: TRegEx;
   Options: TRegExOptions;
 
   procedure DoReplacement;
   var
-    i: Integer;
     FileLine: string;
   begin
     if LineMode then
     begin
-      i := ALineResult.LineNo;
-        Assert(TempFile.Count >= (LineResult.LineNo - 1));
+      Assert(TempFile.Count >= (LineResult.LineNo - 1), 'DoReplacement');
       FileLine := TempFile[LineResult.LineNo - 1];
       if LineResult.Line <> FileLine then begin
         StyledMessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
@@ -1108,16 +1089,16 @@ var
       end;
 
       TempString := ReplacePatternInString(LineResult, GrepSettings, RegEx);
-      TempFile.Strings[i -1] := TempString;
+      TempFile[ALineResult.LineNo -1] := TempString;
       Inc(Result, LineResult.Matches.Count);
     end
     else
     begin
-      for i := AFileResult.Count - 1 downto 0 do
+      for var I := AFileResult.Count - 1 downto 0 do
       begin
-        LineResult := AFileResult.Items[i];
+        LineResult := AFileResult[I];
         Inc(Result, LineResult.Matches.Count);
-        Assert(TempFile.Count >= (LineResult.LineNo - 1));
+        Assert(TempFile.Count >= (LineResult.LineNo - 1), 'DoReplacement');
         FileLine := TempFile[LineResult.LineNo - 1];
         if LineResult.Line <> FileLine then begin
           StyledMessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
@@ -1126,19 +1107,19 @@ var
         end;
 
         TempString := ReplacePatternInString(LineResult, GrepSettings, RegEx);
-        TempFile.Strings[LineResult.LineNo - 1] := TempString;
+        TempFile[LineResult.LineNo - 1] := TempString;
       end;
     end;
   end;
 
   procedure WriteResults;
   var
-    Editor : IEditor;
-    OldCaretXY : TBufferCoord;
+    Editor: IEditor;
+    OldCaretXY: TBufferCoord;
   begin
     Editor := GI_EditorFactory.GetEditorByFileId(MatchFile);
     if Assigned(Editor) then with Editor.SynEdit do begin
-      //  We replace selection so that changes can be undone
+      // We replace selection so that changes can be undone
       OldCaretXY := CaretXY;
       SelectAll;
       SelText := TempFile.Text;
@@ -1222,10 +1203,9 @@ var
   RichEdit: TRichEdit;
   FileResult: TFileResult;
   Line: string;
-  i, j, c: Integer;
+  TrimmedCount: Integer;
   LinePos: Integer;
   AMatchResult: TMatchResult;
-  MIndx: Integer;
 begin
   RichEdit := TRichEdit.Create(Owner);
   try
@@ -1236,31 +1216,31 @@ begin
     RichEdit.Clear;
     RichEdit.Lines.BeginUpdate;
     try
-      for i := 0 to Results.Count - 1 do
+      for var I := 0 to Results.Count - 1 do
       begin
-        if Results.Objects[i] is TFileResult then
+        if Results.Objects[I] is TFileResult then
         begin
           RichEdit.Lines.Add('');  // space between file results
 
-          FileResult := TFileResult(Results.Objects[i]);
+          FileResult := TFileResult(Results.Objects[I]);
 
           RichEdit.SelAttributes.Style := [fsBold];
           RichEdit.Lines.Add(FileResult.FileName);
           RichEdit.SelAttributes.Style := [];
 
-          for j := 0 to FileResult.Count - 1 do
+          for var J := 0 to FileResult.Count - 1 do
           begin
             LinePos := RichEdit.GetTextLen;
-            Line := FileResult.Items[j].Line;
-            c := LeftTrimChars(Line);
+            Line := FileResult[J].Line;
+            TrimmedCount := LeftTrimChars(Line);
             with RichEdit do
             begin
-              Lines.Add(Format('  %5d'#9, [FileResult.Items[j].LineNo]) + Line);
+              Lines.Add(Format('  %5d'#9, [FileResult[J].LineNo]) + Line);
               // Now make the found Text bold
-              for MIndx := 0 to  FileResult.Items[j].Matches.Count-1 do
+              for var MIndx := 0 to  FileResult[J].Matches.Count-1 do
               begin
-                AMatchResult := FileResult.Items[j].Matches[MIndx];
-                SelStart := LinePos + 7 - c + AMatchResult.SPos;
+                AMatchResult := FileResult[J].Matches[MIndx];
+                SelStart := LinePos + 7 - TrimmedCount + AMatchResult.SPos;
                 SelLength := AMatchResult.EPos - AMatchResult.SPos + 1;
                 SelAttributes.Style := [fsBold];
                 SelLength := 0;
@@ -1322,14 +1302,14 @@ begin
 end;
 
 procedure TFindResultsWindow.reContextSpecialLineColors(Sender: TObject; Line:
-    Integer; var Special: Boolean; var FG, BG: TColor);
+    Integer; var Special: Boolean; var FgColor, BgColor: TColor);
 begin
-  BG := clNone;
+  BgColor := clNone;
   Special :=  Line = FREMatchLineNo;
   if Special then
-    FG := StyleServices.GetSystemColor(FindInFilesExpert.ContextMatchColor)
+    FgColor := StyleServices.GetSystemColor(FindInFilesExpert.ContextMatchColor)
   else
-    FG := clNone;
+    FgColor := clNone;
 end;
 
 end.

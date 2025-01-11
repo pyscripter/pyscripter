@@ -11,21 +11,13 @@ unit frmDocView;
 interface
 
 uses
-  WinApi.Windows,
-  WinApi.Messages,
-  WinApi.ActiveX,
+  Winapi.ActiveX,
   Winapi.WebView2,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
-  Vcl.Dialogs,
-  Vcl.OleCtrls,
   Vcl.ImgList,
-  Vcl.BaseImageCollection,
   Vcl.VirtualImageList,
   Vcl.Edge,
   TB2Item,
@@ -60,34 +52,32 @@ type
         const AResultObjectAsJson: string);
     procedure WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
   private
-    { Private declarations }
     FSaveFileName: string;
-    procedure UpdateView(Editor : IEditor);
-  public
-    { Public declarations }
+    procedure UpdateView(Editor: IEditor);
   end;
-
 
   TDocView = class(TInterfacedObject, IEditorViewFactory)
   private
-    function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : string;
-    function GetTabCaption : string;
-    function GetMenuCaption : string;
-    function GetHint : string;
-    function GetImageName : string;
-    function GetShortCut : TShortCut;
-    procedure GetContextHighlighters(List : TList);
+    function CreateForm(Editor: IEditor; AOwner: TComponent): TCustomForm;
+    function GetName: string;
+    function GetTabCaption: string;
+    function GetMenuCaption: string;
+    function GetHint: string;
+    function GetImageName: string;
+    function GetShortCut: TShortCut;
+    procedure GetContextHighlighters(List: TList);
   end;
 
-  Var
-    DocForm : TDocForm;
+var
+  DocForm: TDocForm;
 
 implementation
 
 uses
+  System.SysUtils,
   System.IOUtils,
   System.NetEncoding,
+  Vcl.Dialogs,
   JvJVCLUtils,
   JvGnugettext,
   PythonEngine,
@@ -134,17 +124,17 @@ end;
 procedure TDocForm.UpdateView(Editor: IEditor);
 var
   Py: IPyEngineAndGIL;
-  HTML : string;
-  module : Variant;
-  Cursor : IInterface;
+  HTML: string;
+  Module: Variant;
+  Cursor: IInterface;
 begin
   if not Assigned(Editor) then Exit;
 
   Py := SafePyEngine;
   Cursor := WaitCursor;
 
-  module := PyControl.ActiveInterpreter.ImportModule(Editor);
-  HTML := PyControl.ActiveInterpreter.PyInteractiveInterpreter.htmldoc(module);
+  Module := PyControl.ActiveInterpreter.ImportModule(Editor);
+  HTML := PyControl.ActiveInterpreter.PyInteractiveInterpreter.htmldoc(Module);
 
   WebBrowser.CreateWebView;
   while WebBrowser.BrowserControlState in [TEdgeBrowser.TBrowserControlState.None,
@@ -183,7 +173,7 @@ end;
 
 { TDocView }
 
-function TDocView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
+function TDocView.CreateForm(Editor: IEditor; AOwner: TComponent): TCustomForm;
 begin
   Result := TDocForm.Create(AOwner);
 end;

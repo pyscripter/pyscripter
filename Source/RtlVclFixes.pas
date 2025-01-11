@@ -11,7 +11,7 @@ unit RtlVclFixes;
 interface
 
 implementation
-Uses
+uses
   Winapi.Windows,
   Winapi.Messages,
   Winapi.Wincodec,
@@ -35,8 +35,8 @@ type
   TCreateWICBitmap = procedure of object;
 
 var
-  Trampoline_TWICImage_CreateWICBitmap : TCreateWICBitmap;
-  Detour_TWICImage_CreateWICBitmap : TCreateWICBitmap;
+  Trampoline_TWICImage_CreateWICBitmap: TCreateWICBitmap;
+  Detour_TWICImage_CreateWICBitmap: TCreateWICBitmap;
 
 
 { TWICImageHelper }
@@ -344,7 +344,7 @@ type
   end align {$IFDEF CPUX64}16{$ELSE CPUX64}8{$ENDIF CPUX64};
 
 {$IFDEF Win64}
-function InterlockedCompareExchange128(Destination: Pointer; ExchangeHigh, ExchangeLow: Int64; ComparandResult: Pointer): boolean;
+function InterlockedCompareExchange128(Destination: Pointer; ExchangeHigh, ExchangeLow: Int64; ComparandResult: Pointer): Boolean;
 // The parameters are in the RCX, RDX, R8 and R9 registers per the MS x64 calling convention:
 //   RCX        Destination
 //   RDX        ExchangeHigh
@@ -468,7 +468,7 @@ end;
 type
   TCustomImageList_SetSize = procedure(const Self: TCustomImageList; AWidth, AHeight: Integer);
 var
-  Trampoline_TCustomImageList_SetSize : TCustomImageList_SetSize = nil;
+  Trampoline_TCustomImageList_SetSize: TCustomImageList_SetSize = nil;
 
 procedure Detour_TCustomImageList_SetSize(const Self: TCustomImageList; AWidth, AHeight: Integer);
 begin
@@ -490,7 +490,7 @@ type
   TCrackCustomForm = class(TCustomForm);
 
 var
-  Trampoline_TCustomForm_SetParent : TCustomForm_SetParent = nil;
+  Trampoline_TCustomForm_SetParent: TCustomForm_SetParent = nil;
 
 procedure Detour_TCustomForm_SetParent(const Self: TCustomForm; AParent: TWinControl);
 var
@@ -529,7 +529,7 @@ end;
 
 function TFontDialogFix.GetSetFontAddr: Pointer;
 var
-  VMT : NativeInt;
+  VMT: NativeInt;
   MethodPtr: TFontDialogSetFont;
 begin
   //  Adjust Self to point to the VMT
@@ -864,7 +864,7 @@ end;
 
 function TFormScaleForPPIRectFix.GetScaleForPPIRectAddr: Pointer;
 var
-  VMT : NativeInt;
+  VMT: NativeInt;
   MethodPtr: TFormScaleForPPIRect;
 begin
   //  Adjust Self to point to the VMT

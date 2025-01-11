@@ -11,25 +11,22 @@ unit cInternalPython;
 
 interface
 
-Uses
-  System.SysUtils,
-  System.Classes,
+uses
   PythonEngine,
   PythonVersions,
-  WrapDelphi,
-  uEditAppIntfs;
+  WrapDelphi;
 
 type
 
   TInternalPython = class
   private
-    fPythonEngine: TPythonEngine;
-    fDebugIDE: TPythonModule;
-    PyDelphiWrapper: TPyDelphiWrapper;
-    PyscripterModule: TPythonModule;
-    fOldPath: string;
+    FPythonEngine: TPythonEngine;
+    FDebugIDE: TPythonModule;
+    FPyDelphiWrapper: TPyDelphiWrapper;
+    FPyscripterModule: TPythonModule;
+    FOldPath: string;
     procedure CreateDebugIDE;
-    procedure CreatePyScripterModule;
+    procedure CreateFPyscripterModule;
     procedure CreatePythonEngine;
     procedure CreatePythonComponents;
     procedure DestroyPythonComponents;
@@ -61,20 +58,21 @@ type
   public
     destructor Destroy; override;
     function LoadPython(const Version: TPythonVersion): Boolean;
-    property Loaded : Boolean read GetLoaded;
-    property DebugIDE : TPythonModule read fDebugIDE;
-    property PythonEngine : TPythonEngine read fPythonEngine;
+    property Loaded: Boolean read GetLoaded;
+    property DebugIDE: TPythonModule read FDebugIDE;
+    property PythonEngine: TPythonEngine read FPythonEngine;
   end;
 
 implementation
 
 uses
-  WinApi.Windows,
-  System.UITypes,
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
   System.StrUtils,
   Vcl.Dialogs,
   VarPyth,
-  SynHighlighterPython,
+  uEditAppIntfs,
   cPyScripterSettings,
   uCommonFunctions;
 
@@ -82,75 +80,75 @@ uses
 
 procedure TInternalPython.CreateDebugIDE;
 begin
-  fDebugIDE := TPythonModule.Create(nil);
+  FDebugIDE := TPythonModule.Create(nil);
 
-  fDebugIDE.Name := 'DebugIDE';
-  fDebugIDE.Engine := PythonEngine;
-  with fDebugIDE.Events.Add do Name := 'user_call';
-  with fDebugIDE.Events.Add do Name := 'user_line';
-  with fDebugIDE.Events.Add do Name := 'user_thread';
-  with fDebugIDE.Events.Add do Name := 'user_exception';
-  with fDebugIDE.Events.Add do Name := 'user_yield';
-  with fDebugIDE.Events.Add do begin
+  FDebugIDE.Name := 'DebugIDE';
+  FDebugIDE.Engine := PythonEngine;
+  with FDebugIDE.Events.Add do Name := 'user_call';
+  with FDebugIDE.Events.Add do Name := 'user_line';
+  with FDebugIDE.Events.Add do Name := 'user_thread';
+  with FDebugIDE.Events.Add do Name := 'user_exception';
+  with FDebugIDE.Events.Add do Name := 'user_yield';
+  with FDebugIDE.Events.Add do begin
     Name := 'InputBox';
     OnExecute := InputBoxExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'statusWrite';
     OnExecute := StatusWriteExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'messageWrite';
     OnExecute := MessageWriteExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'get8087CW';
     OnExecute := Get8087CWExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'maskFPUexceptions';
     OnExecute := MaskFPUExceptionsExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'unmaskFPUexceptions';
     OnExecute := UnMaskFPUExceptionsExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'testResultStartTest';
     OnExecute := testResultStartTestExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'testResultStopTest';
     OnExecute := testResultStopTestExecute;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'testResultAddSuccess';
     OnExecute := testResultAddSuccess;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'testResultAddFailure';
     OnExecute := testResultAddFailure;
   end;
-  with fDebugIDE.Events.Add do begin
+  with FDebugIDE.Events.Add do begin
     Name := 'testResultAddError';
     OnExecute := testResultAddError;
   end;
-  fDebugIDE.ModuleName := 'DebugIDE';
+  FDebugIDE.ModuleName := 'DebugIDE';
 end;
 
-procedure TInternalPython.CreatePyScripterModule;
+procedure TInternalPython.CreateFPyscripterModule;
 begin
-  PyscripterModule := TPythonModule.Create(nil);
+  FPyscripterModule := TPythonModule.Create(nil);
 
-  PyscripterModule.Name := 'PyscripterModule';
-  PyscripterModule.Engine := PythonEngine;
-  PyscripterModule.ModuleName := 'pyscripter';
+  FPyscripterModule.Name := 'FPyscripterModule';
+  FPyscripterModule.Engine := PythonEngine;
+  FPyscripterModule.ModuleName := 'pyscripter';
 
-  PyDelphiWrapper := TPyDelphiWrapper.Create(nil);
+  FPyDelphiWrapper := TPyDelphiWrapper.Create(nil);
 
-  PyDelphiWrapper.Name := 'PyDelphiWrapper';
-  PyDelphiWrapper.Engine := PythonEngine;
-  PyDelphiWrapper.Module := PyscripterModule;
+  FPyDelphiWrapper.Name := 'FPyDelphiWrapper';
+  FPyDelphiWrapper.Engine := PythonEngine;
+  FPyDelphiWrapper.Module := FPyscripterModule;
 end;
 
 procedure TInternalPython.CreatePythonComponents;
@@ -158,25 +156,25 @@ begin
   DestroyPythonComponents;
   CreatePythonEngine;
   CreateDebugIDE;
-  CreatePyScripterModule;
+  CreateFPyscripterModule;
 end;
 
 procedure TInternalPython.CreatePythonEngine;
 begin
-  fPythonEngine := TPythonEngine.Create(nil);
+  FPythonEngine := TPythonEngine.Create(nil);
 
-  fPythonEngine.Name := 'PythonEngine';
-  fPythonEngine.AutoLoad := False;
-  fPythonEngine.DllName := 'python39.dll';
-  fPythonEngine.APIVersion := 1013;
-  fPythonEngine.RegVersion := '3.9';
-  fPythonEngine.FatalAbort := False;
-  fPythonEngine.FatalMsgDlg := False;
-  fPythonEngine.UseLastKnownVersion := False;
-  fPythonEngine.AutoFinalize := False;
-  fPythonEngine.IO := GI_PyInterpreter.PythonIO;
-  fPythonEngine.PyFlags := [pfInteractive];
-  fPythonEngine.OnAfterInit := PythonEngineAfterInit;
+  FPythonEngine.Name := 'PythonEngine';
+  FPythonEngine.AutoLoad := False;
+  FPythonEngine.DllName := 'python39.dll';
+  FPythonEngine.APIVersion := 1013;
+  FPythonEngine.RegVersion := '3.9';
+  FPythonEngine.FatalAbort := False;
+  FPythonEngine.FatalMsgDlg := False;
+  FPythonEngine.UseLastKnownVersion := False;
+  FPythonEngine.AutoFinalize := False;
+  FPythonEngine.IO := GI_PyInterpreter.PythonIO;
+  FPythonEngine.PyFlags := [pfInteractive];
+  FPythonEngine.OnAfterInit := PythonEngineAfterInit;
 end;
 
 destructor TInternalPython.Destroy;
@@ -188,29 +186,29 @@ end;
 procedure TInternalPython.DestroyPythonComponents;
 
   procedure UnloadPythonDLL(DLL: PWideChar);
-  Var
-    Module : HMODULE;
+  var
+    Module: HMODULE;
   begin
-    MODULE := GetModuleHandle(DLL);
-    if MODULE >= 32 then
+    Module := GetModuleHandle(DLL);
+    if Module >= 32 then
       FreeLibrary(Module);
   end;
 
 var
   WasLoaded: Boolean;
-  RegVersion : string;
+  RegVersion: string;
 begin
   WasLoaded := Loaded;
   if WasLoaded then begin
     TPythonThread.Py_End_Allow_Threads;
-    PyscripterModule.DeleteVar('IDEOptions');
-    RegVersion := fPythonEngine.RegVersion;
+    FPyscripterModule.DeleteVar('IDEOptions');
+    RegVersion := FPythonEngine.RegVersion;
     Delete(RegVersion, 2, 1);
   end;
-  FreeAndNil(fPythonEngine);  // Unloads Python Dll
-  FreeAndNil(fDebugIDE);
-  FreeAndNil(PyDelphiWrapper);
-  FreeAndNil(PyscripterModule);
+  FreeAndNil(FPythonEngine);  // Unloads Python Dll
+  FreeAndNil(FDebugIDE);
+  FreeAndNil(FPyDelphiWrapper);
+  FreeAndNil(FPyscripterModule);
 
   if WasLoaded then
   begin
@@ -246,24 +244,22 @@ begin
 end;
 
 procedure TInternalPython.Initialize;
-Var
-  P : PPyObject;
 begin
   // Wrap IDE Options
-  p := PyDelphiWrapper.Wrap(PyIDEOptions);
-  PyscripterModule.SetVar('IDEOptions', p);
-  PythonEngine.Py_XDECREF(p);
+  var PyOptions := FPyDelphiWrapper.Wrap(PyIDEOptions);
+  FPyscripterModule.SetVar('IDEOptions', PyOptions);
+  PythonEngine.Py_XDECREF(PyOptions);
 end;
 
 procedure TInternalPython.InputBoxExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
-Var
-  PCaption, PPrompt, PDefault : PAnsiChar;
-  WideS : string;
-  Res : Boolean;
+var
+  PCaption, PPrompt, PDefault: PAnsiChar;
+  WideS: string;
+  Res: Boolean;
 begin
   with PythonEngine do
-    if PyArg_ParseTuple( args, 'sss:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
+    if PyArg_ParseTuple(Args, 'sss:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
       WideS := UTF8ToUnicodeString(PDefault);
 
       Res := SyncWideInputQuery(UTF8ToUnicodeString(PCaption), UTF8ToUnicodeString(PPrompt), WideS);
@@ -276,8 +272,8 @@ begin
 end;
 
 function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
-Var
-  Path, NewPath : string;
+var
+  Path, NewPath: string;
 begin
   DestroyPythonComponents;
 
@@ -285,16 +281,16 @@ begin
   try
     Version.AssignTo(PythonEngine);
     // set environment variables
-    if fOldPath <> '' then begin
-      SetEnvironmentVariable('PATH', PWideChar(fOldPath));
-      fOldPath := '';
+    if FOldPath <> '' then begin
+      SetEnvironmentVariable('PATH', PWideChar(FOldPath));
+      FOldPath := '';
     end;
 
     SetEnvironmentVariable('PYTHONHOME', nil);  // delete it
     if Version.Is_conda then begin
-      fOldPath := System.SysUtils.GetEnvironmentVariable('PATH');
+      FOldPath := System.SysUtils.GetEnvironmentVariable('PATH');
       if not ContainsText(Path, Version.InstallPath) then begin
-        NewPath := Format('%s;%0:s\Library\bin;', [Version.InstallPath]) + fOldPath;
+        NewPath := Format('%s;%0:s\Library\bin;', [Version.InstallPath]) + FOldPath;
         SetEnvironmentVariable('PATH', PWideChar(NewPath));
       end;
     end;
@@ -304,7 +300,7 @@ begin
 
     PythonEngine.LoadDll;
     Result := PythonEngine.IsHandleValid;
-    if Result then 
+    if Result then
       Initialize
     else
       DestroyPythonComponents;
@@ -327,21 +323,17 @@ end;
 
 procedure TInternalPython.MessageWriteExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
-Var
-  Msg, FName : PAnsiChar;
-  LineNo, Offset : integer;
-  S : string;
+var
+  Msg, FName: PAnsiChar;
+  LineNo, Offset: Integer;
 begin
   FName := nil;
   LineNo := 0;
   Offset := 0;
   with PythonEngine do
-    if PyArg_ParseTuple( args, 's|sii:messageWrite', @Msg, @FName, @LineNo, @Offset) <> 0 then begin
-      if Assigned(FName) then
-        S := UTF8ToUnicodeString(FName)
-      else
-        S := '';
-      GI_PyIDEServices.Messages.AddMessage(UTF8ToUnicodeString(Msg), S, LineNo, Offset);
+    if PyArg_ParseTuple(Args, 's|sii:messageWrite', @Msg, @FName, @LineNo, @Offset) <> 0 then begin
+      GI_PyIDEServices.Messages.AddMessage(UTF8ToUnicodeString(Msg),
+        UTF8ToUnicodeString(FName), LineNo, Offset);
       Result := ReturnNone;
     end else
       Result := nil;
@@ -358,11 +350,11 @@ end;
 
 procedure TInternalPython.StatusWriteExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
-Var
-  Msg : PAnsiChar;
+var
+  Msg: PAnsiChar;
 begin
   with PythonEngine do
-    if PyArg_ParseTuple( args, 's:statusWrite', @Msg) <> 0 then begin
+    if PyArg_ParseTuple(Args, 's:statusWrite', @Msg) <> 0 then begin
       GI_PyIDEServices.WriteStatusMsg(UTF8ToUnicodeString(Msg));
       Result := ReturnNone;
     end else

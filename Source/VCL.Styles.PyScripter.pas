@@ -28,9 +28,7 @@ unit VCL.Styles.PyScripter;
 
 interface
 uses
-  WinApi.Windows,
-  Winapi.UxTheme,
-  System.Types,
+  Winapi.Windows,
   System.Classes,
   Vcl.Graphics,
   Vcl.Controls,
@@ -66,10 +64,10 @@ type
   /// </remarks>
   TVclStylesPreview = class(TCustomControl)
   private
-    FStyle: TCustomStyleServices;//TCustomStyle;
+    FStyle: TCustomStyleServices;
     FIcon: HICON;
     FCaption: TCaption;
-    FRegion : HRGN;
+    FRegion: HRGN;
     FBitmap: TBitmap;
     FMenuHeight: Integer;
     FMenuCaptionWidth: Integer;
@@ -78,26 +76,26 @@ type
     FMargin: Integer;
   protected
     procedure Paint; override;
-    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override;
+    procedure ChangeScale(M, D: Integer; IsDpiChange: Boolean); override;
   public
-    property Icon:HICON read FIcon Write FIcon;
-    property Style:TCustomStyleServices read FStyle Write FStyle;
-    property Caption : TCaption read FCaption write FCaption;
-    property BitMap : TBitmap read FBitmap write FBitmap;
     constructor Create(AControl: TComponent); override;
     destructor Destroy; override;
+    property Icon:HICON read FIcon write FIcon;
+    property Style:TCustomStyleServices read FStyle write FStyle;
+    property Caption: TCaption read FCaption write FCaption;
+    property BitMap: TBitmap read FBitmap write FBitmap;
   end;
 
 
 implementation
 uses
+  System.Types,
   System.SysUtils,
-  Vcl.Forms,
-  SynEdit;
+  Vcl.Forms;
 
 { TVclStylePreview }
 
-procedure TVclStylesPreview.ChangeScale(M, D: Integer; isDpiChange: Boolean);
+procedure TVclStylesPreview.ChangeScale(M, D: Integer; IsDpiChange: Boolean);
 begin
   FMenuHeight := MulDiv(FMenuHeight, M, D);
   FMenuCaptionWidth := MulDiv(FMenuCaptionWidth, M, D);
@@ -155,9 +153,7 @@ var
   ThemeTextColor  : TColor;
   ARect           : TRect;
   LRect           : TRect;
-  //BlendFunction   : TBlendFunction;
-  LRegion         : HRgn;
-  i               : Integer;
+  LRegion         : HRGN;
 
     procedure ScaleLeftContentRect(var R: TRect);
     begin
@@ -209,7 +205,7 @@ var
     end;
 
 begin
-  if FStyle=nil then Exit;
+  if FStyle = nil then Exit;
 
   DPI := CurrentPPI;
   BorderRect := GetBorderSize;
@@ -344,17 +340,17 @@ begin
   Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'Help', CaptionRect,  [tfLeft], ThemeTextColor, DPI);
 
   //Draw ToolButtons
-  for i := 1 to 3 do
+  for var I := 1 to 3 do
   begin
     LDetails := Style.GetElementDetails(ttbButtonNormal);
-    ButtonRect.Left := BorderRect.Left+ FMargin div 2 + (i-1) * FButtonWidth;
+    ButtonRect.Left := BorderRect.Left+ FMargin div 2 + (I-1) * FButtonWidth;
     ButtonRect.Top := LRect.Top+FMenuHeight + FMargin;
     ButtonRect.Width := FButtonWidth;
     ButtonRect.Height :=FButtonHeight;
     Style.DrawElement(FBitmap.Canvas.Handle, LDetails, ButtonRect, ButtonRect, DPI);
 
     Style.GetElementColor(LDetails, ecTextColor, ThemeTextColor);
-    Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'ToolButton' + IntToStr(i),
+    Style.DrawText(FBitmap.Canvas.Handle, LDetails, 'ToolButton' + IntToStr(I),
       ButtonRect, [tfVerticalCenter, tfCenter], ThemeTextColor, DPI);
   end;
 

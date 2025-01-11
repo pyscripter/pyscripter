@@ -7,7 +7,9 @@
 
 GExperts License Agreement
 GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
-authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+authors who have submitted their code for inclusion. This license agreement only
+covers code written by GExperts, Inc and Erik Berry. You should contact the
+other authors concerning their respective copyrights and conditions.
 
 The rules governing the use of GExperts and the GExperts source code are derived
 from the official Open Source Definition, available at http://www.opensource.org.
@@ -45,11 +47,8 @@ unit cFileSearch;
 interface
 
 uses
-  System.SysUtils,
   System.Classes,
-  System.RegularExpressionsCore,
-  System.RegularExpressions,
-  SynUnicode;
+  System.RegularExpressions;
 
 type
 
@@ -59,25 +58,22 @@ type
 
   TFoundEvent = procedure(Sender: TObject; LineNo: Integer; const Line: string; SPos, EPos: Integer) of object;
 
-//  ELineTooLong = class(Exception);
-
   // We separate the grep code from the file management code in TSearcher
   TBaseSearcher = class(TObject)
-  private
   protected
     FOnFound: TFoundEvent;
     FOnStartSearch: TNotifyEvent;
     procedure SignalStartSearch; virtual;
     procedure SignalFoundMatch(LineNo: Integer; const Line: string; SPos, EPos: Integer); virtual;
   protected
-    BLine: string; // The current search line,
+    FCurrLine: string; // The current search line,
     FLineNo: Integer;
-    fSearchLines : TStrings;
+    FSearchLines: TStrings;
     FNoComments: Boolean;
     FSearchOptions: TSearchOptions;
     FPattern: string;
     FFileName: string;
-    FRegExpr : TRegEx;
+    FRegExpr: TRegEx;
     procedure DoSearch;
     procedure PatternMatch;
   public
@@ -96,7 +92,6 @@ type
     procedure Reset;
   protected
     procedure SetFileName(const Value: string);
-  protected
   public
     constructor Create(const SearchFileName: string);
     procedure Execute;
@@ -107,12 +102,9 @@ implementation
 
 uses
   Winapi.Windows,
-  System.UITypes,
-  Vcl.Dialogs,
+  System.SysUtils,
   uEditAppIntfs,
-  StringResources,
-  uCommonFunctions,
-  JvGnugettext;
+  uCommonFunctions;
 
 const
   SearchLineSize = 1024;
@@ -134,18 +126,15 @@ procedure TSearcher.SetFileName(const Value: string);
     Result := False;
     if not FileExists(FFileName) then
       Exit;
-    Result := LoadFileIntoWideStrings(fFileName, fSearchLines);
+    Result := LoadFileIntoWideStrings(FFileName, FSearchLines);
   end;
 
   function GetModuleInterface: Boolean;
-  var
-    Editor : IEditor;
   begin
     Result := False;
-    Editor := GI_EditorFactory.GetEditorByFileId(FFileName);
+    var Editor := GI_EditorFactory.GetEditorByFileId(FFileName);
     if Assigned(Editor) then begin
-      fSearchLines.Assign(Editor.SynEdit.Lines);
-    //      FSearchStream := TStringStream.Create(Editor.SynEdit.Text);
+      FSearchLines.Assign(Editor.SynEdit.Lines);
       Result := True;
     end;
   end;
@@ -187,38 +176,28 @@ begin
 end;
 
 procedure TBaseSearcher.DoSearch;
-//resourcestring
-//  SLineLengthError = 'File Search detected a line longer than %d characters in:'+sLineBreak+
-//                     '%s.' +sLineBreak+
-//                     'Likely, this is an unsupported binary file type.';
 var
-  i: Integer;
   LPos: Integer;
-  PPos : PWideChar;
+  PPos: PWideChar;
 begin
   SignalStartSearch;
-  for i := 0 to fSearchLines.Count - 1 do begin
-    BLine := fSearchLines[i];
+  for var I := 0 to FSearchLines.Count - 1 do begin
+    FCurrLine := FSearchLines[I];
 
-    if BLine = '' then continue;
+    if FCurrLine = '' then Continue;
 
     if FNoComments then begin
-      PPos := StrScan(PWideChar(BLine), '#');
+      PPos := StrScan(PWideChar(FCurrLine), '#');
       if Assigned(PPos) then begin
-        LPos := PPos - PWideChar(BLine) + 1;
-        Delete(BLine, LPos, MaxInt);
+        LPos := PPos - PWideChar(FCurrLine) + 1;
+        Delete(FCurrLine, LPos, MaxInt);
       end;
-      if BLine = '' then continue;
-      if Length(BLine) > SearchLineSize then
-      begin
+      if FCurrLine = '' then Continue;
+      if Length(FCurrLine) > SearchLineSize then
         // Likely to be a binary file
-         // Just ingnore Issue 74
-        //MessageDlg(E.Message, mtWarning, [mbOK], 0);
         Exit;
-      end;
-
     end;
-    FLineNo := Succ(i);
+    FLineNo := Succ(I);
     PatternMatch;
   end;
 end;
@@ -227,15 +206,15 @@ procedure TBaseSearcher.SetPattern(const Value: string);
 var
   Options: TRegExOptions;
 begin
-  fPattern := Value;
+  FPattern := Value;
   if soRegEx in SearchOptions then begin
     Options := [roNotEmpty];
     if not (soCaseSensitive in SearchOptions) then
       Include(Options, roIgnoreCase);
-    fRegExpr := CompiledRegEx(Value, Options);
+    FRegExpr := CompiledRegEx(Value, Options);
   end else begin
     if not(soCaseSensitive in SearchOptions) then
-      fPattern := Value.ToUpper;
+      FPattern := Value.ToUpper;
   end;
 end;
 
@@ -247,11 +226,11 @@ procedure TBaseSearcher.PatternMatch;
 }
 var
   LinePos: Integer;
-  Found : Boolean;
-  Match : TMatch;
-  EndPos : integer;
-  FoundPos : PWideChar;
-  Len : integer;
+  Found: Boolean;
+  Match: TMatch;
+  EndPos: Integer;
+  FoundPos: PWideChar;
+  Len: Integer;
 
   procedure IsFound;
   //  Deals with soWholeWord Search option
@@ -264,23 +243,23 @@ var
       Start := LinePos - 1; // Point to previous character 
       if (Start >= 0) then
       begin
-        TestChar := BLine[Start];
+        TestChar := FCurrLine[Start];
         if IsCharAlphaNumeric(TestChar) or (TestChar = '_') then
           Exit;
       end;
-      TestChar := BLine[EndPos+1];  // Next Character
+      TestChar := FCurrLine[EndPos+1];  // Next Character
       if TestChar <> #0 then
       begin
         if IsCharAlphaNumeric(TestChar) or (TestChar = '_') then
           Exit;
       end;
     end;
-    SignalFoundMatch(FLineNo, FSearchLines[FLineNo-1], LinePos, EndPos)
+    SignalFoundMatch(FLineNo, FSearchLines[FLineNo-1], LinePos, EndPos);
   end;
 
 begin
   if soRegEx in SearchOptions then begin
-    Match := fRegExpr.Match(BLine);
+    Match := FRegExpr.Match(FCurrLine);
     while Match.Success do begin
       LinePos := Match.Index;
       EndPos := LinePos + Match.Length - 1;
@@ -289,20 +268,20 @@ begin
     end;
   end else begin
     if not (soCaseSensitive in SearchOptions) then
-      BLine := BLine.ToUpper;
+      FCurrLine := FCurrLine.ToUpper;
     Len := Length(Pattern);
     EndPos := 0;
-    FoundPos := PWideChar(BLine);
-    Repeat
-      FoundPos := StrPos(FoundPos, PWideChar(fPattern));
+    FoundPos := PWideChar(FCurrLine);
+    repeat
+      FoundPos := StrPos(FoundPos, PWideChar(FPattern));
       Found := Assigned(FoundPos);
       if Found then begin
-        LinePos := FoundPos - PWideChar(BLine) + 1;
+        LinePos := FoundPos - PWideChar(FCurrLine) + 1;
         EndPos := LinePos + Len - 1;
         Inc(FoundPos,  Len);
         IsFound;
       end;
-    Until not Found;
+    until not Found;
   end;
 end;
 

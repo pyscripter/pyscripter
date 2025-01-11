@@ -51,7 +51,8 @@ implementation
 
 uses
   Winapi.Windows,
-  System.Math;
+  System.Math,
+  dmResources;
 
 {$R *.dfm}
 

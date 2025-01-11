@@ -10,17 +10,11 @@ unit frmBreakPoints;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
   System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
   System.Contnrs,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.Menus,
   Vcl.ExtCtrls,
   Vcl.ImgList,
@@ -34,9 +28,7 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees,
   TB2Item,
-  SpTBXSkins,
   SpTBXItem,
-  SpTBXControls,
   frmIDEDockWin;
 
 type
@@ -70,7 +62,7 @@ type
     procedure FormActivate(Sender: TObject);
   private
     const FBasePath = 'Breakpoints Window Options'; // Used for storing settings
-    var fBreakPointsList : TObjectList;
+    var FBreakPointsList: TObjectList;
   public
     procedure UpdateWindow;
     // AppStorage
@@ -84,6 +76,8 @@ var
 implementation
 
 uses
+  Winapi.Windows,
+  Vcl.Dialogs,
   Vcl.Clipbrd,
   uEditAppIntfs,
   uCommonFunctions,
@@ -94,37 +88,38 @@ uses
 
 {$R *.dfm}
 
-Type
+type
   TBreakPointInfo = class
-    FileName : string;
-    Line : integer;
-    Disabled : Boolean;
-    Condition : string;
+    FileName: string;
+    Line: Integer;
+    Disabled: Boolean;
+    Condition: string;
   end;
 
   PBreakPointRec = ^TBreakPointRec;
   TBreakPointRec = record
-    BreakPoint : TBreakPointInfo;
+    BreakPoint: TBreakPointInfo;
   end;
 
 procedure TBreakPointsWindow.UpdateWindow;
 begin
   BreakPointsView.Clear;
-  fBreakPointsList.Clear;
+  FBreakPointsList.Clear;
 
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   begin
-    for var BP in Editor.BreakPoints do begin
+    for var BP in Editor.BreakPoints do
+    begin
       var BPInfo := TBreakPointInfo.Create;
       BPInfo.FileName := Editor.FileId;
       BPInfo.Line := TBreakPoint(BP).LineNo;
       BPInfo.Disabled := TBreakPoint(BP).Disabled;
       BPInfo.Condition := TBreakPoint(BP).Condition;
-      fBreakPointsList.Add(BPInfo);
+      FBreakPointsList.Add(BPInfo);
     end;
   end);
 
-  BreakPointsView.RootNodeCount := fBreakPointsList.Count;
+  BreakPointsView.RootNodeCount := FBreakPointsList.Count;
 end;
 
 procedure TBreakPointsWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
@@ -147,10 +142,10 @@ end;
 
 procedure TBreakPointsWindow.BreakPointLVDblClick(Sender: TObject);
 var
-  Node : PVirtualNode;
-  BreakPoint : TBreakPointInfo;
+  Node: PVirtualNode;
+  BreakPoint: TBreakPointInfo;
 begin
-  Node := BreakPointsView.GetFirstSelected();
+  Node := BreakPointsView.GetFirstSelected;
   if Assigned(Node) then begin
     BreakPoint := PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint;
 
@@ -161,10 +156,10 @@ end;
 
 procedure TBreakPointsWindow.mnClearClick(Sender: TObject);
 var
-  Editor : IEditor;
-  Node : PVirtualNode;
+  Editor: IEditor;
+  Node: PVirtualNode;
 begin
-  Node := BreakPointsView.GetFirstSelected();
+  Node := BreakPointsView.GetFirstSelected;
   if Assigned(Node) then
     with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do begin
      if FileName = '' then Exit; // No FileName or LineNumber
@@ -176,10 +171,10 @@ end;
 
 procedure TBreakPointsWindow.mnSetConditionClick(Sender: TObject);
 var
-  Editor : IEditor;
-  Node : PVirtualNode;
+  Editor: IEditor;
+  Node: PVirtualNode;
 begin
-  Node := BreakPointsView.GetFirstSelected();
+  Node := BreakPointsView.GetFirstSelected;
   if Assigned(Node) then
     with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do begin
       if FileName = '' then Exit; // No FileName or LineNumber
@@ -194,7 +189,7 @@ end;
 
 procedure TBreakPointsWindow.mnCopyToClipboardClick(Sender: TObject);
 begin
-  Clipboard.AsText := string(BreakPointsView.ContentToText(tstAll, #9));
+  Clipboard.AsText := BreakPointsView.ContentToText(tstAll, #9);
 end;
 
 procedure TBreakPointsWindow.FormActivate(Sender: TObject);
@@ -208,14 +203,14 @@ procedure TBreakPointsWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'BreakpointsWin';
   inherited;
-  fBreakPointsList := TObjectList.Create(True);  // Onwns objects
+  FBreakPointsList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.
   BreakPointsView.NodeDataSize := SizeOf(TBreakPointRec);
 end;
 
 procedure TBreakPointsWindow.FormDestroy(Sender: TObject);
 begin
-  fBreakPointsList.Free;
+  FBreakPointsList.Free;
   inherited;
 end;
 
@@ -223,13 +218,13 @@ procedure TBreakPointsWindow.BreakPointsViewInitNode(
   Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
 begin
-  Assert(ParentNode = nil);
-  Assert(Integer(Node.Index) < fBreakPointsList.Count);
+  Assert(ParentNode = nil, 'BreakPointsViewInitNode');
+  Assert(Integer(Node.Index) < FBreakPointsList.Count, 'BreakPointsViewInitNode');
   PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint :=
-    fBreakPointsList[Node.Index] as TBreakPointInfo;
+    FBreakPointsList[Node.Index] as TBreakPointInfo;
   Node.CheckType := ctCheckBox;
-  if TBreakPointInfo(fBreakPointsList[Node.Index]).Disabled then
-    Node.CheckState := csUnCheckedNormal
+  if TBreakPointInfo(FBreakPointsList[Node.Index]).Disabled then
+    Node.CheckState := csUncheckedNormal
   else
     Node.CheckState := csCheckedNormal;
 end;
@@ -238,7 +233,7 @@ procedure TBreakPointsWindow.BreakPointsViewGetText(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
   TextType: TVSTTextType; var CellText: string);
 begin
-  Assert(Integer(Node.Index) < fBreakPointsList.Count);
+  Assert(Integer(Node.Index) < FBreakPointsList.Count, 'BreakPointsViewGetText');
   with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do
     case Column of
       0:  CellText := FileName;
@@ -266,8 +261,7 @@ end;
 procedure TBreakPointsWindow.BreakPointsViewKeyDown(Sender: TObject; var Key:
     Word; Shift: TShiftState);
 begin
-  inherited;
-  if Key = VK_Delete then
+  if Key = VK_DELETE then
   begin
     mnClearClick(Sender);
     Key := 0;
@@ -278,7 +272,7 @@ procedure TBreakPointsWindow.TBXPopupMenuPopup(Sender: TObject);
 begin
   mnClear.Enabled := Assigned(BreakPointsView.GetFirstSelected());
   mnSetCondition.Enabled := Assigned(BreakPointsView.GetFirstSelected());
-  mnCopyToClipboard.Enabled := fBreakPointsList.Count > 0;
+  mnCopyToClipboard.Enabled := FBreakPointsList.Count > 0;
 end;
 
 end.

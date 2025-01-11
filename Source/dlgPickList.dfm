@@ -111,7 +111,7 @@ inherited PickListDialog: TPickListDialog
       BevelInner = bvNone
       BevelOuter = bvNone
       BevelKind = bkSoft
-      ItemHeight = 15
+      ItemHeight = 17
       PopupMenu = PickListPopUp
       TabOrder = 0
     end
@@ -138,12 +138,12 @@ inherited PickListDialog: TPickListDialog
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 126
+        CollectionIndex = 136
         CollectionName = 'TreeSelectAll'
         Name = 'TreeSelectAll'
       end
       item
-        CollectionIndex = 125
+        CollectionIndex = 135
         CollectionName = 'TreeDeselectAll'
         Name = 'TreeDeselectAll'
       end>

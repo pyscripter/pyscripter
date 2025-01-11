@@ -45,6 +45,13 @@ object DisForm: TDisForm
         Kind = gbkMargin
         Width = 3
       end>
+    ScrollbarAnnotations = <
+      item
+        AnnType = sbaCarets
+        AnnPos = sbpFullWidth
+        FullRow = False
+      end>
     SelectedColor.Alpha = 0.400000005960464500
+    VisibleSpecialChars = []
   end
 end

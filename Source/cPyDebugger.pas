@@ -23,15 +23,15 @@ uses
 type
   TFrameInfo = class(TBaseFrameInfo)
   private
-    FPyFrame : Variant;
+    FPyFrame: Variant;
   protected
   // Implementation of the Base class for the internal debugger
-    function GetFunctionName : string; override;
-    function GetFileName : string; override;
-    function GetLine : Integer; override;
+    function GetFunctionName: string; override;
+    function GetFileName: string; override;
+    function GetLine: Integer; override;
   public
-    constructor Create(Frame : Variant);
-    property PyFrame : Variant read FPyFrame;
+    constructor Create(Frame: Variant);
+    property PyFrame: Variant read FPyFrame;
   end;
 
 const
@@ -47,10 +47,10 @@ type
   TNameSpaceItem = class(TBaseNameSpaceItem)
   // Implementation of the Base class for the internal debugger
   protected
-    FChildCount : Integer;
-    FChildNodes : TStringList;
-    FName : string;
-    FObjectInfo : Integer;
+    FChildCount: Integer;
+    FChildNodes: TStringList;
+    FName: string;
+    FObjectInfo: Integer;
     function GetName: string; override;
     function GetObjectType: string; override;
     function GetValue: string; override;
@@ -60,7 +60,7 @@ type
     function GetObjectInfo: Integer;
     procedure FillObjectInfo; virtual;
   public
-    constructor Create(AName : string; const APyObject : Variant);
+    constructor Create(AName: string; const APyObject: Variant);
     destructor Destroy; override;
     function IsClass: Boolean; override;
     function IsDict: Boolean; override;
@@ -81,15 +81,15 @@ type
   protected
     function GetInterpreter: Variant; override;
   public
-    constructor Create(II : Variant);
+    constructor Create(II: Variant);
     function CreateDebugger: TPyBaseDebugger; override;
 
     procedure Initialize; override;
-    function SysPathAdd(const Path: string) : Boolean; override;
-    function SysPathRemove(const Path: string) : Boolean; override;
+    function SysPathAdd(const Path: string): Boolean; override;
+    function SysPathRemove(const Path: string): Boolean; override;
     procedure SysPathToStrings(Strings: TStrings); override;
     procedure StringsToSysPath(Strings: TStrings); override;
-    function Compile(ARunConfig: TRunConfiguration) : Variant;
+    function Compile(ARunConfig: TRunConfiguration): Variant;
     function GetGlobals: TBaseNameSpaceItem; override;
     function NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem; override;
     function CallTipFromExpression(const Expr: string;
@@ -138,7 +138,7 @@ type
     // Debugging
     procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
           RunToCursorLine: Integer = -1); override;
-    procedure RunToCursor(Editor : IEditor; ALine: Integer); override;
+    procedure RunToCursor(Editor: IEditor; ALine: Integer); override;
     procedure StepInto; override;
     procedure StepOver; override;
     procedure StepOut; override;
@@ -502,7 +502,7 @@ end;
 procedure TPyInternalDebugger.Evaluate(const Expr: string; out ObjType, Value: string);
 var
   Py: IPyEngineAndGIL;
-  ExprValue : Variant;
+  ExprValue: Variant;
 begin
   ObjType := _(SNotAvailable);
   Value := _(SNotAvailable);
@@ -599,7 +599,7 @@ begin
 end;
 
 procedure TPyInternalDebugger.Debug(ARunConfig: TRunConfiguration;
-  InitStepIn: Boolean = False; RunToCursorLine : Integer = -1);
+  InitStepIn: Boolean = False; RunToCursorLine: Integer = -1);
 var
   Code: Variant;
   Path, OldPath: string;
@@ -863,13 +863,13 @@ begin
   end;
 
   case FDebuggerCommand of
-    dcRun         : InternalInterpreter.Debugger.set_continue();
-    dcStepInto    : InternalInterpreter.Debugger.set_step();
-    dcStepOver    : InternalInterpreter.Debugger.set_next(Frame);
-    dcStepOut     : InternalInterpreter.Debugger.set_return(Frame);
-    dcRunToCursor : InternalInterpreter.Debugger.set_continue;
-    dcPause       : InternalInterpreter.Debugger.set_step();
-    dcAbort       : begin
+    dcRun        : InternalInterpreter.Debugger.set_continue();
+    dcStepInto   : InternalInterpreter.Debugger.set_step();
+    dcStepOver   : InternalInterpreter.Debugger.set_next(Frame);
+    dcStepOut    : InternalInterpreter.Debugger.set_return(Frame);
+    dcRunToCursor: InternalInterpreter.Debugger.set_continue;
+    dcPause      : InternalInterpreter.Debugger.set_step();
+    dcAbort      : begin
                       InternalInterpreter.Debugger.set_quit();
                       TThread.Synchronize(nil, procedure
                       begin
@@ -1016,7 +1016,7 @@ begin
 end;
 
 function TPyInternalInterpreter.CallTipFromExpression(const Expr: string;
-  var DisplayString, DocString: string) : Boolean;
+  var DisplayString, DocString: string): Boolean;
 var
   Py: IPyEngineAndGIL;
   LookupObj, ArgText, PyDocString: Variant;
@@ -1127,7 +1127,7 @@ begin
 end;
 
 function TPyInternalInterpreter.ImportModule(Editor: IEditor;
-  AddToNameSpace: Boolean = False) : Variant;
+  AddToNameSpace: Boolean = False): Variant;
 {
   Imports Editor text without saving the file.
   Does not add the module name to the locals()

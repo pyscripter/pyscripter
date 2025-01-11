@@ -41,10 +41,8 @@ unit SynHighlighterPython;
 interface
 
 uses
-  System.SysUtils,
   System.Classes,
   System.RegularExpressions,
-  Vcl.Graphics,
   SynEditHighlighter,
   SynEditCodeFolding,
   StringResources,
@@ -59,8 +57,8 @@ type
     tkBanner, tkOutput, tkTraceback,
     tkPrompt, tkSystemCmd);
 
-  TRangeState = (rsUnKnown, rsMultilineString, rsMultilineString2,
-                 rsMultilineString3, //this is to indicate if a string is made multiline by backslash char at line end (as in C++ highlighter)
+  TRangeState = (rsUnknown, rsMultilineString, rsMultilineString2,
+                 rsMultilineString3, //this is to indicate if a string is made multiline by backslash char at line end
                  rsTraceback  // used in the interpreter
                 );
 
@@ -68,33 +66,33 @@ type
 
   TSynPythonSyn = class(TSynCustomCodeFoldingHighlighter)
   private
-    fStringStarter: WideChar;  // used only for rsMultilineString3 stuff
-    fRange: TRangeState;
+    FStringStarter: WideChar;  // used only for rsMultilineString3 stuff
+    FRange: TRangeState;
     FTokenID: TtkTokenKind;
     FKeywords: TStringList;
-    fLastIdentifier : UnicodeString;
-    fStringAttri: TSynHighlighterAttributes;
-    fDocStringAttri: TSynHighlighterAttributes;
-    fMultiLineStringAttri: TSynHighlighterAttributes;
-    fNumberAttri: TSynHighlighterAttributes;
-    fHexAttri: TSynHighlighterAttributes;
-    fOctalAttri: TSynHighlighterAttributes;
-    fFloatAttri: TSynHighlighterAttributes;
-    fKeyAttri: TSynHighlighterAttributes;
-    fNonKeyAttri: TSynHighlighterAttributes;
-    fSystemAttri: TSynHighlighterAttributes;
-    fSymbolAttri: TSynHighlighterAttributes;
-    fCommentAttri: TSynHighlighterAttributes;
-    fCodeCommentAttri: TSynHighlighterAttributes;
-    fFunctionNameAttri: TSynHighlighterAttributes;
-    fClassNameAttri: TSynHighlighterAttributes;
-    fIdentifierAttri: TSynHighlighterAttributes;
-    fSpaceAttri: TSynHighlighterAttributes;
-    fErrorAttri: TSynHighlighterAttributes;
-    fMatchingBraceAttri: TSynHighlighterAttributes;
-    fUnbalancedBraceAttri: TSynHighlighterAttributes;
-    fTempSpaceAttri: TSynHighlighterAttributes;
-    BlockOpenerRE: TRegEx;
+    FLastIdentifier: UnicodeString;
+    FStringAttri: TSynHighlighterAttributes;
+    FDocStringAttri: TSynHighlighterAttributes;
+    FMultiLineStringAttri: TSynHighlighterAttributes;
+    FNumberAttri: TSynHighlighterAttributes;
+    FHexAttri: TSynHighlighterAttributes;
+    FOctalAttri: TSynHighlighterAttributes;
+    FFloatAttri: TSynHighlighterAttributes;
+    FKeyAttri: TSynHighlighterAttributes;
+    FNonKeyAttri: TSynHighlighterAttributes;
+    FSystemAttri: TSynHighlighterAttributes;
+    FSymbolAttri: TSynHighlighterAttributes;
+    FCommentAttri: TSynHighlighterAttributes;
+    FCodeCommentAttri: TSynHighlighterAttributes;
+    FFunctionNameAttri: TSynHighlighterAttributes;
+    FClassNameAttri: TSynHighlighterAttributes;
+    FIdentifierAttri: TSynHighlighterAttributes;
+    FSpaceAttri: TSynHighlighterAttributes;
+    FErrorAttri: TSynHighlighterAttributes;
+    FMatchingBraceAttri: TSynHighlighterAttributes;
+    FUnbalancedBraceAttri: TSynHighlighterAttributes;
+    FTempSpaceAttri: TSynHighlighterAttributes;
+    FBlockOpenerRE: TRegEx;
     function IdentKind(MayBe: PWideChar): TtkTokenKind;
     procedure SymbolProc;
     procedure CRProc;
@@ -115,8 +113,8 @@ type
     function GetSampleSource: UnicodeString; override;
     function IsFilterStored: Boolean; override;
     procedure GetKeywordIdentifiers(KeywordList: TStrings); virtual;
-    property TokenID: TtkTokenKind read FTokenID;
     procedure DispatchProc; virtual;
+    property TokenID: TtkTokenKind read FTokenID;
   public
     class function GetCapabilities: TSynHighlighterCapabilities; override;
     class function GetLanguageName: string; override;
@@ -125,18 +123,18 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function IsIdentChar(AChar: WideChar): Boolean; override;
-    function GetDefaultAttribute(Index: integer): TSynHighlighterAttributes;
+    function GetDefaultAttribute(Index: Integer): TSynHighlighterAttributes;
       override;
     function GetEol: Boolean; override;
     function GetRange: Pointer; override;
     function GetTokenID: TtkTokenKind;
     function GetTokenAttribute: TSynHighlighterAttributes; override;
-    function GetTokenKind: integer; override;
+    function GetTokenKind: Integer; override;
     procedure Next; override;
     procedure SetRange(Value: Pointer); override;
     procedure ResetRange; override;
     function GetKeyWords(TokenKind: Integer): UnicodeString; override;
-    procedure InitFoldRanges(FoldRanges : TSynFoldRanges); override;
+    procedure InitFoldRanges(FoldRanges: TSynFoldRanges); override;
     procedure ScanForFoldRanges(FoldRanges: TSynFoldRanges;
       LinesToScan: TStrings; FromLine: Integer; ToLine: Integer); override;
     procedure AdjustFoldRanges(FoldRanges: TSynFoldRanges;
@@ -144,65 +142,65 @@ type
     function FlowControlAtLine(Lines: TStrings; Line: Integer): TSynFlowControl; override;
     property Keywords: TStringList read FKeywords;
   published
-    property CommentAttri: TSynHighlighterAttributes read fCommentAttri
-      write fCommentAttri;
-    property CodeCommentAttri: TSynHighlighterAttributes read fCodeCommentAttri
-      write fCodeCommentAttri;
-    property FunctionNameAttri: TSynHighlighterAttributes read fFunctionNameAttri
-      write fFunctionNameAttri;
-    property ClassNameAttri: TSynHighlighterAttributes read fClassNameAttri
-      write fClassNameAttri;
-    property IdentifierAttri: TSynHighlighterAttributes read fIdentifierAttri
-      write fIdentifierAttri;
-    property KeyAttri: TSynHighlighterAttributes read fKeyAttri write fKeyAttri;
-    property NonKeyAttri: TSynHighlighterAttributes read fNonKeyAttri
-      write fNonKeyAttri;
-    property SystemAttri: TSynHighlighterAttributes read fSystemAttri
-      write fSystemAttri;
-    property NumberAttri: TSynHighlighterAttributes read fNumberAttri
-      write fNumberAttri;
-    property HexAttri: TSynHighlighterAttributes read fHexAttri
-      write fHexAttri;
-    property OctalAttri: TSynHighlighterAttributes read fOctalAttri
-      write fOctalAttri;
-    property FloatAttri: TSynHighlighterAttributes read fFloatAttri
-      write fFloatAttri;
-    property SpaceAttri: TSynHighlighterAttributes read fSpaceAttri
-      write fSpaceAttri;
-    property StringAttri: TSynHighlighterAttributes read fStringAttri
-      write fStringAttri;
-    property DocStringAttri: TSynHighlighterAttributes read fDocStringAttri
-      write fDocStringAttri;
-    property MultiLineStringAttri: TSynHighlighterAttributes read fMultiLineStringAttri
-      write fMultiLineStringAttri;
-    property SymbolAttri: TSynHighlighterAttributes read fSymbolAttri
-      write fSymbolAttri;
-    property ErrorAttri: TSynHighlighterAttributes read fErrorAttri
-      write fErrorAttri;
-    property MatchingBraceAttri : TSynHighlighterAttributes read fMatchingBraceAttri
-      write fMatchingBraceAttri;
-    property UnbalancedBraceAttri : TSynHighlighterAttributes read fUnbalancedBraceAttri
-      write fUnbalancedBraceAttri;
+    property CommentAttri: TSynHighlighterAttributes read FCommentAttri
+      write FCommentAttri;
+    property CodeCommentAttri: TSynHighlighterAttributes read FCodeCommentAttri
+      write FCodeCommentAttri;
+    property FunctionNameAttri: TSynHighlighterAttributes read FFunctionNameAttri
+      write FFunctionNameAttri;
+    property ClassNameAttri: TSynHighlighterAttributes read FClassNameAttri
+      write FClassNameAttri;
+    property IdentifierAttri: TSynHighlighterAttributes read FIdentifierAttri
+      write FIdentifierAttri;
+    property KeyAttri: TSynHighlighterAttributes read FKeyAttri write FKeyAttri;
+    property NonKeyAttri: TSynHighlighterAttributes read FNonKeyAttri
+      write FNonKeyAttri;
+    property SystemAttri: TSynHighlighterAttributes read FSystemAttri
+      write FSystemAttri;
+    property NumberAttri: TSynHighlighterAttributes read FNumberAttri
+      write FNumberAttri;
+    property HexAttri: TSynHighlighterAttributes read FHexAttri
+      write FHexAttri;
+    property OctalAttri: TSynHighlighterAttributes read FOctalAttri
+      write FOctalAttri;
+    property FloatAttri: TSynHighlighterAttributes read FFloatAttri
+      write FFloatAttri;
+    property SpaceAttri: TSynHighlighterAttributes read FSpaceAttri
+      write FSpaceAttri;
+    property StringAttri: TSynHighlighterAttributes read FStringAttri
+      write FStringAttri;
+    property DocStringAttri: TSynHighlighterAttributes read FDocStringAttri
+      write FDocStringAttri;
+    property MultiLineStringAttri: TSynHighlighterAttributes read FMultiLineStringAttri
+      write FMultiLineStringAttri;
+    property SymbolAttri: TSynHighlighterAttributes read FSymbolAttri
+      write FSymbolAttri;
+    property ErrorAttri: TSynHighlighterAttributes read FErrorAttri
+      write FErrorAttri;
+    property MatchingBraceAttri: TSynHighlighterAttributes read FMatchingBraceAttri
+      write FMatchingBraceAttri;
+    property UnbalancedBraceAttri: TSynHighlighterAttributes read FUnbalancedBraceAttri
+      write FUnbalancedBraceAttri;
   end;
 
   TSynPythonInterpreterSyn = class(TSynPythonSyn)
   private
-    fPS1 : string;
-    fPS2 : string;
-    fDbg : string;
-    fPM : string;
-    fBannerAttri: TSynHighlighterAttributes;
-    fOutputAttri: TSynHighlighterAttributes;
-    fTracebackAttri: TSynHighlighterAttributes;
-    fPromptAttri: TSynHighlighterAttributes;
-    fSystemCmdAttri: TSynHighlighterAttributes;
-    fTracebackStartRE: TRegEx;
-    fTracebackEndRE: TRegEx;
-    fSystemCmdRE: TRegEx;
+    FPS1: string;
+    FPS2: string;
+    FDbg: string;
+    FPM: string;
+    FBannerAttri: TSynHighlighterAttributes;
+    FOutputAttri: TSynHighlighterAttributes;
+    FTracebackAttri: TSynHighlighterAttributes;
+    FPromptAttri: TSynHighlighterAttributes;
+    FSystemCmdAttri: TSynHighlighterAttributes;
+    FTracebackStartRE: TRegEx;
+    FTracebackEndRE: TRegEx;
+    FSystemCmdRE: TRegEx;
     procedure BannerProc;
     procedure OutputProc;
     procedure TracebackProc;
-    procedure PromptProc(Len : integer);
+    procedure PromptProc(Len: Integer);
     procedure SystemCmdProc;
   protected
     procedure DispatchProc; override;
@@ -214,20 +212,20 @@ type
     constructor Create(AOwner: TComponent); override;
     function GetTokenAttribute: TSynHighlighterAttributes; override;
   published
-    property BannerAttri: TSynHighlighterAttributes read fBannerAttri
-      write fBannerAttri;
-    property OutputAttri: TSynHighlighterAttributes read fOutputAttri
-      write fOutputAttri;
-    property TracebackAttri: TSynHighlighterAttributes read fTracebackAttri
-      write fTracebackAttri;
-    property PromptAttri: TSynHighlighterAttributes read fPromptAttri
-      write fPromptAttri;
-    property SystemCmdAttri: TSynHighlighterAttributes read fSystemCmdAttri
-      write fSystemCmdAttri;
-    property PS1 : string read fPS1 write fPS1;
-    property PS2 : string read fPS2 write fPS2;
-    property Dbg : string read fDbg write fDbg;
-    property PM : string read fPM write fPM;
+    property BannerAttri: TSynHighlighterAttributes read FBannerAttri
+      write FBannerAttri;
+    property OutputAttri: TSynHighlighterAttributes read FOutputAttri
+      write FOutputAttri;
+    property TracebackAttri: TSynHighlighterAttributes read FTracebackAttri
+      write FTracebackAttri;
+    property PromptAttri: TSynHighlighterAttributes read FPromptAttri
+      write FPromptAttri;
+    property SystemCmdAttri: TSynHighlighterAttributes read FSystemCmdAttri
+      write FSystemCmdAttri;
+    property PS1: string read FPS1 write FPS1;
+    property PS2: string read FPS2 write FPS2;
+    property Dbg: string read FDbg write FDbg;
+    property PM: string read FPM write FPM;
   end;
 
   TSynCythonSyn = class(TSynPythonSyn)
@@ -240,7 +238,7 @@ type
     class function GetFriendlyLanguageName: UnicodeString; override;
   end;
 
-Const
+const
   SYNS_CommentedCode = 'Commented Code';
   SYNS_FunctionName = 'Function Name';
   SYNS_ClassName = 'Class Name';
@@ -260,8 +258,9 @@ resourcestring
 implementation
 
 uses
+  System.SysUtils,
   System.Character,
-  System.RegularExpressionsCore,
+  Vcl.Graphics,
   SynEditStrConst,
   SynEditMiscProcs;
 
@@ -454,50 +453,42 @@ const
     'zip'
     );
 var
-  f: Integer;
+  Keyword: string;
 begin
-  for f := 1 to KEYWORDCOUNT do
-    KeywordList.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
-  for f := 1 to NONKEYWORDCOUNT do
-    KeywordList.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
+  for Keyword in KEYWORDS do
+    KeywordList.AddObject(Keyword, Pointer(Ord(tkKey)));
+  for Keyword in NONKEYWORDS do
+    KeywordList.AddObject(Keyword, Pointer(Ord(tkNonKeyword)));
 end;
 
 function TSynPythonSyn.IdentKind(MayBe: PWideChar): TtkTokenKind;
 var
-  i: Integer;
-  temp: PWideChar;
-  s: UnicodeString;
+  Index: Integer;
+  Temp: PWideChar;
+  Key: UnicodeString;
 begin
   // Extract the identifier out - it is assumed to terminate in a
   //   non-alphanumeric character
   fToIdent := MayBe;
-  temp := MayBe;
-  while IsIdentChar(temp^) do
-    Inc(temp);
-  fStringLen := temp - fToIdent;
+  Temp := MayBe;
+  while IsIdentChar(Temp^) do
+    Inc(Temp);
+  fStringLen := Temp - fToIdent;
 
-  SetString(s, fToIdent, fStringLen);
+  SetString(Key, fToIdent, fStringLen);
 
   // Check to see if it is a keyword
-  if ((Run <= 0) or (FLine[Run-1]<> '.')) and (fLastIdentifier <> 'class') and
-    (fLastIdentifier <> 'def') and FKeywords.Find(s, i) then
-  begin
-//    // TStringList is not case sensitive!  KV Not now using Delphi's StringList
-//    if s <> FKeywords[i] then
-//      i := -1;
-  end
-  else
-    i := -1;
-
-  if i <> -1 then
-    Result := TtkTokenKind(FKeywords.Objects[i])
+  if ((Run <= 0) or (fLine[Run-1]<> '.')) and (FLastIdentifier <> 'class') and
+    (FLastIdentifier <> 'def') and FKeywords.Find(Key, Index)
+  then
+    Result := TtkTokenKind(FKeywords.Objects[Index])
 
   // Check if it is a class name
-  else if fLastIdentifier = 'class' then
+  else if FLastIdentifier = 'class' then
     Result := tkClassName
 
   // Check if it is a function name
-  else if fLastIdentifier = 'def' then
+  else if FLastIdentifier = 'def' then
     Result := tkFunctionName
 
   // Check if it is a system identifier (__*__)
@@ -511,8 +502,8 @@ begin
   else
     Result := tkIdentifier;
 
-  //fLastIdentifier := s;
-  SetString(fLastIdentifier, fToIdent, fStringLen);
+  //FLastIdentifier := Key;
+  SetString(FLastIdentifier, fToIdent, fStringLen);
 end;
 
 constructor TSynPythonSyn.Create(AOwner: TComponent);
@@ -527,106 +518,106 @@ begin
   FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
 
-  BlockOpenerRE := CompiledRegEx(
+  FBlockOpenerRE := CompiledRegEx(
      '^(def|class|while|for|if|else|elif|try|except|finally|with'+
      '|(async[ \t]+def)|(async[ \t]+with)|(async[ \t]+for))\b');
 
-  fRange := rsUnknown;
-  fCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);
-  fCommentAttri.Foreground := clGray;
-  fCommentAttri.Style := [fsItalic];
-  AddAttribute(fCommentAttri);
-  fCodeCommentAttri := TSynHighlighterAttributes.Create(SYNS_CommentedCode, SYNS_FriendlyCommentedCode);
-  fCodeCommentAttri.Foreground := clSilver;
-  fCodeCommentAttri.Style := [fsItalic];
-  AddAttribute(fCodeCommentAttri);
-  fFunctionNameAttri := TSynHighlighterAttributes.Create(SYNS_FunctionName, SYNS_FriendlyFunctionName);
-  fFunctionNameAttri.Foreground := clTeal;
-  fFunctionNameAttri.Style := [fsBold];
-  AddAttribute(fFunctionNameAttri);
-  fClassNameAttri := TSynHighlighterAttributes.Create(SYNS_ClassName, SYNS_FriendlyClassName);
-  fClassNameAttri.Foreground := clNavy;
-  fClassNameAttri.Style := [fsBold];
-  AddAttribute(fClassNameAttri);
-  fIdentifierAttri := TSynHighlighterAttributes.Create(SYNS_AttrIdentifier, SYNS_FriendlyAttrIdentifier);
-  fIdentifierAttri.Foreground := clBlack;
-  AddAttribute(fIdentifierAttri);
-  fKeyAttri := TSynHighlighterAttributes.Create(SYNS_AttrReservedWord, SYNS_FriendlyAttrReservedWord);
-  fKeyAttri.Foreground := clNavy;
-  fKeyAttri.Style := [fsBold];
-  AddAttribute(fKeyAttri);
-  fNonKeyAttri := TSynHighlighterAttributes.Create (SYNS_AttrNonReservedKeyword, SYNS_FriendlyAttrNonReservedKeyword);
-  fNonKeyAttri.Foreground := clNavy;
-  AddAttribute (fNonKeyAttri);
-  fSystemAttri := TSynHighlighterAttributes.Create (SYNS_AttrSystem, SYNS_FriendlyAttrSystem);
-  fSystemAttri.Style := [fsBold];
-  AddAttribute (fSystemAttri);
-  fNumberAttri := TSynHighlighterAttributes.Create(SYNS_AttrNumber, SYNS_FriendlyAttrNumber);
-  fNumberAttri.Foreground := clTeal;
-  AddAttribute(fNumberAttri);
-  fHexAttri := TSynHighlighterAttributes.Create(SYNS_AttrHexadecimal, SYNS_FriendlyAttrHexadecimal);
-  fHexAttri.Foreground := clTeal;
-  AddAttribute(fHexAttri);
-  fOctalAttri := TSynHighlighterAttributes.Create(SYNS_AttrOctal, SYNS_FriendlyAttrOctal);
-  fOctalAttri.Foreground := clTeal;
-  AddAttribute(fOctalAttri);
-  fFloatAttri := TSynHighlighterAttributes.Create(SYNS_AttrFloat, SYNS_FriendlyAttrFloat);
-  fFloatAttri.Foreground := clTeal;
-  AddAttribute(fFloatAttri);
-  fSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
-  fSpaceAttri.Background := clWhite;
-  fSpaceAttri.Foreground := clSilver;
-  AddAttribute(fSpaceAttri);
-  fStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrString, SYNS_FriendlyAttrString);
-  fStringAttri.Foreground := clOlive;
-  AddAttribute(fStringAttri);
-  fDocStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrDocumentation, SYNS_FriendlyAttrDocumentation);
-  fDocStringAttri.Foreground := $FF00CC;
-  AddAttribute(fDocStringAttri);
-  fMultiLineStringAttri := TSynHighlighterAttributes.Create(SYNS_MultiLineString, SYNS_FriendlyMultiLineString);
-  fMultiLineStringAttri.Foreground := clOlive;
-  AddAttribute(fMultiLineStringAttri);
-  fSymbolAttri := TSynHighlighterAttributes.Create(SYNS_AttrSymbol, SYNS_FriendlyAttrSymbol);
-  fSymbolAttri.Foreground := clMaroon;
-  AddAttribute(fSymbolAttri);
-  fErrorAttri := TSynHighlighterAttributes.Create(SYNS_AttrSyntaxError, SYNS_FriendlyAttrSyntaxError);
-  fErrorAttri.Foreground := clRed;
-  AddAttribute(fErrorAttri);
-  fMatchingBraceAttri := TSynHighlighterAttributes.Create(SYNS_MatchingBrace, SYNS_FriendlyMatchingBrace);
-  fMatchingBraceAttri.Foreground := clBlue;
-  fMatchingBraceAttri.Style := [fsBold];
-  AddAttribute(fMatchingBraceAttri);
-  fUnbalancedBraceAttri := TSynHighlighterAttributes.Create(SYNS_UnbalancedBrace, SYNS_FriendlyUnbalancedBrace);
-  fUnbalancedBraceAttri.Background := clRed;
-  fUnbalancedBraceAttri.Foreground := clYellow;
-  AddAttribute(fUnbalancedBraceAttri);
+  FRange := rsUnknown;
+  FCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);
+  FCommentAttri.Foreground := clGray;
+  FCommentAttri.Style := [fsItalic];
+  AddAttribute(FCommentAttri);
+  FCodeCommentAttri := TSynHighlighterAttributes.Create(SYNS_CommentedCode, SYNS_FriendlyCommentedCode);
+  FCodeCommentAttri.Foreground := clSilver;
+  FCodeCommentAttri.Style := [fsItalic];
+  AddAttribute(FCodeCommentAttri);
+  FFunctionNameAttri := TSynHighlighterAttributes.Create(SYNS_FunctionName, SYNS_FriendlyFunctionName);
+  FFunctionNameAttri.Foreground := clTeal;
+  FFunctionNameAttri.Style := [fsBold];
+  AddAttribute(FFunctionNameAttri);
+  FClassNameAttri := TSynHighlighterAttributes.Create(SYNS_ClassName, SYNS_FriendlyClassName);
+  FClassNameAttri.Foreground := clNavy;
+  FClassNameAttri.Style := [fsBold];
+  AddAttribute(FClassNameAttri);
+  FIdentifierAttri := TSynHighlighterAttributes.Create(SYNS_AttrIdentifier, SYNS_FriendlyAttrIdentifier);
+  FIdentifierAttri.Foreground := clBlack;
+  AddAttribute(FIdentifierAttri);
+  FKeyAttri := TSynHighlighterAttributes.Create(SYNS_AttrReservedWord, SYNS_FriendlyAttrReservedWord);
+  FKeyAttri.Foreground := clNavy;
+  FKeyAttri.Style := [fsBold];
+  AddAttribute(FKeyAttri);
+  FNonKeyAttri := TSynHighlighterAttributes.Create (SYNS_AttrNonReservedKeyword, SYNS_FriendlyAttrNonReservedKeyword);
+  FNonKeyAttri.Foreground := clNavy;
+  AddAttribute (FNonKeyAttri);
+  FSystemAttri := TSynHighlighterAttributes.Create (SYNS_AttrSystem, SYNS_FriendlyAttrSystem);
+  FSystemAttri.Style := [fsBold];
+  AddAttribute (FSystemAttri);
+  FNumberAttri := TSynHighlighterAttributes.Create(SYNS_AttrNumber, SYNS_FriendlyAttrNumber);
+  FNumberAttri.Foreground := clTeal;
+  AddAttribute(FNumberAttri);
+  FHexAttri := TSynHighlighterAttributes.Create(SYNS_AttrHexadecimal, SYNS_FriendlyAttrHexadecimal);
+  FHexAttri.Foreground := clTeal;
+  AddAttribute(FHexAttri);
+  FOctalAttri := TSynHighlighterAttributes.Create(SYNS_AttrOctal, SYNS_FriendlyAttrOctal);
+  FOctalAttri.Foreground := clTeal;
+  AddAttribute(FOctalAttri);
+  FFloatAttri := TSynHighlighterAttributes.Create(SYNS_AttrFloat, SYNS_FriendlyAttrFloat);
+  FFloatAttri.Foreground := clTeal;
+  AddAttribute(FFloatAttri);
+  FSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
+  FSpaceAttri.Background := clWhite;
+  FSpaceAttri.Foreground := clSilver;
+  AddAttribute(FSpaceAttri);
+  FStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrString, SYNS_FriendlyAttrString);
+  FStringAttri.Foreground := clOlive;
+  AddAttribute(FStringAttri);
+  FDocStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrDocumentation, SYNS_FriendlyAttrDocumentation);
+  FDocStringAttri.Foreground := $FF00CC;
+  AddAttribute(FDocStringAttri);
+  FMultiLineStringAttri := TSynHighlighterAttributes.Create(SYNS_MultiLineString, SYNS_FriendlyMultiLineString);
+  FMultiLineStringAttri.Foreground := clOlive;
+  AddAttribute(FMultiLineStringAttri);
+  FSymbolAttri := TSynHighlighterAttributes.Create(SYNS_AttrSymbol, SYNS_FriendlyAttrSymbol);
+  FSymbolAttri.Foreground := clMaroon;
+  AddAttribute(FSymbolAttri);
+  FErrorAttri := TSynHighlighterAttributes.Create(SYNS_AttrSyntaxError, SYNS_FriendlyAttrSyntaxError);
+  FErrorAttri.Foreground := clRed;
+  AddAttribute(FErrorAttri);
+  FMatchingBraceAttri := TSynHighlighterAttributes.Create(SYNS_MatchingBrace, SYNS_FriendlyMatchingBrace);
+  FMatchingBraceAttri.Foreground := clBlue;
+  FMatchingBraceAttri.Style := [fsBold];
+  AddAttribute(FMatchingBraceAttri);
+  FUnbalancedBraceAttri := TSynHighlighterAttributes.Create(SYNS_UnbalancedBrace, SYNS_FriendlyUnbalancedBrace);
+  FUnbalancedBraceAttri.Background := clRed;
+  FUnbalancedBraceAttri.Foreground := clYellow;
+  AddAttribute(FUnbalancedBraceAttri);
 
   SetAttributesOnChange(DefHighlightChange);
   fDefaultFilter := SYNS_FilterPython;
   // for coloring doc comment background
-  fTempSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
+  FTempSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
 end; { Create }
 
 destructor TSynPythonSyn.Destroy;
 begin
   FKeywords.Free;
-  fTempSpaceAttri.Free;
+  FTempSpaceAttri.Free;
   inherited;
 end;
 
 procedure TSynPythonSyn.SymbolProc;
 begin
-  inc(Run);
-  fTokenID := tkSymbol;
+  Inc(Run);
+  FTokenID := tkSymbol;
 end;
 
 procedure TSynPythonSyn.CRProc;
 begin
-  fTokenID := tkSpace;
-  case FLine[Run + 1] of
-    #10: inc(Run, 2);
+  FTokenID := tkSpace;
+  case fLine[Run + 1] of
+    #10: Inc(Run, 2);
   else
-    inc(Run);
+    Inc(Run);
   end;
 end;
 
@@ -644,63 +635,64 @@ end;
 
 procedure TSynPythonSyn.CommentProc;
 begin
-  inc(Run);
-  if FLine[Run] = '#' then
-    fTokenID := tkCodeComment
+  Inc(Run);
+  if fLine[Run] = '#' then
+    FTokenID := tkCodeComment
   else
-    fTokenID := tkComment;
+    FTokenID := tkComment;
   while not IsLineEnd(Run) do
-    inc(Run);
+    Inc(Run);
 end;
 
 procedure TSynPythonSyn.GreaterProc;
 begin
-  case FLine[Run + 1] of
+  case fLine[Run + 1] of
     '=': begin
-        inc(Run, 2);
-        fTokenID := tkSymbol;
+        Inc(Run, 2);
+        FTokenID := tkSymbol;
       end;
   else begin
-      inc(Run);
-      fTokenID := tkSymbol;
+      Inc(Run);
+      FTokenID := tkSymbol;
     end;
   end;
 end;
 
 procedure TSynPythonSyn.IdentProc;
 begin
-  fTokenID := IdentKind((fLine + Run));
-  inc(Run, fStringLen);
+  FTokenID := IdentKind((fLine + Run));
+  Inc(Run, fStringLen);
 end;
 
 procedure TSynPythonSyn.LFProc;
 begin
-  fTokenID := tkSpace;
-  inc(Run);
+  FTokenID := tkSpace;
+  Inc(Run);
 end;
 
 procedure TSynPythonSyn.LowerProc;
 begin
-  case FLine[Run + 1] of
+  case fLine[Run + 1] of
     '=': begin
-        inc(Run, 2);
-        fTokenID := tkSymbol;
+        Inc(Run, 2);
+        FTokenID := tkSymbol;
       end;
     '>': begin
-        inc(Run, 2);
-        fTokenID := tkSymbol;
-      end
-  else begin
-      inc(Run);
-      fTokenID := tkSymbol;
+        Inc(Run, 2);
+        FTokenID := tkSymbol;
+      end;
+  else
+    begin
+      Inc(Run);
+      FTokenID := tkSymbol;
     end;
   end;
 end;
 
 procedure TSynPythonSyn.NullProc;
 begin
-  fTokenID := tkNull;
-  inc(Run);
+  FTokenID := tkNull;
+  Inc(Run);
 end;
 
 procedure TSynPythonSyn.NumberProc;
@@ -716,27 +708,27 @@ type
     );
 
 var
-  temp: WideChar;
+  CurrChar: WideChar;
   State: TNumberState;
 
   function CheckSpecialCases: Boolean;
   begin
-    case temp of
+    case CurrChar of
       // Look for dot (.)
       '.': begin
         // .45
-        if CharInSet(FLine[Run], ['0'..'9']) then
+        if CharInSet(fLine[Run], ['0'..'9']) then
         begin
           Inc(Run);
-          fTokenID := tkFloat;
+          FTokenID := tkFloat;
           State := nsDotFound;
 
         // Non-number dot
         end else begin
           // Ellipsis
-          if (FLine[Run] = '.') and (FLine[Run+1] = '.') then
+          if (fLine[Run] = '.') and (fLine[Run+1] = '.') then
             Inc (Run, 2);
-          fTokenID := tkSymbol;
+          FTokenID := tkSymbol;
           Result := False;
           Exit;
         end; // if
@@ -744,27 +736,27 @@ var
 
       // Look for zero (0)
       '0': begin
-        temp := FLine[Run];
+        CurrChar := fLine[Run];
         // 0x123ABC
-        if CharInSet(temp, ['x', 'X']) then begin
+        if CharInSet(CurrChar, ['x', 'X']) then begin
           Inc (Run);
-          fTokenID := tkHex;
+          FTokenID := tkHex;
           State := nsHex;
         // 0o123
-        end else if CharInSet(temp, ['o', 'O']) then begin
+        end else if CharInSet(CurrChar, ['o', 'O']) then begin
           Inc (Run);
-          fTokenID := tkOct;
+          FTokenID := tkOct;
           State := nsOct;
         // 0b1010
-        end else if CharInSet(temp, ['b', 'B']) then begin
+        end else if CharInSet(CurrChar, ['b', 'B']) then begin
           Inc (Run);
-          fTokenID := tkOct; //paint same as octal
+          FTokenID := tkOct; //paint same as octal
           State := nsBinary;
         // 0.45
-        end else if temp = '.' then begin
+        end else if CurrChar = '.' then begin
           Inc (Run);
           State := nsDotFound;
-          fTokenID := tkFloat;
+          FTokenID := tkFloat;
         end; // if
       end; // ZERO
     end; // case
@@ -775,21 +767,21 @@ var
   function HandleBadNumber: Boolean;
   begin
     Result := False;
-    fTokenID := tkUnknown;
+    FTokenID := tkUnknown;
     // Ignore all tokens till end of "number"
-    while IsIdentChar(FLine[Run]) or (FLine[Run] = '.') do
+    while IsIdentChar(fLine[Run]) or (fLine[Run] = '.') do
       Inc (Run);
   end; // HandleBadNumber
 
   function HandleExponent: Boolean;
   begin
     State := nsExpFound;
-    fTokenID := tkFloat;
+    FTokenID := tkFloat;
     // Skip e[+/-]
-    if CharInSet(FLine[Run+1], ['+', '-']) then
+    if CharInSet(fLine[Run+1], ['+', '-']) then
       Inc (Run);
-    // Invalid token : 1.0e
-    if not CharInSet(FLine[Run+1], ['0'..'9']) then begin
+    // Invalid token: 1.0e
+    if not CharInSet(fLine[Run+1], ['0'..'9']) then begin
       Inc (Run);
       Result := HandleBadNumber;
       Exit;
@@ -801,37 +793,37 @@ var
   function HandleDot: Boolean;
   begin
     // Check for ellipsis
-    Result := (FLine[Run+1] <> '.') or (FLine[Run+2] <> '.');
+    Result := (fLine[Run+1] <> '.') or (fLine[Run+2] <> '.');
     if Result then begin
       State := nsDotFound;
-      fTokenID := tkFloat;
+      FTokenID := tkFloat;
     end; // if
   end; // HandleDot
 
   function CheckStart: Boolean;
   begin
     // Allow underscores inside the number
-    if temp = '_' then begin
-      if CharInSet(FLine[Run + 1], ['0'..'9']) then
+    if CurrChar = '_' then begin
+      if CharInSet(fLine[Run + 1], ['0'..'9']) then
         Result := True
       else
         Result := HandleBadNumber;
     // 1234
-    end else if CharInSet(temp, ['0'..'9']) then begin
+    end else if CharInSet(CurrChar, ['0'..'9']) then begin
       Result := True;
     //123e4
-    end else if CharInSet(temp, ['e', 'E']) then begin
+    end else if CharInSet(CurrChar, ['e', 'E']) then begin
       Result := HandleExponent;
     // 123.45j
-    end else if CharInSet(temp, ['j', 'J']) then begin
+    end else if CharInSet(CurrChar, ['j', 'J']) then begin
       Inc (Run);
-      fTokenID := tkFloat;
+      FTokenID := tkFloat;
       Result := False;
     // 123.45
-    end else if temp = '.' then begin
+    end else if CurrChar = '.' then begin
       Result := HandleDot;
     // Error!
-    end else if IsIdentChar(temp) then begin
+    end else if IsIdentChar(CurrChar) then begin
       Result := HandleBadNumber;
     // End of number
     end else begin
@@ -842,30 +834,30 @@ var
   function CheckDotFound: Boolean;
   begin
     // Allow underscores inside the number
-    if temp = '_' then begin
-      if CharInSet(FLine[Run - 1], ['0'..'9']) and
-        CharInSet(FLine[Run + 1], ['0'..'9'])
+    if CurrChar = '_' then begin
+      if CharInSet(fLine[Run - 1], ['0'..'9']) and
+        CharInSet(fLine[Run + 1], ['0'..'9'])
       then
         Result := True
       else
         Result := HandleBadNumber;
     // 1.0e4
-    end else if CharInSet(temp, ['e', 'E']) then begin
+    end else if CharInSet(CurrChar, ['e', 'E']) then begin
       Result := HandleExponent;
     // 123.45
-    end else if CharInSet(temp, ['0'..'9']) then begin
+    end else if CharInSet(CurrChar, ['0'..'9']) then begin
       Result := True;
     // 123.45j
-    end else if CharInSet(temp, ['j', 'J']) then begin
+    end else if CharInSet(CurrChar, ['j', 'J']) then begin
       Inc (Run);
       Result := False;
     // 123.45.45: Error!
-    end else if temp = '.' then begin
+    end else if CurrChar = '.' then begin
       Result := False;
       if HandleDot then
         HandleBadNumber;
     // Error!
-    end else if IsIdentChar(temp) then begin
+    end else if IsIdentChar(CurrChar) then begin
       Result := HandleBadNumber;
     // End of number
     end else begin
@@ -876,24 +868,24 @@ var
   function CheckSpecialInt(ValidChars: TSysCharSet): Boolean;
   begin
     // Allow underscores inside the number
-    if temp = '_' then begin
-      if CharInSet(FLine[Run - 1], ValidChars) and
-        CharInSet(FLine[Run + 1], ValidChars)
+    if CurrChar = '_' then begin
+      if CharInSet(fLine[Run - 1], ValidChars) and
+        CharInSet(fLine[Run + 1], ValidChars)
       then
         Result := True
       else
         Result := HandleBadNumber;
-    end else if CharInSet(temp, ValidChars) then
+    end else if CharInSet(CurrChar, ValidChars) then
     begin
       Result := True;
-    end else if CharInSet(temp, ['l', 'L']) then begin
+    end else if CharInSet(CurrChar, ['l', 'L']) then begin
       Inc (Run);
       Result := False;
-    end else if temp = '.' then begin
+    end else if CurrChar = '.' then begin
       Result := False;
       if HandleDot then
         HandleBadNumber;
-    end else if IsIdentChar(temp) then begin
+    end else if IsIdentChar(CurrChar) then begin
       Result := HandleBadNumber;
     end else begin
       Result := False;
@@ -903,27 +895,27 @@ var
   function CheckExpFound: Boolean;
   begin
     // Allow underscores inside the number
-    if temp = '_' then begin
-      if CharInSet(FLine[Run - 1], ['0'..'9']) and
-        CharInSet(FLine[Run + 1], ['0'..'9'])
+    if CurrChar = '_' then begin
+      if CharInSet(fLine[Run - 1], ['0'..'9']) and
+        CharInSet(fLine[Run + 1], ['0'..'9'])
       then
         Result := True
       else
         Result := HandleBadNumber;
     // 1e+123
-    end else if CharInSet(temp, ['0'..'9']) then begin
+    end else if CharInSet(CurrChar, ['0'..'9']) then begin
       Result := True;
     // 1e+123j
-    end else if CharInSet(temp, ['j', 'J']) then begin
+    end else if CharInSet(CurrChar, ['j', 'J']) then begin
       Inc (Run);
       Result := False;
     // 1e4.5: Error!
-    end else if temp = '.' then begin
+    end else if CurrChar = '.' then begin
       Result := False;
       if HandleDot then
         HandleBadNumber;
     // Error!
-    end else if IsIdentChar(temp) then begin
+    end else if IsIdentChar(CurrChar) then begin
       Result := HandleBadNumber;
     // End of number
     end else begin
@@ -933,9 +925,9 @@ var
 
 begin
   State := nsStart;
-  fTokenID := tkNumber;
+  FTokenID := tkNumber;
 
-  temp := FLine[Run];
+  CurrChar := fLine[Run];
   Inc (Run);
 
   // Special cases
@@ -944,7 +936,7 @@ begin
 
   // Use a state machine to parse numbers
   while True do begin
-    temp := FLine[Run];
+    CurrChar := fLine[Run];
 
     case State of
       nsStart:
@@ -967,22 +959,22 @@ end;
 
 procedure TSynPythonSyn.SpaceProc;
 begin
-  inc(Run);
-  fTokenID := tkSpace;
-  while (FLine[Run] <= #32) and not IsLineEnd(Run) do inc(Run);
+  Inc(Run);
+  FTokenID := tkSpace;
+  while (fLine[Run] <= #32) and not IsLineEnd(Run) do Inc(Run);
 end;
 
 procedure TSynPythonSyn.String2Proc;
 var
-  fBackslashCount: Integer;
+  BackslashCount: Integer;
 begin
-  fTokenID := tkString;
-  if (FLine[Run + 1] = '"') and (FLine[Run + 2] = '"') then
+  FTokenID := tkString;
+  if (fLine[Run + 1] = '"') and (fLine[Run + 2] = '"') then
   begin
-    fTokenID := tkTrippleQuotedString2;
-    inc(Run, 3);
+    FTokenID := tkTrippleQuotedString2;
+    Inc(Run, 3);
 
-    fRange := rsMultilineString2;
+    FRange := rsMultilineString2;
     while fLine[Run] <> #0 do
     begin
       case fLine[Run] of
@@ -992,62 +984,62 @@ begin
                end quote, and it's preceeded by an odd number of backslashes, then
                it shouldn't mark the end of the string.  If it's preceeded by an
                even number, then it should. !!!THIS RULE DOESNT APPLY IN RAW STRINGS}
-               if FLine[Run + 1] = '"' then
+               if fLine[Run + 1] = '"' then
                  begin
-                   fBackslashCount := 1;
+                   BackslashCount := 1;
 
-                   while ((Run > fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-                     fBackslashCount := fBackslashCount + 1;
+                   while ((Run > BackslashCount) and (fLine[Run - BackslashCount] = '\')) do
+                     BackslashCount := BackslashCount + 1;
 
-                   if (fBackslashCount mod 2 = 1) then inc(Run)
+                   if (BackslashCount mod 2 = 1) then Inc(Run);
                end;
-               inc(Run);
+               Inc(Run);
             end;// '\':
 
         '"':
           if (fLine[Run + 1] = '"') and (fLine[Run + 2] = '"') then begin
-            fRange := rsUnKnown;
-            inc(Run, 3);
-            exit;
+            FRange := rsUnknown;
+            Inc(Run, 3);
+            Exit;
           end else
-            inc(Run);
-        #10: exit;
-        #13: exit;
+            Inc(Run);
+        #10: Exit;
+        #13: Exit;
         else
-          inc(Run);
+          Inc(Run);
       end;
     end;
   end
   else //if short string
   repeat
-    case FLine[Run] of
+    case fLine[Run] of
       #0, #10, #13:
         begin
-          if FLine[Run-1] = '\' then
+          if fLine[Run-1] = '\' then
           begin
-            fStringStarter := '"';
-            fRange := rsMultilineString3;
+            FStringStarter := '"';
+            FRange := rsMultilineString3;
           end;
           Break;
         end;
       {The same backslash stuff above...}
       '\':begin
-             if FLine[Run + 1] = '"' then
+             if fLine[Run + 1] = '"' then
                begin
-                 fBackslashCount := 1;
+                 BackslashCount := 1;
 
-                 while ((Run > fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-                   fBackslashCount := fBackslashCount + 1;
+                 while ((Run > BackslashCount) and (fLine[Run - BackslashCount] = '\')) do
+                   BackslashCount := BackslashCount + 1;
 
-                 if (fBackslashCount mod 2 = 1) then inc(Run)
+                 if (BackslashCount mod 2 = 1) then Inc(Run);
              end;
-             inc(Run);
+             Inc(Run);
           end;// '\':
 
-      else inc(Run);
+      else Inc(Run);
     end; //case
-  until (FLine[Run] = '"');
-  if FLine[Run] <> #0 then inc(Run);
+  until (fLine[Run] = '"');
+  if fLine[Run] <> #0 then Inc(Run);
 end;
 
 procedure TSynPythonSyn.PreStringProc;
@@ -1057,29 +1049,29 @@ var
   PrefixLen: Integer;
 begin
   PrefixLen := 0;
-  case FLine[Run] of
+  case fLine[Run] of
     'u', 'U':
-        if CharInSet(FLine[Run + 1], ['"', '''']) then
+        if CharInSet(fLine[Run + 1], ['"', '''']) then
           PrefixLen := 1;
     'b', 'B':
-      case FLine[Run + 1] of
+      case fLine[Run + 1] of
         '"', '''': PrefixLen := 1;
         'r', 'R':
-            if CharInSet(FLine[Run + 2], ['"', '''']) then
+            if CharInSet(fLine[Run + 2], ['"', '''']) then
               PrefixLen := 2;
       end;
     'r', 'R':
-      case FLine[Run + 1] of
+      case fLine[Run + 1] of
         '"', '''': PrefixLen := 1;
         'b', 'B', 'f', 'F':
-            if CharInSet(FLine[Run + 2], ['"', '''']) then
+            if CharInSet(fLine[Run + 2], ['"', '''']) then
               PrefixLen := 2;
       end;
     'f', 'F':
-      case FLine[Run + 1] of
+      case fLine[Run + 1] of
         '"', '''': PrefixLen := 1;
         'r', 'R':
-            if CharInSet(FLine[Run + 2], ['"', '''']) then
+            if CharInSet(fLine[Run + 2], ['"', '''']) then
               PrefixLen := 2;
       end;
   end;
@@ -1087,10 +1079,10 @@ begin
   if PrefixLen > 0 then
   begin
     Inc(Run, PrefixLen);
-    if FLine[Run] = '"' then
+    if fLine[Run] = '"' then
       String2Proc
     else
-      StringProc
+      StringProc;
   end
   else
     IdentProc;
@@ -1098,14 +1090,14 @@ end;
 
 procedure TSynPythonSyn.StringProc;
 var
-  fBackslashCount: Integer;
+  BackslashCount: Integer;
 begin
-  fTokenID := tkString;
-  if (FLine[Run + 1] = #39) and (FLine[Run + 2] = #39) then begin
-    fTokenID := tkTrippleQuotedString;
-    inc(Run, 3);
+  FTokenID := tkString;
+  if (fLine[Run + 1] = #39) and (fLine[Run + 2] = #39) then begin
+    FTokenID := tkTrippleQuotedString;
+    Inc(Run, 3);
 
-    fRange:=rsMultilineString;
+    FRange := rsMultilineString;
     while fLine[Run] <> #0 do begin
       case fLine[Run] of
 
@@ -1114,153 +1106,153 @@ begin
              end quote, and it's preceeded by an odd number of backslashes, then
              it shouldn't mark the end of the string.  If it's preceeded by an
              even number, then it should. !!!THIS RULE DOESNT APPLY IN RAW STRINGS}
-              if FLine[Run + 1] = #39 then
+              if fLine[Run + 1] = #39 then
                 begin
-                  fBackslashCount := 1;
+                  BackslashCount := 1;
 
-                  while ((Run > fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-                    fBackslashCount := fBackslashCount + 1;
+                  while ((Run > BackslashCount) and (fLine[Run - BackslashCount] = '\')) do
+                    BackslashCount := BackslashCount + 1;
 
-                  if (fBackslashCount mod 2 = 1) then inc(Run)
+                  if (BackslashCount mod 2 = 1) then Inc(Run);
               end;
-              inc(Run);
+              Inc(Run);
             end;// '\':
 
         #39:
           if (fLine[Run + 1] = #39) and (fLine[Run + 2] = #39) then begin
-            fRange := rsUnKnown;
-            inc(Run, 3);
-            EXIT;
+            FRange := rsUnknown;
+            Inc(Run, 3);
+            Exit;
           end else
-            inc(Run);
-        #10: EXIT;
-        #13: EXIT;
+            Inc(Run);
+        #10: Exit;
+        #13: Exit;
         else
-          inc(Run);
+          Inc(Run);
       end;
     end;
   end
       else //if short string
   repeat
-    case FLine[Run] of
-      #0, #10, #13 : begin
-        if FLine[Run-1] = '\' then begin
-          fStringStarter := #39;
-          fRange := rsMultilineString3;
+    case fLine[Run] of
+      #0, #10, #13: begin
+        if fLine[Run-1] = '\' then begin
+          FStringStarter := #39;
+          FRange := rsMultilineString3;
         end;
-        BREAK;
+        Break;
         end;
 
       {The same backslash stuff above...}
       '\':begin
-             if FLine[Run + 1] = #39 then
+             if fLine[Run + 1] = #39 then
                begin
-                 fBackslashCount := 1;
+                 BackslashCount := 1;
 
-                 while ((Run > fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-                   fBackslashCount := fBackslashCount + 1;
+                 while ((Run > BackslashCount) and (fLine[Run - BackslashCount] = '\')) do
+                   BackslashCount := BackslashCount + 1;
 
-                 if (fBackslashCount mod 2 = 1) then inc(Run)
+                 if (BackslashCount mod 2 = 1) then Inc(Run);
              end;
-             inc(Run);
+             Inc(Run);
           end;// '\':
 
-      else inc(Run);
+      else Inc(Run);
     end; //case
-  until (FLine[Run] = #39);
-  if FLine[Run] <> #0 then inc(Run);
+  until (fLine[Run] = #39);
+  if fLine[Run] <> #0 then Inc(Run);
 end;
 
 procedure TSynPythonSyn.StringEndProc(EndChar: WideChar);
 var
-  fBackslashCount: Integer;
+  BackslashCount: Integer;
 begin
-  if fRange = rsMultilineString3 then
-    fTokenID := tkString
+  if FRange = rsMultilineString3 then
+    FTokenID := tkString
   else if EndChar = '"' then
-    fTokenID := tkTrippleQuotedString2
+    FTokenID := tkTrippleQuotedString2
   else
-    fTokenID := tkTrippleQuotedString;
+    FTokenID := tkTrippleQuotedString;
 
-  case FLine[Run] of
+  case fLine[Run] of
     #0:
       begin
         NullProc;
-        EXIT;
+        Exit;
       end;
     #10:
       begin
         LFProc;
-        EXIT;
+        Exit;
     end;
     #13:
       begin
         CRProc;
-        EXIT;
+        Exit;
       end;
   end;
 
-  if fRange = rsMultilineString3 then begin
+  if FRange = rsMultilineString3 then begin
     repeat
-      if FLine[Run]=fStringStarter then begin
-        inc(Run);
-        fRange:=rsUnknown;
-        EXIT;
-      end else if FLine[Run]='\' then   {The same backslash stuff above...}
+      if fLine[Run]=FStringStarter then begin
+        Inc(Run);
+        FRange:=rsUnknown;
+        Exit;
+      end else if fLine[Run]='\' then   {The same backslash stuff above...}
       begin
-         if FLine[Run + 1] = fStringStarter then
+         if fLine[Run + 1] = FStringStarter then
            begin
-             fBackslashCount := 1;
+             BackslashCount := 1;
 
-             while ((Run >= fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-               fBackslashCount := fBackslashCount + 1;
+             while ((Run >= BackslashCount) and (fLine[Run - BackslashCount] = '\')) do
+               BackslashCount := BackslashCount + 1;
 
-             if (fBackslashCount mod 2 = 1) then inc(Run);
+             if (BackslashCount mod 2 = 1) then Inc(Run);
          end;
-       end;// if FLine[Run]...
+       end;// if fLine[Run]...
 
-      inc(Run);
+      Inc(Run);
     until IsLineEnd(Run);
-    if FLine[Run-1]<>'\' then begin
-      fRange:=rsUnknown;
-      EXIT;
+    if fLine[Run-1]<>'\' then begin
+      FRange := rsUnknown;
+      Exit;
     end;
   end else
   repeat
-    if (FLine[Run]=EndChar) and (FLine[Run+1]=EndChar) and (FLine[Run+2]=EndChar) then begin
-      inc(Run,3);
-      fRange:=rsUnknown;
-      EXIT;
+    if (fLine[Run]=EndChar) and (fLine[Run+1]=EndChar) and (fLine[Run+2]=EndChar) then begin
+      Inc(Run,3);
+      FRange := rsUnknown;
+      Exit;
     end;
-    if FLine[Run] = '\' then begin
-      if FLine[Run + 1] = EndChar then begin
-          fBackslashCount := 1;
+    if fLine[Run] = '\' then begin
+      if fLine[Run + 1] = EndChar then begin
+          BackslashCount := 1;
 
-          while ((Run >= fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-            fBackslashCount := fBackslashCount + 1;
+          while ((Run >= BackslashCount) and (fLine[Run - BackslashCount] = '\')) do
+            BackslashCount := BackslashCount + 1;
 
-          if (fBackslashCount mod 2 = 1) then inc(Run);
+          if (BackslashCount mod 2 = 1) then Inc(Run);
       end;
     end;
-    inc(Run);
+    Inc(Run);
   until IsLineEnd(Run);
 end;
 
 procedure TSynPythonSyn.UnknownProc;
 begin
-  inc(Run);
-  fTokenID := tkUnknown;
+  Inc(Run);
+  FTokenID := tkUnknown;
 end;
 
 procedure TSynPythonSyn.DispatchProc;
 begin
-  case fRange of
+  case FRange of
     rsMultilineString:
       StringEndProc(#39);
     rsMultilineString2:
       StringEndProc('"');
     rsMultilineString3:
-      StringEndProc(fStringStarter);
+      StringEndProc(FStringStarter);
     else
       case fLine[Run] of
         '&', '}', '{', ':', ',', ']', '[', '*', '`',
@@ -1312,7 +1304,7 @@ begin
       begin
         Index :=  SLine.IndexOf('yield');
         if Index >= 0 then
-          Result := fcExit
+          Result := fcExit;
       end;
     end;
   end;
@@ -1336,23 +1328,23 @@ begin
   Result := inherited GetCapabilities + [hcStructureHighlight];
 end;
 
-function TSynPythonSyn.GetDefaultAttribute(Index: integer): TSynHighlighterAttributes;
+function TSynPythonSyn.GetDefaultAttribute(Index: Integer): TSynHighlighterAttributes;
 begin
   case Index of
-    SYN_ATTR_COMMENT: Result := fCommentAttri;
-    SYN_ATTR_KEYWORD: Result := fKeyAttri;
+    SYN_ATTR_COMMENT: Result := FCommentAttri;
+    SYN_ATTR_KEYWORD: Result := FKeyAttri;
     SYN_ATTR_WHITESPACE:
       begin
-        fTempSpaceAttri.Assign(fSpaceAttri);
-        if (fRange = rsMultilineString) and (fMultiLineStringAttri.Background <> clNone) then
-          fTempSpaceAttri.Background := fMultiLineStringAttri.Background
-        else if (fRange = rsMultilineString2) and (fDocStringAttri.Background <> clNone)  then
-          fTempSpaceAttri.Background := fDocStringAttri.Background;
-        Result := fTempSpaceAttri;
+        FTempSpaceAttri.Assign(FSpaceAttri);
+        if (FRange = rsMultilineString) and (FMultiLineStringAttri.Background <> clNone) then
+          FTempSpaceAttri.Background := FMultiLineStringAttri.Background
+        else if (FRange = rsMultilineString2) and (FDocStringAttri.Background <> clNone)  then
+          FTempSpaceAttri.Background := FDocStringAttri.Background;
+        Result := FTempSpaceAttri;
       end;
-    SYN_ATTR_SYMBOL: Result := fSymbolAttri;
-    SYN_ATTR_STRING: Result := fStringAttri;  // To allow background coloring of doc strings
-    SYN_ATTR_IDENTIFIER: Result := fIdentifierAttri;
+    SYN_ATTR_SYMBOL: Result := FSymbolAttri;
+    SYN_ATTR_STRING: Result := FStringAttri;  // To allow background coloring of doc strings
+    SYN_ATTR_IDENTIFIER: Result := FIdentifierAttri;
   else
     Result := nil;
   end;
@@ -1365,43 +1357,43 @@ end;
 
 function TSynPythonSyn.GetRange: Pointer;
 begin
-  Result := Pointer(fRange);
+  Result := Pointer(FRange);
 end;
 
 function TSynPythonSyn.GetTokenID: TtkTokenKind;
 begin
-  Result := fTokenId;
+  Result := FTokenID;
 end;
 
 function TSynPythonSyn.GetTokenAttribute: TSynHighlighterAttributes;
 begin
-  case fTokenID of
-    tkComment: Result := fCommentAttri;
-    tkCodeComment: Result := fCodeCommentAttri;
-    tkFunctionName: Result := fFunctionNameAttri;
-    tkClassName: Result := fClassNameAttri;
-    tkIdentifier: Result := fIdentifierAttri;
-    tkKey: Result := fKeyAttri;
-    tkNonKeyword: Result := fNonKeyAttri;
-    tkSystemDefined: Result := fSystemAttri;
-    tkNumber: Result := fNumberAttri;
-    tkHex: Result := fHexAttri;
-    tkOct: Result := fOctalAttri;
-    tkFloat: Result := fFloatAttri;
-    tkSpace: Result := fSpaceAttri;
-    tkString: Result := fStringAttri;
-    tkTrippleQuotedString: Result := fMultiLineStringAttri;
-    tkTrippleQuotedString2: Result := fDocStringAttri;
-    tkSymbol: Result := fSymbolAttri;
-    tkUnknown: Result := fErrorAttri;
+  case FTokenID of
+    tkComment: Result := FCommentAttri;
+    tkCodeComment: Result := FCodeCommentAttri;
+    tkFunctionName: Result := FFunctionNameAttri;
+    tkClassName: Result := FClassNameAttri;
+    tkIdentifier: Result := FIdentifierAttri;
+    tkKey: Result := FKeyAttri;
+    tkNonKeyword: Result := FNonKeyAttri;
+    tkSystemDefined: Result := FSystemAttri;
+    tkNumber: Result := FNumberAttri;
+    tkHex: Result := FHexAttri;
+    tkOct: Result := FOctalAttri;
+    tkFloat: Result := FFloatAttri;
+    tkSpace: Result := FSpaceAttri;
+    tkString: Result := FStringAttri;
+    tkTrippleQuotedString: Result := FMultiLineStringAttri;
+    tkTrippleQuotedString2: Result := FDocStringAttri;
+    tkSymbol: Result := FSymbolAttri;
+    tkUnknown: Result := FErrorAttri;
   else
     Result := nil;
   end;
 end;
 
-function TSynPythonSyn.GetTokenKind: integer;
+function TSynPythonSyn.GetTokenKind: Integer;
 begin
-  Result := Ord(fTokenId);
+  Result := Ord(FTokenID);
 end;
 
 procedure TSynPythonSyn.InitFoldRanges(FoldRanges: TSynFoldRanges);
@@ -1414,13 +1406,13 @@ procedure TSynPythonSyn.ScanForFoldRanges(FoldRanges: TSynFoldRanges;
   LinesToScan: TStrings; FromLine, ToLine: Integer);
 var
   CurLine: string;
-  LeftTrimmedLine : string;
+  LeftTrimmedLine: string;
   Line: Integer;
-  Indent : Integer;
-  TabW : integer;
-  FoldType : integer;
+  Indent: Integer;
+  TabW: Integer;
+  FoldType: Integer;
 
-  function IsMultiLineString(Line : integer; Range : TRangeState; Fold : Boolean): Boolean;
+  function IsMultiLineString(Line: Integer; Range: TRangeState; Fold: Boolean): Boolean;
   begin
     Result := True;
     if TRangeState(GetLineRange(LinesToScan, Line)) = Range then
@@ -1440,12 +1432,12 @@ var
   function FoldRegion(Line: Integer): Boolean;
   begin
     Result := False;
-    if Uppercase(Copy(LeftTrimmedLine, 1, 7)) = '#REGION' then
+    if UpperCase(Copy(LeftTrimmedLine, 1, 7)) = '#REGION' then
     begin
       FoldRanges.StartFoldRange(Line + 1, FoldRegionType);
       Result := True;
     end
-    else if Uppercase(Copy(LeftTrimmedLine, 1, 10)) = '#ENDREGION' then
+    else if UpperCase(Copy(LeftTrimmedLine, 1, 10)) = '#ENDREGION' then
     begin
       FoldRanges.StopFoldRange(Line + 1, FoldRegionType);
       Result := True;
@@ -1485,7 +1477,7 @@ begin
     Indent := LeftSpaces(CurLine, True, TabW);
 
     // find fold openers
-    with BlockOpenerRE.Match(LeftTrimmedLine) do
+    with FBlockOpenerRE.Match(LeftTrimmedLine) do
       if Success then
       begin
         if Groups[1].Value = 'class' then
@@ -1499,19 +1491,19 @@ begin
         Continue;
       end;
 
-    FoldRanges.StopFoldRange(Line + 1, 1, Indent)
+    FoldRanges.StopFoldRange(Line + 1, 1, Indent);
   end;
 end;
 
 procedure TSynPythonSyn.ResetRange;
 begin
-  fRange := rsUnknown;
-  fLastIdentifier := '';
+  FRange := rsUnknown;
+  FLastIdentifier := '';
 end;
 
 procedure TSynPythonSyn.SetRange(Value: Pointer);
 begin
-  fRange := TRangeState(Value);
+  FRange := TRangeState(Value);
 end;
 
 function TSynPythonSyn.IsFilterStored: Boolean;
@@ -1566,84 +1558,84 @@ resourcestring
   SYNS_LangCython = 'Cython';
   SYNS_FriendlyLangCython = 'Cython';
 
-Const
+const
   // Do not localise
   SYNS_LangPythonInterpreter = 'Python Interpreter';
   SYNS_FriendlyLangPythonInterpreter = 'Python Interpreter';
 
 procedure TSynPythonInterpreterSyn.BannerProc;
 begin
-  inc(Run);
-  fTokenID := tkBanner;
+  Inc(Run);
+  FTokenID := tkBanner;
   while not IsLineEnd(Run) do
-    inc(Run);
+    Inc(Run);
 end;
 
 constructor TSynPythonInterpreterSyn.Create(AOwner: TComponent);
 begin
   inherited;
-  fPS1 := '>>>';
-  fPS2 := '...';
-  fDbg := '[Dbg]';
-  fPM := '[PM]';
-  fBannerAttri := TSynHighlighterAttributes.Create(SYNS_AttrBanner, SYNS_FriendlyAttrBanner);
-  fBannerAttri.Foreground := clBlue;
-  AddAttribute(fBannerAttri);
-  fOutputAttri := TSynHighlighterAttributes.Create(SYNS_AttrOutput, SYNS_FriendlyAttrOutput);
-  fOutputAttri.Foreground := clTeal;
-  AddAttribute(fOutputAttri);
-  fTracebackAttri := TSynHighlighterAttributes.Create(SYNS_AttrTraceback, SYNS_FriendlyAttrTraceback);
-  fTracebackAttri.Foreground := clRed;
-  AddAttribute(fTracebackAttri);
-  fPromptAttri := TSynHighlighterAttributes.Create(SYNS_AttrPrompt, SYNS_FriendlyAttrPrompt);
-  fPromptAttri.Foreground := clGreen;
-  AddAttribute(fPromptAttri);
-  fSystemCmdAttri := TSynHighlighterAttributes.Create(SYNS_AttrSystemCmd, SYNS_FriendlyAttrSystemCmd);
-  fSystemCmdAttri.Foreground := clFuchsia;
-  AddAttribute(fSystemCmdAttri);
-  fTracebackStartRE := CompiledRegEx('^Traceback \(|File ".*line');
-  fTracebackEndRE := CompiledRegEx('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
-  fSystemCmdRE := CompiledRegEx(Format('^(%s)?%s\s*!', [fDbg, fPS1]));
+  FPS1 := '>>>';
+  FPS2 := '...';
+  FDbg := '[Dbg]';
+  FPM := '[PM]';
+  FBannerAttri := TSynHighlighterAttributes.Create(SYNS_AttrBanner, SYNS_FriendlyAttrBanner);
+  FBannerAttri.Foreground := clBlue;
+  AddAttribute(FBannerAttri);
+  FOutputAttri := TSynHighlighterAttributes.Create(SYNS_AttrOutput, SYNS_FriendlyAttrOutput);
+  FOutputAttri.Foreground := clTeal;
+  AddAttribute(FOutputAttri);
+  FTracebackAttri := TSynHighlighterAttributes.Create(SYNS_AttrTraceback, SYNS_FriendlyAttrTraceback);
+  FTracebackAttri.Foreground := clRed;
+  AddAttribute(FTracebackAttri);
+  FPromptAttri := TSynHighlighterAttributes.Create(SYNS_AttrPrompt, SYNS_FriendlyAttrPrompt);
+  FPromptAttri.Foreground := clGreen;
+  AddAttribute(FPromptAttri);
+  FSystemCmdAttri := TSynHighlighterAttributes.Create(SYNS_AttrSystemCmd, SYNS_FriendlyAttrSystemCmd);
+  FSystemCmdAttri.Foreground := clFuchsia;
+  AddAttribute(FSystemCmdAttri);
+  FTracebackStartRE := CompiledRegEx('^Traceback \(|File ".*line');
+  FTracebackEndRE := CompiledRegEx('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
+  FSystemCmdRE := CompiledRegEx(Format('^(%s)?%s\s*!', [FDbg, FPS1]));
 
   SetAttributesOnChange(DefHighlightChange);
 end;
 
 procedure TSynPythonInterpreterSyn.DispatchProc;
-Var
-  Line, Prompt : string;
+var
+  Line, Prompt: string;
 begin
   Line := fLineStr;
   Prompt := '';
-  if Line.StartsWith(fPS1) then
-    Prompt := fPS1
-  else if Line.StartsWith(fPS2) then
-    Prompt := fPS2
-  else if Line.StartsWith(fDbg + fPS1) then
-    Prompt := fDbg + fPS1
-  else if Line.StartsWith(fDbg + fPS2) then
-    Prompt := fDbg + fPS2
-  else if Line.StartsWith(fPM + fPS1) then
-    Prompt := fPM + fPS1
-  else if Line.StartsWith(fPM + fPS2) then
-    Prompt := fPM + fPS2;
+  if Line.StartsWith(FPS1) then
+    Prompt := FPS1
+  else if Line.StartsWith(FPS2) then
+    Prompt := FPS2
+  else if Line.StartsWith(FDbg + FPS1) then
+    Prompt := FDbg + FPS1
+  else if Line.StartsWith(FDbg + FPS2) then
+    Prompt := FDbg + FPS2
+  else if Line.StartsWith(FPM + FPS1) then
+    Prompt := FPM + FPS1
+  else if Line.StartsWith(FPM + FPS2) then
+    Prompt := FPM + FPS2;
 
   if (Prompt <> '') then begin
-    if fRange = rsTraceback then
-      fRange := rsUnknown;
+    if FRange = rsTraceback then
+      FRange := rsUnknown;
     if Run < Length(Prompt) then
       PromptProc(Length(Prompt))
-    else if fSystemCmdRe.IsMatch(Line) then
+    else if FSystemCmdRE.IsMatch(Line) then
        SystemCmdProc
     else
       inherited; //Normal Python syntax
   end else if Line.StartsWith('***') then
     BannerProc
-  else if fRange = rsTraceback then begin
+  else if FRange = rsTraceback then begin
     TracebackProc;
-    if fTracebackEndRE.IsMatch(fLineStr) then
-      fRange := rsUnknown;
-  end else if (fLineLen < 100) and fTracebackStartRE.IsMatch(fLineStr) then begin
-    fRange := rsTraceback;
+    if FTracebackEndRE.IsMatch(fLineStr) then
+      FRange := rsUnknown;
+  end else if (fLineLen < 100) and FTracebackStartRE.IsMatch(fLineStr) then begin
+    FRange := rsTraceback;
     TracebackProc;
   end else
     OutputProc;
@@ -1680,47 +1672,47 @@ end;
 
 function TSynPythonInterpreterSyn.GetTokenAttribute: TSynHighlighterAttributes;
 begin
-  case fTokenID of
-    tkBanner: Result := fBannerAttri;
-    tkOutput: Result := fOutputAttri;
-    tkTraceback: Result := fTracebackAttri;
-    tkPrompt: Result := fPromptAttri;
-    tkSystemCmd: Result := fSystemCmdAttri;
+  case FTokenID of
+    tkBanner: Result := FBannerAttri;
+    tkOutput: Result := FOutputAttri;
+    tkTraceback: Result := FTracebackAttri;
+    tkPrompt: Result := FPromptAttri;
+    tkSystemCmd: Result := FSystemCmdAttri;
   else
     Result := inherited GetTokenAttribute;
   end;
 end;
 
-procedure TSynPythonInterpreterSyn.PromptProc(Len: integer);
+procedure TSynPythonInterpreterSyn.PromptProc(Len: Integer);
 begin
-  inc(Run);
-  fTokenID := tkPrompt;
+  Inc(Run);
+  FTokenID := tkPrompt;
   while Run < Len do
-    inc(Run);
+    Inc(Run);
 end;
 
 procedure TSynPythonInterpreterSyn.SystemCmdProc;
 begin
-  inc(Run);
-  fTokenID := tkSystemCmd;
+  Inc(Run);
+  FTokenID := tkSystemCmd;
   while not IsLineEnd(Run) do
-    inc(Run);
+    Inc(Run);
 end;
 
 procedure TSynPythonInterpreterSyn.OutputProc;
 begin
-  inc(Run);
-  fTokenID := tkOutput;
+  Inc(Run);
+  FTokenID := tkOutput;
   while not IsLineEnd(Run) do
-    inc(Run);
+    Inc(Run);
 end;
 
 procedure TSynPythonInterpreterSyn.TracebackProc;
 begin
-  inc(Run);
-  fTokenID := tkTraceback;
+  Inc(Run);
+  FTokenID := tkTraceback;
   while not IsLineEnd(Run) do
-    inc(Run);
+    Inc(Run);
 end;
 
 { TSynCythonSyn }
@@ -1772,12 +1764,12 @@ const
       'void'
     );
 var
-  f: Integer;
+  Keyword: string;
 begin
-  for f := 1 to KEYWORDCOUNT do
-    KeywordList.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
-  for f := 1 to NONKEYWORDCOUNT do
-    KeywordList.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
+  for Keyword in KEYWORDS do
+    KeywordList.AddObject(Keyword, Pointer(Ord(tkKey)));
+  for Keyword in NONKEYWORDS do
+    KeywordList.AddObject(Keyword, Pointer(Ord(tkNonKeyword)));
 end;
 
 procedure TSynCythonSyn.GetKeywordIdentifiers(KeywordList: TStrings);

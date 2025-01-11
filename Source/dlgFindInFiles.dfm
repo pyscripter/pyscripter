@@ -230,7 +230,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 63
+        CollectionIndex = 72
         CollectionName = 'OpenFolder'
         Name = 'OpenFolder'
       end>

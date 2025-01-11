@@ -41,7 +41,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       object Label2: TLabel
         Left = 10
         Top = 70
-        Width = 51
+        Width = 52
         Height = 15
         Caption = '&Template:'
         FocusControl = SynTemplate
@@ -73,7 +73,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       object Label6: TLabel
         Left = 10
         Top = 44
-        Width = 95
+        Width = 94
         Height = 15
         Caption = '&Default Extension:'
         FocusControl = edExtension
@@ -123,8 +123,10 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
             Width = 2
           end>
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
+        ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
         TabWidth = 4
+        VisibleSpecialChars = []
       end
       object CBHighlighters: TComboBox
         Left = 400
@@ -304,27 +306,27 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 21
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 97
         CollectionName = 'Refresh'
         Name = 'Refresh'
       end
       item
-        CollectionIndex = 130
+        CollectionIndex = 140
         CollectionName = 'Up'
         Name = 'Up'
       end
       item
-        CollectionIndex = 22
+        CollectionIndex = 31
         CollectionName = 'Down'
         Name = 'Down'
       end
       item
-        CollectionIndex = 68
+        CollectionIndex = 77
         CollectionName = 'Plus'
         Name = 'Plus'
       end>

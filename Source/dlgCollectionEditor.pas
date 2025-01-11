@@ -18,7 +18,7 @@ uses
   dlgPyIDEBase;
 
 type
-  TItemEditFunction = function(Item : TCollectionItem): Boolean;
+  TItemEditFunction = function(Item: TCollectionItem): Boolean;
 
   TCEDialogType = (cetEdit, cetSelect);
 
@@ -46,23 +46,23 @@ type
     procedure ItemDoubleClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
-    FCollection : TCollection;
-    FItemEdit : TItemEditFunction;
-    FDialogType : TCEDialogType;
+    FCollection: TCollection;
+    FItemEdit: TItemEditFunction;
+    FDialogType: TCEDialogType;
     procedure CheckButtons;
     procedure UpdateList;
   end;
 
 function EditCollection(ACollection: TCollection;
-   ItemClass: TCollectionItemClass; ACaption : string;
+   ItemClass: TCollectionItemClass; ACaption: string;
    ItemEditFunction: TItemEditFunction;
    AHelpContext: Integer): Boolean;
 
 function SelectFromCollection(ACollection: TCollection;
-   ItemClass: TCollectionItemClass; ACaption : string;
+   ItemClass: TCollectionItemClass; ACaption: string;
    ItemEditFunction: TItemEditFunction;
-   AHelpContext: Integer; var SelectedIndex : Integer;
-   ADialogType : TCEDialogType = cetSelect): Boolean;
+   AHelpContext: Integer; var SelectedIndex: Integer;
+   ADialogType: TCEDialogType = cetSelect): Boolean;
 
 implementation
 
@@ -78,21 +78,21 @@ uses
 {$R *.dfm}
 
 function EditCollection(ACollection: TCollection;
-   ItemClass: TCollectionItemClass; ACaption : string;
+   ItemClass: TCollectionItemClass; ACaption: string;
    ItemEditFunction: TItemEditFunction;
    AHelpContext: Integer): Boolean;
 var
-  SelectedIndex : Integer;
+  SelectedIndex: Integer;
 begin
   Result := SelectFromCollection(ACollection, ItemClass, ACaption,
     ItemEditFunction, AHelpContext, SelectedIndex, cetEdit);
 end;
 
 function SelectFromCollection(ACollection: TCollection;
-   ItemClass: TCollectionItemClass; ACaption : string;
+   ItemClass: TCollectionItemClass; ACaption: string;
    ItemEditFunction: TItemEditFunction;
-   AHelpContext: Integer; var SelectedIndex : Integer;
-   ADialogType : TCEDialogType = cetSelect): Boolean;
+   AHelpContext: Integer; var SelectedIndex: Integer;
+   ADialogType: TCEDialogType = cetSelect): Boolean;
 begin
   Result := False;
   SelectedIndex := -1;
@@ -145,7 +145,7 @@ end;
 
 procedure TCollectionEditor.ModifyBtnClick(Sender: TObject);
 var
-  Index : Integer;
+  Index: Integer;
 begin
   Index := ItemList.ItemIndex;
   if (Index >= 0) and FItemEdit(FCollection.FindItemID(
@@ -222,7 +222,7 @@ end;
 
 procedure TCollectionEditor.MoveDownBtnClick(Sender: TObject);
 var
-  Index : Integer;
+  Index: Integer;
 begin
   Index := ItemList.ItemIndex;
   if InRange(Index, 0, ItemList.Count - 2) then begin
@@ -235,7 +235,7 @@ end;
 
 procedure TCollectionEditor.MoveUpBtnClick(Sender: TObject);
 var
-  Index : Integer;
+  Index: Integer;
 begin
   Index := ItemList.ItemIndex;
   if Index > 0 then begin

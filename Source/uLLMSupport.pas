@@ -3,19 +3,11 @@ unit uLLMSupport;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.UITypes,
-  System.SysUtils,
   System.Classes,
-  System.ImageList,
-  System.Actions,
-  System.Generics.Collections,
   System.JSON,
   System.JSON.Serializers,
   System.Net.HttpClient,
   System.Net.HttpClientComponent,
-  SynEditTypes,
   SynEdit,
   uEditAppIntfs;
 
@@ -215,6 +207,7 @@ const
 implementation
 
 uses
+  System.SysUtils,
   System.Math,
   System.IOUtils,
   JvGnugettext,
@@ -232,18 +225,16 @@ resourcestring
   sUnsupportedModel = 'The LLM model is not supported';
   sUnexpectedResponse = 'Unexpected response from the LLM Server';
 
-function Obfuscate(const s: string): string;
+function Obfuscate(const S: string): string;
 // Reversible string obfuscation using the ROT13 algorithm
-var
-  I: integer;
 begin
-  result := s;
-  for I := 1 to length(s) do
-    case ord(s[I]) of
-    ord('A')..ord('M'),ord('a')..ord('m'): result[I] := chr(ord(s[I])+13);
-    ord('N')..ord('Z'),ord('n')..ord('z'): result[I] := chr(ord(s[I])-13);
-    ord('0')..ord('4'): result[I] := chr(ord(s[I])+5);
-    ord('5')..ord('9'): result[I] := chr(ord(s[I])-5);
+  Result := S;
+  for var I := 1 to Length(S) do
+    case Ord(S[I]) of
+    Ord('A')..Ord('M'), Ord('a')..Ord('m'): Result[I] := Chr(Ord(S[I]) + 13);
+    Ord('N')..Ord('Z'), Ord('n')..Ord('z'): Result[I] := Chr(Ord(S[I]) - 13);
+    Ord('0')..Ord('4'): Result[I] := Chr(Ord(S[I]) + 5);
+    Ord('5')..Ord('9'): Result[I] := Chr(Ord(S[I]) - 5);
     end;
 end;
 
@@ -253,10 +244,10 @@ procedure TLLMBase.AddGeminiSystemPrompt(Params: TJSONObject);
 begin
   if Settings.SystemPrompt <> '' then
   begin
-    var JsonText := TJsonObject.Create();
+    var JsonText := TJSONObject.Create;
     JsonText.AddPair('text', Settings.SystemPrompt);
 
-    var JsonParts := TJsonObject.Create();
+    var JsonParts := TJSONObject.Create;
     JsonParts.AddPair('parts', JsonText);
 
     Params.AddPair('system_instruction', JsonParts);
@@ -354,11 +345,11 @@ begin
   // Do nothing
 end;
 
-function TLLMBase.GeminiMessage(const Role, Content: string): TJsonObject;
+function TLLMBase.GeminiMessage(const Role, Content: string): TJSONObject;
 begin
-  Result := TJsonObject.Create;
+  Result := TJSONObject.Create;
   Result.AddPair('role', Role);
-  var Parts := TJsonObject.Create;
+  var Parts := TJSONObject.Create;
   Parts.AddPair('text', Content);
   Result.AddPair('parts', Parts);
 end;
@@ -406,7 +397,7 @@ begin
   begin
     SetLength(ResponseData, AResponse.ContentStream.Size);
     AResponse.ContentStream.Read(ResponseData, AResponse.ContentStream.Size);
-    var JsonResponse := TJsonValue.ParseJSONValue(ResponseData, 0);
+    var JsonResponse := TJSONValue.ParseJSONValue(ResponseData, 0);
     try
       if not (JsonResponse.TryGetValue('error.message', ErrMsg)
         or JsonResponse.TryGetValue('error', ErrMsg))
@@ -488,7 +479,7 @@ end;
 
 procedure TLLMChat.ClearTopic;
 begin
-  ChatTopics[ActiveTopicIndex] := default(TChatTopic);
+  ChatTopics[ActiveTopicIndex] := Default(TChatTopic);
 end;
 
 constructor TLLMChat.Create;
@@ -499,7 +490,7 @@ begin
   Providers.Ollama := OllamaChatSettings;
   Providers.Gemini := GeminiSettings;
 
-  ChatTopics := [default(TChatTopic)];
+  ChatTopics := [Default(TChatTopic)];
   ActiveTopicIndex := 0;
 end;
 
@@ -524,7 +515,7 @@ begin
   if Length(ActiveTopic.QAItems) = 0 then
     Exit;
   if Length(ChatTopics[High(ChatTopics)].QAItems) > 0 then
-    ChatTopics := ChatTopics + [default(TChatTopic)];
+    ChatTopics := ChatTopics + [Default(TChatTopic)];
   ActiveTopicIndex := High(ChatTopics);
 end;
 
@@ -561,16 +552,16 @@ function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = '')
     JSON.AddPair('contents', Contents);
 
     // now add parameters
-    var GenerationConfig := TJsonObject.Create();
+    var GenerationConfig := TJSONObject.Create();
     GenerationConfig.AddPair('maxOutputTokens', Settings.MaxTokens);
     JSON.AddPair('generationConfig', GenerationConfig);
 
     Result := JSON.ToJSON;
   end;
 
-  function NewMessage(const Role, Content: string): TJsonObject;
+  function NewMessage(const Role, Content: string): TJSONObject;
   begin
-    Result := TJsonObject.Create;
+    Result := TJSONObject.Create;
     Result.AddPair('role', Role);
     Result.AddPair('content', Content);
   end;
@@ -621,7 +612,7 @@ begin
     if ActiveTopicIndex > 0 then
       Dec(ActiveTopicIndex)
     else
-      ChatTopics := [default(TChatTopic)];
+      ChatTopics := [Default(TChatTopic)];
   end;
 end;
 
@@ -634,7 +625,7 @@ function TLLMChat.ValidateSettings: TLLMSettingsValidation;
 begin
   Result := Settings.Validate;
   if (Result = svValid) and
-    not (Settings.EndPointType in [etOllamaChat, etGemini, etOpenAIChatCompletion])
+    not (Settings.EndpointType in [etOllamaChat, etGemini, etOpenAIChatCompletion])
   then
     Result := svInvalidEndpoint;
 end;
@@ -652,9 +643,9 @@ end;
 function TLLMSettings.EndpointType: TEndpointType;
 begin
   Result := etUnsupported;
-  if Endpoint.Contains('googleapis') then
+  if EndPoint.Contains('googleapis') then
     Result := etGemini
-  else if Endpoint.Contains('openai') then
+  else if EndPoint.Contains('openai') then
   begin
     if EndPoint = 'https://api.openai.com/v1/chat/completions' then
       Result := etOpenAIChatCompletion
@@ -663,9 +654,9 @@ begin
   end
   else
   begin
-    if Endpoint.EndsWith('api/generate') then
+    if EndPoint.EndsWith('api/generate') then
       Result := etOllamaGenerate
-    else if Endpoint.EndsWith('api/chat') then
+    else if EndPoint.EndsWith('api/chat') then
       Result := etOllamaChat;
   end
 end;
@@ -844,7 +835,7 @@ const
     JSON.AddPair('contents', GeminiMessage('user', Prompt));
 
     // now add parameters
-    var GenerationConfig := TJsonObject.Create();
+    var GenerationConfig := TJSONObject.Create;
     GenerationConfig.AddPair('maxOutputTokens', Settings.MaxTokens);
     GenerationConfig.AddPair('temperature', Temperature);
     if Length(FStopSequence) > 0 then

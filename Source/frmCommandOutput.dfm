@@ -39,7 +39,7 @@ inherited OutputWindow: TOutputWindow
         Action = actToolTerminate
       end
     end
-    object N1: TSpTBXSeparatorItem
+    object siSeparator1: TSpTBXSeparatorItem
     end
     object mnCopy: TSpTBXItem
       Action = actCopy
@@ -47,7 +47,7 @@ inherited OutputWindow: TOutputWindow
     object mnClear: TSpTBXItem
       Action = actClearOutput
     end
-    object N2: TSpTBXSeparatorItem
+    object siSeparator2: TSpTBXSeparatorItem
     end
     object mnFont: TSpTBXItem
       Action = actOutputFont
@@ -90,32 +90,32 @@ inherited OutputWindow: TOutputWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 23
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 118
+        CollectionIndex = 120
         CollectionName = 'Stop'
         Name = 'Stop'
       end
       item
-        CollectionIndex = 37
+        CollectionIndex = 39
         CollectionName = 'Exit'
         Name = 'Exit'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 95
         CollectionName = 'Quit'
         Name = 'Quit'
       end
       item
-        CollectionIndex = 54
+        CollectionIndex = 56
         CollectionName = 'Font'
         Name = 'Font'
       end>

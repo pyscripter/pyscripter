@@ -71,7 +71,7 @@ type
     FOldIndex: Integer;
     procedure AskToUpdate(Sender: TObject);
   public
-    CodeTemplateText : string;
+    CodeTemplateText: string;
     procedure SetItems;
     procedure GetItems;
   end;
@@ -109,7 +109,7 @@ end;
 
 procedure TCodeTemplates.GetItems;
 var
- I, J : Integer;
+ I, J: Integer;
 begin
   CodeTemplateText := '';
   for I := 0 to lvItems.Items.Count - 1 do begin
@@ -133,8 +133,8 @@ end;
 
 procedure TCodeTemplates.SetItems;
 var
- Idx, Count : Integer;
- List : TStringList;
+ Idx, Count: Integer;
+ List: TStringList;
 begin
   lvItems.Items.Clear;
   Idx := 0;
@@ -239,9 +239,9 @@ end;
 
 procedure TCodeTemplates.actMoveUpExecute(Sender: TObject);
 var
-  Name, Value : string;
-  P : Pointer;
-  Index : Integer;
+  Name, Value: string;
+  P: Pointer;
+  Index: Integer;
 begin
   if lvItems.ItemIndex > 0 then begin
     Index := lvItems.ItemIndex;
@@ -263,9 +263,9 @@ end;
 
 procedure TCodeTemplates.actMoveDownExecute(Sender: TObject);
 var
-  Name, Value : string;
-  P : Pointer;
-  Index : Integer;
+  Name, Value: string;
+  P: Pointer;
+  Index: Integer;
 begin
   if lvItems.ItemIndex < lvItems.Items.Count - 1 then
   begin

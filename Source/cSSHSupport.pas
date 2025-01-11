@@ -10,8 +10,7 @@ unit cSSHSupport;
 
 interface
 
-Uses
-  System.SysUtils,
+uses
   System.Classes,
   System.RegularExpressions,
   cPyScripterSettings,
@@ -21,41 +20,41 @@ type
 
   TSSHServer = class(TBaseOptions)
   private
-    fName : string;
-    fHostName : string;
-    fUserName : string;
-    fPythonCommand : string;
-    fSSHCommand : string;
-    fSSHOptions : string;
-    fScpCommand : string;
-    fScpOptions : string;
-    fPassword : string;
-    fPasswordNeeded : boolean;
+    FName: string;
+    FHostName: string;
+    FUserName: string;
+    FPythonCommand: string;
+    FSSHCommand: string;
+    FSSHOptions: string;
+    FScpCommand: string;
+    FScpOptions: string;
+    FPassword: string;
+    FPasswordNeeded: Boolean;
     procedure GetPassword;
   public
-    HostKey : string;
+    HostKey: string;
     constructor Create; override;
     procedure Assign(Source: TPersistent); override;
     function Destination: string;
-    function IsClientPutty: boolean;
+    function IsClientPutty: Boolean;
     function SSHOptionsPW: string;
     function ScpOptionsPW: string;
     function ExtractHostKey(ErrorOutput: string): Boolean;
   published
-    property Name : string read fName write fName;
-    property HostName : string read fHostName write fHostName;
-    property UserName : string read fUserName write fUserName;
-    property PythonCommand : string read fPythonCommand write fPythonCommand;
-    property SSHCommand : string read fSSHCommand write fSSHCommand;
-    property SSHOptions : string read fSSHOptions write fSSHOptions;
-    property ScpCommand : string read fScpCommand write fScpCommand;
-    property ScpOptions : string read fScpOptions write fScpOptions;
-    property PasswordNeeded : Boolean read fPasswordNeeded write fPasswordNeeded;
+    property Name: string read FName write FName;
+    property HostName: string read FHostName write FHostName;
+    property UserName: string read FUserName write FUserName;
+    property PythonCommand: string read FPythonCommand write FPythonCommand;
+    property SSHCommand: string read FSSHCommand write FSSHCommand;
+    property SSHOptions: string read FSSHOptions write FSSHOptions;
+    property ScpCommand: string read FScpCommand write FScpCommand;
+    property ScpOptions: string read FScpOptions write FScpOptions;
+    property PasswordNeeded: Boolean read FPasswordNeeded write FPasswordNeeded;
   end;
 
   TSSHServerItem = class(TCollectionItem)
   private
-    fSSHServer : TSSHServer;
+    FSSHServer: TSSHServer;
   protected
     function GetDisplayName: string; override;
   public
@@ -63,44 +62,44 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   published
-    property SSHServer : TSSHServer read fSSHServer write fSSHServer;
+    property SSHServer: TSSHServer read FSSHServer write FSSHServer;
   end;
 
   TSSHFileName = class
     class var UncRE: TRegEx;
     class constructor Create;
-    class function Format(Server, FileName : string): string;
-    class function Parse(Const Unc : string; out Server, FileName : string): boolean;
+    class function Format(Server, FileName: string): string;
+    class function Parse(const Unc: string; out Server, FileName: string): Boolean;
   end;
 
   TSSHServices = class(TInterfacedObject, ISSHServices)
-    function FormatFileName(Server, FileName : string): string;
-    function ParseFileName(Const Unc : string; out Server, FileName : string): boolean;
+    function FormatFileName(Server, FileName: string): string;
+    function ParseFileName(const Unc: string; out Server, FileName: string): Boolean;
     // SCP
     function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
-       ScpOptions : string = ''): Boolean;
-    function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
-    function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
+       ScpOptions: string = ''): Boolean;
+    function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): Boolean;
+    function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): Boolean;
   end;
 
-  function ServerFromName(ServerName: string): TSSHServer;
-  function EditSSHServers : boolean;
-  function SelectSSHServer : string;
-  function EditSSHConfiguration(Item : TCollectionItem) : boolean;
-  procedure FillSSHConfigNames(Strings: TStrings);
+function ServerFromName(ServerName: string): TSSHServer;
+function EditSSHServers: Boolean;
+function SelectSSHServer: string;
+function EditSSHConfiguration(Item: TCollectionItem): Boolean;
+procedure FillSSHConfigNames(Strings: TStrings);
 
 var
-  SSHTimeout : integer = 10000; // 10 seconds
-  ScpTimeout : integer = 30000; // 30 seconds
-  SSHServers : TCollection;
+  SSHTimeout: Integer = 10000; // 10 seconds
+  ScpTimeout: Integer = 30000; // 30 seconds
+  SSHServers: TCollection;
 
 implementation
 
 uses
-  WinApi.Windows,
+  Winapi.Windows,
+  System.SysUtils,
   System.Threading,
   System.StrUtils,
-  Vcl.Forms,
   Vcl.Dialogs,
   uSysUtils,
   JvGnugettext,
@@ -114,18 +113,18 @@ uses
 
 procedure TSSHServer.Assign(Source: TPersistent);
 begin
-  fPassword := '';
+  FPassword := '';
   HostKey := '';
   if Source is TSSHServer then with TSSHServer(Source) do begin
-    Self.fName := Name;
-    Self.fHostName := HostName;
+    Self.FName := Name;
+    Self.FHostName := HostName;
     Self.UserName := UserName;
-    Self.fPythonCommand := PythonCommand;
-    Self.fSSHCommand := SSHCommand;
-    Self.fSSHOptions := SSHOptions;
-    Self.fScpCommand := ScpCommand;
-    Self.fScpOptions := ScpOptions;
-    Self.fPasswordNeeded := PasswordNeeded;
+    Self.FPythonCommand := PythonCommand;
+    Self.FSSHCommand := SSHCommand;
+    Self.FSSHOptions := SSHOptions;
+    Self.FScpCommand := ScpCommand;
+    Self.FScpOptions := ScpOptions;
+    Self.FPasswordNeeded := PasswordNeeded;
   end else
     inherited;
 end;
@@ -148,8 +147,8 @@ begin
 end;
 
 function TSSHServer.ExtractHostKey(ErrorOutput: string): Boolean;
-Var
-  Match : TMatch;
+var
+  Match: TMatch;
 begin
   Match := TRegEx.Match(ErrorOutput, '[\w\d][\w\d](:[\w\d][\w\d])+');
   Result := Match.Success;
@@ -159,36 +158,36 @@ end;
 
 procedure TSSHServer.GetPassword;
 begin
-  if fPasswordNeeded and (fPassword = '') then
-    fPassWord := InputBox(Format(_('Enter SSH Password for %s'), [Destination]),
+  if FPasswordNeeded and (FPassword = '') then
+    FPassword := InputBox(Format(_('Enter SSH Password for %s'), [Destination]),
       #31+_('Password:'), '');
 end;
 
-function TSSHServer.IsClientPutty: boolean;
+function TSSHServer.IsClientPutty: Boolean;
 begin
-  Result := fScpCommand.ToLower.Contains('pscp')
+  Result := FScpCommand.ToLower.Contains('pscp')
 end;
 
 function TSSHServer.ScpOptionsPW: string;
 begin
-  Result := fScpOptions;
+  Result := FScpOptions;
   if not IsClientPutty then Exit;
 
   GetPassword;
-  if fPassword <> '' then
-    Result := Format('-pw %s %s', [fPassword, Result]);
+  if FPassword <> '' then
+    Result := Format('-pw %s %s', [FPassword, Result]);
   if HostKey <> '' then
     Result := Format('-hostkey %s %s', [HostKey, Result]);
 end;
 
 function TSSHServer.SSHOptionsPW: string;
 begin
-  Result := fSSHOptions;
+  Result := FSSHOptions;
   if not IsClientPutty then Exit;
 
   GetPassword;
-  if fPassword <> '' then
-    Result := Format('-pw %s %s', [fPassword, Result]);
+  if FPassword <> '' then
+    Result := Format('-pw %s %s', [FPassword, Result]);
   if HostKey <> '' then
     Result := Format('-hostkey %s %s', [HostKey, Result]);
 end;
@@ -196,7 +195,7 @@ end;
 procedure TSSHServerItem.Assign(Source: TPersistent);
 begin
   if Source is TSSHServerItem then with TSSHServerItem(Source) do
-    Self.fSSHServer.Assign(TSSHServerItem(Source).SSHServer)
+    Self.FSSHServer.Assign(TSSHServerItem(Source).SSHServer)
   else
     inherited;
 end;
@@ -204,12 +203,12 @@ end;
 constructor TSSHServerItem.Create(Collection: TCollection);
 begin
   inherited;
-  fSSHServer := TSSHServer.Create;
+  FSSHServer := TSSHServer.Create;
 end;
 
 destructor TSSHServerItem.Destroy;
 begin
-  fSSHServer.Free;
+  FSSHServer.Free;
   inherited;
 end;
 
@@ -221,15 +220,15 @@ begin
     Result := SSHServer.Destination;
 end;
 
-function EditSSHServers : boolean;
+function EditSSHServers: Boolean;
 begin
   Result := EditCollection(SSHServers,
     TSSHServerItem, _('SSH Servers'), EditSSHConfiguration, 580);
 end;
 
-function SelectSSHServer : string;
-Var
-  Index : integer;
+function SelectSSHServer: string;
+var
+  Index: Integer;
 begin
   Result := '';
   if SelectFromCollection(SSHServers,
@@ -238,9 +237,9 @@ begin
     Result := TSSHServerItem(SSHServers.Items[Index]).SSHServer.Name;
 end;
 
-function EditSSHConfiguration(Item : TCollectionItem) : boolean;
-Var
-  Categories : array of TOptionCategory;
+function EditSSHConfiguration(Item: TCollectionItem): Boolean;
+var
+  Categories: array of TOptionCategory;
 begin
   SetLength(Categories, 1);
   with Categories[0] do begin
@@ -266,14 +265,14 @@ begin
     Options[8].DisplayName := _('Password Needed (PyTTY only)');
   end;
 
-  Result := InspectOptions((Item as TSSHServerItem).fSSHServer,
+  Result := InspectOptions((Item as TSSHServerItem).FSSHServer,
      Categories, _('Edit SSH Server'), [], nil, 580, False);
 end;
 
 
 procedure FillSSHConfigNames(Strings: TStrings);
-Var
-  Item : TCollectionItem;
+var
+  Item: TCollectionItem;
 begin
    Strings.Clear;
    for Item in SSHServers do
@@ -281,8 +280,8 @@ begin
 end;
 
 function ServerFromName(ServerName: string): TSSHServer;
-Var
-  Item : TCollectionItem;
+var
+  Item: TCollectionItem;
 begin
   Result := nil;
   for Item in SSHServers do
@@ -294,7 +293,7 @@ end;
 
 class constructor TSSHFileName.Create;
 begin
-  UNCRE := CompiledRegEx('^ssh://([^/]+)/(.+)');
+  UncRE := CompiledRegEx('^ssh://([^/]+)/(.+)');
 end;
 
 class function TSSHFileName.Format(Server, FileName: string): string;
@@ -303,7 +302,7 @@ begin
 end;
 
 class function TSSHFileName.Parse(const Unc: string; out Server,
-  FileName: string): boolean;
+  FileName: string): Boolean;
 begin
   Server := '';
   FileName := '';
@@ -313,7 +312,7 @@ begin
       Server := GroupValue(1);
       FileName := GroupValue(2);
     end;
-    Exit(Success)
+    Exit(Success);
   end;
 end;
 
@@ -325,23 +324,23 @@ begin
 end;
 
 function TSSHServices.ParseFileName(const Unc: string; out Server,
-  FileName: string): boolean;
+  FileName: string): Boolean;
 begin
   Result := TSSHFileName.Parse(Unc, Server, FileName);
 end;
 
 function TSSHServices.Scp(const ScpCommand, FromFile, ToFile: string;
   out ErrorMsg: string; ScpOptions: string): Boolean;
-Var
-  Task : ITask;
+var
+  Task: ITask;
   Command, Output, Error: string;
-  ExitCode : integer;
+  ExitCode: Integer;
 begin
   Command := Format('"%s" %s %s %s', [ScpCommand, ScpOptions, FromFile, ToFile]);
 
   Task := TTask.Create(procedure
   {$IFDEF CPUX86}
-  Var
+  var
     IsWow64: LongBool;
   {$ENDIF CPUX86}
   begin
@@ -376,10 +375,10 @@ begin
 end;
 
 function TSSHServices.ScpDownload(const ServerName, RemoteFile,
-  LocalFile: string; out ErrorMsg: string): boolean;
-Var
-  SSHServer : TSSHServer;
-  SFormat : string;
+  LocalFile: string; out ErrorMsg: string): Boolean;
+var
+  SSHServer: TSSHServer;
+  SFormat: string;
 begin
   SSHServer := ServerFromName(ServerName);
   if not Assigned(SSHServer) then begin
@@ -388,16 +387,16 @@ begin
   end;
 
   SFormat := IfThen(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
-  Result := scp(SSHServer.ScpCommand,
+  Result := Scp(SSHServer.ScpCommand,
     Format(SFormat, [SSHServer.Destination, RemoteFile]),
     Format('"%s"', [LocalFile]), ErrorMsg, SSHServer.ScpOptionsPW);
 end;
 
 function TSSHServices.ScpUpload(const ServerName, LocalFile, RemoteFile: string;
-  out ErrorMsg: string): boolean;
-Var
-  SSHServer : TSSHServer;
-  SFormat : string;
+  out ErrorMsg: string): Boolean;
+var
+  SSHServer: TSSHServer;
+  SFormat: string;
 begin
   SSHServer := ServerFromName(ServerName);
   if not Assigned(SSHServer) then begin
@@ -406,7 +405,7 @@ begin
   end;
 
   SFormat := IfThen(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
-  Result := scp(SSHServer.ScpCommand, Format('"%s"', [LocalFile]),
+  Result := Scp(SSHServer.ScpCommand, Format('"%s"', [LocalFile]),
     Format(SFormat, [SSHServer.Destination, RemoteFile]),
     ErrorMsg, SSHServer.ScpOptionsPW);
 end;

@@ -8,10 +8,8 @@
 unit cCodeCompletion;
 
 interface
-Uses
+uses
   Winapi.Windows,
-  System.Types,
-  System.Classes,
   System.Contnrs,
   System.SyncObjs,
   SynEdit,
@@ -20,38 +18,38 @@ Uses
 
 type
   TBaseCodeCompletionSkipHandler = class
-    function SkipCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes) : Boolean; virtual; abstract;
+    function SkipCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes): Boolean; virtual; abstract;
   end;
 
   TBaseCodeCompletionHandler = class
     procedure Initialize; virtual;
     procedure Finalize; virtual;
-    function HandleCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes;
-      out InsertText, DisplayText : string) : Boolean; virtual; abstract;
-    function GetInfo(CCItem: string) : string; virtual; abstract;
+    function HandleCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes;
+      out InsertText, DisplayText: string): Boolean; virtual; abstract;
+    function GetInfo(CCItem: string): string; virtual; abstract;
   end;
 
   TCompletionInfo = record
     Editor: TSynEdit;
     CaretXY: TBufferCoord;
     InsertText,
-    DisplayText : string;
+    DisplayText: string;
     CompletionHandler: TBaseCodeCompletionHandler;
   end;
 
   TCodeCompletion = class
   public
-    SkipHandlers : TObjectList;
-    CompletionHandlers : TObjectList;
+    SkipHandlers: TObjectList;
+    CompletionHandlers: TObjectList;
     CompletionInfo: TCompletionInfo;
     Lock: TRTLCriticalSection;
     constructor Create;
     destructor Destroy; override;
     procedure CleanUp;
-    procedure RegisterSkipHandler(Handler : TBaseCodeCompletionSkipHandler);
-    procedure RegisterCompletionHandler(Handler : TBaseCodeCompletionHandler);
+    procedure RegisterSkipHandler(Handler: TBaseCodeCompletionSkipHandler);
+    procedure RegisterCompletionHandler(Handler: TBaseCodeCompletionHandler);
   end;
 
   TBaseParamCompletion = class
@@ -64,19 +62,19 @@ type
   private
     FCachedResults: TCachedResults;
   protected
-    AllowFunctionCalls: Boolean;
-   function CallTipFromExpression(const Expr, FileName : string;
-      const Line: integer; var DisplayString, DocString : string): Boolean; virtual; abstract;
+    FAllowFunctionCalls: Boolean;
+    function CallTipFromExpression(const Expr, FileName: string;
+      const Line: Integer; var DisplayString, DocString: string): Boolean; virtual; abstract;
   public
-    function HandleParamCompletion(const FileName : string;
-      Editor: TSynEdit; out DisplayString, DocString : string;
+    function HandleParamCompletion(const FileName: string;
+      Editor: TSynEdit; out DisplayString, DocString: string;
       out StartX: Integer): Boolean;
   end;
 
   TInterpreterParamCompletion = class(TBaseParamCompletion)
   protected
-    function CallTipFromExpression(const Expr, FileName : string;
-        const Line: integer; var DisplayString, DocString : string): Boolean; override;
+    function CallTipFromExpression(const Expr, FileName: string;
+        const Line: Integer; var DisplayString, DocString: string): Boolean; override;
   public
     constructor Create;
   end;
@@ -93,11 +91,11 @@ implementation
 
 uses
   System.SysUtils,
+  System.Classes,
   System.Character,
   System.Threading,
   System.RegularExpressions,
   System.JSON,
-  VarPyth,
   JvGnugettext,
   dmResources,
   SynHighlighterPython,
@@ -105,26 +103,23 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   cPyBaseDebugger,
-  cPyDebugger,
   PythonEngine,
   cPyScripterSettings,
   cPySupportTypes,
   cPyControl,
-  cSSHSupport,
   LspUtils,
-  SynEditLsp,
   JediLspClient;
 
 { TRegExpressions }
 type
 TRegExpressions = class
-  class var RE_Import : TRegEx;
-  class var RE_From : TRegEx;
-  class var RE_FromImport : TRegEx;
-  class var RE_For : TRegEx;
-  class var RE_ImportAs : TRegEx;
-  class var RE_FromImportAs : TRegEx;
-  class var RE_String : TRegEx;
+  class var RE_Import: TRegEx;
+  class var RE_From: TRegEx;
+  class var RE_FromImport: TRegEx;
+  class var RE_For: TRegEx;
+  class var RE_ImportAs: TRegEx;
+  class var RE_FromImportAs: TRegEx;
+  class var RE_String: TRegEx;
   class constructor Create;
 end;
 
@@ -147,19 +142,19 @@ begin
     Format('^\s*from +(\.*)(%s)? +import +\(? *(%s( +as +%s)? *, *)*%s +as +(%s)?$',
       [DottedIdentRE, IdentRE, IdentRE, IdentRE, IdentRE]));
   RE_String := CompiledRegEx(
-    Format('[''"]\.(%s)?$', [IdentRE, IdentRE]));
+    Format('[''"]\.(%s)?$', [IdentRE]));
 end;
 
 { TStringAndCommentSkipHandler }
 type
   TStringAndCommentSkipHandler = class(TBaseCodeCompletionSkipHandler)
-    function SkipCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes) : Boolean; override;
+    function SkipCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes): Boolean; override;
   end;
 
 function TStringAndCommentSkipHandler.SkipCodeCompletion(const Line,
-  FileName: string; Caret : TBufferCoord;
-  Highlighter : TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes): Boolean;
+  FileName: string; Caret: TBufferCoord;
+  Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes): Boolean;
 begin
   Result :=  Assigned(HighlighterAttr) and
         ((HighlighterAttr = Highlighter.StringAttribute) or
@@ -173,8 +168,8 @@ end;
 { TForStatementSkipHandler }
 type
   TForStatementSkipHandler = class(TBaseCodeCompletionSkipHandler)
-    function SkipCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes) : Boolean; override;
+    function SkipCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes): Boolean; override;
   end;
 
 function TForStatementSkipHandler.SkipCodeCompletion(const Line,
@@ -188,8 +183,8 @@ end;
 { TImportAsStatementSkipHandler }
 type
   TImportAsStatementSkipHandler = class(TBaseCodeCompletionSkipHandler)
-    function SkipCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes) : Boolean; override;
+    function SkipCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes): Boolean; override;
   end;
 
 function TImportAsStatementSkipHandler.SkipCodeCompletion(const Line,
@@ -204,35 +199,35 @@ end;
 type
   TLiveNamespaceCompletionHandler = class(TBaseCodeCompletionHandler)
   private
-    fPyNameSpace : TBaseNameSpaceItem;
-    fNameSpace : TStringList;
+    FPyNameSpace: TBaseNameSpaceItem;
+    FNameSpace: TStringList;
   public
     procedure Finalize; override;
-    function HandleCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes;
-      out InsertText, DisplayText : string) : Boolean; override;
-    function GetInfo(CCItem: string) : string; override;
+    function HandleCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes;
+      out InsertText, DisplayText: string): Boolean; override;
+    function GetInfo(CCItem: string): string; override;
   end;
 
 procedure TLiveNamespaceCompletionHandler.Finalize;
 begin
-  FreeAndNil(fNameSpace);
-  if Assigned(fPyNameSpace) then
+  FreeAndNil(FNameSpace);
+  if Assigned(FPyNameSpace) then
   begin
     var Py := SafePyEngine;
-    FreeAndNil(fPyNameSpace);
+    FreeAndNil(FPyNameSpace);
   end;
 end;
 
 function TLiveNamespaceCompletionHandler.GetInfo(CCItem: string): string;
-Var
+var
   Index: Integer;
   NameSpaceItem: TBaseNameSpaceItem;
 begin
-  Index := fNameSpace.IndexOf(CCItem);
+  Index := FNameSpace.IndexOf(CCItem);
   if Index >=0  then
   begin
-    NameSpaceItem := fNameSpace.Objects[Index] as TBaseNameSpaceItem;
+    NameSpaceItem := FNameSpace.Objects[Index] as TBaseNameSpaceItem;
     if not Assigned(NameSpaceItem) then
       Result := _(SPythonKeyword)
     else
@@ -248,7 +243,7 @@ function TLiveNamespaceCompletionHandler.HandleCodeCompletion(const Line,
   HighlighterAttr: TSynHighlighterAttributes; out InsertText,
   DisplayText: string): Boolean;
 
-  function ToInsertItem(const Name: string; Item : TBaseNameSpaceItem): string;
+  function ToInsertItem(const Name: string; Item: TBaseNameSpaceItem): string;
   begin
     if Assigned(Item) and (Item.IsClass or Item.IsFunction or Item.IsMethod) then
       Result := Name + '()'
@@ -257,69 +252,72 @@ function TLiveNamespaceCompletionHandler.HandleCodeCompletion(const Line,
   end;
 
 var
-  I, TmpX, Index, ImageIndex : Integer;
-  lookup : string;
-  NameSpaceItem : TBaseNameSpaceItem;
+  TmpX, Index, ImageIndex: Integer;
+  Lookup: string;
+  NameSpaceItem: TBaseNameSpaceItem;
 begin
   // Clean-up of FNameSpace and FNameSpaceDict takes place in the Close event
   TmpX := Caret.Char;
-  if TmpX > length(Line) then
-    TmpX := length(Line)
-  else dec(TmpX);
+  if TmpX > Length(Line) then
+    TmpX := Length(Line)
+  else Dec(TmpX);
 
-  lookup := GetWordAtPos(Line, TmpX, True, True, False, True);
-  Index := lookup.LastIndexOf('.');
-  fPyNameSpace := nil;
+  Lookup := GetWordAtPos(Line, TmpX, True, True, False, True);
+  Index := Lookup.LastIndexOf('.');
+  FPyNameSpace := nil;
   if Index >= 0 then begin
-    lookup := lookup.SubString(0, Index);
-    if lookup.IndexOf(')') >= 0 then
-      lookup := ''  // Issue 422  Do not evaluate functions
-    else if IsDigits(lookup) then
-      lookup := ''  // Issue 478  User is typing a number
+    Lookup := Lookup.Substring(0, Index);
+    if Lookup.IndexOf(')') >= 0 then
+      Lookup := ''  // Issue 422  Do not evaluate functions
+    else if IsDigits(Lookup) then
+      Lookup := '';  // Issue 478  User is typing a number
   end else
-    lookup := '';  // Completion from global namespace
+    Lookup := '';  // Completion from global namespace
 
   var Py := SafePyEngine;
-  if (Index < 0) or (lookup <> '') then begin
+  if (Index < 0) or (Lookup <> '') then begin
     if GI_PyControl.Inactive then
-      fPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
+      FPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(Lookup)
     else if GI_PyControl.PythonLoaded and not GI_PyControl.Running then
-      fPyNameSpace := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
+      FPyNameSpace := PyControl.ActiveDebugger.NameSpaceFromExpression(Lookup);
   end;
 
   DisplayText := '';
   InsertText := '';
 
-  fNameSpace := TStringList.Create;
-  if Assigned(fPyNameSpace) then begin
-    if lookup <> '' then begin
-      // fNameSpace corresponds to a Python object not a dict
-      fPyNameSpace.ExpandCommonTypes := True;
-      fPyNameSpace.ExpandSequences := False;
+  FNameSpace := TStringList.Create;
+  if Assigned(FPyNameSpace) then
+  begin
+    if Lookup <> '' then begin
+      // FNameSpace corresponds to a Python object not a dict
+      FPyNameSpace.ExpandCommonTypes := True;
+      FPyNameSpace.ExpandSequences := False;
     end;
-    for I := 0 to fPyNameSpace.ChildCount - 1 do begin
-      NameSpaceItem := fPyNameSpace.ChildNode[I];
-      fNameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
+    for var I := 0 to FPyNameSpace.ChildCount - 1 do
+    begin
+      NameSpaceItem := FPyNameSpace.ChildNode[I];
+      FNameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
     end;
   end;
-  if (lookup = '') and PyIDEOptions.CompleteKeywords then begin
+  if (Lookup = '') and PyIDEOptions.CompleteKeywords then begin
     // only add keywords to the completion of the global namespace
-    for I := 0 to (Highlighter as TSynPythonSyn).Keywords.Count - 1 do
+    for var I := 0 to (Highlighter as TSynPythonSyn).Keywords.Count - 1 do
     begin
       if TtkTokenKind(TSynPythonSyn(Highlighter).Keywords.Objects[I]) = tkKey then
-        fNameSpace.Add(TSynPythonSyn(Highlighter).Keywords[I]);
+        FNameSpace.Add(TSynPythonSyn(Highlighter).Keywords[I]);
     end;
   end;
 
-  fNameSpace.CustomSort(ComparePythonIdents);
+  FNameSpace.CustomSort(ComparePythonIdents);
 
-  for I := 0 to fNameSpace.Count - 1 do begin
-    NameSpaceItem := fNameSpace.Objects[I] as TBaseNameSpaceItem;
-    InsertText := InsertText + ToInsertItem(fNameSpace[I], NameSpaceItem);
+  for var I := 0 to FNameSpace.Count - 1 do
+  begin
+    NameSpaceItem := FNameSpace.Objects[I] as TBaseNameSpaceItem;
+    InsertText := InsertText + ToInsertItem(FNameSpace[I], NameSpaceItem);
 
     if not Assigned(NameSpaceItem) then
        DisplayText := DisplayText + Format('\Image{%d}\hspace{8}\color{$FF8844}%s',
-         [Integer(TCodeImages.Keyword), fNameSpace[I]])
+         [Integer(TCodeImages.Keyword), FNameSpace[I]])
     else
     begin
       if NameSpaceItem.IsModule then
@@ -340,7 +338,8 @@ begin
       end;
       DisplayText := DisplayText + Format('\Image{%d}\hspace{8}%s', [ImageIndex, NameSpaceItem.Name]);
     end;
-    if I < fNameSpace.Count - 1 then begin
+    if I < FNameSpace.Count - 1 then
+    begin
       DisplayText := DisplayText + #10;
       InsertText := InsertText + #10;
     end;
@@ -355,7 +354,7 @@ type
     function GetWordStart(const Line: string;
       const Caret: TBufferCoord): Integer;
   public
-    function GetInfo(CCItem: string) : string; override;
+    function GetInfo(CCItem: string): string; override;
   end;
 
 function TBaseLspCompletionHandler.GetInfo(CCItem: string): string;
@@ -377,9 +376,9 @@ end;
 type
   TLspCompletionHandler = class(TBaseLspCompletionHandler)
   public
-    function HandleCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes;
-      out InsertText, DisplayText : string) : Boolean; override;
+    function HandleCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes;
+      out InsertText, DisplayText: string): Boolean; override;
   end;
 
 function TLspCompletionHandler.HandleCodeCompletion(const Line,
@@ -406,34 +405,34 @@ type
     function CanHandle(const Line: string;
       const Caret: TBufferCoord): Boolean; virtual; abstract;
   public
-    function HandleCodeCompletion(const Line, FileName : string; Caret : TBufferCoord;
-      Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes;
-      out InsertText, DisplayText : string) : Boolean; override;
+    function HandleCodeCompletion(const Line, FileName: string; Caret: TBufferCoord;
+      Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes;
+      out InsertText, DisplayText: string): Boolean; override;
   end;
 
 function TBaseLspIICompletionHandler.HandleCodeCompletion(const Line,
-  FileName : string; Caret : TBufferCoord;
-  Highlighter : TSynCustomHighlighter; HighlighterAttr : TSynHighlighterAttributes;
-  out InsertText, DisplayText : string) : Boolean;
+  FileName: string; Caret: TBufferCoord;
+  Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes;
+  out InsertText, DisplayText: string): Boolean;
 var
-  Param: TJsonObject;
+  Param: TJSONObject;
 const
   TempFileName = 'TempInterpreterFile';
 begin
   if not (TJedi.Ready and CanHandle(Line, Caret)) then Exit(False);
 
-  Param := TJsonObject.Create;
+  Param := TJSONObject.Create;
   Param.AddPair('textDocument', LspTextDocumentItem(TempFileName, 'python',
     FDocContent, 0));
-  TJedi.LspClient.Notify('textDocument/didOpen', Param.ToJson);
+  TJedi.LspClient.Notify('textDocument/didOpen', Param.ToJSON);
   Param.Free;
 
   Result := TJedi.HandleCodeCompletion(TempFileName, BufferCoord(FDocContent.Length + 1, 1),
     InsertText, DisplayText);
 
-  Param := TJsonObject.Create;
+  Param := TJSONObject.Create;
   Param.AddPair('textDocument', LspTextDocumentIdentifier(TempFileName));
-  TJedi.LspClient.Notify('textDocument/didClose', Param.ToJson);
+  TJedi.LspClient.Notify('textDocument/didClose', Param.ToJSON);
   Param.Free;
 end;
 
@@ -509,14 +508,15 @@ begin
   Lock.Free;
   SkipHandlers.Free;
   CompletionHandlers.Free;
+  inherited;
 end;
 
-procedure TCodeCompletion.RegisterCompletionHandler(Handler : TBaseCodeCompletionHandler);
+procedure TCodeCompletion.RegisterCompletionHandler(Handler: TBaseCodeCompletionHandler);
 begin
   CompletionHandlers.Add(Handler);
 end;
 
-procedure TCodeCompletion.RegisterSkipHandler(Handler : TBaseCodeCompletionSkipHandler);
+procedure TCodeCompletion.RegisterSkipHandler(Handler: TBaseCodeCompletionSkipHandler);
 begin
   SkipHandlers.Add(Handler);
 end;
@@ -541,7 +541,7 @@ const
 var
   LocLine, Lookup: string;
   TmpX, ParenCounter: Integer;
-  FoundMatch : Boolean;
+  FoundMatch: Boolean;
   DummyToken: string;
   Attr: TSynHighlighterAttributes;
   Caret: TBufferCoord;
@@ -554,7 +554,7 @@ begin
 
   Highlighter := Editor.Highlighter as TSynPythonSyn;
   if Editor.GetHighlighterAttriAtRowCol(Caret, DummyToken, Attr) and
-   ({(attr = Highlighter.StringAttribute) or} (attr = Highlighter.CommentAttribute) or
+   ({(attr = Highlighter.StringAttribute) or} (Attr = Highlighter.CommentAttribute) or
     (Attr = Highlighter.CodeCommentAttri) or (Attr = Highlighter.MultiLineStringAttri) or
     (Attr = Highlighter.DocStringAttri))
    then
@@ -566,14 +566,14 @@ begin
   //go back from the cursor and find the first open paren
   StartX := Caret.Char;
   TmpX := Caret.Char;
-  if TmpX > length(LocLine)
+  if TmpX > Length(LocLine)
   then
-    TmpX := length(LocLine)
+    TmpX := Length(LocLine)
   else
-    dec(TmpX);
+    Dec(TmpX);
 
   FoundMatch := False;
-  while (TmpX > 0) and not(FoundMatch) do
+  while (TmpX > 0) and not FoundMatch do
   begin
     Editor.GetHighlighterAttriAtRowCol(BufferCoord(TmpX, Caret.Line), DummyToken, Attr);
     if (Attr = Highlighter.StringAttri) or (Attr = Highlighter.SpaceAttri)
@@ -583,12 +583,12 @@ begin
     begin
       //We found a close, go till it's opening paren
       ParenCounter := 1;
-      dec(TmpX);
+      Dec(TmpX);
       while (TmpX > 0) and (ParenCounter > 0) do
       begin
-        if LocLine[TmpX] = ')' then inc(ParenCounter)
-        else if LocLine[TmpX] = '(' then dec(ParenCounter);
-        dec(TmpX);
+        if LocLine[TmpX] = ')' then Inc(ParenCounter)
+        else if LocLine[TmpX] = '(' then Dec(ParenCounter);
+        Dec(TmpX);
       end;
     end else if LocLine[TmpX] = '(' then
     begin
@@ -608,7 +608,7 @@ begin
           Lookup := 'str' + Lookup;
 
         FoundMatch :=
-          (AllowFunctionCalls or (Lookup.IndexOf(')') < 0)) // Issue 422  Do not evaluate functions
+          (FAllowFunctionCalls or (Lookup.IndexOf(')') < 0)) // Issue 422  Do not evaluate functions
           and (Lookup <> '');
 
         if FoundMatch then
@@ -646,23 +646,23 @@ begin
           end;
         end;
 
-        if not(FoundMatch) then
+        if not FoundMatch then
         begin
           TmpX := StartX;
-          dec(TmpX);
+          Dec(TmpX);
         end;
       end;
     end
     else
-      dec(TmpX)
+      Dec(TmpX);
   end;
   Result := FoundMatch;
 end;
 
 { TInterpreterParamCompletion }
 
-function TInterpreterParamCompletion.CallTipFromExpression(const Expr, FileName : string;
-  const Line: integer; var DisplayString, DocString : string): Boolean;
+function TInterpreterParamCompletion.CallTipFromExpression(const Expr, FileName: string;
+  const Line: Integer; var DisplayString, DocString: string): Boolean;
 begin
   Result := PyControl.ActiveInterpreter.CallTipFromExpression(
     Expr, DisplayString, DocString);
@@ -671,7 +671,7 @@ end;
 constructor TInterpreterParamCompletion.Create;
 begin
   inherited;
-  AllowFunctionCalls := True;
+  FAllowFunctionCalls := True;
 end;
 
 { TIDECompletion }

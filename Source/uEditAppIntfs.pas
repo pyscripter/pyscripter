@@ -28,76 +28,76 @@ uses
 type
   TBreakPoint = class(TPersistent)
   private
-    fLineNo : integer;
-    fDisabled : Boolean;
-    fCondition : string;
+    FLineNo: Integer;
+    FDisabled: Boolean;
+    FCondition: string;
   published
-    property LineNo : integer read fLineNo write fLineNo;
-    property Disabled : Boolean read fDisabled write fDisabled;
-    property Condition : string read fCondition write fCondition;
+    property LineNo: Integer read FLineNo write FLineNo;
+    property Disabled: Boolean read FDisabled write FDisabled;
+    property Condition: string read FCondition write FCondition;
   end;
 
   IEditor = interface;
 
   IEditorViewFactory = interface
   ['{680F6C4E-5EED-4684-A199-5A62E644D81B}']
-    function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : string;
-    function GetTabCaption : string;
-    function GetMenuCaption : string;
-    function GetHint : string;
-    function GetImageName : string;
-    function GetShortCut : TShortCut;
-    procedure GetContextHighlighters(List : TList);
-    property Name : string read GetName;
-    property TabCaption : string read GetTabCaption;
-    property MenuCaption : string read GetMenuCaption;
-    property Hint : string read GetHint;
-    property ImageName : string read GetImageName;
-    property ShortCut : TShortCut read GetShortCut;
+    function CreateForm(Editor: IEditor; AOwner: TComponent): TCustomForm;
+    function GetName: string;
+    function GetTabCaption: string;
+    function GetMenuCaption: string;
+    function GetHint: string;
+    function GetImageName: string;
+    function GetShortCut: TShortCut;
+    procedure GetContextHighlighters(List: TList);
+    property Name: string read GetName;
+    property TabCaption: string read GetTabCaption;
+    property MenuCaption: string read GetMenuCaption;
+    property Hint: string read GetHint;
+    property ImageName: string read GetImageName;
+    property ShortCut: TShortCut read GetShortCut;
   end;
 
   IEditorView = interface
   ['{E68438C1-CE7C-4831-A995-5E72F01AEFEC}']
-    procedure UpdateView(Editor : IEditor);
+    procedure UpdateView(Editor: IEditor);
   end;
 
   TFileSaveFormat = (sf_Ansi, sf_UTF8, sf_UTF8_NoBOM, sf_UTF16LE, sf_UTF16BE);
 
   IEditor = interface
   ['{15E8BD28-6E18-4D49-8499-1DB594AB88F7}']
-    procedure Activate(Primary : Boolean = True);
-    function ActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
+    procedure Activate(Primary: Boolean = True);
+    function ActivateView(ViewFactory: IEditorViewFactory): IEditorView;
     function AskSaveChanges: Boolean;
     function CanClose: Boolean;
     procedure Close;
-    function GetSynEdit : TSynEdit;
-    function GetSynEdit2 : TSynEdit;
-    function GetActiveSynEdit : TSynEdit;
-    function GetBreakPoints : TObjectList;
+    function GetSynEdit: TSynEdit;
+    function GetSynEdit2: TSynEdit;
+    function GetActiveSynEdit: TSynEdit;
+    function GetBreakPoints: TObjectList;
     function GetCaretPos: TPoint;
     function GetEditorState: string;
     function GetFileName: string;
     function GetFileTitle: string;
     function GetFileId: string;
     function GetModified: Boolean;
-    function GetFileEncoding : TFileSaveFormat;
-    function GetForm : TForm;
+    function GetFileEncoding: TFileSaveFormat;
+    function GetForm: TForm;
     function GetDocSymbols: TObject;
-    function GetEncodedText : AnsiString;
-    function GetTabControlIndex : integer;
-    function GetReadOnly : Boolean;
+    function GetEncodedText: AnsiString;
+    function GetTabControlIndex: Integer;
+    function GetReadOnly: Boolean;
     function GetRemoteFileName: string;
     function GetHasSearchHighlight: Boolean;
     function GetSSHServer: string;
-    procedure SetReadOnly(Value : Boolean);
-    procedure SetHasSearchHighlight(Value : Boolean);
-    procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
+    procedure SetReadOnly(Value: Boolean);
+    procedure SetHasSearchHighlight(Value: Boolean);
+    procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
     procedure SetHighlighter(const HighlighterName: string);
-    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
+    procedure OpenFile(const AFileName: string; HighlighterName: string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
-    function SaveToRemoteFile(const FileName, ServerName: string) : Boolean;
-    function HasPythonFile : Boolean;
+    function SaveToRemoteFile(const FileName, ServerName: string): Boolean;
+    function HasPythonFile: Boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
@@ -105,7 +105,7 @@ type
     procedure Retranslate;
     procedure RefreshSymbols;
     property FileName: string read GetFileName;
-    property RemoteFileName : string read GetRemoteFileName;
+    property RemoteFileName: string read GetRemoteFileName;
     property FileId: string read GetFileId;
     property SSHServer: string read GetSSHServer;
     property FileTitle: string read GetFileTitle;
@@ -120,8 +120,8 @@ type
     property DocSymbols: TObject read GetDocSymbols;
     property HasSearchHighlight: Boolean read GetHasSearchHighlight
       write SetHasSearchHighlight;
-    property TabControlIndex : integer read GetTabControlIndex;
-    property ReadOnly : Boolean read GetReadOnly write SetReadOnly;
+    property TabControlIndex: Integer read GetTabControlIndex;
+    property ReadOnly: Boolean read GetReadOnly write SetReadOnly;
   end;
 
   IEditorFactory = interface
@@ -129,14 +129,14 @@ type
     function CanCloseAll: Boolean;
     procedure CloseAll;
     function NewEditor(TabControlIndex:Integer = 1): IEditor;
-    function GetEditorCount: integer;
-    function GetEditor(Index: integer): IEditor;
-    function GetEditorByName(const Name : string): IEditor;
-    function GetEditorByFileId(const Name : string): IEditor;
+    function GetEditorCount: Integer;
+    function GetEditor(Index: Integer): IEditor;
+    function GetEditorByName(const Name: string): IEditor;
+    function GetEditorByFileId(const Name: string): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
-    function RegisterViewFactory(ViewFactory : IEditorViewFactory): integer;
-    function GetViewFactoryCount: integer;
-    function GetViewFactory(Index: integer): IEditorViewFactory;
+    function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
+    function GetViewFactoryCount: Integer;
+    function GetViewFactory(Index: Integer): IEditorViewFactory;
     procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; IL: TCustomImageList);
     procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
     procedure CreateRecoveryFiles;
@@ -145,11 +145,11 @@ type
     procedure UnlockList;
     procedure ApplyToEditors(const Proc: TProc<IEditor>);
     function FirstEditorCond(const Predicate: TPredicate<IEditor>): IEditor;
-    //procedure GetRegisteredViewFactory(ViewName : string):IEditorViewFactory;
-    property Count : integer read GetEditorCount;
-    property Editor[Index: integer]: IEditor read GetEditor;  default;
-    property ViewFactoryCount : integer read GetViewFactoryCount;
-    property ViewFactory[Index: integer]: IEditorViewFactory read GetViewFactory;
+    //procedure GetRegisteredViewFactory(ViewName: string):IEditorViewFactory;
+    property Count: Integer read GetEditorCount;
+    property Editor[Index: Integer]: IEditor read GetEditor;  default;
+    property ViewFactoryCount: Integer read GetViewFactoryCount;
+    property ViewFactory[Index: Integer]: IEditorViewFactory read GetViewFactory;
   end;
 
   IEditCommands = interface
@@ -183,7 +183,7 @@ type
     procedure ExecSave;
     procedure ExecSaveAs;
     procedure ExecSaveAsRemote;
-    procedure ExecReload(Quiet : Boolean = False);
+    procedure ExecReload(Quiet: Boolean = False);
   end;
 
   ISearchCommands = interface
@@ -192,21 +192,21 @@ type
     function CanFindNext: Boolean;
     function CanFindPrev: Boolean;
     function CanReplace: Boolean;
-    function GetSearchTarget : TSynEdit;
+    function GetSearchTarget: TSynEdit;
     procedure ExecFind;
     procedure ExecFindNext;
     procedure ExecFindPrev;
     procedure ExecReplace;
-    property SearchTarget : TSynEdit read GetSearchTarget;
+    property SearchTarget: TSynEdit read GetSearchTarget;
   end;
 
   IMessageServices = interface
   ['{CF747CB1-A5C0-48DC-BE8E-7857074887AD}']
     procedure ShowWindow;
-    procedure AddMessage(const Msg: string; const FileName : string = '';
-       Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
+    procedure AddMessage(const Msg: string; const FileName: string = '';
+       Line: Integer = 0; Offset: Integer = 0; SelLen: Integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames : integer = 1; ShowWindow : Boolean = False);
+    procedure ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames: Integer = 1; ShowWindow: Boolean = False);
   end;
 
   IUnitTestServices = interface
@@ -232,17 +232,17 @@ type
       If want the active editor with focus then use GI_ActiveEditor
     }
     function ReplaceParams(const AText: string): string;
-    function GetActiveEditor : IEditor;
+    function GetActiveEditor: IEditor;
     function GetIsClosing: Boolean;
-    procedure WriteStatusMsg(const S: string);
+    procedure WriteStatusMsg(const Msg: string);
     function FileIsPythonSource(const FileName: string): Boolean;
-    function ShowFilePosition(FileName : string; Line: integer = 0;
-      Offset : integer = 1; SelLen : integer = 0;
-      ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
+    function ShowFilePosition(FileName: string; Line: Integer = 0;
+      Offset: Integer = 1; SelLen: Integer = 0;
+      ForceToMiddle: Boolean = True; FocusEditor: Boolean = True): Boolean;
     procedure ClearPythonWindows;
     procedure SaveEnvironment;
     procedure SaveFileModules;
-    procedure SetRunLastScriptHints(const ScriptName : string);
+    procedure SetRunLastScriptHints(const ScriptName: string);
     procedure SetActivityIndicator(TurnOn: Boolean; Hint: string = ''; OnClick: TNotifyEvent = nil);
     function GetStoredScript(const Name: string): TStrings;
     function GetMessageServices: IMessageServices;
@@ -265,8 +265,8 @@ type
   IPyControl = interface
   ['{DE1C1145-DC0F-4829-B36B-74EC818E168E}']
     function PythonLoaded: Boolean;
-    function Running: boolean;
-    function Inactive: boolean;
+    function Running: Boolean;
+    function Inactive: Boolean;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
@@ -284,23 +284,23 @@ type
     procedure ShowWindow;
     procedure AppendPrompt;
     procedure RemovePrompt;
-    procedure AppendText(const S: string);
+    procedure AppendText(const Str: string);
     procedure PrintEngineType;
     procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
     procedure WritePendingMessages;
     procedure ClearPendingMessages;
     procedure ClearDisplay;
     procedure ClearLastPrompt;
-    function OutputSuppressor : IInterface;
-    procedure StartOutputMirror(const AFileName : string; Append : Boolean);
+    function OutputSuppressor: IInterface;
+    procedure StartOutputMirror(const AFileName: string; Append: Boolean);
     procedure StopFileMirror;
     procedure UpdatePythonKeywords;
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
     procedure ReinitInterpreter;
     function GetPythonIO: TPythonInputOutput;
     function GetEditor: TCustomSynEdit;
-    function GetShowOutput: boolean;
-    procedure SetShowOutput(const Value: boolean);
+    function GetShowOutput: Boolean;
+    procedure SetShowOutput(const Value: Boolean);
     property Editor: TCustomSynEdit read GetEditor;
     property PythonIO: TPythonInputOutput read GetPythonIO;
     property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
@@ -308,13 +308,13 @@ type
 
   ISSHServices = interface
   ['{255E5E08-DCFD-481A-B0C3-F0AB0C5A1571}']
-    function FormatFileName(Server, FileName : string): string;
-    function ParseFileName(Const Unc : string; out Server, FileName : string): boolean;
+    function FormatFileName(Server, FileName: string): string;
+    function ParseFileName(const Unc: string; out Server, FileName: string): Boolean;
 
     function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
-       ScpOptions : string = ''): Boolean;
-    function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
-    function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
+       ScpOptions: string = ''): Boolean;
+    function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): Boolean;
+    function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): Boolean;
   end;
 
 var

@@ -12,20 +12,13 @@ interface
 
 uses
   Winapi.Windows,
-  Winapi.Messages,
   System.UITypes,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
-  System.Contnrs,
   System.ImageList,
   System.Generics.Defaults,
   System.Generics.Collections,
   System.JSON,
-  Vcl.Graphics,
   Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Vcl.ExtCtrls,
   Vcl.Menus,
   Vcl.ImgList,
@@ -40,9 +33,7 @@ uses
   VirtualTrees,
   TB2Item,
   SpTBXItem,
-  SpTBXControls,
   frmIDEDockWin,
-  JediLspClient,
   SynEditTypes,
   SynEditLsp;
 
@@ -51,41 +42,41 @@ type
   TCEExpandState = (esUnknown, esExpanded, esCollapsed);
 
   TCodeBlock = record
-    StartLine : integer;
-    EndLine : integer;
+    StartLine: Integer;
+    EndLine: Integer;
   end;
 
   TAbstractCENodeClass = class of TAbstractCENode;
   TAbstractCENode = class
   private
-    FChildren : TObjectList<TAbstractCENode>;
+    FChildren: TObjectList<TAbstractCENode>;
     function GetChildCount: Integer;
-    function GetChildren(I: Integer): TAbstractCENode;
+    function GetChildren(Index: Integer): TAbstractCENode;
     class var SortOrder: TCESortOrder;
     class var NodeComparer: IComparer<TAbstractCENode>;
     class var FileName: string;
   protected
     FName: string;
     FCodePos: TBufferCoord;
-    FExpanded : TCEExpandState;
-    FNode : PVirtualNode;
+    FExpanded: TCEExpandState;
+    FNode: PVirtualNode;
     function GetHint: string; virtual;
     function GetCaption: string; virtual;
-    function GetImageIndex : integer; virtual;
+    function GetImageIndex: Integer; virtual;
   public
     class constructor Create;
-    constructor CreateFromSymbol(Symbol: TJsonObject); virtual;
+    constructor CreateFromSymbol(Symbol: TJSONObject); virtual;
     destructor Destroy; override;
     function AddChild(CENode: TAbstractCENode): Integer;
     procedure Sort(ASortOrder: TCESortOrder);
     property Name: string read FName;
     property CodePos: TBufferCoord read FCodePos;
-    property Hint : string read GetHint;
-    property Caption : string read GetCaption;
-    property ImageIndex : integer read GetImageIndex;
-    property ChildCount : integer read GetChildCount;
-    property Children[I : integer] : TAbstractCENode read GetChildren;
-    property Expanded : TCEExpandState read fExpanded write fExpanded;
+    property Hint: string read GetHint;
+    property Caption: string read GetCaption;
+    property ImageIndex: Integer read GetImageIndex;
+    property ChildCount: Integer read GetChildCount;
+    property Children[Index: Integer]: TAbstractCENode read GetChildren;
+    property Expanded: TCEExpandState read FExpanded write FExpanded;
   end;
 
   TGroupCENode = class abstract(TAbstractCENode)
@@ -97,15 +88,15 @@ type
   protected
     function GetHint: string; override;
   public
-    constructor CreateFromSymbol(Symbol: TJsonObject); override;
-    function GetScopeForLine(LineNo: integer): TCodeElementCENode;
-    property CodeBlock : TCodeBlock read FCodeBlock;
+    constructor CreateFromSymbol(Symbol: TJSONObject); override;
+    function GetScopeForLine(LineNo: Integer): TCodeElementCENode;
+    property CodeBlock: TCodeBlock read FCodeBlock;
   end;
 
   TImportCENode = class(TAbstractCENode)
   protected
     function GetHint: string; override;
-    function GetImageIndex : integer; override;
+    function GetImageIndex: Integer; override;
   end;
 
   TImportsCENode = class(TGroupCENode)
@@ -126,10 +117,10 @@ type
     FGlobals: TGlobalsCENode;
   protected
     function GetHint: string; override;
-    function GetImageIndex : integer; override;
+    function GetImageIndex: Integer; override;
   public
-    constructor CreateFromSymbols(const AFileName: string; Symbols: TJsonArray);
-    property OffsetXY : TPoint read FOffsetXY write FOffsetXY;
+    constructor CreateFromSymbols(const AFileName: string; Symbols: TJSONArray);
+    property OffsetXY: TPoint read FOffsetXY write FOffsetXY;
     property Imports: TImportsCENode read FImports;
     property Globals: TGlobalsCENode read FGlobals;
   end;
@@ -140,7 +131,7 @@ type
   TGlobalCENode = class(TVariableCENode)
   protected
     function GetHint: string; override;
-    function GetImageIndex : integer; override;
+    function GetImageIndex: Integer; override;
   end;
 
   TAttributesCENode = class(TGroupCENode)
@@ -153,28 +144,27 @@ type
   private
     FAttributes: TAttributesCENode;
   protected
-    //function GetHint: string; override;
-    function GetImageIndex : integer; override;
+    function GetImageIndex: Integer; override;
   public
-    constructor CreateFromSymbol(Symbol: TJsonObject); override;
+    constructor CreateFromSymbol(Symbol: TJSONObject); override;
   end;
 
   TAttributeCENode = class(TVariableCENode)
   protected
     function GetHint: string; override;
-    function GetImageIndex : integer; override;
+    function GetImageIndex: Integer; override;
   end;
 
   TFunctionCENode = class(TCodeElementCENode)
   protected
-    function GetImageIndex : integer; override;
+    function GetImageIndex: Integer; override;
   public
-    constructor CreateFromSymbol(Symbol: TJsonObject); override;
+    constructor CreateFromSymbol(Symbol: TJSONObject); override;
   end;
 
   TMethodCENode = class(TFunctionCENode)
   protected
-    function GetImageIndex : integer; override;
+    function GetImageIndex: Integer; override;
   end;
 
   TCEUpdateReason = (ceuSymbolsChanged, ceuEditorEnter);
@@ -233,8 +223,8 @@ type
     var FFileId: string;
     FModuleNode: TModuleCENode;
     procedure NavigateToNodeElement(Node: PVirtualNode;
-      ForceToMiddle : Boolean = True; Activate : Boolean = True);
-    procedure UpdateModuleNode(const FileId: string; Symbols: TJsonArray);
+      ForceToMiddle: Boolean = True; Activate: Boolean = True);
+    procedure UpdateModuleNode(const FileId: string; Symbols: TJSONArray);
     procedure UpdateTree(const FileId: string;
       UpdateReason: TCEUpdateReason; NewModuleNode: TModuleCENode);
   public
@@ -253,16 +243,18 @@ var
 implementation
 
 uses
+  System.SysUtils,
   System.Math,
   System.IOUtils,
   System.Threading,
-  JvGNUGetText,
+  JvGnugettext,
   SynEdit,
   dmResources,
   dmCommands,
   frmPyIDEMain,
   uEditAppIntfs,
   uCommonFunctions,
+  JediLspClient,
   LspUtils,
   cPyScripterSettings;
 
@@ -328,7 +320,7 @@ begin
       // The same module but changed
       // ReInit the tree with the new data to keep it as close as possible
       if mnAlphaSort.Checked then
-        TModuleCENode(FModuleNode).Sort(soAlpha);
+        FModuleNode.Sort(soAlpha);
       ExplorerTree.BeginUpdate;
       try
         ExplorerTree.ReinitNode(nil, True, True);
@@ -386,7 +378,7 @@ begin
   if CENode.ChildCount > 0 then
   begin
     Include(InitialStates, ivsHasChildren);
-    if (ivsReinit in InitialStates) then
+    if (ivsReInit in InitialStates) then
     begin
       if vsExpanded in Node.States then
         CENode.Expanded := esExpanded
@@ -397,13 +389,13 @@ begin
       Include(InitialStates, ivsExpanded);
   end;
   // reverse link from CENode to Tree node
-  CENode.fNode := Node;
+  CENode.FNode := Node;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  if Key = Char(VK_Return) then
+  if Key = Char(VK_RETURN) then
     NavigateToNodeElement(ExplorerTree.GetFirstSelected);
 end;
 
@@ -411,7 +403,7 @@ procedure TCodeExplorerWindow.ExplorerTreeScroll(Sender: TBaseVirtualTree;
   DeltaX, DeltaY: TDimension);
 begin
   if Assigned(FModuleNode) then
-    TModuleCENode(FModuleNode).OffsetXY := ExplorerTree.OffsetXY;
+    FModuleNode.OffsetXY := ExplorerTree.OffsetXY;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitChildren(
@@ -478,7 +470,7 @@ begin
       Node := nil;
   end;
   if Assigned(Node) then begin
-    PopupMenu := CENodePopUpMenu;
+    PopUpMenu := CENodePopUpMenu;
     //UpdatePopupActions;
     CENode := Node.GetData<TAbstractCENode>;
     mnFindDefinition.Enabled :=
@@ -496,7 +488,7 @@ end;
 
 procedure TCodeExplorerWindow.ExplorerTreeDblClick(Sender: TObject);
 begin
-  NavigateToNodeElement(ExplorerTree.HotNode)
+  NavigateToNodeElement(ExplorerTree.HotNode);
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeExpanded(Sender: TBaseVirtualTree;
@@ -506,7 +498,7 @@ begin
     Node.GetData<TAbstractCENode>.Expanded := esExpanded;
 end;
 
-procedure TCodeExplorerWindow.UpdateModuleNode(const FileId: string; Symbols: TJsonArray);
+procedure TCodeExplorerWindow.UpdateModuleNode(const FileId: string; Symbols: TJSONArray);
 var
   ModuleNode: TModuleCENode;
 begin
@@ -525,11 +517,11 @@ end;
 
 procedure TCodeExplorerWindow.UpdateWindow(DocSymbols: TDocSymbols;
   UpdateReason: TCEUpdateReason);
-Var
-  Symbols: TJsonArray;
+var
+  Symbols: TJSONArray;
   LFileId: string;
 begin
-  Assert(Assigned(DocSymbols));
+  Assert(Assigned(DocSymbols), 'TCodeExplorerWindow.UpdateWindow');
   LFileId := DocSymbols.FileId;
   case UpdateReason of
     ceuSymbolsChanged:
@@ -538,7 +530,7 @@ begin
         try
           if DocSymbols.Symbols = nil then
           begin
-            Assert(GetCurrentThreadId = MainThreadId);
+            Assert(GetCurrentThreadId = MainThreadID, 'TCodeExplorerWindow.UpdateWindow');
             if FFileId = LFileId then
             begin
               ExplorerTree.Clear;
@@ -586,9 +578,9 @@ begin
 end;
 
 procedure TCodeExplorerWindow.ShowEditorCodeElement;
-Var
-  Editor : IEditor;
-  CodeElement : TCodeElementCENode;
+var
+  Editor: IEditor;
+  CodeElement: TCodeElementCENode;
 begin
   if not mnFollowEditor.Checked then Exit;
 
@@ -599,16 +591,15 @@ begin
     (ExplorerTree.RootNodeCount > 0)
   then
   begin
-    CodeElement := TModuleCENode(FModuleNode).
-      GetScopeForLine(Editor.ActiveSynEdit.CaretY);
-    if Assigned(CodeElement) and Assigned(CodeElement.fNode) then
+    CodeElement := FModuleNode. GetScopeForLine(Editor.ActiveSynEdit.CaretY);
+    if Assigned(CodeElement) and Assigned(CodeElement.FNode) then
     begin
       ExplorerTree.TreeOptions.AnimationOptions :=
         ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
       ExplorerTree.OnChange := nil;
-      ExplorerTree.FullyVisible[CodeElement.fNode] := True;
-      ExplorerTree.Selected[CodeElement.fNode] := True;
-      ExplorerTree.ScrollIntoView(CodeElement.fNode, False);
+      ExplorerTree.FullyVisible[CodeElement.FNode] := True;
+      ExplorerTree.Selected[CodeElement.FNode] := True;
+      ExplorerTree.ScrollIntoView(CodeElement.FNode, False);
       ExplorerTree.OnChange := ExplorerTreeChange;
       ExplorerTree.TreeOptions.AnimationOptions :=
         ExplorerTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
@@ -617,15 +608,15 @@ begin
 end;
 
 procedure TCodeExplorerWindow.NavigateToNodeElement(Node: PVirtualNode;
-      ForceToMiddle : Boolean = True; Activate : Boolean = True);
+      ForceToMiddle: Boolean = True; Activate: Boolean = True);
 var
   CENode: TAbstractCENode;
-  CodePos : TBufferCoord;
-  L : integer;
-  Editor : IEditor;
+  CodePos: TBufferCoord;
+  Len: Integer;
+  Editor: IEditor;
 begin
   CodePos.Line := - 1;
-  L := 0;
+  Len := 0;
 
   if Assigned(Node) then
   begin
@@ -634,7 +625,7 @@ begin
     begin
       CodePos := CENode.CodePos;
       if not (CENode is TModuleCENode) then
-        L := Length(CENode.Name);
+        Len := Length(CENode.Name);
     end else if Assigned(ExplorerTree.GetFirstChild(Node)) then begin
         NavigateToNodeElement(Node.FirstChild, ForceToMiddle, Activate);
         Exit;
@@ -648,8 +639,8 @@ begin
       begin
         CaretXY := CodePos;
         EnsureCursorPosVisibleEx(ForceToMiddle);
-        if L > 0 then
-          BlockEnd := BufferCoord(BlockBegin.Char + L, BlockBegin.Line);
+        if Len > 0 then
+          BlockEnd := BufferCoord(BlockBegin.Char + Len, BlockBegin.Line);
       end;
       if Activate then Editor.Activate(False);
     end;
@@ -680,17 +671,17 @@ begin
 end;
 
 procedure TCodeExplorerWindow.mnFindDefinitionClick(Sender: TObject);
-Var
-  Node : PVirtualNode;
+var
+  Node: PVirtualNode;
 begin
-  Node := ExplorerTree.GetFirstSelected();
+  Node := ExplorerTree.GetFirstSelected;
   if Assigned(Node) then
     NavigateToNodeElement(Node);
 end;
 
 procedure TCodeExplorerWindow.mnFindReferencesClick(Sender: TObject);
 begin
-  var Node := ExplorerTree.GetFirstSelected();
+  var Node := ExplorerTree.GetFirstSelected;
   if Assigned(Node) then begin
     var CENode := Node.GetData<TAbstractCENode>;
     if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) or
@@ -710,7 +701,7 @@ end;
 
 procedure TCodeExplorerWindow.mnHighlightClick(Sender: TObject);
 begin
-  var Node := ExplorerTree.GetFirstSelected();
+  var Node := ExplorerTree.GetFirstSelected;
   if Assigned(Node) then begin
     var CENode := Node.GetData<TAbstractCENode>;
     if (CENode is TCodeElementCENode) and not (CENode is TModuleCENode) or
@@ -737,10 +728,10 @@ end;
 
 function TAbstractCENode.AddChild(CENode: TAbstractCENode): Integer;
 begin
-  if fChildren = nil then
-    fChildren := TObjectList<TAbstractCENode>.Create(True);
+  if FChildren = nil then
+    FChildren := TObjectList<TAbstractCENode>.Create(True);
 
-  Result := fChildren.Add(CENode);
+  Result := FChildren.Add(CENode);
 end;
 
 class constructor TAbstractCENode.Create;
@@ -776,20 +767,20 @@ begin
 
 end;
 
-constructor TAbstractCENode.CreateFromSymbol(Symbol: TJsonObject);
+constructor TAbstractCENode.CreateFromSymbol(Symbol: TJSONObject);
 begin
   inherited Create;
   FName := Symbol.GetValue<string>('name', '');
-  FCodePos.Line := Symbol.GetValue<integer>('selectionRange.start.line', 0);
+  FCodePos.Line := Symbol.GetValue<Integer>('selectionRange.start.line', 0);
   Inc(FCodePos.Line);
-  FCodePos.Char := Symbol.GetValue<integer>('selectionRange.start.character', 0);
+  FCodePos.Char := Symbol.GetValue<Integer>('selectionRange.start.character', 0);
   Inc(FCodePos.Char);
 end;
 
-function TAbstractCENode.GetChildren(i: integer): TAbstractCENode;
+function TAbstractCENode.GetChildren(Index: Integer): TAbstractCENode;
 begin
-  if Assigned(fChildren) then
-    Result := fChildren[i]
+  if Assigned(FChildren) then
+    Result := FChildren[Index]
   else
     Result := nil;
 end;
@@ -799,27 +790,27 @@ begin
   Result := '';
 end;
 
-function TAbstractCENode.GetImageIndex: integer;
+function TAbstractCENode.GetImageIndex: Integer;
 begin
   Result := -1;
 end;
 
 procedure TAbstractCENode.Sort(ASortOrder: TCESortOrder);
-Var
-  Child : Pointer;
+var
+  Child: Pointer;
 begin
   SortOrder := ASortOrder;
-  if not Assigned(fChildren) then Exit;
+  if not Assigned(FChildren) then Exit;
 
-  for Child in fChildren do
+  for Child in FChildren do
     TAbstractCENode(Child).Sort(SortOrder);
 
-  fChildren.Sort(NodeComparer);
+  FChildren.Sort(NodeComparer);
 end;
 
 destructor TAbstractCENode.Destroy;
 begin
-  FreeAndNil(fChildren);
+  FreeAndNil(FChildren);
   inherited;
 end;
 
@@ -828,22 +819,22 @@ begin
   Result := FName;
 end;
 
-function TAbstractCENode.GetChildCount: integer;
+function TAbstractCENode.GetChildCount: Integer;
 begin
-  if Assigned(fChildren) then
-    Result := fChildren.Count
+  if Assigned(FChildren) then
+    Result := FChildren.Count
   else
     Result := 0;
 end;
 
 { TModuleCENode }
 
-function TModuleCENode.GetImageIndex: integer;
+function TModuleCENode.GetImageIndex: Integer;
 begin
   Result := Integer(TCodeImages.Python);
 end;
 
-constructor TModuleCENode.CreateFromSymbols(const AFileName: string; Symbols: TJsonArray);
+constructor TModuleCENode.CreateFromSymbols(const AFileName: string; Symbols: TJSONArray);
 var
   Kind: Integer;
   NodeClass: TAbstractCENodeClass;
@@ -852,14 +843,14 @@ begin
   inherited Create;
   FileName := AFileName;
   FName := TPath.GetFileName(AFileName);
-  fExpanded := esExpanded;
+  FExpanded := esExpanded;
   FCodePos := BufferCoord(1, 1);
   FCodeBlock.StartLine := 1;
   FCodeBlock.EndLine := MaxInt;
 
   for var Symbol in Symbols do
   begin
-    if not Symbol.TryGetValue<integer>('kind', Kind) then
+    if not Symbol.TryGetValue<Integer>('kind', Kind) then
       Continue;
 
     case TSymbolKind(Kind) of
@@ -871,7 +862,7 @@ begin
       Continue;
     end;
     try
-      Node := NodeClass.CreateFromSymbol(Symbol as TJsonObject);
+      Node := NodeClass.CreateFromSymbol(Symbol as TJSONObject);
     except
       Continue;
     end;
@@ -922,7 +913,7 @@ end;
 
 { TImportCENode }
 
-function TImportCENode.GetImageIndex: integer;
+function TImportCENode.GetImageIndex: Integer;
 begin
   Result := Integer(TCodeImages.Module);
 end;
@@ -952,7 +943,7 @@ end;
 
 { TGlobalCENode }
 
-function TGlobalCENode.GetImageIndex: integer;
+function TGlobalCENode.GetImageIndex: Integer;
 begin
   Result := Integer(TCodeImages.Variable);
 end;
@@ -965,26 +956,26 @@ end;
 
 { TClassCENode }
 
-function TClassCENode.GetImageIndex: integer;
+function TClassCENode.GetImageIndex: Integer;
 begin
   Result := Integer(TCodeImages.Klass);
 end;
 
-constructor TClassCENode.CreateFromSymbol(Symbol: TJsonObject);
+constructor TClassCENode.CreateFromSymbol(Symbol: TJSONObject);
 var
   Kind: Integer;
-  Symbols: TJsonValue;
+  Symbols: TJSONValue;
   NodeClass: TAbstractCENodeClass;
   Node: TAbstractCENode;
 begin
   inherited;
 
   Symbol.TryGetValue('children', Symbols);
-  if not (Symbols is TJsonArray) then Exit;
+  if not (Symbols is TJSONArray) then Exit;
 
-  for var CE in TJsonArray(Symbols) do
+  for var CE in TJSONArray(Symbols) do
   begin
-    if not CE.TryGetValue<integer>('kind', Kind) then
+    if not CE.TryGetValue<Integer>('kind', Kind) then
       Continue;
 
     case TSymbolKind(Kind) of
@@ -997,7 +988,7 @@ begin
       Continue;
     end;
     try
-      Node := NodeClass.CreateFromSymbol(CE as TJsonObject);
+      Node := NodeClass.CreateFromSymbol(CE as TJSONObject);
     except
       Continue;
     end;
@@ -1015,7 +1006,7 @@ begin
       AddChild(Node);
   end;
   if PyIDEOptions.ExplorerInitiallyExpanded and (ChildCount > 0) then
-   fExpanded := esExpanded;
+   FExpanded := esExpanded;
 end;
 
 { TAttributesCENode }
@@ -1032,7 +1023,7 @@ end;
 
 { TAttributeCENode }
 
-function TAttributeCENode.GetImageIndex: integer;
+function TAttributeCENode.GetImageIndex: Integer;
 begin
   Result := Integer(TCodeImages.Field);
 end;
@@ -1045,21 +1036,21 @@ end;
 
 { TFunctionCENode }
 
-constructor TFunctionCENode.CreateFromSymbol(Symbol: TJsonObject);
+constructor TFunctionCENode.CreateFromSymbol(Symbol: TJSONObject);
 var
   Kind: Integer;
-  Symbols: TJsonValue;
+  Symbols: TJSONValue;
   NodeClass: TAbstractCENodeClass;
   Node: TAbstractCENode;
 begin
   inherited;
 
   Symbol.TryGetValue('children', Symbols);
-  if not (Symbols is TJsonArray) then Exit;
+  if not (Symbols is TJSONArray) then Exit;
 
-  for var CE in TJsonArray(Symbols) do
+  for var CE in TJSONArray(Symbols) do
   begin
-    if not CE.TryGetValue<integer>('kind', Kind) then
+    if not CE.TryGetValue<Integer>('kind', Kind) then
       Continue;
 
     case TSymbolKind(Kind) of
@@ -1069,7 +1060,7 @@ begin
       Continue;
     end;
     try
-      Node := NodeClass.CreateFromSymbol(CE as TJsonObject);
+      Node := NodeClass.CreateFromSymbol(CE as TJSONObject);
     except
       Continue;
     end;
@@ -1077,36 +1068,36 @@ begin
   end;
 end;
 
-function TFunctionCENode.GetImageIndex: integer;
+function TFunctionCENode.GetImageIndex: Integer;
 begin
   Result := Integer(TCodeImages.Func);
 end;
 
 { TMethodCENode }
 
-function TMethodCENode.GetImageIndex: integer;
+function TMethodCENode.GetImageIndex: Integer;
 begin
   Result := Integer(TCodeImages.Method);
 end;
 
 { TCodeElementCENode }
 
-constructor TCodeElementCENode.CreateFromSymbol(Symbol: TJsonObject);
+constructor TCodeElementCENode.CreateFromSymbol(Symbol: TJSONObject);
 begin
   inherited CreateFromSymbol(Symbol);
-  FCodeBlock.StartLine := Symbol.GetValue<integer>('range.start.line', 0);
+  FCodeBlock.StartLine := Symbol.GetValue<Integer>('range.start.line', 0);
   Inc(FCodeBlock.StartLine);
-  FCodeBlock.EndLine := Symbol.GetValue<integer>('range.end.line', 0);
+  FCodeBlock.EndLine := Symbol.GetValue<Integer>('range.end.line', 0);
   Inc(FCodeBlock.EndLine);
 end;
 
-function TCodeElementCENode.GetScopeForLine(LineNo: integer): TCodeElementCENode;
+function TCodeElementCENode.GetScopeForLine(LineNo: Integer): TCodeElementCENode;
 begin
   if InRange(LineNo, CodeBlock.StartLine, CodeBlock.EndLine) then begin
     Result := Self;
     //  try to see whether the line belongs to a child
-    if not Assigned(fChildren) then Exit;
-    for var I := 0 to fChildren.Count - 1 do begin
+    if not Assigned(FChildren) then Exit;
+    for var I := 0 to FChildren.Count - 1 do begin
       var Node := Children[I];
       if Node is TCodeElementCENode then
       begin

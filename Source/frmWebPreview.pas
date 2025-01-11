@@ -11,21 +11,13 @@ unit frmWebPreview;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
   Winapi.ActiveX,
   Winapi.WebView2,
-  System.SysUtils,
-  System.Variants,
   System.Classes,
   System.ImageList,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
-  Vcl.Dialogs,
-  Vcl.OleCtrls,
   Vcl.VirtualImageList,
-  Vcl.BaseImageCollection,
   Vcl.ImgList,
   Vcl.Edge,
   TB2Item,
@@ -62,45 +54,43 @@ type
         const AResultObjectAsJson: string);
     procedure WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
   private
-    { Private declarations }
-    fEditor: IEditor;
-    procedure UpdateView(Editor : IEditor);
-  private
+    FEditor: IEditor;
     FSaveFileName: string;
+    procedure UpdateView(Editor: IEditor);
+  private
     class var FExternalTool: TExternalTool;
     class constructor Create;
     class destructor Destroy;
   public
-    { Public declarations }
     const JupyterServerCaption = 'Jupyter Server';
     const JupyterServer = '$[PythonDir-Short]Scripts\Jupyter-notebook.exe';
   end;
 
   TWebPreviewView = class(TInterfacedObject, IEditorViewFactory)
   private
-    function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : string;
-    function GetTabCaption : string;
-    function GetMenuCaption : string;
-    function GetHint : string;
-    function GetImageName : string;
-    function GetShortCut : TShortCut;
-    procedure GetContextHighlighters(List : TList);
+    function CreateForm(Editor: IEditor; AOwner: TComponent): TCustomForm;
+    function GetName: string;
+    function GetTabCaption: string;
+    function GetMenuCaption: string;
+    function GetHint: string;
+    function GetImageName: string;
+    function GetShortCut: TShortCut;
+    procedure GetContextHighlighters(List: TList);
   end;
 
-Var
-  WebPreviewFactoryIndex : integer;
+var
+  WebPreviewFactoryIndex: Integer;
 
 implementation
 
 uses
-  System.UITypes,
+  System.SysUtils,
   System.IOUtils,
   System.NetEncoding,
+  Vcl.Dialogs,
   JvGnugettext,
   uCommonFunctions,
   StringResources,
-  VarPyth,
   dmResources,
   frmCommandOutput,
   cPyScripterSettings;
@@ -137,7 +127,6 @@ end;
 
 procedure TWebPreviewForm.FormDestroy(Sender: TObject);
 begin
-  inherited;
   if OutputWindow.IsRunning and (OutputWindow.RunningTool = FExternalTool.Caption) then
     OutputWindow.actToolTerminate.Execute;
 end;
@@ -170,13 +159,13 @@ end;
 
 procedure TWebPreviewForm.UpdateView(Editor: IEditor);
 begin
-  fEditor := Editor;
+  FEditor := Editor;
   if Assigned(Editor.SynEdit.Highlighter) and
     (Editor.SynEdit.Highlighter = ResourcesDataModule.SynJSONSyn) then
   begin
-    var FN := TPath.GetFileName(Editor.FileName);
-    FN := StringReplace(FN, ' ', '%20', [rfReplaceAll]);
-    WebBrowser.Navigate('http://localhost:8888/notebooks/'+FN);
+    var FName := TPath.GetFileName(Editor.FileName);
+    FName := StringReplace(FName, ' ', '%20', [rfReplaceAll]);
+    WebBrowser.Navigate('http://localhost:8888/notebooks/'+FName);
   end else begin
     WebBrowser.CreateWebView;
     while WebBrowser.BrowserControlState in [TEdgeBrowser.TBrowserControlState.None,
@@ -215,7 +204,7 @@ end;
 
 { TDocView }
 
-function TWebPreviewView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
+function TWebPreviewView.CreateForm(Editor: IEditor; AOwner: TComponent): TCustomForm;
 begin
   if Assigned(Editor.SynEdit.Highlighter) and
     (Editor.SynEdit.Highlighter = ResourcesDataModule.SynJSONSyn) then

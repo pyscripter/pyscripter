@@ -44,29 +44,14 @@ inherited VariablesWindow: TVariablesWindow
           Gutter.Font.Style = []
           Gutter.Font.Quality = fqClearTypeNatural
           Gutter.Visible = False
-          Gutter.Bands = <
-            item
-              Kind = gbkMarks
-              Width = 13
-            end
-            item
-              Kind = gbkLineNumbers
-            end
-            item
-              Kind = gbkFold
-            end
-            item
-              Kind = gbkTrackChanges
-            end
-            item
-              Kind = gbkMargin
-              Width = 3
-            end>
+          Gutter.Bands = <>
           HideSelection = True
           ReadOnly = True
           RightEdge = 0
           ScrollBars = ssNone
+          ScrollbarAnnotations = <>
           SelectedColor.Alpha = 0.400000005960464500
+          VisibleSpecialChars = []
           WordWrap = True
         end
       end

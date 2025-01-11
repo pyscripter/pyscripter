@@ -59,40 +59,40 @@ type
     procedure ProcessServerOutput(const Bytes: TBytes; BytesRead: Cardinal);
     function GetInterpreter: Variant; override;
   public
-    constructor Create(AEngineType : TPythonEngineType = peRemote);
+    constructor Create(AEngineType: TPythonEngineType = peRemote);
     destructor Destroy; override;
     function CreateDebugger: TPyBaseDebugger; override;
-    function Compile(ARunConfig : TRunConfiguration) : Variant;
-    procedure HandleRemoteException(const ExcInfo : Variant; SkipFrames : Integer = 1);
+    function Compile(ARunConfig: TRunConfiguration): Variant;
+    procedure HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer = 1);
     procedure ReInitialize; override;
-    procedure CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
-    procedure ServeConnection(MaxCount : Integer = 0);
+    procedure CheckConnected(Quiet: Boolean = False; Abort: Boolean = True);
+    procedure ServeConnection(MaxCount: Integer = 0);
     // Python Path
-    function SysPathAdd(const Path : string) : Boolean; override;
-    function SysPathRemove(const Path : string) : Boolean; override;
-    procedure SysPathToStrings(Strings : TStrings); override;
-    procedure StringsToSysPath(Strings : TStrings); override;
+    function SysPathAdd(const Path: string): Boolean; override;
+    function SysPathRemove(const Path: string): Boolean; override;
+    procedure SysPathToStrings(Strings: TStrings); override;
+    procedure StringsToSysPath(Strings: TStrings); override;
     // NameSpace
-    function GetGlobals : TBaseNameSpaceItem; override;
-    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
-    function CallTipFromExpression(const Expr : string;
-      var DisplayString, DocString : string) : Boolean; override;
+    function GetGlobals: TBaseNameSpaceItem; override;
+    function NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem; override;
+    function CallTipFromExpression(const Expr: string;
+      var DisplayString, DocString: string): Boolean; override;
     // Service routines
-    procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
+    procedure SetCommandLine(ARunConfig: TRunConfiguration); override;
     procedure RestoreCommandLine; override;
     // Main interface
-    function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
-    procedure Run(ARunConfig : TRunConfiguration); override;
+    function ImportModule(Editor: IEditor; AddToNameSpace: Boolean = False): Variant; override;
+    procedure Run(ARunConfig: TRunConfiguration); override;
     function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; override;
-    function EvalCode(const Expr : string) : Variant; override;
-    procedure SystemCommand(const Cmd : string); override;
-    function GetObjectType(Obj : Variant) : string; override;
-    function UnitTestResult : Variant; override;
-    function NameSpaceItemFromPyObject(AName : string; APyObject : Variant): TBaseNameSpaceItem; override;
+    function EvalCode(const Expr: string): Variant; override;
+    procedure SystemCommand(const Cmd: string); override;
+    function GetObjectType(Obj: Variant): string; override;
+    function UnitTestResult: Variant; override;
+    function NameSpaceItemFromPyObject(AName: string; APyObject: Variant): TBaseNameSpaceItem; override;
     procedure Pickle(AValue: Variant; const FileName: string); override;
 
-    property IsAvailable : Boolean read FServerIsAvailable;
-    property Connected : Boolean read FConnected;
+    property IsAvailable: Boolean read FServerIsAvailable;
+    property Connected: Boolean read FConnected;
   end;
 
 
@@ -103,7 +103,7 @@ type
     FIsProxy: Boolean;
   protected
     procedure FillObjectInfo; override;
-    function GetObjectType : string; override;
+    function GetObjectType: string; override;
     function GetValue: string; override;
     function GetDocString: string; override;
     function GetChildCount: Integer; override;
@@ -123,7 +123,7 @@ type
     FLineCache: Variant;
     FMainThread: TThreadInfo;
     FThreads: TObjectDictionary<Int64, TThreadInfo>;
-    procedure SyncThreadInfo(Thread_ID: Int64; ThreadName: string; ThreadStatus : Integer);
+    procedure SyncThreadInfo(Thread_ID: Int64; ThreadName: string; ThreadStatus: Integer);
   protected
     FDebuggerCommand: TDebuggerCommand;
     FRemotePython: TPyRemoteInterpreter;
@@ -138,17 +138,17 @@ type
     procedure UserException(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserYield(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     // Fills in CallStackList with TBaseFrameInfo objects
-    procedure GetCallStack(CallStackList : TObjectList<TBaseFrameInfo>;
-      Frame, Botframe : Variant);
+    procedure GetCallStack(CallStackList: TObjectList<TBaseFrameInfo>;
+      Frame, Botframe: Variant);
     function GetPostMortemEnabled: Boolean; override;
   public
-    constructor Create(RemotePython : TPyRemoteInterpreter);
+    constructor Create(RemotePython: TPyRemoteInterpreter);
     destructor Destroy; override;
 
     // Debugging
-    procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
-      RunToCursorLine : Integer = -1); override;
-    procedure RunToCursor(Editor : IEditor; ALine: Integer); override;
+    procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
+      RunToCursorLine: Integer = -1); override;
+    procedure RunToCursor(Editor: IEditor; ALine: Integer); override;
     procedure StepInto; override;
     procedure StepOver; override;
     procedure StepOut; override;
@@ -156,8 +156,8 @@ type
     procedure Pause; override;
     procedure Abort; override;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr: string; out ObjType, Value : string); overload; override;
-    function Evaluate(const Expr: string) : TBaseNameSpaceItem; overload; override;
+    procedure Evaluate(const Expr: string; out ObjType, Value: string); overload; override;
+    function Evaluate(const Expr: string): TBaseNameSpaceItem; overload; override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
@@ -365,7 +365,7 @@ begin
   end;
 end;
 
-procedure TPyRemoteInterpreter.CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
+procedure TPyRemoteInterpreter.CheckConnected(Quiet: Boolean = False; Abort: Boolean = True);
 begin
   if not (Assigned(ServerTask) and FServerIsAvailable and FConnected and
     (ServerTask.Status = TTaskStatus.Running)) then
@@ -382,12 +382,12 @@ end;
 function TPyRemoteInterpreter.Compile(ARunConfig: TRunConfiguration): Variant;
 var
   Py: IPyEngineAndGIL;
-  FName : string;
-  Source : Variant;
-  ExcInfo, Error : Variant;
-  FileName : string;
-  LineNo, Offset : Integer;
-  Editor : IEditor;
+  FName: string;
+  Source: Variant;
+  ExcInfo, Error: Variant;
+  FileName: string;
+  LineNo, Offset: Integer;
+  Editor: IEditor;
 begin
   CheckConnected;
   if PyControl.DebuggerState <> dsInactive then begin
@@ -457,10 +457,10 @@ begin
   end;
 end;
 
-constructor TPyRemoteInterpreter.Create(AEngineType : TPythonEngineType = peRemote);
+constructor TPyRemoteInterpreter.Create(AEngineType: TPythonEngineType = peRemote);
   function IsPyWinAvailable: Boolean;
   var
-    Module : PPyObject;
+    Module: PPyObject;
   begin
     with GetPythonEngine do begin
       Module := PyImport_ImportModule('pywintypes');
@@ -542,7 +542,7 @@ end;
 
 destructor TPyRemoteInterpreter.Destroy;
 var
-  ModulesDict : Variant;
+  ModulesDict: Variant;
 begin
   ShutDownServer;
   VarClear(Rpyc);
@@ -583,11 +583,11 @@ begin
   Result := PyControl.InternalInterpreter.GetObjectType(Obj);
 end;
 
-procedure TPyRemoteInterpreter.HandleRemoteException(const ExcInfo: Variant; SkipFrames : Integer = 1);
+procedure TPyRemoteInterpreter.HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer = 1);
 
   procedure ExtractTracebackFronExcInfo(TraceBack: TPythonTraceback);
   var
-    PyTraceback, CurrentTraceback, CodeObject : Variant;
+    PyTraceback, CurrentTraceback, CodeObject: Variant;
     Context, FileName: string;
     LineNo: Integer;
   begin
@@ -637,7 +637,7 @@ begin
 end;
 
 function TPyRemoteInterpreter.ImportModule(Editor: IEditor;
-  AddToNameSpace : Boolean = False): Variant;
+  AddToNameSpace: Boolean = False): Variant;
 {
   Imports Editor text without saving the file.
   Does not add the module name to the locals()
@@ -646,9 +646,9 @@ function TPyRemoteInterpreter.ImportModule(Editor: IEditor;
 var
   Py: IPyEngineAndGIL;
   Code: Variant;
-  Path, NameOfModule : string;
-  PythonPathAdder : IInterface;
-  RunConfiguration : TRunConfiguration;
+  Path, NameOfModule: string;
+  PythonPathAdder: IInterface;
+  RunConfiguration: TRunConfiguration;
 begin
   Py := SafePyEngine;
   Assert(Assigned(Editor), 'TPyRemoteInterpreter.ImportModule');
@@ -1004,9 +1004,9 @@ end;
 
 procedure TPyRemoteInterpreter.ConnectToServer;
 var
-  Source : string;
-  InitScriptName : string;
-  PySource : Variant;
+  Source: string;
+  InitScriptName: string;
+  PySource: Variant;
 begin
   FConnected := False;
 
@@ -1091,7 +1091,7 @@ end;
 
 procedure TPyRemoteInterpreter.ServeConnection(MaxCount: Integer);
 var
-  Count : Integer;
+  Count: Integer;
 begin
   CheckConnected(False, False);
   if not Connected then Exit;
@@ -1107,8 +1107,8 @@ end;
 procedure TPyRemoteInterpreter.SetCommandLine(ARunConfig: TRunConfiguration);
 var
   Py: IPyEngineAndGIL;
-  ArgV : Variant;
-  Params, Param : string;
+  ArgV: Variant;
+  Params, Param: string;
 begin
   CheckConnected;
   Py := SafePyEngine;
@@ -1134,7 +1134,7 @@ end;
 
 procedure TPyRemoteInterpreter.ShutDownServer;
 var
-  OldExceptHook : Variant;
+  OldExceptHook: Variant;
 begin
   if FServerIsAvailable and Assigned(ServerTask) and (ServerTask.Status = TTaskStatus.Running) then begin
     if Assigned(PyControl.ActiveDebugger) then
@@ -1229,7 +1229,7 @@ end;
 procedure TPyRemoteInterpreter.SysPathToStrings(Strings: TStrings);
 var
   Py: IPyEngineAndGIL;
-  RemPath : Variant;
+  RemPath: Variant;
 begin
   CheckConnected;
 
@@ -1308,7 +1308,7 @@ end;
 procedure TPyRemDebugger.EnterPostMortem;
 var
   Py: IPyEngineAndGIL;
-  Frame, BotFrame, TraceBack : Variant;
+  Frame, BotFrame, TraceBack: Variant;
 begin
   Py := SafePyEngine;
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
@@ -1360,7 +1360,7 @@ procedure TPyRemDebugger.Evaluate(const Expr: string; out ObjType,
   Value: string);
 var
   Py: IPyEngineAndGIL;
-  ExprValue : Variant;
+  ExprValue: Variant;
 begin
   ObjType := _(SNotAvailable);
   Value := _(SNotAvailable);
@@ -1398,8 +1398,8 @@ begin
   PyControl.DebuggerState := dsInactive;
 end;
 
-procedure TPyRemDebugger.GetCallStack(CallStackList : TObjectList<TBaseFrameInfo>;
-  Frame, Botframe : Variant);
+procedure TPyRemDebugger.GetCallStack(CallStackList: TObjectList<TBaseFrameInfo>;
+  Frame, Botframe: Variant);
 begin
   CallStackList.Clear;
   if VarIsPython(Frame) then begin
@@ -1553,7 +1553,7 @@ begin
 end;
 
 procedure TPyRemDebugger.Debug(ARunConfig: TRunConfiguration;
-  InitStepIn: Boolean = False; RunToCursorLine : Integer = -1);
+  InitStepIn: Boolean = False; RunToCursorLine: Integer = -1);
 var
   Py: IPyEngineAndGIL;
   Code: Variant;
@@ -1708,7 +1708,7 @@ begin
     procedure
     var
       Py: IPyEngineAndGIL;
-      AsyncReady : Boolean;
+      AsyncReady: Boolean;
     begin
       TThread.NameThreadForDebugging('Remote Debugger');
       AsyncReady := False;
@@ -1742,7 +1742,7 @@ begin
   ).Start;
 end;
 
-function TPyRemDebugger.RunSource(Const Source, FileName: Variant; Symbol: string = 'single') : boolean;
+function TPyRemDebugger.RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean;
 // The interpreter RunSource calls II.runsource which differs
 // according to whether we are debugging or not
 var
@@ -1761,7 +1761,7 @@ begin
   end;
 end;
 
-procedure TPyRemDebugger.RunToCursor(Editor: IEditor; ALine: integer);
+procedure TPyRemDebugger.RunToCursor(Editor: IEditor; ALine: Integer);
 var
   Py: IPyEngineAndGIL;
   FName: string;
@@ -1778,7 +1778,7 @@ begin
   DoDebuggerCommand;
 end;
 
-procedure TPyRemDebugger.SetCommandLine(ARunConfig : TRunConfiguration);
+procedure TPyRemDebugger.SetCommandLine(ARunConfig: TRunConfiguration);
 begin
   FRemotePython.SetCommandLine(ARunConfig);
 end;
@@ -1795,7 +1795,7 @@ begin
 
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   var
-    FName : string;
+    FName: string;
   begin
     FName := FRemotePython.ToPythonFileName(Editor.FileId);
     for var I := 0 to Editor.BreakPoints.Count - 1 do begin
@@ -1930,7 +1930,7 @@ begin
     Result := Py.PythonEngine.ReturnFalse;
 end;
 
-procedure TPyRemDebugger.SyncThreadInfo(Thread_ID: Int64; ThreadName: string; ThreadStatus : integer);
+procedure TPyRemDebugger.SyncThreadInfo(Thread_ID: Int64; ThreadName: string; ThreadStatus: Integer);
 
   function HaveBrokenThread: Boolean;
   begin
@@ -1944,8 +1944,8 @@ procedure TPyRemDebugger.SyncThreadInfo(Thread_ID: Int64; ThreadName: string; Th
   end;
 
 var
-  ThreadInfo : TThreadInfo;
-  OldStatus : TThreadStatus;
+  ThreadInfo: TThreadInfo;
+  OldStatus: TThreadStatus;
 begin
   if TThreadStatus(ThreadStatus) = thrdFinished then
   begin
@@ -1989,7 +1989,7 @@ var
   Py: IPyEngineAndGIL;
   Thread_ID: Int64;
   ThreadName: string;
-  ThreadStatus : Integer;
+  ThreadStatus: Integer;
 begin
   Py := SafePyEngine;
   Result := Py.PythonEngine.ReturnNone;

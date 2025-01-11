@@ -69,7 +69,7 @@ type
     lblInString: TLabel;
     procedure btnHelpClick(Sender: TObject);
   private
-    FFindInFilesExpert : TFindInFilesExpert;
+    FFindInFilesExpert: TFindInFilesExpert;
     procedure LoadFormSettings;
     procedure SaveFormSettings;
     procedure SetSearchString(const Value: string);

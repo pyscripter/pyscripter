@@ -113,12 +113,12 @@ type
       Selected: Boolean);
     procedure SynEditEnter(Sender: TObject);
   private
-    FEnvStrings : TStrings;
+    FEnvStrings: TStrings;
     FHotKeyEditor: TSynHotKey;
   end;
 
-function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
-function EditToolItem(Item : TCollectionItem) : Boolean;
+function EditTool(Tool: TExternalTool; IsExternalRun: Boolean = False): Boolean;
+function EditToolItem(Item: TCollectionItem): Boolean;
 
 implementation
 
@@ -139,7 +139,7 @@ uses
 
 {$R *.dfm}
 
-function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
+function EditTool(Tool: TExternalTool; IsExternalRun: Boolean = False): Boolean;
 begin
   Result := False;
   if not Assigned(Tool) then Exit;
@@ -205,7 +205,7 @@ begin
   end;
 end;
 
-function EditToolItem(Item : TCollectionItem) : Boolean;
+function EditToolItem(Item: TCollectionItem): Boolean;
 begin
   Result := EditTool((Item as TToolItem).ExternalTool);
 end;
@@ -258,7 +258,7 @@ end;
 
 procedure TToolProperties.btnWorkDirClick(Sender: TObject);
 var
-  Directories : TArray<string>;
+  Directories: TArray<string>;
 begin
   if SelectDirectory('', Directories, [], _('Select working directory:')) then
   begin

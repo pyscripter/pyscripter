@@ -3,7 +3,7 @@ unit StringResources;
 interface
 {gnugettext: scan-all}
 
-Const
+const
   // File Filters
   sPythonFileFilter = 'Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi';
   sCythonFileFilter = 'Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi';
@@ -217,24 +217,24 @@ Const
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
   SEngineActive = '*** %s Python engine is active ***';
   SInterpreterNA = 'The internal Python interpreter is not available';
-  SPythonLoadError = 'PyScripter could not load a Python engine.' + SLineBreak +
+  SPythonLoadError = 'PyScripter could not load a Python engine.' + sLineBreak +
   '**Before** using PyScripter, you must ensure that a version of Python ' +
-  'greater or equal to %s is installed on your machine.' + SLineBreak +
+  'greater or equal to %s is installed on your machine.' + sLineBreak +
   'If you do not have one installed, you can download one from http://www.python.org/.'
-  + SLineBreak +  SLineBreak +
+  + sLineBreak +  sLineBreak +
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.'
-   + SLineBreak +
+   + sLineBreak +
   'The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python.';
-  SPythonFindError =  'PyScripter could not find a usable Python installation at the specified path.' + SLineBreak +
-  'Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
-  'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + SLineBreak +
+  SPythonFindError =  'PyScripter could not find a usable Python installation at the specified path.' + sLineBreak +
+  'Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + sLineBreak +
+  'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + sLineBreak +
   '32-bit and 64-bit Windows with 32-bit versions of Python.';
-  SPostMortemInfo = 'You are now in post-mortem analysis mode.' + SLineBreak +
+  SPostMortemInfo = 'You are now in post-mortem analysis mode.' + sLineBreak +
                     'You can examine the Call Stack, ' +
-                    'Variables and Watches windows, evaluate expressions etc.' + SLineBreak +
+                    'Variables and Watches windows, evaluate expressions etc.' + sLineBreak +
                     'To exit the post-mortem analysis select the ''Abort Debugging'' command.';
   SFileEncodingWarning = 'Encoding file "%s" using "%s" encoding will ' +
-                        'result in information loss.' + SLineBreak + 'Do you want to proceed?';
+                        'result in information loss.' + sLineBreak + 'Do you want to proceed?';
   SDecodingError = 'Error in decoding file "%s" from "%s" encoding';
   SFileOpenError = 'Error in opening file: "%s".' + sLineBreak + 'Error: %s';
   SFileSaveError = 'Error in saving file: "%s".' + sLineBreak +'Error: %s';
@@ -243,10 +243,10 @@ Const
   SCannotCompileWhileRunning = 'You cannot compile, import or run modules while debugging or running programs';
   SErrorInImportingModule = 'Error in importing module';
   SCouldNotSetCurrentDir = 'Could not set the current directory to the script path';
-  SRemoteServerNotConnected = 'Remote Server is not connected.' + SLineBreak +
+  SRemoteServerNotConnected = 'Remote Server is not connected.' + sLineBreak +
                               'Please reinitialize or disconnect the remote interpreter.';
-  SRpycNotAvailable = 'The ''rpyc'' package is not available.' + SLineBreak +
-                      'Please restart PyScripter and try again.' + SLineBreak +
+  SRpycNotAvailable = 'The ''rpyc'' package is not available.' + sLineBreak +
+                      'Please restart PyScripter and try again.' + sLineBreak +
                       'If the error persists reinstall PyScripter.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
@@ -254,7 +254,7 @@ Const
         'The remote interpreter and debugger is not available.';
   SRemoteInterpreterInit = '*** Remote Interpreter Reinitialized ***';
   SSameName = 'Another item has the same name';
-  SCodeTemplateModified = 'The template has been modified.' + SLineBreak +
+  SCodeTemplateModified = 'The template has been modified.' + sLineBreak +
                           'Do you want to update it with the new definition?';
   SInvalidNumber = 'Invalid number!';
   SEmptyTokenTextError = 'You cannot insert a token that only consists of white space.';
@@ -267,9 +267,9 @@ Const
   SRegistryAccessDenied = 'Registry access denied. Could not change the file association.';
   SErrorWhileDownload = 'Error while downloading: ';
   SCurrentVersionUptodate = 'Current version is up-to-date!';
-  SKillExternalTool = 'An External Tool is still running.' + SLineBreak +
+  SKillExternalTool = 'An External Tool is still running.' + sLineBreak +
                       'Do you want to terminate it and exit?';
-  STerminateInterpreter = 'The Python interpreter is busy.' + SLineBreak +
+  STerminateInterpreter = 'The Python interpreter is busy.' + sLineBreak +
                           'Are you sure you want to terminate it?';
   SFindDefinitionWarning = 'This is the definition of "%s"';
   SPlaceCursorOnName = 'Please place the cursor on a function/class name or identifier';
@@ -277,9 +277,9 @@ Const
   SCouldNotOpenOutputFile = 'Could not open/create output file %s';
   SUnknownPythonVersion = 'PyScripter can''t use command line parameter PYTHON%s because it doesn''t know this version of Python.';
   SUnsupportedPythonVersion = 'PyScripter can''t use command line parameter PYTHON%s because it was compiled for Python %s or later.';
-  SAbortDebugging = 'A debugging session is in progress.' + SLineBreak +
+  SAbortDebugging = 'A debugging session is in progress.' + sLineBreak +
                     'Do you want to abort the session and Exit?';
-  SInterruptRunningScript = 'The Python Script has timed out.' + SLineBreak +
+  SInterruptRunningScript = 'The Python Script has timed out.' + sLineBreak +
                             'Do you want to interrupt it?';
   SNoTestsFound = 'No tests found!';
   SDuplicateKey = 'Duplicate Key';
@@ -323,8 +323,8 @@ Const
   SDeleteLayouts = 'Delete Layouts';
   SSelectLayouts = 'Please select the layouts you want to delete and press the OK button:';
   SSaveModifiedFiles = 'Save modified files';
-  SSelectModifiedFiles = 'The following files have been modified.' + SLineBreak +
-    'Press ''OK'' to save selected files and exit.'+ SLineBreak +
+  SSelectModifiedFiles = 'The following files have been modified.' + sLineBreak +
+    'Press ''OK'' to save selected files and exit.'+ sLineBreak +
     'Press ''Cancel'' to return to PyScripter without saving files.';
   SImportHighlighters = 'Import Highlighters';
   SImportShortcuts = 'Import Shortcuts';
@@ -346,9 +346,9 @@ Const
   SErrorInitScript = 'Error in running initialization script %s: "%s"';
   SOpenDialogFilter = 'Open dialog %s filter';
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
-  SNoJupyter = 'The ''jupyter'' package is not available.' + SLineBreak + 'Please install ''jupyter'' first.';
-  SWebView2Error = 'The WebView2 control creation failed.' + SLineBreak +  'Please install the WebView2 runtime';
-  SExternalProcessRunning = 'An external process is still running.' + SLineBreak +
+  SNoJupyter = 'The ''jupyter'' package is not available.' + sLineBreak + 'Please install ''jupyter'' first.';
+  SWebView2Error = 'The WebView2 control creation failed.' + sLineBreak +  'Please install the WebView2 runtime';
+  SExternalProcessRunning = 'An external process is still running.' + sLineBreak +
                             'Please terminate it first from the ''Output'' window.';
   SDictionaryNA = 'The dictionary for language code "%s" is not available.' + sLineBreak +
                   'You can get spell checking dictionaries through the Windows language settings.' + sLineBreak +
@@ -356,7 +356,7 @@ Const
   SPickleFailed = 'pickle.dump failed';
 
   //  Project Manager
-  SAskSaveProject = 'The active project has not been saved.' + SLineBreak +
+  SAskSaveProject = 'The active project has not been saved.' + sLineBreak +
                     'Do you want to save the changes?';
   SFailedToBackupProject = 'Failed to backup project "%s"';
   SErrorInOpeningProject = 'Error in opening project: "%s".';
@@ -415,9 +415,9 @@ Const
   SNonameFileTitle = 'Untitled';
   SNonamePythonFileTitle = 'module';
   SAskSaveChanges = 'The text in the "%s" file has changed.'#13#10#13#10 + 'Do you want to save the modifications?';
-  SFileReloadingWarning = 'Reloading the file will result in the loss of all changes.' + SLineBreak +
+  SFileReloadingWarning = 'Reloading the file will result in the loss of all changes.' + sLineBreak +
                           'Do you want to proceed?';
-  SFileAlreadyOpen = 'Another editor with the same file is open.' + SLineBreak +
+  SFileAlreadyOpen = 'Another editor with the same file is open.' + sLineBreak +
                      'You can not have two editors with the same file.';
 
   // Parameters
@@ -557,8 +557,8 @@ Const
     '    main()';
   SXMLFileTemplate =
     '<?xml version="1.0" encoding="UTF-8"?>' + sLineBreak;
-  SJSONFileTemplate ='{'+ SLineBreak + SLineBreak + '}';
-  SYAMLFileTemplate = '---'+ SLineBreak + SLineBreak + '...';
+  SJSONFileTemplate ='{'+ sLineBreak + sLineBreak + '}';
+  SYAMLFileTemplate = '---'+ sLineBreak + sLineBreak + '...';
   SCSSFileTemplate = // do not localize
     'BODY {' + sLineBreak +
     '' + sLineBreak +
@@ -578,40 +578,33 @@ Const
     '</html>';
 
   SJupyterFileTemplate = // do not localize
-    '{' + SLineBreak +
-    ' "cells": [' + SLineBreak +
-    '  {' + SLineBreak +
-    '   "cell_type": "code",' + SLineBreak +
-    '   "execution_count": null,' + SLineBreak +
-    '   "metadata": {},' + SLineBreak +
-    '   "outputs": [],' + SLineBreak +
-    '   "source": []' + SLineBreak +
-    '  }' + SLineBreak +
-    ' ],' + SLineBreak +
-    ' "metadata": {' + SLineBreak +
-    '  "language_info": {' + SLineBreak +
-    '   "codemirror_mode": {' + SLineBreak +
-    '    "name": "ipython"' + SLineBreak +
-    '   },' + SLineBreak +
-    '   "file_extension": ".py",' + SLineBreak +
-    '   "mimetype": "text/x-python",' + SLineBreak +
-    '   "name": "python",' + SLineBreak +
-    '   "nbconvert_exporter": "python"' + SLineBreak +
-    '  }' + SLineBreak +
-    ' },' + SLineBreak +
-    ' "nbformat": 4,' + SLineBreak +
-    ' "nbformat_minor": 2' + SLineBreak+
+    '{' + sLineBreak +
+    ' "cells": [' + sLineBreak +
+    '  {' + sLineBreak +
+    '   "cell_type": "code",' + sLineBreak +
+    '   "execution_count": null,' + sLineBreak +
+    '   "metadata": {},' + sLineBreak +
+    '   "outputs": [],' + sLineBreak +
+    '   "source": []' + sLineBreak +
+    '  }' + sLineBreak +
+    ' ],' + sLineBreak +
+    ' "metadata": {' + sLineBreak +
+    '  "language_info": {' + sLineBreak +
+    '   "codemirror_mode": {' + sLineBreak +
+    '    "name": "ipython"' + sLineBreak +
+    '   },' + sLineBreak +
+    '   "file_extension": ".py",' + sLineBreak +
+    '   "mimetype": "text/x-python",' + sLineBreak +
+    '   "name": "python",' + sLineBreak +
+    '   "nbconvert_exporter": "python"' + sLineBreak +
+    '  }' + sLineBreak +
+    ' },' + sLineBreak +
+    ' "nbformat": 4,' + sLineBreak +
+    ' "nbformat_minor": 2' + sLineBreak+
     '}';
 
 implementation
 
-//uses JvGnugettext, SysUtils;
-//initialization
-//  // GNU Initialization is put here to make sure that
-//  // all localized stings get translated
-//  // Setup Languages
-//  UseLanguage('');
-//  UseLanguage(LowerCase(Copy(GetCurrentLanguage,1,2)));  // do not use the country part
 end.
 
 

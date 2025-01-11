@@ -178,7 +178,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 1
             Top = 1
             Width = 376
-            Height = 26
+            Height = 27
             Caption = 'Groups:'
             Align = alTop
             Font.Charset = DEFAULT_CHARSET
@@ -193,9 +193,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           end
           object GroupsView: TVirtualStringTree
             Left = 1
-            Top = 27
+            Top = 28
             Width = 376
-            Height = 72
+            Height = 71
             Align = alClient
             BevelEdges = []
             BevelInner = bvNone
@@ -266,7 +266,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Left = 1
               Top = 1
               Width = 374
-              Height = 26
+              Height = 27
               Caption = 'Regular Expression'
               Align = alTop
               Font.Charset = DEFAULT_CHARSET
@@ -281,9 +281,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             end
             object RegExpText: TSynEdit
               Left = 1
-              Top = 27
+              Top = 28
               Width = 374
-              Height = 70
+              Height = 69
               Cursor = crDefault
               Align = alClient
               Font.Charset = ANSI_CHARSET
@@ -302,28 +302,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Gutter.Font.Style = []
               Gutter.Font.Quality = fqClearTypeNatural
               Gutter.Visible = False
-              Gutter.Bands = <
-                item
-                  Kind = gbkMarks
-                  Width = 13
-                end
-                item
-                  Kind = gbkLineNumbers
-                end
-                item
-                  Kind = gbkFold
-                end
-                item
-                  Kind = gbkTrackChanges
-                end
-                item
-                  Kind = gbkMargin
-                  Width = 3
-                end>
+              Gutter.Bands = <>
               HideSelection = True
               RightEdge = 0
               ScrollBars = ssVertical
+              ScrollbarAnnotations = <>
               SelectedColor.Alpha = 0.400000005960464500
+              VisibleSpecialChars = []
               WordWrap = True
               OnChange = RegExpTextChange
             end
@@ -367,7 +352,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 Left = 1
                 Top = 1
                 Width = 372
-                Height = 26
+                Height = 27
                 Caption = 'Search Text:'
                 Align = alTop
                 Font.Charset = DEFAULT_CHARSET
@@ -382,9 +367,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               end
               object SearchText: TSynEdit
                 Left = 1
-                Top = 27
+                Top = 28
                 Width = 372
-                Height = 90
+                Height = 89
                 Cursor = crDefault
                 Align = alClient
                 Font.Charset = ANSI_CHARSET
@@ -403,28 +388,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 Gutter.Font.Style = []
                 Gutter.Font.Quality = fqClearTypeNatural
                 Gutter.Visible = False
-                Gutter.Bands = <
-                  item
-                    Kind = gbkMarks
-                    Width = 13
-                  end
-                  item
-                    Kind = gbkLineNumbers
-                  end
-                  item
-                    Kind = gbkFold
-                  end
-                  item
-                    Kind = gbkTrackChanges
-                  end
-                  item
-                    Kind = gbkMargin
-                    Width = 3
-                  end>
+                Gutter.Bands = <>
                 HideSelection = True
                 RightEdge = 0
                 ScrollBars = ssVertical
+                ScrollbarAnnotations = <>
                 SelectedColor.Alpha = 0.400000005960464500
+                VisibleSpecialChars = []
                 WordWrap = True
                 OnChange = RegExpTextChange
               end
@@ -463,7 +433,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 Left = 1
                 Top = 1
                 Width = 372
-                Height = 26
+                Height = 27
                 Caption = 'Match:'
                 Align = alTop
                 Font.Charset = DEFAULT_CHARSET
@@ -503,9 +473,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               end
               object MatchText: TSynEdit
                 Left = 1
-                Top = 27
+                Top = 28
                 Width = 372
-                Height = 45
+                Height = 44
                 Cursor = crDefault
                 Align = alClient
                 Font.Charset = ANSI_CHARSET
@@ -524,29 +494,14 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 Gutter.Font.Style = []
                 Gutter.Font.Quality = fqClearTypeNatural
                 Gutter.Visible = False
-                Gutter.Bands = <
-                  item
-                    Kind = gbkMarks
-                    Width = 13
-                  end
-                  item
-                    Kind = gbkLineNumbers
-                  end
-                  item
-                    Kind = gbkFold
-                  end
-                  item
-                    Kind = gbkTrackChanges
-                  end
-                  item
-                    Kind = gbkMargin
-                    Width = 3
-                  end>
+                Gutter.Bands = <>
                 HideSelection = True
                 ReadOnly = True
                 RightEdge = 0
                 ScrollBars = ssVertical
+                ScrollbarAnnotations = <>
                 SelectedColor.Alpha = 0.400000005960464500
+                VisibleSpecialChars = []
                 WordWrap = True
               end
             end
@@ -564,32 +519,32 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 21
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 38
         CollectionName = 'Execute'
         Name = 'Execute'
       end
       item
-        CollectionIndex = 11
+        CollectionIndex = 20
         CollectionName = 'Check'
         Name = 'Check'
       end
       item
-        CollectionIndex = 111
+        CollectionIndex = 120
         CollectionName = 'Stop'
         Name = 'Stop'
       end
       item
-        CollectionIndex = 103
+        CollectionIndex = 112
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 52
+        CollectionIndex = 61
         CollectionName = 'Help'
         Name = 'Help'
       end>
