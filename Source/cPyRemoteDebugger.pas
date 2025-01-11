@@ -583,7 +583,7 @@ begin
   Result := PyControl.InternalInterpreter.GetObjectType(Obj);
 end;
 
-procedure TPyRemoteInterpreter.HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer = 1);
+procedure TPyRemoteInterpreter.HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer);
 
   procedure ExtractTracebackFronExcInfo(TraceBack: TPythonTraceback);
   var

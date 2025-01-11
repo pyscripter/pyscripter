@@ -441,7 +441,7 @@ var
     var
       Str: string;
     begin
-      if P <= PStart then Exit;
+      if P < PStart then Exit;
 
       SetString(Str, PStart, P - PStart);
       SynEdit.Lines[SynEdit.Lines.Count - 1] :=
