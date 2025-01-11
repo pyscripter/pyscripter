@@ -387,6 +387,7 @@ uses
   JvAppIniStorage,
   JvAppStorage,
   JvDSADialogs,
+  JvDynControlEngineVCL,
   JvGnugettext,
   SynEditTypes,
   SynHighlighterPython,
