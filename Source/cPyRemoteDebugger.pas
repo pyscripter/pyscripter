@@ -63,7 +63,7 @@ type
     destructor Destroy; override;
     function CreateDebugger: TPyBaseDebugger; override;
     function Compile(ARunConfig: TRunConfiguration): Variant;
-    procedure HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer = 1);
+    procedure HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer = 0);
     procedure ReInitialize; override;
     procedure CheckConnected(Quiet: Boolean = False; Abort: Boolean = True);
     procedure ServeConnection(MaxCount: Integer = 0);
@@ -384,7 +384,6 @@ var
   Py: IPyEngineAndGIL;
   FName: string;
   Source: Variant;
-  ExcInfo, Error: Variant;
   FileName: string;
   LineNo, Offset: Integer;
   Editor: IEditor;
@@ -422,13 +421,13 @@ begin
     Result := RPI.rem_compile(VarPythonCreate(Source), VarPythonCreate(FName));
 
     Py.PythonEngine.CheckError;
-    ExcInfo := RPI.exc_info;
-    if not VarIsNone(RPI.exc_info) then begin
+    var ExcInfo := RPI.traceback_exception;
+    if not VarIsNone(ExcInfo) then
+    begin
       VarClear(Result);
-      Error := ExcInfo.__getitem__(1);
-      if ExcInfo.__getitem__(3) then begin
-        // SyntaxError
-        ExtractPyErrorInfo(Error, FileName, LineNo, Offset);
+      if ExcInfo.exc_type_str = 'SyntaxError' then
+      begin
+        ExtractPyErrorInfo(ExcInfo, FileName, LineNo, Offset);
         FileName := FromPythonFileName(FileName);
         if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, Offset) and
           Assigned(GI_ActiveEditor)
@@ -450,7 +449,8 @@ begin
       HandlePyException(Py.PythonEngine.Traceback, E.Message);
       System.SysUtils.Abort;
     end;
-    else begin
+    else
+    begin
       VarClear(Result);
       raise;
     end;
@@ -584,33 +584,28 @@ begin
 end;
 
 procedure TPyRemoteInterpreter.HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer);
+// ExcInfo is a traceback.TracebackException instance
 
-  procedure ExtractTracebackFronExcInfo(TraceBack: TPythonTraceback);
+  procedure ExtractTracebackFromExcInfo(TraceBack: TPythonTraceback);
   var
-    PyTraceback, CurrentTraceback, CodeObject: Variant;
+    PyFrame: Variant;
     Context, FileName: string;
     LineNo: Integer;
   begin
-    PyTraceback := ExcInfo.__getitem__(2);
-    if not VarIsPython(PyTraceback) or VarIsNone(PyTraceback) then Exit;
+    if not VarIsPython(ExcInfo) or VarIsNone(ExcInfo) then Exit;
 
-    CurrentTraceback := PyTraceback;
-    for var I  := 1 to SkipFrames do
+    for var I  := SkipFrames to len(ExcInfo.stack) - 1 do
     begin
-      CurrentTraceback := CurrentTraceback.tb_next;
-      if VarIsNone(CurrentTraceback) then Break;
-    end;
-    while not VarIsNone(CurrentTraceback) do begin
+      PyFrame := ExcInfo.stack[I];
+      if VarIsNone(PyFrame) then Break;
       try
-        LineNo := CurrentTraceback.tb_lineno;
+        LineNo := PyFrame.lineno;
       except
         LineNo := 0;
       end;
-      CodeObject := CurrentTraceback.tb_frame.f_code;
-      Context := CodeObject.co_name;
-      FileName := CodeObject.co_filename;
+      Context := PyFrame.name;
+      FileName := PyFrame.filename;
       TraceBack.AddItem(Context, FileName, LineNo);
-      CurrentTraceback := CurrentTraceback.tb_next;
     end;
   end;
 
@@ -622,11 +617,11 @@ begin
   if not VarIsPython(ExcInfo) or VarIsNone(ExcInfo) then Exit;
 
   ErrMsg := Format('%s: %s',
-            [VarPythonAsString(ExcInfo.__getitem__(0)),
-             VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]);
+            [VarPythonAsString(ExcInfo.exc_type_str),
+             VarPythonAsString(RPI.safestr(ExcInfo))]);
   Traceback := TPythonTraceback.Create;
   try
-    ExtractTracebackFronExcInfo(Traceback);
+    ExtractTracebackFromExcInfo(Traceback);
     TThread.Synchronize(nil, procedure
     begin
       HandlePyException(Traceback, ErrMsg, 0);
@@ -687,7 +682,7 @@ begin
     try
       Result := RPI.rem_import(NameOfModule, Code);
       Py.PythonEngine.CheckError;
-      var ExcInfo: Variant := RPI.exc_info;
+      var ExcInfo: Variant := RPI.traceback_exception;
       if not VarIsNone(ExcInfo) then begin
         Result := None;
         HandleRemoteException(ExcInfo);
@@ -925,7 +920,7 @@ begin
       try
         try
           if Connected then begin
-            var ExcInfo := RPI.exc_info;
+            var ExcInfo := RPI.traceback_exception;
             if not VarIsNone(ExcInfo) then begin
               HandleRemoteException(ExcInfo);
               ReturnFocusToEditor := False;
@@ -1651,9 +1646,9 @@ begin
     try
       try
         if FRemotePython.Connected then begin
-          var ExcInfo: Variant := FMainDebugger.exc_info;
+          var ExcInfo: Variant := FRemotePython.RPI.traceback_exception;
           if not VarIsNone(ExcInfo) then begin
-            FRemotePython.HandleRemoteException(ExcInfo, 2);
+            FRemotePython.HandleRemoteException(ExcInfo);
             ReturnFocusToEditor := False;
             FRemotePython.CanDoPostMortem := True;
           end;

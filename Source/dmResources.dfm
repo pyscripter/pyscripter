@@ -564,6 +564,9 @@ object ResourcesDataModule: TResourcesDataModule
           '##                    format='#39'(%(threadName)-10s) %(message)s'#39')'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
+          '    #class variable to store exception and traceback info'
+          '    traceback_exception = None'
+          ''
           '    class DebugManager:'
           '        # Debugger commands'
           
@@ -631,31 +634,6 @@ object ResourcesDataModule: TResourcesDataModule
           '            self.InitStepIn = False'
           '            self.tracecount = 0'
           '            self._sys = __import__("sys")'
-          ''
-          '        def showtraceback(self):'
-          '            """Display the exception that just occurred.'
-          
-            '            We remove the first two stack items because it is ou' +
-            'r own code.'
-          '            """'
-          '            import sys, traceback'
-          '            try:'
-          
-            '                sys.last_type, sys.last_value, last_tb = ei = sy' +
-            's.exc_info()'
-          '                tblist = traceback.extract_tb(ei[2])'
-          '                del tblist[:2]'
-          '                lines = traceback.format_list(tblist)'
-          '                if lines:'
-          
-            '                    lines.insert(0, "Traceback (most recent call' +
-            ' last):\n")'
-          
-            '                lines.extend(traceback.format_exception_only(ei[' +
-            '0], ei[1]))'
-          '            finally:'
-          '                tblist = tb = None'
-          '            sys.stderr.write('#39#39'.join(lines))'
           ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
@@ -799,7 +777,7 @@ object ResourcesDataModule: TResourcesDataModule
             'er'
           '            threading.Thread = self.thread_wrapper'
           ''
-          '            self.exc_info = None'
+          '            self._interpreter_class.traceback_exception = None'
           '            try:'
           '                try:'
           '                    bdb.Bdb.run(self, cmd, globals, locals)'
@@ -818,17 +796,7 @@ object ResourcesDataModule: TResourcesDataModule
           '                    elif isinstance(e.code, int):'
           '                        print("Exit code: ", e.code)'
           '                except:'
-          '                    self.showtraceback()'
-          '                    exc_info = sys.exc_info()'
-          '                    if hasattr(exc_info[0], "__name__"):'
-          '                        name = exc_info[0].__name__'
-          '                    elif type(exc_info[0]) == str:'
-          '                        name = exc_info[0]'
-          '                    else:'
-          '                        name = ""'
-          
-            '                    self.exc_info = (name, exc_info[1], exc_info' +
-            '[2])'
+          '                    self._interpreter_class.showtraceback(2)'
           '            finally:'
           '                sys.stdin, sys.stdout, sys.stderr = saveStdio'
           '                if '#39'__file__'#39' in globals:'
@@ -891,7 +859,6 @@ object ResourcesDataModule: TResourcesDataModule
           '        code.InteractiveInterpreter.__init__(self, locals)'
           '        self.locals["__name__"] = "__main__"'
           '        self.inspect = __import__("inspect")'
-          '        self.exc_info = None'
           ''
           '        try:'
           '            pyrepr = __import__('#39'repr'#39').Repr()'
@@ -1034,10 +1001,20 @@ object ResourcesDataModule: TResourcesDataModule
           ''
           '    def showsyntaxerror(self, filename=None, **kwargs):'
           '        import sys, code'
+          '        from traceback import TracebackException'
           '        old_excepthook = sys.excepthook'
           '        sys.excepthook = sys.__excepthook__'
           '        try:'
           '            super().showsyntaxerror(filename)'
+          
+            '            self.__class__.traceback_exception = TracebackExcept' +
+            'ion(sys.last_type, sys.last_value, None)'
+          
+            '            if not hasattr(self.__class__.traceback_exception, "' +
+            'exc_type_str"):'
+          
+            '                self.__class__.traceback_exception.exc_type_str ' +
+            '= sys.last_type.__name__ if sys.last_type else '#39'<unknown>'#39
           '        finally:'
           '            sys.excepthook = old_excepthook'
           '            try:'
@@ -1144,16 +1121,12 @@ object ResourcesDataModule: TResourcesDataModule
           ''
           '    def rem_compile(self, source, fname):'
           '        import sys'
-          '        self.exc_info = None'
+          '        self.__class__.traceback_exception = None'
           '        try:'
           '            return compile(source, fname, "exec")'
           '        except (OverflowError, SyntaxError, ValueError) as e:'
           '            print()'
           '            self.showsyntaxerror(fname)'
-          '            exc_info = sys.exc_info()'
-          
-            '            self.exc_info = (exc_info[0].__name__, exc_info[1], ' +
-            'exc_info[2], issubclass(exc_info[0], SyntaxError))'
           ''
           '    def rem_import(self, name, code):'
           '        import sys'
@@ -1161,7 +1134,7 @@ object ResourcesDataModule: TResourcesDataModule
           '        mod = types.ModuleType(name)'
           '        mod.__file__ = code.co_filename'
           ''
-          '        self.exc_info = None'
+          '        self.__class__.traceback_exception = None'
           '        try:'
           '            exec(code, mod.__dict__)'
           '            sys.modules[name] = mod'
@@ -1170,14 +1143,6 @@ object ResourcesDataModule: TResourcesDataModule
           '            pass'
           '        except:'
           '            self.showtraceback()'
-          '            exc_info = sys.exc_info()'
-          '            if hasattr(exc_info[0], "__name__"):'
-          '                name = exc_info[0].__name__'
-          '            elif type(exc_info[0]) == str:'
-          '                name = exc_info[0]'
-          '            else:'
-          '                name = ""'
-          '            self.exc_info = (name, exc_info[1], exc_info[2])'
           ''
           '    def run_nodebug(self, cmd, globals=None, locals=None):'
           '        import types'
@@ -1198,7 +1163,7 @@ object ResourcesDataModule: TResourcesDataModule
           '        else:'
           '            cmd = cmd+'#39'\n'#39
           ''
-          '        self.exc_info = None'
+          '        self.__class__.traceback_exception = None'
           '        try:'
           '            try:'
           '                exec(cmd, globals, locals)'
@@ -1217,14 +1182,6 @@ object ResourcesDataModule: TResourcesDataModule
           '                    print("Exit code: ", e.code)'
           '            except:'
           '                self.showtraceback()'
-          '                exc_info = sys.exc_info()'
-          '                if hasattr(exc_info[0], "__name__"):'
-          '                    name = exc_info[0].__name__'
-          '                elif type(exc_info[0]) == str:'
-          '                    name = exc_info[0]'
-          '                else:'
-          '                    name = ""'
-          '                self.exc_info = (name, exc_info[1], exc_info[2])'
           '        finally:'
           '            sys.stdin, sys.stdout, sys.stderr = saveStdio'
           '            if '#39'__file__'#39' in globals:'
@@ -1380,7 +1337,39 @@ object ResourcesDataModule: TResourcesDataModule
             'ment(module))'
           '        return html'
           ''
+          '    @classmethod'
+          '    def showtraceback(cls, skipframes = 1):'
+          '        try:'
+          '            import sys'
+          '            from traceback import TracebackException'
+          '            typ, value, tb = sys.exc_info()'
+          '            if tb is not None:'
+          '                for _ in range(skipframes):'
+          '                    tb = tb.tb_next'
+          '            sys.last_traceback = tb'
+          '            if value:'
+          '                value = value.with_traceback(tb)'
+          '            sys.last_value = sys.last_exc = value'
+          '            sys.last_type = typ'
+          
+            '            cls.traceback_exception = TracebackException.from_ex' +
+            'ception(value)'
+          
+            '            if not hasattr(cls.traceback_exception, "exc_type_st' +
+            'r"):'
+          
+            '                cls.traceback_exception.exc_type_str = typ.__nam' +
+            'e__ if typ else '#39'<unknown>'#39
+          '            lines = cls.traceback_exception.format()'
+          '            sys.stderr.write("".join(lines))'
+          '        finally:'
+          '            typ = value = tb = None'
+          ''
           '_RPI = RemotePythonInterpreter(globals())'
+          
+            'RemotePythonInterpreter.IDEDebugger._interpreter_class = RemoteP' +
+            'ythonInterpreter'
+          ''
           ''
           'import os'
           'try:'
