@@ -1119,7 +1119,7 @@ begin
     if InformationLossWarning and not IsAnsiOnly(WStr) then begin
       Result :=
         StyledMessageDlg(Format(_(SFileEncodingWarning),
-        [AFileName, 'ANSI']), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
+        [AFileName, 'ANSI']), mtWarning, [mbYes, mbNo], 0) = mrYes ;
     end;
   end;
 end;
@@ -1250,13 +1250,29 @@ begin
       end;
     end;
 
-    if not GI_PyIDEServices.FileIsPythonSource(AFileName) or (Lines.Encoding <> TEncoding.ANSI) then
+    if not GI_PyIDEServices.FileIsPythonSource(AFileName) then
+    begin
+      if (Lines.Encoding <> TEncoding.ANSI) or IsAnsiOnly(Lines.Text) then
+      begin
+        Lines.SaveToFile(AFileName);
+        Exit(True);
+      end
+      // Warn about information loss
+      else if StyledMessageDlg(Format(_(SFileEncodingWarning),
+        [AFileName, 'ANSI']), mtWarning, [mbYes, mbNo], 0) = mrYes then
+      begin
+        Lines.SaveToFile(AFileName);
+        Exit(True);
+      end;
+      Exit(False);
+    end
+    else if (Lines.Encoding <> TEncoding.ANSI) then
     begin
       Lines.SaveToFile(AFileName);
       Exit(True);
     end;
 
-    // For Ansi encoded Python files you have deal with coding comments
+    // For Ansi encoded Python files we deal with coding comments
     Result := WideStringsToEncodedText(AFileName, Lines, EncodedText, True);
 
     if Result then begin
