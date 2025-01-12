@@ -282,7 +282,7 @@ const
   SInterruptRunningScript = 'The Python Script has timed out.' + sLineBreak +
                             'Do you want to interrupt it?';
   SNoTestsFound = 'No tests found!';
-  SDuplicateKey = 'Duplicate Key';
+  SDuplicateKey = 'Shortcut for command "%s" is already used for command "%s"';
   SChangedFilesReloaded = 'Changed files have been reloaded';
   SFileChangeNotification = 'File Change Notification';
   SFileReloadWarning = 'The following files have been changed on disk.'+

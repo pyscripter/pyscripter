@@ -944,11 +944,12 @@ begin
   try
     UpdateKey(Key);
   except
-     on E: ESynKeyError do begin
-       Key.ShortCut := OldShortcut;
-       Key.ShortCut2 := OldShortcut2;
-       StyledMessageDlg(_(SDuplicateKey), mtError, [TMsgDlgBtn.mbOK], 0);
-     end;
+    on E: ESynKeyError do
+    begin
+      Key.ShortCut := OldShortcut;
+      Key.ShortCut2 := OldShortcut2;
+      StyledMessageDlg(E.Message, mtError, [TMsgDlgBtn.mbOK], 0);
+    end;
   end;
   FillInKeystrokeInfo(TSynEditKeyStroke(KeyList.Selected.Data), KeyList.Selected);
 end;
@@ -1012,11 +1013,11 @@ begin
     FillInKeystrokeInfo(TSynEditKeyStroke(Item.Data), Item);
     Item.Selected:= True;
   except
-     on E: ESynKeyError do begin
-       StyledMessageDlg(_(SDuplicateKey), mtError, [TMsgDlgBtn.mbOK], 0);
-       TSynEditKeyStroke(Item.Data).Free;
-       Item.Delete;
-     end;
+    on E: ESynKeyError do begin
+      StyledMessageDlg(E.Message, mtError, [TMsgDlgBtn.mbOK], 0);
+      TSynEditKeyStroke(Item.Data).Free;
+      Item.Delete;
+    end;
   end;
   Item.MakeVisible(True);
 end;
@@ -1137,9 +1138,11 @@ var TmpString: string;      begin
       TmpString := 'User Command';
       if Assigned(GetUserCommandNames) then
         GetUserCommandNames(Command, TmpString);
-    end else begin
+    end
+    else
+    begin
       if FExtended then
-        TmpString := _(ConvertCodeStringToExtended(EditorCommandToCodeString(Command)))
+        TmpString := _((EditorCommandToExtendedCodeString(Command)))
       else
         TmpString := EditorCommandToCodeString(Command);
     end;
