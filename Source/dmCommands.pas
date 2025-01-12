@@ -1199,9 +1199,9 @@ begin
         end;
         if AppStorage.PathExists('Editor Shortcuts') then
         begin
-          TempKeyStrokes := TSynEditKeyStrokes.Create(nil);
+          TempKeyStrokes := TSmartPtr.Make(TSynEditKeyStrokes.Create(nil))();
           try
-            AppStorage.ReadCollection('Editor Shortcuts', EditorOptions.Keystrokes, True);
+            AppStorage.ReadCollection('Editor Shortcuts', TempKeyStrokes, True);
             EditorOptions.Keystrokes.Assign(TempKeyStrokes);
           except
            on E: ESynKeyError do
