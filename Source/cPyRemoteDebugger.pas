@@ -1313,7 +1313,7 @@ begin
   GI_PyInterpreter.AppendPrompt;
 
   TraceBack := FRemotePython.Conn.modules.sys.last_traceback;
-  BotFrame := TraceBack.tb_frame;
+  BotFrame := TraceBack.tb_frame.f_back; // so that TraceBack.tb_frame is included
   while not VarIsNone(TraceBack.tb_next) do
     TraceBack := TraceBack.tb_next;
   Frame := TraceBack.tb_frame;
@@ -1398,7 +1398,8 @@ procedure TPyRemDebugger.GetCallStack(CallStackList: TObjectList<TBaseFrameInfo>
 begin
   CallStackList.Clear;
   if VarIsPython(Frame) then begin
-    while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
+    while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do
+    begin
       CallStackList.Add(TFrameInfo.Create(Frame));
       Frame := Frame.f_back;
       if VarIsSame(Frame, Botframe) then Break;
