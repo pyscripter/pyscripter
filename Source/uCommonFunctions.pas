@@ -121,9 +121,6 @@ procedure SetContentFont(const AFont: TFont);
 (* Get the text between two Synedit Block coordinates *)
 function GetBlockText(Strings: TStrings; BlockBegin, BlockEnd: TBufferCoord): string;
 
-(* Extract Error information from a VarPyth variant containing the Python error *)
-procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
-
 (* Get Encoded Ansi string from WideStrings ttaking into account Python file encodings *)
 function WideStringsToEncodedText(const AFileName: string;
   Lines: TStrings; var EncodedText: AnsiString;
@@ -1028,25 +1025,6 @@ begin
   end;
   if Line = BlockBegin.Line then
     Delete(Result, 1, BlockBegin.Char -1);
-end;
-
-procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
-begin
-  try
-    FileName := E.filename;
-  except
-    FileName := '';
-  end;
-  try
-    LineNo := E.lineno;
-  except
-    LineNo := 0;
-  end;
-  try
-    Offset := E.offset;
-  except
-    Offset := 0;
-  end;
 end;
 
 function WideStringsToEncodedText(const AFileName: string;

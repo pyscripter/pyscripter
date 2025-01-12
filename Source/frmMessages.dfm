@@ -6,6 +6,9 @@ inherited MessagesWindow: TMessagesWindow
   Caption = 'Messages'
   ClientHeight = 218
   ClientWidth = 741
+  DesignSize = (
+    741
+    218)
   TextHeight = 15
   inherited BGPanel: TPanel
     Width = 741
@@ -184,12 +187,12 @@ inherited MessagesWindow: TMessagesWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 16
+        CollectionIndex = 25
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 30
         CollectionName = 'Delete'
         Name = 'Delete'
       end

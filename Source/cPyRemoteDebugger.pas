@@ -90,6 +90,8 @@ type
     function UnitTestResult: Variant; override;
     function NameSpaceItemFromPyObject(AName: string; APyObject: Variant): TBaseNameSpaceItem; override;
     procedure Pickle(AValue: Variant; const FileName: string); override;
+    class procedure ExtractPyErrorInfo(E: Variant; var FileName: string;
+      var LineNo: Integer; var Offset: Integer); static;
 
     property IsAvailable: Boolean read FServerIsAvailable;
     property Connected: Boolean read FConnected;
@@ -1246,6 +1248,29 @@ function TPyRemoteInterpreter.UnitTestResult: Variant;
 begin
   Result := RPI.IDETestResult();
 end;
+
+(* Extract Error information from a VarPyth variant containing a Python error *)
+class procedure TPyRemoteInterpreter.ExtractPyErrorInfo(E: Variant;
+  var FileName: string; var LineNo: Integer; var Offset: Integer);
+begin
+  try
+    FileName := E.filename;
+  except
+    FileName := '';
+  end;
+  try
+    LineNo := E.lineno;
+  except
+    LineNo := 0;
+  end;
+  try
+    Offset := E.offset;
+  except
+    Offset := 0;
+  end;
+end;
+
+
 
 { TPyRemDebugger }
 

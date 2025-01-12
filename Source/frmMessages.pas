@@ -87,8 +87,7 @@ type
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
 
-    procedure ShowPythonSyntaxError(E: EPySyntaxError); overload;
-    procedure ShowPythonSyntaxError(ErrorClass: string; E: Variant); overload;
+    procedure ShowPythonSyntaxError(E: EPySyntaxError);
     procedure JumpToPosition(Node: PVirtualNode);
     procedure UpdateMsgActions;
   end;
@@ -214,22 +213,6 @@ begin
     AddMessage('    ' + EValue, EFileName, ELineNumber, EOffset);
     ShowDockForm(Self);
   end;
-end;
-
-procedure TMessagesWindow.ShowPythonSyntaxError(ErrorClass: string; E: Variant);
-var
-  Msg, FileName: string;
-  LineNo, Offset: Integer;
-begin
-  try
-    Msg := E;
-  except
-    Msg := '';
-  end;
-  ExtractPyErrorInfo(E, FileName, LineNo, Offset);
-  AddMessage(ErrorClass);
-  AddMessage('    ' + Msg, FileName, LineNo, Offset);
-  ShowDockForm(Self);
 end;
 
 procedure TMessagesWindow.ShowWindow;
