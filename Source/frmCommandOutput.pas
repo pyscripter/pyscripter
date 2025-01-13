@@ -256,10 +256,10 @@ var
     if APos = 0 then
       Result:= 0
     else begin
-      Result := 1 +                                        // whole text
-           (Ord((FilePos > 0) and (APos > FilePos)) shl 1) + // file name
-           Ord((LinePos > 0) and (APos > LinePos)) +         // line number
-           Ord((ColPos > 0) and (APos > ColPos));            // col number
+      Result := 1 +                                    // whole text
+           Ord((FilePos > 0) and (APos > FilePos)) +   // file name
+           Ord((LinePos > 0) and (APos > LinePos)) +   // line number
+           Ord((ColPos > 0) and (APos > ColPos));       // col number
     end;
   end;
 

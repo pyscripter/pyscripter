@@ -1001,25 +1001,50 @@ var
    Match : TMatch;
    ErrLineNo, LineNo : integer;
    FileName : string;
+   Token: string;
+   Attr: TSynHighlighterAttributes;
 begin
-  RegExTraceback := CompiledRegEx(STracebackFilePosExpr);
   RegExWarning := CompiledRegEx(SWarningFilePosExpr);
-  LineNo:= Synedit.CaretY - 1;
-  while LineNo >= Synedit.CaretY - 4 do begin
-    if Synedit.Lines[LineNo].StartsWith('Traceback') then
-      inc(LineNo);
-    Match := RegExTraceback.Match(Synedit.Lines[LineNo]);
-    if not Match.Success then
-      Match := RegExWarning.Match(Synedit.Lines[LineNo]);
-    if Match.Success then begin
-      ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
-      FileName := Match.GroupValue(1);
-      if Assigned(PyControl.ActiveInterpreter) then
-        FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
-      GI_PyIDEServices.ShowFilePosition(FileName, ErrLineNo, 1);
-      break;
+  Match := RegExWarning.Match(SynEdit.LineText);
+  // Also try the previous line
+  if not Match.Success and (SynEdit.CaretY > 1) then
+    Match := RegExWarning.Match(SynEdit.Lines[SynEdit.CaretY - 2]);
+
+  SynEdit.GetHighlighterAttriAtRowCol(BufferCoord(1, SynEdit.CaretY), Token, Attr);
+
+  if not Match.Success and
+    (Attr = TSynPythonInterpreterSyn(SynEdit.Highlighter).TracebackAttri)
+  then
+  begin
+    RegExTraceback := CompiledRegEx(STracebackFilePosExpr);
+    LineNo:= Synedit.CaretY;
+    if Synedit.LineText.StartsWith('Traceback') then
+      Inc(LineNo);
+
+    while Attr = TSynPythonInterpreterSyn(SynEdit.Highlighter).TracebackAttri do
+    begin
+      Match := RegExTraceback.Match(Synedit.Lines[LineNo - 1]);
+      if Match.Success then
+        Break
+      else
+      begin
+        Dec(LineNo);
+        if LineNo < 1 then  // just in case
+          Break;
+
+        SynEdit.GetHighlighterAttriAtRowCol(BufferCoord(1, LineNo), Token, Attr);
+      end;
     end;
-    dec(LineNo);
+  end;
+
+  if Match.Success then
+  begin
+    SynEdit.CaretXY := SynEdit.CaretXY; // remove selection
+    ErrLineNo := StrToIntDef(Match.GroupValue(2), 0);
+    FileName := Match.GroupValue(1);
+    if Assigned(PyControl.ActiveInterpreter) then
+      FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
+    GI_PyIDEServices.ShowFilePosition(FileName, ErrLineNo, 1);
   end;
 end;
 
