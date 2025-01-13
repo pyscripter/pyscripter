@@ -1195,6 +1195,8 @@ begin
     TabWidth := 4;
     MaxUndo := 0;
 
+    SelectedColor.FillWholeLines := False;
+
     RegisterEditorUserCommands(EditorOptions.Keystrokes);
   end;
 end;
