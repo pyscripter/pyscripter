@@ -3357,6 +3357,7 @@ begin
   end;
 
   actPythonFreeThreaded.Enabled :=
+    GI_PyControl.PythonLoaded and
     (PyIDEOptions.PythonEngineType = peRemote) and
     (PyControl.PythonVersion.PythonFreeThreadedExecutable <> '');
   actPythonFreeThreaded.Checked :=
