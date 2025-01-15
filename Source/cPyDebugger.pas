@@ -603,7 +603,6 @@ procedure TPyInternalDebugger.Debug(ARunConfig: TRunConfiguration;
 var
   Code: Variant;
   Path, OldPath: string;
-  PythonPathAdder: IInterface;
   ReturnFocusToEditor: Boolean;
   [Weak] Editor: IEditor;
 begin
@@ -618,17 +617,9 @@ begin
   //Compile
   Code := InternalInterpreter.Compile(ARunConfig);
 
-  if VarIsPython(Code) then begin
-
-    // Add the path of the script to the Python Path - Will be automatically removed
-    Path := InternalInterpreter.ToPythonFileName(ARunConfig.ScriptName);
-    if Path.StartsWith('<') then
-      Path := ''
-    else
-      Path := TPath.GetDirectoryName(Path);
+  if VarIsPython(Code) then
+  begin
     InternalInterpreter.SysPathRemove('');
-    if Length(Path) > 1 then
-      PythonPathAdder := InternalInterpreter.AddPathToPythonPath(Path);
 
     // Set the Working directory
     if ARunConfig.WorkingDir <> '' then
@@ -680,7 +671,18 @@ begin
     SetDebuggerBreakpoints;
 
     ThreadPythonExec(procedure
+    var
+      PythonPathAdder: IInterface;
     begin
+      // Add the path of the script to the Python Path - Will be automatically removed
+      var Path := InternalInterpreter.ToPythonFileName(ARunConfig.ScriptName);
+      if Path.StartsWith('<') then
+        Path := ''
+      else
+        Path := TPath.GetDirectoryName(Path);
+      if Length(Path) > 1 then
+        PythonPathAdder := InternalInterpreter.AddPathToPythonPath(Path);
+
       if RunToCursorLine >= 0 then  // add temp breakpoint
         InternalInterpreter.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
 
