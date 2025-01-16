@@ -3017,6 +3017,9 @@ begin
   var SynEd := HintInfo.HintControl as TCustomSynEdit;
   if (SynEd.Gutter.Visible) and (HintInfo.CursorPos.X < SynEd.GutterWidth) then
     Exit;
+  if (HintInfo.CursorPos.Y div SynEd.LineHeight) > (SynEd.DisplayRowCount - SynEd.TopLine) then
+    Exit;
+
   var Highlighter := TSynPythonSyn(SynEd.Highlighter);
 
   var DC := SynEd.PixelsToNearestRowColumn(HintInfo.CursorPos.X, HintInfo.CursorPos.Y);
