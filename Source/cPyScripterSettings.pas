@@ -298,7 +298,7 @@ type
     property DisplayPackageNames: Boolean read FDisplayPackageNames
       write FDisplayPackageNames default True;
     property NoOfRecentFiles: Integer read FNoOfRecentFiles
-      write FNoOfRecentFiles default 8;
+      write FNoOfRecentFiles default 12;
     property CodeFoldingEnabled: Boolean read FCodeFoldingEnabled
       write FCodeFoldingEnabled default True;
     property InternalInterpreterHidden: Boolean read FInternalInterpreterHidden
@@ -610,7 +610,7 @@ begin
   FCompleteWithWordBreakChars := False;
   FCompleteWithOneEntry := False;
   FDisplayPackageNames := True;
-  FNoOfRecentFiles := 8;
+  FNoOfRecentFiles := 12;
   FCodeFoldingEnabled := True;
   FInternalInterpreterHidden := True;
   FCompactLineNumbers := True;
