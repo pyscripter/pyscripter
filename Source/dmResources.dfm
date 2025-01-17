@@ -585,9 +585,6 @@ object ResourcesDataModule: TResourcesDataModule
           '        # module for communication with the IDE'
           '        debugIDE = None #will be set to P4D module'
           ''
-          '        # shared debugger breakpoints'
-          '        breakpoints = {}'
-          ''
           '        # main debugger will be set below'
           '        main_debugger = None'
           ''
@@ -611,14 +608,15 @@ object ResourcesDataModule: TResourcesDataModule
             '            self.debug_manager.thread_status(self.ident, self.na' +
             'me, self.debug_manager.thrdRunning)'
           ''
-          
-            '            debugger = self.debug_manager.main_debugger.__class_' +
-            '_()'
+          '            debugger = self.debug_manager.main_debugger'
+          '            debugger.thread_init()'
           '            debugger.reset()'
           '            debugger._sys.settrace(debugger.trace_dispatch)'
           ''
           '            try:'
           '                super().run()'
+          '            except __import__('#39'bdb'#39').BdbQuit:'
+          '                pass'
           '            finally:'
           '                debugger._sys.settrace(None)'
           '                if self.debug_manager:'
@@ -627,13 +625,84 @@ object ResourcesDataModule: TResourcesDataModule
             'elf.name, self.debug_manager.thrdFinished)'
           ''
           '    class IDEDebugger(__import__("bdb").Bdb):'
+          ''
+          '        @staticmethod'
+          '        def create_property(name):'
+          '            """ Create a thread-local property"""'
+          '            return property('
+          '                lambda self: getattr(self.thread_storage, name),'
+          
+            '                lambda self, v: setattr(self.thread_storage, nam' +
+            'e, v)'
+          '            )'
+          ''
+          '        InitStepIn = create_property.__func__('#39'InitStepIn'#39')'
+          '        botframe = create_property.__func__('#39'botframe'#39')'
+          '        enterframe = create_property.__func__('#39'enterframe'#39')'
+          
+            '        frame_returning = create_property.__func__('#39'frame_return' +
+            'ing'#39')'
+          '        returnframe = create_property.__func__('#39'returnframe'#39')'
+          '        stopframe = create_property.__func__('#39'stopframe'#39')'
+          '        stoplineno = create_property.__func__('#39'stoplineno'#39')'
+          
+            '        trace_opcodes = create_property.__func__('#39'trace_opcodes'#39 +
+            ')'
+          
+            '        frame_trace_lines_opcodes = create_property.__func__('#39'fr' +
+            'ame_trace_lines_opcodes'#39')'
+          '        currentbp = create_property.__func__('#39'currentbp'#39')'
+          ''
           '        def __init__(self):'
+          
+            '            self.thread_storage = __import__('#39'threading'#39').local(' +
+            ')'
           '            super().__init__(["bdb"])'
           '            self.locals = globals()'
-          '            self.breaks = self.debug_manager.breakpoints'
           '            self.InitStepIn = False'
           '            self.tracecount = 0'
           '            self._sys = __import__("sys")'
+          '            if (3,10)  <= self._sys.version_info < (3,14):'
+          
+            '                self.code_linenos = __import__("weakref").WeakKe' +
+            'yDictionary()'
+          ''
+          ''
+          '        if (3,10)  <= sys.version_info < (3,14):'
+          '            def break_anywhere(self, frame):'
+          
+            '                filename = self.canonic(frame.f_code.co_filename' +
+            ')'
+          '                if filename not in self.breaks:'
+          '                    return False'
+          '                for lineno in self.breaks[filename]:'
+          '                    if self._lineno_in_frame(lineno, frame):'
+          '                        return True'
+          '                return False'
+          ''
+          '            def _lineno_in_frame(self, lineno, frame):'
+          '                code = frame.f_code'
+          '                if lineno < code.co_firstlineno:'
+          '                    return False'
+          '                if code not in self.code_linenos:'
+          
+            '                    self.code_linenos[code] = set(lineno for _, ' +
+            '_, lineno in code.co_lines())'
+          '                return lineno in self.code_linenos[code]'
+          ''
+          '            def _set_caller_tracefunc(self, current_frame):'
+          '                caller_frame = current_frame.f_back'
+          
+            '                if caller_frame and not caller_frame.f_trace and' +
+            ' caller_frame is not self.botframe:'
+          '                    caller_frame.f_trace = self.trace_dispatch'
+          ''
+          '        def thread_init(self):'
+          '            self.frame_trace_lines_opcodes = {}'
+          '            self.frame_returning = None'
+          '            self.trace_opcodes = False'
+          '            self.enterframe = None'
+          '            self.InitStepIn = False'
           ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
@@ -740,11 +809,6 @@ object ResourcesDataModule: TResourcesDataModule
             'o_filename + " " + frame.f_code.co_name)'
           '            return res'
           ''
-          '        def clear_all_breaks(self):'
-          '            super().clear_all_breaks()'
-          '            self.breaks = self.debug_manager.breakpoints'
-          '            self.breaks.clear()'
-          ''
           '##        def trace_dispatch(self, frame, event, arg):'
           
             '##            logging.debug(frame.f_code.co_filename + " " + eve' +
@@ -780,7 +844,7 @@ object ResourcesDataModule: TResourcesDataModule
           '            self._interpreter_class.traceback_exception = None'
           '            try:'
           '                try:'
-          '                    bdb.Bdb.run(self, cmd, globals, locals)'
+          '                    super().run(cmd, globals, locals)'
           '                    for t in threading.enumerate():'
           
             '                        if (t != threading.main_thread()) and no' +
