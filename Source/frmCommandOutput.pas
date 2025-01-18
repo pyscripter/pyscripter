@@ -408,9 +408,9 @@ begin
           while (LineNo < Length(Strings)) and (Strings[LineNo][1] = ' ') do begin
             with FRegEx.Match(Strings[LineNo]) do
               if Success then begin
-                ErrLineNo := StrToIntDef(GroupValue(3), 0);
+                ErrLineNo := StrToIntDef(GroupValue(2), 0);
                 // add traceback info (function name, filename, linenumber)
-                GI_PyIDEServices.Messages.AddMessage('    ' + GroupValue(5),
+                GI_PyIDEServices.Messages.AddMessage('    ' + GroupValue(4),
                   GetLongFileName(ExpandFileName(GroupValue(1))), ErrLineNo);
               end;
             Inc(LineNo);
