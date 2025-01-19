@@ -1266,9 +1266,10 @@ object ResourcesDataModule: TResourcesDataModule
             'me, self.debug_manager.thrdRunning)'
           ''
           '            debugger = self.debug_manager.main_debugger'
+          '            debugger.thread_init()'
+          '            debugger.reset()'
+          '            debugger.InitStepIn = False'
           '            if debugger._sys.version_info < (3,12):'
-          '                debugger.thread_init()'
-          '                debugger.reset()'
           '                debugger._sys.settrace(debugger.trace_dispatch)'
           ''
           '            try:'
@@ -1317,9 +1318,7 @@ object ResourcesDataModule: TResourcesDataModule
             '            self.thread_storage = __import__("threading").local(' +
             ')'
           '            if sys.version_info >= (3,12):'
-          
-            '                super().__init__(["threading"], backend="monitor' +
-            'ing")'
+          '                super().__init__([], backend="monitoring")'
           '            else:'
           '                super().__init__([])'
           '            self.locals = globals()'
@@ -1365,7 +1364,6 @@ object ResourcesDataModule: TResourcesDataModule
           '            self.frame_returning = None'
           '            self.trace_opcodes = False'
           '            self.enterframe = None'
-          '            self.InitStepIn = False'
           '            self.botframe = None'
           ''
           '        def do_clear(self, arg):'
@@ -1454,8 +1452,6 @@ object ResourcesDataModule: TResourcesDataModule
             '            # check whether this is the first call in a new thre' +
             'ad'
           '            if "InitStepIn" not in self.thread_storage.__dict__:'
-          '                self.thread_init()'
-          '                self.reset()'
           '                return'
           ''
           '            self.tracecount += 1'
