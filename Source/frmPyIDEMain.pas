@@ -602,7 +602,8 @@
             - The Chat Window renders Markdown
             - The Assistant can use a greater variety of Ollama models
             - Layouts now include the secondary workspace status (#494)
-            - Faster debugging for python >= 3.10
+            - Much faster debugging for python >= 3.12
+            - Debugging improvements for python >= 3.10
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347

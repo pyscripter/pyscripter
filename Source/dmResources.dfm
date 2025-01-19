@@ -561,11 +561,668 @@ object ResourcesDataModule: TResourcesDataModule
           '##logging.basicConfig(level=logging.DEBUG,'
           '##                    filename = "test.log",'
           '##                    filemode = "a",'
-          '##                    format='#39'(%(threadName)-10s) %(message)s'#39')'
+          '##                    format="(%(threadName)-10s) %(message)s")'
+          ''
+          'if sys.version_info >= (3,12):'
+          '    class _MonitoringTracer:'
+          '        E = sys.monitoring.events'
+          ''
+          '        EVENT_CALLBACK_MAP = {'
+          '            E.PY_START: "call",'
+          '            E.PY_RESUME: "call",'
+          '            E.PY_THROW: "call",'
+          '            E.LINE: "line",'
+          '            E.JUMP: "jump",'
+          '            E.PY_RETURN: "return",'
+          '            E.PY_YIELD: "return",'
+          '            E.PY_UNWIND: "unwind",'
+          '            E.RAISE: "exception",'
+          '            E.STOP_ITERATION: "exception",'
+          '            E.INSTRUCTION: "opcode",'
+          '        }'
+          ''
+          
+            '        GLOBAL_EVENTS = E.PY_START | E.PY_RESUME | E.PY_THROW | ' +
+            'E.PY_UNWIND | E.RAISE'
+          
+            '        LOCAL_EVENTS = E.LINE | E.JUMP | E.PY_RETURN | E.PY_YIEL' +
+            'D | E.STOP_ITERATION'
+          ''
+          '        _sys = sys'
+          ''
+          '        @staticmethod'
+          '        def clear_tool_id(tool_id):'
+          '            import sys'
+          '            if sys.version_info >= (3,14):'
+          '                sys.monitoring.clear_tool_id(tool_id)'
+          '            else:'
+          
+            '                for event in sys.monitoring.events.__dict__.valu' +
+            'es():'
+          '                    if isinstance(event, int) and event:'
+          
+            '                        sys.monitoring.register_callback(tool_id' +
+            ', event, None)'
+          ''
+          '        def __init__(self):'
+          '            self._tool_id = sys.monitoring.DEBUGGER_ID'
+          '            self._name = "bdbtracer"'
+          '            self._tracefunc = None'
+          '            self._disable_current_event = False'
+          '            self._enabled = False'
+          ''
+          '        def start_trace(self, tracefunc):'
+          '            self._tracefunc = tracefunc'
+          
+            '            curr_tool = self._sys.monitoring.get_tool(self._tool' +
+            '_id)'
+          '            if curr_tool is None:'
+          
+            '                self._sys.monitoring.use_tool_id(self._tool_id, ' +
+            'self._name)'
+          '            elif curr_tool == self._name:'
+          '                self.clear_tool_id(self._tool_id)'
+          '            else:'
+          
+            '                raise ValueError("Another debugger is using the ' +
+            'monitoring tool")'
+          '            E = self._sys.monitoring.events'
+          '            all_events = 0'
+          
+            '            for event, cb_name in self.EVENT_CALLBACK_MAP.items(' +
+            '):'
+          '                callback = getattr(self, f"{cb_name}_callback")'
+          
+            '                self._sys.monitoring.register_callback(self._too' +
+            'l_id, event, callback)'
+          '                if event != E.INSTRUCTION:'
+          '                    all_events |= event'
+          '            self.check_trace_func()'
+          '            self.check_trace_opcodes()'
+          
+            '            self._sys.monitoring.set_events(self._tool_id, self.' +
+            'GLOBAL_EVENTS)'
+          '            self._enabled = True'
+          ''
+          '        def stop_trace(self):'
+          '            self._enabled = False'
+          
+            '            curr_tool = self._sys.monitoring.get_tool(self._tool' +
+            '_id)'
+          '            if curr_tool != self._name:'
+          '                return'
+          '            self.clear_tool_id(self._tool_id)'
+          '            self.check_trace_opcodes()'
+          '            self._sys.monitoring.free_tool_id(self._tool_id)'
+          ''
+          '        def disable_current_event(self):'
+          '            self._disable_current_event = True'
+          ''
+          '        def restart_events(self):'
+          
+            '            if self._sys.monitoring.get_tool(self._tool_id) == s' +
+            'elf._name:'
+          '                self._sys.monitoring.restart_events()'
+          ''
+          '        def callback_wrapper(func):'
+          '            import functools'
+          ''
+          '            @functools.wraps(func)'
+          '            def wrapper(self, *args):'
+          '                try:'
+          '                    frame = self._sys._getframe().f_back'
+          '                    ret = func(self, frame, *args)'
+          '                    if self._enabled and frame.f_trace:'
+          '                        self.check_trace_func()'
+          '                    if self._disable_current_event:'
+          '                        return self._sys.monitoring.DISABLE'
+          '                    else:'
+          '                        return ret'
+          '                except Exception:'
+          '                    self.stop_trace()'
+          '                    raise'
+          '                finally:'
+          '                    self._disable_current_event = False'
+          ''
+          '            return wrapper'
+          ''
+          '        @callback_wrapper'
+          '        def call_callback(self, frame, code, *args):'
+          
+            '            local_tracefunc = self._tracefunc(frame, "call", Non' +
+            'e)'
+          '            if local_tracefunc is not None:'
+          '                frame.f_trace = local_tracefunc'
+          '                if self._enabled:'
+          
+            '                    self._sys.monitoring.set_local_events(self._' +
+            'tool_id, code, self.LOCAL_EVENTS)'
+          ''
+          '        @callback_wrapper'
+          '        def return_callback(self, frame, code, offset, retval):'
+          '            if frame.f_trace:'
+          '                frame.f_trace(frame, "return", retval)'
+          ''
+          '        @callback_wrapper'
+          '        def unwind_callback(self, frame, code, *args):'
+          '            if frame.f_trace:'
+          '                frame.f_trace(frame, "return", None)'
+          ''
+          '        @callback_wrapper'
+          '        def line_callback(self, frame, code, *args):'
+          '            if frame.f_trace and frame.f_trace_lines:'
+          '                frame.f_trace(frame, "line", None)'
+          ''
+          '        @callback_wrapper'
+          
+            '        def jump_callback(self, frame, code, inst_offset, dest_o' +
+            'ffset):'
+          '            if dest_offset > inst_offset:'
+          '                return self._sys.monitoring.DISABLE'
+          '            inst_lineno = self._get_lineno(code, inst_offset)'
+          '            dest_lineno = self._get_lineno(code, dest_offset)'
+          '            if inst_lineno != dest_lineno:'
+          '                return self._sys.monitoring.DISABLE'
+          '            if frame.f_trace and frame.f_trace_lines:'
+          '                frame.f_trace(frame, "line", None)'
+          ''
+          '        @callback_wrapper'
+          '        def exception_callback(self, frame, code, offset, exc):'
+          '            if frame.f_trace:'
+          
+            '                if exc.__traceback__ and hasattr(exc.__traceback' +
+            '__, "tb_frame"):'
+          '                    tb = exc.__traceback__'
+          '                    while tb:'
+          
+            '                        if tb.tb_frame.f_locals.get("self") is s' +
+            'elf:'
+          '                            return'
+          '                        tb = tb.tb_next'
+          
+            '                frame.f_trace(frame, "exception", (type(exc), ex' +
+            'c, exc.__traceback__))'
+          ''
+          '        @callback_wrapper'
+          '        def opcode_callback(self, frame, code, offset):'
+          '            if frame.f_trace and frame.f_trace_opcodes:'
+          '                frame.f_trace(frame, "opcode", None)'
+          ''
+          '        def check_trace_opcodes(self, frame=None):'
+          '            if frame is None:'
+          '                frame = self._sys._getframe().f_back'
+          '            while frame is not None:'
+          
+            '                self.set_trace_opcodes(frame, frame.f_trace_opco' +
+            'des)'
+          '                frame = frame.f_back'
+          ''
+          '        def set_trace_opcodes(self, frame, trace_opcodes):'
+          
+            '            if self._sys.monitoring.get_tool(self._tool_id) != s' +
+            'elf._name:'
+          '                return'
+          '            if trace_opcodes:'
+          
+            '                self._sys.monitoring.set_local_events(self._tool' +
+            '_id, frame.f_code, E.INSTRUCTION)'
+          '            else:'
+          
+            '                self._sys.monitoring.set_local_events(self._tool' +
+            '_id, frame.f_code, 0)'
+          ''
+          '        def check_trace_func(self, frame=None):'
+          '            if frame is None:'
+          '                frame = self._sys._getframe().f_back'
+          '            while frame is not None:'
+          '                if frame.f_trace is not None:'
+          
+            '                    self._sys.monitoring.set_local_events(self._' +
+            'tool_id, frame.f_code, self.LOCAL_EVENTS)'
+          '                frame = frame.f_back'
+          ''
+          '        def _get_lineno(self, code, offset):'
+          '            import dis'
+          '            last_lineno = None'
+          '            for start, lineno in dis.findlinestarts(code):'
+          '                if offset < start:'
+          '                    return last_lineno'
+          '                last_lineno = lineno'
+          '            return last_lineno'
+          ''
+          ''
+          '    class FastBdb(__import__("bdb").Bdb):'
+          '        """Generic Python debugger base class.'
+          ''
+          '        This class takes care of details of the trace facility;'
+          '        a derived class should implement user interaction.'
+          '        The standard debugger class (pdb.Pdb) is an example.'
+          ''
+          
+            '        The optional skip argument must be an iterable of glob-s' +
+            'tyle'
+          
+            '        module name patterns.  The debugger will not step into f' +
+            'rames'
+          
+            '        that originate in a module that matches one of these pat' +
+            'terns.'
+          
+            '        Whether a frame is considered to originate in a certain ' +
+            'module'
+          '        is determined by the __name__ in the frame globals.'
+          '        """'
+          '        def __init__(self, skip=None, backend="settrace"):'
+          
+            '            from inspect import CO_GENERATOR, CO_COROUTINE, CO_A' +
+            'SYNC_GENERATOR'
+          
+            '            self.GENERATOR_AND_COROUTINE_FLAGS = CO_GENERATOR | ' +
+            'CO_COROUTINE | CO_ASYNC_GENERATOR'
+          ''
+          '            super().__init__(skip)'
+          '            global _MonitoringTracer'
+          '            self.backend = backend'
+          '            if backend == "monitoring":'
+          '                self.monitoring_tracer = _MonitoringTracer()'
+          '            else:'
+          '                self.monitoring_tracer = None'
+          '            del(_MonitoringTracer)'
+          ''
+          '        def start_trace(self, trace_dispatch):'
+          '            import sys'
+          '            if self.backend == "monitoring":'
+          
+            '                self.monitoring_tracer.start_trace(trace_dispatc' +
+            'h)'
+          '            else:'
+          '                sys.settrace(self.trace_dispatch)'
+          ''
+          '        def stop_trace(self):'
+          '            import sys'
+          '            if self.backend == "monitoring":'
+          '                self.monitoring_tracer.stop_trace()'
+          '            else:'
+          '                sys.settrace(None)'
+          ''
+          '        def dispatch_line(self, frame):'
+          
+            '            """Invoke user function and return trace function fo' +
+            'r line event.'
+          ''
+          '            If the debugger stops on the current line, invoke'
+          
+            '            self.user_line(). Raise BdbQuit if self.quitting is ' +
+            'set.'
+          
+            '            Return self.trace_dispatch to continue tracing in th' +
+            'is scope.'
+          '            """'
+          '            if self.stop_here(frame) or self.break_here(frame):'
+          '                self.user_line(frame)'
+          
+            '                if self.quitting: raise __import__("bdb").BdbQui' +
+            't'
+          '            else:'
+          '                self.disable_current_event()'
+          '            return self.trace_dispatch'
+          ''
+          ''
+          '        def dispatch_call(self, frame, arg):'
+          
+            '            """Invoke user function and return trace function fo' +
+            'r call event.'
+          ''
+          '            If the debugger stops on this function call, invoke'
+          
+            '            self.user_call(). Raise BdbQuit if self.quitting is ' +
+            'set.'
+          
+            '            Return self.trace_dispatch to continue tracing in th' +
+            'is scope.'
+          '            """'
+          '            # XXX "arg" is no longer used'
+          '            if self.botframe is None:'
+          '                # First call of dispatch since reset()'
+          
+            '                self.botframe = frame.f_back # (CT) Note that th' +
+            'is may also be None!'
+          '                return self.trace_dispatch'
+          
+            '            if not (self.stop_here(frame) or self.break_anywhere' +
+            '(frame)):'
+          '                # No need to trace this function'
+          '                return # None'
+          
+            '            # Ignore call events in generator except when steppi' +
+            'ng.'
+          
+            '            if self.stopframe and frame.f_code.co_flags & self.G' +
+            'ENERATOR_AND_COROUTINE_FLAGS:'
+          '                return self.trace_dispatch'
+          '            self.user_call(frame, arg)'
+          '            self.restart_events()'
+          '            if self.quitting: raise __import__("bdb").BdbQuit'
+          '            return self.trace_dispatch'
+          ''
+          '        def dispatch_return(self, frame, arg):'
+          
+            '            """Invoke user function and return trace function fo' +
+            'r return event.'
+          ''
+          
+            '            If the debugger stops on this function return, invok' +
+            'e'
+          
+            '            self.user_return(). Raise BdbQuit if self.quitting i' +
+            's set.'
+          
+            '            Return self.trace_dispatch to continue tracing in th' +
+            'is scope.'
+          '            """'
+          
+            '            if self.stop_here(frame) or frame == self.returnfram' +
+            'e:'
+          
+            '                # Ignore return events in generator except when ' +
+            'stepping.'
+          
+            '                if self.stopframe and frame.f_code.co_flags & se' +
+            'lf.GENERATOR_AND_COROUTINE_FLAGS:'
+          
+            '                    # It is possible to trigger a StopIteration ' +
+            'exception in'
+          
+            '                    # the caller so we must set the trace functi' +
+            'on in the caller'
+          '                    self._set_caller_tracefunc(frame)'
+          '                    return self.trace_dispatch'
+          '                try:'
+          '                    self.frame_returning = frame'
+          '                    self.user_return(frame, arg)'
+          '                    self.restart_events()'
+          '                finally:'
+          '                    self.frame_returning = None'
+          
+            '                if self.quitting: raise __import__("bdb").BdbQui' +
+            't'
+          '                # The user issued a '#39'next'#39' or '#39'until'#39' command.'
+          
+            '                if self.stopframe is frame and self.stoplineno !' +
+            '= -1:'
+          '                    self._set_stopinfo(None, None)'
+          
+            '                # The previous frame might not have f_trace set,' +
+            ' unless we are'
+          
+            '                # issuing a command that does not expect to stop' +
+            ', we should set'
+          '                # f_trace'
+          '                if self.stoplineno != -1:'
+          '                    self._set_caller_tracefunc(frame)'
+          '            return self.trace_dispatch'
+          ''
+          '        def dispatch_exception(self, frame, arg):'
+          
+            '            """Invoke user function and return trace function fo' +
+            'r exception event.'
+          ''
+          '            If the debugger stops on this exception, invoke'
+          
+            '            self.user_exception(). Raise BdbQuit if self.quittin' +
+            'g is set.'
+          
+            '            Return self.trace_dispatch to continue tracing in th' +
+            'is scope.'
+          '            """'
+          '            if self.stop_here(frame):'
+          
+            '                # When stepping with next/until/return in a gene' +
+            'rator frame, skip'
+          
+            '                # the internal StopIteration exception (with no ' +
+            'traceback)'
+          
+            '                # triggered by a subiterator run with the "yield' +
+            ' from" statement.'
+          
+            '                if not (frame.f_code.co_flags & self.GENERATOR_A' +
+            'ND_COROUTINE_FLAGS'
+          
+            '                        and arg[0] is StopIteration and arg[2] i' +
+            's None):'
+          '                    self.user_exception(frame, arg)'
+          '                    self.restart_events()'
+          
+            '                    if self.quitting: raise __import__('#39'bdb'#39').Bd' +
+            'bQuit'
+          
+            '            # Stop at the StopIteration or GeneratorExit excepti' +
+            'on when the user'
+          
+            '            # has set stopframe in a generator by issuing a retu' +
+            'rn command, or a'
+          
+            '            # next/until command at the last statement in the ge' +
+            'nerator before the'
+          '            # exception.'
+          '            elif (self.stopframe and frame is not self.stopframe'
+          
+            '                    and self.stopframe.f_code.co_flags & self.GE' +
+            'NERATOR_AND_COROUTINE_FLAGS'
+          
+            '                    and arg[0] in (StopIteration, GeneratorExit)' +
+            '):'
+          '                self.user_exception(frame, arg)'
+          '                self.restart_events()'
+          
+            '                if self.quitting: raise __import__("bdb").BdbQui' +
+            't'
+          ''
+          '            return self.trace_dispatch'
+          ''
+          '        def dispatch_opcode(self, frame, arg):'
+          
+            '            """Invoke user function and return trace function fo' +
+            'r opcode event.'
+          '            If the debugger stops on the current opcode, invoke'
+          
+            '            self.user_opcode(). Raise BdbQuit if self.quitting i' +
+            's set.'
+          
+            '            Return self.trace_dispatch to continue tracing in th' +
+            'is scope.'
+          '            """'
+          '            if self.stop_here(frame) or self.break_here(frame):'
+          '                self.user_opcode(frame)'
+          '                self.restart_events()'
+          
+            '                if self.quitting: raise __import__("bdb").BdbQui' +
+            't'
+          '            return self.trace_dispatch'
+          ''
+          '        def _set_trace_opcodes(self, trace_opcodes):'
+          '            if trace_opcodes != self.trace_opcodes:'
+          '                self.trace_opcodes = trace_opcodes'
+          '                frame = self.enterframe'
+          '                while frame is not None:'
+          '                    frame.f_trace_opcodes = trace_opcodes'
+          '                    if self.backend == "monitoring":'
+          
+            '                        self.monitoring_tracer.set_trace_opcodes' +
+            '(frame, trace_opcodes)'
+          '                    if frame is self.botframe:'
+          '                        break'
+          '                    frame = frame.f_back'
+          ''
+          '        def set_trace(self, frame=None):'
+          '            """Start debugging from frame.'
+          ''
+          
+            '            If frame is not specified, debugging starts from cal' +
+            'ler'#39's frame.'
+          '            """'
+          '            import sys'
+          '            self.stop_trace()'
+          '            if frame is None:'
+          '                frame = sys._getframe().f_back'
+          '            self.reset()'
+          '            self.enterframe = frame'
+          '            while frame:'
+          '                frame.f_trace = self.trace_dispatch'
+          '                self.botframe = frame'
+          
+            '                self.frame_trace_lines_opcodes[frame] = (frame.f' +
+            '_trace_lines, frame.f_trace_opcodes)'
+          
+            '                # We need f_trace_lines == True for the debugger' +
+            ' to work'
+          '                frame.f_trace_lines = True'
+          '                frame = frame.f_back'
+          '            self.set_stepinstr()'
+          '            self.start_trace(self.trace_dispatch)'
+          ''
+          '        def set_continue(self):'
+          '            """Stop only at breakpoints or when finished.'
+          ''
+          
+            '            If there are no breakpoints, set the system trace fu' +
+            'nction to None.'
+          '            """'
+          '            import sys'
+          '            # Don'#39't stop except at breakpoints or when finished'
+          '            self._set_stopinfo(self.botframe, None, -1)'
+          '            if not self.breaks:'
+          '                # no breakpoints; run without debugger overhead'
+          '                self.stop_trace()'
+          '                frame = sys._getframe().f_back'
+          '                while frame and frame is not self.botframe:'
+          '                    del frame.f_trace'
+          '                    frame = frame.f_back'
+          
+            '                for frame, (trace_lines, trace_opcodes) in self.' +
+            'frame_trace_lines_opcodes.items():'
+          
+            '                    frame.f_trace_lines, frame.f_trace_opcodes =' +
+            ' trace_lines, trace_opcodes'
+          '                    if self.backend == "monitoring":'
+          
+            '                        self.monitoring_tracer.set_trace_opcodes' +
+            '(frame, trace_opcodes)'
+          '                self.frame_trace_lines_opcodes = {}'
+          ''
+          '        def set_quit(self):'
+          '            """Set quitting attribute to True.'
+          ''
+          
+            '            Raises BdbQuit exception in the next call to a dispa' +
+            'tch_*() method.'
+          '            """'
+          '            self.stopframe = self.botframe'
+          '            self.returnframe = None'
+          '            self.quitting = True'
+          '            self.stop_trace()'
+          ''
+          '        def disable_current_event(self):'
+          '            """Disable the current event."""'
+          '            if self.backend == "monitoring":'
+          '                self.monitoring_tracer.disable_current_event()'
+          ''
+          '        def restart_events(self):'
+          '            """Restart all events."""'
+          '            if self.backend == "monitoring":'
+          '                self.monitoring_tracer.restart_events()'
+          ''
+          '        # The following methods can be called by clients to use'
+          '        # a debugger to debug a statement or an expression.'
+          '        # Both can be given as a string, or a code object.'
+          ''
+          '        def run(self, cmd, globals=None, locals=None):'
+          
+            '            """Debug a statement executed via the exec() functio' +
+            'n.'
+          ''
+          
+            '            globals defaults to __main__.dict; locals defaults t' +
+            'o globals.'
+          '            """'
+          '            if globals is None:'
+          '                import __main__'
+          '                globals = __main__.__dict__'
+          '            if locals is None:'
+          '                locals = globals'
+          '            self.reset()'
+          '            if isinstance(cmd, str):'
+          '                cmd = compile(cmd, "<string>", "exec")'
+          '            self.start_trace(self.trace_dispatch)'
+          '            try:'
+          '                exec(cmd, globals, locals)'
+          '            except __import__("bdb").BdbQuit:'
+          '                pass'
+          '            finally:'
+          '                self.quitting = True'
+          '                self.stop_trace()'
+          ''
+          '        def runeval(self, expr, globals=None, locals=None):'
+          
+            '            """Debug an expression executed via the eval() funct' +
+            'ion.'
+          ''
+          
+            '            globals defaults to __main__.dict; locals defaults t' +
+            'o globals.'
+          '            """'
+          '            if globals is None:'
+          '                import __main__'
+          '                globals = __main__.__dict__'
+          '            if locals is None:'
+          '                locals = globals'
+          '            self.reset()'
+          '            self.start_trace(self.trace_dispatch)'
+          '            try:'
+          '                return eval(expr, globals, locals)'
+          '            except __import__("bdb").BdbQuit:'
+          '                pass'
+          '            finally:'
+          '                self.quitting = True'
+          '                self.stop_trace()'
+          ''
+          '        def runctx(self, cmd, globals, locals):'
+          '            """For backwards-compatibility.  Defers to run()."""'
+          '            # B/W compatibility'
+          '            self.run(cmd, globals, locals)'
+          ''
+          
+            '        # This method is more useful to debug a single function ' +
+            'call.'
+          ''
+          '        def runcall(self, func, /, *args, **kwds):'
+          '            """Debug a single function call.'
+          ''
+          '            Return the result of the function call.'
+          '            """'
+          '            self.reset()'
+          '            self.start_trace(self.trace_dispatch)'
+          '            res = None'
+          '            try:'
+          '                res = func(*args, **kwds)'
+          '            except __import__("bdb").BdbQuit:'
+          '                pass'
+          '            finally:'
+          '                self.quitting = True'
+          '                self.stop_trace()'
+          '            return res'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
           '    #class variable to store exception and traceback info'
           '    traceback_exception = None'
+          ''
+          '    global FastBdb'
+          '    if sys.version_info >= (3,12):'
+          '        debugger_base = FastBdb'
+          '        del(FastBdb)'
+          '    else:'
+          '        debugger_base = __import__("bdb").Bdb'
           ''
           '    class DebugManager:'
           '        # Debugger commands'
@@ -609,55 +1266,62 @@ object ResourcesDataModule: TResourcesDataModule
             'me, self.debug_manager.thrdRunning)'
           ''
           '            debugger = self.debug_manager.main_debugger'
-          '            debugger.thread_init()'
-          '            debugger.reset()'
-          '            debugger._sys.settrace(debugger.trace_dispatch)'
+          '            if debugger._sys.version_info < (3,12):'
+          '                debugger.thread_init()'
+          '                debugger.reset()'
+          '                debugger._sys.settrace(debugger.trace_dispatch)'
           ''
           '            try:'
           '                super().run()'
-          '            except __import__('#39'bdb'#39').BdbQuit:'
+          '            except __import__("bdb").BdbQuit:'
           '                pass'
           '            finally:'
-          '                debugger._sys.settrace(None)'
+          '                if debugger._sys.version_info < (3,12):'
+          '                    debugger._sys.settrace(None)'
           '                if self.debug_manager:'
           
             '                  self.debug_manager.thread_status(self.ident, s' +
             'elf.name, self.debug_manager.thrdFinished)'
           ''
-          '    class IDEDebugger(__import__("bdb").Bdb):'
+          '    class IDEDebugger(debugger_base):'
           ''
           '        @staticmethod'
           '        def create_property(name):'
           '            """ Create a thread-local property"""'
           '            return property('
-          '                lambda self: getattr(self.thread_storage, name),'
+          '                lambda self: self.thread_storage.__dict__[name],'
           
             '                lambda self, v: setattr(self.thread_storage, nam' +
             'e, v)'
           '            )'
           ''
-          '        InitStepIn = create_property.__func__('#39'InitStepIn'#39')'
-          '        botframe = create_property.__func__('#39'botframe'#39')'
-          '        enterframe = create_property.__func__('#39'enterframe'#39')'
+          '        InitStepIn = create_property.__func__("InitStepIn")'
+          '        botframe = create_property.__func__("botframe")'
+          '        enterframe = create_property.__func__("enterframe")'
           
-            '        frame_returning = create_property.__func__('#39'frame_return' +
-            'ing'#39')'
-          '        returnframe = create_property.__func__('#39'returnframe'#39')'
-          '        stopframe = create_property.__func__('#39'stopframe'#39')'
-          '        stoplineno = create_property.__func__('#39'stoplineno'#39')'
+            '        frame_returning = create_property.__func__("frame_return' +
+            'ing")'
+          '        returnframe = create_property.__func__("returnframe")'
+          '        stopframe = create_property.__func__("stopframe")'
+          '        stoplineno = create_property.__func__("stoplineno")'
           
-            '        trace_opcodes = create_property.__func__('#39'trace_opcodes'#39 +
+            '        trace_opcodes = create_property.__func__("trace_opcodes"' +
             ')'
           
-            '        frame_trace_lines_opcodes = create_property.__func__('#39'fr' +
-            'ame_trace_lines_opcodes'#39')'
-          '        currentbp = create_property.__func__('#39'currentbp'#39')'
+            '        frame_trace_lines_opcodes = create_property.__func__("fr' +
+            'ame_trace_lines_opcodes")'
+          '        currentbp = create_property.__func__("currentbp")'
           ''
           '        def __init__(self):'
           
-            '            self.thread_storage = __import__('#39'threading'#39').local(' +
+            '            self.thread_storage = __import__("threading").local(' +
             ')'
-          '            super().__init__(["bdb"])'
+          '            if sys.version_info >= (3,12):'
+          
+            '                super().__init__(["threading"], backend="monitor' +
+            'ing")'
+          '            else:'
+          '                super().__init__([])'
           '            self.locals = globals()'
           '            self.InitStepIn = False'
           '            self.tracecount = 0'
@@ -666,7 +1330,6 @@ object ResourcesDataModule: TResourcesDataModule
           
             '                self.code_linenos = __import__("weakref").WeakKe' +
             'yDictionary()'
-          ''
           ''
           '        if (3,10)  <= sys.version_info < (3,14):'
           '            def break_anywhere(self, frame):'
@@ -703,6 +1366,7 @@ object ResourcesDataModule: TResourcesDataModule
           '            self.trace_opcodes = False'
           '            self.enterframe = None'
           '            self.InitStepIn = False'
+          '            self.botframe = None'
           ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
@@ -786,6 +1450,14 @@ object ResourcesDataModule: TResourcesDataModule
             '.thrdRunning)'
           ''
           '        def dispatch_call(self, frame, arg):'
+          
+            '            # check whether this is the first call in a new thre' +
+            'ad'
+          '            if "InitStepIn" not in self.thread_storage.__dict__:'
+          '                self.thread_init()'
+          '                self.reset()'
+          '                return'
+          ''
           '            self.tracecount += 1'
           '            #check for Pause'
           '            if self.tracecount > 20000:'
@@ -801,7 +1473,7 @@ object ResourcesDataModule: TResourcesDataModule
           '            res = super().dispatch_call(frame, arg)'
           '            if res:'
           
-            '                if not frame.f_globals.get('#39'__traceable__'#39', True' +
+            '                if not frame.f_globals.get("__traceable__", True' +
             '):'
           '                    return'
           
@@ -829,11 +1501,11 @@ object ResourcesDataModule: TResourcesDataModule
           '            if locals is None:'
           '                locals = globals'
           ''
-          '            globals["__name__"] = '#39'__main__'#39
+          '            globals["__name__"] = "__main__"'
           '            if isinstance(cmd, types.CodeType):'
           '                globals["__file__"] = cmd.co_filename'
           '            else:'
-          '                cmd = cmd+'#39'\n'#39
+          '                cmd = cmd + "\n"'
           ''
           '            old_thread_class = threading.Thread'
           
@@ -863,7 +1535,7 @@ object ResourcesDataModule: TResourcesDataModule
           '                    self._interpreter_class.showtraceback(2)'
           '            finally:'
           '                sys.stdin, sys.stdout, sys.stderr = saveStdio'
-          '                if '#39'__file__'#39' in globals:'
+          '                if "__file__" in globals:'
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
           '                threading.Thread = old_thread_class'
@@ -878,11 +1550,11 @@ object ResourcesDataModule: TResourcesDataModule
           '    IDEDebugger.thread_wrapper = ThreadWrapper'
           '    DebugManager.main_debugger = IDEDebugger()'
           ''
-          '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
+          '    class IDETestResult(__import__("unittest").TestResult):'
           ''
           '        def startTest(self, test):'
           
-            '            __import__('#39'unittest'#39').TestResult.startTest(self, te' +
+            '            __import__("unittest").TestResult.startTest(self, te' +
             'st)'
           
             '            self.debug_manager.debugIDE.testResultStartTest(test' +
@@ -890,13 +1562,13 @@ object ResourcesDataModule: TResourcesDataModule
           ''
           '        def stopTest(self, test):'
           
-            '            __import__('#39'unittest'#39').TestResult.stopTest(self, tes' +
+            '            __import__("unittest").TestResult.stopTest(self, tes' +
             't)'
           '            self.debug_manager.debugIDE.testResultStopTest(test)'
           ''
           '        def addError(self, test, err):'
           
-            '            __import__('#39'unittest'#39').TestResult.addError(self, tes' +
+            '            __import__("unittest").TestResult.addError(self, tes' +
             't, err)'
           
             '            self.debug_manager.debugIDE.testResultAddError(test,' +
@@ -904,7 +1576,7 @@ object ResourcesDataModule: TResourcesDataModule
           ''
           '        def addFailure(self, test, err):'
           
-            '            __import__('#39'unittest'#39').TestResult.addFailure(self, t' +
+            '            __import__("unittest").TestResult.addFailure(self, t' +
             'est, err)'
           
             '            self.debug_manager.debugIDE.testResultAddFailure(tes' +
@@ -915,7 +1587,7 @@ object ResourcesDataModule: TResourcesDataModule
             '            self.debug_manager.debugIDE.testResultAddSuccess(tes' +
             't)'
           
-            '            __import__('#39'unittest'#39').TestResult.addSuccess(self, t' +
+            '            __import__("unittest").TestResult.addSuccess(self, t' +
             'est)'
           '    IDETestResult.debug_manager = DebugManager'
           ''
@@ -925,51 +1597,50 @@ object ResourcesDataModule: TResourcesDataModule
           '        self.inspect = __import__("inspect")'
           ''
           '        try:'
-          '            pyrepr = __import__('#39'repr'#39').Repr()'
+          '            pyrepr = __import__("repr").Repr()'
           '        except:'
-          '            pyrepr = __import__('#39'reprlib'#39').Repr()'
+          '            pyrepr = __import__("reprlib").Repr()'
           '        pyrepr.maxstring = 60'
           '        pyrepr.maxother = 60'
           '        self._repr = pyrepr.repr'
           ''
           '        self.commontypes = frozenset(['
-          '              '#39'NoneType'#39','
-          '              '#39'NotImplementedType'#39','
-          '              '#39'bool'#39','
-          '              '#39'buffer'#39','
-          '              '#39'builtin_function_or_method'#39','
-          '              '#39'code'#39','
-          '              '#39'complex'#39','
-          '              '#39'dict'#39','
-          '              '#39'dictproxy'#39','
-          '              '#39'ellipsis'#39','
-          '              '#39'file'#39','
-          '              '#39'float'#39','
-          '              '#39'frame'#39','
-          '              '#39'function'#39','
-          '              '#39'generator'#39','
-          '              '#39'getset_descriptor'#39','
-          '              '#39'instancemethod'#39','
-          '              '#39'int'#39','
-          '              '#39'list'#39','
-          '              '#39'long'#39','
-          '              '#39'member_descriptor'#39','
-          '              '#39'method'#39','
-          '              '#39'method-wrapper'#39','
-          '              '#39'object'#39','
-          '              '#39'slice'#39','
-          '              '#39'str'#39','
-          '              '#39'traceback'#39','
-          '              '#39'tuple'#39','
-          '              '#39'unicode'#39','
-          '              '#39'xrange'#39'])'
-          ''
+          '              "NoneType",'
+          '              "NotImplementedType",'
+          '              "bool",'
+          '              "buffer",'
+          '              "builtin_function_or_method",'
+          '              "code",'
+          '              "complex",'
+          '              "dict",'
+          '              "dictproxy",'
+          '              "ellipsis",'
+          '              "file",'
+          '              "float",'
+          '              "frame",'
+          '              "function",'
+          '              "generator",'
+          '              "getset_descriptor",'
+          '              "instancemethod",'
+          '              "int",'
+          '              "list",'
+          '              "long",'
+          '              "member_descriptor",'
+          '              "method",'
+          '              "method-wrapper",'
+          '              "object",'
+          '              "slice",'
+          '              "str",'
+          '              "traceback",'
+          '              "tuple",'
+          '              "unicode",'
+          '              "xrange"])'
           ''
           '    def saferepr(self, ob):'
           '        try:'
           '            return self._repr(ob)'
           '        except:'
-          '            return '#39'<unprintable %s object>'#39' % type(ob).__name__'
+          '            return "<unprintable %s object>" % type(ob).__name__'
           ''
           
             '    def membercount(self, ob, dictitems = False, expandcommontyp' +
@@ -1078,7 +1749,7 @@ object ResourcesDataModule: TResourcesDataModule
             'exc_type_str"):'
           
             '                self.__class__.traceback_exception.exc_type_str ' +
-            '= sys.last_type.__name__ if sys.last_type else '#39'<unknown>'#39
+            '= sys.last_type.__name__ if sys.last_type else "<unknown>"'
           '        finally:'
           '            sys.excepthook = old_excepthook'
           '            try:'
@@ -1156,11 +1827,11 @@ object ResourcesDataModule: TResourcesDataModule
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
-          '            if isclass(ob) and (ob.__module__ != '#39'builtins'#39'):'
+          '            if isclass(ob) and (ob.__module__ != "builtins"):'
           
             '                # Look for the highest __init__ in the class cha' +
             'in.'
-          '                fob = getattr(ob, '#39'__init__'#39', ob)'
+          '                fob = getattr(ob, "__init__", ob)'
           '                argOffset = 1'
           '            elif type(ob)==types.MethodType:'
           
@@ -1221,11 +1892,11 @@ object ResourcesDataModule: TResourcesDataModule
           '        if locals is None:'
           '            locals = globals'
           ''
-          '        globals["__name__"] = '#39'__main__'#39
+          '        globals["__name__"] = "__main__"'
           '        if isinstance(cmd, types.CodeType):'
           '            globals["__file__"] = cmd.co_filename'
           '        else:'
-          '            cmd = cmd+'#39'\n'#39
+          '            cmd = cmd + "\n"'
           ''
           '        self.__class__.traceback_exception = None'
           '        try:'
@@ -1248,8 +1919,8 @@ object ResourcesDataModule: TResourcesDataModule
           '                self.showtraceback()'
           '        finally:'
           '            sys.stdin, sys.stdout, sys.stderr = saveStdio'
-          '            if '#39'__file__'#39' in globals:'
-          '                del globals['#39'__file__'#39']'
+          '            if "__file__" in globals:'
+          '                del globals["__file__"]'
           '            __import__("gc").collect()'
           '            try:'
           '                sys.stdout.flush()'
@@ -1304,7 +1975,7 @@ object ResourcesDataModule: TResourcesDataModule
           '        try:'
           '            return os.getcwd()'
           '        except:'
-          '            return '#39#39
+          '            return ""'
           ''
           '    def setupdisplayhook(self):'
           '        import sys, pprint, builtins'
@@ -1318,7 +1989,7 @@ object ResourcesDataModule: TResourcesDataModule
           '        import sys, os'
           '        res = os.system(cmd)'
           '        if res != 0:'
-          '            print('#39'Error code: '#39', res)'
+          '            print("Error code: ", res)'
           '        try:'
           '            sys.stdout.flush()'
           '            sys.stderr.flush()'
@@ -1346,8 +2017,8 @@ object ResourcesDataModule: TResourcesDataModule
           '                sys.stdout.flush()'
           '        with self.DebugManager.user_lock:'
           
-            '            ret = self.DebugManager.debugIDE.InputBox('#39'Python in' +
-            'put'#39', str(prompt), "")'
+            '            ret = self.DebugManager.debugIDE.InputBox("Python in' +
+            'put", str(prompt), "")'
           ''
           '        if not quiet:'
           '            if ret is not None:'
@@ -1370,7 +2041,7 @@ object ResourcesDataModule: TResourcesDataModule
           '        class _HTMLDoc(pydoc.HTMLDoc):'
           '            def page(self, title, contents):'
           '                """Format an HTML page."""'
-          '                css = '#39#39
+          '                css = ""'
           '                if sys.version_info[0:2] >= (3, 11):'
           '                    import os'
           
@@ -1423,7 +2094,7 @@ object ResourcesDataModule: TResourcesDataModule
             'r"):'
           
             '                cls.traceback_exception.exc_type_str = typ.__nam' +
-            'e__ if typ else '#39'<unknown>'#39
+            'e__ if typ else "<unknown>"'
           '            lines = cls.traceback_exception.format()'
           '            sys.stderr.write("".join(lines))'
           '        finally:'
