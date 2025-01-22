@@ -113,7 +113,6 @@ type
     FShowOutput: Boolean;
     FCriticalSection: TRTLCriticalSection;
     FOutputStream: TMemoryStream;
-    FCloseBracketChar: WideChar;
     FOutputMirror: TFileStream;
     procedure GetBlockBoundary(LineN: Integer; var StartLineN,
               EndLineN: Integer; var IsCode: Boolean);
@@ -555,6 +554,10 @@ begin
     Gutter.Visible := False;
     IndentGuides.Visible := False;
     RightEdge := 0;
+    if PyIDEOptions.AutoCompleteBrackets then
+      Options := Options + [eoCompleteBrackets, eoCompleteQuotes]
+    else
+      Options := Options - [eoCompleteBrackets, eoCompleteQuotes];
   end;
 end;
 
@@ -567,9 +570,9 @@ begin
   ValidateEditorOptions(SynEditOptions);
   SynEdit.Assign(SynEditOptions);
   SynEdit.WordWrap := OldWordWrap;
-  RegisterHistoryCommands;
 
   SynEdit.Highlighter.Assign(ResourcesDataModule.SynPythonSyn);
+  RegisterHistoryCommands;
 end;
 
 procedure TPythonIIForm.ApplyPyIDEOptions;
@@ -906,18 +909,8 @@ end;
 
 procedure TPythonIIForm.SynEditCommandProcessed(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
-const
-  OpenBrackets: string = '([{"''';
-  CloseBrackets: string = ')]}"''';
 var
-  OpenBracketPos: Integer;
-  Line: string;
-  Len, Position: Integer;
-  CharRight: WideChar;
-  CharLeft: WideChar;
-  Attr: TSynHighlighterAttributes;
-  DummyToken: string;
-  Caret, BC: TBufferCoord;
+  Caret: TBufferCoord;
 begin
   // Should AutoCompletion be trigerred?
   if (Command = ecChar) and  PyIDEOptions.InterpreterCodeCompletion and
@@ -934,63 +927,6 @@ begin
           DoCodeCompletion(SynEdit, Caret);
         end, IfThen(AChar = '.', 200,
         CommandsDataModule.SynCodeCompletion.TimerInterval));
-    end;
-  end;
-
-  if (Command = ecChar) and PyIDEOptions.AutoCompleteBrackets and
-    (SynEdit.Selections.Count = 1)
-  then
-  with SynEdit do begin
-    Line := LineText;
-    Len := Length(LineText);
-
-    if AChar = FCloseBracketChar then begin
-      if InsertMode and (CaretX <= Len) and (Line[CaretX] = FCloseBracketChar) then
-        ExecuteCommand(ecDeleteChar, #0, nil);
-      FCloseBracketChar := #0;
-    end else if CharInSet(AChar, [')', ']', '}']) then begin
-      FCloseBracketChar := #0;
-      Position := CaretX;
-      if Position <= Len then
-        CharRight := Line[Position]
-      else
-        CharRight := WideNull;
-      if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
-        ExecuteCommand(ecDeleteChar, #0, nil);
-    end else begin
-      FCloseBracketChar := #0;
-      OpenBracketPos := Pos(AChar, OpenBrackets);
-
-      BC := CaretXY;
-      Dec(BC.Char, 2);
-      if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-        ((Attr = Highlighter.StringAttribute) or (Attr = Highlighter.CommentAttribute)) then
-          OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
-
-      if (OpenBracketPos > 0) then begin
-        CharRight := WideNull;
-        Position := CaretX;
-        while (Position <= Len) and Highlighter.IsWhiteChar(LineText[Position]) do
-          Inc(Position);
-        if Position <= Len then
-          CharRight := Line[Position];
-
-        CharLeft := WideNull;
-        Position := CaretX-2;
-        while (Position >= 1) and Highlighter.IsWhiteChar(LineText[Position]) do
-          Dec(Position);
-        if Position >= 1 then
-          CharLeft := Line[Position];
-
-        if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and
-          not (CharInSet(AChar, ['"', '''']) and
-           (Highlighter.IsIdentChar(CharLeft) or (CharLeft= AChar))) then
-        begin
-          SelText := CloseBrackets[OpenBracketPos];
-          CaretX := CaretX - 1;
-          FCloseBracketChar := CloseBrackets[OpenBracketPos];
-        end;
-      end;
     end;
   end;
 end;

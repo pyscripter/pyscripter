@@ -1190,7 +1190,7 @@ begin
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
                 eoTrimTrailingSpaces, eoAutoIndent, eoBracketsHighlight,
-                eoAccessibility];
+                eoAccessibility, eoCompleteBrackets, eoCompleteQuotes];
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;

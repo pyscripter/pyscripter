@@ -164,7 +164,6 @@ type
     FAutoCompleteActive: Boolean;
     FHotIdentInfo: THotIdentInfo;
     FNeedToSyncCodeExplorer: Boolean;
-    FCloseBracketChar: WideChar;
     FOldCaretY: Integer;
     // Hints
     FHintFuture: IFuture<string>;
@@ -335,6 +334,7 @@ uses
   SynHighlighterWebMisc,
   SynHighlighterWeb,
   SynHighlighterPython,
+  SynEditMiscProcs,
   SynDWrite,
   JvGnugettext,
   StringResources,
@@ -1704,7 +1704,6 @@ begin
   end;
   if scCaretY in Changes then begin
     FNeedToSyncCodeExplorer := True;
-    FCloseBracketChar := #0;
     FEditor.RefreshSymbols;
   end;
   if (scCaretY in Changes) and ASynEdit.Gutter.Visible
@@ -2004,38 +2003,33 @@ procedure TEditorForm.EditorCommandHandler(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar;
   Data, HandlerData: Pointer);
 var
-  ASynEdit: TSynEdit;
+  SynEd: TSynEdit;
   PrevLine: string;
-  Position, Len: Integer;
-  OpenBrackets, CloseBrackets: string;
-  OpenBracketPos: Integer;
-  Line: string;
-  CharRight, CharLeft: WideChar;
   Caret: TBufferCoord;
 begin
-  ASynEdit := Sender as TSynEdit;
+  if Handled then Exit;
+
+  SynEd := Sender as TSynEdit;
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
-  if Command <> ecChar then
-    FCloseBracketChar := #0;
 
   if not AfterProcessing then
   begin
-    if (Command <> ecCancelSelections) and (ASynEdit.Selections.Count > 1) then
+    if (Command <> ecCancelSelections) and (SynEd.Selections.Count > 1) then
       Exit;
 
     case Command of
       ecCodeCompletion:
-        if ASynEdit.Highlighter is TSynPythonSyn then
+        if SynEd.Highlighter is TSynPythonSyn then
         begin
           if CommandsDataModule.SynCodeCompletion.Form.Visible then
             CommandsDataModule.SynCodeCompletion.CancelCompletion;
-          DoCodeCompletion(ASynEdit, ASynEdit.CaretXY);
+          DoCodeCompletion(SynEd, SynEd.CaretXY);
           Handled := True;
-        end else if ASynEdit.Highlighter is TSynWebBase then
+        end else if SynEd.Highlighter is TSynWebBase then
           CommandsDataModule.SynWebCompletion.ActivateCompletion;
       ecParamCompletion:
-        if ASynEdit.Highlighter is TSynPythonSyn then
+        if SynEd.Highlighter is TSynPythonSyn then
         begin
           if CommandsDataModule.SynParamCompletion.Form.Visible then
             CommandsDataModule.SynParamCompletion.CancelCompletion;
@@ -2050,120 +2044,52 @@ begin
   begin // AfterProcessing
     case Command of
       ecLineBreak: // Python Mode
-        if ASynEdit.InsertMode and (eoAutoIndent in ASynEdit.Options)
-          and (ASynEdit.Highlighter is TSynPythonSyn)
-          and (ASynEdit.Selections.Count = 1)
+        if SynEd.InsertMode and (eoAutoIndent in SynEd.Options)
+          and (SynEd.Highlighter is TSynPythonSyn)
+          and (SynEd.Selections.Count = 1)
           and not FAutoCompleteActive
         then
         begin
           { CaretY should never be less than 2 right after ecLineBreak, so there's
             no need for a check }
-          PrevLine := TrimRight(ASynEdit.Lines[ASynEdit.CaretY - 2]);
+          PrevLine := TrimRight(SynEd.Lines[SynEd.CaretY - 2]);
 
-          //BC := BufferCoord(Length(PrevLine), ASynEdit.CaretY - 1);
+          //BC := BufferCoord(Length(PrevLine), SynEd.CaretY - 1);
           // Indent on: if a: # success?
-          //if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
-          //  ( // (attr = ASynEdit.Highlighter.StringAttribute) or
-          //  (Attr = ASynEdit.Highlighter.CommentAttribute) or
-          //    (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
+          //if SynEd.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
+          //  ( // (attr = SynEd.Highlighter.StringAttribute) or
+          //  (Attr = SynEd.Highlighter.CommentAttribute) or
+          //    (Attr = TSynPythonSyn(SynEd.Highlighter).CodeCommentAttri) { or
           //    (attr = ResourcesDataModule.SynPythonSyn.DocStringAttri) } ) then
           //begin
           if TPyRegExpr.IsBlockOpener(PrevLine) then
-            ASynEdit.ExecuteCommand(ecTab, #0, nil)
+            SynEd.ExecuteCommand(ecTab, #0, nil)
           else if TPyRegExpr.IsBlockCloser(PrevLine) then
-            ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
+            SynEd.ExecuteCommand(ecShiftTab, #0, nil);
           //end;
         end;
       ecChar:
         // Trigger auto-complection on completion trigger chars
         begin
-          if PyIDEOptions.EditorCodeCompletion and (ASynEdit.Selections.Count = 1) then
+          if PyIDEOptions.EditorCodeCompletion and (SynEd.Selections.Count = 1) then
           begin
             if (TIDECompletion.EditorCodeCompletion.CompletionInfo.Editor = nil)
               and (Pos(AChar, CommandsDataModule.SynCodeCompletion.TriggerChars) > 0)
               and not ResourcesDataModule.CodeTemplatesCompletion.Executing
             then
             begin
-              Caret := ASynEdit.CaretXY;
+              Caret := SynEd.CaretXY;
               TThread.ForceQueue(nil, procedure
                 begin
-                  DoCodeCompletion(ASynEdit, Caret);
+                  DoCodeCompletion(SynEd, Caret);
                 end, IfThen(AChar = '.', 200,
                 CommandsDataModule.SynCodeCompletion.TimerInterval));
             end;
           end;
-
-          // Autocomplete brackets
-          if not FAutoCompleteActive and PyIDEOptions.AutoCompleteBrackets and
-             (ASynEdit.Selections.Count = 1)
-          then
-            with ASynEdit do
-            begin
-              if ASynEdit.Highlighter is TSynPythonSyn then
-              begin
-                OpenBrackets := '([{"''';
-                CloseBrackets := ')]}"''';
-              end
-              else if (ASynEdit.Highlighter = ResourcesDataModule.SynWebHtmlSyn)
-                or (ASynEdit.Highlighter = ResourcesDataModule.SynWebXmlSyn) or
-                (ASynEdit.Highlighter = ResourcesDataModule.SynWebCssSyn) then
-              begin
-                OpenBrackets := '<"''';
-                CloseBrackets := '>"''';
-              end
-              else
-                Exit;
-
-              Line := LineText;
-              Len := Length(LineText);
-
-              if AChar = FCloseBracketChar then
-              begin
-                if InsertMode and (CaretX <= Len) and
-                  (Line[CaretX] = FCloseBracketChar) then
-                  ExecuteCommand(ecDeleteChar, WideNull, nil);
-                FCloseBracketChar := #0;
-              end
-              else if CharInSet(AChar, [')', ']', '}']) then
-              begin
-                FCloseBracketChar := #0;
-                Position := CaretX;
-                if Position <= Len then
-                  CharRight := Line[Position]
-                else
-                  CharRight := WideNull;
-                if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
-                  ExecuteCommand(ecDeleteChar, #0, nil);
-              end
-              else
-              begin
-                //FCloseBracketChar := #0;
-                OpenBracketPos := Pos(AChar, OpenBrackets);
-
-                if (OpenBracketPos > 0) then
-                begin
-                  CharLeft := WideNull;
-                  Position := CaretX - 2;
-                  while (Position >= 1) and Highlighter.IsWhiteChar
-                    (LineText[Position]) do
-                    Dec(Position);
-                  if Position >= 1 then
-                    CharLeft := Line[Position];
-
-                  if not (CharInSet(AChar, ['"', '''']) and (CharLeft = AChar)) then
-                  begin
-                    ExecuteCommand(ecChar, CloseBrackets[OpenBracketPos], nil);
-                    CaretX := CaretX - 1;
-                    if not CharInSet(AChar, [')', ']', '}']) then
-                      FCloseBracketChar := CloseBrackets[OpenBracketPos];
-                  end;
-                end;
-              end;
-            end;
         end;
       ecSelWord:
-        if ASynEdit.SelAvail and PyIDEOptions.HighlightSelectedWord then
-          CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
+        if SynEd.SelAvail and PyIDEOptions.HighlightSelectedWord then
+          CommandsDataModule.HighlightWordInActiveEditor(SynEd.SelText);
       ecLostFocus:
         if not (CommandsDataModule.SynCodeCompletion.Form.Visible or SynEdit.Focused or SynEdit2.Focused) then
           CommandsDataModule.SynParamCompletion.CancelCompletion;
@@ -2522,6 +2448,11 @@ procedure TEditorForm.ApplyPyIDEOptions;
     end
     else
       Editor.ScrollbarAnnotations.Clear;
+
+    if PyIDEOptions.AutoCompleteBrackets then
+      Editor.Options := Editor.Options + [eoCompleteBrackets, eoCompleteQuotes]
+    else
+      Editor.Options := Editor.Options - [eoCompleteBrackets, eoCompleteQuotes];
   end;
 
 begin

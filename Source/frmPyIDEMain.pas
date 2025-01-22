@@ -588,7 +588,7 @@
           Issues addressed
             #1227, #1271, #1319
 
-   History:   v 5.1.3
+   History:   v 5.1.5
           New Features
             - Multi-caret and multi-selection editing #483
             - Annotated scrollbars
@@ -602,8 +602,9 @@
             - The Chat Window renders Markdown
             - The Assistant can use a greater variety of Ollama models
             - Layouts now include the secondary workspace status (#494)
-            - Much faster debugging for python >= 3.12
             - Debugging improvements for python >= 3.10
+            - Much faster debugging for python >= 3.12
+            - Surround editor selection with brackets and quotes
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347
