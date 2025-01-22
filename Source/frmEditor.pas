@@ -2499,9 +2499,26 @@ var
   Editor: TSynEdit;
 begin
   Editor := FActiveSynEdit;
-  if Value.EndsWith('()') then begin
-    Editor.CaretX:= Editor.CaretX - 1;
-    EndToken:= '(';
+  if Value.EndsWith('()') then
+  begin
+    // if the next char is an opening bracket remove the added brackets
+    if (Editor.CaretX <= Editor.LineText.Length) and
+      IsOpeningBracket(Editor.LineText[Editor.CaretX], Editor.Brackets) then
+    begin
+      Editor.BeginUpdate;
+      try
+        Editor.ExecuteCommand(ecDeleteLastChar, #0, nil);
+        Editor.ExecuteCommand(ecDeleteLastChar, #0, nil);
+      finally
+        Editor.EndUpdate;
+      end;
+      EndToken := #0;
+    end
+    else
+    begin
+      Editor.CaretX:= Editor.CaretX - 1;
+      EndToken := '(';
+    end;
   end;
   if EndToken = '(' then
     TThread.ForceQueue(nil, procedure

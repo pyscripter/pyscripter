@@ -1212,8 +1212,24 @@ procedure TPythonIIForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
 begin
   if Value.EndsWith('()') then
   begin
-    SynEdit.CaretX:= SynEdit.CaretX - 1;
-    EndToken:= '(';
+    // if the next char is an opening bracket remove the added brackets
+    if (SynEdit.CaretX <= SynEdit.LineText.Length) and
+      IsOpeningBracket(SynEdit.LineText[SynEdit.CaretX], SynEdit.Brackets) then
+    begin
+      SynEdit.BeginUpdate;
+      try
+        SynEdit.ExecuteCommand(ecDeleteLastChar, #0, nil);
+        SynEdit.ExecuteCommand(ecDeleteLastChar, #0, nil);
+      finally
+        SynEdit.EndUpdate;
+      end;
+      EndToken := #0;
+    end
+    else
+    begin
+      SynEdit.CaretX:= SynEdit.CaretX - 1;
+      EndToken:= '(';
+    end;
   end;
   if EndToken = '(' then
     TThread.ForceQueue(nil, procedure
