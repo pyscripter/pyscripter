@@ -129,7 +129,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Visible = False
         Gutter.Bands = <>
         HideSelection = True
-        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
@@ -159,7 +158,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Visible = False
         Gutter.Bands = <>
         HideSelection = True
-        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
@@ -189,7 +187,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Visible = False
         Gutter.Bands = <>
         HideSelection = True
-        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
@@ -343,7 +340,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Gutter.Visible = False
         Gutter.Bands = <>
         HideSelection = True
-        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
