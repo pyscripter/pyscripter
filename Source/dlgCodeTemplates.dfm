@@ -194,7 +194,6 @@ inherited CodeTemplates: TCodeTemplates
             Kind = gbkMargin
             Width = 2
           end>
-        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollbarAnnotations = <>
         SelectedColor.Alpha = 0.400000005960464500
         TabWidth = 4

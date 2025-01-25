@@ -59,7 +59,6 @@ inherited PythonIIForm: TPythonIIForm
             Kind = gbkMargin
             Width = 3
           end>
-        Options = [eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
         RightEdge = 0
         ScrollbarAnnotations = <
           item

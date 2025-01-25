@@ -1187,10 +1187,11 @@ begin
     Gutter.BorderStyle := gbsNone;
 
     Options := [eoDragDropEditing, eoEnhanceHomeKey, eoShowLigatures,
-                eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
-                eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
+                eoEnhanceEndKey, eoGroupUndo, eoKeepCaretX,
+                eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
                 eoTrimTrailingSpaces, eoAutoIndent, eoBracketsHighlight,
                 eoAccessibility, eoCompleteBrackets, eoCompleteQuotes];
+    ScrollOptions := [eoHideShowScrollbars, eoShowScrollHint];
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;

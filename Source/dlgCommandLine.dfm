@@ -80,10 +80,11 @@ inherited CommandLineDlg: TCommandLineDlg
           Width = 2
         end>
       HideSelection = True
-      Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
       RightEdge = 0
       ScrollBars = ssNone
+      ScrollbarAnnotations = <>
       SelectedColor.Alpha = 0.400000005960464500
+      VisibleSpecialChars = []
       WantReturns = False
     end
     object TBXButton1: TSpTBXButton

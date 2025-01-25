@@ -550,7 +550,8 @@ procedure TPythonIIForm.ValidateEditorOptions(
   SynEditOptions: TSynEditorOptionsContainer);
 begin
   with SynEditOptions do begin
-    Options := Options - [eoTrimTrailingSpaces, eoScrollPastEol, eoShowLigatures];
+    Options := Options - [eoTrimTrailingSpaces, eoShowLigatures];
+    ScrollOptions := ScrollOptions - [eoScrollPastEol];
     Gutter.Visible := False;
     IndentGuides.Visible := False;
     RightEdge := 0;

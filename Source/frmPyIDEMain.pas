@@ -3095,7 +3095,7 @@ const
   DefaultFooter='$PAGENUM$\\.$PAGECOUNT$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
 begin
   var PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
-  if CompareVersions(PyScripterVersion, '5.1.0') >= 0 then begin
+  if CompareVersions(PyScripterVersion, '5.1.4') > 0 then begin
     RemoveDefunctEditorOptions;
     AppStorage.Reload;
   end;
@@ -4918,11 +4918,24 @@ end;
 
 procedure TPyIDEMainForm.RemoveDefunctEditorOptions;
 // since 5.11 to avoid an exception
+const
+  DefunctOptions: array[0..8] of string = (
+    'eoAltSetsColumnMode',
+    'eoDisableScrollArrows',
+    'eoHalfPageScroll',
+    'eoHideShowScrollbars',
+    'eoScrollByOneLess',
+    'eoScrollHintFollows',
+    'eoScrollPastEof',
+    'eoScrollPastEol',
+    'eoShowScrollHint'
+  );
 begin
   var SL:= TSmartPtr.Make(TStringList.Create)();
   SL.LoadFromFile(TPyScripterSettings.OptionsFileName);
   var Settings := SL.Text;
-  Settings := StringReplace(Settings, 'eoAltSetsColumnMode, ', '',
+  for var DefunctOption in DefunctOptions do
+    Settings := StringReplace(Settings, DefunctOption + ', ', '',
     [rfReplaceAll, rfIgnoreCase]);
   SL.Text := Settings;
   SL.SaveToFile(TPyScripterSettings.OptionsFileName);
