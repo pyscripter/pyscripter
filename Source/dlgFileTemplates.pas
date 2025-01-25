@@ -87,7 +87,9 @@ implementation
 uses
   System.SysUtils,
   System.Contnrs,
+  Vcl.Graphics,
   Vcl.Dialogs,
+  Vcl.Themes,
   SynEditHighlighter,
   JvGnugettext,
   uCommonFunctions,
@@ -107,6 +109,9 @@ begin
   SynTemplate.Highlighter := nil;
   ResourcesDataModule.ParameterCompletion.Editor := SynTemplate;
   ResourcesDataModule.ModifierCompletion.Editor := SynTemplate;
+  // Styling
+  SynTemplate.Color := StyleServices.GetSystemColor(clWindow);
+  SynTemplate.Font.Color := StyleServices.GetSystemColor(clWindowText);
 end;
 
 procedure TFileTemplatesDialog.FormDestroy(Sender: TObject);
