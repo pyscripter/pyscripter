@@ -1091,20 +1091,23 @@ begin
       // Print and throw exception for the error
       Py.PythonEngine.CheckError;
     except
-      on E: EPySyntaxError do begin
-        if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
-          Assigned(GI_ActiveEditor)
-        then
-          PyControl.ErrorPos :=
-            TEditorPos.NPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
+      on E: EPySyntaxError do
+        begin
+          var FileName := FromPythonFileName(E.EFileName);
+          if GI_PyIDEServices.ShowFilePosition(FileName, E.ELineNumber, E.EOffset) and
+            Assigned(GI_ActiveEditor)
+          then
+            PyControl.ErrorPos :=
+              TEditorPos.New(FileName, E.ELineNumber, E.EOffset, True);
 
-        GI_PyInterpreter.AppendPrompt;
-        System.SysUtils.Abort;
-      end;
-      on E: EPythonError do begin  //may raise OverflowError or ValueError
-        HandlePyException(Py.PythonEngine.Traceback, E.Message);
-        System.SysUtils.Abort;
-      end;
+          GI_PyInterpreter.AppendPrompt;
+          System.SysUtils.Abort;
+        end;
+      on E: EPythonError do
+        begin  //may raise OverflowError or ValueError
+          HandlePyException(Py.PythonEngine.Traceback, E.Message);
+          System.SysUtils.Abort;
+        end;
     end;
   end else begin
     Result := VarPythonCreate(co);
@@ -1487,7 +1490,7 @@ begin
     except
       on E: EPySyntaxError do begin
         Result := False;
-        ErrorPos := TEditorPos.NPos(Editor, E.ELineNumber, E.EOffset, True);
+        ErrorPos := TEditorPos.New(Editor.FileId, E.ELineNumber, E.EOffset, True);
 
         if not Quiet then
         begin

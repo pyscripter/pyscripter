@@ -308,10 +308,9 @@ begin
       if (Assigned(Editor) and (Editor = GI_PyIDEServices.ActiveEditor)) or
         PyIDEOptions.JumpToErrorOnException then
       begin
-        if GI_PyIDEServices.ShowFilePosition(TBItem.FileName, TBItem.LineNo, 1) and
-          Assigned(GI_ActiveEditor)
+        if GI_PyIDEServices.ShowFilePosition(FileName, TBItem.LineNo, 1)
         then
-          PyControl.ErrorPos := TEditorPos.NPos(GI_ActiveEditor, TBItem.LineNo);
+          PyControl.ErrorPos := TEditorPos.New(FileName, TBItem.LineNo);
       end;
     end;
   end;

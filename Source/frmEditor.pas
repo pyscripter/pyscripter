@@ -1591,7 +1591,7 @@ end;
 
 procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
-  if PyControl.ErrorPos.Editor = GetEditor then
+  if PyControl.ErrorPos.FileName = GetEditor.FileId then
     PyControl.ErrorPos := TEditorPos.EmptyPos;
 
   ClearSearchHighlight(FEditor);
@@ -2307,7 +2307,7 @@ procedure TEditorForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   EditorSearchOptions.InitSearch;
-  if PyControl.ErrorPos.Editor = GetEditor then
+  if PyControl.ErrorPos.FileName = GetEditor.FileId then
     PyControl.ErrorPos := TEditorPos.EmptyPos;
 
   if FHotIdentInfo.HaveHotIdent then

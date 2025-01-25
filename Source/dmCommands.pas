@@ -749,7 +749,7 @@ procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
 begin
   with PyControl.CurrentPos do
     if (Line >= 1) and (PyControl.ActiveDebugger <> nil) and not GI_PyControl.Running then
-      GI_PyIDEServices.ShowFilePosition(Editor.FileId , Line, 1, 0, True, True);
+      GI_PyIDEServices.ShowFilePosition(FileName , Line, 1, 0, True, True);
 end;
 
 procedure TCommandsDataModule.actSearchGoToLineExecute(Sender: TObject);

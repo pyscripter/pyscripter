@@ -13,7 +13,6 @@ interface
 uses
   System.Classes,
   System.RegularExpressions,
-  uEditAppIntfs,
   cTools;
 
 type
@@ -38,20 +37,17 @@ const
   FilePosInfoFormat: string = '%s (%d:%d)';
   FilePosInfoRegExpr: string = '(.+) \((\d+):(\d+)\)$';
 
-
 type
   TEditorPos = record
   public
-    [Weak] Editor: IEditor;
+    FileName: string;
     Line: Integer;
     Char: Integer;
     IsSyntax: Boolean;
     ErrorMsg: string;
     procedure Clear;
-    procedure NewPos(AEditor: IEditor; ALine: Integer; AChar: Integer = -1;
-      IsSyntaxError: Boolean = False; AErrorMsg: string = '');
     class function EmptyPos: TEditorPos; static;
-    class function NPos(AEditor: IEditor; ALine: Integer; AChar: Integer = -1;
+    class function New(FName: string; ALine: Integer; AChar: Integer = -1;
       IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos; static;
   end;
 
@@ -199,7 +195,7 @@ end;
 class function TEditorPos.EmptyPos: TEditorPos;
 begin
   with Result do begin
-    Editor := nil;
+    FileName := '';
     Line := -1;
     Char := -1;
     IsSyntax := False;
@@ -207,21 +203,11 @@ begin
   end;
 end;
 
-procedure TEditorPos.NewPos(AEditor: IEditor; ALine: Integer;
-  AChar: Integer = -1; IsSyntaxError: Boolean = False; AErrorMsg: string = '');
-begin
-  Editor := AEditor;
-  Line := ALine;
-  Char := AChar;
-  IsSyntax := IsSyntaxError;
-  ErrorMsg := AErrorMsg;
-end;
-
-class function TEditorPos.NPos(AEditor: IEditor; ALine, AChar: Integer;
-  IsSyntaxError: Boolean; AErrorMsg: string): TEditorPos;
+class function TEditorPos.New(FName: string; ALine: Integer; AChar: Integer =
+    -1; IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos;
 begin
   with Result do begin
-    Editor := AEditor;
+    FileName := FName;
     Line := ALine;
     Char := AChar;
     IsSyntax := IsSyntaxError;
@@ -231,7 +217,7 @@ end;
 
 procedure TEditorPos.Clear;
 begin
-  Editor := nil;
+  FileName := '';
   Line := -1;
   Char := -1;
   IsSyntax := False;

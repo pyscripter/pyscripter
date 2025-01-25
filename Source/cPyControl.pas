@@ -243,9 +243,9 @@ var
 begin
   Result := [];
   if ALine > 0 then begin
-    if (Editor = CurrentPos.Editor) and (ALine = CurrentPos.Line) then
+    if (Editor.FileId = CurrentPos.FileName) and (ALine = CurrentPos.Line) then
       Include(Result, dlCurrentLine);
-    if (Editor = ErrorPos.Editor) and (ALine = ErrorPos.Line) then
+    if (Editor.FileId = ErrorPos.FileName) and (ALine = ErrorPos.Line) then
       Include(Result, dlErrorLine);
     if IsExecutableLine(Editor, ALine) then
       Include(Result, dlExecutableLine);

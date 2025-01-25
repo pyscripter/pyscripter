@@ -2392,14 +2392,16 @@ procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject;
 begin
   if GetIsClosing then Exit;
 
-  if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then begin
+  var Editor := GI_EditorFactory.GetEditorByFileId(OldPos.FileName);
+  if Assigned(Editor)  and (OldPos.Line > 0) then begin
     // Remove possible error line
-    OldPos.Editor.SynEdit.InvalidateLine(OldPos.Line);
-    OldPos.Editor.SynEdit2.InvalidateLine(OldPos.Line);
+    Editor.SynEdit.InvalidateLine(OldPos.Line);
+    Editor.SynEdit2.InvalidateLine(OldPos.Line);
   end;
-  if Assigned(NewPos.Editor)  and (NewPos.Line > 0) then begin
-    NewPos.Editor.SynEdit.InvalidateLine(NewPos.Line);
-    NewPos.Editor.SynEdit2.InvalidateLine(NewPos.Line);
+  Editor := GI_EditorFactory.GetEditorByFileId(NewPos.FileName);
+  if Assigned(Editor)  and (NewPos.Line > 0) then begin
+    Editor.SynEdit.InvalidateLine(NewPos.Line);
+    Editor.SynEdit2.InvalidateLine(NewPos.Line);
   end;
 end;
 
@@ -2408,20 +2410,22 @@ procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject;
 begin
   if GetIsClosing then Exit;
 
-  if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then
+  var Editor := GI_EditorFactory.GetEditorByFileId(OldPos.FileName);
+  if Assigned(Editor)  and (OldPos.Line > 0) then
     // Remove possible current lines
-    with OldPos.Editor do begin
+    with Editor do begin
       SynEdit.InvalidateGutterLine(OldPos.Line);
       SynEdit.InvalidateLine(OldPos.Line);
       SynEdit2.InvalidateGutterLine(OldPos.Line);
       SynEdit2.InvalidateLine(OldPos.Line);
     end;
 
-  if not Assigned(NewPos.Editor) then Exit;
+  Editor := GI_EditorFactory.GetEditorByFileId(NewPos.FileName);
+  if not Assigned(Editor) then Exit;
 
-  if GetActiveEditor <> NewPos.Editor then
-    NewPos.Editor.Activate;
-  with NewPos.Editor.SynEdit do begin
+  if GetActiveEditor <> Editor then
+    Editor.Activate;
+  with Editor.SynEdit do begin
     if (NewPos.Line > 0) and (CaretY <> NewPos.Line) then begin
       CaretXY := BufferCoord(1, NewPos.Line);
       EnsureCursorPosVisible;
@@ -2429,8 +2433,8 @@ begin
     InvalidateGutterLine(NewPos.Line);
     InvalidateLine(NewPos.Line);
   end;
-  NewPos.Editor.SynEdit2.InvalidateGutterLine(NewPos.Line);
-  NewPos.Editor.SynEdit2.InvalidateLine(NewPos.Line);
+  Editor.SynEdit2.InvalidateGutterLine(NewPos.Line);
+  Editor.SynEdit2.InvalidateLine(NewPos.Line);
 end;
 
 procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,

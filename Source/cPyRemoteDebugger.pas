@@ -435,7 +435,7 @@ begin
           Assigned(GI_ActiveEditor)
         then
           PyControl.ErrorPos :=
-            TEditorPos.NPos(GI_ActiveEditor, LineNo, Offset, True);
+            TEditorPos.New(FileName, LineNo, Offset, True);
       end else
         HandleRemoteException(ExcInfo);
 
