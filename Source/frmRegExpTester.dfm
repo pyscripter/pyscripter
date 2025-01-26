@@ -307,7 +307,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               RightEdge = 0
               ScrollBars = ssVertical
               ScrollbarAnnotations = <>
-              SelectedColor.Alpha = 0.400000005960464500
               VisibleSpecialChars = []
               WordWrap = True
               OnChange = RegExpTextChange
@@ -393,7 +392,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 RightEdge = 0
                 ScrollBars = ssVertical
                 ScrollbarAnnotations = <>
-                SelectedColor.Alpha = 0.400000005960464500
                 VisibleSpecialChars = []
                 WordWrap = True
                 OnChange = RegExpTextChange
@@ -500,7 +498,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 RightEdge = 0
                 ScrollBars = ssVertical
                 ScrollbarAnnotations = <>
-                SelectedColor.Alpha = 0.400000005960464500
                 VisibleSpecialChars = []
                 WordWrap = True
               end

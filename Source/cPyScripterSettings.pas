@@ -638,6 +638,8 @@ begin
   FTrackChanges.Visible := True;
   FTrackChanges.Width := 3;
   FSelectionColor := TSynSelectedColor.Create;
+  FSelectionColor.FillWholeLines := False;
+  FSelectionColor.Background := TColors.Dodgerblue;
   FIndentGuides := TSynIndentGuides.Create;
   FDisplayFlowControl := TSynDisplayFlowControl.Create;
 end;
@@ -1195,8 +1197,7 @@ begin
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;
-
-    SelectedColor.FillWholeLines := False;
+    ActiveLineColor := $303030;
 
     RegisterEditorUserCommands(EditorOptions.Keystrokes);
   end;

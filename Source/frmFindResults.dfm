@@ -173,7 +173,6 @@ inherited FindResultsWindow: TFindResultsWindow
           ReadOnly = True
           RightEdge = 0
           ScrollbarAnnotations = <>
-          SelectedColor.Alpha = 0.400000005960464500
           VisibleSpecialChars = []
           OnSpecialLineColors = reContextSpecialLineColors
         end

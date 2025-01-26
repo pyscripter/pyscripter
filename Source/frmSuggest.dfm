@@ -62,7 +62,6 @@ object SuggestWindow: TSuggestWindow
         AnnPos = sbpFullWidth
         FullRow = False
       end>
-    SelectedColor.Alpha = 0.400000005960464500
     VisibleSpecialChars = []
   end
   object SpTBXDock: TSpTBXDock

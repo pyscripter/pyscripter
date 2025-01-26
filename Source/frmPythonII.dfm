@@ -66,7 +66,6 @@ inherited PythonIIForm: TPythonIIForm
             AnnPos = sbpFullWidth
             FullRow = False
           end>
-        SelectedColor.Alpha = 0.400000005960464500
         TabWidth = 4
         VisibleSpecialChars = []
         WantTabs = True

@@ -50,7 +50,6 @@ inherited VariablesWindow: TVariablesWindow
           RightEdge = 0
           ScrollBars = ssNone
           ScrollbarAnnotations = <>
-          SelectedColor.Alpha = 0.400000005960464500
           VisibleSpecialChars = []
           WordWrap = True
         end
