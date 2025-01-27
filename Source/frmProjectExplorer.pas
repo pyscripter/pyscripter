@@ -687,8 +687,10 @@ begin
   begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFileNode and (TProjectFileNode(Data.ProjectNode).FileName <> '') then
-    with PyIDEMainForm do begin
-      DoOpenFile(GI_PyIDEServices.ReplaceParams(TProjectFileNode(Data.ProjectNode).FileName),
+    with PyIDEMainForm do
+    begin
+      GI_EditorFactory.OpenFile
+      (GI_PyIDEServices.ReplaceParams(TProjectFileNode(Data.ProjectNode).FileName),
         '', TabControlIndex(ActiveTabControl));
     end;
   end;

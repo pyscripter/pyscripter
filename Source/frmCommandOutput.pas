@@ -124,7 +124,6 @@ uses
   uEditAppIntfs,
   dmResources,
   dmCommands,
-  frmPyIDEMain,
   uCommonFunctions;
 
 {$R *.dfm}
@@ -328,7 +327,7 @@ begin
         end;
       poNewFile:
         begin
-          PyIDEMainForm.DoOpenFile(''); // NewFile
+          GI_EditorFactory.OpenFile(''); // NewFile
           if Assigned(GI_ActiveEditor) then
             GI_ActiveEditor.SynEdit.SelText := OutStr;
         end;

@@ -83,7 +83,7 @@ type
     procedure SetHasSearchHighlight(Value: Boolean);
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
     procedure SetHighlighter(const HighlighterName: string);
-    procedure OpenFile(const AFileName: string; HighlighterName: string = '');
+    procedure OpenLocalFile(const AFileName: string; HighlighterName: string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
     function SaveToRemoteFile(const FileName, ServerName: string): Boolean;
     function HasPythonFile: Boolean;
@@ -117,11 +117,13 @@ type
   ['{FDAE7FBD-4B61-4D7C-BEE6-DB7740A225E8}']
     function CanCloseAll: Boolean;
     procedure CloseAll;
-    function NewEditor(TabControlIndex:Integer = 1): IEditor;
+    function OpenFile(AFileName: string; HighlighterName: string = '';
+       TabControlIndex: Integer = 1): IEditor;
     function GetEditorCount: Integer;
     function GetEditor(Index: Integer): IEditor;
     function GetEditorByName(const Name: string): IEditor;
     function GetEditorByFileId(const Name: string): IEditor;
+    function NewEditor(TabControlIndex:Integer = 1): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
     function GetViewFactoryCount: Integer;
@@ -195,7 +197,8 @@ type
     procedure AddMessage(const Msg: string; const FileName: string = '';
        Line: Integer = 0; Offset: Integer = 0; SelLen: Integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback(Traceback: TPythonTraceback; SkipFrames: Integer = 1; ShowWindow: Boolean = False);
+    procedure ShowPythonTraceback(Traceback: TPythonTraceback;
+      SkipFrames: Integer = 1; ShowWindow: Boolean = False);
   end;
 
   IUnitTestServices = interface
@@ -225,7 +228,7 @@ type
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const Msg: string);
     function FileIsPythonSource(const FileName: string): Boolean;
-    function ShowFilePosition(FileName: string; Line: Integer = 0;
+    function ShowFilePosition(FileName: string; Line: Integer = 1;
       Offset: Integer = 1; SelLen: Integer = 0;
       ForceToMiddle: Boolean = True; FocusEditor: Boolean = True): Boolean;
     procedure ClearPythonWindows;

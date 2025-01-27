@@ -1247,8 +1247,6 @@ begin
   SysMod := SysModule;
   FOldargv := SysMod.argv;
   SysMod.argv := NewPythonList;
-  // Workaround due to PREFER_UNICODE flag to make sure
-  // no conversion to Unicode and back will take place
   var ScriptName := ToPythonFileName(ARunConfig.ScriptName);
   SysMod.argv.append(ScriptName);
 

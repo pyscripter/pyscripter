@@ -676,7 +676,7 @@ const
   WM_SEARCHREPLACEACTION  = WM_USER + 130;
 
 type
-  { Trick to add functionality to TTSpTBXTabControl}
+  { Interposer class to add functionality to TTSpTBXTabControl}
   TSpTBXTabControl = class(SpTBXTabs.TSpTBXTabControl)
   private
     zOrderPos: Integer;
@@ -1336,7 +1336,7 @@ type
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const Msg: string);
     function FileIsPythonSource(const FileName: string): Boolean;
-    function ShowFilePosition(FileName: string; Line: Integer = 0;
+    function ShowFilePosition(FileName: string; Line: Integer = 1;
       Offset: Integer = 1; SelLen: Integer = 0;
       ForceToMiddle: Boolean = True; FocusEditor: Boolean = True): Boolean;
     procedure ClearPythonWindows;
@@ -1363,8 +1363,6 @@ type
     procedure RestoreApplicationData;
     procedure StoreLocalApplicationData;
     procedure RestoreLocalApplicationData;
-    function DoOpenFile(AFileName: string; HighlighterName: string = '';
-       TabControlIndex: Integer = 1): IEditor;
     function NewFileFromTemplate(FileTemplate: TFileTemplate;
        TabControlIndex: Integer = 1): IEditor;
     procedure UpdateDebugCommands(DebuggerState: TDebuggerState);
@@ -1486,71 +1484,7 @@ uses
 
 {$R *.DFM}
 
-{ TWorkbookMainForm }
-
-function TPyIDEMainForm.DoOpenFile(AFileName: string; HighlighterName: string = '';
-  TabControlIndex: Integer = 1): IEditor;
-var
-  IsRemote: Boolean;
-  Server, FName: string;
-  TabCtrl: TSpTBXTabControl;
-begin
-  Result := nil;
-  tbiRecentFileList.MRURemove(AFileName);
-  IsRemote :=  TSSHFileName.Parse(AFileName, Server, FName);
-
-  // activate the editor if already open
-  if IsRemote then
-  begin
-    Result :=  GI_EditorFactory.GetEditorByFileId(AFileName);
-    if Assigned(Result) then begin
-      Result.Activate;
-      Exit;
-    end;
-  end
-  else if AFileName <> '' then
-  begin
-    AFileName := GetLongFileName(ExpandFileName(AFileName));
-    Result :=  GI_EditorFactory.GetEditorByName(AFileName);
-    if Assigned(Result) then begin
-      Result.Activate;
-      Exit;
-    end
-    else if not FileExists(AFileName) then begin
-      WriteStatusMsg(_(Format('File %s does not exist', [AFileName])));
-      Exit;
-    end;
-  end;
-  // create a new editor, add it to the editor list, open the file
-  TabCtrl := TabControl(TabControlIndex);
-  TabCtrl.Toolbar.BeginUpdate;
-  try
-    Result := GI_EditorFactory.NewEditor(TabControlIndex);
-    if Result <> nil then begin
-      try
-        if IsRemote then
-          Result.OpenRemoteFile(FName, Server)
-        else
-          Result.OpenFile(AFileName, HighlighterName);
-        Result.Activate;
-      except
-        Result.Close;
-        raise;
-      end;
-      if (AFileName <> '') and (GI_EditorFactory.Count = 2) and
-        (GI_EditorFactory[0].FileName = '') and
-        (GI_EditorFactory[0].RemoteFileName = '') and
-        not GI_EditorFactory[0].Modified
-      then
-        GI_EditorFactory[0].Close;
-    end;
-  finally
-    TabCtrl.Toolbar.EndUpdate;
-    if Assigned(TabCtrl.ActiveTab) then
-      TabCtrl.MakeVisible(TabCtrl.ActiveTab);
-    UpdateCaption;
-  end;
-end;
+{ TPyIDEkMainForm }
 
 procedure TPyIDEMainForm.EditorViewsMenuClick(Sender: TObject);
 begin
@@ -2547,7 +2481,7 @@ begin
     HintInfo.HideTimeout := 5000;
 end;
 
-function TPyIDEMainForm.ShowFilePosition(FileName: string; Line: Integer = 0;
+function TPyIDEMainForm.ShowFilePosition(FileName: string; Line: Integer = 1;
       Offset: Integer = 1; SelLen: Integer = 0;
       ForceToMiddle: Boolean = True; FocusEditor: Boolean = True): Boolean;
 var
@@ -2560,7 +2494,7 @@ begin
     Editor := GI_EditorFactory.GetEditorByFileId(FileName);
     if not Assigned(Editor) and (FileName.StartsWith('ssh') or FileExists(FileName)) then begin
       try
-        DoOpenFile(FileName, '', TabControlIndex(ActiveTabControl));
+        GI_EditorFactory.OpenFile(FileName, '', TabControlIndex(ActiveTabControl));
       except
         Exit;
       end;
@@ -2584,7 +2518,7 @@ begin
           MouseCapture := True;
           with Editor.ActiveSynEdit do
           begin
-            var Caret := BufferCoord(Offset,Line);
+            var Caret := BufferCoord(Offset, Line);
             SetCaretAndSelection(Caret, Caret, Caret, True, ForceToMiddle);
             if SelLen > 0 then
                SelLength := SelLen;
@@ -2885,7 +2819,7 @@ begin
   if Assigned(FileTemplate) then
     NewFileFromTemplate(FileTemplate, TabControlIndex(ActiveTabControl))
   else
-    DoOpenFile('', 'Python', TabControlIndex(ActiveTabControl));
+    GI_EditorFactory.OpenFile('', 'Python', TabControlIndex(ActiveTabControl));
 end;
 
 procedure TPyIDEMainForm.actFileOpenExecute(Sender: TObject);
@@ -2903,7 +2837,7 @@ begin
     Options := Options + [ofAllowMultiSelect];
     if Execute then
       for var FName in Files do
-        DoOpenFile(FName, '', TabControlIndex(ActiveTabControl));
+        GI_EditorFactory.OpenFile(FName, '', TabControlIndex(ActiveTabControl));
     Options := Options - [ofAllowMultiSelect];
   end;
 end;
@@ -4021,7 +3955,8 @@ var
   CaretXY: TBufferCoord;
 begin
   Application.ProcessMessages;
-  if Assigned(GI_ActiveEditor) then begin
+  if Assigned(GI_ActiveEditor) then
+  begin
     FileName := GI_ActiveEditor.FileId;
     CaretXY := GI_ActiveEditor.ActiveSynEdit.CaretXY;
     FindDefinition(GI_ActiveEditor, CaretXY, True, False, True, FilePosInfo);
@@ -4341,7 +4276,7 @@ begin
     Result := GI_EditorFactory.NewEditor(TabControlIndex);
     if Result <> nil then begin
       try
-        Result.OpenFile('', FileTemplate.Highlighter);
+        Result.OpenLocalFile('', FileTemplate.Highlighter);
         Result.Activate;
       except
         Result.Close;
@@ -4419,7 +4354,8 @@ begin
   // Try to see whether it contains line/char info
   Result := JumpToFilePosInfo(FileName);
   if not Result and FileExists(FileName) then
-    Result := Assigned(DoOpenFile(FileName, '', TabControlIndex(ActiveTabControl)));
+    Result := Assigned(GI_EditorFactory.OpenFile(FileName, '',
+      TabControlIndex(ActiveTabControl)));
 end;
 
 procedure TPyIDEMainForm.tbiBrowseNextClick(Sender: TObject);
@@ -4589,7 +4525,6 @@ begin
   if JvAppInstances.AppInstances.InstanceIndex[GetCurrentProcessID] <> 0 then Exit;
   for var FName in CmdLine do
     if (FName[1] <> '-') then
-      //DoOpenFile(CmdLine[i]);
       ShellExtensionFiles.Add(FName);
 end;
 
@@ -4654,9 +4589,8 @@ var
   FileName, Server: string;
 begin
   if ExecuteRemoteFileDialog(FileName, Server, rfdOpen) then
-  begin
-    DoOpenFile(TSSHFileName.Format(Server, FileName), '', TabControlIndex(ActiveTabControl));
-  end;
+    GI_EditorFactory.OpenFile(TSSHFileName.Format(Server, FileName), '',
+      TabControlIndex(ActiveTabControl));
 end;
 
 procedure TPyIDEMainForm.actRestoreEditorExecute(Sender: TObject);
@@ -4831,7 +4765,7 @@ end;
 procedure TPyIDEMainForm.tbiRecentFileListClick(Sender: TObject;
   const Filename: string);
 begin
-  DoOpenFile(Filename, '', TabControlIndex(ActiveTabControl));
+  GI_EditorFactory.OpenFile(Filename, '', TabControlIndex(ActiveTabControl));
   // A bit problematic since it Frees the MRU Item which calls this click handler
   tbiRecentFileList.MRURemove(Filename);
 end;
@@ -4958,7 +4892,8 @@ begin
     for var I := 0 to NumberDropped - 1 do
     begin
       DragQueryFile(THandle(Msg.WParam), I, FileName, MAX_PATH);
-      PyIDEMainForm.DoOpenFile(FileName, '', PyIDEMainForm.TabControlIndex(Self));
+      GI_EditorFactory.OpenFile(FileName, '',
+        PyIDEMainForm.TabControlIndex(Self));
     end;
   finally
     Msg.Result := 0;

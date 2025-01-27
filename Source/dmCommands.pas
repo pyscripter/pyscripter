@@ -17,6 +17,7 @@ uses
   Vcl.ActnList,
   Vcl.StdActns,
   Vcl.Menus,
+  Vcl.ExtActns,
   SynEdit,
   SynEditPrint,
   SynEditRegexSearch,
@@ -30,10 +31,11 @@ uses
   JvPropertyStore,
   TB2Item,
   SpTBXItem,
+  SpTBXEditors,
   VirtualExplorerTree,
   VirtualShellNotifier,
   uEditAppIntfs,
-  SynSpellCheck, SpTBXEditors, Vcl.ExtActns;
+  SynSpellCheck;
 
 type
   TSynGeneralSyn = class(SynHighlighterGeneral.TSynGeneralSyn)
@@ -741,14 +743,14 @@ end;
 
 procedure TCommandsDataModule.actToolsEditStartupScriptsExecute(Sender: TObject);
 begin
-  PyIDEMainForm.DoOpenFile(TPyScripterSettings.PyScripterInitFile);
-  PyIDEMainForm.DoOpenFile(TPyScripterSettings.EngineInitFile);
+  GI_EditorFactory.OpenFile(TPyScripterSettings.PyScripterInitFile);
+  GI_EditorFactory.OpenFile(TPyScripterSettings.EngineInitFile);
 end;
 
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
 begin
   with GI_PyControl.CurrentPos do
-    if (Line >= 1) and (PyControl.ActiveDebugger <> nil) and not GI_PyControl.Running then
+    if (Line >= 1) and GI_PyControl.PythonLoaded and not GI_PyControl.Running then
       GI_PyIDEServices.ShowFilePosition(FileName , Line, 1, 0, True, True);
 end;
 
@@ -878,7 +880,7 @@ begin
   if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then begin
     Tests := TUnitTestWizard.GenerateTests(GI_ActiveEditor.FileId);
     if Tests <> '' then begin
-      Editor := PyIDEMainForm.DoOpenFile('', 'Python');
+      Editor := GI_EditorFactory.OpenFile('', 'Python');
       if Assigned(Editor) then
         Editor.SynEdit.SelText := Tests;
     end;
@@ -1864,7 +1866,7 @@ begin
   actSearchGoToSyntaxError.Enabled := Assigned(GI_ActiveEditor) and
     TEditorForm(GI_ActiveEditor.Form).HasSyntaxError;
   actSearchGoToDebugLine.Enabled := (GI_PyControl.CurrentPos.Line >= 1) and
-    (PyControl.ActiveDebugger <> nil) and not GI_PyControl.Running;
+    GI_PyControl.PythonLoaded and not GI_PyControl.Running;
   actFindInFiles.Enabled := not FindResultsWindow.DoingSearchOrReplace;
 
   if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then begin

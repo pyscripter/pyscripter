@@ -411,10 +411,12 @@ begin
     try
       Source := CleanEOLs(FileToStr(ARunConfig.ScriptName)) + WideLF;
     except
-      on E: Exception do begin
-        StyledMessageDlg(Format(_(SFileOpenError), [ARunConfig.ScriptName, E.Message]), mtError, [mbOK], 0);
-        System.SysUtils.Abort;
-      end;
+      on E: Exception do
+        begin
+          StyledMessageDlg(Format(_(SFileOpenError),
+            [ARunConfig.ScriptName, E.Message]), mtError, [mbOK], 0);
+          System.SysUtils.Abort;
+        end;
     end;
   FName := ToPythonFileName(ARunConfig.ScriptName);
 
@@ -435,7 +437,8 @@ begin
         then
           GI_PyControl.ErrorPos :=
             TEditorPos.New(FileName, LineNo, Offset, True);
-      end else
+      end
+      else
         HandleRemoteException(ExcInfo);
 
       GI_PyInterpreter.AppendPrompt;
@@ -1109,8 +1112,6 @@ begin
   FOldargv := Conn.modules.sys.argv;
   Conn.execute('__import__("sys").argv = []');
   ArgV := Conn.modules.sys.argv;
-  // Workaround due to PREFER_UNICODE flag to make sure
-  // no conversion to Unicode and back will take place
   var ScriptName :=  ToPythonFileName(ARunConfig.ScriptName);
   ArgV.append(ScriptName);
 

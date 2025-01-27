@@ -299,7 +299,7 @@ begin
     begin
       var FilePersistInfo := TFilePersistInfo(Obj);
       try
-        Editor := PyIDEMainForm.DoOpenFile(FilePersistInfo.FileName, '',
+        Editor := GI_EditorFactory.OpenFile(FilePersistInfo.FileName, '',
           FilePersistInfo.TabControlIndex);
       except
         Continue; // to the next file

@@ -531,7 +531,7 @@ begin
     Exit;
 
   var NewEditor := GI_EditorFactory.NewEditor;
-  NewEditor.OpenFile('', 'Python');
+  NewEditor.OpenLocalFile('', 'Python');
   NewEditor.SynEdit.Text := Code;
   NewEditor.Activate;
 end;

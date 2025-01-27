@@ -240,7 +240,7 @@ type
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
     procedure SetHighlighter(const HighlighterName: string);
     function GetEncodedText: AnsiString;
-    procedure OpenFile(const AFileName: string; HighlighterName: string = '');
+    procedure OpenLocalFile(const AFileName: string; HighlighterName: string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
     function SaveToRemoteFile(const FileName, ServerName: string): Boolean;
     function HasPythonFile: Boolean;
@@ -362,7 +362,7 @@ uses
 const
   WM_DELETETHIS = WM_USER + 42;
 
-  { TGutterMarkDrawPlugin }
+{$REGION 'TDebugSupportPlugin'}
 
 type
   TDebugSupportPlugin = class(TSynEditPlugin)
@@ -417,7 +417,9 @@ begin
   end;
 end;
 
-{ TEditor }
+{$ENDREGION 'TDebugSupportPlugin'}
+
+{$REGION 'TEditor'}
 
 constructor TEditor.Create(AForm: TEditorForm);
 begin
@@ -469,7 +471,7 @@ begin
 
     TabSheet := (Form.Parent as TSpTBXTabSheet);
     TabControl := TabSheet.TabControl;
-    TabControl.View.BeginUpdate;
+    TabControl.Toolbar.BeginUpdate;
     try
       (Form.ParentTabControl as TSpTBXTabControl).zOrder.Remove(TabSheet.Item);
       Form := nil;
@@ -479,7 +481,7 @@ begin
       if Assigned(TabControl) then
         TabControl.Toolbar.MakeVisible(TabControl.ActiveTab);
     finally
-      TabControl.View.EndUpdate;
+      TabControl.Toolbar.EndUpdate;
     end;
   end;
 end;
@@ -764,8 +766,9 @@ begin
   end;
 end;
 
-procedure TEditor.OpenFile(const AFileName: string;
+procedure TEditor.OpenLocalFile(const AFileName: string;
   HighlighterName: string = '');
+// If AFilename is empty set up a new untitled file
 begin
   if Form = nil then Abort;
 
@@ -968,7 +971,12 @@ begin
       mtWarning, [mbYes, mbNo], 0) = mrYes) then
   begin
     BC := GetSynEdit.CaretXY;
-    OpenFile(GetFileName);
+    if FFileName <> '' then
+      OpenLocalFile(FFileName)
+    else if FRemoteFileName <> '' then
+      OpenRemoteFile(FRemoteFileName, FSSHServer)
+    else
+      Exit;
     if (BC.Line <= GetSynEdit.Lines.Count) then
       GetSynEdit.CaretXY := BC;
   end;
@@ -1185,7 +1193,9 @@ begin
     ((Form.SynEdit.Lines.Count = 1) and (Form.SynEdit.Lines[0] = ''));
 end;
 
-{ TEditorFactory }
+{$ENDREGION 'TEditor'}
+
+{$REGION 'TEditorFactory'}
 
 type
   TEditorFactory = class(TInterfacedObject, IEditorFactory)
@@ -1195,11 +1205,13 @@ type
     // IEditorFactory implementation
     function CanCloseAll: Boolean;
     procedure CloseAll;
-    function NewEditor(TabControlIndex:Integer = 1): IEditor;
+    function OpenFile(AFileName: string; HighlighterName: string = '';
+       TabControlIndex: Integer = 1): IEditor;
     function GetEditorCount: Integer;
     function GetEditorByName(const Name: string): IEditor;
     function GetEditorByFileId(const Name: string): IEditor;
     function GetEditor(Index: Integer): IEditor;
+    function NewEditor(TabControlIndex:Integer = 1): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
     procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; ImgList: TCustomImageList);
@@ -1454,7 +1466,7 @@ begin
     if not TryStrToInt(FName, UntitledNumber) then Continue;
 
     var Ed := NewEditor;
-    Ed.OpenFile(RecoveredFile);
+    Ed.OpenLocalFile(RecoveredFile);
 
     var Editor := Ed as TEditor;
     Editor.FUntitledNumber := UntitledNumber;
@@ -1489,6 +1501,71 @@ begin
     EditorView := Editor.ActivateView(ViewFactory);
     if Assigned(EditorView) then
       EditorView.UpdateView(Editor);
+  end;
+end;
+
+function TEditorFactory.OpenFile(AFileName, HighlighterName: string;
+  TabControlIndex: Integer): IEditor;
+var
+  IsRemote: Boolean;
+  Server, FName: string;
+  TabCtrl: TSpTBXTabControl;
+begin
+  Result := nil;
+  PyIDEMainForm.tbiRecentFileList.MRURemove(AFileName);
+  IsRemote :=  TSSHFileName.Parse(AFileName, Server, FName);
+
+  // activate the editor if already open
+  if IsRemote then
+  begin
+    Result :=  GetEditorByFileId(AFileName);
+    if Assigned(Result) then begin
+      Result.Activate;
+      Exit;
+    end;
+  end
+  else if AFileName <> '' then
+  begin
+    AFileName := GetLongFileName(ExpandFileName(AFileName));
+    Result :=  GetEditorByName(AFileName);
+    if Assigned(Result) then begin
+      Result.Activate;
+      Exit;
+    end
+    else if not FileExists(AFileName) then begin
+      GI_PyIDEServices.WriteStatusMsg(_(Format('File %s does not exist', [AFileName])));
+      Exit;
+    end;
+  end;
+  // create a new editor, add it to the editor list, open the file
+  TabCtrl := PyIDEMainForm.TabControl(TabControlIndex);
+  TabCtrl.Toolbar.BeginUpdate;
+  try
+    Result := NewEditor(TabControlIndex);
+    if Result <> nil then
+    begin
+      try
+        if IsRemote then
+          Result.OpenRemoteFile(FName, Server)
+        else
+          Result.OpenLocalFile(AFileName, HighlighterName);
+        Result.Activate;
+      except
+        Result.Close;
+        raise;
+      end;
+      if (AFileName <> '') and (GetEditorCount = 2) and
+        (GetEditor(0).FileName = '') and
+        (GetEditor(0).RemoteFileName = '') and
+        not GetEditor(0).Modified
+      then
+        GetEditor(0).Close;
+    end;
+  finally
+    TabCtrl.Toolbar.EndUpdate;
+    if Assigned(TabCtrl.ActiveTab) then
+      TabCtrl.MakeVisible(TabCtrl.ActiveTab);
+    PyIDEMainForm.UpdateCaption;
   end;
 end;
 
@@ -1566,7 +1643,9 @@ begin
   end;
 end;
 
-{ TEditorForm }
+{$ENDREGION 'TEditorFactory'}
+
+{$REGION 'TEditorForm'}
 
 procedure TEditorForm.FormDestroy(Sender: TObject);
 begin
@@ -3083,8 +3162,10 @@ begin
     HintInfo.HintWindowClass := TCodeHintWindow;
     FHintFuture := nil;
   end;
-
 end;
+
+{$ENDREGION 'TEditorForm'}
+
 
 initialization
   GI_EditorFactory := TEditorFactory.Create;
