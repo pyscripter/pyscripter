@@ -24,13 +24,6 @@ uses
 type
   TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
 
-  TDebuggerLineInfo = (dlCurrentLine,
-                       dlBreakpointLine,
-                       dlDisabledBreakpointLine,
-                       dlExecutableLine,
-                       dlErrorLine);
-  TDebuggerLineInfos = set of TDebuggerLineInfo;
-
   TBreakpointChangeEvent = procedure(Sender: TObject; Editor: IEditor; ALine: Integer) of object;
   TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
   TDebuggerPosChangeEvent = procedure(Sender: TObject; const OldPos, NewPos: TEditorPos) of object;
@@ -41,8 +34,8 @@ type
     Holds information Breakpoints, ErrorPos, CurrentPos
   }
   private
-    FCurrentPos: TEditorPos;
     FErrorPos: TEditorPos;
+    FCurrentPos: TEditorPos;
     FFinalizing: Boolean;
     FBreakPointsChanged: Boolean;
     FDebuggerState: TDebuggerState;
@@ -415,7 +408,6 @@ procedure TPythonControl.SetBreakPoint(FileName: string; ALine: Integer;
   Disabled: Boolean; Condition: string);
 var
   Editor: IEditor;
-  BreakPoint: TBreakPoint;
 begin
   Editor := GI_EditorFactory.GetEditorByFileId(FileName);
   if Assigned(Editor) and (ALine > 0) then

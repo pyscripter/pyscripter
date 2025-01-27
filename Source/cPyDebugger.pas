@@ -99,7 +99,7 @@ type
     function ImportModule(Editor: IEditor; AddToNameSpace: Boolean = False): Variant; override;
     procedure Run(ARunConfig: TRunConfiguration); override;
     function SyntaxCheck(Editor: IEditor; out ErrorPos: TEditorPos; Quiet: Boolean = False): Boolean;
-    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; override;
+    function RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean; override;
     function EvalCode(const Expr: string): Variant; override;
     procedure SystemCommand(const Cmd: string); override;
     function GetObjectType(Obj: Variant): string; override;
@@ -149,7 +149,7 @@ type
     procedure Evaluate(const Expr: string; out ObjType, Value: string); overload; override;
     function Evaluate(const Expr: string): TBaseNameSpaceItem; overload; override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; override;
+    function RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean; override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; override;
@@ -732,18 +732,11 @@ begin
   end;
 end;
 
-function TPyInternalDebugger.RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean;
+function TPyInternalDebugger.RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean;
 // The internal interpreter RunSource calls II.runsource which differs
 // according to whether we debugging or not
-var
-  OldCurrentPos: TEditorPos;
 begin
-  OldCurrentPos := GI_PyControl.CurrentPos;
-  try
-    Result := InternalInterpreter.RunSource(Source, FileName, Symbol);
-  finally
-    GI_PyControl.CurrentPos := OldCurrentPos;
-  end;
+  Result := InternalInterpreter.RunSource(Source, FileName, Symbol);
 end;
 
 procedure TPyInternalDebugger.RunToCursor(Editor: IEditor; ALine: Integer);
@@ -756,7 +749,7 @@ begin
   SetDebuggerBreakpoints;  // So that this one is not cleared
   FName := InternalInterpreter.ToPythonFileName(Editor.FileId);
   Py := SafePyEngine;
-  InternalInterpreter.Debugger.set_break(VarPythonCreate(FName), ALine, 1);
+  InternalInterpreter.Debugger.set_break(FName, ALine, 1);
 
   FDebuggerCommand := dcRunToCursor;
   if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
@@ -924,16 +917,17 @@ begin
     FName: string;
   begin
     FName := InternalInterpreter.ToPythonFileName(Editor.FileId);
-    for var I := 0 to Editor.BreakPoints.Count - 1 do begin
+    for var I := 0 to Editor.BreakPoints.Count - 1 do
+    begin
       var BreakPoint := TBreakPoint(Editor.BreakPoints[I]);
-      if not BreakPoint.Disabled then begin
+      if not BreakPoint.Disabled then
+      begin
         if BreakPoint.Condition <> '' then begin
-          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
-            BreakPoint.LineNo, 0, VarPythonCreate(BreakPoint.Condition));
-        end else begin
-          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
-            BreakPoint.LineNo);
-        end;
+          InternalInterpreter.Debugger.set_break(FName,
+            BreakPoint.LineNo, 0, BreakPoint.Condition);
+        end
+        else
+          InternalInterpreter.Debugger.set_break(FName, BreakPoint.LineNo);
       end;
     end;
   end);
@@ -947,20 +941,19 @@ begin
   FLineCache.cache.clear();
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   var
-    FName, Source, LineList: Variant;
-    SFName: string;
+    LineList: Variant;
+    Source, SFName: string;
   begin
     with Editor do begin
       if not HasPythonFile then Exit;
       SFName := InternalInterpreter.ToPythonFileName(FileId);
       if SFName.StartsWith('<') then
       begin
-        FName := SFName;
         Source := CleanEOLs(SynEdit.Text)+WideLF;
         LineList := VarPythonCreate(Source);
         LineList := LineList.splitlines(True);
-        FLineCache.cache.SetItem(VarPythonCreate(FName),
-          VarPythonCreate([Length(Source), None, LineList, FName], stTuple));
+        FLineCache.cache.SetItem(SFName,
+          VarPythonCreate([Length(Source), None, LineList, SFName], stTuple));
       end;
     end;
   end);
@@ -1247,7 +1240,7 @@ procedure TPyInternalInterpreter.SetCommandLine(ARunConfig: TRunConfiguration);
 var
   Py: IPyEngineAndGIL;
   SysMod: Variant;
-  S, Param: string;
+  Params, Param: string;
   P: PChar;
 begin
   Py := SafePyEngine;
@@ -1256,18 +1249,18 @@ begin
   SysMod.argv := NewPythonList;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
-  S := ToPythonFileName(ARunConfig.ScriptName);
-  SysMod.argv.append(VarPythonCreate(S));
+  var ScriptName := ToPythonFileName(ARunConfig.ScriptName);
+  SysMod.argv.append(ScriptName);
 
-  S := Trim(ARunConfig.Parameters);
-  if S <> '' then begin
-    S := GI_PyIDEServices.ReplaceParams(S);
-    P := PChar(S);
+  Params := Trim(ARunConfig.Parameters);
+  if Params <> '' then begin
+    Params := GI_PyIDEServices.ReplaceParams(Params);
+    P := PChar(Params);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      SysMod.argv.append(VarPythonCreate(Param));
+      SysMod.argv.append(Param);
     end;
-    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [S]));
+    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [Params]));
   end;
 end;
 
@@ -1432,7 +1425,7 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean;
+function TPyInternalInterpreter.RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean;
 var
   Py: IPyEngineAndGIL;
   OldDebuggerState: TDebuggerState;
@@ -1445,10 +1438,7 @@ begin
   PyControl.DebuggerState := dsRunning;
   try
     Py := SafePyEngine;
-    // Workaround due to PREFER_UNICODE flag to make sure
-    // no conversion to Unicode and back will take place
-    var PySource := VarPythonCreate(Source);
-    Result := FII.runsource(PySource, FileName, Symbol);
+    Result := FII.runsource(Source, FileName, Symbol);
   finally
     PyControl.DebuggerState := OldDebuggerState;
     if OldDebuggerState = dsPaused then

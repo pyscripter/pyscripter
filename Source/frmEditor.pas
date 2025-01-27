@@ -2903,7 +2903,7 @@ begin
         else
           ImgIndex := 1;
       end
-      else if TPyRegExpr.IsExecutableLine(SynEdit.Lines[Line]) then
+      else if TPyRegExpr.IsExecutableLine(SynEdit.Lines[Line - 1]) then
       begin
         if HasBP then
           ImgIndex := 3

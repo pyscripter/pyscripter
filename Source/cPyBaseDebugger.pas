@@ -129,7 +129,7 @@ type
     // Main interface
     function ImportModule(Editor: IEditor; AddToNameSpace: Boolean = False): Variant; virtual; abstract;
     procedure Run(ARunConfig: TRunConfiguration); virtual; abstract;
-    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; virtual; abstract;
+    function RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean; virtual; abstract;
     procedure RunScript(FileName: string); virtual;
     function EvalCode(const Expr: string): Variant; virtual; abstract;
     procedure SystemCommand(const Cmd: string); virtual; abstract;
@@ -171,7 +171,7 @@ type
     procedure Evaluate(const Expr: string; out ObjType, Value: string); overload; virtual; abstract;
     function Evaluate(const Expr: string): TBaseNameSpaceItem; overload; virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(const Source, FileName: Variant; Symbol: string = 'single'): Boolean; virtual; abstract;
+    function RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean; virtual; abstract;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; virtual; abstract;
     function GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem; virtual; abstract;
