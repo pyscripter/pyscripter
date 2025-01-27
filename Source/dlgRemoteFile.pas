@@ -44,7 +44,7 @@ uses
   cSSHSupport,
   JvGnugettext,
   uCommonFunctions,
-  uEditAppIntfs,
+  cPySupportTypes,
   dmResources;
 
 {$R *.dfm}

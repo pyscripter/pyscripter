@@ -18,7 +18,6 @@ uses
   Vcl.Forms,
   Vcl.ImgList,
   JvAppStorage,
-  JclNotify,
   JclSysUtils,
   PythonEngine,
   PythonVersions,
@@ -26,16 +25,6 @@ uses
   SpTBXItem;
 
 type
-  TBreakPoint = class(TPersistent)
-  private
-    FLineNo: Integer;
-    FDisabled: Boolean;
-    FCondition: string;
-  published
-    property LineNo: Integer read FLineNo write FLineNo;
-    property Disabled: Boolean read FDisabled write FDisabled;
-    property Condition: string read FCondition write FCondition;
-  end;
 
   IEditor = interface;
 
@@ -262,50 +251,6 @@ type
     property Logger: TJclSimpleLog read GetLogger;
   end;
 
-  IPyControl = interface
-  ['{DE1C1145-DC0F-4829-B36B-74EC818E168E}']
-    function PythonLoaded: Boolean;
-    function Running: Boolean;
-    function Inactive: Boolean;
-    function GetPythonVersion: TPythonVersion;
-    function GetActiveSSHServerName: string;
-    function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
-    function AddPathToInternalPythonPath(const Path: string): IInterface;
-    procedure Pickle(AValue: Variant; FileName: string);
-    property PythonVersion: TPythonVersion read GetPythonVersion;
-    property ActiveSSHServerName: string read GetActiveSSHServerName;
-    property OnPythonVersionChange: TJclNotifyEventBroadcast
-      read GetOnPythonVersionChange;
-  end;
-
-  TPyInterpreterPropmpt = (pipNormal, pipDebug, pipPostMortem);
-  IPyInterpreter = interface
-  ['{6BAAD187-B00E-4E2A-B01D-C47EED922E59}']
-    procedure ShowWindow;
-    procedure AppendPrompt;
-    procedure RemovePrompt;
-    procedure AppendText(const Str: string);
-    procedure PrintEngineType;
-    procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
-    procedure WritePendingMessages;
-    procedure ClearPendingMessages;
-    procedure ClearDisplay;
-    procedure ClearLastPrompt;
-    function OutputSuppressor: IInterface;
-    procedure StartOutputMirror(const AFileName: string; Append: Boolean);
-    procedure StopFileMirror;
-    procedure UpdatePythonKeywords;
-    procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
-    procedure ReinitInterpreter;
-    function GetPythonIO: TPythonInputOutput;
-    function GetEditor: TCustomSynEdit;
-    function GetShowOutput: Boolean;
-    procedure SetShowOutput(const Value: Boolean);
-    property Editor: TCustomSynEdit read GetEditor;
-    property PythonIO: TPythonInputOutput read GetPythonIO;
-    property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
-  end;
-
   ISSHServices = interface
   ['{255E5E08-DCFD-481A-B0C3-F0AB0C5A1571}']
     function FormatFileName(Server, FileName: string): string;
@@ -326,8 +271,6 @@ var
   GI_SearchCmds: ISearchCommands;
 
   GI_PyIDEServices: IPyIDEServices;
-  GI_PyControl: IPyControl;
-  GI_PyInterpreter: IPyInterpreter;
   GI_SSHServices: ISSHServices;
 
 implementation

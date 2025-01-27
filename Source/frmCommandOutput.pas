@@ -65,7 +65,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
-    const FBasePath = 'Breakpoints Window Options'; // Used for storing settings
+    const FBasePath = 'Output Window Options'; // Used for storing settings
     var FTool: TExternalTool;
     FCmdOptions: TJclExecuteCmdProcessOptions;
     FAbortEvent: TJclEvent;

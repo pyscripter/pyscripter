@@ -37,7 +37,8 @@ uses
   SynCompletionProposal,
   SynEditLsp,
   VirtualResources,
-  uEditAppIntfs;
+  uEditAppIntfs,
+  cPySupportTypes;
 
 type
   TEditor = class;
@@ -194,7 +195,7 @@ type
   public
     BorderHighlight: TColor;
     BorderNormal: TColor;
-    BreakPoints: TObjectList;
+    BreakPoints: TBreakPointList;
     HasFocus: Boolean;
     FileTime: TDateTime;
     DefaultExtension: string;
@@ -355,7 +356,6 @@ uses
   cCodeCompletion,
   cCodeHint,
   cPyScripterSettings,
-  cPySupportTypes,
   cSSHSupport,
   JediLspClient;
 
@@ -1591,8 +1591,8 @@ end;
 
 procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
-  if PyControl.ErrorPos.FileName = GetEditor.FileId then
-    PyControl.ErrorPos := TEditorPos.EmptyPos;
+  if GI_PyControl.ErrorPos.FileName = GetEditor.FileId then
+    GI_PyControl.ErrorPos := TEditorPos.EmptyPos;
 
   ClearSearchHighlight(FEditor);
 end;
@@ -1717,6 +1717,8 @@ begin
   end;
   if scTopLine in Changes then
     Application.CancelHint;
+  if ASynEdit.Selection.IsEmpty then
+   ClearSearchHighlight(FEditor);
 end;
 
 procedure TEditorForm.DoActivate;
@@ -2160,7 +2162,7 @@ begin
   SynEdit.RegisterCommandHandler(EditorCommandHandler, nil);
   SynEdit2.RegisterCommandHandler(EditorCommandHandler, nil);
 
-  BreakPoints := TObjectList.Create(True);
+  BreakPoints := TBreakPointList.Create(True);
   TDebugSupportPlugin.Create(Self); // No need to free
 
   // Indicators
@@ -2194,23 +2196,20 @@ end;
 
 procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject; Line: Integer;
   var Special: Boolean; var FG, BG: TColor);
-var
-  LineInfos: TDebuggerLineInfos;
 begin
-  if PyControl.ActiveDebugger <> nil then
+  if GI_PyControl.PythonLoaded then
   begin
-    LineInfos := PyControl.GetLineInfos(FEditor, Line);
-    if dlCurrentLine in LineInfos then
+    if GI_PyControl.CurrentPos.PointsTo(FEditor.GetFileTitle, Line) then
     begin
       Special := True;     { TODO: Allow customization of these colors }
       FG := clWhite;
-      BG := clBlue;
+      BG := $FF901E; // Dodger Blue
     end
-    else if (dlErrorLine in LineInfos) then
+    else if GI_PyControl.ErrorPos.PointsTo(FEditor.GetFileTitle, Line) then
     begin
       Special := True;
       FG := clWhite;
-      BG := clRed;
+      BG := $4763FF; // Tomato Red
     end;
   end;
 end;
@@ -2307,8 +2306,8 @@ procedure TEditorForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   EditorSearchOptions.InitSearch;
-  if PyControl.ErrorPos.FileName = GetEditor.FileId then
-    PyControl.ErrorPos := TEditorPos.EmptyPos;
+  if GI_PyControl.ErrorPos.FileName = GetEditor.FileId then
+    GI_PyControl.ErrorPos := TEditorPos.EmptyPos;
 
   if FHotIdentInfo.HaveHotIdent then
   begin
@@ -2867,9 +2866,10 @@ procedure TEditorForm.SynEditDebugInfoPaintLines(RT: ID2D1RenderTarget; ClipR:
     TRect; const FirstRow, LastRow: Integer; var DoDefaultPainting: Boolean);
 var
   LH, Y: Integer;
-  LI: TDebuggerLineInfos;
   ImgIndex: Integer;
   Row, Line: Integer;
+  Index: NativeInt;
+  HasBP, HasDisabledBP: Boolean;
 begin
   DoDefaultPainting := False;
   if not (SynEdit.Highlighter = ResourcesDataModule.SynPythonSyn) then Exit;
@@ -2885,19 +2885,29 @@ begin
 
       Y := (LH - vilGutterGlyphs.Height) div 2 + LH *
         (Row - SynEdit.TopLine);
-      LI := PyControl.GetLineInfos(FEditor, Line);
-      if dlCurrentLine in LI then
+
+      HasBP := False;
+      HasDisabledBP := False;
+      if BreakPoints.FindLine(Line, Index) then
       begin
-        if dlBreakpointLine in LI then
+        if TBreakPoint(BreakPoints[Index]).Disabled then
+          HasDisabledBP := True
+        else
+          HasBP := True;
+      end;
+
+      if GI_PyControl.CurrentPos.PointsTo(FEditor.GetFileTitle, Line) then
+      begin
+        if HasBP then
           ImgIndex := 2
         else
           ImgIndex := 1;
       end
-      else if dlExecutableLine in LI then
+      else if TPyRegExpr.IsExecutableLine(SynEdit.Lines[Line]) then
       begin
-        if dlBreakpointLine in LI then
+        if HasBP then
           ImgIndex := 3
-        else if dlDisabledBreakpointLine in LI then
+        else if HasDisabledBP then
           ImgIndex := 5
         else if PyIDEOptions.MarkExecutableLines then
           ImgIndex := 0
@@ -2906,9 +2916,9 @@ begin
       end
       else
       begin
-        if dlBreakpointLine in LI then
+        if HasBP then
           ImgIndex := 4
-        else if dlDisabledBreakpointLine in LI then
+        else if HasDisabledBP then
           ImgIndex := 5
         else
           ImgIndex := -1;

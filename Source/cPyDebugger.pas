@@ -738,11 +738,11 @@ function TPyInternalDebugger.RunSource(const Source, FileName: Variant; Symbol: 
 var
   OldCurrentPos: TEditorPos;
 begin
-  OldCurrentPos := PyControl.CurrentPos;
+  OldCurrentPos := GI_PyControl.CurrentPos;
   try
     Result := InternalInterpreter.RunSource(Source, FileName, Symbol);
   finally
-    PyControl.CurrentPos := OldCurrentPos;
+    GI_PyControl.CurrentPos := OldCurrentPos;
   end;
 end;
 
@@ -1064,7 +1064,7 @@ begin
   Py := SafePyEngine;
 
   VarClear(Result);
-  PyControl.ErrorPos := TEditorPos.EmptyPos;
+  GI_PyControl.ErrorPos := TEditorPos.EmptyPos;
 
   GI_PyIDEServices.Messages.ClearMessages;
 
@@ -1097,7 +1097,7 @@ begin
           if GI_PyIDEServices.ShowFilePosition(FileName, E.ELineNumber, E.EOffset) and
             Assigned(GI_ActiveEditor)
           then
-            PyControl.ErrorPos :=
+            GI_PyControl.ErrorPos :=
               TEditorPos.New(FileName, E.ELineNumber, E.EOffset, True);
 
           GI_PyInterpreter.AppendPrompt;
@@ -1441,7 +1441,7 @@ begin
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
 
   OldDebuggerState := PyControl.DebuggerState;
-  OldPos := PyControl.CurrentPos;
+  OldPos := GI_PyControl.CurrentPos;
   PyControl.DebuggerState := dsRunning;
   try
     Py := SafePyEngine;
@@ -1452,7 +1452,7 @@ begin
   finally
     PyControl.DebuggerState := OldDebuggerState;
     if OldDebuggerState = dsPaused then
-      PyControl.CurrentPos := OldPos;
+      GI_PyControl.CurrentPos := OldPos;
   end;
 end;
 
@@ -1498,7 +1498,7 @@ begin
           // New Line for output
           GI_PyInterpreter.AppendPrompt;
           if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) then
-            PyControl.ErrorPos := ErrorPos;
+            GI_PyControl.ErrorPos := ErrorPos;
         end;
       end;
     end;

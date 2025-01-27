@@ -84,7 +84,8 @@ uses
   cPyControl,
   JvGnugettext,
   StringResources,
-  dmResources;
+  dmResources,
+  cPySupportTypes;
 
 {$R *.dfm}
 

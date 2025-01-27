@@ -310,7 +310,7 @@ begin
       begin
         if GI_PyIDEServices.ShowFilePosition(FileName, TBItem.LineNo, 1)
         then
-          PyControl.ErrorPos := TEditorPos.New(FileName, TBItem.LineNo);
+          GI_PyControl.ErrorPos := TEditorPos.New(FileName, TBItem.LineNo);
       end;
     end;
   end;

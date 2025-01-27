@@ -119,7 +119,8 @@ uses
   uEditAppIntfs,
   uCommonFunctions,
   cPyScripterSettings,
-  cParameters;
+  cParameters,
+  cPySupportTypes;
 
 
 {$R *.dfm}

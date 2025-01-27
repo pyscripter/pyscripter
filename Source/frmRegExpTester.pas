@@ -133,6 +133,7 @@ uses
   dmCommands,
   PythonEngine,
   uEditAppIntfs,
+  cPySupportTypes,
   uCommonFunctions;
 
 {$R *.dfm}

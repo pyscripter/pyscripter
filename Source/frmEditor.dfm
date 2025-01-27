@@ -148,7 +148,6 @@ object EditorForm: TEditorForm
               FullRow = True
             end>
           SelectedColor.Background = clSkyBlue
-          SelectedColor.Alpha = 0.400000005960464500
           TabWidth = 4
           VisibleSpecialChars = []
           WantTabs = True
@@ -226,7 +225,6 @@ object EditorForm: TEditorForm
               AnnPos = sbpRight
               FullRow = True
             end>
-          SelectedColor.Alpha = 0.400000005960464500
           VisibleSpecialChars = []
           OnMouseCursor = SynEditMouseCursor
           OnShowHint = EditorShowHint

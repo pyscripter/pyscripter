@@ -602,7 +602,7 @@ begin
   FAutoCompletionFont := TFont.Create;
   SetDefaultUIFont(FAutoCompletionFont);
   FHighlightSelectedWord := True;
-  FHighlightSelectedWordColor := clOlive;
+  FHighlightSelectedWordColor := TColors.Dodgerblue;
   FFileChangeNotification := fcnDisabled;
   FCodeCompletionCaseSensitive := True;
   FCompleteKeywords := True;

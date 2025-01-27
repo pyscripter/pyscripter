@@ -87,8 +87,8 @@ uses
   Vcl.FileCtrl,
   JvGnugettext,
   StringResources,
-  uEditAppIntfs,
   uCommonFunctions,
+  cPySupportTypes,
   cPyControl,
   PythonVersions,
   dmResources;

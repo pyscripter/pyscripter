@@ -2332,7 +2332,7 @@ begin
   actDebugAbort.Enabled := DebuggerState in [dsPaused, dsDebugging, dsRunning, dsPostMortem];
   actDebugPause.Enabled := DebuggerState = dsDebugging;
   actRunToCursor.Enabled := PyFileActive and (GI_PyControl.Inactive or (DebuggerState = dsPaused))
-    and PyControl.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
+    and TPyRegExpr.IsExecutableLine(Editor.SynEdit.LineText);
   actToggleBreakPoint.Enabled := PyFileActive;
   actClearAllBreakpoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;

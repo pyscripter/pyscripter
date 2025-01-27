@@ -400,7 +400,7 @@ begin
   Py := SafePyEngine;
 
   VarClear(Result);
-  PyControl.ErrorPos := TEditorPos.EmptyPos;
+  GI_PyControl.ErrorPos := TEditorPos.EmptyPos;
 
   GI_PyIDEServices.Messages.ClearMessages;
 
@@ -434,7 +434,7 @@ begin
         if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, Offset) and
           Assigned(GI_ActiveEditor)
         then
-          PyControl.ErrorPos :=
+          GI_PyControl.ErrorPos :=
             TEditorPos.New(FileName, LineNo, Offset, True);
       end else
         HandleRemoteException(ExcInfo);
@@ -974,7 +974,7 @@ begin
   CheckConnected;
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
-  OldPos := PyControl.CurrentPos;
+  OldPos := GI_PyControl.CurrentPos;
 
   PyControl.DebuggerState := dsRunning;
   Py := SafePyEngine;
@@ -995,7 +995,7 @@ begin
   finally
     PyControl.DebuggerState := OldDebuggerState;
     if OldDebuggerState = dsPaused then
-      PyControl.CurrentPos := OldPos;
+      GI_PyControl.CurrentPos := OldPos;
   end;
 end;
 
@@ -1772,13 +1772,13 @@ begin
   if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit(False);
 
-  OldCurrentPos := PyControl.CurrentPos;
+  OldCurrentPos := GI_PyControl.CurrentPos;
   FExecPaused := True;
   try
     Result := FRemotePython.RunSource(Source, FileName, Symbol);
   finally
     FExecPaused := False;
-    PyControl.CurrentPos := OldCurrentPos;
+    GI_PyControl.CurrentPos := OldCurrentPos;
   end;
 end;
 

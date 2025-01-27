@@ -238,6 +238,7 @@ uses
   dlgDirectoryList,
   uEditAppIntfs,
   cPyScripterSettings,
+  cPySupportTypes,
   cPyControl,
   cSSHSupport,
   dlgRemoteFile,

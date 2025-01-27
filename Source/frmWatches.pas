@@ -107,9 +107,9 @@ uses
   JvGnugettext,
   PythonEngine,
   StringResources,
-  uEditAppIntfs,
   uCommonFunctions,
   dmResources,
+  cPySupportTypes,
   cPyBaseDebugger;
 
 {$R *.dfm}

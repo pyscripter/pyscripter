@@ -123,6 +123,7 @@ uses
   frmFindResults,
   StringResources,
   cPyScripterSettings,
+  cPySupportTypes,
   cPyControl,
   dmResources;
 

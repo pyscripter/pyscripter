@@ -359,7 +359,8 @@ uses
   VarPyth,
   PythonEngine,
   StringResources,
-  uEditAppIntfs;
+  uEditAppIntfs,
+  cPySupportTypes;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: Boolean): Integer;

@@ -123,7 +123,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
             Width = 2
           end>
         ScrollbarAnnotations = <>
-        SelectedColor.Alpha = 0.400000005960464500
         TabWidth = 4
         VisibleSpecialChars = []
       end

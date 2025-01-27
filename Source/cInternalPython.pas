@@ -74,6 +74,7 @@ uses
   VarPyth,
   uEditAppIntfs,
   cPyScripterSettings,
+  cPySupportTypes,
   uCommonFunctions;
 
 { TInternalPython }

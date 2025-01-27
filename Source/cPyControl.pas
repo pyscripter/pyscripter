@@ -65,8 +65,6 @@ type
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
     procedure SetDebuggerState(NewState: TDebuggerState);
-    procedure SetCurrentPos(const NewPos: TEditorPos);
-    procedure SetErrorPos(const NewPos: TEditorPos);
     function GetPythonEngineType: TPythonEngineType;
     procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
@@ -77,9 +75,13 @@ type
     function PythonLoaded: Boolean;
     function Running: Boolean;
     function Inactive: Boolean;
+    function GetCurrentPos: TEditorPos;
+    function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
+    procedure SetCurrentPos(const NewPos: TEditorPos);
+    procedure SetErrorPos(const NewPos: TEditorPos);
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
   public
@@ -98,11 +100,6 @@ type
     procedure SetBreakPoint(FileName: string; ALine: Integer;
       Disabled: Boolean; Condition: string);
     procedure ClearAllBreakpoints;
-    // Editor related
-    function GetLineInfos(Editor: IEditor; ALine: Integer): TDebuggerLineInfos;
-    function IsBreakpointLine(Editor: IEditor; ALine: Integer;
-      var Disabled: Boolean): Boolean;
-    function IsExecutableLine(Editor: IEditor; ALine: Integer): Boolean;
     // Running Python Scripts
     procedure Run(ARunConfig: TRunConfiguration);
     procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
@@ -227,6 +224,16 @@ begin
   Result := FActiveSSHServerName;
 end;
 
+function TPythonControl.GetCurrentPos: TEditorPos;
+begin
+  Result := FCurrentPos;
+end;
+
+function TPythonControl.GetErrorPos: TEditorPos;
+begin
+  Result := FErrorPos;
+end;
+
 function TPythonControl.GetInternalInterpreter: TPyBaseInterpreter;
 begin
   Result := FInternalInterpreter;
@@ -234,27 +241,6 @@ begin
   begin
     StyledMessageDlg(_(SInterpreterNA), mtError, [mbAbort], 0);
     Abort;
-  end;
-end;
-
-function TPythonControl.GetLineInfos(Editor: IEditor; ALine: Integer): TDebuggerLineInfos;
-var
-  Disabled: Boolean;
-begin
-  Result := [];
-  if ALine > 0 then begin
-    if (Editor.FileId = CurrentPos.FileName) and (ALine = CurrentPos.Line) then
-      Include(Result, dlCurrentLine);
-    if (Editor.FileId = ErrorPos.FileName) and (ALine = ErrorPos.Line) then
-      Include(Result, dlErrorLine);
-    if IsExecutableLine(Editor, ALine) then
-      Include(Result, dlExecutableLine);
-    Disabled := False;
-    if IsBreakpointLine(Editor, ALine, Disabled) then
-      if Disabled then
-        Include(Result, dlDisabledBreakpointLine)
-      else
-        Include(Result, dlBreakpointLine);
   end;
 end;
 
@@ -372,65 +358,31 @@ begin
   end;
 end;
 
-function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: Integer;
-  var Disabled: Boolean): Boolean;
-var
-  Idx: Integer;
-begin
-  Result := False;
-  if ALine > 0 then begin
-    Idx := Editor.BreakPoints.Count - 1;
-    while Idx >= 0 do begin
-      if TBreakPoint(Editor.BreakPoints[Idx]).LineNo = ALine then begin
-        Disabled := TBreakPoint(Editor.BreakPoints[Idx]).Disabled;
-        Result := True;
-        Break;
-      end;
-      Dec(Idx);
-    end;
-  end;
-end;
-
-function TPythonControl.IsExecutableLine(Editor: IEditor; ALine: Integer): Boolean;
-begin
-  Assert(Assigned(Editor), 'TPythonControl.IsExecutableLine');
-  with Editor.SynEdit do begin
-    Result := TPyRegExpr.IsExecutableLine(Lines[ALine-1]);
-  end;
-end;
-
 procedure TPythonControl.ToggleBreakpoint(Editor: IEditor; ALine: Integer;
   CtrlPressed: Boolean = False);
 var
   Index: NativeInt;
   BreakPoint: TBreakPoint;
+  BPList: TBreakPointList;
 begin
-  if ALine > 0 then begin
-    Index := Editor.BreakPoints.Count;  // append at the end
-    for var I := 0 to Editor.BreakPoints.Count - 1 do begin
-      if TBreakPoint(Editor.BreakPoints[I]).LineNo = ALine then begin
-        if CtrlPressed then
-          // Toggle disabled
-          TBreakPoint(Editor.BreakPoints[I]).Disabled :=
-            not TBreakPoint(Editor.BreakPoints[I]).Disabled
-        else
-          Editor.BreakPoints.Delete(I);
-        Index := -1;
-        Break;
-      end else if TBreakPoint(Editor.BreakPoints[I]).LineNo > ALine then begin
-        Index := I;
-        Break;
-      end;
-    end;
-    if Index >= 0 then begin
-      BreakPoint := TBreakPoint.Create;
-      BreakPoint.LineNo := ALine;
-      if CtrlPressed then
-        BreakPoint.Disabled := True;
-      Editor.BreakPoints.Insert(Index, BreakPoint);
-    end;
-    DoOnBreakpointChanged(Editor, ALine);
+  if ALine <= 0 then Exit;
+  BPList := Editor.BreakPoints as TBreakPointList;
+  if BPList.FindLine(ALine, Index) then
+  begin
+    BreakPoint := TBreakPoint(BPList[Index]);
+    if not CtrlPressed then
+      BPList.Delete(Index);
+  end
+  else
+  begin
+    BreakPoint := TBreakPoint.Create(ALine);
+    BPList.Insert(Index, BreakPoint);
   end;
+  if CtrlPressed then
+    // Toggle disabled
+    BreakPoint.Disabled := not BreakPoint.Disabled;
+
+  DoOnBreakpointChanged(Editor, ALine);
 end;
 
 procedure TPythonControl.SetActiveDebugger(const Value: TPyBaseDebugger);
@@ -466,26 +418,9 @@ var
   BreakPoint: TBreakPoint;
 begin
   Editor := GI_EditorFactory.GetEditorByFileId(FileName);
-
-  BreakPoint := nil;
-  if Assigned(Editor) and (ALine > 0) then begin
-    for var I := 0 to Editor.BreakPoints.Count - 1 do begin
-      if TBreakPoint(Editor.BreakPoints[I]).LineNo = ALine then begin
-        BreakPoint := TBreakPoint(Editor.BreakPoints[I]);
-        Break;
-      end else if TBreakPoint(Editor.BreakPoints[I]).LineNo > ALine then begin
-        BreakPoint := TBreakPoint.Create;
-        Editor.BreakPoints.Insert(I, BreakPoint);
-        Break;
-      end;
-    end;
-    if not Assigned(BreakPoint) then begin
-      BreakPoint := TBreakPoint.Create;
-      Editor.BreakPoints.Add(BreakPoint);
-    end;
-    BreakPoint.LineNo := ALine;
-    BreakPoint.Disabled := Disabled;
-    BreakPoint.Condition := Condition;
+  if Assigned(Editor) and (ALine > 0) then
+  begin
+    (Editor.BreakPoints as TBreakPointList).SetBreakPoint( ALine, Disabled, Condition);
 
     DoOnBreakpointChanged(Editor, ALine);
   end;

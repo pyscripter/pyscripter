@@ -316,7 +316,6 @@ inherited ToolProperties: TToolProperties
             HideSelection = True
             ScrollBars = ssNone
             ScrollbarAnnotations = <>
-            SelectedColor.Alpha = 0.400000005960464500
             VisibleSpecialChars = []
             WantReturns = False
           end
@@ -346,7 +345,6 @@ inherited ToolProperties: TToolProperties
             HideSelection = True
             ScrollBars = ssNone
             ScrollbarAnnotations = <>
-            SelectedColor.Alpha = 0.400000005960464500
             VisibleSpecialChars = []
             WantReturns = False
           end
@@ -376,7 +374,6 @@ inherited ToolProperties: TToolProperties
             HideSelection = True
             ScrollBars = ssNone
             ScrollbarAnnotations = <>
-            SelectedColor.Alpha = 0.400000005960464500
             VisibleSpecialChars = []
             WantReturns = False
           end

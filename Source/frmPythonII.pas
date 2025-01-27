@@ -44,7 +44,8 @@ uses
   SynCompletionProposal,
   PythonEngine,
   frmIDEDockWin,
-  uEditAppIntfs;
+  uEditAppIntfs,
+  cPySupportTypes;
 
 const
   WM_REINITINTERPRETER = WM_USER + 1030;
@@ -211,7 +212,6 @@ uses
   uCommonFunctions,
   cPyScripterSettings,
   cPyControl,
-  cPySupportTypes,
   cCodeCompletion;
 
 {$R *.dfm}

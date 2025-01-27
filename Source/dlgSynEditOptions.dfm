@@ -98,13 +98,7 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
               Width = 2
             end>
           RightEdge = 0
-          ScrollbarAnnotations = <
-            item
-              AnnType = sbaCarets
-              AnnPos = sbpFullWidth
-              FullRow = False
-            end>
-            SelectedColor.Alpha = 0.400000005960464500
+          ScrollbarAnnotations = <>
         end
         object lbColorThemes: TListBox
           Left = 3
@@ -257,13 +251,7 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
               Width = 2
             end>
           RightEdge = 0
-          ScrollbarAnnotations = <
-            item
-              AnnType = sbaCarets
-              AnnPos = sbpFullWidth
-              FullRow = False
-            end>
-          SelectedColor.Alpha = 0.400000005960464500
+          ScrollbarAnnotations = <>
         end
         object cbHighlighters: TComboBox
           Left = 15

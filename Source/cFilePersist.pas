@@ -94,7 +94,8 @@ uses
   dmResources,
   frmPyIDEMain,
   cPyControl,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  cPySupportTypes;
 
 { TFilePersistInfo }
 
@@ -239,9 +240,7 @@ begin
   for var BPoint in Editor.BreakPoints do
   begin
     var BreakPoint := TBreakPoint.Create;
-    BreakPoint.LineNo := TBreakPoint(BPoint).LineNo;
-    BreakPoint.Disabled := TBreakPoint(BPoint).Disabled;
-    BreakPoint.Condition := TBreakPoint(BPoint).Condition;
+    BreakPoint.Assign(BPoint);
     BreakPoints.Add(BreakPoint);
   end;
 

@@ -142,7 +142,7 @@ begin
       FrameData := FirstNode.GetData;
       Editor := GI_EditorFactory.GetEditorByFileId(FrameData.FileName);
       if Assigned(Editor) then
-        PyControl.CurrentPos := TEditorPos.New(FrameData.FileName, FrameData.Line);
+        GI_PyControl.CurrentPos := TEditorPos.New(FrameData.FileName, FrameData.Line);
     end;
   end else
     ClearAll(False);

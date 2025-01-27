@@ -39,7 +39,7 @@ end;
 
 procedure RegisterSearchHighlightIndicatorSpec(Editor: IEditor);
 const
-  Alpha = 0.3;  // could allow customization
+  Alpha = 0.2;  // could allow customization
 begin
   var Spec := TSynIndicatorSpec.New(sisRoundedFilledRectangle, clNoneF,
     D2D1ColorF(PyIDEOptions.HighlightSelectedWordColor, Alpha), []);

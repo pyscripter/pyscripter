@@ -143,6 +143,7 @@ uses
   VarPyth,
   StringResources,
   uCommonFunctions,
+  cPySupportTypes,
   cPyControl,
   dmResources;
 
