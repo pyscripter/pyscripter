@@ -1087,11 +1087,7 @@ begin
       on E: EPySyntaxError do
         begin
           var FileName := FromPythonFileName(E.EFileName);
-          if GI_PyIDEServices.ShowFilePosition(FileName, E.ELineNumber, E.EOffset) and
-            Assigned(GI_ActiveEditor)
-          then
-            GI_PyControl.ErrorPos :=
-              TEditorPos.New(FileName, E.ELineNumber, E.EOffset, True);
+          GI_PyControl.ErrorPos := TEditorPos.New(FileName, E.ELineNumber, E.EOffset, True);
 
           GI_PyInterpreter.AppendPrompt;
           System.SysUtils.Abort;
@@ -1485,8 +1481,7 @@ begin
           GI_PyIDEServices.Messages.ClearMessages;
           // New Line for output
           GI_PyInterpreter.AppendPrompt;
-          if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) then
-            GI_PyControl.ErrorPos := ErrorPos;
+          GI_PyControl.ErrorPos := ErrorPos;
         end;
       end;
     end;

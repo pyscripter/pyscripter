@@ -51,6 +51,7 @@ type
     IsSyntax: Boolean;
     ErrorMsg: string;
     function PointsTo(AFileName: string; ALine: Integer): Boolean;
+    function IsValid: Boolean;
     procedure Clear;
     class function EmptyPos: TEditorPos; static;
     class function New(FName: string; ALine: Integer; AChar: Integer = -1;
@@ -291,6 +292,11 @@ begin
     IsSyntax := False;
     ErrorMsg := '';
   end;
+end;
+
+function TEditorPos.IsValid: Boolean;
+begin
+  Result := FileName <> '';
 end;
 
 class function TEditorPos.New(FName: string; ALine: Integer; AChar: Integer =

@@ -432,11 +432,7 @@ begin
       begin
         ExtractPyErrorInfo(ExcInfo, FileName, LineNo, Offset);
         FileName := FromPythonFileName(FileName);
-        if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, Offset) and
-          Assigned(GI_ActiveEditor)
-        then
-          GI_PyControl.ErrorPos :=
-            TEditorPos.New(FileName, LineNo, Offset, True);
+        GI_PyControl.ErrorPos := TEditorPos.New(FileName, LineNo, Offset, True);
       end
       else
         HandleRemoteException(ExcInfo);

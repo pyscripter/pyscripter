@@ -295,7 +295,6 @@ procedure TPyBaseInterpreter.HandlePyException(Traceback: TPythonTraceback;
 var
   TBItem: TTracebackItem;
   FileName: string;
-  Editor: IEditor;
 begin
   GI_PyIDEServices.Messages.ShowPythonTraceback(Traceback, SkipFrames);
   GI_PyIDEServices.Messages.AddMessage(ErrorMsg);
@@ -303,15 +302,12 @@ begin
     if ItemCount > 0 then begin
       TBItem := Items[ItemCount -1];
       FileName := FromPythonFileName(TBItem.FileName);
-      Editor := GI_EditorFactory.GetEditorByFileId(FileName);
       // Check whether the error occurred in the active editor
-      if (Assigned(Editor) and (Editor = GI_PyIDEServices.ActiveEditor)) or
-        PyIDEOptions.JumpToErrorOnException then
-      begin
-        if GI_PyIDEServices.ShowFilePosition(FileName, TBItem.LineNo, 1)
-        then
-          GI_PyControl.ErrorPos := TEditorPos.New(FileName, TBItem.LineNo);
-      end;
+      if (Assigned(GI_PyIDEServices.ActiveEditor) and
+        (GI_PyIDEServices.ActiveEditor.FileId = FileName)) or
+        PyIDEOptions.JumpToErrorOnException
+      then
+        GI_PyControl.ErrorPos := TEditorPos.New(FileName, TBItem.LineNo);
     end;
   end;
 end;

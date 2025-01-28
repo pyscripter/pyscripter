@@ -1296,8 +1296,6 @@ type
     function CmdLineOpenFiles(): Boolean;
     function OpenCmdLineFile(FileName: string): Boolean;
     procedure DebuggerBreakpointChange(Sender: TObject; Editor: IEditor; ALine: Integer);
-    procedure DebuggerCurrentPosChange(Sender: TObject; const OldPos, NewPos: TEditorPos);
-    procedure DebuggerErrorPosChange(Sender: TObject; const OldPos, NewPos: TEditorPos);
     procedure UpdateStandardActions;
     procedure UpdateStatusBarPanels;
     procedure ApplicationOnHint(Sender: TObject);
@@ -2320,57 +2318,6 @@ begin
    actRunLastScriptExternal.Hint := _(SHintExternalRun) + FName;
 end;
 
-procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject;
-  const OldPos, NewPos: TEditorPos);
-{  Invalidates old and/or new error line but does not Activate the Editor }
-begin
-  if GetIsClosing then Exit;
-
-  var Editor := GI_EditorFactory.GetEditorByFileId(OldPos.FileName);
-  if Assigned(Editor)  and (OldPos.Line > 0) then begin
-    // Remove possible error line
-    Editor.SynEdit.InvalidateLine(OldPos.Line);
-    Editor.SynEdit2.InvalidateLine(OldPos.Line);
-  end;
-  Editor := GI_EditorFactory.GetEditorByFileId(NewPos.FileName);
-  if Assigned(Editor)  and (NewPos.Line > 0) then begin
-    Editor.SynEdit.InvalidateLine(NewPos.Line);
-    Editor.SynEdit2.InvalidateLine(NewPos.Line);
-  end;
-end;
-
-procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject;
-  const OldPos, NewPos: TEditorPos);
-begin
-  if GetIsClosing then Exit;
-
-  var Editor := GI_EditorFactory.GetEditorByFileId(OldPos.FileName);
-  if Assigned(Editor)  and (OldPos.Line > 0) then
-    // Remove possible current lines
-    with Editor do begin
-      SynEdit.InvalidateGutterLine(OldPos.Line);
-      SynEdit.InvalidateLine(OldPos.Line);
-      SynEdit2.InvalidateGutterLine(OldPos.Line);
-      SynEdit2.InvalidateLine(OldPos.Line);
-    end;
-
-  Editor := GI_EditorFactory.GetEditorByFileId(NewPos.FileName);
-  if not Assigned(Editor) then Exit;
-
-  if GetActiveEditor <> Editor then
-    Editor.Activate;
-  with Editor.SynEdit do begin
-    if (NewPos.Line > 0) and (CaretY <> NewPos.Line) then begin
-      CaretXY := BufferCoord(1, NewPos.Line);
-      EnsureCursorPosVisible;
-    end;
-    InvalidateGutterLine(NewPos.Line);
-    InvalidateLine(NewPos.Line);
-  end;
-  Editor.SynEdit2.InvalidateGutterLine(NewPos.Line);
-  Editor.SynEdit2.InvalidateLine(NewPos.Line);
-end;
-
 procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,
   NewState: TDebuggerState);
 var
@@ -2501,7 +2448,7 @@ begin
       Editor := GI_EditorFactory.GetEditorByFileId(FileName);
 
       if GI_PyControl.PythonLoaded and
-        Editor.FileName.StartsWith(PyControl.PythonVersion.InstallPath, True)
+        Editor.FileName.StartsWith(GI_PyControl.PythonVersion.InstallPath, True)
       then
         Editor.ReadOnly := True;
     end;
@@ -4485,8 +4432,6 @@ begin
 
     with PyControl do begin
       OnBreakpointChange := DebuggerBreakpointChange;
-      OnCurrentPosChange := DebuggerCurrentPosChange;
-      OnErrorPosChange := DebuggerErrorPosChange;
       OnStateChange := DebuggerStateChange;
     end;
 

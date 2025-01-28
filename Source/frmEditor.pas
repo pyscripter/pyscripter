@@ -1211,15 +1211,17 @@ type
     function GetEditorByName(const Name: string): IEditor;
     function GetEditorByFileId(const Name: string): IEditor;
     function GetEditor(Index: Integer): IEditor;
+    function GetViewFactoryCount: Integer;
+    function GetViewFactory(Index: Integer): IEditorViewFactory;
     function NewEditor(TabControlIndex:Integer = 1): IEditor;
+    procedure InvalidatePos(AFileName: string; ALine: Integer;
+      AType: TInvalidationType);
     procedure RemoveEditor(AEditor: IEditor);
     function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
     procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; ImgList: TCustomImageList);
     procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
     procedure CreateRecoveryFiles;
     procedure RecoverFiles;
-    function GetViewFactoryCount: Integer;
-    function GetViewFactory(Index: Integer): IEditorViewFactory;
     procedure LockList;
     procedure UnlockList;
     procedure ApplyToEditors(const Proc: TProc<IEditor>);
@@ -1406,6 +1408,40 @@ end;
 function TEditorFactory.GetViewFactoryCount: Integer;
 begin
   Result := FEditorViewFactories.Count;
+end;
+
+procedure TEditorFactory.InvalidatePos(AFileName: string; ALine: Integer;
+  AType: TInvalidationType);
+
+  procedure ProcessEditor(SynEd: TSynEdit);
+  begin
+    if ALine > 0 then
+      case AType of
+        itLine: SynEd.InvalidateLine(ALine);
+        itGutter: SynEd.InvalidateGutterLine(ALine);
+        itBoth:
+         begin
+           SynEd.InvalidateLine(ALine);
+           SynEd.InvalidateGutterLine(ALine);
+         end;
+      end
+    else
+      case AType of
+        itLine: SynEd.InvalidateLines(-1, -1);
+        itGutter: SynEd.InvalidateGutterLines(-1, -1);
+        itBoth: SynEd.Invalidate;
+      end
+  end;
+
+begin
+  if AFileName = '' then Exit;
+
+  var Editor := GetEditorByFileId(AFileName);
+  if Assigned(Editor) then
+  begin
+    ProcessEditor(Editor.SynEdit);
+    ProcessEditor(Editor.SynEdit2);
+  end;
 end;
 
 procedure TEditorFactory.LockList;

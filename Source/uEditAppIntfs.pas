@@ -113,6 +113,8 @@ type
     property ReadOnly: Boolean read GetReadOnly write SetReadOnly;
   end;
 
+  TInvalidationType = (itLine, itGutter, itBoth);
+
   IEditorFactory = interface
   ['{FDAE7FBD-4B61-4D7C-BEE6-DB7740A225E8}']
     function CanCloseAll: Boolean;
@@ -123,11 +125,13 @@ type
     function GetEditor(Index: Integer): IEditor;
     function GetEditorByName(const Name: string): IEditor;
     function GetEditorByFileId(const Name: string): IEditor;
+    function GetViewFactoryCount: Integer;
+    function GetViewFactory(Index: Integer): IEditorViewFactory;
+    procedure InvalidatePos(AFileName: string; ALine: Integer;
+      AType: TInvalidationType);
     function NewEditor(TabControlIndex:Integer = 1): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
-    function GetViewFactoryCount: Integer;
-    function GetViewFactory(Index: Integer): IEditorViewFactory;
     procedure SetupEditorViewsMenu(ViewsMenu: TSpTBXItem; IL: TCustomImageList);
     procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
     procedure CreateRecoveryFiles;

@@ -26,7 +26,6 @@ type
 
   TBreakpointChangeEvent = procedure(Sender: TObject; Editor: IEditor; ALine: Integer) of object;
   TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
-  TDebuggerPosChangeEvent = procedure(Sender: TObject; const OldPos, NewPos: TEditorPos) of object;
 
   TPythonControl = class(TComponent, IPyControl)
   {
@@ -40,8 +39,6 @@ type
     FBreakPointsChanged: Boolean;
     FDebuggerState: TDebuggerState;
     FOnBreakpointChange: TBreakpointChangeEvent;
-    FOnCurrentPosChange: TDebuggerPosChangeEvent;
-    FOnErrorPosChange: TDebuggerPosChangeEvent;
     FOnStateChange: TDebuggerStateChangeEvent;
     FOnPythonVersionChange: TJclNotifyEventBroadcast;
     FActiveInterpreter: TPyBaseInterpreter;
@@ -131,10 +128,6 @@ type
     property Finalizing: Boolean read FFinalizing;
     property OnBreakpointChange: TBreakpointChangeEvent read FOnBreakpointChange
       write FOnBreakpointChange;
-    property OnCurrentPosChange: TDebuggerPosChangeEvent read FOnCurrentPosChange
-      write FOnCurrentPosChange;
-    property OnErrorPosChange: TDebuggerPosChangeEvent read FOnErrorPosChange
-      write FOnErrorPosChange;
     property OnStateChange: TDebuggerStateChangeEvent read FOnStateChange
       write FOnStateChange;
     property OnPythonVersionChange: TJclNotifyEventBroadcast read GetOnPythonVersionChange;
@@ -412,7 +405,7 @@ begin
   Editor := GI_EditorFactory.GetEditorByFileId(FileName);
   if Assigned(Editor) and (ALine > 0) then
   begin
-    (Editor.BreakPoints as TBreakPointList).SetBreakPoint( ALine, Disabled, Condition);
+    (Editor.BreakPoints as TBreakPointList).SetBreakPoint(ALine, Disabled, Condition);
 
     DoOnBreakpointChanged(Editor, ALine);
   end;
@@ -521,33 +514,49 @@ begin
   end);
 end;
 
+procedure CurrentPosChanged(CurrPos, NewPos: TEditorPos);
+begin
+  if GI_PyIDEServices.IsClosing  then Exit;
+
+  GI_EditorFactory.InvalidatePos(CurrPos.FileName, CurrPos.Line, itBoth);
+  if NewPos.IsValid and
+    GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line)
+  then
+    GI_EditorFactory.InvalidatePos(NewPos.FileName, NewPos.Line, itBoth);
+end;
+
 procedure TPythonControl.SetCurrentPos(const NewPos: TEditorPos);
 begin
-  if Assigned(FOnCurrentPosChange) then
-  begin
-    if (GetCurrentThreadId = MainThreadID) then
-      FOnCurrentPosChange(Self, FCurrentPos, NewPos)
-    else
-      TThread.Synchronize(nil, procedure
-      begin
-        FOnCurrentPosChange(Self, FCurrentPos, NewPos);
-      end);
-  end;
+  if (GetCurrentThreadId = MainThreadID) then
+    CurrentPosChanged(FCurrentPos, NewPos)
+  else
+    TThread.Synchronize(nil, procedure
+    begin
+      CurrentPosChanged(FCurrentPos, NewPos);
+    end);
   FCurrentPos := NewPos;
+end;
+
+procedure ErrorPosChanged(CurrPos, NewPos: TEditorPos);
+begin
+  if GI_PyIDEServices.IsClosing  then Exit;
+
+  GI_EditorFactory.InvalidatePos(CurrPos.FileName, CurrPos.Line, itLine);
+  if NewPos.IsValid and
+    GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line)
+  then
+    GI_EditorFactory.InvalidatePos(NewPos.FileName, NewPos.Line, itLine);
 end;
 
 procedure TPythonControl.SetErrorPos(const NewPos: TEditorPos);
 begin
-  if Assigned(FOnErrorPosChange) then
-  begin
-    if (GetCurrentThreadId = MainThreadID) then
-      FOnErrorPosChange(Self, FErrorPos, NewPos)
-    else
-      TThread.Synchronize(nil, procedure
-      begin
-        FOnErrorPosChange(Self, FErrorPos, NewPos);
-      end);
-  end;
+  if (GetCurrentThreadId = MainThreadID) then
+    ErrorPosChanged(FErrorPos, NewPos)
+  else
+    TThread.Synchronize(nil, procedure
+    begin
+      ErrorPosChanged(FErrorPos, NewPos);
+    end);
   FErrorPos := NewPos;
 end;
 
