@@ -190,7 +190,7 @@ function TFilePersistInfo.CreateListItem(Sender: TJvCustomAppStorage;
   const Path: string; Index: Integer): TPersistent;
 begin
   if Pos('BreakPoint', Path) > 0 then
-    Result := TBreakPoint.Create
+    Result := TBreakpoint.Create
   else if Pos('BookMark', Path) > 0 then
     Result := TBookMarkInfo.Create
   else
@@ -239,7 +239,7 @@ begin
 
   for var BPoint in Editor.BreakPoints do
   begin
-    var BreakPoint := TBreakPoint.Create;
+    var BreakPoint := TBreakpoint.Create;
     BreakPoint.Assign(BPoint);
     BreakPoints.Add(BreakPoint);
   end;
@@ -309,8 +309,8 @@ begin
         Editor.SynEdit.CaretXY := BufferCoord(FilePersistInfo.Char, FilePersistInfo.Line);
 
         for var BPoint in FilePersistInfo.BreakPoints do
-          with TBreakPoint(BPoint) do
-            PyControl.SetBreakPoint(FilePersistInfo.FileName,
+          with TBreakpoint(BPoint) do
+            GI_BreakpointManager.SetBreakpoint(FilePersistInfo.FileName,
               LineNo, Disabled, Condition);
 
         for var BookMark in FilePersistInfo.BookMarks do

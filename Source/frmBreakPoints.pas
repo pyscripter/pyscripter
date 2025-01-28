@@ -13,7 +13,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.ImageList,
-  System.Contnrs,
+  System.Generics.Collections,
   Vcl.Controls,
   Vcl.Menus,
   Vcl.ExtCtrls,
@@ -29,9 +29,11 @@ uses
   VirtualTrees,
   TB2Item,
   SpTBXItem,
+  cPySupportTypes,
   frmIDEDockWin;
 
 type
+
   TBreakPointsWindow = class(TIDEDockWindow)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnClear: TSpTBXItem;
@@ -51,7 +53,6 @@ type
     procedure BreakPointLVDblClick(Sender: TObject);
     procedure mnClearClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure BreakPointsViewInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure BreakPointsViewGetText(Sender: TBaseVirtualTree;
@@ -62,7 +63,7 @@ type
     procedure FormActivate(Sender: TObject);
   private
     const FBasePath = 'Breakpoints Window Options'; // Used for storing settings
-    var FBreakPointsList: TObjectList;
+    var FBreakPoints: TArray<TBreakpointInfo>;
   public
     procedure UpdateWindow;
     // AppStorage
@@ -77,6 +78,7 @@ implementation
 
 uses
   Winapi.Windows,
+  System.Contnrs,
   Vcl.Dialogs,
   Vcl.Clipbrd,
   uEditAppIntfs,
@@ -84,43 +86,16 @@ uses
   cPyControl,
   JvGnugettext,
   StringResources,
-  dmResources,
-  cPySupportTypes;
+  dmResources;
 
 {$R *.dfm}
-
-type
-  TBreakPointInfo = class
-    FileName: string;
-    Line: Integer;
-    Disabled: Boolean;
-    Condition: string;
-  end;
-
-  PBreakPointRec = ^TBreakPointRec;
-  TBreakPointRec = record
-    BreakPoint: TBreakPointInfo;
-  end;
 
 procedure TBreakPointsWindow.UpdateWindow;
 begin
   BreakPointsView.Clear;
-  FBreakPointsList.Clear;
+  FBreakPoints := GI_BreakpointManager.AllBreakPoints;
 
-  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
-  begin
-    for var BP in Editor.BreakPoints do
-    begin
-      var BPInfo := TBreakPointInfo.Create;
-      BPInfo.FileName := Editor.FileId;
-      BPInfo.Line := TBreakPoint(BP).LineNo;
-      BPInfo.Disabled := TBreakPoint(BP).Disabled;
-      BPInfo.Condition := TBreakPoint(BP).Condition;
-      FBreakPointsList.Add(BPInfo);
-    end;
-  end);
-
-  BreakPointsView.RootNodeCount := FBreakPointsList.Count;
+  BreakPointsView.RootNodeCount := Length(FBreakPoints);
 end;
 
 procedure TBreakPointsWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
@@ -142,49 +117,38 @@ begin
 end;
 
 procedure TBreakPointsWindow.BreakPointLVDblClick(Sender: TObject);
-var
-  Node: PVirtualNode;
-  BreakPoint: TBreakPointInfo;
 begin
-  Node := BreakPointsView.GetFirstSelected;
-  if Assigned(Node) then begin
-    BreakPoint := PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint;
-
-    if (BreakPoint.FileName ='') then Exit; // No FileName or LineNumber
-    GI_PyIDEServices.ShowFilePosition(BreakPoint.FileName, BreakPoint.Line, 1);
-  end;
+  var Node := BreakPointsView.GetFirstSelected;
+  if Assigned(Node) then
+    with FBreakPoints[Node.Index] do
+    begin
+      if FileName ='' then Exit; // No FileName or LineNumber
+      GI_PyIDEServices.ShowFilePosition(FileName, LineNo);
+    end;
 end;
 
 procedure TBreakPointsWindow.mnClearClick(Sender: TObject);
-var
-  Editor: IEditor;
-  Node: PVirtualNode;
 begin
-  Node := BreakPointsView.GetFirstSelected;
+  var Node := BreakPointsView.GetFirstSelected;
   if Assigned(Node) then
-    with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do begin
-     if FileName = '' then Exit; // No FileName or LineNumber
-     Editor := GI_EditorFactory.GetEditorByFileId(FileName);
-     if Assigned(Editor) then
-       PyControl.ToggleBreakpoint(Editor, Line);
+    with FBreakPoints[Node.Index] do
+    begin
+      if FileName <> '' then
+       GI_BreakpointManager.ToggleBreakpoint(FileName, LineNo);
     end;
 end;
 
 procedure TBreakPointsWindow.mnSetConditionClick(Sender: TObject);
-var
-  Editor: IEditor;
-  Node: PVirtualNode;
 begin
-  Node := BreakPointsView.GetFirstSelected;
+  var Node := BreakPointsView.GetFirstSelected;
   if Assigned(Node) then
-    with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do begin
+    with FBreakPoints[Node.Index] do
+    begin
       if FileName = '' then Exit; // No FileName or LineNumber
-      Editor := GI_EditorFactory.GetEditorByFileId(FileName);
-      if Assigned(Editor) then begin
-        if InputQuery(_(SEditBreakpointCond), _(SEnterPythonExpression), Condition)
-        then
-          PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
-      end;
+      if InputQuery(_(SEditBreakpointCond), _(SEnterPythonExpression), Condition)
+      then
+        GI_BreakpointManager.SetBreakpoint(FileName, LineNo,
+          Disabled, Condition);
     end;
 end;
 
@@ -204,15 +168,8 @@ procedure TBreakPointsWindow.FormCreate(Sender: TObject);
 begin
   ImageName := 'BreakpointsWin';
   inherited;
-  FBreakPointsList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.
-  BreakPointsView.NodeDataSize := SizeOf(TBreakPointRec);
-end;
-
-procedure TBreakPointsWindow.FormDestroy(Sender: TObject);
-begin
-  FBreakPointsList.Free;
-  inherited;
+  BreakPointsView.NodeDataSize := 0;
 end;
 
 procedure TBreakPointsWindow.BreakPointsViewInitNode(
@@ -220,11 +177,10 @@ procedure TBreakPointsWindow.BreakPointsViewInitNode(
   var InitialStates: TVirtualNodeInitStates);
 begin
   Assert(ParentNode = nil, 'BreakPointsViewInitNode');
-  Assert(Integer(Node.Index) < FBreakPointsList.Count, 'BreakPointsViewInitNode');
-  PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint :=
-    FBreakPointsList[Node.Index] as TBreakPointInfo;
+  Assert(Integer(Node.Index) < Length(FBreakPoints), 'BreakPointsViewInitNode');
+
   Node.CheckType := ctCheckBox;
-  if TBreakPointInfo(FBreakPointsList[Node.Index]).Disabled then
+  if FBreakPoints[Node.Index].Disabled then
     Node.CheckState := csUncheckedNormal
   else
     Node.CheckState := csCheckedNormal;
@@ -234,12 +190,12 @@ procedure TBreakPointsWindow.BreakPointsViewGetText(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
   TextType: TVSTTextType; var CellText: string);
 begin
-  Assert(Integer(Node.Index) < FBreakPointsList.Count, 'BreakPointsViewGetText');
-  with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do
+  Assert(Integer(Node.Index) < Length(FBreakPoints), 'BreakPointsViewGetText');
+  with FBreakPoints[Node.Index] do
     case Column of
       0:  CellText := FileName;
-      1:  if Line > 0
-            then CellText := IntToStr(Line)
+      1:  if LineNo > 0
+            then CellText := IntToStr(LineNo)
           else
             CellText := '';
       2:  CellText := Condition;
@@ -249,14 +205,14 @@ end;
 procedure TBreakPointsWindow.BreakPointsViewChecked(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
-  with PBreakPointRec(BreakPointsView.GetNodeData(Node))^.BreakPoint do begin
+  with FBreakPoints[Node.Index] do
+  begin
     if Node.CheckState = csCheckedNormal then
       Disabled := False
     else
       Disabled := True;
-    PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
+    GI_BreakpointManager.SetBreakpoint(FileName, LineNo, Disabled, Condition);
   end;
-
 end;
 
 procedure TBreakPointsWindow.BreakPointsViewKeyDown(Sender: TObject; var Key:
@@ -273,9 +229,139 @@ procedure TBreakPointsWindow.TBXPopupMenuPopup(Sender: TObject);
 begin
   mnClear.Enabled := Assigned(BreakPointsView.GetFirstSelected());
   mnSetCondition.Enabled := Assigned(BreakPointsView.GetFirstSelected());
-  mnCopyToClipboard.Enabled := FBreakPointsList.Count > 0;
+  mnCopyToClipboard.Enabled := Length(FBreakPoints) > 0;
 end;
 
+
+{$REGION 'TBreakpointManagement'}
+type
+
+  TBreakpointManager = class(TInterfacedObject, IBreakpointManager)
+  private
+    FBreakpointsChanged: Boolean;
+    FIsUpdating: Boolean;
+    procedure DoBreakpointsChanged(const FileName: string; Line: Integer);
+
+    {IBreakpointManager implementation}
+    function GetBreakpointsChanged: Boolean;
+    procedure SetBreakpointsChanged(Value: Boolean);
+    procedure ToggleBreakpoint(const FileName: string; ALine: Integer;
+      CtrlPressed: Boolean = False);
+    procedure SetBreakpoint(const FileName: string; ALine: Integer;
+      Disabled: Boolean; Condition: string);
+    function AllBreakPoints: TArray<TBreakpointInfo>;
+    procedure ClearAllBreakpoints;
+  end;
+
+
+{ TBreakpointManager }
+
+function TBreakpointManager.AllBreakPoints: TArray<TBreakpointInfo>;
+var
+  BPInfo: TBreakpointInfo;
+  Res: TArray<TBreakpointInfo>;
+begin
+  Res := [];
+
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    for var BP in Editor.BreakPoints do
+    begin
+      FillChar(BPInfo, SizeOf(TBreakpointInfo), 0);
+      BPInfo.FileName := Editor.FileId;
+      BPInfo.LineNo := TBreakpoint(BP).LineNo;
+      BPInfo.Disabled := TBreakpoint(BP).Disabled;
+      BPInfo.Condition := TBreakpoint(BP).Condition;
+      Res := Res + [BPInfo];
+    end;
+  end);
+  Result := Res;
+end;
+
+procedure TBreakpointManager.ClearAllBreakpoints;
+begin
+  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
+  begin
+    if Editor.BreakPoints.Count > 0 then begin
+      Editor.BreakPoints.Clear;
+      DoBreakpointsChanged(Editor.FileId, -1);
+    end;
+  end);
+end;
+
+procedure TBreakpointManager.DoBreakpointsChanged(const FileName: string;
+  Line: Integer);
+begin
+  GI_EditorFactory.InvalidatePos(FileName, Line, itGutter);
+  SetBreakpointsChanged(True);
+end;
+
+function TBreakpointManager.GetBreakPointsChanged: Boolean;
+begin
+  Result := FBreakpointsChanged;
+end;
+
+procedure TBreakpointManager.SetBreakpoint(const FileName: string; ALine: Integer;
+  Disabled: Boolean; Condition: string);
+var
+  Editor: IEditor;
+begin
+  Editor := GI_EditorFactory.GetEditorByFileId(FileName);
+  if Assigned(Editor) and (ALine > 0) then
+  begin
+    (Editor.BreakPoints as TBreakpointList).SetBreakPoint(ALine, Disabled, Condition);
+    DoBreakpointsChanged(FileName, ALine);
+  end;
+end;
+
+procedure TBreakpointManager.SetBreakpointsChanged(Value: Boolean);
+begin
+  FBreakpointsChanged := Value;
+  if Value and not FIsUpdating then
+  begin
+    FIsUpdating := True;
+    TThread.ForceQueue(nil, procedure
+      begin
+        BreakPointsWindow.UpdateWindow;
+        FIsUpdating := False;
+      end);
+  end;
+end;
+
+procedure TBreakpointManager.ToggleBreakpoint(const FileName: string;
+  ALine: Integer; CtrlPressed: Boolean);
+var
+  Index: NativeInt;
+  Breakpoint: TBreakpoint;
+begin
+  if ALine <= 0 then Exit;
+
+  var Editor := GI_EditorFactory.GetEditorByFileId(FileName);
+  if not Assigned(Editor) then Exit;
+
+  var BPList := Editor.BreakPoints as TBreakpointList;
+  if BPList.FindLine(ALine, Index) then
+  begin
+    Breakpoint := TBreakpoint(BPList[Index]);
+    if not CtrlPressed then
+      BPList.Delete(Index);
+  end
+  else
+  begin
+    Breakpoint := TBreakpoint.Create(ALine);
+    BPList.Insert(Index, Breakpoint);
+  end;
+  if CtrlPressed then
+    // Toggle disabled
+    Breakpoint.Disabled := not Breakpoint.Disabled;
+
+  DoBreakpointsChanged(FileName, ALine);
+end;
+
+{$ENDREGION 'TBreakpointManagement'}
+
+initialization
+  GI_BreakpointManager := TBreakpointManager.Create;
 end.
 
 

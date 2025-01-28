@@ -58,7 +58,7 @@ type
       IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos; static;
   end;
 
-  TBreakPoint = class(TPersistent)
+  TBreakpoint = class(TPersistent)
   private
     FLineNo: Integer;
     FDisabled: Boolean;
@@ -74,19 +74,17 @@ type
     property PassCount: Integer read FPassCount write FPassCount default 0;
   end;
 
-  // A list with TBreakPoint - is kept sorted
-  TBreakPointList = class(TObjectList)
+  // list with TBreakpoints - is kept sorted
+  TBreakpointList = class(TObjectList)
   public
     function FindLine(ALine: Integer; out Index: NativeInt): Boolean;
-    procedure SetBreakPoint(ALine: Integer;
+    procedure SetBreakpoint(ALine: Integer;
       ADisabled: Boolean; ACondition: string = ''; APassCount: Integer = 0);
     function HasBreakPoint(ALine: Integer): Boolean;
   end;
 
-  {
-     Container of all info needed to run a given file
-     Projects can contain multiple run configurations
-  }
+  {Container of all info needed to run a given file
+   Projects can contain multiple run configurations}
   TRunConfiguration = class(TPersistent)
   private
     FScriptName: string;
@@ -184,10 +182,32 @@ type
     property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
   end;
 
+  TBreakpointInfo = record
+    FileName: string;
+    LineNo: Integer;
+    Disabled: Boolean;
+    Condition: string;
+  end;
+
+  IBreakpointManager = interface
+  ['{2A3F48C2-06E0-455D-B2D1-73BEAD0CF8F7}']
+    function GetBreakpointsChanged: Boolean;
+    procedure SetBreakpointsChanged(Value: Boolean);
+    procedure ToggleBreakpoint(const FileName: string; ALine: Integer;
+      CtrlPressed: Boolean = False);
+    procedure SetBreakpoint(const FileName: string; ALine: Integer;
+      Disabled: Boolean; Condition: string);
+    function AllBreakPoints: TArray<TBreakpointInfo>;
+    procedure ClearAllBreakpoints;
+    property BreakpointsChanged: Boolean read GetBreakpointsChanged
+      write SetBreakpointsChanged;
+  end;
+
   // Global Interfaces
 var
   GI_PyControl: IPyControl;
   GI_PyInterpreter: IPyInterpreter;
+  GI_BreakpointManager: IBreakpointManager;
 
 {$ENDREGION 'Python IDE Interfaces'}
 
@@ -326,15 +346,15 @@ begin
 end;
 
 
-{ TBreakPoint }
+{ TBreakpoint }
 
-procedure TBreakPoint.Assign(Source: TPersistent);
+procedure TBreakpoint.Assign(Source: TPersistent);
 var
-  Src: TBreakPoint;
+  Src: TBreakpoint;
 begin
-  if (Source <> nil) and (Source is TBreakPoint) then
+  if (Source <> nil) and (Source is TBreakpoint) then
   begin
-    Src := TBreakPoint(Source);
+    Src := TBreakpoint(Source);
     FLineNo := Src.LineNo;
     FDisabled := Src.Disabled;
     FCondition := Src.Condition;
@@ -344,49 +364,49 @@ begin
     inherited Assign(Source);
 end;
 
-constructor TBreakPoint.Create(ALineNo: Integer);
+constructor TBreakpoint.Create(ALineNo: Integer);
 begin
   inherited Create;
   LineNo := ALineNo;
 end;
 
-{ TBreakPointList }
+{ TBreakpointList }
 
-function TBreakPointList.FindLine(ALine: Integer; out Index: NativeInt): Boolean;
+function TBreakpointList.FindLine(ALine: Integer; out Index: NativeInt): Boolean;
 begin
   Result := False;
   Index := 0;
   while Index < Count do
   begin
-    if TBreakPoint(Items[Index]).LineNo = ALine then
+    if TBreakpoint(Items[Index]).LineNo = ALine then
     begin
       Result := True;
       Break;
     end
-    else if TBreakPoint(Items[Index]).LineNo > ALine  then
+    else if TBreakpoint(Items[Index]).LineNo > ALine  then
       Break;
     Inc(Index);
   end;
 end;
 
-function TBreakPointList.HasBreakPoint(ALine: Integer): Boolean;
+function TBreakpointList.HasBreakPoint(ALine: Integer): Boolean;
 var
   Index: NativeInt;
 begin
   Result := FindLine(ALine, Index);
 end;
 
-procedure TBreakPointList.SetBreakPoint(ALine: Integer; ADisabled: Boolean;
+procedure TBreakpointList.SetBreakpoint(ALine: Integer; ADisabled: Boolean;
   ACondition: string; APassCount: Integer);
 var
   Index: NativeInt;
-  BreakPoint: TBreakPoint;
+  BreakPoint: TBreakpoint;
 begin
   if FindLine(ALine, Index) then
-    BreakPoint := TBreakPoint(Items[Index])
+    BreakPoint := TBreakpoint(Items[Index])
   else
   begin
-    BreakPoint := TBreakPoint.Create(ALine);
+    BreakPoint := TBreakpoint.Create(ALine);
     Insert(Index, BreakPoint);
   end;
   BreakPoint.Disabled := ADisabled;

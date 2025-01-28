@@ -1295,7 +1295,6 @@ type
     fCurrentBrowseInfo: string;
     function CmdLineOpenFiles(): Boolean;
     function OpenCmdLineFile(FileName: string): Boolean;
-    procedure DebuggerBreakpointChange(Sender: TObject; Editor: IEditor; ALine: Integer);
     procedure UpdateStandardActions;
     procedure UpdateStatusBarPanels;
     procedure ApplicationOnHint(Sender: TObject);
@@ -2066,12 +2065,13 @@ var
 begin
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) and ActiveEditor.HasPythonFile then
-    PyControl.ToggleBreakpoint(ActiveEditor, ActiveEditor.SynEdit.CaretY);
+    GI_BreakpointManager.ToggleBreakpoint(ActiveEditor.FileId,
+      ActiveEditor.SynEdit.CaretY);
 end;
 
 procedure TPyIDEMainForm.actClearAllBreakpointsExecute(Sender: TObject);
 begin
-  PyControl.ClearAllBreakpoints;
+  GI_BreakpointManager.ClearAllBreakpoints;
 end;
 
 procedure TPyIDEMainForm.actCommandLineExecute(Sender: TObject);
@@ -2181,26 +2181,6 @@ begin
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.RunToCursor(ActiveEditor, ActiveEditor.SynEdit.CaretY);
   end;
-end;
-
-procedure TPyIDEMainForm.DebuggerBreakpointChange(Sender: TObject; Editor: IEditor;
-  ALine: Integer);
-begin
-  if not Assigned(Editor) then Exit;
-  if (ALine >= 1) and (ALine <= Editor.SynEdit.Lines.Count) then
-  begin
-    Editor.SynEdit.InvalidateGutterLine(ALine);
-    Editor.SynEdit.InvalidateLine(ALine);
-    Editor.SynEdit2.InvalidateGutterLine(ALine);
-    Editor.SynEdit2.InvalidateLine(ALine);
-  end
-  else
-    Editor.SynEdit.Invalidate;
-
-  TThread.ForceQueue(nil, procedure
-  begin
-    BreakPointsWindow.UpdateWindow;
-  end);
 end;
 
 procedure TPyIDEMainForm.UpdateCaption;
@@ -4430,10 +4410,7 @@ begin
     if FileExists(AppStorage.IniFile.FileName) then
       LoadToolbarItems('Toolbar Items');
 
-    with PyControl do begin
-      OnBreakpointChange := DebuggerBreakpointChange;
-      OnStateChange := DebuggerStateChange;
-    end;
+    PyControl.OnStateChange := DebuggerStateChange;
 
     // This is needed to update the variables window
     PyControl.DebuggerState := dsInactive;

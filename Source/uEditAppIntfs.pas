@@ -63,7 +63,7 @@ type
     function GetSynEdit: TSynEdit;
     function GetSynEdit2: TSynEdit;
     function GetActiveSynEdit: TSynEdit;
-    function GetBreakPoints: TObjectList;
+    function GetBreakpoints: TObjectList;
     function GetCaretPos: TPoint;
     function GetEditorState: string;
     function GetFileName: string;
@@ -102,7 +102,7 @@ type
     property SynEdit: TSynEdit read GetSynEdit;
     property SynEdit2: TSynEdit read GetSynEdit2;
     property ActiveSynEdit: TSynEdit read GetActiveSynEdit;
-    property BreakPoints: TObjectList read GetBreakPoints;
+    property Breakpoints: TObjectList read GetBreakpoints;
     property FileEncoding: TFileSaveFormat read GetFileEncoding write SetFileEncoding;
     property EncodedText: AnsiString read GetEncodedText;
     property Form: TForm read GetForm;

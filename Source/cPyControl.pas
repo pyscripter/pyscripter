@@ -24,7 +24,6 @@ uses
 type
   TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
 
-  TBreakpointChangeEvent = procedure(Sender: TObject; Editor: IEditor; ALine: Integer) of object;
   TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
 
   TPythonControl = class(TComponent, IPyControl)
@@ -36,9 +35,7 @@ type
     FErrorPos: TEditorPos;
     FCurrentPos: TEditorPos;
     FFinalizing: Boolean;
-    FBreakPointsChanged: Boolean;
     FDebuggerState: TDebuggerState;
-    FOnBreakpointChange: TBreakpointChangeEvent;
     FOnStateChange: TDebuggerStateChangeEvent;
     FOnPythonVersionChange: TJclNotifyEventBroadcast;
     FActiveInterpreter: TPyBaseInterpreter;
@@ -51,7 +48,6 @@ type
     FActiveSSHServerName: string;
     FPythonHelpFile: string;
     function InitPythonVersions: Boolean;
-    procedure DoOnBreakpointChanged(Editor: IEditor; ALine: Integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
     procedure SetDebuggerState(NewState: TDebuggerState);
@@ -84,12 +80,6 @@ type
 
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    // Breakpoint related
-    procedure ToggleBreakpoint(Editor: IEditor; ALine: Integer;
-      CtrlPressed: Boolean = False);
-    procedure SetBreakPoint(FileName: string; ALine: Integer;
-      Disabled: Boolean; Condition: string);
-    procedure ClearAllBreakpoints;
     // Running Python Scripts
     procedure Run(ARunConfig: TRunConfiguration);
     procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
@@ -121,13 +111,9 @@ type
       write SetActiveDebugger;
     property CurrentPos: TEditorPos read FCurrentPos write SetCurrentPos;
     property ErrorPos: TEditorPos read FErrorPos write SetErrorPos;
-    property BreakPointsChanged: Boolean read FBreakPointsChanged
-      write FBreakPointsChanged;
     property DebuggerState: TDebuggerState read FDebuggerState write SetDebuggerState;
     property RunConfig: TRunConfiguration read FRunConfig;
     property Finalizing: Boolean read FFinalizing;
-    property OnBreakpointChange: TBreakpointChangeEvent read FOnBreakpointChange
-      write FOnBreakpointChange;
     property OnStateChange: TDebuggerStateChangeEvent read FOnStateChange
       write FOnStateChange;
     property OnPythonVersionChange: TJclNotifyEventBroadcast read GetOnPythonVersionChange;
@@ -344,33 +330,6 @@ begin
   end;
 end;
 
-procedure TPythonControl.ToggleBreakpoint(Editor: IEditor; ALine: Integer;
-  CtrlPressed: Boolean = False);
-var
-  Index: NativeInt;
-  BreakPoint: TBreakPoint;
-  BPList: TBreakPointList;
-begin
-  if ALine <= 0 then Exit;
-  BPList := Editor.BreakPoints as TBreakPointList;
-  if BPList.FindLine(ALine, Index) then
-  begin
-    BreakPoint := TBreakPoint(BPList[Index]);
-    if not CtrlPressed then
-      BPList.Delete(Index);
-  end
-  else
-  begin
-    BreakPoint := TBreakPoint.Create(ALine);
-    BPList.Insert(Index, BreakPoint);
-  end;
-  if CtrlPressed then
-    // Toggle disabled
-    BreakPoint.Disabled := not BreakPoint.Disabled;
-
-  DoOnBreakpointChanged(Editor, ALine);
-end;
-
 procedure TPythonControl.SetActiveDebugger(const Value: TPyBaseDebugger);
 begin
   if FActiveDebugger <> Value then begin
@@ -394,20 +353,6 @@ begin
       FreeAndNil(FActiveInterpreter);
     end;
     FActiveInterpreter := Value;
-  end;
-end;
-
-procedure TPythonControl.SetBreakPoint(FileName: string; ALine: Integer;
-  Disabled: Boolean; Condition: string);
-var
-  Editor: IEditor;
-begin
-  Editor := GI_EditorFactory.GetEditorByFileId(FileName);
-  if Assigned(Editor) and (ALine > 0) then
-  begin
-    (Editor.BreakPoints as TBreakPointList).SetBreakPoint(ALine, Disabled, Condition);
-
-    DoOnBreakpointChanged(Editor, ALine);
   end;
 end;
 
@@ -503,30 +448,21 @@ begin
   Result := InternalInterpreter.AddPathToPythonPath(Path);
 end;
 
-procedure TPythonControl.ClearAllBreakpoints;
-begin
-  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
-  begin
-    if Editor.BreakPoints.Count > 0 then begin
-      Editor.BreakPoints.Clear;
-      DoOnBreakpointChanged(Editor, -1);
-    end;
-  end);
-end;
-
 procedure CurrentPosChanged(CurrPos, NewPos: TEditorPos);
 begin
   if GI_PyIDEServices.IsClosing  then Exit;
 
   GI_EditorFactory.InvalidatePos(CurrPos.FileName, CurrPos.Line, itBoth);
   if NewPos.IsValid and
-    GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line)
+    GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line, 1, 0, True, False)
   then
     GI_EditorFactory.InvalidatePos(NewPos.FileName, NewPos.Line, itBoth);
 end;
 
 procedure TPythonControl.SetCurrentPos(const NewPos: TEditorPos);
 begin
+  if NewPos.PointsTo(FCurrentPos.FileName, FCurrentPos.Line) then Exit;
+
   if (GetCurrentThreadId = MainThreadID) then
     CurrentPosChanged(FCurrentPos, NewPos)
   else
@@ -560,27 +496,12 @@ begin
   FErrorPos := NewPos;
 end;
 
-procedure TPythonControl.DoOnBreakpointChanged(Editor: IEditor; ALine: Integer);
-begin
-  FBreakPointsChanged := True;
-  if Assigned(FOnBreakpointChange) then
-  begin
-    if (GetCurrentThreadId = MainThreadID) then
-      FOnBreakpointChange(Self, Editor, ALine)
-    else
-      TThread.Synchronize(nil, procedure
-      begin
-        FOnBreakpointChange(Self, Editor, ALine);
-      end);
-  end;
-end;
-
 procedure TPythonControl.SetDebuggerState(NewState: TDebuggerState);
 var
   OldDebuggerState: TDebuggerState;
 begin
   OldDebuggerState := FDebuggerState;
-  if NewState in [dsInactive, dsDebugging, dsRunning] then
+  if NewState in [dsInactive, dsDebugging] then
     CurrentPos := TEditorPos.EmptyPos
   else
     ErrorPos := TEditorPos.EmptyPos;

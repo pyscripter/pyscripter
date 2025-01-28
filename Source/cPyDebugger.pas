@@ -435,7 +435,6 @@ begin
   FMainThread.Status := thrdRunning;
 
   FDebuggerCommand := dcNone;
-  PyControl.BreakPointsChanged := True;
 end;
 
 destructor TPyInternalDebugger.Destroy;
@@ -684,7 +683,7 @@ begin
         PythonPathAdder := InternalInterpreter.AddPathToPythonPath(Path);
 
       if RunToCursorLine >= 0 then  // add temp breakpoint
-        InternalInterpreter.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
+        InternalInterpreter.Debugger.set_break(Code.co_filename, RunToCursorLine, True);
 
       InternalInterpreter.Debugger.InitStepIn := InitStepIn;
       try
@@ -746,10 +745,11 @@ var
 begin
   Assert(PyControl.DebuggerState = dsPaused, 'TPyInternalDebugger.RunToCursor');
   // Set Temporary breakpoint
-  SetDebuggerBreakpoints;  // So that this one is not cleared
+  if GI_BreakpointManager.BreakPointsChanged then
+    SetDebuggerBreakpoints;  // So that this one is not cleared
   FName := InternalInterpreter.ToPythonFileName(Editor.FileId);
   Py := SafePyEngine;
-  InternalInterpreter.Debugger.set_break(FName, ALine, 1);
+  InternalInterpreter.Debugger.set_break(FName, ALine, True);
 
   FDebuggerCommand := dcRunToCursor;
   if PyControl.DebuggerState = dsPaused then FDebugEvent.SetEvent;
@@ -839,12 +839,14 @@ begin
     FDebuggerCommand := dcNone;
 
     TPythonThread.Py_Begin_Allow_Threads;
+    // Wait for a debugger command
     FDebugEvent.WaitFor(INFINITE);
     TPythonThread.Py_End_Allow_Threads;
 
     PyControl.DebuggerState := dsDebugging;
 
-    if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
+    if GI_BreakpointManager.BreakPointsChanged then
+      SetDebuggerBreakpoints;
 
     FMainThread.Status := thrdRunning;
 
@@ -906,38 +908,22 @@ procedure TPyInternalDebugger.SetDebuggerBreakpoints;
 var
   Py: IPyEngineAndGIL;
 begin
-  if not PyControl.BreakPointsChanged then Exit;
-
   Py := SafePyEngine;
   LoadLineCache;
   InternalInterpreter.Debugger.clear_all_breaks();
 
-  GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
-  var
-    FName: string;
-  begin
-    FName := InternalInterpreter.ToPythonFileName(Editor.FileId);
-    for var I := 0 to Editor.BreakPoints.Count - 1 do
-    begin
-      var BreakPoint := TBreakPoint(Editor.BreakPoints[I]);
-      if not BreakPoint.Disabled then
-      begin
-        if BreakPoint.Condition <> '' then begin
-          InternalInterpreter.Debugger.set_break(FName,
-            BreakPoint.LineNo, 0, BreakPoint.Condition);
-        end
-        else
-          InternalInterpreter.Debugger.set_break(FName, BreakPoint.LineNo);
-      end;
-    end;
-  end);
+  for var BPInfo in GI_BreakpointManager.AllBreakPoints do
+    if not BPInfo.Disabled then
+      InternalInterpreter.Debugger.set_break(
+        InternalInterpreter.ToPythonFileName(BPInfo.FileName),
+        BPInfo.LineNo, False, BPInfo.Condition);
 
-  PyControl.BreakPointsChanged := False;
+  GI_BreakpointManager.BreakPointsChanged := False;
 end;
 
 procedure TPyInternalDebugger.LoadLineCache;
 begin
-  // inject unsaved code into LineCache
+  // Inject unsaved code into LineCache
   FLineCache.cache.clear();
   GI_EditorFactory.ApplyToEditors(procedure(Editor: IEditor)
   var
@@ -1423,20 +1409,16 @@ function TPyInternalInterpreter.RunSource(const Source, FileName: string; const 
 var
   Py: IPyEngineAndGIL;
   OldDebuggerState: TDebuggerState;
-  OldPos: TEditorPos;
 begin
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
 
   OldDebuggerState := PyControl.DebuggerState;
-  OldPos := GI_PyControl.CurrentPos;
   PyControl.DebuggerState := dsRunning;
   try
     Py := SafePyEngine;
     Result := FII.runsource(Source, FileName, Symbol);
   finally
     PyControl.DebuggerState := OldDebuggerState;
-    if OldDebuggerState = dsPaused then
-      GI_PyControl.CurrentPos := OldPos;
   end;
 end;
 

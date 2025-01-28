@@ -195,7 +195,7 @@ type
   public
     BorderHighlight: TColor;
     BorderNormal: TColor;
-    BreakPoints: TBreakPointList;
+    BreakPoints: TBreakpointList;
     HasFocus: Boolean;
     FileTime: TDateTime;
     DefaultExtension: string;
@@ -229,7 +229,7 @@ type
     function GetSynEdit: TSynEdit;
     function GetSynEdit2: TSynEdit;
     function GetActiveSynEdit: TSynEdit;
-    function GetBreakPoints: TObjectList;
+    function GetBreakpoints: TObjectList;
     function GetEditorState: string;
     function GetFileName: string;
     function GetFileTitle: string;
@@ -346,7 +346,6 @@ uses
   dlgPickList,
   dlgRemoteFile,
   frmPyIDEMain,
-  frmBreakPoints,
   frmPythonII,
   frmWatches,
   frmCodeExplorer,
@@ -385,13 +384,12 @@ procedure TDebugSupportPlugin.LinesInserted(FirstLine, Count: Integer);
 begin
   with FForm do
   begin
-    for var I := 0 to BreakPoints.Count - 1 do
-      if TBreakPoint(BreakPoints[I]).LineNo >= FirstLine then
+    for var I := 0 to Breakpoints.Count - 1 do
+      if TBreakpoint(Breakpoints[I]).LineNo >= FirstLine then
       begin
-        TBreakPoint(BreakPoints[I]).LineNo := TBreakPoint(BreakPoints[I])
+        TBreakpoint(Breakpoints[I]).LineNo := TBreakpoint(Breakpoints[I])
           .LineNo + Count;
-        PyControl.BreakPointsChanged := True;
-        BreakPointsWindow.UpdateWindow;
+        GI_BreakpointManager.BreakpointsChanged := True;
       end;
   end;
 end;
@@ -400,19 +398,17 @@ procedure TDebugSupportPlugin.LinesDeleted(FirstLine, Count: Integer);
 begin
   with FForm do
   begin
-    for var I := BreakPoints.Count - 1 downto 0 do
-      if TBreakPoint(BreakPoints[I]).LineNo >= FirstLine + Count then
+    for var I := Breakpoints.Count - 1 downto 0 do
+      if TBreakpoint(Breakpoints[I]).LineNo >= FirstLine + Count then
       begin
-        TBreakPoint(BreakPoints[I]).LineNo := TBreakPoint(BreakPoints[I])
+        TBreakpoint(Breakpoints[I]).LineNo := TBreakpoint(Breakpoints[I])
           .LineNo - Count;
-        PyControl.BreakPointsChanged := True;
-        BreakPointsWindow.UpdateWindow;
+        GI_BreakpointManager.BreakpointsChanged := True;
       end
-      else if TBreakPoint(BreakPoints[I]).LineNo >= FirstLine then
+      else if TBreakpoint(Breakpoints[I]).LineNo >= FirstLine then
       begin
-        BreakPoints.Delete(I);
-        PyControl.BreakPointsChanged := True;
-        BreakPointsWindow.UpdateWindow;
+        Breakpoints.Delete(I);
+        GI_BreakpointManager.BreakpointsChanged := True;
       end;
   end;
 end;
@@ -561,9 +557,9 @@ begin
     Result := Form.SynEdit;
 end;
 
-function TEditor.GetBreakPoints: TObjectList;
+function TEditor.GetBreakpoints: TObjectList;
 begin
-  Result := Form.BreakPoints;
+  Result := Form.Breakpoints;
 end;
 
 function TEditor.GetCaretPos: TPoint;
@@ -1691,12 +1687,9 @@ begin
   if SynEdit2.IsChained then
     SynEdit2.RemoveLinesPointer;
 
-  if BreakPoints.Count > 0 then
-  begin
-    PyControl.BreakPointsChanged := True;
-    BreakPointsWindow.UpdateWindow;
-  end;
-  BreakPoints.Free;
+  if Breakpoints.Count > 0 then
+    GI_BreakpointManager.BreakpointsChanged := True;
+  Breakpoints.Free;
 
   // Unregister kernel notification
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
@@ -2277,7 +2270,7 @@ begin
   SynEdit.RegisterCommandHandler(EditorCommandHandler, nil);
   SynEdit2.RegisterCommandHandler(EditorCommandHandler, nil);
 
-  BreakPoints := TBreakPointList.Create(True);
+  Breakpoints := TBreakpointList.Create(True);
   TDebugSupportPlugin.Create(Self); // No need to free
 
   // Indicators
@@ -3003,9 +2996,9 @@ begin
 
       HasBP := False;
       HasDisabledBP := False;
-      if BreakPoints.FindLine(Line, Index) then
+      if Breakpoints.FindLine(Line, Index) then
       begin
-        if TBreakPoint(BreakPoints[Index]).Disabled then
+        if TBreakpoint(Breakpoints[Index]).Disabled then
           HasDisabledBP := True
         else
           HasBP := True;
@@ -3054,7 +3047,8 @@ begin
   if (ASynEdit.Highlighter = ResourcesDataModule.SynPythonSyn) and
     (PyControl.ActiveDebugger <> nil)
   then
-    PyControl.ToggleBreakpoint(FEditor, Line, GetKeyState(VK_CONTROL) < 0);
+    GI_BreakpointManager.ToggleBreakpoint(FEditor.GetFileId, Line,
+      GetKeyState(VK_CONTROL) < 0);
 end;
 
 procedure TEditorForm.SynEditGutterDebugInfoMouseCursor(Sender: TObject; X, Y,
