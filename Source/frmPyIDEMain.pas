@@ -1541,35 +1541,20 @@ begin
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before All Forms', StopWatch.ElapsedMilliseconds])));
   // Create and layout IDE windows
   PythonIIForm := TPythonIIForm.Create(Self);
-  PythonIIForm.PopupParent := Self;
   CallStackWindow := TCallStackWindow.Create(Self);
-  CallStackWindow.PopupParent := Self;
   VariablesWindow := TVariablesWindow.Create(Self);
-  VariablesWindow.PopupParent := Self;
   WatchesWindow := TWatchesWindow.Create(Self);
-  WatchesWindow.PopupParent := Self;
   BreakPointsWindow := TBreakPointsWindow.Create(Self);
-  BreakPointsWindow.PopupParent := Self;
   OutputWindow := TOutputWindow.Create(Self);
-  OutputWindow.PopupParent := Self;
   MessagesWindow := TMessagesWindow.Create(Self);
-  MessagesWindow.PopupParent := Self;
   CodeExplorerWindow := TCodeExplorerWindow.Create(Self);
-  CodeExplorerWindow.PopupParent := Self;
   FileExplorerWindow := TFileExplorerWindow.Create(Self);
-  FileExplorerWindow.PopupParent := Self;
   ToDoWindow := TToDoWindow.Create(Self);
-  ToDoWindow.PopupParent := Self;
   RegExpTesterWindow := TRegExpTesterWindow.Create(Self);
-  RegExpTesterWindow.PopupParent := Self;
   UnitTestWindow := TUnitTestWindow.Create(Self);
-  UnitTestWindow.PopupParent := Self;
   FindResultsWindow := TFindResultsWindow.Create(Self);
-  FindResultsWindow.PopupParent := Self;
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
-  ProjectExplorerWindow.PopupParent := Self;
   LLMChatForm := TLLMChatForm.Create(Self);
-  LLMChatForm.PopupParent := Self;
 
 
   // And now translate after all the docking forms have been created
