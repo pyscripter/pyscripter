@@ -2307,13 +2307,13 @@ procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject; Line: Integer;
 begin
   if GI_PyControl.PythonLoaded then
   begin
-    if GI_PyControl.CurrentPos.PointsTo(FEditor.GetFileTitle, Line) then
+    if GI_PyControl.CurrentPos.PointsTo(FEditor.GetFileId, Line) then
     begin
       Special := True;     { TODO: Allow customization of these colors }
       FG := clWhite;
       BG := $FF901E; // Dodger Blue
     end
-    else if GI_PyControl.ErrorPos.PointsTo(FEditor.GetFileTitle, Line) then
+    else if GI_PyControl.ErrorPos.PointsTo(FEditor.GetFileId, Line) then
     begin
       Special := True;
       FG := clWhite;

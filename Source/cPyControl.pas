@@ -448,11 +448,11 @@ begin
   Result := InternalInterpreter.AddPathToPythonPath(Path);
 end;
 
-procedure CurrentPosChanged(CurrPos, NewPos: TEditorPos);
+procedure CurrentPosChanged(OldPos, NewPos: TEditorPos);
 begin
   if GI_PyIDEServices.IsClosing  then Exit;
 
-  GI_EditorFactory.InvalidatePos(CurrPos.FileName, CurrPos.Line, itBoth);
+  GI_EditorFactory.InvalidatePos(OldPos.FileName, OldPos.Line, itBoth);
   if NewPos.IsValid and
     GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line, 1, 0, True, False)
   then
@@ -463,21 +463,24 @@ procedure TPythonControl.SetCurrentPos(const NewPos: TEditorPos);
 begin
   if NewPos.PointsTo(FCurrentPos.FileName, FCurrentPos.Line) then Exit;
 
+  var OldPos := FCurrentPos;
+  FCurrentPos := NewPos;
+
   if (GetCurrentThreadId = MainThreadID) then
-    CurrentPosChanged(FCurrentPos, NewPos)
+    CurrentPosChanged(OldPos, NewPos)
   else
     TThread.Synchronize(nil, procedure
     begin
-      CurrentPosChanged(FCurrentPos, NewPos);
+      CurrentPosChanged(OldPos, NewPos);
     end);
   FCurrentPos := NewPos;
 end;
 
-procedure ErrorPosChanged(CurrPos, NewPos: TEditorPos);
+procedure ErrorPosChanged(OldPos, NewPos: TEditorPos);
 begin
   if GI_PyIDEServices.IsClosing  then Exit;
 
-  GI_EditorFactory.InvalidatePos(CurrPos.FileName, CurrPos.Line, itLine);
+  GI_EditorFactory.InvalidatePos(OldPos.FileName, OldPos.Line, itLine);
   if NewPos.IsValid and
     GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line)
   then
@@ -486,12 +489,15 @@ end;
 
 procedure TPythonControl.SetErrorPos(const NewPos: TEditorPos);
 begin
+  var OldPos := FErrorPos;
+  FErrorPos := NewPos;
+
   if (GetCurrentThreadId = MainThreadID) then
-    ErrorPosChanged(FErrorPos, NewPos)
+    ErrorPosChanged(OldPos, NewPos)
   else
     TThread.Synchronize(nil, procedure
     begin
-      ErrorPosChanged(FErrorPos, NewPos);
+      ErrorPosChanged(OldPos, NewPos);
     end);
   FErrorPos := NewPos;
 end;
