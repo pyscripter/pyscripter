@@ -3004,7 +3004,7 @@ begin
           HasBP := True;
       end;
 
-      if GI_PyControl.CurrentPos.PointsTo(FEditor.GetFileTitle, Line) then
+      if GI_PyControl.CurrentPos.PointsTo(FEditor.GetFileId, Line) then
       begin
         if HasBP then
           ImgIndex := 2
