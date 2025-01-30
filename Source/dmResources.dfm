@@ -563,7 +563,7 @@ object ResourcesDataModule: TResourcesDataModule
           '##                    filemode = "a",'
           '##                    format="(%(threadName)-10s) %(message)s")'
           ''
-          'if sys.version_info >= (3,12):'
+          'if sys.version_info >= (3,13):'
           '    class _MonitoringTracer:'
           '        E = sys.monitoring.events'
           ''
@@ -863,7 +863,9 @@ object ResourcesDataModule: TResourcesDataModule
           
             '                if self.quitting: raise __import__("bdb").BdbQui' +
             't'
-          '            else:'
+          
+            '            elif not self.get_break(frame.f_code.co_filename, fr' +
+            'ame.f_lineno):'
           '                self.disable_current_event()'
           '            return self.trace_dispatch'
           ''
@@ -1218,7 +1220,7 @@ object ResourcesDataModule: TResourcesDataModule
           '    traceback_exception = None'
           ''
           '    global FastBdb'
-          '    if sys.version_info >= (3,12):'
+          '    if sys.version_info >= (3,13):'
           '        debugger_base = FastBdb'
           '        del(FastBdb)'
           '    else:'
@@ -1269,7 +1271,7 @@ object ResourcesDataModule: TResourcesDataModule
           '            debugger.thread_init()'
           '            debugger.reset()'
           '            debugger.InitStepIn = False'
-          '            if debugger._sys.version_info < (3,12):'
+          '            if debugger._sys.version_info < (3,13):'
           '                debugger._sys.settrace(debugger.trace_dispatch)'
           ''
           '            try:'
@@ -1277,7 +1279,7 @@ object ResourcesDataModule: TResourcesDataModule
           '            except __import__("bdb").BdbQuit:'
           '                pass'
           '            finally:'
-          '                if debugger._sys.version_info < (3,12):'
+          '                if debugger._sys.version_info < (3,13):'
           '                    debugger._sys.settrace(None)'
           '                if self.debug_manager:'
           
@@ -1317,7 +1319,7 @@ object ResourcesDataModule: TResourcesDataModule
           
             '            self.thread_storage = __import__("threading").local(' +
             ')'
-          '            if sys.version_info >= (3,12):'
+          '            if sys.version_info >= (3,13):'
           '                super().__init__([], backend="monitoring")'
           '            else:'
           '                super().__init__([])'
@@ -1329,6 +1331,41 @@ object ResourcesDataModule: TResourcesDataModule
           
             '                self.code_linenos = __import__("weakref").WeakKe' +
             'yDictionary()'
+          ''
+          
+            '        def set_break(self, filename, lineno, temporary=False, c' +
+            'ond=None,'
+          '                ignore_count=0, funcname=None):'
+          '            filename = self.canonic(filename)'
+          '            import linecache # Import as late as possible'
+          '            line = linecache.getline(filename, lineno)'
+          '            if not line:'
+          
+            '                return '#39'Line %s:%d does not exist'#39' % (filename, ' +
+            'lineno)'
+          '            bp_linenos = self.breaks.setdefault(filename, [])'
+          '            if lineno not in bp_linenos:'
+          '                bp_linenos.append(lineno)'
+          ''
+          '            from bdb import Breakpoint'
+          
+            '            bp = Breakpoint(filename, lineno, temporary, cond, f' +
+            'uncname)'
+          '            bp.ignore = ignore_count'
+          '            bp.ignore_count = ignore_count'
+          '            return None'
+          ''
+          '        def break_here(self, frame):'
+          '            res = super().break_here(frame)'
+          '            if res:'
+          '                bpnum = getattr(self, '#39'currentbp'#39', 0)'
+          '                if bpnum:'
+          '                    bp = self.get_bpbynumber(bpnum)'
+          '                    if bp and bp.ignore_count:'
+          '                        bp.ignore = bp.ignore_count'
+          '            else:'
+          '                self.currentbp = 0'
+          '            return res'
           ''
           '        if (3,10)  <= sys.version_info < (3,14):'
           '            def break_anywhere(self, frame):'
@@ -1375,7 +1412,7 @@ object ResourcesDataModule: TResourcesDataModule
           '            if not self.InitStepIn:'
           '                self.InitStepIn = True'
           '                self.set_continue()'
-          '                return 0'
+          '                return False'
           '            return super().stop_here(frame)'
           ''
           '        def user_line(self, frame):'

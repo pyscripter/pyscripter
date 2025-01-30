@@ -4,39 +4,39 @@ inherited BreakPointsWindow: TBreakPointsWindow
   HelpContext = 495
   Caption = 'Breakpoints'
   ClientHeight = 244
-  ClientWidth = 379
+  ClientWidth = 471
   TextHeight = 15
   inherited BGPanel: TPanel
-    Width = 379
+    Width = 471
     Height = 244
     inherited FGPanel: TPanel
-      Width = 375
+      Width = 467
       Height = 240
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 375
+        Width = 467
         Height = 240
         Align = alClient
         TabOrder = 0
         object BreakPointsView: TVirtualStringTree
           Left = 1
           Top = 1
-          Width = 373
+          Width = 465
           Height = 238
           Align = alClient
           Alignment = taRightJustify
           BevelInner = bvNone
           BevelOuter = bvNone
           BorderStyle = bsNone
-          Header.AutoSizeIndex = 2
-          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+          Header.AutoSizeIndex = 3
+          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoShowImages, hoVisible]
           HintMode = hmTooltip
           PopupMenu = TBXPopupMenu
           TabOrder = 0
           TreeOptions.AnimationOptions = [toAnimatedToggle]
           TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoHideButtons, toAutoDeleteMovedNodes, toAutoChangeScale]
-          TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+          TreeOptions.MiscOptions = [toCheckSupport, toEditable, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
           TreeOptions.PaintOptions = [toHideSelection, toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
@@ -45,26 +45,36 @@ inherited BreakPointsWindow: TBreakPointsWindow
           OnGetText = BreakPointsViewGetText
           OnInitNode = BreakPointsViewInitNode
           OnKeyDown = BreakPointsViewKeyDown
+          OnNewText = BreakPointsViewNewText
           Touch.InteractiveGestures = [igPan, igPressAndTap]
           Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
           Columns = <
             item
-              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
+              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
               Position = 0
               Text = 'File Name'
-              Width = 200
+              Width = 250
             end
             item
               Alignment = taRightJustify
-              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
+              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
               Position = 1
               Text = 'Line'
+              Width = 90
+            end
+            item
+              Alignment = taRightJustify
+              CaptionAlignment = taRightJustify
+              Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coUseCaptionAlignment, coEditable, coStyleColor]
+              Position = 2
+              Text = 'Ignore Count'
+              Width = 90
             end
             item
               Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable, coStyleColor]
-              Position = 2
+              Position = 3
               Text = 'Condition'
-              Width = 123
+              Width = 35
             end>
         end
       end
@@ -77,11 +87,12 @@ inherited BreakPointsWindow: TBreakPointsWindow
   object TBXPopupMenu: TSpTBXPopupMenu
     Images = vilImages
     OnPopup = TBXPopupMenuPopup
-    Left = 21
-    Top = 66
+    Left = 13
+    Top = 74
     object mnSetCondition: TSpTBXItem
-      Caption = 'Set &Condition...'
-      OnClick = mnSetConditionClick
+      Caption = '&Edit...'
+      Hint = 'Edit breakpoint'
+      OnClick = mnEditClick
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
@@ -121,6 +132,6 @@ inherited BreakPointsWindow: TBreakPointsWindow
     Width = 20
     Height = 20
     Left = 16
-    Top = 120
+    Top = 128
   end
 end

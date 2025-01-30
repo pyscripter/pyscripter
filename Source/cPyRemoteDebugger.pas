@@ -1801,7 +1801,7 @@ begin
   for var BPInfo in GI_BreakpointManager.AllBreakPoints do
     if not BPInfo.Disabled then
       FMainDebugger.set_break(FRemotePython.ToPythonFileName(BPInfo.FileName),
-       BPInfo.LineNo, False, BPInfo.Condition);
+       BPInfo.LineNo, False, BPInfo.Condition, BPInfo.IgnoreCount);
 
   GI_BreakpointManager.BreakpointsChanged := False;
 end;

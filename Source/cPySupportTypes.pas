@@ -63,7 +63,7 @@ type
     FLineNo: Integer;
     FDisabled: Boolean;
     FCondition: string;
-    FPassCount: Integer;
+    FIgnoreCount: Integer;
   public
     procedure Assign(Source: TPersistent); override;
   published
@@ -71,15 +71,15 @@ type
     property LineNo: Integer read FLineNo write FLineNo;
     property Disabled: Boolean read FDisabled write FDisabled default False;
     property Condition: string read FCondition write FCondition;
-    property PassCount: Integer read FPassCount write FPassCount default 0;
+    property IgnoreCount: Integer read FIgnoreCount write FIgnoreCount default 0;
   end;
 
   // list with TBreakpoints - is kept sorted
   TBreakpointList = class(TObjectList)
   public
     function FindLine(ALine: Integer; out Index: NativeInt): Boolean;
-    procedure SetBreakpoint(ALine: Integer;
-      ADisabled: Boolean; ACondition: string = ''; APassCount: Integer = 0);
+    procedure SetBreakpoint(ALine: Integer; ADisabled: Boolean;
+      ACondition: string = ''; AIgnoreCount: Integer = 0);
     function HasBreakPoint(ALine: Integer): Boolean;
   end;
 
@@ -187,6 +187,7 @@ type
     LineNo: Integer;
     Disabled: Boolean;
     Condition: string;
+    IgnoreCount: Integer;
   end;
 
   IBreakpointManager = interface
@@ -194,9 +195,10 @@ type
     function GetBreakpointsChanged: Boolean;
     procedure SetBreakpointsChanged(Value: Boolean);
     procedure ToggleBreakpoint(const FileName: string; ALine: Integer;
-      CtrlPressed: Boolean = False);
+      CtrlPressed: Boolean = False; UpdateUI: Boolean = True);
     procedure SetBreakpoint(const FileName: string; ALine: Integer;
-      Disabled: Boolean; Condition: string);
+      Disabled: Boolean; Condition: string = ''; IgnoreCount: Integer = 0;
+      UpdateUI: Boolean = True);
     function AllBreakPoints: TArray<TBreakpointInfo>;
     procedure ClearAllBreakpoints;
     property BreakpointsChanged: Boolean read GetBreakpointsChanged
@@ -358,7 +360,7 @@ begin
     FLineNo := Src.LineNo;
     FDisabled := Src.Disabled;
     FCondition := Src.Condition;
-    FPassCount := Src.PassCount;
+    FIgnoreCount := Src.IgnoreCount;
   end
   else
     inherited Assign(Source);
@@ -397,7 +399,7 @@ begin
 end;
 
 procedure TBreakpointList.SetBreakpoint(ALine: Integer; ADisabled: Boolean;
-  ACondition: string; APassCount: Integer);
+  ACondition: string; AIgnoreCount: Integer);
 var
   Index: NativeInt;
   BreakPoint: TBreakpoint;
@@ -411,7 +413,7 @@ begin
   end;
   BreakPoint.Disabled := ADisabled;
   BreakPoint.Condition := ACondition;
-  BreakPoint.PassCount := APassCount;
+  BreakPoint.IgnoreCount := AIgnoreCount;
 end;
 
 end.

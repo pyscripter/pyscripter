@@ -916,7 +916,7 @@ begin
     if not BPInfo.Disabled then
       InternalInterpreter.Debugger.set_break(
         InternalInterpreter.ToPythonFileName(BPInfo.FileName),
-        BPInfo.LineNo, False, BPInfo.Condition);
+        BPInfo.LineNo, False, BPInfo.Condition, BPInfo.IgnoreCount);
 
   GI_BreakpointManager.BreakPointsChanged := False;
 end;

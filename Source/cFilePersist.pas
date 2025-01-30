@@ -311,7 +311,7 @@ begin
         for var BPoint in FilePersistInfo.BreakPoints do
           with TBreakpoint(BPoint) do
             GI_BreakpointManager.SetBreakpoint(FilePersistInfo.FileName,
-              LineNo, Disabled, Condition);
+              LineNo, Disabled, Condition, IgnoreCount);
 
         for var BookMark in FilePersistInfo.BookMarks do
           with TBookMarkInfo(BookMark) do
