@@ -77,7 +77,7 @@ type
   // list with TBreakpoints - is kept sorted
   TBreakpointList = class(TObjectList)
   public
-    function FindLine(ALine: Integer; out Index: NativeInt): Boolean;
+    function FindBreakpoint(ALine: Integer; out Breakpoint: TBreakpoint): Boolean;
     procedure SetBreakpoint(ALine: Integer; ADisabled: Boolean;
       ACondition: string = ''; AIgnoreCount: Integer = 0);
     function HasBreakPoint(ALine: Integer): Boolean;
@@ -200,6 +200,7 @@ type
       Disabled: Boolean; Condition: string = ''; IgnoreCount: Integer = 0;
       UpdateUI: Boolean = True);
     function AllBreakPoints: TArray<TBreakpointInfo>;
+    function EditProperties(var Condition: string; var IgnoreCount: Integer): Boolean;
     procedure ClearAllBreakpoints;
     property BreakpointsChanged: Boolean read GetBreakpointsChanged
       write SetBreakpointsChanged;
@@ -374,15 +375,20 @@ end;
 
 { TBreakpointList }
 
-function TBreakpointList.FindLine(ALine: Integer; out Index: NativeInt): Boolean;
+function TBreakpointList.FindBreakpoint(ALine: Integer;
+  out Breakpoint: TBreakpoint): Boolean;
+var
+  Index: NativeInt;
 begin
   Result := False;
+  Breakpoint := nil;
   Index := 0;
   while Index < Count do
   begin
     if TBreakpoint(Items[Index]).LineNo = ALine then
     begin
       Result := True;
+      Breakpoint := TBreakpoint(Items[Index]);
       Break;
     end
     else if TBreakpoint(Items[Index]).LineNo > ALine  then
@@ -393,23 +399,34 @@ end;
 
 function TBreakpointList.HasBreakPoint(ALine: Integer): Boolean;
 var
-  Index: NativeInt;
+  Breakpoint: TBreakpoint;
 begin
-  Result := FindLine(ALine, Index);
+  Result := FindBreakpoint(ALine, Breakpoint);
 end;
 
 procedure TBreakpointList.SetBreakpoint(ALine: Integer; ADisabled: Boolean;
   ACondition: string; AIgnoreCount: Integer);
 var
-  Index: NativeInt;
+  Index: Integer;
   BreakPoint: TBreakpoint;
 begin
-  if FindLine(ALine, Index) then
-    BreakPoint := TBreakpoint(Items[Index])
-  else
+  Breakpoint := nil;
+  Index := 0;
+  while Index < Count do
+  begin
+    if TBreakpoint(Items[Index]).LineNo = ALine then
+    begin
+      Breakpoint := TBreakpoint(Items[Index]);
+      Break;
+    end
+    else if TBreakpoint(Items[Index]).LineNo > ALine  then
+      Break;
+    Inc(Index);
+  end;
+  if Breakpoint = nil then
   begin
     BreakPoint := TBreakpoint.Create(ALine);
-    Insert(Index, BreakPoint);
+    Insert(Index, Breakpoint);
   end;
   BreakPoint.Disabled := ADisabled;
   BreakPoint.Condition := ACondition;

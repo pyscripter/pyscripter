@@ -3,7 +3,7 @@
 
 # History
 
-### Version 5.1.3 (January 7, 2025) 
+### Version 5.1.4 
 
 * *New features:*
 	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
@@ -18,6 +18,11 @@
     + The Chat Window renders Markdown
 	+ The Assistant can use a greater variety of Ollama models
     + Layouts now include the secondary workspace status (*#494*)
+	+ Debugging improvements for python >= 3.10
+	+ Much [faster debugging](https://pyscripter.blogspot.com/2025/01/teaser-super-fast-debugging-is-coming.html) for python >= 3.13
+	+ Added support for [breakpoint ignore counts](https://pyscripter.blogspot.com/2025/01/breakpoint-conditions-and-ignore-counts.html)
+	+ Surround editor selection with brackets and quotes
+
 
 * *Issues addressed:*
 	+ *#1307*, *#1321*, *#1329*, *#1336*, *#1341*, *#1346*, *#1347*

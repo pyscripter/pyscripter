@@ -109,6 +109,11 @@ type
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
     SpTBXSeparatorItem8: TSpTBXSeparatorItem;
     mniAssistant: TSpTBXSubmenuItem;
+    pmnuBreakpoint: TSpTBXPopupMenu;
+    spiBreakpointEnabled: TSpTBXItem;
+    spiBreakpointProperties: TSpTBXItem;
+    spiSeparatorItem: TSpTBXSeparatorItem;
+    spiBreakpointClear: TSpTBXItem;
     class procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: Boolean);
@@ -157,6 +162,11 @@ type
         Integer; var Cursor: TCursor);
     procedure EditorShowHint(var HintStr: string; var CanShow: Boolean; var
         HintInfo: Vcl.Controls.THintInfo);
+    procedure BreakpointContextPopup(Sender: TObject; MousePos:
+        TPoint; Row, Line: Integer; var Handled: Boolean);
+    procedure spiBreakpointClearClick(Sender: TObject);
+    procedure spiBreakpointEnabledClick(Sender: TObject);
+    procedure spiBreakpointPropertiesClick(Sender: TObject);
   private
     const HotIdentIndicatorSpec: TGUID = '{8715589E-C990-4423-978F-F00F26041AEF}';
   private
@@ -2976,7 +2986,7 @@ var
   LH, Y: Integer;
   ImgIndex: Integer;
   Row, Line: Integer;
-  Index: NativeInt;
+  Breakpoint: TBreakpoint;
   HasBP, HasDisabledBP: Boolean;
 begin
   DoDefaultPainting := False;
@@ -2996,9 +3006,9 @@ begin
 
       HasBP := False;
       HasDisabledBP := False;
-      if Breakpoints.FindLine(Line, Index) then
+      if Breakpoints.FindBreakpoint(Line, Breakpoint) then
       begin
-        if TBreakpoint(Breakpoints[Index]).Disabled then
+        if Breakpoint.Disabled then
           HasDisabledBP := True
         else
           HasBP := True;
@@ -3191,6 +3201,50 @@ begin
     HintInfo.HintData := Pointer(NativeInt(SynEd.LineHeight));
     HintInfo.HintWindowClass := TCodeHintWindow;
     FHintFuture := nil;
+  end;
+end;
+
+procedure TEditorForm.BreakpointContextPopup(Sender: TObject;
+    MousePos: TPoint; Row, Line: Integer; var Handled: Boolean);
+var
+  Breakpoint: TBreakpoint;
+begin
+  if Breakpoints.FindBreakpoint(Line, Breakpoint) then
+  begin
+    pmnuBreakpoint.Tag := Integer(Breakpoint);
+    spiBreakpointEnabled.Checked := not Breakpoint.Disabled;
+    MousePos := ClientToScreen(MousePos);
+    pmnuBreakpoint.Popup(MousePos.X, MousePos.Y);
+    Handled := True;
+  end;
+end;
+
+procedure TEditorForm.spiBreakpointClearClick(Sender: TObject);
+begin
+  GI_BreakpointManager.ToggleBreakpoint(FEditor.GetFileId,
+    TBreakpoint(pmnuBreakpoint.Tag).LineNo);
+end;
+
+procedure TEditorForm.spiBreakpointEnabledClick(Sender: TObject);
+begin
+  with TBreakpoint(pmnuBreakpoint.Tag) do
+    GI_BreakpointManager.SetBreakpoint(fEditor.GetFileId, LineNo,
+      not spiBreakpointEnabled.Checked, Condition, IgnoreCount);
+end;
+
+procedure TEditorForm.spiBreakpointPropertiesClick(Sender: TObject);
+var
+  Condition: string;
+  IgnoreCount: Integer;
+begin
+  var Breakpoint := TBreakpoint(pmnuBreakpoint.Tag);
+  Condition := Breakpoint.Condition;
+  IgnoreCount := Breakpoint.IgnoreCount;
+
+  if GI_BreakpointManager.EditProperties(Condition, IgnoreCount) then
+  begin
+    GI_BreakpointManager.SetBreakpoint(FEditor.GetFileId, Breakpoint.LineNo,
+      Breakpoint.Disabled, Condition, IgnoreCount);
   end;
 end;
 

@@ -113,6 +113,7 @@ object EditorForm: TEditorForm
               Width = 13
               OnPaintLines = SynEditDebugInfoPaintLines
               OnCLick = SynEditGutterDebugInfoCLick
+              OnContextPopup = BreakpointContextPopup
               OnMouseCursor = SynEditGutterDebugInfoMouseCursor
             end
             item
@@ -493,5 +494,27 @@ object EditorForm: TEditorForm
     PreserveItems = True
     Left = 92
     Top = 81
+  end
+  object pmnuBreakpoint: TSpTBXPopupMenu
+    Left = 256
+    Top = 32
+    object spiBreakpointEnabled: TSpTBXItem
+      Caption = 'Enabled'
+      Hint = 'Enable/Disable breakpoint'
+      AutoCheck = True
+      OnClick = spiBreakpointEnabledClick
+    end
+    object spiBreakpointProperties: TSpTBXItem
+      Caption = 'Breakpoint Properties...'
+      Hint = 'Edit breakpoint properties'
+      OnClick = spiBreakpointPropertiesClick
+    end
+    object spiSeparatorItem: TSpTBXSeparatorItem
+    end
+    object spiBreakpointClear: TSpTBXItem
+      Caption = 'Clear'
+      Hint = 'Clear breakpoint'
+      OnClick = spiBreakpointClearClick
+    end
   end
 end

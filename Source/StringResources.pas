@@ -318,7 +318,6 @@ const
   SThemeHint = 'Set theme to "%s".';
   SSaveCurrentLayout = 'Save current Layout';
   SLayoutName = 'Layout Name:';
-  SEditBreakpointCond = 'Edit Breakpoint Condition';
   SEnterPythonExpression = 'Enter Python expression:';
   SDeleteLayouts = 'Delete Layouts';
   SSelectLayouts = 'Please select the layouts you want to delete and press the OK button:';

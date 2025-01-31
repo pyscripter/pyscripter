@@ -16,7 +16,7 @@ An example of this window appears below.
 ![graphic](images/findinfileswindow1.JPG){align=center width="30.69em" height="22.81em"}
 
 
-*The Context Menu*
+**The Context Menu**
 
 ![graphic](images/findinfileswindow2.JPG){align=center width="15.94em" height="17.69em"}
 

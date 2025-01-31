@@ -47,7 +47,7 @@ type
     vilImages: TVirtualImageList;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure mnCopyToClipboardClick(Sender: TObject);
-    procedure mnEditClick(Sender: TObject);
+    procedure mnPropertiesClick(Sender: TObject);
     procedure BreakPointsViewChecked(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
     procedure BreakPointLVDblClick(Sender: TObject);
@@ -80,6 +80,7 @@ implementation
 
 uses
   Winapi.Windows,
+  System.Types,
   System.Math,
   System.Contnrs,
   Vcl.Dialogs,
@@ -150,38 +151,16 @@ begin
     end;
 end;
 
-procedure TBreakPointsWindow.mnEditClick(Sender: TObject);
-var
-  Value: Integer;
+procedure TBreakPointsWindow.mnPropertiesClick(Sender: TObject);
 begin
   var Node := BreakPointsView.GetFirstSelected;
   if Assigned(Node) then
     with FBreakPoints[Node.Index] do
-    begin
-      if FileName = '' then Exit; // No FileName or LineNumber
-      var Values := [IntToStr(IgnoreCount), Condition];
-      var Prompts := [_('Ignore Count') + ':', _('Condition') + ':'];
-
-      if InputQuery(_(SEditBreakpointCond), Prompts, Values,
-        function (const Values: array of string): Boolean
-        begin
-          if not TryStrToInt(Values[0], Value) then
-          begin
-            StyledMessageDlg(_('Ignore Count must be a positive integer'),
-              mtError, [TMsgDlgBtn.mbOK], 0);
-            Exit(False);
-          end;
-          Result := True;
-        end)
-      then
+      if GI_BreakpointManager.EditProperties(Condition, IgnoreCount) then
       begin
-        Condition := Values[1];
-        IgnoreCount := Max(StrToInt(Values[0]), 0);
         GI_BreakpointManager.SetBreakpoint(FileName, LineNo,
           Disabled, Condition, IgnoreCount, False);
-        BreakPointsView.InvalidateNode(Node);
       end;
-    end;
 end;
 
 procedure TBreakPointsWindow.mnCopyToClipboardClick(Sender: TObject);
@@ -273,6 +252,7 @@ begin
       end;
       GI_BreakpointManager.SetBreakpoint(FileName, LineNo,
         Disabled, Condition, IgnoreCount, False);
+      BreakPointsView.InvalidateNode(Node);
     end;
   end;
 end;
@@ -304,6 +284,7 @@ type
       Disabled: Boolean; Condition: string = ''; IgnoreCount: Integer = 0;
       UpdateUI: Boolean = True);
     function AllBreakPoints: TArray<TBreakpointInfo>;
+    function EditProperties(var Condition: string; var IgnoreCount: Integer): Boolean;
     procedure ClearAllBreakpoints;
   end;
 
@@ -365,6 +346,33 @@ begin
   end;
 end;
 
+function TBreakpointManager.EditProperties(var Condition: string;
+  var IgnoreCount: Integer): Boolean;
+begin
+  var Values := [IntToStr(IgnoreCount), Condition];
+  var Prompts := [_('Ignore Count') + ':', _('Condition') + ':'];
+
+  Result := InputQuery(_('Edit breakpoint properties'), Prompts, Values,
+    function (const Values: array of string): Boolean
+    var
+      Value: Integer;
+    begin
+      if not TryStrToInt(Values[0], Value) then
+      begin
+        StyledMessageDlg(_('Ignore Count must be a positive integer'),
+          mtError, [TMsgDlgBtn.mbOK], 0);
+        Exit(False);
+      end;
+      Result := True;
+    end);
+
+  if Result then
+  begin
+    Condition := Values[1];
+    IgnoreCount := Max(StrToInt(Values[0]), 0);
+  end;
+end;
+
 function TBreakpointManager.GetBreakPointsChanged: Boolean;
 begin
   Result := FBreakpointsChanged;
@@ -395,7 +403,6 @@ end;
 procedure TBreakpointManager.ToggleBreakpoint(const FileName: string;
   ALine: Integer; CtrlPressed: Boolean; UpdateUI: Boolean);
 var
-  Index: NativeInt;
   Breakpoint: TBreakpoint;
 begin
   if ALine <= 0 then Exit;
@@ -404,23 +411,18 @@ begin
   if not Assigned(Editor) then Exit;
 
   var BPList := Editor.BreakPoints as TBreakpointList;
-  if BPList.FindLine(ALine, Index) then
+  if BPList.FindBreakpoint(ALine, Breakpoint) then
   begin
-    Breakpoint := TBreakpoint(BPList[Index]);
-    if not CtrlPressed then
-      BPList.Delete(Index);
+    if CtrlPressed then
+      // Toggle disabled
+      Breakpoint.Disabled := not Breakpoint.Disabled
+    else
+      BPList.Remove(Breakpoint);
+    DoBreakpointsChanged(FileName, ALine);
+    if UpdateUI then DoUpdateUI;
   end
   else
-  begin
-    Breakpoint := TBreakpoint.Create(ALine);
-    BPList.Insert(Index, Breakpoint);
-  end;
-  if CtrlPressed then
-    // Toggle disabled
-    Breakpoint.Disabled := not Breakpoint.Disabled;
-
-  DoBreakpointsChanged(FileName, ALine);
-  if UpdateUI then DoUpdateUI;
+    SetBreakpoint(FileName, ALine, CtrlPressed, '', 0, UpdateUI);
 end;
 
 {$ENDREGION 'TBreakpointManagement'}

@@ -90,9 +90,9 @@ inherited BreakPointsWindow: TBreakPointsWindow
     Left = 13
     Top = 74
     object mnSetCondition: TSpTBXItem
-      Caption = '&Edit...'
-      Hint = 'Edit breakpoint'
-      OnClick = mnEditClick
+      Caption = 'Breakpoint Properties...'
+      Hint = 'Edit breakpoint properties'
+      OnClick = mnPropertiesClick
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
     end

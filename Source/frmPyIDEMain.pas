@@ -604,8 +604,8 @@
             - Layouts now include the secondary workspace status (#494)
             - Debugging improvements for python >= 3.10
             - Much faster debugging for python >= 3.13
-            - Surround editor selection with brackets and quotes
             - Added support for breakpoint ignore counts
+            - Surround editor selection with brackets and quotes
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347
