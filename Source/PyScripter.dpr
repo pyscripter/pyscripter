@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------------
+  {-----------------------------------------------------------------------------
  Program:   PyScripter
  Author:    Kiriakos Vlahos
  Date:      19-Oct-2005
@@ -140,8 +140,8 @@ begin
 
   Application.MainFormOnTaskbar := True;
 
-  if TStyleManager.TrySetStyle('Windows10 SlateGray') then
-    TStyleSelectorForm.CurrentSkinName := 'Windows10 SlateGray';
+  if TStyleManager.TrySetStyle('Windows11 MineShaft') then
+    TStyleSelectorForm.CurrentSkinName := 'Windows11 MineShaft';
 
   Application.Title := 'PyScripter';
   Application.CreateForm(TResourcesDataModule, ResourcesDataModule);

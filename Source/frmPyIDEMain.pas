@@ -606,6 +606,7 @@
             - Much faster debugging for python >= 3.13
             - Added support for breakpoint ignore counts
             - Surround editor selection with brackets and quotes
+            - Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347
@@ -3028,7 +3029,7 @@ begin
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
   // Load Style Name
-  TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10 SlateGray'));
+  TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows11 MineShaft'));
 
   // Load IDE Shortcuts
   var ActionProxyCollection := TActionProxyCollection.Create(apcctEmpty);
@@ -3807,14 +3808,6 @@ procedure TPyIDEMainForm.ThemeEditorGutter(Gutter: TSynGutter);
 var
   GradColor: TColor;
 begin
-  Assert(SkinManager.GetSkinType(nil) <> sknSkin, 'ThemeEditorGutter');
-  if SkinManager.GetSkinType(nil) in [sknNone, sknWindows] then begin
-    Gutter.GradientStartColor := clWindow;
-    Gutter.GradientEndColor := clBtnFace;
-    Gutter.Font.Color := clSilver;
-    Exit;
-  end;
-
   // Delphi Styles
   if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
     ecFillColor, GradColor) or (GradColor = clNone)
@@ -3826,7 +3819,7 @@ begin
     BorderStyle := gbsNone;
     GradientStartColor := LightenColor(GradColor, 40);
     GradientEndColor := DarkenColor(GradColor, 20);
-    Color := GradColor;
+    Color := DarkenColor(GradColor, 4);;
   end;
 end;
 
