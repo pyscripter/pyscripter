@@ -349,7 +349,7 @@ begin
   try
     LLMChat.LoadChat(FileName);
   except
-    StyledMessageDlg(_('Could read the Chat history'), TMsgDlgType.mtError,
+    StyledMessageDlg(_('Could not read the Chat history'), TMsgDlgType.mtError,
       [TMsgDlgBtn.mbOK], 0);
     DeleteFile(FileName);
   end;

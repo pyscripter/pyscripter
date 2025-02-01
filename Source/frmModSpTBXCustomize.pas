@@ -203,8 +203,8 @@ end;
 procedure TSpTBXCustomizeFormMod.ResetButtonClick(Sender: TObject);
 begin
   if StyledMessageDlg(
-    'This option will reset IDE toolbars and shortcuts to the factory settings.'
-    +#13+#10+'Do you want to proceed?',
+    _('This option will reset IDE toolbars and shortcuts to the factory settings.'
+    +#13+#10+'Do you want to proceed?'),
     mtWarning, [mbOK, mbCancel], 0) = mrOk
   then
     PyIDEMainForm.LoadToolbarItems(FactoryToolbarItems);

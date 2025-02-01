@@ -449,7 +449,6 @@ const
   SCouldNotFindIdentInScope = 'Could not find identifier "%s" in scope "%s"';
   SCouldNotInferType = 'Could not infer type from expresson "%s"';
   SCouldInferFunctionReturnType = 'Could not infer return type of function "%s"';
-  SRefactoryEngineBusy = 'Refactoring engine is busy';
   SPythonKeyword = 'Python keyword';
 
   // File Templates

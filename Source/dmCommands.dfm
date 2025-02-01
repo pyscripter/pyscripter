@@ -1242,7 +1242,6 @@ object CommandsDataModule: TCommandsDataModule
           OnAcceptText = spiAcceptSettings
         end
         object spiTemperature: TSpTBXEditItem
-          Caption = 'spiAcceptSettings'
           EditCaption = 'Temperature (0.0 to 2.0):'
           ExtendedAccept = True
           OnAcceptText = spiAcceptSettings
