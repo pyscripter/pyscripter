@@ -6,15 +6,15 @@
 # Translators:
 # Vincenzo Campanella <vinz65@gmail.com>, 2018
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2023
-# ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024
+# ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2025
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2024-12-13 18:13\n"
+"POT-Creation-Date: 2025-02-01 05:05\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2024\n"
+"Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,9 +84,9 @@ msgstr "Inserisci un valore per il parametro "
 #. RemoteFileDialog..Panel2..OKButton..Caption
 #. ReplaceInFilesDialog..Panel1..btnOK..Caption
 #. RunConfigurationForm..Panel1..btnOK..Caption
-#. fmEditorOptionsDialog..Panel1..btnOk..Caption
+#. EditorOptionsDialog..Panel1..btnOk..Caption
 #. PageSetupDlg..OKBtn..Caption
-#. fmToDoOptions..pnlBG..btnOK..Caption
+#. ToDoOptionsDlg..pnlBG..btnOK..Caption
 #. ToolProperties..Panel1..btnOK..Caption
 #. UnitTestWizard..Panel1..OKButton..Caption
 #: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCollectionEditor.dfm
@@ -119,9 +119,9 @@ msgstr "&OK"
 #. ReplaceInFilesDialog..Panel1..btnCancel..Caption
 #. RunConfigurationForm..Panel1..btnCancel..Caption
 #. StyleSelectorForm..Button2..Caption
-#. fmEditorOptionsDialog..Panel1..btnCancel..Caption
+#. EditorOptionsDialog..Panel1..btnCancel..Caption
 #. PageSetupDlg..CancelBtn..Caption
-#. fmToDoOptions..pnlBG..btnCancel..Caption
+#. ToDoOptionsDlg..pnlBG..btnCancel..Caption
 #. ToolProperties..Panel1..btnCancel..Caption
 #. UnitTestWizard..Panel1..BitBtn2..Caption
 #: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCollectionEditor.dfm
@@ -155,8 +155,8 @@ msgstr "Modelli codice"
 #. RemoteFileDialog..Panel2..HelpButton..Caption
 #. ReplaceInFilesDialog..Panel1..btnHelp..Caption
 #. RunConfigurationForm..Panel1..btnHelp..Caption
-#. fmEditorOptionsDialog..Panel1..btnHelp..Caption
-#. fmToDoOptions..pnlBG..btnHelp..Caption
+#. EditorOptionsDialog..Panel1..btnHelp..Caption
+#. ToDoOptionsDlg..pnlBG..btnHelp..Caption
 #. ToolProperties..Panel1..btnHelp..Caption
 #. UnitTestWizard..Panel1..HelpButton..Caption
 #. FindResultsWindow..Actions..actHelpHelp..Caption
@@ -235,7 +235,7 @@ msgstr "Descrizione"
 #. CodeTemplates..ActionList..actAddItem..Caption
 #. CustomizeParams..ActionList..actAddItem..Caption
 #. FileTemplatesDialog..ActionList..actAddItem..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnAddKey..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnAddKey..Caption
 #. ToolProperties..ActionList..actAddItem..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgSynEditOptions.dfm dlgToolProperties.dfm
@@ -306,7 +306,7 @@ msgstr "Sposta l'elemento verso il basso"
 #. CodeTemplates..ActionList..actUpdateItem..Caption
 #. CustomizeParams..ActionList..actUpdateItem..Caption
 #. FileTemplatesDialog..ActionList..actUpdateItem..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnUpdateKey..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnUpdateKey..Caption
 #. ToolProperties..ActionList..actUpdateItem..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgSynEditOptions.dfm dlgToolProperties.dfm
@@ -330,8 +330,8 @@ msgstr "&Aggiungi..."
 
 #. CollectionEditor..Panel1..RemoveBtn..Caption
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnRemKey..Caption
-#. fmToDoOptions..pnlBG..gbxTokens..btnRemove..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnRemKey..Caption
+#. ToDoOptionsDlg..pnlBG..gbxTokens..btnRemove..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Caption
 #: dlgCollectionEditor.dfm dlgCustomShortcuts.dfm dlgSynEditOptions.dfm
 #: dlgToDoOptions.dfm frmProjectExplorer.dfm
@@ -593,10 +593,10 @@ msgid "&Text to find:"
 msgstr "&Testo da cercare:"
 
 #. FindInFilesDialog..Panel1..gbxOptions..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..Caption
-#. fmToDoOptions..pnlBG..gbxOptions..Caption
+#. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..Caption
+#. ToDoOptionsDlg..pnlBG..gbxOptions..Caption
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..Caption
 #: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
@@ -665,7 +665,7 @@ msgid "Di&rectories:"
 msgstr "Cartella:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
-#. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
+#. ToDoOptionsDlg..pnlBG..gbxSearchFiles..btnBrowse..Hint
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Hint
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm frmFileExplorer.dfm
 #: dlgDirectoryList.pas dlgImportDirectory.pas frmFileExplorer.pas uParams.pas
@@ -673,7 +673,7 @@ msgid "Select directory"
 msgstr "Seleziona cartella"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
-#. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
+#. ToDoOptionsDlg..pnlBG..gbxSearchFiles..chkInclude..Caption
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm
 msgid "Include su&bdirectories"
 msgstr "Includi so&tto-cartella"
@@ -1007,17 +1007,17 @@ msgstr "Re-ini&zializza prima dell'esecuzione"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm cPyControl.pas
+#: dlgRunConfiguration.dfm frmPythonII.pas
 msgid "Remote"
 msgstr "Remoto"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm cPyControl.pas
+#: dlgRunConfiguration.dfm frmPythonII.pas
 msgid "Internal"
 msgstr "Interno"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm cPyControl.pas
+#: dlgRunConfiguration.dfm frmPythonII.pas
 msgid "Remote (Tk)"
 msgstr "Remoto (Tk)"
 
@@ -1080,138 +1080,133 @@ msgstr "Stili disponibili"
 msgid "Preview"
 msgstr "Anteprima"
 
-#. StyleSelectorForm..ActionManager1..StyleName
-#: dlgStyleSelector.dfm
-msgid "Platform Default"
-msgstr "Piattaforma predefinita"
-
-#. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
+#. StyleSelectorForm..ActionList..actApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "&Apply Style"
 msgstr "Applica stile"
 
-#. fmEditorOptionsDialog..Caption
+#. EditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Options"
 msgstr "Opzioni editor"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..Caption
+#. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..Caption
 #: dlgSynEditOptions.dfm
 msgid "Display"
 msgstr "Display"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem3..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Caption
+#. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem3..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystrokes"
 msgstr "Combinazioni dei tasti"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem5..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
+#. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem5..Caption
+#. EditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Color Theme"
 msgstr "Tema colore"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Caption
+#. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..Caption
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Colorazione sintassi"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. EditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
 msgstr "Esempio codice"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#. EditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
 msgstr "Temi disponibili"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#. EditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
 msgstr "Applica tema"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Element:"
 msgstr "&Elemento:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Foreground Color:"
 msgstr "Colore &primo piano:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
 msgid "B&ackground Color:"
 msgstr "Colore &sfondo:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Syntax Language"
 msgstr "Linguaggio"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
 #: dlgSynEditOptions.dfm
 msgid " Text attributes "
 msgstr " Attributi testo "
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Bold"
 msgstr "&Grassetto"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Italic"
 msgstr "Cors&ivo"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Underline"
 msgstr "&Sottolineato"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Strike Out"
 msgstr "&Elimina"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke Options"
 msgstr "Opzioni combinazione tasti"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
 #: dlgSynEditOptions.dfm
 msgid "Command:"
 msgstr "Comando:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 2:"
 msgstr "Combinazione 2:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 1:"
 msgstr "Combinazione 1:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
 #: dlgSynEditOptions.dfm dlgToolProperties.dfm
 msgid "Command"
 msgstr "Comando"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke"
 msgstr "Combinazione"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "Will indent the caret on new lines with the same amount of leading white "
@@ -1220,12 +1215,12 @@ msgstr ""
 "Indenterà il cursore nelle nuove linee con lo stesso numero di spazi "
 "iniziali della riga precedente"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
 msgid "Auto indent"
 msgstr "Indentazione automatica"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "Allows you to select a block of text and drag it within the document to "
@@ -1234,32 +1229,32 @@ msgstr ""
 "Consenti la selezione di un blocco di testo e di trascinarlo in un altra "
 "zona del documento"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
 #: dlgSynEditOptions.dfm
 msgid "Drag and drop editing"
 msgstr "Abilita il Drag and Drop"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enhances end key similar to JDeveloper"
 msgstr "Usa il tasto 'Fine' in modo avanzato come in JDeveloper"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
 msgid "Enhance End Key"
 msgstr "Uso avanzato tasto 'Fine'"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "enhances home key positioning, similar to visual studio"
 msgstr "uso avanzato tasto 'Home' come in Visual Studio"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
 #: dlgSynEditOptions.dfm
 msgid "Enhance Home Key"
 msgstr "Uso avanzato tasto 'Home'"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "When undoing/redoing actions, handle all continuous changes of the same kind"
@@ -1269,22 +1264,22 @@ msgstr ""
 "continue dello stesso tipo in una sola volta anziché ripetere il comando di "
 "annullamento o ripetizione"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
 msgid "Group undo"
 msgstr "Annulla il raggruppamento"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX....Hint
 #: dlgSynEditOptions.dfm
 msgid "When moving through lines the X position will always stay the same"
 msgstr "Mantieni la posizione nella colonna nei movimenti per riga"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
 #: dlgSynEditOptions.dfm
 msgid "Maintain caret column"
 msgstr "Mantieni cursore colonna"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "When clicking with the right mouse for a popup menu, move the cursor to that"
@@ -1293,12 +1288,12 @@ msgstr ""
 "Dopo un clic con il tasto destro del mouse per il menu di popup, muovi il "
 "cursore in tale posizione"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right mouse moves cursor"
 msgstr "Il mouse destro muove il cursore"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "When tabbing, the cursor will go to the next non-white space character of "
@@ -1307,55 +1302,55 @@ msgstr ""
 "La tabulazione sposta il cursore in corrispondenza del prossimo carattere "
 "non vuoto della riga precedente"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tabs"
 msgstr "Tabulazioni intelligenti"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
 #: dlgSynEditOptions.dfm
 msgid "similar to Smart Tabs, but when you delete characters"
 msgstr ""
 "simile alla tabulazione intelligente, ma quando si eliminano caratteri"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tab delete"
 msgstr "Eliminazione intelligente delle tabulazioni"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
 msgid "Tab indents and Shift-Tab unindents"
 msgstr "'Tab' per indentare, 'Maiusc+Tab' per togliere l'indentamento"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tab Indent"
 msgstr "'Tab' per indentare"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Converts a tab character to the number of spaces in Tab Width"
 msgstr ""
 "Converti una tabulazione nel numero di spazi specificato da 'Larghezza "
 "tabulazione'"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tabs to spaces"
 msgstr "Tabulazioni in spazi"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Spaces at the end of lines will be trimmed and not saved"
 msgstr "Gli spazi alla fine della riga verrano eliminati e non salvati"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Trim trailing spaces"
 msgstr "Elimina spazi in coda"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "Disables the scroll bar arrow buttons when you can't scroll in that "
@@ -1364,24 +1359,24 @@ msgstr ""
 "Disabilita i pulsanti delle barre di scorrimento se non è possibile scorrere"
 " ulteriormente nella direzione"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Disable scroll arrows"
 msgstr "Disabilita le frecce di scorrimento"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "When scrolling with page-up and page-down commands, only scroll a half page "
 "at a time"
 msgstr "Scorrimento di metà pagina con i comandi pagina-sù e pagina-giù"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Half page scroll"
 msgstr "Scorri di mezza pagina"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "if enabled, then the scrollbars will only show when necessary.  If you have "
@@ -1392,32 +1387,32 @@ msgstr ""
 "Se è abilitato lo scorrimento dopo il fine riga, la barra orizzontale è "
 "sempre presente (usa la lunghezza massima)"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
 #: dlgSynEditOptions.dfm
 msgid "Hide scrollbars as necessary"
 msgstr "Nascondi barre scorrimento"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
 #: dlgSynEditOptions.dfm
 msgid "Forces scrolling to be one less"
 msgstr "Forza lo scorrimento di una pagina meno una riga"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll by one less"
 msgstr "Scorri la pagina meno una riga"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
 msgid "Allows the cursor to go past the end of file marker"
 msgstr "Consenti al cursore di muoversi oltre la fine del file"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of file"
 msgstr "Scorrimento dopo la fine del file"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
 #: dlgSynEditOptions.dfm
 msgid ""
 "Allows the cursor to go past the last character into the white space at the "
@@ -1425,226 +1420,226 @@ msgid ""
 msgstr ""
 "Consenti al cursore di muoversi nello spazio vuoto oltre la fine della riga"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of line"
 msgstr "Scorrimento dopo la fine della riga"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows a hint of the visible line numbers when scrolling vertically"
 msgstr ""
 "Visualizza un suggerimento dei numeri delle righe visibili durante lo "
 "scorrimento verticale"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show scroll hint"
 msgstr "Visualizza suggerimenti sullo scorrimento"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
 #: dlgSynEditOptions.dfm
 msgid "The scroll hint follows the mouse when scrolling vertically"
 msgstr ""
 "I suggerimenti sullo scorrimento seguono il mouse durante lo scorrimento "
 "verticale"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll hint follows mouse"
 msgstr "Suggerimento su scorrimento segue il mouse"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
 msgid "Show ligatures (joined font glyphs) when supported by the used font"
 msgstr ""
 "Visualizza legature (glifi delel font unite) se supportate dalla font usata"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
 msgstr "Visualizza legature caratteri"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
 msgstr ""
 "Visualizza interruzioni di pagina, spazi vuoti e i tabulatori con l'utilizzo"
 " dei simboli speciali"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show special chars"
 msgstr "Visualizza caratteri speciali"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enable wrapping of long lines"
 msgstr "Abilita ritorno a capo automatico linee lunghe"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
 msgid "Word wrap"
 msgstr "Ritorno a capo automatico"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
 msgid "Caret"
 msgstr "Cursore"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label2..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Insert caret:"
 msgstr "Cursore di inserimento:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label4..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label4..Caption
 #: dlgSynEditOptions.dfm
 msgid "Overwrite caret:"
 msgstr "Cursore di sovrascrittura:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Vertical Line"
 msgstr "Linea verticale"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Horizontal Line"
 msgstr "Riga orizzontale"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Half Block"
 msgstr "Mezzo blocco"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
-#. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
+#. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Block"
 msgstr "Blocco"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
 msgstr "Margine destro"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge color:"
 msgstr "Colore margine:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge Column:"
 msgstr "Colonna del margine:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter"
 msgstr "Righello"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter color:"
 msgstr "Colore righello:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..lDigits..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..lDigits..Caption
 #: dlgSynEditOptions.dfm
 msgid "Digits:"
 msgstr "Cifre:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
 #: dlgSynEditOptions.dfm
 msgid "Autosize"
 msgstr "Dimensione automatica"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show line numbers"
 msgstr "Visualizza numeri di riga"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show leading zeros"
 msgstr "Visualizza zeri non significativi"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
 #: dlgSynEditOptions.dfm
 msgid "Visible"
 msgstr "Visibile"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
 msgid "Start at zero"
 msgstr "Inizia da zero"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Use Gutter Font"
 msgstr "Usa il carattere del righello"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
 msgid "Gutter gradient visible"
 msgstr "Gradiente del righello visibile"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter Gradient"
 msgstr "Gradiente del righello"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
 #. PageSetupDlg..ActionList1..FontCmd..Caption
 #. PageSetupDlg..ActionList1..FontCmd..Hint
 #: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
 msgid "Font"
 msgstr "Carattere"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmarks"
 msgstr "Segnalibri"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmark keys"
 msgstr "Tasti segnalibro"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmarks visible"
 msgstr "Segnalibri visibili"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Font"
 msgstr "Font dell'editor"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
 #: dlgSynEditOptions.dfm
 msgid "Line spacing / Tab spacing"
 msgstr "Spaziatura riga/tabulazione"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
 msgid "Extra line spacing (pixels):"
 msgstr "Interlinea extra (pixel):"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tab Width:"
 msgstr "Larghezza tabulazione:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
+#. EditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Colore riga attuale"
 
-#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
+#. EditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply to all editors"
 msgstr "Applica a tutti gli editor"
@@ -2014,75 +2009,75 @@ msgstr "Chiudi"
 msgid "Close|Close Print Preview"
 msgstr "Chiudi|Chiudi anteprima di stampa"
 
-#. fmToDoOptions..Caption
+#. ToDoOptionsDlg..Caption
 #: dlgToDoOptions.dfm
 msgid "To Do Options"
 msgstr "Opzioni elenco cose da fare"
 
-#. fmToDoOptions..pnlBG..gbxTokens..Caption
+#. ToDoOptionsDlg..pnlBG..gbxTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "To Do Tokens"
 msgstr "Token elenco cose da fare"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
+#. ToDoOptionsDlg..pnlBG..gbxTokens..lblPriority..Caption
 #: dlgToDoOptions.dfm
 msgid "&Priority"
 msgstr "&Priorità"
 
-#. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
+#. ToDoOptionsDlg..pnlBG..gbxTokens..lblToken..Caption
 #: dlgToDoOptions.dfm
 msgid "To&ken"
 msgstr "To&ken"
 
-#. fmToDoOptions..pnlBG..gbxTokens..cboPriority....Items.Strings
+#. ToDoOptionsDlg..pnlBG..gbxTokens..cboPriority....Items.Strings
 #. Programmer's name for it: SHigh
 #: dlgToDoOptions.dfm frmToDo.pas
 msgid "High"
 msgstr "Alto"
 
-#. fmToDoOptions..pnlBG..gbxTokens..cboPriority....Items.Strings
+#. ToDoOptionsDlg..pnlBG..gbxTokens..cboPriority....Items.Strings
 #. Programmer's name for it: SNormal
 #: dlgToDoOptions.dfm frmToDo.pas
 msgid "Normal"
 msgstr "Normale"
 
-#. fmToDoOptions..pnlBG..gbxTokens..cboPriority....Items.Strings
+#. ToDoOptionsDlg..pnlBG..gbxTokens..cboPriority....Items.Strings
 #. Programmer's name for it: SLow
 #: dlgToDoOptions.dfm frmToDo.pas
 msgid "Low"
 msgstr "Basso"
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
+#. ToDoOptionsDlg..pnlBG..gbxTokens..btnInsert..Caption
 #: dlgToDoOptions.dfm
 msgid "&Insert"
 msgstr "&Inserisci"
 
-#. fmToDoOptions..pnlBG..gbxTokens..btnApply..Caption
+#. ToDoOptionsDlg..pnlBG..gbxTokens..btnApply..Caption
 #: dlgToDoOptions.dfm
 msgid "&Apply"
 msgstr "&Applica"
 
-#. fmToDoOptions..pnlBG..gbxOptions..cbShowTokens..Caption
+#. ToDoOptionsDlg..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "&Show tokens in description"
 msgstr "&Visualizza token nella descrizione"
 
-#. fmToDoOptions..pnlBG..gbxSearchFiles..Caption
+#. ToDoOptionsDlg..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
 msgid "Search for To Do Tokens"
 msgstr "Ricerca i token delle cose da fare"
 
-#. fmToDoOptions..pnlBG..gbxSearchFiles..radScanOpen..Caption
+#. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &open files"
 msgstr "Cerca nei &file aperti"
 
-#. fmToDoOptions..pnlBG..gbxSearchFiles..radScanDir..Caption
+#. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanDir..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &directories"
 msgstr "Cerca nelle &cartella"
 
-#. fmToDoOptions..pnlBG..gbxSearchFiles..radScanProject..Caption
+#. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanProject..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &project files"
 msgstr "Cerca nei file del &progetto"
@@ -3480,6 +3475,18 @@ msgstr "Assistente"
 msgid "Settings"
 msgstr "Impostazioni"
 
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiDeepSeek..Caption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiDeepSeek..Caption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "DeepSeek"
+msgstr "DeepSeek"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiDeepSeek..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiDeepSeek..Hint
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Use DeepSeek"
+msgstr "Usa DeepSeek"
+
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
@@ -3521,6 +3528,12 @@ msgstr "Chiave API:"
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Timeout (in seconds):"
 msgstr "Timeout (in secondi):"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiTemperature..EditCaption
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiTemperature..EditCaption
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Temperature (0.0 to 2.0):"
+msgstr "Temperatura (0.0 - 2.0):"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiMaxTokens..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiMaxTokens..EditCaption
@@ -3564,14 +3577,26 @@ msgid "Line"
 msgstr "Riga"
 
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
-#: frmBreakPoints.dfm
+#: frmBreakPoints.dfm frmBreakPoints.pas
+msgid "Ignore Count"
+msgstr "Ignora contatore"
+
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
+#: frmBreakPoints.dfm frmBreakPoints.pas
 msgid "Condition"
 msgstr "Condizione"
 
 #. BreakPointsWindow..TBXPopupMenu..mnSetCondition..Caption
-#: frmBreakPoints.dfm
-msgid "Set &Condition..."
-msgstr "Imposta &condizione..."
+#. EditorForm..pmnuBreakpoint..spiBreakpointProperties..Caption
+#: frmBreakPoints.dfm frmEditor.dfm
+msgid "Breakpoint Properties..."
+msgstr "Proprietà punto interruzione ..."
+
+#. BreakPointsWindow..TBXPopupMenu..mnSetCondition..Hint
+#. EditorForm..pmnuBreakpoint..spiBreakpointProperties..Hint
+#: frmBreakPoints.dfm frmEditor.dfm frmBreakPoints.pas
+msgid "Edit breakpoint properties"
+msgstr "Modifica proprietà punto interruzione"
 
 #. BreakPointsWindow..TBXPopupMenu..mnClear..Caption
 #: frmBreakPoints.dfm
@@ -3739,8 +3764,9 @@ msgid "Select font"
 msgstr "Seleziona carattere"
 
 #. OutputWindow..OutputActions..actClearOutput..Caption
+#. EditorForm..pmnuBreakpoint..spiBreakpointClear..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TiClear..Caption
-#: frmCommandOutput.dfm frmRegExpTester.dfm
+#: frmCommandOutput.dfm frmEditor.dfm frmRegExpTester.dfm
 msgid "Clear"
 msgstr "Pulisci"
 
@@ -3850,6 +3876,21 @@ msgstr "Fold"
 #: frmEditor.dfm
 msgid "Unfold"
 msgstr "Espandi"
+
+#. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Caption
+#: frmEditor.dfm
+msgid "Enabled"
+msgstr "Abilitato"
+
+#. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Hint
+#: frmEditor.dfm
+msgid "Enable/Disable breakpoint"
+msgstr "Abilita/disabilita punto interruzione"
+
+#. EditorForm..pmnuBreakpoint..spiBreakpointClear..Hint
+#: frmEditor.dfm
+msgid "Clear breakpoint"
+msgstr "Azzera punto interruzione"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4726,16 +4767,6 @@ msgstr "&Nessuna sintassi"
 msgid "Do not use syntax highlighting"
 msgstr "Non usare l'evidenziazione della sintassi"
 
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSplitEditors..Caption
-#: frmPyIDEMain.dfm
-msgid "Split Editor"
-msgstr "Dividi editor"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSplitWorkspace..Caption
-#: frmPyIDEMain.dfm
-msgid "Split Workspace"
-msgstr "Dividi spazio di lavoro"
-
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..Caption
 #: frmPyIDEMain.dfm
 msgid "&Toolbars"
@@ -4840,6 +4871,16 @@ msgstr "Imposta layout debug"
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
 msgstr "Imposta layout attuale come layout debug"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitEditors..Caption
+#: frmPyIDEMain.dfm
+msgid "Split Editor"
+msgstr "Dividi editor"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
+#: frmPyIDEMain.dfm
+msgid "Split Workspace"
+msgstr "Dividi spazio di lavoro"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..Caption
 #: frmPyIDEMain.dfm
@@ -6825,6 +6866,10 @@ msgstr "Scaricamento del file non riuscito"
 msgid "Modifiers"
 msgstr "Modificatori"
 
+#: frmBreakPoints.pas
+msgid "Ignore Count must be a positive integer"
+msgstr "\"Ignora contatore\" deve essere un numero intero positivo"
+
 #: frmCodeExplorer.pas
 msgid "Imports"
 msgstr "Importa"
@@ -6903,6 +6948,15 @@ msgstr "Chiedimi qualunque cosa"
 #: frmLLMChat.pas
 msgid "Chat setup incomplete"
 msgstr "Configurazione chat non completa"
+
+#. Restore settings and history
+#: frmLLMChat.pas
+msgid "Could not read the Chat history"
+msgstr "Impossibile leggere la cronologia della chat"
+
+#: frmLLMChat.pas
+msgid "Could not read the Chat settings"
+msgstr "Impossibile leggere le impostazioni della chat"
 
 #: frmLLMChat.pas
 msgid "Enter title:"
@@ -6998,6 +7052,10 @@ msgstr "Namespaces"
 #: frmVariables.pas
 msgid "DocString"
 msgstr "DocString"
+
+#: frmWatches.pas
+msgid "Enter watch expression:"
+msgstr "Inserisci espressione monitoraggio:"
 
 #: frmWatches.pas
 msgid "Edit Watch"
@@ -8242,8 +8300,9 @@ msgstr "Nessun test trovato!"
 
 #. Programmer's name for it: SDuplicateKey
 #: StringResources.pas
-msgid "Duplicate Key"
-msgstr "Chiave duplicata"
+#, object-pascal-format
+msgid "Shortcut for command \"%s\" is already used for command \"%s\""
+msgstr "La scorcaiatia per il comando \"%s\" iè già usata per il comando \"%s\""
 
 #. Programmer's name for it: SChangedFilesReloaded
 #: StringResources.pas
@@ -8392,11 +8451,6 @@ msgstr "Salva layout attuale"
 #: StringResources.pas
 msgid "Layout Name:"
 msgstr "Nome layout:"
-
-#. Programmer's name for it: SEditBreakpointCond
-#: StringResources.pas
-msgid "Edit Breakpoint Condition"
-msgstr "Modifica la condizione del punto d'interruzione"
 
 #. Programmer's name for it: SEnterPythonExpression
 #: StringResources.pas
@@ -8979,11 +9033,6 @@ msgstr "Impossibile dedurre il tipo dall'espressione \"%s\""
 msgid "Could not infer return type of function \"%s\""
 msgstr "Impossibile dedurre il tipo restituito della funzione \"%s\""
 
-#. Programmer's name for it: SRefactoryEngineBusy
-#: StringResources.pas
-msgid "Refactoring engine is busy"
-msgstr "Il motore di reinizializzazione è occupato"
-
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
 msgid "Python keyword"
@@ -9256,6 +9305,12 @@ msgstr "Manca la chiave API LLM"
 #: uLLMSupport.pas
 msgid "The LLM model has not been set"
 msgstr "Non è stato impostato il modello LLM "
+
+#. Programmer's name for it: sInvalidTemperature
+#: uLLMSupport.pas
+msgid "Invalid temperature: It should be a decimal number between 0.0 and 2.0"
+msgstr ""
+"Temperatura non valida: dovrebbe essere un numero decimale tra 0,0 e 2,0"
 
 #. Programmer's name for it: sUnsupportedEndpoint
 #: uLLMSupport.pas
