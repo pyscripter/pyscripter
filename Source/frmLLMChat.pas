@@ -99,6 +99,8 @@ type
     spiOllama: TSpTBXItem;
     spiGemini: TSpTBXItem;
     SpTBXSeparatorItem7: TSpTBXSeparatorItem;
+    spiTemperature: TSpTBXEditItem;
+    spiDeepSeek: TSpTBXItem;
     procedure actChatSaveExecute(Sender: TObject);
     procedure AppEventsMessage(var Msg: TMsg; var Handled: Boolean);
     procedure FormDestroy(Sender: TObject);
@@ -439,6 +441,8 @@ begin
       Settings.ApiKey := NewText
     else if Sender = spiTimeout then
       Settings.TimeOut := NewText.ToInteger * 1000
+    else if Sender = spiTemperature then
+      Settings.Temperature := NewText.ToSingle
     else if Sender = spiMaxTokens then
       Settings.MaxTokens := NewText.ToInteger
     else if Sender = spiSystemPrompt then
@@ -566,6 +570,8 @@ procedure TLLMChatForm.mnProviderClick(Sender: TObject);
 begin
   if Sender = spiOpenai then
     LLMChat.Providers.Provider := llmProviderOpenAI
+  else if Sender = spiDeepSeek then
+    LLMChat.Providers.Provider := llmProviderDeepSeek
   else if Sender = spiOllama then
     LLMChat.Providers.Provider := llmProviderOllama
   else if Sender = spiGemini then
@@ -608,6 +614,7 @@ procedure TLLMChatForm.spiSettingsInitPopup(Sender: TObject; PopupView:
     TTBView);
 begin
   case LLMChat.Providers.Provider of
+    llmProviderDeepSeek: spiDeepSeek.Checked := True;
     llmProviderOpenAI: spiOpenai.Checked := True;
     llmProviderGemini: spiGemini.Checked := True;
     llmProviderOllama: spiOllama.Checked := True;
@@ -618,6 +625,7 @@ begin
   spiModel.Text := Settings.Model;
   spiApiKey.Text := Settings.ApiKey;
   spiTimeout.Text := (Settings.TimeOut div 1000).ToString;
+  spiTemperature.Text := Format('%4.2f', [Settings.Temperature]);
   spiMaxTokens.Text := Settings.MaxTokens.ToString;
   spiSystemPrompt.Text := Settings.SystemPrompt;
 end;

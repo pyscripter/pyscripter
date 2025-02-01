@@ -207,6 +207,8 @@ type
     actHelpWebGroupSupport: TBrowseURL;
     actHelpWebProjectHome: TBrowseURL;
     actDonate: TBrowseURL;
+    spiTemperature: TSpTBXEditItem;
+    spiDeepSeek: TSpTBXItem;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -2440,6 +2442,8 @@ procedure TCommandsDataModule.mnProviderClick(Sender: TObject);
 begin
   if Sender = spiOpenAI then
     LLMAssistant.Providers.Provider := llmProviderOpenAI
+  else if Sender = spiDeepSeek then
+    LLMAssistant.Providers.Provider := llmProviderDeepSeek
   else if Sender = spiGemini then
     LLMAssistant.Providers.Provider := llmProviderGemini
   else if Sender = spiOllama then
@@ -2713,6 +2717,8 @@ begin
       Settings.ApiKey := NewText
     else if Sender = spiTimeout then
       Settings.TimeOut := NewText.ToInteger * 1000
+    else if Sender = spiTemperature then
+      Settings.Temperature := NewText.ToSingle
     else if Sender = spiMaxTokens then
       Settings.MaxTokens := NewText.ToInteger
     else if Sender = spiSystemPrompt then
@@ -2720,6 +2726,7 @@ begin
 
     case LLMAssistant.Providers.Provider of
       llmProviderOpenAI: LLMAssistant.Providers.OpenAI := Settings;
+      llmProviderDeepSeek: LLMAssistant.Providers.DeepSeek := Settings;
       llmProviderGemini: LLMAssistant.Providers.Gemini := Settings;
       llmProviderOllama: LLMAssistant.Providers.Ollama := Settings;
     end;
@@ -2736,6 +2743,7 @@ procedure TCommandsDataModule.spiSettingsInitPopup(Sender: TObject; PopupView:
 begin
   case LLMAssistant.Providers.Provider of
     llmProviderOpenAI: spiOpenAI.Checked := True;
+    llmProviderDeepSeek: spiDeepSeek.Checked := True;
     llmProviderGemini: spiGemini.Checked := True;
     llmProviderOllama: spiOllama.Checked := True;
   end;
@@ -2745,6 +2753,7 @@ begin
   spiModel.Text := Settings.Model;
   spiApiKey.Text := Settings.ApiKey;
   spiTimeout.Text := (Settings.TimeOut div 1000).ToString;
+  spiTemperature.Text := Format('%4.2f', [Settings.Temperature]);
   spiMaxTokens.Text := Settings.MaxTokens.ToString;
   spiSystemPrompt.Text := Settings.SystemPrompt;
 end;

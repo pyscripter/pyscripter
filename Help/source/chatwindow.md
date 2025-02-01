@@ -48,11 +48,11 @@ Chat settings are automatically saved when PyScripter exits and restored when
 PyScripter starts, in a Json file named "Chat Settings.json" in the same directory 
 as PyScripter.ini.
 
-![graphic](images/chatsettings.png){align=center width="24.06em" height="15.87em"}
+![graphic](images/chatsettings.png){align=center width="23.9em" height="19.3em"}
 
 The following settings can be modified:
 
-*Openai/Gemini/Ollama*\
+*OpenAI/Gemini/Ollama*\
 Choose whether you want to use cloud-based OpenAI/Gemini models or local Ollama models.
 
 *Endpoint*\
@@ -60,6 +60,7 @@ The base URL for accessing the LLM API.  You shouldn't need to change the provid
 defaults: 
 - https://api.openai.com/v1/chat/completions for OpenAI
 - https://generativelanguage.googleapis.com/v1beta for Gemini
+- https://api.deepseek.com/chat/completions for DeepSeek
 - http://localhost:11434/api/chat for Ollama
 
 *Model*\
@@ -68,6 +69,8 @@ The model you want to use.
   **GPT-3.5 Turbo** is good for coding tasks.  **GPT-4o model** is newer, ten times more expensive, but possibly better.
 - Gemini models\
   Use **gemini-1.5-flash** (faster and cheeper) or **gemini-1.5-pro** or any newer Gemini model.
+- DeepSeek models\
+  Use **deepseek-chat** or **deepseek-reasoner**.
 - Ollama\
   You have a wide choice of good models. See the 
   [instructions](llmprerequisites.md#install-ollama-models) for chosing and installing 
@@ -78,6 +81,9 @@ Enter your OpenAI/Gemini [API key](llmprerequisites). Leave blank for Ollama mod
 
 *Timeout*\
 How long you are prepared to wait for a response in seconds.
+
+*Temperature*\
+ Decimal value between 0 and 2. Higher values like 1.2 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
 
 *Maximum number of response tokens*\
 An integer value that determines the maximum length of the response in number of tokens which

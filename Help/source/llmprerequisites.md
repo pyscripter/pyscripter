@@ -22,6 +22,12 @@ You need to [get an API key](https://aistudio.google.com/app/apikey).  Although 
 commercial service, light usage is actually free, so it is a great choice for using  with
 PyScripter.  See [pricing](https://ai.google.dev/pricing) for details.
 
+## DeepSeek
+
+You need to [get an API key](https://platform.deepseek.com/api_keys).  This is a 
+commercial service, but the [pricing](https://api-docs.deepseek.com/quick_start/pricing) 
+is very competitive.
+
 ## Local Models using Ollama
 
 Why you may want to run LLMs locally? Here are a few reasons:

@@ -22,6 +22,9 @@
 	+ Much [faster debugging](https://pyscripter.blogspot.com/2025/01/teaser-super-fast-debugging-is-coming.html) for python >= 3.13
 	+ Added support for [breakpoint ignore counts](https://pyscripter.blogspot.com/2025/01/breakpoint-conditions-and-ignore-counts.html)
 	+ Surround editor selection with brackets and quotes
+    + Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
+    + Added support for DeepSeek LLM
+    + Exposed the temperature LLM parameter
 
 
 * *Issues addressed:*

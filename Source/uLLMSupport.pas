@@ -15,6 +15,7 @@ type
   TLLMProvider = (
     llmProviderOpenAI,
     llmProviderGemini,
+    llmProviderDeepSeek,
     llmProviderOllama);
 
   TEndpointType = (
@@ -30,7 +31,8 @@ type
     svModelEmpty,
     svInvalidEndpoint,
     svInvalidModel,
-    svAPIKeyMissing);
+    svAPIKeyMissing,
+    svInvalidTemperature);
 
   TLLMSettings = record
     EndPoint: string;
@@ -38,6 +40,7 @@ type
     Model: string;
     TimeOut: Integer;
     MaxTokens: Integer;
+    Temperature: Single;
     SystemPrompt: string;
     function Validate: TLLMSettingsValidation;
     function IsLocal: Boolean;
@@ -46,6 +49,7 @@ type
 
   TLLMProviders = record
     Provider: TLLMProvider;
+    DeepSeek: TLLMSettings;
     OpenAI: TLLMSettings;
     Gemini: TLLMSettings;
     Ollama: TLLMSettings;
@@ -164,9 +168,9 @@ const
     EndPoint: 'https://api.openai.com/v1/chat/completions';
     ApiKey: '';
     Model: 'gpt-4o';
-    //Model: 'gpt-3.5-turbo';
     TimeOut: 20000;
     MaxTokens: 1000;
+    Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
 
   OpenaiCompletionSettings: TLLMSettings = (
@@ -175,6 +179,7 @@ const
     Model: 'gpt-3.5-turbo-instruct';
     TimeOut: 20000;
     MaxTokens: 1000;
+    Temperature: 0.2;
     SystemPrompt: '');
 
   GeminiSettings: TLLMSettings = (
@@ -183,7 +188,26 @@ const
     Model: 'gemini-1.5-flash';
     TimeOut: 20000;
     MaxTokens: 1000;
+    Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
+
+  DeepSeelChatSettings: TLLMSettings = (
+    EndPoint: 'https://api.deepseek.com/chat/completions';
+    ApiKey: '';
+    Model: 'deepseek-chat';
+    TimeOut: 20000;
+    MaxTokens: 1000;
+    Temperature: 1.0;
+    SystemPrompt: DefaultSystemPrompt);
+
+  DeepSeekCompletionSettings: TLLMSettings = (
+    EndPoint: 'https://api.deepseek.com/beta/completions';
+    ApiKey: '';
+    Model: 'deepseek-chat';
+    TimeOut: 20000;
+    MaxTokens: 1000;
+    Temperature: 0;
+    SystemPrompt: '');
 
   OllamaChatSettings: TLLMSettings = (
     EndPoint: 'http://localhost:11434/api/chat';
@@ -194,6 +218,7 @@ const
     //Model: 'stable-code';
     TimeOut: 60000;
     MaxTokens: 1000;
+    Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
 
   OllamaCompletionSettings: TLLMSettings = (
@@ -202,6 +227,7 @@ const
     Model: 'codellama:code';
     TimeOut: 60000;
     MaxTokens: 1000;
+    Temperature: 0.2;
     SystemPrompt: DefaultSystemPrompt);
 
 implementation
@@ -221,6 +247,7 @@ resourcestring
   sNoResponse = 'No response from the LLM Server';
   sNoAPIKey = 'The LLM API key is missing';
   sNoModel = 'The LLM model has not been set';
+  sInvalidTemperature = 'Invalid temperature: It should be a decimal number between 0.0 and 2.0';
   sUnsupportedEndpoint = 'The LLM endpoint is missing or not supported';
   sUnsupportedModel = 'The LLM model is not supported';
   sUnexpectedResponse = 'Unexpected response from the LLM Server';
@@ -362,6 +389,7 @@ end;
 function TLLMBase.GetLLMSettings: TLLMSettings;
 begin
   case Providers.Provider of
+    llmProviderDeepSeek: Result := Providers.DeepSeek;
     llmProviderOpenAI: Result := Providers.OpenAI;
     llmProviderOllama: Result := Providers.Ollama;
     llmProviderGemini: Result := Providers.Gemini;
@@ -372,7 +400,8 @@ procedure TLLMBase.LoadSettrings(const FName: string);
 begin
   if FileExists(FName) then
   begin
-    Providers := FSerializer.Deserialize<TLLMProviders>(TFile.ReadAllText(FName));
+    FSerializer.Populate<TLLMProviders>(TFile.ReadAllText(FName), Providers);
+    Providers.DeepSeek.ApiKey := Obfuscate(Providers.DeepSeek.ApiKey);
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
     Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
     // backward compatibility
@@ -444,11 +473,13 @@ end;
 
 procedure TLLMBase.SaveSettings(const FName: string);
 begin
+  Providers.DeepSeek.ApiKey := Obfuscate(Providers.DeepSeek.ApiKey);
   Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
   Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
   try
     TFile.WriteAllText(FName, FSerializer.Serialize<TLLMProviders>(Providers));
   finally
+    Providers.DeepSeek.ApiKey := Obfuscate(Providers.DeepSeek.ApiKey);
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
     Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
   end;
@@ -467,6 +498,7 @@ begin
     svInvalidEndpoint: Result := sUnsupportedEndpoint;
     svInvalidModel: Result := sUnsupportedModel;
     svAPIKeyMissing: Result := sNoAPIKey;
+    svInvalidTemperature: Result := sInvalidTemperature;
   end;
 end;
 
@@ -486,6 +518,7 @@ constructor TLLMChat.Create;
 begin
   inherited;
   Providers.Provider := llmProviderOpenAI;
+  Providers.DeepSeek := DeepSeelChatSettings;
   Providers.OpenAI := OpenaiChatSettings;
   Providers.Ollama := OllamaChatSettings;
   Providers.Gemini := GeminiSettings;
@@ -553,6 +586,7 @@ function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = '')
 
     // now add parameters
     var GenerationConfig := TJSONObject.Create();
+    GenerationConfig.AddPair('temperature', Settings.Temperature);
     GenerationConfig.AddPair('maxOutputTokens', Settings.MaxTokens);
     JSON.AddPair('generationConfig', GenerationConfig);
 
@@ -579,10 +613,14 @@ begin
       begin
         var Options := TJSONObject.Create;
         Options.AddPair('num_predict', Settings.MaxTokens);
+        Options.AddPair('temperature', Settings.Temperature);
         JSON.AddPair('options', Options);
       end;
     etOpenAIChatCompletion:
+    begin
+      JSON.AddPair('temperature', Settings.Temperature);
       JSON.AddPair('max_tokens', Settings.MaxTokens);
+    end;
   end;
 
   var Messages := TJSONArray.Create;
@@ -645,11 +683,11 @@ begin
   Result := etUnsupported;
   if EndPoint.Contains('googleapis') then
     Result := etGemini
-  else if EndPoint.Contains('openai') then
+  else if EndPoint.Contains('openai') or EndPoint.Contains('deepseek') then
   begin
-    if EndPoint = 'https://api.openai.com/v1/chat/completions' then
+    if EndPoint.EndsWith('chat/completions') then
       Result := etOpenAIChatCompletion
-    else if EndPoint = 'https://api.openai.com/v1/completions' then
+    else if EndPoint.EndsWith('/completions') then
       Result := etOpenAICompletion;
   end
   else
@@ -670,6 +708,7 @@ function TLLMSettings.Validate: TLLMSettingsValidation;
 begin
   if Model = '' then
     Exit(svModelEmpty);
+  if not InRange(Temperature, 0.0, 2.0) then Exit(svInvalidTemperature);
   case EndpointType of
     etUnsupported: Exit(svInvalidEndpoint);
     etOpenAICompletion, etOpenAIChatCompletion, etGemini:
@@ -710,9 +749,11 @@ begin
   inherited;
   OnLLMError := ShowError;
   Providers.Provider := llmProviderOpenAI;
+  Providers.DeepSeek := DeepSeekCompletionSettings;
   Providers.OpenAI := OpenaiCompletionSettings;
   Providers.Ollama := OllamaCompletionSettings;
   Providers.Gemini := GeminiSettings;
+  Providers.Gemini.Temperature := 0.2;
 end;
 
 procedure TLLMAssistant.DoCancelRequest(Sender: TObject);
@@ -821,8 +862,6 @@ begin
 end;
 
 function TLLMAssistant.RequestParams(const Prompt: string; const Suffix: string = ''): string;
-const
-  Temperature = 0.2;
 
   function GeminiParams: string;
   begin
@@ -836,8 +875,8 @@ const
 
     // now add parameters
     var GenerationConfig := TJSONObject.Create;
+    GenerationConfig.AddPair('temperature', Settings.Temperature);
     GenerationConfig.AddPair('maxOutputTokens', Settings.MaxTokens);
-    GenerationConfig.AddPair('temperature', Temperature);
     if Length(FStopSequence) > 0 then
     begin
       var StopArray := TJSONArray.Create;
@@ -874,13 +913,13 @@ begin
           Options.AddPair('stop', StopArray);
         end;
         Options.AddPair('num_predict', Settings.MaxTokens);
-        Options.AddPair('temperature', Temperature);
+        Options.AddPair('temperature', Settings.Temperature);
         JSON.AddPair('options', Options);
       end;
     etOpenAICompletion:
       begin
         JSON.AddPair('max_tokens', Settings.MaxTokens);
-        JSON.AddPair('temperature', Temperature);
+        JSON.AddPair('temperature', Settings.Temperature);
       end;
   end;
 

@@ -16,6 +16,8 @@ Both cloud-based and local LLMs are supported:
 - Cloud-based LLMs
   - [OpenAI](https://openai.com/) models such as (GPT-3.5 Turbo and GPT-4o)
   - [Gemini](https://gemini.google.com/) models such as (1.5 Flash and 1.5 Pro) by Google 
+  - [DeepSeek](https://www.deepseek.com/) models such as deepseek-chat and deepseek-reasoner
+  
 - Local LLMs (support is provided by using [Ollama](https://github.com/ollama/ollama)).
   Choice of [models](https://ollama.com/library) include:
   - llama3 and codellama by Meta

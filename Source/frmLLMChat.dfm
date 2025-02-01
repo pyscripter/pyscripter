@@ -205,17 +205,23 @@ inherited LLMChatForm: TLLMChatForm
             ImageName = 'Setup'
             Options = [tboDropdownArrow]
             OnInitPopup = spiSettingsInitPopup
-            object spiOpenai: TSpTBXItem
-              Caption = 'OpenAI'
-              Hint = 'Use OpenAI'
-              AutoCheck = True
-              Checked = True
+            object spiDeepSeek: TSpTBXItem
+              Caption = 'DeepSeek'
+              Hint = 'Use DeepSeek'
               GroupIndex = 1
               OnClick = mnProviderClick
             end
             object spiGemini: TSpTBXItem
               Caption = 'Gemini'
               Hint = 'Use Gemini'
+              GroupIndex = 1
+              OnClick = mnProviderClick
+            end
+            object spiOpenai: TSpTBXItem
+              Caption = 'OpenAI'
+              Hint = 'Use OpenAI'
+              AutoCheck = True
+              Checked = True
               GroupIndex = 1
               OnClick = mnProviderClick
             end
@@ -251,6 +257,11 @@ inherited LLMChatForm: TLLMChatForm
             end
             object spiTimeout: TSpTBXEditItem
               EditCaption = 'Timeout (in seconds):'
+              ExtendedAccept = True
+              OnAcceptText = AcceptSettings
+            end
+            object spiTemperature: TSpTBXEditItem
+              EditCaption = 'Temperature (0.0 to 2.0):'
               ExtendedAccept = True
               OnAcceptText = AcceptSettings
             end

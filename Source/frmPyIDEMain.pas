@@ -588,7 +588,7 @@
           Issues addressed
             #1227, #1271, #1319
 
-   History:   v 5.1.5
+   History:   v 5.1.4
           New Features
             - Multi-caret and multi-selection editing #483
             - Annotated scrollbars
@@ -607,6 +607,8 @@
             - Added support for breakpoint ignore counts
             - Surround editor selection with brackets and quotes
             - Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
+            - Added support for DeepSeek LLM
+            - Exposed the temperature LLM parameter
 
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347

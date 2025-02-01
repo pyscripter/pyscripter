@@ -45,23 +45,27 @@ differences:
 
 *Endpoint*\
 The base URL for accessing the LLM API.  You shouldn't need to change the provided
-defaults (which for OpenAI and Olama are different from chat): 
+defaults (which for OpenAI, DeepSeek and Olama are different from chat): 
 - https://api.openai.com/v1/completions for OpenAI
 - http://localhost:11434/api/generate for Ollama
+- https://api.deepseek.com/beta for DeepSeek
 
 *Model*\
-The model you want to use. Currently the Assistant works only with the following models:
+The model you want to use. Currently the Assistant works with the following models:
 - OpenAI model:\
  **gpt-3.5-turbo-instruct**\
    The reason is that this is the only OpenAI model that has been trained for 
   [Fill-in-the-middle](https://codeium.com/blog/why-code-completion-needs-fill-in-the-middle) 
   (FIM) tasks. And FIM is important for code completion.
-- Gemini model:\
+- Gemini models:\
   **gemini-1.5-flash**, **gemini-1.5-pro** or any newer Gemini model
-- Ollama model:\
+ - Deepseek model:\
+   **deepseek-chat** 
+- Ollama models:\
   Can use any model that supports FIM, such as:
   - **codellama:code** and its variants, e.g. **codellama:7b-code-q6_K** will work
-  - **deepseek-coder-v2** (recommended)
+  - **qwen2.5-coder** (recommended)
+  - **deepseek-coder-v2**
   - **codegemma:code** and its variants, e.g **codegemma:7b-code**
 
 Wider choice of Assistant models will be provided in the future.

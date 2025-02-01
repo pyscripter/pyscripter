@@ -1185,6 +1185,12 @@ object CommandsDataModule: TCommandsDataModule
         ImageName = 'Setup'
         Images = PyIDEMainForm.vilImages
         OnInitPopup = spiSettingsInitPopup
+        object spiDeepSeek: TSpTBXItem
+          Caption = 'DeepSeek'
+          Hint = 'Use DeepSeek'
+          GroupIndex = 1
+          OnClick = mnProviderClick
+        end
         object spiOpenAI: TSpTBXItem
           Caption = 'OpenAI'
           Hint = 'Use OpenAI'
@@ -1232,6 +1238,12 @@ object CommandsDataModule: TCommandsDataModule
         end
         object spiTimeout: TSpTBXEditItem
           EditCaption = 'Timeout (in seconds):'
+          ExtendedAccept = True
+          OnAcceptText = spiAcceptSettings
+        end
+        object spiTemperature: TSpTBXEditItem
+          Caption = 'spiAcceptSettings'
+          EditCaption = 'Temperature (0.0 to 2.0):'
           ExtendedAccept = True
           OnAcceptText = spiAcceptSettings
         end
