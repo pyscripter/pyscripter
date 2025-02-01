@@ -415,7 +415,7 @@ procedure TLLMBase.OnRequestCompleted(const Sender: TObject;
 var
   ResponseData: TBytes;
   ResponseOK: Boolean;
-  ErrMsg, Msg: string;
+  ErrMsg, Msg, Reasoning: string;
 begin
   FHttpResponse := nil;
   DoResponseCompleted(AResponse);
@@ -427,13 +427,25 @@ begin
     SetLength(ResponseData, AResponse.ContentStream.Size);
     AResponse.ContentStream.Read(ResponseData, AResponse.ContentStream.Size);
     var JsonResponse := TJSONValue.ParseJSONValue(ResponseData, 0);
+    GI_PyIDEServices.Logger.Write(JsonResponse.ToJSON);
     try
       if not (JsonResponse.TryGetValue('error.message', ErrMsg)
         or JsonResponse.TryGetValue('error', ErrMsg))
       then
         case FEndPointType of
           etOpenAIChatCompletion:
-            ResponseOK := JsonResponse.TryGetValue('choices[0].message.content', Msg);
+            begin
+              ResponseOK := JsonResponse.TryGetValue('choices[0].message.content', Msg);
+              // for DeepSeek R1 model (deepseek-reasoning)
+              if JsonResponse.TryGetValue('choices[0].message.reasoning_content', Reasoning) then
+              begin
+                 Msg :=
+                   '# Reasoning'  + SLineBreak +
+                   Reasoning + SLineBreak +
+                   '# Answer'  + SLineBreak +
+                   Msg;
+              end;
+            end;
           etOpenAICompletion:
             ResponseOK := JsonResponse.TryGetValue('choices[0].text', Msg);
           etOllamaGenerate:
@@ -593,10 +605,14 @@ function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = '')
     Result := JSON.ToJSON;
   end;
 
-  function NewMessage(const Role, Content: string): TJSONObject;
+  function NewOpenAIMessage(const Role, Content: string): TJSONObject;
   begin
     Result := TJSONObject.Create;
-    Result.AddPair('role', Role);
+    if Settings.Model.StartsWith('o') and (Role = 'system') then
+    // newer OpenAI models do support system messages
+      Result.AddPair('role', 'user')
+    else
+      Result.AddPair('role', Role);
     Result.AddPair('content', Content);
   end;
 
@@ -619,22 +635,26 @@ begin
     etOpenAIChatCompletion:
     begin
       JSON.AddPair('temperature', Settings.Temperature);
-      JSON.AddPair('max_tokens', Settings.MaxTokens);
+      // Newer OpenAI models do not support max_tokens
+      if Settings.Model.StartsWith('o') then
+        JSON.AddPair('max_completion_tokens', Settings.MaxTokens)
+      else
+        JSON.AddPair('max_tokens', Settings.MaxTokens);
     end;
   end;
 
   var Messages := TJSONArray.Create;
   // start with the system message
   if Settings.SystemPrompt <> '' then
-    Messages.Add(NewMessage('system', Settings.SystemPrompt));
+    Messages.Add(NewOpenAIMessage('system', Settings.SystemPrompt));
   // add the history
   for var QAItem in ActiveTopic.QAItems do
   begin
-    Messages.Add(NewMessage('user', QAItem.Prompt));
-    Messages.Add(NewMessage('assistant', QAItem.Answer));
+    Messages.Add(NewOpenAIMessage('user', QAItem.Prompt));
+    Messages.Add(NewOpenAIMessage('assistant', QAItem.Answer));
   end;
   // finally add the new prompt
-  Messages.Add(NewMessage('user', Prompt));
+  Messages.Add(NewOpenAIMessage('user', Prompt));
 
   JSON.AddPair('messages', Messages);
 

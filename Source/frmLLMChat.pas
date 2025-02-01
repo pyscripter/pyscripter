@@ -390,9 +390,9 @@ begin
   var StartLine := BC.Line;
   var EndLine := BC.Line;
 
-  while (StartLine > 1) and  not Editor.Lines[StartLine -1].StartsWith('```') do
+  while (StartLine > 1) and  not Editor.Lines[StartLine -1].TrimLeft.StartsWith('```') do
     Dec(StartLine);
-  while (EndLine < Editor.Lines.Count) and not Editor.Lines[EndLine -1].StartsWith('```') do
+  while (EndLine < Editor.Lines.Count) and not Editor.Lines[EndLine -1].TrimLeft.StartsWith('```') do
     Inc(EndLine);
 
   Result := '';

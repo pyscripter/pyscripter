@@ -265,7 +265,7 @@ procedure TSynMarkdownViewer.SetMarkdown(Value: string);
         Include(CurrLI, liBullet)
       else if RegExps.NumList.IsMatch(Line) then
         Include(CurrLI, liBullet)
-      else if Line.StartsWith('```') then
+      else if Line.TrimLeft.StartsWith('```') then
       begin
         // Start of a code block
         PrevLI := [liCode];
@@ -399,6 +399,8 @@ procedure TSynMarkdownViewer.SetMarkdown(Value: string);
         4, 5, 6: HeaderGuid := FMarkdownIndicators.IdHeadingOther;
       end;
       Line := Copy(Line, Match.Groups[1].Value.Length + 2);
+      // Remove other formatting
+      Line := Line.Trim(['*']);
       LineNo := Lines.Add(Line);
       Indicators.Add(LineNo + 1,
         TSynIndicator.Create(HeaderGuid, 1, Line.Length + 1), False);
