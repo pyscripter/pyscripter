@@ -339,12 +339,12 @@ begin
         Options := Options + [ofAllowMultiSelect];
         if Execute then
         begin
-          for var FileName in Files do
+          for var FName in Files do
           begin
-            if not ActiveProject.HasFile(FileName) then
+            if not ActiveProject.HasFile(FName) then
             begin
               ProjectNode := TProjectFileNode.Create;
-              ProjectNode.FileName := FileName;
+              ProjectNode.FileName := FName;
               Data.ProjectNode.AddChild(ProjectNode);
             end;
           end;
