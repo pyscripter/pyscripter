@@ -2599,6 +2599,10 @@ end;
 procedure TEditorForm.WMSpSkinChange(var Message: TMessage);
 begin
   StyledBorderColors(BorderNormal, BorderHighlight);
+  if HasFocus then
+    BGPanel.Color := BorderHighlight
+  else
+    BGPanel.Color := BorderNormal;
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
   SynEdit.CodeFolding.FolderBarLinesColor := SynEdit.Gutter.Font.Color;
