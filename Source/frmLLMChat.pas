@@ -450,6 +450,7 @@ begin
 
     case LLMChat.Providers.Provider of
       llmProviderOpenAI: LLMChat.Providers.OpenAI := Settings;
+      llmProviderDeepSeek: LLMChat.Providers.DeepSeek := Settings;
       llmProviderGemini: LLMChat.Providers.Gemini := Settings;
       llmProviderOllama: LLMChat.Providers.Ollama := Settings;
     end;

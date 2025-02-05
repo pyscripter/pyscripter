@@ -607,7 +607,7 @@
             - Added support for breakpoint ignore counts
             - Surround editor selection with brackets and quotes
             - Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
-            - Added support for DeepSeek LLM
+            - Added support for DeepSeek and OpenAI "o" LLM models
             - Exposed the temperature LLM parameter
 
           Issues addressed
