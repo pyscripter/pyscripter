@@ -933,10 +933,8 @@ begin
   FontSize := TSynGutter(AProperty).Font.Size;
   TSynGutter(AProperty).ChangeScale(96, Screen.PixelsPerInch);
   TSynGutter(AProperty).Font.Size := FontSize;
-  AStorage.StorageOptions.StoreDefaultValues := True;
   AStorage.WritePersistent(APath, AProperty as TSynGutter, Recursive,
     FGutterIgnoreProperties);
-  AStorage.StorageOptions.StoreDefaultValues := False;
   TSynGutter(AProperty).ChangeScale(Screen.PixelsPerInch, 96);
   TSynGutter(AProperty).Font.Size := FontSize;
 end;

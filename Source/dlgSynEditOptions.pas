@@ -322,28 +322,36 @@ type
     procedure AssignTo(Dest: TPersistent); override;
     property BookMarkOptions: TSynBookMarkOpt read FBookmarks write SetBookMarks;
   published
-    property Options: TSynEditorOptions read FOptions write FOptions;
-    property ScrollOptions: TSynEditorScrollOptions read FScrollOptions write FScrollOptions;
-    property Color: TColor read FColor write FColor;
+    property Options: TSynEditorOptions read FOptions write FOptions
+      default SYNEDIT_DEFAULT_OPTIONS;
+    property ScrollOptions: TSynEditorScrollOptions read FScrollOptions
+      write FScrollOptions default SYNEDIT_DEFAULT_SCROLLOPTIONS;
+    property Color: TColor read FColor write FColor default clWindow;
     property Font: TFont read FFont write SetFont;
-    property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
+    property ExtraLineSpacing: Integer read FExtraLineSpacing
+      write FExtraLineSpacing default 2;
     property Gutter: TSynGutter read FSynGutter write SetSynGutter;
-    property RightEdge: Integer read FRightEdge write FRightEdge;
-    property RightEdgeColor: TColor read FRightEdgeColor write FRightEdgeColor;
-    property WantTabs: Boolean read FWantTabs write FWantTabs;
-    property WordWrap: Boolean read FWordWrap write FWordWrap;
-    property InsertCaret: TSynEditCaretType read FInsertCaret write FInsertCaret;
-    property OverwriteCaret: TSynEditCaretType read FOverwriteCaret write FOverwriteCaret;
-    property HideSelection: Boolean read FHideSelection write FHideSelection;
-    property MaxUndo: Integer read FMaxUndo write FMaxUndo;
+    property RightEdge: Integer read FRightEdge write FRightEdge default 80;
+    property RightEdgeColor: TColor read FRightEdgeColor write FRightEdgeColor
+      default clSilver;
+    property WantTabs: Boolean read FWantTabs write FWantTabs default True;
+    property WordWrap: Boolean read FWordWrap write FWordWrap default False;
+    property InsertCaret: TSynEditCaretType read FInsertCaret
+      write FInsertCaret default ctVerticalLine;
+    property OverwriteCaret: TSynEditCaretType read FOverwriteCaret
+      write FOverwriteCaret default ctBlock;
+    property HideSelection: Boolean read FHideSelection write FHideSelection
+      default False;
+    property MaxUndo: Integer read FMaxUndo write FMaxUndo default 0;
     property SelectedColor: TSynSelectedColor read FSelectedColor;
     property IndentGuides: TSynIndentGuides read FIndentGuides;
     property DisplayFlowControl: TSynDisplayFlowControl read FDisplayFlowControl;
-    property TabWidth: Integer read FTabWidth write FTabWidth;
+    property TabWidth: Integer read FTabWidth write FTabWidth default 8;
     property Keystrokes: TSynEditKeyStrokes read FKeystrokes write SetKeystrokes;
-    property ActiveLineColor: TColor read FActiveLineColor write FActiveLineColor;
+    property ActiveLineColor: TColor read FActiveLineColor
+      write FActiveLineColor default clNone;
     property VisibleSpecialChars: TSynVisibleSpecialChars
-      read FVisibleSpecialChars write FVisibleSpecialChars;
+      read FVisibleSpecialChars write FVisibleSpecialChars default [];
   end;
 
 implementation
@@ -653,21 +661,21 @@ begin
   {$IF CompilerVersion >= 36}
   FFont.IsScreenFont := True;
   {$ENDIF}
-  Color := clWindow;
-  Keystrokes.ResetDefaults;
-  Options := SYNEDIT_DEFAULT_OPTIONS;
-  ScrollOptions := SYNEDIT_DEFAULT_SCROLLOPTIONS;
-  ExtraLineSpacing := 0;
-  HideSelection := False;
-  InsertCaret := ctVerticalLine;
-  OverwriteCaret := ctBlock;
-  MaxUndo := 0;
-  RightEdge := 80;
-  RightEdgeColor := clSilver;
+  FColor := clWindow;
+  FKeystrokes.ResetDefaults;
+  FOptions := SYNEDIT_DEFAULT_OPTIONS;
+  FScrollOptions := SYNEDIT_DEFAULT_SCROLLOPTIONS;
+  FExtraLineSpacing := 2;
+  FHideSelection := False;
+  FInsertCaret := ctVerticalLine;
+  FOverwriteCaret := ctBlock;
+  FMaxUndo := 0;
+  FRightEdge := 80;
+  FRightEdgeColor := clSilver;
   FActiveLineColor := clNone;
-  TabWidth := 8;
-  WantTabs := True;
-  WordWrap := False;
+  FTabWidth := 8;
+  FWantTabs := True;
+  FWordWrap := False;
 end;
 
 destructor TSynEditorOptionsContainer.Destroy;
@@ -1006,7 +1014,7 @@ begin
     if (FSynEdit.ActiveLineColor <> clNone) and Assigned(SynThemeSample.Highlighter) then
     begin
       LineColor := SynThemeSample.Highlighter.WhitespaceAttribute.Background;
-      // Only change if we swithcing from dart to light or vice versa.
+      // Only change if we switching from dart to light or vice versa.
       if IsColorDark(LineColor) xor IsColorDark(FBgColor) then
       begin
         if IsColorDark(LineColor) then
