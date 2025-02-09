@@ -240,6 +240,9 @@ function IsFileBlocked(const FileName: string): Boolean;
 {Unblock a file downloaded from the Internet}
 procedure UnblockFile(const FileName: string);
 
+(* Replaces <>"& with HTML entities *)
+function HTMLEncode(const Str: string): string;
+
 type
   TMatchHelper = record helper for TMatch
   public
@@ -468,25 +471,15 @@ end;
 (* from cStrings end *)
 
 function LightenColor(Color: TColor; Percentage: Integer): TColor;
-var
-   wRGB, wR, wG, wB: LongInt;
 begin
-   wRGB := ColorToRGB(Color);
-   wR := Min(Round(GetRValue(wRGB) * (1+(Percentage / 100))), 255);
-   wG := Min(Round(GetGValue(wRGB) * (1+(Percentage / 100))), 255);
-   wB := Min(Round(GetBValue(wRGB) * (1+(Percentage / 100))), 255);
-   Result := RGB(wR, wG, wB);
+   Result := Winapi.ShLwApi.ColorAdjustLuma(ColorToRGB(Color),
+     Percentage * 10, True);
 end;
 
 function DarkenColor(Color: TColor; Percentage: Integer): TColor;
-var
-   wRGB, wR, wG, wB: LongInt;
 begin
-   wRGB := ColorToRGB(Color);
-   wR := Round(GetRValue(wRGB) / (1+(Percentage / 100)));
-   wG := Round(GetGValue(wRGB) / (1+(Percentage / 100)));
-   wB := Round(GetBValue(wRGB) / (1+(Percentage / 100)));
-   Result := RGB(wR, wG, wB);
+   Result := Winapi.ShLwApi.ColorAdjustLuma(ColorToRGB(Color),
+      -Percentage * 10, True);
 end;
 
 function ApplicationVersion: string;
@@ -1952,6 +1945,31 @@ begin
   begin
     CloseHandle(FileHandle);
     DeleteFile(PChar(FileName + STREAM_NAME));
+  end;
+end;
+
+function HTMLEncode(const Str: string): string;
+var
+  Chr: Char;
+  SB: TStringBuilder;
+begin
+  if Str = '' then Exit('');
+
+  SB := TStringBuilder.Create(Length(Str) * 2); // Initial capacity estimate
+  try
+    for Chr in Str do
+    begin
+      case Chr of
+        '&': SB.Append('&amp;');
+        '"': SB.Append('&quot;');
+        '<': SB.Append('&lt;');
+        '>': SB.Append('&gt;');
+        else SB.Append(Chr);
+      end;
+    end;
+    Result := SB.ToString;
+  finally
+    SB.Free;
   end;
 end;
 
