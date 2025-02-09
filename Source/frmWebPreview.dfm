@@ -75,6 +75,8 @@ object WebPreviewForm: TWebPreviewForm
     Align = alClient
     TabOrder = 0
     TabStop = True
+    AllowSingleSignOnUsingOSPrimaryAccount = False
+    TargetCompatibleBrowserVersion = '117.0.2045.28'
     UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
     OnCreateWebViewCompleted = WebBrowserCreateWebViewCompleted
     OnExecuteScript = WebBrowserExecuteScript

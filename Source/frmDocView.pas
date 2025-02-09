@@ -53,6 +53,7 @@ type
     procedure WebBrowserHistoryChanged(Sender: TCustomEdgeBrowser);
   private
     FSaveFileName: string;
+    FHtml: string;
     procedure UpdateView(Editor: IEditor);
   end;
 
@@ -112,7 +113,7 @@ end;
 
 procedure TDocForm.ToolButtonPrintClick(Sender: TObject);
 begin
-  WebBrowser.ExecuteScript('window.print();');
+  WebBrowser.ShowPrintUI(TEdgeBrowser.TPrintUIDialogKind.Browser);
 end;
 
 procedure TDocForm.ToolButtonSaveClick(Sender: TObject);
@@ -124,7 +125,6 @@ end;
 procedure TDocForm.UpdateView(Editor: IEditor);
 var
   Py: IPyEngineAndGIL;
-  HTML: string;
   Module: Variant;
   Cursor: IInterface;
 begin
@@ -134,22 +134,18 @@ begin
   Cursor := WaitCursor;
 
   Module := PyControl.ActiveInterpreter.ImportModule(Editor);
-  HTML := PyControl.ActiveInterpreter.PyInteractiveInterpreter.htmldoc(Module);
+  FHtml := PyControl.ActiveInterpreter.PyInteractiveInterpreter.htmldoc(Module);
 
   WebBrowser.CreateWebView;
-  while WebBrowser.BrowserControlState in [TEdgeBrowser.TBrowserControlState.None,
-    TEdgeBrowser.TBrowserControlState.Creating]
-  do
-    Application.ProcessMessages;
-
-  WebBrowser.NavigateToString(HTML);
 end;
 
 procedure TDocForm.WebBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
     AResult: HRESULT);
 begin
   if WebBrowser.BrowserControlState <> TEdgeBrowser.TBrowserControlState.Created then
-    StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0)
+  else
+    WebBrowser.NavigateToString(FHtml);
 end;
 
 procedure TDocForm.WebBrowserExecuteScript(Sender: TCustomEdgeBrowser; AResult:
@@ -217,10 +213,5 @@ initialization
   //  This unit must be initialized after frmEditor
   if Assigned(GI_EditorFactory) then
     GI_EditorFactory.RegisterViewFactory(TDocView.Create as IEditorViewFactory);
-  OleInitialize(nil);
-
-finalization
-  OleUninitialize;
-
 end.
 

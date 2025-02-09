@@ -58,6 +58,8 @@ type
     FSaveFileName: string;
     procedure UpdateView(Editor: IEditor);
   private
+    FIsNotebook: Boolean;
+    FHtml: string;
     class var FExternalTool: TExternalTool;
     class constructor Create;
     class destructor Destroy;
@@ -148,7 +150,7 @@ end;
 
 procedure TWebPreviewForm.ToolButtonPrintClick(Sender: TObject);
 begin
-  WebBrowser.ExecuteScript('window.print();');
+  WebBrowser.ShowPrintUI(TEdgeBrowser.TPrintUIDialogKind.Browser);
 end;
 
 procedure TWebPreviewForm.ToolButtonSaveClick(Sender: TObject);
@@ -163,16 +165,15 @@ begin
   if Assigned(Editor.SynEdit.Highlighter) and
     (Editor.SynEdit.Highlighter = ResourcesDataModule.SynJSONSyn) then
   begin
+    FIsNotebook := True;
     var FName := TPath.GetFileName(Editor.FileName);
     FName := StringReplace(FName, ' ', '%20', [rfReplaceAll]);
     WebBrowser.Navigate('http://localhost:8888/notebooks/'+FName);
-  end else begin
+  end
+  else
+  begin
+    FHtml := Editor.SynEdit.Text;
     WebBrowser.CreateWebView;
-    while WebBrowser.BrowserControlState in [TEdgeBrowser.TBrowserControlState.None,
-      TEdgeBrowser.TBrowserControlState.Creating]
-    do
-      Application.ProcessMessages;
-    WebBrowser.NavigateToString(Editor.SynEdit.Text);
   end;
 end;
 
@@ -180,7 +181,9 @@ procedure TWebPreviewForm.WebBrowserCreateWebViewCompleted(Sender:
     TCustomEdgeBrowser; AResult: HRESULT);
 begin
   if WebBrowser.BrowserControlState <> TEdgeBrowser.TBrowserControlState.Created then
-    StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0);
+    StyledMessageDlg(_(SWebView2Error), mtError, [mbOK], 0)
+  else if not FIsNotebook then
+    WebBrowser.NavigateToString(FHtml);
 end;
 
 procedure TWebPreviewForm.WebBrowserExecuteScript(Sender: TCustomEdgeBrowser;
@@ -279,10 +282,5 @@ initialization
   //  This unit must be initialized after frmEditor
   if Assigned(GI_EditorFactory) then
     WebPreviewFactoryIndex := GI_EditorFactory.RegisterViewFactory(TWebPreviewView.Create as IEditorViewFactory);
-  OleInitialize(nil);
-
-finalization
-  OleUninitialize;
-
 end.
 
