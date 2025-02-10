@@ -612,7 +612,7 @@
               - Added support for DeepSeek
               - Added support for DeepSeek and OpenAI "o" LLM reasoning models
               - Improved display of LLM output
-              - Synax Highligting for 300 languges
+              - Syntax Highligting for 300 languges
               - Exposed the temperature LLM parameter
               - Printing of LLM output
             - Debugging
