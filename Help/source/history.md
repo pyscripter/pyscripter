@@ -3,7 +3,7 @@
 
 # History
 
-### Version 5.2 (Feburay 10, 2025)
+### Version 5.2.1 (Feburay 10, 2025)
 
 * *New features:*
 	+ [LLM Suport improvements](https://pyscripter.blogspot.com/2025/02/deepseek-and-other-improvements-to-llm.html)

@@ -606,7 +606,7 @@
           Issues addressed
             #1307, #1321, #1329, #1336, #1341, #1346, #1347, #1358
 
-   History:   v 5.2
+   History:   v 5.2.1
           New Features
             - LLM Suport improvements
               - Added support for DeepSeek
@@ -4680,8 +4680,10 @@ procedure TPyIDEMainForm.tbiRecentFileListClick(Sender: TObject;
   const Filename: string);
 begin
   GI_EditorFactory.OpenFile(Filename, '', TabControlIndex(ActiveTabControl));
-  // A bit problematic since it Frees the MRU Item which calls this click handler
-  tbiRecentFileList.MRURemove(Filename);
+  TThread.ForceQueue(nil, procedure
+  begin
+    tbiRecentFileList.MRURemove(Filename);
+  end);
 end;
 
 procedure TPyIDEMainForm.tbiRecentProjectsClick(Sender: TObject;
