@@ -1155,6 +1155,7 @@ object CommandsDataModule: TCommandsDataModule
     end
   end
   object pmAssistant: TSpTBXPopupMenu
+    Images = PyIDEMainForm.vilImages
     Left = 168
     Top = 164
     object spiAssistant: TSpTBXSubmenuItem
@@ -1189,7 +1190,20 @@ object CommandsDataModule: TCommandsDataModule
           Caption = 'DeepSeek'
           Hint = 'Use DeepSeek'
           GroupIndex = 1
+          ImageIndex = 108
+          ImageName = 'DeepSeek'
           OnClick = mnProviderClick
+          OnDrawImage = HighlightCheckedImg
+        end
+        object spiGemini: TSpTBXItem
+          Caption = 'Gemini'
+          Hint = 'Use Gemini'
+          AutoCheck = True
+          GroupIndex = 1
+          ImageIndex = 110
+          ImageName = 'Gemini'
+          OnClick = mnProviderClick
+          OnDrawImage = HighlightCheckedImg
         end
         object spiOpenAI: TSpTBXItem
           Caption = 'OpenAI'
@@ -1197,21 +1211,20 @@ object CommandsDataModule: TCommandsDataModule
           AutoCheck = True
           Checked = True
           GroupIndex = 1
+          ImageIndex = 109
+          ImageName = 'OpenAI'
           OnClick = mnProviderClick
-        end
-        object spiGemini: TSpTBXItem
-          Caption = 'Gemini'
-          Hint = 'Use Gemini'
-          AutoCheck = True
-          GroupIndex = 1
-          OnClick = mnProviderClick
+          OnDrawImage = HighlightCheckedImg
         end
         object spiOllama: TSpTBXItem
           Caption = 'Ollama'
           Hint = 'Use Ollama'
           AutoCheck = True
           GroupIndex = 1
+          ImageIndex = 107
+          ImageName = 'Ollama'
           OnClick = mnProviderClick
+          OnDrawImage = HighlightCheckedImg
         end
         object SpTBXSeparatorItem1: TSpTBXSeparatorItem
         end

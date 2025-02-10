@@ -347,6 +347,7 @@ const
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
   SNoJupyter = 'The ''jupyter'' package is not available.' + sLineBreak + 'Please install ''jupyter'' first.';
   SWebView2Error = 'The WebView2 control creation failed.' + sLineBreak +  'Please install the WebView2 runtime';
+  SWebNavigationError = 'Error in loading html in the browser';
   SExternalProcessRunning = 'An external process is still running.' + sLineBreak +
                             'Please terminate it first from the ''Output'' window.';
   SDictionaryNA = 'The dictionary for language code "%s" is not available.' + sLineBreak +

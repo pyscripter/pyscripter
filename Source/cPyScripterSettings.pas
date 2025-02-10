@@ -1195,7 +1195,6 @@ begin
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;
-    ActiveLineColor := $303030;
 
     RegisterEditorUserCommands(EditorOptions.Keystrokes);
   end;

@@ -602,16 +602,28 @@
             - The Chat Window renders Markdown
             - The Assistant can use a greater variety of Ollama models
             - Layouts now include the secondary workspace status (#494)
-            - Debugging improvements for python >= 3.10
-            - Much faster debugging for python >= 3.13
-            - Added support for breakpoint ignore counts
-            - Surround editor selection with brackets and quotes
-            - Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
-            - Added support for DeepSeek and OpenAI "o" LLM models
-            - Exposed the temperature LLM parameter
 
           Issues addressed
-            #1307, #1321, #1329, #1336, #1341, #1346, #1347
+            #1307, #1321, #1329, #1336, #1341, #1346, #1347, #1358
+
+   History:   v 5.2
+          New Features
+            - LLM Suport improvements
+              - Added support for DeepSeek
+              - Added support for DeepSeek and OpenAI "o" LLM reasoning models
+              - Improved display of LLM output
+              - Synax Highligting for 300 languges
+              - Exposed the temperature LLM parameter
+              - Printing of LLM output
+            - Debugging
+              - Much faster debugging for python >= 3.13
+              - Debugging improvements for python >= 3.10
+              - Added support for breakpoint ignore counts
+            - Surround editor selection with brackets and quotes
+            - Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
+
+          Issues addressed
+            #1358
 
  {------------------------------------------------------------------------------}
 
@@ -1559,7 +1571,6 @@ begin
   FindResultsWindow := TFindResultsWindow.Create(Self);
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
   LLMChatForm := TLLMChatForm.Create(Self);
-
 
   // And now translate after all the docking forms have been created
   // They will be translated as well

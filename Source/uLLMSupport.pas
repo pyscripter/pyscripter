@@ -58,7 +58,8 @@ type
   TQAItem = record
     Prompt: string;
     Answer: string;
-    constructor Create(const AQuestion, AnAnswer: string);
+    Reason: string;
+    constructor Create(const AQuestion, AnAnswer, Reason: string);
   end;
 
   TChatTopic = record
@@ -67,7 +68,7 @@ type
   end;
   TChatTopics = TArray<TChatTopic>;
 
-  TOnLLMResponseEvent = procedure(Sender: TObject; const Prompt, Answer: string) of object;
+  TOnLLMResponseEvent = procedure(Sender: TObject; const Prompt, Answer, Reason: string) of object;
   TOnLLMErrorEvent = procedure(Sender: TObject; const Error: string) of object;
 
   TLLMBase = class
@@ -87,7 +88,7 @@ type
     FSerializer: TJsonSerializer;
     procedure DoResponseCompleted(const AResponse: IHTTPResponse); virtual;
     procedure DoResponseCreated(const AResponse: IHTTPResponse); virtual;
-    procedure DoResponseOK(const Msg: string); virtual;
+    procedure DoResponseOK(const Msg, Reason: string); virtual;
     function RequestParams(const Prompt: string; const Suffix: string = ''): string; virtual; abstract;
     // Gemini support
     procedure AddGeminiSystemPrompt(Params: TJSONObject);
@@ -114,7 +115,7 @@ type
 
   TLLMChat = class(TLLMBase)
   protected
-    procedure DoResponseOK(const Msg: string); override;
+    procedure DoResponseOK(const Msg, Reason: string); override;
     function RequestParams(const Prompt: string; const Suffix: string = ''): string; override;
   public
     ActiveTopicIndex: Integer;
@@ -145,7 +146,7 @@ type
     const MaxSuffixLines = 50;
     procedure DoResponseCompleted(const AResponse: IHTTPResponse); override;
     procedure DoResponseCreated(const AResponse: IHTTPResponse); override;
-    procedure DoResponseOK(const Msg: string); override;
+    procedure DoResponseOK(const Msg, Reason: string); override;
     procedure ShowError(Sender: TObject; const Error: string);
     function RequestParams(const Prompt: string; const Suffix: string = ''): string; override;
   public
@@ -169,7 +170,7 @@ const
     ApiKey: '';
     Model: 'gpt-4o';
     TimeOut: 20000;
-    MaxTokens: 1000;
+    MaxTokens: 2000;
     Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
 
@@ -187,16 +188,16 @@ const
     ApiKey: '';
     Model: 'gemini-1.5-flash';
     TimeOut: 20000;
-    MaxTokens: 1000;
+    MaxTokens: 2000;
     Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
 
-  DeepSeelChatSettings: TLLMSettings = (
+  DeepSeekChatSettings: TLLMSettings = (
     EndPoint: 'https://api.deepseek.com/chat/completions';
     ApiKey: '';
     Model: 'deepseek-chat';
     TimeOut: 20000;
-    MaxTokens: 1000;
+    MaxTokens: 3000;
     Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
 
@@ -217,7 +218,7 @@ const
     //Model: 'starcoder2';
     //Model: 'stable-code';
     TimeOut: 60000;
-    MaxTokens: 1000;
+    MaxTokens: 2000;
     Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
 
@@ -367,7 +368,7 @@ begin
   // Do Nothing
 end;
 
-procedure TLLMBase.DoResponseOK(const Msg: string);
+procedure TLLMBase.DoResponseOK(const Msg, Reason: string);
 begin
   // Do nothing
 end;
@@ -415,7 +416,7 @@ procedure TLLMBase.OnRequestCompleted(const Sender: TObject;
 var
   ResponseData: TBytes;
   ResponseOK: Boolean;
-  ErrMsg, Msg, Reasoning: string;
+  ErrMsg, Msg, Reason: string;
 begin
   FHttpResponse := nil;
   DoResponseCompleted(AResponse);
@@ -436,15 +437,8 @@ begin
           etOpenAIChatCompletion:
             begin
               ResponseOK := JsonResponse.TryGetValue('choices[0].message.content', Msg);
-              // for DeepSeek R1 model (deepseek-reasoning)
-              if JsonResponse.TryGetValue('choices[0].message.reasoning_content', Reasoning) then
-              begin
-                 Msg :=
-                   '# Reasoning'  + SLineBreak +
-                   Reasoning + SLineBreak +
-                   '# Answer'  + SLineBreak +
-                   Msg;
-              end;
+              // for DeepSeek R1 model (deepseek-reasoner)
+              JsonResponse.TryGetValue('choices[0].message.reasoning_content', Reason);
             end;
           etOpenAICompletion:
             ResponseOK := JsonResponse.TryGetValue('choices[0].text', Msg);
@@ -463,9 +457,9 @@ begin
 
   if ResponseOK then
   begin
-    DoResponseOK(Msg);
+    DoResponseOK(Msg, Reason);
     if Assigned(FOnLLMResponse)  then
-      FOnLLMResponse(Self, FLastPrompt, Msg);
+      FOnLLMResponse(Self, FLastPrompt, Msg, Reason);
   end
   else
   begin
@@ -530,7 +524,7 @@ constructor TLLMChat.Create;
 begin
   inherited;
   Providers.Provider := llmProviderOpenAI;
-  Providers.DeepSeek := DeepSeelChatSettings;
+  Providers.DeepSeek := DeepSeekChatSettings;
   Providers.OpenAI := OpenaiChatSettings;
   Providers.Ollama := OllamaChatSettings;
   Providers.Gemini := GeminiSettings;
@@ -539,9 +533,9 @@ begin
   ActiveTopicIndex := 0;
 end;
 
-procedure TLLMChat.DoResponseOK(const Msg: string);
+procedure TLLMChat.DoResponseOK(const Msg, Reason: string);
 begin
-  ChatTopics[ActiveTopicIndex].QAItems := ActiveTopic.QAItems + [TQAItem.Create(FLastPrompt, Msg)];
+  ChatTopics[ActiveTopicIndex].QAItems := ActiveTopic.QAItems + [TQAItem.Create(FLastPrompt, Msg, Reason)];
 end;
 
 procedure TLLMChat.LoadChat(const FName: string);
@@ -690,10 +684,11 @@ end;
 
 { TQAItem }
 
-constructor TQAItem.Create(const AQuestion, AnAnswer: string);
+constructor TQAItem.Create(const AQuestion, AnAnswer, Reason: string);
 begin
   Self.Prompt := AQuestion;
   Self.Answer := AnAnswer;
+  Self.Reason := Reason;
 end;
 
 { TLLMSettings }
@@ -716,7 +711,7 @@ begin
       Result := etOllamaGenerate
     else if EndPoint.EndsWith('api/chat') then
       Result := etOllamaChat;
-  end
+  end;
 end;
 
 function TLLMSettings.IsLocal: Boolean;
@@ -794,7 +789,7 @@ begin
     _('Assistant is busy. Click to cancel.'), DoCancelRequest);
 end;
 
-procedure TLLMAssistant.DoResponseOK(const Msg: string);
+procedure TLLMAssistant.DoResponseOK(const Msg, Reason: string);
 
   procedure RemoveLeadingLB(var S: string);
   var

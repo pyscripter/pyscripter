@@ -102,36 +102,6 @@ inherited LLMChatForm: TLLMChatForm
           WordWrap = True
         end
       end
-      object ScrollBox: TScrollBox
-        Left = 0
-        Top = 34
-        Width = 582
-        Height = 527
-        HorzScrollBar.Visible = False
-        VertScrollBar.Tracking = True
-        Align = alClient
-        ParentBackground = True
-        TabOrder = 1
-        StyleElements = [seFont, seBorder]
-        object QAStackPanel: TStackPanel
-          Left = 0
-          Top = 0
-          Width = 580
-          Height = 23
-          Align = alTop
-          AutoSize = True
-          BevelOuter = bvNone
-          ControlCollection = <>
-          DoubleBuffered = False
-          FullRepaint = False
-          HorizontalPositioning = sphpFill
-          ParentBackground = False
-          ParentDoubleBuffered = False
-          StyleElements = []
-          StyleName = 'Windows'
-          TabOrder = 0
-        end
-      end
       object Splitter: TSpTBXSplitter
         Left = 0
         Top = 561
@@ -182,21 +152,26 @@ inherited LLMChatForm: TLLMChatForm
             ImageIndex = 15
             ImageName = 'ChatNext'
           end
+          object SpTBXSeparatorItem5: TSpTBXSeparatorItem
+          end
+          object spiTitle: TSpTBXItem
+            Action = actTopicTitle
+          end
           object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object spiPrint: TTBItem
+            Action = actPrint
           end
           object spiSave: TSpTBXItem
             Action = actChatSave
           end
           object SpTBXSeparatorItem4: TSpTBXSeparatorItem
           end
-          object spiTitle: TSpTBXItem
-            Action = actTopicTitle
-          end
           object spiCancel: TTBItem
             Action = actCancelRequest
           end
           object SpTBXRightAlignSpacerItem: TSpTBXRightAlignSpacerItem
-            CustomWidth = 304
+            CustomWidth = 267
           end
           object spiSettings: TSpTBXSubmenuItem
             Caption = 'Settings'
@@ -209,13 +184,19 @@ inherited LLMChatForm: TLLMChatForm
               Caption = 'DeepSeek'
               Hint = 'Use DeepSeek'
               GroupIndex = 1
+              ImageIndex = 18
+              ImageName = 'DeepSeek'
               OnClick = mnProviderClick
+              OnDrawImage = HighlightCheckedImg
             end
             object spiGemini: TSpTBXItem
               Caption = 'Gemini'
               Hint = 'Use Gemini'
               GroupIndex = 1
+              ImageIndex = 20
+              ImageName = 'Gemini'
               OnClick = mnProviderClick
+              OnDrawImage = HighlightCheckedImg
             end
             object spiOpenai: TSpTBXItem
               Caption = 'OpenAI'
@@ -223,14 +204,20 @@ inherited LLMChatForm: TLLMChatForm
               AutoCheck = True
               Checked = True
               GroupIndex = 1
+              ImageIndex = 19
+              ImageName = 'OpenAI'
               OnClick = mnProviderClick
+              OnDrawImage = HighlightCheckedImg
             end
             object spiOllama: TSpTBXItem
               Caption = 'Ollama'
               Hint = 'Use Ollama'
               AutoCheck = True
               GroupIndex = 1
+              ImageIndex = 17
+              ImageName = 'Ollama'
               OnClick = mnProviderClick
+              OnDrawImage = HighlightCheckedImg
             end
             object SpTBXSeparatorItem6: TSpTBXSeparatorItem
             end
@@ -277,6 +264,28 @@ inherited LLMChatForm: TLLMChatForm
             end
           end
         end
+      end
+      object EdgeBrowser: TEdgeBrowser
+        Left = 0
+        Top = 34
+        Width = 582
+        Height = 527
+        Align = alClient
+        TabOrder = 4
+        AllowSingleSignOnUsingOSPrimaryAccount = False
+        TargetCompatibleBrowserVersion = '117.0.2045.28'
+        UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
+        OnCreateWebViewCompleted = EdgeBrowserCreateWebViewCompleted
+        OnNavigationCompleted = EdgeBrowserNavigationCompleted
+        OnWebMessageReceived = EdgeBrowserWebMessageReceived
+      end
+      object pnlBrowserCover: TPanel
+        Left = 0
+        Top = 34
+        Width = 582
+        Height = 527
+        Align = alClient
+        TabOrder = 3
       end
     end
   end
@@ -369,6 +378,31 @@ inherited LLMChatForm: TLLMChatForm
         CollectionIndex = 17
         CollectionName = 'Chat\ChatPrev'
         Name = 'ChatPrev'
+      end
+      item
+        CollectionIndex = 153
+        CollectionName = 'LLMProviders\Ollama'
+        Name = 'Ollama'
+      end
+      item
+        CollectionIndex = 154
+        CollectionName = 'LLMProviders\DeepSeek'
+        Name = 'DeepSeek'
+      end
+      item
+        CollectionIndex = 155
+        CollectionName = 'LLMProviders\OpenAI'
+        Name = 'OpenAI'
+      end
+      item
+        CollectionIndex = 156
+        CollectionName = 'LLMProviders\Gemini'
+        Name = 'Gemini'
+      end
+      item
+        CollectionIndex = 79
+        CollectionName = 'Print'
+        Name = 'Print'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     Width = 24
@@ -421,14 +455,6 @@ inherited LLMChatForm: TLLMChatForm
       ImageName = 'ArrowRight'
       OnExecute = actChatNextExecute
     end
-    object actCopyText: TAction
-      Category = 'Chat'
-      Caption = 'Copy '
-      Hint = 'Copy text'
-      ImageIndex = 4
-      ImageName = 'Copy'
-      OnExecute = actCopyTextExecute
-    end
     object actAskQuestion: TAction
       Category = 'Chat'
       Hint = 'Ask question'
@@ -452,25 +478,14 @@ inherited LLMChatForm: TLLMChatForm
       ImageName = 'Delete'
       OnExecute = actCancelRequestExecute
     end
-    object actCopyCode: TAction
+    object actPrint: TAction
       Category = 'Chat'
-      Caption = 'Copy Code'
-      Hint = 'Copy the python code'
-      OnExecute = actCopyCodeExecute
+      Caption = 'Print'
+      Hint = 'Print chat topic'
+      ImageIndex = 21
+      ImageName = 'Print'
+      OnExecute = actPrintExecute
     end
-    object actCopyToNewEditor: TAction
-      Category = 'Chat'
-      Caption = 'Copy Code to New Editor'
-      Hint = 'Copy the python code to a new editor'
-      ImageIndex = 14
-      ImageName = 'PythonScript'
-      OnExecute = actCopyToNewEditorExecute
-    end
-  end
-  object AppEvents: TApplicationEvents
-    OnMessage = AppEventsMessage
-    Left = 32
-    Top = 320
   end
   object SynMultiSyn: TSynMultiSyn
     Schemes = <
@@ -505,23 +520,6 @@ inherited LLMChatForm: TLLMChatForm
     object mnSpelling: TSpTBXSubmenuItem
       Caption = 'Spelling'
       LinkSubitems = CommandsDataModule.mnSpelling
-    end
-  end
-  object pmTextMenu: TSpTBXPopupMenu
-    Images = vilImages
-    OnPopup = pmTextMenuPopup
-    Left = 32
-    Top = 152
-    object mnCopyText: TSpTBXItem
-      Action = actCopyText
-    end
-    object SpTBXItem1: TSpTBXItem
-      Action = actCopyCode
-    end
-    object SpTBXSeparatorItem5: TSpTBXSeparatorItem
-    end
-    object SpTBXItem2: TSpTBXItem
-      Action = actCopyToNewEditor
     end
   end
 end

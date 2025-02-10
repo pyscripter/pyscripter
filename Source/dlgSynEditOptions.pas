@@ -1018,9 +1018,9 @@ begin
       if IsColorDark(LineColor) xor IsColorDark(FBgColor) then
       begin
         if IsColorDark(LineColor) then
-          cbActiveLineColor.SelectedColor := LightenColor(LineColor, 20)
+          cbActiveLineColor.SelectedColor := LightenColor(LineColor, 5)
         else
-          cbActiveLineColor.SelectedColor := DarkenColor(LineColor, 20);
+          cbActiveLineColor.SelectedColor := DarkenColor(LineColor, 5);
       end;
     end;
   end;

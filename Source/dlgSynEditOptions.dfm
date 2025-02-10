@@ -15,6 +15,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
     Height = 421
     Align = alClient
     TabOrder = 0
+    DesignSize = (
+      591
+      421)
     object TabControl: TSpTBXTabControl
       Left = 1
       Top = 1
@@ -46,6 +49,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
         Height = 343
         Caption = 'Color Theme'
         ImageIndex = -1
+        DesignSize = (
+          589
+          343)
         TabItem = 'SpTBXTabItem5'
         object SpTBXLabel1: TLabel
           Left = 183
@@ -57,7 +63,7 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
         object SpTBXLabel2: TLabel
           Left = 3
           Top = 12
-          Width = 92
+          Width = 93
           Height = 15
           Caption = 'Available Themes'
         end
@@ -99,6 +105,7 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
             end>
           RightEdge = 0
           ScrollbarAnnotations = <>
+          VisibleSpecialChars = []
         end
         object lbColorThemes: TListBox
           Left = 3
@@ -127,6 +134,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
         Height = 343
         Caption = 'Syntax Colors'
         ImageIndex = -1
+        DesignSize = (
+          589
+          343)
         TabItem = 'SpTBXTabItem4'
         object Label11: TLabel
           Left = 15
@@ -159,7 +169,7 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
         object Label15: TLabel
           Left = 15
           Top = 2
-          Width = 124
+          Width = 123
           Height = 15
           Caption = 'Editor Syntax Language'
         end
@@ -170,6 +180,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
           Height = 69
           Caption = ' Text attributes '
           TabOrder = 4
+          DesignSize = (
+            191
+            69)
           object cbxElementBold: TCheckBox
             Left = 5
             Top = 17
@@ -252,6 +265,7 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
             end>
           RightEdge = 0
           ScrollbarAnnotations = <>
+          VisibleSpecialChars = []
         end
         object cbHighlighters: TComboBox
           Left = 15
@@ -499,6 +513,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
                 end>
               HorizontalPositioning = sphpFill
               TabOrder = 0
+              DesignSize = (
+                286
+                241)
               object ckAutoIndent: TCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -702,6 +719,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
                 end>
               HorizontalPositioning = sphpFill
               TabOrder = 1
+              DesignSize = (
+                287
+                241)
               object ckDisableScrollArrows: TCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -918,6 +938,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
         Height = 343
         Caption = 'Display'
         ImageIndex = -1
+        DesignSize = (
+          589
+          343)
         TabItem = 'SpTBXTabItem1'
         object gbRightEdge: TGroupBox
           Left = 299
@@ -927,6 +950,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
           Anchors = [akTop, akRight]
           Caption = 'Right Edge'
           TabOrder = 5
+          DesignSize = (
+            271
+            80)
           object Label3: TLabel
             Left = 9
             Top = 45
@@ -970,6 +996,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
           Anchors = [akLeft, akRight, akBottom]
           Caption = 'Gutter'
           TabOrder = 2
+          DesignSize = (
+            555
+            124)
           object Label1: TLabel
             Left = 287
             Top = 78
@@ -1170,17 +1199,20 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
           Anchors = [akTop]
           Caption = 'Line spacing / Tab spacing'
           TabOrder = 1
+          DesignSize = (
+            272
+            88)
           object Label8: TLabel
             Left = 23
             Top = 27
-            Width = 136
+            Width = 134
             Height = 15
             Caption = 'Extra line spacing (pixels):'
           end
           object Label9: TLabel
             Left = 23
             Top = 56
-            Width = 56
+            Width = 57
             Height = 15
             Caption = 'Tab Width:'
           end
@@ -1211,6 +1243,9 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
           Anchors = [akTop, akRight]
           Caption = 'Active Line Color'
           TabOrder = 3
+          DesignSize = (
+            271
+            43)
           object cbActiveLineColor: TSpTBXColorEdit
             Left = 48
             Top = 16

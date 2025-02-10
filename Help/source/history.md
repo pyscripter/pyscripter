@@ -3,7 +3,28 @@
 
 # History
 
-### Version 5.1.4 
+### Version 5.2 (Feburay 10, 2025)
+
+* *New features:*
+	+ [LLM Suport improvements](https://pyscripter.blogspot.com/2025/02/deepseek-and-other-improvements-to-llm.html)
+		+ Added support for DeepSeek LLM
+		+ Added support for DeepSeek and OpenAI "o" LLM reasoning models
+		+ Improved display of LLM output
+		+ Synax Highligting for 300 languges
+		+ Exposed the temperature LLM parameter
+		+ Printing of LLM output
+	+ Debugging
+		+ Much [faster debugging](https://pyscripter.blogspot.com/2025/01/teaser-super-fast-debugging-is-coming.html) for python >= 3.13	
+		+ Debugging improvements for python >= 3.10
+		+ Added support for [breakpoint ignore counts](https://pyscripter.blogspot.com/2025/01/breakpoint-conditions-and-ignore-counts.html)
+	+ Surround editor selection with brackets and quotes
+    + Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
+
+* *Issues addressed:*
+	+  *#1347*
+
+
+### Version 5.1.3 (January 7, 2025)
 
 * *New features:*
 	+ [Multi-caret and multi-selection editing](https://pyscripter.blogspot.com/2024/10/teaser-multi-caret-editing-is-coming-to.html) (*#483*)
@@ -18,17 +39,9 @@
     + The Chat Window renders Markdown
 	+ The Assistant can use a greater variety of Ollama models
     + Layouts now include the secondary workspace status (*#494*)
-	+ Debugging improvements for python >= 3.10
-	+ Much [faster debugging](https://pyscripter.blogspot.com/2025/01/teaser-super-fast-debugging-is-coming.html) for python >= 3.13
-	+ Added support for [breakpoint ignore counts](https://pyscripter.blogspot.com/2025/01/breakpoint-conditions-and-ignore-counts.html)
-	+ Surround editor selection with brackets and quotes
-    + Added two new styles: Windows11 MineShaft (new default) and Windows 11 Impressive Light
-    + Added support for DeepSeek LLM
-    + Exposed the temperature LLM parameter
-
 
 * *Issues addressed:*
-	+ *#1307*, *#1321*, *#1329*, *#1336*, *#1341*, *#1346*, *#1347*
+	+ *#1307*, *#1321*, *#1329*, *#1336*, *#1341*, *#1346*
 
 
 

@@ -13,14 +13,14 @@ withoug leaving PyScripter.  It features the following:
 - The chat is organized around multiple topics
 - Each topic can have its own title
 - Can save and restore the chat history and settings
-- Python code is syntax highlighted
-- Python code can be easily copied to a code editor
+- Syntax highlighting for almost all programming languages
+- Python code can be easily copied to the clipboard or a new code editor
 - Within each topic the conversation context is maintained
 - Spell-checking the question/prompt
 
-![graphic](images/chatwindow.png){align=center width="32em" height="30.68em"}
+![graphic](images/chatwindow.png){align=center width="38.1875em" height="32.875em"}
 
-**Toolbar Commands:**
+### Toolbar Commands:
 
 *New Topic*\
 Adds a new chat topic.
@@ -28,19 +28,30 @@ Adds a new chat topic.
 *Remove current topic*\
 Remove the current chat topic.
 
-*Save Chat history*\
-Save chat topics to a Json file called "Chat history.json" in the same directory as 
-PyScripter.ini.  The Chat history is automatically restored whe PyScripter starts.
+*Next/Previous Topic*\
+Show the next/previous topic.
 
 *Title*\
 Provide a title to the current topic.  The topic title is displayed in the window title.
 
-*Next/Previous Topic*\
-Show the next/previous topic.
+*Print*\
+Print the shown chat topic.
+
+*Save Chat history*\
+Save chat topics to a Json file called "Chat history.json" in the same directory as 
+PyScripter.ini.  The Chat history is automatically restored whe PyScripter starts.
 
 *Settings*\
 Shows and allows you to modify the Chat settings (see below).
 
+### Buttons in Code Boxes:
+
+*Copy* (right-most)\
+Copies the code inside the code box to the Clipboard.
+
+*Copy Code to New Editor*\
+Copies the code inside the code box to a new editor, so that you can 
+readily test it.
 
 ## Chat Settings
 
@@ -48,7 +59,7 @@ Chat settings are automatically saved when PyScripter exits and restored when
 PyScripter starts, in a Json file named "Chat Settings.json" in the same directory 
 as PyScripter.ini.
 
-![graphic](images/chatsettings.png){align=center width="23.9em" height="19.3em"}
+![graphic](images/chatsettings.png){align=center width="23.81em" height="19.375em"}
 
 The following settings can be modified:
 
@@ -92,22 +103,6 @@ roughly correspond to words.
 *System prompt* \
 A string providing context to the LLM, e.g. "You are my expert python coding assistant".
 
-## The Chat context menu
-
-![graphic](images/chatcontextmenu.png){align=center width="13.69em" height="5.94em"}
-
-**Commands:**
-
-*Copy*\
-Copies a the question or response under the cursor to the Clipboard.
-
-*Copy Code*\
-Copies the python code under the cursor to the Clipboard.
-
-*Copy Code to New Editor*\
-Copies the python code under the cursor to a new editor, so that you can 
-readliy test it.
-
 ## Entering prompts
 
 When you type a question/prompt you can use [parameters and modifiers](parameters).  For 
@@ -124,8 +119,8 @@ Shift+Ctrl+M.
 
 You can also spell check the prompt by using the prompt context menu.
 
-To submit your request, press *Ctrl+Enter* or click on the chat icon on the right of 
-the question.
+To submit your request, press `Enter` or click on the chat icon on the right of 
+the question.  To add a new line to the prompt editor press `Shift+Enter`.
 
 ---
 

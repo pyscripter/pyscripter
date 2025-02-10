@@ -2743,6 +2743,26 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 12
         CollectionName = 'Cancel'
         Name = 'Cancel'
+      end
+      item
+        CollectionIndex = 153
+        CollectionName = 'LLMProviders\Ollama'
+        Name = 'Ollama'
+      end
+      item
+        CollectionIndex = 154
+        CollectionName = 'LLMProviders\DeepSeek'
+        Name = 'DeepSeek'
+      end
+      item
+        CollectionIndex = 155
+        CollectionName = 'LLMProviders\OpenAI'
+        Name = 'OpenAI'
+      end
+      item
+        CollectionIndex = 156
+        CollectionName = 'LLMProviders\Gemini'
+        Name = 'Gemini'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True

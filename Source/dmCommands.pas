@@ -14,10 +14,12 @@ uses
   System.Types,
   System.Classes,
   System.Actions,
+  Vcl.Graphics,
   Vcl.ActnList,
   Vcl.StdActns,
   Vcl.Menus,
   Vcl.ExtActns,
+  Vcl.ImgList,
   SynEdit,
   SynEditPrint,
   SynEditRegexSearch,
@@ -30,6 +32,7 @@ uses
   JvProgramVersionCheck,
   JvPropertyStore,
   TB2Item,
+  SpTBXSkins,
   SpTBXItem,
   SpTBXEditors,
   VirtualExplorerTree,
@@ -312,6 +315,10 @@ type
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
+    procedure HighlightCheckedImg(Sender: TObject; ACanvas: TCanvas; State:
+        TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage; var AImageList:
+        TCustomImageList; var AImageIndex: Integer; var ARect: TRect; var
+        PaintDefault: Boolean);
     procedure mnProviderClick(Sender: TObject);
     procedure mnSpellingPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure spiAcceptSettings(Sender: TObject; var NewText: string; var
@@ -374,12 +381,12 @@ uses
   System.IOUtils,
   System.IniFiles,
   System.Math,
-  Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.Clipbrd,
   Vcl.BaseImageCollection,
+  Vcl.Themes,
   MPShellUtilities,
   MPCommonUtilities,
   SpTBXMDIMRU,
@@ -2436,6 +2443,19 @@ begin
         Result := Editor as ISearchCommands;
     end;
   end;
+end;
+
+procedure TCommandsDataModule.HighlightCheckedImg(Sender: TObject; ACanvas:
+    TCanvas; State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
+    var AImageList: TCustomImageList; var AImageIndex: Integer; var ARect:
+    TRect; var PaintDefault: Boolean);
+begin
+  if (PaintStage = pstPrePaint) and (Sender as TSpTBXItem).Checked then
+  begin
+    ACanvas.Brush.Color := StyleServices.GetSystemColor(clHighlight);
+    ACanvas.FillRect(ARect);
+  end;
+  PaintDefault := True;
 end;
 
 procedure TCommandsDataModule.mnProviderClick(Sender: TObject);
