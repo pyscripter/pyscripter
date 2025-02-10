@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-02-01 05:05\n"
+"POT-Creation-Date: 2025-02-09 17:25\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -1987,9 +1987,10 @@ msgstr "Zoom|Aumenta/diminuisci zoom"
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
+#. LLMChatForm..ChatActionList..actPrint..Caption
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
 #. Programmer's name for it: SPrint
-#: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPrintPreview.dfm frmDocView.dfm frmLLMChat.dfm frmWebPreview.dfm
 #: dlgSynPrintPreview.pas
 msgid "Print"
 msgstr "Stampa"
@@ -3487,17 +3488,17 @@ msgstr "DeepSeek"
 msgid "Use DeepSeek"
 msgstr "Usa DeepSeek"
 
-#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
-#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
-#: dmCommands.dfm frmLLMChat.dfm
-msgid "Use OpenAI"
-msgstr "Usa OpenAI"
-
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiGemini..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGemini..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use Gemini"
 msgstr "Usa Gemini"
+
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Use OpenAI"
+msgstr "Usa OpenAI"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Hint
@@ -4328,16 +4329,6 @@ msgstr "Argomento successivo chat"
 msgid "Show next chat topic"
 msgstr "Visualizza argomento successivo chat"
 
-#. LLMChatForm..ChatActionList..actCopyText..Caption
-#: frmLLMChat.dfm
-msgid "Copy "
-msgstr "Copia"
-
-#. LLMChatForm..ChatActionList..actCopyText..Hint
-#: frmLLMChat.dfm
-msgid "Copy text"
-msgstr "Copia testo"
-
 #. LLMChatForm..ChatActionList..actAskQuestion..Hint
 #: frmLLMChat.dfm
 msgid "Ask question"
@@ -4363,25 +4354,10 @@ msgstr "Annulla richiesta"
 msgid "Cancel active request"
 msgstr "Annulla richiesta attiva"
 
-#. LLMChatForm..ChatActionList..actCopyCode..Caption
+#. LLMChatForm..ChatActionList..actPrint..Hint
 #: frmLLMChat.dfm
-msgid "Copy Code"
-msgstr "Copia codice"
-
-#. LLMChatForm..ChatActionList..actCopyCode..Hint
-#: frmLLMChat.dfm
-msgid "Copy the python code"
-msgstr "Copia il codice Python"
-
-#. LLMChatForm..ChatActionList..actCopyToNewEditor..Caption
-#: frmLLMChat.dfm
-msgid "Copy Code to New Editor"
-msgstr "Copia codice nel nuovo editor"
-
-#. LLMChatForm..ChatActionList..actCopyToNewEditor..Hint
-#: frmLLMChat.dfm
-msgid "Copy the python code to a new editor"
-msgstr "Copia il codice Python in un nuovo editor"
+msgid "Print chat topic"
+msgstr "Stampa argomento chat"
 
 #. MessagesWindow..Caption
 #: frmMessages.dfm
@@ -6962,6 +6938,10 @@ msgstr "Impossibile leggere le impostazioni della chat"
 msgid "Enter title:"
 msgstr "Inserisci titolo:"
 
+#: frmLLMChat.pas
+msgid "Copy code to new editor"
+msgstr "Copia codice in nuova finestra editor"
+
 #. Programmer's name for it: SFileTemplateCategoryOther
 #: frmModSpTBXCustomize.pas StringResources.pas
 msgid "Other"
@@ -8568,6 +8548,11 @@ msgid ""
 msgstr ""
 "La creazione del controllo WebView2 non è riuscita.\n"
 "Installa il runtime di WebView2"
+
+#. Programmer's name for it: SWebNavigationError
+#: StringResources.pas
+msgid "Error in loading html in the browser"
+msgstr "Errore caricamento HTML nel browser"
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
