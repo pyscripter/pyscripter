@@ -536,7 +536,7 @@ const
 implementation
 
 uses
-  Types, ComStrs, Consts, SysUtils,
+  Types, Themes, ComStrs, Consts, SysUtils,
   {$IFNDEF COMPILER12_UP}
   JvJCLUtils,
   {$ENDIF ~COMPILER12_UP}
@@ -1780,8 +1780,9 @@ begin
   if FAlphaBlendedTab = nil then
   begin
     FAlphaBlendedTab := TJvAlphaBlendedForm.CreateNew(nil);
+    FAlphaBlendedTab.StyleElements := [];
     FAlphaBlendedTab.Visible := False;
-    FAlphaBlendedTab.Color := clHighlight;
+    FAlphaBlendedTab.Color := StyleServices.GetSystemColor(clHighlight);
     FAlphaBlendedTab.AlphaBlend := True;
     FAlphaBlendedTab.AlphaBlendValue := 140;
     FAlphaBlendedTab.BorderIcons := [];
