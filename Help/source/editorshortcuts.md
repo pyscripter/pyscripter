@@ -38,7 +38,7 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Line Start | Home | Move cursor to beginning of line |
 | Lower Case | Ctrl+K, Ctrl+L | Change word at cursor or selection to lower case |
 | Match Bracket | Ctrl+] | Go to matching bracket |
-| Select to Bracket | Shift+Ctrl+] | Go to matching bracket extending the selection |
+| Next Change | Shft+Ctrl+Num+ | Go to next document change |
 | Move  Line Down | Alt+Down | Move  line(s) down |
 | Move  Line Up | Alt+Up | Move  line(s) up |
 | Overwrite mode |  | Set editor mode to overwrite mode |
@@ -49,6 +49,7 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Page Top | Ctrl+PgUp | Move cursor to top of page |
 | Page Up | PgUp | Move cursor up one page |
 | Paste | Ctrl+V     Shft+Insert | Paste Clipboard to current position |
+| Previous Change | Shft+Ctrl+Num- | Go to previous document change |
 | Redo | Shift+Ctrl+Z     Shft+Alt+BkSp | Perform redo if available |
 | Right | Right | Move cursor right one char |
 | Scroll Down | Ctrl+Down | Scroll down one line leaving cursor position unchanged |
@@ -68,6 +69,7 @@ For further IDE commands and keyboard shortcuts see [Keyboard  Shortcuts](keyboa
 | Select Page Top | Shft+Ctrl+PgUp | Extend selection to the top of the page |
 | Select Page Up | Shft+PgUp | Extend selection one page up |
 | Select Right | Shft+Right | Extend selection one char right |
+| Select to Bracket | Shift+Ctrl+] | Go to matching bracket extending the selection |
 | Select Up | Shft+Up | Extend selection one line up |
 | Select Word | Ctrl+W | Select word at caret.  If pressed again, add next occurence to selections. |
 | Select Word Left | Shft+Ctrl+Left | Extend selection one word to the left |
