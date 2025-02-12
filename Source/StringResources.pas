@@ -80,6 +80,8 @@ const
   SEdCmdFoldLevel3 = 'Fold Level 3';
   SEdCmdFoldNearest = 'Fold Nearest';
   SEdCmdFoldRanges = 'Fold Ranges';
+  SEdCmdNextChange = 'Next Change';
+  SEdCmdPreviousChange = 'Previous Change';
   SEdCmdGotoBookmark0 = 'Goto Bookmark 0';
   SEdCmdGotoBookmark1 = 'Goto Bookmark 1';
   SEdCmdGotoBookmark2 = 'Goto Bookmark 2';
