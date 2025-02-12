@@ -625,6 +625,12 @@
           Issues addressed
             #1358
 
+   History:   v 5.2.1
+          New Features
+            - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
+          Issues addressed
+
+
  {------------------------------------------------------------------------------}
 
 // Bugs and minor features
