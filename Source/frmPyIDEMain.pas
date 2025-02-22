@@ -629,7 +629,7 @@
           New Features
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
           Issues addressed
-
+            #1367
 
  {------------------------------------------------------------------------------}
 
