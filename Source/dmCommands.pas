@@ -212,6 +212,7 @@ type
     actDonate: TBrowseURL;
     spiTemperature: TSpTBXEditItem;
     spiDeepSeek: TSpTBXItem;
+    spiGrok: TSpTBXItem;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -2464,6 +2465,8 @@ begin
     LLMAssistant.Providers.Provider := llmProviderOpenAI
   else if Sender = spiDeepSeek then
     LLMAssistant.Providers.Provider := llmProviderDeepSeek
+  else if Sender = spiGrok then
+    LLMAssistant.Providers.Provider := llmProviderGrok
   else if Sender = spiGemini then
     LLMAssistant.Providers.Provider := llmProviderGemini
   else if Sender = spiOllama then
@@ -2747,6 +2750,7 @@ begin
     case LLMAssistant.Providers.Provider of
       llmProviderOpenAI: LLMAssistant.Providers.OpenAI := Settings;
       llmProviderDeepSeek: LLMAssistant.Providers.DeepSeek := Settings;
+      llmProviderGrok: LLMAssistant.Providers.Grok := Settings;
       llmProviderGemini: LLMAssistant.Providers.Gemini := Settings;
       llmProviderOllama: LLMAssistant.Providers.Ollama := Settings;
     end;
@@ -2764,6 +2768,7 @@ begin
   case LLMAssistant.Providers.Provider of
     llmProviderOpenAI: spiOpenAI.Checked := True;
     llmProviderDeepSeek: spiDeepSeek.Checked := True;
+    llmProviderGrok: spiGrok.Checked := True;
     llmProviderGemini: spiGemini.Checked := True;
     llmProviderOllama: spiOllama.Checked := True;
   end;

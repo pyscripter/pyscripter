@@ -1205,6 +1205,13 @@ object CommandsDataModule: TCommandsDataModule
           OnClick = mnProviderClick
           OnDrawImage = HighlightCheckedImg
         end
+        object spiGrok: TSpTBXItem
+          Caption = 'Grok'
+          Hint = 'Use Grok'
+          GroupIndex = 1
+          OnClick = mnProviderClick
+          OnDrawImage = HighlightCheckedImg
+        end
         object spiOpenAI: TSpTBXItem
           Caption = 'OpenAI'
           Hint = 'Use OpenAI'
