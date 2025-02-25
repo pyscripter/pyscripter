@@ -164,16 +164,13 @@ object CommandsDataModule: TCommandsDataModule
       ImageName = 'Undo'
       ShortCut = 16474
     end
-    object actEditRedo: TAction
+    object actEditRedo: TSynEditRedo
       Category = 'Edit'
       Caption = '&Redo'
-      Enabled = False
-      HelpContext = 320
       Hint = 'Redo| Redo last action'
       ImageIndex = 8
       ImageName = 'Redo'
       ShortCut = 24666
-      OnExecute = actEditRedoExecute
     end
     object actEditSelectAll: TEditSelectAll
       Category = 'Edit'

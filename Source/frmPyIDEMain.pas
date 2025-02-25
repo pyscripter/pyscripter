@@ -4324,11 +4324,6 @@ begin
        (Action is TEditCopy) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
        (Action is TEditPaste) and Clipboard.HasFormat(CF_UNICODETEXT);
       Handled := (Action is TEditCut) or (Action is TEditCopy) or (Action is TEditPaste);
-    end
-    else if ((Action is TEditCopy) or (Action is TEditCut)) and Assigned(GI_ActiveEditor) then
-    begin
-      TEditAction(Action).Enabled := True;
-      Handled := True;
     end;
   end;
 end;

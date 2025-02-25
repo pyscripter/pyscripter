@@ -150,7 +150,6 @@ object EditorForm: TEditorForm
             end>
           SelectedColor.Background = clSkyBlue
           TabWidth = 4
-          VisibleSpecialChars = []
           WantTabs = True
           OnChange = SynEditChange
           OnGutterGetText = SynEditGutterGetText
@@ -226,7 +225,6 @@ object EditorForm: TEditorForm
               AnnPos = sbpRight
               FullRow = True
             end>
-          VisibleSpecialChars = []
           OnMouseCursor = SynEditMouseCursor
           OnShowHint = EditorShowHint
           OnSpecialLineColors = SynEditSpecialLineColors

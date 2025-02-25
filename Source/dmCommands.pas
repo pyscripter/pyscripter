@@ -123,7 +123,6 @@ type
     actSearchFindPrev: TAction;
     actSearchFindNext: TAction;
     actSearchFind: TAction;
-    actEditRedo: TAction;
     actFileClose: TAction;
     actFileSaveAs: TAction;
     actFileSave: TAction;
@@ -213,6 +212,7 @@ type
     spiTemperature: TSpTBXEditItem;
     spiDeepSeek: TSpTBXItem;
     spiGrok: TSpTBXItem;
+    actEditRedo: TSynEditRedo;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -225,13 +225,6 @@ type
     procedure actFileSaveAsExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure actFileCloseExecute(Sender: TObject);
-    procedure actEditCutExecute(Sender: TObject);
-    procedure actEditCopyExecute(Sender: TObject);
-    procedure actEditPasteExecute(Sender: TObject);
-    procedure actEditDeleteExecute(Sender: TObject);
-    procedure actEditSelectAllExecute(Sender: TObject);
-    procedure actEditRedoExecute(Sender: TObject);
-    procedure actEditUndoExecute(Sender: TObject);
     procedure actSearchFindExecute(Sender: TObject);
     procedure actSearchFindNextExecute(Sender: TObject);
     procedure actSearchFindPrevExecute(Sender: TObject);
@@ -630,52 +623,10 @@ begin
     (Editor as IFileCommands).ExecClose;
 end;
 
-procedure TCommandsDataModule.actEditCutExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecCut;
-end;
-
-procedure TCommandsDataModule.actEditCopyExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecCopy;
-end;
-
-procedure TCommandsDataModule.actEditPasteExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecPaste;
-end;
-
-procedure TCommandsDataModule.actEditDeleteExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecDelete;
-end;
-
-procedure TCommandsDataModule.actEditSelectAllExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecSelectAll;
-end;
-
 procedure TCommandsDataModule.actEditReadOnlyExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
     GI_ActiveEditor.ReadOnly := not GI_ActiveEditor.ReadOnly;
-end;
-
-procedure TCommandsDataModule.actEditRedoExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecRedo;
-end;
-
-procedure TCommandsDataModule.actEditUndoExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecUndo;
 end;
 
 procedure TCommandsDataModule.actSearchFindExecute(Sender: TObject);
@@ -1760,15 +1711,6 @@ var
   SearchCommands: ISearchCommands;
 begin
   Editor := GI_PyIDEServices.ActiveEditor;
-  // Edit actions
-//  actEditCut.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCut;
-//  actEditCopy.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCopy;
-//  actEditPaste.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanPaste;
-//  actEditDelete.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanDelete;
-//  actEditSelectAll.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanSelectAll;
-//  actEditUndo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanUndo;
-  actEditRedo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanRedo;
-  actEditCopyFileName.Enabled := Assigned(Editor);
 
   actFoldVisible.Enabled := Assigned(GI_ActiveEditor);
   actFoldVisible.Checked := Assigned(GI_ActiveEditor) and
