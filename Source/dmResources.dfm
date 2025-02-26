@@ -33,6 +33,78 @@ object ResourcesDataModule: TResourcesDataModule
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
           '        debugIDE = __import__("DebugIDE")'
           ''
+          '        def __init__(self):'
+          '            super().__init__([])'
+          '            self._sys = __import__("sys")'
+          '            if (3,10)  <= self._sys.version_info < (3,14):'
+          
+            '                self.code_linenos = __import__("weakref").WeakKe' +
+            'yDictionary()'
+          ''
+          
+            '        def set_break(self, filename, lineno, temporary=False, c' +
+            'ond=None,'
+          '                ignore_count=0, funcname=None):'
+          '            filename = self.canonic(filename)'
+          '            import linecache # Import as late as possible'
+          '            line = linecache.getline(filename, lineno)'
+          '            if not line:'
+          
+            '                return '#39'Line %s:%d does not exist'#39' % (filename, ' +
+            'lineno)'
+          '            bp_linenos = self.breaks.setdefault(filename, [])'
+          '            if lineno not in bp_linenos:'
+          '                bp_linenos.append(lineno)'
+          ''
+          '            from bdb import Breakpoint'
+          
+            '            bp = Breakpoint(filename, lineno, temporary, cond, f' +
+            'uncname)'
+          '            bp.ignore = ignore_count'
+          '            bp.ignore_count = ignore_count'
+          '            return None'
+          ''
+          '        def break_here(self, frame):'
+          '            res = super().break_here(frame)'
+          '            if res:'
+          '                bpnum = getattr(self, '#39'currentbp'#39', 0)'
+          '                if bpnum:'
+          '                    bp = self.get_bpbynumber(bpnum)'
+          '                    if bp and bp.ignore_count:'
+          '                        bp.ignore = bp.ignore_count'
+          '            else:'
+          '                self.currentbp = 0'
+          '            return res'
+          ''
+          '        if (3,10)  <= sys.version_info < (3,14):'
+          '            def break_anywhere(self, frame):'
+          
+            '                filename = self.canonic(frame.f_code.co_filename' +
+            ')'
+          '                if filename not in self.breaks:'
+          '                    return False'
+          '                for lineno in self.breaks[filename]:'
+          '                    if self._lineno_in_frame(lineno, frame):'
+          '                        return True'
+          '                return False'
+          ''
+          '            def _lineno_in_frame(self, lineno, frame):'
+          '                code = frame.f_code'
+          '                if lineno < code.co_firstlineno:'
+          '                    return False'
+          '                if code not in self.code_linenos:'
+          
+            '                    self.code_linenos[code] = set(lineno for _, ' +
+            '_, lineno in code.co_lines())'
+          '                return lineno in self.code_linenos[code]'
+          ''
+          '            def _set_caller_tracefunc(self, current_frame):'
+          '                caller_frame = current_frame.f_back'
+          
+            '                if caller_frame and not caller_frame.f_trace and' +
+            ' caller_frame is not self.botframe:'
+          '                    caller_frame.f_trace = self.trace_dispatch'
+          ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
           '            for i in numberlist:'
