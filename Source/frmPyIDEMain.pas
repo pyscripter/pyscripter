@@ -625,10 +625,11 @@
           Issues addressed
             #1358
 
-   History:   v 5.2.1
+   History:   v 5.2.2
           New Features
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
             - IDE option to enable/disable editor accessibility support
+            - Support for Grok LLM
           Issues addressed
             #1367
 
