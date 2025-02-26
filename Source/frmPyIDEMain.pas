@@ -855,7 +855,6 @@ type
     N12: TSpTBXSeparatorItem;
     mnEditorOptions2: TSpTBXItem;
     RecentSubmenu: TSpTBXSubmenuItem;
-    EditorViewsMenu: TSpTBXSubmenuItem;
     TBXSeparatorItem8: TSpTBXSeparatorItem;
     EditorToolbar: TSpTBXToolbar;
     tbiEditDedent: TSpTBXItem;
@@ -1179,6 +1178,8 @@ type
     actPythonFreeThreaded: TAction;
     SpTBXSeparatorItem24: TSpTBXSeparatorItem;
     mnFreeThreaded: TSpTBXItem;
+    EditorViewsMenu: TSpTBXSubmenuItem;
+    spiSeparatorItem: TSpTBXSeparatorItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);

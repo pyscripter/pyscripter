@@ -68,8 +68,6 @@ type
     mnEditCut: TSpTBXItem;
     mnEditCopy: TSpTBXItem;
     mnEditPaste: TSpTBXItem;
-    mnEditDelete: TSpTBXItem;
-    mnEditSelectAll: TSpTBXItem;
     TBXSeparatorItem9: TSpTBXSeparatorItem;
     mnSourceCode: TSpTBXSubmenuItem;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
@@ -114,6 +112,8 @@ type
     spiBreakpointProperties: TSpTBXItem;
     spiSeparatorItem: TSpTBXSeparatorItem;
     spiBreakpointClear: TSpTBXItem;
+    spiSeparator: TSpTBXSeparatorItem;
+    spiEditorViews: TSpTBXSubmenuItem;
     class procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: Boolean);
