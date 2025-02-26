@@ -628,6 +628,7 @@
    History:   v 5.2.1
           New Features
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
+            - IDE option to enable/disable editor accessibility support
           Issues addressed
             #1367
 
@@ -2993,7 +2994,7 @@ begin
   begin
     TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'DisplayFlowControl']);
     AppStorage.ReadPersistent('Editor Options', EditorOptions, True, True, TempStringList);
-    EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight, eoAccessibility];
+    EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
   end;
 
   if AppStorage.PathExists('Editor Search Options') then begin

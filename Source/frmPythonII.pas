@@ -579,6 +579,14 @@ end;
 procedure TPythonIIForm.ApplyPyIDEOptions;
 begin
   SynEdit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+  if PyIDEOptions.AutoCompleteBrackets then
+    SynEdit.Options := SynEdit.Options + [eoCompleteBrackets, eoCompleteQuotes]
+  else
+    SynEdit.Options := SynEdit.Options - [eoCompleteBrackets, eoCompleteQuotes];
+  if PyIDEOptions.AccessibilitySupport then
+    SynEdit.Options := SynEdit.Options + [eoAccessibility]
+  else
+    SynEdit.Options := SynEdit.Options - [eoAccessibility];
 
   // Command History Size
   CommandHistorySize := PyIDEOptions.InterpreterHistorySize;

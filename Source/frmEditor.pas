@@ -2448,6 +2448,7 @@ begin
 end;
 
 procedure TEditorForm.ApplyPyIDEOptions;
+
   procedure  ApplyOptionsToEditor(Editor: TCustomSynEdit);
   begin
     Editor.CodeFolding.Assign(PyIDEOptions.CodeFolding);
@@ -2480,6 +2481,10 @@ procedure TEditorForm.ApplyPyIDEOptions;
       Editor.Options := Editor.Options + [eoCompleteBrackets, eoCompleteQuotes]
     else
       Editor.Options := Editor.Options - [eoCompleteBrackets, eoCompleteQuotes];
+    if PyIDEOptions.AccessibilitySupport then
+      Editor.Options := Editor.Options + [eoAccessibility]
+    else
+      Editor.Options := Editor.Options - [eoAccessibility];
   end;
 
 begin

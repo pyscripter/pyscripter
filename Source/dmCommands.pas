@@ -1417,7 +1417,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 24);
+    SetLength(Options, 25);
     Options[0].PropertyName := 'SearchTextAtCaret';
     Options[0].DisplayName := _('Search text at caret');
     Options[1].PropertyName := 'CreateBackupFiles';
@@ -1466,6 +1466,8 @@ begin
     Options[22].DisplayName := _('Scrollbar annotation');
     Options[23].PropertyName := 'DisplayFlowControl';
     Options[23].DisplayName := _('Display flow control symbols');
+    Options[24].PropertyName := 'AccessibilitySupport';
+    Options[24].DisplayName := _('Accessibility support');
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');

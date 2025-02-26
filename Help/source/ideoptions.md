@@ -8,7 +8,7 @@ PyScripter. These options are explained below.
    
 ![graphic](images/ideoptions1.JPG){align=center width="27.38em" height="23.94em"}
 
-**Code Completion**
+### Code Completion
 
 *Auto-Completion font*\
 Allows you to customize the size and type of font used in auto-completion.
@@ -43,13 +43,16 @@ Enable/Disable code completion in the editor.
 Enable/Disable code completion in the interpreter. 
 
 
-**Code Explorer**
+### Code Explorer
 
 *Initially expanded*\
 If checked the Code Explorer stats with its nodes initially expanded.
 
 
-**Editor Options**
+### Editor Options
+
+*Accessibility support*\
+Enable/disable editor accessibility support.
 
 *Auto-complete brackets*\
 If checked, when you edit Python scripts and you type an open bracket
@@ -139,14 +142,13 @@ If checked the editor will trim spaces at the end of the lines when
 saving files. This works independently of the corresponding
 editor option which trims trailing spaces while editing.
     
-
 *Undo after save*\
 If checked, you can undo editing actions beyond the point at which you
 saved the file. Otherwise undo can only take you back to point at
 which you last saved the file.
 
 
-**File Explorer**
+### File Explorer
 
 *File Explorer background processing*\
 If checked (default) the File Explorer processes folder expand makrs and
@@ -159,7 +161,7 @@ Controls whether the user is notified about changes in the edited files
 Default: fcnNoMappedDrives.
 
 
-**File Filters**
+### File Filters
 
 *File Explorer Filter*\
 The file extensions separated by semi-colon that the File Explorer
@@ -193,7 +195,7 @@ The XML file filter for the File Open dialog.
 The YAML file filter for the File Open dialog. 
 
 
-**Language Server**
+### Language Server
 
 *Check syntax as you type*\
 If checked, when you edit Python files Pyscripter continuously check the
@@ -217,7 +219,7 @@ packages are imported on demand by the language server, instead of
 scanning their source code.
 
 
-**IDE**
+### IDE
 
 *Automatic restart*\
 If checked, PyScripter will restart automatically after system restart or
@@ -280,13 +282,13 @@ This option controls the font size of the content of all IDE Windows (e.g.
 File Explorer, Code Explorer, etc.). The default font size is 9 pt.  
 
 
-**Project Explorer**
+### Project Explorer
 
 *Initially expanded*\
 If checked the Project Explorer stats with its nodes initially expanded.
 
 
-**Python Interpreter**
+### Python Interpreter
 
 *Always use sockets*\
 Pyscripter can use sockets or Windows named pipes for communicating with
@@ -354,7 +356,7 @@ the timeout value, you are given the opportunity to interrupt the
 script. Due to Python limitations this does not work
 when the script loops indefinitely inside a function.
 
-**Shell Integration**
+### Shell Integration
     
 *File Explorer Context Menu*\
 If checked, it adds a menu item "Edit with Pyscripter" to the Windows
@@ -362,7 +364,7 @@ File Explorer context menu for Python files. If unchecked this
 option removes such context menu if it is present.
 
 
-**Spell Checking**
+### Spell Checking
 
 *Dictionary language code*\
 The [BCP47](https://www.techonthenet.com/js/language_tags.php)
@@ -377,7 +379,7 @@ This is a comma-separated list of the code syntax elements that are spell
 checked. By defalut, comments and all string types are syntax checked.
 
 
-**SSH**
+### SSH
 
 *Disable Variables Window with SSH*\
 The updating of the [Variables window](variableswindow)
