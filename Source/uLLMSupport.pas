@@ -188,7 +188,7 @@ const
   GeminiSettings: TLLMSettings = (
     EndPoint: 'https://generativelanguage.googleapis.com/v1beta';
     ApiKey: '';
-    Model: 'gemini-1.5-flash';
+    Model: 'gemini-2.0-flash';
     TimeOut: 20000;
     MaxTokens: 2000;
     Temperature: 1.0;
@@ -427,9 +427,6 @@ begin
     Providers.Grok.ApiKey := Obfuscate(Providers.Grok.ApiKey);
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
     Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
-    // backward compatibility
-    if (Providers.Gemini.EndPoint = '') and (Providers.Gemini.Model = '') then
-      Providers.Gemini := GeminiSettings;
   end;
 end;
 
