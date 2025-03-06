@@ -285,7 +285,7 @@ begin
       // The delay (100) is so that if more output comes soon enough,
       // it will be processed by the same request.
       if not IsPending then
-        TThread.CreateAnonymousThread(procedure
+        TTask.Create(procedure
         begin
           Sleep(100);
           TThread.ForceQueue(nil, procedure

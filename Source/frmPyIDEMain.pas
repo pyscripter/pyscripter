@@ -627,11 +627,11 @@
 
    History:   v 5.2.2
           New Features
+            - Support for Grok LLM
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
             - IDE option to enable/disable editor accessibility support
-            - Support for Grok LLM
           Issues addressed
-            #1367, #1372
+            #1367, #1372, #1373
 
  {------------------------------------------------------------------------------}
 
