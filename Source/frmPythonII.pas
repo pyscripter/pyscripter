@@ -285,12 +285,15 @@ begin
       // The delay (100) is so that if more output comes soon enough,
       // it will be processed by the same request.
       if not IsPending then
-        TThread.ForceQueue(nil, procedure
+        TThread.CreateAnonymousThread(procedure
         begin
           Sleep(100);
-          WritePendingMessages;
-        end);
-        WakeMainThread(nil);
+          TThread.ForceQueue(nil, procedure
+          begin
+            WritePendingMessages;
+          end);
+          WakeMainThread(nil);
+        end).Start;
     finally
       FCriticalSection.Leave;
     end;

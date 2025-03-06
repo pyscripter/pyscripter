@@ -631,7 +631,7 @@
             - IDE option to enable/disable editor accessibility support
             - Support for Grok LLM
           Issues addressed
-            #1367
+            #1367, #1372
 
  {------------------------------------------------------------------------------}
 
@@ -2635,7 +2635,8 @@ var
   Editor: IEditor;
 begin
   Editor := GI_ActiveEditor;
-  if Editor <> nil then begin
+  if Editor <> nil then
+  begin
     ptCaret := Editor.GetCaretPos;
     if Editor.ActiveSynEdit.Selections.Count > 1 then
       lbStatusCaret.Caption := IntToStr(Editor.ActiveSynEdit.Selections.Count) +
@@ -2649,7 +2650,9 @@ begin
     else
       lbStatusModified.Caption := ' ';
     lbStatusOverwrite.Caption := Editor.GetEditorState;
-  end else begin
+  end
+  else
+  begin
     lbStatusCaret.Caption := '';
     lbStatusModified.Caption := '';
     lbStatusOverwrite.Caption := '';
@@ -2659,18 +2662,24 @@ begin
   else
     lbStatusCaps.Caption := ' ';
 
-  if GI_PyControl.PythonLoaded then begin
+  if GI_PyControl.PythonLoaded then
+  begin
     lbPythonVersion.Caption := PyControl.PythonVersion.DisplayName;
     lbPythonEngine.Caption := _(EngineTypeName[PyControl.PythonEngineType]);
-  end else begin
+  end
+  else
+  begin
     lbPythonVersion.Caption := _('Python Not Available');
     lbPythonEngine.Caption := ' ';
   end;
 
-  if TJedi.Ready then begin
+  if TJedi.Ready then
+  begin
     spiLspLed.Hint := _('Language Server') + ': ' + _('Ready');
     icIndicators.SVGIconItems[2].FixedColor := $1F5FFF;
-  end else begin
+  end
+  else
+  begin
     spiLspLed.Hint := _('Language Server') + ': ' + _('Not available');
     icIndicators.SVGIconItems[2].FixedColor := clGray;
   end;
@@ -3276,41 +3285,24 @@ begin
 end;
 
 procedure TPyIDEMainForm.LoadToolbarItems(const Path: string);
-var
-  MemIni: TMemIniFile;
-  SL: TStringList;
 begin
   if AppStorage.PathExists(Path) then begin
-    MemIni := TMemIniFile.Create('');
-    SL := TStringList.Create;
-    try
-      AppStorage.ReadStringList(Path, SL);
-      MemIni.SetStrings(SL);
-      SpLoadItems(Self, MemIni);
-    finally
-      MemIni.Free;
-      SL.Free;
-    end;
+    var MemIni := TSmartPtr.Make(TMemIniFile.Create(''))();
+    var SL := TSmartPtr.Make(TStringList.Create)();
+    AppStorage.ReadStringList(Path, SL);
+    MemIni.SetStrings(SL);
+    SpLoadItems(Self, MemIni);
   end;
 end;
 
 procedure TPyIDEMainForm.SaveToolbarItems(const Path: string);
-var
-  MemIni: TMemIniFile;
-  SL: TStringList;
 begin
   AppStorage.DeleteSubTree(Path);
-  MemIni := TMemIniFile.Create('');
-  SL := TStringList.Create;
-  try
-    SpSaveItems(Self, MemIni);
-    SL.Clear;
-    MemIni.GetStrings(SL);
-    AppStorage.WriteStringList(Path, SL);
-  finally
-    MemIni.Free;
-    SL.Free;
-  end;
+  var MemIni := TSmartPtr.Make(TMemIniFile.Create(''))();
+  var SL := TSmartPtr.Make(TStringList.Create)();
+  SpSaveItems(Self, MemIni);
+  MemIni.GetStrings(SL);
+  AppStorage.WriteStringList(Path, SL);
 end;
 
 procedure TPyIDEMainForm.SaveToolbarLayout(const Layout: string);
