@@ -631,7 +631,7 @@
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
             - IDE option to enable/disable editor accessibility support
           Issues addressed
-            #1367, #1372, #1373, #1374
+            #1367, #1369, #1372, #1373, #1374
 
  {------------------------------------------------------------------------------}
 
@@ -3285,13 +3285,23 @@ begin
 end;
 
 procedure TPyIDEMainForm.LoadToolbarItems(const Path: string);
+{ We only want to load the Toolbar items and not the shortcuts
+  which are stored separately. The reason is that
+  ToolbarLayout contains text representations of the shortcuts
+  which are not reliable, since they depend on the keyboard language
+  layout at the time of saving.}
 begin
   if AppStorage.PathExists(Path) then begin
     var MemIni := TSmartPtr.Make(TMemIniFile.Create(''))();
     var SL := TSmartPtr.Make(TStringList.Create)();
+
+    // We save the shortcuts
+    var ActionProxyCollection := TSmartPtr.Make(TActionProxyCollection.Create(apcctAll));
     AppStorage.ReadStringList(Path, SL);
     MemIni.SetStrings(SL);
     SpLoadItems(Self, MemIni);
+    // and then restore them
+    ActionProxyCollection.ApplyShortCuts;
   end;
 end;
 
@@ -3306,33 +3316,23 @@ begin
 end;
 
 procedure TPyIDEMainForm.SaveToolbarLayout(const Layout: string);
-var
-  ToolbarLayout: TStringList;
 begin
-  ToolbarLayout := TStringList.Create;
-  try
-    SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
-    LocalAppStorage.WriteStringList('Layouts\' + Layout + '\Toolbars', ToolbarLayout);
-  finally
-    ToolbarLayout.Free;
-  end;
+  var ToolbarLayout := TSmartPtr.Make(TStringList.Create)();
+  SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
+  LocalAppStorage.WriteStringList('Layouts\' + Layout + '\Toolbars', ToolbarLayout);
 end;
 
 procedure TPyIDEMainForm.LoadToolbarLayout(const Layout: string);
 var
-  ToolbarLayout: TStringList;
   Path: string;
 begin
   Path := 'Layouts\'+ Layout;
   if LocalAppStorage.PathExists(Path + '\Toolbars') then
   begin
-    ToolbarLayout := TStringList.Create;
-    try
-      LocalAppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
-      SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
-    finally
-      ToolbarLayout.Free;
-    end;
+    var ToolbarLayout := TSmartPtr.Make(TStringList.Create)();
+    LocalAppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
+
+    SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
   end;
 end;
 
