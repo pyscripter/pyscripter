@@ -943,6 +943,7 @@ object ResourcesDataModule: TResourcesDataModule
           '            """'
           '            if self.stop_here(frame) or self.break_here(frame):'
           '                self.user_line(frame)'
+          '                self.restart_events()'
           
             '                if self.quitting: raise __import__("bdb").BdbQui' +
             't'
@@ -1429,8 +1430,6 @@ object ResourcesDataModule: TResourcesDataModule
           '            bp_linenos = self.breaks.setdefault(filename, [])'
           '            if lineno not in bp_linenos:'
           '                bp_linenos.append(lineno)'
-          '            if self._sys.version_info >= (3,13):'
-          '                self.restart_events()'
           ''
           '            from bdb import Breakpoint'
           

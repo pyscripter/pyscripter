@@ -631,7 +631,7 @@
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
             - IDE option to enable/disable editor accessibility support
           Issues addressed
-            #1367, #1372, #1373
+            #1367, #1372, #1373, #1374
 
  {------------------------------------------------------------------------------}
 
@@ -642,7 +642,7 @@
 // TODO: Find module expert
 // TODO: Code helpers, automatically fill the self parameter in methods
 // TODO: UML Editor View
-// TODO: Refactorings using rope
+// TODO: Refactorings
 // TODO: Plugin architecture
 // TODO Package as an Application Scripter Component
 
