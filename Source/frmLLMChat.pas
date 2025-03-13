@@ -95,6 +95,7 @@ type
     spiPrint: TTBItem;
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     pnlBrowserCover: TPanel;
+    spiGrok: TSpTBXItem;
     procedure actChatSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -848,6 +849,7 @@ begin
     case LLMChat.Providers.Provider of
       llmProviderOpenAI: LLMChat.Providers.OpenAI := Settings;
       llmProviderDeepSeek: LLMChat.Providers.DeepSeek := Settings;
+      llmProviderGrok: LLMChat.Providers.Grok := Settings;
       llmProviderGemini: LLMChat.Providers.Gemini := Settings;
       llmProviderOllama: LLMChat.Providers.Ollama := Settings;
     end;
@@ -1001,6 +1003,8 @@ begin
     LLMChat.Providers.Provider := llmProviderOpenAI
   else if Sender = spiDeepSeek then
     LLMChat.Providers.Provider := llmProviderDeepSeek
+  else if Sender = spiGrok then
+    LLMChat.Providers.Provider := llmProviderGrok
   else if Sender = spiOllama then
     LLMChat.Providers.Provider := llmProviderOllama
   else if Sender = spiGemini then
@@ -1103,6 +1107,7 @@ procedure TLLMChatForm.spiSettingsInitPopup(Sender: TObject; PopupView:
 begin
   case LLMChat.Providers.Provider of
     llmProviderDeepSeek: spiDeepSeek.Checked := True;
+    llmProviderGrok: spiGrok.Checked := True;
     llmProviderOpenAI: spiOpenai.Checked := True;
     llmProviderGemini: spiGemini.Checked := True;
     llmProviderOllama: spiOllama.Checked := True;

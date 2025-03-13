@@ -625,11 +625,13 @@
           Issues addressed
             #1358
 
-   History:   v 5.2.1
+   History:   v 5.2.2
           New Features
+            - Support for Grok LLM
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
+            - IDE option to enable/disable editor accessibility support
           Issues addressed
-
+            #1367, #1369, #1372, #1373, #1374
 
  {------------------------------------------------------------------------------}
 
@@ -640,7 +642,7 @@
 // TODO: Find module expert
 // TODO: Code helpers, automatically fill the self parameter in methods
 // TODO: UML Editor View
-// TODO: Refactorings using rope
+// TODO: Refactorings
 // TODO: Plugin architecture
 // TODO Package as an Application Scripter Component
 
@@ -855,7 +857,6 @@ type
     N12: TSpTBXSeparatorItem;
     mnEditorOptions2: TSpTBXItem;
     RecentSubmenu: TSpTBXSubmenuItem;
-    EditorViewsMenu: TSpTBXSubmenuItem;
     TBXSeparatorItem8: TSpTBXSeparatorItem;
     EditorToolbar: TSpTBXToolbar;
     tbiEditDedent: TSpTBXItem;
@@ -1179,6 +1180,8 @@ type
     actPythonFreeThreaded: TAction;
     SpTBXSeparatorItem24: TSpTBXSeparatorItem;
     mnFreeThreaded: TSpTBXItem;
+    EditorViewsMenu: TSpTBXSubmenuItem;
+    spiSeparatorItem: TSpTBXSeparatorItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -2632,7 +2635,8 @@ var
   Editor: IEditor;
 begin
   Editor := GI_ActiveEditor;
-  if Editor <> nil then begin
+  if Editor <> nil then
+  begin
     ptCaret := Editor.GetCaretPos;
     if Editor.ActiveSynEdit.Selections.Count > 1 then
       lbStatusCaret.Caption := IntToStr(Editor.ActiveSynEdit.Selections.Count) +
@@ -2646,7 +2650,9 @@ begin
     else
       lbStatusModified.Caption := ' ';
     lbStatusOverwrite.Caption := Editor.GetEditorState;
-  end else begin
+  end
+  else
+  begin
     lbStatusCaret.Caption := '';
     lbStatusModified.Caption := '';
     lbStatusOverwrite.Caption := '';
@@ -2656,18 +2662,24 @@ begin
   else
     lbStatusCaps.Caption := ' ';
 
-  if GI_PyControl.PythonLoaded then begin
+  if GI_PyControl.PythonLoaded then
+  begin
     lbPythonVersion.Caption := PyControl.PythonVersion.DisplayName;
     lbPythonEngine.Caption := _(EngineTypeName[PyControl.PythonEngineType]);
-  end else begin
+  end
+  else
+  begin
     lbPythonVersion.Caption := _('Python Not Available');
     lbPythonEngine.Caption := ' ';
   end;
 
-  if TJedi.Ready then begin
+  if TJedi.Ready then
+  begin
     spiLspLed.Hint := _('Language Server') + ': ' + _('Ready');
     icIndicators.SVGIconItems[2].FixedColor := $1F5FFF;
-  end else begin
+  end
+  else
+  begin
     spiLspLed.Hint := _('Language Server') + ': ' + _('Not available');
     icIndicators.SVGIconItems[2].FixedColor := clGray;
   end;
@@ -2992,7 +3004,7 @@ begin
   begin
     TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'DisplayFlowControl']);
     AppStorage.ReadPersistent('Editor Options', EditorOptions, True, True, TempStringList);
-    EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight, eoAccessibility];
+    EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
   end;
 
   if AppStorage.PathExists('Editor Search Options') then begin
@@ -3273,71 +3285,54 @@ begin
 end;
 
 procedure TPyIDEMainForm.LoadToolbarItems(const Path: string);
-var
-  MemIni: TMemIniFile;
-  SL: TStringList;
+{ We only want to load the Toolbar items and not the shortcuts
+  which are stored separately. The reason is that
+  ToolbarLayout contains text representations of the shortcuts
+  which are not reliable, since they depend on the keyboard language
+  layout at the time of saving.}
 begin
   if AppStorage.PathExists(Path) then begin
-    MemIni := TMemIniFile.Create('');
-    SL := TStringList.Create;
-    try
-      AppStorage.ReadStringList(Path, SL);
-      MemIni.SetStrings(SL);
-      SpLoadItems(Self, MemIni);
-    finally
-      MemIni.Free;
-      SL.Free;
-    end;
+    var MemIni := TSmartPtr.Make(TMemIniFile.Create(''))();
+    var SL := TSmartPtr.Make(TStringList.Create)();
+
+    // We save the shortcuts
+    var ActionProxyCollection := TSmartPtr.Make(TActionProxyCollection.Create(apcctAll));
+    AppStorage.ReadStringList(Path, SL);
+    MemIni.SetStrings(SL);
+    SpLoadItems(Self, MemIni);
+    // and then restore them
+    ActionProxyCollection.ApplyShortCuts;
   end;
 end;
 
 procedure TPyIDEMainForm.SaveToolbarItems(const Path: string);
-var
-  MemIni: TMemIniFile;
-  SL: TStringList;
 begin
   AppStorage.DeleteSubTree(Path);
-  MemIni := TMemIniFile.Create('');
-  SL := TStringList.Create;
-  try
-    SpSaveItems(Self, MemIni);
-    SL.Clear;
-    MemIni.GetStrings(SL);
-    AppStorage.WriteStringList(Path, SL);
-  finally
-    MemIni.Free;
-    SL.Free;
-  end;
+  var MemIni := TSmartPtr.Make(TMemIniFile.Create(''))();
+  var SL := TSmartPtr.Make(TStringList.Create)();
+  SpSaveItems(Self, MemIni);
+  MemIni.GetStrings(SL);
+  AppStorage.WriteStringList(Path, SL);
 end;
 
 procedure TPyIDEMainForm.SaveToolbarLayout(const Layout: string);
-var
-  ToolbarLayout: TStringList;
 begin
-  ToolbarLayout := TStringList.Create;
-  try
-    SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
-    LocalAppStorage.WriteStringList('Layouts\' + Layout + '\Toolbars', ToolbarLayout);
-  finally
-    ToolbarLayout.Free;
-  end;
+  var ToolbarLayout := TSmartPtr.Make(TStringList.Create)();
+  SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
+  LocalAppStorage.WriteStringList('Layouts\' + Layout + '\Toolbars', ToolbarLayout);
 end;
 
 procedure TPyIDEMainForm.LoadToolbarLayout(const Layout: string);
 var
-  ToolbarLayout: TStringList;
   Path: string;
 begin
   Path := 'Layouts\'+ Layout;
   if LocalAppStorage.PathExists(Path + '\Toolbars') then
   begin
-    ToolbarLayout := TStringList.Create;
-    try
-      LocalAppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
-      SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
-    finally
-      ToolbarLayout.Free;
-    end;
+    var ToolbarLayout := TSmartPtr.Make(TStringList.Create)();
+    LocalAppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
+
+    SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
   end;
 end;
 
@@ -4324,11 +4319,6 @@ begin
        (Action is TEditCopy) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
        (Action is TEditPaste) and Clipboard.HasFormat(CF_UNICODETEXT);
       Handled := (Action is TEditCut) or (Action is TEditCopy) or (Action is TEditPaste);
-    end
-    else if ((Action is TEditCopy) or (Action is TEditCut)) and Assigned(GI_ActiveEditor) then
-    begin
-      TEditAction(Action).Enabled := True;
-      Handled := True;
     end;
   end;
 end;

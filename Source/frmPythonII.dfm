@@ -67,7 +67,6 @@ inherited PythonIIForm: TPythonIIForm
             FullRow = False
           end>
         TabWidth = 4
-        VisibleSpecialChars = []
         WantTabs = True
         WordWrap = True
         OnCommandProcessed = SynEditCommandProcessed

@@ -3,7 +3,7 @@
 
 # The Tools Menu
 
-![graphic](images/toolsmenu1.png){width="11.65em"  height="16em"}
+![graphic](images/toolsmenu1.png){width="12.875em"  height="15.6875em"}
   
 
 ***Commands/Actions:***
@@ -26,32 +26,6 @@ Restart the Language Server in case it crashed or something went wrong.
 
 *Check for Updates...*\
 Checks whether an updated version of PyScripter is available.
-
-
-### Source  Code Views
-
-PyScripter provides different views of Python modules that can be seen alongside the source 
-code. Currently two such views are provided. The Documentation view 
-and the Disassembly view. When views other than the source code are available 
-you can switch between the source code and these views using the tabs at the 
-top of the editing area. You can close additional views by right clicking on 
-their tab and selecting "Close". When the only view is the source 
-code the tabs at the top of the editing area are hidden.
-
-![graphic](images/toolsmenu2.png){width="9.94em"  height="5.38em"}
-  
-
-***Commands/Actions:***
-
-*Documentation*\
-Shows the [Documentation view](documentationview).
-
-*Disassembly*\
-Shows the [Disassembly view](disassemblyview).
-
-*Web Preview*\
-Shows a Web preview of html files in a built-in browser.
-
 
 ### Options submenu
 

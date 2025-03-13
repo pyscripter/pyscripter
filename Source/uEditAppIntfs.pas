@@ -147,24 +147,6 @@ type
     property ViewFactory[Index: Integer]: IEditorViewFactory read GetViewFactory;
   end;
 
-  IEditCommands = interface
-  ['{64397AD0-BA45-4F4A-B72E-2E4647B8ACB9}']
-    function CanCopy: Boolean;
-    function CanCut: Boolean;
-    function CanDelete: Boolean;
-    function CanPaste: Boolean;
-    function CanRedo: Boolean;
-    function CanSelectAll: Boolean;
-    function CanUndo: Boolean;
-    procedure ExecCopy;
-    procedure ExecCut;
-    procedure ExecDelete;
-    procedure ExecPaste;
-    procedure ExecRedo;
-    procedure ExecSelectAll;
-    procedure ExecUndo;
-  end;
-
   IFileCommands = interface
   ['{C10F67B6-BE8D-4A0D-8FDA-05BBF8DEA08A}']
     function CanClose: Boolean;
@@ -273,7 +255,6 @@ var
   GI_EditorFactory: IEditorFactory;
   GI_ActiveEditor: IEditor;
 
-  GI_EditCmds: IEditCommands;
   GI_FileCmds: IFileCommands;
   GI_SearchCmds: ISearchCommands;
 

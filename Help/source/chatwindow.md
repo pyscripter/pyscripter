@@ -79,7 +79,7 @@ The model you want to use.
 - OpenAI models\
   **GPT-3.5 Turbo** is good for coding tasks.  **GPT-4o model** is newer, ten times more expensive, but possibly better.
 - Gemini models\
-  Use **gemini-1.5-flash** (faster and cheeper) or **gemini-1.5-pro** or any newer Gemini model.
+  Use **gemini-2.0-flash**, **gemini-2.0-flash-lite** or any newer Gemini model.
 - DeepSeek models\
   Use **deepseek-chat** or **deepseek-reasoner**.
 - Ollama\

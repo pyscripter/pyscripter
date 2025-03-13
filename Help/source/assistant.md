@@ -58,7 +58,7 @@ The model you want to use. Currently the Assistant works with the following mode
   [Fill-in-the-middle](https://codeium.com/blog/why-code-completion-needs-fill-in-the-middle) 
   (FIM) tasks. And FIM is important for code completion.
 - Gemini models:\
-  **gemini-1.5-flash**, **gemini-1.5-pro** or any newer Gemini model
+  **gemini-2.0-flash**, **gemini-2.0-flash-lite** or any newer Gemini model
  - Deepseek model:\
    **deepseek-chat** 
 - Ollama models:\

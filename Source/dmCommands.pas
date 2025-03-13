@@ -123,7 +123,6 @@ type
     actSearchFindPrev: TAction;
     actSearchFindNext: TAction;
     actSearchFind: TAction;
-    actEditRedo: TAction;
     actFileClose: TAction;
     actFileSaveAs: TAction;
     actFileSave: TAction;
@@ -212,6 +211,8 @@ type
     actDonate: TBrowseURL;
     spiTemperature: TSpTBXEditItem;
     spiDeepSeek: TSpTBXItem;
+    spiGrok: TSpTBXItem;
+    actEditRedo: TSynEditRedo;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -224,13 +225,6 @@ type
     procedure actFileSaveAsExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure actFileCloseExecute(Sender: TObject);
-    procedure actEditCutExecute(Sender: TObject);
-    procedure actEditCopyExecute(Sender: TObject);
-    procedure actEditPasteExecute(Sender: TObject);
-    procedure actEditDeleteExecute(Sender: TObject);
-    procedure actEditSelectAllExecute(Sender: TObject);
-    procedure actEditRedoExecute(Sender: TObject);
-    procedure actEditUndoExecute(Sender: TObject);
     procedure actSearchFindExecute(Sender: TObject);
     procedure actSearchFindNextExecute(Sender: TObject);
     procedure actSearchFindPrevExecute(Sender: TObject);
@@ -629,52 +623,10 @@ begin
     (Editor as IFileCommands).ExecClose;
 end;
 
-procedure TCommandsDataModule.actEditCutExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecCut;
-end;
-
-procedure TCommandsDataModule.actEditCopyExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecCopy;
-end;
-
-procedure TCommandsDataModule.actEditPasteExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecPaste;
-end;
-
-procedure TCommandsDataModule.actEditDeleteExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecDelete;
-end;
-
-procedure TCommandsDataModule.actEditSelectAllExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecSelectAll;
-end;
-
 procedure TCommandsDataModule.actEditReadOnlyExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
     GI_ActiveEditor.ReadOnly := not GI_ActiveEditor.ReadOnly;
-end;
-
-procedure TCommandsDataModule.actEditRedoExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecRedo;
-end;
-
-procedure TCommandsDataModule.actEditUndoExecute(Sender: TObject);
-begin
-  if GI_EditCmds <> nil then
-    GI_EditCmds.ExecUndo;
 end;
 
 procedure TCommandsDataModule.actSearchFindExecute(Sender: TObject);
@@ -1465,7 +1417,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 24);
+    SetLength(Options, 25);
     Options[0].PropertyName := 'SearchTextAtCaret';
     Options[0].DisplayName := _('Search text at caret');
     Options[1].PropertyName := 'CreateBackupFiles';
@@ -1514,6 +1466,8 @@ begin
     Options[22].DisplayName := _('Scrollbar annotation');
     Options[23].PropertyName := 'DisplayFlowControl';
     Options[23].DisplayName := _('Display flow control symbols');
+    Options[24].PropertyName := 'AccessibilitySupport';
+    Options[24].DisplayName := _('Accessibility support');
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');
@@ -1759,15 +1713,6 @@ var
   SearchCommands: ISearchCommands;
 begin
   Editor := GI_PyIDEServices.ActiveEditor;
-  // Edit actions
-//  actEditCut.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCut;
-//  actEditCopy.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCopy;
-//  actEditPaste.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanPaste;
-//  actEditDelete.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanDelete;
-//  actEditSelectAll.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanSelectAll;
-//  actEditUndo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanUndo;
-  actEditRedo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanRedo;
-  actEditCopyFileName.Enabled := Assigned(Editor);
 
   actFoldVisible.Enabled := Assigned(GI_ActiveEditor);
   actFoldVisible.Checked := Assigned(GI_ActiveEditor) and
@@ -2464,6 +2409,8 @@ begin
     LLMAssistant.Providers.Provider := llmProviderOpenAI
   else if Sender = spiDeepSeek then
     LLMAssistant.Providers.Provider := llmProviderDeepSeek
+  else if Sender = spiGrok then
+    LLMAssistant.Providers.Provider := llmProviderGrok
   else if Sender = spiGemini then
     LLMAssistant.Providers.Provider := llmProviderGemini
   else if Sender = spiOllama then
@@ -2747,6 +2694,7 @@ begin
     case LLMAssistant.Providers.Provider of
       llmProviderOpenAI: LLMAssistant.Providers.OpenAI := Settings;
       llmProviderDeepSeek: LLMAssistant.Providers.DeepSeek := Settings;
+      llmProviderGrok: LLMAssistant.Providers.Grok := Settings;
       llmProviderGemini: LLMAssistant.Providers.Gemini := Settings;
       llmProviderOllama: LLMAssistant.Providers.Ollama := Settings;
     end;
@@ -2764,6 +2712,7 @@ begin
   case LLMAssistant.Providers.Provider of
     llmProviderOpenAI: spiOpenAI.Checked := True;
     llmProviderDeepSeek: spiDeepSeek.Checked := True;
+    llmProviderGrok: spiGrok.Checked := True;
     llmProviderGemini: spiGemini.Checked := True;
     llmProviderOllama: spiOllama.Checked := True;
   end;

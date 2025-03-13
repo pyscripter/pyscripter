@@ -98,7 +98,6 @@ inherited LLMChatForm: TLLMChatForm
               AnnPos = sbpFullWidth
               FullRow = False
             end>
-          VisibleSpecialChars = []
           WordWrap = True
         end
       end
@@ -195,6 +194,15 @@ inherited LLMChatForm: TLLMChatForm
               GroupIndex = 1
               ImageIndex = 20
               ImageName = 'Gemini'
+              OnClick = mnProviderClick
+              OnDrawImage = HighlightCheckedImg
+            end
+            object spiGrok: TSpTBXItem
+              Caption = 'Grok'
+              Hint = 'Use Grok'
+              GroupIndex = 1
+              ImageIndex = 22
+              ImageName = 'Xai'
               OnClick = mnProviderClick
               OnDrawImage = HighlightCheckedImg
             end
@@ -403,6 +411,11 @@ inherited LLMChatForm: TLLMChatForm
         CollectionIndex = 79
         CollectionName = 'Print'
         Name = 'Print'
+      end
+      item
+        CollectionIndex = 157
+        CollectionName = 'LLMProviders\Xai'
+        Name = 'Xai'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     Width = 24

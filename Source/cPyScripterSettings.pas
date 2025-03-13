@@ -138,6 +138,7 @@ type
     FAutoRestart: Boolean;
     FLoggingEnabled: Boolean;
     FScrollbarAnnotation: Boolean;
+    FAccessibilitySupport: Boolean;
     FUIContentFontSize: Integer;
     FPreferFreeThreaded: Boolean;
     FTrackChanges: TSynTrackChanges;
@@ -329,6 +330,7 @@ type
     property AutoRestart: Boolean read FAutoRestart write FAutoRestart default True;
     property LoggingEnabled: Boolean read FLoggingEnabled write FLoggingEnabled default False;
     property ScrollbarAnnotation: Boolean read FScrollbarAnnotation write FScrollbarAnnotation default True;
+    property AccessibilitySupport: Boolean read FAccessibilitySupport write FAccessibilitySupport default True;
     property UIContentFontSize: Integer read FUIContentFontSize write FUIContentFontSize default 9;
     property PreferFreeThreaded: Boolean read FPreferFreeThreaded write FPreferFreeThreaded default False;
   end;
@@ -528,6 +530,7 @@ begin
       Self.FAutoRestart := AutoRestart;
       Self.FLoggingEnabled := LoggingEnabled;
       Self.FScrollbarAnnotation := ScrollbarAnnotation;
+      Self.FAccessibilitySupport := AccessibilitySupport;
       Self.FUIContentFontSize := UIContentFontSize;
       Self.FPreferFreeThreaded := PreferFreeThreaded;
     end
@@ -631,6 +634,7 @@ begin
   FAutoRestart := True;
   FLoggingEnabled := False;
   FScrollbarAnnotation := True;
+  FAccessibilitySupport := True;
   FUIContentFontSize := 9;
   FCodeFolding := TSynCodeFolding.Create;
   FCodeFolding.GutterShapeSize := 9;  // default value
@@ -1070,9 +1074,12 @@ var
   end;
 
 begin
-  KeyStrokes := AProperty as TSynEditKeyStrokes;
-  ReadAddedKeystrokes;
-  ReadRemovedKeystrokes;
+  if AStorage.PathExists(APath) then
+  begin
+    KeyStrokes := AProperty as TSynEditKeyStrokes;
+    ReadAddedKeystrokes;
+    ReadRemovedKeystrokes;
+  end;
 end;
 
 {$ENDREGION 'AppStorage handlers' }
@@ -1167,6 +1174,10 @@ begin
   EditorOptions.SelectedColor.Assign(PyIDEOptions.SelectionColor);
   EditorOptions.IndentGuides.Assign(PyIDEOptions.IndentGuides);
   EditorOptions.DisplayFlowControl.Assign(PyIDEOptions.DisplayFlowControl);
+  if PyIDEOptions.AccessibilitySupport then
+    EditorOptions.Options := EditorOptions.Options + [eoAccessibility]
+  else
+    EditorOptions.Options := EditorOptions.Options - [eoAccessibility];
   EditorSearchOptions.SearchTextAtCaret := PyIDEOptions.SearchTextAtCaret;
 end;
 

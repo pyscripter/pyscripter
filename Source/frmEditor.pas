@@ -68,8 +68,6 @@ type
     mnEditCut: TSpTBXItem;
     mnEditCopy: TSpTBXItem;
     mnEditPaste: TSpTBXItem;
-    mnEditDelete: TSpTBXItem;
-    mnEditSelectAll: TSpTBXItem;
     TBXSeparatorItem9: TSpTBXSeparatorItem;
     mnSourceCode: TSpTBXSubmenuItem;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
@@ -114,6 +112,8 @@ type
     spiBreakpointProperties: TSpTBXItem;
     spiSeparatorItem: TSpTBXSeparatorItem;
     spiBreakpointClear: TSpTBXItem;
+    spiSeparator: TSpTBXSeparatorItem;
+    spiEditorViews: TSpTBXSubmenuItem;
     class procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var X, Y: Integer;
       var CanExecute: Boolean);
@@ -227,8 +227,8 @@ type
     procedure GoToSyntaxError;
   end;
 
-  TEditor = class(TInterfacedObject, IUnknown, IEditor, IEditCommands,
-    IFileCommands, ISearchCommands)
+  TEditor = class(TInterfacedObject, IUnknown, IEditor,  IFileCommands,
+    ISearchCommands)
   private
     // IEditor implementation
     procedure Activate(Primary: Boolean = True);
@@ -268,21 +268,6 @@ type
     function GetTabControlIndex: Integer;
     function GetRemoteFileName: string;
     function GetSSHServer: string;
-    // IEditCommands implementation
-    function CanCopy: Boolean;
-    function CanCut: Boolean;
-    function IEditCommands.CanDelete = CanCut;
-    function CanPaste: Boolean;
-    function CanRedo: Boolean;
-    function CanSelectAll: Boolean;
-    function CanUndo: Boolean;
-    procedure ExecCopy;
-    procedure ExecCut;
-    procedure ExecDelete;
-    procedure ExecPaste;
-    procedure ExecRedo;
-    procedure ExecSelectAll;
-    procedure ExecUndo;
     // IFileCommands implementation
     function CanClose: Boolean;
     function CanPrint: Boolean;
@@ -904,69 +889,9 @@ end;
 
 // IEditCommands implementation
 
-function TEditor.CanCopy: Boolean;
-begin
-  Result := not GetActiveSynEdit.Selections.IsEmpty or (GetActiveSynEdit.LineText <> '');
-end;
-
-function TEditor.CanCut: Boolean;
-begin
-  Result := Assigned(Form) and not GetReadOnly;
-end;
-
-function TEditor.CanPaste: Boolean;
-begin
-  Result := Assigned(Form) and GetActiveSynEdit.CanPaste;
-end;
-
-function TEditor.CanRedo: Boolean;
-begin
-  Result := Assigned(Form) and Form.SynEdit.CanRedo;
-end;
-
 function TEditor.CanReload: Boolean;
 begin
   Result := FFileName <> '';
-end;
-
-function TEditor.CanSelectAll: Boolean;
-begin
-  Result := Assigned(Form);
-end;
-
-function TEditor.CanUndo: Boolean;
-begin
-  Result := Assigned(Form) and Form.SynEdit.CanUndo;
-end;
-
-procedure TEditor.ExecCopy;
-begin
-  if Assigned(Form) then
-    GetActiveSynEdit.CopyToClipboard;
-end;
-
-procedure TEditor.ExecCut;
-begin
-  if Assigned(Form) then
-    GetActiveSynEdit.CutToClipboard;
-end;
-
-procedure TEditor.ExecDelete;
-begin
-  if Assigned(Form) then
-    GetActiveSynEdit.SelText := '';
-end;
-
-procedure TEditor.ExecPaste;
-begin
-  if Assigned(Form) then
-    GetActiveSynEdit.PasteFromClipboard;
-end;
-
-procedure TEditor.ExecRedo;
-begin
-  if Assigned(Form) then
-    Form.SynEdit.Redo;
 end;
 
 procedure TEditor.ExecReload(Quiet: Boolean = False);
@@ -986,18 +911,6 @@ begin
     if (BC.Line <= GetSynEdit.Lines.Count) then
       GetSynEdit.CaretXY := BC;
   end;
-end;
-
-procedure TEditor.ExecSelectAll;
-begin
-  if Assigned(Form) then
-    GetActiveSynEdit.SelectAll;
-end;
-
-procedure TEditor.ExecUndo;
-begin
-  if Assigned(Form) then
-    Form.SynEdit.Undo;
 end;
 
 procedure TEditor.ExecuteSelection;
@@ -1935,7 +1848,6 @@ begin
   if AActive then
   begin
     GI_ActiveEditor := FEditor;
-    GI_EditCmds := FEditor;
     GI_FileCmds := FEditor;
     GI_SearchCmds := FEditor;
   end
@@ -1943,8 +1855,6 @@ begin
   begin
     if GI_ActiveEditor = IEditor(FEditor) then
       GI_ActiveEditor := nil;
-    if GI_EditCmds = IEditCommands(FEditor) then
-      GI_EditCmds := nil;
     if GI_FileCmds = IFileCommands(FEditor) then
       GI_FileCmds := nil;
     if GI_SearchCmds = ISearchCommands(FEditor) then
@@ -2538,6 +2448,7 @@ begin
 end;
 
 procedure TEditorForm.ApplyPyIDEOptions;
+
   procedure  ApplyOptionsToEditor(Editor: TCustomSynEdit);
   begin
     Editor.CodeFolding.Assign(PyIDEOptions.CodeFolding);
@@ -2570,6 +2481,10 @@ procedure TEditorForm.ApplyPyIDEOptions;
       Editor.Options := Editor.Options + [eoCompleteBrackets, eoCompleteQuotes]
     else
       Editor.Options := Editor.Options - [eoCompleteBrackets, eoCompleteQuotes];
+    if PyIDEOptions.AccessibilitySupport then
+      Editor.Options := Editor.Options + [eoAccessibility]
+    else
+      Editor.Options := Editor.Options - [eoAccessibility];
   end;
 
 begin

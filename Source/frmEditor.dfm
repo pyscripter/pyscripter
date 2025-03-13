@@ -150,7 +150,6 @@ object EditorForm: TEditorForm
             end>
           SelectedColor.Background = clSkyBlue
           TabWidth = 4
-          VisibleSpecialChars = []
           WantTabs = True
           OnChange = SynEditChange
           OnGutterGetText = SynEditGutterGetText
@@ -226,7 +225,6 @@ object EditorForm: TEditorForm
               AnnPos = sbpRight
               FullRow = True
             end>
-          VisibleSpecialChars = []
           OnMouseCursor = SynEditMouseCursor
           OnShowHint = EditorShowHint
           OnSpecialLineColors = SynEditSpecialLineColors
@@ -265,12 +263,6 @@ object EditorForm: TEditorForm
     end
     object mnEditPaste: TSpTBXItem
       Action = CommandsDataModule.actEditPaste
-    end
-    object mnEditDelete: TSpTBXItem
-      Action = CommandsDataModule.actEditDelete
-    end
-    object mnEditSelectAll: TSpTBXItem
-      Action = CommandsDataModule.actEditSelectAll
     end
     object TBXSeparatorItem9: TSpTBXSeparatorItem
     end
@@ -375,6 +367,12 @@ object EditorForm: TEditorForm
       Action = PyIDEMainForm.actRestoreEditor
     end
     object N12: TSpTBXSeparatorItem
+    end
+    object spiEditorViews: TSpTBXSubmenuItem
+      Caption = 'Editor Views'
+      LinkSubitems = PyIDEMainForm.EditorViewsMenu
+    end
+    object spiSeparator: TSpTBXSeparatorItem
     end
     object mnEditorOptions: TSpTBXItem
       Action = CommandsDataModule.actEditorOptions

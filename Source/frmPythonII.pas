@@ -285,12 +285,15 @@ begin
       // The delay (100) is so that if more output comes soon enough,
       // it will be processed by the same request.
       if not IsPending then
-        TThread.ForceQueue(nil, procedure
+        TTask.Create(procedure
         begin
           Sleep(100);
-          WritePendingMessages;
-        end);
-        WakeMainThread(nil);
+          TThread.ForceQueue(nil, procedure
+          begin
+            WritePendingMessages;
+          end);
+          WakeMainThread(nil);
+        end).Start;
     finally
       FCriticalSection.Leave;
     end;
@@ -579,6 +582,14 @@ end;
 procedure TPythonIIForm.ApplyPyIDEOptions;
 begin
   SynEdit.SelectedColor.Assign(PyIDEOptions.SelectionColor);
+  if PyIDEOptions.AutoCompleteBrackets then
+    SynEdit.Options := SynEdit.Options + [eoCompleteBrackets, eoCompleteQuotes]
+  else
+    SynEdit.Options := SynEdit.Options - [eoCompleteBrackets, eoCompleteQuotes];
+  if PyIDEOptions.AccessibilitySupport then
+    SynEdit.Options := SynEdit.Options + [eoAccessibility]
+  else
+    SynEdit.Options := SynEdit.Options - [eoAccessibility];
 
   // Command History Size
   CommandHistorySize := PyIDEOptions.InterpreterHistorySize;

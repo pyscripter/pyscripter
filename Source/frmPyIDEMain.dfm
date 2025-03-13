@@ -20,9 +20,9 @@ object PyIDEMainForm: TPyIDEMainForm
   TextHeight = 15
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 538
+    Top = 520
     Width = 948
-    Height = 10
+    Height = 28
     SizeGrip = False
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
@@ -107,8 +107,8 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
     end
     object ActivityIndicator: TActivityIndicator
-      Left = 944
-      Top = 6
+      Left = 882
+      Top = 0
       FrameDelay = 150
       IndicatorSize = aisSmall
     end
@@ -117,7 +117,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 9
     Top = 85
     Width = 930
-    Height = 444
+    Height = 426
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
@@ -127,7 +127,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 0
       Top = 0
       Width = 926
-      Height = 444
+      Height = 426
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -179,7 +179,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 926
       Top = 0
       Width = 0
-      Height = 444
+      Height = 426
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -232,7 +232,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 926
       Top = 0
       Width = 4
-      Height = 444
+      Height = 426
       Cursor = crSizeWE
       Align = alRight
       ParentColor = False
@@ -693,6 +693,12 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSeparatorItem16: TSpTBXSeparatorItem
         end
+        object EditorViewsMenu: TSpTBXSubmenuItem
+          Caption = 'Editor Views'
+          OnClick = EditorViewsMenuClick
+        end
+        object spiSeparatorItem: TSpTBXSeparatorItem
+        end
         object mnSplitEditors: TSpTBXSubmenuItem
           Caption = 'Split Editor'
           object mnSplitEditorVer: TSpTBXItem
@@ -868,10 +874,6 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnUnitTestWizard: TSpTBXItem
           Action = CommandsDataModule.actUnitTestWizard
-        end
-        object EditorViewsMenu: TSpTBXSubmenuItem
-          Caption = 'Source Code Views'
-          OnClick = EditorViewsMenuClick
         end
         object N13: TSpTBXSeparatorItem
         end
@@ -1309,7 +1311,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 85
     Width = 9
-    Height = 444
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
@@ -1319,7 +1321,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 939
     Top = 85
     Width = 9
-    Height = 444
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
@@ -1327,7 +1329,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
-    Top = 529
+    Top = 511
     Width = 948
     Height = 9
     FixAlign = True
@@ -2763,6 +2765,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 156
         CollectionName = 'LLMProviders\Gemini'
         Name = 'Gemini'
+      end
+      item
+        CollectionIndex = 157
+        CollectionName = 'LLMProviders\Xai'
+        Name = 'Xai'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True

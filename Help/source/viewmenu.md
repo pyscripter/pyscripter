@@ -3,7 +3,7 @@
 
 # The View Menu
 
-![graphic](images/viewmenu.png){width="10.1875em"  height="16.6875em"}
+![graphic](images/viewmenu.png){width="10.06em"  height="19em"}
 
 ***Commands/Actions:***
 
@@ -145,6 +145,31 @@ Maximize the editor window by auto-hiding all other IDE windows.
 
 *Restore editor*\
 Restore the maximized editor window to each state before maximizing.
+
+
+### Editor Views
+
+PyScripter provides different views of Python modules that can be seen alongside the source 
+code. Currently two such views are provided. The Documentation view 
+and the Disassembly view. When views other than the source code are available 
+you can switch between the source code and these views using the tabs at the 
+top of the editing area. You can close additional views by right clicking on 
+their tab and selecting "Close". When the only view is the source 
+code the tabs at the top of the editing area are hidden.
+
+![graphic](images/toolsmenu2.png){width="9.94em"  height="5.38em"}
+  
+
+***Commands/Actions:***
+
+*Documentation*\
+Shows the [Documentation view](documentationview).
+
+*Disassembly*\
+Shows the [Disassembly view](disassemblyview).
+
+*Web Preview*\
+Shows a Web preview of html files in a built-in browser.  It also works with python Jupyter notebooks  allowing the creation/editing/running of code cells.
 
 
 ### The Split Editor submenu

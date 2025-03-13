@@ -16,6 +16,7 @@ type
     llmProviderOpenAI,
     llmProviderGemini,
     llmProviderDeepSeek,
+    llmProviderGrok,
     llmProviderOllama);
 
   TEndpointType = (
@@ -50,6 +51,7 @@ type
   TLLMProviders = record
     Provider: TLLMProvider;
     DeepSeek: TLLMSettings;
+    Grok: TLLMSettings;
     OpenAI: TLLMSettings;
     Gemini: TLLMSettings;
     Ollama: TLLMSettings;
@@ -186,7 +188,7 @@ const
   GeminiSettings: TLLMSettings = (
     EndPoint: 'https://generativelanguage.googleapis.com/v1beta';
     ApiKey: '';
-    Model: 'gemini-1.5-flash';
+    Model: 'gemini-2.0-flash';
     TimeOut: 20000;
     MaxTokens: 2000;
     Temperature: 1.0;
@@ -205,6 +207,24 @@ const
     EndPoint: 'https://api.deepseek.com/beta/completions';
     ApiKey: '';
     Model: 'deepseek-chat';
+    TimeOut: 20000;
+    MaxTokens: 1000;
+    Temperature: 0;
+    SystemPrompt: '');
+
+  GrokChatSettings: TLLMSettings = (
+    EndPoint: 'https://api.x.ai/v1/chat/completions';
+    ApiKey: '';
+    Model: 'grok-2-latest';
+    TimeOut: 20000;
+    MaxTokens: 3000;
+    Temperature: 1.0;
+    SystemPrompt: DefaultSystemPrompt);
+
+  GrokCompletionSettings: TLLMSettings = (
+    EndPoint: 'https://api.x.ai/v1/completions';
+    ApiKey: '';
+    Model: 'grok-2-latest';
     TimeOut: 20000;
     MaxTokens: 1000;
     Temperature: 0;
@@ -391,6 +411,7 @@ function TLLMBase.GetLLMSettings: TLLMSettings;
 begin
   case Providers.Provider of
     llmProviderDeepSeek: Result := Providers.DeepSeek;
+    llmProviderGrok: Result := Providers.Grok;
     llmProviderOpenAI: Result := Providers.OpenAI;
     llmProviderOllama: Result := Providers.Ollama;
     llmProviderGemini: Result := Providers.Gemini;
@@ -403,11 +424,9 @@ begin
   begin
     FSerializer.Populate<TLLMProviders>(TFile.ReadAllText(FName), Providers);
     Providers.DeepSeek.ApiKey := Obfuscate(Providers.DeepSeek.ApiKey);
+    Providers.Grok.ApiKey := Obfuscate(Providers.Grok.ApiKey);
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
     Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
-    // backward compatibility
-    if (Providers.Gemini.EndPoint = '') and (Providers.Gemini.Model = '') then
-      Providers.Gemini := GeminiSettings;
   end;
 end;
 
@@ -480,12 +499,14 @@ end;
 procedure TLLMBase.SaveSettings(const FName: string);
 begin
   Providers.DeepSeek.ApiKey := Obfuscate(Providers.DeepSeek.ApiKey);
+  Providers.Grok.ApiKey := Obfuscate(Providers.Grok.ApiKey);
   Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
   Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
   try
     TFile.WriteAllText(FName, FSerializer.Serialize<TLLMProviders>(Providers));
   finally
     Providers.DeepSeek.ApiKey := Obfuscate(Providers.DeepSeek.ApiKey);
+    Providers.Grok.ApiKey := Obfuscate(Providers.Grok.ApiKey);
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
     Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
   end;
@@ -525,6 +546,7 @@ begin
   inherited;
   Providers.Provider := llmProviderOpenAI;
   Providers.DeepSeek := DeepSeekChatSettings;
+  Providers.Grok := GrokChatSettings;
   Providers.OpenAI := OpenaiChatSettings;
   Providers.Ollama := OllamaChatSettings;
   Providers.Gemini := GeminiSettings;
@@ -698,7 +720,9 @@ begin
   Result := etUnsupported;
   if EndPoint.Contains('googleapis') then
     Result := etGemini
-  else if EndPoint.Contains('openai') or EndPoint.Contains('deepseek') then
+  else if EndPoint.Contains('openai') or EndPoint.Contains('deepseek') or
+    EndPoint.Contains('x.ai')
+  then
   begin
     if EndPoint.EndsWith('chat/completions') then
       Result := etOpenAIChatCompletion
@@ -765,6 +789,7 @@ begin
   OnLLMError := ShowError;
   Providers.Provider := llmProviderOpenAI;
   Providers.DeepSeek := DeepSeekCompletionSettings;
+  Providers.Grok := GrokCompletionSettings;
   Providers.OpenAI := OpenaiCompletionSettings;
   Providers.Ollama := OllamaCompletionSettings;
   Providers.Gemini := GeminiSettings;
