@@ -20,7 +20,8 @@ Delphi 10.4 and 11 Should also be supported.
   9. SynWeb Highlighters (https://github.com/KrystianBigaj/synweb)
   10. zControls (https://github.com/MahdiSafsafi/zcontrols)
   11. Delphi Detours Library (https://github.com/MahdiSafsafi/delphi-detours-library)
-  12. SVGIconImageList (https://github.com/EtheaDev/SVGIconImageList) 
+  12. SVGIconImageList (https://github.com/EtheaDev/SVGIconImageList)
+  13. MarkdownProcessor (https://github.com/EtheaDev/MarkdownProcessor) 
 
   
 ** Installiing Third Party components: and compiling PyScripter **
