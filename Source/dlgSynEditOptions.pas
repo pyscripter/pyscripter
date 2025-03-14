@@ -1106,8 +1106,10 @@ begin
   end;
 
   // DPI Scaling
+  {$IF (CompilerVersion < 36) or not Declared(RTLVersion123)}
   StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, FCurrentPPI, 96);
   StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, FCurrentPPI, 96);
+  {$ENDIF}
 end;
 
 procedure TEditorOptionsDialog.KeyListSelectItem(Sender: TObject;
