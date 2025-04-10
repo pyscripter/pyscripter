@@ -276,8 +276,6 @@ function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
 var
   Path, NewPath: string;
 begin
-  DestroyPythonComponents;
-
   CreatePythonComponents;
   try
     Version.AssignTo(PythonEngine);
