@@ -631,7 +631,7 @@
             - New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
             - IDE option to enable/disable editor accessibility support
           Issues addressed
-            #1367, #1369, #1372, #1373, #1374
+            #1367, #1369, #1372, #1373, #1374, #1375
 
  {------------------------------------------------------------------------------}
 

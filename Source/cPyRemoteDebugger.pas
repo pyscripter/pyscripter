@@ -800,6 +800,7 @@ procedure TPyRemoteInterpreter.ReInitialize;
 var
   Py: IPyEngineAndGIL;
 begin
+  OutputDebugString('Reinitialize');
   FStoredServerOutput := [];
   Py := SafePyEngine;
   case PyControl.DebuggerState of
@@ -808,8 +809,8 @@ begin
         GI_PyInterpreter.ShowOutput := False;
         ShutDownServer;  // sets fIsConnected to False
         Py.PythonEngine.PyErr_Clear;
-        //  Running/Debugging will detect that fIsConnected is false and
-        //  finish run/debug orderly and post a WM_REINITINTERPRETER message
+        //  Running/Debugging will detect that fIsConnected is false,
+        //  finish run/debug orderly and Reinitialize the server
         //  So we should not reinitialize here.
       end;
     dsInactive:
@@ -1273,7 +1274,7 @@ begin
     dsRunning: RaiseKeyboardInterrupt(FRemotePython.ServerProcessInfo.dwProcessId);
     dsPaused:
       begin
-         GI_PyInterpreter.RemovePrompt;
+        GI_PyInterpreter.RemovePrompt;
         FDebuggerCommand := dcAbort;
         DoDebuggerCommand;
       end;
@@ -1657,10 +1658,12 @@ begin
   var
     Py: IPyEngineAndGIL;
   begin
+    OutputDebugString('Terminate');
     Py := SafePyEngine;
     try
       try
-        if FRemotePython.Connected then begin
+        if FRemotePython.Connected then
+        begin
           var ExcInfo: Variant := FRemotePython.RPI.traceback_exception;
           if not VarIsNone(ExcInfo) then begin
             FRemotePython.HandleRemoteException(ExcInfo);
@@ -1674,7 +1677,7 @@ begin
           // should not happen
           FRemotePython.CheckConnected(True, False);
           if FRemotePython.Connected then
-              FRemotePython.HandlePyException(GetPythonEngine.Traceback, E.Message);
+            FRemotePython.HandlePyException(GetPythonEngine.Traceback, E.Message);
         end;
       end;
     finally
@@ -1708,7 +1711,10 @@ begin
         GI_PyInterpreter.ClearPendingMessages;
         // Reinitialize destroys the debugger which executes this method!
         // So handle with a delay
-        GI_PyInterpreter.ReinitInterpreter;
+        TThread.ForceQueue(nil, procedure
+        begin
+          GI_PyInterpreter.ReinitInterpreter;
+        end);
       end else if FRemotePython.CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;
@@ -1745,7 +1751,12 @@ begin
         Py := nil; // Release the GIL
       until not FRemotePython.Connected or AsyncReady;
 
-      TThread.Queue(nil, TerminateProc);
+      if FRemotePython.FUseNamedPipes then
+        // #1375 GetOverlappedResult fails on thread exit!
+        TThread.Synchronize(nil, TerminateProc)
+      else
+        TThread.Queue(nil, TerminateProc);
+
       // See https://en.delphipraxis.net/topic/10361-memory-leak-with-anonymous-methods/
       TerminateProc := nil;
     end
