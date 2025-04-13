@@ -1206,6 +1206,8 @@ object CommandsDataModule: TCommandsDataModule
           Caption = 'Grok'
           Hint = 'Use Grok'
           GroupIndex = 1
+          ImageIndex = 111
+          ImageName = 'Xai'
           OnClick = mnProviderClick
           OnDrawImage = HighlightCheckedImg
         end

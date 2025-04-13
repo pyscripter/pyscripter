@@ -59,7 +59,7 @@ Chat settings are automatically saved when PyScripter exits and restored when
 PyScripter starts, in a Json file named "Chat Settings.json" in the same directory 
 as PyScripter.ini.
 
-![graphic](images/chatsettings.png){align=center width="23.81em" height="19.375em"}
+![graphic](images/chatsettings.png){align=center width="23.875em" height="21.125"}
 
 The following settings can be modified:
 
@@ -72,23 +72,26 @@ defaults:
 - https://api.openai.com/v1/chat/completions for OpenAI
 - https://generativelanguage.googleapis.com/v1beta for Gemini
 - https://api.deepseek.com/chat/completions for DeepSeek
+- https://api.x.ai/v1/chat/completions for Grok
 - http://localhost:11434/api/chat for Ollama
 
 *Model*\
 The model you want to use.   
 - OpenAI models\
-  **GPT-3.5 Turbo** is good for coding tasks.  **GPT-4o model** is newer, ten times more expensive, but possibly better.
-- Gemini models\
-  Use **gemini-2.0-flash**, **gemini-2.0-flash-lite** or any newer Gemini model.
+  **gpt-3.5-turbo** is good for coding tasks.  **gpt-4o** is newer, ten times more expensive, but possibly better.
 - DeepSeek models\
   Use **deepseek-chat** or **deepseek-reasoner**.
+- Gemini models\
+  Use **gemini-2.0-flash**, **gemini-2.0-flash-lite** or any newer Gemini model.
+- Grok
+  Use **grok-3-latest** or **grok-3-mini-latest**, which is a reasoning model.
 - Ollama\
   You have a wide choice of good models. See the 
-  [instructions](llmprerequisites.md#install-ollama-models) for chosing and installing 
+  [instructions](llmprerequisites.md#install-ollama-models) for choosing and installing 
   Ollama models.
 
 *API key*\
-Enter your OpenAI/Gemini [API key](llmprerequisites). Leave blank for Ollama models.
+Enter your OpenAI/DeepSeek/Gemini/Grok [API key](llmprerequisites). Leave blank for Ollama models.
 
 *Timeout*\
 How long you are prepared to wait for a response in seconds.

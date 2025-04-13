@@ -3,6 +3,17 @@
 
 # History
 
+### Version 5.2.2 (April 14, 2025)
+
+* *New features:*
+	+ Support for Grok LLM
+    + New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
+    + IDE option to enable/disable editor accessibility support
+
+* *Issues addressed:*
+	+  *#1367*, *#1369*, *#1372*, *#1373*, *#1374*, *#1375*
+
+
 ### Version 5.2.1 (Feburay 10, 2025)
 
 * *New features:*

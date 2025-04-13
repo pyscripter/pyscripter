@@ -56,11 +56,15 @@ The model you want to use. Currently the Assistant works with the following mode
  **gpt-3.5-turbo-instruct**\
    The reason is that this is the only OpenAI model that has been trained for 
   [Fill-in-the-middle](https://codeium.com/blog/why-code-completion-needs-fill-in-the-middle) 
-  (FIM) tasks. And FIM is important for code completion.
+  (FIM) tasks. And FIM is important for code completion.  Alternatively, you can use the newer
+  models, such as gpt-4o.  In that case the endpoint needs to be changed to
+  https://api.openai.com/v1/chat/completions 
 - Gemini models:\
   **gemini-2.0-flash**, **gemini-2.0-flash-lite** or any newer Gemini model
  - Deepseek model:\
    **deepseek-chat** 
+- Grok:\
+  **grok-3-latest**   
 - Ollama models:\
   Can use any model that supports FIM, such as:
   - **codellama:code** and its variants, e.g. **codellama:7b-code-q6_K** will work

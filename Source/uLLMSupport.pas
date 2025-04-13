@@ -95,6 +95,8 @@ type
     // Gemini support
     procedure AddGeminiSystemPrompt(Params: TJSONObject);
     function GeminiMessage(const Role, Content: string): TJsonObject;
+    // OpenAI support
+    function OpenAIMessage(const Role, Content: string): TJSONObject;
   public
     Providers: TLLMProviders;
     ActiveTopicIndex: Integer;
@@ -215,20 +217,20 @@ const
   GrokChatSettings: TLLMSettings = (
     EndPoint: 'https://api.x.ai/v1/chat/completions';
     ApiKey: '';
-    Model: 'grok-2-latest';
+    Model: 'grok-3-mini-latest';
     TimeOut: 20000;
     MaxTokens: 3000;
     Temperature: 1.0;
     SystemPrompt: DefaultSystemPrompt);
 
-  GrokCompletionSettings: TLLMSettings = (
-    EndPoint: 'https://api.x.ai/v1/completions';
+  GrokAssistentSettings: TLLMSettings = (
+    EndPoint: 'https://api.x.ai/v1/chat/completions';
     ApiKey: '';
-    Model: 'grok-2-latest';
+    Model: 'grok-3-latest';
     TimeOut: 20000;
-    MaxTokens: 1000;
+    MaxTokens: 3000;
     Temperature: 0;
-    SystemPrompt: '');
+    SystemPrompt: DefaultSystemPrompt);
 
   OllamaChatSettings: TLLMSettings = (
     EndPoint: 'http://localhost:11434/api/chat';
@@ -285,6 +287,7 @@ begin
     Ord('5')..Ord('9'): Result[I] := Chr(Ord(S[I]) - 5);
     end;
 end;
+
 
 { TLLMBase }
 
@@ -428,6 +431,17 @@ begin
     Providers.OpenAI.ApiKey := Obfuscate(Providers.OpenAI.ApiKey);
     Providers.Gemini.ApiKey := Obfuscate(Providers.Gemini.ApiKey);
   end;
+end;
+
+function TLLMBase.OpenAIMessage(const Role, Content: string): TJSONObject;
+begin
+  Result := TJSONObject.Create;
+  if Settings.Model.StartsWith('o') and (Role = 'system') then
+  // newer OpenAI models do support system messages
+    Result.AddPair('role', 'user')
+  else
+    Result.AddPair('role', Role);
+  Result.AddPair('content', Content);
 end;
 
 procedure TLLMBase.OnRequestCompleted(const Sender: TObject;
@@ -621,17 +635,6 @@ function TLLMChat.RequestParams(const Prompt: string; const Suffix: string = '')
     Result := JSON.ToJSON;
   end;
 
-  function NewOpenAIMessage(const Role, Content: string): TJSONObject;
-  begin
-    Result := TJSONObject.Create;
-    if Settings.Model.StartsWith('o') and (Role = 'system') then
-    // newer OpenAI models do support system messages
-      Result.AddPair('role', 'user')
-    else
-      Result.AddPair('role', Role);
-    Result.AddPair('content', Content);
-  end;
-
 begin
   if FEndPointType = etGemini then
     Exit(GeminiParams);
@@ -649,28 +652,28 @@ begin
         JSON.AddPair('options', Options);
       end;
     etOpenAIChatCompletion:
-    begin
-      JSON.AddPair('temperature', Settings.Temperature);
-      // Newer OpenAI models do not support max_tokens
-      if Settings.Model.StartsWith('o') then
-        JSON.AddPair('max_completion_tokens', Settings.MaxTokens)
-      else
-        JSON.AddPair('max_tokens', Settings.MaxTokens);
-    end;
+      begin
+        JSON.AddPair('temperature', Settings.Temperature);
+        // Newer OpenAI models do not support max_tokens
+        if Settings.Model.StartsWith('o') then
+          JSON.AddPair('max_completion_tokens', Settings.MaxTokens)
+        else
+          JSON.AddPair('max_tokens', Settings.MaxTokens);
+      end;
   end;
 
   var Messages := TJSONArray.Create;
   // start with the system message
   if Settings.SystemPrompt <> '' then
-    Messages.Add(NewOpenAIMessage('system', Settings.SystemPrompt));
+    Messages.Add(OpenAIMessage('system', Settings.SystemPrompt));
   // add the history
   for var QAItem in ActiveTopic.QAItems do
   begin
-    Messages.Add(NewOpenAIMessage('user', QAItem.Prompt));
-    Messages.Add(NewOpenAIMessage('assistant', QAItem.Answer));
+    Messages.Add(OpenAIMessage('user', QAItem.Prompt));
+    Messages.Add(OpenAIMessage('assistant', QAItem.Answer));
   end;
   // finally add the new prompt
-  Messages.Add(NewOpenAIMessage('user', Prompt));
+  Messages.Add(OpenAIMessage('user', Prompt));
 
   JSON.AddPair('messages', Messages);
 
@@ -789,7 +792,7 @@ begin
   OnLLMError := ShowError;
   Providers.Provider := llmProviderOpenAI;
   Providers.DeepSeek := DeepSeekCompletionSettings;
-  Providers.Grok := GrokCompletionSettings;
+  Providers.Grok := GrokAssistentSettings;
   Providers.OpenAI := OpenaiCompletionSettings;
   Providers.Ollama := OllamaCompletionSettings;
   Providers.Gemini := GeminiSettings;
@@ -936,9 +939,14 @@ begin
   var JSON := TSmartPtr.Make(TJSONObject.Create)();
   JSON.AddPair('model', Settings.Model);
   JSON.AddPair('stream', False);
-  JSON.AddPair('prompt', Prompt);
-  if Suffix <> '' then
-    JSON.AddPair('suffix', Suffix);
+
+  if FEndPointType in [etOllamaGenerate, etOpenAICompletion] then
+  begin
+    JSON.AddPair('prompt', Prompt);
+    if Suffix <> '' then
+      JSON.AddPair('suffix', Suffix);
+  end;
+
   case FEndPointType of
     etOllamaGenerate:
       begin
@@ -961,6 +969,23 @@ begin
         JSON.AddPair('max_tokens', Settings.MaxTokens);
         JSON.AddPair('temperature', Settings.Temperature);
       end;
+    etOpenAIChatCompletion:
+      begin
+        JSON.AddPair('temperature', Settings.Temperature);
+        // Newer OpenAI models do not support max_tokens
+        if Settings.Model.StartsWith('o') then
+          JSON.AddPair('max_completion_tokens', Settings.MaxTokens)
+        else
+          JSON.AddPair('max_tokens', Settings.MaxTokens);
+
+        var Messages := TJSONArray.Create;
+        // start with the system message
+        if Settings.SystemPrompt <> '' then
+          Messages.Add(OpenAIMessage('system', Settings.SystemPrompt));
+        Messages.Add(OpenAIMessage('user', Prompt));
+
+        JSON.AddPair('messages', Messages);
+      end;
   end;
 
   Result := JSON.ToJSON;
@@ -974,10 +999,10 @@ end;
 
 procedure TLLMAssistant.Suggest;
 const
-  OpenAISuggestPrompt: string =
+  CompletionSuggestPrompt: string =
     'You are my Python coding assistant.  Please complete the following' +
     ' Python code. Return only the missing part:'#13#10'%s';
-  GeminiSuggestPrompt =
+  ChatCompletionSuggestPrompt =
     'Please fill the blank indicated by "____" in the following Python code. '+
     'Return only what is missing and nothing else:'#13#10'```%s____%s```';
 
@@ -1008,7 +1033,7 @@ begin
   case Settings.EndPointType of
     etOpenAICompletion:
       begin
-        var Prompt := Format(OpenAISuggestPrompt, [GetPrefix]);
+        var Prompt := Format(CompletionSuggestPrompt, [GetPrefix]);
         Ask(Prompt, GetSuffix);
       end;
     etOllamaGenerate:
@@ -1019,10 +1044,10 @@ begin
         Ask(Prompt, GetSuffix);
         FStopSequence := [];
       end;
-    etGemini:
+    etGemini, etOpenAIChatCompletion:
       begin
         FStopSequence := ['____'];
-        var Prompt := Format(GeminiSuggestPrompt, [GetPrefix, GetSuffix]);
+        var Prompt := Format(ChatCompletionSuggestPrompt, [GetPrefix, GetSuffix]);
         Ask(Prompt, '');
         FStopSequence := [];
       end;
@@ -1033,7 +1058,8 @@ function TLLMAssistant.ValidateSettings: TLLMSettingsValidation;
 begin
   Result := Settings.Validate;
   if (Result = svValid) and
-    not (Settings.EndPointType in [etOllamaGenerate, etOpenAICompletion, etGemini])
+    not (Settings.EndPointType in
+    [etOllamaGenerate, etOpenAICompletion, etOpenAIChatCompletion, etGemini])
   then
     Result := svInvalidEndpoint;
 end;

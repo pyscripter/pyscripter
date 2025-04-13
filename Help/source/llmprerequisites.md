@@ -28,6 +28,12 @@ You need to [get an API key](https://platform.deepseek.com/api_keys).  This is a
 commercial service, but the [pricing](https://api-docs.deepseek.com/quick_start/pricing) 
 is very competitive.
 
+## Grok
+
+You need to [create an account](https://accounts.x.ai/sign-up)  and get an API key.
+This is a commercial service. See [pricing](https://docs.x.ai/docs/models#models-and-pricing) 
+for details.
+
 ## Local Models using Ollama
 
 Why you may want to run LLMs locally? Here are a few reasons:
