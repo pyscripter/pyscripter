@@ -1233,6 +1233,7 @@ type
     function ApplicationHelp(Command: Word; Data: THelpEventData;
       var CallHelp: Boolean): Boolean;
     procedure FormShow(Sender: TObject);
+    procedure PyScripterInit;
     procedure actAddWatchAtCursorExecute(Sender: TObject);
     procedure actNewFileExecute(Sender: TObject);
     procedure actNavWatchesExecute(Sender: TObject);
@@ -1429,6 +1430,7 @@ const
 
 var
   PyIDEMainForm: TPyIDEMainForm;
+  PyScripterInitedAsync: Boolean = True;
 
 implementation
 
@@ -4381,52 +4383,58 @@ begin
   DragAcceptFiles(TabControl1.Handle, True);
   DragAcceptFiles(TabControl2.Handle, True);
 
+  if PyScripterInitedAsync then
+    TThread.ForceQueue(nil, PyScripterInit)
+  else
+    PyScripterInit;
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
+end;
+
+
+procedure TPyIDEMainForm.PyScripterInit;
+begin
+  // Activate File Explorer
+  FileExplorerWindow.FileExplorerTree.Active := True;
+  //Application.ProcessMessages;
+
+  // Load Python Engine and Assign Debugger Events
+  PyControl.LoadPythonEngine;
+  SetupPythonVersionsMenu;
+
+  // Update External Tools
+  SetupToolsMenu;  // After creating internal interpreter
+  SetupCustomizer; // After setting up the Tools menu
+  // Load Toolbar Items after setting up the Tools menu
+  if FileExists(AppStorage.IniFile.FileName) then
+    LoadToolbarItems('Toolbar Items');
+
+  PyControl.OnStateChange := DebuggerStateChange;
+
+  // This is needed to update the variables window
+  PyControl.DebuggerState := dsInactive;
+
+  // Open initial files after loading Python (#879)
+  OpenInitialFiles;
+
+  if Layouts.IndexOf('Default') < 0 then begin
+    SaveLayout('Default');
+    Layouts.Add('Default');
+  end;
+
   TThread.ForceQueue(nil, procedure
   begin
-    // Activate File Explorer
-    FileExplorerWindow.FileExplorerTree.Active := True;
-    //Application.ProcessMessages;
-
-    // Load Python Engine and Assign Debugger Events
-    PyControl.LoadPythonEngine;
-    SetupPythonVersionsMenu;
-
-    // Update External Tools
-    SetupToolsMenu;  // After creating internal interpreter
-    SetupCustomizer; // After setting up the Tools menu
-    // Load Toolbar Items after setting up the Tools menu
-    if FileExists(AppStorage.IniFile.FileName) then
-      LoadToolbarItems('Toolbar Items');
-
-    PyControl.OnStateChange := DebuggerStateChange;
-
-    // This is needed to update the variables window
-    PyControl.DebuggerState := dsInactive;
-
-    // Open initial files after loading Python (#879)
-    OpenInitialFiles;
-
-    if Layouts.IndexOf('Default') < 0 then begin
-      SaveLayout('Default');
-      Layouts.Add('Default');
-    end;
-
-    TThread.ForceQueue(nil, procedure
+    if IsUpgrade then
     begin
-      if IsUpgrade then
-      begin
-        // Show history help topic
-        PyIDEMainForm.MenuHelpRequested := True;
-        Application.HelpJump('history');
-        PyIDEMainForm.MenuHelpRequested := False;
-      end;
-      CommandsDataModule.AutoCheckForUpdates;
-    end, 1000);
+      // Show history help topic
+      PyIDEMainForm.MenuHelpRequested := True;
+      Application.HelpJump('history');
+      PyIDEMainForm.MenuHelpRequested := False;
+    end;
+    CommandsDataModule.AutoCheckForUpdates;
+  end, 1000);
 
-    if not GI_PyControl.PythonLoaded then
-      actPythonSetupExecute(Self);
-  end);
-  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
+  if not GI_PyControl.PythonLoaded then
+    actPythonSetupExecute(Self);
 end;
 
 procedure TPyIDEMainForm.JvAppInstancesCmdLineReceived(Sender: TObject;
