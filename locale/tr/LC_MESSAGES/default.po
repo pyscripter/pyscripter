@@ -2164,7 +2164,7 @@ msgstr "Seçim mevcut"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "None"
-msgstr "None"
+msgstr "Hiçbiri"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
@@ -2239,7 +2239,7 @@ msgid ""
 "feed the corresponding information\n"
 "to the standard input."
 msgstr ""
-"Seçin option other than None to \n"
+"Seçin option other than Hiçbiri to \n"
 "feed the corresponding bilgi\n"
 "to the standard input."
 
@@ -2273,7 +2273,7 @@ msgid ""
 "redirect the output to the \n"
 "corresponding outlet."
 msgstr ""
-"Seçin option other than None to \n"
+"Seçin option other than Hiçbiri to \n"
 "redirect the çıktı to the \n"
 "corresponding outlet."
 
@@ -6877,7 +6877,7 @@ msgstr "<Tümü>"
 #. Programmer's name for it: SNoneString
 #: frmFunctionList.pas
 msgid "<None>"
-msgstr "<None>"
+msgstr "<Hiçbiri>"
 
 #. Programmer's name for it: SParseStatistics
 #: frmFunctionList.pas
@@ -7803,7 +7803,7 @@ msgstr "Seçin Eşleştirme Bracket"
 #. Programmer's name for it: srNone
 #: StringResources.pas
 msgid "(None)"
-msgstr "(None)"
+msgstr "(Hiçbiri)"
 
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
