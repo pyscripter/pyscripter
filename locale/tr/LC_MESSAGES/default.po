@@ -2484,7 +2484,7 @@ msgstr "Seçin &Tümü"
 #. CommandsDataModule..actlMain..actEditSelectAll..Hint
 #: dmCommands.dfm
 msgid "Select All|Selects the entire document"
-msgstr "Seçin Tümü|Selects entire belge"
+msgstr "Tümünü Seç|Tüm belgeyi seçer"
 
 #. CommandsDataModule..actlMain..actEditReadOnly..Caption
 #. Programmer's name for it: SReadOnly
