@@ -571,7 +571,7 @@ msgstr "&Varsayılan Uzantı:"
 #. FileTemplatesDialog..Panel..GroupBox..Label7..Caption
 #: dlgFileTemplates.dfm
 msgid "&Highlighter:"
-msgstr "&Highlighter:"
+msgstr "&Vurgulayıcı:"
 
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
