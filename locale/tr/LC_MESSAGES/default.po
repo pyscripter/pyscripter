@@ -1418,12 +1418,12 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of line"
-msgstr "Kaydırma past son of line"
+msgstr "Kaydırma past son of satır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows a hint of the visible line numbers when scrolling vertically"
-msgstr "Shows a ip ucu of the visible line numbers when scrolling vertically"
+msgstr "Shows a ip ucu of the visible satır numbers when scrolling vertically"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
 #: dlgSynEditOptions.dfm
@@ -1455,7 +1455,7 @@ msgstr "Göster yazı tipi ligatures"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr "Shows line breaks, boşluklar and sekmeler kullanarak special symbols"
+msgstr "Shows satır breaks, boşluklar and sekmeler kullanarak special symbols"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -1549,7 +1549,7 @@ msgstr "Autosize"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show line numbers"
-msgstr "Göster line numbers"
+msgstr "Göster satır numbers"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
@@ -1617,7 +1617,7 @@ msgstr "Satır spacing / Sekme tuşu spacing"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
 msgid "Extra line spacing (pixels):"
-msgstr "Extra line spacing (pixels):"
+msgstr "Extra satır spacing (pixels):"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
@@ -1795,7 +1795,7 @@ msgstr "Satır numbers"
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
 msgid "Print line numbers in margin"
-msgstr "Print line numbers in margin"
+msgstr "Print satır numbers in margin"
 
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
@@ -2254,7 +2254,7 @@ msgstr "Kelime at imleç"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Current line"
-msgstr "Mevcut line"
+msgstr "Mevcut satır"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -2331,7 +2331,7 @@ msgstr "Satır sayı"
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the line number"
-msgstr "Placeholder for the line sayı"
+msgstr "Placeholder for the satır sayı"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
@@ -2733,7 +2733,7 @@ msgstr "Go To &Satır..."
 #. Programmer's name for it: SGoToLineNumber
 #: dmCommands.dfm StringResources.pas
 msgid "Go to line number"
-msgstr "Go to line sayı"
+msgstr "Go to satır sayı"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Caption
 #: dmCommands.dfm
@@ -2839,7 +2839,7 @@ msgstr "Configure &Tools..."
 #. CommandsDataModule..actlMain..actConfigureTools..Hint
 #: dmCommands.dfm
 msgid "Configure Tools|Add/remove/edit command-line tools"
-msgstr "Configure Tools|Ekle/remove/edit komut-line tools"
+msgstr "Configure Tools|Ekle/remove/edit komut-satır tools"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
 #: dmCommands.dfm
@@ -2869,7 +2869,7 @@ msgstr "Satır &Numbers"
 #. CommandsDataModule..actlMain..actEditLineNumbers..Hint
 #: dmCommands.dfm
 msgid "Show/Hide line numbers"
-msgstr "Göster/Gizle line numbers"
+msgstr "Göster/Gizle satır numbers"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Caption
 #: dmCommands.dfm
@@ -2904,17 +2904,17 @@ msgstr "Bul sonraki identifier reference"
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr "DOS/Windows|Dönüştür to DOS line break"
+msgstr "DOS/Windows|Dönüştür to DOS satır break"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm
 msgid "UNIX|Convert to UNIX line break"
-msgstr "UNIX|Dönüştür to UNIX line break"
+msgstr "UNIX|Dönüştür to UNIX satır break"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm
 msgid "Mac|Convert to Mac line break"
-msgstr "Mac|Dönüştür to Mac line break"
+msgstr "Mac|Dönüştür to Mac satır break"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
@@ -5030,7 +5030,7 @@ msgstr "Komut Satır &Parametreler..."
 #. PyIDEMainForm..actlStandard..actCommandLine..Hint
 #: frmPyIDEMain.dfm
 msgid "Set command line parameters"
-msgstr "Ayarla komut line parameters"
+msgstr "Ayarla komut satır parameters"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
@@ -5857,7 +5857,7 @@ msgstr "Accept Satır (Ctrl+Gir)"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Hint
 #: frmSuggest.dfm
 msgid "Accept the first suggested line"
-msgstr "Accept the first suggested line"
+msgstr "Accept the first suggested satır"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Caption
 #: frmSuggest.dfm
@@ -5882,7 +5882,7 @@ msgstr "Refresh to do öğeler"
 #. ToDoWindow..Actions..actEditGoto..Hint
 #: frmToDo.dfm
 msgid "Goto source line"
-msgstr "Goto source line"
+msgstr "Goto source satır"
 
 #. ToDoWindow..Actions..actFilePrint..Caption
 #: frmToDo.dfm
@@ -6590,11 +6590,11 @@ msgstr "Otomatik-complete brackets"
 
 #: dmCommands.pas
 msgid "Show executable line marks"
-msgstr "Göster executable line marks"
+msgstr "Göster executable satır marks"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
-msgstr "Varsayılan line break format for yeni dosyalar"
+msgstr "Varsayılan satır break format for yeni dosyalar"
 
 #: dmCommands.pas
 msgid "Default file encoding for new files"
@@ -6773,11 +6773,11 @@ msgstr "Gutter shape size"
 
 #: dmCommands.pas
 msgid "Show collapsed line"
-msgstr "Göster collapsed line"
+msgstr "Göster collapsed satır"
 
 #: dmCommands.pas
 msgid "Collapsed line color"
-msgstr "Collapsed line renk"
+msgstr "Collapsed satır renk"
 
 #: dmCommands.pas
 msgid "Folder bar lines color"
@@ -6835,7 +6835,7 @@ msgstr "Imported modules"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported Module \"%s\" at line %d"
-msgstr "Imported Module \"%s\" at line %d"
+msgstr "Imported Module \"%s\" at satır %d"
 
 #: frmCodeExplorer.pas
 msgid "Global variables"
@@ -6844,7 +6844,7 @@ msgstr "Global variables"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Global variable \"%s\" defined at line %d"
-msgstr "Global variable \"%s\" defined at line %d"
+msgstr "Global variable \"%s\" defined at satır %d"
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
@@ -6857,7 +6857,7 @@ msgstr "Class nitelikler"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Class attribute \"%s\" defined at line %d"
-msgstr "Class nitelik \"%s\" defined at line %d"
+msgstr "Class nitelik \"%s\" defined at satır %d"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
@@ -8148,7 +8148,7 @@ msgstr "\"%s\" is not a valid integer"
 #. Programmer's name for it: SEnterLineNumber
 #: StringResources.pas
 msgid "Enter line number:"
-msgstr "Gir line sayı:"
+msgstr "Gir satır sayı:"
 
 #. Programmer's name for it: SFileRenamedOrDeleted
 #: StringResources.pas
@@ -8218,7 +8218,7 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it doesn't know"
 " this version of Python."
 msgstr ""
-"PyScripter can't use komut line parametre PYTHON%s because it doesn't know "
+"PyScripter can't use komut satır parametre PYTHON%s because it doesn't know "
 "this versiyon of Python."
 
 #. Programmer's name for it: SUnsupportedPythonVersion
@@ -8228,7 +8228,7 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it was compiled"
 " for Python %s or later."
 msgstr ""
-"PyScripter can't use komut line parametre PYTHON%s because it was compiled "
+"PyScripter can't use komut satır parametre PYTHON%s because it was compiled "
 "for Python %s or later."
 
 #. Programmer's name for it: SAbortDebugging
@@ -8676,7 +8676,7 @@ msgstr "Tümü matched dosyalar"
 #. Programmer's name for it: SOnLine
 #: StringResources.pas
 msgid "On line: "
-msgstr "On line: "
+msgstr "On satır: "
 
 #. Programmer's name for it: SItemMatch
 #: StringResources.pas
@@ -8750,12 +8750,12 @@ msgstr "Parse error at this konum: "
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
 msgid "you are not allowed to use command line options starting with -"
-msgstr "you are not allowed to use komut line seçenekler starting onunla -"
+msgstr "you are not allowed to use komut satır seçenekler starting onunla -"
 
 #. Programmer's name for it: SParseInvalidOptions
 #: StringResources.pas
 msgid "The following command line options are valid: \n"
-msgstr "The following komut line seçenekler are valid: \n"
+msgstr "The following komut satır seçenekler are valid: \n"
 
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
@@ -8790,7 +8790,7 @@ msgstr "One process is still running, stop it first."
 #: StringResources.pas
 #, object-pascal-format
 msgid "Command line: %s"
-msgstr "Komut line: %s"
+msgstr "Komut satır: %s"
 
 #. Programmer's name for it: SPrintWorkingDir
 #: StringResources.pas
@@ -8929,12 +8929,12 @@ msgstr "Could not load and parse module: \"%s\""
 #. Programmer's name for it: SNoIdentifier
 #: StringResources.pas
 msgid "No Identifier at the given line and column"
-msgstr "Hayır Identifier at the given line and sütun"
+msgstr "Hayır Identifier at the given satır and sütun"
 
 #. Programmer's name for it: SCouldNotFindScope
 #: StringResources.pas
 msgid "Could not find scope for the given line"
-msgstr "Could not bul scope for the given line"
+msgstr "Could not bul scope for the given satır"
 
 #. Programmer's name for it: STypeOfSIsUnknown
 #: StringResources.pas
@@ -9406,7 +9406,7 @@ msgstr "Contents of metin dosya"
 
 #: uParams.pas
 msgid "Command line parameter"
-msgstr "Komut line parametre"
+msgstr "Komut satır parametre"
 
 #: uParams.pas
 msgid "Value of registry key"
@@ -9498,11 +9498,11 @@ msgstr "Mevcut kelime in the active belge"
 
 #: uParams.pas
 msgid "Current line in the active document"
-msgstr "Mevcut line in the active belge"
+msgstr "Mevcut satır in the active belge"
 
 #: uParams.pas
 msgid "Current line number in the active document"
-msgstr "Mevcut line sayı in the active belge"
+msgstr "Mevcut satır sayı in the active belge"
 
 #: uParams.pas
 msgid "Selected text in the active document"
