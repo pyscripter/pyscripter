@@ -1341,7 +1341,7 @@ msgstr "Satır sonlarındaki boşluklar kesilecek ve kaydedilmeyecek"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Trim trailing spaces"
-msgstr "Trim trailing boşluklar"
+msgstr "Sondaki boşlukları kırp"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
 #: dlgSynEditOptions.dfm
