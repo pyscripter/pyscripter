@@ -586,7 +586,7 @@ msgstr "Bul in Dosyalar Arama"
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
 msgid "&Text to find:"
-msgstr "&Text to bul:"
+msgstr "&Metin to bul:"
 
 #. FindInFilesDialog..Panel1..gbxOptions..Caption
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
@@ -1149,7 +1149,7 @@ msgstr "Editor Syntax Language"
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
 #: dlgSynEditOptions.dfm
 msgid " Text attributes "
-msgstr " Text attributes "
+msgstr " Metin attributes "
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
 #: dlgSynEditOptions.dfm
@@ -1768,12 +1768,12 @@ msgstr "Internal Margin:"
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr "Left Text Indent:"
+msgstr "Left Metin Indent:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr "Right Text Indent:"
+msgstr "Right Metin Indent:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label11..Caption
 #: dlgSynPageSetup.dfm
@@ -3063,7 +3063,7 @@ msgstr "Değiştir with existing settings"
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
 msgid "&Highlight Search Text"
-msgstr "&Highlight Arama Text"
+msgstr "&Highlight Arama Metin"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
@@ -3536,7 +3536,7 @@ msgstr "System prompt:"
 #. Programmer's name for it: sGeneralFileFilter
 #: dmResources.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr "Text Dosyalar(*.txt,*.*)|*.txt;*.*"
+msgstr "Metin Dosyalar(*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
@@ -4625,7 +4625,7 @@ msgstr "Python engine type"
 #. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
 #: frmPyIDEMain.dfm
 msgid "Text position"
-msgstr "Text position"
+msgstr "Metin position"
 
 #. PyIDEMainForm..StatusBar..spiStatusLED..Hint
 #. PyIDEMainForm..StatusBar..spiLspLed..Hint
@@ -5815,7 +5815,7 @@ msgstr "Regular Expression"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpSearchText..SpTBXPanel2..TBXLabel4..Caption
 #: frmRegExpTester.dfm
 msgid "Search Text:"
-msgstr "Arama Text:"
+msgstr "Arama Metin:"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..lblMatch..Caption
 #: frmRegExpTester.dfm
@@ -7207,12 +7207,12 @@ msgstr "Tag"
 #. Programmer's name for it: SyntaxElementFriendlyName_Text
 #: StringResources.pas
 msgid "Text"
-msgstr "Text"
+msgstr "Metin"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_TextValue
 #: StringResources.pas
 msgid "Text Value"
-msgstr "Text Değer"
+msgstr "Metin Değer"
 
 #. Editor scroll hints
 #. Programmer's name for it: sEditorScrollInfo
@@ -7782,7 +7782,7 @@ msgstr "Select Column Page Aşağı"
 #. Programmer's name for it: SEdCmdSelMatchingText
 #: StringResources.pas
 msgid "Select Matching Text"
-msgstr "Select Matching Text"
+msgstr "Select Matching Metin"
 
 #. Programmer's name for it: SEdCmdCaretsAtLineEnds
 #: StringResources.pas
@@ -9021,7 +9021,7 @@ msgstr "HTML Document"
 #. Programmer's name for it: STextFileTemplateName
 #: StringResources.pas
 msgid "Text File"
-msgstr "Text Dosya"
+msgstr "Metin Dosya"
 
 #. Programmer's name for it: SXMLTemplateName
 #: StringResources.pas
@@ -9490,7 +9490,7 @@ msgstr "Open files"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
-msgstr "Text of the active document or a dosya"
+msgstr "Metin of the active document or a dosya"
 
 #: uParams.pas
 msgid "Current word in the active document"
@@ -9532,7 +9532,7 @@ msgstr ""
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:174
 msgid "Icons + Selective Text"
-msgstr "Icons + Selective Text"
+msgstr "Icons + Selective Metin"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:175
@@ -9542,7 +9542,7 @@ msgstr "Icons"
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:176
 msgid "Icons + Text"
-msgstr "Icons + Text"
+msgstr "Icons + Metin"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
