@@ -135,7 +135,7 @@ msgstr "&İptal"
 #. AskParamForm..Panel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
-msgstr "and kaydet it as a custom parametre"
+msgstr "ve kaydet it as a custom parametre"
 
 #. CodeTemplates..Caption
 #: dlgCodeTemplates.dfm
@@ -1315,7 +1315,7 @@ msgstr "Akıllı sekme tuşu delete"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
 msgid "Tab indents and Shift-Tab unindents"
-msgstr "Sekme tuşu girintiler and Shift-Sekme tuşu unindents"
+msgstr "Sekme tuşu girintiler ve Shift-Sekme tuşu unindents"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1456,8 +1456,7 @@ msgstr "Göster yazı tipi ligatures"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr ""
-"Göster satır breaks, boşluklar and sekmeler kullanarak special symbols"
+msgstr "Göster satır breaks, boşluklar ve sekmeler kullanarak special symbols"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -2116,7 +2115,7 @@ msgstr "Çalışılan &dizin:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
 msgid "Shortcut and Context"
-msgstr "Kısayol and Bağlam"
+msgstr "Kısayol ve Bağlam"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..lbShortcut..Caption
 #: dlgToolProperties.dfm
@@ -2182,7 +2181,7 @@ msgstr "Tümü dosyalar"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Caption
 #: dlgToolProperties.dfm
 msgid "Standard Input and Output"
-msgstr "Standard Input and Çıktı"
+msgstr "Standard Input ve Çıktı"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label10..Caption
 #: dlgToolProperties.dfm
@@ -2212,7 +2211,7 @@ msgid ""
 "will be parsed and shown in the messages window."
 msgstr ""
 "If checked çıktı satırlar that look like messages \n"
-"will be parsed and shown in the messages pencere."
+"will be parsed ve shown in the messages pencere."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
 #: dlgToolProperties.dfm
@@ -2353,7 +2352,7 @@ msgstr "Birim Test Wizard"
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
 msgid "Select the functions and methods for which tests will be generated:"
-msgstr "Seçin the functions and methods for which tests will be generated:"
+msgstr "Seçin the functions ve methods for which tests will be generated:"
 
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
@@ -2430,7 +2429,7 @@ msgstr "Cu&t"
 #. CommandsDataModule..actlMain..actEditCut..Hint
 #: dmCommands.dfm
 msgid "Cut|Cuts the selection and puts it on the Clipboard"
-msgstr "Cut|Cuts the selection and puts it on the Clipboard"
+msgstr "Cut|Cuts the selection ve puts it on the Clipboard"
 
 #. CommandsDataModule..actlMain..actEditCopy..Caption
 #. FindResultsWindow..Actions..actFileCopy..Caption
@@ -2441,7 +2440,7 @@ msgstr "&Copy"
 #. CommandsDataModule..actlMain..actEditCopy..Hint
 #: dmCommands.dfm
 msgid "Copy|Copies the selection and puts it on the Clipboard"
-msgstr "Copy|Copies the selection and puts it on the Clipboard"
+msgstr "Copy|Copies the selection ve puts it on the Clipboard"
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
@@ -2553,7 +2552,7 @@ msgstr "Kaydet &Tümü"
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "Kaydet hepsi|Kaydet proje and hepsi aç dosyalar"
+msgstr "Kaydet hepsi|Kaydet proje ve hepsi aç dosyalar"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -5017,7 +5016,7 @@ msgstr "&Sözdizimi Check"
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
 #: frmPyIDEMain.dfm
 msgid "Syntax Check|Perform syntax check and load scripts"
-msgstr "Sözdizimi Check|Perform sözdizimi check and load scripts"
+msgstr "Sözdizimi Check|Perform sözdizimi check ve load scripts"
 
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
@@ -6203,7 +6202,7 @@ msgstr "Advanced Değiştir"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
-msgstr "Advanced Arama and değişim"
+msgstr "Advanced Arama ve değişim"
 
 #: cTools.pas
 msgid "Format Selection"
@@ -6237,7 +6236,7 @@ msgid ""
 msgstr ""
 "Special thanks to the many great developers who,onunla their amazing work, "
 "have made PyScripter possible. PyScripter makes use of the following "
-"components and projeler:"
+"components ve projeler:"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
@@ -6323,7 +6322,7 @@ msgid ""
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
 "Donations from numerous users have provided a strong incentive to develop this proje.\n"
-"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming ortam onunla which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
+"Financial ve moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming ortam onunla which PyScripter is built, ve generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6331,9 +6330,9 @@ msgid ""
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
-"The proje home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
+"The proje home, Issue Tracker ve source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
 "Internet grup support is mevcut at https://groups.google.com/grup/PyScripter\n"
-"Please submit hata reports and questions about PyScripter to pyscripter@gmail.com."
+"Please submit hata reports ve questions about PyScripter to pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
@@ -6345,7 +6344,7 @@ msgstr "Translators"
 
 #: dlgAboutPyScripter.pas
 msgid "Artwork and theme design"
-msgstr "Artwork and tema design"
+msgstr "Artwork ve tema design"
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
@@ -6383,7 +6382,7 @@ msgstr "Dizin To Arama:"
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
 msgstr ""
-"Seçin klasör onunla Python installation (inlcuding virtualenv and venv)"
+"Seçin klasör onunla Python installation (inlcuding virtualenv ve venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
@@ -6802,7 +6801,7 @@ msgstr "Saved renk"
 
 #: dmCommands.pas
 msgid "Saved and modified color"
-msgstr "Saved and değiştirilmiş renk"
+msgstr "Saved ve değiştirilmiş renk"
 
 #: dmCommands.pas
 msgid "Configure Tools"
@@ -6930,7 +6929,7 @@ msgid ""
 "This option will reset IDE toolbars and shortcuts to the factory settings.\n"
 "Do you want to proceed?"
 msgstr ""
-"This option will reset IDE toolbars and shortcuts to the factory settings.\n"
+"This option will reset IDE toolbars ve shortcuts to the factory settings.\n"
 "Do you want to proceed?"
 
 #. Programmer's name for it: ProjectFilter
@@ -7200,7 +7199,7 @@ msgstr "Sözdizimi Error"
 #. Programmer's name for it: SyntaxElementFriendlyName_System
 #: StringResources.pas
 msgid "System Functions and Variables"
-msgstr "System Functions and Variables"
+msgstr "System Functions ve Variables"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Tag
 #: StringResources.pas
@@ -7876,7 +7875,7 @@ msgstr "Do not göster this dialog again"
 #. Programmer's name for it: SDSActkRememberText
 #: StringResources.pas
 msgid "Remember answer and do not show again"
-msgstr "Remember answer and do not göster again"
+msgstr "Remember answer ve do not göster again"
 
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
@@ -7894,7 +7893,7 @@ msgstr "\"%s\" not found"
 #: StringResources.pas
 #, object-pascal-format
 msgid "%d items found and %d items replaced"
-msgstr "%d öğeler found and %d öğeler replaced"
+msgstr "%d öğeler found ve %d öğeler replaced"
 
 #. Programmer's name for it: SNotAvailable
 #: StringResources.pas
@@ -7916,7 +7915,7 @@ msgstr "Failed to yedekleme dosya \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
-msgstr "Failed to load layout from \"%s\". Please kapat and restart PyScripter"
+msgstr "Failed to load layout from \"%s\". Please kapat ve restart PyScripter"
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
@@ -7971,8 +7970,8 @@ msgstr ""
 "**Before** kullanarak PyScripter, you must ensure that a versiyon of Python greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
-"The 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **and** onunla 64-bit versiyonlar of Python.\n"
-"The 32-bit versiyon of PyScripter works on both 32-bit and 64-bit Windows onunla 32-bit versiyonlar of Python."
+"The 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **ve** onunla 64-bit versiyonlar of Python.\n"
+"The 32-bit versiyon of PyScripter works on both 32-bit ve 64-bit Windows onunla 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPythonFindError
 #: StringResources.pas
@@ -7983,9 +7982,9 @@ msgid ""
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 "PyScripter could not bul a usable Python installation at the specified yol.\n"
-"Note that the 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **and**\n"
+"Note that the 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **ve**\n"
 "onunla 64-bit versiyonlar of Python. The 32-bit versiyon of PyScripter works on both\n"
-"32-bit and 64-bit Windows onunla 32-bit versiyonlar of Python."
+"32-bit ve 64-bit Windows onunla 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -7995,7 +7994,7 @@ msgid ""
 "To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr ""
 "You are now in post-mortem analysis mode.\n"
-"You can examine the Call Stack, Variables and Watches windows, evaluate ifadeler etc.\n"
+"You can examine the Call Stack, Variables ve Watches windows, evaluate ifadeler etc.\n"
 "To exit the post-mortem analysis seçin the 'Abort Debugging' komut."
 
 #. Programmer's name for it: SFileEncodingWarning
@@ -8077,14 +8076,14 @@ msgid ""
 "If the error persists reinstall PyScripter."
 msgstr ""
 "The 'rpyc' package is not mevcut.\n"
-"Please restart PyScripter and try again.\n"
+"Please restart PyScripter ve try again.\n"
 "If the error persists reinstall PyScripter."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not write file \"%s\" and cannot use a remote Python engine"
-msgstr "Could not write dosya \"%s\" and cannot use a uzaktan Python engine"
+msgstr "Could not write dosya \"%s\" ve cannot use a uzaktan Python engine"
 
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
@@ -8098,7 +8097,7 @@ msgid ""
 " and debugger is not available."
 msgstr ""
 "Could not connect to the uzaktan Python engine sunucu. The uzaktan "
-"interpreter and debugger is not mevcut."
+"interpreter ve debugger is not mevcut."
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
@@ -8179,7 +8178,7 @@ msgid ""
 "Do you want to terminate it and exit?"
 msgstr ""
 "An Harici Araç is still running.\n"
-"Do you want to terminate it and exit?"
+"Do you want to terminate it ve exit?"
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
@@ -8239,7 +8238,7 @@ msgid ""
 "Do you want to abort the session and Exit?"
 msgstr ""
 "A debugging session is in progress.\n"
-"Do you want to abort the session and Exit?"
+"Do you want to abort the session ve Exit?"
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
@@ -8274,8 +8273,8 @@ msgid ""
 "changes to these files."
 msgstr ""
 "The following dosyalar have been changed on disk. Seçin the dosyalar that "
-"you wish to reload and press the TAMAM düğme. Please note that you will lose"
-" hepsi changes to these dosyalar."
+"you wish to reload ve press the TAMAM düğme. Please note that you will lose "
+"hepsi changes to these dosyalar."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -8422,8 +8421,7 @@ msgstr "Sil Layouts"
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas
 msgid "Please select the layouts you want to delete and press the OK button:"
-msgstr ""
-"Please seçin the layouts you want to delete and press the TAMAM düğme:"
+msgstr "Please seçin the layouts you want to delete ve press the TAMAM düğme:"
 
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
@@ -8438,7 +8436,7 @@ msgid ""
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
 "The following dosyalar have been değiştirilmiş.\n"
-"Basın 'TAMAM' to kaydet seçili dosyalar and exit.\n"
+"Basın 'TAMAM' to kaydet seçili dosyalar ve exit.\n"
 "Basın 'İptal' to return to PyScripter without saving dosyalar."
 
 #. Programmer's name for it: SSaveAs
@@ -8617,7 +8615,7 @@ msgstr "Do you want to continue %s %s?"
 #. Programmer's name for it: STheSearchAndReplace
 #: StringResources.pas
 msgid "the search and replace"
-msgstr "the arama and değişim"
+msgstr "the arama ve değişim"
 
 #. Programmer's name for it: STheSearch
 #: StringResources.pas
@@ -8740,7 +8738,7 @@ msgstr "The following dosya will be skipped: "
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not backup file \"%s\" and will skip it"
-msgstr "Could not yedekleme dosya \"%s\" and will skip it"
+msgstr "Could not yedekleme dosya \"%s\" ve will skip it"
 
 #. Command Line Options
 #. Programmer's name for it: SParseError
@@ -8925,12 +8923,12 @@ msgstr "Package Ad"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not load and parse module: \"%s\""
-msgstr "Could not load and parse module: \"%s\""
+msgstr "Could not load ve parse module: \"%s\""
 
 #. Programmer's name for it: SNoIdentifier
 #: StringResources.pas
 msgid "No Identifier at the given line and column"
-msgstr "Hayır Identifier at the given satır and sütun"
+msgstr "Hayır Identifier at the given satır ve sütun"
 
 #. Programmer's name for it: SCouldNotFindScope
 #: StringResources.pas
@@ -9152,7 +9150,7 @@ msgid ""
 "Local Python version is %s and remote Python version is %s. To use this SSH "
 "server please switch to Python version %1:s."
 msgstr ""
-"Local Python versiyon is %s and uzaktan Python versiyon is %s. To use this "
+"Local Python versiyon is %s ve uzaktan Python versiyon is %s. To use this "
 "SSH sunucu please switch to Python versiyon %1:s."
 
 #. Missing action categories
@@ -9268,7 +9266,7 @@ msgstr "The LLM model has not been ayarla"
 #. Programmer's name for it: sInvalidTemperature
 #: uLLMSupport.pas
 msgid "Invalid temperature: It should be a decimal number between 0.0 and 2.0"
-msgstr "Invalid temperature: It should be a decimal sayı between 0.0 and 2.0"
+msgstr "Invalid temperature: It should be a decimal sayı between 0.0 ve 2.0"
 
 #. Programmer's name for it: sUnsupportedEndpoint
 #: uLLMSupport.pas
@@ -9435,7 +9433,7 @@ msgstr "Unquoted string"
 
 #: uParams.pas
 msgid "Current date and time"
-msgstr "Mevcut tarih and zaman"
+msgstr "Mevcut tarih ve zaman"
 
 #: uParams.pas
 msgid "Select file"
@@ -9526,8 +9524,8 @@ msgid ""
 "command buttons, drag them off the toolbar and drop them on the commands "
 "list."
 msgstr ""
-"To add komut düğmeler, sürükle and bırak commands onto a toolbar. To remove "
-"komut düğmeler, sürükle them off the toolbar and bırak them on the commands "
+"To add komut düğmeler, sürükle ve bırak commands onto a toolbar. To remove "
+"komut düğmeler, sürükle them off the toolbar ve bırak them on the commands "
 "liste."
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
