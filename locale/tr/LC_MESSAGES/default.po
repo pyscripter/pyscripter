@@ -256,7 +256,7 @@ msgstr "Ekle öğe"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgDirectoryList.dfm
 #: dlgFileTemplates.dfm dlgToolProperties.dfm
 msgid "&Delete"
-msgstr "&Delete"
+msgstr "&Sil"
 
 #. CodeTemplates..ActionList..actDeleteItem..Hint
 #. CustomizeParams..ActionList..actDeleteItem..Hint
@@ -265,7 +265,7 @@ msgstr "&Delete"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm
 msgid "Delete item"
-msgstr "Delete öğe"
+msgstr "Sil öğe"
 
 #. CodeTemplates..ActionList..actMoveUp..Caption
 #. CollectionEditor..Panel1..MoveUpBtn..Caption
@@ -516,7 +516,7 @@ msgstr "&Replace"
 #. DirectoryListDialog..Panel2..btnDelete..Hint
 #: dlgDirectoryList.dfm
 msgid "Delete the selected file path"
-msgstr "Delete the selected file path"
+msgstr "Sil the selected file path"
 
 #. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
@@ -2457,7 +2457,7 @@ msgstr "De&lete"
 #. CommandsDataModule..actlMain..actEditDelete..Hint
 #: dmCommands.dfm
 msgid "Delete|Delete selection"
-msgstr "Delete|Delete selection"
+msgstr "Sil|Sil selection"
 
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #: dmCommands.dfm
@@ -3377,7 +3377,7 @@ msgstr "Ignore"
 #. CommandsDataModule..actlMain..actSynSpellErrorDelete..Caption
 #: dmCommands.dfm
 msgid "Delete"
-msgstr "Delete"
+msgstr "Sil"
 
 #. CommandsDataModule..actlMain..actAssistantSuggest..Caption
 #: dmCommands.dfm
@@ -4810,13 +4810,13 @@ msgstr "Save Current Layout"
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Caption
 #: frmPyIDEMain.dfm
 msgid "Delete Layouts..."
-msgstr "Delete Layouts..."
+msgstr "Sil Layouts..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Hint
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Hint
 #: frmPyIDEMain.dfm
 msgid "Delete a layout"
-msgstr "Delete a layout"
+msgstr "Sil a layout"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Caption
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Caption
@@ -7281,37 +7281,37 @@ msgstr "Cut"
 #. Programmer's name for it: SEdCmdDeleteBOL
 #: StringResources.pas
 msgid "Delete BOL"
-msgstr "Delete BOL"
+msgstr "Sil BOL"
 
 #. Programmer's name for it: SEdCmdDeleteChar
 #: StringResources.pas
 msgid "Delete Char"
-msgstr "Delete Char"
+msgstr "Sil Char"
 
 #. Programmer's name for it: SEdCmdDeleteEOL
 #: StringResources.pas
 msgid "Delete EOL"
-msgstr "Delete EOL"
+msgstr "Sil EOL"
 
 #. Programmer's name for it: SEdCmdDeleteLastChar
 #: StringResources.pas
 msgid "Delete Last Char"
-msgstr "Delete Last Char"
+msgstr "Sil Last Char"
 
 #. Programmer's name for it: SEdCmdDeleteLastWord
 #: StringResources.pas
 msgid "Delete Last Word"
-msgstr "Delete Last Word"
+msgstr "Sil Last Word"
 
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
 msgid "Delete Line"
-msgstr "Delete Line"
+msgstr "Sil Line"
 
 #. Programmer's name for it: SEdCmdDeleteWord
 #: StringResources.pas
 msgid "Delete Word"
-msgstr "Delete Word"
+msgstr "Sil Word"
 
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
@@ -8415,7 +8415,7 @@ msgstr "Enter Python expression:"
 #. Programmer's name for it: SDeleteLayouts
 #: StringResources.pas
 msgid "Delete Layouts"
-msgstr "Delete Layouts"
+msgstr "Sil Layouts"
 
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas
