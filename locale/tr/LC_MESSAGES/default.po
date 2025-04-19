@@ -1525,7 +1525,7 @@ msgstr "Edge renk:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge Column:"
-msgstr "Edge Column:"
+msgstr "Edge Sütun:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
 #: dlgSynEditOptions.dfm
@@ -2337,7 +2337,7 @@ msgstr "Placeholder for the line sayı"
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr "Column sayı"
+msgstr "Sütun sayı"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
@@ -7755,32 +7755,32 @@ msgstr "İptal Selections"
 #. Programmer's name for it: SEdCmdSelColumnLeft
 #: StringResources.pas
 msgid "Selelct Column Left"
-msgstr "Selelct Column Left"
+msgstr "Selelct Sütun Left"
 
 #. Programmer's name for it: SEdCmdSelColumnRight
 #: StringResources.pas
 msgid "Select Column Right"
-msgstr "Seçin Column Right"
+msgstr "Seçin Sütun Right"
 
 #. Programmer's name for it: SEdCmdSelColumnUp
 #: StringResources.pas
 msgid "Select Column Up"
-msgstr "Seçin Column Yukarı"
+msgstr "Seçin Sütun Yukarı"
 
 #. Programmer's name for it: SEdCmdSelColumnDown
 #: StringResources.pas
 msgid "Select Column Down"
-msgstr "Seçin Column Aşağı"
+msgstr "Seçin Sütun Aşağı"
 
 #. Programmer's name for it: SEdCmdSelColumnPageUp
 #: StringResources.pas
 msgid "Select Column Page Up"
-msgstr "Seçin Column Page Yukarı"
+msgstr "Seçin Sütun Page Yukarı"
 
 #. Programmer's name for it: SEdCmdSelColumnPageDown
 #: StringResources.pas
 msgid "Select Column Page Down"
-msgstr "Seçin Column Page Aşağı"
+msgstr "Seçin Sütun Page Aşağı"
 
 #. Programmer's name for it: SEdCmdSelMatchingText
 #: StringResources.pas
