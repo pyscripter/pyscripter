@@ -4050,7 +4050,7 @@ msgstr "Bul in Dosyalar Sonuçlar"
 #. FindResultsWindow..Actions..actReplaceSelected..Caption
 #: frmFindResults.dfm
 msgid "Replace Selected Item..."
-msgstr "Değiştir Selected Item..."
+msgstr "Değiştir Selected Öğe..."
 
 #. FindResultsWindow..Actions..actReplaceSelected..Hint
 #: frmFindResults.dfm
