@@ -1995,12 +1995,12 @@ msgstr "Yazdır|Yazdır the belge"
 #. PrintPreviewDlg..ActionList..CloseCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Close"
-msgstr "Close"
+msgstr "Kapat"
 
 #. PrintPreviewDlg..ActionList..CloseCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Close|Close Print Preview"
-msgstr "Close|Close Yazdır Preview"
+msgstr "Kapat|Kapat Yazdır Preview"
 
 #. ToDoOptionsDlg..Caption
 #: dlgToDoOptions.dfm
@@ -2405,12 +2405,12 @@ msgstr "Kaydet As|Kaydet aktif dosya alt different name"
 #. Programmer's name for it: SDlgClose
 #: dmCommands.dfm StringResources.pas
 msgid "&Close"
-msgstr "&Close"
+msgstr "&Kapat"
 
 #. CommandsDataModule..actlMain..actFileClose..Hint
 #: dmCommands.dfm
 msgid "Close|Close active file"
-msgstr "Close|Close aktif dosya"
+msgstr "Kapat|Kapat aktif dosya"
 
 #. CommandsDataModule..actlMain..actEditCut..Category
 #. CommandsDataModule..actlMain..actEditCopy..Category
@@ -3117,22 +3117,22 @@ msgstr "Git to the PyScripter Internet grup"
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #: dmCommands.dfm
 msgid "Close All &Other"
-msgstr "Close Tümü &Other"
+msgstr "Kapat Tümü &Other"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #: dmCommands.dfm
 msgid "Close all files except the active one"
-msgstr "Close hepsi dosyalar except the aktif one"
+msgstr "Kapat hepsi dosyalar except the aktif one"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr "Close Tümü to the &Sağ"
+msgstr "Kapat Tümü to the &Sağ"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr "Close hepsi dosyalar to the sağ"
+msgstr "Kapat hepsi dosyalar to the sağ"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3837,13 +3837,13 @@ msgstr "Update View|Update the seçili view"
 #. EditorForm..pmnuViewsTab..mnCloseTab..Caption
 #: frmEditor.dfm
 msgid "Close Tab"
-msgstr "Close Sekme tuşu"
+msgstr "Kapat Sekme tuşu"
 
 #. EditorForm..BGPanel..ViewsTabControl..tbiCloseTab..Hint
 #. EditorForm..pmnuViewsTab..mnCloseTab..Hint
 #: frmEditor.dfm
 msgid "Close active tab"
-msgstr "Close aktif sekme tuşu"
+msgstr "Kapat aktif sekme tuşu"
 
 #. EditorForm..pmnuEditor..mnSourceCode..Caption
 #: frmEditor.dfm
@@ -5067,12 +5067,12 @@ msgstr "Seçin a dosya to aç"
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Caption
 #: frmPyIDEMain.dfm
 msgid "Close A&ll"
-msgstr "Close A&ll"
+msgstr "Kapat A&ll"
 
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Hint
 #: frmPyIDEMain.dfm
 msgid "Close all files"
-msgstr "Close hepsi dosyalar"
+msgstr "Kapat hepsi dosyalar"
 
 #. PyIDEMainForm..actlStandard..actFileExit..Caption
 #: frmPyIDEMain.dfm
@@ -5868,7 +5868,7 @@ msgstr "İptal (Esc)"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Hint
 #: frmSuggest.dfm
 msgid "Close the form"
-msgstr "Close the form"
+msgstr "Kapat the form"
 
 #. ToDoWindow..Caption
 #: frmToDo.dfm
