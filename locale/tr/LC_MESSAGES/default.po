@@ -608,7 +608,7 @@ msgstr "&Küçük büyük harfe duyarlı"
 #. FindInFilesDialog..Panel1..gbxOptions..cbNoComments..Caption
 #: dlgFindInFiles.dfm
 msgid "&Ignore comments"
-msgstr "&Ignore yorumlar"
+msgstr "&İhmal et yorumlar"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbWholeWord..Caption
 #: dlgFindInFiles.dfm
@@ -3367,12 +3367,12 @@ msgstr "Check As You Type"
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Caption
 #: dmCommands.dfm
 msgid "Ignore Once"
-msgstr "Ignore Once"
+msgstr "İhmal et Once"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Caption
 #: dmCommands.dfm
 msgid "Ignore"
-msgstr "Ignore"
+msgstr "İhmal et"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorDelete..Caption
 #: dmCommands.dfm
@@ -3564,7 +3564,7 @@ msgstr "Satır"
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #: frmBreakPoints.dfm frmBreakPoints.pas
 msgid "Ignore Count"
-msgstr "Ignore Count"
+msgstr "İhmal et Count"
 
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #: frmBreakPoints.dfm frmBreakPoints.pas
@@ -6819,7 +6819,7 @@ msgstr "Değiştiriciler"
 
 #: frmBreakPoints.pas
 msgid "Ignore Count must be a positive integer"
-msgstr "Ignore Count must be a positive integer"
+msgstr "İhmal et Count must be a positive integer"
 
 #: frmCodeExplorer.pas
 msgid "Imports"
@@ -7838,7 +7838,7 @@ msgstr "&Retry"
 #. Programmer's name for it: SDlgIgnore
 #: StringResources.pas
 msgid "&Ignore"
-msgstr "&Ignore"
+msgstr "&İhmal et"
 
 #. Programmer's name for it: SDlgAll
 #: StringResources.pas
