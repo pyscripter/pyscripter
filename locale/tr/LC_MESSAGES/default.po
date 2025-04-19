@@ -436,7 +436,7 @@ msgstr "Özelleştirilmiş IDE Kısayollar"
 #. frmCustomKeyboard..Panel1..lblNewShortcutKey..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Press &new shortcut key:"
-msgstr "Basın &yeni kısayol key:"
+msgstr "Basın &yeni kısayol tuş:"
 
 #. frmCustomKeyboard..Panel1..lblCategories..Caption
 #: dlgCustomShortcuts.dfm
@@ -1233,7 +1233,7 @@ msgstr "Drag and drop editing"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enhances end key similar to JDeveloper"
-msgstr "Enhances end key similar to JDeveloper"
+msgstr "Enhances end tuş similar to JDeveloper"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
@@ -1243,7 +1243,7 @@ msgstr "Enhance End Key"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "enhances home key positioning, similar to visual studio"
-msgstr "enhances home key positioning, similar to visual studio"
+msgstr "enhances home tuş positioning, similar to visual studio"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
 #: dlgSynEditOptions.dfm
@@ -3506,7 +3506,7 @@ msgstr "Model:"
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiApiKey..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Api key:"
-msgstr "Api key:"
+msgstr "Api tuş:"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiTimeout..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiTimeout..EditCaption
@@ -9256,7 +9256,7 @@ msgstr "Hayır response from the LLM Server"
 #. Programmer's name for it: sNoAPIKey
 #: uLLMSupport.pas
 msgid "The LLM API key is missing"
-msgstr "The LLM API key is missing"
+msgstr "The LLM API tuş is missing"
 
 #. Programmer's name for it: sNoModel
 #: uLLMSupport.pas
@@ -9410,7 +9410,7 @@ msgstr "Komut line parametre"
 
 #: uParams.pas
 msgid "Value of registry key"
-msgstr "Değer of registry key"
+msgstr "Değer of registry tuş"
 
 #: uParams.pas
 msgid "Value of environment variable"
