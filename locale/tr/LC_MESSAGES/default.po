@@ -1268,7 +1268,7 @@ msgstr "Grup geri al"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX....Hint
 #: dlgSynEditOptions.dfm
 msgid "When moving through lines the X position will always stay the same"
-msgstr "When moving through satırlar the X position will always stay the same"
+msgstr "Satırlarda hareket ederken X konumu her zaman aynı kalacaktır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
 #: dlgSynEditOptions.dfm
