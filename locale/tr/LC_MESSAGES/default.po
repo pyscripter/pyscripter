@@ -1222,7 +1222,7 @@ msgid ""
 "Allows you to select a block of text and drag it within the document to "
 "another location"
 msgstr ""
-"Allows you to select a block of text and drag it within the document to "
+"Allows you to select a block of metin and drag it within the document to "
 "another location"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
@@ -3068,7 +3068,7 @@ msgstr "&Highlight Arama Metin"
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
 msgid "Highlight the search text in the current editor"
-msgstr "Highlight the arama text in the current editor"
+msgstr "Highlight the arama metin in the current editor"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #: dmCommands.dfm
@@ -4125,7 +4125,7 @@ msgstr "Göster Match Context"
 #. FindResultsWindow..Actions..actViewShowContext..Hint
 #: frmFindResults.dfm
 msgid "View/Hide Context of found text"
-msgstr "View/Gizle Context of found text"
+msgstr "View/Gizle Context of found metin"
 
 #. FindResultsWindow..Actions..actFileSave..Caption
 #: frmFindResults.dfm
@@ -4933,7 +4933,7 @@ msgstr "&Auto Case Sensitive"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
 msgid "Case Sensitive when search text contains upper case characters"
-msgstr "Case Sensitive when arama text contains upper case characters"
+msgstr "Case Sensitive when arama metin contains upper case characters"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiCaseSensitive..Caption
 #: frmPyIDEMain.dfm
@@ -5700,7 +5700,7 @@ msgstr "Copy (&Hayır Prompts)"
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Hint
 #: frmPythonII.dfm
 msgid "Copy selected text without the interpreter prompts"
-msgstr "Copy seçili text without the interpreter prompts"
+msgstr "Copy seçili metin without the interpreter prompts"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
@@ -5710,7 +5710,7 @@ msgstr "Paste && E&xecute"
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
 msgid "Paste clipboard text with added interpreter prompts"
-msgstr "Paste pano text with added interpreter prompts"
+msgstr "Paste pano metin with added interpreter prompts"
 
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
@@ -6556,7 +6556,7 @@ msgstr "Dosya explorer filter"
 
 #: dmCommands.pas
 msgid "text file"
-msgstr "text dosya"
+msgstr "metin dosya"
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6564,7 +6564,7 @@ msgstr "Editor"
 
 #: dmCommands.pas
 msgid "Search text at caret"
-msgstr "Arama text at caret"
+msgstr "Arama metin at caret"
 
 #: dmCommands.pas
 msgid "Create backup files"
@@ -8826,7 +8826,7 @@ msgid ""
 "\n"
 "Do you want to save the modifications?"
 msgstr ""
-"The text in the \"%s\" dosya has changed.\n"
+"The metin in the \"%s\" dosya has changed.\n"
 "\n"
 "Do you want to save the modifications?"
 
@@ -9333,7 +9333,7 @@ msgstr "Desktop directory"
 #. register parameters
 #: uParams.pas
 msgid "Clipboard as text"
-msgstr "Clipboard as text"
+msgstr "Clipboard as metin"
 
 #: uParams.pas
 msgid "Current directory"
@@ -9402,7 +9402,7 @@ msgstr "Dosya type"
 
 #: uParams.pas
 msgid "Contents of text file"
-msgstr "Contents of text dosya"
+msgstr "Contents of metin dosya"
 
 #: uParams.pas
 msgid "Command line parameter"
@@ -9506,7 +9506,7 @@ msgstr "Current line number in the active document"
 
 #: uParams.pas
 msgid "Selected text in the active document"
-msgstr "Selected text in the active document"
+msgstr "Selected metin in the active document"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
