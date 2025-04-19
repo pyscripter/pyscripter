@@ -2228,9 +2228,8 @@ msgid ""
 "Use the button on the right to insert \n"
 "predefined grep expressions."
 msgstr ""
-"A grep ifade for parsing çıktı satırlar.\n"
-"Kullan the düğme on the sağ to ekle \n"
-"predefined grep ifadeler."
+"Çıktı satırlarını ayrıştırmak için bir grep ifadesi.\n"
+"Önceden tanımlanmış grep ifadelerini eklemek için sağdaki düğmeyi kullanın."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Hint
 #: dlgToolProperties.dfm
