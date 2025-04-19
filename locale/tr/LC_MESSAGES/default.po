@@ -1694,7 +1694,7 @@ msgstr "Satır renk"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterShadowColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Shadow color"
-msgstr "Shadow renk"
+msgstr "Gölge renk"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderLine..Caption
 #: dlgSynPageSetup.dfm
@@ -1711,7 +1711,7 @@ msgstr "Box"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterShadow..Caption
 #: dlgSynPageSetup.dfm
 msgid "Shadow"
-msgstr "Shadow"
+msgstr "Gölge"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..CBHeaderMirror..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..CBFooterMirror..Caption
