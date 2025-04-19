@@ -4352,7 +4352,7 @@ msgstr "Mesajlar"
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Message"
-msgstr "Message"
+msgstr "Mesaj"
 
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
@@ -5920,7 +5920,7 @@ msgstr "Birim Tests"
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..Label2..Caption
 #: frmUnitTests.dfm
 msgid "Error Message:"
-msgstr "Error Message:"
+msgstr "Error Mesaj:"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..ModuleName..Caption
 #: frmUnitTests.dfm
@@ -6074,7 +6074,7 @@ msgid ""
 "Error Message: "
 msgstr ""
 "Error in copying dosya \"%s\" to \"%s\"\n"
-"Error Message: "
+"Error Mesaj: "
 
 #: cSSHSupport.pas
 #, object-pascal-format
