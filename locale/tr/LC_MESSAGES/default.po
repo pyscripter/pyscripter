@@ -2212,7 +2212,7 @@ msgid ""
 "will be parsed and shown in the messages window."
 msgstr ""
 "If checked çıktı satırlar that look like messages \n"
-"will be parsed and shown in the messages window."
+"will be parsed and shown in the messages pencere."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
 #: dlgToolProperties.dfm
@@ -5134,7 +5134,7 @@ msgstr "&Restore Editör"
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Restore editor window"
-msgstr "Restore editör window"
+msgstr "Restore editör pencere"
 
 #. PyIDEMainForm..actlStandard..actRunToCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5246,7 +5246,7 @@ msgstr "Bul &in Dosyalar Sonuçlar"
 #. PyIDEMainForm..actlStandard..actNavFindResults..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Find in Files Results window"
-msgstr "Etkinleştir the Bul in Dosyalar Sonuçlar window"
+msgstr "Etkinleştir the Bul in Dosyalar Sonuçlar pencere"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
@@ -5296,7 +5296,7 @@ msgstr "&Maximize Editör"
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Maximize editor window"
-msgstr "Maximize editör window"
+msgstr "Maximize editör pencere"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
@@ -5401,7 +5401,7 @@ msgstr "&Watches"
 #. PyIDEMainForm..actlStandard..actNavWatches..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Watches window"
-msgstr "Etkinleştir the Watches window"
+msgstr "Etkinleştir the Watches pencere"
 
 #. PyIDEMainForm..actlStandard..actNavBreakpoints..Caption
 #: frmPyIDEMain.dfm
@@ -5411,7 +5411,7 @@ msgstr "&BreakPoints"
 #. PyIDEMainForm..actlStandard..actNavBreakpoints..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Breakpoints window"
-msgstr "Etkinleştir the Breakpoints window"
+msgstr "Etkinleştir the Breakpoints pencere"
 
 #. PyIDEMainForm..actlStandard..actNavInterpreter..Caption
 #: frmPyIDEMain.dfm
@@ -5421,7 +5421,7 @@ msgstr "&Interpreter"
 #. PyIDEMainForm..actlStandard..actNavInterpreter..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Interpreter window"
-msgstr "Etkinleştir the Interpreter window"
+msgstr "Etkinleştir the Interpreter pencere"
 
 #. PyIDEMainForm..actlStandard..actNavVariables..Caption
 #: frmPyIDEMain.dfm
@@ -5431,7 +5431,7 @@ msgstr "&Variables"
 #. PyIDEMainForm..actlStandard..actNavVariables..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Variables window"
-msgstr "Etkinleştir the Variables window"
+msgstr "Etkinleştir the Variables pencere"
 
 #. PyIDEMainForm..actlStandard..actNavCallStack..Caption
 #: frmPyIDEMain.dfm
@@ -5441,7 +5441,7 @@ msgstr "&Call Stack"
 #. PyIDEMainForm..actlStandard..actNavCallStack..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Call Stack window"
-msgstr "Etkinleştir the Call Stack window"
+msgstr "Etkinleştir the Call Stack pencere"
 
 #. PyIDEMainForm..actlStandard..actNavMessages..Caption
 #: frmPyIDEMain.dfm
@@ -5451,7 +5451,7 @@ msgstr "&Messages "
 #. PyIDEMainForm..actlStandard..actNavMessages..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Messages window"
-msgstr "Etkinleştir the Messages window"
+msgstr "Etkinleştir the Messages pencere"
 
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Caption
 #: frmPyIDEMain.dfm
@@ -5461,7 +5461,7 @@ msgstr "Dosya E&xplorer"
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the File Explorer window"
-msgstr "Etkinleştir the Dosya Gezgin window"
+msgstr "Etkinleştir the Dosya Gezgin pencere"
 
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
 #: frmPyIDEMain.dfm
@@ -5471,7 +5471,7 @@ msgstr "&Kod Gezgin"
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Code Explorer window"
-msgstr "Etkinleştir the Kod Gezgin window"
+msgstr "Etkinleştir the Kod Gezgin pencere"
 
 #. PyIDEMainForm..actlStandard..actNavTodo..Caption
 #: frmPyIDEMain.dfm
@@ -5482,7 +5482,7 @@ msgstr "&Todo Liste"
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Todo List window"
-msgstr "Etkinleştir the Todo Liste window"
+msgstr "Etkinleştir the Todo Liste pencere"
 
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
 #: frmPyIDEMain.dfm
@@ -5497,7 +5497,7 @@ msgstr "Komut &Çıktı"
 #. PyIDEMainForm..actlStandard..actNavOutput..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Command Output window"
-msgstr "Etkinleştir the Komut Çıktı window"
+msgstr "Etkinleştir the Komut Çıktı pencere"
 
 #. PyIDEMainForm..actlStandard..actNavEditor..Hint
 #: frmPyIDEMain.dfm
@@ -5572,7 +5572,7 @@ msgstr "&Proje Gezgin"
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Project Explorer window"
-msgstr "Etkinleştir the Proje Gezgin window"
+msgstr "Etkinleştir the Proje Gezgin pencere"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -5652,12 +5652,12 @@ msgstr "Düzenli İfade Tester"
 #. PyIDEMainForm..actlStandard..actNavRegExp..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Regular Expression Tester window"
-msgstr "Etkinleştir the Düzenli İfade Tester window"
+msgstr "Etkinleştir the Düzenli İfade Tester pencere"
 
 #. PyIDEMainForm..actlStandard..actNavChat..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Chat window"
-msgstr "Etkinleştir the Chat window"
+msgstr "Etkinleştir the Chat pencere"
 
 #. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Caption
 #: frmPyIDEMain.dfm
@@ -6396,7 +6396,7 @@ msgstr "Yeni name:"
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
 msgid "The Find in Files Results window is not active"
-msgstr "The Bul in Dosyalar Sonuçlar window is not aktif"
+msgstr "The Bul in Dosyalar Sonuçlar pencere is not aktif"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
@@ -8539,7 +8539,7 @@ msgid ""
 "Please terminate it first from the 'Output' window."
 msgstr ""
 "An harici process is still running.\n"
-"Please terminate it first from the 'Çıktı' window."
+"Please terminate it first from the 'Çıktı' pencere."
 
 #. Programmer's name for it: SDictionaryNA
 #: StringResources.pas
