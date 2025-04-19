@@ -742,7 +742,7 @@ msgstr "Tekrarlayan?"
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
 msgid "New File"
-msgstr "New Dosya"
+msgstr "Yeni Dosya"
 
 #. NewFileDialog..Panel1..Panel2..Panel3..Label1..Caption
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel5..Caption
@@ -2286,7 +2286,7 @@ msgstr "Active dosya"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "New file"
-msgstr "New dosya"
+msgstr "Yeni dosya"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Caption
 #: dlgToolProperties.dfm
@@ -4030,7 +4030,7 @@ msgstr "Arama seçili yol"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Caption
 #: frmFileExplorer.dfm
 msgid "Create &New Folder"
-msgstr "Create &New Folder"
+msgstr "Create &Yeni Folder"
 
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Hint
 #: frmFileExplorer.dfm
@@ -4065,7 +4065,7 @@ msgstr "&Arama..."
 #. FindResultsWindow..Actions..actFileSearch..Hint
 #: frmFindResults.dfm
 msgid "New search..."
-msgstr "New arama..."
+msgstr "Yeni arama..."
 
 #. FindResultsWindow..Actions..actFileRefresh..Hint
 #: frmFindResults.dfm
@@ -4288,7 +4288,7 @@ msgstr "Çıkar mevcut chat topic"
 #. LLMChatForm..ChatActionList..actChatNew..Caption
 #: frmLLMChat.dfm
 msgid "New Chat Topic"
-msgstr "New Chat Topic"
+msgstr "Yeni Chat Topic"
 
 #. LLMChatForm..ChatActionList..actChatNew..Hint
 #: frmLLMChat.dfm
@@ -4411,7 +4411,7 @@ msgstr "Proje Explorer Toolbar"
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #: frmProjectExplorer.dfm
 msgid "&New Project"
-msgstr "&New Proje"
+msgstr "&Yeni Proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
 #: frmProjectExplorer.dfm
@@ -4666,7 +4666,7 @@ msgstr "&Dosya"
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..TBXSubmenuItem5..Caption
 #: frmPyIDEMain.dfm
 msgid "New"
-msgstr "New"
+msgstr "Yeni"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..RecentSubmenu..Caption
 #: frmPyIDEMain.dfm
@@ -5045,12 +5045,12 @@ msgstr "İçe aktar module"
 #. PyIDEMainForm..actlStandard..actFileNewModule..Caption
 #: frmPyIDEMain.dfm
 msgid "&New Python module"
-msgstr "&New Python module"
+msgstr "&Yeni Python module"
 
 #. PyIDEMainForm..actlStandard..actFileNewModule..Hint
 #: frmPyIDEMain.dfm
 msgid "New Python module"
-msgstr "New Python module"
+msgstr "Yeni Python module"
 
 #. PyIDEMainForm..actlStandard..actFileOpen..Caption
 #: frmPyIDEMain.dfm
@@ -5384,12 +5384,12 @@ msgstr "Kullan a remote Python engine for wxPython applications"
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
 msgid "New File..."
-msgstr "New Dosya..."
+msgstr "Yeni Dosya..."
 
 #. PyIDEMainForm..actlStandard..actNewFile..Hint
 #: frmPyIDEMain.dfm
 msgid "New file from template"
-msgstr "New dosya from template"
+msgstr "Yeni dosya from template"
 
 #. PyIDEMainForm..actlStandard..actNavWatches..Caption
 #: frmPyIDEMain.dfm
@@ -6389,7 +6389,7 @@ msgstr "Rename Python Version"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr "New name:"
+msgstr "Yeni name:"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
