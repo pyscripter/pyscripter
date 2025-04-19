@@ -2078,7 +2078,7 @@ msgstr "Tara &proje dosyalar"
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
 msgid "External Tool Properties"
-msgstr "Harici Tool Özellikler"
+msgstr "Harici Araç Özellikler"
 
 #. ToolProperties..Panel1..TabControl..SpTBXTabItem1..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..Caption
@@ -4640,7 +4640,7 @@ msgstr "Ready"
 #. PyIDEMainForm..StatusBar..spiExternalToolsLED..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tool Running"
-msgstr "Harici Tool Running"
+msgstr "Harici Araç Running"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiTabFiles..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..Hint
@@ -8178,7 +8178,7 @@ msgid ""
 "An External Tool is still running.\n"
 "Do you want to terminate it and exit?"
 msgstr ""
-"An Harici Tool is still running.\n"
+"An Harici Araç is still running.\n"
 "Do you want to terminate it and exit?"
 
 #. Programmer's name for it: STerminateInterpreter
@@ -8802,7 +8802,7 @@ msgstr "Çalışılan dizin: "
 #: StringResources.pas
 #, object-pascal-format
 msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
-msgstr "The Harici Tool \"%s\" is still running. Do you want to terminate it?"
+msgstr "The Harici Araç \"%s\" is still running. Do you want to terminate it?"
 
 #. Editor
 #. Programmer's name for it: SInsert
