@@ -1035,7 +1035,7 @@ msgstr "Harici Çalıştır"
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr "&Set Harici Çalıştır özellikler"
+msgstr "&Ayarla Harici Çalıştır özellikler"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -2567,7 +2567,7 @@ msgstr "Print|Print active dosya"
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
 msgid "Printer Set&up..."
-msgstr "Printer Set&yukarı..."
+msgstr "Printer Ayarla&yukarı..."
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Hint
 #: dmCommands.dfm
@@ -2602,7 +2602,7 @@ msgstr "&Editör Seçenekler..."
 #. CommandsDataModule..actlMain..actEditorOptions..Hint
 #: dmCommands.dfm
 msgid "Set Editor Options"
-msgstr "Set Editör Seçenekler"
+msgstr "Ayarla Editör Seçenekler"
 
 #. CommandsDataModule..actlMain..actIDEOptions..Caption
 #: dmCommands.dfm
@@ -2612,7 +2612,7 @@ msgstr "&IDE Seçenekler..."
 #. CommandsDataModule..actlMain..actIDEOptions..Hint
 #: dmCommands.dfm
 msgid "Set IDE Options"
-msgstr "Set IDE Seçenekler"
+msgstr "Ayarla IDE Seçenekler"
 
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
@@ -2964,7 +2964,7 @@ msgstr "&Interpreter Editör Seçenekler..."
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Hint
 #: dmCommands.dfm
 msgid "Set Interpreter Editor Options"
-msgstr "Set Interpreter Editör Seçenekler"
+msgstr "Ayarla Interpreter Editör Seçenekler"
 
 #. CommandsDataModule..actlMain..actEditToggleComment..Caption
 #: dmCommands.dfm
@@ -3977,7 +3977,7 @@ msgstr "&Explore Here"
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Hint
 #: frmFileExplorer.dfm
 msgid "Set the Root of the File Manager to this folder"
-msgstr "Set the Root of the Dosya Manager to this klasör"
+msgstr "Ayarla the Root of the Dosya Manager to this klasör"
 
 #. FileExplorerWindow..FileExplorerActions..actGoBack..Caption
 #: frmFileExplorer.dfm
@@ -4328,7 +4328,7 @@ msgstr "Topic Title"
 #. LLMChatForm..ChatActionList..actTopicTitle..Hint
 #: frmLLMChat.dfm
 msgid "Set the title of the chat topic"
-msgstr "Set the title of the chat topic"
+msgstr "Ayarla the title of the chat topic"
 
 #. LLMChatForm..ChatActionList..actCancelRequest..Caption
 #: frmLLMChat.dfm
@@ -4824,13 +4824,13 @@ msgstr "Sil a layout"
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Caption
 #: frmPyIDEMain.dfm
 msgid "Set Debug Layout"
-msgstr "Set Debug Layout"
+msgstr "Ayarla Debug Layout"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Hint
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Hint
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
-msgstr "Set the mevcut layout as the debug layout"
+msgstr "Ayarla the mevcut layout as the debug layout"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitEditors..Caption
 #: frmPyIDEMain.dfm
@@ -5030,7 +5030,7 @@ msgstr "Komut Satır &Parametreler..."
 #. PyIDEMainForm..actlStandard..actCommandLine..Hint
 #: frmPyIDEMain.dfm
 msgid "Set command line parameters"
-msgstr "Set komut line parameters"
+msgstr "Ayarla komut line parameters"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
@@ -7603,52 +7603,52 @@ msgstr "Seçin Kelime Right"
 #. Programmer's name for it: SEdCmdSetBookmark0
 #: StringResources.pas
 msgid "Set Bookmark 0"
-msgstr "Set Bookmark 0"
+msgstr "Ayarla Bookmark 0"
 
 #. Programmer's name for it: SEdCmdSetBookmark1
 #: StringResources.pas
 msgid "Set Bookmark 1"
-msgstr "Set Bookmark 1"
+msgstr "Ayarla Bookmark 1"
 
 #. Programmer's name for it: SEdCmdSetBookmark2
 #: StringResources.pas
 msgid "Set Bookmark 2"
-msgstr "Set Bookmark 2"
+msgstr "Ayarla Bookmark 2"
 
 #. Programmer's name for it: SEdCmdSetBookmark3
 #: StringResources.pas
 msgid "Set Bookmark 3"
-msgstr "Set Bookmark 3"
+msgstr "Ayarla Bookmark 3"
 
 #. Programmer's name for it: SEdCmdSetBookmark4
 #: StringResources.pas
 msgid "Set Bookmark 4"
-msgstr "Set Bookmark 4"
+msgstr "Ayarla Bookmark 4"
 
 #. Programmer's name for it: SEdCmdSetBookmark5
 #: StringResources.pas
 msgid "Set Bookmark 5"
-msgstr "Set Bookmark 5"
+msgstr "Ayarla Bookmark 5"
 
 #. Programmer's name for it: SEdCmdSetBookmark6
 #: StringResources.pas
 msgid "Set Bookmark 6"
-msgstr "Set Bookmark 6"
+msgstr "Ayarla Bookmark 6"
 
 #. Programmer's name for it: SEdCmdSetBookmark7
 #: StringResources.pas
 msgid "Set Bookmark 7"
-msgstr "Set Bookmark 7"
+msgstr "Ayarla Bookmark 7"
 
 #. Programmer's name for it: SEdCmdSetBookmark8
 #: StringResources.pas
 msgid "Set Bookmark 8"
-msgstr "Set Bookmark 8"
+msgstr "Ayarla Bookmark 8"
 
 #. Programmer's name for it: SEdCmdSetBookmark9
 #: StringResources.pas
 msgid "Set Bookmark 9"
-msgstr "Set Bookmark 9"
+msgstr "Ayarla Bookmark 9"
 
 #. Programmer's name for it: SEdCmdZoomIn
 #: StringResources.pas
@@ -8396,7 +8396,7 @@ msgstr "Switch to %s"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Set theme to \"%s\"."
-msgstr "Set theme to \"%s\"."
+msgstr "Ayarla theme to \"%s\"."
 
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas
