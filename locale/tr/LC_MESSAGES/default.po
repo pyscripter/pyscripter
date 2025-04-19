@@ -2391,7 +2391,7 @@ msgstr "&Farklı kaydet"
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Kaydet As|Kaydet aktif dosya alt different name"
+msgstr "Kaydet As|Kaydet aktif dosya alt farklı name"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. Programmer's name for it: SDlgClose
@@ -4440,7 +4440,7 @@ msgstr "Kaydet Proje &As..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
 #: frmProjectExplorer.dfm
 msgid "Save project with under a different name"
-msgstr "Kaydet proje onunla alt a different name"
+msgstr "Kaydet proje onunla alt a farklı name"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
