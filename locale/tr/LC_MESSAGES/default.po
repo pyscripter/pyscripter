@@ -1272,7 +1272,7 @@ msgstr "When moving through satırlar the X position will always stay the same"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
 #: dlgSynEditOptions.dfm
 msgid "Maintain caret column"
-msgstr "Maintain caret column"
+msgstr "Maintain imleç column"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
 #: dlgSynEditOptions.dfm
@@ -1480,12 +1480,12 @@ msgstr "Caret"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Insert caret:"
-msgstr "Insert caret:"
+msgstr "Insert imleç:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label4..Caption
 #: dlgSynEditOptions.dfm
 msgid "Overwrite caret:"
-msgstr "Overwrite caret:"
+msgstr "Overwrite imleç:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
@@ -6566,7 +6566,7 @@ msgstr "Editör"
 
 #: dmCommands.pas
 msgid "Search text at caret"
-msgstr "Arama metin at caret"
+msgstr "Arama metin at imleç"
 
 #: dmCommands.pas
 msgid "Create backup files"
