@@ -1629,7 +1629,7 @@ msgstr "Sekme tuşu Genişlik:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
-msgstr "Active Satır Renk"
+msgstr "Aktif Satır Renk"
 
 #. EditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -2150,12 +2150,12 @@ msgstr "Always enabled"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active editor"
-msgstr "Active editör"
+msgstr "Aktif editör"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active Python file"
-msgstr "Active Python dosya"
+msgstr "Aktif Python dosya"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
@@ -2172,7 +2172,7 @@ msgstr "None"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active only"
-msgstr "Active sadece"
+msgstr "Aktif sadece"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
@@ -2283,7 +2283,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active file"
-msgstr "Active dosya"
+msgstr "Aktif dosya"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
@@ -3957,7 +3957,7 @@ msgstr "Mevcut Dizin"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..ActiveScript..Caption
 #: frmFileExplorer.dfm
 msgid "Active Script"
-msgstr "Active Komut dosyası"
+msgstr "Aktif Komut dosyası"
 
 #. FileExplorerWindow..ExplorerPopUp..TBXSubmenuItem2..Caption
 #: frmFileExplorer.dfm
@@ -4528,7 +4528,7 @@ msgstr "Aç the seçili dosya in the editör"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
 msgid "Add Active File"
-msgstr "Ekle Active Dosya"
+msgstr "Ekle Aktif Dosya"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
@@ -9471,7 +9471,7 @@ msgstr "Formatted date"
 
 #: uParams.pas
 msgid "Active document name"
-msgstr "Active belge name"
+msgstr "Aktif belge name"
 
 #: uParams.pas
 msgid "The name or last run script"
