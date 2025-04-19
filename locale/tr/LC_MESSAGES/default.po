@@ -2448,7 +2448,7 @@ msgstr "Yapıştır|Panoya içerikleri ekler"
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #: dmCommands.dfm
 msgid "De&lete"
-msgstr "De&lete"
+msgstr "&Sil"
 
 #. CommandsDataModule..actlMain..actEditDelete..Hint
 #: dmCommands.dfm
