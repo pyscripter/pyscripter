@@ -2063,17 +2063,17 @@ msgstr "Arama for Yapılacaklar Tokens"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &open files"
-msgstr "Scan &aç dosyalar"
+msgstr "Tara &aç dosyalar"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanDir..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &directories"
-msgstr "Scan &dizinler"
+msgstr "Tara &dizinler"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanProject..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &project files"
-msgstr "Scan &proje dosyalar"
+msgstr "Tara &proje dosyalar"
 
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
