@@ -2635,12 +2635,12 @@ msgstr "Unindent|Unindent seçili block of code"
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
 msgid "&Comment out"
-msgstr "&Comment out"
+msgstr "&Yorum out"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Hint
 #: dmCommands.dfm
 msgid "Comment out| Comment out block of code"
-msgstr "Comment out| Comment out block of code"
+msgstr "Yorum out| Yorum out block of code"
 
 #. CommandsDataModule..actlMain..actEditUncomment..Caption
 #: dmCommands.dfm
@@ -2967,12 +2967,12 @@ msgstr "Set Interpreter Editor Seçenekler"
 #. CommandsDataModule..actlMain..actEditToggleComment..Caption
 #: dmCommands.dfm
 msgid "Toggle &Comment"
-msgstr "Toggle &Comment"
+msgstr "Toggle &Yorum"
 
 #. CommandsDataModule..actlMain..actEditToggleComment..Hint
 #: dmCommands.dfm
 msgid "Toggle Comment| Comment/Uncomment block of code"
-msgstr "Toggle Comment| Comment/Uncomment block of code"
+msgstr "Toggle Yorum| Yorum/Uncomment block of code"
 
 #. CommandsDataModule..actlMain..actFileTemplates..Caption
 #: dmCommands.dfm
@@ -7251,7 +7251,7 @@ msgstr "Clear All"
 #. Programmer's name for it: SEdCmdCommentBlock
 #: StringResources.pas
 msgid "Comment Block"
-msgstr "Comment Block"
+msgstr "Yorum Block"
 
 #. Programmer's name for it: SEdCmdContextHelp
 #: StringResources.pas
