@@ -4238,7 +4238,7 @@ msgstr "S&tart"
 #. FunctionListWindow..Actions..actViewStart..Hint
 #: frmFunctionList.dfm
 msgid "Match only from the start"
-msgstr "Eşleştirme sadece from the start"
+msgstr "Eşleştirme sadece from the başla"
 
 #. FunctionListWindow..Actions..actViewAny..Caption
 #: frmFunctionList.dfm
@@ -8632,13 +8632,13 @@ msgstr "from the son"
 #. Programmer's name for it: SFromTheStart
 #: StringResources.pas
 msgid "from the start"
-msgstr "from the start"
+msgstr "from the başla"
 
 #. Programmer's name for it: SReachedTheStart
 #: StringResources.pas
 #, object-pascal-format
 msgid "You reached the start %s"
-msgstr "You reached the start %s"
+msgstr "You reached the başla %s"
 
 #. Programmer's name for it: SReachedTheEnd
 #: StringResources.pas
