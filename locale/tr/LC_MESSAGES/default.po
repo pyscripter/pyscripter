@@ -95,7 +95,7 @@ msgstr "Enter value for parameter "
 #: dlgSynPageSetup.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
 #: dlgUnitTestWizard.dfm
 msgid "&OK"
-msgstr "&OK"
+msgstr "&TAMAM"
 
 #. AskParamForm..Panel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
@@ -7828,7 +7828,7 @@ msgstr "Confirm"
 #. Programmer's name for it: SDlgOK
 #: StringResources.pas
 msgid "OK"
-msgstr "OK"
+msgstr "TAMAM"
 
 #. Programmer's name for it: SDlgRetry
 #: StringResources.pas
@@ -8272,13 +8272,13 @@ msgid ""
 "changes to these files."
 msgstr ""
 "The following files have been changed on disk. Select the files that you "
-"wish to reload and press the OK button. Please note that you will lose all "
-"changes to these files."
+"wish to reload and press the TAMAM button. Please note that you will lose "
+"all changes to these files."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
 msgid "Script run OK"
-msgstr "Script run OK"
+msgstr "Script run TAMAM"
 
 #. Programmer's name for it: SDebuggingAborted
 #: StringResources.pas
@@ -8320,7 +8320,7 @@ msgstr " Definition not found"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Syntax of %s is OK!"
-msgstr "Syntax of %s is OK!"
+msgstr "Syntax of %s is TAMAM!"
 
 #. Programmer's name for it: SModuleImportedOK
 #: StringResources.pas
@@ -8420,7 +8420,8 @@ msgstr "Delete Layouts"
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas
 msgid "Please select the layouts you want to delete and press the OK button:"
-msgstr "Please select the layouts you want to delete and press the OK button:"
+msgstr ""
+"Please select the layouts you want to delete and press the TAMAM button:"
 
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
@@ -8435,7 +8436,7 @@ msgid ""
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
 "The following files have been modified.\n"
-"Press 'OK' to save selected files and exit.\n"
+"Press 'TAMAM' to save selected files and exit.\n"
 "Press 'Cancel' to return to PyScripter without saving files."
 
 #. Programmer's name for it: SSaveAs
