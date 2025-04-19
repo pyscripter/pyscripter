@@ -541,7 +541,7 @@ msgstr "&Gönder"
 #. ExceptionDialogMail..DetailsBtn..Hint
 #: dlgExceptionMail.dfm
 msgid "Show or hide additional information|"
-msgstr "Göster or hide additional information|"
+msgstr "Göster or gizle additional information|"
 
 #. ExceptionDialogMail..DetailsBtn..Caption
 #: dlgExceptionMail.dfm
@@ -2294,7 +2294,7 @@ msgstr "Console"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
 msgid "Check to hide the console."
-msgstr "Check to hide the console."
+msgstr "Check to gizle the console."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Caption
 #: dlgToolProperties.dfm
@@ -6608,7 +6608,7 @@ msgstr "Auto-reload changed files"
 
 #: dmCommands.pas
 msgid "Auto-hide find toolbar"
-msgstr "Auto-hide find toolbar"
+msgstr "Auto-gizle find toolbar"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
