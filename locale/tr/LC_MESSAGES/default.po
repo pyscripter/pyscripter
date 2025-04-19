@@ -598,7 +598,7 @@ msgstr "&Metin to bul:"
 #: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
 #: frmPyIDEMain.dfm frmRegExpTester.dfm
 msgid "Options"
-msgstr "Options"
+msgstr "Seçenekler"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbCaseSensitive..Caption
 #: dlgFindInFiles.dfm
@@ -677,7 +677,7 @@ msgstr "Include su&bdirectories"
 #. FindResultsOptionsDialog..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Find in Files Options"
-msgstr "Bul in Dosyalar Options"
+msgstr "Bul in Dosyalar Seçenekler"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
@@ -1084,7 +1084,7 @@ msgstr "&Apply Style"
 #. EditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Options"
-msgstr "Editor Options"
+msgstr "Editor Seçenekler"
 
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
 #. EditorOptionsDialog..Panel1..TabControl..Display..Caption
@@ -1174,7 +1174,7 @@ msgstr "&Strike Out"
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke Options"
-msgstr "Keystroke Options"
+msgstr "Keystroke Seçenekler"
 
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
 #: dlgSynEditOptions.dfm
@@ -1641,7 +1641,7 @@ msgstr "Page Setup"
 #. PageSetupDlg..TabControl..tbMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Margins && Options"
-msgstr "Margins && Options"
+msgstr "Margins && Seçenekler"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem2..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..Caption
@@ -2001,7 +2001,7 @@ msgstr "Close|Close Print Preview"
 #. ToDoOptionsDlg..Caption
 #: dlgToDoOptions.dfm
 msgid "To Do Options"
-msgstr "To Do Options"
+msgstr "To Do Seçenekler"
 
 #. ToDoOptionsDlg..pnlBG..gbxTokens..Caption
 #: dlgToDoOptions.dfm
@@ -2595,22 +2595,22 @@ msgstr "Page setup"
 #. CommandsDataModule..actlMain..actEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Editor Options..."
-msgstr "&Editor Options..."
+msgstr "&Editor Seçenekler..."
 
 #. CommandsDataModule..actlMain..actEditorOptions..Hint
 #: dmCommands.dfm
 msgid "Set Editor Options"
-msgstr "Set Editor Options"
+msgstr "Set Editor Seçenekler"
 
 #. CommandsDataModule..actlMain..actIDEOptions..Caption
 #: dmCommands.dfm
 msgid "&IDE Options..."
-msgstr "&IDE Options..."
+msgstr "&IDE Seçenekler..."
 
 #. CommandsDataModule..actlMain..actIDEOptions..Hint
 #: dmCommands.dfm
 msgid "Set IDE Options"
-msgstr "Set IDE Options"
+msgstr "Set IDE Seçenekler"
 
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
@@ -2957,12 +2957,12 @@ msgstr "Unit test wizard|Create unit test for active module"
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Interpreter Editor Options..."
-msgstr "&Interpreter Editor Options..."
+msgstr "&Interpreter Editor Seçenekler..."
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Hint
 #: dmCommands.dfm
 msgid "Set Interpreter Editor Options"
-msgstr "Set Interpreter Editor Options"
+msgstr "Set Interpreter Editor Seçenekler"
 
 #. CommandsDataModule..actlMain..actEditToggleComment..Caption
 #: dmCommands.dfm
@@ -4166,7 +4166,7 @@ msgstr "View/Gizle StatusBar"
 #. ToDoWindow..Actions..actOptionsConfigure..Hint
 #: frmFindResults.dfm frmToDo.dfm
 msgid "Options..."
-msgstr "Options..."
+msgstr "Seçenekler..."
 
 #. FindResultsWindow..Actions..actViewOptions..Hint
 #: frmFindResults.dfm
@@ -4873,7 +4873,7 @@ msgstr "External Tools"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Options"
-msgstr "&Options"
+msgstr "&Seçenekler"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..Caption
 #: frmPyIDEMain.dfm
@@ -5895,7 +5895,7 @@ msgstr "Print to do items"
 #. ToDoWindow..Actions..actOptionsConfigure..Caption
 #: frmToDo.dfm
 msgid "&Options..."
-msgstr "&Options..."
+msgstr "&Seçenekler..."
 
 #. ToDoWindow..Actions..actEditCopy..Caption
 #: frmToDo.dfm
@@ -8453,7 +8453,7 @@ msgstr "Save Dosya As"
 #. Programmer's name for it: SIDEOptions
 #: StringResources.pas
 msgid "IDE Options"
-msgstr "IDE Options"
+msgstr "IDE Seçenekler"
 
 #. Programmer's name for it: SDisassembly
 #: StringResources.pas
@@ -8759,7 +8759,7 @@ msgstr "The following command line options are valid: \n"
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
 msgid "PyScripter Command Line Options"
-msgstr "PyScripter Komut Satır Options"
+msgstr "PyScripter Komut Satır Seçenekler"
 
 #. Command Window
 #. Programmer's name for it: SProcessSuccessful
@@ -9547,7 +9547,7 @@ msgstr "Icons + Metin"
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
 #: SpTBXCustomizerForm.dfm:196
 msgid "T&ext Options"
-msgstr "T&ext Options"
+msgstr "T&ext Seçenekler"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
 #: SpTBXCustomizerForm.dfm:212
@@ -9556,4 +9556,4 @@ msgstr "&Visible"
 
 #. SpTBXCustomizeForm..ResetButton..Caption
 msgid "&Default Options"
-msgstr "&Varsayılan Options"
+msgstr "&Varsayılan Seçenekler"
