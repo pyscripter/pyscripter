@@ -1939,12 +1939,12 @@ msgstr "First|Go to first page"
 #. PrintPreviewDlg..ActionList..PrevCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Previous"
-msgstr "Previous"
+msgstr "Önceki"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Previous|Go to previous page"
-msgstr "Previous|Go to önceki page"
+msgstr "Önceki|Go to önceki page"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2527,12 +2527,12 @@ msgstr "Bul sonraki|Bul sonraki eşleştirme"
 #. CommandsDataModule..actlMain..actSearchFindPrev..Caption
 #: dmCommands.dfm
 msgid "Find &Previous"
-msgstr "Bul &Previous"
+msgstr "Bul &Önceki"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Hint
 #: dmCommands.dfm
 msgid "Find previous|Find Previous match"
-msgstr "Bul önceki|Bul Previous eşleştirme"
+msgstr "Bul önceki|Bul Önceki eşleştirme"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #: dmCommands.dfm
@@ -2885,7 +2885,7 @@ msgstr "Göster/Gizle special characters"
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #: dmCommands.dfm
 msgid "Find Previous Reference"
-msgstr "Bul Previous Reference"
+msgstr "Bul Önceki Reference"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #: dmCommands.dfm
@@ -3628,7 +3628,7 @@ msgstr "Threads"
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
 msgid "Previous Frame"
-msgstr "Previous Frame"
+msgstr "Önceki Frame"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Hint
 #: frmCallStack.dfm
@@ -4299,7 +4299,7 @@ msgstr "Ekle a yeni chat topic"
 #. LLMChatForm..ChatActionList..actChatPrevious..Caption
 #: frmLLMChat.dfm
 msgid "Previous Chat Topic"
-msgstr "Previous Chat Topic"
+msgstr "Önceki Chat Topic"
 
 #. LLMChatForm..ChatActionList..actChatPrevious..Hint
 #: frmLLMChat.dfm
@@ -4387,7 +4387,7 @@ msgstr "Clear hepsi messages"
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Caption
 #: frmMessages.dfm
 msgid "&Previous Messages"
-msgstr "&Previous Messages"
+msgstr "&Önceki Messages"
 
 #. MessagesWindow..MsgsActionList..actNextMsgs..Caption
 #: frmMessages.dfm
@@ -4991,12 +4991,12 @@ msgstr "Sonraki Editör|taşı to the sonraki editör"
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Previous Editor"
-msgstr "&Previous Editör"
+msgstr "&Önceki Editör"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Previous editor|Move to the previous editor"
-msgstr "Previous editör|taşı to the önceki editör"
+msgstr "Önceki editör|taşı to the önceki editör"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Caption
 #: frmPyIDEMain.dfm
@@ -6443,7 +6443,7 @@ msgstr "Editör sekme tuşu konum"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
-msgstr "Smart Sonraki Previous Page"
+msgstr "Smart Sonraki Önceki Page"
 
 #: dmCommands.pas
 msgid "Show tab close button"
