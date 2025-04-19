@@ -23,7 +23,7 @@ msgstr ""
 #. AboutBox..Caption
 #: dlgAboutPyScripter.dfm
 msgid "About PyScripter"
-msgstr "Hakkında PyScripter"
+msgstr "PyScripter Hakkında"
 
 #. AboutBox..SpTBXTabControl..tbAbout..Caption
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Caption
