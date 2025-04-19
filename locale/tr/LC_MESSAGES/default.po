@@ -1787,7 +1787,7 @@ msgstr "Oluk:"
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Mirror margins"
-msgstr "Mirror margins"
+msgstr "Mirror marjlar"
 
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
 #: dlgSynPageSetup.dfm
