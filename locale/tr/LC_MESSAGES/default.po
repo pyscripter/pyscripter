@@ -943,7 +943,7 @@ msgstr "Değiştir"
 #. ReplaceInFilesDialog..Panel1..cbBackup..Caption
 #: dlgReplaceInFiles.dfm
 msgid "Backup Modified Files"
-msgstr "Backup Modified Dosyalar"
+msgstr "Backup Değiştirilmiş Dosyalar"
 
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
@@ -6789,7 +6789,7 @@ msgstr "Fill whole satırlar"
 
 #: dmCommands.pas
 msgid "Modified color"
-msgstr "Modified renk"
+msgstr "Değiştirilmiş renk"
 
 #: dmCommands.pas
 msgid "Original color"
@@ -8342,7 +8342,7 @@ msgstr "Resume|Resume the running script"
 #. Programmer's name for it: SModified
 #: StringResources.pas
 msgid "Modified"
-msgstr "Modified"
+msgstr "Değiştirilmiş"
 
 #. Programmer's name for it: SOpenFile
 #: StringResources.pas
@@ -9482,7 +9482,7 @@ msgstr "Proje dosya name"
 
 #: uParams.pas
 msgid "Modified files"
-msgstr "Modified dosyalar"
+msgstr "Değiştirilmiş dosyalar"
 
 #: uParams.pas
 msgid "Open files"
