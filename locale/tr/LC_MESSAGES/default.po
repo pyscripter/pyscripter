@@ -385,7 +385,7 @@ msgstr "Doğrula değişim"
 #. Programmer's name for it: SDlgYes
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&Yes"
-msgstr "&Yes"
+msgstr "&Evet"
 
 #. ConfirmReplaceDialog..Panel1..btnSkip..Caption
 #. Programmer's name for it: SDlgNo
@@ -396,7 +396,7 @@ msgstr "&No"
 #. ConfirmReplaceDialog..Panel1..btnReplaceAll..Caption
 #: dlgConfirmReplace.dfm
 msgid "Yes to &all"
-msgstr "Yes to &all"
+msgstr "Evet to &all"
 
 #. CustomizeParams..Caption
 #: dlgCustomParams.dfm
@@ -7853,7 +7853,7 @@ msgstr "N&o to All"
 #. Programmer's name for it: SDlgYesToAll
 #: StringResources.pas
 msgid "Yes to &All"
-msgstr "Yes to &All"
+msgstr "Evet to &All"
 
 #. Programmer's name for it: STrueValue
 #: StringResources.pas
