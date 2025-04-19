@@ -758,7 +758,7 @@ msgstr "Şablonları:"
 #. NewFileDialog..Panel1..btnCreate..Caption
 #: dlgNewFile.dfm
 msgid "C&reate"
-msgstr "C&reate"
+msgstr "&Yarat"
 
 #. NewFileDialog..Panel1..btnManageTemplates..Caption
 #: dlgNewFile.dfm
@@ -2954,7 +2954,7 @@ msgstr "Unit Test &Wizard..."
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
-msgstr "Unit test wizard|Create unit test for active module"
+msgstr "Unit test wizard|Yarat unit test for active module"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
@@ -4030,12 +4030,12 @@ msgstr "Arama seçili yol"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Caption
 #: frmFileExplorer.dfm
 msgid "Create &New Folder"
-msgstr "Create &Yeni Folder"
+msgstr "Yarat &Yeni Folder"
 
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Hint
 #: frmFileExplorer.dfm
 msgid "Create new folder"
-msgstr "Create yeni folder"
+msgstr "Yarat yeni folder"
 
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
