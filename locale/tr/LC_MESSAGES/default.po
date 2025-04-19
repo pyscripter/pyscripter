@@ -982,7 +982,7 @@ msgstr "&Parametreler:"
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
 #: dlgRunConfiguration.dfm
 msgid "Working &Directory:"
-msgstr "Working &Dizin:"
+msgstr "Çalışılan &Dizin:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonEngines..Caption
@@ -2109,7 +2109,7 @@ msgstr "&Application:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
 #: dlgToolProperties.dfm
 msgid "Working &directory:"
-msgstr "Working &dizin:"
+msgstr "Çalışılan &dizin:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
@@ -8796,7 +8796,7 @@ msgstr "Komut line: %s"
 #. Programmer's name for it: SPrintWorkingDir
 #: StringResources.pas
 msgid "Working directory: "
-msgstr "Working dizin: "
+msgstr "Çalışılan dizin: "
 
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
