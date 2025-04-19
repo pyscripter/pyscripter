@@ -1119,7 +1119,7 @@ msgstr "Kod Örnek"
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
-msgstr "Mevcut Themes"
+msgstr "Mevcut Temalar"
 
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
