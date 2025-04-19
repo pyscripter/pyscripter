@@ -6344,7 +6344,7 @@ msgstr "Translators"
 
 #: dlgAboutPyScripter.pas
 msgid "Artwork and theme design"
-msgstr "Artwork and theme design"
+msgstr "Artwork and tema design"
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
@@ -8396,7 +8396,7 @@ msgstr "Switch to %s"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Set theme to \"%s\"."
-msgstr "Ayarla theme to \"%s\"."
+msgstr "Ayarla tema to \"%s\"."
 
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas
