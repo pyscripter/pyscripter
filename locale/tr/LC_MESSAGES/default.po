@@ -1742,7 +1742,7 @@ msgstr "Sağ:"
 #. PageSetupDlg..TabControl..tbMargins..Label3..Caption
 #: dlgSynPageSetup.dfm
 msgid "Top:"
-msgstr "Top:"
+msgstr "Üst:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label4..Caption
 #: dlgSynPageSetup.dfm
@@ -7222,7 +7222,7 @@ msgstr "Metin Değer"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Top Line: %d"
-msgstr "Top Satır: %d"
+msgstr "Üst Satır: %d"
 
 #. Programmer's name for it: sPrintPreviewScrollInfo
 #: StringResources.pas
@@ -7329,7 +7329,7 @@ msgstr "Editör Bottom"
 #. Programmer's name for it: SEdCmdEditorTop
 #: StringResources.pas
 msgid "Editor Top"
-msgstr "Editör Top"
+msgstr "Editör Üst"
 
 #. Programmer's name for it: SEdCmdFoldAll
 #: StringResources.pas
@@ -7479,7 +7479,7 @@ msgstr "Sayfa Sağ"
 #. Programmer's name for it: SEdCmdPageTop
 #: StringResources.pas
 msgid "Page Top"
-msgstr "Sayfa Top"
+msgstr "Sayfa Üst"
 
 #. Programmer's name for it: SEdCmdPageUp
 #: StringResources.pas
@@ -7529,7 +7529,7 @@ msgstr "Seçin Editör Bottom"
 #. Programmer's name for it: SEdCmdSelectEditorTop
 #: StringResources.pas
 msgid "Select Editor Top"
-msgstr "Seçin Editör Top"
+msgstr "Seçin Editör Üst"
 
 #. Programmer's name for it: SEdCmdSelectLeft
 #: StringResources.pas
@@ -7569,7 +7569,7 @@ msgstr "Seçin Sayfa Sağ"
 #. Programmer's name for it: SEdCmdSelectPageTop
 #: StringResources.pas
 msgid "Select Page Top"
-msgstr "Seçin Sayfa Top"
+msgstr "Seçin Sayfa Üst"
 
 #. Programmer's name for it: SEdCmdSelectPageUp
 #: StringResources.pas
