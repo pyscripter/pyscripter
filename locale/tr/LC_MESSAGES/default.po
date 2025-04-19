@@ -2341,7 +2341,7 @@ msgstr "Yer tutucusu için the sütun sayı"
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Unit Test Wizard"
-msgstr "Birim Test Wizard"
+msgstr "Birim Test Sihirbazı"
 
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
@@ -2944,7 +2944,7 @@ msgstr "İşaretle whether a newer versiyon of PyScripter is mevcut"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "Unit Test &Wizard..."
-msgstr "Birim Test &Wizard..."
+msgstr "Birim Test &Sihirbazı..."
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
