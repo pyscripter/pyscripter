@@ -351,8 +351,8 @@ msgid ""
 "Please enter parameters to be appended to the command line:\n"
 "Note that the script name is automatically inserted as the first argument."
 msgstr ""
-"Please enter parameters to be appended to the command line:\n"
-"Note that the script name is automatically inserted as the first argument."
+"Lütfen komut satırına eklenecek parametreleri girin: Komut dosyası adının "
+"otomatik olarak ilk argüman olarak eklendiğini unutmayın."
 
 #. CommandLineDlg..Panel..Label3..Caption
 #. RunConfigurationForm..Panel1..GroupBox2..Label3..Caption
