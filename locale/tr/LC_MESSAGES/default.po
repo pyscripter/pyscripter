@@ -1988,7 +1988,7 @@ msgstr "Print"
 #. PrintPreviewDlg..ActionList..PrintCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Print|Print the document"
-msgstr "Print|Print the document"
+msgstr "Print|Print the belge"
 
 #. PrintPreviewDlg..ActionList..CloseCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2490,7 +2490,7 @@ msgstr "Seçin &Tümü"
 #. CommandsDataModule..actlMain..actEditSelectAll..Hint
 #: dmCommands.dfm
 msgid "Select All|Selects the entire document"
-msgstr "Seçin Tümü|Selects the entire document"
+msgstr "Seçin Tümü|Selects the entire belge"
 
 #. CommandsDataModule..actlMain..actEditReadOnly..Caption
 #. Programmer's name for it: SReadOnly
@@ -6404,7 +6404,7 @@ msgstr "Seçin working dizin:"
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
 msgid "Print the document on"
-msgstr "Print the document on"
+msgstr "Print the belge on"
 
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
@@ -8653,7 +8653,7 @@ msgstr "of the selection"
 #. Programmer's name for it: SOfTheDocument
 #: StringResources.pas
 msgid "of the document"
-msgstr "of the document"
+msgstr "of the belge"
 
 #. Programmer's name for it: SSearchDirectoryDoesNotExist
 #: StringResources.pas
@@ -9052,7 +9052,7 @@ msgstr "PHP Kod"
 #. Programmer's name for it: STOMLTemplateName
 #: StringResources.pas
 msgid "TOML document"
-msgstr "TOML document"
+msgstr "TOML belge"
 
 #. Programmer's name for it: SJupyterTemplateName
 #: StringResources.pas
@@ -9470,7 +9470,7 @@ msgstr "Formatted date"
 
 #: uParams.pas
 msgid "Active document name"
-msgstr "Active document name"
+msgstr "Active belge name"
 
 #: uParams.pas
 msgid "The name or last run script"
@@ -9490,23 +9490,23 @@ msgstr "Aç dosyalar"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
-msgstr "Metin of the active document or a dosya"
+msgstr "Metin of the active belge or a dosya"
 
 #: uParams.pas
 msgid "Current word in the active document"
-msgstr "Mevcut kelime in the active document"
+msgstr "Mevcut kelime in the active belge"
 
 #: uParams.pas
 msgid "Current line in the active document"
-msgstr "Mevcut line in the active document"
+msgstr "Mevcut line in the active belge"
 
 #: uParams.pas
 msgid "Current line number in the active document"
-msgstr "Mevcut line sayı in the active document"
+msgstr "Mevcut line sayı in the active belge"
 
 #: uParams.pas
 msgid "Selected text in the active document"
-msgstr "Selected metin in the active document"
+msgstr "Selected metin in the active belge"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
