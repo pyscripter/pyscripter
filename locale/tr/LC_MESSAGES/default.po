@@ -407,13 +407,13 @@ msgstr "Özel Parametreler"
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Caption
 #: dlgCustomParams.dfm dlgToolProperties.dfm
 msgid "Name-Value Pair"
-msgstr "Ad-Value Pair"
+msgstr "Ad-Değer Pair"
 
 #. CustomizeParams..Panel..GroupBox1..Label2..Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Label16..Caption
 #: dlgCustomParams.dfm dlgToolProperties.dfm
 msgid "&Value:"
-msgstr "&Value:"
+msgstr "&Değer:"
 
 #. CustomizeParams..Panel..lvItems......Caption
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
@@ -426,7 +426,7 @@ msgstr "&Value:"
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
 #: StringResources.pas
 msgid "Value"
-msgstr "Value"
+msgstr "Değer"
 
 #. frmCustomKeyboard..Caption
 #: dlgCustomShortcuts.dfm
@@ -7151,7 +7151,7 @@ msgstr "Number"
 #. Programmer's name for it: SyntaxElementFriendlyName_NumericValue
 #: StringResources.pas
 msgid "Numeric Value"
-msgstr "Numeric Value"
+msgstr "Numeric Değer"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Octal
 #: StringResources.pas
@@ -7212,7 +7212,7 @@ msgstr "Text"
 #. Programmer's name for it: SyntaxElementFriendlyName_TextValue
 #: StringResources.pas
 msgid "Text Value"
-msgstr "Text Value"
+msgstr "Text Değer"
 
 #. Editor scroll hints
 #. Programmer's name for it: sEditorScrollInfo
@@ -9410,11 +9410,11 @@ msgstr "Komut line parametre"
 
 #: uParams.pas
 msgid "Value of registry key"
-msgstr "Value of registry key"
+msgstr "Değer of registry key"
 
 #: uParams.pas
 msgid "Value of environment variable"
-msgstr "Value of environment variable"
+msgstr "Değer of environment variable"
 
 #: uParams.pas
 msgid "Upper case of string"
