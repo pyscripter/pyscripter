@@ -2866,7 +2866,7 @@ msgstr "Bul Function|Bul function from function liste"
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
 msgid "Line &Numbers"
-msgstr "Satır &Numbers"
+msgstr "Satır &Sayılar"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Hint
 #: dmCommands.dfm
@@ -6635,7 +6635,7 @@ msgstr "Kod folding seçenekler"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
-msgstr "Compact Satır Numbers"
+msgstr "Compact Satır Sayılar"
 
 #: dmCommands.pas
 msgid "Trim trailing spaces when files are saved"
