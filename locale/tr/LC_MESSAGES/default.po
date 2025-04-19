@@ -1394,7 +1394,7 @@ msgstr "Kaydırmanın bir eksik olmasını sağlar"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll by one less"
-msgstr "Kaydırma by one less"
+msgstr "Bir daha az kaydır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
