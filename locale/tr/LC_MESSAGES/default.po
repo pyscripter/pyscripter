@@ -168,7 +168,7 @@ msgstr "Kod Templates"
 #: dlgToolProperties.dfm dlgUnitTestWizard.dfm frmFindResults.dfm
 #: frmFunctionList.dfm frmPyIDEMain.dfm frmToDo.dfm StringResources.pas
 msgid "&Help"
-msgstr "&Help"
+msgstr "&Yardım"
 
 #. CodeTemplates..Panel..GroupBox..Caption
 #: dlgCodeTemplates.dfm
@@ -892,12 +892,12 @@ msgstr "Open command prompt for the selected Python version"
 #: dlgPythonVersions.dfm dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm
 #: frmRegExpTester.dfm frmToDo.dfm StringResources.pas
 msgid "Help"
-msgstr "Help"
+msgstr "Yardım"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
-msgstr "Show Help"
+msgstr "Show Yardım"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
 #: dlgPythonVersions.dfm
@@ -2700,7 +2700,7 @@ msgstr "&Contents"
 #. CommandsDataModule..actlMain..actHelpContents..Hint
 #: dmCommands.dfm
 msgid "Help Contents"
-msgstr "Help Contents"
+msgstr "Yardım Contents"
 
 #. CommandsDataModule..actlMain..actPythonManuals..Caption
 #: dmCommands.dfm
@@ -2787,7 +2787,7 @@ msgstr "&Parameters"
 #. CommandsDataModule..actlMain..actHelpParameters..Hint
 #: dmCommands.dfm
 msgid "Help on custom parameters"
-msgstr "Help on custom parameters"
+msgstr "Yardım on custom parameters"
 
 #. CommandsDataModule..actlMain..actInsertTemplate..Caption
 #: dmCommands.dfm
@@ -2847,7 +2847,7 @@ msgstr "External &Tools"
 #. CommandsDataModule..actlMain..actHelpExternalTools..Hint
 #: dmCommands.dfm
 msgid "Help on External Tools"
-msgstr "Help on External Tools"
+msgstr "Yardım on External Tools"
 
 #. CommandsDataModule..actlMain..actFindFunction..Caption
 #: dmCommands.dfm
@@ -2932,7 +2932,7 @@ msgstr "Editor &Shortcuts"
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Hint
 #: dmCommands.dfm
 msgid "Help on editor shortcuts"
-msgstr "Help on editor shortcuts"
+msgstr "Yardım on editor shortcuts"
 
 #. CommandsDataModule..actlMain..actCheckForUpdates..Caption
 #: dmCommands.dfm
@@ -5795,7 +5795,7 @@ msgstr "Execute search or match"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Hint
 #: frmRegExpTester.dfm
 msgid "Show Python Help on the re module"
-msgstr "Show Python Help on the re module"
+msgstr "Show Python Yardım on the re module"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..StatusBar..lbStatusBar..Caption
 #: frmRegExpTester.dfm
@@ -6164,7 +6164,7 @@ msgstr "Python&Win help"
 
 #: cTools.pas
 msgid "Show PythonWin Help"
-msgstr "Show PythonWin Help"
+msgstr "Show PythonWin Yardım"
 
 #: cTools.pas
 msgid "Check &Indentation"
@@ -7256,7 +7256,7 @@ msgstr "Comment Block"
 #. Programmer's name for it: SEdCmdContextHelp
 #: StringResources.pas
 msgid "Context Help"
-msgstr "Context Help"
+msgstr "Context Yardım"
 
 #. Programmer's name for it: SEdCmdCopy
 #: StringResources.pas
