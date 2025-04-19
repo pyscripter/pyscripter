@@ -1010,7 +1010,7 @@ msgstr "Uzaktan"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm frmPythonII.pas
 msgid "Internal"
-msgstr "Internal"
+msgstr "Dahili"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm frmPythonII.pas
@@ -1765,7 +1765,7 @@ msgstr "Footer:"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr "Internal Margin:"
+msgstr "Dahili Margin:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
@@ -5345,7 +5345,7 @@ msgstr "Reinitiali&ze Python engine"
 #. PyIDEMainForm..actlStandard..actPythonInternal..Caption
 #: frmPyIDEMain.dfm
 msgid "&Internal"
-msgstr "&Internal"
+msgstr "&Dahili"
 
 #. PyIDEMainForm..actlStandard..actPythonInternal..Hint
 #: frmPyIDEMain.dfm
@@ -5511,7 +5511,7 @@ msgstr "&SSH"
 #. PyIDEMainForm..actlStandard..actPythonSSH..Hint
 #: frmPyIDEMain.dfm
 msgid "Use an SSH remote Python engine"
-msgstr "Kullan an SSH remote Python engine"
+msgstr "Kullan an SSH uzaktan Python engine"
 
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
@@ -6531,7 +6531,7 @@ msgstr "Atla to error on exception"
 
 #: dmCommands.pas
 msgid "Internal Interpreter hidden"
-msgstr "Internal Interpreter hidden"
+msgstr "Dahili Interpreter hidden"
 
 #: dmCommands.pas
 msgid "Always use sockets"
@@ -7882,7 +7882,7 @@ msgstr "Remember answer and do not göster again"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Internal Error in %s"
-msgstr "Internal Error in %s"
+msgstr "Dahili Error in %s"
 
 #. Programmer's name for it: SNotFound
 #: StringResources.pas
@@ -8067,7 +8067,7 @@ msgid ""
 "Please reinitialize or disconnect the remote interpreter."
 msgstr ""
 "Uzaktan Sunucu is not connected.\n"
-"Please reinitialize or disconnect the remote interpreter."
+"Please reinitialize or disconnect the uzaktan interpreter."
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
@@ -8084,12 +8084,12 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not write file \"%s\" and cannot use a remote Python engine"
-msgstr "Could not write dosya \"%s\" and cannot use a remote Python engine"
+msgstr "Could not write dosya \"%s\" and cannot use a uzaktan Python engine"
 
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
 msgid "Error in creating the remote interpreter: "
-msgstr "Error in creating the remote interpreter: "
+msgstr "Error in creating the uzaktan interpreter: "
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas
@@ -8097,8 +8097,8 @@ msgid ""
 "Could not connect to the remote Python engine server. The remote interpreter"
 " and debugger is not available."
 msgstr ""
-"Could not connect to the remote Python engine sunucu. The remote interpreter"
-" and debugger is not available."
+"Could not connect to the uzaktan Python engine sunucu. The uzaktan "
+"interpreter and debugger is not available."
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
@@ -8138,7 +8138,7 @@ msgid ""
 "otherwise."
 msgstr ""
 "Pyscripter needs access to the User Application Data dizin: \"%s\". Certain "
-"features such as remote debugging will not function properly otherwise."
+"features such as uzaktan debugging will not function properly otherwise."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -9152,7 +9152,7 @@ msgid ""
 "Local Python version is %s and remote Python version is %s. To use this SSH "
 "server please switch to Python version %1:s."
 msgstr ""
-"Local Python versiyon is %s and remote Python versiyon is %s. To use this "
+"Local Python versiyon is %s and uzaktan Python versiyon is %s. To use this "
 "SSH sunucu please switch to Python versiyon %1:s."
 
 #. Missing action categories
