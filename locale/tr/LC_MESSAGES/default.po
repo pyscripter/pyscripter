@@ -2869,7 +2869,7 @@ msgstr "Göster/Gizle satır sayılar"
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Caption
 #: dmCommands.dfm
 msgid "Special &Characters"
-msgstr "Special &Characters"
+msgstr "Özel &Characters"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Hint
 #: dmCommands.dfm
@@ -6228,9 +6228,9 @@ msgid ""
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:"
 msgstr ""
-"Special thanks to the many great developers who,onunla their amazing work, "
-"have made PyScripter possible. PyScripter makes use of the following "
-"components ve projeler:"
+"Özel thanks to the many great developers who,onunla their amazing work, have"
+" made PyScripter possible. PyScripter makes use of the following components "
+"ve projeler:"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
@@ -6739,7 +6739,7 @@ msgstr "İşaretle sözdizimi as you tip"
 
 #: dmCommands.pas
 msgid "Special packages"
-msgstr "Special packages"
+msgstr "Özel packages"
 
 #: dmCommands.pas
 msgid "Dictionary language code"
