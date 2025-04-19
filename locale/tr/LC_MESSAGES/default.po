@@ -4418,7 +4418,7 @@ msgstr "&Yeni Proje"
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
 #: frmProjectExplorer.dfm
 msgid "Start a new project"
-msgstr "Start a yeni proje"
+msgstr "Başla a yeni proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
 #: frmProjectExplorer.dfm
@@ -6183,7 +6183,7 @@ msgstr "Komut Prompt"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr "Start a console at the dizin of the active dosya"
+msgstr "Başla a console at the dizin of the active dosya"
 
 #: cTools.pas
 msgid "Profile"
@@ -7429,7 +7429,7 @@ msgstr "Satır End"
 #. Programmer's name for it: SEdCmdLineStart
 #: StringResources.pas
 msgid "Line Start"
-msgstr "Satır Start"
+msgstr "Satır Başla"
 
 #. Programmer's name for it: SEdCmdLowerCase
 #: StringResources.pas
@@ -7544,7 +7544,7 @@ msgstr "Seçin Satır End"
 #. Programmer's name for it: SEdCmdSelectLineStart
 #: StringResources.pas
 msgid "Select Line Start"
-msgstr "Seçin Satır Start"
+msgstr "Seçin Satır Başla"
 
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
