@@ -658,7 +658,7 @@ msgstr "Dosya mas&ks:"
 #. FindInFilesDialog..Panel1..gbxDirectories..lblDirectory..Caption
 #: dlgFindInFiles.dfm
 msgid "Di&rectories:"
-msgstr "Di&rectories:"
+msgstr "&Dizinler:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..btnBrowse..Hint
