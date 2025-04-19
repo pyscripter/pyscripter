@@ -796,12 +796,12 @@ msgstr "&Seçimi kaldır Tümü"
 #. PickListDialog..PickListPopUp..mnSelectAll..Hint
 #: dlgPickList.dfm
 msgid "Select all items"
-msgstr "Seçin hepsi items"
+msgstr "Seçin hepsi öğeler"
 
 #. PickListDialog..PickListPopUp..mnDeselectAll..Hint
 #: dlgPickList.dfm
 msgid "Deselect all items"
-msgstr "Seçimi kaldır hepsi items"
+msgstr "Seçimi kaldır hepsi öğeler"
 
 #. PythonVersionsDialog..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
@@ -4183,7 +4183,7 @@ msgstr "Değiştir Tümü Items..."
 #. FindResultsWindow..Actions..actReplaceAll..Hint
 #: frmFindResults.dfm
 msgid "Replace all items..."
-msgstr "Değiştir hepsi items..."
+msgstr "Değiştir hepsi öğeler..."
 
 #. FunctionListWindow..Caption
 #: frmFunctionList.dfm
@@ -5877,7 +5877,7 @@ msgstr "To Do Liste"
 #. ToDoWindow..Actions..actFileRefresh..Hint
 #: frmToDo.dfm
 msgid "Refresh to do items"
-msgstr "Refresh to do items"
+msgstr "Refresh to do öğeler"
 
 #. ToDoWindow..Actions..actEditGoto..Hint
 #: frmToDo.dfm
@@ -5892,7 +5892,7 @@ msgstr "&Print"
 #. ToDoWindow..Actions..actFilePrint..Hint
 #: frmToDo.dfm
 msgid "Print to do items"
-msgstr "Print to do items"
+msgstr "Print to do öğeler"
 
 #. ToDoWindow..Actions..actOptionsConfigure..Caption
 #: frmToDo.dfm
@@ -5912,7 +5912,7 @@ msgstr "Copy hepsi"
 #. ToDoWindow..Actions..actFileAbort..Hint
 #: frmToDo.dfm
 msgid "Abort search for todo items"
-msgstr "Abort arama for todo items"
+msgstr "Abort arama for todo öğeler"
 
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
@@ -7892,7 +7892,7 @@ msgstr "\"%s\" not found"
 #: StringResources.pas
 #, object-pascal-format
 msgid "%d items found and %d items replaced"
-msgstr "%d items found and %d items replaced"
+msgstr "%d öğeler found and %d öğeler replaced"
 
 #. Programmer's name for it: SNotAvailable
 #: StringResources.pas
