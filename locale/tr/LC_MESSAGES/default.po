@@ -613,7 +613,7 @@ msgstr "&İhmal et yorumlar"
 #. FindInFilesDialog..Panel1..gbxOptions..cbWholeWord..Caption
 #: dlgFindInFiles.dfm
 msgid "&Whole word"
-msgstr "&Bütün word"
+msgstr "&Bütün kelime"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbRegEx..Caption
 #: dlgFindInFiles.dfm
@@ -3078,7 +3078,7 @@ msgstr "Word &Wrap"
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
 msgid "Turn word wrap on/off (incompatible with code folding)"
-msgstr "Turn word wrap on/off (incompatible with code folding)"
+msgstr "Turn kelime wrap on/off (incompatible with code folding)"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
@@ -5845,7 +5845,7 @@ msgstr "Accept Word (Ctrl+Right)"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Hint
 #: frmSuggest.dfm
 msgid "Accept the first suggested word"
-msgstr "Accept the first suggested word"
+msgstr "Accept the first suggested kelime"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Caption
 #: frmSuggest.dfm
@@ -6612,11 +6612,11 @@ msgstr "Auto-gizle bul toolbar"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
-msgstr "Highlight seçili word"
+msgstr "Highlight seçili kelime"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr "Highlight color of seçili word"
+msgstr "Highlight color of seçili kelime"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
@@ -6694,7 +6694,7 @@ msgstr "Auto tamamlama font"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
-msgstr "Complete with word-break characters"
+msgstr "Complete with kelime-break characters"
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
@@ -9494,7 +9494,7 @@ msgstr "Metin of the active document or a dosya"
 
 #: uParams.pas
 msgid "Current word in the active document"
-msgstr "Current word in the active document"
+msgstr "Current kelime in the active document"
 
 #: uParams.pas
 msgid "Current line in the active document"
