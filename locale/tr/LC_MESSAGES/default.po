@@ -2208,8 +2208,8 @@ msgid ""
 "If checked output lines that look like messages \n"
 "will be parsed and shown in the messages window."
 msgstr ""
-"If checked çıktı satırlar that look like mesajlar \n"
-"will be parsed ve shown in the mesajlar pencere."
+"İşaretlenirse mesaj gibi görünen çıktı satırları ayrıştırılacak ve mesaj "
+"penceresinde gösterilecektir."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
 #: dlgToolProperties.dfm
