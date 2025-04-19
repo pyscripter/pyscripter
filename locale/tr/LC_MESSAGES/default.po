@@ -506,12 +506,12 @@ msgstr "Ekle dosya yol to the liste"
 #. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
-msgstr "Replace the selected dosya yol"
+msgstr "Değiştir the selected dosya yol"
 
 #. DirectoryListDialog..Panel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
 msgid "&Replace"
-msgstr "&Replace"
+msgstr "&Değiştir"
 
 #. DirectoryListDialog..Panel2..btnDelete..Hint
 #: dlgDirectoryList.dfm
@@ -922,7 +922,7 @@ msgstr "SSH Server:"
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
 msgid "Replace Matches"
-msgstr "Replace Matches"
+msgstr "Değiştir Matches"
 
 #. ReplaceInFilesDialog..Panel1..lblWith..Caption
 #: dlgReplaceInFiles.dfm
@@ -938,7 +938,7 @@ msgstr "In"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Caption
 #: dlgReplaceInFiles.dfm dmCommands.dfm
 msgid "Replace"
-msgstr "Replace"
+msgstr "Değiştir"
 
 #. ReplaceInFilesDialog..Panel1..cbBackup..Caption
 #: dlgReplaceInFiles.dfm
@@ -2534,12 +2534,12 @@ msgstr "Find previous|Find Previous match"
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #: dmCommands.dfm
 msgid "&Replace..."
-msgstr "&Replace..."
+msgstr "&Değiştir..."
 
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr "Replace|Search & Replace"
+msgstr "Değiştir|Search & Değiştir"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2772,12 +2772,12 @@ msgstr "Insert &modifier"
 #. CommandsDataModule..actlMain..actReplaceParameters..Caption
 #: dmCommands.dfm
 msgid "&Replace parameters"
-msgstr "&Replace parameters"
+msgstr "&Değiştir parameters"
 
 #. CommandsDataModule..actlMain..actReplaceParameters..Hint
 #: dmCommands.dfm
 msgid "Replace parameters with their values"
-msgstr "Replace parameters with their values"
+msgstr "Değiştir parameters with their values"
 
 #. CommandsDataModule..actlMain..actHelpParameters..Caption
 #: dmCommands.dfm
@@ -3058,7 +3058,7 @@ msgstr "Export Syntax Highlighters"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr "Replace with existing settings"
+msgstr "Değiştir with existing settings"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -4048,12 +4048,12 @@ msgstr "Find in Files Results"
 #. FindResultsWindow..Actions..actReplaceSelected..Caption
 #: frmFindResults.dfm
 msgid "Replace Selected Item..."
-msgstr "Replace Selected Item..."
+msgstr "Değiştir Selected Item..."
 
 #. FindResultsWindow..Actions..actReplaceSelected..Hint
 #: frmFindResults.dfm
 msgid "Replace selected item..."
-msgstr "Replace selected öğe..."
+msgstr "Değiştir selected öğe..."
 
 #. FindResultsWindow..Actions..actFileSearch..Caption
 #: frmFindResults.dfm
@@ -4176,12 +4176,12 @@ msgstr "Configure Find in Files"
 #. FindResultsWindow..Actions..actReplaceAll..Caption
 #: frmFindResults.dfm
 msgid "Replace All Items..."
-msgstr "Replace All Items..."
+msgstr "Değiştir All Items..."
 
 #. FindResultsWindow..Actions..actReplaceAll..Hint
 #: frmFindResults.dfm
 msgid "Replace all items..."
-msgstr "Replace hepsi items..."
+msgstr "Değiştir hepsi items..."
 
 #. FunctionListWindow..Caption
 #: frmFunctionList.dfm
@@ -4918,7 +4918,7 @@ msgstr "Find:"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiReplaceLabel..Caption
 #: frmPyIDEMain.dfm
 msgid "Replace with:"
-msgstr "Replace with:"
+msgstr "Değiştir with:"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchFromCaret..Caption
 #: frmPyIDEMain.dfm
@@ -6196,7 +6196,7 @@ msgstr "PyLint tool (www.pylint.org)"
 
 #: cTools.pas
 msgid "Advanced Replace"
-msgstr "Advanced Replace"
+msgstr "Advanced Değiştir"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
@@ -6356,7 +6356,7 @@ msgstr "Please make a selection"
 #: dlgConfirmReplace.pas
 #, object-pascal-format
 msgid "Replace this occurrence of \"%s\"?"
-msgstr "Replace this occurrence of \"%s\"?"
+msgstr "Değiştir this occurrence of \"%s\"?"
 
 #: dlgCustomShortcuts.pas
 msgid "Unassigned"
