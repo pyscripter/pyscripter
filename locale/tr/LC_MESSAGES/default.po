@@ -1722,7 +1722,7 @@ msgstr "Mirror konum"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Caption
 #: dlgSynPageSetup.dfm
 msgid "Footer"
-msgstr "Footer"
+msgstr "Altbilgi"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterLine..Caption
 #: dlgSynPageSetup.dfm
@@ -1762,7 +1762,7 @@ msgstr "Üstbilgi:"
 #. PageSetupDlg..TabControl..tbMargins..Label7..Caption
 #: dlgSynPageSetup.dfm
 msgid "Footer:"
-msgstr "Footer:"
+msgstr "Altbilgi:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
