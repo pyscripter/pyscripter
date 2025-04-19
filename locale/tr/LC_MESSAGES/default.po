@@ -3068,7 +3068,7 @@ msgstr "&Highlight Arama Metin"
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
 msgid "Highlight the search text in the current editor"
-msgstr "Highlight the arama metin in the current editor"
+msgstr "Highlight the arama metin in the mevcut editor"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #: dmCommands.dfm
@@ -3088,7 +3088,7 @@ msgstr "Go To &Debugger Position"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr "Go to the current position of the debugger"
+msgstr "Go to the mevcut position of the debugger"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3904,7 +3904,7 @@ msgstr "Ekle to &Favorites"
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Hint
 #: frmFileExplorer.dfm
 msgid "Add current path to Favorites"
-msgstr "Ekle current yol to Favorites"
+msgstr "Ekle mevcut yol to Favorites"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..TBXItem2..Caption
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Caption
@@ -4281,7 +4281,7 @@ msgstr "Çıkar Chat Topic"
 #. LLMChatForm..ChatActionList..actChatRemove..Hint
 #: frmLLMChat.dfm
 msgid "Remove current chat topic"
-msgstr "Çıkar current chat topic"
+msgstr "Çıkar mevcut chat topic"
 
 #. LLMChatForm..ChatActionList..actChatNew..Caption
 #: frmLLMChat.dfm
@@ -4828,7 +4828,7 @@ msgstr "Set Debug Layout"
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Hint
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
-msgstr "Set the current layout as the debug layout"
+msgstr "Set the mevcut layout as the debug layout"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitEditors..Caption
 #: frmPyIDEMain.dfm
@@ -5170,7 +5170,7 @@ msgstr "Step O&ut"
 #. PyIDEMainForm..actlStandard..actStepOut..Hint
 #: frmPyIDEMain.dfm
 msgid "Step out of the current subroutine"
-msgstr "Step out of the current subroutine"
+msgstr "Step out of the mevcut subroutine"
 
 #. PyIDEMainForm..actlStandard..actDebugPause..Caption
 #: frmPyIDEMain.dfm
@@ -5332,7 +5332,7 @@ msgstr "Ekle &Watch At Cursor"
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Add the expression at the editor current position as a watch"
-msgstr "Ekle the ifade at the editor current position as a watch"
+msgstr "Ekle the ifade at the editor mevcut position as a watch"
 
 #. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
 #: frmPyIDEMain.dfm
@@ -8041,7 +8041,7 @@ msgstr "Error in getting the namespace of %s"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "Could not set the current directory to the script yol"
+msgstr "Could not set the mevcut directory to the script yol"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -8400,7 +8400,7 @@ msgstr "Set theme to \"%s\"."
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas
 msgid "Save current Layout"
-msgstr "Save current Layout"
+msgstr "Save mevcut Layout"
 
 #. Programmer's name for it: SLayoutName
 #: StringResources.pas
