@@ -501,12 +501,12 @@ msgstr "taşı down"
 #. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
 msgid "Add file path to the list"
-msgstr "Ekle file yol to the liste"
+msgstr "Ekle dosya yol to the liste"
 
 #. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
-msgstr "Replace the selected file yol"
+msgstr "Replace the selected dosya yol"
 
 #. DirectoryListDialog..Panel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
@@ -516,12 +516,12 @@ msgstr "&Replace"
 #. DirectoryListDialog..Panel2..btnDelete..Hint
 #: dlgDirectoryList.dfm
 msgid "Delete the selected file path"
-msgstr "Sil the selected file yol"
+msgstr "Sil the selected dosya yol"
 
 #. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
-msgstr "Enter file yol here"
+msgstr "Enter dosya yol here"
 
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
@@ -638,7 +638,7 @@ msgstr "&Project files"
 #. FindInFilesDialog..Panel1..gbxWhere..rbCurrentOnly..Caption
 #: dlgFindInFiles.dfm
 msgid "Current &file only"
-msgstr "Current &file only"
+msgstr "Current &dosya only"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbDirectories..Caption
 #: dlgFindInFiles.dfm
@@ -1053,7 +1053,7 @@ msgstr "File &Ad:"
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Append to file"
-msgstr "&Append to file"
+msgstr "&Append to dosya"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbSaveOutput..Caption
 #: dlgRunConfiguration.dfm
@@ -1399,12 +1399,12 @@ msgstr "Scroll by one less"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
 msgid "Allows the cursor to go past the end of file marker"
-msgstr "Allows the cursor to go past the end of file marker"
+msgstr "Allows the cursor to go past the end of dosya marker"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of file"
-msgstr "Scroll past end of file"
+msgstr "Scroll past end of dosya"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
 #: dlgSynEditOptions.dfm
@@ -2151,7 +2151,7 @@ msgstr "Active editor"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active Python file"
-msgstr "Active Python file"
+msgstr "Active Python dosya"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
@@ -2279,12 +2279,12 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active file"
-msgstr "Active file"
+msgstr "Active dosya"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "New file"
-msgstr "New file"
+msgstr "New dosya"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Caption
 #: dlgToolProperties.dfm
@@ -2385,7 +2385,7 @@ msgstr "&Save"
 #. CommandsDataModule..actlMain..actFileSave..Hint
 #: dmCommands.dfm
 msgid "Save|Save active file"
-msgstr "Save|Save active file"
+msgstr "Save|Save active dosya"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
@@ -2395,7 +2395,7 @@ msgstr "Sav&e As..."
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Save As|Save active file under different name"
+msgstr "Save As|Save active dosya under different name"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. Programmer's name for it: SDlgClose
@@ -2406,7 +2406,7 @@ msgstr "&Close"
 #. CommandsDataModule..actlMain..actFileClose..Hint
 #: dmCommands.dfm
 msgid "Close|Close active file"
-msgstr "Close|Close active file"
+msgstr "Close|Close active dosya"
 
 #. CommandsDataModule..actlMain..actEditCut..Category
 #. CommandsDataModule..actlMain..actEditCopy..Category
@@ -2560,7 +2560,7 @@ msgstr "&Print..."
 #. CommandsDataModule..actlMain..actFilePrint..Hint
 #: dmCommands.dfm
 msgid "Print|Print active file"
-msgstr "Print|Print active file"
+msgstr "Print|Print active dosya"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
@@ -2762,7 +2762,7 @@ msgstr "Insert &parametre"
 #. CommandsDataModule..actlMain..actModifierCompletion..Hint
 #: dmCommands.dfm
 msgid "Insert parameter to the edited file"
-msgstr "Insert parametre to the edited file"
+msgstr "Insert parametre to the edited dosya"
 
 #. CommandsDataModule..actlMain..actModifierCompletion..Caption
 #: dmCommands.dfm
@@ -2982,7 +2982,7 @@ msgstr "&File Templates..."
 #. CommandsDataModule..actlMain..actFileTemplates..Hint
 #: dmCommands.dfm
 msgid "Add/Remove file templates"
-msgstr "Ekle/Çıkar file templates"
+msgstr "Ekle/Çıkar dosya templates"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
@@ -2992,7 +2992,7 @@ msgstr "UTF-8 with BOM"
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding when saving the file"
-msgstr "Kullan UTF-8 encoding when saving the file"
+msgstr "Kullan UTF-8 encoding when saving the dosya"
 
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm
@@ -3017,7 +3017,7 @@ msgstr "Re&load"
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
 msgid "Reload|Reload active file"
-msgstr "Reload|Reload active file"
+msgstr "Reload|Reload active dosya"
 
 #. CommandsDataModule..actlMain..actImportShortcuts..Caption
 #. CommandsDataModule..actlMain..actImportShortcuts..Hint
@@ -3138,7 +3138,7 @@ msgstr "Copy File Ad"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr "Copy file name of active file to clipboard"
+msgstr "Copy dosya name of active dosya to clipboard"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3298,7 +3298,7 @@ msgstr "Save to Remote File"
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr "Save to remote file with SSH"
+msgstr "Save to remote dosya with SSH"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
@@ -4135,7 +4135,7 @@ msgstr "&Save..."
 #. FindResultsWindow..Actions..actFileSave..Hint
 #: frmFindResults.dfm
 msgid "Save results to file..."
-msgstr "Save results to file..."
+msgstr "Save results to dosya..."
 
 #. FindResultsWindow..Actions..actFileCopy..Hint
 #: frmFindResults.dfm
@@ -4424,7 +4424,7 @@ msgstr "&Open Project..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
 #: frmProjectExplorer.dfm
 msgid "Open a project file"
-msgstr "Open a project file"
+msgstr "Open a project dosya"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
 #: frmProjectExplorer.dfm
@@ -4454,7 +4454,7 @@ msgstr "Store &Relative Paths"
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Hint
 #: frmProjectExplorer.dfm
 msgid "Store file paths relative to the project directory"
-msgstr "Store file yolları relative to the project directory"
+msgstr "Store dosya yolları relative to the project directory"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
@@ -4464,7 +4464,7 @@ msgstr "Show File &Extensions"
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Hint
 #: frmProjectExplorer.dfm
 msgid "Display file extensions"
-msgstr "Display file extensions"
+msgstr "Display dosya extensions"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Caption
 #: frmProjectExplorer.dfm
@@ -4489,7 +4489,7 @@ msgstr "&Ekle File(s)..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
 #: frmProjectExplorer.dfm
 msgid "Add file(s) to a project folder"
-msgstr "Ekle file(s) to a project folder"
+msgstr "Ekle dosya(s) to a project folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Caption
 #: frmProjectExplorer.dfm
@@ -4504,7 +4504,7 @@ msgstr "Ekle a yeni subfolder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr "Çıkar a file, folder or run configuration from the project"
+msgstr "Çıkar a dosya, folder or run configuration from the project"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4519,7 +4519,7 @@ msgstr "Rename the selected folder or RunConfiguration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
 #: frmProjectExplorer.dfm
 msgid "Open the selected file in the editor"
-msgstr "Open the selected file in the editor"
+msgstr "Open the selected dosya in the editor"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
@@ -4529,7 +4529,7 @@ msgstr "Ekle Active File"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Ekle the active editor file to the folder"
+msgstr "Ekle the active editor dosya to the folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -4564,7 +4564,7 @@ msgstr "Edit run configuration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Hint
 #: frmProjectExplorer.dfm
 msgid "Show file properties"
-msgstr "Show file properties"
+msgstr "Show dosya properties"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..Caption
@@ -4610,7 +4610,7 @@ msgstr "Ekle Remote File"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr "Ekle a remote file to the folder"
+msgstr "Ekle a remote dosya to the folder"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
@@ -5058,7 +5058,7 @@ msgstr "&Open..."
 #. PyIDEMainForm..actlStandard..actFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Select a file to open"
-msgstr "Select a file to open"
+msgstr "Select a dosya to open"
 
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Caption
 #: frmPyIDEMain.dfm
@@ -5387,7 +5387,7 @@ msgstr "New File..."
 #. PyIDEMainForm..actlStandard..actNewFile..Hint
 #: frmPyIDEMain.dfm
 msgid "New file from template"
-msgstr "New file from template"
+msgstr "New dosya from template"
 
 #. PyIDEMainForm..actlStandard..actNavWatches..Caption
 #: frmPyIDEMain.dfm
@@ -6073,7 +6073,7 @@ msgid ""
 "Error in copying file \"%s\" to \"%s\"\n"
 "Error Message: "
 msgstr ""
-"Error in copying file \"%s\" to \"%s\"\n"
+"Error in copying dosya \"%s\" to \"%s\"\n"
 "Error Message: "
 
 #: cSSHSupport.pas
@@ -6180,7 +6180,7 @@ msgstr "Komut Prompt"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr "Start a console at the directory of the active file"
+msgstr "Start a console at the directory of the active dosya"
 
 #: cTools.pas
 msgid "Profile"
@@ -6188,7 +6188,7 @@ msgstr "Profile"
 
 #: cTools.pas
 msgid "Profile active file"
-msgstr "Profile active file"
+msgstr "Profile active dosya"
 
 #: cTools.pas
 msgid "PyLint tool (www.pylint.org)"
@@ -6224,7 +6224,7 @@ msgstr "&Re-indent"
 
 #: cTools.pas
 msgid "Re-indent the active file"
-msgstr "Re-indent the active file"
+msgstr "Re-indent the active dosya"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6556,7 +6556,7 @@ msgstr "File explorer filter"
 
 #: dmCommands.pas
 msgid "text file"
-msgstr "text file"
+msgstr "text dosya"
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6596,7 +6596,7 @@ msgstr "Default line break format for yeni files"
 
 #: dmCommands.pas
 msgid "Default file encoding for new files"
-msgstr "Default file encoding for yeni files"
+msgstr "Default dosya encoding for yeni files"
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
@@ -7907,7 +7907,7 @@ msgstr "Not implemented"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup file \"%s\""
-msgstr "Failed to backup file \"%s\""
+msgstr "Failed to backup dosya \"%s\""
 
 #. Programmer's name for it: SErrorLoadLayout
 #: StringResources.pas
@@ -8002,14 +8002,14 @@ msgid ""
 "Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
 "Do you want to proceed?"
 msgstr ""
-"Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
+"Encoding dosya \"%s\" using \"%s\" encoding will result in information loss.\n"
 "Do you want to proceed?"
 
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in decoding file \"%s\" from \"%s\" encoding"
-msgstr "Error in decoding file \"%s\" from \"%s\" encoding"
+msgstr "Error in decoding dosya \"%s\" from \"%s\" encoding"
 
 #. Programmer's name for it: SFileOpenError
 #: StringResources.pas
@@ -8018,7 +8018,7 @@ msgid ""
 "Error in opening file: \"%s\".\n"
 "Error: %s"
 msgstr ""
-"Error in opening file: \"%s\".\n"
+"Error in opening dosya: \"%s\".\n"
 "Error: %s"
 
 #. Programmer's name for it: SFileSaveError
@@ -8028,7 +8028,7 @@ msgid ""
 "Error in saving file: \"%s\".\n"
 "Error: %s"
 msgstr ""
-"Error in saving file: \"%s\".\n"
+"Error in saving dosya: \"%s\".\n"
 "Error: %s"
 
 #. Programmer's name for it: SErrorGettingNamespace
@@ -8081,7 +8081,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not write file \"%s\" and cannot use a remote Python engine"
-msgstr "Could not write file \"%s\" and cannot use a remote Python engine"
+msgstr "Could not write dosya \"%s\" and cannot use a remote Python engine"
 
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
@@ -8158,7 +8158,7 @@ msgstr "%s has been renamed or deleted."
 #. Programmer's name for it: SRegistryAccessDenied
 #: StringResources.pas
 msgid "Registry access denied. Could not change the file association."
-msgstr "Registry access denied. Could not change the file association."
+msgstr "Registry access denied. Could not change the dosya association."
 
 #. Programmer's name for it: SErrorWhileDownload
 #: StringResources.pas
@@ -8208,7 +8208,7 @@ msgstr "Cannot change the Python engine while it is active."
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not open/create output file %s"
-msgstr "Could not open/create output file %s"
+msgstr "Could not open/create output dosya %s"
 
 #. Programmer's name for it: SUnknownPythonVersion
 #: StringResources.pas
@@ -8356,12 +8356,12 @@ msgstr "Select Python script to run"
 #. Programmer's name for it: SSelectOutputFile
 #: StringResources.pas
 msgid "Select output file"
-msgstr "Select output file"
+msgstr "Select output dosya"
 
 #. Programmer's name for it: SSelectApplication
 #: StringResources.pas
 msgid "Select application or file to execute"
-msgstr "Select application or file to execute"
+msgstr "Select application or dosya to execute"
 
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
@@ -8732,13 +8732,13 @@ msgstr ""
 #. Programmer's name for it: SFileSkipped
 #: StringResources.pas
 msgid "The following file will be skipped: "
-msgstr "The following file will be skipped: "
+msgstr "The following dosya will be skipped: "
 
 #. Programmer's name for it: SCouldNotBackup
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not backup file \"%s\" and will skip it"
-msgstr "Could not backup file \"%s\" and will skip it"
+msgstr "Could not backup dosya \"%s\" and will skip it"
 
 #. Command Line Options
 #. Programmer's name for it: SParseError
@@ -8826,7 +8826,7 @@ msgid ""
 "\n"
 "Do you want to save the modifications?"
 msgstr ""
-"The text in the \"%s\" file has changed.\n"
+"The text in the \"%s\" dosya has changed.\n"
 "\n"
 "Do you want to save the modifications?"
 
@@ -8836,7 +8836,7 @@ msgid ""
 "Reloading the file will result in the loss of all changes.\n"
 "Do you want to proceed?"
 msgstr ""
-"Reloading the file will result in the loss of hepsi changes.\n"
+"Reloading the dosya will result in the loss of hepsi changes.\n"
 "Do you want to proceed?"
 
 #. Programmer's name for it: SFileAlreadyOpen
@@ -8845,8 +8845,8 @@ msgid ""
 "Another editor with the same file is open.\n"
 "You can not have two editors with the same file."
 msgstr ""
-"Another editor with the same file is open.\n"
-"You can not have two editors with the same file."
+"Another editor with the same dosya is open.\n"
+"You can not have two editors with the same dosya."
 
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
@@ -9350,7 +9350,7 @@ msgstr "Python Komut Satır Arguments"
 #. register parameter modifiers
 #: uParams.pas
 msgid "Path of file"
-msgstr "Path of file"
+msgstr "Path of dosya"
 
 #: uParams.pas
 msgid "Path without delimeter"
@@ -9378,15 +9378,15 @@ msgstr "File drive"
 
 #: uParams.pas
 msgid "Expanded file name"
-msgstr "Expanded file name"
+msgstr "Expanded dosya name"
 
 #: uParams.pas
 msgid "Long file name"
-msgstr "Long file name"
+msgstr "Long dosya name"
 
 #: uParams.pas
 msgid "Short file name"
-msgstr "Short file name"
+msgstr "Short dosya name"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
@@ -9402,7 +9402,7 @@ msgstr "File type"
 
 #: uParams.pas
 msgid "Contents of text file"
-msgstr "Contents of text file"
+msgstr "Contents of text dosya"
 
 #: uParams.pas
 msgid "Command line parameter"
@@ -9438,7 +9438,7 @@ msgstr "Current date and time"
 
 #: uParams.pas
 msgid "Select file"
-msgstr "Select file"
+msgstr "Select dosya"
 
 #: uParams.pas
 msgid "Date of a date-time value"
@@ -9450,19 +9450,19 @@ msgstr "Time of a date-time value"
 
 #: uParams.pas
 msgid "Date of a file"
-msgstr "Date of a file"
+msgstr "Date of a dosya"
 
 #: uParams.pas
 msgid "Creation date of a file"
-msgstr "Creation date of a file"
+msgstr "Creation date of a dosya"
 
 #: uParams.pas
 msgid "Last modification date of a file"
-msgstr "Last modification date of a file"
+msgstr "Last modification date of a dosya"
 
 #: uParams.pas
 msgid "Last access date of a file"
-msgstr "Last access date of a file"
+msgstr "Last access date of a dosya"
 
 #: uParams.pas
 msgid "Formatted date"
@@ -9478,7 +9478,7 @@ msgstr "The name or last run script"
 
 #: uParams.pas
 msgid "Project file name"
-msgstr "Project file name"
+msgstr "Project dosya name"
 
 #: uParams.pas
 msgid "Modified files"
@@ -9490,7 +9490,7 @@ msgstr "Open files"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
-msgstr "Text of the active document or a file"
+msgstr "Text of the active document or a dosya"
 
 #: uParams.pas
 msgid "Current word in the active document"
