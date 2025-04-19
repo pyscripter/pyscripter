@@ -2140,7 +2140,7 @@ msgid ""
 "the tool is enabled."
 msgstr ""
 "Specifies the bağlam in which\n"
-"the tool is enabled."
+"the araç is enabled."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
@@ -3772,7 +3772,7 @@ msgstr "&Terminate"
 #. OutputWindow..OutputActions..actToolTerminate..Hint
 #: frmCommandOutput.dfm
 msgid "Terminate running tool (unsafe)"
-msgstr "Terminate running tool (unsafe)"
+msgstr "Terminate running araç (unsafe)"
 
 #. DisForm..Caption
 #. Programmer's name for it: SDisassemblyTab
@@ -6195,7 +6195,7 @@ msgstr "Profile aktif dosya"
 
 #: cTools.pas
 msgid "PyLint tool (www.pylint.org)"
-msgstr "PyLint tool (www.pylint.org)"
+msgstr "PyLint araç (www.pylint.org)"
 
 #: cTools.pas
 msgid "Advanced Replace"
