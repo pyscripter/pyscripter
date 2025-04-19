@@ -1384,7 +1384,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
 #: dlgSynEditOptions.dfm
 msgid "Hide scrollbars as necessary"
-msgstr "Hide scrollbars as necessary"
+msgstr "Gizle scrollbars as necessary"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
 #: dlgSynEditOptions.dfm
@@ -2299,7 +2299,7 @@ msgstr "Check to gizle the console."
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Caption
 #: dlgToolProperties.dfm
 msgid "&Hide console"
-msgstr "&Hide console"
+msgstr "&Gizle console"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
@@ -2867,7 +2867,7 @@ msgstr "Satır &Numbers"
 #. CommandsDataModule..actlMain..actEditLineNumbers..Hint
 #: dmCommands.dfm
 msgid "Show/Hide line numbers"
-msgstr "Göster/Hide line numbers"
+msgstr "Göster/Gizle line numbers"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Caption
 #: dmCommands.dfm
@@ -2877,7 +2877,7 @@ msgstr "Special &Characters"
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Hint
 #: dmCommands.dfm
 msgid "Show/Hide special characters"
-msgstr "Göster/Hide special characters"
+msgstr "Göster/Gizle special characters"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #: dmCommands.dfm
@@ -3158,7 +3158,7 @@ msgstr "Kod Folding"
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm
 msgid "Show/Hide Code Folding"
-msgstr "Göster/Hide Kod Folding"
+msgstr "Göster/Gizle Kod Folding"
 
 #. CommandsDataModule..actlMain..actFoldAll..Caption
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
@@ -4125,7 +4125,7 @@ msgstr "Göster Match Context"
 #. FindResultsWindow..Actions..actViewShowContext..Hint
 #: frmFindResults.dfm
 msgid "View/Hide Context of found text"
-msgstr "View/Hide Context of found text"
+msgstr "View/Gizle Context of found text"
 
 #. FindResultsWindow..Actions..actFileSave..Caption
 #: frmFindResults.dfm
@@ -4150,7 +4150,7 @@ msgstr "Toolbar"
 #. FindResultsWindow..Actions..actViewToolBar..Hint
 #: frmFindResults.dfm
 msgid "View/Hide Toolbar"
-msgstr "View/Hide Toolbar"
+msgstr "View/Gizle Toolbar"
 
 #. FindResultsWindow..Actions..actViewStatusBar..Caption
 #: frmFindResults.dfm
@@ -4160,7 +4160,7 @@ msgstr "StatusBar"
 #. FindResultsWindow..Actions..actViewStatusBar..Hint
 #: frmFindResults.dfm
 msgid "View/Hide StatusBar"
-msgstr "View/Hide StatusBar"
+msgstr "View/Gizle StatusBar"
 
 #. FindResultsWindow..Actions..actViewOptions..Caption
 #. ToDoWindow..Actions..actOptionsConfigure..Hint
@@ -4740,7 +4740,7 @@ msgstr "&Main Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnMainToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Main toolbar|Show/Hide the Main toolbar"
-msgstr "Main toolbar|Göster/Hide the Main toolbar"
+msgstr "Main toolbar|Göster/Gizle the Main toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnDebugtoolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4750,7 +4750,7 @@ msgstr "&Debug Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnDebugtoolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Debug toolbar|Show/Hide the Debug toolbar"
-msgstr "Debug toolbar|Göster/Hide the Debug toolbar"
+msgstr "Debug toolbar|Göster/Gizle the Debug toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4760,7 +4760,7 @@ msgstr "&Editor Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Editor toolbar|Show/Hide the Editor toolbar"
-msgstr "Editor toolbar|Göster/Hide the Editor toolbar"
+msgstr "Editor toolbar|Göster/Gizle the Editor toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4770,7 +4770,7 @@ msgstr "&View Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "View toolbar|Show/Hide the View toolbar"
-msgstr "View toolbar|Göster/Hide the View toolbar"
+msgstr "View toolbar|Göster/Gizle the View toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4780,7 +4780,7 @@ msgstr "Kullan&r Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "User toolbar|Show/Hide the User toolbar"
-msgstr "User toolbar|Göster/Hide the User toolbar"
+msgstr "User toolbar|Göster/Gizle the User toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
@@ -5003,7 +5003,7 @@ msgstr "Main Men&u"
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide main menu"
-msgstr "View/Hide main menu"
+msgstr "View/Gizle main menu"
 
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Caption
 #: frmPyIDEMain.dfm
@@ -5088,7 +5088,7 @@ msgstr "Status &Bar"
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide status bar"
-msgstr "View/Hide status bar"
+msgstr "View/Gizle status bar"
 
 #. PyIDEMainForm..actlStandard..actExternalRun..Hint
 #: frmPyIDEMain.dfm
@@ -5533,7 +5533,7 @@ msgstr "Split the editor Windows horizontally"
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Second Editor"
-msgstr "Hide Second Editor"
+msgstr "Gizle Second Editor"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Hint
 #: frmPyIDEMain.dfm
@@ -5597,12 +5597,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr "Hide Secondary Workspace"
+msgstr "Gizle Secondary Workspace"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr "Hide secondary workspace"
+msgstr "Gizle secondary workspace"
 
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
