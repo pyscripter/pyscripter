@@ -1461,7 +1461,7 @@ msgstr "Göster satır breaks, boşluklar ve sekmeler kullanarak özel symbols"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show special chars"
-msgstr "Göster özel chars"
+msgstr "Göster özel karakterler"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
