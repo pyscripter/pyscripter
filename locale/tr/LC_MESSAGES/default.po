@@ -2438,12 +2438,12 @@ msgstr "Kopyala|Seçimi kopyalar ve Panoya koyar"
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
 msgid "&Paste"
-msgstr "&Paste"
+msgstr "&Yapıştır"
 
 #. CommandsDataModule..actlMain..actEditPaste..Hint
 #: dmCommands.dfm
 msgid "Paste|Inserts Clipboard contents"
-msgstr "Paste|Inserts Pano contents"
+msgstr "Yapıştır|Inserts Pano contents"
 
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #: dmCommands.dfm
@@ -5700,12 +5700,12 @@ msgstr "Kopyala seçili metin without interpreter istemler"
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
 msgid "Paste && E&xecute"
-msgstr "Paste && E&xecute"
+msgstr "Yapıştır && E&xecute"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
 msgid "Paste clipboard text with added interpreter prompts"
-msgstr "Paste pano metin onunla added interpreter istemler"
+msgstr "Yapıştır pano metin onunla added interpreter istemler"
 
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
@@ -7481,7 +7481,7 @@ msgstr "Sayfa Yukarı"
 #. Programmer's name for it: SEdCmdPaste
 #: StringResources.pas
 msgid "Paste"
-msgstr "Paste"
+msgstr "Yapıştır"
 
 #. Programmer's name for it: SEdCmdRedo
 #: StringResources.pas
