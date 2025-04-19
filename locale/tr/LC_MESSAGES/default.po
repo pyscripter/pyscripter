@@ -1069,7 +1069,7 @@ msgstr "Seçin Stil"
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
 msgid "Available Styles"
-msgstr "Available Styles"
+msgstr "Available Sitiller"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
@@ -5609,7 +5609,7 @@ msgstr "Gizle secondary workspace"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
 msgid "Styles..."
-msgstr "Styles..."
+msgstr "Sitiller..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
