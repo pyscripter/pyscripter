@@ -140,7 +140,7 @@ msgstr "and save it as a custom parameter"
 #. CodeTemplates..Caption
 #: dlgCodeTemplates.dfm
 msgid "Code Templates"
-msgstr "Code Templates"
+msgstr "Kod Templates"
 
 #. CodeTemplates..Panel..btnHelp..Caption
 #. CommandLineDlg..Panel..btnHelp..Caption
@@ -173,7 +173,7 @@ msgstr "&Help"
 #. CodeTemplates..Panel..GroupBox..Caption
 #: dlgCodeTemplates.dfm
 msgid "Code Template:"
-msgstr "Code Şablon:"
+msgstr "Kod Şablon:"
 
 #. CodeTemplates..Panel..GroupBox..Label1..Caption
 #. CustomizeParams..Panel..GroupBox1..Label1..Caption
@@ -1114,7 +1114,7 @@ msgstr "Syntax Colors"
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
-msgstr "Code Sample"
+msgstr "Kod Sample"
 
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
@@ -2797,7 +2797,7 @@ msgstr "Insert &Şablon"
 #. CommandsDataModule..actlMain..actInsertTemplate..Hint
 #: dmCommands.dfm
 msgid "Insert a Code Template"
-msgstr "Insert a Code Şablon"
+msgstr "Insert a Kod Şablon"
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Caption
 #: dmCommands.dfm
@@ -2822,7 +2822,7 @@ msgstr "Customize IDE shortcuts"
 #. CommandsDataModule..actlMain..actCodeTemplates..Caption
 #: dmCommands.dfm
 msgid "&Code Templates..."
-msgstr "&Code Templates..."
+msgstr "&Kod Templates..."
 
 #. CommandsDataModule..actlMain..actCodeTemplates..Hint
 #: dmCommands.dfm
@@ -3153,12 +3153,12 @@ msgstr "Edit PyScripter initialization files"
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
 #: dmCommands.dfm
 msgid "Code Folding"
-msgstr "Code Folding"
+msgstr "Kod Folding"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm
 msgid "Show/Hide Code Folding"
-msgstr "Show/Hide Code Folding"
+msgstr "Show/Hide Kod Folding"
 
 #. CommandsDataModule..actlMain..actFoldAll..Caption
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
@@ -3645,7 +3645,7 @@ msgstr "Select next (newer) frame"
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
 msgid "Code Explorer"
-msgstr "Code Explorer"
+msgstr "Kod Explorer"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
@@ -3844,7 +3844,7 @@ msgstr "Close active tab"
 #. EditorForm..pmnuEditor..mnSourceCode..Caption
 #: frmEditor.dfm
 msgid "Source Code"
-msgstr "Source Code"
+msgstr "Source Kod"
 
 #. EditorForm..pmnuEditor..mnSearch..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
@@ -4674,7 +4674,7 @@ msgstr "&Recent Files"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
 #: frmPyIDEMain.dfm
 msgid "&Source Code"
-msgstr "&Source Code"
+msgstr "&Source Kod"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: frmPyIDEMain.dfm dmResources.pas
@@ -4858,7 +4858,7 @@ msgstr "&Tools"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..EditorViewsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "Source Code Views"
-msgstr "Source Code Views"
+msgstr "Source Kod Views"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
 #: frmPyIDEMain.dfm
@@ -5462,12 +5462,12 @@ msgstr "Activate the File Explorer window"
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Code Explorer"
-msgstr "&Code Explorer"
+msgstr "&Kod Explorer"
 
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Code Explorer window"
-msgstr "Activate the Code Explorer window"
+msgstr "Activate the Kod Explorer window"
 
 #. PyIDEMainForm..actlStandard..actNavTodo..Caption
 #: frmPyIDEMain.dfm
@@ -6624,11 +6624,11 @@ msgstr "Display package names in editor tabs"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr "Code folding enabled by default"
+msgstr "Kod folding enabled by default"
 
 #: dmCommands.pas
 msgid "Code folding options"
-msgstr "Code folding options"
+msgstr "Kod folding options"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
@@ -6662,11 +6662,11 @@ msgstr "Display flow control symbols"
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
 msgid "Code Completion"
-msgstr "Code Completion"
+msgstr "Kod Completion"
 
 #: dmCommands.pas
 msgid "Code completion list size"
-msgstr "Code completion list size"
+msgstr "Kod completion list size"
 
 #: dmCommands.pas
 msgid "Editor code completion"
@@ -9041,12 +9041,12 @@ msgstr "YAML File"
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
 msgid "JavaScript Code"
-msgstr "JavaScript Code"
+msgstr "JavaScript Kod"
 
 #. Programmer's name for it: SPHPTemplateName
 #: StringResources.pas
 msgid "PHP Code"
-msgstr "PHP Code"
+msgstr "PHP Kod"
 
 #. Programmer's name for it: STOMLTemplateName
 #: StringResources.pas
@@ -9197,7 +9197,7 @@ msgstr "Interpreter"
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
 msgid "Commented Code"
-msgstr "Commented Code"
+msgstr "Commented Kod"
 
 #. Programmer's name for it: SYNS_FriendlyClassName
 #: SynHighlighterPython.pas
