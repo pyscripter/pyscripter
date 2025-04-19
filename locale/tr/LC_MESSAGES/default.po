@@ -1423,22 +1423,22 @@ msgstr "Kaydırma past son of line"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows a hint of the visible line numbers when scrolling vertically"
-msgstr "Shows a hint of the visible line numbers when scrolling vertically"
+msgstr "Shows a ip ucu of the visible line numbers when scrolling vertically"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show scroll hint"
-msgstr "Göster kaydırma hint"
+msgstr "Göster kaydırma ip ucu"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
 #: dlgSynEditOptions.dfm
 msgid "The scroll hint follows the mouse when scrolling vertically"
-msgstr "The kaydırma hint follows the fare when scrolling vertically"
+msgstr "The kaydırma ip ucu follows the fare when scrolling vertically"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll hint follows mouse"
-msgstr "Kaydırma hint follows fare"
+msgstr "Kaydırma ip ucu follows fare"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
@@ -6765,7 +6765,7 @@ msgstr "Highlight structure"
 
 #: dmCommands.pas
 msgid "Show hint mark"
-msgstr "Göster hint mark"
+msgstr "Göster ip ucu mark"
 
 #: dmCommands.pas
 msgid "Gutter shape size"
