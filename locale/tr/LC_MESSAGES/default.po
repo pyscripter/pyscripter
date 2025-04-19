@@ -3872,7 +3872,7 @@ msgstr "Enabled"
 #. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Hint
 #: frmEditor.dfm
 msgid "Enable/Disable breakpoint"
-msgstr "Enable/Disable breakpoint"
+msgstr "Enable/Devre dışı breakpoint"
 
 #. EditorForm..pmnuBreakpoint..spiBreakpointClear..Hint
 #: frmEditor.dfm
@@ -6729,7 +6729,7 @@ msgstr "SCP komut"
 
 #: dmCommands.pas
 msgid "Disable Variables Window with SSH"
-msgstr "Disable Variables Window onunla SSH"
+msgstr "Devre dışı Variables Window onunla SSH"
 
 #: dmCommands.pas frmPyIDEMain.pas
 msgid "Language Server"
