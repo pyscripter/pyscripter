@@ -643,7 +643,7 @@ msgstr "Mevcut &dosya sadece"
 #. FindInFilesDialog..Panel1..gbxWhere..rbDirectories..Caption
 #: dlgFindInFiles.dfm
 msgid "Search in &directories"
-msgstr "Arama in &directories"
+msgstr "Arama in &dizinler"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..Caption
 #: dlgFindInFiles.dfm
@@ -2064,7 +2064,7 @@ msgstr "Scan &aç dosyalar"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanDir..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &directories"
-msgstr "Scan &directories"
+msgstr "Scan &dizinler"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanProject..Caption
 #: dlgToDoOptions.dfm
