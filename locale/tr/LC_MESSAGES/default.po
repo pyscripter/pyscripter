@@ -768,7 +768,7 @@ msgstr "Yönet Dosya Şablonları..."
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
 msgid "Inspector"
-msgstr "Inspector"
+msgstr "Denetmen"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
