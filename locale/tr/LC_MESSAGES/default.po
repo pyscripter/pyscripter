@@ -2015,7 +2015,7 @@ msgstr "Yapılacaklar Tokens"
 #. ToDoOptionsDlg..pnlBG..gbxTokens..lblPriority..Caption
 #: dlgToDoOptions.dfm
 msgid "&Priority"
-msgstr "&Priority"
+msgstr "&Öncelik"
 
 #. ToDoOptionsDlg..pnlBG..gbxTokens..lblToken..Caption
 #: dlgToDoOptions.dfm
