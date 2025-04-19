@@ -2345,7 +2345,7 @@ msgstr "Birim Test Sihirbazı"
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
 msgid "Select the functions and methods for which tests will be generated:"
-msgstr "Seçin fonksiyonlar ve methods için which testler will be generated:"
+msgstr "Seçin fonksiyonlar ve metotlar için which testler will be generated:"
 
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
