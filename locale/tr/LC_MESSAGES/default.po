@@ -697,7 +697,7 @@ msgstr "Editörün &orta kısmındaki eşleşmelere atla"
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepExpandAll..Caption
 #: dlgFindResultsOptions.dfm
 msgid "&Expand all matches after searching"
-msgstr "&Expand hepsi eşleşmeler after searching"
+msgstr "&Aradıktan sonra tüm eşleşmeleri genişlet"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
