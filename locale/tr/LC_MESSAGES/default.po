@@ -8887,13 +8887,13 @@ msgstr "Object with name \"%s\" is not found"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have registered property with name \"%s\""
-msgstr "Object \"%s\" does not have registered property with name \"%s\""
+msgstr "Object \"%s\" does not have registered özellik with name \"%s\""
 
 #. Programmer's name for it: SInvalidObjectProperty
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have property with name \"%s\""
-msgstr "Object \"%s\" does not have property with name \"%s\""
+msgstr "Object \"%s\" does not have özellik with name \"%s\""
 
 #. Programmer's name for it: SInvalidParameterFormat
 #: StringResources.pas
