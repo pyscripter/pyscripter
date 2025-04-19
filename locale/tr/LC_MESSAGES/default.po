@@ -551,12 +551,12 @@ msgstr "&Details"
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
 msgid "File Templates"
-msgstr "File Templates"
+msgstr "Dosya Templates"
 
 #. FileTemplatesDialog..Panel..GroupBox..Caption
 #: dlgFileTemplates.dfm
 msgid "File Template:"
-msgstr "File Şablon:"
+msgstr "Dosya Şablon:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label5..Caption
 #: dlgFileTemplates.dfm
@@ -653,7 +653,7 @@ msgstr "Dizin Search"
 #. FindInFilesDialog..Panel1..gbxDirectories..lblMasks..Caption
 #: dlgFindInFiles.dfm
 msgid "File mas&ks:"
-msgstr "File mas&ks:"
+msgstr "Dosya mas&ks:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..lblDirectory..Caption
 #: dlgFindInFiles.dfm
@@ -732,7 +732,7 @@ msgstr "Dizin to import:"
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
 msgid "File Masks (e.g. *.py;*.pyw):"
-msgstr "File Masks (e.g. *.py;*.pyw):"
+msgstr "Dosya Masks (e.g. *.py;*.pyw):"
 
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
@@ -742,7 +742,7 @@ msgstr "Recursive?"
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
 msgid "New File"
-msgstr "New File"
+msgstr "New Dosya"
 
 #. NewFileDialog..Panel1..Panel2..Panel3..Label1..Caption
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel5..Caption
@@ -763,7 +763,7 @@ msgstr "C&reate"
 #. NewFileDialog..Panel1..btnManageTemplates..Caption
 #: dlgNewFile.dfm
 msgid "Manage File Templates..."
-msgstr "Manage File Templates..."
+msgstr "Manage Dosya Templates..."
 
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
@@ -912,7 +912,7 @@ msgstr "Rename selected Python version"
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
-msgstr "File Path:"
+msgstr "Dosya Path:"
 
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
@@ -971,7 +971,7 @@ msgstr "Python Script"
 #. RunConfigurationForm..Panel1..GroupBox2..Label2..Caption
 #: dlgRunConfiguration.dfm
 msgid "&File Name:"
-msgstr "&File Ad:"
+msgstr "&Dosya Ad:"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label6..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label6..Caption
@@ -1048,7 +1048,7 @@ msgstr "Output"
 #. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
 #: dlgRunConfiguration.dfm
 msgid "File &Name:"
-msgstr "File &Ad:"
+msgstr "Dosya &Ad:"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
@@ -2977,7 +2977,7 @@ msgstr "Toggle Comment| Comment/Uncomment block of code"
 #. CommandsDataModule..actlMain..actFileTemplates..Caption
 #: dmCommands.dfm
 msgid "&File Templates..."
-msgstr "&File Templates..."
+msgstr "&Dosya Templates..."
 
 #. CommandsDataModule..actlMain..actFileTemplates..Hint
 #: dmCommands.dfm
@@ -3133,7 +3133,7 @@ msgstr "Close hepsi files to the right"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
 msgid "Copy File Name"
-msgstr "Copy File Ad"
+msgstr "Copy Dosya Ad"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
@@ -3293,7 +3293,7 @@ msgstr "Unfold functions"
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr "Save to Remote File"
+msgstr "Save to Remote Dosya"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
@@ -3337,7 +3337,7 @@ msgstr "Spell Checking"
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Caption
 #: dmCommands.dfm
 msgid "Check File"
-msgstr "Check File"
+msgstr "Check Dosya"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Caption
 #: dmCommands.dfm
@@ -3549,7 +3549,7 @@ msgstr "Breakpoints"
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
-msgstr "File Ad"
+msgstr "Dosya Ad"
 
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
@@ -3881,7 +3881,7 @@ msgstr "Clear breakpoint"
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
-msgstr "File Explorer"
+msgstr "Dosya Explorer"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiBrowsePath..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
@@ -3975,7 +3975,7 @@ msgstr "&Explore Here"
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Hint
 #: frmFileExplorer.dfm
 msgid "Set the Root of the File Manager to this folder"
-msgstr "Set the Root of the File Manager to this folder"
+msgstr "Set the Root of the Dosya Manager to this folder"
 
 #. FileExplorerWindow..FileExplorerActions..actGoBack..Caption
 #: frmFileExplorer.dfm
@@ -4003,7 +4003,7 @@ msgstr "&Refresh"
 #. FileExplorerWindow..FileExplorerActions..actRefresh..Hint
 #: frmFileExplorer.dfm
 msgid "Refresh|Refresh File Explorer"
-msgstr "Refresh|Refresh File Explorer"
+msgstr "Refresh|Refresh Dosya Explorer"
 
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Caption
 #: frmFileExplorer.dfm
@@ -4459,7 +4459,7 @@ msgstr "Store dosya yolları relative to the project directory"
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
 msgid "Show File &Extensions"
-msgstr "Show File &Extensions"
+msgstr "Show Dosya &Extensions"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Hint
 #: frmProjectExplorer.dfm
@@ -4484,7 +4484,7 @@ msgstr "Collapse hepsi project nodes"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Caption
 #: frmProjectExplorer.dfm
 msgid "&Add File(s)..."
-msgstr "&Ekle File(s)..."
+msgstr "&Ekle Dosya(s)..."
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
 #: frmProjectExplorer.dfm
@@ -4524,7 +4524,7 @@ msgstr "Open the selected dosya in the editor"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
 msgid "Add Active File"
-msgstr "Ekle Active File"
+msgstr "Ekle Active Dosya"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
@@ -4605,7 +4605,7 @@ msgstr "Debug the selected configuration"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr "Ekle Remote File"
+msgstr "Ekle Remote Dosya"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
@@ -4642,7 +4642,7 @@ msgstr "External Tool Running"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..Hint
 #: frmPyIDEMain.dfm
 msgid "Select File"
-msgstr "Select File"
+msgstr "Select Dosya"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollLeft..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
@@ -4659,7 +4659,7 @@ msgstr "Scroll right"
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&File"
-msgstr "&File"
+msgstr "&Dosya"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..TBXSubmenuItem5..Caption
 #: frmPyIDEMain.dfm
@@ -4684,7 +4684,7 @@ msgstr "Parametreler"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
 msgid "File Format"
-msgstr "File Format"
+msgstr "Dosya Format"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..Caption
 #: frmPyIDEMain.dfm
@@ -5382,7 +5382,7 @@ msgstr "Kullan a remote Python engine for wxPython applications"
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
 msgid "New File..."
-msgstr "New File..."
+msgstr "New Dosya..."
 
 #. PyIDEMainForm..actlStandard..actNewFile..Hint
 #: frmPyIDEMain.dfm
@@ -5452,12 +5452,12 @@ msgstr "Activate the Messages window"
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "File E&xplorer"
-msgstr "File E&xplorer"
+msgstr "Dosya E&xplorer"
 
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the File Explorer window"
-msgstr "Activate the File Explorer window"
+msgstr "Activate the Dosya Explorer window"
 
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
 #: frmPyIDEMain.dfm
