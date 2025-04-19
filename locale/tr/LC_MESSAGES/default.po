@@ -7093,7 +7093,7 @@ msgstr "Assembler"
 #. Programmer's name for it: SyntaxElementFriendlyName_Attribute
 #: StringResources.pas
 msgid "Attribute"
-msgstr "Attribute"
+msgstr "Nitelik"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Brackets
 #: StringResources.pas
