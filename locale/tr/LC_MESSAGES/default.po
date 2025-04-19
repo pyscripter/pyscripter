@@ -2214,7 +2214,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
 #: dlgToolProperties.dfm
 msgid "Parse &Messages"
-msgstr "Parse &Mesajlar"
+msgstr "&Mesajları Ayrıştır"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseTraceback..Caption
 #: dlgToolProperties.dfm
