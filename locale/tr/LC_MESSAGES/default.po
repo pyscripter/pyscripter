@@ -994,7 +994,7 @@ msgstr "Python Motor"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
-msgstr "Motor &Type:"
+msgstr "Motor &Tip:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
 #: dlgRunConfiguration.dfm
@@ -3364,7 +3364,7 @@ msgstr "Clear Errors"
 #. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Caption
 #: dmCommands.dfm
 msgid "Check As You Type"
-msgstr "Check As You Type"
+msgstr "Check As You Tip"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Caption
 #: dmCommands.dfm
@@ -6019,7 +6019,7 @@ msgstr "Variables"
 #. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Type"
-msgstr "Type"
+msgstr "Tip"
 
 #. WatchesWindow..Caption
 #. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
@@ -8941,7 +8941,7 @@ msgstr "Could not bul scope for the given line"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Type of \"%s\" is unknown"
-msgstr "Type of \"%s\" is bilinmeyen"
+msgstr "Tip of \"%s\" is bilinmeyen"
 
 #. Programmer's name for it: SCyclicImports
 #: StringResources.pas
