@@ -8921,7 +8921,7 @@ msgstr "Package Ad"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not load and parse module: \"%s\""
-msgstr "Could not load ve parse module: \"%s\""
+msgstr "Could not load ve ayrıştır module: \"%s\""
 
 #. Programmer's name for it: SNoIdentifier
 #: StringResources.pas
