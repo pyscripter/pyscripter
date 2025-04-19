@@ -431,7 +431,7 @@ msgstr "Değer"
 #. frmCustomKeyboard..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Customize IDE Shortcuts"
-msgstr "Customize IDE Kısayollar"
+msgstr "Özelleştirilmiş IDE Kısayollar"
 
 #. frmCustomKeyboard..Panel1..lblNewShortcutKey..Caption
 #: dlgCustomShortcuts.dfm
@@ -2817,7 +2817,7 @@ msgstr "IDE &Kısayollar..."
 #. CommandsDataModule..actlMain..actIDEShortcuts..Hint
 #: dmCommands.dfm
 msgid "Customize IDE shortcuts"
-msgstr "Customize IDE shortcuts"
+msgstr "Özelleştirilmiş IDE shortcuts"
 
 #. CommandsDataModule..actlMain..actCodeTemplates..Caption
 #: dmCommands.dfm
@@ -5553,12 +5553,12 @@ msgstr "Enter post mortem analysis"
 #. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Caption
 #: frmPyIDEMain.dfm
 msgid "Customize..."
-msgstr "Customize..."
+msgstr "Özelleştirilmiş..."
 
 #. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Hint
 #: frmPyIDEMain.dfm
 msgid "Customize the toolbars"
-msgstr "Customize the toolbars"
+msgstr "Özelleştirilmiş the toolbars"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm
