@@ -1663,7 +1663,7 @@ msgstr "Üstbilgi"
 #. Programmer's name for it: SEdCmdLeft
 #: dlgSynPageSetup.dfm StringResources.pas
 msgid "Left"
-msgstr "Left"
+msgstr "Sol"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label13..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label16..Caption
@@ -1732,7 +1732,7 @@ msgstr "Satır above"
 #. PageSetupDlg..TabControl..tbMargins..Label1..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left:"
-msgstr "Left:"
+msgstr "Sol:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label2..Caption
 #: dlgSynPageSetup.dfm
@@ -1772,7 +1772,7 @@ msgstr "Dahili Marj:"
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr "Left Metin Girinti:"
+msgstr "Sol Metin Girinti:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
@@ -4652,7 +4652,7 @@ msgstr "Seçin Dosya"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll left"
-msgstr "Kaydırma left"
+msgstr "Kaydırma sol"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollRight..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..Hint
@@ -7469,7 +7469,7 @@ msgstr "Sayfa Aşağı"
 #. Programmer's name for it: SEdCmdPageLeft
 #: StringResources.pas
 msgid "Page Left"
-msgstr "Sayfa Left"
+msgstr "Sayfa Sol"
 
 #. Programmer's name for it: SEdCmdPageRight
 #: StringResources.pas
@@ -7504,7 +7504,7 @@ msgstr "Kaydırma Aşağı"
 #. Programmer's name for it: SEdCmdScrollLeft
 #: StringResources.pas
 msgid "Scroll Left"
-msgstr "Kaydırma Left"
+msgstr "Kaydırma Sol"
 
 #. Programmer's name for it: SEdCmdScrollRight
 #: StringResources.pas
@@ -7534,7 +7534,7 @@ msgstr "Seçin Editör Top"
 #. Programmer's name for it: SEdCmdSelectLeft
 #: StringResources.pas
 msgid "Select Left"
-msgstr "Seçin Left"
+msgstr "Seçin Sol"
 
 #. Programmer's name for it: SEdCmdSelectLineEnd
 #: StringResources.pas
@@ -7559,7 +7559,7 @@ msgstr "Seçin Sayfa Aşağı"
 #. Programmer's name for it: SEdCmdSelectPageLeft
 #: StringResources.pas
 msgid "Select Page Left"
-msgstr "Seçin Sayfa Left"
+msgstr "Seçin Sayfa Sol"
 
 #. Programmer's name for it: SEdCmdSelectPageRight
 #: StringResources.pas
@@ -7594,7 +7594,7 @@ msgstr "Seçin Kelime"
 #. Programmer's name for it: SEdCmdSelectWordLeft
 #: StringResources.pas
 msgid "Select Word Left"
-msgstr "Seçin Kelime Left"
+msgstr "Seçin Kelime Sol"
 
 #. Programmer's name for it: SEdCmdSelectWordRight
 #: StringResources.pas
@@ -7739,7 +7739,7 @@ msgstr "Upper Case"
 #. Programmer's name for it: SEdCmdWordLeft
 #: StringResources.pas
 msgid "Word Left"
-msgstr "Kelime Left"
+msgstr "Kelime Sol"
 
 #. Programmer's name for it: SEdCmdWordRight
 #: StringResources.pas
@@ -7755,7 +7755,7 @@ msgstr "İptal Selections"
 #. Programmer's name for it: SEdCmdSelColumnLeft
 #: StringResources.pas
 msgid "Selelct Column Left"
-msgstr "Selelct Sütun Left"
+msgstr "Selelct Sütun Sol"
 
 #. Programmer's name for it: SEdCmdSelColumnRight
 #: StringResources.pas
