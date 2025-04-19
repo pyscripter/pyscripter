@@ -2686,7 +2686,7 @@ msgstr "Python &Yol..."
 #. CommandsDataModule..actlMain..actPythonPath..Hint
 #: dmCommands.dfm
 msgid "Python Path|View or edit the Python path"
-msgstr "Python Yol|View or edit Python yol"
+msgstr "Python Yol|View or düzenle Python yol"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
@@ -2833,7 +2833,7 @@ msgstr "Configure &Tools..."
 #. CommandsDataModule..actlMain..actConfigureTools..Hint
 #: dmCommands.dfm
 msgid "Configure Tools|Add/remove/edit command-line tools"
-msgstr "Configure Tools|Ekle/remove/edit komut-satır tools"
+msgstr "Configure Tools|Ekle/remove/düzenle komut-satır tools"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
 #: dmCommands.dfm
