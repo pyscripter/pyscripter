@@ -2125,7 +2125,7 @@ msgstr "&Kısayol:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..lbContext..Caption
 #: dlgToolProperties.dfm
 msgid "Conte&xt:"
-msgstr "Conte&xt:"
+msgstr "&Bağlam"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Label13..Caption
 #: dlgToolProperties.dfm
