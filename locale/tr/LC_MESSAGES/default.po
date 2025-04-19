@@ -586,7 +586,7 @@ msgstr "Bul in Files Search"
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
 msgid "&Text to find:"
-msgstr "&Text to find:"
+msgstr "&Text to bul:"
 
 #. FindInFilesDialog..Panel1..gbxOptions..Caption
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
@@ -6608,7 +6608,7 @@ msgstr "Auto-reload changed files"
 
 #: dmCommands.pas
 msgid "Auto-hide find toolbar"
-msgstr "Auto-gizle find toolbar"
+msgstr "Auto-gizle bul toolbar"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
@@ -7979,7 +7979,7 @@ msgid ""
 "with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
-"PyScripter could not find a usable Python installation at the specified yol.\n"
+"PyScripter could not bul a usable Python installation at the specified yol.\n"
 "Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**\n"
 "with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versions of Python."
@@ -8933,7 +8933,7 @@ msgstr "Hayır Identifier at the given line and column"
 #. Programmer's name for it: SCouldNotFindScope
 #: StringResources.pas
 msgid "Could not find scope for the given line"
-msgstr "Could not find scope for the given line"
+msgstr "Could not bul scope for the given line"
 
 #. Programmer's name for it: STypeOfSIsUnknown
 #: StringResources.pas
@@ -8955,7 +8955,7 @@ msgstr "Cyclic type dependency encountered!"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not find identifier \"%s\" in module \"%s\""
-msgstr "Could not find identifier \"%s\" in module \"%s\""
+msgstr "Could not bul identifier \"%s\" in module \"%s\""
 
 #. Programmer's name for it: SCouldNotAnalyseModule
 #: StringResources.pas
@@ -8967,7 +8967,7 @@ msgstr "Could not analyse module: \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not find module: \"%s\""
-msgstr "Could not find module: \"%s\""
+msgstr "Could not bul module: \"%s\""
 
 #. Programmer's name for it: SSelfOutsideClassScope
 #: StringResources.pas
@@ -8978,7 +8978,7 @@ msgstr "\"self\" or \"cls\" used outside a class scope"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not find identifier \"%s\" in scope \"%s\""
-msgstr "Could not find identifier \"%s\" in scope \"%s\""
+msgstr "Could not bul identifier \"%s\" in scope \"%s\""
 
 #. Programmer's name for it: SCouldNotInferType
 #: StringResources.pas
