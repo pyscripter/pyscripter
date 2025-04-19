@@ -1468,7 +1468,7 @@ msgstr "Enable wrapping of long lines"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
 msgid "Word wrap"
-msgstr "Word wrap"
+msgstr "Kelime wrap"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -2246,7 +2246,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Word at cursor"
-msgstr "Word at cursor"
+msgstr "Kelime at cursor"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -3073,7 +3073,7 @@ msgstr "Highlight the arama metin in the current editor"
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #: dmCommands.dfm
 msgid "Word &Wrap"
-msgstr "Word &Wrap"
+msgstr "Kelime &Wrap"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
@@ -3352,7 +3352,7 @@ msgstr "Check Selection"
 #. CommandsDataModule..actlMain..actSynSpellCheckWord..Caption
 #: dmCommands.dfm
 msgid "Check Word"
-msgstr "Check Word"
+msgstr "Check Kelime"
 
 #. CommandsDataModule..actlMain..actSynSpellClearErrors..Caption
 #: dmCommands.dfm
@@ -5840,7 +5840,7 @@ msgstr "Accept (Tab)"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Caption
 #: frmSuggest.dfm
 msgid "Accept Word (Ctrl+Right)"
-msgstr "Accept Word (Ctrl+Right)"
+msgstr "Accept Kelime (Ctrl+Right)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Hint
 #: frmSuggest.dfm
@@ -7166,7 +7166,7 @@ msgstr "Preprocessor"
 #. Programmer's name for it: SyntaxElementFriendlyName_ReservedWord
 #: StringResources.pas
 msgid "Reserved Word"
-msgstr "Reserved Word"
+msgstr "Reserved Kelime"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Section
 #: StringResources.pas
@@ -7301,7 +7301,7 @@ msgstr "Sil Last Char"
 #. Programmer's name for it: SEdCmdDeleteLastWord
 #: StringResources.pas
 msgid "Delete Last Word"
-msgstr "Sil Last Word"
+msgstr "Sil Last Kelime"
 
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
@@ -7311,7 +7311,7 @@ msgstr "Sil Satır"
 #. Programmer's name for it: SEdCmdDeleteWord
 #: StringResources.pas
 msgid "Delete Word"
-msgstr "Sil Word"
+msgstr "Sil Kelime"
 
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
@@ -7586,17 +7586,17 @@ msgstr "Select Yukarı"
 #. Programmer's name for it: SEdCmdSelectWord
 #: StringResources.pas
 msgid "Select Word"
-msgstr "Select Word"
+msgstr "Select Kelime"
 
 #. Programmer's name for it: SEdCmdSelectWordLeft
 #: StringResources.pas
 msgid "Select Word Left"
-msgstr "Select Word Left"
+msgstr "Select Kelime Left"
 
 #. Programmer's name for it: SEdCmdSelectWordRight
 #: StringResources.pas
 msgid "Select Word Right"
-msgstr "Select Word Right"
+msgstr "Select Kelime Right"
 
 #. Programmer's name for it: SEdCmdSetBookmark0
 #: StringResources.pas
@@ -7736,12 +7736,12 @@ msgstr "Upper Case"
 #. Programmer's name for it: SEdCmdWordLeft
 #: StringResources.pas
 msgid "Word Left"
-msgstr "Word Left"
+msgstr "Kelime Left"
 
 #. Programmer's name for it: SEdCmdWordRight
 #: StringResources.pas
 msgid "Word Right"
-msgstr "Word Right"
+msgstr "Kelime Right"
 
 #. Multi-caret
 #. Programmer's name for it: SEdCmdCancelSelections
