@@ -1281,8 +1281,7 @@ msgid ""
 "When clicking with the right mouse for a popup menu, move the cursor to that"
 " location"
 msgstr ""
-"When clicking onunla the right mouse for a popup menu, move the cursor to "
-"that konum"
+"Bir açılır menü için sağ fareyle tıkladığınızda, imleci o konuma getirin"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
 #: dlgSynEditOptions.dfm
