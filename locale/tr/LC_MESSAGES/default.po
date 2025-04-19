@@ -2326,7 +2326,7 @@ msgstr "Satır sayı"
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the line number"
-msgstr "Placeholder for the satır sayı"
+msgstr "Yer tutucusu for the satır sayı"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
@@ -2336,7 +2336,7 @@ msgstr "Sütun sayı"
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the column number"
-msgstr "Placeholder for the sütun sayı"
+msgstr "Yer tutucusu for the sütun sayı"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
