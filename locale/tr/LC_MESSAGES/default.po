@@ -1717,7 +1717,7 @@ msgstr "Gölge"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..CBFooterMirror..Caption
 #: dlgSynPageSetup.dfm
 msgid "Mirror position"
-msgstr "Mirror konum"
+msgstr "Yansıma konumu"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Caption
 #: dlgSynPageSetup.dfm
