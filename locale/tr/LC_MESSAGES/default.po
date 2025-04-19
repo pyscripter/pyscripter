@@ -6848,7 +6848,7 @@ msgstr "Global variable \"%s\" defined at line %d"
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
-msgstr "Attributes"
+msgstr "Nitelikler"
 
 #: frmCodeExplorer.pas
 msgid "Class attributes"
