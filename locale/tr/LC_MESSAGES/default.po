@@ -1389,7 +1389,7 @@ msgstr "Gizle kaydırma çubukları gerekirse"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Hint
 #: dlgSynEditOptions.dfm
 msgid "Forces scrolling to be one less"
-msgstr "Forces scrolling to be one less"
+msgstr "Kaydırmanın bir eksik olmasını sağlar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
 #: dlgSynEditOptions.dfm
