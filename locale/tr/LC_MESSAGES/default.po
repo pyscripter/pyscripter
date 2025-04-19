@@ -194,7 +194,7 @@ msgstr "&Şablon:"
 #. CodeTemplates..Panel..GroupBox..Label5..Caption
 #: dlgCodeTemplates.dfm
 msgid "&Description:"
-msgstr "&Description:"
+msgstr "&Açıklama:"
 
 #. CodeTemplates..Panel..GroupBox..Label4..Caption
 #. CustomizeParams..Panel..Label4..Caption
@@ -227,7 +227,7 @@ msgstr "Ad"
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: dlgCodeTemplates.dfm frmToDo.dfm
 msgid "Description"
-msgstr "Description"
+msgstr "Açıklama"
 
 #. CodeTemplates..ActionList..actAddItem..Caption
 #. CustomizeParams..ActionList..actAddItem..Caption
@@ -461,7 +461,7 @@ msgstr "C&urrent Keys:"
 #. frmCustomKeyboard..Panel1..gbDescription..Caption
 #: dlgCustomShortcuts.dfm
 msgid " Description "
-msgstr " Description "
+msgstr " Açıklama "
 
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Caption
 #: dlgCustomShortcuts.dfm
