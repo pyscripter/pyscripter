@@ -763,7 +763,7 @@ msgstr "&Yarat"
 #. NewFileDialog..Panel1..btnManageTemplates..Caption
 #: dlgNewFile.dfm
 msgid "Manage File Templates..."
-msgstr "Manage Dosya Şablonları..."
+msgstr "Yönet Dosya Şablonları..."
 
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
@@ -3912,13 +3912,13 @@ msgstr "Ekle mevcut yol to Favorites"
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Caption
 #: frmFileExplorer.dfm
 msgid "&Manage Favorites..."
-msgstr "&Manage Favorites..."
+msgstr "&Yönet Favorites..."
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..TBXItem2..Hint
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Hint
 #: frmFileExplorer.dfm
 msgid "Manage favourite paths"
-msgstr "Manage favourite yolları"
+msgstr "Yönet favourite yolları"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..TBXSubmenuItem3..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnPythonPath..Caption
@@ -3930,7 +3930,7 @@ msgstr "Python Path"
 #. FileExplorerWindow..ExplorerPopUp..mnManagePythonPath..Caption
 #: frmFileExplorer.dfm
 msgid "Manage Python &Path..."
-msgstr "Manage Python &Path..."
+msgstr "Yönet Python &Path..."
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Desktop..Caption
 #: frmFileExplorer.dfm
