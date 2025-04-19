@@ -1149,7 +1149,7 @@ msgstr "Editör Sözdizimi Dil"
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
 #: dlgSynEditOptions.dfm
 msgid " Text attributes "
-msgstr " Metin attributes "
+msgstr " Metin nitelikler "
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
 #: dlgSynEditOptions.dfm
@@ -6852,7 +6852,7 @@ msgstr "Attributes"
 
 #: frmCodeExplorer.pas
 msgid "Class attributes"
-msgstr "Class attributes"
+msgstr "Class nitelikler"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
