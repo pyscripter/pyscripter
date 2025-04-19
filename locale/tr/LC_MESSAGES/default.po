@@ -1599,7 +1599,7 @@ msgstr "Yer imleri"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmark keys"
-msgstr "Bookmark keys"
+msgstr "Yer imi keys"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
 #: dlgSynEditOptions.dfm
@@ -7359,52 +7359,52 @@ msgstr "Fold Nearest"
 #. Programmer's name for it: SEdCmdGotoBookmark0
 #: StringResources.pas
 msgid "Goto Bookmark 0"
-msgstr "Goto Bookmark 0"
+msgstr "Goto Yer imi 0"
 
 #. Programmer's name for it: SEdCmdGotoBookmark1
 #: StringResources.pas
 msgid "Goto Bookmark 1"
-msgstr "Goto Bookmark 1"
+msgstr "Goto Yer imi 1"
 
 #. Programmer's name for it: SEdCmdGotoBookmark2
 #: StringResources.pas
 msgid "Goto Bookmark 2"
-msgstr "Goto Bookmark 2"
+msgstr "Goto Yer imi 2"
 
 #. Programmer's name for it: SEdCmdGotoBookmark3
 #: StringResources.pas
 msgid "Goto Bookmark 3"
-msgstr "Goto Bookmark 3"
+msgstr "Goto Yer imi 3"
 
 #. Programmer's name for it: SEdCmdGotoBookmark4
 #: StringResources.pas
 msgid "Goto Bookmark 4"
-msgstr "Goto Bookmark 4"
+msgstr "Goto Yer imi 4"
 
 #. Programmer's name for it: SEdCmdGotoBookmark5
 #: StringResources.pas
 msgid "Goto Bookmark 5"
-msgstr "Goto Bookmark 5"
+msgstr "Goto Yer imi 5"
 
 #. Programmer's name for it: SEdCmdGotoBookmark6
 #: StringResources.pas
 msgid "Goto Bookmark 6"
-msgstr "Goto Bookmark 6"
+msgstr "Goto Yer imi 6"
 
 #. Programmer's name for it: SEdCmdGotoBookmark7
 #: StringResources.pas
 msgid "Goto Bookmark 7"
-msgstr "Goto Bookmark 7"
+msgstr "Goto Yer imi 7"
 
 #. Programmer's name for it: SEdCmdGotoBookmark8
 #: StringResources.pas
 msgid "Goto Bookmark 8"
-msgstr "Goto Bookmark 8"
+msgstr "Goto Yer imi 8"
 
 #. Programmer's name for it: SEdCmdGotoBookmark9
 #: StringResources.pas
 msgid "Goto Bookmark 9"
-msgstr "Goto Bookmark 9"
+msgstr "Goto Yer imi 9"
 
 #. Programmer's name for it: SEdCmdInsertLine
 #: StringResources.pas
@@ -7604,52 +7604,52 @@ msgstr "Seçin Kelime Sağ"
 #. Programmer's name for it: SEdCmdSetBookmark0
 #: StringResources.pas
 msgid "Set Bookmark 0"
-msgstr "Ayarla Bookmark 0"
+msgstr "Ayarla Yer imi 0"
 
 #. Programmer's name for it: SEdCmdSetBookmark1
 #: StringResources.pas
 msgid "Set Bookmark 1"
-msgstr "Ayarla Bookmark 1"
+msgstr "Ayarla Yer imi 1"
 
 #. Programmer's name for it: SEdCmdSetBookmark2
 #: StringResources.pas
 msgid "Set Bookmark 2"
-msgstr "Ayarla Bookmark 2"
+msgstr "Ayarla Yer imi 2"
 
 #. Programmer's name for it: SEdCmdSetBookmark3
 #: StringResources.pas
 msgid "Set Bookmark 3"
-msgstr "Ayarla Bookmark 3"
+msgstr "Ayarla Yer imi 3"
 
 #. Programmer's name for it: SEdCmdSetBookmark4
 #: StringResources.pas
 msgid "Set Bookmark 4"
-msgstr "Ayarla Bookmark 4"
+msgstr "Ayarla Yer imi 4"
 
 #. Programmer's name for it: SEdCmdSetBookmark5
 #: StringResources.pas
 msgid "Set Bookmark 5"
-msgstr "Ayarla Bookmark 5"
+msgstr "Ayarla Yer imi 5"
 
 #. Programmer's name for it: SEdCmdSetBookmark6
 #: StringResources.pas
 msgid "Set Bookmark 6"
-msgstr "Ayarla Bookmark 6"
+msgstr "Ayarla Yer imi 6"
 
 #. Programmer's name for it: SEdCmdSetBookmark7
 #: StringResources.pas
 msgid "Set Bookmark 7"
-msgstr "Ayarla Bookmark 7"
+msgstr "Ayarla Yer imi 7"
 
 #. Programmer's name for it: SEdCmdSetBookmark8
 #: StringResources.pas
 msgid "Set Bookmark 8"
-msgstr "Ayarla Bookmark 8"
+msgstr "Ayarla Yer imi 8"
 
 #. Programmer's name for it: SEdCmdSetBookmark9
 #: StringResources.pas
 msgid "Set Bookmark 9"
-msgstr "Ayarla Bookmark 9"
+msgstr "Ayarla Yer imi 9"
 
 #. Programmer's name for it: SEdCmdZoomIn
 #: StringResources.pas
