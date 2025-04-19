@@ -173,7 +173,7 @@ msgstr "&Help"
 #. CodeTemplates..Panel..GroupBox..Caption
 #: dlgCodeTemplates.dfm
 msgid "Code Template:"
-msgstr "Code Template:"
+msgstr "Code Şablon:"
 
 #. CodeTemplates..Panel..GroupBox..Label1..Caption
 #. CustomizeParams..Panel..GroupBox1..Label1..Caption
@@ -189,7 +189,7 @@ msgstr "&Name:"
 #. FileTemplatesDialog..Panel..GroupBox..Label2..Caption
 #: dlgCodeTemplates.dfm dlgFileTemplates.dfm
 msgid "&Template:"
-msgstr "&Template:"
+msgstr "&Şablon:"
 
 #. CodeTemplates..Panel..GroupBox..Label5..Caption
 #: dlgCodeTemplates.dfm
@@ -556,7 +556,7 @@ msgstr "File Templates"
 #. FileTemplatesDialog..Panel..GroupBox..Caption
 #: dlgFileTemplates.dfm
 msgid "File Template:"
-msgstr "File Template:"
+msgstr "File Şablon:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label5..Caption
 #: dlgFileTemplates.dfm
@@ -2792,12 +2792,12 @@ msgstr "Help on custom parameters"
 #. CommandsDataModule..actlMain..actInsertTemplate..Caption
 #: dmCommands.dfm
 msgid "Insert &Template"
-msgstr "Insert &Template"
+msgstr "Insert &Şablon"
 
 #. CommandsDataModule..actlMain..actInsertTemplate..Hint
 #: dmCommands.dfm
 msgid "Insert a Code Template"
-msgstr "Insert a Code Template"
+msgstr "Insert a Code Şablon"
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Caption
 #: dmCommands.dfm
