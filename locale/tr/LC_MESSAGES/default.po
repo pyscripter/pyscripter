@@ -466,12 +466,12 @@ msgstr " Açıklama "
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Caption
 #: dlgCustomShortcuts.dfm
 msgid "&Assign"
-msgstr "&Assign"
+msgstr "&Atama"
 
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr "Assign kısayol to command"
+msgstr "Atama kısayol to command"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
