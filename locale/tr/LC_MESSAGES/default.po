@@ -824,7 +824,7 @@ msgstr "Activate"
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected Python version"
-msgstr "Activate seçili Python version"
+msgstr "Activate seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #. CommandsDataModule..actlMain..actSynSpellErrorAdd..Caption
@@ -835,7 +835,7 @@ msgstr "Ekle"
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new Python version"
-msgstr "Ekle a yeni Python version"
+msgstr "Ekle a yeni Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
@@ -845,7 +845,7 @@ msgstr "Çıkar"
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected Python version"
-msgstr "Çıkar seçili Python version"
+msgstr "Çıkar seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
@@ -855,7 +855,7 @@ msgstr "Test"
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
 msgid "Test selected Python version"
-msgstr "Test seçili Python version"
+msgstr "Test seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
@@ -865,7 +865,7 @@ msgstr "Göster"
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected Python version in Explorer"
-msgstr "Göster seçili Python version in Explorer"
+msgstr "Göster seçili Python versiyon in Explorer"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -875,7 +875,7 @@ msgstr "Shell"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr "Aç command prompt for the seçili Python version"
+msgstr "Aç command prompt for the seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -907,7 +907,7 @@ msgstr "Rename"
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
 msgid "Rename selected Python version"
-msgstr "Rename seçili Python version"
+msgstr "Rename seçili Python versiyon"
 
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
@@ -2944,7 +2944,7 @@ msgstr "Check For &Updates"
 #. CommandsDataModule..actlMain..actCheckForUpdates..Hint
 #: dmCommands.dfm
 msgid "Check whether a newer version of PyScripter is available"
-msgstr "Check whether a newer version of PyScripter is available"
+msgstr "Check whether a newer versiyon of PyScripter is available"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
@@ -4617,7 +4617,7 @@ msgstr "Ekle a remote dosya to the folder"
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
 msgid "Python version"
-msgstr "Python version"
+msgstr "Python versiyon"
 
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
 #: frmPyIDEMain.dfm dmCommands.pas
@@ -5666,7 +5666,7 @@ msgstr "Free-Threaded"
 #. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Hint
 #: frmPyIDEMain.dfm
 msgid "Use the free-trheaded version of Python"
-msgstr "Kullan the free-trheaded version of Python"
+msgstr "Kullan the free-trheaded versiyon of Python"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -7966,11 +7966,11 @@ msgid ""
 "The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 "PyScripter could not load a Python engine.\n"
-"**Before** kullanarak PyScripter, you must ensure that a version of Python greater or equal to %s is installed on your machine.\n"
+"**Before** kullanarak PyScripter, you must ensure that a versiyon of Python greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
-"The 64-bit version of PyScripter (x64) works sadece on 64-bit Windows **and** with 64-bit versiyonlar of Python.\n"
-"The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versiyonlar of Python."
+"The 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **and** with 64-bit versiyonlar of Python.\n"
+"The 32-bit versiyon of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPythonFindError
 #: StringResources.pas
@@ -7981,8 +7981,8 @@ msgid ""
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 "PyScripter could not bul a usable Python installation at the specified yol.\n"
-"Note that the 64-bit version of PyScripter (x64) works sadece on 64-bit Windows **and**\n"
-"with 64-bit versiyonlar of Python. The 32-bit version of PyScripter works on both\n"
+"Note that the 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **and**\n"
+"with 64-bit versiyonlar of Python. The 32-bit versiyon of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPostMortemInfo
@@ -8168,7 +8168,7 @@ msgstr "Error while downloading: "
 #. Programmer's name for it: SCurrentVersionUptodate
 #: StringResources.pas
 msgid "Current version is up-to-date!"
-msgstr "Mevcut version is yukarı-to-date!"
+msgstr "Mevcut versiyon is yukarı-to-date!"
 
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
@@ -8218,7 +8218,7 @@ msgid ""
 " this version of Python."
 msgstr ""
 "PyScripter can't use command line parametre PYTHON%s because it doesn't know"
-" this version of Python."
+" this versiyon of Python."
 
 #. Programmer's name for it: SUnsupportedPythonVersion
 #: StringResources.pas
@@ -9150,8 +9150,8 @@ msgid ""
 "Local Python version is %s and remote Python version is %s. To use this SSH "
 "server please switch to Python version %1:s."
 msgstr ""
-"Local Python version is %s and remote Python version is %s. To use this SSH "
-"server please switch to Python version %1:s."
+"Local Python versiyon is %s and remote Python versiyon is %s. To use this "
+"SSH server please switch to Python versiyon %1:s."
 
 #. Missing action categories
 #. Programmer's name for it: SActionCategoryFile
@@ -9290,7 +9290,7 @@ msgstr "Assistant is busy. Click to cancel."
 #. Python Paths etc.
 #: uParams.pas
 msgid "Directory of active Python version"
-msgstr "Dizin of active Python version"
+msgstr "Dizin of active Python versiyon"
 
 #: uParams.pas
 msgid "Executable of active Python"
