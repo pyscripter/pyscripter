@@ -628,12 +628,12 @@ msgstr "Nerede"
 #. FindInFilesDialog..Panel1..gbxWhere..rbOpenFiles..Caption
 #: dlgFindInFiles.dfm
 msgid "&Open files"
-msgstr "&Aç files"
+msgstr "&Aç dosyalar"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbProject..Caption
 #: dlgFindInFiles.dfm
 msgid "&Project files"
-msgstr "&Project files"
+msgstr "&Project dosyalar"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbCurrentOnly..Caption
 #: dlgFindInFiles.dfm
@@ -2059,7 +2059,7 @@ msgstr "Arama for To Do Tokens"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &open files"
-msgstr "Scan &aç files"
+msgstr "Scan &aç dosyalar"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanDir..Caption
 #: dlgToDoOptions.dfm
@@ -2069,7 +2069,7 @@ msgstr "Scan &directories"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanProject..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &project files"
-msgstr "Scan &project files"
+msgstr "Scan &project dosyalar"
 
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
@@ -2127,7 +2127,7 @@ msgstr "Conte&xt:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Label13..Caption
 #: dlgToolProperties.dfm
 msgid "Sa&ve files:"
-msgstr "Sa&ve files:"
+msgstr "Sa&ve dosyalar:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext..Hint
 #: dlgToolProperties.dfm
@@ -2173,7 +2173,7 @@ msgstr "Active only"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
 msgid "All files"
-msgstr "All files"
+msgstr "All dosyalar"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Caption
 #: dlgToolProperties.dfm
@@ -2549,7 +2549,7 @@ msgstr "Save &All"
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "Save hepsi|Save project and hepsi aç files"
+msgstr "Save hepsi|Save project and hepsi aç dosyalar"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -3118,7 +3118,7 @@ msgstr "Close All &Other"
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #: dmCommands.dfm
 msgid "Close all files except the active one"
-msgstr "Close hepsi files except the active one"
+msgstr "Close hepsi dosyalar except the active one"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
@@ -3128,7 +3128,7 @@ msgstr "Close All to the &Right"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr "Close hepsi files to the right"
+msgstr "Close hepsi dosyalar to the right"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3148,7 +3148,7 @@ msgstr "Edit &Startup Scripts"
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
 msgid "Edit PyScripter initialization files"
-msgstr "Edit PyScripter initialization files"
+msgstr "Edit PyScripter initialization dosyalar"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
 #: dmCommands.dfm
@@ -4013,7 +4013,7 @@ msgstr "Enable &Filter"
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Hint
 #: frmFileExplorer.dfm
 msgid "Enable Filter|Select to show only Python files"
-msgstr "Enable Filter|Select to göster only Python files"
+msgstr "Enable Filter|Select to göster only Python dosyalar"
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
@@ -5068,7 +5068,7 @@ msgstr "Close A&ll"
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Hint
 #: frmPyIDEMain.dfm
 msgid "Close all files"
-msgstr "Close hepsi files"
+msgstr "Close hepsi dosyalar"
 
 #. PyIDEMainForm..actlStandard..actFileExit..Caption
 #: frmPyIDEMain.dfm
