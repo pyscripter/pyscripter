@@ -130,7 +130,7 @@ msgstr "&TAMAM"
 #: dlgSynEditOptions.dfm dlgSynPageSetup.dfm dlgToDoOptions.dfm
 #: dlgToolProperties.dfm dlgUnitTestWizard.dfm
 msgid "&Cancel"
-msgstr "&Cancel"
+msgstr "&İptal"
 
 #. AskParamForm..Panel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
@@ -3393,12 +3393,12 @@ msgstr "Provide a suggestion for code completion"
 #. Programmer's name for it: SDlgCancel
 #: dmCommands.dfm StringResources.pas
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "İptal"
 
 #. CommandsDataModule..actlMain..actAssistantCancel..Hint
 #: dmCommands.dfm
 msgid "Cancel Assistant action"
-msgstr "Cancel Assistant action"
+msgstr "İptal Assistant action"
 
 #. CommandsDataModule..actlMain..actAssistantOptimize..Caption
 #: dmCommands.dfm
@@ -4331,12 +4331,12 @@ msgstr "Set the title of the chat topic"
 #. LLMChatForm..ChatActionList..actCancelRequest..Caption
 #: frmLLMChat.dfm
 msgid "Cancel Request"
-msgstr "Cancel Request"
+msgstr "İptal Request"
 
 #. LLMChatForm..ChatActionList..actCancelRequest..Hint
 #: frmLLMChat.dfm
 msgid "Cancel active request"
-msgstr "Cancel active request"
+msgstr "İptal active request"
 
 #. LLMChatForm..ChatActionList..actPrint..Hint
 #: frmLLMChat.dfm
@@ -5860,7 +5860,7 @@ msgstr "Accept the first suggested line"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Caption
 #: frmSuggest.dfm
 msgid "Cancel (Esc)"
-msgstr "Cancel (Esc)"
+msgstr "İptal (Esc)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Hint
 #: frmSuggest.dfm
@@ -7747,7 +7747,7 @@ msgstr "Word Right"
 #. Programmer's name for it: SEdCmdCancelSelections
 #: StringResources.pas
 msgid "Cancel Selections"
-msgstr "Cancel Selections"
+msgstr "İptal Selections"
 
 #. Programmer's name for it: SEdCmdSelColumnLeft
 #: StringResources.pas
@@ -8437,7 +8437,7 @@ msgid ""
 msgstr ""
 "The following files have been modified.\n"
 "Press 'TAMAM' to save selected files and exit.\n"
-"Press 'Cancel' to return to PyScripter without saving files."
+"Press 'İptal' to return to PyScripter without saving files."
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
