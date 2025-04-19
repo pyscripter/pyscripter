@@ -4953,7 +4953,7 @@ msgstr "Arama in &Selection"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiRegExp..Caption
 #: frmPyIDEMain.dfm
 msgid "&Regular Expressions"
-msgstr "&Regular Expressions"
+msgstr "&Düzenli Expressions"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiIncrementalSearch..Caption
 #: frmPyIDEMain.dfm
@@ -5644,12 +5644,12 @@ msgstr "Reset the font size of the editor to its varsayılan"
 #. PyIDEMainForm..actlStandard..actNavRegExp..Caption
 #: frmPyIDEMain.dfm
 msgid "Regular Expression Tester"
-msgstr "Regular Expression Tester"
+msgstr "Düzenli Expression Tester"
 
 #. PyIDEMainForm..actlStandard..actNavRegExp..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Regular Expression Tester window"
-msgstr "Activate the Regular Expression Tester window"
+msgstr "Activate the Düzenli Expression Tester window"
 
 #. PyIDEMainForm..actlStandard..actNavChat..Hint
 #: frmPyIDEMain.dfm
@@ -5715,7 +5715,7 @@ msgstr "Paste pano metin with added interpreter prompts"
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expressions"
-msgstr "Regular Expressions"
+msgstr "Düzenli Expressions"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TiClear..Hint
 #: frmRegExpTester.dfm
@@ -5810,7 +5810,7 @@ msgstr "Groups:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expression"
-msgstr "Regular Expression"
+msgstr "Düzenli Expression"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpSearchText..SpTBXPanel2..TBXLabel4..Caption
 #: frmRegExpTester.dfm
@@ -7929,7 +7929,7 @@ msgstr "** Hayır/Unknown parameters **"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Invalid Regular Expression: %s"
-msgstr "Invalid Regular Expression: %s"
+msgstr "Invalid Düzenli Expression: %s"
 
 #. Programmer's name for it: SEmptyList
 #: StringResources.pas
