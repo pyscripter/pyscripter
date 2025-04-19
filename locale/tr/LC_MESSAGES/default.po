@@ -2584,7 +2584,7 @@ msgstr "Yazdır Pre&view"
 #. CommandsDataModule..actlMain..actPrintPreview..Hint
 #: dmCommands.dfm
 msgid "Print preview"
-msgstr "Yazdır preview"
+msgstr "Yazdır önizleme"
 
 #. CommandsDataModule..actlMain..actPageSetup..Caption
 #: dmCommands.dfm
@@ -8507,7 +8507,7 @@ msgstr "Aç dialog %s filter"
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
 msgid "Web preview is only available for Jupyter JSON files"
-msgstr "Web preview is sadece mevcut for Jupyter JSON dosyalar"
+msgstr "Web önizleme is sadece mevcut for Jupyter JSON dosyalar"
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
