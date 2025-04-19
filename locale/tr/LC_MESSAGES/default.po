@@ -2348,7 +2348,7 @@ msgstr "Placeholder for the sütun sayı"
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Unit Test Wizard"
-msgstr "Unit Test Wizard"
+msgstr "Birim Test Wizard"
 
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
@@ -2951,12 +2951,12 @@ msgstr "Check whether a newer versiyon of PyScripter is mevcut"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "Unit Test &Wizard..."
-msgstr "Unit Test &Wizard..."
+msgstr "Birim Test &Wizard..."
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
-msgstr "Unit test wizard|Yarat birim test for aktif module"
+msgstr "Birim test wizard|Yarat birim test for aktif module"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
@@ -5487,7 +5487,7 @@ msgstr "Etkinleştir the Todo Liste window"
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
 #: frmPyIDEMain.dfm
 msgid "&Unit Tests"
-msgstr "&Unit Tests"
+msgstr "&Birim Tests"
 
 #. PyIDEMainForm..actlStandard..actNavOutput..Caption
 #: frmPyIDEMain.dfm
@@ -5918,7 +5918,7 @@ msgstr "Abort arama for todo öğeler"
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
 msgid "Unit Tests"
-msgstr "Unit Tests"
+msgstr "Birim Tests"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..Label2..Caption
 #: frmUnitTests.dfm
