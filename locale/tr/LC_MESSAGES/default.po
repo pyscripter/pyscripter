@@ -687,7 +687,7 @@ msgstr "Eşleştirme Sonuçlar Liste"
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
-msgstr "Eşleştirme Liste Font..."
+msgstr "Eşleştirme Liste Yazı tipi..."
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepMiddle..Caption
 #: dlgFindResultsOptions.dfm
@@ -712,12 +712,12 @@ msgstr "Number of context lines"
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Context Font..."
-msgstr "Context Font..."
+msgstr "Context Yazı tipi..."
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Font Color..."
-msgstr "Eşleştirme Font Color..."
+msgstr "Eşleştirme Yazı tipi Color..."
 
 #. ImportDirectoryForm..Caption
 #: dlgImportDirectory.dfm
@@ -1567,7 +1567,7 @@ msgstr "Start at zero"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Use Gutter Font"
-msgstr "Kullan Gutter Font"
+msgstr "Kullan Gutter Yazı tipi"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
@@ -1585,7 +1585,7 @@ msgstr "Gutter Gradient"
 #. PageSetupDlg..ActionList1..FontCmd..Hint
 #: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
 msgid "Font"
-msgstr "Font"
+msgstr "Yazı tipi"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
 #: dlgSynEditOptions.dfm
@@ -1605,7 +1605,7 @@ msgstr "Bookmarks visible"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Font"
-msgstr "Editor Font"
+msgstr "Editor Yazı tipi"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
 #: dlgSynEditOptions.dfm
@@ -3741,7 +3741,7 @@ msgstr "Copy contents to Clipboard"
 #. OutputWindow..OutputActions..actOutputFont..Caption
 #: frmCommandOutput.dfm
 msgid "Font..."
-msgstr "Font..."
+msgstr "Yazı tipi..."
 
 #. OutputWindow..OutputActions..actOutputFont..Hint
 #: frmCommandOutput.dfm
@@ -4219,7 +4219,7 @@ msgstr "Copy procedures to pano"
 #. FunctionListWindow..Actions..actOptionsFont..Caption
 #: frmFunctionList.dfm
 msgid "&Font.."
-msgstr "&Font.."
+msgstr "&Yazı tipi.."
 
 #. FunctionListWindow..Actions..actOptionsFont..Hint
 #: frmFunctionList.dfm
