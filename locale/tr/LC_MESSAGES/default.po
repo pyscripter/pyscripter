@@ -57,12 +57,12 @@ msgstr ""
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
 msgid "Unknown parameter"
-msgstr "Unknown parameter"
+msgstr "Unknown parametre"
 
 #. AskParamForm..Panel1..Label1..Caption
 #: dlgAskParam.dfm
 msgid "Enter value for parameter "
-msgstr "Enter value for parameter "
+msgstr "Enter value for parametre "
 
 #. AskParamForm..Panel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
@@ -135,7 +135,7 @@ msgstr "&İptal"
 #. AskParamForm..Panel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
-msgstr "and save it as a custom parameter"
+msgstr "and save it as a custom parametre"
 
 #. CodeTemplates..Caption
 #: dlgCodeTemplates.dfm
@@ -2756,13 +2756,13 @@ msgstr "Search in Files|Search for a string in Files"
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
 msgid "Insert &parameter"
-msgstr "Insert &parameter"
+msgstr "Insert &parametre"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Hint
 #. CommandsDataModule..actlMain..actModifierCompletion..Hint
 #: dmCommands.dfm
 msgid "Insert parameter to the edited file"
-msgstr "Insert parameter to the edited file"
+msgstr "Insert parametre to the edited file"
 
 #. CommandsDataModule..actlMain..actModifierCompletion..Caption
 #: dmCommands.dfm
@@ -8217,7 +8217,7 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it doesn't know"
 " this version of Python."
 msgstr ""
-"PyScripter can't use command line parameter PYTHON%s because it doesn't know"
+"PyScripter can't use command line parametre PYTHON%s because it doesn't know"
 " this version of Python."
 
 #. Programmer's name for it: SUnsupportedPythonVersion
@@ -8227,7 +8227,7 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it was compiled"
 " for Python %s or later."
 msgstr ""
-"PyScripter can't use command line parameter PYTHON%s because it was compiled"
+"PyScripter can't use command line parametre PYTHON%s because it was compiled"
 " for Python %s or later."
 
 #. Programmer's name for it: SAbortDebugging
@@ -8852,7 +8852,7 @@ msgstr ""
 #. Programmer's name for it: SEnterParameterCaption
 #: StringResources.pas
 msgid "Enter parameter value"
-msgstr "Enter parameter value"
+msgstr "Enter parametre value"
 
 #. Programmer's name for it: SEnterParameterText
 #: StringResources.pas
@@ -8899,7 +8899,7 @@ msgstr "Object \"%s\" does not have property with name \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "\"%s\" is not valid parameter format"
-msgstr "\"%s\" is not valid parameter format"
+msgstr "\"%s\" is not valid parametre format"
 
 #. Programmer's name for it: SInvalidConditionFormat
 #: StringResources.pas
@@ -9406,7 +9406,7 @@ msgstr "Contents of text file"
 
 #: uParams.pas
 msgid "Command line parameter"
-msgstr "Command line parameter"
+msgstr "Command line parametre"
 
 #: uParams.pas
 msgid "Value of registry key"
