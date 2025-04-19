@@ -521,7 +521,7 @@ msgstr "Sil the seçili dosya yol"
 #. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
-msgstr "Enter dosya yol here"
+msgstr "Enter dosya yol buraya"
 
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
