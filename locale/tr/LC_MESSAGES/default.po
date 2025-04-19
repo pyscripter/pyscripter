@@ -581,7 +581,7 @@ msgstr "Kategori"
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
 msgid "Find in Files Search"
-msgstr "Find in Files Search"
+msgstr "Bul in Files Search"
 
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
@@ -677,7 +677,7 @@ msgstr "Include su&bdirectories"
 #. FindResultsOptionsDialog..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Find in Files Options"
-msgstr "Find in Files Options"
+msgstr "Bul in Files Options"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
@@ -2504,7 +2504,7 @@ msgstr "Enable/disable editing"
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
 msgid "&Find..."
-msgstr "&Find..."
+msgstr "&Bul..."
 
 #. CommandsDataModule..actlMain..actSearchFind..Hint
 #: dmCommands.dfm
@@ -2514,22 +2514,22 @@ msgstr "Search|Search for a string"
 #. CommandsDataModule..actlMain..actSearchFindNext..Caption
 #: dmCommands.dfm
 msgid "Find &Next"
-msgstr "Find &Next"
+msgstr "Bul &Next"
 
 #. CommandsDataModule..actlMain..actSearchFindNext..Hint
 #: dmCommands.dfm
 msgid "Find next|Find next match"
-msgstr "Find next|Find next match"
+msgstr "Bul next|Bul next match"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Caption
 #: dmCommands.dfm
 msgid "Find &Previous"
-msgstr "Find &Previous"
+msgstr "Bul &Previous"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Hint
 #: dmCommands.dfm
 msgid "Find previous|Find Previous match"
-msgstr "Find previous|Find Previous match"
+msgstr "Bul previous|Bul Previous match"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #: dmCommands.dfm
@@ -2660,7 +2660,7 @@ msgstr "&Matching Brace"
 #. CommandsDataModule..actlMain..actSearchMatchingBrace..Hint
 #: dmCommands.dfm
 msgid "Find Matching Brace"
-msgstr "Find Matching Brace"
+msgstr "Bul Matching Brace"
 
 #. CommandsDataModule..actlMain..actEditTabify..Caption
 #: dmCommands.dfm
@@ -2746,7 +2746,7 @@ msgstr "Jump to the position of the first syntax error"
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "Find &in Files..."
-msgstr "Find &in Files..."
+msgstr "Bul &in Files..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
@@ -2852,12 +2852,12 @@ msgstr "Yardım on External Tools"
 #. CommandsDataModule..actlMain..actFindFunction..Caption
 #: dmCommands.dfm
 msgid "Find F&unction..."
-msgstr "Find F&unction..."
+msgstr "Bul F&unction..."
 
 #. CommandsDataModule..actlMain..actFindFunction..Hint
 #: dmCommands.dfm
 msgid "Find Function|Find function from function list"
-msgstr "Find Function|Find function from function liste"
+msgstr "Bul Function|Bul function from function liste"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
@@ -2882,22 +2882,22 @@ msgstr "Göster/Gizle special characters"
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #: dmCommands.dfm
 msgid "Find Previous Reference"
-msgstr "Find Previous Reference"
+msgstr "Bul Previous Reference"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #: dmCommands.dfm
 msgid "Find previous identifier reference"
-msgstr "Find previous identifier reference"
+msgstr "Bul previous identifier reference"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #: dmCommands.dfm
 msgid "Find Next Reference"
-msgstr "Find Next Reference"
+msgstr "Bul Next Reference"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
 msgid "Find next identifier reference"
-msgstr "Find next identifier reference"
+msgstr "Bul next identifier reference"
 
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
@@ -3704,13 +3704,13 @@ msgstr "Göster seçili node in editor"
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
 #: frmCodeExplorer.dfm
 msgid "Find Definition"
-msgstr "Find Definition"
+msgstr "Bul Definition"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Hint
 #: frmCodeExplorer.dfm
 msgid "Find References"
-msgstr "Find References"
+msgstr "Bul References"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Caption
 #: frmCodeExplorer.dfm
@@ -4043,7 +4043,7 @@ msgstr "Select Dizin..."
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
 msgid "Find in Files Results"
-msgstr "Find in Files Results"
+msgstr "Bul in Files Results"
 
 #. FindResultsWindow..Actions..actReplaceSelected..Caption
 #: frmFindResults.dfm
@@ -4171,7 +4171,7 @@ msgstr "Options..."
 #. FindResultsWindow..Actions..actViewOptions..Hint
 #: frmFindResults.dfm
 msgid "Configure Find in Files"
-msgstr "Configure Find in Files"
+msgstr "Configure Bul in Files"
 
 #. FindResultsWindow..Actions..actReplaceAll..Caption
 #: frmFindResults.dfm
@@ -4908,12 +4908,12 @@ msgstr "Editor Toolbar"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Find Toolbar"
-msgstr "Find Toolbar"
+msgstr "Bul Toolbar"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiFindLabel..Caption
 #: frmPyIDEMain.dfm
 msgid "Find:"
-msgstr "Find:"
+msgstr "Bul:"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiReplaceLabel..Caption
 #: frmPyIDEMain.dfm
@@ -5237,32 +5237,32 @@ msgstr "Clear hepsi breakpoints"
 #. PyIDEMainForm..actlStandard..actNavFindResults..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &in Files Results"
-msgstr "Find &in Files Results"
+msgstr "Bul &in Files Results"
 
 #. PyIDEMainForm..actlStandard..actNavFindResults..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Find in Files Results window"
-msgstr "Activate the Find in Files Results window"
+msgstr "Activate the Bul in Files Results window"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &Definition"
-msgstr "Find &Definition"
+msgstr "Bul &Definition"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Hint
 #: frmPyIDEMain.dfm
 msgid "Find definition of an Identifier"
-msgstr "Find definition of an Identifier"
+msgstr "Bul definition of an Identifier"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
 msgid "Find R&eferences"
-msgstr "Find R&eferences"
+msgstr "Bul R&eferences"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
 msgid "Find references of an Identifier"
-msgstr "Find references of an Identifier"
+msgstr "Bul references of an Identifier"
 
 #. PyIDEMainForm..actlStandard..actBrowseBack..Caption
 #: frmPyIDEMain.dfm
@@ -5770,7 +5770,7 @@ msgstr "Performs re.search"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
 msgid "Find all"
-msgstr "Find hepsi"
+msgstr "Bul hepsi"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
@@ -6393,7 +6393,7 @@ msgstr "New name:"
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
 msgid "The Find in Files Results window is not active"
-msgstr "The Find in Files Results window is not active"
+msgstr "The Bul in Files Results window is not active"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
