@@ -5639,7 +5639,7 @@ msgstr "&Reset Zoom"
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
-msgstr "Reset the font size of the editor to its default"
+msgstr "Reset the font size of the editor to its varsayılan"
 
 #. PyIDEMainForm..actlStandard..actNavRegExp..Caption
 #: frmPyIDEMain.dfm
@@ -6624,7 +6624,7 @@ msgstr "Display package names in editor tabs"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr "Kod folding enabled by default"
+msgstr "Kod folding enabled by varsayılan"
 
 #: dmCommands.pas
 msgid "Code folding options"
