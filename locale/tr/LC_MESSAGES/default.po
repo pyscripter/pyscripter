@@ -1807,7 +1807,7 @@ msgstr "Sözdizimi yazdır"
 #. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
 #: dlgSynPageSetup.dfm
 msgid "Use colors"
-msgstr "Kullan colors"
+msgstr "Kullan renkler"
 
 #. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
 #: dlgSynPageSetup.dfm
