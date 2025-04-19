@@ -2391,7 +2391,7 @@ msgstr "&Farklı kaydet"
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Kaydet As|Kaydet aktif dosya alt farklı name"
+msgstr "Kaydet As|Kaydet aktif dosya alt farklı ad"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. Programmer's name for it: SDlgClose
@@ -3134,7 +3134,7 @@ msgstr "Copy Dosya Ad"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr "Copy dosya name of aktif dosya pano"
+msgstr "Copy dosya ad of aktif dosya pano"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -4440,7 +4440,7 @@ msgstr "Kaydet Proje &As..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
 #: frmProjectExplorer.dfm
 msgid "Save project with under a different name"
-msgstr "Kaydet proje onunla alt a farklı name"
+msgstr "Kaydet proje onunla alt a farklı ad"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
@@ -4505,7 +4505,7 @@ msgstr "Çıkar a dosya, klasör or çalıştır yapılandırma from proje"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
 msgid "Re&name"
-msgstr "Re&name"
+msgstr "Re&ad"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Hint
 #: frmProjectExplorer.dfm
@@ -6090,15 +6090,15 @@ msgstr "Seçin SSH Sunucu"
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
-msgstr "SSH Sunucu name"
+msgstr "SSH Sunucu ad"
 
 #: cSSHSupport.pas
 msgid "Host name"
-msgstr "Host name"
+msgstr "Host ad"
 
 #: cSSHSupport.pas uParams.pas
 msgid "User name"
-msgstr "User name"
+msgstr "User ad"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
@@ -6383,7 +6383,7 @@ msgstr "Yeniden adlandır Python Versiyon"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr "Yeni name:"
+msgstr "Yeni ad:"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -8100,7 +8100,7 @@ msgstr "*** Uzaktan Interpreter Reinitialized ***"
 #. Programmer's name for it: SSameName
 #: StringResources.pas
 msgid "Another item has the same name"
-msgstr "Another öğe has same name"
+msgstr "Another öğe has same ad"
 
 #. Programmer's name for it: SCodeTemplateModified
 #: StringResources.pas
@@ -8191,7 +8191,7 @@ msgstr "This is definition of \"%s\""
 #. Programmer's name for it: SPlaceCursorOnName
 #: StringResources.pas
 msgid "Please place the cursor on a function/class name or identifier"
-msgstr "Please place imleç on a fonksiyon/class name or identifier"
+msgstr "Please place imleç on a fonksiyon/class ad or identifier"
 
 #. Programmer's name for it: SCannotChangeEngine
 #: StringResources.pas
@@ -8862,31 +8862,31 @@ msgstr "Parameter \"%s\" is referenced circularly"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Parameter with name \"%s\" is not found"
-msgstr "Parameter onunla name \"%s\" is not found"
+msgstr "Parameter onunla ad \"%s\" is not found"
 
 #. Programmer's name for it: SModifierNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Modifier with name \"%s\" is not found"
-msgstr "Değiştirici onunla name \"%s\" is not found"
+msgstr "Değiştirici onunla ad \"%s\" is not found"
 
 #. Programmer's name for it: SObjectNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object with name \"%s\" is not found"
-msgstr "Object onunla name \"%s\" is not found"
+msgstr "Object onunla ad \"%s\" is not found"
 
 #. Programmer's name for it: SPropertyNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have registered property with name \"%s\""
-msgstr "Object \"%s\" does not have registered özellik onunla name \"%s\""
+msgstr "Object \"%s\" does not have registered özellik onunla ad \"%s\""
 
 #. Programmer's name for it: SInvalidObjectProperty
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have property with name \"%s\""
-msgstr "Object \"%s\" does not have özellik onunla name \"%s\""
+msgstr "Object \"%s\" does not have özellik onunla ad \"%s\""
 
 #. Programmer's name for it: SInvalidParameterFormat
 #: StringResources.pas
@@ -9075,7 +9075,7 @@ msgstr "Dosya Yol cannot be empty"
 #. Programmer's name for it: SErrorEmptySSH
 #: StringResources.pas
 msgid "The SSH server name cannot be empty"
-msgstr "The SSH sunucu name cannot be empty"
+msgstr "The SSH sunucu ad cannot be empty"
 
 #. Programmer's name for it: SScpError4
 #: StringResources.pas
@@ -9333,7 +9333,7 @@ msgstr "Mevcut dizin"
 
 #: uParams.pas
 msgid "Executable name"
-msgstr "Executable name"
+msgstr "Executable ad"
 
 #: uParams.pas
 msgid "Python Command Line Arguments"
@@ -9350,7 +9350,7 @@ msgstr "Yol without delimeter"
 
 #: uParams.pas
 msgid "File name"
-msgstr "Dosya name"
+msgstr "Dosya ad"
 
 #: uParams.pas
 msgid "File extension"
@@ -9362,7 +9362,7 @@ msgstr "Dosya extension without \".\""
 
 #: uParams.pas
 msgid "File name without extension"
-msgstr "Dosya name without extension"
+msgstr "Dosya ad without extension"
 
 #: uParams.pas
 msgid "File drive"
@@ -9370,15 +9370,15 @@ msgstr "Dosya drive"
 
 #: uParams.pas
 msgid "Expanded file name"
-msgstr "Expanded dosya name"
+msgstr "Expanded dosya ad"
 
 #: uParams.pas
 msgid "Long file name"
-msgstr "Long dosya name"
+msgstr "Long dosya ad"
 
 #: uParams.pas
 msgid "Short file name"
-msgstr "Short dosya name"
+msgstr "Short dosya ad"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
@@ -9462,15 +9462,15 @@ msgstr "Formatted tarih"
 
 #: uParams.pas
 msgid "Active document name"
-msgstr "Aktif belge name"
+msgstr "Aktif belge ad"
 
 #: uParams.pas
 msgid "The name or last run script"
-msgstr "The name or son çalıştır komut dosyası"
+msgstr "The ad or son çalıştır komut dosyası"
 
 #: uParams.pas
 msgid "Project file name"
-msgstr "Proje dosya name"
+msgstr "Proje dosya ad"
 
 #: uParams.pas
 msgid "Modified files"
