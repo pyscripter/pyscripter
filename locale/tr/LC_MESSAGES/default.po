@@ -4590,7 +4590,7 @@ msgstr "E&xternal Çalıştır"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run configuration using an external Python interpreter"
-msgstr "Çalıştır yapılandırma kullanarak an external Python interpreter"
+msgstr "Çalıştır yapılandırma kullanarak an harici Python interpreter"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Caption
 #. PyIDEMainForm..actlStandard..actDebug..Caption
@@ -5095,7 +5095,7 @@ msgstr "View/Gizle status bar"
 #. PyIDEMainForm..actlStandard..actExternalRun..Hint
 #: frmPyIDEMain.dfm
 msgid "External Run|Run active module in external Python interpreter"
-msgstr "Harici Çalıştır|Çalıştır active module in external Python interpreter"
+msgstr "Harici Çalıştır|Çalıştır active module in harici Python interpreter"
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
@@ -8537,7 +8537,7 @@ msgid ""
 "An external process is still running.\n"
 "Please terminate it first from the 'Output' window."
 msgstr ""
-"An external process is still running.\n"
+"An harici process is still running.\n"
 "Please terminate it first from the 'Output' window."
 
 #. Programmer's name for it: SDictionaryNA
