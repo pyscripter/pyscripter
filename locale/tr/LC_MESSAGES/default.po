@@ -291,7 +291,7 @@ msgstr "taşı öğe up"
 #: dlgCodeTemplates.dfm dlgCollectionEditor.dfm dlgCustomParams.dfm
 #: dlgFileTemplates.dfm
 msgid "&Down"
-msgstr "&Down"
+msgstr "&Aşağı"
 
 #. CodeTemplates..ActionList..actMoveDown..Hint
 #. CustomizeParams..ActionList..actMoveDown..Hint
@@ -7266,7 +7266,7 @@ msgstr "Copy"
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
-msgstr "Copy Line Down"
+msgstr "Copy Line Aşağı"
 
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
@@ -7316,7 +7316,7 @@ msgstr "Sil Word"
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
 msgid "Down"
-msgstr "Down"
+msgstr "Aşağı"
 
 #. Programmer's name for it: SEdCmdEditorBottom
 #: StringResources.pas
@@ -7441,7 +7441,7 @@ msgstr "Match Bracket"
 #. Programmer's name for it: SEdCmdMoveLineDown
 #: StringResources.pas
 msgid "Move Line Down"
-msgstr "taşı Line Down"
+msgstr "taşı Line Aşağı"
 
 #. Programmer's name for it: SEdCmdMoveLineUp
 #: StringResources.pas
@@ -7461,7 +7461,7 @@ msgstr "Page Bottom"
 #. Programmer's name for it: SEdCmdPageDown
 #: StringResources.pas
 msgid "Page Down"
-msgstr "Page Down"
+msgstr "Page Aşağı"
 
 #. Programmer's name for it: SEdCmdPageLeft
 #: StringResources.pas
@@ -7496,7 +7496,7 @@ msgstr "Redo"
 #. Programmer's name for it: SEdCmdScrollDown
 #: StringResources.pas
 msgid "Scroll Down"
-msgstr "Scroll Down"
+msgstr "Scroll Aşağı"
 
 #. Programmer's name for it: SEdCmdScrollLeft
 #: StringResources.pas
@@ -7516,7 +7516,7 @@ msgstr "Scroll Yukarı"
 #. Programmer's name for it: SEdCmdSelectDown
 #: StringResources.pas
 msgid "Select Down"
-msgstr "Select Down"
+msgstr "Select Aşağı"
 
 #. Programmer's name for it: SEdCmdSelectEditorBottom
 #: StringResources.pas
@@ -7551,7 +7551,7 @@ msgstr "Select Page Bottom"
 #. Programmer's name for it: SEdCmdSelectPageDown
 #: StringResources.pas
 msgid "Select Page Down"
-msgstr "Select Page Down"
+msgstr "Select Page Aşağı"
 
 #. Programmer's name for it: SEdCmdSelectPageLeft
 #: StringResources.pas
@@ -7767,7 +7767,7 @@ msgstr "Select Column Yukarı"
 #. Programmer's name for it: SEdCmdSelColumnDown
 #: StringResources.pas
 msgid "Select Column Down"
-msgstr "Select Column Down"
+msgstr "Select Column Aşağı"
 
 #. Programmer's name for it: SEdCmdSelColumnPageUp
 #: StringResources.pas
@@ -7777,7 +7777,7 @@ msgstr "Select Column Page Yukarı"
 #. Programmer's name for it: SEdCmdSelColumnPageDown
 #: StringResources.pas
 msgid "Select Column Page Down"
-msgstr "Select Column Page Down"
+msgstr "Select Column Page Aşağı"
 
 #. Programmer's name for it: SEdCmdSelMatchingText
 #: StringResources.pas
