@@ -2053,7 +2053,7 @@ msgstr "&Uygula"
 #. ToDoOptionsDlg..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "&Show tokens in description"
-msgstr "&Göster tokens in description"
+msgstr "&Göster tokens in açıklama"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
