@@ -1619,7 +1619,7 @@ msgstr "Satır aralığı / Sekme tuşu aralığı"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
 msgid "Extra line spacing (pixels):"
-msgstr "Extra satır aralığı (pixels):"
+msgstr "Ekstra satır aralığı (pixels):"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
@@ -4473,7 +4473,7 @@ msgstr "Görüntüleme dosya extensions"
 #. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Caption
 #: frmProjectExplorer.dfm
 msgid "Extra Python &Path..."
-msgstr "Extra Python &Yol..."
+msgstr "Ekstra Python &Yol..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm
