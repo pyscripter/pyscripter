@@ -7036,7 +7036,7 @@ msgstr "Cython Dosyalar (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
 #. Programmer's name for it: sHTMLFileFilter
 #: StringResources.pas
 msgid "HTML Documents (*.htm;*.html)|*.htm;*.html"
-msgstr "HTML Documents (*.htm;*.html)|*.htm;*.html"
+msgstr "HTML Belgeler (*.htm;*.html)|*.htm;*.html"
 
 #. Programmer's name for it: sXMLFileFilter
 #: StringResources.pas
