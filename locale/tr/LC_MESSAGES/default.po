@@ -57,7 +57,7 @@ msgstr ""
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
 msgid "Unknown parameter"
-msgstr "Unknown parametre"
+msgstr "Bilinmeyen parametre"
 
 #. AskParamForm..Panel1..Label1..Caption
 #: dlgAskParam.dfm
@@ -7926,7 +7926,7 @@ msgstr "Tümü dosyalar|*.*|"
 #. Programmer's name for it: SNoParameters
 #: StringResources.pas
 msgid "** No/Unknown parameters **"
-msgstr "** Hayır/Unknown parameters **"
+msgstr "** Hayır/Bilinmeyen parameters **"
 
 #. Programmer's name for it: SInvalidRegularExpression
 #: StringResources.pas
@@ -9117,13 +9117,13 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server \"%s\""
-msgstr "Unknown SSH sunucu \"%s\""
+msgstr "Bilinmeyen SSH sunucu \"%s\""
 
 #. Programmer's name for it: SSHUnknownServerQuery
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
-msgstr "Unknown SSH sunucu onunla fingerprint \"%s\". Do you want to proceed?"
+msgstr "Bilinmeyen SSH sunucu onunla fingerprint \"%s\". Do you want to proceed?"
 
 #. Programmer's name for it: SSHPythonTimeout
 #: StringResources.pas
