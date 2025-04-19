@@ -2219,7 +2219,7 @@ msgstr "&Mesajları Ayrıştır"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseTraceback..Caption
 #: dlgToolProperties.dfm
 msgid "Parse &Traceback"
-msgstr "Parse &Traceback"
+msgstr "Ayrıştır &Traceback"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..edMessagesFormat....Hint
 #: dlgToolProperties.dfm
@@ -8742,7 +8742,7 @@ msgstr "Could not yedekleme dosya \"%s\" ve will skip it"
 #. Programmer's name for it: SParseError
 #: StringResources.pas
 msgid "Parse error at this position: "
-msgstr "Parse error at this konum: "
+msgstr "Ayrıştır error at this konum: "
 
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
