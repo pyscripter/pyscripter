@@ -2101,7 +2101,7 @@ msgstr "Özelleştirilmiş Ortamı Kullan"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox1..Label17..Caption
 #: dlgToolProperties.dfm
 msgid "(required)"
-msgstr "(required)"
+msgstr "(gerekli)"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label2..Caption
 #: dlgToolProperties.dfm
