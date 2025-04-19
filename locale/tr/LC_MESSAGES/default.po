@@ -1885,7 +1885,7 @@ msgstr "Bütün sayfa"
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Show whole page"
-msgstr "Göster whole sayfa"
+msgstr "Göster bütün sayfa"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Caption
 #: dlgSynPrintPreview.dfm
@@ -6786,7 +6786,7 @@ msgstr "Klasör bar satırlar renk"
 
 #: dmCommands.pas
 msgid "Fill whole lines"
-msgstr "Fill whole satırlar"
+msgstr "Fill bütün satırlar"
 
 #: dmCommands.pas
 msgid "Modified color"
