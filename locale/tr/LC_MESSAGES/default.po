@@ -471,7 +471,7 @@ msgstr "&Atama"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr "Atama kısayol to command"
+msgstr "Atama kısayol to komut"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
@@ -875,7 +875,7 @@ msgstr "Kabuk"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr "Aç command prompt for the seçili Python versiyon"
+msgstr "Aç komut prompt for the seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -1257,7 +1257,7 @@ msgid ""
 " in one call instead undoing/redoing each command separately"
 msgstr ""
 "When undoing/redoing actions, handle hepsi continuous changes of the same "
-"kind in one call instead undoing/redoing each command separately"
+"kind in one call instead undoing/redoing each komut separately"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
@@ -2839,7 +2839,7 @@ msgstr "Configure &Tools..."
 #. CommandsDataModule..actlMain..actConfigureTools..Hint
 #: dmCommands.dfm
 msgid "Configure Tools|Add/remove/edit command-line tools"
-msgstr "Configure Tools|Ekle/remove/edit command-line tools"
+msgstr "Configure Tools|Ekle/remove/edit komut-line tools"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
 #: dmCommands.dfm
@@ -5030,7 +5030,7 @@ msgstr "Komut Satır &Parametreler..."
 #. PyIDEMainForm..actlStandard..actCommandLine..Hint
 #: frmPyIDEMain.dfm
 msgid "Set command line parameters"
-msgstr "Set command line parameters"
+msgstr "Set komut line parameters"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
@@ -6720,11 +6720,11 @@ msgstr "Dosya Change Notification"
 
 #: dmCommands.pas
 msgid "SSH command"
-msgstr "SSH command"
+msgstr "SSH komut"
 
 #: dmCommands.pas
 msgid "SCP command"
-msgstr "SCP command"
+msgstr "SCP komut"
 
 #: dmCommands.pas
 msgid "Disable Variables Window with SSH"
@@ -7994,7 +7994,7 @@ msgid ""
 msgstr ""
 "You are now in post-mortem analysis mode.\n"
 "You can examine the Call Stack, Variables and Watches windows, evaluate ifadeler etc.\n"
-"To exit the post-mortem analysis seçin the 'Abort Debugging' command."
+"To exit the post-mortem analysis seçin the 'Abort Debugging' komut."
 
 #. Programmer's name for it: SFileEncodingWarning
 #: StringResources.pas
@@ -8217,8 +8217,8 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it doesn't know"
 " this version of Python."
 msgstr ""
-"PyScripter can't use command line parametre PYTHON%s because it doesn't know"
-" this versiyon of Python."
+"PyScripter can't use komut line parametre PYTHON%s because it doesn't know "
+"this versiyon of Python."
 
 #. Programmer's name for it: SUnsupportedPythonVersion
 #: StringResources.pas
@@ -8227,8 +8227,8 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it was compiled"
 " for Python %s or later."
 msgstr ""
-"PyScripter can't use command line parametre PYTHON%s because it was compiled"
-" for Python %s or later."
+"PyScripter can't use komut line parametre PYTHON%s because it was compiled "
+"for Python %s or later."
 
 #. Programmer's name for it: SAbortDebugging
 #: StringResources.pas
@@ -8257,7 +8257,7 @@ msgstr "Hayır tests found!"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Shortcut for command \"%s\" is already used for command \"%s\""
-msgstr "Kısayol for command \"%s\" is already used for command \"%s\""
+msgstr "Kısayol for komut \"%s\" is already used for komut \"%s\""
 
 #. Programmer's name for it: SChangedFilesReloaded
 #: StringResources.pas
@@ -8749,12 +8749,12 @@ msgstr "Parse error at this position: "
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
 msgid "you are not allowed to use command line options starting with -"
-msgstr "you are not allowed to use command line seçenekler starting with -"
+msgstr "you are not allowed to use komut line seçenekler starting with -"
 
 #. Programmer's name for it: SParseInvalidOptions
 #: StringResources.pas
 msgid "The following command line options are valid: \n"
-msgstr "The following command line seçenekler are valid: \n"
+msgstr "The following komut line seçenekler are valid: \n"
 
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
@@ -9524,9 +9524,8 @@ msgid ""
 "command buttons, drag them off the toolbar and drop them on the commands "
 "list."
 msgstr ""
-"To add command buttons, drag and drop commands onto a toolbar. To remove "
-"command buttons, drag them off the toolbar and drop them on the commands "
-"liste."
+"To add komut buttons, drag and drop commands onto a toolbar. To remove komut"
+" buttons, drag them off the toolbar and drop them on the commands liste."
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
 #: SpTBXCustomizerForm.dfm:174
