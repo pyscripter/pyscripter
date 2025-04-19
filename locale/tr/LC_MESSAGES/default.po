@@ -333,7 +333,7 @@ msgstr "&Ekle..."
 #: dlgCollectionEditor.dfm dlgCustomShortcuts.dfm dlgSynEditOptions.dfm
 #: dlgToDoOptions.dfm frmProjectExplorer.dfm
 msgid "&Remove"
-msgstr "&Remove"
+msgstr "&Çıkar"
 
 #. CollectionEditor..Panel1..ModifyBtn..Caption
 #: dlgCollectionEditor.dfm
@@ -476,7 +476,7 @@ msgstr "Assign shortcut to command"
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr "Remove shortcut"
+msgstr "Çıkar shortcut"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -840,12 +840,12 @@ msgstr "Ekle a new Python version"
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
 msgid "Remove"
-msgstr "Remove"
+msgstr "Çıkar"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected Python version"
-msgstr "Remove selected Python version"
+msgstr "Çıkar selected Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
@@ -2807,7 +2807,7 @@ msgstr "Custom &Parameters..."
 #. CommandsDataModule..actlMain..actCustomizeParameters..Hint
 #: dmCommands.dfm
 msgid "Add/Remove custom parameters"
-msgstr "Ekle/Remove custom parameters"
+msgstr "Ekle/Çıkar custom parameters"
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Caption
 #: dmCommands.dfm
@@ -2827,7 +2827,7 @@ msgstr "&Kod Templates..."
 #. CommandsDataModule..actlMain..actCodeTemplates..Hint
 #: dmCommands.dfm
 msgid "Add/Remove code templates"
-msgstr "Ekle/Remove code templates"
+msgstr "Ekle/Çıkar code templates"
 
 #. CommandsDataModule..actlMain..actConfigureTools..Caption
 #: dmCommands.dfm
@@ -2982,7 +2982,7 @@ msgstr "&File Templates..."
 #. CommandsDataModule..actlMain..actFileTemplates..Hint
 #: dmCommands.dfm
 msgid "Add/Remove file templates"
-msgstr "Ekle/Remove file templates"
+msgstr "Ekle/Çıkar file templates"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
@@ -4276,12 +4276,12 @@ msgstr "Save chat history"
 #. LLMChatForm..ChatActionList..actChatRemove..Caption
 #: frmLLMChat.dfm
 msgid "Remove Chat Topic"
-msgstr "Remove Chat Topic"
+msgstr "Çıkar Chat Topic"
 
 #. LLMChatForm..ChatActionList..actChatRemove..Hint
 #: frmLLMChat.dfm
 msgid "Remove current chat topic"
-msgstr "Remove current chat topic"
+msgstr "Çıkar current chat topic"
 
 #. LLMChatForm..ChatActionList..actChatNew..Caption
 #: frmLLMChat.dfm
@@ -4504,7 +4504,7 @@ msgstr "Ekle a new subfolder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr "Remove a file, folder or run configuration from the project"
+msgstr "Çıkar a file, folder or run configuration from the project"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -6032,7 +6032,7 @@ msgstr "&Ekle Watch"
 #. WatchesWindow..TBXPopupMenu..mnRemoveWatch..Caption
 #: frmWatches.dfm
 msgid "&Remove Watch"
-msgstr "&Remove Watch"
+msgstr "&Çıkar Watch"
 
 #. WatchesWindow..TBXPopupMenu..mnEditWatch..Caption
 #: frmWatches.dfm
