@@ -2091,12 +2091,12 @@ msgstr "&Özellikler"
 #. ToolProperties..Panel1..TabControl..tabEnvironment..Caption
 #: dlgToolProperties.dfm
 msgid "&Environment"
-msgstr "&Environment"
+msgstr "&Ortam"
 
 #. ToolProperties..Panel1..TabControl..tabEnvironment..cbUseCustomEnv..Caption
 #: dlgToolProperties.dfm
 msgid "Use Customized Environment"
-msgstr "Kullan Customized Environment"
+msgstr "Kullan Customized Ortam"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox1..Label17..Caption
 #: dlgToolProperties.dfm
@@ -6155,7 +6155,7 @@ msgstr "Install Python packages"
 
 #: cTools.pas
 msgid "Create Virtual Environment"
-msgstr "Yarat Virtual Environment"
+msgstr "Yarat Virtual Ortam"
 
 #: cTools.pas
 msgid "Create virtual environment using the venv module"
