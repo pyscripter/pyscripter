@@ -2179,12 +2179,12 @@ msgstr "Tüm dosyalar"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Caption
 #: dlgToolProperties.dfm
 msgid "Standard Input and Output"
-msgstr "Standart Input ve Çıktı"
+msgstr "Standart Girdi ve Çıktı"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label10..Caption
 #: dlgToolProperties.dfm
 msgid "Std. &Input:"
-msgstr "Std. &Input:"
+msgstr "Std. &Girdi:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label11..Caption
 #: dlgToolProperties.dfm
@@ -6974,11 +6974,11 @@ msgstr "Not mevcut"
 
 #: frmPythonII.pas
 msgid "PyScripter - Input requested"
-msgstr "PyScripter - Input requested"
+msgstr "PyScripter - Girdi requested"
 
 #: frmPythonII.pas
 msgid "Input:"
-msgstr "Input:"
+msgstr "Girdi:"
 
 #: frmPythonII.pas
 msgid "Operation cancelled"
