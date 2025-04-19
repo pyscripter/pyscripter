@@ -1727,7 +1727,7 @@ msgstr "Altbilgi"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line above"
-msgstr "Satır above"
+msgstr "Satır üst"
 
 #. PageSetupDlg..TabControl..tbMargins..Label1..Caption
 #: dlgSynPageSetup.dfm
