@@ -613,7 +613,7 @@ msgstr "&İhmal et yorumlar"
 #. FindInFilesDialog..Panel1..gbxOptions..cbWholeWord..Caption
 #: dlgFindInFiles.dfm
 msgid "&Whole word"
-msgstr "&Whole word"
+msgstr "&Bütün word"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbRegEx..Caption
 #: dlgFindInFiles.dfm
@@ -1876,7 +1876,7 @@ msgstr "Print Preview"
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Whole page"
-msgstr "Whole page"
+msgstr "Bütün page"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Hint
 #: dlgSynPrintPreview.dfm
@@ -4943,7 +4943,7 @@ msgstr "&Case Sensitive"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiWholeWords..Caption
 #: frmPyIDEMain.dfm
 msgid "&Whole Words Only"
-msgstr "&Whole Words Only"
+msgstr "&Bütün Words Only"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchInSelection..Caption
 #: frmPyIDEMain.dfm
