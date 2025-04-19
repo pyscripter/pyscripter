@@ -917,7 +917,7 @@ msgstr "Dosya Yol:"
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
 msgid "SSH Server:"
-msgstr "SSH Server:"
+msgstr "SSH Sunucu:"
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
@@ -3315,12 +3315,12 @@ msgstr "Go to the PyScripter Blog"
 #. CommandsDataModule..actlMain..actToolsRestartLS..Caption
 #: dmCommands.dfm
 msgid "Restart &Language Server"
-msgstr "Restart &Language Server"
+msgstr "Restart &Language Sunucu"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Hint
 #: dmCommands.dfm
 msgid "Restart the Language Server"
-msgstr "Restart the Language Server"
+msgstr "Restart the Language Sunucu"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
@@ -6093,11 +6093,11 @@ msgstr "SSH Servers"
 
 #: cSSHSupport.pas
 msgid "Select SSH Server"
-msgstr "Seçin SSH Server"
+msgstr "Seçin SSH Sunucu"
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
-msgstr "SSH Server name"
+msgstr "SSH Sunucu name"
 
 #: cSSHSupport.pas
 msgid "Host name"
@@ -6133,7 +6133,7 @@ msgstr "Password Needed (PyTTY sadece)"
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
-msgstr "Edit SSH Server"
+msgstr "Edit SSH Sunucu"
 
 #. Add a few standard tools to the collection
 #: cTools.pas
@@ -6732,7 +6732,7 @@ msgstr "Disable Variables Window with SSH"
 
 #: dmCommands.pas frmPyIDEMain.pas
 msgid "Language Server"
-msgstr "Language Server"
+msgstr "Language Sunucu"
 
 #: dmCommands.pas
 msgid "Language server debug output"
@@ -8064,7 +8064,7 @@ msgid ""
 "Remote Server is not connected.\n"
 "Please reinitialize or disconnect the remote interpreter."
 msgstr ""
-"Remote Server is not connected.\n"
+"Remote Sunucu is not connected.\n"
 "Please reinitialize or disconnect the remote interpreter."
 
 #. Programmer's name for it: SRpycNotAvailable
@@ -9251,7 +9251,7 @@ msgstr "The LLM istemci is busy"
 #. Programmer's name for it: sNoResponse
 #: uLLMSupport.pas
 msgid "No response from the LLM Server"
-msgstr "Hayır response from the LLM Server"
+msgstr "Hayır response from the LLM Sunucu"
 
 #. Programmer's name for it: sNoAPIKey
 #: uLLMSupport.pas
@@ -9281,7 +9281,7 @@ msgstr "The LLM model is not supported"
 #. Programmer's name for it: sUnexpectedResponse
 #: uLLMSupport.pas
 msgid "Unexpected response from the LLM Server"
-msgstr "Unexpected response from the LLM Server"
+msgstr "Unexpected response from the LLM Sunucu"
 
 #: uLLMSupport.pas
 msgid "Assistant is busy. Click to cancel."
