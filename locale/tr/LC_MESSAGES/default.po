@@ -6159,7 +6159,7 @@ msgstr "Yarat Virtual Ortam"
 
 #: cTools.pas
 msgid "Create virtual environment using the venv module"
-msgstr "Yarat virtual environment kullanarak the venv module"
+msgstr "Yarat virtual ortam kullanarak the venv module"
 
 #: cTools.pas
 msgid "Python&Win help"
@@ -6323,7 +6323,7 @@ msgid ""
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
 "Donations from numerous users have provided a strong incentive to develop this proje.\n"
-"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment onunla which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
+"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming ortam onunla which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6495,7 +6495,7 @@ msgstr "Kaydet dosyalar before çalıştır"
 
 #: dmCommands.pas
 msgid "Save environment before run"
-msgstr "Kaydet environment before çalıştır"
+msgstr "Kaydet ortam before çalıştır"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
@@ -9415,7 +9415,7 @@ msgstr "Değer of registry tuş"
 
 #: uParams.pas
 msgid "Value of environment variable"
-msgstr "Değer of environment variable"
+msgstr "Değer of ortam variable"
 
 #: uParams.pas
 msgid "Upper case of string"
