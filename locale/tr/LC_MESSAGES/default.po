@@ -2076,14 +2076,14 @@ msgstr "Scan &proje dosyalar"
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
 msgid "External Tool Properties"
-msgstr "External Tool Properties"
+msgstr "External Tool Özellikler"
 
 #. ToolProperties..Panel1..TabControl..SpTBXTabItem1..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Caption
 #: dlgToolProperties.dfm frmProjectExplorer.dfm
 msgid "&Properties"
-msgstr "&Properties"
+msgstr "&Özellikler"
 
 #. ToolProperties..Panel1..TabControl..SpTBXTabItem2..Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..Caption
@@ -3577,7 +3577,7 @@ msgstr "Condition"
 #. EditorForm..pmnuBreakpoint..spiBreakpointProperties..Caption
 #: frmBreakPoints.dfm frmEditor.dfm
 msgid "Breakpoint Properties..."
-msgstr "Breakpoint Properties..."
+msgstr "Breakpoint Özellikler..."
 
 #. BreakPointsWindow..TBXPopupMenu..mnSetCondition..Hint
 #. EditorForm..pmnuBreakpoint..spiBreakpointProperties..Hint
@@ -6416,7 +6416,7 @@ msgstr "'To Do' arama yol"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
-msgstr "External Run Properties"
+msgstr "External Run Özellikler"
 
 #: dlgUnitTestWizard.pas frmCodeExplorer.pas
 #, object-pascal-format
