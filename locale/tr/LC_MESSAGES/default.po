@@ -2137,9 +2137,7 @@ msgstr "&Kaydet dosyalar:"
 msgid ""
 "Specifies the context in which\n"
 "the tool is enabled."
-msgstr ""
-"Specifies the bağlam in which\n"
-"the araç is enabled."
+msgstr "Aracın etkinleştirildiği bağlamı belirtir."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
