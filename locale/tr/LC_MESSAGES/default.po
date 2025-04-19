@@ -526,12 +526,12 @@ msgstr "Gir dosya yol buraya"
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
 msgid "Use Ctrl+C to copy the report to the clipboard"
-msgstr "Kullan Ctrl+C to kopya the report to the clipboard"
+msgstr "Kullan Ctrl+C to kopya the rapor to the clipboard"
 
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
 msgid "Send bug report using default mail client"
-msgstr "Send bug report using default mail client"
+msgstr "Send bug rapor using default mail client"
 
 #. ExceptionDialogMail..SendBtn..Caption
 #: dlgExceptionMail.dfm
