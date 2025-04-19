@@ -246,7 +246,7 @@ msgstr "&Ekle"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm
 msgid "Add item"
-msgstr "Ekle item"
+msgstr "Ekle öğe"
 
 #. CodeTemplates..ActionList..actDeleteItem..Caption
 #. CustomizeParams..ActionList..actDeleteItem..Caption
@@ -265,7 +265,7 @@ msgstr "&Delete"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm
 msgid "Delete item"
-msgstr "Delete item"
+msgstr "Delete öğe"
 
 #. CodeTemplates..ActionList..actMoveUp..Caption
 #. CollectionEditor..Panel1..MoveUpBtn..Caption
@@ -282,7 +282,7 @@ msgstr "&Up"
 #. FileTemplatesDialog..ActionList..actMoveUp..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item up"
-msgstr "Move item up"
+msgstr "Move öğe up"
 
 #. CodeTemplates..ActionList..actMoveDown..Caption
 #. CollectionEditor..Panel1..MoveDownBtn..Caption
@@ -298,7 +298,7 @@ msgstr "&Down"
 #. FileTemplatesDialog..ActionList..actMoveDown..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item down"
-msgstr "Move item down"
+msgstr "Move öğe down"
 
 #. CodeTemplates..ActionList..actUpdateItem..Caption
 #. CustomizeParams..ActionList..actUpdateItem..Caption
@@ -317,7 +317,7 @@ msgstr "&Update"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm
 msgid "Update item"
-msgstr "Update item"
+msgstr "Update öğe"
 
 #. CollectionEditor..Panel1..AddBtn..Caption
 #. DirectoryListDialog..Panel2..btnAdd..Caption
@@ -4053,7 +4053,7 @@ msgstr "Replace Selected Item..."
 #. FindResultsWindow..Actions..actReplaceSelected..Hint
 #: frmFindResults.dfm
 msgid "Replace selected item..."
-msgstr "Replace selected item..."
+msgstr "Replace selected öğe..."
 
 #. FindResultsWindow..Actions..actFileSearch..Caption
 #: frmFindResults.dfm
@@ -8105,7 +8105,7 @@ msgstr "*** Remote Interpreter Reinitialized ***"
 #. Programmer's name for it: SSameName
 #: StringResources.pas
 msgid "Another item has the same name"
-msgstr "Another item has the same name"
+msgstr "Another öğe has the same name"
 
 #. Programmer's name for it: SCodeTemplateModified
 #: StringResources.pas
