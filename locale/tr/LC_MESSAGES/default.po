@@ -1243,7 +1243,7 @@ msgstr "Geliştir End Tuş"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "enhances home key positioning, similar to visual studio"
-msgstr "görsel stüdyoya benzer şekilde ana tuş konumlandırmasını geliştirir"
+msgstr "visual studio'ya benzer şekilde ana tuş konumlandırmasını geliştirir"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
 #: dlgSynEditOptions.dfm
