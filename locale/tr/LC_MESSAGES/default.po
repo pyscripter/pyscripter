@@ -2209,7 +2209,7 @@ msgid ""
 "If checked output lines that look like messages \n"
 "will be parsed and shown in the messages window."
 msgstr ""
-"If checked output satırlar that look like messages \n"
+"If checked çıktı satırlar that look like messages \n"
 "will be parsed and shown in the messages window."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
@@ -2229,7 +2229,7 @@ msgid ""
 "Use the button on the right to insert \n"
 "predefined grep expressions."
 msgstr ""
-"A grep ifade for parsing output satırlar.\n"
+"A grep ifade for parsing çıktı satırlar.\n"
 "Kullan the button on the right to insert \n"
 "predefined grep ifadeler."
 
@@ -2275,7 +2275,7 @@ msgid ""
 "corresponding outlet."
 msgstr ""
 "Seçin option other than None to \n"
-"redirect the output to the \n"
+"redirect the çıktı to the \n"
 "corresponding outlet."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -3760,7 +3760,7 @@ msgstr "Clear"
 #. OutputWindow..OutputActions..actClearOutput..Hint
 #: frmCommandOutput.dfm
 msgid "Clear output"
-msgstr "Clear output"
+msgstr "Clear çıktı"
 
 #. OutputWindow..OutputActions..actToolTerminate..Caption
 #: frmCommandOutput.dfm
@@ -5692,7 +5692,7 @@ msgstr "Clear &Tümü"
 #. PythonIIForm..InterpreterActionList..actClearContents..Hint
 #: frmPythonII.dfm
 msgid "Clear all interpreter output"
-msgstr "Clear hepsi interpreter output"
+msgstr "Clear hepsi interpreter çıktı"
 
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Caption
 #: frmPythonII.dfm
@@ -6502,11 +6502,11 @@ msgstr "Timeout for running scripts in ms"
 
 #: dmCommands.pas
 msgid "Pretty print output"
-msgstr "Pretty print output"
+msgstr "Pretty print çıktı"
 
 #: dmCommands.pas
 msgid "Clear output before run"
-msgstr "Clear output before çalıştır"
+msgstr "Clear çıktı before çalıştır"
 
 #: dmCommands.pas
 msgid "Post-mortem on exception"
@@ -6737,7 +6737,7 @@ msgstr "Language Sunucu"
 
 #: dmCommands.pas
 msgid "Language server debug output"
-msgstr "Language sunucu debug output"
+msgstr "Language sunucu debug çıktı"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
@@ -8209,7 +8209,7 @@ msgstr "Cannot change the Python engine while it is active."
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not open/create output file %s"
-msgstr "Could not aç/yarat output dosya %s"
+msgstr "Could not aç/yarat çıktı dosya %s"
 
 #. Programmer's name for it: SUnknownPythonVersion
 #: StringResources.pas
@@ -8357,7 +8357,7 @@ msgstr "Seçin Python komut dosyası to çalıştır"
 #. Programmer's name for it: SSelectOutputFile
 #: StringResources.pas
 msgid "Select output file"
-msgstr "Seçin output dosya"
+msgstr "Seçin çıktı dosya"
 
 #. Programmer's name for it: SSelectApplication
 #: StringResources.pas
