@@ -2386,7 +2386,7 @@ msgstr "Kaydet|Kaydet aktif dosya"
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
 msgid "Sav&e As..."
-msgstr "Sav&e As..."
+msgstr "&Farklı kaydet"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
