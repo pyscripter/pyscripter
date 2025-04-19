@@ -1901,31 +1901,31 @@ msgstr "Sayfa genişliğini pencereye sığdır"
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "25% zoom"
-msgstr "25% zoom"
+msgstr "25% yakınlaştırma"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi50..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "50% zoom"
-msgstr "50% zoom"
+msgstr "50% yakınlaştırma"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi100..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "100% zoom"
-msgstr "100% zoom"
+msgstr "100% yakınlaştırma"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi200..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "200% zoom"
-msgstr "200% zoom"
+msgstr "200% yakınlaştırma"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi400..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "400% zoom"
-msgstr "400% zoom"
+msgstr "400% yakınlaştırma"
 
 #. PrintPreviewDlg..ActionList..FirstCmd..Caption
 #: dlgSynPrintPreview.dfm
