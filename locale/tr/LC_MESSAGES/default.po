@@ -1286,7 +1286,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right mouse moves cursor"
-msgstr "Sağ fare moves imleç"
+msgstr "Sağ fare hareket imleç"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
 #: dlgSynEditOptions.dfm
