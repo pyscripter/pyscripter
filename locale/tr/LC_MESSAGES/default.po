@@ -62,7 +62,7 @@ msgstr "Unknown parametre"
 #. AskParamForm..Panel1..Label1..Caption
 #: dlgAskParam.dfm
 msgid "Enter value for parameter "
-msgstr "Enter value for parametre "
+msgstr "Gir value for parametre "
 
 #. AskParamForm..Panel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
@@ -521,7 +521,7 @@ msgstr "Sil the seçili dosya yol"
 #. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
-msgstr "Enter dosya yol buraya"
+msgstr "Gir dosya yol buraya"
 
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
@@ -5548,7 +5548,7 @@ msgstr "&Post Mortem"
 #. PyIDEMainForm..actlStandard..actPostMortem..Hint
 #: frmPyIDEMain.dfm
 msgid "Enter post mortem analysis"
-msgstr "Enter post mortem analysis"
+msgstr "Gir post mortem analysis"
 
 #. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Caption
 #: frmPyIDEMain.dfm
@@ -5850,7 +5850,7 @@ msgstr "Accept the first suggested word"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Caption
 #: frmSuggest.dfm
 msgid "Accept Line (Ctrl+Enter)"
-msgstr "Accept Satır (Ctrl+Enter)"
+msgstr "Accept Satır (Ctrl+Gir)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Hint
 #: frmSuggest.dfm
@@ -6079,7 +6079,7 @@ msgstr ""
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
-msgstr "Enter SSH Password for %s"
+msgstr "Gir SSH Password for %s"
 
 #: cSSHSupport.pas
 msgid "Password:"
@@ -6863,7 +6863,7 @@ msgstr "Dosya Explorer Filter"
 
 #: frmFileExplorer.pas
 msgid "Enter Filter:"
-msgstr "Enter Filter:"
+msgstr "Gir Filter:"
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
@@ -6911,7 +6911,7 @@ msgstr "Could not read the Chat settings"
 
 #: frmLLMChat.pas
 msgid "Enter title:"
-msgstr "Enter title:"
+msgstr "Gir title:"
 
 #: frmLLMChat.pas
 msgid "Copy code to new editor"
@@ -7010,7 +7010,7 @@ msgstr "DocString"
 
 #: frmWatches.pas
 msgid "Enter watch expression:"
-msgstr "Enter watch expression:"
+msgstr "Gir watch expression:"
 
 #: frmWatches.pas
 msgid "Edit Watch"
@@ -7018,7 +7018,7 @@ msgstr "Edit Watch"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr "Enter yeni expression:"
+msgstr "Gir yeni expression:"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
@@ -8147,7 +8147,7 @@ msgstr "\"%s\" is not a valid integer"
 #. Programmer's name for it: SEnterLineNumber
 #: StringResources.pas
 msgid "Enter line number:"
-msgstr "Enter line number:"
+msgstr "Gir line number:"
 
 #. Programmer's name for it: SFileRenamedOrDeleted
 #: StringResources.pas
@@ -8410,7 +8410,7 @@ msgstr "Layout Ad:"
 #. Programmer's name for it: SEnterPythonExpression
 #: StringResources.pas
 msgid "Enter Python expression:"
-msgstr "Enter Python expression:"
+msgstr "Gir Python expression:"
 
 #. Programmer's name for it: SDeleteLayouts
 #: StringResources.pas
@@ -8852,7 +8852,7 @@ msgstr ""
 #. Programmer's name for it: SEnterParameterCaption
 #: StringResources.pas
 msgid "Enter parameter value"
-msgstr "Enter parametre value"
+msgstr "Gir parametre value"
 
 #. Programmer's name for it: SEnterParameterText
 #: StringResources.pas
