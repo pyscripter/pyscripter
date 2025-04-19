@@ -875,7 +875,7 @@ msgstr "Kabuk"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr "Aç komut prompt for the seçili Python versiyon"
+msgstr "Aç komut istem for the seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -3532,7 +3532,7 @@ msgstr "Maximum sayı of response tokens:"
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiSystemPrompt..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "System prompt:"
-msgstr "System prompt:"
+msgstr "System istem:"
 
 #. ResourcesDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
