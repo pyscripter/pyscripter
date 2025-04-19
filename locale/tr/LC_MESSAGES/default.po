@@ -1294,8 +1294,8 @@ msgid ""
 "When tabbing, the cursor will go to the next non-white space character of "
 "the previous line"
 msgstr ""
-"When tabbing, the imleç will go to the next non-white space character of the"
-" previous line"
+"Sekme tuşuna basıldığında imleç bir önceki satırın bir sonraki boşluk "
+"olmayan karakterine gidecektir"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
 #: dlgSynEditOptions.dfm
