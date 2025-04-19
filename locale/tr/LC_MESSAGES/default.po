@@ -5350,7 +5350,7 @@ msgstr "&Dahili"
 #. PyIDEMainForm..actlStandard..actPythonInternal..Hint
 #: frmPyIDEMain.dfm
 msgid "Use internal Python Engine"
-msgstr "Kullan internal Python Motor"
+msgstr "Kullan dahili Python Motor"
 
 #. PyIDEMainForm..actlStandard..actPythonRemote..Caption
 #: frmPyIDEMain.dfm
@@ -7954,7 +7954,7 @@ msgstr "*** %s Python engine is active ***"
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
-msgstr "The internal Python interpreter is not available"
+msgstr "The dahili Python interpreter is not available"
 
 #. Programmer's name for it: SPythonLoadError
 #: StringResources.pas
