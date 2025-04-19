@@ -1102,7 +1102,7 @@ msgstr "Tuş vuruşları"
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Color Theme"
-msgstr "Renk Theme"
+msgstr "Renk Tema"
 
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
 #. EditorOptionsDialog..Panel1..TabControl..Color..Caption
@@ -1124,7 +1124,7 @@ msgstr "Mevcut Themes"
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
-msgstr "Uygula Theme"
+msgstr "Uygula Tema"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
