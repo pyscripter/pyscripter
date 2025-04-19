@@ -1930,12 +1930,12 @@ msgstr "400% yakınlaştırma"
 #. PrintPreviewDlg..ActionList..FirstCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "First"
-msgstr "First"
+msgstr "İlk"
 
 #. PrintPreviewDlg..ActionList..FirstCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "First|Go to first page"
-msgstr "First|Go to first sayfa"
+msgstr "İlk|Go to first sayfa"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Caption
 #: dlgSynPrintPreview.dfm
