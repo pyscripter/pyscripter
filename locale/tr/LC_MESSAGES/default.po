@@ -666,7 +666,7 @@ msgstr "&Dizinler:"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm frmFileExplorer.dfm
 #: dlgDirectoryList.pas dlgImportDirectory.pas frmFileExplorer.pas uParams.pas
 msgid "Select directory"
-msgstr "Select dizin"
+msgstr "Seçin dizin"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -784,7 +784,7 @@ msgstr "Property"
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
 #: dlgPickList.dfm
 msgid "&Select All"
-msgstr "&Select All"
+msgstr "&Seçin All"
 
 #. PickListDialog..Panel2..btnDeselectAll..Caption
 #. PickListDialog..PickListPopUp..mnDeselectAll..Caption
@@ -796,7 +796,7 @@ msgstr "&Deselect All"
 #. PickListDialog..PickListPopUp..mnSelectAll..Hint
 #: dlgPickList.dfm
 msgid "Select all items"
-msgstr "Select hepsi items"
+msgstr "Seçin hepsi items"
 
 #. PickListDialog..PickListPopUp..mnDeselectAll..Hint
 #: dlgPickList.dfm
@@ -1064,7 +1064,7 @@ msgstr "Save Output"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
-msgstr "Select Style"
+msgstr "Seçin Style"
 
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
@@ -1222,7 +1222,7 @@ msgid ""
 "Allows you to select a block of text and drag it within the document to "
 "another location"
 msgstr ""
-"Allows you to select a block of metin and drag it within the document to "
+"Allows you to seçin a block of metin and drag it within the document to "
 "another location"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
@@ -2238,7 +2238,7 @@ msgid ""
 "feed the corresponding information\n"
 "to the standard input."
 msgstr ""
-"Select option other than None to \n"
+"Seçin option other than None to \n"
 "feed the corresponding bilgi\n"
 "to the standard input."
 
@@ -2272,7 +2272,7 @@ msgid ""
 "redirect the output to the \n"
 "corresponding outlet."
 msgstr ""
-"Select option other than None to \n"
+"Seçin option other than None to \n"
 "redirect the output to the \n"
 "corresponding outlet."
 
@@ -2349,7 +2349,7 @@ msgstr "Unit Test Wizard"
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
 msgid "Select the functions and methods for which tests will be generated:"
-msgstr "Select the functions and methods for which tests will be generated:"
+msgstr "Seçin the functions and methods for which tests will be generated:"
 
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
@@ -2360,12 +2360,12 @@ msgstr "This wizard will generate unit tests for the Python module"
 #. Programmer's name for it: SEdCmdSelectAll
 #: dlgUnitTestWizard.dfm StringResources.pas
 msgid "Select All"
-msgstr "Select All"
+msgstr "Seçin All"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Select all nodes"
-msgstr "Select hepsi nodes"
+msgstr "Seçin hepsi nodes"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Caption
 #: dlgUnitTestWizard.dfm
@@ -2483,12 +2483,12 @@ msgstr "Redo| Redo last action"
 #. UnitTestWindow..DialogActions..actSelectAll..Caption
 #: dmCommands.dfm frmUnitTests.dfm
 msgid "Select &All"
-msgstr "Select &All"
+msgstr "Seçin &All"
 
 #. CommandsDataModule..actlMain..actEditSelectAll..Hint
 #: dmCommands.dfm
 msgid "Select All|Selects the entire document"
-msgstr "Select All|Selects the entire document"
+msgstr "Seçin All|Selects the entire document"
 
 #. CommandsDataModule..actlMain..actEditReadOnly..Caption
 #. Programmer's name for it: SReadOnly
@@ -3630,7 +3630,7 @@ msgstr "Previous Frame"
 #. CallStackWindow..actlCallStack..actPreviousFrame..Hint
 #: frmCallStack.dfm
 msgid "Select previous (older) frame"
-msgstr "Select previous (older) frame"
+msgstr "Seçin previous (older) frame"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Caption
 #: frmCallStack.dfm
@@ -3640,7 +3640,7 @@ msgstr "Next Frame"
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
 msgid "Select next (newer) frame"
-msgstr "Select next (newer) frame"
+msgstr "Seçin next (newer) frame"
 
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
@@ -3746,7 +3746,7 @@ msgstr "Font..."
 #. OutputWindow..OutputActions..actOutputFont..Hint
 #: frmCommandOutput.dfm
 msgid "Select font"
-msgstr "Select font"
+msgstr "Seçin font"
 
 #. OutputWindow..OutputActions..actClearOutput..Caption
 #. EditorForm..pmnuBreakpoint..spiBreakpointClear..Caption
@@ -4013,7 +4013,7 @@ msgstr "Enable &Filter"
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Hint
 #: frmFileExplorer.dfm
 msgid "Enable Filter|Select to show only Python files"
-msgstr "Enable Filter|Select to göster sadece Python dosyalar"
+msgstr "Enable Filter|Seçin to göster sadece Python dosyalar"
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
@@ -4038,7 +4038,7 @@ msgstr "Create yeni folder"
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
 msgid "Select Directory..."
-msgstr "Select Dizin..."
+msgstr "Seçin Dizin..."
 
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
@@ -4642,7 +4642,7 @@ msgstr "External Tool Running"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..Hint
 #: frmPyIDEMain.dfm
 msgid "Select File"
-msgstr "Select Dosya"
+msgstr "Seçin Dosya"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollLeft..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
@@ -5058,7 +5058,7 @@ msgstr "&Aç..."
 #. PyIDEMainForm..actlStandard..actFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Select a file to open"
-msgstr "Select a dosya to aç"
+msgstr "Seçin a dosya to aç"
 
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Caption
 #: frmPyIDEMain.dfm
@@ -5965,7 +5965,7 @@ msgstr "Stop Testing"
 #. UnitTestWindow..DialogActions..actSelectAll..Hint
 #: frmUnitTests.dfm
 msgid "Select all tests"
-msgstr "Select hepsi tests"
+msgstr "Seçin hepsi tests"
 
 #. UnitTestWindow..DialogActions..actDeselectAll..Hint
 #: frmUnitTests.dfm
@@ -5975,12 +5975,12 @@ msgstr "Deselect hepsi tests"
 #. UnitTestWindow..DialogActions..actSelectFailed..Caption
 #: frmUnitTests.dfm
 msgid "Select Fai&led"
-msgstr "Select Fai&led"
+msgstr "Seçin Fai&led"
 
 #. UnitTestWindow..DialogActions..actSelectFailed..Hint
 #: frmUnitTests.dfm
 msgid "Select all failed tests"
-msgstr "Select hepsi failed tests"
+msgstr "Seçin hepsi failed tests"
 
 #. UnitTestWindow..DialogActions..actExpandAll..Caption
 #: frmUnitTests.dfm
@@ -6091,7 +6091,7 @@ msgstr "SSH Servers"
 
 #: cSSHSupport.pas
 msgid "Select SSH Server"
-msgstr "Select SSH Server"
+msgstr "Seçin SSH Server"
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
@@ -6379,8 +6379,7 @@ msgstr "Dizin To Arama:"
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
-msgstr ""
-"Select folder with Python installation (inlcuding virtualenv and venv)"
+msgstr "Seçin folder with Python installation (inlcuding virtualenv and venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
@@ -6397,7 +6396,7 @@ msgstr "The Bul in Dosyalar Results window is not active"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
-msgstr "Select working dizin:"
+msgstr "Seçin working dizin:"
 
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
@@ -7516,87 +7515,87 @@ msgstr "Scroll Yukarı"
 #. Programmer's name for it: SEdCmdSelectDown
 #: StringResources.pas
 msgid "Select Down"
-msgstr "Select Aşağı"
+msgstr "Seçin Aşağı"
 
 #. Programmer's name for it: SEdCmdSelectEditorBottom
 #: StringResources.pas
 msgid "Select Editor Bottom"
-msgstr "Select Editor Bottom"
+msgstr "Seçin Editor Bottom"
 
 #. Programmer's name for it: SEdCmdSelectEditorTop
 #: StringResources.pas
 msgid "Select Editor Top"
-msgstr "Select Editor Top"
+msgstr "Seçin Editor Top"
 
 #. Programmer's name for it: SEdCmdSelectLeft
 #: StringResources.pas
 msgid "Select Left"
-msgstr "Select Left"
+msgstr "Seçin Left"
 
 #. Programmer's name for it: SEdCmdSelectLineEnd
 #: StringResources.pas
 msgid "Select Line End"
-msgstr "Select Satır End"
+msgstr "Seçin Satır End"
 
 #. Programmer's name for it: SEdCmdSelectLineStart
 #: StringResources.pas
 msgid "Select Line Start"
-msgstr "Select Satır Start"
+msgstr "Seçin Satır Start"
 
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
 msgid "Select Page Bottom"
-msgstr "Select Page Bottom"
+msgstr "Seçin Page Bottom"
 
 #. Programmer's name for it: SEdCmdSelectPageDown
 #: StringResources.pas
 msgid "Select Page Down"
-msgstr "Select Page Aşağı"
+msgstr "Seçin Page Aşağı"
 
 #. Programmer's name for it: SEdCmdSelectPageLeft
 #: StringResources.pas
 msgid "Select Page Left"
-msgstr "Select Page Left"
+msgstr "Seçin Page Left"
 
 #. Programmer's name for it: SEdCmdSelectPageRight
 #: StringResources.pas
 msgid "Select Page Right"
-msgstr "Select Page Right"
+msgstr "Seçin Page Right"
 
 #. Programmer's name for it: SEdCmdSelectPageTop
 #: StringResources.pas
 msgid "Select Page Top"
-msgstr "Select Page Top"
+msgstr "Seçin Page Top"
 
 #. Programmer's name for it: SEdCmdSelectPageUp
 #: StringResources.pas
 msgid "Select Page Up"
-msgstr "Select Page Yukarı"
+msgstr "Seçin Page Yukarı"
 
 #. Programmer's name for it: SEdCmdSelectRight
 #: StringResources.pas
 msgid "Select Right"
-msgstr "Select Right"
+msgstr "Seçin Right"
 
 #. Programmer's name for it: SEdCmdSelectUp
 #: StringResources.pas
 msgid "Select Up"
-msgstr "Select Yukarı"
+msgstr "Seçin Yukarı"
 
 #. Programmer's name for it: SEdCmdSelectWord
 #: StringResources.pas
 msgid "Select Word"
-msgstr "Select Kelime"
+msgstr "Seçin Kelime"
 
 #. Programmer's name for it: SEdCmdSelectWordLeft
 #: StringResources.pas
 msgid "Select Word Left"
-msgstr "Select Kelime Left"
+msgstr "Seçin Kelime Left"
 
 #. Programmer's name for it: SEdCmdSelectWordRight
 #: StringResources.pas
 msgid "Select Word Right"
-msgstr "Select Kelime Right"
+msgstr "Seçin Kelime Right"
 
 #. Programmer's name for it: SEdCmdSetBookmark0
 #: StringResources.pas
@@ -7757,32 +7756,32 @@ msgstr "Selelct Column Left"
 #. Programmer's name for it: SEdCmdSelColumnRight
 #: StringResources.pas
 msgid "Select Column Right"
-msgstr "Select Column Right"
+msgstr "Seçin Column Right"
 
 #. Programmer's name for it: SEdCmdSelColumnUp
 #: StringResources.pas
 msgid "Select Column Up"
-msgstr "Select Column Yukarı"
+msgstr "Seçin Column Yukarı"
 
 #. Programmer's name for it: SEdCmdSelColumnDown
 #: StringResources.pas
 msgid "Select Column Down"
-msgstr "Select Column Aşağı"
+msgstr "Seçin Column Aşağı"
 
 #. Programmer's name for it: SEdCmdSelColumnPageUp
 #: StringResources.pas
 msgid "Select Column Page Up"
-msgstr "Select Column Page Yukarı"
+msgstr "Seçin Column Page Yukarı"
 
 #. Programmer's name for it: SEdCmdSelColumnPageDown
 #: StringResources.pas
 msgid "Select Column Page Down"
-msgstr "Select Column Page Aşağı"
+msgstr "Seçin Column Page Aşağı"
 
 #. Programmer's name for it: SEdCmdSelMatchingText
 #: StringResources.pas
 msgid "Select Matching Text"
-msgstr "Select Matching Metin"
+msgstr "Seçin Matching Metin"
 
 #. Programmer's name for it: SEdCmdCaretsAtLineEnds
 #: StringResources.pas
@@ -7797,7 +7796,7 @@ msgstr "Parameter Completion"
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
 msgid "Select Match Bracket"
-msgstr "Select Match Bracket"
+msgstr "Seçin Match Bracket"
 
 #. Delphi dialogs (from Vcl.Consts)
 #. Programmer's name for it: srNone
@@ -7993,7 +7992,7 @@ msgid ""
 msgstr ""
 "You are now in post-mortem analysis mode.\n"
 "You can examine the Call Stack, Variables and Watches windows, evaluate ifadeler etc.\n"
-"To exit the post-mortem analysis select the 'Abort Debugging' command."
+"To exit the post-mortem analysis seçin the 'Abort Debugging' command."
 
 #. Programmer's name for it: SFileEncodingWarning
 #: StringResources.pas
@@ -8270,7 +8269,7 @@ msgid ""
 "wish to reload and press the OK button. Please note that you will lose all "
 "changes to these files."
 msgstr ""
-"The following dosyalar have been changed on disk. Select the dosyalar that "
+"The following dosyalar have been changed on disk. Seçin the dosyalar that "
 "you wish to reload and press the TAMAM button. Please note that you will "
 "lose hepsi changes to these dosyalar."
 
@@ -8350,17 +8349,17 @@ msgstr "Aç Dosya"
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
 msgid "Select Python script to run"
-msgstr "Select Python script to run"
+msgstr "Seçin Python script to run"
 
 #. Programmer's name for it: SSelectOutputFile
 #: StringResources.pas
 msgid "Select output file"
-msgstr "Select output dosya"
+msgstr "Seçin output dosya"
 
 #. Programmer's name for it: SSelectApplication
 #: StringResources.pas
 msgid "Select application or file to execute"
-msgstr "Select application or dosya to execute"
+msgstr "Seçin application or dosya to execute"
 
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
@@ -8420,7 +8419,7 @@ msgstr "Sil Layouts"
 #: StringResources.pas
 msgid "Please select the layouts you want to delete and press the OK button:"
 msgstr ""
-"Please select the layouts you want to delete and press the TAMAM button:"
+"Please seçin the layouts you want to delete and press the TAMAM button:"
 
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
@@ -9071,7 +9070,7 @@ msgstr "Unregistered Versions"
 #. Programmer's name for it: SRemoteFileSelect
 #: StringResources.pas
 msgid "Select Remote File"
-msgstr "Select Remote Dosya"
+msgstr "Seçin Remote Dosya"
 
 #. Programmer's name for it: SErrorEmptyPath
 #: StringResources.pas
@@ -9437,7 +9436,7 @@ msgstr "Mevcut date and time"
 
 #: uParams.pas
 msgid "Select file"
-msgstr "Select dosya"
+msgstr "Seçin dosya"
 
 #: uParams.pas
 msgid "Date of a date-time value"
