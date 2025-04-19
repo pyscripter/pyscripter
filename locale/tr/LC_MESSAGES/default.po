@@ -2104,7 +2104,7 @@ msgstr "(gerekli)"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label2..Caption
 #: dlgToolProperties.dfm
 msgid "&Application:"
-msgstr "&Application:"
+msgstr "&Uygulama:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
 #: dlgToolProperties.dfm
@@ -8129,8 +8129,8 @@ msgid ""
 "Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
-"Pyscripter needs access User Application Data dizin: \"%s\". Certain "
-"features such as uzaktan debugging will not function properly otherwise."
+"Pyscripter needs access User Uygulama Data dizin: \"%s\". Certain features "
+"such as uzaktan debugging will not function properly otherwise."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
