@@ -1336,7 +1336,7 @@ msgstr "Sekmeler to boşluklar"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Spaces at the end of lines will be trimmed and not saved"
-msgstr "Spaces at the son of satırlar will be trimmed and not saved"
+msgstr "Boşluklar at the son of satırlar will be trimmed and not saved"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
 #: dlgSynEditOptions.dfm
