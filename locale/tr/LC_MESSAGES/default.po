@@ -581,7 +581,7 @@ msgstr "Kategori"
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
 msgid "Find in Files Search"
-msgstr "Bul in Dosyalar Search"
+msgstr "Bul in Dosyalar Arama"
 
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
@@ -643,12 +643,12 @@ msgstr "Current &dosya only"
 #. FindInFilesDialog..Panel1..gbxWhere..rbDirectories..Caption
 #: dlgFindInFiles.dfm
 msgid "Search in &directories"
-msgstr "Search in &directories"
+msgstr "Arama in &directories"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..Caption
 #: dlgFindInFiles.dfm
 msgid "Directory Search"
-msgstr "Dizin Search"
+msgstr "Dizin Arama"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..lblMasks..Caption
 #: dlgFindInFiles.dfm
@@ -2054,7 +2054,7 @@ msgstr "&Göster tokens in description"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
 msgid "Search for To Do Tokens"
-msgstr "Search for To Do Tokens"
+msgstr "Arama for To Do Tokens"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
@@ -2509,7 +2509,7 @@ msgstr "&Bul..."
 #. CommandsDataModule..actlMain..actSearchFind..Hint
 #: dmCommands.dfm
 msgid "Search|Search for a string"
-msgstr "Search|Search for a string"
+msgstr "Arama|Arama for a string"
 
 #. CommandsDataModule..actlMain..actSearchFindNext..Caption
 #: dmCommands.dfm
@@ -2539,7 +2539,7 @@ msgstr "&Değiştir..."
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr "Değiştir|Search & Değiştir"
+msgstr "Değiştir|Arama & Değiştir"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2751,7 +2751,7 @@ msgstr "Bul &in Dosyalar..."
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
-msgstr "Search in Dosyalar|Search for a string in Dosyalar"
+msgstr "Arama in Dosyalar|Arama for a string in Dosyalar"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3063,7 +3063,7 @@ msgstr "Değiştir with existing settings"
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
 msgid "&Highlight Search Text"
-msgstr "&Highlight Search Text"
+msgstr "&Highlight Arama Text"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
@@ -3850,7 +3850,7 @@ msgstr "Source Kod"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
 #: frmEditor.dfm frmRegExpTester.dfm
 msgid "Search"
-msgstr "Search"
+msgstr "Arama"
 
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm
@@ -4018,12 +4018,12 @@ msgstr "Enable Filter|Select to göster only Python files"
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
 msgid "&Search Path..."
-msgstr "&Search Path..."
+msgstr "&Arama Path..."
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Hint
 #: frmFileExplorer.dfm
 msgid "Search selected path"
-msgstr "Search seçili yol"
+msgstr "Arama seçili yol"
 
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Caption
 #: frmFileExplorer.dfm
@@ -4058,7 +4058,7 @@ msgstr "Değiştir seçili öğe..."
 #. FindResultsWindow..Actions..actFileSearch..Caption
 #: frmFindResults.dfm
 msgid "&Search..."
-msgstr "&Search..."
+msgstr "&Arama..."
 
 #. FindResultsWindow..Actions..actFileSearch..Hint
 #: frmFindResults.dfm
@@ -4197,7 +4197,7 @@ msgstr "Function"
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
 #: frmFunctionList.dfm frmPyIDEMain.dfm
 msgid "&Search"
-msgstr "&Search"
+msgstr "&Arama"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderRight..lblObjects..Caption
 #: frmFunctionList.dfm
@@ -4923,7 +4923,7 @@ msgstr "Değiştir with:"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchFromCaret..Caption
 #: frmPyIDEMain.dfm
 msgid "Search From C&aret"
-msgstr "Search From C&aret"
+msgstr "Arama From C&aret"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
@@ -4948,7 +4948,7 @@ msgstr "&Whole Words Only"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchInSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "Search in &Selection"
-msgstr "Search in &Selection"
+msgstr "Arama in &Selection"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiRegExp..Caption
 #: frmPyIDEMain.dfm
@@ -4958,7 +4958,7 @@ msgstr "&Regular Expressions"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiIncrementalSearch..Caption
 #: frmPyIDEMain.dfm
 msgid "&Incremental Search"
-msgstr "&Incremental Search"
+msgstr "&Incremental Arama"
 
 #. PyIDEMainForm..TBXDockTop..UserToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -5815,7 +5815,7 @@ msgstr "Regular Expression"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpSearchText..SpTBXPanel2..TBXLabel4..Caption
 #: frmRegExpTester.dfm
 msgid "Search Text:"
-msgstr "Search Text:"
+msgstr "Arama Text:"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..lblMatch..Caption
 #: frmRegExpTester.dfm
@@ -6200,7 +6200,7 @@ msgstr "Advanced Değiştir"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
-msgstr "Advanced Search and değişim"
+msgstr "Advanced Arama and değişim"
 
 #: cTools.pas
 msgid "Format Selection"
@@ -6375,7 +6375,7 @@ msgstr "Hayır %s e-posta istemci is available"
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
-msgstr "Dizin To Search:"
+msgstr "Dizin To Arama:"
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
@@ -6564,7 +6564,7 @@ msgstr "Editor"
 
 #: dmCommands.pas
 msgid "Search text at caret"
-msgstr "Search text at caret"
+msgstr "Arama text at caret"
 
 #: dmCommands.pas
 msgid "Create backup files"
