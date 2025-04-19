@@ -2716,7 +2716,7 @@ msgstr "Hakkında..."
 #. CommandsDataModule..actlMain..actAbout..Hint
 #: dmCommands.dfm
 msgid "About|Info about the application"
-msgstr "Hakkında|Info about application"
+msgstr "Hakkında|Info about uygulama"
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #: dmCommands.dfm
@@ -8355,7 +8355,7 @@ msgstr "Seçin çıktı dosya"
 #. Programmer's name for it: SSelectApplication
 #: StringResources.pas
 msgid "Select application or file to execute"
-msgstr "Seçin application or dosya execute"
+msgstr "Seçin uygulama or dosya execute"
 
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
