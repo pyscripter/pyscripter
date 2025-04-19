@@ -62,7 +62,7 @@ msgstr "Bilinmeyen parametre"
 #. AskParamForm..Panel1..Label1..Caption
 #: dlgAskParam.dfm
 msgid "Enter value for parameter "
-msgstr "Gir değer for parametre "
+msgstr "Gir değer için parametre "
 
 #. AskParamForm..Panel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
@@ -201,14 +201,14 @@ msgstr "&Açıklama:"
 #. FileTemplatesDialog..Panel..GroupBox..Label4..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+M for Modifier completion"
-msgstr "Basın Shift+Ctrl+M for Değiştirici tamamlama"
+msgstr "Basın Shift+Ctrl+M için Değiştirici tamamlama"
 
 #. CodeTemplates..Panel..GroupBox..Label3..Caption
 #. CustomizeParams..Panel..Label3..Caption
 #. FileTemplatesDialog..Panel..GroupBox..Label3..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+P for Parameter completion"
-msgstr "Basın Shift+Ctrl+P for Parameter tamamlama"
+msgstr "Basın Shift+Ctrl+P için Parameter tamamlama"
 
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
@@ -875,7 +875,7 @@ msgstr "Kabuk"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr "Aç komut istem for the seçili Python versiyon"
+msgstr "Aç komut istem için the seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -2057,7 +2057,7 @@ msgstr "&Göster tokens in açıklama"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
 msgid "Search for To Do Tokens"
-msgstr "Arama for Yapılacaklar Tokens"
+msgstr "Arama için Yapılacaklar Tokens"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
@@ -2301,7 +2301,7 @@ msgstr "&Gizle konsol"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
 msgid "Use the UTF8 encoding for stdin/stdout"
-msgstr "Kullan the UTF8 encoding for stdin/stdout"
+msgstr "Kullan the UTF8 encoding için stdin/stdout"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
@@ -2326,7 +2326,7 @@ msgstr "Satır sayı"
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the line number"
-msgstr "Yer tutucusu for the satır sayı"
+msgstr "Yer tutucusu için the satır sayı"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
@@ -2336,7 +2336,7 @@ msgstr "Sütun sayı"
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the column number"
-msgstr "Yer tutucusu for the sütun sayı"
+msgstr "Yer tutucusu için the sütun sayı"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
@@ -2346,12 +2346,12 @@ msgstr "Birim Test Wizard"
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
 msgid "Select the functions and methods for which tests will be generated:"
-msgstr "Seçin the functions ve methods for which tests will be generated:"
+msgstr "Seçin the functions ve methods için which tests will be generated:"
 
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
 msgid "This wizard will generate unit tests for the Python module"
-msgstr "This wizard will generate birim tests for the Python module"
+msgstr "This wizard will generate birim tests için the Python module"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Caption
 #. Programmer's name for it: SEdCmdSelectAll
@@ -2506,7 +2506,7 @@ msgstr "&Bul..."
 #. CommandsDataModule..actlMain..actSearchFind..Hint
 #: dmCommands.dfm
 msgid "Search|Search for a string"
-msgstr "Arama|Arama for a string"
+msgstr "Arama|Arama için a string"
 
 #. CommandsDataModule..actlMain..actSearchFindNext..Caption
 #: dmCommands.dfm
@@ -2748,7 +2748,7 @@ msgstr "Bul &in Dosyalar..."
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
-msgstr "Arama in Dosyalar|Arama for a string in Dosyalar"
+msgstr "Arama in Dosyalar|Arama için a string in Dosyalar"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -2949,7 +2949,7 @@ msgstr "Birim Test &Wizard..."
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
-msgstr "Birim test wizard|Yarat birim test for aktif module"
+msgstr "Birim test wizard|Yarat birim test için aktif module"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
@@ -3384,7 +3384,7 @@ msgstr "Suggest"
 #. CommandsDataModule..actlMain..actAssistantSuggest..Hint
 #: dmCommands.dfm
 msgid "Provide a suggestion for code completion"
-msgstr "Provide a suggestion for code tamamlama"
+msgstr "Provide a suggestion için code tamamlama"
 
 #. CommandsDataModule..actlMain..actAssistantCancel..Caption
 #. Programmer's name for it: SDlgCancel
@@ -5364,7 +5364,7 @@ msgstr "Uzaktan (&Tk)"
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine for Tkinter applications"
-msgstr "Kullan a uzaktan Python engine for Tkinter applications"
+msgstr "Kullan a uzaktan Python engine için Tkinter applications"
 
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Caption
 #: frmPyIDEMain.dfm
@@ -5374,7 +5374,7 @@ msgstr "Uzaktan (&Wx)"
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine for wxPython applications"
-msgstr "Kullan a uzaktan Python engine for wxPython applications"
+msgstr "Kullan a uzaktan Python engine için wxPython applications"
 
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
@@ -5906,7 +5906,7 @@ msgstr "Copy hepsi"
 #. ToDoWindow..Actions..actFileAbort..Hint
 #: frmToDo.dfm
 msgid "Abort search for todo items"
-msgstr "Abort arama for todo öğeler"
+msgstr "Abort arama için todo öğeler"
 
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
@@ -6075,7 +6075,7 @@ msgstr ""
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
-msgstr "Gir SSH Password for %s"
+msgstr "Gir SSH Password için %s"
 
 #: cSSHSupport.pas
 msgid "Password:"
@@ -6316,7 +6316,7 @@ msgid ""
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
 "Donations from numerous users have provided a strong incentive to develop this proje.\n"
-"Financial ve moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming ortam onunla which PyScripter is built, ve generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
+"Financial ve moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming ortam onunla which PyScripter is built, ve generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get için Windows) (https://www.wapt.fr) is thankfully acknowledged."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6424,7 +6424,7 @@ msgstr "IDE"
 
 #: dmCommands.pas
 msgid "Check for updates automatically"
-msgstr "İşaretle for updates automatically"
+msgstr "İşaretle için updates automatically"
 
 #: dmCommands.pas
 msgid "Days between update checks"
@@ -6452,7 +6452,7 @@ msgstr "Dock animation hareket genişlik (pixels)"
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
-msgstr "Dosya template for yeni Python scripts"
+msgstr "Dosya template için yeni Python scripts"
 
 #: dmCommands.pas
 msgid "Number of recent files"
@@ -6492,7 +6492,7 @@ msgstr "Kaydet ortam before çalıştır"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
-msgstr "Timeout for running scripts in ms"
+msgstr "Timeout için running scripts in ms"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6588,11 +6588,11 @@ msgstr "Göster executable satır marks"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
-msgstr "Varsayılan satır break format for yeni dosyalar"
+msgstr "Varsayılan satır break format için yeni dosyalar"
 
 #: dmCommands.pas
 msgid "Default file encoding for new files"
-msgstr "Varsayılan dosya encoding for yeni dosyalar"
+msgstr "Varsayılan dosya encoding için yeni dosyalar"
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
@@ -8223,7 +8223,7 @@ msgid ""
 " for Python %s or later."
 msgstr ""
 "PyScripter can't use komut satır parametre PYTHON%s because it was compiled "
-"for Python %s or later."
+"için Python %s or later."
 
 #. Programmer's name for it: SAbortDebugging
 #: StringResources.pas
@@ -8252,7 +8252,7 @@ msgstr "Hayır tests found!"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Shortcut for command \"%s\" is already used for command \"%s\""
-msgstr "Kısayol for komut \"%s\" is already used for komut \"%s\""
+msgstr "Kısayol için komut \"%s\" is already used için komut \"%s\""
 
 #. Programmer's name for it: SChangedFilesReloaded
 #: StringResources.pas
@@ -8499,7 +8499,7 @@ msgstr "Aç dialog %s filter"
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
 msgid "Web preview is only available for Jupyter JSON files"
-msgstr "Web önizleme is sadece mevcut for Jupyter JSON dosyalar"
+msgstr "Web önizleme is sadece mevcut için Jupyter JSON dosyalar"
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
@@ -8541,7 +8541,7 @@ msgid ""
 "You can get spell checking dictionaries through the Windows language settings.\n"
 "You can change the active language through the IDE options dialog."
 msgstr ""
-"The dictionary for dil code \"%s\" is not mevcut.\n"
+"The dictionary için dil code \"%s\" is not mevcut.\n"
 "You can get spell checking dictionaries through the Windows dil settings.\n"
 "You can change the aktif dil through the IDE seçenekler dialog."
 
@@ -8927,7 +8927,7 @@ msgstr "Hayır Identifier at the given satır ve sütun"
 #. Programmer's name for it: SCouldNotFindScope
 #: StringResources.pas
 msgid "Could not find scope for the given line"
-msgstr "Could not bul scope for the given satır"
+msgstr "Could not bul scope için the given satır"
 
 #. Programmer's name for it: STypeOfSIsUnknown
 #: StringResources.pas
@@ -9086,7 +9086,7 @@ msgstr "SCP Error: Connecting to host failed"
 #. Programmer's name for it: SScpError5
 #: StringResources.pas
 msgid "SCP Error: Connection lost for some reason"
-msgstr "SCP Error: Connection lost for some reason"
+msgstr "SCP Error: Connection lost için some reason"
 
 #. Programmer's name for it: SScpErrorTimeout
 #: StringResources.pas
