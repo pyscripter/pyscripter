@@ -717,7 +717,7 @@ msgstr "Bağlam Yazı tipi..."
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Font Color..."
-msgstr "Eşleştirme Yazı tipi Color..."
+msgstr "Eşleştirme Yazı tipi Renk..."
 
 #. ImportDirectoryForm..Caption
 #: dlgImportDirectory.dfm
@@ -1102,7 +1102,7 @@ msgstr "Keystrokes"
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Color Theme"
-msgstr "Color Theme"
+msgstr "Renk Theme"
 
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
 #. EditorOptionsDialog..Panel1..TabControl..Color..Caption
@@ -1134,12 +1134,12 @@ msgstr "&Element:"
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Foreground Color:"
-msgstr "&Foreground Color:"
+msgstr "&Foreground Renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
 msgid "B&ackground Color:"
-msgstr "B&ackground Color:"
+msgstr "B&ackground Renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
 #: dlgSynEditOptions.dfm
@@ -1627,7 +1627,7 @@ msgstr "Tab Width:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
-msgstr "Active Satır Color"
+msgstr "Active Satır Renk"
 
 #. EditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
