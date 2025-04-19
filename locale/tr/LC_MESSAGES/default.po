@@ -1084,7 +1084,7 @@ msgstr "&Apply Style"
 #. EditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Options"
-msgstr "Editor Seçenekler"
+msgstr "Editör Seçenekler"
 
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
 #. EditorOptionsDialog..Panel1..TabControl..Display..Caption
@@ -1144,7 +1144,7 @@ msgstr "B&ackground Color:"
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Syntax Language"
-msgstr "Editor Syntax Language"
+msgstr "Editör Syntax Language"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
 #: dlgSynEditOptions.dfm
@@ -1607,7 +1607,7 @@ msgstr "Bookmarks visible"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Font"
-msgstr "Editor Yazı tipi"
+msgstr "Editör Yazı tipi"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
 #: dlgSynEditOptions.dfm
@@ -2597,12 +2597,12 @@ msgstr "Page setup"
 #. CommandsDataModule..actlMain..actEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Editor Options..."
-msgstr "&Editor Seçenekler..."
+msgstr "&Editör Seçenekler..."
 
 #. CommandsDataModule..actlMain..actEditorOptions..Hint
 #: dmCommands.dfm
 msgid "Set Editor Options"
-msgstr "Set Editor Seçenekler"
+msgstr "Set Editör Seçenekler"
 
 #. CommandsDataModule..actlMain..actIDEOptions..Caption
 #: dmCommands.dfm
@@ -2929,7 +2929,7 @@ msgstr "Kullan ANSI encoding"
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
 msgid "Editor &Shortcuts"
-msgstr "Editor &Kısayollar"
+msgstr "Editör &Kısayollar"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Hint
 #: dmCommands.dfm
@@ -2959,12 +2959,12 @@ msgstr "Unit test wizard|Create unit test for active module"
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Interpreter Editor Options..."
-msgstr "&Interpreter Editor Seçenekler..."
+msgstr "&Interpreter Editör Seçenekler..."
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Hint
 #: dmCommands.dfm
 msgid "Set Interpreter Editor Options"
-msgstr "Set Interpreter Editor Seçenekler"
+msgstr "Set Interpreter Editör Seçenekler"
 
 #. CommandsDataModule..actlMain..actEditToggleComment..Caption
 #: dmCommands.dfm
@@ -3685,7 +3685,7 @@ msgstr "Sort Alphabetically"
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Caption
 #: frmCodeExplorer.dfm
 msgid "Follow Editor"
-msgstr "Follow Editor"
+msgstr "Follow Editör"
 
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
@@ -4712,7 +4712,7 @@ msgstr "&Debug Windows"
 #. PyIDEMainForm..actlStandard..actNavEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Editor"
-msgstr "&Editor"
+msgstr "&Editör"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -4757,12 +4757,12 @@ msgstr "Debug toolbar|Göster/Gizle the Debug toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
 msgid "&Editor Toolbar"
-msgstr "&Editor Toolbar"
+msgstr "&Editör Toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Editor toolbar|Show/Hide the Editor toolbar"
-msgstr "Editor toolbar|Göster/Gizle the Editor toolbar"
+msgstr "Editör toolbar|Göster/Gizle the Editör toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4835,7 +4835,7 @@ msgstr "Set the mevcut layout as the debug layout"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitEditors..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor"
-msgstr "Split Editor"
+msgstr "Split Editör"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
 #: frmPyIDEMain.dfm
@@ -4905,7 +4905,7 @@ msgstr "View Toolbar"
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Editor Toolbar"
-msgstr "Editor Toolbar"
+msgstr "Editör Toolbar"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -4980,17 +4980,17 @@ msgstr "Aç Dosyalar"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Next Editor"
-msgstr "&Next Editor"
+msgstr "&Next Editör"
 
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr "Next Editor|taşı to the next editör"
+msgstr "Next Editör|taşı to the next editör"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Previous Editor"
-msgstr "&Previous Editor"
+msgstr "&Previous Editör"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
@@ -5127,7 +5127,7 @@ msgstr "Debug|Debug active script"
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Restore Editor"
-msgstr "&Restore Editor"
+msgstr "&Restore Editör"
 
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
 #: frmPyIDEMain.dfm
@@ -5289,7 +5289,7 @@ msgstr "Browse forward"
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Maximize Editor"
-msgstr "&Maximize Editor"
+msgstr "&Maximize Editör"
 
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
 #: frmPyIDEMain.dfm
@@ -5319,7 +5319,7 @@ msgstr "Decrease the yazı tipi size of the editör"
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor Vertically"
-msgstr "Split Editor Vertically"
+msgstr "Split Editör Vertically"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Hint
 #: frmPyIDEMain.dfm
@@ -5500,7 +5500,7 @@ msgstr "Activate the Komut Output window"
 #. PyIDEMainForm..actlStandard..actNavEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Editor"
-msgstr "Activate the Editor"
+msgstr "Activate the Editör"
 
 #. PyIDEMainForm..actlStandard..actPythonSSH..Caption
 #: frmPyIDEMain.dfm
@@ -5525,7 +5525,7 @@ msgstr "Execute the editör selection"
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor Horizontally"
-msgstr "Split Editor Horizontally"
+msgstr "Split Editör Horizontally"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Hint
 #: frmPyIDEMain.dfm
@@ -5535,7 +5535,7 @@ msgstr "Split the editör Windows horizontally"
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Second Editor"
-msgstr "Gizle Second Editor"
+msgstr "Gizle Second Editör"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Hint
 #: frmPyIDEMain.dfm
@@ -6437,7 +6437,7 @@ msgstr "Days between update checks"
 
 #: dmCommands.pas
 msgid "Editor tab position"
-msgstr "Editor tab position"
+msgstr "Editör tab position"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
@@ -6561,7 +6561,7 @@ msgstr "metin dosya"
 
 #: dmCommands.pas
 msgid "Editor"
-msgstr "Editor"
+msgstr "Editör"
 
 #: dmCommands.pas
 msgid "Search text at caret"
@@ -6671,7 +6671,7 @@ msgstr "Kod tamamlama liste size"
 
 #: dmCommands.pas
 msgid "Editor code completion"
-msgstr "Editor code tamamlama"
+msgstr "Editör code tamamlama"
 
 #: dmCommands.pas
 msgid "Interpreter code completion"
@@ -7322,12 +7322,12 @@ msgstr "Aşağı"
 #. Programmer's name for it: SEdCmdEditorBottom
 #: StringResources.pas
 msgid "Editor Bottom"
-msgstr "Editor Bottom"
+msgstr "Editör Bottom"
 
 #. Programmer's name for it: SEdCmdEditorTop
 #: StringResources.pas
 msgid "Editor Top"
-msgstr "Editor Top"
+msgstr "Editör Top"
 
 #. Programmer's name for it: SEdCmdFoldAll
 #: StringResources.pas
@@ -7522,12 +7522,12 @@ msgstr "Seçin Aşağı"
 #. Programmer's name for it: SEdCmdSelectEditorBottom
 #: StringResources.pas
 msgid "Select Editor Bottom"
-msgstr "Seçin Editor Bottom"
+msgstr "Seçin Editör Bottom"
 
 #. Programmer's name for it: SEdCmdSelectEditorTop
 #: StringResources.pas
 msgid "Select Editor Top"
-msgstr "Seçin Editor Top"
+msgstr "Seçin Editör Top"
 
 #. Programmer's name for it: SEdCmdSelectLeft
 #: StringResources.pas
