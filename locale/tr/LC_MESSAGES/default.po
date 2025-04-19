@@ -1053,7 +1053,7 @@ msgstr "Dosya &Ad:"
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Append to file"
-msgstr "&Append to dosya"
+msgstr "&Ekle to dosya"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbSaveOutput..Caption
 #: dlgRunConfiguration.dfm
