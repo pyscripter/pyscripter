@@ -51,8 +51,8 @@ msgid ""
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
 "A free and aç source Python scripting integrated development environment "
-"created with the ambition to bring to the Python community the quality and "
-"functionality available in commercial IDEs available for other languages."
+"created onunla the ambition to bring to the Python community the quality and"
+" functionality available in commercial IDEs available for other languages."
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
@@ -1208,8 +1208,8 @@ msgid ""
 "Will indent the caret on new lines with the same amount of leading white "
 "space as the preceding line"
 msgstr ""
-"Will indent the caret on yeni satırlar with the same amount of leading white"
-" space as the preceding line"
+"Will indent the caret on yeni satırlar onunla the same amount of leading "
+"white space as the preceding line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1280,8 +1280,8 @@ msgid ""
 "When clicking with the right mouse for a popup menu, move the cursor to that"
 " location"
 msgstr ""
-"When clicking with the right mouse for a popup menu, move the cursor to that"
-" location"
+"When clicking onunla the right mouse for a popup menu, move the cursor to "
+"that location"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
 #: dlgSynEditOptions.dfm
@@ -1362,7 +1362,7 @@ msgid ""
 "When scrolling with page-up and page-down commands, only scroll a half page "
 "at a time"
 msgstr ""
-"When scrolling with page-yukarı and page-aşağı commands, sadece scroll a "
+"When scrolling onunla page-yukarı and page-aşağı commands, sadece scroll a "
 "half page at a time"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
@@ -2779,7 +2779,7 @@ msgstr "&Değiştir parameters"
 #. CommandsDataModule..actlMain..actReplaceParameters..Hint
 #: dmCommands.dfm
 msgid "Replace parameters with their values"
-msgstr "Değiştir parameters with their values"
+msgstr "Değiştir parameters onunla their values"
 
 #. CommandsDataModule..actlMain..actHelpParameters..Caption
 #: dmCommands.dfm
@@ -2989,7 +2989,7 @@ msgstr "Ekle/Çıkar dosya templates"
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
 msgid "UTF-8 with BOM"
-msgstr "UTF-8 with BOM"
+msgstr "UTF-8 onunla BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
@@ -3060,7 +3060,7 @@ msgstr "Export Syntax Highlighters"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr "Değiştir with existing settings"
+msgstr "Değiştir onunla existing settings"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -3080,7 +3080,7 @@ msgstr "Kelime &Wrap"
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
 msgid "Turn word wrap on/off (incompatible with code folding)"
-msgstr "Turn kelime wrap on/off (incompatible with code folding)"
+msgstr "Turn kelime wrap on/off (incompatible onunla code folding)"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
@@ -3300,7 +3300,7 @@ msgstr "Save to Remote Dosya"
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr "Save to remote dosya with SSH"
+msgstr "Save to remote dosya onunla SSH"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
@@ -4446,7 +4446,7 @@ msgstr "Save Proje &As..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
 #: frmProjectExplorer.dfm
 msgid "Save project with under a different name"
-msgstr "Save proje with under a different name"
+msgstr "Save proje onunla under a different name"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
@@ -4920,7 +4920,7 @@ msgstr "Bul:"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiReplaceLabel..Caption
 #: frmPyIDEMain.dfm
 msgid "Replace with:"
-msgstr "Değiştir with:"
+msgstr "Değiştir onunla:"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchFromCaret..Caption
 #: frmPyIDEMain.dfm
@@ -5631,7 +5631,7 @@ msgstr "Aç Remote Dosya"
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr "Aç Remote Dosya with SSH"
+msgstr "Aç Remote Dosya onunla SSH"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
 #: frmPyIDEMain.dfm
@@ -5712,7 +5712,7 @@ msgstr "Paste && E&xecute"
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
 msgid "Paste clipboard text with added interpreter prompts"
-msgstr "Paste pano metin with added interpreter istemler"
+msgstr "Paste pano metin onunla added interpreter istemler"
 
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
@@ -6146,7 +6146,7 @@ msgstr "External Python Interpreter"
 
 #: cTools.pas
 msgid "Install Packages with pip"
-msgstr "Install Packages with pip"
+msgstr "Install Packages onunla pip"
 
 #: cTools.pas
 msgid "Install Python packages"
@@ -6234,7 +6234,7 @@ msgid ""
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:"
 msgstr ""
-"Special thanks to the many great developers who,with their amazing work, "
+"Special thanks to the many great developers who,onunla their amazing work, "
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projeler:"
 
@@ -6322,7 +6322,7 @@ msgid ""
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
 "Donations from numerous users have provided a strong incentive to develop this proje.\n"
-"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
+"Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment onunla which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6381,7 +6381,8 @@ msgstr "Dizin To Arama:"
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
-msgstr "Seçin klasör with Python installation (inlcuding virtualenv and venv)"
+msgstr ""
+"Seçin klasör onunla Python installation (inlcuding virtualenv and venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
@@ -6695,11 +6696,11 @@ msgstr "Auto tamamlama yazı tipi"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
-msgstr "Complete with kelime-break characters"
+msgstr "Complete onunla kelime-break characters"
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
-msgstr "Auto-complete with one entry"
+msgstr "Auto-complete onunla one entry"
 
 #: dmCommands.pas
 msgid "Shell Integration"
@@ -6728,7 +6729,7 @@ msgstr "SCP komut"
 
 #: dmCommands.pas
 msgid "Disable Variables Window with SSH"
-msgstr "Disable Variables Window with SSH"
+msgstr "Disable Variables Window onunla SSH"
 
 #: dmCommands.pas frmPyIDEMain.pas
 msgid "Language Server"
@@ -7969,8 +7970,8 @@ msgstr ""
 "**Before** kullanarak PyScripter, you must ensure that a versiyon of Python greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
-"The 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **and** with 64-bit versiyonlar of Python.\n"
-"The 32-bit versiyon of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versiyonlar of Python."
+"The 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **and** onunla 64-bit versiyonlar of Python.\n"
+"The 32-bit versiyon of PyScripter works on both 32-bit and 64-bit Windows onunla 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPythonFindError
 #: StringResources.pas
@@ -7982,8 +7983,8 @@ msgid ""
 msgstr ""
 "PyScripter could not bul a usable Python installation at the specified yol.\n"
 "Note that the 64-bit versiyon of PyScripter (x64) works sadece on 64-bit Windows **and**\n"
-"with 64-bit versiyonlar of Python. The 32-bit versiyon of PyScripter works on both\n"
-"32-bit and 64-bit Windows with 32-bit versiyonlar of Python."
+"onunla 64-bit versiyonlar of Python. The 32-bit versiyon of PyScripter works on both\n"
+"32-bit and 64-bit Windows onunla 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -8115,7 +8116,7 @@ msgid ""
 "Do you want to update it with the new definition?"
 msgstr ""
 "The template has been modified.\n"
-"Do you want to update it with the yeni definition?"
+"Do you want to update it onunla the yeni definition?"
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
@@ -8749,7 +8750,7 @@ msgstr "Parse error at this position: "
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
 msgid "you are not allowed to use command line options starting with -"
-msgstr "you are not allowed to use komut line seçenekler starting with -"
+msgstr "you are not allowed to use komut line seçenekler starting onunla -"
 
 #. Programmer's name for it: SParseInvalidOptions
 #: StringResources.pas
@@ -8845,8 +8846,8 @@ msgid ""
 "Another editor with the same file is open.\n"
 "You can not have two editors with the same file."
 msgstr ""
-"Another editör with the same dosya is aç.\n"
-"You can not have two editors with the same dosya."
+"Another editör onunla the same dosya is aç.\n"
+"You can not have two editors onunla the same dosya."
 
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
@@ -8869,31 +8870,31 @@ msgstr "Parameter \"%s\" is referenced circularly"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Parameter with name \"%s\" is not found"
-msgstr "Parameter with name \"%s\" is not found"
+msgstr "Parameter onunla name \"%s\" is not found"
 
 #. Programmer's name for it: SModifierNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Modifier with name \"%s\" is not found"
-msgstr "Değiştirici with name \"%s\" is not found"
+msgstr "Değiştirici onunla name \"%s\" is not found"
 
 #. Programmer's name for it: SObjectNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object with name \"%s\" is not found"
-msgstr "Object with name \"%s\" is not found"
+msgstr "Object onunla name \"%s\" is not found"
 
 #. Programmer's name for it: SPropertyNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have registered property with name \"%s\""
-msgstr "Object \"%s\" does not have registered özellik with name \"%s\""
+msgstr "Object \"%s\" does not have registered özellik onunla name \"%s\""
 
 #. Programmer's name for it: SInvalidObjectProperty
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have property with name \"%s\""
-msgstr "Object \"%s\" does not have özellik with name \"%s\""
+msgstr "Object \"%s\" does not have özellik onunla name \"%s\""
 
 #. Programmer's name for it: SInvalidParameterFormat
 #: StringResources.pas
@@ -9121,7 +9122,7 @@ msgstr "Unknown SSH sunucu \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
-msgstr "Unknown SSH sunucu with fingerprint \"%s\". Do you want to proceed?"
+msgstr "Unknown SSH sunucu onunla fingerprint \"%s\". Do you want to proceed?"
 
 #. Programmer's name for it: SSHPythonTimeout
 #: StringResources.pas
@@ -9389,11 +9390,11 @@ msgstr "Short dosya name"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
-msgstr "Yol with final yol delimiter added"
+msgstr "Yol onunla final yol delimiter added"
 
 #: uParams.pas
 msgid "Path with final path delimiter removed"
-msgstr "Yol with final yol delimiter removed"
+msgstr "Yol onunla final yol delimiter removed"
 
 #: uParams.pas
 msgid "File type"
