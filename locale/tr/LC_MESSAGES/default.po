@@ -4506,7 +4506,7 @@ msgstr "Ekle a yeni subfolder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr "Çıkar a dosya, klasör or çalıştır configuration from the proje"
+msgstr "Çıkar a dosya, klasör or çalıştır yapılandırma from the proje"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4551,7 +4551,7 @@ msgstr "Ekle Çalıştır Yapılandırma"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Hint
 #: frmProjectExplorer.dfm
 msgid "Add run configuration"
-msgstr "Ekle çalıştır configuration"
+msgstr "Ekle çalıştır yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -4561,7 +4561,7 @@ msgstr "&Edit Çalıştır Yapılandırma"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Hint
 #: frmProjectExplorer.dfm
 msgid "Edit run configuration"
-msgstr "Edit çalıştır configuration"
+msgstr "Edit çalıştır yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Hint
 #: frmProjectExplorer.dfm
@@ -4579,7 +4579,7 @@ msgstr "&Çalıştır"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run the selected configuration"
-msgstr "Çalıştır the seçili configuration"
+msgstr "Çalıştır the seçili yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
 #. PyIDEMainForm..actlStandard..actExternalRun..Caption
@@ -4590,7 +4590,7 @@ msgstr "E&xternal Çalıştır"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run configuration using an external Python interpreter"
-msgstr "Çalıştır configuration kullanarak an external Python interpreter"
+msgstr "Çalıştır yapılandırma kullanarak an external Python interpreter"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Caption
 #. PyIDEMainForm..actlStandard..actDebug..Caption
@@ -4601,7 +4601,7 @@ msgstr "&Debug"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Hint
 #: frmProjectExplorer.dfm
 msgid "Debug the selected configuration"
-msgstr "Debug the seçili configuration"
+msgstr "Debug the seçili yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Caption
 #. Programmer's name for it: SRemoteFileAdd
