@@ -2853,7 +2853,7 @@ msgstr "Bul F&unction..."
 #. CommandsDataModule..actlMain..actFindFunction..Hint
 #: dmCommands.dfm
 msgid "Find Function|Find function from function list"
-msgstr "Bul Function|Bul function from function liste"
+msgstr "Bul Function|Bul fonksiyon from fonksiyon liste"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
@@ -5156,7 +5156,7 @@ msgstr "Step &Over"
 #. PyIDEMainForm..actlStandard..actStepOver..Hint
 #: frmPyIDEMain.dfm
 msgid "Step over next function call"
-msgstr "Step over sonraki function call"
+msgstr "Step over sonraki fonksiyon call"
 
 #. PyIDEMainForm..actlStandard..actStepOut..Caption
 #: frmPyIDEMain.dfm
@@ -8130,7 +8130,7 @@ msgid ""
 "otherwise."
 msgstr ""
 "Pyscripter needs access User Uygulama Data dizin: \"%s\". Certain features "
-"such as uzaktan debugging will not function properly otherwise."
+"such as uzaktan debugging will not fonksiyon properly otherwise."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -8191,7 +8191,7 @@ msgstr "This is definition of \"%s\""
 #. Programmer's name for it: SPlaceCursorOnName
 #: StringResources.pas
 msgid "Please place the cursor on a function/class name or identifier"
-msgstr "Please place imleç on a function/class name or identifier"
+msgstr "Please place imleç on a fonksiyon/class name or identifier"
 
 #. Programmer's name for it: SCannotChangeEngine
 #: StringResources.pas
@@ -8983,7 +8983,7 @@ msgstr "Could not infer tip from expresson \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not infer return type of function \"%s\""
-msgstr "Could not infer return tip of function \"%s\""
+msgstr "Could not infer return tip of fonksiyon \"%s\""
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
