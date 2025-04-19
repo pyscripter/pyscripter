@@ -1238,7 +1238,7 @@ msgstr "Enhances son tuş benzer to JDeveloper"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
 msgid "Enhance End Key"
-msgstr "Enhance End Key"
+msgstr "Geliştir End Key"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
@@ -1248,7 +1248,7 @@ msgstr "enhances home tuş positioning, benzer to visual studio"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
 #: dlgSynEditOptions.dfm
 msgid "Enhance Home Key"
-msgstr "Enhance Home Key"
+msgstr "Geliştir Home Key"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo....Hint
 #: dlgSynEditOptions.dfm
