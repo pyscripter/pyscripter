@@ -1286,7 +1286,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right mouse moves cursor"
-msgstr "Right mouse moves cursor"
+msgstr "Right fare moves cursor"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
 #: dlgSynEditOptions.dfm
@@ -1433,12 +1433,12 @@ msgstr "Göster scroll hint"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
 #: dlgSynEditOptions.dfm
 msgid "The scroll hint follows the mouse when scrolling vertically"
-msgstr "The scroll hint follows the mouse when scrolling vertically"
+msgstr "The scroll hint follows the fare when scrolling vertically"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll hint follows mouse"
-msgstr "Scroll hint follows mouse"
+msgstr "Scroll hint follows fare"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
