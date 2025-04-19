@@ -922,7 +922,7 @@ msgstr "SSH Sunucu:"
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
 msgid "Replace Matches"
-msgstr "Değiştir Matches"
+msgstr "Değiştir Eşleştirmeler"
 
 #. ReplaceInFilesDialog..Panel1..lblWith..Caption
 #: dlgReplaceInFiles.dfm
