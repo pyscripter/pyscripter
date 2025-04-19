@@ -1443,12 +1443,14 @@ msgstr "Scroll hint follows mouse"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
 msgid "Show ligatures (joined font glyphs) when supported by the used font"
-msgstr "Göster ligatures (joined font glyphs) when supported by the used font"
+msgstr ""
+"Göster ligatures (joined yazı tipi glyphs) when supported by the used yazı "
+"tipi"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr "Göster font ligatures"
+msgstr "Göster yazı tipi ligatures"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
@@ -3746,7 +3748,7 @@ msgstr "Yazı tipi..."
 #. OutputWindow..OutputActions..actOutputFont..Hint
 #: frmCommandOutput.dfm
 msgid "Select font"
-msgstr "Seçin font"
+msgstr "Seçin yazı tipi"
 
 #. OutputWindow..OutputActions..actClearOutput..Caption
 #. EditorForm..pmnuBreakpoint..spiBreakpointClear..Caption
@@ -4224,7 +4226,7 @@ msgstr "&Yazı tipi.."
 #. FunctionListWindow..Actions..actOptionsFont..Hint
 #: frmFunctionList.dfm
 msgid "Configure font"
-msgstr "Configure font"
+msgstr "Configure yazı tipi"
 
 #. FunctionListWindow..Actions..actViewStart..Caption
 #: frmFunctionList.dfm
@@ -5302,7 +5304,7 @@ msgstr "Zoom &In"
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
 #: frmPyIDEMain.dfm
 msgid "Increase the font size of the editor"
-msgstr "Increase the font size of the editor"
+msgstr "Increase the yazı tipi size of the editor"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
 #: frmPyIDEMain.dfm
@@ -5312,7 +5314,7 @@ msgstr "Zoom &Out"
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
 #: frmPyIDEMain.dfm
 msgid "Decrease the font size of the editor"
-msgstr "Decrease the font size of the editor"
+msgstr "Decrease the yazı tipi size of the editor"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Caption
 #: frmPyIDEMain.dfm
@@ -5639,7 +5641,7 @@ msgstr "&Reset Zoom"
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
-msgstr "Reset the font size of the editor to its varsayılan"
+msgstr "Reset the yazı tipi size of the editor to its varsayılan"
 
 #. PyIDEMainForm..actlStandard..actNavRegExp..Caption
 #: frmPyIDEMain.dfm
@@ -6483,7 +6485,7 @@ msgstr "Logging enabled"
 
 #: dmCommands.pas
 msgid "User Interface content font size in points"
-msgstr "User Interface content font size in points"
+msgstr "User Interface content yazı tipi size in points"
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -6689,7 +6691,7 @@ msgstr "Complete as you type"
 
 #: dmCommands.pas
 msgid "Auto completion font"
-msgstr "Auto tamamlama font"
+msgstr "Auto tamamlama yazı tipi"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
