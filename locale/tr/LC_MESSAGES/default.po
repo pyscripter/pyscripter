@@ -561,7 +561,7 @@ msgstr "Dosya Şablon:"
 #. FileTemplatesDialog..Panel..GroupBox..Label5..Caption
 #: dlgFileTemplates.dfm
 msgid "&Category:"
-msgstr "&Category:"
+msgstr "&Kategori:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label6..Caption
 #: dlgFileTemplates.dfm
@@ -576,7 +576,7 @@ msgstr "&Highlighter:"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr "Category"
+msgstr "Kategori"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
