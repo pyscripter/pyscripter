@@ -401,7 +401,7 @@ msgstr "Evet to &hepsi"
 #. CustomizeParams..Caption
 #: dlgCustomParams.dfm
 msgid "Custom Parameters"
-msgstr "Custom Parametreler"
+msgstr "Özel Parametreler"
 
 #. CustomizeParams..Panel..GroupBox1..Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Caption
@@ -2802,7 +2802,7 @@ msgstr "Insert a Kod Şablon"
 #. CommandsDataModule..actlMain..actCustomizeParameters..Caption
 #: dmCommands.dfm
 msgid "Custom &Parameters..."
-msgstr "Custom &Parametreler..."
+msgstr "Özel &Parametreler..."
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Hint
 #: dmCommands.dfm
