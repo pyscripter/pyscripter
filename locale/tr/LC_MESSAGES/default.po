@@ -4622,7 +4622,7 @@ msgstr "Python versiyon"
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
 #: frmPyIDEMain.dfm dmCommands.pas
 msgid "Python engine type"
-msgstr "Python engine type"
+msgstr "Python engine tip"
 
 #. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
 #: frmPyIDEMain.dfm
@@ -6689,7 +6689,7 @@ msgstr "Complete Python keywords"
 
 #: dmCommands.pas
 msgid "Complete as you type"
-msgstr "Complete as you type"
+msgstr "Complete as you tip"
 
 #: dmCommands.pas
 msgid "Auto completion font"
@@ -6742,7 +6742,7 @@ msgstr "Language sunucu debug output"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
-msgstr "Check syntax as you type"
+msgstr "Check syntax as you tip"
 
 #: dmCommands.pas
 msgid "Special packages"
@@ -6754,7 +6754,7 @@ msgstr "Dictionary language code"
 
 #: dmCommands.pas
 msgid "Spell check as you type"
-msgstr "Spell check as you type"
+msgstr "Spell check as you tip"
 
 #: dmCommands.pas
 msgid "Spell checked syntax tokens"
@@ -8951,7 +8951,7 @@ msgstr "Cyclic imports encountered!"
 #. Programmer's name for it: SCyclicTypeDependency
 #: StringResources.pas
 msgid "Cyclic type dependency encountered!"
-msgstr "Cyclic type dependency encountered!"
+msgstr "Cyclic tip dependency encountered!"
 
 #. Programmer's name for it: SCouldNotFindIdent
 #: StringResources.pas
@@ -8986,13 +8986,13 @@ msgstr "Could not bul identifier \"%s\" in scope \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not infer type from expresson \"%s\""
-msgstr "Could not infer type from expresson \"%s\""
+msgstr "Could not infer tip from expresson \"%s\""
 
 #. Programmer's name for it: SCouldInferFunctionReturnType
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not infer return type of function \"%s\""
-msgstr "Could not infer return type of function \"%s\""
+msgstr "Could not infer return tip of function \"%s\""
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
@@ -9399,7 +9399,7 @@ msgstr "Yol onunla final yol delimiter removed"
 
 #: uParams.pas
 msgid "File type"
-msgstr "Dosya type"
+msgstr "Dosya tip"
 
 #: uParams.pas
 msgid "Contents of text file"
