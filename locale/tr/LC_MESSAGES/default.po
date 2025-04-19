@@ -201,14 +201,14 @@ msgstr "&Açıklama:"
 #. FileTemplatesDialog..Panel..GroupBox..Label4..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+M for Modifier completion"
-msgstr "Basın Shift+Ctrl+M for Değiştirici completion"
+msgstr "Basın Shift+Ctrl+M for Değiştirici tamamlama"
 
 #. CodeTemplates..Panel..GroupBox..Label3..Caption
 #. CustomizeParams..Panel..Label3..Caption
 #. FileTemplatesDialog..Panel..GroupBox..Label3..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+P for Parameter completion"
-msgstr "Basın Shift+Ctrl+P for Parameter completion"
+msgstr "Basın Shift+Ctrl+P for Parameter tamamlama"
 
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
@@ -3387,7 +3387,7 @@ msgstr "Suggest"
 #. CommandsDataModule..actlMain..actAssistantSuggest..Hint
 #: dmCommands.dfm
 msgid "Provide a suggestion for code completion"
-msgstr "Provide a suggestion for code completion"
+msgstr "Provide a suggestion for code tamamlama"
 
 #. CommandsDataModule..actlMain..actAssistantCancel..Caption
 #. Programmer's name for it: SDlgCancel
@@ -6666,15 +6666,15 @@ msgstr "Kod Completion"
 
 #: dmCommands.pas
 msgid "Code completion list size"
-msgstr "Kod completion list size"
+msgstr "Kod tamamlama list size"
 
 #: dmCommands.pas
 msgid "Editor code completion"
-msgstr "Editor code completion"
+msgstr "Editor code tamamlama"
 
 #: dmCommands.pas
 msgid "Interpreter code completion"
-msgstr "Interpreter code completion"
+msgstr "Interpreter code tamamlama"
 
 #: dmCommands.pas
 msgid "Case sensitive"
@@ -6690,7 +6690,7 @@ msgstr "Complete as you type"
 
 #: dmCommands.pas
 msgid "Auto completion font"
-msgstr "Auto completion font"
+msgstr "Auto tamamlama font"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
