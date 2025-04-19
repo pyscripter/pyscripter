@@ -7454,7 +7454,7 @@ msgstr "taşı Satır Yukarı"
 #. Programmer's name for it: SEdCmdOverwriteMode
 #: StringResources.pas
 msgid "Overwrite Mode"
-msgstr "Overwrite Mode"
+msgstr "Üzerine yazma Mode"
 
 #. Programmer's name for it: SEdCmdPageBottom
 #: StringResources.pas
@@ -8813,7 +8813,7 @@ msgstr "Ekle"
 #. Programmer's name for it: SOverwrite
 #: StringResources.pas
 msgid "Overwrite"
-msgstr "Overwrite"
+msgstr "Üzerine yazma"
 
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas
