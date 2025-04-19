@@ -237,7 +237,7 @@ msgstr "Açıklama"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgSynEditOptions.dfm dlgToolProperties.dfm
 msgid "&Add"
-msgstr "&Add"
+msgstr "&Ekle"
 
 #. CodeTemplates..ActionList..actAddItem..Hint
 #. CustomizeParams..ActionList..actAddItem..Hint
@@ -246,7 +246,7 @@ msgstr "&Add"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm
 msgid "Add item"
-msgstr "Add item"
+msgstr "Ekle item"
 
 #. CodeTemplates..ActionList..actDeleteItem..Caption
 #. CustomizeParams..ActionList..actDeleteItem..Caption
@@ -323,7 +323,7 @@ msgstr "Update item"
 #. DirectoryListDialog..Panel2..btnAdd..Caption
 #: dlgCollectionEditor.dfm dlgDirectoryList.dfm
 msgid "&Add..."
-msgstr "&Add..."
+msgstr "&Ekle..."
 
 #. CollectionEditor..Panel1..RemoveBtn..Caption
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Caption
@@ -501,7 +501,7 @@ msgstr "Move down"
 #. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
 msgid "Add file path to the list"
-msgstr "Add file path to the list"
+msgstr "Ekle file path to the list"
 
 #. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
@@ -830,12 +830,12 @@ msgstr "Activate selected Python version"
 #. CommandsDataModule..actlMain..actSynSpellErrorAdd..Caption
 #: dlgPythonVersions.dfm dmCommands.dfm
 msgid "Add"
-msgstr "Add"
+msgstr "Ekle"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new Python version"
-msgstr "Add a new Python version"
+msgstr "Ekle a new Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
@@ -2807,7 +2807,7 @@ msgstr "Custom &Parameters..."
 #. CommandsDataModule..actlMain..actCustomizeParameters..Hint
 #: dmCommands.dfm
 msgid "Add/Remove custom parameters"
-msgstr "Add/Remove custom parameters"
+msgstr "Ekle/Remove custom parameters"
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Caption
 #: dmCommands.dfm
@@ -2827,7 +2827,7 @@ msgstr "&Kod Templates..."
 #. CommandsDataModule..actlMain..actCodeTemplates..Hint
 #: dmCommands.dfm
 msgid "Add/Remove code templates"
-msgstr "Add/Remove code templates"
+msgstr "Ekle/Remove code templates"
 
 #. CommandsDataModule..actlMain..actConfigureTools..Caption
 #: dmCommands.dfm
@@ -2837,7 +2837,7 @@ msgstr "Configure &Tools..."
 #. CommandsDataModule..actlMain..actConfigureTools..Hint
 #: dmCommands.dfm
 msgid "Configure Tools|Add/remove/edit command-line tools"
-msgstr "Configure Tools|Add/remove/edit command-line tools"
+msgstr "Configure Tools|Ekle/remove/edit command-line tools"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
 #: dmCommands.dfm
@@ -2982,7 +2982,7 @@ msgstr "&File Templates..."
 #. CommandsDataModule..actlMain..actFileTemplates..Hint
 #: dmCommands.dfm
 msgid "Add/Remove file templates"
-msgstr "Add/Remove file templates"
+msgstr "Ekle/Remove file templates"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
@@ -3428,7 +3428,7 @@ msgstr "Explain"
 #. CommandsDataModule..actlMain..actAssistantExplain..Hint
 #: dmCommands.dfm
 msgid "Add comments explaining the selected code"
-msgstr "Add comments explaining the selected code"
+msgstr "Ekle comments explaining the selected code"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
@@ -3898,13 +3898,13 @@ msgstr "&Favorites"
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Caption
 #: frmFileExplorer.dfm
 msgid "Add to &Favorites"
-msgstr "Add to &Favorites"
+msgstr "Ekle to &Favorites"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..TBXItem7..Hint
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Hint
 #: frmFileExplorer.dfm
 msgid "Add current path to Favorites"
-msgstr "Add current path to Favorites"
+msgstr "Ekle current path to Favorites"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..TBXItem2..Caption
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Caption
@@ -4291,7 +4291,7 @@ msgstr "New Chat Topic"
 #. LLMChatForm..ChatActionList..actChatNew..Hint
 #: frmLLMChat.dfm
 msgid "Add a new chat topic"
-msgstr "Add a new chat topic"
+msgstr "Ekle a new chat topic"
 
 #. LLMChatForm..ChatActionList..actChatPrevious..Caption
 #: frmLLMChat.dfm
@@ -4484,22 +4484,22 @@ msgstr "Collapse all project nodes"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Caption
 #: frmProjectExplorer.dfm
 msgid "&Add File(s)..."
-msgstr "&Add File(s)..."
+msgstr "&Ekle File(s)..."
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
 #: frmProjectExplorer.dfm
 msgid "Add file(s) to a project folder"
-msgstr "Add file(s) to a project folder"
+msgstr "Ekle file(s) to a project folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Caption
 #: frmProjectExplorer.dfm
 msgid "Add &Subfolder"
-msgstr "Add &Subfolder"
+msgstr "Ekle &Subfolder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a new subfolder"
-msgstr "Add a new subfolder"
+msgstr "Ekle a new subfolder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
@@ -4524,12 +4524,12 @@ msgstr "Open the selected file in the editor"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
 msgid "Add Active File"
-msgstr "Add Active File"
+msgstr "Ekle Active File"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Add the active editor file to the folder"
+msgstr "Ekle the active editor file to the folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -4544,12 +4544,12 @@ msgstr "Import a directory into the selected folder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
 #: frmProjectExplorer.dfm
 msgid "Add Run Configuration"
-msgstr "Add Run Configuration"
+msgstr "Ekle Run Configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Hint
 #: frmProjectExplorer.dfm
 msgid "Add run configuration"
-msgstr "Add run configuration"
+msgstr "Ekle run configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -4605,12 +4605,12 @@ msgstr "Debug the selected configuration"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr "Add Remote File"
+msgstr "Ekle Remote File"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr "Add a remote file to the folder"
+msgstr "Ekle a remote file to the folder"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
@@ -5327,12 +5327,12 @@ msgstr "Split the editor Windows vertically"
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
 #: frmPyIDEMain.dfm
 msgid "Add &Watch At Cursor"
-msgstr "Add &Watch At Cursor"
+msgstr "Ekle &Watch At Cursor"
 
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Add the expression at the editor current position as a watch"
-msgstr "Add the expression at the editor current position as a watch"
+msgstr "Ekle the expression at the editor current position as a watch"
 
 #. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
 #: frmPyIDEMain.dfm
@@ -6027,7 +6027,7 @@ msgstr "Watches"
 #. WatchesWindow..TBXPopupMenu..mnAddWatch..Caption
 #: frmWatches.dfm
 msgid "&Add Watch"
-msgstr "&Add Watch"
+msgstr "&Ekle Watch"
 
 #. WatchesWindow..TBXPopupMenu..mnRemoveWatch..Caption
 #: frmWatches.dfm
@@ -8366,7 +8366,7 @@ msgstr "Select application or file to execute"
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
 msgid "Add File(s) to Project"
-msgstr "Add File(s) to Project"
+msgstr "Ekle File(s) to Project"
 
 #. Programmer's name for it: SOpenProject
 #: StringResources.pas
