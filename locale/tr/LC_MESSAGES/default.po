@@ -2361,7 +2361,7 @@ msgstr "Seçin Tümü"
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Select all nodes"
-msgstr "Seçin hepsi nodes"
+msgstr "Seçin hepsi düğümler"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Caption
 #: dlgUnitTestWizard.dfm
@@ -2371,7 +2371,7 @@ msgstr "Seçimi kaldır Tümü"
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Deselect all nodes"
-msgstr "Seçimi kaldır hepsi nodes"
+msgstr "Seçimi kaldır hepsi düğümler"
 
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
@@ -3652,7 +3652,7 @@ msgstr "&Genişlet Tümü"
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Expand all nodes"
-msgstr "Genişlet hepsi nodes"
+msgstr "Genişlet hepsi düğümler"
 
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Caption
@@ -3664,7 +3664,7 @@ msgstr "&Collapse Tümü"
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Collapse all nodes"
-msgstr "Collapse hepsi nodes"
+msgstr "Collapse hepsi düğümler"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Caption
 #: frmCodeExplorer.dfm
@@ -4470,12 +4470,12 @@ msgstr "Ekstra Python &Yol..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Expand all project nodes"
-msgstr "Genişlet hepsi proje nodes"
+msgstr "Genişlet hepsi proje düğümler"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Collapse all project nodes"
-msgstr "Collapse hepsi proje nodes"
+msgstr "Collapse hepsi proje düğümler"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Caption
 #: frmProjectExplorer.dfm
@@ -5985,12 +5985,12 @@ msgstr "Ex&pand Tümü"
 #. UnitTestWindow..DialogActions..actExpandAll..Hint
 #: frmUnitTests.dfm
 msgid "Expand all test nodes"
-msgstr "Genişlet hepsi test nodes"
+msgstr "Genişlet hepsi test düğümler"
 
 #. UnitTestWindow..DialogActions..actCollapseAll..Hint
 #: frmUnitTests.dfm
 msgid "Collapse all test nodes"
-msgstr "Collapse hepsi test nodes"
+msgstr "Collapse hepsi test düğümler"
 
 #. UnitTestWindow..DialogActions..actClearAll..Caption
 #: frmUnitTests.dfm
