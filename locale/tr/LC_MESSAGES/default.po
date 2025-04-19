@@ -3068,7 +3068,7 @@ msgstr "&Highlight Arama Text"
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
 msgid "Highlight the search text in the current editor"
-msgstr "Highlight the search text in the current editor"
+msgstr "Highlight the arama text in the current editor"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #: dmCommands.dfm
@@ -4063,12 +4063,12 @@ msgstr "&Arama..."
 #. FindResultsWindow..Actions..actFileSearch..Hint
 #: frmFindResults.dfm
 msgid "New search..."
-msgstr "New search..."
+msgstr "New arama..."
 
 #. FindResultsWindow..Actions..actFileRefresh..Hint
 #: frmFindResults.dfm
 msgid "Refresh search"
-msgstr "Refresh search"
+msgstr "Refresh arama"
 
 #. FindResultsWindow..Actions..actFileAbort..Caption
 #. ToDoWindow..Actions..actFileAbort..Caption
@@ -4080,7 +4080,7 @@ msgstr "&Abort"
 #. FindResultsWindow..Actions..actFileAbort..Hint
 #: frmFindResults.dfm
 msgid "Abort search"
-msgstr "Abort search"
+msgstr "Abort arama"
 
 #. FindResultsWindow..Actions..actFilePrint..Hint
 #: frmFindResults.dfm
@@ -4933,7 +4933,7 @@ msgstr "&Auto Case Sensitive"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
 msgid "Case Sensitive when search text contains upper case characters"
-msgstr "Case Sensitive when search text contains upper case characters"
+msgstr "Case Sensitive when arama text contains upper case characters"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiCaseSensitive..Caption
 #: frmPyIDEMain.dfm
@@ -5765,7 +5765,7 @@ msgstr "Performs re.match"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Hint
 #: frmRegExpTester.dfm
 msgid "Performs re.search"
-msgstr "Performs re.search"
+msgstr "Performs re.arama"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
@@ -5790,7 +5790,7 @@ msgstr "Execute"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TIExecute..Hint
 #: frmRegExpTester.dfm
 msgid "Execute search or match"
-msgstr "Execute search or match"
+msgstr "Execute arama or match"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Hint
 #: frmRegExpTester.dfm
@@ -5910,7 +5910,7 @@ msgstr "Copy hepsi"
 #. ToDoWindow..Actions..actFileAbort..Hint
 #: frmToDo.dfm
 msgid "Abort search for todo items"
-msgstr "Abort search for todo items"
+msgstr "Abort arama for todo items"
 
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
@@ -6411,7 +6411,7 @@ msgstr "Page"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
-msgstr "'To Do' search yol"
+msgstr "'To Do' arama yol"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
@@ -8604,7 +8604,7 @@ msgstr "Project Python Path"
 #. Programmer's name for it: SStartReached
 #: StringResources.pas
 msgid "The starting point of the search was reached"
-msgstr "The starting point of the search was reached"
+msgstr "The starting point of the arama was reached"
 
 #. Programmer's name for it: SContinueSearch
 #: StringResources.pas
@@ -8615,12 +8615,12 @@ msgstr "Do you want to continue %s %s?"
 #. Programmer's name for it: STheSearchAndReplace
 #: StringResources.pas
 msgid "the search and replace"
-msgstr "the search and değişim"
+msgstr "the arama and değişim"
 
 #. Programmer's name for it: STheSearch
 #: StringResources.pas
 msgid "the search"
-msgstr "the search"
+msgstr "the arama"
 
 #. Programmer's name for it: SFromTheEnd
 #: StringResources.pas
@@ -8658,7 +8658,7 @@ msgstr "of the document"
 #: StringResources.pas
 #, object-pascal-format
 msgid "The search directory %s does not exist"
-msgstr "The search directory %s does not exist"
+msgstr "The arama directory %s does not exist"
 
 #. Find in Files Results
 #. Programmer's name for it: SGrepReplaceStats
@@ -8689,7 +8689,7 @@ msgid ""
 "A Grep search is currently active; either abort it or wait until it is "
 "finished."
 msgstr ""
-"A Grep search is currently active; either abort it or wait until it is "
+"A Grep arama is currently active; either abort it or wait until it is "
 "finished."
 
 #. Programmer's name for it: SGrepSearchStats
