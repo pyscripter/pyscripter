@@ -7969,8 +7969,8 @@ msgstr ""
 "**Before** kullanarak PyScripter, you must ensure that a version of Python greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
-"The 64-bit version of PyScripter (x64) works sadece on 64-bit Windows **and** with 64-bit versions of Python.\n"
-"The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
+"The 64-bit version of PyScripter (x64) works sadece on 64-bit Windows **and** with 64-bit versiyonlar of Python.\n"
+"The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPythonFindError
 #: StringResources.pas
@@ -7982,8 +7982,8 @@ msgid ""
 msgstr ""
 "PyScripter could not bul a usable Python installation at the specified yol.\n"
 "Note that the 64-bit version of PyScripter (x64) works sadece on 64-bit Windows **and**\n"
-"with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
-"32-bit and 64-bit Windows with 32-bit versions of Python."
+"with 64-bit versiyonlar of Python. The 32-bit version of PyScripter works on both\n"
+"32-bit and 64-bit Windows with 32-bit versiyonlar of Python."
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
