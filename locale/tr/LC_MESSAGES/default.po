@@ -819,12 +819,12 @@ msgstr "Klasör"
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
 msgid "Activate"
-msgstr "Activate"
+msgstr "Etkinleştir"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected Python version"
-msgstr "Activate seçili Python versiyon"
+msgstr "Etkinleştir seçili Python versiyon"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #. CommandsDataModule..actlMain..actSynSpellErrorAdd..Caption
@@ -5244,7 +5244,7 @@ msgstr "Bul &in Dosyalar Sonuçlar"
 #. PyIDEMainForm..actlStandard..actNavFindResults..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Find in Files Results window"
-msgstr "Activate the Bul in Dosyalar Sonuçlar window"
+msgstr "Etkinleştir the Bul in Dosyalar Sonuçlar window"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
@@ -5399,7 +5399,7 @@ msgstr "&Watches"
 #. PyIDEMainForm..actlStandard..actNavWatches..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Watches window"
-msgstr "Activate the Watches window"
+msgstr "Etkinleştir the Watches window"
 
 #. PyIDEMainForm..actlStandard..actNavBreakpoints..Caption
 #: frmPyIDEMain.dfm
@@ -5409,7 +5409,7 @@ msgstr "&BreakPoints"
 #. PyIDEMainForm..actlStandard..actNavBreakpoints..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Breakpoints window"
-msgstr "Activate the Breakpoints window"
+msgstr "Etkinleştir the Breakpoints window"
 
 #. PyIDEMainForm..actlStandard..actNavInterpreter..Caption
 #: frmPyIDEMain.dfm
@@ -5419,7 +5419,7 @@ msgstr "&Interpreter"
 #. PyIDEMainForm..actlStandard..actNavInterpreter..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Interpreter window"
-msgstr "Activate the Interpreter window"
+msgstr "Etkinleştir the Interpreter window"
 
 #. PyIDEMainForm..actlStandard..actNavVariables..Caption
 #: frmPyIDEMain.dfm
@@ -5429,7 +5429,7 @@ msgstr "&Variables"
 #. PyIDEMainForm..actlStandard..actNavVariables..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Variables window"
-msgstr "Activate the Variables window"
+msgstr "Etkinleştir the Variables window"
 
 #. PyIDEMainForm..actlStandard..actNavCallStack..Caption
 #: frmPyIDEMain.dfm
@@ -5439,7 +5439,7 @@ msgstr "&Call Stack"
 #. PyIDEMainForm..actlStandard..actNavCallStack..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Call Stack window"
-msgstr "Activate the Call Stack window"
+msgstr "Etkinleştir the Call Stack window"
 
 #. PyIDEMainForm..actlStandard..actNavMessages..Caption
 #: frmPyIDEMain.dfm
@@ -5449,7 +5449,7 @@ msgstr "&Messages "
 #. PyIDEMainForm..actlStandard..actNavMessages..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Messages window"
-msgstr "Activate the Messages window"
+msgstr "Etkinleştir the Messages window"
 
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Caption
 #: frmPyIDEMain.dfm
@@ -5459,7 +5459,7 @@ msgstr "Dosya E&xplorer"
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the File Explorer window"
-msgstr "Activate the Dosya Explorer window"
+msgstr "Etkinleştir the Dosya Explorer window"
 
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
 #: frmPyIDEMain.dfm
@@ -5469,7 +5469,7 @@ msgstr "&Kod Explorer"
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Code Explorer window"
-msgstr "Activate the Kod Explorer window"
+msgstr "Etkinleştir the Kod Explorer window"
 
 #. PyIDEMainForm..actlStandard..actNavTodo..Caption
 #: frmPyIDEMain.dfm
@@ -5480,7 +5480,7 @@ msgstr "&Todo Liste"
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Todo List window"
-msgstr "Activate the Todo Liste window"
+msgstr "Etkinleştir the Todo Liste window"
 
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
 #: frmPyIDEMain.dfm
@@ -5495,12 +5495,12 @@ msgstr "Komut &Output"
 #. PyIDEMainForm..actlStandard..actNavOutput..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Command Output window"
-msgstr "Activate the Komut Output window"
+msgstr "Etkinleştir the Komut Output window"
 
 #. PyIDEMainForm..actlStandard..actNavEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Editor"
-msgstr "Activate the Editör"
+msgstr "Etkinleştir the Editör"
 
 #. PyIDEMainForm..actlStandard..actPythonSSH..Caption
 #: frmPyIDEMain.dfm
@@ -5570,7 +5570,7 @@ msgstr "&Proje Explorer"
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Project Explorer window"
-msgstr "Activate the Proje Explorer window"
+msgstr "Etkinleştir the Proje Explorer window"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -5651,12 +5651,12 @@ msgstr "Düzenli İfade Tester"
 #. PyIDEMainForm..actlStandard..actNavRegExp..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Regular Expression Tester window"
-msgstr "Activate the Düzenli İfade Tester window"
+msgstr "Etkinleştir the Düzenli İfade Tester window"
 
 #. PyIDEMainForm..actlStandard..actNavChat..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Chat window"
-msgstr "Activate the Chat window"
+msgstr "Etkinleştir the Chat window"
 
 #. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Caption
 #: frmPyIDEMain.dfm
