@@ -374,7 +374,7 @@ msgstr "Kullan Komut Satır Parametreler?"
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
 msgid "(Empty History)"
-msgstr "(Empty Geçmiş)"
+msgstr "(Boş Geçmiş)"
 
 #. ConfirmReplaceDialog..Caption
 #: dlgConfirmReplace.dfm
@@ -7934,7 +7934,7 @@ msgstr "Invalid Regular Expression: %s"
 #. Programmer's name for it: SEmptyList
 #: StringResources.pas
 msgid "(Empty List)"
-msgstr "(Empty List)"
+msgstr "(Boş List)"
 
 #. Programmer's name for it: SCommandLineMsg
 #: StringResources.pas
