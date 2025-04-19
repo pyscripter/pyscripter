@@ -2574,7 +2574,7 @@ msgstr "Printer Ayarla&yukarı..."
 #. CommandsDataModule..actlMain..actPrinterSetup..Hint
 #: dmCommands.dfm
 msgid "Printer setup"
-msgstr "Printer setup"
+msgstr "Printer düzen"
 
 #. CommandsDataModule..actlMain..actPrintPreview..Caption
 #: dmCommands.dfm
@@ -2594,7 +2594,7 @@ msgstr "Pa&ge Düzen..."
 #. CommandsDataModule..actlMain..actPageSetup..Hint
 #: dmCommands.dfm
 msgid "Page setup"
-msgstr "Sayfa setup"
+msgstr "Sayfa düzen"
 
 #. CommandsDataModule..actlMain..actEditorOptions..Caption
 #: dmCommands.dfm
@@ -6901,7 +6901,7 @@ msgstr "Ask me anything"
 #. Programmer's name for it: SQuestionHintInvalid
 #: frmLLMChat.pas
 msgid "Chat setup incomplete"
-msgstr "Chat setup incomplete"
+msgstr "Chat düzen incomplete"
 
 #. Restore settings and history
 #: frmLLMChat.pas
