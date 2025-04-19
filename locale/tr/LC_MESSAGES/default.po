@@ -2262,7 +2262,7 @@ msgstr "Seçim"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "ActiveFile"
-msgstr "ActiveFile"
+msgstr "Aktif Dosya"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Hint
 #: dlgToolProperties.dfm
