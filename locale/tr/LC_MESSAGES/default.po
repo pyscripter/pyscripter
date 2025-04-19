@@ -275,7 +275,7 @@ msgstr "Sil öğe"
 #: dlgCodeTemplates.dfm dlgCollectionEditor.dfm dlgCustomParams.dfm
 #: dlgFileTemplates.dfm frmFileExplorer.dfm
 msgid "&Up"
-msgstr "&Up"
+msgstr "&Yukarı"
 
 #. CodeTemplates..ActionList..actMoveUp..Hint
 #. CustomizeParams..ActionList..actMoveUp..Hint
@@ -3990,7 +3990,7 @@ msgstr "&Forward"
 #. FileExplorerWindow..FileExplorerActions..actGoUp..Hint
 #: frmFileExplorer.dfm
 msgid "Up|Show the parent folder"
-msgstr "Up|Show the parent folder"
+msgstr "Yukarı|Show the parent folder"
 
 #. FileExplorerWindow..FileExplorerActions..actRefresh..Caption
 #. FindResultsWindow..Actions..actFileRefresh..Caption
