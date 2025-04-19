@@ -2672,7 +2672,7 @@ msgstr "&Tabify"
 #. CommandsDataModule..actlMain..actEditTabify..Hint
 #: dmCommands.dfm
 msgid "Tabify|Convert spaces to tabs"
-msgstr "Tabify|Convert boşluklar to sekmeler"
+msgstr "Tabify|Dönüştür boşluklar to sekmeler"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Caption
 #: dmCommands.dfm
@@ -2682,7 +2682,7 @@ msgstr "U&ntabify"
 #. CommandsDataModule..actlMain..actEditUntabify..Hint
 #: dmCommands.dfm
 msgid "Untabify|Convert tabs to spaces"
-msgstr "Untabify|Convert sekmeler to boşluklar"
+msgstr "Untabify|Dönüştür sekmeler to boşluklar"
 
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
@@ -2904,17 +2904,17 @@ msgstr "Bul sonraki identifier reference"
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr "DOS/Windows|Convert to DOS line break"
+msgstr "DOS/Windows|Dönüştür to DOS line break"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm
 msgid "UNIX|Convert to UNIX line break"
-msgstr "UNIX|Convert to UNIX line break"
+msgstr "UNIX|Dönüştür to UNIX line break"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm
 msgid "Mac|Convert to Mac line break"
-msgstr "Mac|Convert to Mac line break"
+msgstr "Mac|Dönüştür to Mac line break"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
