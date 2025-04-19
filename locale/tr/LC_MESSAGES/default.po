@@ -1412,8 +1412,8 @@ msgid ""
 "Allows the cursor to go past the last character into the white space at the "
 "end of a line"
 msgstr ""
-"Allows the imleç to go past the last karakter into the white boşluk at the "
-"son of a line"
+"İmlecin son karakterden sonra satırın sonundaki beyaz boşluğa geçmesine izin"
+" verir"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
 #: dlgSynEditOptions.dfm
