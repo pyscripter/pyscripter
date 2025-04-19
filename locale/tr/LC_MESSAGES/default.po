@@ -1434,7 +1434,7 @@ msgstr "Göster kaydırma ip ucu"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
 #: dlgSynEditOptions.dfm
 msgid "The scroll hint follows the mouse when scrolling vertically"
-msgstr "The kaydırma ip ucu follows the fare when scrolling vertically"
+msgstr "The kaydırma ip ucu follows the fare when scrolling dikey"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
@@ -5326,7 +5326,7 @@ msgstr "Split Editör Vertically"
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Hint
 #: frmPyIDEMain.dfm
 msgid "Split the editor Windows vertically"
-msgstr "Split the editör Windows vertically"
+msgstr "Split the editör Windows dikey"
 
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5583,8 +5583,7 @@ msgstr "Split Workspace Vertically"
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
-msgstr ""
-"Split workspace vertically|Göster secondary editör tabset vertically aligned"
+msgstr "Split workspace dikey|Göster secondary editör tabset dikey aligned"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
