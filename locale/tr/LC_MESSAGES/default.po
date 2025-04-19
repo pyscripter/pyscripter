@@ -1834,7 +1834,7 @@ msgstr "Sayfa sayı"
 #. PageSetupDlg..ActionList1..PagesCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Num. pages"
-msgstr "Num. pages"
+msgstr "Num. sayfalar"
 
 #. PageSetupDlg..ActionList1..TimeCmd..Caption
 #. PageSetupDlg..ActionList1..TimeCmd..Hint
