@@ -1716,7 +1716,7 @@ msgstr "Shadow"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..CBFooterMirror..Caption
 #: dlgSynPageSetup.dfm
 msgid "Mirror position"
-msgstr "Mirror position"
+msgstr "Mirror konum"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Caption
 #: dlgSynPageSetup.dfm
@@ -2744,7 +2744,7 @@ msgstr "Go To Sözdizimi &Error"
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Hint
 #: dmCommands.dfm
 msgid "Jump to the position of the first syntax error"
-msgstr "Atla to the position of the first sözdizimi error"
+msgstr "Atla to the konum of the first sözdizimi error"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
@@ -3091,7 +3091,7 @@ msgstr "Go To &Debugger Position"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr "Go to the mevcut position of the debugger"
+msgstr "Go to the mevcut konum of the debugger"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3691,7 +3691,7 @@ msgstr "Follow Editör"
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
 msgid "Move selection to match the editor position"
-msgstr "taşı selection to eşleştirme the editör position"
+msgstr "taşı selection to eşleştirme the editör konum"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
@@ -4628,7 +4628,7 @@ msgstr "Python engine tip"
 #. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
 #: frmPyIDEMain.dfm
 msgid "Text position"
-msgstr "Metin position"
+msgstr "Metin konum"
 
 #. PyIDEMainForm..StatusBar..spiStatusLED..Hint
 #. PyIDEMainForm..StatusBar..spiLspLed..Hint
@@ -5335,7 +5335,7 @@ msgstr "Ekle &Watch At Cursor"
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Add the expression at the editor current position as a watch"
-msgstr "Ekle the ifade at the editör mevcut position as a watch"
+msgstr "Ekle the ifade at the editör mevcut konum as a watch"
 
 #. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
 #: frmPyIDEMain.dfm
@@ -6439,7 +6439,7 @@ msgstr "Days between update checks"
 
 #: dmCommands.pas
 msgid "Editor tab position"
-msgstr "Editör tab position"
+msgstr "Editör tab konum"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
@@ -8746,7 +8746,7 @@ msgstr "Could not yedekleme dosya \"%s\" and will skip it"
 #. Programmer's name for it: SParseError
 #: StringResources.pas
 msgid "Parse error at this position: "
-msgstr "Parse error at this position: "
+msgstr "Parse error at this konum: "
 
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
