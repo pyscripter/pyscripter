@@ -2622,7 +2622,7 @@ msgstr "&Girinti Block"
 #. CommandsDataModule..actlMain..actEditIndent..Hint
 #: dmCommands.dfm
 msgid "Indent block|Indent selected block of code"
-msgstr "Girinti block|Girinti seçili block of code"
+msgstr "Girinti blok|Girinti seçili blok of code"
 
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
@@ -2632,7 +2632,7 @@ msgstr "&Unindent Block"
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
 msgid "Unindent|Unindent selected block of code"
-msgstr "Unindent|Unindent seçili block of code"
+msgstr "Unindent|Unindent seçili blok of code"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
@@ -2642,7 +2642,7 @@ msgstr "&Yorum out"
 #. CommandsDataModule..actlMain..actEditCommentOut..Hint
 #: dmCommands.dfm
 msgid "Comment out| Comment out block of code"
-msgstr "Yorum out| Yorum out block of code"
+msgstr "Yorum out| Yorum out blok of code"
 
 #. CommandsDataModule..actlMain..actEditUncomment..Caption
 #: dmCommands.dfm
@@ -2652,7 +2652,7 @@ msgstr "&Uncomment"
 #. CommandsDataModule..actlMain..actEditUncomment..Hint
 #: dmCommands.dfm
 msgid "Uncomment| Uncomment block of code"
-msgstr "Uncomment| Uncomment block of code"
+msgstr "Uncomment| Uncomment blok of code"
 
 #. CommandsDataModule..actlMain..actSearchMatchingBrace..Caption
 #: dmCommands.dfm
@@ -2974,7 +2974,7 @@ msgstr "Toggle &Yorum"
 #. CommandsDataModule..actlMain..actEditToggleComment..Hint
 #: dmCommands.dfm
 msgid "Toggle Comment| Comment/Uncomment block of code"
-msgstr "Toggle Yorum| Yorum/Uncomment block of code"
+msgstr "Toggle Yorum| Yorum/Uncomment blok of code"
 
 #. CommandsDataModule..actlMain..actFileTemplates..Caption
 #: dmCommands.dfm
@@ -6218,7 +6218,7 @@ msgstr "Sort Selection"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
-msgstr "Sort the seçili editör block (\"one-liner\" demo)"
+msgstr "Sort the seçili editör blok (\"one-liner\" demo)"
 
 #: cTools.pas
 msgid "&Re-indent"
