@@ -1064,7 +1064,7 @@ msgstr "Kaydet Çıktı"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
-msgstr "Seçin Style"
+msgstr "Seçin Stil"
 
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
@@ -1079,7 +1079,7 @@ msgstr "Preview"
 #. StyleSelectorForm..ActionList..actApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "&Apply Style"
-msgstr "&Apply Style"
+msgstr "&Apply Stil"
 
 #. EditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -6466,7 +6466,7 @@ msgstr "Sayı of recent dosyalar"
 
 #: dmCommands.pas
 msgid "Style Main Window Border"
-msgstr "Style Main Window Border"
+msgstr "Stil Main Window Border"
 
 #: dmCommands.pas
 msgid "Restore open files"
@@ -9012,7 +9012,7 @@ msgstr "Cython Komut dosyası"
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas
 msgid "Cascading Style Sheet"
-msgstr "Cascading Style Sheet"
+msgstr "Cascading Stil Sheet"
 
 #. Programmer's name for it: SHTMLFileTemplateName
 #: StringResources.pas
