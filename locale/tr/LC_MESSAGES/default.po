@@ -672,7 +672,7 @@ msgstr "Seçin dizin"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..chkInclude..Caption
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm
 msgid "Include su&bdirectories"
-msgstr "Include su&bdirectories"
+msgstr "&Alt dizinleri dahil et"
 
 #. FindResultsOptionsDialog..Caption
 #: dlgFindResultsOptions.dfm
