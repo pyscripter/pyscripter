@@ -1639,7 +1639,7 @@ msgstr "Uygula to hepsi editors"
 #. PageSetupDlg..Caption
 #: dlgSynPageSetup.dfm
 msgid "Page Setup"
-msgstr "Page Setup"
+msgstr "Sayfa Setup"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem1..Caption
 #. PageSetupDlg..TabControl..tbMargins..Caption
@@ -1828,7 +1828,7 @@ msgstr "(1/1000) Inches"
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Page number"
-msgstr "Page sayı"
+msgstr "Sayfa sayı"
 
 #. PageSetupDlg..ActionList1..PagesCmd..Caption
 #. PageSetupDlg..ActionList1..PagesCmd..Hint
@@ -1890,7 +1890,7 @@ msgstr "Göster whole sayfa"
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Page width"
-msgstr "Page genişlik"
+msgstr "Sayfa genişlik"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Hint
 #: dlgSynPrintPreview.dfm
@@ -2594,7 +2594,7 @@ msgstr "Pa&ge Setup..."
 #. CommandsDataModule..actlMain..actPageSetup..Hint
 #: dmCommands.dfm
 msgid "Page setup"
-msgstr "Page setup"
+msgstr "Sayfa setup"
 
 #. CommandsDataModule..actlMain..actEditorOptions..Caption
 #: dmCommands.dfm
