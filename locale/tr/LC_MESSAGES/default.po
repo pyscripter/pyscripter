@@ -784,14 +784,14 @@ msgstr "Özellik"
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
 #: dlgPickList.dfm
 msgid "&Select All"
-msgstr "&Seçin All"
+msgstr "&Seçin Tümü"
 
 #. PickListDialog..Panel2..btnDeselectAll..Caption
 #. PickListDialog..PickListPopUp..mnDeselectAll..Caption
 #. UnitTestWindow..DialogActions..actDeselectAll..Caption
 #: dlgPickList.dfm frmUnitTests.dfm
 msgid "&Deselect All"
-msgstr "&Deselect All"
+msgstr "&Deselect Tümü"
 
 #. PickListDialog..PickListPopUp..mnSelectAll..Hint
 #: dlgPickList.dfm
@@ -2175,7 +2175,7 @@ msgstr "Active sadece"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
 msgid "All files"
-msgstr "All dosyalar"
+msgstr "Tümü dosyalar"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Caption
 #: dlgToolProperties.dfm
@@ -2362,7 +2362,7 @@ msgstr "This wizard will generate unit tests for the Python module"
 #. Programmer's name for it: SEdCmdSelectAll
 #: dlgUnitTestWizard.dfm StringResources.pas
 msgid "Select All"
-msgstr "Seçin All"
+msgstr "Seçin Tümü"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Hint
 #: dlgUnitTestWizard.dfm
@@ -2372,7 +2372,7 @@ msgstr "Seçin hepsi nodes"
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Deselect All"
-msgstr "Deselect All"
+msgstr "Deselect Tümü"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Hint
 #: dlgUnitTestWizard.dfm
@@ -2485,12 +2485,12 @@ msgstr "Redo| Redo last action"
 #. UnitTestWindow..DialogActions..actSelectAll..Caption
 #: dmCommands.dfm frmUnitTests.dfm
 msgid "Select &All"
-msgstr "Seçin &All"
+msgstr "Seçin &Tümü"
 
 #. CommandsDataModule..actlMain..actEditSelectAll..Hint
 #: dmCommands.dfm
 msgid "Select All|Selects the entire document"
-msgstr "Seçin All|Selects the entire document"
+msgstr "Seçin Tümü|Selects the entire document"
 
 #. CommandsDataModule..actlMain..actEditReadOnly..Caption
 #. Programmer's name for it: SReadOnly
@@ -2546,7 +2546,7 @@ msgstr "Değiştir|Arama & Değiştir"
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
 msgid "Save &All"
-msgstr "Save &All"
+msgstr "Save &Tümü"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
@@ -3115,7 +3115,7 @@ msgstr "Go to the PyScripter Internet group"
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #: dmCommands.dfm
 msgid "Close All &Other"
-msgstr "Close All &Other"
+msgstr "Close Tümü &Other"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #: dmCommands.dfm
@@ -3125,7 +3125,7 @@ msgstr "Close hepsi dosyalar except the active one"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr "Close All to the &Right"
+msgstr "Close Tümü to the &Right"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
@@ -3166,7 +3166,7 @@ msgstr "Göster/Gizle Kod Folding"
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm
 msgid "All"
-msgstr "All"
+msgstr "Tümü"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
@@ -3653,7 +3653,7 @@ msgstr "Kod Explorer"
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
 #: frmCodeExplorer.dfm frmProjectExplorer.dfm
 msgid "&Expand All"
-msgstr "&Genişlet All"
+msgstr "&Genişlet Tümü"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Hint
 #: frmCodeExplorer.dfm
@@ -3665,7 +3665,7 @@ msgstr "Genişlet hepsi nodes"
 #. UnitTestWindow..DialogActions..actCollapseAll..Caption
 #: frmCodeExplorer.dfm frmProjectExplorer.dfm frmUnitTests.dfm
 msgid "&Collapse All"
-msgstr "&Collapse All"
+msgstr "&Collapse Tümü"
 
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Hint
 #: frmCodeExplorer.dfm
@@ -4178,7 +4178,7 @@ msgstr "Configure Bul in Dosyalar"
 #. FindResultsWindow..Actions..actReplaceAll..Caption
 #: frmFindResults.dfm
 msgid "Replace All Items..."
-msgstr "Değiştir All Items..."
+msgstr "Değiştir Tümü Items..."
 
 #. FindResultsWindow..Actions..actReplaceAll..Hint
 #: frmFindResults.dfm
@@ -5687,7 +5687,7 @@ msgstr "Copy history to Clipboard"
 #. PythonIIForm..InterpreterActionList..actClearContents..Caption
 #: frmPythonII.dfm
 msgid "Clear &All"
-msgstr "Clear &All"
+msgstr "Clear &Tümü"
 
 #. PythonIIForm..InterpreterActionList..actClearContents..Hint
 #: frmPythonII.dfm
@@ -5902,7 +5902,7 @@ msgstr "&Seçenekler..."
 #. ToDoWindow..Actions..actEditCopy..Caption
 #: frmToDo.dfm
 msgid "&Copy All"
-msgstr "&Copy All"
+msgstr "&Copy Tümü"
 
 #. ToDoWindow..Actions..actEditCopy..Hint
 #: frmToDo.dfm
@@ -5987,7 +5987,7 @@ msgstr "Seçin hepsi failed tests"
 #. UnitTestWindow..DialogActions..actExpandAll..Caption
 #: frmUnitTests.dfm
 msgid "Ex&pand All"
-msgstr "Ex&pand All"
+msgstr "Ex&pand Tümü"
 
 #. UnitTestWindow..DialogActions..actExpandAll..Hint
 #: frmUnitTests.dfm
@@ -6002,7 +6002,7 @@ msgstr "Collapse hepsi test nodes"
 #. UnitTestWindow..DialogActions..actClearAll..Caption
 #: frmUnitTests.dfm
 msgid "&Clear All"
-msgstr "&Clear All"
+msgstr "&Clear Tümü"
 
 #. UnitTestWindow..DialogActions..actClearAll..Hint
 #: frmUnitTests.dfm
@@ -6873,7 +6873,7 @@ msgstr "Dosya Explorer favorites"
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
 msgid "<All>"
-msgstr "<All>"
+msgstr "<Tümü>"
 
 #. Programmer's name for it: SNoneString
 #: frmFunctionList.pas
@@ -7247,7 +7247,7 @@ msgstr "Block Unindent"
 #. Programmer's name for it: SEdCmdClearAll
 #: StringResources.pas
 msgid "Clear All"
-msgstr "Clear All"
+msgstr "Clear Tümü"
 
 #. Programmer's name for it: SEdCmdCommentBlock
 #: StringResources.pas
@@ -7332,7 +7332,7 @@ msgstr "Editör Top"
 #. Programmer's name for it: SEdCmdFoldAll
 #: StringResources.pas
 msgid "Fold All"
-msgstr "Fold All"
+msgstr "Fold Tümü"
 
 #. Programmer's name for it: SEdCmdFoldLevel1
 #: StringResources.pas
@@ -7697,7 +7697,7 @@ msgstr "Undo"
 #. Programmer's name for it: SEdCmdUnfoldAll
 #: StringResources.pas
 msgid "Unfold All"
-msgstr "Unfold All"
+msgstr "Unfold Tümü"
 
 #. Programmer's name for it: SEdCmdUnfoldLevel1
 #: StringResources.pas
@@ -7844,17 +7844,17 @@ msgstr "&İhmal et"
 #. Programmer's name for it: SDlgAll
 #: StringResources.pas
 msgid "&All"
-msgstr "&All"
+msgstr "&Tümü"
 
 #. Programmer's name for it: SDlgNoToAll
 #: StringResources.pas
 msgid "N&o to All"
-msgstr "N&o to All"
+msgstr "N&o to Tümü"
 
 #. Programmer's name for it: SDlgYesToAll
 #: StringResources.pas
 msgid "Yes to &All"
-msgstr "Evet to &All"
+msgstr "Evet to &Tümü"
 
 #. Programmer's name for it: STrueValue
 #: StringResources.pas
@@ -7919,7 +7919,7 @@ msgstr "Failed to load layout from \"%s\". Please close and restart PyScripter"
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
 msgid "All files|*.*|"
-msgstr "All dosyalar|*.*|"
+msgstr "Tümü dosyalar|*.*|"
 
 #. Programmer's name for it: SNoParameters
 #: StringResources.pas
@@ -8670,7 +8670,7 @@ msgstr "Replaced %d occurrence(s) in %.2f seconds"
 #. Programmer's name for it: SAllMatchedFiles
 #: StringResources.pas
 msgid "All matched files"
-msgstr "All matched dosyalar"
+msgstr "Tümü matched dosyalar"
 
 #. Programmer's name for it: SOnLine
 #: StringResources.pas
