@@ -343,7 +343,7 @@ msgstr "&Değiştir.."
 #. CommandLineDlg..Caption
 #: dlgCommandLine.dfm
 msgid "Command Line Parameters"
-msgstr "Command Line Parameters"
+msgstr "Command Line Parametreler"
 
 #. CommandLineDlg..Panel..Label1....Caption
 #: dlgCommandLine.dfm
@@ -359,7 +359,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label3..Caption
 #: dlgCommandLine.dfm dlgRunConfiguration.dfm dlgToolProperties.dfm
 msgid "Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
-msgstr "Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
+msgstr "Parametreler : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
 
 #. CommandLineDlg..Panel..TBXButton1..Hint
 #: dlgCommandLine.dfm
@@ -369,7 +369,7 @@ msgstr "History"
 #. CommandLineDlg..Panel..cbUseCommandLine..Caption
 #: dlgCommandLine.dfm
 msgid "Use Command Line Parameters?"
-msgstr "Use Command Line Parameters?"
+msgstr "Use Command Line Parametreler?"
 
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
@@ -401,7 +401,7 @@ msgstr "Yes to &all"
 #. CustomizeParams..Caption
 #: dlgCustomParams.dfm
 msgid "Custom Parameters"
-msgstr "Custom Parameters"
+msgstr "Custom Parametreler"
 
 #. CustomizeParams..Panel..GroupBox1..Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Caption
@@ -977,7 +977,7 @@ msgstr "&File Ad:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label6..Caption
 #: dlgRunConfiguration.dfm dlgToolProperties.dfm
 msgid "&Parameters:"
-msgstr "&Parameters:"
+msgstr "&Parametreler:"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
 #: dlgRunConfiguration.dfm
@@ -2782,7 +2782,7 @@ msgstr "Replace parameters with their values"
 #. CommandsDataModule..actlMain..actHelpParameters..Caption
 #: dmCommands.dfm
 msgid "&Parameters"
-msgstr "&Parameters"
+msgstr "&Parametreler"
 
 #. CommandsDataModule..actlMain..actHelpParameters..Hint
 #: dmCommands.dfm
@@ -2802,7 +2802,7 @@ msgstr "Insert a Kod Şablon"
 #. CommandsDataModule..actlMain..actCustomizeParameters..Caption
 #: dmCommands.dfm
 msgid "Custom &Parameters..."
-msgstr "Custom &Parameters..."
+msgstr "Custom &Parametreler..."
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Hint
 #: dmCommands.dfm
@@ -4679,7 +4679,7 @@ msgstr "&Source Kod"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: frmPyIDEMain.dfm dmResources.pas
 msgid "Parameters"
-msgstr "Parameters"
+msgstr "Parametreler"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
@@ -5023,7 +5023,7 @@ msgstr "Run|Run active module"
 #. PyIDEMainForm..actlStandard..actCommandLine..Caption
 #: frmPyIDEMain.dfm
 msgid "Command Line &Parameters..."
-msgstr "Command Line &Parameters..."
+msgstr "Command Line &Parametreler..."
 
 #. PyIDEMainForm..actlStandard..actCommandLine..Hint
 #: frmPyIDEMain.dfm
