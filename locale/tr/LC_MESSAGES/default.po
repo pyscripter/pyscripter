@@ -441,7 +441,7 @@ msgstr "Basın &yeni kısayol tuş:"
 #. frmCustomKeyboard..Panel1..lblCategories..Caption
 #: dlgCustomShortcuts.dfm
 msgid "&Categories:"
-msgstr "&Categories:"
+msgstr "&Kategoriler:"
 
 #. frmCustomKeyboard..Panel1..lblCommands..Caption
 #: dlgCustomShortcuts.dfm
@@ -748,7 +748,7 @@ msgstr "New File"
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel5..Caption
 #: dlgNewFile.dfm frmModSpTBXCustomize.dfm
 msgid "Categories:"
-msgstr "Categories:"
+msgstr "Kategoriler:"
 
 #. NewFileDialog..Panel1..Panel2..Panel4..Label2..Caption
 #: dlgNewFile.dfm
