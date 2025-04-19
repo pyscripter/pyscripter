@@ -960,7 +960,7 @@ msgstr "General"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox1..Label5..Caption
 #: dlgRunConfiguration.dfm dlgToolProperties.dfm
 msgid "Desc&ription:"
-msgstr "Desc&ription:"
+msgstr "&Açıklama"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Caption
 #. Programmer's name for it: SPythonTemplateName
