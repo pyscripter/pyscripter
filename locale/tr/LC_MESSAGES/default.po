@@ -5010,7 +5010,7 @@ msgstr "&Sözdizimi İşaretle"
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
 #: frmPyIDEMain.dfm
 msgid "Syntax Check|Perform syntax check and load scripts"
-msgstr "Sözdizimi İşaretle|Perform sözdizimi check ve load scripts"
+msgstr "Sözdizimi İşaretle|Perform sözdizimi işaretle ve load scripts"
 
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
@@ -6747,7 +6747,7 @@ msgstr "Dictionary dil code"
 
 #: dmCommands.pas
 msgid "Spell check as you type"
-msgstr "Spell check as you tip"
+msgstr "Spell işaretle as you tip"
 
 #: dmCommands.pas
 msgid "Spell checked syntax tokens"
