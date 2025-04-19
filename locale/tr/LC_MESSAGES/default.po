@@ -379,7 +379,7 @@ msgstr "(Boş Geçmiş)"
 #. ConfirmReplaceDialog..Caption
 #: dlgConfirmReplace.dfm
 msgid "Confirm replace"
-msgstr "Doğrula replace"
+msgstr "Doğrula değişim"
 
 #. ConfirmReplaceDialog..Panel1..btnReplace..Caption
 #. Programmer's name for it: SDlgYes
@@ -6200,7 +6200,7 @@ msgstr "Advanced Replace"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
-msgstr "Advanced Search and replace"
+msgstr "Advanced Search and değişim"
 
 #: cTools.pas
 msgid "Format Selection"
@@ -8615,7 +8615,7 @@ msgstr "Do you want to continue %s %s?"
 #. Programmer's name for it: STheSearchAndReplace
 #: StringResources.pas
 msgid "the search and replace"
-msgstr "the search and replace"
+msgstr "the search and değişim"
 
 #. Programmer's name for it: STheSearch
 #: StringResources.pas
