@@ -5005,7 +5005,7 @@ msgstr "Main Men&u"
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide main menu"
-msgstr "View/Gizle main menu"
+msgstr "View/Gizle main menü"
 
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Caption
 #: frmPyIDEMain.dfm
@@ -6708,7 +6708,7 @@ msgstr "Kabuk Integration"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
-msgstr "Dosya Gezgin bağlam menu"
+msgstr "Dosya Gezgin bağlam menü"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
