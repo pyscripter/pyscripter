@@ -865,7 +865,7 @@ msgstr "Göster"
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected Python version in Explorer"
-msgstr "Göster seçili Python versiyon in Explorer"
+msgstr "Göster seçili Python versiyon in Gezgin"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -3647,7 +3647,7 @@ msgstr "Seçin next (newer) frame"
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
 msgid "Code Explorer"
-msgstr "Kod Explorer"
+msgstr "Kod Gezgin"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
@@ -3883,7 +3883,7 @@ msgstr "Clear breakpoint"
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
-msgstr "Dosya Explorer"
+msgstr "Dosya Gezgin"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiBrowsePath..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
@@ -4005,7 +4005,7 @@ msgstr "&Refresh"
 #. FileExplorerWindow..FileExplorerActions..actRefresh..Hint
 #: frmFileExplorer.dfm
 msgid "Refresh|Refresh File Explorer"
-msgstr "Refresh|Refresh Dosya Explorer"
+msgstr "Refresh|Refresh Dosya Gezgin"
 
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Caption
 #: frmFileExplorer.dfm
@@ -4401,12 +4401,12 @@ msgstr "Commands:"
 #. ProjectExplorerWindow..Caption
 #: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
-msgstr "Proje Explorer"
+msgstr "Proje Gezgin"
 
 #. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..SpTBXDock1..SpTBXToolbar1..Caption
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
-msgstr "Proje Explorer Toolbar"
+msgstr "Proje Gezgin Toolbar"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #: frmProjectExplorer.dfm
@@ -5459,17 +5459,17 @@ msgstr "Dosya E&xplorer"
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the File Explorer window"
-msgstr "Etkinleştir the Dosya Explorer window"
+msgstr "Etkinleştir the Dosya Gezgin window"
 
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Code Explorer"
-msgstr "&Kod Explorer"
+msgstr "&Kod Gezgin"
 
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Code Explorer window"
-msgstr "Etkinleştir the Kod Explorer window"
+msgstr "Etkinleştir the Kod Gezgin window"
 
 #. PyIDEMainForm..actlStandard..actNavTodo..Caption
 #: frmPyIDEMain.dfm
@@ -5565,12 +5565,12 @@ msgstr "Özelleştirilmiş the toolbars"
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project Explorer"
-msgstr "&Proje Explorer"
+msgstr "&Proje Gezgin"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Project Explorer window"
-msgstr "Etkinleştir the Proje Explorer window"
+msgstr "Etkinleştir the Proje Gezgin window"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -6707,11 +6707,11 @@ msgstr "Shell Integration"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
-msgstr "Dosya Explorer bağlam menu"
+msgstr "Dosya Gezgin bağlam menu"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
-msgstr "Dosya Explorer background processing"
+msgstr "Dosya Gezgin background processing"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
@@ -6860,7 +6860,7 @@ msgstr "Class attribute \"%s\" defined at line %d"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
-msgstr "Dosya Explorer Filter"
+msgstr "Dosya Gezgin Filter"
 
 #: frmFileExplorer.pas
 msgid "Enter Filter:"
@@ -6868,7 +6868,7 @@ msgstr "Gir Filter:"
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
-msgstr "Dosya Explorer favorites"
+msgstr "Dosya Gezgin favorites"
 
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
