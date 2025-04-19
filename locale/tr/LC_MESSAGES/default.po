@@ -1114,7 +1114,7 @@ msgstr "Sözdizimi Renkler"
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
-msgstr "Kod Sample"
+msgstr "Kod Örnek"
 
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
