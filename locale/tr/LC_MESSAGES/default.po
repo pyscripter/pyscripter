@@ -135,7 +135,7 @@ msgstr "&İptal"
 #. AskParamForm..Panel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
-msgstr "and save it as a custom parametre"
+msgstr "and kaydet it as a custom parametre"
 
 #. CodeTemplates..Caption
 #: dlgCodeTemplates.dfm
@@ -6574,7 +6574,7 @@ msgstr "Yarat yedekleme dosyalar"
 
 #: dmCommands.pas
 msgid "Undo after save"
-msgstr "Undo sonra save"
+msgstr "Undo sonra kaydet"
 
 #: dmCommands.pas
 msgid "Show code hints"
@@ -8437,7 +8437,7 @@ msgid ""
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
 "The following dosyalar have been değiştirilmiş.\n"
-"Basın 'TAMAM' to save seçili dosyalar and exit.\n"
+"Basın 'TAMAM' to kaydet seçili dosyalar and exit.\n"
 "Basın 'İptal' to return to PyScripter without saving dosyalar."
 
 #. Programmer's name for it: SSaveAs
@@ -8565,7 +8565,7 @@ msgid ""
 "Do you want to save the changes?"
 msgstr ""
 "The active proje has not been saved.\n"
-"Do you want to save the changes?"
+"Do you want to kaydet the changes?"
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
@@ -8829,7 +8829,7 @@ msgid ""
 msgstr ""
 "The metin in the \"%s\" dosya has changed.\n"
 "\n"
-"Do you want to save the modifications?"
+"Do you want to kaydet the modifications?"
 
 #. Programmer's name for it: SFileReloadingWarning
 #: StringResources.pas
