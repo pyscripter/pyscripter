@@ -1305,7 +1305,7 @@ msgstr "Akıllı sekmeler"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
 #: dlgSynEditOptions.dfm
 msgid "similar to Smart Tabs, but when you delete characters"
-msgstr "benzer to Akıllı Tabs, but when you delete characters"
+msgstr "benzer to Akıllı Sekmeler, but when you delete characters"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
 #: dlgSynEditOptions.dfm
@@ -1331,7 +1331,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tabs to spaces"
-msgstr "Tabs to spaces"
+msgstr "Sekmeler to spaces"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
