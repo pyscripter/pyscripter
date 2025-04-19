@@ -1286,7 +1286,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right mouse moves cursor"
-msgstr "Right fare moves cursor"
+msgstr "Sağ fare moves cursor"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
 #: dlgSynEditOptions.dfm
@@ -1514,7 +1514,7 @@ msgstr "Blok"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
-msgstr "Right Edge"
+msgstr "Sağ Edge"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
 #: dlgSynEditOptions.dfm
@@ -1674,7 +1674,7 @@ msgstr "Center"
 #. Programmer's name for it: SEdCmdRight
 #: dlgSynPageSetup.dfm StringResources.pas
 msgid "Right"
-msgstr "Right"
+msgstr "Sağ"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..Caption
@@ -1735,7 +1735,7 @@ msgstr "Left:"
 #. PageSetupDlg..TabControl..tbMargins..Label2..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right:"
-msgstr "Right:"
+msgstr "Sağ:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label3..Caption
 #: dlgSynPageSetup.dfm
@@ -1775,7 +1775,7 @@ msgstr "Left Metin Girinti:"
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr "Right Metin Girinti:"
+msgstr "Sağ Metin Girinti:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label11..Caption
 #: dlgSynPageSetup.dfm
@@ -3125,7 +3125,7 @@ msgstr "Close hepsi dosyalar except the active one"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr "Close Tümü to the &Right"
+msgstr "Close Tümü to the &Sağ"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
@@ -5842,7 +5842,7 @@ msgstr "Accept (Tab)"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Caption
 #: frmSuggest.dfm
 msgid "Accept Word (Ctrl+Right)"
-msgstr "Accept Kelime (Ctrl+Right)"
+msgstr "Accept Kelime (Ctrl+Sağ)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Hint
 #: frmSuggest.dfm
@@ -7473,7 +7473,7 @@ msgstr "Page Left"
 #. Programmer's name for it: SEdCmdPageRight
 #: StringResources.pas
 msgid "Page Right"
-msgstr "Page Right"
+msgstr "Page Sağ"
 
 #. Programmer's name for it: SEdCmdPageTop
 #: StringResources.pas
@@ -7508,7 +7508,7 @@ msgstr "Scroll Left"
 #. Programmer's name for it: SEdCmdScrollRight
 #: StringResources.pas
 msgid "Scroll Right"
-msgstr "Scroll Right"
+msgstr "Scroll Sağ"
 
 #. Programmer's name for it: SEdCmdScrollUp
 #: StringResources.pas
@@ -7563,7 +7563,7 @@ msgstr "Seçin Page Left"
 #. Programmer's name for it: SEdCmdSelectPageRight
 #: StringResources.pas
 msgid "Select Page Right"
-msgstr "Seçin Page Right"
+msgstr "Seçin Page Sağ"
 
 #. Programmer's name for it: SEdCmdSelectPageTop
 #: StringResources.pas
@@ -7578,7 +7578,7 @@ msgstr "Seçin Page Yukarı"
 #. Programmer's name for it: SEdCmdSelectRight
 #: StringResources.pas
 msgid "Select Right"
-msgstr "Seçin Right"
+msgstr "Seçin Sağ"
 
 #. Programmer's name for it: SEdCmdSelectUp
 #: StringResources.pas
@@ -7598,7 +7598,7 @@ msgstr "Seçin Kelime Left"
 #. Programmer's name for it: SEdCmdSelectWordRight
 #: StringResources.pas
 msgid "Select Word Right"
-msgstr "Seçin Kelime Right"
+msgstr "Seçin Kelime Sağ"
 
 #. Programmer's name for it: SEdCmdSetBookmark0
 #: StringResources.pas
@@ -7743,7 +7743,7 @@ msgstr "Kelime Left"
 #. Programmer's name for it: SEdCmdWordRight
 #: StringResources.pas
 msgid "Word Right"
-msgstr "Kelime Right"
+msgstr "Kelime Sağ"
 
 #. Multi-caret
 #. Programmer's name for it: SEdCmdCancelSelections
@@ -7759,7 +7759,7 @@ msgstr "Selelct Sütun Left"
 #. Programmer's name for it: SEdCmdSelColumnRight
 #: StringResources.pas
 msgid "Select Column Right"
-msgstr "Seçin Sütun Right"
+msgstr "Seçin Sütun Sağ"
 
 #. Programmer's name for it: SEdCmdSelColumnUp
 #: StringResources.pas
