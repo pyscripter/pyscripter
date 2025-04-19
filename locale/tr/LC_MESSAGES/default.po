@@ -1325,7 +1325,7 @@ msgstr "Tab Indent"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Converts a tab character to the number of spaces in Tab Width"
-msgstr "Converts a tab character to the number of spaces in Tab Width"
+msgstr "Converts a tab character to the sayı of spaces in Tab Width"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
@@ -1826,7 +1826,7 @@ msgstr "(1/1000) Inches"
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Page number"
-msgstr "Page number"
+msgstr "Page sayı"
 
 #. PageSetupDlg..ActionList1..PagesCmd..Caption
 #. PageSetupDlg..ActionList1..PagesCmd..Hint
@@ -2326,22 +2326,22 @@ msgstr "Placeholder of the Filename"
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Line number"
-msgstr "Satır number"
+msgstr "Satır sayı"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the line number"
-msgstr "Placeholder for the line number"
+msgstr "Placeholder for the line sayı"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr "Column number"
+msgstr "Column sayı"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the column number"
-msgstr "Placeholder for the column number"
+msgstr "Placeholder for the column sayı"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
@@ -2733,7 +2733,7 @@ msgstr "Go To &Satır..."
 #. Programmer's name for it: SGoToLineNumber
 #: dmCommands.dfm StringResources.pas
 msgid "Go to line number"
-msgstr "Go to line number"
+msgstr "Go to line sayı"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Caption
 #: dmCommands.dfm
@@ -3526,7 +3526,7 @@ msgstr "Temperature (0.0 to 2.0):"
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiMaxTokens..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Maximum number of response tokens:"
-msgstr "Maximum number of response tokens:"
+msgstr "Maximum sayı of response tokens:"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiSystemPrompt..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiSystemPrompt..EditCaption
@@ -6889,7 +6889,7 @@ msgstr "Module processed in %g seconds"
 #. Programmer's name for it: SInvalidIndex
 #: frmFunctionList.pas
 msgid "Invalid index number"
-msgstr "Invalid index number"
+msgstr "Invalid index sayı"
 
 #. Programmer's name for it: SQuestionHintValid
 #: frmLLMChat.pas
@@ -8120,7 +8120,7 @@ msgstr ""
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
 msgid "Invalid number!"
-msgstr "Invalid number!"
+msgstr "Invalid sayı!"
 
 #. Programmer's name for it: SEmptyTokenTextError
 #: StringResources.pas
@@ -8147,7 +8147,7 @@ msgstr "\"%s\" is not a valid integer"
 #. Programmer's name for it: SEnterLineNumber
 #: StringResources.pas
 msgid "Enter line number:"
-msgstr "Gir line number:"
+msgstr "Gir line sayı:"
 
 #. Programmer's name for it: SFileRenamedOrDeleted
 #: StringResources.pas
@@ -9266,8 +9266,7 @@ msgstr "The LLM model has not been set"
 #. Programmer's name for it: sInvalidTemperature
 #: uLLMSupport.pas
 msgid "Invalid temperature: It should be a decimal number between 0.0 and 2.0"
-msgstr ""
-"Invalid temperature: It should be a decimal number between 0.0 and 2.0"
+msgstr "Invalid temperature: It should be a decimal sayı between 0.0 and 2.0"
 
 #. Programmer's name for it: sUnsupportedEndpoint
 #: uLLMSupport.pas
@@ -9502,7 +9501,7 @@ msgstr "Mevcut line in the active document"
 
 #: uParams.pas
 msgid "Current line number in the active document"
-msgstr "Mevcut line number in the active document"
+msgstr "Mevcut line sayı in the active document"
 
 #: uParams.pas
 msgid "Selected text in the active document"
