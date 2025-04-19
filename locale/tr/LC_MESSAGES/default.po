@@ -581,7 +581,7 @@ msgstr "Kategori"
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
 msgid "Find in Files Search"
-msgstr "Bul in Files Search"
+msgstr "Bul in Dosyalar Search"
 
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
@@ -677,7 +677,7 @@ msgstr "Include su&bdirectories"
 #. FindResultsOptionsDialog..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Find in Files Options"
-msgstr "Bul in Files Options"
+msgstr "Bul in Dosyalar Options"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
@@ -943,7 +943,7 @@ msgstr "Değiştir"
 #. ReplaceInFilesDialog..Panel1..cbBackup..Caption
 #: dlgReplaceInFiles.dfm
 msgid "Backup Modified Files"
-msgstr "Backup Modified Files"
+msgstr "Backup Modified Dosyalar"
 
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
@@ -2746,12 +2746,12 @@ msgstr "Jump to the position of the first syntax error"
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "Find &in Files..."
-msgstr "Bul &in Files..."
+msgstr "Bul &in Dosyalar..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
-msgstr "Search in Files|Search for a string in Files"
+msgstr "Search in Dosyalar|Search for a string in Dosyalar"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -3536,7 +3536,7 @@ msgstr "System prompt:"
 #. Programmer's name for it: sGeneralFileFilter
 #: dmResources.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr "Text Files(*.txt,*.*)|*.txt;*.*"
+msgstr "Text Dosyalar(*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
@@ -4043,7 +4043,7 @@ msgstr "Select Dizin..."
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
 msgid "Find in Files Results"
-msgstr "Bul in Files Results"
+msgstr "Bul in Dosyalar Results"
 
 #. FindResultsWindow..Actions..actReplaceSelected..Caption
 #: frmFindResults.dfm
@@ -4171,7 +4171,7 @@ msgstr "Options..."
 #. FindResultsWindow..Actions..actViewOptions..Hint
 #: frmFindResults.dfm
 msgid "Configure Find in Files"
-msgstr "Configure Bul in Files"
+msgstr "Configure Bul in Dosyalar"
 
 #. FindResultsWindow..Actions..actReplaceAll..Caption
 #: frmFindResults.dfm
@@ -4669,7 +4669,7 @@ msgstr "New"
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..RecentSubmenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Files"
-msgstr "&Recent Files"
+msgstr "&Recent Dosyalar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
 #: frmPyIDEMain.dfm
@@ -4968,12 +4968,12 @@ msgstr "User Toolbar"
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Caption
 #: frmPyIDEMain.dfm
 msgid "&Files"
-msgstr "&Files"
+msgstr "&Dosyalar"
 
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Files"
-msgstr "Open Files"
+msgstr "Open Dosyalar"
 
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5237,12 +5237,12 @@ msgstr "Clear hepsi breakpoints"
 #. PyIDEMainForm..actlStandard..actNavFindResults..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &in Files Results"
-msgstr "Bul &in Files Results"
+msgstr "Bul &in Dosyalar Results"
 
 #. PyIDEMainForm..actlStandard..actNavFindResults..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Find in Files Results window"
-msgstr "Activate the Bul in Files Results window"
+msgstr "Activate the Bul in Dosyalar Results window"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
@@ -6061,7 +6061,7 @@ msgstr "Untitled"
 
 #: cProjectClasses.pas
 msgid "Files"
-msgstr "Files"
+msgstr "Dosyalar"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
@@ -6393,7 +6393,7 @@ msgstr "New name:"
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
 msgid "The Find in Files Results window is not active"
-msgstr "The Bul in Files Results window is not active"
+msgstr "The Bul in Dosyalar Results window is not active"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
@@ -7024,12 +7024,12 @@ msgstr "Gir yeni expression:"
 #. Programmer's name for it: sPythonFileFilter
 #: StringResources.pas
 msgid "Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
-msgstr "Python Files (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
+msgstr "Python Dosyalar (*.py;*.pyw;*.pyi)|*.py;*.pyw;*.pyi"
 
 #. Programmer's name for it: sCythonFileFilter
 #: StringResources.pas
 msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
-msgstr "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
+msgstr "Cython Dosyalar (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
 
 #. Programmer's name for it: sHTMLFileFilter
 #: StringResources.pas
@@ -7041,7 +7041,7 @@ msgstr "HTML Documents (*.htm;*.html)|*.htm;*.html"
 msgid ""
 "XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
 msgstr ""
-"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
+"XML Dosyalar (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
 
 #. Programmer's name for it: sCSSFileFilter
 #: StringResources.pas
@@ -7054,7 +7054,7 @@ msgid ""
 "C/C++ Files "
 "(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
 msgstr ""
-"C/C++ Files "
+"C/C++ Dosyalar "
 "(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
 
 #. Programmer's name for it: sYAMLFileFilter
@@ -7065,17 +7065,17 @@ msgstr "YAML files (*.yaml)|*.yaml"
 #. Programmer's name for it: sJSFileFilter
 #: StringResources.pas
 msgid "Javascript Files (*.js)|*.js"
-msgstr "Javascript Files (*.js)|*.js"
+msgstr "Javascript Dosyalar (*.js)|*.js"
 
 #. Programmer's name for it: sPHPFileFilter
 #: StringResources.pas
 msgid "PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
-msgstr "PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
+msgstr "PHP Dosyalar (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
 
 #. Programmer's name for it: sJSONFileFilter
 #: StringResources.pas
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
-msgstr "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+msgstr "JSON Dosyalar (*.json;*.ipynb)|*.json;*.ipynb"
 
 #. Syntax element friendly names
 #. Programmer's name for it: SyntaxElementFriendlyName_Anchor
@@ -9304,11 +9304,11 @@ msgstr "Version of active Python"
 #. register system paths and parameters
 #: uParams.pas
 msgid "Program Files directory"
-msgstr "Program Files directory"
+msgstr "Program Dosyalar directory"
 
 #: uParams.pas
 msgid "Common Files directory"
-msgstr "Common Files directory"
+msgstr "Common Dosyalar directory"
 
 #: uParams.pas
 msgid "Windows installation directory"
