@@ -5479,7 +5479,7 @@ msgstr "Etkinleştir Todo Liste pencere"
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
 #: frmPyIDEMain.dfm
 msgid "&Unit Tests"
-msgstr "&Birim Tests"
+msgstr "&Birim Testler"
 
 #. PyIDEMainForm..actlStandard..actNavOutput..Caption
 #: frmPyIDEMain.dfm
@@ -5910,7 +5910,7 @@ msgstr "Abort arama için todo öğeler"
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
 msgid "Unit Tests"
-msgstr "Birim Tests"
+msgstr "Birim Testler"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..Label2..Caption
 #: frmUnitTests.dfm
@@ -5925,12 +5925,12 @@ msgstr "Hayır Module Loaded"
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lbFoundTests..Caption
 #: frmUnitTests.dfm
 msgid "Found 0 tests"
-msgstr "Found 0 tests"
+msgstr "Found 0 testler"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lblRunTests..Caption
 #: frmUnitTests.dfm
 msgid "Run 0 tests"
-msgstr "Çalıştır 0 tests"
+msgstr "Çalıştır 0 testler"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lblFailures..Caption
 #: frmUnitTests.dfm
@@ -5940,12 +5940,12 @@ msgstr "Failures/Errors : 0/0"
 #. UnitTestWindow..DialogActions..actRefresh..Hint
 #: frmUnitTests.dfm
 msgid "Refresh tests|Extract tests from active module"
-msgstr "Refresh tests|Extract tests from aktif module"
+msgstr "Refresh testler|Extract testler from aktif module"
 
 #. UnitTestWindow..DialogActions..actRun..Hint
 #: frmUnitTests.dfm
 msgid "Run selected tests"
-msgstr "Çalıştır seçili tests"
+msgstr "Çalıştır seçili testler"
 
 #. UnitTestWindow..DialogActions..actStop..Caption
 #: frmUnitTests.dfm
@@ -5960,12 +5960,12 @@ msgstr "Stop Testing"
 #. UnitTestWindow..DialogActions..actSelectAll..Hint
 #: frmUnitTests.dfm
 msgid "Select all tests"
-msgstr "Seçin hepsi tests"
+msgstr "Seçin hepsi testler"
 
 #. UnitTestWindow..DialogActions..actDeselectAll..Hint
 #: frmUnitTests.dfm
 msgid "Deselect all tests"
-msgstr "Seçimi kaldır hepsi tests"
+msgstr "Seçimi kaldır hepsi testler"
 
 #. UnitTestWindow..DialogActions..actSelectFailed..Caption
 #: frmUnitTests.dfm
@@ -5975,7 +5975,7 @@ msgstr "Seçin Fai&led"
 #. UnitTestWindow..DialogActions..actSelectFailed..Hint
 #: frmUnitTests.dfm
 msgid "Select all failed tests"
-msgstr "Seçin hepsi failed tests"
+msgstr "Seçin hepsi failed testler"
 
 #. UnitTestWindow..DialogActions..actExpandAll..Caption
 #: frmUnitTests.dfm
@@ -6000,7 +6000,7 @@ msgstr "&Clear Tümü"
 #. UnitTestWindow..DialogActions..actClearAll..Hint
 #: frmUnitTests.dfm
 msgid "Clear all tests"
-msgstr "Clear hepsi tests"
+msgstr "Clear hepsi testler"
 
 #. VariablesWindow..Caption
 #: frmVariables.dfm
@@ -8245,7 +8245,7 @@ msgstr ""
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
 msgid "No tests found!"
-msgstr "Hayır tests found!"
+msgstr "Hayır testler found!"
 
 #. Programmer's name for it: SDuplicateKey
 #: StringResources.pas
