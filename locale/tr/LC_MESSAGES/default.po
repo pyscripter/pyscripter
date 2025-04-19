@@ -140,7 +140,7 @@ msgstr "and save it as a custom parametre"
 #. CodeTemplates..Caption
 #: dlgCodeTemplates.dfm
 msgid "Code Templates"
-msgstr "Kod Templates"
+msgstr "Kod Şablonları"
 
 #. CodeTemplates..Panel..btnHelp..Caption
 #. CommandLineDlg..Panel..btnHelp..Caption
@@ -551,7 +551,7 @@ msgstr "&Detaylar"
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
 msgid "File Templates"
-msgstr "Dosya Templates"
+msgstr "Dosya Şablonları"
 
 #. FileTemplatesDialog..Panel..GroupBox..Caption
 #: dlgFileTemplates.dfm
@@ -753,7 +753,7 @@ msgstr "Kategoriler:"
 #. NewFileDialog..Panel1..Panel2..Panel4..Label2..Caption
 #: dlgNewFile.dfm
 msgid "Templates:"
-msgstr "Templates:"
+msgstr "Şablonları:"
 
 #. NewFileDialog..Panel1..btnCreate..Caption
 #: dlgNewFile.dfm
@@ -763,7 +763,7 @@ msgstr "C&reate"
 #. NewFileDialog..Panel1..btnManageTemplates..Caption
 #: dlgNewFile.dfm
 msgid "Manage File Templates..."
-msgstr "Manage Dosya Templates..."
+msgstr "Manage Dosya Şablonları..."
 
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
@@ -2822,7 +2822,7 @@ msgstr "Özelleştirilmiş IDE shortcuts"
 #. CommandsDataModule..actlMain..actCodeTemplates..Caption
 #: dmCommands.dfm
 msgid "&Code Templates..."
-msgstr "&Kod Templates..."
+msgstr "&Kod Şablonları..."
 
 #. CommandsDataModule..actlMain..actCodeTemplates..Hint
 #: dmCommands.dfm
@@ -2977,7 +2977,7 @@ msgstr "Toggle Comment| Comment/Uncomment block of code"
 #. CommandsDataModule..actlMain..actFileTemplates..Caption
 #: dmCommands.dfm
 msgid "&File Templates..."
-msgstr "&Dosya Templates..."
+msgstr "&Dosya Şablonları..."
 
 #. CommandsDataModule..actlMain..actFileTemplates..Hint
 #: dmCommands.dfm
