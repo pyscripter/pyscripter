@@ -2468,7 +2468,7 @@ msgstr "Geri al|Son eylemi geri alır"
 #. CommandsDataModule..actlMain..actEditRedo..Caption
 #: dmCommands.dfm
 msgid "&Redo"
-msgstr "&Redo"
+msgstr "&Yeniden yap"
 
 #. CommandsDataModule..actlMain..actEditRedo..Hint
 #: dmCommands.dfm
@@ -7486,7 +7486,7 @@ msgstr "Yapıştır"
 #. Programmer's name for it: SEdCmdRedo
 #: StringResources.pas
 msgid "Redo"
-msgstr "Redo"
+msgstr "Yeniden yap"
 
 #. Programmer's name for it: SEdCmdScrollDown
 #: StringResources.pas
