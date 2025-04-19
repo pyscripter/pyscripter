@@ -343,7 +343,7 @@ msgstr "&Değiştir.."
 #. CommandLineDlg..Caption
 #: dlgCommandLine.dfm
 msgid "Command Line Parameters"
-msgstr "Command Line Parametreler"
+msgstr "Komut Line Parametreler"
 
 #. CommandLineDlg..Panel..Label1....Caption
 #: dlgCommandLine.dfm
@@ -369,7 +369,7 @@ msgstr "History"
 #. CommandLineDlg..Panel..cbUseCommandLine..Caption
 #: dlgCommandLine.dfm
 msgid "Use Command Line Parameters?"
-msgstr "Use Command Line Parametreler?"
+msgstr "Use Komut Line Parametreler?"
 
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
@@ -1179,7 +1179,7 @@ msgstr "Keystroke Options"
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
 #: dlgSynEditOptions.dfm
 msgid "Command:"
-msgstr "Command:"
+msgstr "Komut:"
 
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm
@@ -1195,7 +1195,7 @@ msgstr "Keystroke 1:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
 #: dlgSynEditOptions.dfm dlgToolProperties.dfm
 msgid "Command"
-msgstr "Command"
+msgstr "Komut"
 
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm
@@ -5023,7 +5023,7 @@ msgstr "Run|Run active module"
 #. PyIDEMainForm..actlStandard..actCommandLine..Caption
 #: frmPyIDEMain.dfm
 msgid "Command Line &Parameters..."
-msgstr "Command Line &Parametreler..."
+msgstr "Komut Line &Parametreler..."
 
 #. PyIDEMainForm..actlStandard..actCommandLine..Hint
 #: frmPyIDEMain.dfm
@@ -5488,12 +5488,12 @@ msgstr "&Unit Tests"
 #. PyIDEMainForm..actlStandard..actNavOutput..Caption
 #: frmPyIDEMain.dfm
 msgid "Command &Output"
-msgstr "Command &Output"
+msgstr "Komut &Output"
 
 #. PyIDEMainForm..actlStandard..actNavOutput..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Command Output window"
-msgstr "Activate the Command Output window"
+msgstr "Activate the Komut Output window"
 
 #. PyIDEMainForm..actlStandard..actNavEditor..Hint
 #: frmPyIDEMain.dfm
@@ -6107,11 +6107,11 @@ msgstr "User name"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
-msgstr "Command to execute Python (no spaces)"
+msgstr "Komut to execute Python (no spaces)"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
-msgstr "Path to SSH Command"
+msgstr "Path to SSH Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
@@ -6119,7 +6119,7 @@ msgstr "SSH options"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
-msgstr "Path to SCP Command"
+msgstr "Path to SCP Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
@@ -6176,7 +6176,7 @@ msgstr "Check the indentation of the Python program"
 
 #: cTools.pas
 msgid "Command Prompt"
-msgstr "Command Prompt"
+msgstr "Komut Prompt"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
@@ -7940,7 +7940,7 @@ msgstr "(Empty List)"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Command Line : %s\n"
-msgstr "Command Line : %s\n"
+msgstr "Komut Line : %s\n"
 
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
@@ -8759,7 +8759,7 @@ msgstr "The following command line options are valid: \n"
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
 msgid "PyScripter Command Line Options"
-msgstr "PyScripter Command Line Options"
+msgstr "PyScripter Komut Line Options"
 
 #. Command Window
 #. Programmer's name for it: SProcessSuccessful
@@ -8789,7 +8789,7 @@ msgstr "One process is still running, stop it first."
 #: StringResources.pas
 #, object-pascal-format
 msgid "Command line: %s"
-msgstr "Command line: %s"
+msgstr "Komut line: %s"
 
 #. Programmer's name for it: SPrintWorkingDir
 #: StringResources.pas
@@ -9241,7 +9241,7 @@ msgstr "Prompt"
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
 #: SynHighlighterPython.pas
 msgid "System Command"
-msgstr "System Command"
+msgstr "System Komut"
 
 #. Programmer's name for it: sLLMBusy
 #: uLLMSupport.pas
@@ -9345,7 +9345,7 @@ msgstr "Executable name"
 
 #: uParams.pas
 msgid "Python Command Line Arguments"
-msgstr "Python Command Line Arguments"
+msgstr "Python Komut Line Arguments"
 
 #. register parameter modifiers
 #: uParams.pas
@@ -9406,7 +9406,7 @@ msgstr "Contents of text file"
 
 #: uParams.pas
 msgid "Command line parameter"
-msgstr "Command line parametre"
+msgstr "Komut line parametre"
 
 #: uParams.pas
 msgid "Value of registry key"
