@@ -2291,12 +2291,12 @@ msgstr "Konsol"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
 msgid "Check to hide the console."
-msgstr "Check to gizle the console."
+msgstr "Check to gizle the konsol."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Caption
 #: dlgToolProperties.dfm
 msgid "&Hide console"
-msgstr "&Gizle console"
+msgstr "&Gizle konsol"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
@@ -6176,7 +6176,7 @@ msgstr "Komut Prompt"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr "Başla a console at the dizin of the aktif dosya"
+msgstr "Başla a konsol at the dizin of the aktif dosya"
 
 #: cTools.pas
 msgid "Profile"
