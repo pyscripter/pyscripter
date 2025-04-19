@@ -707,7 +707,7 @@ msgstr "Eşleştirme Bağlam Görüntüleme"
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Number of context lines"
-msgstr "Number of context lines"
+msgstr "Number of bağlam lines"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
@@ -2137,7 +2137,7 @@ msgid ""
 "Specifies the context in which\n"
 "the tool is enabled."
 msgstr ""
-"Specifies the context in which\n"
+"Specifies the bağlam in which\n"
 "the tool is enabled."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
@@ -6707,7 +6707,7 @@ msgstr "Shell Integration"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
-msgstr "Dosya Explorer context menu"
+msgstr "Dosya Explorer bağlam menu"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
@@ -8707,7 +8707,7 @@ msgstr "%d eşleşmeler"
 #. Programmer's name for it: SMatchContextNotAvail
 #: StringResources.pas
 msgid "Unable to load match context lines"
-msgstr "Unable to load eşleştirme context lines"
+msgstr "Unable to load eşleştirme bağlam lines"
 
 #. Programmer's name for it: SProcessing
 #: StringResources.pas
