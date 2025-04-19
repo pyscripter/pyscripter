@@ -1300,7 +1300,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tabs"
-msgstr "Akıllı tabs"
+msgstr "Akıllı sekmeler"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
 #: dlgSynEditOptions.dfm
@@ -1456,7 +1456,7 @@ msgstr "Göster yazı tipi ligatures"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr "Shows line breaks, spaces and tabs kullanarak special symbols"
+msgstr "Shows line breaks, spaces and sekmeler kullanarak special symbols"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -2673,7 +2673,7 @@ msgstr "&Tabify"
 #. CommandsDataModule..actlMain..actEditTabify..Hint
 #: dmCommands.dfm
 msgid "Tabify|Convert spaces to tabs"
-msgstr "Tabify|Convert spaces to tabs"
+msgstr "Tabify|Convert spaces to sekmeler"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Caption
 #: dmCommands.dfm
@@ -2683,7 +2683,7 @@ msgstr "U&ntabify"
 #. CommandsDataModule..actlMain..actEditUntabify..Hint
 #: dmCommands.dfm
 msgid "Untabify|Convert tabs to spaces"
-msgstr "Untabify|Convert tabs to spaces"
+msgstr "Untabify|Convert sekmeler to spaces"
 
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
@@ -6623,7 +6623,7 @@ msgstr "Highlight renk of seçili kelime"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
-msgstr "Görüntüleme package names in editör tabs"
+msgstr "Görüntüleme package names in editör sekmeler"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
