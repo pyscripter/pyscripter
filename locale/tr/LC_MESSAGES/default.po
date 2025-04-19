@@ -603,7 +603,7 @@ msgstr "Seçenekler"
 #. FindInFilesDialog..Panel1..gbxOptions..cbCaseSensitive..Caption
 #: dlgFindInFiles.dfm
 msgid "&Case sensitive"
-msgstr "&Case sensitive"
+msgstr "&Küçük büyük harfe duyarlı"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbNoComments..Caption
 #: dlgFindInFiles.dfm
@@ -6115,7 +6115,7 @@ msgstr "Path to SSH Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
-msgstr "SSH options"
+msgstr "SSH seçenekler"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
@@ -6123,7 +6123,7 @@ msgstr "Path to SCP Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
-msgstr "SCP options"
+msgstr "SCP seçenekler"
 
 #: cSSHSupport.pas
 msgid "Password Needed (PyTTY only)"
@@ -6628,7 +6628,7 @@ msgstr "Kod folding enabled by varsayılan"
 
 #: dmCommands.pas
 msgid "Code folding options"
-msgstr "Kod folding options"
+msgstr "Kod folding seçenekler"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
@@ -6678,7 +6678,7 @@ msgstr "Interpreter code tamamlama"
 
 #: dmCommands.pas
 msgid "Case sensitive"
-msgstr "Case sensitive"
+msgstr "Küçük büyük harfe duyarlı"
 
 #: dmCommands.pas
 msgid "Complete Python keywords"
@@ -8549,7 +8549,7 @@ msgid ""
 msgstr ""
 "The dictionary for language code \"%s\" is not available.\n"
 "You can get spell checking dictionaries through the Windows language settings.\n"
-"You can change the active language through the IDE options dialog."
+"You can change the active language through the IDE seçenekler dialog."
 
 #. Programmer's name for it: SPickleFailed
 #: StringResources.pas
@@ -8749,12 +8749,12 @@ msgstr "Parse error at this position: "
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
 msgid "you are not allowed to use command line options starting with -"
-msgstr "you are not allowed to use command line options starting with -"
+msgstr "you are not allowed to use command line seçenekler starting with -"
 
 #. Programmer's name for it: SParseInvalidOptions
 #: StringResources.pas
 msgid "The following command line options are valid: \n"
-msgstr "The following command line options are valid: \n"
+msgstr "The following command line seçenekler are valid: \n"
 
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
