@@ -1214,7 +1214,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
 msgid "Auto indent"
-msgstr "Auto girinti"
+msgstr "Otomatik girinti"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing....Hint
 #: dlgSynEditOptions.dfm
@@ -4930,7 +4930,7 @@ msgstr "Arama From C&aret"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
 msgid "&Auto Case Sensitive"
-msgstr "&Auto Case Sensitive"
+msgstr "&Otomatik Case Sensitive"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
@@ -5782,7 +5782,7 @@ msgstr "Performs re.findall"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_AutoExecute..Caption
 #: frmRegExpTester.dfm
 msgid "Auto Execute"
-msgstr "Auto Execute"
+msgstr "Otomatik Execute"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TIExecute..Caption
 #: frmRegExpTester.dfm
@@ -6586,7 +6586,7 @@ msgstr "Göster debugger hints"
 
 #: dmCommands.pas
 msgid "Auto-complete brackets"
-msgstr "Auto-complete brackets"
+msgstr "Otomatik-complete brackets"
 
 #: dmCommands.pas
 msgid "Show executable line marks"
@@ -6606,11 +6606,11 @@ msgstr "Detect UTF-8 encoding when opening dosyalar"
 
 #: dmCommands.pas
 msgid "Auto-reload changed files"
-msgstr "Auto-reload changed dosyalar"
+msgstr "Otomatik-reload changed dosyalar"
 
 #: dmCommands.pas
 msgid "Auto-hide find toolbar"
-msgstr "Auto-gizle bul toolbar"
+msgstr "Otomatik-gizle bul toolbar"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
@@ -6692,7 +6692,7 @@ msgstr "Complete as you tip"
 
 #: dmCommands.pas
 msgid "Auto completion font"
-msgstr "Auto tamamlama yazı tipi"
+msgstr "Otomatik tamamlama yazı tipi"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
@@ -6700,7 +6700,7 @@ msgstr "Complete onunla kelime-break characters"
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
-msgstr "Auto-complete onunla one entry"
+msgstr "Otomatik-complete onunla one entry"
 
 #: dmCommands.pas
 msgid "Shell Integration"
@@ -7233,7 +7233,7 @@ msgstr "Page: %d"
 #. Programmer's name for it: SEdCmdAutoCompletion
 #: StringResources.pas
 msgid "Auto Completion"
-msgstr "Auto Completion"
+msgstr "Otomatik Completion"
 
 #. Programmer's name for it: SEdCmdBlockIndent
 #: StringResources.pas
