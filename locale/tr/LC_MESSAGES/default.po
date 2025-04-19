@@ -1233,7 +1233,7 @@ msgstr "Sürükle ve bırak düzenleme"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enhances end key similar to JDeveloper"
-msgstr "Enhances end tuş similar to JDeveloper"
+msgstr "Enhances end tuş benzer to JDeveloper"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
@@ -1243,7 +1243,7 @@ msgstr "Enhance End Key"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "enhances home key positioning, similar to visual studio"
-msgstr "enhances home tuş positioning, similar to visual studio"
+msgstr "enhances home tuş positioning, benzer to visual studio"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
 #: dlgSynEditOptions.dfm
@@ -1305,7 +1305,7 @@ msgstr "Smart tabs"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
 #: dlgSynEditOptions.dfm
 msgid "similar to Smart Tabs, but when you delete characters"
-msgstr "similar to Smart Tabs, but when you delete characters"
+msgstr "benzer to Smart Tabs, but when you delete characters"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
 #: dlgSynEditOptions.dfm
