@@ -3273,7 +3273,7 @@ msgstr "Unfold classes"
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
 #: dmCommands.dfm
 msgid "Functions"
-msgstr "Functions"
+msgstr "Fonksiyonlar"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm
@@ -7192,7 +7192,7 @@ msgstr "Sözdizimi Error"
 #. Programmer's name for it: SyntaxElementFriendlyName_System
 #: StringResources.pas
 msgid "System Functions and Variables"
-msgstr "System Functions ve Variables"
+msgstr "System Fonksiyonlar ve Variables"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Tag
 #: StringResources.pas
