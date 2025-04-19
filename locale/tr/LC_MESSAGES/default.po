@@ -4330,7 +4330,7 @@ msgstr "Topic Başlık"
 #. LLMChatForm..ChatActionList..actTopicTitle..Hint
 #: frmLLMChat.dfm
 msgid "Set the title of the chat topic"
-msgstr "Ayarla the title of the chat topic"
+msgstr "Ayarla the başlık of the chat topic"
 
 #. LLMChatForm..ChatActionList..actCancelRequest..Caption
 #: frmLLMChat.dfm
@@ -6914,7 +6914,7 @@ msgstr "Could not read the Chat settings"
 
 #: frmLLMChat.pas
 msgid "Enter title:"
-msgstr "Gir title:"
+msgstr "Gir başlık:"
 
 #: frmLLMChat.pas
 msgid "Copy code to new editor"
