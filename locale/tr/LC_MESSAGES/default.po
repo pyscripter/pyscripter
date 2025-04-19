@@ -1651,7 +1651,7 @@ msgstr "Marjlar && Seçenekler"
 #. PageSetupDlg..TabControl..tbHeaderFooter..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
-msgstr "Header && Footer"
+msgstr "Üstbilgi &&  Altbilgi"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
