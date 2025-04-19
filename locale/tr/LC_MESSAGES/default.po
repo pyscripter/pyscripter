@@ -902,12 +902,12 @@ msgstr "Göster Yardım"
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
 #: dlgPythonVersions.dfm
 msgid "Rename"
-msgstr "Rename"
+msgstr "Yeniden adlandır"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
 msgid "Rename selected Python version"
-msgstr "Rename seçili Python versiyon"
+msgstr "Yeniden adlandır seçili Python versiyon"
 
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
@@ -4516,7 +4516,7 @@ msgstr "Re&name"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Hint
 #: frmProjectExplorer.dfm
 msgid "Rename the selected folder or RunConfiguration"
-msgstr "Rename the seçili klasör or RunConfiguration"
+msgstr "Yeniden adlandır the seçili klasör or RunConfiguration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
 #: frmProjectExplorer.dfm
@@ -6385,7 +6385,7 @@ msgstr "Seçin klasör with Python installation (inlcuding virtualenv and venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
-msgstr "Rename Python Versiyon"
+msgstr "Yeniden adlandır Python Versiyon"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
