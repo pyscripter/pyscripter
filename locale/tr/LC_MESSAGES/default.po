@@ -2311,12 +2311,12 @@ msgstr "&UTF8 IO"
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
 msgid "Filename"
-msgstr "Filename"
+msgstr "Dosya adı"
 
 #. ToolProperties..FormatsPopup..Filename1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder of the Filename"
-msgstr "Placeholder of the Filename"
+msgstr "Placeholder of the Dosya adı"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
