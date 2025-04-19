@@ -2316,7 +2316,7 @@ msgstr "Dosya adı"
 #. ToolProperties..FormatsPopup..Filename1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder of the Filename"
-msgstr "Placeholder of the Dosya adı"
+msgstr "Dosya adının yer tutucusu"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
