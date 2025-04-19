@@ -1404,7 +1404,7 @@ msgstr "İmlecin dosya sonu işaretçisinin ötesine geçmesine izin verir"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of file"
-msgstr "Kaydırma past son of dosya"
+msgstr "Dosyanın sonunu geç"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
 #: dlgSynEditOptions.dfm
