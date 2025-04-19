@@ -1256,8 +1256,9 @@ msgid ""
 "When undoing/redoing actions, handle all continuous changes of the same kind"
 " in one call instead undoing/redoing each command separately"
 msgstr ""
-"When undoing/redoing actions, handle hepsi continuous changes of the same "
-"kind in one call instead undoing/redoing each komut separately"
+"İşlemleri geri alırken/yeniden yaparken, her komutu ayrı ayrı geri "
+"almak/yeniden yapmak yerine aynı türden tüm sürekli değişiklikleri tek bir "
+"çağrıda işleyin"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
