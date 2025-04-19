@@ -4953,7 +4953,7 @@ msgstr "Arama in &Selection"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiRegExp..Caption
 #: frmPyIDEMain.dfm
 msgid "&Regular Expressions"
-msgstr "&Düzenli Expressions"
+msgstr "&Düzenli İfadeler"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiIncrementalSearch..Caption
 #: frmPyIDEMain.dfm
@@ -5715,7 +5715,7 @@ msgstr "Paste pano metin with added interpreter prompts"
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expressions"
-msgstr "Düzenli Expressions"
+msgstr "Düzenli İfadeler"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TiClear..Hint
 #: frmRegExpTester.dfm
