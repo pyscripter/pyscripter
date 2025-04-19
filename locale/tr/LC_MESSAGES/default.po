@@ -1944,7 +1944,7 @@ msgstr "Previous"
 #. PrintPreviewDlg..ActionList..PrevCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Previous|Go to previous page"
-msgstr "Previous|Go to previous page"
+msgstr "Previous|Go to önceki page"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2532,7 +2532,7 @@ msgstr "Bul &Previous"
 #. CommandsDataModule..actlMain..actSearchFindPrev..Hint
 #: dmCommands.dfm
 msgid "Find previous|Find Previous match"
-msgstr "Bul previous|Bul Previous eşleştirme"
+msgstr "Bul önceki|Bul Previous eşleştirme"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #: dmCommands.dfm
@@ -2890,7 +2890,7 @@ msgstr "Bul Previous Reference"
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #: dmCommands.dfm
 msgid "Find previous identifier reference"
-msgstr "Bul previous identifier reference"
+msgstr "Bul önceki identifier reference"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #: dmCommands.dfm
@@ -3633,7 +3633,7 @@ msgstr "Previous Frame"
 #. CallStackWindow..actlCallStack..actPreviousFrame..Hint
 #: frmCallStack.dfm
 msgid "Select previous (older) frame"
-msgstr "Seçin previous (older) frame"
+msgstr "Seçin önceki (older) frame"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Caption
 #: frmCallStack.dfm
@@ -4304,7 +4304,7 @@ msgstr "Previous Chat Topic"
 #. LLMChatForm..ChatActionList..actChatPrevious..Hint
 #: frmLLMChat.dfm
 msgid "Show previous chat topic"
-msgstr "Göster previous chat topic"
+msgstr "Göster önceki chat topic"
 
 #. LLMChatForm..ChatActionList..actChatNext..Caption
 #: frmLLMChat.dfm
@@ -4371,7 +4371,7 @@ msgstr "Göster next messages"
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
 #: frmMessages.dfm
 msgid "Show previous messages"
-msgstr "Göster previous messages"
+msgstr "Göster önceki messages"
 
 #. MessagesWindow..MsgsActionList..actClearAll..Caption
 #. WatchesWindow..TBXPopupMenu..mnClearall..Caption
@@ -4996,7 +4996,7 @@ msgstr "&Previous Editör"
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Previous editor|Move to the previous editor"
-msgstr "Previous editör|taşı to the previous editör"
+msgstr "Previous editör|taşı to the önceki editör"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Caption
 #: frmPyIDEMain.dfm
