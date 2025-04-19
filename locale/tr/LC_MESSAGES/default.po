@@ -948,7 +948,7 @@ msgstr "Yedekleme Değiştirilmiş Dosyalar"
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
 msgid "Run Configuration"
-msgstr "Run Configuration"
+msgstr "Yapılandırmayı Çalıştır"
 
 #. RunConfigurationForm..Panel1..GroupBox1..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox1..Caption
