@@ -1639,7 +1639,7 @@ msgstr "Uygula to hepsi editors"
 #. PageSetupDlg..Caption
 #: dlgSynPageSetup.dfm
 msgid "Page Setup"
-msgstr "Sayfa Setup"
+msgstr "Sayfa Düzen"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem1..Caption
 #. PageSetupDlg..TabControl..tbMargins..Caption
@@ -2589,7 +2589,7 @@ msgstr "Print preview"
 #. CommandsDataModule..actlMain..actPageSetup..Caption
 #: dmCommands.dfm
 msgid "Pa&ge Setup..."
-msgstr "Pa&ge Setup..."
+msgstr "Pa&ge Düzen..."
 
 #. CommandsDataModule..actlMain..actPageSetup..Hint
 #: dmCommands.dfm
@@ -5615,12 +5615,12 @@ msgstr "Sitiller..."
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python Versions..."
-msgstr "Setup Python Versiyonlar..."
+msgstr "Düzen Python Versiyonlar..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
 msgid "Setup Python engine"
-msgstr "Setup Python engine"
+msgstr "Düzen Python engine"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
 #. SSH File and Remote engine
@@ -6410,7 +6410,7 @@ msgstr "Print the belge on"
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr "Page"
+msgstr "Sayfa"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
@@ -6443,7 +6443,7 @@ msgstr "Editör sekme tuşu konum"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
-msgstr "Akıllı Sonraki Önceki Page"
+msgstr "Akıllı Sonraki Önceki Sayfa"
 
 #: dmCommands.pas
 msgid "Show tab close button"
@@ -7228,7 +7228,7 @@ msgstr "Top Satır: %d"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Page: %d"
-msgstr "Page: %d"
+msgstr "Sayfa: %d"
 
 #. Needs to be manually updated as new editor commands are added
 #. Programmer's name for it: SEdCmdAutoCompletion
@@ -7459,32 +7459,32 @@ msgstr "Üzerine yazma Mode"
 #. Programmer's name for it: SEdCmdPageBottom
 #: StringResources.pas
 msgid "Page Bottom"
-msgstr "Page Bottom"
+msgstr "Sayfa Bottom"
 
 #. Programmer's name for it: SEdCmdPageDown
 #: StringResources.pas
 msgid "Page Down"
-msgstr "Page Aşağı"
+msgstr "Sayfa Aşağı"
 
 #. Programmer's name for it: SEdCmdPageLeft
 #: StringResources.pas
 msgid "Page Left"
-msgstr "Page Left"
+msgstr "Sayfa Left"
 
 #. Programmer's name for it: SEdCmdPageRight
 #: StringResources.pas
 msgid "Page Right"
-msgstr "Page Sağ"
+msgstr "Sayfa Sağ"
 
 #. Programmer's name for it: SEdCmdPageTop
 #: StringResources.pas
 msgid "Page Top"
-msgstr "Page Top"
+msgstr "Sayfa Top"
 
 #. Programmer's name for it: SEdCmdPageUp
 #: StringResources.pas
 msgid "Page Up"
-msgstr "Page Yukarı"
+msgstr "Sayfa Yukarı"
 
 #. Programmer's name for it: SEdCmdPaste
 #: StringResources.pas
@@ -7549,32 +7549,32 @@ msgstr "Seçin Satır Başla"
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
 msgid "Select Page Bottom"
-msgstr "Seçin Page Bottom"
+msgstr "Seçin Sayfa Bottom"
 
 #. Programmer's name for it: SEdCmdSelectPageDown
 #: StringResources.pas
 msgid "Select Page Down"
-msgstr "Seçin Page Aşağı"
+msgstr "Seçin Sayfa Aşağı"
 
 #. Programmer's name for it: SEdCmdSelectPageLeft
 #: StringResources.pas
 msgid "Select Page Left"
-msgstr "Seçin Page Left"
+msgstr "Seçin Sayfa Left"
 
 #. Programmer's name for it: SEdCmdSelectPageRight
 #: StringResources.pas
 msgid "Select Page Right"
-msgstr "Seçin Page Sağ"
+msgstr "Seçin Sayfa Sağ"
 
 #. Programmer's name for it: SEdCmdSelectPageTop
 #: StringResources.pas
 msgid "Select Page Top"
-msgstr "Seçin Page Top"
+msgstr "Seçin Sayfa Top"
 
 #. Programmer's name for it: SEdCmdSelectPageUp
 #: StringResources.pas
 msgid "Select Page Up"
-msgstr "Seçin Page Yukarı"
+msgstr "Seçin Sayfa Yukarı"
 
 #. Programmer's name for it: SEdCmdSelectRight
 #: StringResources.pas
@@ -7775,12 +7775,12 @@ msgstr "Seçin Sütun Aşağı"
 #. Programmer's name for it: SEdCmdSelColumnPageUp
 #: StringResources.pas
 msgid "Select Column Page Up"
-msgstr "Seçin Sütun Page Yukarı"
+msgstr "Seçin Sütun Sayfa Yukarı"
 
 #. Programmer's name for it: SEdCmdSelColumnPageDown
 #: StringResources.pas
 msgid "Select Column Page Down"
-msgstr "Seçin Sütun Page Aşağı"
+msgstr "Seçin Sütun Sayfa Aşağı"
 
 #. Programmer's name for it: SEdCmdSelMatchingText
 #: StringResources.pas
