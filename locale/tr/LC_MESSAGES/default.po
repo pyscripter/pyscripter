@@ -1551,7 +1551,7 @@ msgstr "Otomatik boyutlandırma"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show line numbers"
-msgstr "Göster satır numbers"
+msgstr "Göster satır sayılar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
@@ -1792,12 +1792,12 @@ msgstr "Mirror margins"
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line numbers"
-msgstr "Satır numbers"
+msgstr "Satır sayılar"
 
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
 msgid "Print line numbers in margin"
-msgstr "Print satır numbers in margin"
+msgstr "Print satır sayılar in margin"
 
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
@@ -2871,7 +2871,7 @@ msgstr "Satır &Numbers"
 #. CommandsDataModule..actlMain..actEditLineNumbers..Hint
 #: dmCommands.dfm
 msgid "Show/Hide line numbers"
-msgstr "Göster/Gizle satır numbers"
+msgstr "Göster/Gizle satır sayılar"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Caption
 #: dmCommands.dfm
