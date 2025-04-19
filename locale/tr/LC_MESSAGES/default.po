@@ -6385,7 +6385,7 @@ msgstr "Seçin folder with Python installation (inlcuding virtualenv and venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
-msgstr "Rename Python Version"
+msgstr "Rename Python Versiyon"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
@@ -9298,7 +9298,7 @@ msgstr "Executable of active Python"
 
 #: uParams.pas
 msgid "Version of active Python"
-msgstr "Version of active Python"
+msgstr "Versiyon of active Python"
 
 #. register system paths and parameters
 #: uParams.pas
