@@ -201,7 +201,7 @@ msgstr "&Açıklama:"
 #. FileTemplatesDialog..Panel..GroupBox..Label4..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+M for Modifier completion"
-msgstr "Press Shift+Ctrl+M for Modifier completion"
+msgstr "Press Shift+Ctrl+M for Değiştirici completion"
 
 #. CodeTemplates..Panel..GroupBox..Label3..Caption
 #. CustomizeParams..Panel..Label3..Caption
@@ -8875,7 +8875,7 @@ msgstr "Parameter with name \"%s\" is not found"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Modifier with name \"%s\" is not found"
-msgstr "Modifier with name \"%s\" is not found"
+msgstr "Değiştirici with name \"%s\" is not found"
 
 #. Programmer's name for it: SObjectNotFound
 #: StringResources.pas
@@ -8910,7 +8910,7 @@ msgstr "Invalid condition format"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Duplicate Modifier \"%s\""
-msgstr "Duplicate Modifier \"%s\""
+msgstr "Duplicate Değiştirici \"%s\""
 
 #. Tools
 #. Programmer's name for it: SPackageName
