@@ -1546,7 +1546,7 @@ msgstr "Rakamlar:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
 #: dlgSynEditOptions.dfm
 msgid "Autosize"
-msgstr "Autosize"
+msgstr "Otomatik boyutlandırma"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
 #: dlgSynEditOptions.dfm
