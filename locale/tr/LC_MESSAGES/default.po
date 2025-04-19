@@ -2417,7 +2417,7 @@ msgstr "Düzenle"
 #. CommandsDataModule..actlMain..actEditCut..Caption
 #: dmCommands.dfm
 msgid "Cu&t"
-msgstr "Cu&t"
+msgstr "&Kes"
 
 #. CommandsDataModule..actlMain..actEditCut..Hint
 #: dmCommands.dfm
