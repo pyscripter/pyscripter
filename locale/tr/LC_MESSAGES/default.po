@@ -1503,13 +1503,13 @@ msgstr "Horizontal Satır"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Half Block"
-msgstr "Half Block"
+msgstr "Half Blok"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Block"
-msgstr "Block"
+msgstr "Blok"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
@@ -2617,7 +2617,7 @@ msgstr "Ayarla IDE Seçenekler"
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
 msgid "&Indent Block"
-msgstr "&Girinti Block"
+msgstr "&Girinti Blok"
 
 #. CommandsDataModule..actlMain..actEditIndent..Hint
 #: dmCommands.dfm
@@ -2627,7 +2627,7 @@ msgstr "Girinti blok|Girinti seçili blok of code"
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
 msgid "&Unindent Block"
-msgstr "&Unindent Block"
+msgstr "&Unindent Blok"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
@@ -7238,12 +7238,12 @@ msgstr "Otomatik Completion"
 #. Programmer's name for it: SEdCmdBlockIndent
 #: StringResources.pas
 msgid "Block Indent"
-msgstr "Block Girinti"
+msgstr "Blok Girinti"
 
 #. Programmer's name for it: SEdCmdBlockUnindent
 #: StringResources.pas
 msgid "Block Unindent"
-msgstr "Block Unindent"
+msgstr "Blok Unindent"
 
 #. Programmer's name for it: SEdCmdClearAll
 #: StringResources.pas
@@ -7253,7 +7253,7 @@ msgstr "Clear Tümü"
 #. Programmer's name for it: SEdCmdCommentBlock
 #: StringResources.pas
 msgid "Comment Block"
-msgstr "Yorum Block"
+msgstr "Yorum Blok"
 
 #. Programmer's name for it: SEdCmdContextHelp
 #: StringResources.pas
