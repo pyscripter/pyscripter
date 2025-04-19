@@ -1965,7 +1965,7 @@ msgstr "Son"
 #. PrintPreviewDlg..ActionList..LastCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Last|Go to last page"
-msgstr "Son|Git to last sayfa"
+msgstr "Son|Git to son sayfa"
 
 #. PrintPreviewDlg..ActionList..ZoomCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2471,7 +2471,7 @@ msgstr "&Geri al"
 #. CommandsDataModule..actlMain..actEditUndo..Hint
 #: dmCommands.dfm
 msgid "Undo|Reverts the last action"
-msgstr "Geri al|Reverts the last action"
+msgstr "Geri al|Reverts the son action"
 
 #. CommandsDataModule..actlMain..actEditRedo..Caption
 #: dmCommands.dfm
@@ -2481,7 +2481,7 @@ msgstr "&Redo"
 #. CommandsDataModule..actlMain..actEditRedo..Hint
 #: dmCommands.dfm
 msgid "Redo| Redo last action"
-msgstr "Redo| Redo last action"
+msgstr "Redo| Redo son action"
 
 #. CommandsDataModule..actlMain..actEditSelectAll..Caption
 #. UnitTestWindow..DialogActions..actSelectAll..Caption
@@ -5118,7 +5118,7 @@ msgstr "Debug Son Komut dosyası"
 #. Programmer's name for it: SHintDebug
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Debug last script"
-msgstr "Debug last komut dosyası"
+msgstr "Debug son komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actDebug..Hint
 #. Programmer's name for it: SDebugHint
@@ -5205,7 +5205,7 @@ msgstr "Çalıştır Son Komut dosyası Externally"
 #. Programmer's name for it: SHintExternalRun
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Run last script externally"
-msgstr "Çalıştır last komut dosyası externally"
+msgstr "Çalıştır son komut dosyası externally"
 
 #. PyIDEMainForm..actlStandard..actRunLastScript..Caption
 #: frmPyIDEMain.dfm
@@ -5216,7 +5216,7 @@ msgstr "Çalıştır Son Komut dosyası"
 #. Programmer's name for it: SHintRun
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Run last script"
-msgstr "Çalıştır last komut dosyası"
+msgstr "Çalıştır son komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actToggleBreakPoint..Caption
 #: frmPyIDEMain.dfm
@@ -9475,7 +9475,7 @@ msgstr "Aktif belge name"
 
 #: uParams.pas
 msgid "The name or last run script"
-msgstr "The name or last çalıştır komut dosyası"
+msgstr "The name or son çalıştır komut dosyası"
 
 #: uParams.pas
 msgid "Project file name"
