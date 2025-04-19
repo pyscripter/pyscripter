@@ -814,7 +814,7 @@ msgstr "Python Versiyonlar"
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
-msgstr "Folder"
+msgstr "Klasör"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
@@ -4030,7 +4030,7 @@ msgstr "Arama seçili yol"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Caption
 #: frmFileExplorer.dfm
 msgid "Create &New Folder"
-msgstr "Yarat &Yeni Folder"
+msgstr "Yarat &Yeni Klasör"
 
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Hint
 #: frmFileExplorer.dfm
@@ -6780,7 +6780,7 @@ msgstr "Collapsed line renk"
 
 #: dmCommands.pas
 msgid "Folder bar lines color"
-msgstr "Folder bar satırlar renk"
+msgstr "Klasör bar satırlar renk"
 
 #: dmCommands.pas
 msgid "Fill whole lines"
