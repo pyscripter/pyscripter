@@ -2350,7 +2350,7 @@ msgstr "Testlerin oluşturulacağı işlevleri ve yöntemleri seçin:"
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
 msgid "This wizard will generate unit tests for the Python module"
-msgstr "This sihirbazı will generate birim testler için Python module"
+msgstr "Bu sihirbaz Python modülü için birim testleri üretecektir"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Caption
 #. Programmer's name for it: SEdCmdSelectAll
