@@ -298,7 +298,7 @@ msgstr "&Aşağı"
 #. FileTemplatesDialog..ActionList..actMoveDown..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item down"
-msgstr "taşı öğe down"
+msgstr "taşı öğe aşağı"
 
 #. CodeTemplates..ActionList..actUpdateItem..Caption
 #. CustomizeParams..ActionList..actUpdateItem..Caption
@@ -496,7 +496,7 @@ msgstr "taşı yukarı"
 #. DirectoryListDialog..Panel1..btnMoveDown..Hint
 #: dlgDirectoryList.dfm
 msgid "Move down"
-msgstr "taşı down"
+msgstr "taşı aşağı"
 
 #. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
@@ -1362,7 +1362,7 @@ msgid ""
 "When scrolling with page-up and page-down commands, only scroll a half page "
 "at a time"
 msgstr ""
-"When scrolling with page-yukarı and page-down commands, only scroll a half "
+"When scrolling with page-yukarı and page-aşağı commands, only scroll a half "
 "page at a time"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
