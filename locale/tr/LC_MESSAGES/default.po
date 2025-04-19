@@ -2232,7 +2232,7 @@ msgid ""
 "predefined grep expressions."
 msgstr ""
 "A grep ifade for parsing çıktı satırlar.\n"
-"Kullan the düğme on the sağ to insert \n"
+"Kullan the düğme on the sağ to ekle \n"
 "predefined grep ifadeler."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Hint
@@ -8127,7 +8127,7 @@ msgstr "Invalid sayı!"
 #. Programmer's name for it: SEmptyTokenTextError
 #: StringResources.pas
 msgid "You cannot insert a token that only consists of white space."
-msgstr "You cannot insert a token that sadece consists of white boşluk."
+msgstr "You cannot ekle a token that sadece consists of white boşluk."
 
 #. Programmer's name for it: SAccessAppDataDir
 #: StringResources.pas
