@@ -3866,7 +3866,7 @@ msgstr "Unfold"
 #. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Caption
 #: frmEditor.dfm
 msgid "Enabled"
-msgstr "Enabled"
+msgstr "Etkin"
 
 #. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Hint
 #: frmEditor.dfm
