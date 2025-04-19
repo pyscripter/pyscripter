@@ -1320,7 +1320,7 @@ msgstr "Tab girintiler and Shift-Tab unindents"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tab Indent"
-msgstr "Tab Indent"
+msgstr "Tab Girinti"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
 #: dlgSynEditOptions.dfm
@@ -1770,12 +1770,12 @@ msgstr "Dahili Margin:"
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr "Left Metin Indent:"
+msgstr "Left Metin Girinti:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr "Right Metin Indent:"
+msgstr "Right Metin Girinti:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label11..Caption
 #: dlgSynPageSetup.dfm
@@ -2617,12 +2617,12 @@ msgstr "Ayarla IDE Seçenekler"
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
 msgid "&Indent Block"
-msgstr "&Indent Block"
+msgstr "&Girinti Block"
 
 #. CommandsDataModule..actlMain..actEditIndent..Hint
 #: dmCommands.dfm
 msgid "Indent block|Indent selected block of code"
-msgstr "Indent block|Indent seçili block of code"
+msgstr "Girinti block|Girinti seçili block of code"
 
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
@@ -7238,7 +7238,7 @@ msgstr "Auto Completion"
 #. Programmer's name for it: SEdCmdBlockIndent
 #: StringResources.pas
 msgid "Block Indent"
-msgstr "Block Indent"
+msgstr "Block Girinti"
 
 #. Programmer's name for it: SEdCmdBlockUnindent
 #: StringResources.pas
