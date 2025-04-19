@@ -451,7 +451,7 @@ msgstr "K&omutlar:"
 #. frmCustomKeyboard..Panel1..lblCurrent..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Currently assigned to:"
-msgstr "Currently assigned to:"
+msgstr "Şu anda atanmış:"
 
 #. frmCustomKeyboard..Panel1..lblCurrentKeys..Caption
 #: dlgCustomShortcuts.dfm
