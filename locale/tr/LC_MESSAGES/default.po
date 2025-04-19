@@ -7182,7 +7182,7 @@ msgstr "String"
 #. Programmer's name for it: SyntaxElementFriendlyName_Symbol
 #: StringResources.pas
 msgid "Symbol"
-msgstr "Symbol"
+msgstr "Sembol"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_SyntaxError
 #. Programmer's name for it: SSyntaxError
