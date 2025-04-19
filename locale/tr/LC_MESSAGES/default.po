@@ -1895,7 +1895,7 @@ msgstr "Sayfa genişlik"
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Fit page width into window"
-msgstr "Fit sayfa genişlik into window"
+msgstr "Sayfa genişliğini pencereye sığdır"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi25..Hint
 #: dlgSynPrintPreview.dfm
