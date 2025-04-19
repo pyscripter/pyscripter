@@ -8001,7 +8001,7 @@ msgid ""
 "Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
 "Do you want to proceed?"
 msgstr ""
-"Encoding dosya \"%s\" kullanarak \"%s\" encoding will result in bilgi loss.\n"
+"Encoding dosya \"%s\" kullanarak \"%s\" encoding will sonuç in bilgi loss.\n"
 "Do you want to proceed?"
 
 #. Programmer's name for it: SDecodingError
@@ -8834,7 +8834,7 @@ msgid ""
 "Reloading the file will result in the loss of all changes.\n"
 "Do you want to proceed?"
 msgstr ""
-"Reloading the dosya will result in the loss of hepsi changes.\n"
+"Reloading the dosya will sonuç in the loss of hepsi changes.\n"
 "Do you want to proceed?"
 
 #. Programmer's name for it: SFileAlreadyOpen
