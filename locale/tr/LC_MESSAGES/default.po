@@ -1519,7 +1519,7 @@ msgstr "Right Edge"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge color:"
-msgstr "Edge color:"
+msgstr "Edge renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
 #: dlgSynEditOptions.dfm
@@ -1534,7 +1534,7 @@ msgstr "Gutter"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter color:"
-msgstr "Gutter color:"
+msgstr "Gutter renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..lDigits..Caption
 #: dlgSynEditOptions.dfm
@@ -1686,13 +1686,13 @@ msgstr "Appearance"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterLineColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line color"
-msgstr "Satır color"
+msgstr "Satır renk"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..HeaderShadowColorBtn..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterShadowColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Shadow color"
-msgstr "Shadow color"
+msgstr "Shadow renk"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderLine..Caption
 #: dlgSynPageSetup.dfm
@@ -6617,7 +6617,7 @@ msgstr "Highlight seçili kelime"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr "Highlight color of seçili kelime"
+msgstr "Highlight renk of seçili kelime"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
@@ -6645,7 +6645,7 @@ msgstr "Track changes bar"
 
 #: dmCommands.pas
 msgid "Selection color"
-msgstr "Selection color"
+msgstr "Selection renk"
 
 #: dmCommands.pas
 msgid "Indentation Guides"
@@ -6776,11 +6776,11 @@ msgstr "Göster collapsed line"
 
 #: dmCommands.pas
 msgid "Collapsed line color"
-msgstr "Collapsed line color"
+msgstr "Collapsed line renk"
 
 #: dmCommands.pas
 msgid "Folder bar lines color"
-msgstr "Folder bar satırlar color"
+msgstr "Folder bar satırlar renk"
 
 #: dmCommands.pas
 msgid "Fill whole lines"
@@ -6788,19 +6788,19 @@ msgstr "Fill whole satırlar"
 
 #: dmCommands.pas
 msgid "Modified color"
-msgstr "Modified color"
+msgstr "Modified renk"
 
 #: dmCommands.pas
 msgid "Original color"
-msgstr "Original color"
+msgstr "Original renk"
 
 #: dmCommands.pas
 msgid "Saved color"
-msgstr "Saved color"
+msgstr "Saved renk"
 
 #: dmCommands.pas
 msgid "Saved and modified color"
-msgstr "Saved and modified color"
+msgstr "Saved and modified renk"
 
 #: dmCommands.pas
 msgid "Configure Tools"
