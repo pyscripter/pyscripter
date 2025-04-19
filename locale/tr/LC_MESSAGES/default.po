@@ -2208,8 +2208,8 @@ msgid ""
 "If checked output lines that look like messages \n"
 "will be parsed and shown in the messages window."
 msgstr ""
-"If checked çıktı satırlar that look like messages \n"
-"will be parsed ve shown in the messages pencere."
+"If checked çıktı satırlar that look like mesajlar \n"
+"will be parsed ve shown in the mesajlar pencere."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
 #: dlgToolProperties.dfm
@@ -4363,13 +4363,13 @@ msgstr "Konum"
 #. MessagesWindow..MsgsActionList..actNextMsgs..Hint
 #: frmMessages.dfm
 msgid "Show next messages"
-msgstr "Göster sonraki messages"
+msgstr "Göster sonraki mesajlar"
 
 #. MessagesWindow..Panel1..BtnPrevMsg..Hint
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
 #: frmMessages.dfm
 msgid "Show previous messages"
-msgstr "Göster önceki messages"
+msgstr "Göster önceki mesajlar"
 
 #. MessagesWindow..MsgsActionList..actClearAll..Caption
 #. WatchesWindow..TBXPopupMenu..mnClearall..Caption
@@ -4380,7 +4380,7 @@ msgstr "&Clear hepsi"
 #. MessagesWindow..MsgsActionList..actClearAll..Hint
 #: frmMessages.dfm
 msgid "Clear all messages"
-msgstr "Clear hepsi messages"
+msgstr "Clear hepsi mesajlar"
 
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Caption
 #: frmMessages.dfm
