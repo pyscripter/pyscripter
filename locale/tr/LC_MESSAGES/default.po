@@ -2473,7 +2473,7 @@ msgstr "&Redo"
 #. CommandsDataModule..actlMain..actEditRedo..Hint
 #: dmCommands.dfm
 msgid "Redo| Redo last action"
-msgstr "Redo| Redo son action"
+msgstr "Yeniden yap|Son eylemi yeniden yap"
 
 #. CommandsDataModule..actlMain..actEditSelectAll..Caption
 #. UnitTestWindow..DialogActions..actSelectAll..Caption
