@@ -927,7 +927,7 @@ msgstr "Değiştir Eşleştirmeler"
 #. ReplaceInFilesDialog..Panel1..lblWith..Caption
 #: dlgReplaceInFiles.dfm
 msgid "&With"
-msgstr "&With"
+msgstr "&Onunla"
 
 #. ReplaceInFilesDialog..Panel1..lblIn..Caption
 #: dlgReplaceInFiles.dfm
