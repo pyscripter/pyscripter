@@ -282,7 +282,7 @@ msgstr "&Yukarı"
 #. FileTemplatesDialog..ActionList..actMoveUp..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item up"
-msgstr "taşı öğe up"
+msgstr "taşı öğe yukarı"
 
 #. CodeTemplates..ActionList..actMoveDown..Caption
 #. CollectionEditor..Panel1..MoveDownBtn..Caption
@@ -491,7 +491,7 @@ msgstr "Dosya yollarının sıralı listesi:"
 #. DirectoryListDialog..Panel1..btnMoveUp..Hint
 #: dlgDirectoryList.dfm
 msgid "Move up"
-msgstr "taşı up"
+msgstr "taşı yukarı"
 
 #. DirectoryListDialog..Panel1..btnMoveDown..Hint
 #: dlgDirectoryList.dfm
@@ -1362,8 +1362,8 @@ msgid ""
 "When scrolling with page-up and page-down commands, only scroll a half page "
 "at a time"
 msgstr ""
-"When scrolling with page-up and page-down commands, only scroll a half page "
-"at a time"
+"When scrolling with page-yukarı and page-down commands, only scroll a half "
+"page at a time"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
 #: dlgSynEditOptions.dfm
@@ -2565,7 +2565,7 @@ msgstr "Print|Print active dosya"
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
 msgid "Printer Set&up..."
-msgstr "Printer Set&up..."
+msgstr "Printer Set&yukarı..."
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Hint
 #: dmCommands.dfm
@@ -5624,12 +5624,12 @@ msgstr "Setup Python engine"
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr "Open Remote File"
+msgstr "Open Remote Dosya"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr "Open Remote File with SSH"
+msgstr "Open Remote Dosya with SSH"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
 #: frmPyIDEMain.dfm
@@ -6456,7 +6456,7 @@ msgstr "Dock animation move width (pixels)"
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
-msgstr "File template for yeni Python scripts"
+msgstr "Dosya template for yeni Python scripts"
 
 #: dmCommands.pas
 msgid "Number of recent files"
@@ -6548,11 +6548,11 @@ msgstr "Initially expanded"
 
 #: dmCommands.pas
 msgid "File Filters"
-msgstr "File Filters"
+msgstr "Dosya Filters"
 
 #: dmCommands.pas
 msgid "File explorer filter"
-msgstr "File explorer filter"
+msgstr "Dosya explorer filter"
 
 #: dmCommands.pas
 msgid "text file"
@@ -6706,16 +6706,16 @@ msgstr "Shell Integration"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
-msgstr "File Explorer context menu"
+msgstr "Dosya Explorer context menu"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
-msgstr "File Explorer background processing"
+msgstr "Dosya Explorer background processing"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
 msgid "File Change Notification"
-msgstr "File Change Notification"
+msgstr "Dosya Change Notification"
 
 #: dmCommands.pas
 msgid "SSH command"
@@ -6811,7 +6811,7 @@ msgstr "Downloading..."
 
 #: dmCommands.pas
 msgid "File download failed"
-msgstr "File download failed"
+msgstr "Dosya download failed"
 
 #: dmResources.pas
 msgid "Modifiers"
@@ -6859,7 +6859,7 @@ msgstr "Class attribute \"%s\" defined at line %d"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
-msgstr "File Explorer Filter"
+msgstr "Dosya Explorer Filter"
 
 #: frmFileExplorer.pas
 msgid "Enter Filter:"
@@ -6867,7 +6867,7 @@ msgstr "Enter Filter:"
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
-msgstr "File Explorer favorites"
+msgstr "Dosya Explorer favorites"
 
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
@@ -8168,7 +8168,7 @@ msgstr "Error while downloading: "
 #. Programmer's name for it: SCurrentVersionUptodate
 #: StringResources.pas
 msgid "Current version is up-to-date!"
-msgstr "Current version is up-to-date!"
+msgstr "Current version is yukarı-to-date!"
 
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
@@ -8346,7 +8346,7 @@ msgstr "Modified"
 #. Programmer's name for it: SOpenFile
 #: StringResources.pas
 msgid "Open File"
-msgstr "Open File"
+msgstr "Open Dosya"
 
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
@@ -8366,7 +8366,7 @@ msgstr "Select application or dosya to execute"
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
 msgid "Add File(s) to Project"
-msgstr "Ekle File(s) to Project"
+msgstr "Ekle Dosya(s) to Project"
 
 #. Programmer's name for it: SOpenProject
 #: StringResources.pas
@@ -8448,7 +8448,7 @@ msgstr "Save \"%s\" As"
 #. Programmer's name for it: SSaveFileAs
 #: StringResources.pas
 msgid "Save File As"
-msgstr "Save File As"
+msgstr "Save Dosya As"
 
 #. Programmer's name for it: SIDEOptions
 #: StringResources.pas
@@ -9021,7 +9021,7 @@ msgstr "HTML Document"
 #. Programmer's name for it: STextFileTemplateName
 #: StringResources.pas
 msgid "Text File"
-msgstr "Text File"
+msgstr "Text Dosya"
 
 #. Programmer's name for it: SXMLTemplateName
 #: StringResources.pas
@@ -9031,12 +9031,12 @@ msgstr "XML Document"
 #. Programmer's name for it: SJSONTemplateName
 #: StringResources.pas
 msgid "JSON File"
-msgstr "JSON File"
+msgstr "JSON Dosya"
 
 #. Programmer's name for it: SYAMLTemplateName
 #: StringResources.pas
 msgid "YAML File"
-msgstr "YAML File"
+msgstr "YAML Dosya"
 
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
@@ -9072,12 +9072,12 @@ msgstr "Unregistered Versions"
 #. Programmer's name for it: SRemoteFileSelect
 #: StringResources.pas
 msgid "Select Remote File"
-msgstr "Select Remote File"
+msgstr "Select Remote Dosya"
 
 #. Programmer's name for it: SErrorEmptyPath
 #: StringResources.pas
 msgid "File Path cannot be empty"
-msgstr "File Path cannot be empty"
+msgstr "Dosya Path cannot be empty"
 
 #. Programmer's name for it: SErrorEmptySSH
 #: StringResources.pas
@@ -9157,7 +9157,7 @@ msgstr ""
 #. Programmer's name for it: SActionCategoryFile
 #: StringResources.pas
 msgid "File"
-msgstr "File"
+msgstr "Dosya"
 
 #. Programmer's name for it: SActionCategoryView
 #: StringResources.pas
@@ -9358,23 +9358,23 @@ msgstr "Path without delimeter"
 
 #: uParams.pas
 msgid "File name"
-msgstr "File name"
+msgstr "Dosya name"
 
 #: uParams.pas
 msgid "File extension"
-msgstr "File extension"
+msgstr "Dosya extension"
 
 #: uParams.pas
 msgid "File extension without \".\""
-msgstr "File extension without \".\""
+msgstr "Dosya extension without \".\""
 
 #: uParams.pas
 msgid "File name without extension"
-msgstr "File name without extension"
+msgstr "Dosya name without extension"
 
 #: uParams.pas
 msgid "File drive"
-msgstr "File drive"
+msgstr "Dosya drive"
 
 #: uParams.pas
 msgid "Expanded file name"
@@ -9398,7 +9398,7 @@ msgstr "Path with final yol delimiter removed"
 
 #: uParams.pas
 msgid "File type"
-msgstr "File type"
+msgstr "Dosya type"
 
 #: uParams.pas
 msgid "Contents of text file"
