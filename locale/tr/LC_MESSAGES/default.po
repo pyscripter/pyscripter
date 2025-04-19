@@ -23,13 +23,13 @@ msgstr ""
 #. AboutBox..Caption
 #: dlgAboutPyScripter.dfm
 msgid "About PyScripter"
-msgstr "About PyScripter"
+msgstr "Hakkında PyScripter"
 
 #. AboutBox..SpTBXTabControl..tbAbout..Caption
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Caption
 #: dlgAboutPyScripter.dfm
 msgid "About"
-msgstr "About"
+msgstr "Hakkında"
 
 #. AboutBox..SpTBXTabControl..tbCredits..Caption
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet2..Caption
@@ -2715,12 +2715,12 @@ msgstr "Show Python Manuals"
 #. CommandsDataModule..actlMain..actAbout..Caption
 #: dmCommands.dfm
 msgid "About..."
-msgstr "About..."
+msgstr "Hakkında..."
 
 #. CommandsDataModule..actlMain..actAbout..Hint
 #: dmCommands.dfm
 msgid "About|Info about the application"
-msgstr "About|Info about the application"
+msgstr "Hakkında|Info about the application"
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #: dmCommands.dfm
