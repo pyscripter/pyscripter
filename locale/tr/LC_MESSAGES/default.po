@@ -364,7 +364,7 @@ msgstr "Parametreler : Shift+Ctrl+P, Değiştiriciler : Shift+Ctrl+M "
 #. CommandLineDlg..Panel..TBXButton1..Hint
 #: dlgCommandLine.dfm
 msgid "History"
-msgstr "History"
+msgstr "Geçmiş"
 
 #. CommandLineDlg..Panel..cbUseCommandLine..Caption
 #: dlgCommandLine.dfm
@@ -374,7 +374,7 @@ msgstr "Use Komut Satır Parametreler?"
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
 msgid "(Empty History)"
-msgstr "(Empty History)"
+msgstr "(Empty Geçmiş)"
 
 #. ConfirmReplaceDialog..Caption
 #: dlgConfirmReplace.dfm
@@ -5675,7 +5675,7 @@ msgstr "Python Interpreter"
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Caption
 #: frmPythonII.dfm
 msgid "Copy &History"
-msgstr "Copy &History"
+msgstr "Copy &Geçmiş"
 
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Hint
 #: frmPythonII.dfm
