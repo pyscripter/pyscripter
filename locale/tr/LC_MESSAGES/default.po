@@ -2038,7 +2038,7 @@ msgstr "Normal"
 #. Programmer's name for it: SLow
 #: dlgToDoOptions.dfm frmToDo.pas
 msgid "Low"
-msgstr "Low"
+msgstr "Düşük"
 
 #. ToDoOptionsDlg..pnlBG..gbxTokens..btnInsert..Caption
 #: dlgToDoOptions.dfm
