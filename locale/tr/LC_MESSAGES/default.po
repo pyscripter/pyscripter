@@ -2026,7 +2026,7 @@ msgstr "To&ken"
 #. Programmer's name for it: SHigh
 #: dlgToDoOptions.dfm frmToDo.pas
 msgid "High"
-msgstr "High"
+msgstr "Yüksek"
 
 #. ToDoOptionsDlg..pnlBG..gbxTokens..cboPriority....Items.Strings
 #. Programmer's name for it: SNormal
