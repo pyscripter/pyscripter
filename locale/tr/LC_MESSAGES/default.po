@@ -471,7 +471,7 @@ msgstr "&Atama"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr "Atama kısayol to komut"
+msgstr "Atama kısayol komut"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
@@ -501,7 +501,7 @@ msgstr "taşı aşağı"
 #. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
 msgid "Add file path to the list"
-msgstr "Ekle dosya yol to the liste"
+msgstr "Ekle dosya yol the liste"
 
 #. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
@@ -526,7 +526,7 @@ msgstr "Gir dosya yol buraya"
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
 msgid "Use Ctrl+C to copy the report to the clipboard"
-msgstr "Kullan Ctrl+C to kopya the rapor to the pano"
+msgstr "Kullan Ctrl+C kopya the rapor the pano"
 
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
@@ -586,7 +586,7 @@ msgstr "Bul in Dosyalar Arama"
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
 msgid "&Text to find:"
-msgstr "&Metin to bul:"
+msgstr "&Metin bul:"
 
 #. FindInFilesDialog..Panel1..gbxOptions..Caption
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
@@ -727,7 +727,7 @@ msgstr "İçe aktar Dizin"
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
 msgid "Directory to import:"
-msgstr "Dizin to içe aktar:"
+msgstr "Dizin içe aktar:"
 
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
@@ -1053,7 +1053,7 @@ msgstr "Dosya &Ad:"
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Append to file"
-msgstr "&Ekle to dosya"
+msgstr "&Ekle dosya"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbSaveOutput..Caption
 #: dlgRunConfiguration.dfm
@@ -1233,7 +1233,7 @@ msgstr "Sürükle ve bırak düzenleme"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enhances end key similar to JDeveloper"
-msgstr "Geliştirmeler son tuş benzer to JDeveloper"
+msgstr "Geliştirmeler son tuş benzer JDeveloper"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
@@ -1305,7 +1305,7 @@ msgstr "Akıllı sekmeler"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
 #: dlgSynEditOptions.dfm
 msgid "similar to Smart Tabs, but when you delete characters"
-msgstr "benzer to Akıllı Sekmeler, but when you delete characters"
+msgstr "benzer Akıllı Sekmeler, but when you delete characters"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
 #: dlgSynEditOptions.dfm
@@ -1330,7 +1330,7 @@ msgstr "Bir sekme karakterini Sekme Genişliğindeki boşluk sayısına dönüş
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tabs to spaces"
-msgstr "Sekmeler to boşluklar"
+msgstr "Sekmeler boşluklar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
@@ -1632,7 +1632,7 @@ msgstr "Aktif Satır Renk"
 #. EditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply to all editors"
-msgstr "Uygula to hepsi editors"
+msgstr "Uygula hepsi editors"
 
 #. PageSetupDlg..Caption
 #: dlgSynPageSetup.dfm
@@ -1933,7 +1933,7 @@ msgstr "İlk"
 #. PrintPreviewDlg..ActionList..FirstCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "First|Go to first page"
-msgstr "İlk|Git to ilk sayfa"
+msgstr "İlk|Git ilk sayfa"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -1943,7 +1943,7 @@ msgstr "Önceki"
 #. PrintPreviewDlg..ActionList..PrevCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Previous|Go to previous page"
-msgstr "Önceki|Git to önceki sayfa"
+msgstr "Önceki|Git önceki sayfa"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -1953,7 +1953,7 @@ msgstr "Sonraki"
 #. PrintPreviewDlg..ActionList..NextCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Next|Go to next page"
-msgstr "Sonraki|Git to sonraki sayfa"
+msgstr "Sonraki|Git sonraki sayfa"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -1963,7 +1963,7 @@ msgstr "Son"
 #. PrintPreviewDlg..ActionList..LastCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Last|Go to last page"
-msgstr "Son|Git to son sayfa"
+msgstr "Son|Git son sayfa"
 
 #. PrintPreviewDlg..ActionList..ZoomCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2666,7 +2666,7 @@ msgstr "&Tabify"
 #. CommandsDataModule..actlMain..actEditTabify..Hint
 #: dmCommands.dfm
 msgid "Tabify|Convert spaces to tabs"
-msgstr "Tabify|Dönüştür boşluklar to sekmeler"
+msgstr "Tabify|Dönüştür boşluklar sekmeler"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Caption
 #: dmCommands.dfm
@@ -2676,7 +2676,7 @@ msgstr "U&ntabify"
 #. CommandsDataModule..actlMain..actEditUntabify..Hint
 #: dmCommands.dfm
 msgid "Untabify|Convert tabs to spaces"
-msgstr "Untabify|Dönüştür sekmeler to boşluklar"
+msgstr "Untabify|Dönüştür sekmeler boşluklar"
 
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
@@ -2727,7 +2727,7 @@ msgstr "Git To &Satır..."
 #. Programmer's name for it: SGoToLineNumber
 #: dmCommands.dfm StringResources.pas
 msgid "Go to line number"
-msgstr "Git to satır sayı"
+msgstr "Git satır sayı"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Caption
 #: dmCommands.dfm
@@ -2737,7 +2737,7 @@ msgstr "Git To Sözdizimi &Error"
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Hint
 #: dmCommands.dfm
 msgid "Jump to the position of the first syntax error"
-msgstr "Atla to the konum of the ilk sözdizimi error"
+msgstr "Atla the konum of the ilk sözdizimi error"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
@@ -2758,7 +2758,7 @@ msgstr "Ekle &parametre"
 #. CommandsDataModule..actlMain..actModifierCompletion..Hint
 #: dmCommands.dfm
 msgid "Insert parameter to the edited file"
-msgstr "Ekle parametre to the edited dosya"
+msgstr "Ekle parametre the edited dosya"
 
 #. CommandsDataModule..actlMain..actModifierCompletion..Caption
 #: dmCommands.dfm
@@ -2898,17 +2898,17 @@ msgstr "Bul sonraki identifier reference"
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr "DOS/Windows|Dönüştür to DOS satır break"
+msgstr "DOS/Windows|Dönüştür DOS satır break"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm
 msgid "UNIX|Convert to UNIX line break"
-msgstr "UNIX|Dönüştür to UNIX satır break"
+msgstr "UNIX|Dönüştür UNIX satır break"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm
 msgid "Mac|Convert to Mac line break"
-msgstr "Mac|Dönüştür to Mac satır break"
+msgstr "Mac|Dönüştür Mac satır break"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
@@ -3084,7 +3084,7 @@ msgstr "Git To &Debugger Konum"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr "Git to the mevcut konum of the debugger"
+msgstr "Git the mevcut konum of the debugger"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3094,7 +3094,7 @@ msgstr "&Proje Home"
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
 msgid "Go to the project home page"
-msgstr "Git to the proje home sayfa"
+msgstr "Git the proje home sayfa"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Caption
 #: dmCommands.dfm
@@ -3104,7 +3104,7 @@ msgstr "&Grup Support"
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Internet group"
-msgstr "Git to the PyScripter Internet grup"
+msgstr "Git the PyScripter Internet grup"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #: dmCommands.dfm
@@ -3119,12 +3119,12 @@ msgstr "Kapat hepsi dosyalar except the aktif one"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr "Kapat Tümü to the &Sağ"
+msgstr "Kapat Tümü the &Sağ"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr "Kapat hepsi dosyalar to the sağ"
+msgstr "Kapat hepsi dosyalar the sağ"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3134,7 +3134,7 @@ msgstr "Copy Dosya Ad"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr "Copy dosya name of aktif dosya to pano"
+msgstr "Copy dosya name of aktif dosya pano"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3289,12 +3289,12 @@ msgstr "Unfold functions"
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr "Kaydet to Uzaktan Dosya"
+msgstr "Kaydet Uzaktan Dosya"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr "Kaydet to uzaktan dosya onunla SSH"
+msgstr "Kaydet uzaktan dosya onunla SSH"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
@@ -3304,7 +3304,7 @@ msgstr "&Blog"
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr "Git to the PyScripter Blog"
+msgstr "Git the PyScripter Blog"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Caption
 #: dmCommands.dfm
@@ -3434,7 +3434,7 @@ msgstr "&Donate"
 #. CommandsDataModule..actlMain..actDonate..Hint
 #: dmCommands.dfm
 msgid "Donate to the PyScripter project"
-msgstr "Donate to the PyScripter proje"
+msgstr "Donate the PyScripter proje"
 
 #. CommandsDataModule..pmSpelling..mnSpelling..Caption
 #. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
@@ -3514,7 +3514,7 @@ msgstr "Timeout (in seconds):"
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiTemperature..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Temperature (0.0 to 2.0):"
-msgstr "Temperature (0.0 to 2.0):"
+msgstr "Temperature (0.0 2.0):"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiMaxTokens..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiMaxTokens..EditCaption
@@ -3594,13 +3594,13 @@ msgstr "Clear|Clear seçili breakpoint"
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Caption
 #: frmBreakPoints.dfm frmMessages.dfm frmWatches.dfm
 msgid "Co&py to Clipboard"
-msgstr "Co&py to Clipboard"
+msgstr "Co&py Clipboard"
 
 #. BreakPointsWindow..TBXPopupMenu..mnCopyToClipboard..Hint
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Hint
 #: frmBreakPoints.dfm frmWatches.dfm
 msgid "Copy to clipboard"
-msgstr "Copy to pano"
+msgstr "Copy pano"
 
 #. CallStackWindow..Caption
 #: frmCallStack.dfm
@@ -3684,7 +3684,7 @@ msgstr "Follow Editör"
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
 msgid "Move selection to match the editor position"
-msgstr "taşı seçim to eşleştirme the editör konum"
+msgstr "taşı seçim eşleştirme the editör konum"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
@@ -3732,7 +3732,7 @@ msgstr "Co&py"
 #. MessagesWindow..MsgsActionList..actCopyToClipboard..Hint
 #: frmCommandOutput.dfm frmMessages.dfm
 msgid "Copy contents to Clipboard"
-msgstr "Copy contents to Clipboard"
+msgstr "Copy contents Clipboard"
 
 #. OutputWindow..OutputActions..actOutputFont..Caption
 #: frmCommandOutput.dfm
@@ -3900,7 +3900,7 @@ msgstr "Ekle to &Favorites"
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Hint
 #: frmFileExplorer.dfm
 msgid "Add current path to Favorites"
-msgstr "Ekle mevcut yol to Favorites"
+msgstr "Ekle mevcut yol Favorites"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..TBXItem2..Caption
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Caption
@@ -3971,7 +3971,7 @@ msgstr "&Explore Here"
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Hint
 #: frmFileExplorer.dfm
 msgid "Set the Root of the File Manager to this folder"
-msgstr "Ayarla the Root of the Dosya Manager to this klasör"
+msgstr "Ayarla the Root of the Dosya Manager this klasör"
 
 #. FileExplorerWindow..FileExplorerActions..actGoBack..Caption
 #: frmFileExplorer.dfm
@@ -4009,7 +4009,7 @@ msgstr "Enable &Filter"
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Hint
 #: frmFileExplorer.dfm
 msgid "Enable Filter|Select to show only Python files"
-msgstr "Enable Filter|Seçin to göster sadece Python dosyalar"
+msgstr "Enable Filter|Seçin göster sadece Python dosyalar"
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
@@ -4131,12 +4131,12 @@ msgstr "&Kaydet..."
 #. FindResultsWindow..Actions..actFileSave..Hint
 #: frmFindResults.dfm
 msgid "Save results to file..."
-msgstr "Kaydet sonuçlar to dosya..."
+msgstr "Kaydet sonuçlar dosya..."
 
 #. FindResultsWindow..Actions..actFileCopy..Hint
 #: frmFindResults.dfm
 msgid "Copy results to clipboard"
-msgstr "Copy sonuçlar to pano"
+msgstr "Copy sonuçlar pano"
 
 #. FindResultsWindow..Actions..actViewToolBar..Caption
 #: frmFindResults.dfm
@@ -4210,7 +4210,7 @@ msgstr "&Edit"
 #. FunctionListWindow..Actions..actEditCopy..Hint
 #: frmFunctionList.dfm
 msgid "Copy procedures to clipboard"
-msgstr "Copy procedures to pano"
+msgstr "Copy procedures pano"
 
 #. FunctionListWindow..Actions..actOptionsFont..Caption
 #: frmFunctionList.dfm
@@ -4450,7 +4450,7 @@ msgstr "Store &Relative Paths"
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Hint
 #: frmProjectExplorer.dfm
 msgid "Store file paths relative to the project directory"
-msgstr "Store dosya yolları relative to the proje dizin"
+msgstr "Store dosya yolları relative the proje dizin"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
@@ -4525,7 +4525,7 @@ msgstr "Ekle Aktif Dosya"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Ekle the aktif editör dosya to the klasör"
+msgstr "Ekle the aktif editör dosya the klasör"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -4606,7 +4606,7 @@ msgstr "Ekle Uzaktan Dosya"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr "Ekle a uzaktan dosya to the klasör"
+msgstr "Ekle a uzaktan dosya the klasör"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
@@ -4979,7 +4979,7 @@ msgstr "&Sonraki Editör"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr "Sonraki Editör|taşı to the sonraki editör"
+msgstr "Sonraki Editör|taşı the sonraki editör"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
@@ -4989,7 +4989,7 @@ msgstr "&Önceki Editör"
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Previous editor|Move to the previous editor"
-msgstr "Önceki editör|taşı to the önceki editör"
+msgstr "Önceki editör|taşı the önceki editör"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Caption
 #: frmPyIDEMain.dfm
@@ -5054,7 +5054,7 @@ msgstr "&Aç..."
 #. PyIDEMainForm..actlStandard..actFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Select a file to open"
-msgstr "Seçin a dosya to aç"
+msgstr "Seçin a dosya aç"
 
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Caption
 #: frmPyIDEMain.dfm
@@ -5136,7 +5136,7 @@ msgstr "Çalıştır To &Cursor"
 #. PyIDEMainForm..actlStandard..actRunToCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Run to cursor"
-msgstr "Çalıştır to imleç"
+msgstr "Çalıştır imleç"
 
 #. PyIDEMainForm..actlStandard..actStepInto..Caption
 #: frmPyIDEMain.dfm
@@ -5634,7 +5634,7 @@ msgstr "&Reset Yakınlaştır"
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
-msgstr "Reset the yazı tipi size of the editör to its varsayılan"
+msgstr "Reset the yazı tipi size of the editör its varsayılan"
 
 #. PyIDEMainForm..actlStandard..actNavRegExp..Caption
 #: frmPyIDEMain.dfm
@@ -5675,7 +5675,7 @@ msgstr "Copy &Geçmiş"
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Hint
 #: frmPythonII.dfm
 msgid "Copy history to Clipboard"
-msgstr "Copy history to Clipboard"
+msgstr "Copy history Clipboard"
 
 #. PythonIIForm..InterpreterActionList..actClearContents..Caption
 #: frmPythonII.dfm
@@ -5870,7 +5870,7 @@ msgstr "Yapılacaklar Liste"
 #. ToDoWindow..Actions..actFileRefresh..Hint
 #: frmToDo.dfm
 msgid "Refresh to do items"
-msgstr "Refresh to do öğeler"
+msgstr "Refresh do öğeler"
 
 #. ToDoWindow..Actions..actEditGoto..Hint
 #: frmToDo.dfm
@@ -5885,7 +5885,7 @@ msgstr "&Yazdır"
 #. ToDoWindow..Actions..actFilePrint..Hint
 #: frmToDo.dfm
 msgid "Print to do items"
-msgstr "Yazdır to do öğeler"
+msgstr "Yazdır do öğeler"
 
 #. ToDoWindow..Actions..actOptionsConfigure..Caption
 #: frmToDo.dfm
@@ -6102,11 +6102,11 @@ msgstr "User name"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
-msgstr "Komut to execute Python (no boşluklar)"
+msgstr "Komut execute Python (no boşluklar)"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
-msgstr "Yol to SSH Komut"
+msgstr "Yol SSH Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
@@ -6114,7 +6114,7 @@ msgstr "SSH seçenekler"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
-msgstr "Yol to SCP Komut"
+msgstr "Yol SCP Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
@@ -6227,8 +6227,8 @@ msgid ""
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:"
 msgstr ""
-"Özel thanks to the many great developers who,onunla their amazing work, have"
-" made PyScripter possible. PyScripter makes use of the following components "
+"Özel thanks the many great developers who,onunla their amazing work, have "
+"made PyScripter possible. PyScripter makes use of the following components "
 "ve projeler:"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
@@ -6314,7 +6314,7 @@ msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
-"Donations from numerous users have provided a strong incentive to develop this proje.\n"
+"Donations from numerous users have provided a strong incentive develop this proje.\n"
 "Financial ve moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming ortam onunla which PyScripter is built, ve generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get için Windows) (https://www.wapt.fr) is thankfully acknowledged."
 
 #: dlgAboutPyScripter.pas
@@ -6325,7 +6325,7 @@ msgid ""
 msgstr ""
 "The proje home, Issue Tracker ve source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
 "Internet grup support is mevcut at https://groups.google.com/grup/PyScripter\n"
-"Please submit hata reports ve questions about PyScripter to pyscripter@gmail.com."
+"Please submit hata reports ve questions about PyScripter pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
@@ -6519,7 +6519,7 @@ msgstr "Reinitialize before çalıştır"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
-msgstr "Atla to error on exception"
+msgstr "Atla error on exception"
 
 #: dmCommands.pas
 msgid "Internal Interpreter hidden"
@@ -6910,7 +6910,7 @@ msgstr "Gir başlık:"
 
 #: frmLLMChat.pas
 msgid "Copy code to new editor"
-msgstr "Copy code to yeni editör"
+msgstr "Copy code yeni editör"
 
 #. Programmer's name for it: SFileTemplateCategoryOther
 #: frmModSpTBXCustomize.pas StringResources.pas
@@ -6922,8 +6922,8 @@ msgid ""
 "This option will reset IDE toolbars and shortcuts to the factory settings.\n"
 "Do you want to proceed?"
 msgstr ""
-"This option will reset IDE toolbars ve shortcuts to the factory settings.\n"
-"Do you want to proceed?"
+"This option will reset IDE toolbars ve shortcuts the factory settings.\n"
+"Do you want proceed?"
 
 #. Programmer's name for it: ProjectFilter
 #: frmProjectExplorer.pas
@@ -7843,7 +7843,7 @@ msgstr "&Tümü"
 #. Programmer's name for it: SDlgNoToAll
 #: StringResources.pas
 msgid "N&o to All"
-msgstr "N&o to Tümü"
+msgstr "N&o Tümü"
 
 #. Programmer's name for it: SDlgYesToAll
 #: StringResources.pas
@@ -7902,13 +7902,13 @@ msgstr "Not implemented"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup file \"%s\""
-msgstr "Failed to yedekleme dosya \"%s\""
+msgstr "Failed yedekleme dosya \"%s\""
 
 #. Programmer's name for it: SErrorLoadLayout
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
-msgstr "Failed to load layout from \"%s\". Please kapat ve restart PyScripter"
+msgstr "Failed load layout from \"%s\". Please kapat ve restart PyScripter"
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
@@ -7998,7 +7998,7 @@ msgid ""
 "Do you want to proceed?"
 msgstr ""
 "Encoding dosya \"%s\" kullanarak \"%s\" encoding will sonuç in bilgi loss.\n"
-"Do you want to proceed?"
+"Do you want proceed?"
 
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas
@@ -8036,7 +8036,7 @@ msgstr "Error in getting the namespace of %s"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "Could not ayarla the mevcut dizin to the komut dosyası yol"
+msgstr "Could not ayarla the mevcut dizin the komut dosyası yol"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -8089,8 +8089,8 @@ msgid ""
 "Could not connect to the remote Python engine server. The remote interpreter"
 " and debugger is not available."
 msgstr ""
-"Could not connect to the uzaktan Python engine sunucu. The uzaktan "
-"interpreter ve debugger is not mevcut."
+"Could not connect the uzaktan Python engine sunucu. The uzaktan interpreter "
+"ve debugger is not mevcut."
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
@@ -8109,7 +8109,7 @@ msgid ""
 "Do you want to update it with the new definition?"
 msgstr ""
 "The template has been değiştirilmiş.\n"
-"Do you want to update it onunla the yeni definition?"
+"Do you want update it onunla the yeni definition?"
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
@@ -8129,7 +8129,7 @@ msgid ""
 "Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
-"Pyscripter needs access to the User Application Data dizin: \"%s\". Certain "
+"Pyscripter needs access the User Application Data dizin: \"%s\". Certain "
 "features such as uzaktan debugging will not function properly otherwise."
 
 #. Programmer's name for it: SNotAValidNumber
@@ -8171,7 +8171,7 @@ msgid ""
 "Do you want to terminate it and exit?"
 msgstr ""
 "An Harici Araç is still running.\n"
-"Do you want to terminate it ve exit?"
+"Do you want terminate it ve exit?"
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
@@ -8180,7 +8180,7 @@ msgid ""
 "Are you sure you want to terminate it?"
 msgstr ""
 "The Python interpreter is busy.\n"
-"Are you sure you want to terminate it?"
+"Are you sure you want terminate it?"
 
 #. Programmer's name for it: SFindDefinitionWarning
 #: StringResources.pas
@@ -8231,7 +8231,7 @@ msgid ""
 "Do you want to abort the session and Exit?"
 msgstr ""
 "A debugging session is in progress.\n"
-"Do you want to abort the session ve Exit?"
+"Do you want abort the session ve Exit?"
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
@@ -8240,7 +8240,7 @@ msgid ""
 "Do you want to interrupt it?"
 msgstr ""
 "The Python Komut dosyası has timed out.\n"
-"Do you want to interrupt it?"
+"Do you want interrupt it?"
 
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
@@ -8266,8 +8266,8 @@ msgid ""
 "changes to these files."
 msgstr ""
 "The following dosyalar have been changed on disk. Seçin the dosyalar that "
-"you wish to reload ve press the TAMAM düğme. Please note that you will lose "
-"hepsi changes to these dosyalar."
+"you wish reload ve press the TAMAM düğme. Please note that you will lose "
+"hepsi changes these dosyalar."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -8345,7 +8345,7 @@ msgstr "Aç Dosya"
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
 msgid "Select Python script to run"
-msgstr "Seçin Python komut dosyası to çalıştır"
+msgstr "Seçin Python komut dosyası çalıştır"
 
 #. Programmer's name for it: SSelectOutputFile
 #: StringResources.pas
@@ -8355,7 +8355,7 @@ msgstr "Seçin çıktı dosya"
 #. Programmer's name for it: SSelectApplication
 #: StringResources.pas
 msgid "Select application or file to execute"
-msgstr "Seçin application or dosya to execute"
+msgstr "Seçin application or dosya execute"
 
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
@@ -8414,7 +8414,7 @@ msgstr "Sil Layouts"
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas
 msgid "Please select the layouts you want to delete and press the OK button:"
-msgstr "Please seçin the layouts you want to delete ve press the TAMAM düğme:"
+msgstr "Please seçin the layouts you want delete ve press the TAMAM düğme:"
 
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
@@ -8430,7 +8430,7 @@ msgid ""
 msgstr ""
 "The following dosyalar have been değiştirilmiş.\n"
 "Basın 'TAMAM' to kaydet seçili dosyalar ve exit.\n"
-"Basın 'İptal' to return to PyScripter without saving dosyalar."
+"Basın 'İptal' to return PyScripter without saving dosyalar."
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
@@ -8557,13 +8557,13 @@ msgid ""
 "Do you want to save the changes?"
 msgstr ""
 "The aktif proje has not been saved.\n"
-"Do you want to kaydet the changes?"
+"Do you want kaydet the changes?"
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
-msgstr "Failed to yedekleme proje \"%s\""
+msgstr "Failed yedekleme proje \"%s\""
 
 #. Programmer's name for it: SErrorInOpeningProject
 #: StringResources.pas
@@ -8603,7 +8603,7 @@ msgstr "The starting point of the arama was reached"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Do you want to continue %s %s?"
-msgstr "Do you want to continue %s %s?"
+msgstr "Do you want continue %s %s?"
 
 #. Programmer's name for it: STheSearchAndReplace
 #: StringResources.pas
@@ -8700,7 +8700,7 @@ msgstr "%d eşleşmeler"
 #. Programmer's name for it: SMatchContextNotAvail
 #: StringResources.pas
 msgid "Unable to load match context lines"
-msgstr "Unable to load eşleştirme bağlam satırlar"
+msgstr "Unable load eşleştirme bağlam satırlar"
 
 #. Programmer's name for it: SProcessing
 #: StringResources.pas
@@ -8742,7 +8742,7 @@ msgstr "Ayrıştır error at this konum: "
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
 msgid "you are not allowed to use command line options starting with -"
-msgstr "you are not allowed to use komut satır seçenekler starting onunla -"
+msgstr "you are not allowed use komut satır seçenekler starting onunla -"
 
 #. Programmer's name for it: SParseInvalidOptions
 #: StringResources.pas
@@ -8793,7 +8793,7 @@ msgstr "Çalışılan dizin: "
 #: StringResources.pas
 #, object-pascal-format
 msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
-msgstr "The Harici Araç \"%s\" is still running. Do you want to terminate it?"
+msgstr "The Harici Araç \"%s\" is still running. Do you want terminate it?"
 
 #. Editor
 #. Programmer's name for it: SInsert
@@ -8821,7 +8821,7 @@ msgid ""
 msgstr ""
 "The metin in the \"%s\" dosya has changed.\n"
 "\n"
-"Do you want to kaydet the modifications?"
+"Do you want kaydet the modifications?"
 
 #. Programmer's name for it: SFileReloadingWarning
 #: StringResources.pas
@@ -8830,7 +8830,7 @@ msgid ""
 "Do you want to proceed?"
 msgstr ""
 "Reloading the dosya will sonuç in the loss of hepsi changes.\n"
-"Do you want to proceed?"
+"Do you want proceed?"
 
 #. Programmer's name for it: SFileAlreadyOpen
 #: StringResources.pas
@@ -9080,7 +9080,7 @@ msgstr "The SSH sunucu name cannot be empty"
 #. Programmer's name for it: SScpError4
 #: StringResources.pas
 msgid "SCP Error: Connecting to host failed"
-msgstr "SCP Error: Connecting to host failed"
+msgstr "SCP Error: Connecting host failed"
 
 #. Programmer's name for it: SScpError5
 #: StringResources.pas
@@ -9114,7 +9114,7 @@ msgstr "Bilinmeyen SSH sunucu \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
-msgstr "Bilinmeyen SSH sunucu onunla fingerprint \"%s\". Do you want to proceed?"
+msgstr "Bilinmeyen SSH sunucu onunla fingerprint \"%s\". Do you want proceed?"
 
 #. Programmer's name for it: SSHPythonTimeout
 #: StringResources.pas
@@ -9131,7 +9131,7 @@ msgid ""
 "Output: %s\n"
 "ErrorOutput: %s"
 msgstr ""
-"Failed to execute Python (\"%s\") on the SSH sunucu:\n"
+"Failed execute Python (\"%s\") on the SSH sunucu:\n"
 "ReturnCode: %d\n"
 "Çıktı: %s\n"
 "ErrorOutput: %s"
@@ -9144,7 +9144,7 @@ msgid ""
 "server please switch to Python version %1:s."
 msgstr ""
 "Local Python versiyon is %s ve uzaktan Python versiyon is %s. To use this "
-"SSH sunucu please switch to Python versiyon %1:s."
+"SSH sunucu please switch Python versiyon %1:s."
 
 #. Missing action categories
 #. Programmer's name for it: SActionCategoryFile
@@ -9278,7 +9278,7 @@ msgstr "Unexpected response from the LLM Sunucu"
 
 #: uLLMSupport.pas
 msgid "Assistant is busy. Click to cancel."
-msgstr "Assistant is busy. Click to cancel."
+msgstr "Assistant is busy. Click cancel."
 
 #. Python Paths etc.
 #: uParams.pas
