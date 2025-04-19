@@ -2779,7 +2779,7 @@ msgstr "&Değiştir parameters"
 #. CommandsDataModule..actlMain..actReplaceParameters..Hint
 #: dmCommands.dfm
 msgid "Replace parameters with their values"
-msgstr "Değiştir parameters onunla their values"
+msgstr "Değiştir parameters onunla their değerler"
 
 #. CommandsDataModule..actlMain..actHelpParameters..Caption
 #: dmCommands.dfm
