@@ -531,7 +531,7 @@ msgstr "Kullan Ctrl+C to kopya the rapor to the pano"
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
 msgid "Send bug report using default mail client"
-msgstr "Gönder bug rapor using default mail client"
+msgstr "Varsayılan e-posta istemcisini kullanarak hata raporu gönder"
 
 #. ExceptionDialogMail..SendBtn..Caption
 #: dlgExceptionMail.dfm
