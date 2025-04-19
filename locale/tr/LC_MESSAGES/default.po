@@ -6330,7 +6330,7 @@ msgid ""
 msgstr ""
 "The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
-"Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
+"Please submit hata reports and questions about PyScripter to pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
