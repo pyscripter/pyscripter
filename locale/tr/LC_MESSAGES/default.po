@@ -1581,7 +1581,7 @@ msgstr "Oluk gradyan görünür"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter Gradient"
-msgstr "Oluk Gradient"
+msgstr "Oluk Gradyan"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
