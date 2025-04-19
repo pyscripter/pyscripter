@@ -1326,12 +1326,12 @@ msgstr "Sekme tuşu Girinti"
 #: dlgSynEditOptions.dfm
 msgid "Converts a tab character to the number of spaces in Tab Width"
 msgstr ""
-"Converts a sekme tuşu karakter to the sayı of spaces in Sekme tuşu Width"
+"Converts a sekme tuşu karakter to the sayı of boşluklar in Sekme tuşu Width"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tabs to spaces"
-msgstr "Sekmeler to spaces"
+msgstr "Sekmeler to boşluklar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
@@ -1341,7 +1341,7 @@ msgstr "Spaces at the son of satırlar will be trimmed and not saved"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
 #: dlgSynEditOptions.dfm
 msgid "Trim trailing spaces"
-msgstr "Trim trailing spaces"
+msgstr "Trim trailing boşluklar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
 #: dlgSynEditOptions.dfm
@@ -1413,7 +1413,7 @@ msgid ""
 "Allows the cursor to go past the last character into the white space at the "
 "end of a line"
 msgstr ""
-"Allows the imleç to go past the last karakter into the white space at the "
+"Allows the imleç to go past the last karakter into the white boşluk at the "
 "son of a line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
@@ -1456,7 +1456,7 @@ msgstr "Göster yazı tipi ligatures"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr "Shows line breaks, spaces and sekmeler kullanarak special symbols"
+msgstr "Shows line breaks, boşluklar and sekmeler kullanarak special symbols"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -2673,7 +2673,7 @@ msgstr "&Tabify"
 #. CommandsDataModule..actlMain..actEditTabify..Hint
 #: dmCommands.dfm
 msgid "Tabify|Convert spaces to tabs"
-msgstr "Tabify|Convert spaces to sekmeler"
+msgstr "Tabify|Convert boşluklar to sekmeler"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Caption
 #: dmCommands.dfm
@@ -2683,7 +2683,7 @@ msgstr "U&ntabify"
 #. CommandsDataModule..actlMain..actEditUntabify..Hint
 #: dmCommands.dfm
 msgid "Untabify|Convert tabs to spaces"
-msgstr "Untabify|Convert sekmeler to spaces"
+msgstr "Untabify|Convert sekmeler to boşluklar"
 
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
@@ -6110,7 +6110,7 @@ msgstr "User name"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
-msgstr "Komut to execute Python (no spaces)"
+msgstr "Komut to execute Python (no boşluklar)"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
@@ -6639,7 +6639,7 @@ msgstr "Compact Satır Numbers"
 
 #: dmCommands.pas
 msgid "Trim trailing spaces when files are saved"
-msgstr "Trim trailing spaces when dosyalar are saved"
+msgstr "Trim trailing boşluklar when dosyalar are saved"
 
 #: dmCommands.pas
 msgid "Track changes bar"
@@ -8127,7 +8127,7 @@ msgstr "Invalid sayı!"
 #. Programmer's name for it: SEmptyTokenTextError
 #: StringResources.pas
 msgid "You cannot insert a token that only consists of white space."
-msgstr "You cannot insert a token that sadece consists of white space."
+msgstr "You cannot insert a token that sadece consists of white boşluk."
 
 #. Programmer's name for it: SAccessAppDataDir
 #: StringResources.pas
