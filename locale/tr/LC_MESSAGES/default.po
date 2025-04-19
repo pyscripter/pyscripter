@@ -1949,12 +1949,12 @@ msgstr "Previous|Go to önceki page"
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Next"
-msgstr "Next"
+msgstr "Sonraki"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Next|Go to next page"
-msgstr "Next|Go to sonraki page"
+msgstr "Sonraki|Go to sonraki page"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2517,7 +2517,7 @@ msgstr "Arama|Arama for a string"
 #. CommandsDataModule..actlMain..actSearchFindNext..Caption
 #: dmCommands.dfm
 msgid "Find &Next"
-msgstr "Bul &Next"
+msgstr "Bul &Sonraki"
 
 #. CommandsDataModule..actlMain..actSearchFindNext..Hint
 #: dmCommands.dfm
@@ -2895,7 +2895,7 @@ msgstr "Bul önceki identifier reference"
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #: dmCommands.dfm
 msgid "Find Next Reference"
-msgstr "Bul Next Reference"
+msgstr "Bul Sonraki Reference"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
@@ -3638,7 +3638,7 @@ msgstr "Seçin önceki (older) frame"
 #. CallStackWindow..actlCallStack..actNextFrame..Caption
 #: frmCallStack.dfm
 msgid "Next Frame"
-msgstr "Next Frame"
+msgstr "Sonraki Frame"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
@@ -4309,7 +4309,7 @@ msgstr "Göster önceki chat topic"
 #. LLMChatForm..ChatActionList..actChatNext..Caption
 #: frmLLMChat.dfm
 msgid "Next Chat Topic"
-msgstr "Next Chat Topic"
+msgstr "Sonraki Chat Topic"
 
 #. LLMChatForm..ChatActionList..actChatNext..Hint
 #: frmLLMChat.dfm
@@ -4392,7 +4392,7 @@ msgstr "&Previous Messages"
 #. MessagesWindow..MsgsActionList..actNextMsgs..Caption
 #: frmMessages.dfm
 msgid "&Next Messages"
-msgstr "&Next Messages"
+msgstr "&Sonraki Messages"
 
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel2..Caption
 #: frmModSpTBXCustomize.dfm
@@ -4981,12 +4981,12 @@ msgstr "Aç Dosyalar"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Next Editor"
-msgstr "&Next Editör"
+msgstr "&Sonraki Editör"
 
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr "Next Editör|taşı to the sonraki editör"
+msgstr "Sonraki Editör|taşı to the sonraki editör"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
@@ -6443,7 +6443,7 @@ msgstr "Editör sekme tuşu konum"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
-msgstr "Smart Next Previous Page"
+msgstr "Smart Sonraki Previous Page"
 
 #: dmCommands.pas
 msgid "Show tab close button"
