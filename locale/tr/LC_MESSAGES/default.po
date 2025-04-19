@@ -707,7 +707,7 @@ msgstr "Eşleştirme Bağlam Görüntüleme"
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Number of context lines"
-msgstr "Number of bağlam lines"
+msgstr "Sayı of bağlam lines"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
@@ -6461,7 +6461,7 @@ msgstr "Dosya template for yeni Python scripts"
 
 #: dmCommands.pas
 msgid "Number of recent files"
-msgstr "Number of recent dosyalar"
+msgstr "Sayı of recent dosyalar"
 
 #: dmCommands.pas
 msgid "Style Main Window Border"
@@ -7147,7 +7147,7 @@ msgstr "Non-reserved Keyword"
 #. Programmer's name for it: SyntaxElementFriendlyName_Number
 #: StringResources.pas
 msgid "Number"
-msgstr "Number"
+msgstr "Sayı"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_NumericValue
 #: StringResources.pas
