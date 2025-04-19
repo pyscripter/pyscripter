@@ -989,12 +989,12 @@ msgstr "Çalışılan &Dizin:"
 #. PythonIIForm..InterpreterPopUp..TBXPythonEngines..Caption
 #: dlgRunConfiguration.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Engine"
-msgstr "Python Engine"
+msgstr "Python Motor"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
-msgstr "Engine &Type:"
+msgstr "Motor &Type:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
 #: dlgRunConfiguration.dfm
@@ -5350,7 +5350,7 @@ msgstr "&Internal"
 #. PyIDEMainForm..actlStandard..actPythonInternal..Hint
 #: frmPyIDEMain.dfm
 msgid "Use internal Python Engine"
-msgstr "Kullan internal Python Engine"
+msgstr "Kullan internal Python Motor"
 
 #. PyIDEMainForm..actlStandard..actPythonRemote..Caption
 #: frmPyIDEMain.dfm
