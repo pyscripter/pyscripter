@@ -2142,7 +2142,7 @@ msgstr "Aracın etkinleştirildiği bağlamı belirtir."
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Always enabled"
-msgstr "Always enabled"
+msgstr "Her zaman etkin"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
