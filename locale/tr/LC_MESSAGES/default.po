@@ -2158,7 +2158,7 @@ msgstr "Active Python dosya"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Selection available"
-msgstr "Selection available"
+msgstr "Selection mevcut"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
@@ -2944,7 +2944,7 @@ msgstr "Check For &Updates"
 #. CommandsDataModule..actlMain..actCheckForUpdates..Hint
 #: dmCommands.dfm
 msgid "Check whether a newer version of PyScripter is available"
-msgstr "Check whether a newer versiyon of PyScripter is available"
+msgstr "Check whether a newer versiyon of PyScripter is mevcut"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
@@ -6331,7 +6331,7 @@ msgid ""
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
 "The proje home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
-"Internet group support is available at https://groups.google.com/group/PyScripter\n"
+"Internet group support is mevcut at https://groups.google.com/group/PyScripter\n"
 "Please submit hata reports and questions about PyScripter to pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
@@ -6373,7 +6373,7 @@ msgstr "PyScripter Hata Report"
 #: dlgExceptionMail.pas
 #, object-pascal-format
 msgid "No %s mail client is available"
-msgstr "Hayır %s e-posta istemci is available"
+msgstr "Hayır %s e-posta istemci is mevcut"
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
@@ -6956,7 +6956,7 @@ msgstr "Post mortem"
 
 #: frmPyIDEMain.pas
 msgid "Python not available"
-msgstr "Python not available"
+msgstr "Python not mevcut"
 
 #: frmPyIDEMain.pas
 msgid "Debugger state: "
@@ -6972,7 +6972,7 @@ msgstr "Python Not Mevcut"
 
 #: frmPyIDEMain.pas
 msgid "Not available"
-msgstr "Not available"
+msgstr "Not mevcut"
 
 #: frmPythonII.pas
 msgid "PyScripter - Input requested"
@@ -7953,7 +7953,7 @@ msgstr "*** %s Python engine is active ***"
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
-msgstr "The dahili Python interpreter is not available"
+msgstr "The dahili Python interpreter is not mevcut"
 
 #. Programmer's name for it: SPythonLoadError
 #: StringResources.pas
@@ -8075,7 +8075,7 @@ msgid ""
 "Please restart PyScripter and try again.\n"
 "If the error persists reinstall PyScripter."
 msgstr ""
-"The 'rpyc' package is not available.\n"
+"The 'rpyc' package is not mevcut.\n"
 "Please restart PyScripter and try again.\n"
 "If the error persists reinstall PyScripter."
 
@@ -8097,7 +8097,7 @@ msgid ""
 " and debugger is not available."
 msgstr ""
 "Could not connect to the uzaktan Python engine sunucu. The uzaktan "
-"interpreter and debugger is not available."
+"interpreter and debugger is not mevcut."
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
@@ -8506,7 +8506,7 @@ msgstr "Aç dialog %s filter"
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
 msgid "Web preview is only available for Jupyter JSON files"
-msgstr "Web preview is sadece available for Jupyter JSON dosyalar"
+msgstr "Web preview is sadece mevcut for Jupyter JSON dosyalar"
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
@@ -8514,7 +8514,7 @@ msgid ""
 "The 'jupyter' package is not available.\n"
 "Please install 'jupyter' first."
 msgstr ""
-"The 'jupyter' package is not available.\n"
+"The 'jupyter' package is not mevcut.\n"
 "Please install 'jupyter' first."
 
 #. Programmer's name for it: SWebView2Error
@@ -8548,7 +8548,7 @@ msgid ""
 "You can get spell checking dictionaries through the Windows language settings.\n"
 "You can change the active language through the IDE options dialog."
 msgstr ""
-"The dictionary for language code \"%s\" is not available.\n"
+"The dictionary for language code \"%s\" is not mevcut.\n"
 "You can get spell checking dictionaries through the Windows language settings.\n"
 "You can change the active language through the IDE seçenekler dialog."
 
