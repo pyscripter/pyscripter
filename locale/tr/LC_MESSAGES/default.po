@@ -682,12 +682,12 @@ msgstr "Bul in Dosyalar Seçenekler"
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
-msgstr "Match Results List"
+msgstr "Eşleştirme Results List"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
-msgstr "Match List Font..."
+msgstr "Eşleştirme List Font..."
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepMiddle..Caption
 #: dlgFindResultsOptions.dfm
@@ -702,7 +702,7 @@ msgstr "&Expand hepsi matches after searching"
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Context Display"
-msgstr "Match Context Display"
+msgstr "Eşleştirme Context Display"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
@@ -717,7 +717,7 @@ msgstr "Context Font..."
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Font Color..."
-msgstr "Match Font Color..."
+msgstr "Eşleştirme Font Color..."
 
 #. ImportDirectoryForm..Caption
 #: dlgImportDirectory.dfm
@@ -4120,7 +4120,7 @@ msgstr "Expand hepsi"
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
 msgid "Show Match Context"
-msgstr "Göster Match Context"
+msgstr "Göster Eşleştirme Context"
 
 #. FindResultsWindow..Actions..actViewShowContext..Hint
 #: frmFindResults.dfm
@@ -4234,7 +4234,7 @@ msgstr "S&tart"
 #. FunctionListWindow..Actions..actViewStart..Hint
 #: frmFunctionList.dfm
 msgid "Match only from the start"
-msgstr "Match sadece from the start"
+msgstr "Eşleştirme sadece from the start"
 
 #. FunctionListWindow..Actions..actViewAny..Caption
 #: frmFunctionList.dfm
@@ -4244,7 +4244,7 @@ msgstr "&Any"
 #. FunctionListWindow..Actions..actViewAny..Hint
 #: frmFunctionList.dfm
 msgid "Match anywhere"
-msgstr "Match anywhere"
+msgstr "Eşleştirme anywhere"
 
 #. FunctionListWindow..Actions..actViewGoto..Caption
 #. ToDoWindow..Actions..actEditGoto..Caption
@@ -5755,7 +5755,7 @@ msgstr "Sets the VERBOSE re flag"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Match..Caption
 #: frmRegExpTester.dfm frmRegExpTester.pas
 msgid "Match"
-msgstr "Match"
+msgstr "Eşleştirme"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Match..Hint
 #: frmRegExpTester.dfm
@@ -5820,7 +5820,7 @@ msgstr "Arama Metin:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..lblMatch..Caption
 #: frmRegExpTester.dfm
 msgid "Match:"
-msgstr "Match:"
+msgstr "Eşleştirme:"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..SpinMatches..Hint
 #: frmRegExpTester.dfm
@@ -6986,7 +6986,7 @@ msgstr "Operation cancelled"
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
-msgstr "Match %d of %d"
+msgstr "Eşleştirme %d of %d"
 
 #. Programmer's name for it: SDone
 #. Programmer's name for it: SDoneTodoDesignation
@@ -7435,7 +7435,7 @@ msgstr "Lower Case"
 #. Programmer's name for it: SEdCmdMatchBracket
 #: StringResources.pas
 msgid "Match Bracket"
-msgstr "Match Bracket"
+msgstr "Eşleştirme Bracket"
 
 #. Programmer's name for it: SEdCmdMoveLineDown
 #: StringResources.pas
@@ -7796,7 +7796,7 @@ msgstr "Parameter Completion"
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
 msgid "Select Match Bracket"
-msgstr "Seçin Match Bracket"
+msgstr "Seçin Eşleştirme Bracket"
 
 #. Delphi dialogs (from Vcl.Consts)
 #. Programmer's name for it: srNone
