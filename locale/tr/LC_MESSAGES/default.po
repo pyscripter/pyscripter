@@ -6454,7 +6454,7 @@ msgstr "Dock animation interval (ms)"
 
 #: dmCommands.pas
 msgid "Dock animation move width (pixels)"
-msgstr "Dock animation move width (pixels)"
+msgstr "Dock animation hareket width (pixels)"
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
