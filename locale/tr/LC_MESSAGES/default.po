@@ -1079,7 +1079,7 @@ msgstr "Preview"
 #. StyleSelectorForm..ActionList..actApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "&Apply Style"
-msgstr "&Apply Stil"
+msgstr "&Uygula Stil"
 
 #. EditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -1124,7 +1124,7 @@ msgstr "Mevcut Themes"
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
-msgstr "Apply Theme"
+msgstr "Uygula Theme"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
@@ -1632,7 +1632,7 @@ msgstr "Active Satır Renk"
 #. EditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply to all editors"
-msgstr "Apply to hepsi editors"
+msgstr "Uygula to hepsi editors"
 
 #. PageSetupDlg..Caption
 #: dlgSynPageSetup.dfm
@@ -2046,7 +2046,7 @@ msgstr "&Insert"
 #. ToDoOptionsDlg..pnlBG..gbxTokens..btnApply..Caption
 #: dlgToDoOptions.dfm
 msgid "&Apply"
-msgstr "&Apply"
+msgstr "&Uygula"
 
 #. ToDoOptionsDlg..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
@@ -8378,7 +8378,7 @@ msgstr "Aç Proje"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Apply %s layout"
-msgstr "Apply %s layout"
+msgstr "Uygula %s layout"
 
 #. Programmer's name for it: SUseSyntax
 #: StringResources.pas
