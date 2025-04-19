@@ -6573,7 +6573,7 @@ msgstr "Create backup dosyalar"
 
 #: dmCommands.pas
 msgid "Undo after save"
-msgstr "Undo after save"
+msgstr "Undo sonra save"
 
 #: dmCommands.pas
 msgid "Show code hints"
