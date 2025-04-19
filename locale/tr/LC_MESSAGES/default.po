@@ -608,7 +608,7 @@ msgstr "&Küçük büyük harfe duyarlı"
 #. FindInFilesDialog..Panel1..gbxOptions..cbNoComments..Caption
 #: dlgFindInFiles.dfm
 msgid "&Ignore comments"
-msgstr "&Ignore comments"
+msgstr "&Ignore yorumlar"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbWholeWord..Caption
 #: dlgFindInFiles.dfm
@@ -3428,7 +3428,7 @@ msgstr "Explain"
 #. CommandsDataModule..actlMain..actAssistantExplain..Hint
 #: dmCommands.dfm
 msgid "Add comments explaining the selected code"
-msgstr "Ekle comments explaining the seçili code"
+msgstr "Ekle yorumlar explaining the seçili code"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
