@@ -391,7 +391,7 @@ msgstr "&Evet"
 #. Programmer's name for it: SDlgNo
 #: dlgConfirmReplace.dfm StringResources.pas
 msgid "&No"
-msgstr "&No"
+msgstr "&Hayır"
 
 #. ConfirmReplaceDialog..Panel1..btnReplaceAll..Caption
 #: dlgConfirmReplace.dfm
@@ -4720,7 +4720,7 @@ msgstr "&Syntax"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..mnNoSyntax..Caption
 #: frmPyIDEMain.dfm
 msgid "&No Syntax"
-msgstr "&No Syntax"
+msgstr "&Hayır Syntax"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..mnNoSyntax..Hint
 #: frmPyIDEMain.dfm
@@ -5695,7 +5695,7 @@ msgstr "Clear all interpreter output"
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Caption
 #: frmPythonII.dfm
 msgid "Copy (&No Prompts)"
-msgstr "Copy (&No Prompts)"
+msgstr "Copy (&Hayır Prompts)"
 
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Hint
 #: frmPythonII.dfm
@@ -5925,7 +5925,7 @@ msgstr "Error Message:"
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..ModuleName..Caption
 #: frmUnitTests.dfm
 msgid "No Module Loaded"
-msgstr "No Module Loaded"
+msgstr "Hayır Module Loaded"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lbFoundTests..Caption
 #: frmUnitTests.dfm
@@ -6052,7 +6052,7 @@ msgstr "Web Preview"
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
 msgid "No editor is currently active"
-msgstr "No editor is currently active"
+msgstr "Hayır editor is currently active"
 
 #. Programmer's name for it: SNonameFileTitle
 #: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
@@ -6371,7 +6371,7 @@ msgstr "PyScripter Bug Report"
 #: dlgExceptionMail.pas
 #, object-pascal-format
 msgid "No %s mail client is available"
-msgstr "No %s mail client is available"
+msgstr "Hayır %s mail client is available"
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
@@ -7923,7 +7923,7 @@ msgstr "All files|*.*|"
 #. Programmer's name for it: SNoParameters
 #: StringResources.pas
 msgid "** No/Unknown parameters **"
-msgstr "** No/Unknown parameters **"
+msgstr "** Hayır/Unknown parameters **"
 
 #. Programmer's name for it: SInvalidRegularExpression
 #: StringResources.pas
@@ -8251,7 +8251,7 @@ msgstr ""
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
 msgid "No tests found!"
-msgstr "No tests found!"
+msgstr "Hayır tests found!"
 
 #. Programmer's name for it: SDuplicateKey
 #: StringResources.pas
@@ -8928,7 +8928,7 @@ msgstr "Could not load and parse module: \"%s\""
 #. Programmer's name for it: SNoIdentifier
 #: StringResources.pas
 msgid "No Identifier at the given line and column"
-msgstr "No Identifier at the given line and column"
+msgstr "Hayır Identifier at the given line and column"
 
 #. Programmer's name for it: SCouldNotFindScope
 #: StringResources.pas
@@ -9251,7 +9251,7 @@ msgstr "The LLM client is busy"
 #. Programmer's name for it: sNoResponse
 #: uLLMSupport.pas
 msgid "No response from the LLM Server"
-msgstr "No response from the LLM Server"
+msgstr "Hayır response from the LLM Server"
 
 #. Programmer's name for it: sNoAPIKey
 #: uLLMSupport.pas
