@@ -2743,7 +2743,7 @@ msgstr "Go To Syntax &Error"
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Hint
 #: dmCommands.dfm
 msgid "Jump to the position of the first syntax error"
-msgstr "Jump to the position of the first syntax error"
+msgstr "Atla to the position of the first syntax error"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
@@ -6525,7 +6525,7 @@ msgstr "Reinitialize before run"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
-msgstr "Jump to error on exception"
+msgstr "Atla to error on exception"
 
 #: dmCommands.pas
 msgid "Internal Interpreter hidden"
