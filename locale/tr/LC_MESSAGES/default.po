@@ -4085,7 +4085,7 @@ msgstr "Abort arama"
 #. FindResultsWindow..Actions..actFilePrint..Hint
 #: frmFindResults.dfm
 msgid "Print results..."
-msgstr "Print results..."
+msgstr "Print sonuçlar..."
 
 #. FindResultsWindow..Actions..actListGotoSelected..Caption
 #: frmFindResults.dfm
@@ -4135,12 +4135,12 @@ msgstr "&Save..."
 #. FindResultsWindow..Actions..actFileSave..Hint
 #: frmFindResults.dfm
 msgid "Save results to file..."
-msgstr "Save results to dosya..."
+msgstr "Save sonuçlar to dosya..."
 
 #. FindResultsWindow..Actions..actFileCopy..Hint
 #: frmFindResults.dfm
 msgid "Copy results to clipboard"
-msgstr "Copy results to pano"
+msgstr "Copy sonuçlar to pano"
 
 #. FindResultsWindow..Actions..actViewToolBar..Caption
 #: frmFindResults.dfm
