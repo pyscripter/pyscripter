@@ -2231,7 +2231,7 @@ msgid ""
 "predefined grep expressions."
 msgstr ""
 "A grep ifade for parsing çıktı satırlar.\n"
-"Kullan the button on the sağ to insert \n"
+"Kullan the düğme on the sağ to insert \n"
 "predefined grep ifadeler."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Hint
@@ -6447,7 +6447,7 @@ msgstr "Akıllı Sonraki Önceki Page"
 
 #: dmCommands.pas
 msgid "Show tab close button"
-msgstr "Göster sekme tuşu close button"
+msgstr "Göster sekme tuşu close düğme"
 
 #: dmCommands.pas
 msgid "Dock animation interval (ms)"
@@ -8274,8 +8274,8 @@ msgid ""
 "changes to these files."
 msgstr ""
 "The following dosyalar have been changed on disk. Seçin the dosyalar that "
-"you wish to reload and press the TAMAM button. Please note that you will "
-"lose hepsi changes to these dosyalar."
+"you wish to reload and press the TAMAM düğme. Please note that you will lose"
+" hepsi changes to these dosyalar."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -8423,7 +8423,7 @@ msgstr "Sil Layouts"
 #: StringResources.pas
 msgid "Please select the layouts you want to delete and press the OK button:"
 msgstr ""
-"Please seçin the layouts you want to delete and press the TAMAM button:"
+"Please seçin the layouts you want to delete and press the TAMAM düğme:"
 
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
