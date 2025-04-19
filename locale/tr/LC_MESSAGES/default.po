@@ -6857,7 +6857,7 @@ msgstr "Class nitelikler"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Class attribute \"%s\" defined at line %d"
-msgstr "Class attribute \"%s\" defined at line %d"
+msgstr "Class nitelik \"%s\" defined at line %d"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
