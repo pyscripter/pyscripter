@@ -1434,7 +1434,7 @@ msgstr "Göster kaydırma ip ucu"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
 #: dlgSynEditOptions.dfm
 msgid "The scroll hint follows the mouse when scrolling vertically"
-msgstr "The kaydırma ip ucu follows the fare when scrolling dikey"
+msgstr "Kaydırma ipucu dikey kaydırma sırasında fareyi takip eder"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
