@@ -1096,7 +1096,7 @@ msgstr "Görüntüleme"
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystrokes"
-msgstr "Keystrokes"
+msgstr "Tuş vuruşları"
 
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem5..Caption
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
