@@ -737,7 +737,7 @@ msgstr "Dosya Maskeleri (e.g. *.py;*.pyw):"
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
 msgid "Recursive?"
-msgstr "Recursive?"
+msgstr "Tekrarlayan?"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
