@@ -446,7 +446,7 @@ msgstr "&Kategoriler:"
 #. frmCustomKeyboard..Panel1..lblCommands..Caption
 #: dlgCustomShortcuts.dfm
 msgid "C&ommands:"
-msgstr "C&ommands:"
+msgstr "K&omutlar:"
 
 #. frmCustomKeyboard..Panel1..lblCurrent..Caption
 #: dlgCustomShortcuts.dfm
