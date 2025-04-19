@@ -2069,7 +2069,7 @@ msgstr "Scan &directories"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanProject..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &project files"
-msgstr "Scan &project dosyalar"
+msgstr "Scan &proje dosyalar"
 
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
@@ -2549,7 +2549,7 @@ msgstr "Save &All"
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "Save hepsi|Save project and hepsi aç dosyalar"
+msgstr "Save hepsi|Save proje and hepsi aç dosyalar"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -3098,7 +3098,7 @@ msgstr "&Proje Home"
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
 msgid "Go to the project home page"
-msgstr "Go to the project home page"
+msgstr "Go to the proje home page"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Caption
 #: dmCommands.dfm
@@ -3438,7 +3438,7 @@ msgstr "&Donate"
 #. CommandsDataModule..actlMain..actDonate..Hint
 #: dmCommands.dfm
 msgid "Donate to the PyScripter project"
-msgstr "Donate to the PyScripter project"
+msgstr "Donate to the PyScripter proje"
 
 #. CommandsDataModule..pmSpelling..mnSpelling..Caption
 #. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
@@ -4414,7 +4414,7 @@ msgstr "&New Proje"
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
 #: frmProjectExplorer.dfm
 msgid "Start a new project"
-msgstr "Start a yeni project"
+msgstr "Start a yeni proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
 #: frmProjectExplorer.dfm
@@ -4424,7 +4424,7 @@ msgstr "&Aç Proje..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
 #: frmProjectExplorer.dfm
 msgid "Open a project file"
-msgstr "Aç a project dosya"
+msgstr "Aç a proje dosya"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
 #: frmProjectExplorer.dfm
@@ -4434,7 +4434,7 @@ msgstr "&Save Proje"
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Hint
 #: frmProjectExplorer.dfm
 msgid "Save the project"
-msgstr "Save the project"
+msgstr "Save the proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Caption
 #: frmProjectExplorer.dfm
@@ -4444,7 +4444,7 @@ msgstr "Save Proje &As..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
 #: frmProjectExplorer.dfm
 msgid "Save project with under a different name"
-msgstr "Save project with under a different name"
+msgstr "Save proje with under a different name"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
@@ -4454,7 +4454,7 @@ msgstr "Store &Relative Paths"
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Hint
 #: frmProjectExplorer.dfm
 msgid "Store file paths relative to the project directory"
-msgstr "Store dosya yolları relative to the project directory"
+msgstr "Store dosya yolları relative to the proje directory"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
@@ -4474,12 +4474,12 @@ msgstr "Extra Python &Path..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Expand all project nodes"
-msgstr "Expand hepsi project nodes"
+msgstr "Expand hepsi proje nodes"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Collapse all project nodes"
-msgstr "Collapse hepsi project nodes"
+msgstr "Collapse hepsi proje nodes"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Caption
 #: frmProjectExplorer.dfm
@@ -4489,7 +4489,7 @@ msgstr "&Ekle Dosya(s)..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
 #: frmProjectExplorer.dfm
 msgid "Add file(s) to a project folder"
-msgstr "Ekle dosya(s) to a project folder"
+msgstr "Ekle dosya(s) to a proje folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Caption
 #: frmProjectExplorer.dfm
@@ -4504,7 +4504,7 @@ msgstr "Ekle a yeni subfolder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr "Çıkar a dosya, folder or run configuration from the project"
+msgstr "Çıkar a dosya, folder or run configuration from the proje"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -6319,7 +6319,7 @@ msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 msgstr ""
-"Donations from numerous users have provided a strong incentive to develop this project.\n"
+"Donations from numerous users have provided a strong incentive to develop this proje.\n"
 "Financial and moral support from Embarcadero (https://www.embarcadero.com/) makers of Delphi, the programming environment with which PyScripter is built, and generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is thankfully acknowledged."
 
 #: dlgAboutPyScripter.pas
@@ -6328,7 +6328,7 @@ msgid ""
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
-"The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
+"The proje home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit hata reports and questions about PyScripter to pyscripter@gmail.com."
 
@@ -6472,7 +6472,7 @@ msgstr "Restore aç dosyalar"
 
 #: dmCommands.pas
 msgid "Restore open project"
-msgstr "Restore aç project"
+msgstr "Restore aç proje"
 
 #: dmCommands.pas
 msgid "Automatic restart"
@@ -6934,7 +6934,7 @@ msgstr ""
 #: frmProjectExplorer.pas
 #, object-pascal-format
 msgid "PyScripter project files (*.%s)|*.%0:s"
-msgstr "PyScripter project dosyalar (*.%s)|*.%0:s"
+msgstr "PyScripter proje dosyalar (*.%s)|*.%0:s"
 
 #: frmPyIDEMain.pas
 msgid "Debug"
@@ -8563,26 +8563,26 @@ msgid ""
 "The active project has not been saved.\n"
 "Do you want to save the changes?"
 msgstr ""
-"The active project has not been saved.\n"
+"The active proje has not been saved.\n"
 "Do you want to save the changes?"
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
-msgstr "Failed to backup project \"%s\""
+msgstr "Failed to backup proje \"%s\""
 
 #. Programmer's name for it: SErrorInOpeningProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in opening project: \"%s\"."
-msgstr "Error in opening project: \"%s\"."
+msgstr "Error in opening proje: \"%s\"."
 
 #. Programmer's name for it: SErrorInSavingProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in saving project: \"%s\"."
-msgstr "Error in saving project: \"%s\"."
+msgstr "Error in saving proje: \"%s\"."
 
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas
