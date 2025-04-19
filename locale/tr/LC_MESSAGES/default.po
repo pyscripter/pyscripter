@@ -2428,12 +2428,12 @@ msgstr "Kes|Kes seçim ve puts it on Clipboard"
 #. FindResultsWindow..Actions..actFileCopy..Caption
 #: dmCommands.dfm frmFindResults.dfm
 msgid "&Copy"
-msgstr "&Copy"
+msgstr "&Kopyala"
 
 #. CommandsDataModule..actlMain..actEditCopy..Hint
 #: dmCommands.dfm
 msgid "Copy|Copies the selection and puts it on the Clipboard"
-msgstr "Copy|Copies seçim ve puts it on Clipboard"
+msgstr "Kopyala|Copies seçim ve puts it on Clipboard"
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
@@ -3129,12 +3129,12 @@ msgstr "Kapat hepsi dosyalar sağ"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
 msgid "Copy File Name"
-msgstr "Copy Dosya Ad"
+msgstr "Kopyala Dosya Ad"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr "Copy dosya ad of aktif dosya pano"
+msgstr "Kopyala dosya ad of aktif dosya pano"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3600,7 +3600,7 @@ msgstr "Co&py Clipboard"
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Hint
 #: frmBreakPoints.dfm frmWatches.dfm
 msgid "Copy to clipboard"
-msgstr "Copy pano"
+msgstr "Kopyala pano"
 
 #. CallStackWindow..Caption
 #: frmCallStack.dfm
@@ -3732,7 +3732,7 @@ msgstr "Co&py"
 #. MessagesWindow..MsgsActionList..actCopyToClipboard..Hint
 #: frmCommandOutput.dfm frmMessages.dfm
 msgid "Copy contents to Clipboard"
-msgstr "Copy contents Clipboard"
+msgstr "Kopyala contents Clipboard"
 
 #. OutputWindow..OutputActions..actOutputFont..Caption
 #: frmCommandOutput.dfm
@@ -4136,7 +4136,7 @@ msgstr "Kaydet sonuçlar dosya..."
 #. FindResultsWindow..Actions..actFileCopy..Hint
 #: frmFindResults.dfm
 msgid "Copy results to clipboard"
-msgstr "Copy sonuçlar pano"
+msgstr "Kopyala sonuçlar pano"
 
 #. FindResultsWindow..Actions..actViewToolBar..Caption
 #: frmFindResults.dfm
@@ -4210,7 +4210,7 @@ msgstr "&Düzenle"
 #. FunctionListWindow..Actions..actEditCopy..Hint
 #: frmFunctionList.dfm
 msgid "Copy procedures to clipboard"
-msgstr "Copy procedures pano"
+msgstr "Kopyala procedures pano"
 
 #. FunctionListWindow..Actions..actOptionsFont..Caption
 #: frmFunctionList.dfm
@@ -5670,12 +5670,12 @@ msgstr "Python Interpreter"
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Caption
 #: frmPythonII.dfm
 msgid "Copy &History"
-msgstr "Copy &Geçmiş"
+msgstr "Kopyala &Geçmiş"
 
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Hint
 #: frmPythonII.dfm
 msgid "Copy history to Clipboard"
-msgstr "Copy history Clipboard"
+msgstr "Kopyala history Clipboard"
 
 #. PythonIIForm..InterpreterActionList..actClearContents..Caption
 #: frmPythonII.dfm
@@ -5690,12 +5690,12 @@ msgstr "Clear hepsi interpreter çıktı"
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Caption
 #: frmPythonII.dfm
 msgid "Copy (&No Prompts)"
-msgstr "Copy (&Hayır Prompts)"
+msgstr "Kopyala (&Hayır Prompts)"
 
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Hint
 #: frmPythonII.dfm
 msgid "Copy selected text without the interpreter prompts"
-msgstr "Copy seçili metin without interpreter istemler"
+msgstr "Kopyala seçili metin without interpreter istemler"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
@@ -5895,12 +5895,12 @@ msgstr "&Seçenekler..."
 #. ToDoWindow..Actions..actEditCopy..Caption
 #: frmToDo.dfm
 msgid "&Copy All"
-msgstr "&Copy Tümü"
+msgstr "&Kopyala Tümü"
 
 #. ToDoWindow..Actions..actEditCopy..Hint
 #: frmToDo.dfm
 msgid "Copy all"
-msgstr "Copy hepsi"
+msgstr "Kopyala hepsi"
 
 #. ToDoWindow..Actions..actFileAbort..Hint
 #: frmToDo.dfm
@@ -6910,7 +6910,7 @@ msgstr "Gir başlık:"
 
 #: frmLLMChat.pas
 msgid "Copy code to new editor"
-msgstr "Copy code yeni editör"
+msgstr "Kopyala code yeni editör"
 
 #. Programmer's name for it: SFileTemplateCategoryOther
 #: frmModSpTBXCustomize.pas StringResources.pas
@@ -7256,17 +7256,17 @@ msgstr "Bağlam Yardım"
 #. Programmer's name for it: SEdCmdCopy
 #: StringResources.pas
 msgid "Copy"
-msgstr "Copy"
+msgstr "Kopyala"
 
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
-msgstr "Copy Satır Aşağı"
+msgstr "Kopyala Satır Aşağı"
 
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
 msgid "Copy Line Up"
-msgstr "Copy Satır Yukarı"
+msgstr "Kopyala Satır Yukarı"
 
 #. Programmer's name for it: SEdCmdCut
 #: StringResources.pas
