@@ -566,7 +566,7 @@ msgstr "&Kategori:"
 #. FileTemplatesDialog..Panel..GroupBox..Label6..Caption
 #: dlgFileTemplates.dfm
 msgid "&Default Extension:"
-msgstr "&Default Extension:"
+msgstr "&Varsayılan Extension:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label7..Caption
 #: dlgFileTemplates.dfm
@@ -6592,11 +6592,11 @@ msgstr "Göster executable line marks"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
-msgstr "Default line break format for yeni files"
+msgstr "Varsayılan line break format for yeni files"
 
 #: dmCommands.pas
 msgid "Default file encoding for new files"
-msgstr "Default dosya encoding for yeni files"
+msgstr "Varsayılan dosya encoding for yeni files"
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
@@ -9556,4 +9556,4 @@ msgstr "&Visible"
 
 #. SpTBXCustomizeForm..ResetButton..Caption
 msgid "&Default Options"
-msgstr "&Default Options"
+msgstr "&Varsayılan Options"
