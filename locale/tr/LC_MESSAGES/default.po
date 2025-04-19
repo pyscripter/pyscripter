@@ -1273,7 +1273,7 @@ msgstr "Satırlarda hareket ederken X konumu her zaman aynı kalacaktır"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
 #: dlgSynEditOptions.dfm
 msgid "Maintain caret column"
-msgstr "Maintain imleç column"
+msgstr "İmleç sütununu koru"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves....Hint
 #: dlgSynEditOptions.dfm
