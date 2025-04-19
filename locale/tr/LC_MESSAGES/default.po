@@ -431,7 +431,7 @@ msgstr "Değer"
 #. frmCustomKeyboard..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Customize IDE Shortcuts"
-msgstr "Customize IDE Shortcuts"
+msgstr "Customize IDE Kısayollar"
 
 #. frmCustomKeyboard..Panel1..lblNewShortcutKey..Caption
 #: dlgCustomShortcuts.dfm
@@ -2812,7 +2812,7 @@ msgstr "Ekle/Çıkar custom parameters"
 #. CommandsDataModule..actlMain..actIDEShortcuts..Caption
 #: dmCommands.dfm
 msgid "IDE &Shortcuts..."
-msgstr "IDE &Shortcuts..."
+msgstr "IDE &Kısayollar..."
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Hint
 #: dmCommands.dfm
@@ -2927,7 +2927,7 @@ msgstr "Kullan ANSI encoding"
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
 msgid "Editor &Shortcuts"
-msgstr "Editor &Shortcuts"
+msgstr "Editor &Kısayollar"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Hint
 #: dmCommands.dfm
@@ -3024,14 +3024,14 @@ msgstr "Reload|Reload active file"
 #. Programmer's name for it: SImportShortcuts
 #: dmCommands.dfm StringResources.pas
 msgid "Import Shortcuts"
-msgstr "Import Shortcuts"
+msgstr "Import Kısayollar"
 
 #. CommandsDataModule..actlMain..actExportShortCuts..Caption
 #. CommandsDataModule..actlMain..actExportShortCuts..Hint
 #. Programmer's name for it: SExportShortcuts
 #: dmCommands.dfm StringResources.pas
 msgid "Export Shortcuts"
-msgstr "Export Shortcuts"
+msgstr "Export Kısayollar"
 
 #. CommandsDataModule..actlMain..actImportHighlighters..Caption
 #. Programmer's name for it: SImportHighlighters
