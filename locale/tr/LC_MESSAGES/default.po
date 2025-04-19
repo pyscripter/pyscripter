@@ -2148,7 +2148,7 @@ msgstr "Always enabled"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active editor"
-msgstr "Active editor"
+msgstr "Active editör"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
@@ -2934,7 +2934,7 @@ msgstr "Editor &Kısayollar"
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Hint
 #: dmCommands.dfm
 msgid "Help on editor shortcuts"
-msgstr "Yardım on editor shortcuts"
+msgstr "Yardım on editör shortcuts"
 
 #. CommandsDataModule..actlMain..actCheckForUpdates..Caption
 #: dmCommands.dfm
@@ -3070,7 +3070,7 @@ msgstr "&Highlight Arama Metin"
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
 msgid "Highlight the search text in the current editor"
-msgstr "Highlight the arama metin in the mevcut editor"
+msgstr "Highlight the arama metin in the mevcut editör"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #: dmCommands.dfm
@@ -3690,7 +3690,7 @@ msgstr "Follow Editor"
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
 msgid "Move selection to match the editor position"
-msgstr "taşı selection to eşleştirme the editor position"
+msgstr "taşı selection to eşleştirme the editör position"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
@@ -3700,7 +3700,7 @@ msgstr "Göster Selection"
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm
 msgid "Show selected node in editor"
-msgstr "Göster seçili node in editor"
+msgstr "Göster seçili node in editör"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
@@ -4521,7 +4521,7 @@ msgstr "Rename the seçili folder or RunConfiguration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
 #: frmProjectExplorer.dfm
 msgid "Open the selected file in the editor"
-msgstr "Aç the seçili dosya in the editor"
+msgstr "Aç the seçili dosya in the editör"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
@@ -4531,7 +4531,7 @@ msgstr "Ekle Active Dosya"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Ekle the active editor dosya to the folder"
+msgstr "Ekle the active editör dosya to the folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -4985,7 +4985,7 @@ msgstr "&Next Editor"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr "Next Editor|taşı to the next editor"
+msgstr "Next Editor|taşı to the next editör"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
@@ -4995,7 +4995,7 @@ msgstr "&Previous Editor"
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Previous editor|Move to the previous editor"
-msgstr "Previous editor|taşı to the previous editor"
+msgstr "Previous editör|taşı to the previous editör"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Caption
 #: frmPyIDEMain.dfm
@@ -5132,7 +5132,7 @@ msgstr "&Restore Editor"
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Restore editor window"
-msgstr "Restore editor window"
+msgstr "Restore editör window"
 
 #. PyIDEMainForm..actlStandard..actRunToCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5294,7 +5294,7 @@ msgstr "&Maximize Editor"
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Maximize editor window"
-msgstr "Maximize editor window"
+msgstr "Maximize editör window"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
@@ -5304,7 +5304,7 @@ msgstr "Zoom &In"
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
 #: frmPyIDEMain.dfm
 msgid "Increase the font size of the editor"
-msgstr "Increase the yazı tipi size of the editor"
+msgstr "Increase the yazı tipi size of the editör"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
 #: frmPyIDEMain.dfm
@@ -5314,7 +5314,7 @@ msgstr "Zoom &Out"
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
 #: frmPyIDEMain.dfm
 msgid "Decrease the font size of the editor"
-msgstr "Decrease the yazı tipi size of the editor"
+msgstr "Decrease the yazı tipi size of the editör"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Caption
 #: frmPyIDEMain.dfm
@@ -5324,7 +5324,7 @@ msgstr "Split Editor Vertically"
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Hint
 #: frmPyIDEMain.dfm
 msgid "Split the editor Windows vertically"
-msgstr "Split the editor Windows vertically"
+msgstr "Split the editör Windows vertically"
 
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5334,7 +5334,7 @@ msgstr "Ekle &Watch At Cursor"
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Add the expression at the editor current position as a watch"
-msgstr "Ekle the ifade at the editor mevcut position as a watch"
+msgstr "Ekle the ifade at the editör mevcut position as a watch"
 
 #. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
 #: frmPyIDEMain.dfm
@@ -5520,7 +5520,7 @@ msgstr "E&xecute selection"
 #. PyIDEMainForm..actlStandard..actExecSelection..Hint
 #: frmPyIDEMain.dfm
 msgid "Execute the editor selection"
-msgstr "Execute the editor selection"
+msgstr "Execute the editör selection"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Caption
 #: frmPyIDEMain.dfm
@@ -5530,7 +5530,7 @@ msgstr "Split Editor Horizontally"
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Hint
 #: frmPyIDEMain.dfm
 msgid "Split the editor Windows horizontally"
-msgstr "Split the editor Windows horizontally"
+msgstr "Split the editör Windows horizontally"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5540,7 +5540,7 @@ msgstr "Gizle Second Editor"
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Clear the editor"
-msgstr "Clear the editor"
+msgstr "Clear the editör"
 
 #. PyIDEMainForm..actlStandard..actPostMortem..Caption
 #: frmPyIDEMain.dfm
@@ -5582,7 +5582,7 @@ msgstr "Split Workspace Vertically"
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
-"Split workspace vertically|Göster secondary editor tabset vertically aligned"
+"Split workspace vertically|Göster secondary editör tabset vertically aligned"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
@@ -5641,7 +5641,7 @@ msgstr "&Reset Zoom"
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
-msgstr "Reset the yazı tipi size of the editor to its varsayılan"
+msgstr "Reset the yazı tipi size of the editör to its varsayılan"
 
 #. PyIDEMainForm..actlStandard..actNavRegExp..Caption
 #: frmPyIDEMain.dfm
@@ -6054,7 +6054,7 @@ msgstr "Web Preview"
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
 msgid "No editor is currently active"
-msgstr "Hayır editor is currently active"
+msgstr "Hayır editör is currently active"
 
 #. Programmer's name for it: SNonameFileTitle
 #: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
@@ -6218,7 +6218,7 @@ msgstr "Sort Selection"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
-msgstr "Sort the seçili editor block (\"one-liner\" demo)"
+msgstr "Sort the seçili editör block (\"one-liner\" demo)"
 
 #: cTools.pas
 msgid "&Re-indent"
@@ -6621,7 +6621,7 @@ msgstr "Highlight color of seçili kelime"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
-msgstr "Display package names in editor tabs"
+msgstr "Display package names in editör tabs"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
@@ -6916,7 +6916,7 @@ msgstr "Gir title:"
 
 #: frmLLMChat.pas
 msgid "Copy code to new editor"
-msgstr "Copy code to yeni editor"
+msgstr "Copy code to yeni editör"
 
 #. Programmer's name for it: SFileTemplateCategoryOther
 #: frmModSpTBXCustomize.pas StringResources.pas
@@ -8845,7 +8845,7 @@ msgid ""
 "Another editor with the same file is open.\n"
 "You can not have two editors with the same file."
 msgstr ""
-"Another editor with the same dosya is aç.\n"
+"Another editör with the same dosya is aç.\n"
 "You can not have two editors with the same dosya."
 
 #. Parameters
