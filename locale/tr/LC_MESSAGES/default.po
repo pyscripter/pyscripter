@@ -343,7 +343,7 @@ msgstr "&Değiştir.."
 #. CommandLineDlg..Caption
 #: dlgCommandLine.dfm
 msgid "Command Line Parameters"
-msgstr "Komut Line Parametreler"
+msgstr "Komut Satır Parametreler"
 
 #. CommandLineDlg..Panel..Label1....Caption
 #: dlgCommandLine.dfm
@@ -369,7 +369,7 @@ msgstr "History"
 #. CommandLineDlg..Panel..cbUseCommandLine..Caption
 #: dlgCommandLine.dfm
 msgid "Use Command Line Parameters?"
-msgstr "Use Komut Line Parametreler?"
+msgstr "Use Komut Satır Parametreler?"
 
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
@@ -1489,13 +1489,13 @@ msgstr "Overwrite caret:"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Vertical Line"
-msgstr "Vertical Line"
+msgstr "Vertical Satır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Horizontal Line"
-msgstr "Horizontal Line"
+msgstr "Horizontal Satır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
@@ -1610,7 +1610,7 @@ msgstr "Editor Font"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
 #: dlgSynEditOptions.dfm
 msgid "Line spacing / Tab spacing"
-msgstr "Line spacing / Tab spacing"
+msgstr "Satır spacing / Tab spacing"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
@@ -1625,7 +1625,7 @@ msgstr "Tab Width:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
-msgstr "Active Line Color"
+msgstr "Active Satır Color"
 
 #. EditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
@@ -1684,7 +1684,7 @@ msgstr "Appearance"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterLineColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line color"
-msgstr "Line color"
+msgstr "Satır color"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..HeaderShadowColorBtn..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterShadowColorBtn..Caption
@@ -1695,7 +1695,7 @@ msgstr "Shadow color"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line under"
-msgstr "Line under"
+msgstr "Satır under"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderBox..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterBox..Caption
@@ -1723,7 +1723,7 @@ msgstr "Footer"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line above"
-msgstr "Line above"
+msgstr "Satır above"
 
 #. PageSetupDlg..TabControl..tbMargins..Label1..Caption
 #: dlgSynPageSetup.dfm
@@ -1788,7 +1788,7 @@ msgstr "Mirror margins"
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line numbers"
-msgstr "Line numbers"
+msgstr "Satır numbers"
 
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
@@ -2324,7 +2324,7 @@ msgstr "Placeholder of the Filename"
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Line number"
-msgstr "Line number"
+msgstr "Satır number"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
@@ -2725,7 +2725,7 @@ msgstr "Hakkında|Info about the application"
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Line..."
-msgstr "Go To &Line..."
+msgstr "Go To &Satır..."
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Hint
 #. Programmer's name for it: SGoToLineNumber
@@ -2862,7 +2862,7 @@ msgstr "Find Function|Find function from function list"
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
 msgid "Line &Numbers"
-msgstr "Line &Numbers"
+msgstr "Satır &Numbers"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Hint
 #: dmCommands.dfm
@@ -3342,7 +3342,7 @@ msgstr "Check File"
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Caption
 #: dmCommands.dfm
 msgid "Check Line"
-msgstr "Check Line"
+msgstr "Check Satır"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckSelection..Caption
 #: dmCommands.dfm
@@ -3559,7 +3559,7 @@ msgstr "File Ad"
 #: frmBreakPoints.dfm frmCallStack.dfm frmFunctionList.dfm frmMessages.dfm
 #: frmToDo.dfm
 msgid "Line"
-msgstr "Line"
+msgstr "Satır"
 
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #: frmBreakPoints.dfm frmBreakPoints.pas
@@ -5023,7 +5023,7 @@ msgstr "Run|Run active module"
 #. PyIDEMainForm..actlStandard..actCommandLine..Caption
 #: frmPyIDEMain.dfm
 msgid "Command Line &Parameters..."
-msgstr "Komut Line &Parametreler..."
+msgstr "Komut Satır &Parametreler..."
 
 #. PyIDEMainForm..actlStandard..actCommandLine..Hint
 #: frmPyIDEMain.dfm
@@ -5850,7 +5850,7 @@ msgstr "Accept the first suggested word"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Caption
 #: frmSuggest.dfm
 msgid "Accept Line (Ctrl+Enter)"
-msgstr "Accept Line (Ctrl+Enter)"
+msgstr "Accept Satır (Ctrl+Enter)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Hint
 #: frmSuggest.dfm
@@ -6632,7 +6632,7 @@ msgstr "Kod folding options"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
-msgstr "Compact Line Numbers"
+msgstr "Compact Satır Numbers"
 
 #: dmCommands.pas
 msgid "Trim trailing spaces when files are saved"
@@ -7219,7 +7219,7 @@ msgstr "Text Value"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Top Line: %d"
-msgstr "Top Line: %d"
+msgstr "Top Satır: %d"
 
 #. Programmer's name for it: sPrintPreviewScrollInfo
 #: StringResources.pas
@@ -7266,12 +7266,12 @@ msgstr "Copy"
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
-msgstr "Copy Line Aşağı"
+msgstr "Copy Satır Aşağı"
 
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
 msgid "Copy Line Up"
-msgstr "Copy Line Yukarı"
+msgstr "Copy Satır Yukarı"
 
 #. Programmer's name for it: SEdCmdCut
 #: StringResources.pas
@@ -7306,7 +7306,7 @@ msgstr "Sil Last Word"
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
 msgid "Delete Line"
-msgstr "Sil Line"
+msgstr "Sil Satır"
 
 #. Programmer's name for it: SEdCmdDeleteWord
 #: StringResources.pas
@@ -7406,7 +7406,7 @@ msgstr "Goto Bookmark 9"
 #. Programmer's name for it: SEdCmdInsertLine
 #: StringResources.pas
 msgid "Insert Line"
-msgstr "Insert Line"
+msgstr "Insert Satır"
 
 #. Programmer's name for it: SEdCmdInsertMode
 #: StringResources.pas
@@ -7416,17 +7416,17 @@ msgstr "Insert Mode"
 #. Programmer's name for it: SEdCmdLineBreak
 #: StringResources.pas
 msgid "Line Break"
-msgstr "Line Break"
+msgstr "Satır Break"
 
 #. Programmer's name for it: SEdCmdLineEnd
 #: StringResources.pas
 msgid "Line End"
-msgstr "Line End"
+msgstr "Satır End"
 
 #. Programmer's name for it: SEdCmdLineStart
 #: StringResources.pas
 msgid "Line Start"
-msgstr "Line Start"
+msgstr "Satır Start"
 
 #. Programmer's name for it: SEdCmdLowerCase
 #: StringResources.pas
@@ -7441,12 +7441,12 @@ msgstr "Match Bracket"
 #. Programmer's name for it: SEdCmdMoveLineDown
 #: StringResources.pas
 msgid "Move Line Down"
-msgstr "taşı Line Aşağı"
+msgstr "taşı Satır Aşağı"
 
 #. Programmer's name for it: SEdCmdMoveLineUp
 #: StringResources.pas
 msgid "Move Line Up"
-msgstr "taşı Line Yukarı"
+msgstr "taşı Satır Yukarı"
 
 #. Programmer's name for it: SEdCmdOverwriteMode
 #: StringResources.pas
@@ -7536,12 +7536,12 @@ msgstr "Select Left"
 #. Programmer's name for it: SEdCmdSelectLineEnd
 #: StringResources.pas
 msgid "Select Line End"
-msgstr "Select Line End"
+msgstr "Select Satır End"
 
 #. Programmer's name for it: SEdCmdSelectLineStart
 #: StringResources.pas
 msgid "Select Line Start"
-msgstr "Select Line Start"
+msgstr "Select Satır Start"
 
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
@@ -7787,7 +7787,7 @@ msgstr "Select Matching Text"
 #. Programmer's name for it: SEdCmdCaretsAtLineEnds
 #: StringResources.pas
 msgid "Carets At Line Ends"
-msgstr "Carets At Line Ends"
+msgstr "Carets At Satır Ends"
 
 #. Programmer's name for it: SEdCmdParameterCompletion
 #: StringResources.pas
@@ -7940,7 +7940,7 @@ msgstr "(Empty List)"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Command Line : %s\n"
-msgstr "Komut Line : %s\n"
+msgstr "Komut Satır : %s\n"
 
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
@@ -8759,7 +8759,7 @@ msgstr "The following command line options are valid: \n"
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
 msgid "PyScripter Command Line Options"
-msgstr "PyScripter Komut Line Options"
+msgstr "PyScripter Komut Satır Options"
 
 #. Command Window
 #. Programmer's name for it: SProcessSuccessful
@@ -9217,7 +9217,7 @@ msgstr "Unbalanced Brace"
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas
 msgid "Multi-Line String"
-msgstr "Multi-Line String"
+msgstr "Multi-Satır String"
 
 #. Programmer's name for it: SYNS_AttrBanner
 #. Programmer's name for it: SYNS_FriendlyAttrBanner
@@ -9345,7 +9345,7 @@ msgstr "Executable name"
 
 #: uParams.pas
 msgid "Python Command Line Arguments"
-msgstr "Python Komut Line Arguments"
+msgstr "Python Komut Satır Arguments"
 
 #. register parameter modifiers
 #: uParams.pas
