@@ -1154,7 +1154,7 @@ msgstr " Metin nitelikler "
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Bold"
-msgstr "&Bold"
+msgstr "&Kalın"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
 #: dlgSynEditOptions.dfm
@@ -1856,7 +1856,7 @@ msgstr "Title"
 #. PageSetupDlg..ActionList1..BoldCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Bold"
-msgstr "Bold"
+msgstr "Kalın"
 
 #. PageSetupDlg..ActionList1..ItalicCmd..Caption
 #. PageSetupDlg..ActionList1..ItalicCmd..Hint
