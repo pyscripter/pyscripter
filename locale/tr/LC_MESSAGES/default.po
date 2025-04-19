@@ -1169,7 +1169,7 @@ msgstr "&Altı çizili"
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Strike Out"
-msgstr "&Strike Out"
+msgstr "&Üstü çizili"
 
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
