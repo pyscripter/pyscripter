@@ -6532,7 +6532,7 @@ msgstr "Dahili Interpreter hidden"
 
 #: dmCommands.pas
 msgid "Always use sockets"
-msgstr "Always use sockets"
+msgstr "Her zaman use sockets"
 
 #: dmCommands.pas
 msgid "Step into open files only"
