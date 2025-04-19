@@ -506,7 +506,7 @@ msgstr "Ekle dosya yol to the liste"
 #. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
-msgstr "Değiştir the selected dosya yol"
+msgstr "Değiştir the seçili dosya yol"
 
 #. DirectoryListDialog..Panel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
@@ -516,7 +516,7 @@ msgstr "&Değiştir"
 #. DirectoryListDialog..Panel2..btnDelete..Hint
 #: dlgDirectoryList.dfm
 msgid "Delete the selected file path"
-msgstr "Sil the selected dosya yol"
+msgstr "Sil the seçili dosya yol"
 
 #. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
@@ -824,7 +824,7 @@ msgstr "Activate"
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected Python version"
-msgstr "Activate selected Python version"
+msgstr "Activate seçili Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #. CommandsDataModule..actlMain..actSynSpellErrorAdd..Caption
@@ -845,7 +845,7 @@ msgstr "Çıkar"
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected Python version"
-msgstr "Çıkar selected Python version"
+msgstr "Çıkar seçili Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
@@ -855,7 +855,7 @@ msgstr "Test"
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
 msgid "Test selected Python version"
-msgstr "Test selected Python version"
+msgstr "Test seçili Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
@@ -865,7 +865,7 @@ msgstr "Show"
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected Python version in Explorer"
-msgstr "Show selected Python version in Explorer"
+msgstr "Show seçili Python version in Explorer"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -875,7 +875,7 @@ msgstr "Shell"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr "Open command prompt for the selected Python version"
+msgstr "Open command prompt for the seçili Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -907,7 +907,7 @@ msgstr "Rename"
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
 msgid "Rename selected Python version"
-msgstr "Rename selected Python version"
+msgstr "Rename seçili Python version"
 
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
@@ -2620,7 +2620,7 @@ msgstr "&Indent Block"
 #. CommandsDataModule..actlMain..actEditIndent..Hint
 #: dmCommands.dfm
 msgid "Indent block|Indent selected block of code"
-msgstr "Indent block|Indent selected block of code"
+msgstr "Indent block|Indent seçili block of code"
 
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
@@ -2630,7 +2630,7 @@ msgstr "&Unindent Block"
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
 msgid "Unindent|Unindent selected block of code"
-msgstr "Unindent|Unindent selected block of code"
+msgstr "Unindent|Unindent seçili block of code"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
@@ -3408,7 +3408,7 @@ msgstr "Optimize"
 #. CommandsDataModule..actlMain..actAssistantOptimize..Hint
 #: dmCommands.dfm
 msgid "Optimize the selected code"
-msgstr "Optimize the selected code"
+msgstr "Optimize the seçili code"
 
 #. CommandsDataModule..actlMain..actAssistantFixBugs..Caption
 #: dmCommands.dfm
@@ -3418,7 +3418,7 @@ msgstr "Fix Bugs"
 #. CommandsDataModule..actlMain..actAssistantFixBugs..Hint
 #: dmCommands.dfm
 msgid "Fix bugs in the selected code"
-msgstr "Fix bugs in the selected code"
+msgstr "Fix bugs in the seçili code"
 
 #. CommandsDataModule..actlMain..actAssistantExplain..Caption
 #: dmCommands.dfm
@@ -3428,7 +3428,7 @@ msgstr "Explain"
 #. CommandsDataModule..actlMain..actAssistantExplain..Hint
 #: dmCommands.dfm
 msgid "Add comments explaining the selected code"
-msgstr "Ekle comments explaining the selected code"
+msgstr "Ekle comments explaining the seçili code"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
@@ -3591,7 +3591,7 @@ msgstr "C&lear"
 #. BreakPointsWindow..TBXPopupMenu..mnClear..Hint
 #: frmBreakPoints.dfm
 msgid "Clear|Clear selected breakpoint"
-msgstr "Clear|Clear selected breakpoint"
+msgstr "Clear|Clear seçili breakpoint"
 
 #. BreakPointsWindow..TBXPopupMenu..mnCopyToClipboard..Caption
 #. MessagesWindow..MsgsActionList..actCopyToClipboard..Caption
@@ -3698,7 +3698,7 @@ msgstr "Show Selection"
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm
 msgid "Show selected node in editor"
-msgstr "Show selected node in editor"
+msgstr "Show seçili node in editor"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
@@ -3827,7 +3827,7 @@ msgstr "Update View"
 #. EditorForm..pmnuViewsTab..mnUpdateView..Hint
 #: frmEditor.dfm
 msgid "Update View|Update the selected view"
-msgstr "Update View|Update the selected view"
+msgstr "Update View|Update the seçili view"
 
 #. EditorForm..BGPanel..ViewsTabControl..tbiCloseTab..Caption
 #. EditorForm..pmnuViewsTab..mnCloseTab..Caption
@@ -4023,7 +4023,7 @@ msgstr "&Search Path..."
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Hint
 #: frmFileExplorer.dfm
 msgid "Search selected path"
-msgstr "Search selected yol"
+msgstr "Search seçili yol"
 
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Caption
 #: frmFileExplorer.dfm
@@ -4053,7 +4053,7 @@ msgstr "Değiştir Selected Item..."
 #. FindResultsWindow..Actions..actReplaceSelected..Hint
 #: frmFindResults.dfm
 msgid "Replace selected item..."
-msgstr "Değiştir selected öğe..."
+msgstr "Değiştir seçili öğe..."
 
 #. FindResultsWindow..Actions..actFileSearch..Caption
 #: frmFindResults.dfm
@@ -4514,12 +4514,12 @@ msgstr "Re&name"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Hint
 #: frmProjectExplorer.dfm
 msgid "Rename the selected folder or RunConfiguration"
-msgstr "Rename the selected folder or RunConfiguration"
+msgstr "Rename the seçili folder or RunConfiguration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
 #: frmProjectExplorer.dfm
 msgid "Open the selected file in the editor"
-msgstr "Open the selected dosya in the editor"
+msgstr "Open the seçili dosya in the editor"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
@@ -4539,7 +4539,7 @@ msgstr "&Import Dizin..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Hint
 #: frmProjectExplorer.dfm
 msgid "Import a directory into the selected folder"
-msgstr "Import a directory into the selected folder"
+msgstr "Import a directory into the seçili folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -4577,7 +4577,7 @@ msgstr "&Run"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run the selected configuration"
-msgstr "Run the selected configuration"
+msgstr "Run the seçili configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
 #. PyIDEMainForm..actlStandard..actExternalRun..Caption
@@ -4599,7 +4599,7 @@ msgstr "&Debug"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Hint
 #: frmProjectExplorer.dfm
 msgid "Debug the selected configuration"
-msgstr "Debug the selected configuration"
+msgstr "Debug the seçili configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Caption
 #. Programmer's name for it: SRemoteFileAdd
@@ -5700,7 +5700,7 @@ msgstr "Copy (&Hayır Prompts)"
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Hint
 #: frmPythonII.dfm
 msgid "Copy selected text without the interpreter prompts"
-msgstr "Copy selected text without the interpreter prompts"
+msgstr "Copy seçili text without the interpreter prompts"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
@@ -5950,7 +5950,7 @@ msgstr "Refresh tests|Extract tests from active module"
 #. UnitTestWindow..DialogActions..actRun..Hint
 #: frmUnitTests.dfm
 msgid "Run selected tests"
-msgstr "Run selected tests"
+msgstr "Run seçili tests"
 
 #. UnitTestWindow..DialogActions..actStop..Caption
 #: frmUnitTests.dfm
@@ -6208,7 +6208,7 @@ msgstr "Format Selection"
 
 #: cTools.pas
 msgid "Format selected code using the \"black\" module"
-msgstr "Format selected code using the \"black\" module"
+msgstr "Format seçili code using the \"black\" module"
 
 #: cTools.pas
 msgid "Sort Selection"
@@ -6216,7 +6216,7 @@ msgstr "Sort Selection"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
-msgstr "Sort the selected editor block (\"one-liner\" demo)"
+msgstr "Sort the seçili editor block (\"one-liner\" demo)"
 
 #: cTools.pas
 msgid "&Re-indent"
@@ -6612,11 +6612,11 @@ msgstr "Auto-hide find toolbar"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
-msgstr "Highlight selected word"
+msgstr "Highlight seçili word"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr "Highlight color of selected word"
+msgstr "Highlight color of seçili word"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
@@ -8436,7 +8436,7 @@ msgid ""
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
 "The following files have been modified.\n"
-"Basın 'TAMAM' to save selected files and exit.\n"
+"Basın 'TAMAM' to save seçili files and exit.\n"
 "Basın 'İptal' to return to PyScripter without saving files."
 
 #. Programmer's name for it: SSaveAs
