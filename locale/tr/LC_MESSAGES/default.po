@@ -1030,12 +1030,12 @@ msgstr "SSH"
 #. RunConfigurationForm..Panel1..GroupBox3..Caption
 #: dlgRunConfiguration.dfm
 msgid "External Run"
-msgstr "External Çalıştır"
+msgstr "Harici Çalıştır"
 
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr "&Set External Çalıştır özellikler"
+msgstr "&Set Harici Çalıştır özellikler"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -2076,7 +2076,7 @@ msgstr "Scan &proje dosyalar"
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
 msgid "External Tool Properties"
-msgstr "External Tool Özellikler"
+msgstr "Harici Tool Özellikler"
 
 #. ToolProperties..Panel1..TabControl..SpTBXTabItem1..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..Caption
@@ -2844,12 +2844,12 @@ msgstr "Configure Tools|Ekle/remove/edit komut-line tools"
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
 #: dmCommands.dfm
 msgid "External &Tools"
-msgstr "External &Tools"
+msgstr "Harici &Tools"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Hint
 #: dmCommands.dfm
 msgid "Help on External Tools"
-msgstr "Yardım on External Tools"
+msgstr "Yardım on Harici Tools"
 
 #. CommandsDataModule..actlMain..actFindFunction..Caption
 #: dmCommands.dfm
@@ -4638,7 +4638,7 @@ msgstr "Ready"
 #. PyIDEMainForm..StatusBar..spiExternalToolsLED..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tool Running"
-msgstr "External Tool Running"
+msgstr "Harici Tool Running"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiTabFiles..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..Hint
@@ -4870,7 +4870,7 @@ msgstr "Tools"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tools"
-msgstr "External Tools"
+msgstr "Harici Tools"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -5095,18 +5095,17 @@ msgstr "View/Gizle status bar"
 #. PyIDEMainForm..actlStandard..actExternalRun..Hint
 #: frmPyIDEMain.dfm
 msgid "External Run|Run active module in external Python interpreter"
-msgstr ""
-"External Çalıştır|Çalıştır active module in external Python interpreter"
+msgstr "Harici Çalıştır|Çalıştır active module in external Python interpreter"
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
 msgid "Configure &External Run..."
-msgstr "Configure &External Çalıştır..."
+msgstr "Configure &Harici Çalıştır..."
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
 msgid "Configure External Run"
-msgstr "Configure External Çalıştır"
+msgstr "Configure Harici Çalıştır"
 
 #. PyIDEMainForm..actlStandard..actRunDebugLastScript..Caption
 #: frmPyIDEMain.dfm
@@ -6143,7 +6142,7 @@ msgstr "Python &Interpreter"
 
 #: cTools.pas
 msgid "External Python Interpreter"
-msgstr "External Python Interpreter"
+msgstr "Harici Python Interpreter"
 
 #: cTools.pas
 msgid "Install Packages with pip"
@@ -6418,7 +6417,7 @@ msgstr "'To Do' arama yol"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
-msgstr "External Çalıştır Özellikler"
+msgstr "Harici Çalıştır Özellikler"
 
 #: dlgUnitTestWizard.pas frmCodeExplorer.pas
 #, object-pascal-format
@@ -8178,7 +8177,7 @@ msgid ""
 "An External Tool is still running.\n"
 "Do you want to terminate it and exit?"
 msgstr ""
-"An External Tool is still running.\n"
+"An Harici Tool is still running.\n"
 "Do you want to terminate it and exit?"
 
 #. Programmer's name for it: STerminateInterpreter
@@ -8802,7 +8801,7 @@ msgstr "Çalışılan dizin: "
 #: StringResources.pas
 #, object-pascal-format
 msgid "The External Tool \"%s\" is still running. Do you want to terminate it?"
-msgstr "The External Tool \"%s\" is still running. Do you want to terminate it?"
+msgstr "The Harici Tool \"%s\" is still running. Do you want to terminate it?"
 
 #. Editor
 #. Programmer's name for it: SInsert
