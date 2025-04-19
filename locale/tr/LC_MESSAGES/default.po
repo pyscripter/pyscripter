@@ -369,7 +369,7 @@ msgstr "Geçmiş"
 #. CommandLineDlg..Panel..cbUseCommandLine..Caption
 #: dlgCommandLine.dfm
 msgid "Use Command Line Parameters?"
-msgstr "Use Komut Satır Parametreler?"
+msgstr "Kullan Komut Satır Parametreler?"
 
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
@@ -526,7 +526,7 @@ msgstr "Enter file path here"
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
 msgid "Use Ctrl+C to copy the report to the clipboard"
-msgstr "Use Ctrl+C to copy the report to the clipboard"
+msgstr "Kullan Ctrl+C to copy the report to the clipboard"
 
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
@@ -1567,7 +1567,7 @@ msgstr "Start at zero"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Use Gutter Font"
-msgstr "Use Gutter Font"
+msgstr "Kullan Gutter Font"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
@@ -1803,7 +1803,7 @@ msgstr "Syntax print"
 #. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
 #: dlgSynPageSetup.dfm
 msgid "Use colors"
-msgstr "Use colors"
+msgstr "Kullan colors"
 
 #. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
 #: dlgSynPageSetup.dfm
@@ -2092,7 +2092,7 @@ msgstr "&Environment"
 #. ToolProperties..Panel1..TabControl..tabEnvironment..cbUseCustomEnv..Caption
 #: dlgToolProperties.dfm
 msgid "Use Customized Environment"
-msgstr "Use Customized Environment"
+msgstr "Kullan Customized Environment"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox1..Label17..Caption
 #: dlgToolProperties.dfm
@@ -2228,7 +2228,7 @@ msgid ""
 "predefined grep expressions."
 msgstr ""
 "A grep expression for parsing output lines.\n"
-"Use the button on the right to insert \n"
+"Kullan the button on the right to insert \n"
 "predefined grep expressions."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Hint
@@ -2304,7 +2304,7 @@ msgstr "&Hide console"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
 msgid "Use the UTF8 encoding for stdin/stdout"
-msgstr "Use the UTF8 encoding for stdin/stdout"
+msgstr "Kullan the UTF8 encoding for stdin/stdout"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
@@ -2922,7 +2922,7 @@ msgstr "ANSI"
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
 msgid "Use ANSI encoding"
-msgstr "Use ANSI encoding"
+msgstr "Kullan ANSI encoding"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
@@ -2992,22 +2992,22 @@ msgstr "UTF-8 with BOM"
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding when saving the file"
-msgstr "Use UTF-8 encoding when saving the file"
+msgstr "Kullan UTF-8 encoding when saving the file"
 
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding without BOM"
-msgstr "Use UTF-8 encoding without BOM"
+msgstr "Kullan UTF-8 encoding without BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16LE encoding"
-msgstr "Use UTF-16LE encoding"
+msgstr "Kullan UTF-16LE encoding"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16BE encoding"
-msgstr "Use UTF-16BE encoding"
+msgstr "Kullan UTF-16BE encoding"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
@@ -3470,25 +3470,25 @@ msgstr "DeepSeek"
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiDeepSeek..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use DeepSeek"
-msgstr "Use DeepSeek"
+msgstr "Kullan DeepSeek"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiGemini..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGemini..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use Gemini"
-msgstr "Use Gemini"
+msgstr "Kullan Gemini"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use OpenAI"
-msgstr "Use OpenAI"
+msgstr "Kullan OpenAI"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use Ollama"
-msgstr "Use Ollama"
+msgstr "Kullan Ollama"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiEndpoint..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiEndpoint..EditCaption
@@ -4775,7 +4775,7 @@ msgstr "View toolbar|Show/Hide the View toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
 msgid "Use&r Toolbar"
-msgstr "Use&r Toolbar"
+msgstr "Kullan&r Toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
@@ -5347,7 +5347,7 @@ msgstr "&Internal"
 #. PyIDEMainForm..actlStandard..actPythonInternal..Hint
 #: frmPyIDEMain.dfm
 msgid "Use internal Python Engine"
-msgstr "Use internal Python Engine"
+msgstr "Kullan internal Python Engine"
 
 #. PyIDEMainForm..actlStandard..actPythonRemote..Caption
 #: frmPyIDEMain.dfm
@@ -5357,7 +5357,7 @@ msgstr "&Remote"
 #. PyIDEMainForm..actlStandard..actPythonRemote..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine"
-msgstr "Use a remote Python engine"
+msgstr "Kullan a remote Python engine"
 
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Caption
 #: frmPyIDEMain.dfm
@@ -5367,7 +5367,7 @@ msgstr "Remote (&Tk)"
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine for Tkinter applications"
-msgstr "Use a remote Python engine for Tkinter applications"
+msgstr "Kullan a remote Python engine for Tkinter applications"
 
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Caption
 #: frmPyIDEMain.dfm
@@ -5377,7 +5377,7 @@ msgstr "Remote (&Wx)"
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine for wxPython applications"
-msgstr "Use a remote Python engine for wxPython applications"
+msgstr "Kullan a remote Python engine for wxPython applications"
 
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
@@ -5508,7 +5508,7 @@ msgstr "&SSH"
 #. PyIDEMainForm..actlStandard..actPythonSSH..Hint
 #: frmPyIDEMain.dfm
 msgid "Use an SSH remote Python engine"
-msgstr "Use an SSH remote Python engine"
+msgstr "Kullan an SSH remote Python engine"
 
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
@@ -5664,7 +5664,7 @@ msgstr "Free-Threaded"
 #. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Hint
 #: frmPyIDEMain.dfm
 msgid "Use the free-trheaded version of Python"
-msgstr "Use the free-trheaded version of Python"
+msgstr "Kullan the free-trheaded version of Python"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -8383,7 +8383,7 @@ msgstr "Apply %s layout"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Use %s syntax"
-msgstr "Use %s syntax"
+msgstr "Kullan %s syntax"
 
 #. Programmer's name for it: SSwitchtoVersion
 #: StringResources.pas
