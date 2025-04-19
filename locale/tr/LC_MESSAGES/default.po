@@ -566,7 +566,7 @@ msgstr "&Kategori:"
 #. FileTemplatesDialog..Panel..GroupBox..Label6..Caption
 #: dlgFileTemplates.dfm
 msgid "&Default Extension:"
-msgstr "&Varsayılan Extension:"
+msgstr "&Varsayılan Uzantı:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label7..Caption
 #: dlgFileTemplates.dfm
