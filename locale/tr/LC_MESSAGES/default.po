@@ -2219,7 +2219,7 @@ msgstr "&Mesajları Ayrıştır"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseTraceback..Caption
 #: dlgToolProperties.dfm
 msgid "Parse &Traceback"
-msgstr "Ayrıştır &Traceback"
+msgstr "Ayrıştır &Geri izleme"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..edMessagesFormat....Hint
 #: dlgToolProperties.dfm
@@ -9227,7 +9227,7 @@ msgstr "Banner"
 #. Programmer's name for it: SYNS_FriendlyAttrTraceback
 #: SynHighlighterPython.pas
 msgid "Traceback"
-msgstr "Traceback"
+msgstr "Geri izleme"
 
 #. Programmer's name for it: SYNS_AttrPrompt
 #. Programmer's name for it: SYNS_FriendlyAttrPrompt
