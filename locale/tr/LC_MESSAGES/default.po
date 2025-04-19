@@ -1802,7 +1802,7 @@ msgstr "Yazdır satır sayılar in marj"
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
 msgid "Syntax print"
-msgstr "Sözdizimi print"
+msgstr "Sözdizimi yazdır"
 
 #. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
 #: dlgSynPageSetup.dfm
@@ -6503,7 +6503,7 @@ msgstr "Timeout for running scripts in ms"
 
 #: dmCommands.pas
 msgid "Pretty print output"
-msgstr "Pretty print çıktı"
+msgstr "Pretty yazdır çıktı"
 
 #: dmCommands.pas
 msgid "Clear output before run"
