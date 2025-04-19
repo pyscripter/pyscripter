@@ -2005,12 +2005,12 @@ msgstr "Kapat|Kapat Yazdır Önizleme"
 #. ToDoOptionsDlg..Caption
 #: dlgToDoOptions.dfm
 msgid "To Do Options"
-msgstr "To Do Seçenekler"
+msgstr "Yapılacaklar Seçenekler"
 
 #. ToDoOptionsDlg..pnlBG..gbxTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "To Do Tokens"
-msgstr "To Do Tokens"
+msgstr "Yapılacaklar Tokens"
 
 #. ToDoOptionsDlg..pnlBG..gbxTokens..lblPriority..Caption
 #: dlgToDoOptions.dfm
@@ -2058,7 +2058,7 @@ msgstr "&Göster tokens in description"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
 msgid "Search for To Do Tokens"
-msgstr "Arama for To Do Tokens"
+msgstr "Arama for Yapılacaklar Tokens"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
@@ -5873,7 +5873,7 @@ msgstr "Kapat the form"
 #. ToDoWindow..Caption
 #: frmToDo.dfm
 msgid "To Do List"
-msgstr "To Do Liste"
+msgstr "Yapılacaklar Liste"
 
 #. ToDoWindow..Actions..actFileRefresh..Hint
 #: frmToDo.dfm
@@ -6414,7 +6414,7 @@ msgstr "Sayfa"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
-msgstr "'To Do' arama yol"
+msgstr "'Yapılacaklar' arama yol"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
@@ -7001,7 +7001,7 @@ msgstr "Done"
 #. Programmer's name for it: STodoItems
 #: frmToDo.pas
 msgid "To Do Items"
-msgstr "To Do Öğeler"
+msgstr "Yapılacaklar Öğeler"
 
 #: frmVariables.pas
 msgid "Namespace"
