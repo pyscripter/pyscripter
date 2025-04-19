@@ -999,7 +999,7 @@ msgstr "Engine &Type:"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "Reinitiali&ze Before Run"
-msgstr "Reinitiali&ze Before Run"
+msgstr "Reinitiali&ze Before Çalıştır"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
@@ -1030,12 +1030,12 @@ msgstr "SSH"
 #. RunConfigurationForm..Panel1..GroupBox3..Caption
 #: dlgRunConfiguration.dfm
 msgid "External Run"
-msgstr "External Run"
+msgstr "External Çalıştır"
 
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr "&Set External Run özellikler"
+msgstr "&Set External Çalıştır özellikler"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -4546,7 +4546,7 @@ msgstr "İçe aktar a dizin into the seçili klasör"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
 #: frmProjectExplorer.dfm
 msgid "Add Run Configuration"
-msgstr "Ekle Run Configuration"
+msgstr "Ekle Çalıştır Configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Hint
 #: frmProjectExplorer.dfm
@@ -4556,7 +4556,7 @@ msgstr "Ekle run configuration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
 #: frmProjectExplorer.dfm
 msgid "&Edit Run Configuration"
-msgstr "&Edit Run Configuration"
+msgstr "&Edit Çalıştır Configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Hint
 #: frmProjectExplorer.dfm
@@ -4574,23 +4574,23 @@ msgstr "Göster dosya özellikler"
 #. UnitTestWindow..DialogActions..actRun..Caption
 #: frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
 msgid "&Run"
-msgstr "&Run"
+msgstr "&Çalıştır"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run the selected configuration"
-msgstr "Run the seçili configuration"
+msgstr "Çalıştır the seçili configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
 #. PyIDEMainForm..actlStandard..actExternalRun..Caption
 #: frmProjectExplorer.dfm frmPyIDEMain.dfm
 msgid "E&xternal Run"
-msgstr "E&xternal Run"
+msgstr "E&xternal Çalıştır"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run configuration using an external Python interpreter"
-msgstr "Run configuration kullanarak an external Python interpreter"
+msgstr "Çalıştır configuration kullanarak an external Python interpreter"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Caption
 #. PyIDEMainForm..actlStandard..actDebug..Caption
@@ -5020,7 +5020,7 @@ msgstr "Syntax Check|Perform syntax check and load scripts"
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
 msgid "Run|Run active module"
-msgstr "Run|Run active module"
+msgstr "Çalıştır|Çalıştır active module"
 
 #. PyIDEMainForm..actlStandard..actCommandLine..Caption
 #: frmPyIDEMain.dfm
@@ -5095,17 +5095,18 @@ msgstr "View/Gizle status bar"
 #. PyIDEMainForm..actlStandard..actExternalRun..Hint
 #: frmPyIDEMain.dfm
 msgid "External Run|Run active module in external Python interpreter"
-msgstr "External Run|Run active module in external Python interpreter"
+msgstr ""
+"External Çalıştır|Çalıştır active module in external Python interpreter"
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
 msgid "Configure &External Run..."
-msgstr "Configure &External Run..."
+msgstr "Configure &External Çalıştır..."
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
 msgid "Configure External Run"
-msgstr "Configure External Run"
+msgstr "Configure External Çalıştır"
 
 #. PyIDEMainForm..actlStandard..actRunDebugLastScript..Caption
 #: frmPyIDEMain.dfm
@@ -5137,12 +5138,12 @@ msgstr "Restore editör window"
 #. PyIDEMainForm..actlStandard..actRunToCursor..Caption
 #: frmPyIDEMain.dfm
 msgid "Run To &Cursor"
-msgstr "Run To &Cursor"
+msgstr "Çalıştır To &Cursor"
 
 #. PyIDEMainForm..actlStandard..actRunToCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Run to cursor"
-msgstr "Run to cursor"
+msgstr "Çalıştır to cursor"
 
 #. PyIDEMainForm..actlStandard..actStepInto..Caption
 #: frmPyIDEMain.dfm
@@ -5197,24 +5198,24 @@ msgstr "Abort debugging"
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Caption
 #: frmPyIDEMain.dfm
 msgid "Run Last Script Externally"
-msgstr "Run Last Script Externally"
+msgstr "Çalıştır Last Script Externally"
 
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Hint
 #. Programmer's name for it: SHintExternalRun
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Run last script externally"
-msgstr "Run last script externally"
+msgstr "Çalıştır last script externally"
 
 #. PyIDEMainForm..actlStandard..actRunLastScript..Caption
 #: frmPyIDEMain.dfm
 msgid "Run Last Script"
-msgstr "Run Last Script"
+msgstr "Çalıştır Last Script"
 
 #. PyIDEMainForm..actlStandard..actRunLastScript..Hint
 #. Programmer's name for it: SHintRun
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Run last script"
-msgstr "Run last script"
+msgstr "Çalıştır last script"
 
 #. PyIDEMainForm..actlStandard..actToggleBreakPoint..Caption
 #: frmPyIDEMain.dfm
@@ -5937,7 +5938,7 @@ msgstr "Found 0 tests"
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lblRunTests..Caption
 #: frmUnitTests.dfm
 msgid "Run 0 tests"
-msgstr "Run 0 tests"
+msgstr "Çalıştır 0 tests"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lblFailures..Caption
 #: frmUnitTests.dfm
@@ -5952,7 +5953,7 @@ msgstr "Refresh tests|Extract tests from active module"
 #. UnitTestWindow..DialogActions..actRun..Hint
 #: frmUnitTests.dfm
 msgid "Run selected tests"
-msgstr "Run seçili tests"
+msgstr "Çalıştır seçili tests"
 
 #. UnitTestWindow..DialogActions..actStop..Caption
 #: frmUnitTests.dfm
@@ -6067,7 +6068,7 @@ msgstr "Dosyalar"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
-msgstr "Run Configurations"
+msgstr "Çalıştır Configurations"
 
 #: cPyScripterSettings.pas
 #, object-pascal-format
@@ -6417,7 +6418,7 @@ msgstr "'To Do' arama yol"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
-msgstr "External Run Özellikler"
+msgstr "External Çalıştır Özellikler"
 
 #: dlgUnitTestWizard.pas frmCodeExplorer.pas
 #, object-pascal-format
@@ -9168,7 +9169,7 @@ msgstr "View"
 #. Programmer's name for it: SActionCategoryRun
 #: StringResources.pas
 msgid "Run"
-msgstr "Run"
+msgstr "Çalıştır"
 
 #. Programmer's name for it: SActionCategoryProject
 #: StringResources.pas
