@@ -2501,7 +2501,7 @@ msgstr "Read Only"
 #. CommandsDataModule..actlMain..actEditReadOnly..Hint
 #: dmCommands.dfm
 msgid "Enable/disable editing"
-msgstr "Enable/disable editing"
+msgstr "Enable/devre dışı editing"
 
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
