@@ -1069,7 +1069,7 @@ msgstr "Seçin Stil"
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
 msgid "Available Styles"
-msgstr "Available Sitiller"
+msgstr "Mevcut Sitiller"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
@@ -1119,7 +1119,7 @@ msgstr "Kod Sample"
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
-msgstr "Available Themes"
+msgstr "Mevcut Themes"
 
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
@@ -6968,7 +6968,7 @@ msgstr "carets"
 
 #: frmPyIDEMain.pas
 msgid "Python Not Available"
-msgstr "Python Not Available"
+msgstr "Python Not Mevcut"
 
 #: frmPyIDEMain.pas
 msgid "Not available"
