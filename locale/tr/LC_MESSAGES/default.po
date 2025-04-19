@@ -3086,7 +3086,7 @@ msgstr "Turn kelime wrap on/off (incompatible onunla code folding)"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Debugger Position"
-msgstr "Go To &Debugger Position"
+msgstr "Go To &Debugger Konum"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
@@ -4359,7 +4359,7 @@ msgstr "Message"
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Position"
-msgstr "Position"
+msgstr "Konum"
 
 #. MessagesWindow..Panel1..BtnNextMsg..Hint
 #. MessagesWindow..MsgsActionList..actNextMsgs..Hint
