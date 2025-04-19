@@ -1456,7 +1456,7 @@ msgstr "Göster yazı tipi ligatures"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr "Göster satır breaks, boşluklar ve sekmeler kullanarak özel symbols"
+msgstr "Göster satır breaks, boşluklar ve sekmeler kullanarak özel sembol"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -6652,7 +6652,7 @@ msgstr "Scrollbar annotation"
 
 #: dmCommands.pas
 msgid "Display flow control symbols"
-msgstr "Görüntüleme flow control symbols"
+msgstr "Görüntüleme flow control sembol"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
