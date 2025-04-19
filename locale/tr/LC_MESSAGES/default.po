@@ -1423,7 +1423,8 @@ msgstr "Kaydırma past son of satır"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows a hint of the visible line numbers when scrolling vertically"
-msgstr "Shows a ip ucu of the visible satır numbers when scrolling vertically"
+msgstr ""
+"Dikey kaydırma sırasında görünen satır numaralarının bir ipucunu gösterir"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
 #: dlgSynEditOptions.dfm
