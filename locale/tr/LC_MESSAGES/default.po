@@ -1159,7 +1159,7 @@ msgstr "&Kalın"
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Italic"
-msgstr "&Italic"
+msgstr "&Yatık"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
 #: dlgSynEditOptions.dfm
@@ -1862,7 +1862,7 @@ msgstr "Kalın"
 #. PageSetupDlg..ActionList1..ItalicCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Italic"
-msgstr "Italic"
+msgstr "Yatık"
 
 #. PageSetupDlg..ActionList1..UnderlineCmd..Caption
 #. PageSetupDlg..ActionList1..UnderlineCmd..Hint
