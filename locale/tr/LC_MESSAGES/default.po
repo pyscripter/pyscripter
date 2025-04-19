@@ -1472,7 +1472,7 @@ msgstr "Enable wrapping of long satırlar"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
 msgid "Word wrap"
-msgstr "Kelime wrap"
+msgstr "Kelime kırp"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -3082,7 +3082,7 @@ msgstr "Kelime &Wrap"
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
 msgid "Turn word wrap on/off (incompatible with code folding)"
-msgstr "Turn kelime wrap on/off (incompatible onunla code folding)"
+msgstr "Turn kelime kırp on/off (incompatible onunla code folding)"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
