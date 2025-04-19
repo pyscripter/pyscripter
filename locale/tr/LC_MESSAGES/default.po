@@ -2427,7 +2427,7 @@ msgstr "Cu&t"
 #. CommandsDataModule..actlMain..actEditCut..Hint
 #: dmCommands.dfm
 msgid "Cut|Cuts the selection and puts it on the Clipboard"
-msgstr "Cut|Cuts the selection ve puts it on the Clipboard"
+msgstr "Cut|Cuts the seçim ve puts it on the Clipboard"
 
 #. CommandsDataModule..actlMain..actEditCopy..Caption
 #. FindResultsWindow..Actions..actFileCopy..Caption
@@ -2438,7 +2438,7 @@ msgstr "&Copy"
 #. CommandsDataModule..actlMain..actEditCopy..Hint
 #: dmCommands.dfm
 msgid "Copy|Copies the selection and puts it on the Clipboard"
-msgstr "Copy|Copies the selection ve puts it on the Clipboard"
+msgstr "Copy|Copies the seçim ve puts it on the Clipboard"
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
@@ -2458,7 +2458,7 @@ msgstr "De&lete"
 #. CommandsDataModule..actlMain..actEditDelete..Hint
 #: dmCommands.dfm
 msgid "Delete|Delete selection"
-msgstr "Sil|Sil selection"
+msgstr "Sil|Sil seçim"
 
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #: dmCommands.dfm
@@ -3689,7 +3689,7 @@ msgstr "Follow Editör"
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
 msgid "Move selection to match the editor position"
-msgstr "taşı selection to eşleştirme the editör konum"
+msgstr "taşı seçim to eşleştirme the editör konum"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
@@ -5514,12 +5514,12 @@ msgstr "Kullan an SSH uzaktan Python engine"
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "E&xecute selection"
-msgstr "E&xecute selection"
+msgstr "E&xecute seçim"
 
 #. PyIDEMainForm..actlStandard..actExecSelection..Hint
 #: frmPyIDEMain.dfm
 msgid "Execute the editor selection"
-msgstr "Execute the editör selection"
+msgstr "Execute the editör seçim"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Caption
 #: frmPyIDEMain.dfm
@@ -6350,7 +6350,7 @@ msgstr "Donations"
 
 #: dlgCollectionEditor.pas
 msgid "Please make a selection"
-msgstr "Please make a selection"
+msgstr "Please make a seçim"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
@@ -8645,7 +8645,7 @@ msgstr "You reached the son %s"
 #. Programmer's name for it: SOfTheSelection
 #: StringResources.pas
 msgid "of the selection"
-msgstr "of the selection"
+msgstr "of the seçim"
 
 #. Programmer's name for it: SOfTheDocument
 #: StringResources.pas
