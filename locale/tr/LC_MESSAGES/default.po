@@ -6371,7 +6371,7 @@ msgstr "PyScripter Hata Report"
 #: dlgExceptionMail.pas
 #, object-pascal-format
 msgid "No %s mail client is available"
-msgstr "Hayır %s mail client is available"
+msgstr "Hayır %s e-posta client is available"
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
