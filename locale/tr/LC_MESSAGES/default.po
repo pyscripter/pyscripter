@@ -2241,7 +2241,7 @@ msgid ""
 msgstr ""
 "Seçin option other than Hiçbiri to \n"
 "feed the corresponding bilgi\n"
-"to the standart input."
+"to the standart girdi."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
