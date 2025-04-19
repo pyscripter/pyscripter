@@ -1399,7 +1399,7 @@ msgstr "Bir daha az kaydır"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
 msgid "Allows the cursor to go past the end of file marker"
-msgstr "Allows the imleç to go past the son of dosya marker"
+msgstr "İmlecin dosya sonu işaretçisinin ötesine geçmesine izin verir"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
