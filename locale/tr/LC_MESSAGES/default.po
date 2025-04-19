@@ -1134,7 +1134,7 @@ msgstr "&Element:"
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Foreground Color:"
-msgstr "&Foreground Renk:"
+msgstr "&Önyüzey Renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
