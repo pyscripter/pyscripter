@@ -1164,7 +1164,7 @@ msgstr "&Yatık"
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Underline"
-msgstr "&Underline"
+msgstr "&Altı çizili"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
 #: dlgSynEditOptions.dfm
@@ -1868,7 +1868,7 @@ msgstr "Yatık"
 #. PageSetupDlg..ActionList1..UnderlineCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Underline"
-msgstr "Underline"
+msgstr "Altı çizili"
 
 #. PrintPreviewDlg..Caption
 #: dlgSynPrintPreview.dfm
