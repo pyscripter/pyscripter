@@ -1656,7 +1656,7 @@ msgstr "Üstbilgi &&  Altbilgi"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header"
-msgstr "Header"
+msgstr "Üstbilgi"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label12..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label15..Caption
@@ -1757,7 +1757,7 @@ msgstr "Units:"
 #. PageSetupDlg..TabControl..tbMargins..Label6..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header:"
-msgstr "Header:"
+msgstr "Üstbilgi:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label7..Caption
 #: dlgSynPageSetup.dfm
