@@ -183,7 +183,7 @@ msgstr "Kod Şablon:"
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm
 msgid "&Name:"
-msgstr "&Name:"
+msgstr "&Ad:"
 
 #. CodeTemplates..Panel..GroupBox..Label2..Caption
 #. FileTemplatesDialog..Panel..GroupBox..Label2..Caption
@@ -221,7 +221,7 @@ msgstr "Press Shift+Ctrl+P for Parameter completion"
 #: dlgPythonVersions.dfm dlgToolProperties.dfm frmRegExpTester.dfm
 #: frmVariables.dfm frmVariables.pas
 msgid "Name"
-msgstr "Name"
+msgstr "Ad"
 
 #. CodeTemplates..Panel..lvItems......Caption
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
@@ -407,7 +407,7 @@ msgstr "Custom Parameters"
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Caption
 #: dlgCustomParams.dfm dlgToolProperties.dfm
 msgid "Name-Value Pair"
-msgstr "Name-Value Pair"
+msgstr "Ad-Value Pair"
 
 #. CustomizeParams..Panel..GroupBox1..Label2..Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Label16..Caption
@@ -971,7 +971,7 @@ msgstr "Python Script"
 #. RunConfigurationForm..Panel1..GroupBox2..Label2..Caption
 #: dlgRunConfiguration.dfm
 msgid "&File Name:"
-msgstr "&File Name:"
+msgstr "&File Ad:"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label6..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label6..Caption
@@ -1048,7 +1048,7 @@ msgstr "Output"
 #. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
 #: dlgRunConfiguration.dfm
 msgid "File &Name:"
-msgstr "File &Name:"
+msgstr "File &Ad:"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbAppendToFile..Caption
 #: dlgRunConfiguration.dfm
@@ -3133,7 +3133,7 @@ msgstr "Close all files to the right"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
 msgid "Copy File Name"
-msgstr "Copy File Name"
+msgstr "Copy File Ad"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
@@ -3549,7 +3549,7 @@ msgstr "Breakpoints"
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
-msgstr "File Name"
+msgstr "File Ad"
 
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
@@ -3615,7 +3615,7 @@ msgstr "Call Stack"
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
-msgstr "Function Name"
+msgstr "Function Ad"
 
 #. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......Text
 #: frmCallStack.dfm
@@ -8405,7 +8405,7 @@ msgstr "Save current Layout"
 #. Programmer's name for it: SLayoutName
 #: StringResources.pas
 msgid "Layout Name:"
-msgstr "Layout Name:"
+msgstr "Layout Ad:"
 
 #. Programmer's name for it: SEnterPythonExpression
 #: StringResources.pas
@@ -8916,7 +8916,7 @@ msgstr "Duplicate Modifier \"%s\""
 #. Programmer's name for it: SPackageName
 #: StringResources.pas
 msgid "Package Name"
-msgstr "Package Name"
+msgstr "Package Ad"
 
 #. Refactoring
 #. Programmer's name for it: SCouldNotLoadModule
@@ -9202,7 +9202,7 @@ msgstr "Commented Kod"
 #. Programmer's name for it: SYNS_FriendlyClassName
 #: SynHighlighterPython.pas
 msgid "Class Name"
-msgstr "Class Name"
+msgstr "Class Ad"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
