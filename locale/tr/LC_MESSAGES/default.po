@@ -1300,17 +1300,17 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tabs"
-msgstr "Smart tabs"
+msgstr "Akıllı tabs"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Hint
 #: dlgSynEditOptions.dfm
 msgid "similar to Smart Tabs, but when you delete characters"
-msgstr "benzer to Smart Tabs, but when you delete characters"
+msgstr "benzer to Akıllı Tabs, but when you delete characters"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tab delete"
-msgstr "Smart sekme tuşu delete"
+msgstr "Akıllı sekme tuşu delete"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
@@ -6443,7 +6443,7 @@ msgstr "Editör sekme tuşu konum"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
-msgstr "Smart Sonraki Önceki Page"
+msgstr "Akıllı Sonraki Önceki Page"
 
 #: dmCommands.pas
 msgid "Show tab close button"
