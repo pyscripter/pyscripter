@@ -966,7 +966,7 @@ msgstr "&Açıklama"
 #. Programmer's name for it: SPythonTemplateName
 #: dlgRunConfiguration.dfm StringResources.pas
 msgid "Python Script"
-msgstr "Python Script"
+msgstr "Python Komut dosyası"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label2..Caption
 #: dlgRunConfiguration.dfm
@@ -3955,7 +3955,7 @@ msgstr "Mevcut Dizin"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..ActiveScript..Caption
 #: frmFileExplorer.dfm
 msgid "Active Script"
-msgstr "Active Script"
+msgstr "Active Komut dosyası"
 
 #. FileExplorerWindow..ExplorerPopUp..TBXSubmenuItem2..Caption
 #: frmFileExplorer.dfm
@@ -5111,7 +5111,7 @@ msgstr "Configure External Çalıştır"
 #. PyIDEMainForm..actlStandard..actRunDebugLastScript..Caption
 #: frmPyIDEMain.dfm
 msgid "Debug Last Script"
-msgstr "Debug Last Script"
+msgstr "Debug Last Komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actRunDebugLastScript..Hint
 #. Programmer's name for it: SHintDebug
@@ -5198,7 +5198,7 @@ msgstr "Abort debugging"
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Caption
 #: frmPyIDEMain.dfm
 msgid "Run Last Script Externally"
-msgstr "Çalıştır Last Script Externally"
+msgstr "Çalıştır Last Komut dosyası Externally"
 
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Hint
 #. Programmer's name for it: SHintExternalRun
@@ -5209,7 +5209,7 @@ msgstr "Çalıştır last script externally"
 #. PyIDEMainForm..actlStandard..actRunLastScript..Caption
 #: frmPyIDEMain.dfm
 msgid "Run Last Script"
-msgstr "Çalıştır Last Script"
+msgstr "Çalıştır Last Komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actRunLastScript..Hint
 #. Programmer's name for it: SHintRun
@@ -8247,7 +8247,7 @@ msgid ""
 "The Python Script has timed out.\n"
 "Do you want to interrupt it?"
 msgstr ""
-"The Python Script has timed out.\n"
+"The Python Komut dosyası has timed out.\n"
 "Do you want to interrupt it?"
 
 #. Programmer's name for it: SNoTestsFound
@@ -8280,7 +8280,7 @@ msgstr ""
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
 msgid "Script run OK"
-msgstr "Script çalıştır TAMAM"
+msgstr "Komut dosyası çalıştır TAMAM"
 
 #. Programmer's name for it: SDebuggingAborted
 #: StringResources.pas
@@ -9008,7 +9008,7 @@ msgstr "Internet"
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
 msgid "Cython Script"
-msgstr "Cython Script"
+msgstr "Cython Komut dosyası"
 
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas
