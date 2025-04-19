@@ -6570,7 +6570,7 @@ msgstr "Arama metin at caret"
 
 #: dmCommands.pas
 msgid "Create backup files"
-msgstr "Yarat backup dosyalar"
+msgstr "Yarat yedekleme dosyalar"
 
 #: dmCommands.pas
 msgid "Undo after save"
@@ -7909,7 +7909,7 @@ msgstr "Not implemented"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup file \"%s\""
-msgstr "Failed to backup dosya \"%s\""
+msgstr "Failed to yedekleme dosya \"%s\""
 
 #. Programmer's name for it: SErrorLoadLayout
 #: StringResources.pas
@@ -8571,7 +8571,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
-msgstr "Failed to backup proje \"%s\""
+msgstr "Failed to yedekleme proje \"%s\""
 
 #. Programmer's name for it: SErrorInOpeningProject
 #: StringResources.pas
@@ -8739,7 +8739,7 @@ msgstr "The following dosya will be skipped: "
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not backup file \"%s\" and will skip it"
-msgstr "Could not backup dosya \"%s\" and will skip it"
+msgstr "Could not yedekleme dosya \"%s\" and will skip it"
 
 #. Command Line Options
 #. Programmer's name for it: SParseError
