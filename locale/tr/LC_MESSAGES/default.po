@@ -1970,12 +1970,12 @@ msgstr "Last|Go to last sayfa"
 #. PrintPreviewDlg..ActionList..ZoomCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "Yakınlaştır"
 
 #. PrintPreviewDlg..ActionList..ZoomCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Zoom|Zoom In/Out"
-msgstr "Zoom|Zoom In/Out"
+msgstr "Yakınlaştır|Yakınlaştır In/Out"
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
@@ -5301,7 +5301,7 @@ msgstr "Maximize editör pencere"
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
 msgid "Zoom &In"
-msgstr "Zoom &In"
+msgstr "Yakınlaştır &In"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
 #: frmPyIDEMain.dfm
@@ -5311,7 +5311,7 @@ msgstr "Increase the yazı tipi size of the editör"
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
 #: frmPyIDEMain.dfm
 msgid "Zoom &Out"
-msgstr "Zoom &Out"
+msgstr "Yakınlaştır &Out"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
 #: frmPyIDEMain.dfm
@@ -5637,7 +5637,7 @@ msgstr "Aç Uzaktan Dosya onunla SSH"
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
 #: frmPyIDEMain.dfm
 msgid "&Reset Zoom"
-msgstr "&Reset Zoom"
+msgstr "&Reset Yakınlaştır"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
 #: frmPyIDEMain.dfm
@@ -7654,17 +7654,17 @@ msgstr "Ayarla Yer imi 9"
 #. Programmer's name for it: SEdCmdZoomIn
 #: StringResources.pas
 msgid "Zoom In"
-msgstr "Zoom In"
+msgstr "Yakınlaştır In"
 
 #. Programmer's name for it: SEdCmdZoomOut
 #: StringResources.pas
 msgid "Zoom Out"
-msgstr "Zoom Out"
+msgstr "Yakınlaştır Out"
 
 #. Programmer's name for it: SEdCmdZoomReset
 #: StringResources.pas
 msgid "Zoom Reset"
-msgstr "Zoom Reset"
+msgstr "Yakınlaştır Reset"
 
 #. Programmer's name for it: SEdCmdShiftTab
 #: StringResources.pas
