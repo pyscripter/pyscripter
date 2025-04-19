@@ -1594,7 +1594,7 @@ msgstr "Yazı tipi"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmarks"
-msgstr "Bookmarks"
+msgstr "Yer imleri"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
 #: dlgSynEditOptions.dfm
@@ -1604,7 +1604,7 @@ msgstr "Bookmark keys"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmarks visible"
-msgstr "Bookmarks görünür"
+msgstr "Yer imleri görünür"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
 #: dlgSynEditOptions.dfm
