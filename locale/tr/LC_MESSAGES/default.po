@@ -501,12 +501,12 @@ msgstr "taşı down"
 #. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
 msgid "Add file path to the list"
-msgstr "Ekle file path to the liste"
+msgstr "Ekle file yol to the liste"
 
 #. DirectoryListDialog..Panel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
-msgstr "Replace the selected file path"
+msgstr "Replace the selected file yol"
 
 #. DirectoryListDialog..Panel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
@@ -516,12 +516,12 @@ msgstr "&Replace"
 #. DirectoryListDialog..Panel2..btnDelete..Hint
 #: dlgDirectoryList.dfm
 msgid "Delete the selected file path"
-msgstr "Sil the selected file path"
+msgstr "Sil the selected file yol"
 
 #. DirectoryListDialog..Panel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
-msgstr "Enter file path here"
+msgstr "Enter file yol here"
 
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
@@ -2690,7 +2690,7 @@ msgstr "Python &Path..."
 #. CommandsDataModule..actlMain..actPythonPath..Hint
 #: dmCommands.dfm
 msgid "Python Path|View or edit the Python path"
-msgstr "Python Path|View or edit the Python path"
+msgstr "Python Path|View or edit the Python yol"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
@@ -3904,7 +3904,7 @@ msgstr "Ekle to &Favorites"
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Hint
 #: frmFileExplorer.dfm
 msgid "Add current path to Favorites"
-msgstr "Ekle current path to Favorites"
+msgstr "Ekle current yol to Favorites"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..TBXItem2..Caption
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Caption
@@ -3916,7 +3916,7 @@ msgstr "&Manage Favorites..."
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Hint
 #: frmFileExplorer.dfm
 msgid "Manage favourite paths"
-msgstr "Manage favourite paths"
+msgstr "Manage favourite yolları"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..TBXSubmenuItem3..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnPythonPath..Caption
@@ -4023,7 +4023,7 @@ msgstr "&Search Path..."
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Hint
 #: frmFileExplorer.dfm
 msgid "Search selected path"
-msgstr "Search selected path"
+msgstr "Search selected yol"
 
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Caption
 #: frmFileExplorer.dfm
@@ -4454,7 +4454,7 @@ msgstr "Store &Relative Paths"
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Hint
 #: frmProjectExplorer.dfm
 msgid "Store file paths relative to the project directory"
-msgstr "Store file paths relative to the project directory"
+msgstr "Store file yolları relative to the project directory"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
@@ -6411,7 +6411,7 @@ msgstr "Page"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
-msgstr "'To Do' search path"
+msgstr "'To Do' search yol"
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
@@ -7979,7 +7979,7 @@ msgid ""
 "with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
-"PyScripter could not find a usable Python installation at the specified path.\n"
+"PyScripter could not find a usable Python installation at the specified yol.\n"
 "Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**\n"
 "with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versions of Python."
@@ -8041,7 +8041,7 @@ msgstr "Error in getting the namespace of %s"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "Could not set the current directory to the script path"
+msgstr "Could not set the current directory to the script yol"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -9390,11 +9390,11 @@ msgstr "Short file name"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
-msgstr "Path with final path delimiter added"
+msgstr "Path with final yol delimiter added"
 
 #: uParams.pas
 msgid "Path with final path delimiter removed"
-msgstr "Path with final path delimiter removed"
+msgstr "Path with final yol delimiter removed"
 
 #: uParams.pas
 msgid "File type"
