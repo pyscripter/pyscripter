@@ -8043,7 +8043,7 @@ msgstr "Error in getting the namespace of %s"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "Could not set the mevcut dizin to the komut dosyası yol"
+msgstr "Could not ayarla the mevcut dizin to the komut dosyası yol"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -9262,7 +9262,7 @@ msgstr "The LLM API tuş is missing"
 #. Programmer's name for it: sNoModel
 #: uLLMSupport.pas
 msgid "The LLM model has not been set"
-msgstr "The LLM model has not been set"
+msgstr "The LLM model has not been ayarla"
 
 #. Programmer's name for it: sInvalidTemperature
 #: uLLMSupport.pas
