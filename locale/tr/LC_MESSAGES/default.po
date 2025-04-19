@@ -282,7 +282,7 @@ msgstr "&Yukarı"
 #. FileTemplatesDialog..ActionList..actMoveUp..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item up"
-msgstr "Move öğe up"
+msgstr "taşı öğe up"
 
 #. CodeTemplates..ActionList..actMoveDown..Caption
 #. CollectionEditor..Panel1..MoveDownBtn..Caption
@@ -298,7 +298,7 @@ msgstr "&Down"
 #. FileTemplatesDialog..ActionList..actMoveDown..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item down"
-msgstr "Move öğe down"
+msgstr "taşı öğe down"
 
 #. CodeTemplates..ActionList..actUpdateItem..Caption
 #. CustomizeParams..ActionList..actUpdateItem..Caption
@@ -491,12 +491,12 @@ msgstr "Ordered list of file paths:"
 #. DirectoryListDialog..Panel1..btnMoveUp..Hint
 #: dlgDirectoryList.dfm
 msgid "Move up"
-msgstr "Move up"
+msgstr "taşı up"
 
 #. DirectoryListDialog..Panel1..btnMoveDown..Hint
 #: dlgDirectoryList.dfm
 msgid "Move down"
-msgstr "Move down"
+msgstr "taşı down"
 
 #. DirectoryListDialog..Panel2..btnAdd..Hint
 #: dlgDirectoryList.dfm
@@ -3688,7 +3688,7 @@ msgstr "Follow Editor"
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
 msgid "Move selection to match the editor position"
-msgstr "Move selection to match the editor position"
+msgstr "taşı selection to match the editor position"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
@@ -4983,7 +4983,7 @@ msgstr "&Next Editor"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr "Next Editor|Move to the next editor"
+msgstr "Next Editor|taşı to the next editor"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
@@ -4993,7 +4993,7 @@ msgstr "&Previous Editor"
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Previous editor|Move to the previous editor"
-msgstr "Previous editor|Move to the previous editor"
+msgstr "Previous editor|taşı to the previous editor"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Caption
 #: frmPyIDEMain.dfm
@@ -7441,12 +7441,12 @@ msgstr "Match Bracket"
 #. Programmer's name for it: SEdCmdMoveLineDown
 #: StringResources.pas
 msgid "Move Line Down"
-msgstr "Move Line Down"
+msgstr "taşı Line Down"
 
 #. Programmer's name for it: SEdCmdMoveLineUp
 #: StringResources.pas
 msgid "Move Line Up"
-msgstr "Move Line Yukarı"
+msgstr "taşı Line Yukarı"
 
 #. Programmer's name for it: SEdCmdOverwriteMode
 #: StringResources.pas
