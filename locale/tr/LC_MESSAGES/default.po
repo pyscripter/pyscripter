@@ -6553,7 +6553,7 @@ msgstr "Dosya Filters"
 
 #: dmCommands.pas
 msgid "File explorer filter"
-msgstr "Dosya explorer filter"
+msgstr "Dosya gezgin filter"
 
 #: dmCommands.pas
 msgid "text file"
