@@ -1325,8 +1325,7 @@ msgstr "Sekme tuşu Girinti"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Converts a tab character to the number of spaces in Tab Width"
-msgstr ""
-"Converts a sekme tuşu karakter to the sayı of boşluklar in Sekme tuşu Width"
+msgstr "Bir sekme karakterini Sekme Genişliğindeki boşluk sayısına dönüştürür"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
