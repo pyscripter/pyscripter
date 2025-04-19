@@ -1326,7 +1326,7 @@ msgstr "Sekme tuşu Girinti"
 #: dlgSynEditOptions.dfm
 msgid "Converts a tab character to the number of spaces in Tab Width"
 msgstr ""
-"Converts a sekme tuşu character to the sayı of spaces in Sekme tuşu Width"
+"Converts a sekme tuşu karakter to the sayı of spaces in Sekme tuşu Width"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
@@ -1413,7 +1413,7 @@ msgid ""
 "Allows the cursor to go past the last character into the white space at the "
 "end of a line"
 msgstr ""
-"Allows the imleç to go past the last character into the white space at the "
+"Allows the imleç to go past the last karakter into the white space at the "
 "son of a line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
