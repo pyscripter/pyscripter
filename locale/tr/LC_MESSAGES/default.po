@@ -638,7 +638,7 @@ msgstr "&Proje dosyalar"
 #. FindInFilesDialog..Panel1..gbxWhere..rbCurrentOnly..Caption
 #: dlgFindInFiles.dfm
 msgid "Current &file only"
-msgstr "Mevcut &dosya only"
+msgstr "Mevcut &dosya sadece"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbDirectories..Caption
 #: dlgFindInFiles.dfm
@@ -1362,8 +1362,8 @@ msgid ""
 "When scrolling with page-up and page-down commands, only scroll a half page "
 "at a time"
 msgstr ""
-"When scrolling with page-yukarı and page-aşağı commands, only scroll a half "
-"page at a time"
+"When scrolling with page-yukarı and page-aşağı commands, sadece scroll a "
+"half page at a time"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
 #: dlgSynEditOptions.dfm
@@ -1377,7 +1377,7 @@ msgid ""
 "ScrollPastEOL, then it the horizontal bar will always be there (it uses "
 "MaxLength instead)"
 msgstr ""
-"if enabled, then the scrollbars will only göster when necessary.  If you "
+"if enabled, then the scrollbars will sadece göster when necessary.  If you "
 "have ScrollPastEOL, then it the horizontal bar will always be there (it uses"
 " MaxLength instead)"
 
@@ -2168,7 +2168,7 @@ msgstr "None"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active only"
-msgstr "Active only"
+msgstr "Active sadece"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
@@ -4013,7 +4013,7 @@ msgstr "Enable &Filter"
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Hint
 #: frmFileExplorer.dfm
 msgid "Enable Filter|Select to show only Python files"
-msgstr "Enable Filter|Select to göster only Python dosyalar"
+msgstr "Enable Filter|Select to göster sadece Python dosyalar"
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
@@ -4234,7 +4234,7 @@ msgstr "S&tart"
 #. FunctionListWindow..Actions..actViewStart..Hint
 #: frmFunctionList.dfm
 msgid "Match only from the start"
-msgstr "Match only from the start"
+msgstr "Match sadece from the start"
 
 #. FunctionListWindow..Actions..actViewAny..Caption
 #: frmFunctionList.dfm
@@ -6127,7 +6127,7 @@ msgstr "SCP seçenekler"
 
 #: cSSHSupport.pas
 msgid "Password Needed (PyTTY only)"
-msgstr "Password Needed (PyTTY only)"
+msgstr "Password Needed (PyTTY sadece)"
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
@@ -6536,7 +6536,7 @@ msgstr "Always use sockets"
 
 #: dmCommands.pas
 msgid "Step into open files only"
-msgstr "Step into aç dosyalar only"
+msgstr "Step into aç dosyalar sadece"
 
 #: dmCommands.pas
 msgid "Mask FPU Exceptions"
@@ -7968,7 +7968,7 @@ msgstr ""
 "**Before** kullanarak PyScripter, you must ensure that a version of Python greater or equal to %s is installed on your machine.\n"
 "If you do not have one installed, you can download one from http://www.python.org/.\n"
 "\n"
-"The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and** with 64-bit versions of Python.\n"
+"The 64-bit version of PyScripter (x64) works sadece on 64-bit Windows **and** with 64-bit versions of Python.\n"
 "The 32-bit version of PyScripter works on both 32-bit and 64-bit Windows with 32-bit versions of Python."
 
 #. Programmer's name for it: SPythonFindError
@@ -7980,7 +7980,7 @@ msgid ""
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 msgstr ""
 "PyScripter could not bul a usable Python installation at the specified yol.\n"
-"Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**\n"
+"Note that the 64-bit version of PyScripter (x64) works sadece on 64-bit Windows **and**\n"
 "with 64-bit versions of Python. The 32-bit version of PyScripter works on both\n"
 "32-bit and 64-bit Windows with 32-bit versions of Python."
 
@@ -8124,7 +8124,7 @@ msgstr "Invalid number!"
 #. Programmer's name for it: SEmptyTokenTextError
 #: StringResources.pas
 msgid "You cannot insert a token that only consists of white space."
-msgstr "You cannot insert a token that only consists of white space."
+msgstr "You cannot insert a token that sadece consists of white space."
 
 #. Programmer's name for it: SAccessAppDataDir
 #: StringResources.pas
@@ -8505,7 +8505,7 @@ msgstr "Aç dialog %s filter"
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
 msgid "Web preview is only available for Jupyter JSON files"
-msgstr "Web preview is only available for Jupyter JSON dosyalar"
+msgstr "Web preview is sadece available for Jupyter JSON dosyalar"
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
