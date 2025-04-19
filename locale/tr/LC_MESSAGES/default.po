@@ -6480,7 +6480,7 @@ msgstr "Automatic restart"
 
 #: dmCommands.pas
 msgid "Logging enabled"
-msgstr "Logging enabled"
+msgstr "Logging etkin"
 
 #: dmCommands.pas
 msgid "User Interface content font size in points"
@@ -6624,7 +6624,7 @@ msgstr "Görüntüleme package names in editör sekmeler"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr "Kod folding enabled by varsayılan"
+msgstr "Kod folding etkin by varsayılan"
 
 #: dmCommands.pas
 msgid "Code folding options"
