@@ -3300,7 +3300,7 @@ msgstr "Save to Uzaktan Dosya"
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr "Save to remote dosya onunla SSH"
+msgstr "Save to uzaktan dosya onunla SSH"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
@@ -4612,7 +4612,7 @@ msgstr "Ekle Uzaktan Dosya"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr "Ekle a remote dosya to the klasör"
+msgstr "Ekle a uzaktan dosya to the klasör"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
@@ -5360,7 +5360,7 @@ msgstr "&Uzaktan"
 #. PyIDEMainForm..actlStandard..actPythonRemote..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine"
-msgstr "Kullan a remote Python engine"
+msgstr "Kullan a uzaktan Python engine"
 
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Caption
 #: frmPyIDEMain.dfm
@@ -5370,7 +5370,7 @@ msgstr "Uzaktan (&Tk)"
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine for Tkinter applications"
-msgstr "Kullan a remote Python engine for Tkinter applications"
+msgstr "Kullan a uzaktan Python engine for Tkinter applications"
 
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Caption
 #: frmPyIDEMain.dfm
@@ -5380,7 +5380,7 @@ msgstr "Uzaktan (&Wx)"
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Hint
 #: frmPyIDEMain.dfm
 msgid "Use a remote Python engine for wxPython applications"
-msgstr "Kullan a remote Python engine for wxPython applications"
+msgstr "Kullan a uzaktan Python engine for wxPython applications"
 
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
