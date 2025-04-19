@@ -436,7 +436,7 @@ msgstr "Customize IDE Kısayollar"
 #. frmCustomKeyboard..Panel1..lblNewShortcutKey..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Press &new shortcut key:"
-msgstr "Basın &new shortcut key:"
+msgstr "Basın &yeni kısayol key:"
 
 #. frmCustomKeyboard..Panel1..lblCategories..Caption
 #: dlgCustomShortcuts.dfm
@@ -471,12 +471,12 @@ msgstr "&Assign"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr "Assign shortcut to command"
+msgstr "Assign kısayol to command"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr "Çıkar shortcut"
+msgstr "Çıkar kısayol"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -835,7 +835,7 @@ msgstr "Ekle"
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new Python version"
-msgstr "Ekle a new Python version"
+msgstr "Ekle a yeni Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
@@ -1208,7 +1208,7 @@ msgid ""
 "Will indent the caret on new lines with the same amount of leading white "
 "space as the preceding line"
 msgstr ""
-"Will indent the caret on new lines with the same amount of leading white "
+"Will indent the caret on yeni lines with the same amount of leading white "
 "space as the preceding line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
@@ -4033,7 +4033,7 @@ msgstr "Create &New Folder"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Hint
 #: frmFileExplorer.dfm
 msgid "Create new folder"
-msgstr "Create new folder"
+msgstr "Create yeni folder"
 
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
@@ -4291,7 +4291,7 @@ msgstr "New Chat Topic"
 #. LLMChatForm..ChatActionList..actChatNew..Hint
 #: frmLLMChat.dfm
 msgid "Add a new chat topic"
-msgstr "Ekle a new chat topic"
+msgstr "Ekle a yeni chat topic"
 
 #. LLMChatForm..ChatActionList..actChatPrevious..Caption
 #: frmLLMChat.dfm
@@ -4414,7 +4414,7 @@ msgstr "&New Project"
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
 #: frmProjectExplorer.dfm
 msgid "Start a new project"
-msgstr "Start a new project"
+msgstr "Start a yeni project"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
 #: frmProjectExplorer.dfm
@@ -4499,7 +4499,7 @@ msgstr "Ekle &Subfolder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a new subfolder"
-msgstr "Ekle a new subfolder"
+msgstr "Ekle a yeni subfolder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
@@ -6456,7 +6456,7 @@ msgstr "Dock animation move width (pixels)"
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
-msgstr "File template for new Python scripts"
+msgstr "File template for yeni Python scripts"
 
 #: dmCommands.pas
 msgid "Number of recent files"
@@ -6592,11 +6592,11 @@ msgstr "Show executable line marks"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
-msgstr "Default line break format for new files"
+msgstr "Default line break format for yeni files"
 
 #: dmCommands.pas
 msgid "Default file encoding for new files"
-msgstr "Default file encoding for new files"
+msgstr "Default file encoding for yeni files"
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
@@ -6915,7 +6915,7 @@ msgstr "Enter title:"
 
 #: frmLLMChat.pas
 msgid "Copy code to new editor"
-msgstr "Copy code to new editor"
+msgstr "Copy code to yeni editor"
 
 #. Programmer's name for it: SFileTemplateCategoryOther
 #: frmModSpTBXCustomize.pas StringResources.pas
@@ -7018,7 +7018,7 @@ msgstr "Edit Watch"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr "Enter new expression:"
+msgstr "Enter yeni expression:"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
@@ -8114,7 +8114,7 @@ msgid ""
 "Do you want to update it with the new definition?"
 msgstr ""
 "The template has been modified.\n"
-"Do you want to update it with the new definition?"
+"Do you want to update it with the yeni definition?"
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
