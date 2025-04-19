@@ -1541,7 +1541,7 @@ msgstr "Oluk renk:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..lDigits..Caption
 #: dlgSynEditOptions.dfm
 msgid "Digits:"
-msgstr "Digits:"
+msgstr "Rakamlar:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
 #: dlgSynEditOptions.dfm
