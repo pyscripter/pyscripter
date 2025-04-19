@@ -2157,7 +2157,7 @@ msgstr "Aktif Python dosya"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Selection available"
-msgstr "Selection mevcut"
+msgstr "Seçim mevcut"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
@@ -2259,7 +2259,7 @@ msgstr "Mevcut satır"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Selection"
-msgstr "Selection"
+msgstr "Seçim"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #: dlgToolProperties.dfm
@@ -3348,7 +3348,7 @@ msgstr "Check Satır"
 #. CommandsDataModule..actlMain..actSynSpellCheckSelection..Caption
 #: dmCommands.dfm
 msgid "Check Selection"
-msgstr "Check Selection"
+msgstr "Check Seçim"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckWord..Caption
 #: dmCommands.dfm
@@ -3694,7 +3694,7 @@ msgstr "taşı selection to eşleştirme the editör konum"
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
 msgid "Show Selection"
-msgstr "Göster Selection"
+msgstr "Göster Seçim"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm
@@ -4949,7 +4949,7 @@ msgstr "&Bütün Words Only"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchInSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "Search in &Selection"
-msgstr "Arama in &Selection"
+msgstr "Arama in &Seçim"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiRegExp..Caption
 #: frmPyIDEMain.dfm
@@ -6204,7 +6204,7 @@ msgstr "Advanced Arama ve değişim"
 
 #: cTools.pas
 msgid "Format Selection"
-msgstr "Format Selection"
+msgstr "Format Seçim"
 
 #: cTools.pas
 msgid "Format selected code using the \"black\" module"
@@ -6212,7 +6212,7 @@ msgstr "Format seçili code kullanarak the \"black\" module"
 
 #: cTools.pas
 msgid "Sort Selection"
-msgstr "Sort Selection"
+msgstr "Sort Seçim"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
@@ -6644,7 +6644,7 @@ msgstr "Track changes bar"
 
 #: dmCommands.pas
 msgid "Selection color"
-msgstr "Selection renk"
+msgstr "Seçim renk"
 
 #: dmCommands.pas
 msgid "Indentation Guides"
