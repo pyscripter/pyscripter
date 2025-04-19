@@ -1439,7 +1439,7 @@ msgstr "Kaydırma ipucu dikey kaydırma sırasında fareyi takip eder"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll hint follows mouse"
-msgstr "Kaydırma ip ucu follows fare"
+msgstr "Kaydırma ip ucu takip eder fare"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
