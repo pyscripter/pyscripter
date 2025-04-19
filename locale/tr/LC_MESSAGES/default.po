@@ -1954,7 +1954,7 @@ msgstr "Next"
 #. PrintPreviewDlg..ActionList..NextCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Next|Go to next page"
-msgstr "Next|Go to next page"
+msgstr "Next|Go to sonraki page"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2522,7 +2522,7 @@ msgstr "Bul &Next"
 #. CommandsDataModule..actlMain..actSearchFindNext..Hint
 #: dmCommands.dfm
 msgid "Find next|Find next match"
-msgstr "Bul next|Bul next eşleştirme"
+msgstr "Bul sonraki|Bul sonraki eşleştirme"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Caption
 #: dmCommands.dfm
@@ -2900,7 +2900,7 @@ msgstr "Bul Next Reference"
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
 msgid "Find next identifier reference"
-msgstr "Bul next identifier reference"
+msgstr "Bul sonraki identifier reference"
 
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
@@ -3643,7 +3643,7 @@ msgstr "Next Frame"
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
 msgid "Select next (newer) frame"
-msgstr "Seçin next (newer) frame"
+msgstr "Seçin sonraki (newer) frame"
 
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
@@ -4314,7 +4314,7 @@ msgstr "Next Chat Topic"
 #. LLMChatForm..ChatActionList..actChatNext..Hint
 #: frmLLMChat.dfm
 msgid "Show next chat topic"
-msgstr "Göster next chat topic"
+msgstr "Göster sonraki chat topic"
 
 #. LLMChatForm..ChatActionList..actAskQuestion..Hint
 #: frmLLMChat.dfm
@@ -4365,7 +4365,7 @@ msgstr "Konum"
 #. MessagesWindow..MsgsActionList..actNextMsgs..Hint
 #: frmMessages.dfm
 msgid "Show next messages"
-msgstr "Göster next messages"
+msgstr "Göster sonraki messages"
 
 #. MessagesWindow..Panel1..BtnPrevMsg..Hint
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
@@ -4986,7 +4986,7 @@ msgstr "&Next Editör"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr "Next Editör|taşı to the next editör"
+msgstr "Next Editör|taşı to the sonraki editör"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5163,7 +5163,7 @@ msgstr "Step &Over"
 #. PyIDEMainForm..actlStandard..actStepOver..Hint
 #: frmPyIDEMain.dfm
 msgid "Step over next function call"
-msgstr "Step over next function call"
+msgstr "Step over sonraki function call"
 
 #. PyIDEMainForm..actlStandard..actStepOut..Caption
 #: frmPyIDEMain.dfm
