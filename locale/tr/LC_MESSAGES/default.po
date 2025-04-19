@@ -201,14 +201,14 @@ msgstr "&Açıklama:"
 #. FileTemplatesDialog..Panel..GroupBox..Label4..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+M for Modifier completion"
-msgstr "Press Shift+Ctrl+M for Değiştirici completion"
+msgstr "Basın Shift+Ctrl+M for Değiştirici completion"
 
 #. CodeTemplates..Panel..GroupBox..Label3..Caption
 #. CustomizeParams..Panel..Label3..Caption
 #. FileTemplatesDialog..Panel..GroupBox..Label3..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+P for Parameter completion"
-msgstr "Press Shift+Ctrl+P for Parameter completion"
+msgstr "Basın Shift+Ctrl+P for Parameter completion"
 
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
@@ -436,7 +436,7 @@ msgstr "Customize IDE Shortcuts"
 #. frmCustomKeyboard..Panel1..lblNewShortcutKey..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Press &new shortcut key:"
-msgstr "Press &new shortcut key:"
+msgstr "Basın &new shortcut key:"
 
 #. frmCustomKeyboard..Panel1..lblCategories..Caption
 #: dlgCustomShortcuts.dfm
@@ -8436,8 +8436,8 @@ msgid ""
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
 "The following files have been modified.\n"
-"Press 'TAMAM' to save selected files and exit.\n"
-"Press 'İptal' to return to PyScripter without saving files."
+"Basın 'TAMAM' to save selected files and exit.\n"
+"Basın 'İptal' to return to PyScripter without saving files."
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
