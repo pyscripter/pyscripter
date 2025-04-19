@@ -722,12 +722,12 @@ msgstr "Eşleştirme Yazı tipi Renk..."
 #. ImportDirectoryForm..Caption
 #: dlgImportDirectory.dfm
 msgid "Import Directory"
-msgstr "Import Dizin"
+msgstr "İçe aktar Dizin"
 
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
 msgid "Directory to import:"
-msgstr "Dizin to import:"
+msgstr "Dizin to içe aktar:"
 
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
@@ -3026,7 +3026,7 @@ msgstr "Reload|Reload active dosya"
 #. Programmer's name for it: SImportShortcuts
 #: dmCommands.dfm StringResources.pas
 msgid "Import Shortcuts"
-msgstr "Import Kısayollar"
+msgstr "İçe aktar Kısayollar"
 
 #. CommandsDataModule..actlMain..actExportShortCuts..Caption
 #. CommandsDataModule..actlMain..actExportShortCuts..Hint
@@ -3039,12 +3039,12 @@ msgstr "Export Kısayollar"
 #. Programmer's name for it: SImportHighlighters
 #: dmCommands.dfm StringResources.pas
 msgid "Import Highlighters"
-msgstr "Import Highlighters"
+msgstr "İçe aktar Highlighters"
 
 #. CommandsDataModule..actlMain..actImportHighlighters..Hint
 #: dmCommands.dfm
 msgid "Import Syntax Highlighters"
-msgstr "Import Syntax Highlighters"
+msgstr "İçe aktar Syntax Highlighters"
 
 #. CommandsDataModule..actlMain..actExportHighlighters..Caption
 #. Programmer's name for it: SExportHighlighters
@@ -4536,12 +4536,12 @@ msgstr "Ekle the active editör dosya to the folder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
 msgid "&Import Directory..."
-msgstr "&Import Dizin..."
+msgstr "&İçe aktar Dizin..."
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Hint
 #: frmProjectExplorer.dfm
 msgid "Import a directory into the selected folder"
-msgstr "Import a dizin into the seçili folder"
+msgstr "İçe aktar a dizin into the seçili folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -4880,7 +4880,7 @@ msgstr "&Seçenekler"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..Caption
 #: frmPyIDEMain.dfm
 msgid "Import/Export"
-msgstr "Import/Export"
+msgstr "İçe aktar/Export"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..Caption
 #: frmPyIDEMain.dfm
@@ -5035,12 +5035,12 @@ msgstr "Set command line parameters"
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
 msgid "Import &Module"
-msgstr "Import &Module"
+msgstr "İçe aktar &Module"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
 msgid "Import module"
-msgstr "Import module"
+msgstr "İçe aktar module"
 
 #. PyIDEMainForm..actlStandard..actFileNewModule..Caption
 #: frmPyIDEMain.dfm
@@ -8050,7 +8050,7 @@ msgid ""
 "You cannot compile, import or run modules while debugging or running "
 "programs"
 msgstr ""
-"You cannot compile, import or run modules while debugging or running "
+"You cannot compile, içe aktar or run modules while debugging or running "
 "programs"
 
 #. Programmer's name for it: SErrorInImportingModule
