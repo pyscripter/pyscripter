@@ -2112,12 +2112,12 @@ msgstr "Working &directory:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
 msgid "Shortcut and Context"
-msgstr "Shortcut and Context"
+msgstr "Kısayol and Context"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..lbShortcut..Caption
 #: dlgToolProperties.dfm
 msgid "&Shortcut:"
-msgstr "&Shortcut:"
+msgstr "&Kısayol:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..lbContext..Caption
 #: dlgToolProperties.dfm
@@ -8257,7 +8257,7 @@ msgstr "Hayır tests found!"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Shortcut for command \"%s\" is already used for command \"%s\""
-msgstr "Shortcut for command \"%s\" is already used for command \"%s\""
+msgstr "Kısayol for command \"%s\" is already used for command \"%s\""
 
 #. Programmer's name for it: SChangedFilesReloaded
 #: StringResources.pas
