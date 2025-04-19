@@ -638,7 +638,7 @@ msgstr "&Proje dosyalar"
 #. FindInFilesDialog..Panel1..gbxWhere..rbCurrentOnly..Caption
 #: dlgFindInFiles.dfm
 msgid "Current &file only"
-msgstr "Current &dosya only"
+msgstr "Mevcut &dosya only"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbDirectories..Caption
 #: dlgFindInFiles.dfm
@@ -2252,7 +2252,7 @@ msgstr "Kelime at cursor"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Current line"
-msgstr "Current line"
+msgstr "Mevcut line"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -3948,7 +3948,7 @@ msgstr "My &Documents"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..CurrentDirectory..Caption
 #: frmFileExplorer.dfm
 msgid "Current Directory"
-msgstr "Current Dizin"
+msgstr "Mevcut Dizin"
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..ActiveScript..Caption
 #: frmFileExplorer.dfm
@@ -4804,7 +4804,7 @@ msgstr "Save Layout..."
 #. PyIDEMainForm..actlStandard..actLayoutSave..Hint
 #: frmPyIDEMain.dfm
 msgid "Save Current Layout"
-msgstr "Save Current Layout"
+msgstr "Save Mevcut Layout"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Caption
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Caption
@@ -8168,7 +8168,7 @@ msgstr "Error while downloading: "
 #. Programmer's name for it: SCurrentVersionUptodate
 #: StringResources.pas
 msgid "Current version is up-to-date!"
-msgstr "Current version is yukarı-to-date!"
+msgstr "Mevcut version is yukarı-to-date!"
 
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
@@ -9337,7 +9337,7 @@ msgstr "Clipboard as metin"
 
 #: uParams.pas
 msgid "Current directory"
-msgstr "Current directory"
+msgstr "Mevcut directory"
 
 #: uParams.pas
 msgid "Executable name"
@@ -9434,7 +9434,7 @@ msgstr "Unquoted string"
 
 #: uParams.pas
 msgid "Current date and time"
-msgstr "Current date and time"
+msgstr "Mevcut date and time"
 
 #: uParams.pas
 msgid "Select file"
@@ -9494,15 +9494,15 @@ msgstr "Metin of the active document or a dosya"
 
 #: uParams.pas
 msgid "Current word in the active document"
-msgstr "Current kelime in the active document"
+msgstr "Mevcut kelime in the active document"
 
 #: uParams.pas
 msgid "Current line in the active document"
-msgstr "Current line in the active document"
+msgstr "Mevcut line in the active document"
 
 #: uParams.pas
 msgid "Current line number in the active document"
-msgstr "Current line number in the active document"
+msgstr "Mevcut line number in the active document"
 
 #: uParams.pas
 msgid "Selected text in the active document"
