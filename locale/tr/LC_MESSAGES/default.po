@@ -2130,7 +2130,7 @@ msgstr "&Bağlam"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Label13..Caption
 #: dlgToolProperties.dfm
 msgid "Sa&ve files:"
-msgstr "Sa&ve dosyalar:"
+msgstr "&Kaydet dosyalar:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext..Hint
 #: dlgToolProperties.dfm
