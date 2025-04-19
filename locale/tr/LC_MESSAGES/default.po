@@ -9435,7 +9435,7 @@ msgstr "Unquoted string"
 
 #: uParams.pas
 msgid "Current date and time"
-msgstr "Mevcut date and time"
+msgstr "Mevcut date and zaman"
 
 #: uParams.pas
 msgid "Select file"
@@ -9443,11 +9443,11 @@ msgstr "Seçin dosya"
 
 #: uParams.pas
 msgid "Date of a date-time value"
-msgstr "Date of a date-time değer"
+msgstr "Date of a date-zaman değer"
 
 #: uParams.pas
 msgid "Time of a date-time value"
-msgstr "Zaman of a date-time değer"
+msgstr "Zaman of a date-zaman değer"
 
 #: uParams.pas
 msgid "Date of a file"
