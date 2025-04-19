@@ -2433,7 +2433,7 @@ msgstr "&Kopyala"
 #. CommandsDataModule..actlMain..actEditCopy..Hint
 #: dmCommands.dfm
 msgid "Copy|Copies the selection and puts it on the Clipboard"
-msgstr "Kopyala|Copies seçim ve puts it on Pano"
+msgstr "Kopyala|Seçimi kopyalar ve Panoya koyar"
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
