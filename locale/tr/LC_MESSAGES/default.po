@@ -1395,7 +1395,7 @@ msgstr "Forces scrolling to be one less"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollByOneLess..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll by one less"
-msgstr "Scroll by one less"
+msgstr "Kaydırma by one less"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
@@ -1405,7 +1405,7 @@ msgstr "Allows the imleç to go past the son of dosya marker"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of file"
-msgstr "Scroll past son of dosya"
+msgstr "Kaydırma past son of dosya"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
 #: dlgSynEditOptions.dfm
@@ -1419,7 +1419,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of line"
-msgstr "Scroll past son of line"
+msgstr "Kaydırma past son of line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
@@ -1439,7 +1439,7 @@ msgstr "The kaydırma hint follows the fare when scrolling vertically"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll hint follows mouse"
-msgstr "Scroll hint follows fare"
+msgstr "Kaydırma hint follows fare"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
@@ -4651,13 +4651,13 @@ msgstr "Seçin Dosya"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll left"
-msgstr "Scroll left"
+msgstr "Kaydırma left"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollRight..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll right"
-msgstr "Scroll sağ"
+msgstr "Kaydırma sağ"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Caption
 #: frmPyIDEMain.dfm
@@ -7499,22 +7499,22 @@ msgstr "Redo"
 #. Programmer's name for it: SEdCmdScrollDown
 #: StringResources.pas
 msgid "Scroll Down"
-msgstr "Scroll Aşağı"
+msgstr "Kaydırma Aşağı"
 
 #. Programmer's name for it: SEdCmdScrollLeft
 #: StringResources.pas
 msgid "Scroll Left"
-msgstr "Scroll Left"
+msgstr "Kaydırma Left"
 
 #. Programmer's name for it: SEdCmdScrollRight
 #: StringResources.pas
 msgid "Scroll Right"
-msgstr "Scroll Sağ"
+msgstr "Kaydırma Sağ"
 
 #. Programmer's name for it: SEdCmdScrollUp
 #: StringResources.pas
 msgid "Scroll Up"
-msgstr "Scroll Yukarı"
+msgstr "Kaydırma Yukarı"
 
 #. Programmer's name for it: SEdCmdSelectDown
 #: StringResources.pas
