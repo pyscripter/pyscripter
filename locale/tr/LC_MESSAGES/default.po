@@ -8170,7 +8170,7 @@ msgstr "Error while downloading: "
 #. Programmer's name for it: SCurrentVersionUptodate
 #: StringResources.pas
 msgid "Current version is up-to-date!"
-msgstr "Mevcut versiyon is yukarı-to-date!"
+msgstr "Mevcut versiyon is yukarı-to-tarih!"
 
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
@@ -9435,7 +9435,7 @@ msgstr "Unquoted string"
 
 #: uParams.pas
 msgid "Current date and time"
-msgstr "Mevcut date and zaman"
+msgstr "Mevcut tarih and zaman"
 
 #: uParams.pas
 msgid "Select file"
@@ -9443,11 +9443,11 @@ msgstr "Seçin dosya"
 
 #: uParams.pas
 msgid "Date of a date-time value"
-msgstr "Tarih of a date-zaman değer"
+msgstr "Tarih of a tarih-zaman değer"
 
 #: uParams.pas
 msgid "Time of a date-time value"
-msgstr "Zaman of a date-zaman değer"
+msgstr "Zaman of a tarih-zaman değer"
 
 #: uParams.pas
 msgid "Date of a file"
@@ -9455,19 +9455,19 @@ msgstr "Tarih of a dosya"
 
 #: uParams.pas
 msgid "Creation date of a file"
-msgstr "Creation date of a dosya"
+msgstr "Creation tarih of a dosya"
 
 #: uParams.pas
 msgid "Last modification date of a file"
-msgstr "Last modification date of a dosya"
+msgstr "Last modification tarih of a dosya"
 
 #: uParams.pas
 msgid "Last access date of a file"
-msgstr "Last access date of a dosya"
+msgstr "Last access tarih of a dosya"
 
 #: uParams.pas
 msgid "Formatted date"
-msgstr "Formatted date"
+msgstr "Formatted tarih"
 
 #: uParams.pas
 msgid "Active document name"
