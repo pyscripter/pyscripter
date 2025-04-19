@@ -692,7 +692,7 @@ msgstr "Eşleştirme Liste Yazı tipi..."
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepMiddle..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Jump to matches in the &middle of the editor"
-msgstr "Jump to matches in the &middle of the editor"
+msgstr "Editörün &orta kısmındaki eşleşmelere atla"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepExpandAll..Caption
 #: dlgFindResultsOptions.dfm
