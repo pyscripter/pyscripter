@@ -2230,7 +2230,7 @@ msgid ""
 "predefined grep expressions."
 msgstr ""
 "A grep ifade for parsing çıktı satırlar.\n"
-"Kullan the button on the right to insert \n"
+"Kullan the button on the sağ to insert \n"
 "predefined grep ifadeler."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Hint
@@ -3130,7 +3130,7 @@ msgstr "Close Tümü to the &Right"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr "Close hepsi dosyalar to the right"
+msgstr "Close hepsi dosyalar to the sağ"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -4656,7 +4656,7 @@ msgstr "Scroll left"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll right"
-msgstr "Scroll right"
+msgstr "Scroll sağ"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Caption
 #: frmPyIDEMain.dfm
