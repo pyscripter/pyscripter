@@ -2519,7 +2519,7 @@ msgstr "Bul &Next"
 #. CommandsDataModule..actlMain..actSearchFindNext..Hint
 #: dmCommands.dfm
 msgid "Find next|Find next match"
-msgstr "Bul next|Bul next match"
+msgstr "Bul next|Bul next eşleştirme"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Caption
 #: dmCommands.dfm
@@ -2529,7 +2529,7 @@ msgstr "Bul &Previous"
 #. CommandsDataModule..actlMain..actSearchFindPrev..Hint
 #: dmCommands.dfm
 msgid "Find previous|Find Previous match"
-msgstr "Bul previous|Bul Previous match"
+msgstr "Bul previous|Bul Previous eşleştirme"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #: dmCommands.dfm
@@ -3688,7 +3688,7 @@ msgstr "Follow Editor"
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
 msgid "Move selection to match the editor position"
-msgstr "taşı selection to match the editor position"
+msgstr "taşı selection to eşleştirme the editor position"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
@@ -4095,7 +4095,7 @@ msgstr "Goto Selected"
 #. FindResultsWindow..Actions..actListGotoSelected..Hint
 #: frmFindResults.dfm
 msgid "Goto match"
-msgstr "Goto match"
+msgstr "Goto eşleştirme"
 
 #. FindResultsWindow..Actions..actListContract..Caption
 #: frmFindResults.dfm
@@ -5760,7 +5760,7 @@ msgstr "Eşleştirme"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Match..Hint
 #: frmRegExpTester.dfm
 msgid "Performs re.match"
-msgstr "Performs re.match"
+msgstr "Performs re.eşleştirme"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Hint
 #: frmRegExpTester.dfm
@@ -5790,7 +5790,7 @@ msgstr "Execute"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TIExecute..Hint
 #: frmRegExpTester.dfm
 msgid "Execute search or match"
-msgstr "Execute arama or match"
+msgstr "Execute arama or eşleştirme"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Hint
 #: frmRegExpTester.dfm
@@ -5825,7 +5825,7 @@ msgstr "Eşleştirme:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..SpinMatches..Hint
 #: frmRegExpTester.dfm
 msgid "Show a found match"
-msgstr "Göster a found match"
+msgstr "Göster a found eşleştirme"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..Caption
 #: frmSuggest.dfm
@@ -8705,7 +8705,7 @@ msgstr "%d matches"
 #. Programmer's name for it: SMatchContextNotAvail
 #: StringResources.pas
 msgid "Unable to load match context lines"
-msgstr "Unable to load match context lines"
+msgstr "Unable to load eşleştirme context lines"
 
 #. Programmer's name for it: SProcessing
 #: StringResources.pas
