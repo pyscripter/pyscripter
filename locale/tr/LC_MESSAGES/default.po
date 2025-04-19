@@ -1747,7 +1747,7 @@ msgstr "Üst:"
 #. PageSetupDlg..TabControl..tbMargins..Label4..Caption
 #: dlgSynPageSetup.dfm
 msgid "Bottom:"
-msgstr "Bottom:"
+msgstr "Alt:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label5..Caption
 #: dlgSynPageSetup.dfm
@@ -7324,7 +7324,7 @@ msgstr "Aşağı"
 #. Programmer's name for it: SEdCmdEditorBottom
 #: StringResources.pas
 msgid "Editor Bottom"
-msgstr "Editör Bottom"
+msgstr "Editör Alt"
 
 #. Programmer's name for it: SEdCmdEditorTop
 #: StringResources.pas
@@ -7459,7 +7459,7 @@ msgstr "Üzerine yazma Mode"
 #. Programmer's name for it: SEdCmdPageBottom
 #: StringResources.pas
 msgid "Page Bottom"
-msgstr "Sayfa Bottom"
+msgstr "Sayfa Alt"
 
 #. Programmer's name for it: SEdCmdPageDown
 #: StringResources.pas
@@ -7524,7 +7524,7 @@ msgstr "Seçin Aşağı"
 #. Programmer's name for it: SEdCmdSelectEditorBottom
 #: StringResources.pas
 msgid "Select Editor Bottom"
-msgstr "Seçin Editör Bottom"
+msgstr "Seçin Editör Alt"
 
 #. Programmer's name for it: SEdCmdSelectEditorTop
 #: StringResources.pas
@@ -7549,7 +7549,7 @@ msgstr "Seçin Satır Başla"
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
 msgid "Select Page Bottom"
-msgstr "Seçin Sayfa Bottom"
+msgstr "Seçin Sayfa Alt"
 
 #. Programmer's name for it: SEdCmdSelectPageDown
 #: StringResources.pas
