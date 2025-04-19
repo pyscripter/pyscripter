@@ -666,7 +666,7 @@ msgstr "Di&rectories:"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm frmFileExplorer.dfm
 #: dlgDirectoryList.pas dlgImportDirectory.pas frmFileExplorer.pas uParams.pas
 msgid "Select directory"
-msgstr "Select directory"
+msgstr "Select dizin"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -2107,7 +2107,7 @@ msgstr "&Application:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
 #: dlgToolProperties.dfm
 msgid "Working &directory:"
-msgstr "Working &directory:"
+msgstr "Working &dizin:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
@@ -4454,7 +4454,7 @@ msgstr "Store &Relative Paths"
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Hint
 #: frmProjectExplorer.dfm
 msgid "Store file paths relative to the project directory"
-msgstr "Store dosya yolları relative to the proje directory"
+msgstr "Store dosya yolları relative to the proje dizin"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
@@ -4539,7 +4539,7 @@ msgstr "&Import Dizin..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Hint
 #: frmProjectExplorer.dfm
 msgid "Import a directory into the selected folder"
-msgstr "Import a directory into the seçili folder"
+msgstr "Import a dizin into the seçili folder"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -6180,7 +6180,7 @@ msgstr "Komut Prompt"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr "Start a console at the directory of the active dosya"
+msgstr "Start a console at the dizin of the active dosya"
 
 #: cTools.pas
 msgid "Profile"
@@ -6397,7 +6397,7 @@ msgstr "The Bul in Dosyalar Results window is not active"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
-msgstr "Select working directory:"
+msgstr "Select working dizin:"
 
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
@@ -8041,7 +8041,7 @@ msgstr "Error in getting the namespace of %s"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "Could not set the mevcut directory to the script yol"
+msgstr "Could not set the mevcut dizin to the script yol"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -8134,9 +8134,8 @@ msgid ""
 "Certain features such as remote debugging will not function properly "
 "otherwise."
 msgstr ""
-"Pyscripter needs access to the User Application Data directory: \"%s\". "
-"Certain features such as remote debugging will not function properly "
-"otherwise."
+"Pyscripter needs access to the User Application Data dizin: \"%s\". Certain "
+"features such as remote debugging will not function properly otherwise."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -8658,7 +8657,7 @@ msgstr "of the document"
 #: StringResources.pas
 #, object-pascal-format
 msgid "The search directory %s does not exist"
-msgstr "The arama directory %s does not exist"
+msgstr "The arama dizin %s does not exist"
 
 #. Find in Files Results
 #. Programmer's name for it: SGrepReplaceStats
@@ -8794,7 +8793,7 @@ msgstr "Komut line: %s"
 #. Programmer's name for it: SPrintWorkingDir
 #: StringResources.pas
 msgid "Working directory: "
-msgstr "Working directory: "
+msgstr "Working dizin: "
 
 #. Programmer's name for it: SExternalToolStillRunning
 #: StringResources.pas
@@ -9304,31 +9303,31 @@ msgstr "Version of active Python"
 #. register system paths and parameters
 #: uParams.pas
 msgid "Program Files directory"
-msgstr "Program Dosyalar directory"
+msgstr "Program Dosyalar dizin"
 
 #: uParams.pas
 msgid "Common Files directory"
-msgstr "Common Dosyalar directory"
+msgstr "Common Dosyalar dizin"
 
 #: uParams.pas
 msgid "Windows installation directory"
-msgstr "Windows installation directory"
+msgstr "Windows installation dizin"
 
 #: uParams.pas
 msgid "Windows System directory"
-msgstr "Windows System directory"
+msgstr "Windows System dizin"
 
 #: uParams.pas
 msgid "Windows Temp directory"
-msgstr "Windows Temp directory"
+msgstr "Windows Temp dizin"
 
 #: uParams.pas
 msgid "MyDocuments directory"
-msgstr "MyDocuments directory"
+msgstr "MyDocuments dizin"
 
 #: uParams.pas
 msgid "Desktop directory"
-msgstr "Desktop directory"
+msgstr "Desktop dizin"
 
 #. register parameters
 #: uParams.pas
@@ -9337,7 +9336,7 @@ msgstr "Clipboard as metin"
 
 #: uParams.pas
 msgid "Current directory"
-msgstr "Mevcut directory"
+msgstr "Mevcut dizin"
 
 #: uParams.pas
 msgid "Executable name"
