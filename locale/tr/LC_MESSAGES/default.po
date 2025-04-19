@@ -35,7 +35,7 @@ msgstr "Hakkında"
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet2..Caption
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Credits"
-msgstr "Credits"
+msgstr "Katkıda Bulunanlar"
 
 #. AboutBox..SpTBXTabControl..tbLinks..Caption
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet3..Caption
