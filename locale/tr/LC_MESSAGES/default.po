@@ -5117,13 +5117,13 @@ msgstr "Debug Last Komut dosyası"
 #. Programmer's name for it: SHintDebug
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Debug last script"
-msgstr "Debug last script"
+msgstr "Debug last komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actDebug..Hint
 #. Programmer's name for it: SDebugHint
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Debug|Debug active script"
-msgstr "Debug|Debug active script"
+msgstr "Debug|Debug active komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5204,7 +5204,7 @@ msgstr "Çalıştır Last Komut dosyası Externally"
 #. Programmer's name for it: SHintExternalRun
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Run last script externally"
-msgstr "Çalıştır last script externally"
+msgstr "Çalıştır last komut dosyası externally"
 
 #. PyIDEMainForm..actlStandard..actRunLastScript..Caption
 #: frmPyIDEMain.dfm
@@ -5215,7 +5215,7 @@ msgstr "Çalıştır Last Komut dosyası"
 #. Programmer's name for it: SHintRun
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Run last script"
-msgstr "Çalıştır last script"
+msgstr "Çalıştır last komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actToggleBreakPoint..Caption
 #: frmPyIDEMain.dfm
@@ -8044,7 +8044,7 @@ msgstr "Error in getting the namespace of %s"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "Could not set the mevcut dizin to the script yol"
+msgstr "Could not set the mevcut dizin to the komut dosyası yol"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -8338,7 +8338,7 @@ msgstr "Resume"
 #. Programmer's name for it: SResumeHint
 #: StringResources.pas
 msgid "Resume|Resume the running script"
-msgstr "Resume|Resume the running script"
+msgstr "Resume|Resume the running komut dosyası"
 
 #. Programmer's name for it: SModified
 #: StringResources.pas
@@ -8353,7 +8353,7 @@ msgstr "Aç Dosya"
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
 msgid "Select Python script to run"
-msgstr "Seçin Python script to çalıştır"
+msgstr "Seçin Python komut dosyası to çalıştır"
 
 #. Programmer's name for it: SSelectOutputFile
 #: StringResources.pas
@@ -8496,7 +8496,7 @@ msgstr "Browser"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in running initialization script %s: \"%s\""
-msgstr "Error in running initialization script %s: \"%s\""
+msgstr "Error in running initialization komut dosyası %s: \"%s\""
 
 #. Programmer's name for it: SOpenDialogFilter
 #: StringResources.pas
@@ -9475,7 +9475,7 @@ msgstr "Active document name"
 
 #: uParams.pas
 msgid "The name or last run script"
-msgstr "The name or last çalıştır script"
+msgstr "The name or last çalıştır komut dosyası"
 
 #: uParams.pas
 msgid "Project file name"
