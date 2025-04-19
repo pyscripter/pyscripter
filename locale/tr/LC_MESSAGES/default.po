@@ -2286,7 +2286,7 @@ msgstr "Yeni dosya"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Caption
 #: dlgToolProperties.dfm
 msgid "Console"
-msgstr "Console"
+msgstr "Konsol"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
