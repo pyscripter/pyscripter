@@ -697,7 +697,7 @@ msgstr "Editörün &orta kısmındaki eşleşmelere atla"
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepExpandAll..Caption
 #: dlgFindResultsOptions.dfm
 msgid "&Expand all matches after searching"
-msgstr "&Expand hepsi matches after searching"
+msgstr "&Expand hepsi eşleşmeler after searching"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
@@ -8681,7 +8681,7 @@ msgstr "On line: "
 #: StringResources.pas
 #, no-object-pascal-format
 msgid "%5d matches"
-msgstr "%5d matches"
+msgstr "%5d eşleşmeler"
 
 #. Programmer's name for it: SGrepActive
 #: StringResources.pas
@@ -8702,7 +8702,7 @@ msgstr "Searched %d dosyalar in %.2f seconds"
 #: StringResources.pas
 #, object-pascal-format
 msgid "%d matches"
-msgstr "%d matches"
+msgstr "%d eşleşmeler"
 
 #. Programmer's name for it: SMatchContextNotAvail
 #: StringResources.pas
