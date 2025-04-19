@@ -1475,7 +1475,7 @@ msgstr "Kelime wrap"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
 msgid "Caret"
-msgstr "Caret"
+msgstr "İmleç"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label2..Caption
 #: dlgSynEditOptions.dfm
