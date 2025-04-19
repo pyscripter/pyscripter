@@ -456,7 +456,7 @@ msgstr "Şu anda atanmış:"
 #. frmCustomKeyboard..Panel1..lblCurrentKeys..Caption
 #: dlgCustomShortcuts.dfm
 msgid "C&urrent Keys:"
-msgstr "C&urrent Keys:"
+msgstr "C&urrent Tuşlar:"
 
 #. frmCustomKeyboard..Panel1..gbDescription..Caption
 #: dlgCustomShortcuts.dfm
