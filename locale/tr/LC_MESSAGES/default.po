@@ -1482,7 +1482,7 @@ msgstr "İmleç"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Insert caret:"
-msgstr "Insert imleç:"
+msgstr "Ekle imleç:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Label4..Caption
 #: dlgSynEditOptions.dfm
@@ -2043,7 +2043,7 @@ msgstr "Low"
 #. ToDoOptionsDlg..pnlBG..gbxTokens..btnInsert..Caption
 #: dlgToDoOptions.dfm
 msgid "&Insert"
-msgstr "&Insert"
+msgstr "&Ekle"
 
 #. ToDoOptionsDlg..pnlBG..gbxTokens..btnApply..Caption
 #: dlgToDoOptions.dfm
@@ -2760,18 +2760,18 @@ msgstr "Arama in Dosyalar|Arama for a string in Dosyalar"
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
 msgid "Insert &parameter"
-msgstr "Insert &parametre"
+msgstr "Ekle &parametre"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Hint
 #. CommandsDataModule..actlMain..actModifierCompletion..Hint
 #: dmCommands.dfm
 msgid "Insert parameter to the edited file"
-msgstr "Insert parametre to the edited dosya"
+msgstr "Ekle parametre to the edited dosya"
 
 #. CommandsDataModule..actlMain..actModifierCompletion..Caption
 #: dmCommands.dfm
 msgid "Insert &modifier"
-msgstr "Insert &modifier"
+msgstr "Ekle &modifier"
 
 #. CommandsDataModule..actlMain..actReplaceParameters..Caption
 #: dmCommands.dfm
@@ -2796,12 +2796,12 @@ msgstr "Yardım on custom parameters"
 #. CommandsDataModule..actlMain..actInsertTemplate..Caption
 #: dmCommands.dfm
 msgid "Insert &Template"
-msgstr "Insert &Şablon"
+msgstr "Ekle &Şablon"
 
 #. CommandsDataModule..actlMain..actInsertTemplate..Hint
 #: dmCommands.dfm
 msgid "Insert a Code Template"
-msgstr "Insert a Kod Şablon"
+msgstr "Ekle a Kod Şablon"
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Caption
 #: dmCommands.dfm
@@ -7409,12 +7409,12 @@ msgstr "Goto Bookmark 9"
 #. Programmer's name for it: SEdCmdInsertLine
 #: StringResources.pas
 msgid "Insert Line"
-msgstr "Insert Satır"
+msgstr "Ekle Satır"
 
 #. Programmer's name for it: SEdCmdInsertMode
 #: StringResources.pas
 msgid "Insert Mode"
-msgstr "Insert Mode"
+msgstr "Ekle Mode"
 
 #. Programmer's name for it: SEdCmdLineBreak
 #: StringResources.pas
@@ -8808,7 +8808,7 @@ msgstr "The Harici Tool \"%s\" is still running. Do you want to terminate it?"
 #. Programmer's name for it: SInsert
 #: StringResources.pas
 msgid "Insert"
-msgstr "Insert"
+msgstr "Ekle"
 
 #. Programmer's name for it: SOverwrite
 #: StringResources.pas
