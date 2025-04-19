@@ -1233,7 +1233,7 @@ msgstr "Sürükle ve bırak düzenleme"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enhances end key similar to JDeveloper"
-msgstr "Enhances end tuş benzer to JDeveloper"
+msgstr "Enhances son tuş benzer to JDeveloper"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
@@ -1335,7 +1335,7 @@ msgstr "Tabs to spaces"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Spaces at the end of lines will be trimmed and not saved"
-msgstr "Spaces at the end of satırlar will be trimmed and not saved"
+msgstr "Spaces at the son of satırlar will be trimmed and not saved"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
 #: dlgSynEditOptions.dfm
@@ -1399,12 +1399,12 @@ msgstr "Scroll by one less"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
 msgid "Allows the cursor to go past the end of file marker"
-msgstr "Allows the cursor to go past the end of dosya marker"
+msgstr "Allows the cursor to go past the son of dosya marker"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of file"
-msgstr "Scroll past end of dosya"
+msgstr "Scroll past son of dosya"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL....Hint
 #: dlgSynEditOptions.dfm
@@ -1413,12 +1413,12 @@ msgid ""
 "end of a line"
 msgstr ""
 "Allows the cursor to go past the last character into the white space at the "
-"end of a line"
+"son of a line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of line"
-msgstr "Scroll past end of line"
+msgstr "Scroll past son of line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
@@ -8626,7 +8626,7 @@ msgstr "the arama"
 #. Programmer's name for it: SFromTheEnd
 #: StringResources.pas
 msgid "from the end"
-msgstr "from the end"
+msgstr "from the son"
 
 #. Programmer's name for it: SFromTheStart
 #: StringResources.pas
@@ -8643,7 +8643,7 @@ msgstr "You reached the start %s"
 #: StringResources.pas
 #, object-pascal-format
 msgid "You reached the end %s"
-msgstr "You reached the end %s"
+msgstr "You reached the son %s"
 
 #. Programmer's name for it: SOfTheSelection
 #: StringResources.pas
