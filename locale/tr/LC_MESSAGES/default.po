@@ -1973,7 +1973,7 @@ msgstr "Yakınlaştır"
 #. PrintPreviewDlg..ActionList..ZoomCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Zoom|Zoom In/Out"
-msgstr "Yakınlaştır|Yakınlaştır In/Out"
+msgstr "Yakınlaşma|Yakınlaştır/Uzaklaştır"
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
