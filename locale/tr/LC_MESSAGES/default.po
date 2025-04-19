@@ -2934,12 +2934,12 @@ msgstr "Yardım on editör shortcuts"
 #. CommandsDataModule..actlMain..actCheckForUpdates..Caption
 #: dmCommands.dfm
 msgid "Check For &Updates"
-msgstr "Check For &Updates"
+msgstr "İşaretle For &Updates"
 
 #. CommandsDataModule..actlMain..actCheckForUpdates..Hint
 #: dmCommands.dfm
 msgid "Check whether a newer version of PyScripter is available"
-msgstr "Check whether a newer versiyon of PyScripter is mevcut"
+msgstr "İşaretle whether a newer versiyon of PyScripter is mevcut"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
@@ -3334,22 +3334,22 @@ msgstr "Spell Checking"
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Caption
 #: dmCommands.dfm
 msgid "Check File"
-msgstr "Check Dosya"
+msgstr "İşaretle Dosya"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Caption
 #: dmCommands.dfm
 msgid "Check Line"
-msgstr "Check Satır"
+msgstr "İşaretle Satır"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckSelection..Caption
 #: dmCommands.dfm
 msgid "Check Selection"
-msgstr "Check Seçim"
+msgstr "İşaretle Seçim"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckWord..Caption
 #: dmCommands.dfm
 msgid "Check Word"
-msgstr "Check Kelime"
+msgstr "İşaretle Kelime"
 
 #. CommandsDataModule..actlMain..actSynSpellClearErrors..Caption
 #: dmCommands.dfm
@@ -3359,7 +3359,7 @@ msgstr "Clear Errors"
 #. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Caption
 #: dmCommands.dfm
 msgid "Check As You Type"
-msgstr "Check As You Tip"
+msgstr "İşaretle As You Tip"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Caption
 #: dmCommands.dfm
@@ -5005,12 +5005,12 @@ msgstr "View/Gizle main menü"
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Caption
 #: frmPyIDEMain.dfm
 msgid "&Syntax Check"
-msgstr "&Sözdizimi Check"
+msgstr "&Sözdizimi İşaretle"
 
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
 #: frmPyIDEMain.dfm
 msgid "Syntax Check|Perform syntax check and load scripts"
-msgstr "Sözdizimi Check|Perform sözdizimi check ve load scripts"
+msgstr "Sözdizimi İşaretle|Perform sözdizimi check ve load scripts"
 
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
@@ -6164,11 +6164,11 @@ msgstr "Göster PythonWin Yardım"
 
 #: cTools.pas
 msgid "Check &Indentation"
-msgstr "Check &Indentation"
+msgstr "İşaretle &Indentation"
 
 #: cTools.pas
 msgid "Check the indentation of the Python program"
-msgstr "Check the indentation of the Python program"
+msgstr "İşaretle the indentation of the Python program"
 
 #: cTools.pas
 msgid "Command Prompt"
@@ -6424,7 +6424,7 @@ msgstr "IDE"
 
 #: dmCommands.pas
 msgid "Check for updates automatically"
-msgstr "Check for updates automatically"
+msgstr "İşaretle for updates automatically"
 
 #: dmCommands.pas
 msgid "Days between update checks"
@@ -6735,7 +6735,7 @@ msgstr "Dil sunucu debug çıktı"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
-msgstr "Check sözdizimi as you tip"
+msgstr "İşaretle sözdizimi as you tip"
 
 #: dmCommands.pas
 msgid "Special packages"
