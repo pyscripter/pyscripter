@@ -2743,7 +2743,7 @@ msgstr "Go To Sözdizimi &Error"
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Hint
 #: dmCommands.dfm
 msgid "Jump to the position of the first syntax error"
-msgstr "Atla to the position of the first syntax error"
+msgstr "Atla to the position of the first sözdizimi error"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
@@ -4727,7 +4727,7 @@ msgstr "&Hayır Sözdizimi"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..mnNoSyntax..Hint
 #: frmPyIDEMain.dfm
 msgid "Do not use syntax highlighting"
-msgstr "Do not use syntax highlighting"
+msgstr "Do not use sözdizimi highlighting"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..Caption
 #: frmPyIDEMain.dfm
@@ -5015,7 +5015,7 @@ msgstr "&Sözdizimi Check"
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
 #: frmPyIDEMain.dfm
 msgid "Syntax Check|Perform syntax check and load scripts"
-msgstr "Sözdizimi Check|Perform syntax check and load scripts"
+msgstr "Sözdizimi Check|Perform sözdizimi check and load scripts"
 
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
@@ -6741,7 +6741,7 @@ msgstr "Language sunucu debug çıktı"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
-msgstr "Check syntax as you tip"
+msgstr "Check sözdizimi as you tip"
 
 #: dmCommands.pas
 msgid "Special packages"
@@ -6757,7 +6757,7 @@ msgstr "Spell check as you tip"
 
 #: dmCommands.pas
 msgid "Spell checked syntax tokens"
-msgstr "Spell checked syntax tokens"
+msgstr "Spell checked sözdizimi tokens"
 
 #: dmCommands.pas
 msgid "Highlight structure"
@@ -8384,7 +8384,7 @@ msgstr "Uygula %s layout"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Use %s syntax"
-msgstr "Kullan %s syntax"
+msgstr "Kullan %s sözdizimi"
 
 #. Programmer's name for it: SSwitchtoVersion
 #: StringResources.pas
