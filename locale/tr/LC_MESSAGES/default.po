@@ -50,9 +50,9 @@ msgid ""
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
-"A free and aç source Python scripting integrated development environment "
-"created onunla the ambition to bring to the Python community the quality and"
-" functionality available in commercial IDEs available for other languages."
+"Diğer diller için ticari IDE'lerde mevcut olan kalite ve işlevselliği Python"
+" topluluğuna getirme hedefiyle oluşturulmuş, ücretsiz ve açık kaynaklı bir "
+"Python betik geliştirme ortamı."
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
