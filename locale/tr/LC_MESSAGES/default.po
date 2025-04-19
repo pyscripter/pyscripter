@@ -707,7 +707,7 @@ msgstr "Eşleştirme Bağlam Görüntüleme"
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Number of context lines"
-msgstr "Sayı of bağlam lines"
+msgstr "Sayı of bağlam satırlar"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
@@ -1208,8 +1208,8 @@ msgid ""
 "Will indent the caret on new lines with the same amount of leading white "
 "space as the preceding line"
 msgstr ""
-"Will indent the caret on yeni lines with the same amount of leading white "
-"space as the preceding line"
+"Will indent the caret on yeni satırlar with the same amount of leading white"
+" space as the preceding line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1267,7 +1267,7 @@ msgstr "Group undo"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX....Hint
 #: dlgSynEditOptions.dfm
 msgid "When moving through lines the X position will always stay the same"
-msgstr "When moving through lines the X position will always stay the same"
+msgstr "When moving through satırlar the X position will always stay the same"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckKeepCaretX..Caption
 #: dlgSynEditOptions.dfm
@@ -1335,7 +1335,7 @@ msgstr "Tabs to spaces"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Spaces at the end of lines will be trimmed and not saved"
-msgstr "Spaces at the end of lines will be trimmed and not saved"
+msgstr "Spaces at the end of satırlar will be trimmed and not saved"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTrimTrailingSpaces..Caption
 #: dlgSynEditOptions.dfm
@@ -1465,7 +1465,7 @@ msgstr "Göster special chars"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enable wrapping of long lines"
-msgstr "Enable wrapping of long lines"
+msgstr "Enable wrapping of long satırlar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
@@ -1810,7 +1810,7 @@ msgstr "Kullan colors"
 #. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
 #: dlgSynPageSetup.dfm
 msgid "Wrap lines"
-msgstr "Wrap lines"
+msgstr "Wrap satırlar"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
@@ -2209,7 +2209,7 @@ msgid ""
 "If checked output lines that look like messages \n"
 "will be parsed and shown in the messages window."
 msgstr ""
-"If checked output lines that look like messages \n"
+"If checked output satırlar that look like messages \n"
 "will be parsed and shown in the messages window."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
@@ -2229,7 +2229,7 @@ msgid ""
 "Use the button on the right to insert \n"
 "predefined grep expressions."
 msgstr ""
-"A grep ifade for parsing output lines.\n"
+"A grep ifade for parsing output satırlar.\n"
 "Kullan the button on the right to insert \n"
 "predefined grep ifadeler."
 
@@ -6780,11 +6780,11 @@ msgstr "Collapsed line color"
 
 #: dmCommands.pas
 msgid "Folder bar lines color"
-msgstr "Folder bar lines color"
+msgstr "Folder bar satırlar color"
 
 #: dmCommands.pas
 msgid "Fill whole lines"
-msgstr "Fill whole lines"
+msgstr "Fill whole satırlar"
 
 #: dmCommands.pas
 msgid "Modified color"
@@ -8707,7 +8707,7 @@ msgstr "%d eşleşmeler"
 #. Programmer's name for it: SMatchContextNotAvail
 #: StringResources.pas
 msgid "Unable to load match context lines"
-msgstr "Unable to load eşleştirme bağlam lines"
+msgstr "Unable to load eşleştirme bağlam satırlar"
 
 #. Programmer's name for it: SProcessing
 #: StringResources.pas
