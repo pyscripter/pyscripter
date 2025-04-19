@@ -486,7 +486,7 @@ msgstr "Dizin liste"
 #. DirectoryListDialog..Panel1..Label1..Caption
 #: dlgDirectoryList.dfm
 msgid "Ordered list of file paths:"
-msgstr "Ordered liste of file paths:"
+msgstr "Dosya yollarının sıralı listesi:"
 
 #. DirectoryListDialog..Panel1..btnMoveUp..Hint
 #: dlgDirectoryList.dfm
