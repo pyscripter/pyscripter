@@ -1493,7 +1493,7 @@ msgstr "Üzerine yazma imleci:"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
 #: dlgSynEditOptions.dfm
 msgid "Vertical Line"
-msgstr "Vertical Satır"
+msgstr "Dikey Satır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cInsertCaret....Items.Strings
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbCaret..cOverwriteCaret....Items.Strings
