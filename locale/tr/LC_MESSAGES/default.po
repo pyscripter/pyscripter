@@ -1286,7 +1286,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right mouse moves cursor"
-msgstr "Sağ fare moves cursor"
+msgstr "Sağ fare moves imleç"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
 #: dlgSynEditOptions.dfm
@@ -1294,8 +1294,8 @@ msgid ""
 "When tabbing, the cursor will go to the next non-white space character of "
 "the previous line"
 msgstr ""
-"When tabbing, the cursor will go to the next non-white space character of "
-"the previous line"
+"When tabbing, the imleç will go to the next non-white space character of the"
+" previous line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
 #: dlgSynEditOptions.dfm
@@ -1399,7 +1399,7 @@ msgstr "Scroll by one less"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
 msgid "Allows the cursor to go past the end of file marker"
-msgstr "Allows the cursor to go past the son of dosya marker"
+msgstr "Allows the imleç to go past the son of dosya marker"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
@@ -1412,7 +1412,7 @@ msgid ""
 "Allows the cursor to go past the last character into the white space at the "
 "end of a line"
 msgstr ""
-"Allows the cursor to go past the last character into the white space at the "
+"Allows the imleç to go past the last character into the white space at the "
 "son of a line"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
@@ -2248,7 +2248,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Word at cursor"
-msgstr "Kelime at cursor"
+msgstr "Kelime at imleç"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -5142,7 +5142,7 @@ msgstr "Çalıştır To &Cursor"
 #. PyIDEMainForm..actlStandard..actRunToCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Run to cursor"
-msgstr "Çalıştır to cursor"
+msgstr "Çalıştır to imleç"
 
 #. PyIDEMainForm..actlStandard..actStepInto..Caption
 #: frmPyIDEMain.dfm
@@ -8198,7 +8198,7 @@ msgstr "This is the definition of \"%s\""
 #. Programmer's name for it: SPlaceCursorOnName
 #: StringResources.pas
 msgid "Please place the cursor on a function/class name or identifier"
-msgstr "Please place the cursor on a function/class name or identifier"
+msgstr "Please place the imleç on a function/class name or identifier"
 
 #. Programmer's name for it: SCannotChangeEngine
 #: StringResources.pas
