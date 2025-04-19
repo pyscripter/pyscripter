@@ -5702,7 +5702,7 @@ msgstr "Copy (&Hayır Prompts)"
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Hint
 #: frmPythonII.dfm
 msgid "Copy selected text without the interpreter prompts"
-msgstr "Copy seçili metin without the interpreter prompts"
+msgstr "Copy seçili metin without the interpreter istemler"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
@@ -5712,7 +5712,7 @@ msgstr "Paste && E&xecute"
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
 msgid "Paste clipboard text with added interpreter prompts"
-msgstr "Paste pano metin with added interpreter prompts"
+msgstr "Paste pano metin with added interpreter istemler"
 
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
