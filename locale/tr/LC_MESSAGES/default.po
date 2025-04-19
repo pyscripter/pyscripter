@@ -9526,8 +9526,8 @@ msgid ""
 "command buttons, drag them off the toolbar and drop them on the commands "
 "list."
 msgstr ""
-"To add komut buttons, sürükle and bırak commands onto a toolbar. To remove "
-"komut buttons, sürükle them off the toolbar and bırak them on the commands "
+"To add komut düğmeler, sürükle and bırak commands onto a toolbar. To remove "
+"komut düğmeler, sürükle them off the toolbar and bırak them on the commands "
 "liste."
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
