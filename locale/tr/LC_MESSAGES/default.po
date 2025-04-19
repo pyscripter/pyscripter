@@ -6154,11 +6154,11 @@ msgstr "Install Python packages"
 
 #: cTools.pas
 msgid "Create Virtual Environment"
-msgstr "Create Virtual Environment"
+msgstr "Yarat Virtual Environment"
 
 #: cTools.pas
 msgid "Create virtual environment using the venv module"
-msgstr "Create virtual environment kullanarak the venv module"
+msgstr "Yarat virtual environment kullanarak the venv module"
 
 #: cTools.pas
 msgid "Python&Win help"
@@ -6569,7 +6569,7 @@ msgstr "Arama metin at caret"
 
 #: dmCommands.pas
 msgid "Create backup files"
-msgstr "Create backup dosyalar"
+msgstr "Yarat backup dosyalar"
 
 #: dmCommands.pas
 msgid "Undo after save"
@@ -8208,7 +8208,7 @@ msgstr "Cannot change the Python engine while it is active."
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not open/create output file %s"
-msgstr "Could not aç/create output dosya %s"
+msgstr "Could not aç/yarat output dosya %s"
 
 #. Programmer's name for it: SUnknownPythonVersion
 #: StringResources.pas
