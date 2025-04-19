@@ -2465,12 +2465,12 @@ msgstr "Sil|Sil selection"
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #: dmCommands.dfm
 msgid "&Undo"
-msgstr "&Undo"
+msgstr "&Geri al"
 
 #. CommandsDataModule..actlMain..actEditUndo..Hint
 #: dmCommands.dfm
 msgid "Undo|Reverts the last action"
-msgstr "Undo|Reverts the last action"
+msgstr "Geri al|Reverts the last action"
 
 #. CommandsDataModule..actlMain..actEditRedo..Caption
 #: dmCommands.dfm
@@ -6575,7 +6575,7 @@ msgstr "Yarat yedekleme dosyalar"
 
 #: dmCommands.pas
 msgid "Undo after save"
-msgstr "Undo sonra kaydet"
+msgstr "Geri al sonra kaydet"
 
 #: dmCommands.pas
 msgid "Show code hints"
@@ -7694,7 +7694,7 @@ msgstr "Toggle Mode"
 #. Programmer's name for it: SEdCmdUndo
 #: StringResources.pas
 msgid "Undo"
-msgstr "Undo"
+msgstr "Geri al"
 
 #. Programmer's name for it: SEdCmdUnfoldAll
 #: StringResources.pas
