@@ -791,7 +791,7 @@ msgstr "&Seçin Tümü"
 #. UnitTestWindow..DialogActions..actDeselectAll..Caption
 #: dlgPickList.dfm frmUnitTests.dfm
 msgid "&Deselect All"
-msgstr "&Deselect Tümü"
+msgstr "&Seçimi kaldır Tümü"
 
 #. PickListDialog..PickListPopUp..mnSelectAll..Hint
 #: dlgPickList.dfm
@@ -801,7 +801,7 @@ msgstr "Seçin hepsi items"
 #. PickListDialog..PickListPopUp..mnDeselectAll..Hint
 #: dlgPickList.dfm
 msgid "Deselect all items"
-msgstr "Deselect hepsi items"
+msgstr "Seçimi kaldır hepsi items"
 
 #. PythonVersionsDialog..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
@@ -2372,12 +2372,12 @@ msgstr "Seçin hepsi nodes"
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Deselect All"
-msgstr "Deselect Tümü"
+msgstr "Seçimi kaldır Tümü"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Deselect all nodes"
-msgstr "Deselect hepsi nodes"
+msgstr "Seçimi kaldır hepsi nodes"
 
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
@@ -5972,7 +5972,7 @@ msgstr "Seçin hepsi tests"
 #. UnitTestWindow..DialogActions..actDeselectAll..Hint
 #: frmUnitTests.dfm
 msgid "Deselect all tests"
-msgstr "Deselect hepsi tests"
+msgstr "Seçimi kaldır hepsi tests"
 
 #. UnitTestWindow..DialogActions..actSelectFailed..Caption
 #: frmUnitTests.dfm
