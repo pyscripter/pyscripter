@@ -1445,13 +1445,12 @@ msgstr "Kaydırma ip ucu takip eder fare"
 #: dlgSynEditOptions.dfm
 msgid "Show ligatures (joined font glyphs) when supported by the used font"
 msgstr ""
-"Göster ligatures (joined yazı tipi glyphs) when supported by the used yazı "
-"tipi"
+"Göster bağlar (joined yazı tipi glyphs) when supported by the used yazı tipi"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr "Göster yazı tipi ligatures"
+msgstr "Göster yazı tipi bağlar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
