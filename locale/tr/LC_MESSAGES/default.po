@@ -1812,7 +1812,7 @@ msgstr "Kullan colors"
 #. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
 #: dlgSynPageSetup.dfm
 msgid "Wrap lines"
-msgstr "Wrap satırlar"
+msgstr "Kırp satırlar"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
@@ -3077,7 +3077,7 @@ msgstr "Highlight the arama metin in the mevcut editör"
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #: dmCommands.dfm
 msgid "Word &Wrap"
-msgstr "Kelime &Wrap"
+msgstr "Kelime &Kırp"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
