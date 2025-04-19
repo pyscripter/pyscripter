@@ -1840,7 +1840,7 @@ msgstr "Sayfaların sayısı"
 #. PageSetupDlg..ActionList1..TimeCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Time"
-msgstr "Time"
+msgstr "Zaman"
 
 #. PageSetupDlg..ActionList1..DateCmd..Caption
 #. PageSetupDlg..ActionList1..DateCmd..Hint
@@ -9447,7 +9447,7 @@ msgstr "Date of a date-time değer"
 
 #: uParams.pas
 msgid "Time of a date-time value"
-msgstr "Time of a date-time değer"
+msgstr "Zaman of a date-time değer"
 
 #: uParams.pas
 msgid "Date of a file"
