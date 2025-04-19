@@ -546,7 +546,7 @@ msgstr "Göster or gizle ilave bilgi|"
 #. ExceptionDialogMail..DetailsBtn..Caption
 #: dlgExceptionMail.dfm
 msgid "&Details"
-msgstr "&Details"
+msgstr "&Detaylar"
 
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
