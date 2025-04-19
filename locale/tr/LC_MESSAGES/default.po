@@ -1349,8 +1349,8 @@ msgid ""
 "Disables the scroll bar arrow buttons when you can't scroll in that "
 "direction any more"
 msgstr ""
-"Disables the scroll bar arrow buttons when you can't scroll in that "
-"direction any more"
+"Artık o yönde kaydırma yapamadığınızda kaydırma çubuğu ok düğmelerini devre "
+"dışı bırakır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows..Caption
 #: dlgSynEditOptions.dfm
