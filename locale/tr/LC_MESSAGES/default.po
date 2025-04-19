@@ -1377,9 +1377,9 @@ msgid ""
 "ScrollPastEOL, then it the horizontal bar will always be there (it uses "
 "MaxLength instead)"
 msgstr ""
-"if enabled, then the scrollbars will sadece göster when necessary.  If you "
-"have ScrollPastEOL, then it the horizontal bar will always be there (it uses"
-" MaxLength instead)"
+"etkinleştirilirse, kaydırma çubukları gerektiğinde sadece gösterilir. "
+"ScrollPastEOL'niz varsa, yatay çubuk her zaman orada olacaktır (bunun yerine"
+" MaxLength kullanır)"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
 #: dlgSynEditOptions.dfm
