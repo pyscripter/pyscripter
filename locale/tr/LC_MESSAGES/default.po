@@ -2342,7 +2342,7 @@ msgstr "Column sayı"
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the column number"
-msgstr "Placeholder for the column sayı"
+msgstr "Placeholder for the sütun sayı"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
@@ -8930,7 +8930,7 @@ msgstr "Could not load and parse module: \"%s\""
 #. Programmer's name for it: SNoIdentifier
 #: StringResources.pas
 msgid "No Identifier at the given line and column"
-msgstr "Hayır Identifier at the given line and column"
+msgstr "Hayır Identifier at the given line and sütun"
 
 #. Programmer's name for it: SCouldNotFindScope
 #: StringResources.pas
