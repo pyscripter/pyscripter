@@ -618,7 +618,7 @@ msgstr "&Bütün kelime"
 #. FindInFilesDialog..Panel1..gbxOptions..cbRegEx..Caption
 #: dlgFindInFiles.dfm
 msgid "Regular e&xpression"
-msgstr "Regular e&xpression"
+msgstr "Düzenli &ifade"
 
 #. FindInFilesDialog..Panel1..gbxWhere..Caption
 #: dlgFindInFiles.dfm
