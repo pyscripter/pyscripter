@@ -1797,7 +1797,7 @@ msgstr "Satır sayılar"
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
 msgid "Print line numbers in margin"
-msgstr "Print satır sayılar in marj"
+msgstr "Yazdır satır sayılar in marj"
 
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
@@ -1875,7 +1875,7 @@ msgstr "Altı çizili"
 #. PrintPreviewDlg..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Print Preview"
-msgstr "Print Preview"
+msgstr "Yazdır Preview"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Caption
 #: dlgSynPrintPreview.dfm
@@ -1985,12 +1985,12 @@ msgstr "Zoom|Zoom In/Out"
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmLLMChat.dfm frmWebPreview.dfm
 #: dlgSynPrintPreview.pas
 msgid "Print"
-msgstr "Print"
+msgstr "Yazdır"
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Print|Print the document"
-msgstr "Print|Print the belge"
+msgstr "Yazdır|Yazdır the belge"
 
 #. PrintPreviewDlg..ActionList..CloseCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2000,7 +2000,7 @@ msgstr "Close"
 #. PrintPreviewDlg..ActionList..CloseCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Close|Close Print Preview"
-msgstr "Close|Close Print Preview"
+msgstr "Close|Close Yazdır Preview"
 
 #. ToDoOptionsDlg..Caption
 #: dlgToDoOptions.dfm
@@ -2559,12 +2559,12 @@ msgstr "Kaydet hepsi|Kaydet proje and hepsi aç dosyalar"
 #. FindResultsWindow..Actions..actFilePrint..Caption
 #: dmCommands.dfm frmFindResults.dfm
 msgid "&Print..."
-msgstr "&Print..."
+msgstr "&Yazdır..."
 
 #. CommandsDataModule..actlMain..actFilePrint..Hint
 #: dmCommands.dfm
 msgid "Print|Print active file"
-msgstr "Print|Print aktif dosya"
+msgstr "Yazdır|Yazdır aktif dosya"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
@@ -2579,12 +2579,12 @@ msgstr "Printer düzen"
 #. CommandsDataModule..actlMain..actPrintPreview..Caption
 #: dmCommands.dfm
 msgid "Print Pre&view"
-msgstr "Print Pre&view"
+msgstr "Yazdır Pre&view"
 
 #. CommandsDataModule..actlMain..actPrintPreview..Hint
 #: dmCommands.dfm
 msgid "Print preview"
-msgstr "Print preview"
+msgstr "Yazdır preview"
 
 #. CommandsDataModule..actlMain..actPageSetup..Caption
 #: dmCommands.dfm
@@ -4089,7 +4089,7 @@ msgstr "Abort arama"
 #. FindResultsWindow..Actions..actFilePrint..Hint
 #: frmFindResults.dfm
 msgid "Print results..."
-msgstr "Print sonuçlar..."
+msgstr "Yazdır sonuçlar..."
 
 #. FindResultsWindow..Actions..actListGotoSelected..Caption
 #: frmFindResults.dfm
@@ -4345,7 +4345,7 @@ msgstr "İptal aktif request"
 #. LLMChatForm..ChatActionList..actPrint..Hint
 #: frmLLMChat.dfm
 msgid "Print chat topic"
-msgstr "Print chat topic"
+msgstr "Yazdır chat topic"
 
 #. MessagesWindow..Caption
 #: frmMessages.dfm
@@ -5888,12 +5888,12 @@ msgstr "Goto source satır"
 #. ToDoWindow..Actions..actFilePrint..Caption
 #: frmToDo.dfm
 msgid "&Print"
-msgstr "&Print"
+msgstr "&Yazdır"
 
 #. ToDoWindow..Actions..actFilePrint..Hint
 #: frmToDo.dfm
 msgid "Print to do items"
-msgstr "Print to do öğeler"
+msgstr "Yazdır to do öğeler"
 
 #. ToDoWindow..Actions..actOptionsConfigure..Caption
 #: frmToDo.dfm
@@ -6405,7 +6405,7 @@ msgstr "Seçin working dizin:"
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
 msgid "Print the document on"
-msgstr "Print the belge on"
+msgstr "Yazdır the belge on"
 
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
