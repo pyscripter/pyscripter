@@ -6749,7 +6749,7 @@ msgstr "Special packages"
 
 #: dmCommands.pas
 msgid "Dictionary language code"
-msgstr "Dictionary language code"
+msgstr "Dictionary dil code"
 
 #: dmCommands.pas
 msgid "Spell check as you type"
@@ -8548,9 +8548,9 @@ msgid ""
 "You can get spell checking dictionaries through the Windows language settings.\n"
 "You can change the active language through the IDE options dialog."
 msgstr ""
-"The dictionary for language code \"%s\" is not mevcut.\n"
-"You can get spell checking dictionaries through the Windows language settings.\n"
-"You can change the active language through the IDE seçenekler dialog."
+"The dictionary for dil code \"%s\" is not mevcut.\n"
+"You can get spell checking dictionaries through the Windows dil settings.\n"
+"You can change the active dil through the IDE seçenekler dialog."
 
 #. Programmer's name for it: SPickleFailed
 #: StringResources.pas
