@@ -1208,8 +1208,8 @@ msgid ""
 "Will indent the caret on new lines with the same amount of leading white "
 "space as the preceding line"
 msgstr ""
-"Will indent the caret on yeni satırlar onunla the same amount of leading "
-"white space as the preceding line"
+"Önceki satırdakiyle aynı miktarda öndeki boşluk bırakılarak yeni satırdaki "
+"imleç girintili hale getirilir"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
