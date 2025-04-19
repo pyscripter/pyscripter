@@ -5321,7 +5321,7 @@ msgstr "Decrease the yazı tipi size of the editör"
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor Vertically"
-msgstr "Split Editör Vertically"
+msgstr "Split Editör Dikey"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Hint
 #: frmPyIDEMain.dfm
@@ -5577,7 +5577,7 @@ msgstr "Etkinleştir the Proje Gezgin window"
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Vertically"
-msgstr "Split Workspace Vertically"
+msgstr "Split Workspace Dikey"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
