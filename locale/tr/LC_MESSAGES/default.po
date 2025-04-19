@@ -1467,7 +1467,7 @@ msgstr "Göster special chars"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enable wrapping of long lines"
-msgstr "Enable wrapping of long satırlar"
+msgstr "Uzun satırların kırpılmasını etkinleştir"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
