@@ -1699,7 +1699,7 @@ msgstr "Gölge renk"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line under"
-msgstr "Satır under"
+msgstr "Alt satır"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderBox..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterBox..Caption
