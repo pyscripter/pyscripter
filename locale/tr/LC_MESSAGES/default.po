@@ -6801,7 +6801,7 @@ msgstr "Saved renk"
 
 #: dmCommands.pas
 msgid "Saved and modified color"
-msgstr "Saved and modified renk"
+msgstr "Saved and değiştirilmiş renk"
 
 #: dmCommands.pas
 msgid "Configure Tools"
@@ -8115,7 +8115,7 @@ msgid ""
 "The template has been modified.\n"
 "Do you want to update it with the new definition?"
 msgstr ""
-"The template has been modified.\n"
+"The template has been değiştirilmiş.\n"
 "Do you want to update it onunla the yeni definition?"
 
 #. Programmer's name for it: SInvalidNumber
@@ -8427,7 +8427,7 @@ msgstr ""
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
 msgid "Save modified files"
-msgstr "Save modified dosyalar"
+msgstr "Save değiştirilmiş dosyalar"
 
 #. Programmer's name for it: SSelectModifiedFiles
 #: StringResources.pas
@@ -8436,7 +8436,7 @@ msgid ""
 "Press 'OK' to save selected files and exit.\n"
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
-"The following dosyalar have been modified.\n"
+"The following dosyalar have been değiştirilmiş.\n"
 "Basın 'TAMAM' to save seçili dosyalar and exit.\n"
 "Basın 'İptal' to return to PyScripter without saving dosyalar."
 
