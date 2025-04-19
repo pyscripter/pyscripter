@@ -2096,7 +2096,7 @@ msgstr "&Ortam"
 #. ToolProperties..Panel1..TabControl..tabEnvironment..cbUseCustomEnv..Caption
 #: dlgToolProperties.dfm
 msgid "Use Customized Environment"
-msgstr "Kullan Customized Ortam"
+msgstr "Özelleştirilmiş Ortamı Kullan"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox1..Label17..Caption
 #: dlgToolProperties.dfm
