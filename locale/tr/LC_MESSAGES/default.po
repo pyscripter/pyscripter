@@ -3945,7 +3945,7 @@ msgstr "My &Computer"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..MyDocuments..Caption
 #: frmFileExplorer.dfm
 msgid "My &Documents"
-msgstr "My &Documents"
+msgstr "My &Belgeler"
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..CurrentDirectory..Caption
 #: frmFileExplorer.dfm
