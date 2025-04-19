@@ -6736,7 +6736,7 @@ msgstr "Language Sunucu"
 
 #: dmCommands.pas
 msgid "Language server debug output"
-msgstr "Language server debug output"
+msgstr "Language sunucu debug output"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
@@ -8095,7 +8095,7 @@ msgid ""
 "Could not connect to the remote Python engine server. The remote interpreter"
 " and debugger is not available."
 msgstr ""
-"Could not connect to the remote Python engine server. The remote interpreter"
+"Could not connect to the remote Python engine sunucu. The remote interpreter"
 " and debugger is not available."
 
 #. Programmer's name for it: SRemoteInterpreterInit
@@ -9082,7 +9082,7 @@ msgstr "Dosya Yol cannot be empty"
 #. Programmer's name for it: SErrorEmptySSH
 #: StringResources.pas
 msgid "The SSH server name cannot be empty"
-msgstr "The SSH server name cannot be empty"
+msgstr "The SSH sunucu name cannot be empty"
 
 #. Programmer's name for it: SScpError4
 #: StringResources.pas
@@ -9115,19 +9115,19 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server \"%s\""
-msgstr "Unknown SSH server \"%s\""
+msgstr "Unknown SSH sunucu \"%s\""
 
 #. Programmer's name for it: SSHUnknownServerQuery
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
-msgstr "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
+msgstr "Unknown SSH sunucu with fingerprint \"%s\". Do you want to proceed?"
 
 #. Programmer's name for it: SSHPythonTimeout
 #: StringResources.pas
 #, object-pascal-format
 msgid "Execution of Python (\"%s\") on the SSH server timed out"
-msgstr "Execution of Python (\"%s\") on the SSH server timed out"
+msgstr "Execution of Python (\"%s\") on the SSH sunucu timed out"
 
 #. Programmer's name for it: SSHPythonError
 #: StringResources.pas
@@ -9138,7 +9138,7 @@ msgid ""
 "Output: %s\n"
 "ErrorOutput: %s"
 msgstr ""
-"Failed to execute Python (\"%s\") on the SSH server:\n"
+"Failed to execute Python (\"%s\") on the SSH sunucu:\n"
 "ReturnCode: %d\n"
 "Output: %s\n"
 "ErrorOutput: %s"
@@ -9151,7 +9151,7 @@ msgid ""
 "server please switch to Python version %1:s."
 msgstr ""
 "Local Python versiyon is %s and remote Python versiyon is %s. To use this "
-"SSH server please switch to Python versiyon %1:s."
+"SSH sunucu please switch to Python versiyon %1:s."
 
 #. Missing action categories
 #. Programmer's name for it: SActionCategoryFile
