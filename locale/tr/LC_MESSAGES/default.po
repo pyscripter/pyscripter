@@ -870,7 +870,7 @@ msgstr "Göster seçili Python versiyon in Gezgin"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
 msgid "Shell"
-msgstr "Shell"
+msgstr "Kabuk"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
@@ -6703,7 +6703,7 @@ msgstr "Auto-complete with one entry"
 
 #: dmCommands.pas
 msgid "Shell Integration"
-msgstr "Shell Integration"
+msgstr "Kabuk Integration"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
