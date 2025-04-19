@@ -682,12 +682,12 @@ msgstr "Bul in Dosyalar Seçenekler"
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
-msgstr "Eşleştirme Sonuçlar List"
+msgstr "Eşleştirme Sonuçlar Liste"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
-msgstr "Eşleştirme List Font..."
+msgstr "Eşleştirme Liste Font..."
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepMiddle..Caption
 #: dlgFindResultsOptions.dfm
@@ -4186,7 +4186,7 @@ msgstr "Değiştir hepsi items..."
 #. FunctionListWindow..Caption
 #: frmFunctionList.dfm
 msgid "Function List"
-msgstr "Function List"
+msgstr "Function Liste"
 
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm
@@ -5472,13 +5472,13 @@ msgstr "Activate the Kod Explorer window"
 #. PyIDEMainForm..actlStandard..actNavTodo..Caption
 #: frmPyIDEMain.dfm
 msgid "&Todo List"
-msgstr "&Todo List"
+msgstr "&Todo Liste"
 
 #. PyIDEMainForm..actlStandard..actNavTodo..Hint
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Todo List window"
-msgstr "Activate the Todo List window"
+msgstr "Activate the Todo Liste window"
 
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
 #: frmPyIDEMain.dfm
@@ -5870,7 +5870,7 @@ msgstr "Close the form"
 #. ToDoWindow..Caption
 #: frmToDo.dfm
 msgid "To Do List"
-msgstr "To Do List"
+msgstr "To Do Liste"
 
 #. ToDoWindow..Actions..actFileRefresh..Hint
 #: frmToDo.dfm
@@ -7933,7 +7933,7 @@ msgstr "Invalid Düzenli İfade: %s"
 #. Programmer's name for it: SEmptyList
 #: StringResources.pas
 msgid "(Empty List)"
-msgstr "(Boş List)"
+msgstr "(Boş Liste)"
 
 #. Programmer's name for it: SCommandLineMsg
 #: StringResources.pas
