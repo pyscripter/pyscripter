@@ -481,7 +481,7 @@ msgstr "Çıkar kısayol"
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
 msgid "Directory list"
-msgstr "Directory list"
+msgstr "Dizin list"
 
 #. DirectoryListDialog..Panel1..Label1..Caption
 #: dlgDirectoryList.dfm
@@ -648,7 +648,7 @@ msgstr "Search in &directories"
 #. FindInFilesDialog..Panel1..gbxDirectories..Caption
 #: dlgFindInFiles.dfm
 msgid "Directory Search"
-msgstr "Directory Search"
+msgstr "Dizin Search"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..lblMasks..Caption
 #: dlgFindInFiles.dfm
@@ -722,12 +722,12 @@ msgstr "Match Font Color..."
 #. ImportDirectoryForm..Caption
 #: dlgImportDirectory.dfm
 msgid "Import Directory"
-msgstr "Import Directory"
+msgstr "Import Dizin"
 
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
 msgid "Directory to import:"
-msgstr "Directory to import:"
+msgstr "Dizin to import:"
 
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
@@ -982,7 +982,7 @@ msgstr "&Parametreler:"
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
 #: dlgRunConfiguration.dfm
 msgid "Working &Directory:"
-msgstr "Working &Directory:"
+msgstr "Working &Dizin:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonEngines..Caption
@@ -3948,7 +3948,7 @@ msgstr "My &Documents"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..CurrentDirectory..Caption
 #: frmFileExplorer.dfm
 msgid "Current Directory"
-msgstr "Current Directory"
+msgstr "Current Dizin"
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..ActiveScript..Caption
 #: frmFileExplorer.dfm
@@ -4038,7 +4038,7 @@ msgstr "Create yeni folder"
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
 msgid "Select Directory..."
-msgstr "Select Directory..."
+msgstr "Select Dizin..."
 
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
@@ -4534,7 +4534,7 @@ msgstr "Ekle the active editor file to the folder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
 msgid "&Import Directory..."
-msgstr "&Import Directory..."
+msgstr "&Import Dizin..."
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Hint
 #: frmProjectExplorer.dfm
@@ -6375,7 +6375,7 @@ msgstr "Hayır %s mail client is available"
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
-msgstr "Directory To Search:"
+msgstr "Dizin To Search:"
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
@@ -8778,7 +8778,7 @@ msgstr "Process \"%s\" terminated, ExitCode: %.8x"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Directory \"%s\" does not exists"
-msgstr "Directory \"%s\" does not exists"
+msgstr "Dizin \"%s\" does not exists"
 
 #. Programmer's name for it: SProcessRunning
 #: StringResources.pas
@@ -9291,7 +9291,7 @@ msgstr "Assistant is busy. Click to cancel."
 #. Python Paths etc.
 #: uParams.pas
 msgid "Directory of active Python version"
-msgstr "Directory of active Python version"
+msgstr "Dizin of active Python version"
 
 #: uParams.pas
 msgid "Executable of active Python"
