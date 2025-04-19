@@ -1767,7 +1767,7 @@ msgstr "Footer:"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr "Dahili Margin:"
+msgstr "Dahili Marj:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
