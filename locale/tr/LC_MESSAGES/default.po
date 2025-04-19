@@ -4546,7 +4546,7 @@ msgstr "İçe aktar a dizin into the seçili klasör"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
 #: frmProjectExplorer.dfm
 msgid "Add Run Configuration"
-msgstr "Ekle Çalıştır Configuration"
+msgstr "Ekle Çalıştır Yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Hint
 #: frmProjectExplorer.dfm
@@ -4556,7 +4556,7 @@ msgstr "Ekle çalıştır configuration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
 #: frmProjectExplorer.dfm
 msgid "&Edit Run Configuration"
-msgstr "&Edit Çalıştır Configuration"
+msgstr "&Edit Çalıştır Yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Hint
 #: frmProjectExplorer.dfm
