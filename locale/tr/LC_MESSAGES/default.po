@@ -6541,7 +6541,7 @@ msgstr "Step into aç dosyalar sadece"
 
 #: dmCommands.pas
 msgid "Mask FPU Exceptions"
-msgstr "Mask FPU Exceptions"
+msgstr "Maske FPU Exceptions"
 
 #: dmCommands.pas
 msgid "Initially expanded"
