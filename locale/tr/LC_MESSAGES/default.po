@@ -4506,7 +4506,7 @@ msgstr "Ekle a yeni subfolder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr "Çıkar a dosya, klasör or run configuration from the proje"
+msgstr "Çıkar a dosya, klasör or çalıştır configuration from the proje"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4551,7 +4551,7 @@ msgstr "Ekle Çalıştır Configuration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Hint
 #: frmProjectExplorer.dfm
 msgid "Add run configuration"
-msgstr "Ekle run configuration"
+msgstr "Ekle çalıştır configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -4561,7 +4561,7 @@ msgstr "&Edit Çalıştır Configuration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Hint
 #: frmProjectExplorer.dfm
 msgid "Edit run configuration"
-msgstr "Edit run configuration"
+msgstr "Edit çalıştır configuration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Hint
 #: frmProjectExplorer.dfm
@@ -6491,11 +6491,11 @@ msgstr "User Interface content yazı tipi size in points"
 
 #: dmCommands.pas
 msgid "Save files before run"
-msgstr "Save dosyalar before run"
+msgstr "Save dosyalar before çalıştır"
 
 #: dmCommands.pas
 msgid "Save environment before run"
-msgstr "Save environment before run"
+msgstr "Save environment before çalıştır"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
@@ -6507,7 +6507,7 @@ msgstr "Pretty print output"
 
 #: dmCommands.pas
 msgid "Clear output before run"
-msgstr "Clear output before run"
+msgstr "Clear output before çalıştır"
 
 #: dmCommands.pas
 msgid "Post-mortem on exception"
@@ -6523,7 +6523,7 @@ msgstr "Save interpreter history"
 
 #: dmCommands.pas
 msgid "Reinitialize before run"
-msgstr "Reinitialize before run"
+msgstr "Reinitialize before çalıştır"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
@@ -8052,8 +8052,8 @@ msgid ""
 "You cannot compile, import or run modules while debugging or running "
 "programs"
 msgstr ""
-"You cannot compile, içe aktar or run modules while debugging or running "
-"programs"
+"You cannot compile, içe aktar or çalıştır modules while debugging or running"
+" programs"
 
 #. Programmer's name for it: SErrorInImportingModule
 #: StringResources.pas
@@ -8280,7 +8280,7 @@ msgstr ""
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
 msgid "Script run OK"
-msgstr "Script run TAMAM"
+msgstr "Script çalıştır TAMAM"
 
 #. Programmer's name for it: SDebuggingAborted
 #: StringResources.pas
@@ -8353,7 +8353,7 @@ msgstr "Aç Dosya"
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
 msgid "Select Python script to run"
-msgstr "Seçin Python script to run"
+msgstr "Seçin Python script to çalıştır"
 
 #. Programmer's name for it: SSelectOutputFile
 #: StringResources.pas
@@ -9475,7 +9475,7 @@ msgstr "Active document name"
 
 #: uParams.pas
 msgid "The name or last run script"
-msgstr "The name or last run script"
+msgstr "The name or last çalıştır script"
 
 #: uParams.pas
 msgid "Project file name"
