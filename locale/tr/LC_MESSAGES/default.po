@@ -932,7 +932,7 @@ msgstr "&Onunla"
 #. ReplaceInFilesDialog..Panel1..lblIn..Caption
 #: dlgReplaceInFiles.dfm
 msgid "In"
-msgstr "In"
+msgstr "İçinde"
 
 #. ReplaceInFilesDialog..Panel1..lblReplace..Caption
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Caption
