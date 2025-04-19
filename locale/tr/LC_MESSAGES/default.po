@@ -379,7 +379,7 @@ msgstr "(Boş Geçmiş)"
 #. ConfirmReplaceDialog..Caption
 #: dlgConfirmReplace.dfm
 msgid "Confirm replace"
-msgstr "Confirm replace"
+msgstr "Doğrula replace"
 
 #. ConfirmReplaceDialog..Panel1..btnReplace..Caption
 #. Programmer's name for it: SDlgYes
@@ -7823,7 +7823,7 @@ msgstr "Information"
 #. Programmer's name for it: SDlgConfirm
 #: StringResources.pas
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Doğrula"
 
 #. Programmer's name for it: SDlgOK
 #: StringResources.pas
