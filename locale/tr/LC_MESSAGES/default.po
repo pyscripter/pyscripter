@@ -1752,7 +1752,7 @@ msgstr "Alt:"
 #. PageSetupDlg..TabControl..tbMargins..Label5..Caption
 #: dlgSynPageSetup.dfm
 msgid "Units:"
-msgstr "Units:"
+msgstr "Birimler:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label6..Caption
 #: dlgSynPageSetup.dfm
