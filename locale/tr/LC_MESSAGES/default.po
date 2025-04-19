@@ -1875,7 +1875,7 @@ msgstr "Altı çizili"
 #. PrintPreviewDlg..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Print Preview"
-msgstr "Yazdır Preview"
+msgstr "Baskı Önizleme"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Caption
 #: dlgSynPrintPreview.dfm
