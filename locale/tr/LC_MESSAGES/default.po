@@ -1576,7 +1576,7 @@ msgstr "Kullan Oluk Yazı tipi"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
 msgid "Gutter gradient visible"
-msgstr "Oluk gradient visible"
+msgstr "Oluk gradient görünür"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
 #: dlgSynEditOptions.dfm
@@ -1604,7 +1604,7 @@ msgstr "Bookmark keys"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmarks visible"
-msgstr "Bookmarks visible"
+msgstr "Bookmarks görünür"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
 #: dlgSynEditOptions.dfm
