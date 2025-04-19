@@ -1846,7 +1846,7 @@ msgstr "Zaman"
 #. PageSetupDlg..ActionList1..DateCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Date"
-msgstr "Date"
+msgstr "Tarih"
 
 #. PageSetupDlg..ActionList1..TitleCmd..Caption
 #. PageSetupDlg..ActionList1..TitleCmd..Hint
@@ -9443,7 +9443,7 @@ msgstr "Seçin dosya"
 
 #: uParams.pas
 msgid "Date of a date-time value"
-msgstr "Date of a date-zaman değer"
+msgstr "Tarih of a date-zaman değer"
 
 #: uParams.pas
 msgid "Time of a date-time value"
@@ -9451,7 +9451,7 @@ msgstr "Zaman of a date-zaman değer"
 
 #: uParams.pas
 msgid "Date of a file"
-msgstr "Date of a dosya"
+msgstr "Tarih of a dosya"
 
 #: uParams.pas
 msgid "Creation date of a file"
