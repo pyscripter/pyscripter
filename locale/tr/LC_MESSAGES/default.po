@@ -1622,7 +1622,7 @@ msgstr "Extra line spacing (pixels):"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tab Width:"
-msgstr "Sekme tuşu Width:"
+msgstr "Sekme tuşu Genişlik:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
@@ -1888,12 +1888,12 @@ msgstr "Göster whole page"
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Page width"
-msgstr "Page width"
+msgstr "Page genişlik"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Fit page width into window"
-msgstr "Fit page width into window"
+msgstr "Fit page genişlik into window"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi25..Hint
 #: dlgSynPrintPreview.dfm
@@ -6454,7 +6454,7 @@ msgstr "Dock animation interval (ms)"
 
 #: dmCommands.pas
 msgid "Dock animation move width (pixels)"
-msgstr "Dock animation hareket width (pixels)"
+msgstr "Dock animation hareket genişlik (pixels)"
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
