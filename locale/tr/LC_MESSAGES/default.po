@@ -1554,7 +1554,7 @@ msgstr "Göster satır sayılar"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show leading zeros"
-msgstr "Göster leading zeros"
+msgstr "Öndeki sıfırları göster"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
 #: dlgSynEditOptions.dfm
