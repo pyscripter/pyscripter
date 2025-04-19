@@ -2443,7 +2443,7 @@ msgstr "&Yapıştır"
 #. CommandsDataModule..actlMain..actEditPaste..Hint
 #: dmCommands.dfm
 msgid "Paste|Inserts Clipboard contents"
-msgstr "Yapıştır|Inserts Pano contents"
+msgstr "Yapıştır|Panoya içerikleri ekler"
 
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #: dmCommands.dfm
