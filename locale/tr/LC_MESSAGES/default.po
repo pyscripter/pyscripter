@@ -2351,7 +2351,7 @@ msgstr "Seçin the functions ve methods için which tests will be generated:"
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
 msgid "This wizard will generate unit tests for the Python module"
-msgstr "This wizard will generate birim tests için the Python module"
+msgstr "This sihirbazı will generate birim tests için the Python module"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Caption
 #. Programmer's name for it: SEdCmdSelectAll
@@ -2949,7 +2949,7 @@ msgstr "Birim Test &Sihirbazı..."
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
-msgstr "Birim test wizard|Yarat birim test için aktif module"
+msgstr "Birim test sihirbazı|Yarat birim test için aktif module"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
