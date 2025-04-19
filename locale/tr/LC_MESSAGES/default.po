@@ -8941,7 +8941,7 @@ msgstr "Could not bul scope for the given line"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Type of \"%s\" is unknown"
-msgstr "Type of \"%s\" is unknown"
+msgstr "Type of \"%s\" is bilinmeyen"
 
 #. Programmer's name for it: SCyclicImports
 #: StringResources.pas
