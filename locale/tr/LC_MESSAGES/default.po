@@ -541,7 +541,7 @@ msgstr "&Gönder"
 #. ExceptionDialogMail..DetailsBtn..Hint
 #: dlgExceptionMail.dfm
 msgid "Show or hide additional information|"
-msgstr "Göster or gizle additional information|"
+msgstr "Göster or gizle ilave information|"
 
 #. ExceptionDialogMail..DetailsBtn..Caption
 #: dlgExceptionMail.dfm
