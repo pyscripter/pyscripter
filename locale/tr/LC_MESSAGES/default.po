@@ -1516,17 +1516,17 @@ msgstr "Blok"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
-msgstr "Sağ Edge"
+msgstr "Sağ Kenar"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge color:"
-msgstr "Edge renk:"
+msgstr "Kenar renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge Column:"
-msgstr "Edge Sütun:"
+msgstr "Kenar Sütun:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
 #: dlgSynEditOptions.dfm
