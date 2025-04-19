@@ -396,7 +396,7 @@ msgstr "&Hayır"
 #. ConfirmReplaceDialog..Panel1..btnReplaceAll..Caption
 #: dlgConfirmReplace.dfm
 msgid "Yes to &all"
-msgstr "Evet to &all"
+msgstr "Evet to &hepsi"
 
 #. CustomizeParams..Caption
 #: dlgCustomParams.dfm
@@ -697,7 +697,7 @@ msgstr "Jump to matches in the &middle of the editor"
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..chkGrepExpandAll..Caption
 #: dlgFindResultsOptions.dfm
 msgid "&Expand all matches after searching"
-msgstr "&Expand all matches after searching"
+msgstr "&Expand hepsi matches after searching"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
@@ -796,12 +796,12 @@ msgstr "&Deselect All"
 #. PickListDialog..PickListPopUp..mnSelectAll..Hint
 #: dlgPickList.dfm
 msgid "Select all items"
-msgstr "Select all items"
+msgstr "Select hepsi items"
 
 #. PickListDialog..PickListPopUp..mnDeselectAll..Hint
 #: dlgPickList.dfm
 msgid "Deselect all items"
-msgstr "Deselect all items"
+msgstr "Deselect hepsi items"
 
 #. PythonVersionsDialog..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
@@ -1256,8 +1256,8 @@ msgid ""
 "When undoing/redoing actions, handle all continuous changes of the same kind"
 " in one call instead undoing/redoing each command separately"
 msgstr ""
-"When undoing/redoing actions, handle all continuous changes of the same kind"
-" in one call instead undoing/redoing each command separately"
+"When undoing/redoing actions, handle hepsi continuous changes of the same "
+"kind in one call instead undoing/redoing each command separately"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
@@ -1630,7 +1630,7 @@ msgstr "Active Satır Color"
 #. EditorOptionsDialog..Panel1..cbApplyToAll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply to all editors"
-msgstr "Apply to all editors"
+msgstr "Apply to hepsi editors"
 
 #. PageSetupDlg..Caption
 #: dlgSynPageSetup.dfm
@@ -2365,7 +2365,7 @@ msgstr "Select All"
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Select all nodes"
-msgstr "Select all nodes"
+msgstr "Select hepsi nodes"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Caption
 #: dlgUnitTestWizard.dfm
@@ -2375,7 +2375,7 @@ msgstr "Deselect All"
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Deselect all nodes"
-msgstr "Deselect all nodes"
+msgstr "Deselect hepsi nodes"
 
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
@@ -2549,7 +2549,7 @@ msgstr "Save &All"
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "Save all|Save project and all open files"
+msgstr "Save hepsi|Save project and hepsi open files"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -3118,7 +3118,7 @@ msgstr "Close All &Other"
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #: dmCommands.dfm
 msgid "Close all files except the active one"
-msgstr "Close all files except the active one"
+msgstr "Close hepsi files except the active one"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
@@ -3128,7 +3128,7 @@ msgstr "Close All to the &Right"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr "Close all files to the right"
+msgstr "Close hepsi files to the right"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3169,12 +3169,12 @@ msgstr "All"
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
 msgid "Fold all"
-msgstr "Fold all"
+msgstr "Fold hepsi"
 
 #. CommandsDataModule..actlMain..actUnfoldAll..Hint
 #: dmCommands.dfm
 msgid "Unfold all"
-msgstr "Unfold all"
+msgstr "Unfold hepsi"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Caption
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
@@ -3656,7 +3656,7 @@ msgstr "&Expand All"
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Expand all nodes"
-msgstr "Expand all nodes"
+msgstr "Expand hepsi nodes"
 
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Caption
@@ -3668,7 +3668,7 @@ msgstr "&Collapse All"
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Collapse all nodes"
-msgstr "Collapse all nodes"
+msgstr "Collapse hepsi nodes"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Caption
 #: frmCodeExplorer.dfm
@@ -4105,7 +4105,7 @@ msgstr "&Contract"
 #. FindResultsWindow..Actions..actListContract..Hint
 #: frmFindResults.dfm
 msgid "Contract all"
-msgstr "Contract all"
+msgstr "Contract hepsi"
 
 #. FindResultsWindow..Actions..actListExpand..Caption
 #: frmFindResults.dfm
@@ -4115,7 +4115,7 @@ msgstr "&Expand"
 #. FindResultsWindow..Actions..actListExpand..Hint
 #: frmFindResults.dfm
 msgid "Expand all"
-msgstr "Expand all"
+msgstr "Expand hepsi"
 
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
@@ -4181,7 +4181,7 @@ msgstr "Replace All Items..."
 #. FindResultsWindow..Actions..actReplaceAll..Hint
 #: frmFindResults.dfm
 msgid "Replace all items..."
-msgstr "Replace all items..."
+msgstr "Replace hepsi items..."
 
 #. FunctionListWindow..Caption
 #: frmFunctionList.dfm
@@ -4374,12 +4374,12 @@ msgstr "Show previous messages"
 #. WatchesWindow..TBXPopupMenu..mnClearall..Caption
 #: frmMessages.dfm frmWatches.dfm
 msgid "&Clear all"
-msgstr "&Clear all"
+msgstr "&Clear hepsi"
 
 #. MessagesWindow..MsgsActionList..actClearAll..Hint
 #: frmMessages.dfm
 msgid "Clear all messages"
-msgstr "Clear all messages"
+msgstr "Clear hepsi messages"
 
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Caption
 #: frmMessages.dfm
@@ -4474,12 +4474,12 @@ msgstr "Extra Python &Path..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Expand all project nodes"
-msgstr "Expand all project nodes"
+msgstr "Expand hepsi project nodes"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Collapse all project nodes"
-msgstr "Collapse all project nodes"
+msgstr "Collapse hepsi project nodes"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Caption
 #: frmProjectExplorer.dfm
@@ -5068,7 +5068,7 @@ msgstr "Close A&ll"
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Hint
 #: frmPyIDEMain.dfm
 msgid "Close all files"
-msgstr "Close all files"
+msgstr "Close hepsi files"
 
 #. PyIDEMainForm..actlStandard..actFileExit..Caption
 #: frmPyIDEMain.dfm
@@ -5232,7 +5232,7 @@ msgstr "Clear A&ll Breakpoints"
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
 msgid "Clear all breakpoints"
-msgstr "Clear all breakpoints"
+msgstr "Clear hepsi breakpoints"
 
 #. PyIDEMainForm..actlStandard..actNavFindResults..Caption
 #: frmPyIDEMain.dfm
@@ -5690,7 +5690,7 @@ msgstr "Clear &All"
 #. PythonIIForm..InterpreterActionList..actClearContents..Hint
 #: frmPythonII.dfm
 msgid "Clear all interpreter output"
-msgstr "Clear all interpreter output"
+msgstr "Clear hepsi interpreter output"
 
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Caption
 #: frmPythonII.dfm
@@ -5720,7 +5720,7 @@ msgstr "Regular Expressions"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TiClear..Hint
 #: frmRegExpTester.dfm
 msgid "Clear all fields"
-msgstr "Clear all fields"
+msgstr "Clear hepsi fields"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_DOTALL..Hint
 #: frmRegExpTester.dfm
@@ -5770,7 +5770,7 @@ msgstr "Performs re.search"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
 msgid "Find all"
-msgstr "Find all"
+msgstr "Find hepsi"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
@@ -5905,7 +5905,7 @@ msgstr "&Copy All"
 #. ToDoWindow..Actions..actEditCopy..Hint
 #: frmToDo.dfm
 msgid "Copy all"
-msgstr "Copy all"
+msgstr "Copy hepsi"
 
 #. ToDoWindow..Actions..actFileAbort..Hint
 #: frmToDo.dfm
@@ -5965,12 +5965,12 @@ msgstr "Stop Testing"
 #. UnitTestWindow..DialogActions..actSelectAll..Hint
 #: frmUnitTests.dfm
 msgid "Select all tests"
-msgstr "Select all tests"
+msgstr "Select hepsi tests"
 
 #. UnitTestWindow..DialogActions..actDeselectAll..Hint
 #: frmUnitTests.dfm
 msgid "Deselect all tests"
-msgstr "Deselect all tests"
+msgstr "Deselect hepsi tests"
 
 #. UnitTestWindow..DialogActions..actSelectFailed..Caption
 #: frmUnitTests.dfm
@@ -5980,7 +5980,7 @@ msgstr "Select Fai&led"
 #. UnitTestWindow..DialogActions..actSelectFailed..Hint
 #: frmUnitTests.dfm
 msgid "Select all failed tests"
-msgstr "Select all failed tests"
+msgstr "Select hepsi failed tests"
 
 #. UnitTestWindow..DialogActions..actExpandAll..Caption
 #: frmUnitTests.dfm
@@ -5990,12 +5990,12 @@ msgstr "Ex&pand All"
 #. UnitTestWindow..DialogActions..actExpandAll..Hint
 #: frmUnitTests.dfm
 msgid "Expand all test nodes"
-msgstr "Expand all test nodes"
+msgstr "Expand hepsi test nodes"
 
 #. UnitTestWindow..DialogActions..actCollapseAll..Hint
 #: frmUnitTests.dfm
 msgid "Collapse all test nodes"
-msgstr "Collapse all test nodes"
+msgstr "Collapse hepsi test nodes"
 
 #. UnitTestWindow..DialogActions..actClearAll..Caption
 #: frmUnitTests.dfm
@@ -6005,7 +6005,7 @@ msgstr "&Clear All"
 #. UnitTestWindow..DialogActions..actClearAll..Hint
 #: frmUnitTests.dfm
 msgid "Clear all tests"
-msgstr "Clear all tests"
+msgstr "Clear hepsi tests"
 
 #. VariablesWindow..Caption
 #: frmVariables.dfm
@@ -6042,7 +6042,7 @@ msgstr "&Edit Watch"
 #. WatchesWindow..TBXPopupMenu..mnClearall..Hint
 #: frmWatches.dfm
 msgid "Clear all watches"
-msgstr "Clear all watches"
+msgstr "Clear hepsi watches"
 
 #. WebPreviewForm..Caption
 #: frmWebPreview.dfm
@@ -8273,7 +8273,7 @@ msgid ""
 msgstr ""
 "The following files have been changed on disk. Select the files that you "
 "wish to reload and press the TAMAM button. Please note that you will lose "
-"all changes to these files."
+"hepsi changes to these files."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -8836,7 +8836,7 @@ msgid ""
 "Reloading the file will result in the loss of all changes.\n"
 "Do you want to proceed?"
 msgstr ""
-"Reloading the file will result in the loss of all changes.\n"
+"Reloading the file will result in the loss of hepsi changes.\n"
 "Do you want to proceed?"
 
 #. Programmer's name for it: SFileAlreadyOpen
