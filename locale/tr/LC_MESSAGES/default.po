@@ -1566,7 +1566,7 @@ msgstr "Görünür"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
 msgid "Start at zero"
-msgstr "Start at zero"
+msgstr "Sıfırdan başla"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
 #: dlgSynEditOptions.dfm
