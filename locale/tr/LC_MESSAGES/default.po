@@ -1233,7 +1233,7 @@ msgstr "Sürükle ve bırak düzenleme"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enhances end key similar to JDeveloper"
-msgstr "Enhances son tuş benzer to JDeveloper"
+msgstr "Geliştirmeler son tuş benzer to JDeveloper"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
