@@ -526,7 +526,7 @@ msgstr "Gir dosya yol buraya"
 #. ExceptionDialogMail..TextMemo..Hint
 #: dlgExceptionMail.dfm
 msgid "Use Ctrl+C to copy the report to the clipboard"
-msgstr "Kullan Ctrl+C to kopya the rapor to the clipboard"
+msgstr "Kullan Ctrl+C to kopya the rapor to the pano"
 
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
@@ -3138,7 +3138,7 @@ msgstr "Copy Dosya Ad"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr "Copy dosya name of active dosya to clipboard"
+msgstr "Copy dosya name of active dosya to pano"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3604,7 +3604,7 @@ msgstr "Co&py to Clipboard"
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Hint
 #: frmBreakPoints.dfm frmWatches.dfm
 msgid "Copy to clipboard"
-msgstr "Copy to clipboard"
+msgstr "Copy to pano"
 
 #. CallStackWindow..Caption
 #: frmCallStack.dfm
@@ -4140,7 +4140,7 @@ msgstr "Save results to dosya..."
 #. FindResultsWindow..Actions..actFileCopy..Hint
 #: frmFindResults.dfm
 msgid "Copy results to clipboard"
-msgstr "Copy results to clipboard"
+msgstr "Copy results to pano"
 
 #. FindResultsWindow..Actions..actViewToolBar..Caption
 #: frmFindResults.dfm
@@ -4214,7 +4214,7 @@ msgstr "&Edit"
 #. FunctionListWindow..Actions..actEditCopy..Hint
 #: frmFunctionList.dfm
 msgid "Copy procedures to clipboard"
-msgstr "Copy procedures to clipboard"
+msgstr "Copy procedures to pano"
 
 #. FunctionListWindow..Actions..actOptionsFont..Caption
 #: frmFunctionList.dfm
@@ -5710,7 +5710,7 @@ msgstr "Paste && E&xecute"
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
 msgid "Paste clipboard text with added interpreter prompts"
-msgstr "Paste clipboard text with added interpreter prompts"
+msgstr "Paste pano text with added interpreter prompts"
 
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
