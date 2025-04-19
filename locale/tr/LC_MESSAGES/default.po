@@ -2391,7 +2391,7 @@ msgstr "&Farklı kaydet"
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Kaydet As|Kaydet aktif dosya alt farklı ad"
+msgstr "Farklı Kaydet|Etkin dosyayı farklı bir ad altında kaydet"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. Programmer's name for it: SDlgClose
