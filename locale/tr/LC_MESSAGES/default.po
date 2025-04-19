@@ -6468,11 +6468,11 @@ msgstr "Style Main Window Border"
 
 #: dmCommands.pas
 msgid "Restore open files"
-msgstr "Restore open files"
+msgstr "Restore aç files"
 
 #: dmCommands.pas
 msgid "Restore open project"
-msgstr "Restore open project"
+msgstr "Restore aç project"
 
 #: dmCommands.pas
 msgid "Automatic restart"
@@ -6536,7 +6536,7 @@ msgstr "Always use sockets"
 
 #: dmCommands.pas
 msgid "Step into open files only"
-msgstr "Step into open files only"
+msgstr "Step into aç files only"
 
 #: dmCommands.pas
 msgid "Mask FPU Exceptions"
@@ -8208,7 +8208,7 @@ msgstr "Cannot change the Python engine while it is active."
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not open/create output file %s"
-msgstr "Could not open/create output dosya %s"
+msgstr "Could not aç/create output dosya %s"
 
 #. Programmer's name for it: SUnknownPythonVersion
 #: StringResources.pas
@@ -8845,7 +8845,7 @@ msgid ""
 "Another editor with the same file is open.\n"
 "You can not have two editors with the same file."
 msgstr ""
-"Another editor with the same dosya is open.\n"
+"Another editor with the same dosya is aç.\n"
 "You can not have two editors with the same dosya."
 
 #. Parameters
