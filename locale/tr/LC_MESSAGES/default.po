@@ -2229,7 +2229,7 @@ msgid ""
 msgstr ""
 "A grep ifade for parsing output lines.\n"
 "Kullan the button on the right to insert \n"
-"predefined grep expressions."
+"predefined grep ifadeler."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Hint
 #: dlgToolProperties.dfm
@@ -7992,7 +7992,7 @@ msgid ""
 "To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr ""
 "You are now in post-mortem analysis mode.\n"
-"You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
+"You can examine the Call Stack, Variables and Watches windows, evaluate ifadeler etc.\n"
 "To exit the post-mortem analysis select the 'Abort Debugging' command."
 
 #. Programmer's name for it: SFileEncodingWarning
