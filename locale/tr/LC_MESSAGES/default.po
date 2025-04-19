@@ -1238,7 +1238,7 @@ msgstr "Geliştirmeler son tuş benzer to JDeveloper"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
 msgid "Enhance End Key"
-msgstr "Geliştir End Key"
+msgstr "Geliştir End Tuş"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
@@ -1248,7 +1248,7 @@ msgstr "geliştirmeler home tuş positioning, benzer to visual studio"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
 #: dlgSynEditOptions.dfm
 msgid "Enhance Home Key"
-msgstr "Geliştir Home Key"
+msgstr "Geliştir Home Tuş"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckGroupUndo....Hint
 #: dlgSynEditOptions.dfm
@@ -7138,7 +7138,7 @@ msgstr "Illegal Char"
 #. Programmer's name for it: SyntaxElementFriendlyName_Key
 #: StringResources.pas
 msgid "Key"
-msgstr "Key"
+msgstr "Tuş"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_NonReservedKeyword
 #: StringResources.pas
