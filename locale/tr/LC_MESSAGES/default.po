@@ -1214,7 +1214,7 @@ msgstr ""
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
 msgid "Auto indent"
-msgstr "Auto indent"
+msgstr "Auto girinti"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing....Hint
 #: dlgSynEditOptions.dfm
@@ -6222,11 +6222,11 @@ msgstr "Sort the seçili editör block (\"one-liner\" demo)"
 
 #: cTools.pas
 msgid "&Re-indent"
-msgstr "&Re-indent"
+msgstr "&Re-girinti"
 
 #: cTools.pas
 msgid "Re-indent the active file"
-msgstr "Re-indent the active dosya"
+msgstr "Re-girinti the active dosya"
 
 #: dlgAboutPyScripter.pas
 msgid ""
