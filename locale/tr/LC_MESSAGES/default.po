@@ -943,7 +943,7 @@ msgstr "Değiştir"
 #. ReplaceInFilesDialog..Panel1..cbBackup..Caption
 #: dlgReplaceInFiles.dfm
 msgid "Backup Modified Files"
-msgstr "Backup Değiştirilmiş Dosyalar"
+msgstr "Yedekleme Değiştirilmiş Dosyalar"
 
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
