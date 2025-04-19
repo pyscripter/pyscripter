@@ -2412,7 +2412,7 @@ msgstr "Kapat|Kapat aktif dosya"
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
 #: dmCommands.dfm
 msgid "Edit"
-msgstr "Edit"
+msgstr "Düzenle"
 
 #. CommandsDataModule..actlMain..actEditCut..Caption
 #: dmCommands.dfm
@@ -3139,12 +3139,12 @@ msgstr "Copy dosya ad of aktif dosya pano"
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit &Startup Scripts"
-msgstr "Edit &Startup Scripts"
+msgstr "Düzenle &Startup Scripts"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
 msgid "Edit PyScripter initialization files"
-msgstr "Edit PyScripter initialization dosyalar"
+msgstr "Düzenle PyScripter initialization dosyalar"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
 #: dmCommands.dfm
@@ -3577,7 +3577,7 @@ msgstr "Breakpoint Özellikler..."
 #. EditorForm..pmnuBreakpoint..spiBreakpointProperties..Hint
 #: frmBreakPoints.dfm frmEditor.dfm frmBreakPoints.pas
 msgid "Edit breakpoint properties"
-msgstr "Edit breakpoint özellikler"
+msgstr "Düzenle breakpoint özellikler"
 
 #. BreakPointsWindow..TBXPopupMenu..mnClear..Caption
 #: frmBreakPoints.dfm
@@ -4205,7 +4205,7 @@ msgstr "&Objects"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Caption
 #: frmFunctionList.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
 msgid "&Edit"
-msgstr "&Edit"
+msgstr "&Düzenle"
 
 #. FunctionListWindow..Actions..actEditCopy..Hint
 #: frmFunctionList.dfm
@@ -4550,12 +4550,12 @@ msgstr "Ekle çalıştır yapılandırma"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
 #: frmProjectExplorer.dfm
 msgid "&Edit Run Configuration"
-msgstr "&Edit Çalıştır Yapılandırma"
+msgstr "&Düzenle Çalıştır Yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Hint
 #: frmProjectExplorer.dfm
 msgid "Edit run configuration"
-msgstr "Edit çalıştır yapılandırma"
+msgstr "Düzenle çalıştır yapılandırma"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Hint
 #: frmProjectExplorer.dfm
@@ -6032,7 +6032,7 @@ msgstr "&Çıkar Watch"
 #. WatchesWindow..TBXPopupMenu..mnEditWatch..Caption
 #: frmWatches.dfm
 msgid "&Edit Watch"
-msgstr "&Edit Watch"
+msgstr "&Düzenle Watch"
 
 #. WatchesWindow..TBXPopupMenu..mnClearall..Hint
 #: frmWatches.dfm
@@ -6126,7 +6126,7 @@ msgstr "Password Needed (PyTTY sadece)"
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
-msgstr "Edit SSH Sunucu"
+msgstr "Düzenle SSH Sunucu"
 
 #. Add a few standard tools to the collection
 #: cTools.pas
@@ -7009,7 +7009,7 @@ msgstr "Gir watch ifade:"
 
 #: frmWatches.pas
 msgid "Edit Watch"
-msgstr "Edit Watch"
+msgstr "Düzenle Watch"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
