@@ -1074,7 +1074,7 @@ msgstr "Mevcut Sitiller"
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
 msgid "Preview"
-msgstr "Preview"
+msgstr "Önizleme"
 
 #. StyleSelectorForm..ActionList..actApplyStyle..Caption
 #: dlgStyleSelector.dfm
@@ -2000,7 +2000,7 @@ msgstr "Kapat"
 #. PrintPreviewDlg..ActionList..CloseCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Close|Close Print Preview"
-msgstr "Kapat|Kapat Yazdır Preview"
+msgstr "Kapat|Kapat Yazdır Önizleme"
 
 #. ToDoOptionsDlg..Caption
 #: dlgToDoOptions.dfm
@@ -6050,7 +6050,7 @@ msgstr "Clear hepsi watches"
 #. WebPreviewForm..Caption
 #: frmWebPreview.dfm
 msgid "Web Preview"
-msgstr "Web Preview"
+msgstr "Web Önizleme"
 
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
@@ -8480,12 +8480,12 @@ msgstr "&Documentation"
 #. Programmer's name for it: SWebPreviewHint
 #: StringResources.pas
 msgid "Web Preview|Preview HTML in browser"
-msgstr "Web Preview|Preview HTML in browser"
+msgstr "Web Önizleme|Önizleme HTML in browser"
 
 #. Programmer's name for it: SWebPreview
 #: StringResources.pas
 msgid "&Web Preview"
-msgstr "&Web Preview"
+msgstr "&Web Önizleme"
 
 #. Programmer's name for it: SWebPreviewTab
 #: StringResources.pas
