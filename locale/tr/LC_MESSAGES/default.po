@@ -1108,7 +1108,7 @@ msgstr "Renk Tema"
 #. EditorOptionsDialog..Panel1..TabControl..Color..Caption
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
-msgstr "Sözdizimi Colors"
+msgstr "Sözdizimi Renkler"
 
 #. EditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
