@@ -1576,7 +1576,7 @@ msgstr "Kullan Oluk Yazı tipi"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
 msgid "Gutter gradient visible"
-msgstr "Oluk gradient görünür"
+msgstr "Oluk gradyan görünür"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
 #: dlgSynEditOptions.dfm
