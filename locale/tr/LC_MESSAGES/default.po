@@ -541,7 +541,7 @@ msgstr "&Gönder"
 #. ExceptionDialogMail..DetailsBtn..Hint
 #: dlgExceptionMail.dfm
 msgid "Show or hide additional information|"
-msgstr "Show or hide additional information|"
+msgstr "Göster or hide additional information|"
 
 #. ExceptionDialogMail..DetailsBtn..Caption
 #: dlgExceptionMail.dfm
@@ -860,12 +860,12 @@ msgstr "Test seçili Python version"
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
 msgid "Show"
-msgstr "Show"
+msgstr "Göster"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected Python version in Explorer"
-msgstr "Show seçili Python version in Explorer"
+msgstr "Göster seçili Python version in Explorer"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -897,7 +897,7 @@ msgstr "Yardım"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
-msgstr "Show Yardım"
+msgstr "Göster Yardım"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
 #: dlgPythonVersions.dfm
@@ -1377,9 +1377,9 @@ msgid ""
 "ScrollPastEOL, then it the horizontal bar will always be there (it uses "
 "MaxLength instead)"
 msgstr ""
-"if enabled, then the scrollbars will only show when necessary.  If you have "
-"ScrollPastEOL, then it the horizontal bar will always be there (it uses "
-"MaxLength instead)"
+"if enabled, then the scrollbars will only göster when necessary.  If you "
+"have ScrollPastEOL, then it the horizontal bar will always be there (it uses"
+" MaxLength instead)"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
 #: dlgSynEditOptions.dfm
@@ -1428,7 +1428,7 @@ msgstr "Shows a hint of the visible line numbers when scrolling vertically"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show scroll hint"
-msgstr "Show scroll hint"
+msgstr "Göster scroll hint"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Hint
 #: dlgSynEditOptions.dfm
@@ -1443,12 +1443,12 @@ msgstr "Scroll hint follows mouse"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
 msgid "Show ligatures (joined font glyphs) when supported by the used font"
-msgstr "Show ligatures (joined font glyphs) when supported by the used font"
+msgstr "Göster ligatures (joined font glyphs) when supported by the used font"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr "Show font ligatures"
+msgstr "Göster font ligatures"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
@@ -1458,7 +1458,7 @@ msgstr "Shows line breaks, spaces and tabs kullanarak special symbols"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show special chars"
-msgstr "Show special chars"
+msgstr "Göster special chars"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
@@ -1547,12 +1547,12 @@ msgstr "Autosize"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show line numbers"
-msgstr "Show line numbers"
+msgstr "Göster line numbers"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show leading zeros"
-msgstr "Show leading zeros"
+msgstr "Göster leading zeros"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
 #: dlgSynEditOptions.dfm
@@ -1881,7 +1881,7 @@ msgstr "Whole page"
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Show whole page"
-msgstr "Show whole page"
+msgstr "Göster whole page"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Caption
 #: dlgSynPrintPreview.dfm
@@ -2049,7 +2049,7 @@ msgstr "&Apply"
 #. ToDoOptionsDlg..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "&Show tokens in description"
-msgstr "&Show tokens in description"
+msgstr "&Göster tokens in description"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
@@ -2710,7 +2710,7 @@ msgstr "&Python Manuals"
 #. CommandsDataModule..actlMain..actPythonManuals..Hint
 #: dmCommands.dfm
 msgid "Show Python Manuals"
-msgstr "Show Python Manuals"
+msgstr "Göster Python Manuals"
 
 #. CommandsDataModule..actlMain..actAbout..Caption
 #: dmCommands.dfm
@@ -2867,7 +2867,7 @@ msgstr "Satır &Numbers"
 #. CommandsDataModule..actlMain..actEditLineNumbers..Hint
 #: dmCommands.dfm
 msgid "Show/Hide line numbers"
-msgstr "Show/Hide line numbers"
+msgstr "Göster/Hide line numbers"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Caption
 #: dmCommands.dfm
@@ -2877,7 +2877,7 @@ msgstr "Special &Characters"
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Hint
 #: dmCommands.dfm
 msgid "Show/Hide special characters"
-msgstr "Show/Hide special characters"
+msgstr "Göster/Hide special characters"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #: dmCommands.dfm
@@ -3158,7 +3158,7 @@ msgstr "Kod Folding"
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm
 msgid "Show/Hide Code Folding"
-msgstr "Show/Hide Kod Folding"
+msgstr "Göster/Hide Kod Folding"
 
 #. CommandsDataModule..actlMain..actFoldAll..Caption
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
@@ -3693,12 +3693,12 @@ msgstr "taşı selection to match the editor position"
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
 msgid "Show Selection"
-msgstr "Show Selection"
+msgstr "Göster Selection"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm
 msgid "Show selected node in editor"
-msgstr "Show seçili node in editor"
+msgstr "Göster seçili node in editor"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
@@ -3990,7 +3990,7 @@ msgstr "&Forward"
 #. FileExplorerWindow..FileExplorerActions..actGoUp..Hint
 #: frmFileExplorer.dfm
 msgid "Up|Show the parent folder"
-msgstr "Yukarı|Show the parent folder"
+msgstr "Yukarı|Göster the parent folder"
 
 #. FileExplorerWindow..FileExplorerActions..actRefresh..Caption
 #. FindResultsWindow..Actions..actFileRefresh..Caption
@@ -4013,7 +4013,7 @@ msgstr "Enable &Filter"
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Hint
 #: frmFileExplorer.dfm
 msgid "Enable Filter|Select to show only Python files"
-msgstr "Enable Filter|Select to show only Python files"
+msgstr "Enable Filter|Select to göster only Python files"
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
@@ -4120,7 +4120,7 @@ msgstr "Expand hepsi"
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
 msgid "Show Match Context"
-msgstr "Show Match Context"
+msgstr "Göster Match Context"
 
 #. FindResultsWindow..Actions..actViewShowContext..Hint
 #: frmFindResults.dfm
@@ -4301,7 +4301,7 @@ msgstr "Previous Chat Topic"
 #. LLMChatForm..ChatActionList..actChatPrevious..Hint
 #: frmLLMChat.dfm
 msgid "Show previous chat topic"
-msgstr "Show previous chat topic"
+msgstr "Göster previous chat topic"
 
 #. LLMChatForm..ChatActionList..actChatNext..Caption
 #: frmLLMChat.dfm
@@ -4311,7 +4311,7 @@ msgstr "Next Chat Topic"
 #. LLMChatForm..ChatActionList..actChatNext..Hint
 #: frmLLMChat.dfm
 msgid "Show next chat topic"
-msgstr "Show next chat topic"
+msgstr "Göster next chat topic"
 
 #. LLMChatForm..ChatActionList..actAskQuestion..Hint
 #: frmLLMChat.dfm
@@ -4362,13 +4362,13 @@ msgstr "Position"
 #. MessagesWindow..MsgsActionList..actNextMsgs..Hint
 #: frmMessages.dfm
 msgid "Show next messages"
-msgstr "Show next messages"
+msgstr "Göster next messages"
 
 #. MessagesWindow..Panel1..BtnPrevMsg..Hint
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Hint
 #: frmMessages.dfm
 msgid "Show previous messages"
-msgstr "Show previous messages"
+msgstr "Göster previous messages"
 
 #. MessagesWindow..MsgsActionList..actClearAll..Caption
 #. WatchesWindow..TBXPopupMenu..mnClearall..Caption
@@ -4459,7 +4459,7 @@ msgstr "Store dosya yolları relative to the project directory"
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
 msgid "Show File &Extensions"
-msgstr "Show Dosya &Extensions"
+msgstr "Göster Dosya &Extensions"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Hint
 #: frmProjectExplorer.dfm
@@ -4564,7 +4564,7 @@ msgstr "Edit run configuration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Hint
 #: frmProjectExplorer.dfm
 msgid "Show file properties"
-msgstr "Show dosya properties"
+msgstr "Göster dosya properties"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..Caption
@@ -4740,7 +4740,7 @@ msgstr "&Main Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnMainToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Main toolbar|Show/Hide the Main toolbar"
-msgstr "Main toolbar|Show/Hide the Main toolbar"
+msgstr "Main toolbar|Göster/Hide the Main toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnDebugtoolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4750,7 +4750,7 @@ msgstr "&Debug Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnDebugtoolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Debug toolbar|Show/Hide the Debug toolbar"
-msgstr "Debug toolbar|Show/Hide the Debug toolbar"
+msgstr "Debug toolbar|Göster/Hide the Debug toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4760,7 +4760,7 @@ msgstr "&Editor Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Editor toolbar|Show/Hide the Editor toolbar"
-msgstr "Editor toolbar|Show/Hide the Editor toolbar"
+msgstr "Editor toolbar|Göster/Hide the Editor toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4770,7 +4770,7 @@ msgstr "&View Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "View toolbar|Show/Hide the View toolbar"
-msgstr "View toolbar|Show/Hide the View toolbar"
+msgstr "View toolbar|Göster/Hide the View toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4780,7 +4780,7 @@ msgstr "Kullan&r Toolbar"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "User toolbar|Show/Hide the User toolbar"
-msgstr "User toolbar|Show/Hide the User toolbar"
+msgstr "User toolbar|Göster/Hide the User toolbar"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
@@ -5580,7 +5580,7 @@ msgstr "Split Workspace Vertically"
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
-"Split workspace vertically|Show secondary editor tabset vertically aligned"
+"Split workspace vertically|Göster secondary editor tabset vertically aligned"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
@@ -5592,7 +5592,7 @@ msgstr "Split Workspace Horizontally"
 msgid ""
 "Split workspace horizontally|Show secondary workspace horizontally aligned"
 msgstr ""
-"Split workspace horizontally|Show secondary workspace horizontally aligned"
+"Split workspace horizontally|Göster secondary workspace horizontally aligned"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
@@ -5795,7 +5795,7 @@ msgstr "Execute search or match"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Hint
 #: frmRegExpTester.dfm
 msgid "Show Python Help on the re module"
-msgstr "Show Python Yardım on the re module"
+msgstr "Göster Python Yardım on the re module"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..StatusBar..lbStatusBar..Caption
 #: frmRegExpTester.dfm
@@ -5825,7 +5825,7 @@ msgstr "Match:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..SpinMatches..Hint
 #: frmRegExpTester.dfm
 msgid "Show a found match"
-msgstr "Show a found match"
+msgstr "Göster a found match"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..Caption
 #: frmSuggest.dfm
@@ -6164,7 +6164,7 @@ msgstr "Python&Win help"
 
 #: cTools.pas
 msgid "Show PythonWin Help"
-msgstr "Show PythonWin Yardım"
+msgstr "Göster PythonWin Yardım"
 
 #: cTools.pas
 msgid "Check &Indentation"
@@ -6444,7 +6444,7 @@ msgstr "Smart Next Previous Page"
 
 #: dmCommands.pas
 msgid "Show tab close button"
-msgstr "Show tab close button"
+msgstr "Göster tab close button"
 
 #: dmCommands.pas
 msgid "Dock animation interval (ms)"
@@ -6576,11 +6576,11 @@ msgstr "Undo after save"
 
 #: dmCommands.pas
 msgid "Show code hints"
-msgstr "Show code hints"
+msgstr "Göster code hints"
 
 #: dmCommands.pas
 msgid "Show debugger hints"
-msgstr "Show debugger hints"
+msgstr "Göster debugger hints"
 
 #: dmCommands.pas
 msgid "Auto-complete brackets"
@@ -6588,7 +6588,7 @@ msgstr "Auto-complete brackets"
 
 #: dmCommands.pas
 msgid "Show executable line marks"
-msgstr "Show executable line marks"
+msgstr "Göster executable line marks"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
@@ -6763,7 +6763,7 @@ msgstr "Highlight structure"
 
 #: dmCommands.pas
 msgid "Show hint mark"
-msgstr "Show hint mark"
+msgstr "Göster hint mark"
 
 #: dmCommands.pas
 msgid "Gutter shape size"
@@ -6771,7 +6771,7 @@ msgstr "Gutter shape size"
 
 #: dmCommands.pas
 msgid "Show collapsed line"
-msgstr "Show collapsed line"
+msgstr "Göster collapsed line"
 
 #: dmCommands.pas
 msgid "Collapsed line color"
@@ -7868,12 +7868,12 @@ msgstr "False"
 #. Programmer's name for it: SDSActkShowText
 #: StringResources.pas
 msgid "Do not show this dialog again"
-msgstr "Do not show this dialog again"
+msgstr "Do not göster this dialog again"
 
 #. Programmer's name for it: SDSActkRememberText
 #: StringResources.pas
 msgid "Remember answer and do not show again"
-msgstr "Remember answer and do not show again"
+msgstr "Remember answer and do not göster again"
 
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
