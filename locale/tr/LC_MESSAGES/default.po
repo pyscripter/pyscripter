@@ -1561,7 +1561,7 @@ msgstr "Göster leading zeros"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
 #: dlgSynEditOptions.dfm
 msgid "Visible"
-msgstr "Visible"
+msgstr "Görünür"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
@@ -9553,7 +9553,7 @@ msgstr "T&ext Seçenekler"
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
 #: SpTBXCustomizerForm.dfm:212
 msgid "&Visible"
-msgstr "&Visible"
+msgstr "&Görünür"
 
 #. SpTBXCustomizeForm..ResetButton..Caption
 msgid "&Default Options"
