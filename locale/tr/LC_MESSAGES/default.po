@@ -1058,7 +1058,7 @@ msgstr "&Ekle to dosya"
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbSaveOutput..Caption
 #: dlgRunConfiguration.dfm
 msgid "Save Output"
-msgstr "Save Çıktı"
+msgstr "Kaydet Çıktı"
 
 #. StyleSelectorForm..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
@@ -2382,12 +2382,12 @@ msgstr "Seçimi kaldır hepsi nodes"
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
 msgid "&Save"
-msgstr "&Save"
+msgstr "&Kaydet"
 
 #. CommandsDataModule..actlMain..actFileSave..Hint
 #: dmCommands.dfm
 msgid "Save|Save active file"
-msgstr "Save|Save active dosya"
+msgstr "Kaydet|Kaydet active dosya"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
@@ -2397,7 +2397,7 @@ msgstr "Sav&e As..."
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Save As|Save active dosya under different name"
+msgstr "Kaydet As|Kaydet active dosya under different name"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. Programmer's name for it: SDlgClose
@@ -2546,12 +2546,12 @@ msgstr "Değiştir|Arama & Değiştir"
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
 msgid "Save &All"
-msgstr "Save &Tümü"
+msgstr "Kaydet &Tümü"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "Save hepsi|Save proje and hepsi aç dosyalar"
+msgstr "Kaydet hepsi|Kaydet proje and hepsi aç dosyalar"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -3295,12 +3295,12 @@ msgstr "Unfold functions"
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr "Save to Uzaktan Dosya"
+msgstr "Kaydet to Uzaktan Dosya"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr "Save to uzaktan dosya onunla SSH"
+msgstr "Kaydet to uzaktan dosya onunla SSH"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
@@ -3810,7 +3810,7 @@ msgstr "Stop"
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem7..Hint
 #: frmDocView.dfm frmWebPreview.dfm
 msgid "Save"
-msgstr "Save"
+msgstr "Kaydet"
 
 #. EditorForm..BGPanel..ViewsTabControl..tabSource..Caption
 #. EditorForm..BGPanel..ViewsTabControl..tbshSource..Caption
@@ -4132,12 +4132,12 @@ msgstr "View/Gizle Bağlam of found metin"
 #. FindResultsWindow..Actions..actFileSave..Caption
 #: frmFindResults.dfm
 msgid "&Save..."
-msgstr "&Save..."
+msgstr "&Kaydet..."
 
 #. FindResultsWindow..Actions..actFileSave..Hint
 #: frmFindResults.dfm
 msgid "Save results to file..."
-msgstr "Save sonuçlar to dosya..."
+msgstr "Kaydet sonuçlar to dosya..."
 
 #. FindResultsWindow..Actions..actFileCopy..Hint
 #: frmFindResults.dfm
@@ -4268,12 +4268,12 @@ msgstr "Chat"
 #. LLMChatForm..ChatActionList..actChatSave..Caption
 #: frmLLMChat.dfm
 msgid "Save chat"
-msgstr "Save chat"
+msgstr "Kaydet chat"
 
 #. LLMChatForm..ChatActionList..actChatSave..Hint
 #: frmLLMChat.dfm
 msgid "Save chat history"
-msgstr "Save chat history"
+msgstr "Kaydet chat history"
 
 #. LLMChatForm..ChatActionList..actChatRemove..Caption
 #: frmLLMChat.dfm
@@ -4431,22 +4431,22 @@ msgstr "Aç a proje dosya"
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
 #: frmProjectExplorer.dfm
 msgid "&Save Project"
-msgstr "&Save Proje"
+msgstr "&Kaydet Proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Hint
 #: frmProjectExplorer.dfm
 msgid "Save the project"
-msgstr "Save the proje"
+msgstr "Kaydet the proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Caption
 #: frmProjectExplorer.dfm
 msgid "Save Project &As..."
-msgstr "Save Proje &As..."
+msgstr "Kaydet Proje &As..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
 #: frmProjectExplorer.dfm
 msgid "Save project with under a different name"
-msgstr "Save proje onunla under a different name"
+msgstr "Kaydet proje onunla under a different name"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
@@ -4800,13 +4800,13 @@ msgstr "Layouts"
 #. PyIDEMainForm..actlStandard..actLayoutSave..Caption
 #: frmPyIDEMain.dfm
 msgid "Save Layout..."
-msgstr "Save Layout..."
+msgstr "Kaydet Layout..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Hint
 #. PyIDEMainForm..actlStandard..actLayoutSave..Hint
 #: frmPyIDEMain.dfm
 msgid "Save Current Layout"
-msgstr "Save Mevcut Layout"
+msgstr "Kaydet Mevcut Layout"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Caption
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Caption
@@ -6490,11 +6490,11 @@ msgstr "User Interface content yazı tipi size in points"
 
 #: dmCommands.pas
 msgid "Save files before run"
-msgstr "Save dosyalar before çalıştır"
+msgstr "Kaydet dosyalar before çalıştır"
 
 #: dmCommands.pas
 msgid "Save environment before run"
-msgstr "Save environment before çalıştır"
+msgstr "Kaydet environment before çalıştır"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
@@ -6518,7 +6518,7 @@ msgstr "Interpreter history size"
 
 #: dmCommands.pas
 msgid "Save interpreter history"
-msgstr "Save interpreter history"
+msgstr "Kaydet interpreter history"
 
 #: dmCommands.pas
 msgid "Reinitialize before run"
@@ -8401,7 +8401,7 @@ msgstr "Ayarla theme to \"%s\"."
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas
 msgid "Save current Layout"
-msgstr "Save mevcut Layout"
+msgstr "Kaydet mevcut Layout"
 
 #. Programmer's name for it: SLayoutName
 #: StringResources.pas
@@ -8427,7 +8427,7 @@ msgstr ""
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
 msgid "Save modified files"
-msgstr "Save değiştirilmiş dosyalar"
+msgstr "Kaydet değiştirilmiş dosyalar"
 
 #. Programmer's name for it: SSelectModifiedFiles
 #: StringResources.pas
@@ -8444,12 +8444,12 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Save \"%s\" As"
-msgstr "Save \"%s\" As"
+msgstr "Kaydet \"%s\" As"
 
 #. Programmer's name for it: SSaveFileAs
 #: StringResources.pas
 msgid "Save File As"
-msgstr "Save Dosya As"
+msgstr "Kaydet Dosya As"
 
 #. Programmer's name for it: SIDEOptions
 #: StringResources.pas
@@ -8588,13 +8588,13 @@ msgstr "Error in saving proje: \"%s\"."
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas
 msgid "Save Project As"
-msgstr "Save Proje As"
+msgstr "Kaydet Proje As"
 
 #. Programmer's name for it: SSaveProjectFileAs
 #: StringResources.pas
 #, object-pascal-format
 msgid "Save Project \"%s\" As"
-msgstr "Save Proje \"%s\" As"
+msgstr "Kaydet Proje \"%s\" As"
 
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas
