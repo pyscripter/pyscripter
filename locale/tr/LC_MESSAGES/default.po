@@ -7179,7 +7179,7 @@ msgstr "Section"
 #. Programmer's name for it: SyntaxElementFriendlyName_Space
 #: StringResources.pas
 msgid "Space"
-msgstr "Space"
+msgstr "Boşluk"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_String
 #: StringResources.pas
