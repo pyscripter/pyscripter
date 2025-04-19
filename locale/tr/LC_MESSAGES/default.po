@@ -1531,12 +1531,12 @@ msgstr "Kenar Sütun:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter"
-msgstr "Gutter"
+msgstr "Oluk"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter color:"
-msgstr "Gutter renk:"
+msgstr "Oluk renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..lDigits..Caption
 #: dlgSynEditOptions.dfm
@@ -1571,17 +1571,17 @@ msgstr "Start at zero"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Use Gutter Font"
-msgstr "Kullan Gutter Yazı tipi"
+msgstr "Kullan Oluk Yazı tipi"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
 msgid "Gutter gradient visible"
-msgstr "Gutter gradient visible"
+msgstr "Oluk gradient visible"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter Gradient"
-msgstr "Gutter Gradient"
+msgstr "Oluk Gradient"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
@@ -1782,7 +1782,7 @@ msgstr "Sağ Metin Girinti:"
 #. PageSetupDlg..TabControl..tbMargins..Label11..Caption
 #: dlgSynPageSetup.dfm
 msgid "Gutter:"
-msgstr "Gutter:"
+msgstr "Oluk:"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
@@ -6770,7 +6770,7 @@ msgstr "Göster ip ucu mark"
 
 #: dmCommands.pas
 msgid "Gutter shape size"
-msgstr "Gutter shape size"
+msgstr "Oluk shape size"
 
 #: dmCommands.pas
 msgid "Show collapsed line"
