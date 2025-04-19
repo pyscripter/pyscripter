@@ -1362,8 +1362,8 @@ msgid ""
 "When scrolling with page-up and page-down commands, only scroll a half page "
 "at a time"
 msgstr ""
-"When scrolling onunla page-yukarı and page-aşağı commands, sadece kaydırma a"
-" half page at a time"
+"Sayfa yukarı ve sayfa aşağı komutlarıyla kaydırma yaparken, her seferinde "
+"yalnızca yarım sayfa kaydırın"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
 #: dlgSynEditOptions.dfm
