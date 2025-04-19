@@ -1315,7 +1315,7 @@ msgstr "Smart tab delete"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
 msgid "Tab indents and Shift-Tab unindents"
-msgstr "Tab indents and Shift-Tab unindents"
+msgstr "Tab girintiler and Shift-Tab unindents"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
