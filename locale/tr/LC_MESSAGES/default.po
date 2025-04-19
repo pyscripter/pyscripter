@@ -2422,7 +2422,7 @@ msgstr "&Kes"
 #. CommandsDataModule..actlMain..actEditCut..Hint
 #: dmCommands.dfm
 msgid "Cut|Cuts the selection and puts it on the Clipboard"
-msgstr "Kes|Kes seçim ve puts it on Clipboard"
+msgstr "Kes|Kes seçim ve puts it on Pano"
 
 #. CommandsDataModule..actlMain..actEditCopy..Caption
 #. FindResultsWindow..Actions..actFileCopy..Caption
@@ -2433,7 +2433,7 @@ msgstr "&Kopyala"
 #. CommandsDataModule..actlMain..actEditCopy..Hint
 #: dmCommands.dfm
 msgid "Copy|Copies the selection and puts it on the Clipboard"
-msgstr "Kopyala|Copies seçim ve puts it on Clipboard"
+msgstr "Kopyala|Copies seçim ve puts it on Pano"
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
@@ -2443,7 +2443,7 @@ msgstr "&Paste"
 #. CommandsDataModule..actlMain..actEditPaste..Hint
 #: dmCommands.dfm
 msgid "Paste|Inserts Clipboard contents"
-msgstr "Paste|Inserts Clipboard contents"
+msgstr "Paste|Inserts Pano contents"
 
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #: dmCommands.dfm
@@ -3594,7 +3594,7 @@ msgstr "Clear|Clear seçili breakpoint"
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Caption
 #: frmBreakPoints.dfm frmMessages.dfm frmWatches.dfm
 msgid "Co&py to Clipboard"
-msgstr "Co&py Clipboard"
+msgstr "Co&py Pano"
 
 #. BreakPointsWindow..TBXPopupMenu..mnCopyToClipboard..Hint
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Hint
@@ -3732,7 +3732,7 @@ msgstr "Co&py"
 #. MessagesWindow..MsgsActionList..actCopyToClipboard..Hint
 #: frmCommandOutput.dfm frmMessages.dfm
 msgid "Copy contents to Clipboard"
-msgstr "Kopyala contents Clipboard"
+msgstr "Kopyala contents Pano"
 
 #. OutputWindow..OutputActions..actOutputFont..Caption
 #: frmCommandOutput.dfm
@@ -5675,7 +5675,7 @@ msgstr "Kopyala &Geçmiş"
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Hint
 #: frmPythonII.dfm
 msgid "Copy history to Clipboard"
-msgstr "Kopyala history Clipboard"
+msgstr "Kopyala history Pano"
 
 #. PythonIIForm..InterpreterActionList..actClearContents..Caption
 #: frmPythonII.dfm
@@ -9325,7 +9325,7 @@ msgstr "Desktop dizin"
 #. register parameters
 #: uParams.pas
 msgid "Clipboard as text"
-msgstr "Clipboard as metin"
+msgstr "Pano as metin"
 
 #: uParams.pas
 msgid "Current directory"
