@@ -6365,7 +6365,7 @@ msgstr "Unassigned"
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
 msgid "PyScripter Bug Report"
-msgstr "PyScripter Bug Report"
+msgstr "PyScripter Hata Report"
 
 #. Programmer's name for it: RsNoMailClient
 #: dlgExceptionMail.pas
