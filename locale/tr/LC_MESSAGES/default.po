@@ -2227,7 +2227,7 @@ msgid ""
 "Use the button on the right to insert \n"
 "predefined grep expressions."
 msgstr ""
-"A grep expression for parsing output lines.\n"
+"A grep ifade for parsing output lines.\n"
 "Kullan the button on the right to insert \n"
 "predefined grep expressions."
 
@@ -5332,7 +5332,7 @@ msgstr "Ekle &Watch At Cursor"
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Add the expression at the editor current position as a watch"
-msgstr "Ekle the expression at the editor current position as a watch"
+msgstr "Ekle the ifade at the editor current position as a watch"
 
 #. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
 #: frmPyIDEMain.dfm
@@ -7010,7 +7010,7 @@ msgstr "DocString"
 
 #: frmWatches.pas
 msgid "Enter watch expression:"
-msgstr "Gir watch expression:"
+msgstr "Gir watch ifade:"
 
 #: frmWatches.pas
 msgid "Edit Watch"
@@ -7018,7 +7018,7 @@ msgstr "Edit Watch"
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr "Gir yeni expression:"
+msgstr "Gir yeni ifade:"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
@@ -8410,7 +8410,7 @@ msgstr "Layout Ad:"
 #. Programmer's name for it: SEnterPythonExpression
 #: StringResources.pas
 msgid "Enter Python expression:"
-msgstr "Gir Python expression:"
+msgstr "Gir Python ifade:"
 
 #. Programmer's name for it: SDeleteLayouts
 #: StringResources.pas
