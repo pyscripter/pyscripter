@@ -1139,7 +1139,7 @@ msgstr "&Önyüzey Renk:"
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
 msgid "B&ackground Color:"
-msgstr "B&ackground Renk:"
+msgstr "&Arka yüzey Renk:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
 #: dlgSynEditOptions.dfm
