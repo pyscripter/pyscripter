@@ -3977,7 +3977,7 @@ msgstr "&Explore Here"
 #. FileExplorerWindow..FileExplorerActions..actExploreHere..Hint
 #: frmFileExplorer.dfm
 msgid "Set the Root of the File Manager to this folder"
-msgstr "Set the Root of the Dosya Manager to this folder"
+msgstr "Set the Root of the Dosya Manager to this klasör"
 
 #. FileExplorerWindow..FileExplorerActions..actGoBack..Caption
 #: frmFileExplorer.dfm
@@ -3992,7 +3992,7 @@ msgstr "&Forward"
 #. FileExplorerWindow..FileExplorerActions..actGoUp..Hint
 #: frmFileExplorer.dfm
 msgid "Up|Show the parent folder"
-msgstr "Yukarı|Göster the parent folder"
+msgstr "Yukarı|Göster the parent klasör"
 
 #. FileExplorerWindow..FileExplorerActions..actRefresh..Caption
 #. FindResultsWindow..Actions..actFileRefresh..Caption
@@ -4035,7 +4035,7 @@ msgstr "Yarat &Yeni Klasör"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Hint
 #: frmFileExplorer.dfm
 msgid "Create new folder"
-msgstr "Yarat yeni folder"
+msgstr "Yarat yeni klasör"
 
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
@@ -4491,7 +4491,7 @@ msgstr "&Ekle Dosya(s)..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
 #: frmProjectExplorer.dfm
 msgid "Add file(s) to a project folder"
-msgstr "Ekle dosya(s) to a proje folder"
+msgstr "Ekle dosya(s) to a proje klasör"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Caption
 #: frmProjectExplorer.dfm
@@ -4506,7 +4506,7 @@ msgstr "Ekle a yeni subfolder"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr "Çıkar a dosya, folder or run configuration from the proje"
+msgstr "Çıkar a dosya, klasör or run configuration from the proje"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4516,7 +4516,7 @@ msgstr "Re&name"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Hint
 #: frmProjectExplorer.dfm
 msgid "Rename the selected folder or RunConfiguration"
-msgstr "Rename the seçili folder or RunConfiguration"
+msgstr "Rename the seçili klasör or RunConfiguration"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
 #: frmProjectExplorer.dfm
@@ -4531,7 +4531,7 @@ msgstr "Ekle Active Dosya"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Ekle the active editör dosya to the folder"
+msgstr "Ekle the active editör dosya to the klasör"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -4541,7 +4541,7 @@ msgstr "&İçe aktar Dizin..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Hint
 #: frmProjectExplorer.dfm
 msgid "Import a directory into the selected folder"
-msgstr "İçe aktar a dizin into the seçili folder"
+msgstr "İçe aktar a dizin into the seçili klasör"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -4612,7 +4612,7 @@ msgstr "Ekle Remote Dosya"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr "Ekle a remote dosya to the folder"
+msgstr "Ekle a remote dosya to the klasör"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
@@ -6381,7 +6381,7 @@ msgstr "Dizin To Arama:"
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
-msgstr "Seçin folder with Python installation (inlcuding virtualenv and venv)"
+msgstr "Seçin klasör with Python installation (inlcuding virtualenv and venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
