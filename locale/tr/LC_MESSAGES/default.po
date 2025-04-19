@@ -6639,7 +6639,7 @@ msgstr "Compact Satır Numbers"
 
 #: dmCommands.pas
 msgid "Trim trailing spaces when files are saved"
-msgstr "Trim trailing boşluklar when dosyalar are saved"
+msgstr "Kırp trailing boşluklar when dosyalar are saved"
 
 #: dmCommands.pas
 msgid "Track changes bar"
