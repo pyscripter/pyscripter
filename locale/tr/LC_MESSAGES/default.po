@@ -1852,7 +1852,7 @@ msgstr "Tarih"
 #. PageSetupDlg..ActionList1..TitleCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Title"
-msgstr "Title"
+msgstr "Başlık"
 
 #. PageSetupDlg..ActionList1..BoldCmd..Caption
 #. PageSetupDlg..ActionList1..BoldCmd..Hint
@@ -4325,7 +4325,7 @@ msgstr "Ask question"
 #. LLMChatForm..ChatActionList..actTopicTitle..Caption
 #: frmLLMChat.dfm frmLLMChat.pas
 msgid "Topic Title"
-msgstr "Topic Title"
+msgstr "Topic Başlık"
 
 #. LLMChatForm..ChatActionList..actTopicTitle..Hint
 #: frmLLMChat.dfm
@@ -7679,7 +7679,7 @@ msgstr "Sekme tuşu"
 #. Programmer's name for it: SEdCmdTitleCase
 #: StringResources.pas
 msgid "Title Case"
-msgstr "Title Case"
+msgstr "Başlık Case"
 
 #. Programmer's name for it: SEdCmdToggleCase
 #: StringResources.pas
