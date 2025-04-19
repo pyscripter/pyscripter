@@ -338,7 +338,7 @@ msgstr "&Çıkar"
 #. CollectionEditor..Panel1..ModifyBtn..Caption
 #: dlgCollectionEditor.dfm
 msgid "&Modify.."
-msgstr "&Modify.."
+msgstr "&Değiştir.."
 
 #. CommandLineDlg..Caption
 #: dlgCommandLine.dfm
