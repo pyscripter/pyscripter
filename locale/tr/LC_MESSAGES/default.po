@@ -50,7 +50,7 @@ msgid ""
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
-"A free and open source Python scripting integrated development environment "
+"A free and aç source Python scripting integrated development environment "
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 
@@ -628,7 +628,7 @@ msgstr "Nerede"
 #. FindInFilesDialog..Panel1..gbxWhere..rbOpenFiles..Caption
 #: dlgFindInFiles.dfm
 msgid "&Open files"
-msgstr "&Open files"
+msgstr "&Aç files"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbProject..Caption
 #: dlgFindInFiles.dfm
@@ -875,7 +875,7 @@ msgstr "Shell"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr "Open command prompt for the seçili Python version"
+msgstr "Aç command prompt for the seçili Python version"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -2059,7 +2059,7 @@ msgstr "Arama for To Do Tokens"
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &open files"
-msgstr "Scan &open files"
+msgstr "Scan &aç files"
 
 #. ToDoOptionsDlg..pnlBG..gbxSearchFiles..radScanDir..Caption
 #: dlgToDoOptions.dfm
@@ -2549,7 +2549,7 @@ msgstr "Save &All"
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr "Save hepsi|Save project and hepsi open files"
+msgstr "Save hepsi|Save project and hepsi aç files"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -4419,12 +4419,12 @@ msgstr "Start a yeni project"
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
 #: frmProjectExplorer.dfm
 msgid "&Open Project..."
-msgstr "&Open Project..."
+msgstr "&Aç Project..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
 #: frmProjectExplorer.dfm
 msgid "Open a project file"
-msgstr "Open a project dosya"
+msgstr "Aç a project dosya"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
 #: frmProjectExplorer.dfm
@@ -4519,7 +4519,7 @@ msgstr "Rename the seçili folder or RunConfiguration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
 #: frmProjectExplorer.dfm
 msgid "Open the selected file in the editor"
-msgstr "Open the seçili dosya in the editor"
+msgstr "Aç the seçili dosya in the editor"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
@@ -4973,7 +4973,7 @@ msgstr "&Dosyalar"
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Files"
-msgstr "Open Dosyalar"
+msgstr "Aç Dosyalar"
 
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5053,12 +5053,12 @@ msgstr "New Python module"
 #. PyIDEMainForm..actlStandard..actFileOpen..Caption
 #: frmPyIDEMain.dfm
 msgid "&Open..."
-msgstr "&Open..."
+msgstr "&Aç..."
 
 #. PyIDEMainForm..actlStandard..actFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Select a file to open"
-msgstr "Select a dosya to open"
+msgstr "Select a dosya to aç"
 
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Caption
 #: frmPyIDEMain.dfm
@@ -5624,12 +5624,12 @@ msgstr "Setup Python engine"
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr "Open Remote Dosya"
+msgstr "Aç Remote Dosya"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr "Open Remote Dosya with SSH"
+msgstr "Aç Remote Dosya with SSH"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
 #: frmPyIDEMain.dfm
@@ -8346,7 +8346,7 @@ msgstr "Modified"
 #. Programmer's name for it: SOpenFile
 #: StringResources.pas
 msgid "Open File"
-msgstr "Open Dosya"
+msgstr "Aç Dosya"
 
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
@@ -8371,7 +8371,7 @@ msgstr "Ekle Dosya(s) to Project"
 #. Programmer's name for it: SOpenProject
 #: StringResources.pas
 msgid "Open Project"
-msgstr "Open Project"
+msgstr "Aç Project"
 
 #. Programmer's name for it: SApplyLayout
 #: StringResources.pas
@@ -8500,7 +8500,7 @@ msgstr "Error in running initialization script %s: \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Open dialog %s filter"
-msgstr "Open dialog %s filter"
+msgstr "Aç dialog %s filter"
 
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
@@ -9486,7 +9486,7 @@ msgstr "Modified files"
 
 #: uParams.pas
 msgid "Open files"
-msgstr "Open files"
+msgstr "Aç files"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
