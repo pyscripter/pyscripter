@@ -2194,7 +2194,7 @@ msgstr "Std. &Çıktı:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label12..Caption
 #: dlgToolProperties.dfm
 msgid "Messages &Format:"
-msgstr "Messages &Format:"
+msgstr "Mesajlar &Format:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbCaptureOutput..Caption
 #: dlgToolProperties.dfm
@@ -2214,7 +2214,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
 #: dlgToolProperties.dfm
 msgid "Parse &Messages"
-msgstr "Parse &Messages"
+msgstr "Parse &Mesajlar"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseTraceback..Caption
 #: dlgToolProperties.dfm
@@ -4347,7 +4347,7 @@ msgstr "Yazdır chat topic"
 #. MessagesWindow..Caption
 #: frmMessages.dfm
 msgid "Messages"
-msgstr "Messages"
+msgstr "Mesajlar"
 
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
@@ -4385,12 +4385,12 @@ msgstr "Clear hepsi messages"
 #. MessagesWindow..MsgsActionList..actPreviousMsgs..Caption
 #: frmMessages.dfm
 msgid "&Previous Messages"
-msgstr "&Önceki Messages"
+msgstr "&Önceki Mesajlar"
 
 #. MessagesWindow..MsgsActionList..actNextMsgs..Caption
 #: frmMessages.dfm
 msgid "&Next Messages"
-msgstr "&Sonraki Messages"
+msgstr "&Sonraki Mesajlar"
 
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel2..Caption
 #: frmModSpTBXCustomize.dfm
@@ -5443,12 +5443,12 @@ msgstr "Etkinleştir the Call Stack pencere"
 #. PyIDEMainForm..actlStandard..actNavMessages..Caption
 #: frmPyIDEMain.dfm
 msgid "&Messages "
-msgstr "&Messages "
+msgstr "&Mesajlar "
 
 #. PyIDEMainForm..actlStandard..actNavMessages..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Messages window"
-msgstr "Etkinleştir the Messages pencere"
+msgstr "Etkinleştir the Mesajlar pencere"
 
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Caption
 #: frmPyIDEMain.dfm
