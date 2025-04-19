@@ -702,7 +702,7 @@ msgstr "&Aradıktan sonra tüm eşleşmeleri genişlet"
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Context Display"
-msgstr "Eşleştirme Context Display"
+msgstr "Eşleştirme Context Görüntüleme"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchContext..lblContextLines..Caption
 #: dlgFindResultsOptions.dfm
@@ -1090,7 +1090,7 @@ msgstr "Editör Seçenekler"
 #. EditorOptionsDialog..Panel1..TabControl..Display..Caption
 #: dlgSynEditOptions.dfm
 msgid "Display"
-msgstr "Display"
+msgstr "Görüntüleme"
 
 #. EditorOptionsDialog..Panel1..TabControl..SpTBXTabItem3..Caption
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Caption
@@ -4466,7 +4466,7 @@ msgstr "Göster Dosya &Extensions"
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Hint
 #: frmProjectExplorer.dfm
 msgid "Display file extensions"
-msgstr "Display dosya extensions"
+msgstr "Görüntüleme dosya extensions"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Caption
 #: frmProjectExplorer.dfm
@@ -6621,7 +6621,7 @@ msgstr "Highlight color of seçili kelime"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
-msgstr "Display package names in editör tabs"
+msgstr "Görüntüleme package names in editör tabs"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
@@ -6657,7 +6657,7 @@ msgstr "Scrollbar annotation"
 
 #: dmCommands.pas
 msgid "Display flow control symbols"
-msgstr "Display flow control symbols"
+msgstr "Görüntüleme flow control symbols"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
