@@ -1310,7 +1310,7 @@ msgstr "benzer to Smart Tabs, but when you delete characters"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tab delete"
-msgstr "Smart tab delete"
+msgstr "Smart sekme tuşu delete"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
@@ -1325,7 +1325,7 @@ msgstr "Tab Girinti"
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Hint
 #: dlgSynEditOptions.dfm
 msgid "Converts a tab character to the number of spaces in Tab Width"
-msgstr "Converts a tab character to the sayı of spaces in Tab Width"
+msgstr "Converts a sekme tuşu character to the sayı of spaces in Tab Width"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
 #: dlgSynEditOptions.dfm
@@ -3841,7 +3841,7 @@ msgstr "Close Tab"
 #. EditorForm..pmnuViewsTab..mnCloseTab..Hint
 #: frmEditor.dfm
 msgid "Close active tab"
-msgstr "Close active tab"
+msgstr "Close active sekme tuşu"
 
 #. EditorForm..pmnuEditor..mnSourceCode..Caption
 #: frmEditor.dfm
@@ -6438,7 +6438,7 @@ msgstr "Days between update checks"
 
 #: dmCommands.pas
 msgid "Editor tab position"
-msgstr "Editör tab konum"
+msgstr "Editör sekme tuşu konum"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
@@ -6446,7 +6446,7 @@ msgstr "Smart Next Previous Page"
 
 #: dmCommands.pas
 msgid "Show tab close button"
-msgstr "Göster tab close button"
+msgstr "Göster sekme tuşu close button"
 
 #: dmCommands.pas
 msgid "Dock animation interval (ms)"
