@@ -682,7 +682,7 @@ msgstr "Bul in Dosyalar Seçenekler"
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
-msgstr "Eşleştirme Results List"
+msgstr "Eşleştirme Sonuçlar List"
 
 #. FindResultsOptionsDialog..Panel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
@@ -4043,7 +4043,7 @@ msgstr "Seçin Dizin..."
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
 msgid "Find in Files Results"
-msgstr "Bul in Dosyalar Results"
+msgstr "Bul in Dosyalar Sonuçlar"
 
 #. FindResultsWindow..Actions..actReplaceSelected..Caption
 #: frmFindResults.dfm
@@ -5237,12 +5237,12 @@ msgstr "Clear hepsi breakpoints"
 #. PyIDEMainForm..actlStandard..actNavFindResults..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &in Files Results"
-msgstr "Bul &in Dosyalar Results"
+msgstr "Bul &in Dosyalar Sonuçlar"
 
 #. PyIDEMainForm..actlStandard..actNavFindResults..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Find in Files Results window"
-msgstr "Activate the Bul in Dosyalar Results window"
+msgstr "Activate the Bul in Dosyalar Sonuçlar window"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
@@ -6392,7 +6392,7 @@ msgstr "New name:"
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
 msgid "The Find in Files Results window is not active"
-msgstr "The Bul in Dosyalar Results window is not active"
+msgstr "The Bul in Dosyalar Sonuçlar window is not active"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
