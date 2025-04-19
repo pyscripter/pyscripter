@@ -3192,7 +3192,7 @@ msgstr "Collapse nearest fold"
 #. CommandsDataModule..actlMain..actUnfoldNearest..Hint
 #: dmCommands.dfm
 msgid "Expand nearest fold"
-msgstr "Expand nearest fold"
+msgstr "Genişlet nearest fold"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Caption
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
@@ -3653,12 +3653,12 @@ msgstr "Kod Explorer"
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
 #: frmCodeExplorer.dfm frmProjectExplorer.dfm
 msgid "&Expand All"
-msgstr "&Expand All"
+msgstr "&Genişlet All"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Expand all nodes"
-msgstr "Expand hepsi nodes"
+msgstr "Genişlet hepsi nodes"
 
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Caption
@@ -4112,12 +4112,12 @@ msgstr "Contract hepsi"
 #. FindResultsWindow..Actions..actListExpand..Caption
 #: frmFindResults.dfm
 msgid "&Expand"
-msgstr "&Expand"
+msgstr "&Genişlet"
 
 #. FindResultsWindow..Actions..actListExpand..Hint
 #: frmFindResults.dfm
 msgid "Expand all"
-msgstr "Expand hepsi"
+msgstr "Genişlet hepsi"
 
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
@@ -4476,7 +4476,7 @@ msgstr "Extra Python &Path..."
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm
 msgid "Expand all project nodes"
-msgstr "Expand hepsi proje nodes"
+msgstr "Genişlet hepsi proje nodes"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Hint
 #: frmProjectExplorer.dfm
@@ -5992,7 +5992,7 @@ msgstr "Ex&pand All"
 #. UnitTestWindow..DialogActions..actExpandAll..Hint
 #: frmUnitTests.dfm
 msgid "Expand all test nodes"
-msgstr "Expand hepsi test nodes"
+msgstr "Genişlet hepsi test nodes"
 
 #. UnitTestWindow..DialogActions..actCollapseAll..Hint
 #: frmUnitTests.dfm
