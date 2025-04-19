@@ -2291,7 +2291,7 @@ msgstr "Konsol"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Hint
 #: dlgToolProperties.dfm
 msgid "Check to hide the console."
-msgstr "Check to gizle the konsol."
+msgstr "Konsolu gizlemek için işaretleyin."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Caption
 #: dlgToolProperties.dfm
