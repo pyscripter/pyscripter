@@ -1222,8 +1222,8 @@ msgid ""
 "Allows you to select a block of text and drag it within the document to "
 "another location"
 msgstr ""
-"Allows you to seçin a block of metin and drag it within the document to "
-"another location"
+"Bir metin bloğunu seçmenize ve onu belge içinde başka bir konuma "
+"sürüklemenize olanak tanır"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
 #: dlgSynEditOptions.dfm
