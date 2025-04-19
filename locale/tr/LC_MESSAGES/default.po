@@ -2389,7 +2389,7 @@ msgstr "&Kaydet"
 #. CommandsDataModule..actlMain..actFileSave..Hint
 #: dmCommands.dfm
 msgid "Save|Save active file"
-msgstr "Kaydet|Kaydet active dosya"
+msgstr "Kaydet|Kaydet aktif dosya"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
@@ -2399,7 +2399,7 @@ msgstr "Sav&e As..."
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Kaydet As|Kaydet active dosya under different name"
+msgstr "Kaydet As|Kaydet aktif dosya under different name"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. Programmer's name for it: SDlgClose
@@ -2410,7 +2410,7 @@ msgstr "&Close"
 #. CommandsDataModule..actlMain..actFileClose..Hint
 #: dmCommands.dfm
 msgid "Close|Close active file"
-msgstr "Close|Close active dosya"
+msgstr "Close|Close aktif dosya"
 
 #. CommandsDataModule..actlMain..actEditCut..Category
 #. CommandsDataModule..actlMain..actEditCopy..Category
@@ -2564,7 +2564,7 @@ msgstr "&Print..."
 #. CommandsDataModule..actlMain..actFilePrint..Hint
 #: dmCommands.dfm
 msgid "Print|Print active file"
-msgstr "Print|Print active dosya"
+msgstr "Print|Print aktif dosya"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
@@ -2956,7 +2956,7 @@ msgstr "Unit Test &Wizard..."
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
-msgstr "Unit test wizard|Yarat unit test for active module"
+msgstr "Unit test wizard|Yarat unit test for aktif module"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
@@ -3021,7 +3021,7 @@ msgstr "Re&load"
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
 msgid "Reload|Reload active file"
-msgstr "Reload|Reload active dosya"
+msgstr "Reload|Reload aktif dosya"
 
 #. CommandsDataModule..actlMain..actImportShortcuts..Caption
 #. CommandsDataModule..actlMain..actImportShortcuts..Hint
@@ -3122,7 +3122,7 @@ msgstr "Close Tümü &Other"
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #: dmCommands.dfm
 msgid "Close all files except the active one"
-msgstr "Close hepsi dosyalar except the active one"
+msgstr "Close hepsi dosyalar except the aktif one"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
@@ -3142,7 +3142,7 @@ msgstr "Copy Dosya Ad"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr "Copy dosya name of active dosya to pano"
+msgstr "Copy dosya name of aktif dosya to pano"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3843,7 +3843,7 @@ msgstr "Close Sekme tuşu"
 #. EditorForm..pmnuViewsTab..mnCloseTab..Hint
 #: frmEditor.dfm
 msgid "Close active tab"
-msgstr "Close active sekme tuşu"
+msgstr "Close aktif sekme tuşu"
 
 #. EditorForm..pmnuEditor..mnSourceCode..Caption
 #: frmEditor.dfm
@@ -4340,7 +4340,7 @@ msgstr "İptal Request"
 #. LLMChatForm..ChatActionList..actCancelRequest..Hint
 #: frmLLMChat.dfm
 msgid "Cancel active request"
-msgstr "İptal active request"
+msgstr "İptal aktif request"
 
 #. LLMChatForm..ChatActionList..actPrint..Hint
 #: frmLLMChat.dfm
@@ -4533,7 +4533,7 @@ msgstr "Ekle Aktif Dosya"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Ekle the active editör dosya to the klasör"
+msgstr "Ekle the aktif editör dosya to the klasör"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -5022,7 +5022,7 @@ msgstr "Sözdizimi Check|Perform sözdizimi check and load scripts"
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
 msgid "Run|Run active module"
-msgstr "Çalıştır|Çalıştır active module"
+msgstr "Çalıştır|Çalıştır aktif module"
 
 #. PyIDEMainForm..actlStandard..actCommandLine..Caption
 #: frmPyIDEMain.dfm
@@ -5097,7 +5097,7 @@ msgstr "View/Gizle status bar"
 #. PyIDEMainForm..actlStandard..actExternalRun..Hint
 #: frmPyIDEMain.dfm
 msgid "External Run|Run active module in external Python interpreter"
-msgstr "Harici Çalıştır|Çalıştır active module in harici Python interpreter"
+msgstr "Harici Çalıştır|Çalıştır aktif module in harici Python interpreter"
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
@@ -5124,7 +5124,7 @@ msgstr "Debug last komut dosyası"
 #. Programmer's name for it: SDebugHint
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Debug|Debug active script"
-msgstr "Debug|Debug active komut dosyası"
+msgstr "Debug|Debug aktif komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5948,7 +5948,7 @@ msgstr "Failures/Errors : 0/0"
 #. UnitTestWindow..DialogActions..actRefresh..Hint
 #: frmUnitTests.dfm
 msgid "Refresh tests|Extract tests from active module"
-msgstr "Refresh tests|Extract tests from active module"
+msgstr "Refresh tests|Extract tests from aktif module"
 
 #. UnitTestWindow..DialogActions..actRun..Hint
 #: frmUnitTests.dfm
@@ -6055,7 +6055,7 @@ msgstr "Web Preview"
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
 msgid "No editor is currently active"
-msgstr "Hayır editör is currently active"
+msgstr "Hayır editör is currently aktif"
 
 #. Programmer's name for it: SNonameFileTitle
 #: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
@@ -6183,7 +6183,7 @@ msgstr "Komut Prompt"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr "Başla a console at the dizin of the active dosya"
+msgstr "Başla a console at the dizin of the aktif dosya"
 
 #: cTools.pas
 msgid "Profile"
@@ -6191,7 +6191,7 @@ msgstr "Profile"
 
 #: cTools.pas
 msgid "Profile active file"
-msgstr "Profile active dosya"
+msgstr "Profile aktif dosya"
 
 #: cTools.pas
 msgid "PyLint tool (www.pylint.org)"
@@ -6227,7 +6227,7 @@ msgstr "&Re-girinti"
 
 #: cTools.pas
 msgid "Re-indent the active file"
-msgstr "Re-girinti the active dosya"
+msgstr "Re-girinti the aktif dosya"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6396,7 +6396,7 @@ msgstr "Yeni name:"
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
 msgid "The Find in Files Results window is not active"
-msgstr "The Bul in Dosyalar Sonuçlar window is not active"
+msgstr "The Bul in Dosyalar Sonuçlar window is not aktif"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
@@ -7949,7 +7949,7 @@ msgstr "Komut Satır : %s\n"
 #: StringResources.pas
 #, object-pascal-format
 msgid "*** %s Python engine is active ***"
-msgstr "*** %s Python engine is active ***"
+msgstr "*** %s Python engine is aktif ***"
 
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
@@ -8204,7 +8204,7 @@ msgstr "Please place the imleç on a function/class name or identifier"
 #. Programmer's name for it: SCannotChangeEngine
 #: StringResources.pas
 msgid "Cannot change the Python engine while it is active."
-msgstr "Cannot change the Python engine while it is active."
+msgstr "Cannot change the Python engine while it is aktif."
 
 #. Programmer's name for it: SCouldNotOpenOutputFile
 #: StringResources.pas
@@ -8551,7 +8551,7 @@ msgid ""
 msgstr ""
 "The dictionary for dil code \"%s\" is not mevcut.\n"
 "You can get spell checking dictionaries through the Windows dil settings.\n"
-"You can change the active dil through the IDE seçenekler dialog."
+"You can change the aktif dil through the IDE seçenekler dialog."
 
 #. Programmer's name for it: SPickleFailed
 #: StringResources.pas
@@ -8565,7 +8565,7 @@ msgid ""
 "The active project has not been saved.\n"
 "Do you want to save the changes?"
 msgstr ""
-"The active proje has not been saved.\n"
+"The aktif proje has not been saved.\n"
 "Do you want to kaydet the changes?"
 
 #. Programmer's name for it: SFailedToBackupProject
@@ -8691,7 +8691,7 @@ msgid ""
 "A Grep search is currently active; either abort it or wait until it is "
 "finished."
 msgstr ""
-"A Grep arama is currently active; either abort it or wait until it is "
+"A Grep arama is currently aktif; either abort it or wait until it is "
 "finished."
 
 #. Programmer's name for it: SGrepSearchStats
@@ -9292,15 +9292,15 @@ msgstr "Assistant is busy. Click to cancel."
 #. Python Paths etc.
 #: uParams.pas
 msgid "Directory of active Python version"
-msgstr "Dizin of active Python versiyon"
+msgstr "Dizin of aktif Python versiyon"
 
 #: uParams.pas
 msgid "Executable of active Python"
-msgstr "Executable of active Python"
+msgstr "Executable of aktif Python"
 
 #: uParams.pas
 msgid "Version of active Python"
-msgstr "Versiyon of active Python"
+msgstr "Versiyon of aktif Python"
 
 #. register system paths and parameters
 #: uParams.pas
@@ -9491,23 +9491,23 @@ msgstr "Aç dosyalar"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
-msgstr "Metin of the active belge or a dosya"
+msgstr "Metin of the aktif belge or a dosya"
 
 #: uParams.pas
 msgid "Current word in the active document"
-msgstr "Mevcut kelime in the active belge"
+msgstr "Mevcut kelime in the aktif belge"
 
 #: uParams.pas
 msgid "Current line in the active document"
-msgstr "Mevcut satır in the active belge"
+msgstr "Mevcut satır in the aktif belge"
 
 #: uParams.pas
 msgid "Current line number in the active document"
-msgstr "Mevcut satır sayı in the active belge"
+msgstr "Mevcut satır sayı in the aktif belge"
 
 #: uParams.pas
 msgid "Selected text in the active document"
-msgstr "Selected metin in the active belge"
+msgstr "Selected metin in the aktif belge"
 
 #. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
 #. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
