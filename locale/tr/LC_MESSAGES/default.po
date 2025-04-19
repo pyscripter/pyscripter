@@ -6712,7 +6712,7 @@ msgstr "Dosya Gezgin bağlam menu"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
-msgstr "Dosya Gezgin background processing"
+msgstr "Dosya Gezgin arka yüzey processing"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
