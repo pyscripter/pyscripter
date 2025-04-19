@@ -4178,7 +4178,7 @@ msgstr "Configure Bul in Dosyalar"
 #. FindResultsWindow..Actions..actReplaceAll..Caption
 #: frmFindResults.dfm
 msgid "Replace All Items..."
-msgstr "Değiştir Tümü Items..."
+msgstr "Değiştir Tümü Öğeler..."
 
 #. FindResultsWindow..Actions..actReplaceAll..Hint
 #: frmFindResults.dfm
@@ -6999,7 +6999,7 @@ msgstr "Done"
 #. Programmer's name for it: STodoItems
 #: frmToDo.pas
 msgid "To Do Items"
-msgstr "To Do Items"
+msgstr "To Do Öğeler"
 
 #: frmVariables.pas
 msgid "Namespace"
