@@ -3111,7 +3111,7 @@ msgstr "&Grup Support"
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Internet group"
-msgstr "Go to the PyScripter Internet group"
+msgstr "Go to the PyScripter Internet grup"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #: dmCommands.dfm
@@ -6332,7 +6332,7 @@ msgid ""
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
 "The proje home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
-"Internet group support is mevcut at https://groups.google.com/group/PyScripter\n"
+"Internet grup support is mevcut at https://groups.google.com/grup/PyScripter\n"
 "Please submit hata reports and questions about PyScripter to pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
