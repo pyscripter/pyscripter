@@ -6447,7 +6447,7 @@ msgstr "Akıllı Sonraki Önceki Sayfa"
 
 #: dmCommands.pas
 msgid "Show tab close button"
-msgstr "Göster sekme tuşu close düğme"
+msgstr "Göster sekme tuşu kapat düğme"
 
 #: dmCommands.pas
 msgid "Dock animation interval (ms)"
@@ -7916,7 +7916,7 @@ msgstr "Failed to yedekleme dosya \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
-msgstr "Failed to load layout from \"%s\". Please close and restart PyScripter"
+msgstr "Failed to load layout from \"%s\". Please kapat and restart PyScripter"
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
