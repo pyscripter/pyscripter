@@ -2463,7 +2463,7 @@ msgstr "&Geri al"
 #. CommandsDataModule..actlMain..actEditUndo..Hint
 #: dmCommands.dfm
 msgid "Undo|Reverts the last action"
-msgstr "Geri al|Reverts son action"
+msgstr "Geri al|Son eylemi geri alır"
 
 #. CommandsDataModule..actlMain..actEditRedo..Caption
 #: dmCommands.dfm
