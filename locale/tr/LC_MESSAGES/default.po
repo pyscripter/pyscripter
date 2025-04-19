@@ -633,7 +633,7 @@ msgstr "&Aç dosyalar"
 #. FindInFilesDialog..Panel1..gbxWhere..rbProject..Caption
 #: dlgFindInFiles.dfm
 msgid "&Project files"
-msgstr "&Project dosyalar"
+msgstr "&Proje dosyalar"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbCurrentOnly..Caption
 #: dlgFindInFiles.dfm
@@ -3093,7 +3093,7 @@ msgstr "Go to the current position of the debugger"
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
 msgid "&Project Home"
-msgstr "&Project Home"
+msgstr "&Proje Home"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
@@ -4399,17 +4399,17 @@ msgstr "Commands:"
 #. ProjectExplorerWindow..Caption
 #: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
-msgstr "Project Explorer"
+msgstr "Proje Explorer"
 
 #. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..SpTBXDock1..SpTBXToolbar1..Caption
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
-msgstr "Project Explorer Toolbar"
+msgstr "Proje Explorer Toolbar"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #: frmProjectExplorer.dfm
 msgid "&New Project"
-msgstr "&New Project"
+msgstr "&New Proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
 #: frmProjectExplorer.dfm
@@ -4419,7 +4419,7 @@ msgstr "Start a yeni project"
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
 #: frmProjectExplorer.dfm
 msgid "&Open Project..."
-msgstr "&Aç Project..."
+msgstr "&Aç Proje..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
 #: frmProjectExplorer.dfm
@@ -4429,7 +4429,7 @@ msgstr "Aç a project dosya"
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
 #: frmProjectExplorer.dfm
 msgid "&Save Project"
-msgstr "&Save Project"
+msgstr "&Save Proje"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Hint
 #: frmProjectExplorer.dfm
@@ -4439,7 +4439,7 @@ msgstr "Save the project"
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Caption
 #: frmProjectExplorer.dfm
 msgid "Save Project &As..."
-msgstr "Save Project &As..."
+msgstr "Save Proje &As..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
 #: frmProjectExplorer.dfm
@@ -4843,12 +4843,12 @@ msgstr "Split Workspace"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project"
-msgstr "&Project"
+msgstr "&Proje"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..SpTBXSubmenuItem1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Projects"
-msgstr "&Recent Projects"
+msgstr "&Recent Projeler"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -5563,12 +5563,12 @@ msgstr "Özelleştirilmiş the toolbars"
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project Explorer"
-msgstr "&Project Explorer"
+msgstr "&Proje Explorer"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Project Explorer window"
-msgstr "Activate the Project Explorer window"
+msgstr "Activate the Proje Explorer window"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -6460,7 +6460,7 @@ msgstr "Dosya template for yeni Python scripts"
 
 #: dmCommands.pas
 msgid "Number of recent files"
-msgstr "Number of recent files"
+msgstr "Number of recent dosyalar"
 
 #: dmCommands.pas
 msgid "Style Main Window Border"
@@ -6468,7 +6468,7 @@ msgstr "Style Main Window Border"
 
 #: dmCommands.pas
 msgid "Restore open files"
-msgstr "Restore aç files"
+msgstr "Restore aç dosyalar"
 
 #: dmCommands.pas
 msgid "Restore open project"
@@ -6488,7 +6488,7 @@ msgstr "User Interface content font size in points"
 
 #: dmCommands.pas
 msgid "Save files before run"
-msgstr "Save files before run"
+msgstr "Save dosyalar before run"
 
 #: dmCommands.pas
 msgid "Save environment before run"
@@ -6536,7 +6536,7 @@ msgstr "Always use sockets"
 
 #: dmCommands.pas
 msgid "Step into open files only"
-msgstr "Step into aç files only"
+msgstr "Step into aç dosyalar only"
 
 #: dmCommands.pas
 msgid "Mask FPU Exceptions"
@@ -6568,7 +6568,7 @@ msgstr "Arama metin at caret"
 
 #: dmCommands.pas
 msgid "Create backup files"
-msgstr "Create backup files"
+msgstr "Create backup dosyalar"
 
 #: dmCommands.pas
 msgid "Undo after save"
@@ -6592,19 +6592,19 @@ msgstr "Göster executable line marks"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
-msgstr "Varsayılan line break format for yeni files"
+msgstr "Varsayılan line break format for yeni dosyalar"
 
 #: dmCommands.pas
 msgid "Default file encoding for new files"
-msgstr "Varsayılan dosya encoding for yeni files"
+msgstr "Varsayılan dosya encoding for yeni dosyalar"
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
-msgstr "Detect UTF-8 encoding when opening files"
+msgstr "Detect UTF-8 encoding when opening dosyalar"
 
 #: dmCommands.pas
 msgid "Auto-reload changed files"
-msgstr "Auto-reload changed files"
+msgstr "Auto-reload changed dosyalar"
 
 #: dmCommands.pas
 msgid "Auto-hide find toolbar"
@@ -6636,7 +6636,7 @@ msgstr "Compact Satır Numbers"
 
 #: dmCommands.pas
 msgid "Trim trailing spaces when files are saved"
-msgstr "Trim trailing spaces when files are saved"
+msgstr "Trim trailing spaces when dosyalar are saved"
 
 #: dmCommands.pas
 msgid "Track changes bar"
@@ -6934,7 +6934,7 @@ msgstr ""
 #: frmProjectExplorer.pas
 #, object-pascal-format
 msgid "PyScripter project files (*.%s)|*.%0:s"
-msgstr "PyScripter project files (*.%s)|*.%0:s"
+msgstr "PyScripter project dosyalar (*.%s)|*.%0:s"
 
 #: frmPyIDEMain.pas
 msgid "Debug"
@@ -7060,7 +7060,7 @@ msgstr ""
 #. Programmer's name for it: sYAMLFileFilter
 #: StringResources.pas
 msgid "YAML files (*.yaml)|*.yaml"
-msgstr "YAML files (*.yaml)|*.yaml"
+msgstr "YAML dosyalar (*.yaml)|*.yaml"
 
 #. Programmer's name for it: sJSFileFilter
 #: StringResources.pas
@@ -7918,7 +7918,7 @@ msgstr "Failed to load layout from \"%s\". Please close and restart PyScripter"
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
 msgid "All files|*.*|"
-msgstr "All files|*.*|"
+msgstr "All dosyalar|*.*|"
 
 #. Programmer's name for it: SNoParameters
 #: StringResources.pas
@@ -8262,7 +8262,7 @@ msgstr "Kısayol for command \"%s\" is already used for command \"%s\""
 #. Programmer's name for it: SChangedFilesReloaded
 #: StringResources.pas
 msgid "Changed files have been reloaded"
-msgstr "Changed files have been reloaded"
+msgstr "Changed dosyalar have been reloaded"
 
 #. Programmer's name for it: SFileReloadWarning
 #: StringResources.pas
@@ -8271,9 +8271,9 @@ msgid ""
 "wish to reload and press the OK button. Please note that you will lose all "
 "changes to these files."
 msgstr ""
-"The following files have been changed on disk. Select the files that you "
-"wish to reload and press the TAMAM button. Please note that you will lose "
-"hepsi changes to these files."
+"The following dosyalar have been changed on disk. Select the dosyalar that "
+"you wish to reload and press the TAMAM button. Please note that you will "
+"lose hepsi changes to these dosyalar."
 
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
@@ -8366,12 +8366,12 @@ msgstr "Select application or dosya to execute"
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
 msgid "Add File(s) to Project"
-msgstr "Ekle Dosya(s) to Project"
+msgstr "Ekle Dosya(s) to Proje"
 
 #. Programmer's name for it: SOpenProject
 #: StringResources.pas
 msgid "Open Project"
-msgstr "Aç Project"
+msgstr "Aç Proje"
 
 #. Programmer's name for it: SApplyLayout
 #: StringResources.pas
@@ -8426,7 +8426,7 @@ msgstr ""
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
 msgid "Save modified files"
-msgstr "Save modified files"
+msgstr "Save modified dosyalar"
 
 #. Programmer's name for it: SSelectModifiedFiles
 #: StringResources.pas
@@ -8435,9 +8435,9 @@ msgid ""
 "Press 'OK' to save selected files and exit.\n"
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
-"The following files have been modified.\n"
-"Basın 'TAMAM' to save seçili files and exit.\n"
-"Basın 'İptal' to return to PyScripter without saving files."
+"The following dosyalar have been modified.\n"
+"Basın 'TAMAM' to save seçili dosyalar and exit.\n"
+"Basın 'İptal' to return to PyScripter without saving dosyalar."
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
@@ -8505,7 +8505,7 @@ msgstr "Aç dialog %s filter"
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
 msgid "Web preview is only available for Jupyter JSON files"
-msgstr "Web preview is only available for Jupyter JSON files"
+msgstr "Web preview is only available for Jupyter JSON dosyalar"
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
@@ -8587,18 +8587,18 @@ msgstr "Error in saving project: \"%s\"."
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas
 msgid "Save Project As"
-msgstr "Save Project As"
+msgstr "Save Proje As"
 
 #. Programmer's name for it: SSaveProjectFileAs
 #: StringResources.pas
 #, object-pascal-format
 msgid "Save Project \"%s\" As"
-msgstr "Save Project \"%s\" As"
+msgstr "Save Proje \"%s\" As"
 
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas
 msgid "Project Python Path"
-msgstr "Project Python Path"
+msgstr "Proje Python Path"
 
 #. Search and Replace
 #. Programmer's name for it: SStartReached
@@ -8670,7 +8670,7 @@ msgstr "Replaced %d occurrence(s) in %.2f seconds"
 #. Programmer's name for it: SAllMatchedFiles
 #: StringResources.pas
 msgid "All matched files"
-msgstr "All matched files"
+msgstr "All matched dosyalar"
 
 #. Programmer's name for it: SOnLine
 #: StringResources.pas
@@ -8696,7 +8696,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Searched %d files in %.2f seconds"
-msgstr "Searched %d files in %.2f seconds"
+msgstr "Searched %d dosyalar in %.2f seconds"
 
 #. Programmer's name for it: SMatches
 #: StringResources.pas
@@ -9172,7 +9172,7 @@ msgstr "Run"
 #. Programmer's name for it: SActionCategoryProject
 #: StringResources.pas
 msgid "Project"
-msgstr "Project"
+msgstr "Proje"
 
 #. Programmer's name for it: SActionCategoryDebugWindows
 #: StringResources.pas
@@ -9478,15 +9478,15 @@ msgstr "The name or last run script"
 
 #: uParams.pas
 msgid "Project file name"
-msgstr "Project dosya name"
+msgstr "Proje dosya name"
 
 #: uParams.pas
 msgid "Modified files"
-msgstr "Modified files"
+msgstr "Modified dosyalar"
 
 #: uParams.pas
 msgid "Open files"
-msgstr "Aç files"
+msgstr "Aç dosyalar"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
