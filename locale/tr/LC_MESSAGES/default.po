@@ -407,7 +407,7 @@ msgstr "Özel Parametreler"
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Caption
 #: dlgCustomParams.dfm dlgToolProperties.dfm
 msgid "Name-Value Pair"
-msgstr "Ad-Değer Pair"
+msgstr "Ad-Değer Çift"
 
 #. CustomizeParams..Panel..GroupBox1..Label2..Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..GroupBox6..Label16..Caption
