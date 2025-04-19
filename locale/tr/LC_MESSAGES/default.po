@@ -999,7 +999,7 @@ msgstr "Motor &Tip:"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "Reinitiali&ze Before Run"
-msgstr "Reinitiali&ze Before Çalıştır"
+msgstr "&Çalıştırmadan Önce Başlat"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
