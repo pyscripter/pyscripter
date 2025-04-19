@@ -809,7 +809,7 @@ msgstr "Seçimi kaldır hepsi öğeler"
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr "Python Versions"
+msgstr "Python Versiyonlar"
 
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
@@ -5614,7 +5614,7 @@ msgstr "Styles..."
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python Versions..."
-msgstr "Setup Python Versions..."
+msgstr "Setup Python Versiyonlar..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
@@ -9062,12 +9062,12 @@ msgstr "Jupyter Notebook"
 #. Programmer's name for it: SRegisteredVersions
 #: StringResources.pas
 msgid "Registered Versions"
-msgstr "Registered Versions"
+msgstr "Registered Versiyonlar"
 
 #. Programmer's name for it: SUnRegisteredVersions
 #: StringResources.pas
 msgid "Unregistered Versions"
-msgstr "Unregistered Versions"
+msgstr "Unregistered Versiyonlar"
 
 #. Programmer's name for it: SRemoteFileSelect
 #: StringResources.pas
