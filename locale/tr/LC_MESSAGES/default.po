@@ -1797,7 +1797,7 @@ msgstr "Satır sayılar"
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
 msgid "Print line numbers in margin"
-msgstr "Print satır sayılar in margin"
+msgstr "Print satır sayılar in marj"
 
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
