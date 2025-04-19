@@ -6578,11 +6578,11 @@ msgstr "Geri al sonra kaydet"
 
 #: dmCommands.pas
 msgid "Show code hints"
-msgstr "Göster code hints"
+msgstr "Göster code ip uçları"
 
 #: dmCommands.pas
 msgid "Show debugger hints"
-msgstr "Göster debugger hints"
+msgstr "Göster debugger ip uçları"
 
 #: dmCommands.pas
 msgid "Auto-complete brackets"
