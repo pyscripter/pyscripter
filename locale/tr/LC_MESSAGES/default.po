@@ -912,7 +912,7 @@ msgstr "Yeniden adlandır seçili Python versiyon"
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
-msgstr "Dosya Path:"
+msgstr "Dosya Yol:"
 
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
@@ -2687,12 +2687,12 @@ msgstr "Untabify|Convert tabs to spaces"
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #: dmCommands.dfm
 msgid "Python &Path..."
-msgstr "Python &Path..."
+msgstr "Python &Yol..."
 
 #. CommandsDataModule..actlMain..actPythonPath..Hint
 #: dmCommands.dfm
 msgid "Python Path|View or edit the Python path"
-msgstr "Python Path|View or edit the Python yol"
+msgstr "Python Yol|View or edit the Python yol"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
@@ -3889,7 +3889,7 @@ msgstr "Dosya Gezgin"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
 #: frmFileExplorer.dfm
 msgid "Browse Path"
-msgstr "Browse Path"
+msgstr "Browse Yol"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..Caption
 #: frmFileExplorer.dfm
@@ -3924,13 +3924,13 @@ msgstr "Yönet favourite yolları"
 #. FileExplorerWindow..ExplorerPopUp..mnPythonPath..Caption
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "Python Path"
-msgstr "Python Path"
+msgstr "Python Yol"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiPythonPath..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnManagePythonPath..Caption
 #: frmFileExplorer.dfm
 msgid "Manage Python &Path..."
-msgstr "Yönet Python &Path..."
+msgstr "Yönet Python &Yol..."
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Desktop..Caption
 #: frmFileExplorer.dfm
@@ -4020,7 +4020,7 @@ msgstr "Enable Filter|Seçin to göster sadece Python dosyalar"
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
 msgid "&Search Path..."
-msgstr "&Arama Path..."
+msgstr "&Arama Yol..."
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Hint
 #: frmFileExplorer.dfm
@@ -4471,7 +4471,7 @@ msgstr "Görüntüleme dosya extensions"
 #. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Caption
 #: frmProjectExplorer.dfm
 msgid "Extra Python &Path..."
-msgstr "Extra Python &Path..."
+msgstr "Extra Python &Yol..."
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm
@@ -6113,7 +6113,7 @@ msgstr "Komut to execute Python (no spaces)"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
-msgstr "Path to SSH Komut"
+msgstr "Yol to SSH Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
@@ -6121,7 +6121,7 @@ msgstr "SSH seçenekler"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
-msgstr "Path to SCP Komut"
+msgstr "Yol to SCP Komut"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
@@ -8598,7 +8598,7 @@ msgstr "Save Proje \"%s\" As"
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas
 msgid "Project Python Path"
-msgstr "Proje Python Path"
+msgstr "Proje Python Yol"
 
 #. Search and Replace
 #. Programmer's name for it: SStartReached
@@ -9077,7 +9077,7 @@ msgstr "Seçin Remote Dosya"
 #. Programmer's name for it: SErrorEmptyPath
 #: StringResources.pas
 msgid "File Path cannot be empty"
-msgstr "Dosya Path cannot be empty"
+msgstr "Dosya Yol cannot be empty"
 
 #. Programmer's name for it: SErrorEmptySSH
 #: StringResources.pas
@@ -9349,11 +9349,11 @@ msgstr "Python Komut Satır Arguments"
 #. register parameter modifiers
 #: uParams.pas
 msgid "Path of file"
-msgstr "Path of dosya"
+msgstr "Yol of dosya"
 
 #: uParams.pas
 msgid "Path without delimeter"
-msgstr "Path without delimeter"
+msgstr "Yol without delimeter"
 
 #: uParams.pas
 msgid "File name"
@@ -9389,11 +9389,11 @@ msgstr "Short dosya name"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
-msgstr "Path with final yol delimiter added"
+msgstr "Yol with final yol delimiter added"
 
 #: uParams.pas
 msgid "Path with final path delimiter removed"
-msgstr "Path with final yol delimiter removed"
+msgstr "Yol with final yol delimiter removed"
 
 #: uParams.pas
 msgid "File type"
