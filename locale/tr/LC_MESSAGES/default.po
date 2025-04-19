@@ -2853,7 +2853,7 @@ msgstr "Bul F&unction..."
 #. CommandsDataModule..actlMain..actFindFunction..Hint
 #: dmCommands.dfm
 msgid "Find Function|Find function from function list"
-msgstr "Bul Function|Bul fonksiyon from fonksiyon liste"
+msgstr "Bul Fonksiyon|Bul fonksiyon from fonksiyon liste"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
@@ -3611,7 +3611,7 @@ msgstr "Call Stack"
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
-msgstr "Function Ad"
+msgstr "Fonksiyon Ad"
 
 #. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......Text
 #: frmCallStack.dfm
@@ -4182,12 +4182,12 @@ msgstr "Değiştir hepsi öğeler..."
 #. FunctionListWindow..Caption
 #: frmFunctionList.dfm
 msgid "Function List"
-msgstr "Function Liste"
+msgstr "Fonksiyon Liste"
 
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm
 msgid "Function"
-msgstr "Function"
+msgstr "Fonksiyon"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderLeft..lblMethods..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
