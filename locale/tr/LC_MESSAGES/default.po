@@ -732,7 +732,7 @@ msgstr "Dizin to içe aktar:"
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
 msgid "File Masks (e.g. *.py;*.pyw):"
-msgstr "Dosya Masks (e.g. *.py;*.pyw):"
+msgstr "Dosya Maskeleri (e.g. *.py;*.pyw):"
 
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
