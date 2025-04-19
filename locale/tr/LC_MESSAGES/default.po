@@ -1682,7 +1682,7 @@ msgstr "Sağ"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..Caption
 #: dlgSynPageSetup.dfm
 msgid "Appearance"
-msgstr "Appearance"
+msgstr "Dış görünüş"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..HeaderLineColorBtn..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterLineColorBtn..Caption
