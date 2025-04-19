@@ -1645,7 +1645,7 @@ msgstr "Sayfa Düzen"
 #. PageSetupDlg..TabControl..tbMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Margins && Options"
-msgstr "Margins && Seçenekler"
+msgstr "Marjlar && Seçenekler"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem2..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..Caption
