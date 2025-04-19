@@ -41,7 +41,7 @@ msgstr "Katkıda Bulunanlar"
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet3..Caption
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Links"
-msgstr "Links"
+msgstr "Linkler"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
