@@ -1035,7 +1035,7 @@ msgstr "External Run"
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr "&Set External Run properties"
+msgstr "&Set External Run özellikler"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -3583,7 +3583,7 @@ msgstr "Breakpoint Properties..."
 #. EditorForm..pmnuBreakpoint..spiBreakpointProperties..Hint
 #: frmBreakPoints.dfm frmEditor.dfm frmBreakPoints.pas
 msgid "Edit breakpoint properties"
-msgstr "Edit breakpoint properties"
+msgstr "Edit breakpoint özellikler"
 
 #. BreakPointsWindow..TBXPopupMenu..mnClear..Caption
 #: frmBreakPoints.dfm
@@ -4566,7 +4566,7 @@ msgstr "Edit run configuration"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Hint
 #: frmProjectExplorer.dfm
 msgid "Show file properties"
-msgstr "Göster dosya properties"
+msgstr "Göster dosya özellikler"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..Caption
