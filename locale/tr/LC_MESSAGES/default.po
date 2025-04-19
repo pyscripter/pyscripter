@@ -1935,7 +1935,7 @@ msgstr "İlk"
 #. PrintPreviewDlg..ActionList..FirstCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "First|Go to first page"
-msgstr "İlk|Go to ilk sayfa"
+msgstr "İlk|Git to ilk sayfa"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -1945,7 +1945,7 @@ msgstr "Önceki"
 #. PrintPreviewDlg..ActionList..PrevCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Previous|Go to previous page"
-msgstr "Önceki|Go to önceki sayfa"
+msgstr "Önceki|Git to önceki sayfa"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -1955,17 +1955,17 @@ msgstr "Sonraki"
 #. PrintPreviewDlg..ActionList..NextCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Next|Go to next page"
-msgstr "Sonraki|Go to sonraki sayfa"
+msgstr "Sonraki|Git to sonraki sayfa"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Last"
-msgstr "Last"
+msgstr "Son"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Last|Go to last page"
-msgstr "Last|Go to last sayfa"
+msgstr "Son|Git to last sayfa"
 
 #. PrintPreviewDlg..ActionList..ZoomCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2729,18 +2729,18 @@ msgstr "Hakkında|Info about the application"
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Line..."
-msgstr "Go To &Satır..."
+msgstr "Git To &Satır..."
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Hint
 #. Programmer's name for it: SGoToLineNumber
 #: dmCommands.dfm StringResources.pas
 msgid "Go to line number"
-msgstr "Go to satır sayı"
+msgstr "Git to satır sayı"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Caption
 #: dmCommands.dfm
 msgid "Go To Syntax &Error"
-msgstr "Go To Sözdizimi &Error"
+msgstr "Git To Sözdizimi &Error"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Hint
 #: dmCommands.dfm
@@ -3087,12 +3087,12 @@ msgstr "Turn kelime kırp on/off (incompatible onunla code folding)"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Debugger Position"
-msgstr "Go To &Debugger Konum"
+msgstr "Git To &Debugger Konum"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr "Go to the mevcut konum of the debugger"
+msgstr "Git to the mevcut konum of the debugger"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3102,7 +3102,7 @@ msgstr "&Proje Home"
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
 msgid "Go to the project home page"
-msgstr "Go to the proje home sayfa"
+msgstr "Git to the proje home sayfa"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Caption
 #: dmCommands.dfm
@@ -3112,7 +3112,7 @@ msgstr "&Grup Support"
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Internet group"
-msgstr "Go to the PyScripter Internet grup"
+msgstr "Git to the PyScripter Internet grup"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #: dmCommands.dfm
@@ -3312,7 +3312,7 @@ msgstr "&Blog"
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr "Go to the PyScripter Blog"
+msgstr "Git to the PyScripter Blog"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Caption
 #: dmCommands.dfm
@@ -3792,14 +3792,14 @@ msgstr "Documentation"
 #. WebPreviewForm..TBXDock1..TBXToolbar1..ToolButtonBack..Hint
 #: frmDocView.dfm frmFileExplorer.dfm frmWebPreview.dfm
 msgid "Go Back"
-msgstr "Go Back"
+msgstr "Git Back"
 
 #. DocForm..TBXDock1..TBXToolbar1..ToolButtonForward..Hint
 #. FileExplorerWindow..FileExplorerActions..actGoForward..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..ToolButtonForward..Hint
 #: frmDocView.dfm frmFileExplorer.dfm frmWebPreview.dfm
 msgid "Go Forward"
-msgstr "Go Forward"
+msgstr "Git Forward"
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
 #. RegExpTesterWindow..BGPanel..FGPanel..StatusBar..lbStatusBar..ImageName
@@ -5112,7 +5112,7 @@ msgstr "Configure Harici Çalıştır"
 #. PyIDEMainForm..actlStandard..actRunDebugLastScript..Caption
 #: frmPyIDEMain.dfm
 msgid "Debug Last Script"
-msgstr "Debug Last Komut dosyası"
+msgstr "Debug Son Komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actRunDebugLastScript..Hint
 #. Programmer's name for it: SHintDebug
@@ -5199,7 +5199,7 @@ msgstr "Abort debugging"
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Caption
 #: frmPyIDEMain.dfm
 msgid "Run Last Script Externally"
-msgstr "Çalıştır Last Komut dosyası Externally"
+msgstr "Çalıştır Son Komut dosyası Externally"
 
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Hint
 #. Programmer's name for it: SHintExternalRun
@@ -5210,7 +5210,7 @@ msgstr "Çalıştır last komut dosyası externally"
 #. PyIDEMainForm..actlStandard..actRunLastScript..Caption
 #: frmPyIDEMain.dfm
 msgid "Run Last Script"
-msgstr "Çalıştır Last Komut dosyası"
+msgstr "Çalıştır Son Komut dosyası"
 
 #. PyIDEMainForm..actlStandard..actRunLastScript..Hint
 #. Programmer's name for it: SHintRun
@@ -7299,12 +7299,12 @@ msgstr "Sil EOL"
 #. Programmer's name for it: SEdCmdDeleteLastChar
 #: StringResources.pas
 msgid "Delete Last Char"
-msgstr "Sil Last Char"
+msgstr "Sil Son Char"
 
 #. Programmer's name for it: SEdCmdDeleteLastWord
 #: StringResources.pas
 msgid "Delete Last Word"
-msgstr "Sil Last Kelime"
+msgstr "Sil Son Kelime"
 
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
@@ -9459,11 +9459,11 @@ msgstr "Creation tarih of a dosya"
 
 #: uParams.pas
 msgid "Last modification date of a file"
-msgstr "Last modification tarih of a dosya"
+msgstr "Son modification tarih of a dosya"
 
 #: uParams.pas
 msgid "Last access date of a file"
-msgstr "Last access tarih of a dosya"
+msgstr "Son access tarih of a dosya"
 
 #: uParams.pas
 msgid "Formatted date"
