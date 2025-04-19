@@ -1043,7 +1043,7 @@ msgstr "&Ayarla Harici Çalıştır özellikler"
 #. Programmer's name for it: SYNS_FriendlyAttrOutput
 #: dlgRunConfiguration.dfm frmCommandOutput.dfm SynHighlighterPython.pas
 msgid "Output"
-msgstr "Output"
+msgstr "Çıktı"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
 #: dlgRunConfiguration.dfm
@@ -1058,7 +1058,7 @@ msgstr "&Append to dosya"
 #. RunConfigurationForm..Panel1..gbSaveOutput..cbSaveOutput..Caption
 #: dlgRunConfiguration.dfm
 msgid "Save Output"
-msgstr "Save Output"
+msgstr "Save Çıktı"
 
 #. StyleSelectorForm..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
@@ -2180,7 +2180,7 @@ msgstr "Tümü dosyalar"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Caption
 #: dlgToolProperties.dfm
 msgid "Standard Input and Output"
-msgstr "Standard Input and Output"
+msgstr "Standard Input and Çıktı"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label10..Caption
 #: dlgToolProperties.dfm
@@ -2190,7 +2190,7 @@ msgstr "Std. &Input:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label11..Caption
 #: dlgToolProperties.dfm
 msgid "Std. &Output:"
-msgstr "Std. &Output:"
+msgstr "Std. &Çıktı:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label12..Caption
 #: dlgToolProperties.dfm
@@ -2200,7 +2200,7 @@ msgstr "Messages &Format:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbCaptureOutput..Caption
 #: dlgToolProperties.dfm
 msgid "&Capture Output"
-msgstr "&Capture Output"
+msgstr "&Capture Çıktı"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages....Hint
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseTraceback....Hint
@@ -5490,12 +5490,12 @@ msgstr "&Unit Tests"
 #. PyIDEMainForm..actlStandard..actNavOutput..Caption
 #: frmPyIDEMain.dfm
 msgid "Command &Output"
-msgstr "Komut &Output"
+msgstr "Komut &Çıktı"
 
 #. PyIDEMainForm..actlStandard..actNavOutput..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Command Output window"
-msgstr "Etkinleştir the Komut Output window"
+msgstr "Etkinleştir the Komut Çıktı window"
 
 #. PyIDEMainForm..actlStandard..actNavEditor..Hint
 #: frmPyIDEMain.dfm
@@ -8538,7 +8538,7 @@ msgid ""
 "Please terminate it first from the 'Output' window."
 msgstr ""
 "An harici process is still running.\n"
-"Please terminate it first from the 'Output' window."
+"Please terminate it first from the 'Çıktı' window."
 
 #. Programmer's name for it: SDictionaryNA
 #: StringResources.pas
@@ -9109,8 +9109,8 @@ msgid ""
 "Error Output: %s+"
 msgstr ""
 "SCP Error:\n"
-"Output: %s+\n"
-"Error Output: %s+"
+"Çıktı: %s+\n"
+"Error Çıktı: %s+"
 
 #. Programmer's name for it: SSHUnknownServer
 #: StringResources.pas
@@ -9141,7 +9141,7 @@ msgid ""
 msgstr ""
 "Failed to execute Python (\"%s\") on the SSH sunucu:\n"
 "ReturnCode: %d\n"
-"Output: %s\n"
+"Çıktı: %s\n"
 "ErrorOutput: %s"
 
 #. Programmer's name for it: SSHVersionMismatch
