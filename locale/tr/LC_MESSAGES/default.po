@@ -359,7 +359,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label3..Caption
 #: dlgCommandLine.dfm dlgRunConfiguration.dfm dlgToolProperties.dfm
 msgid "Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
-msgstr "Parametreler : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
+msgstr "Parametreler : Shift+Ctrl+P, Değiştiriciler : Shift+Ctrl+M "
 
 #. CommandLineDlg..Panel..TBXButton1..Hint
 #: dlgCommandLine.dfm
@@ -6815,7 +6815,7 @@ msgstr "File download failed"
 
 #: dmResources.pas
 msgid "Modifiers"
-msgstr "Modifiers"
+msgstr "Değiştiriciler"
 
 #: frmBreakPoints.pas
 msgid "Ignore Count must be a positive integer"
