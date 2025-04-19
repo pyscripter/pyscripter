@@ -7271,7 +7271,7 @@ msgstr "Copy Line Down"
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
 msgid "Copy Line Up"
-msgstr "Copy Line Up"
+msgstr "Copy Line Yukarı"
 
 #. Programmer's name for it: SEdCmdCut
 #: StringResources.pas
@@ -7446,7 +7446,7 @@ msgstr "Move Line Down"
 #. Programmer's name for it: SEdCmdMoveLineUp
 #: StringResources.pas
 msgid "Move Line Up"
-msgstr "Move Line Up"
+msgstr "Move Line Yukarı"
 
 #. Programmer's name for it: SEdCmdOverwriteMode
 #: StringResources.pas
@@ -7481,7 +7481,7 @@ msgstr "Page Top"
 #. Programmer's name for it: SEdCmdPageUp
 #: StringResources.pas
 msgid "Page Up"
-msgstr "Page Up"
+msgstr "Page Yukarı"
 
 #. Programmer's name for it: SEdCmdPaste
 #: StringResources.pas
@@ -7511,7 +7511,7 @@ msgstr "Scroll Right"
 #. Programmer's name for it: SEdCmdScrollUp
 #: StringResources.pas
 msgid "Scroll Up"
-msgstr "Scroll Up"
+msgstr "Scroll Yukarı"
 
 #. Programmer's name for it: SEdCmdSelectDown
 #: StringResources.pas
@@ -7571,7 +7571,7 @@ msgstr "Select Page Top"
 #. Programmer's name for it: SEdCmdSelectPageUp
 #: StringResources.pas
 msgid "Select Page Up"
-msgstr "Select Page Up"
+msgstr "Select Page Yukarı"
 
 #. Programmer's name for it: SEdCmdSelectRight
 #: StringResources.pas
@@ -7581,7 +7581,7 @@ msgstr "Select Right"
 #. Programmer's name for it: SEdCmdSelectUp
 #: StringResources.pas
 msgid "Select Up"
-msgstr "Select Up"
+msgstr "Select Yukarı"
 
 #. Programmer's name for it: SEdCmdSelectWord
 #: StringResources.pas
@@ -7726,7 +7726,7 @@ msgstr "Unfold Ranges"
 #. Programmer's name for it: SEdCmdUp
 #: StringResources.pas
 msgid "Up"
-msgstr "Up"
+msgstr "Yukarı"
 
 #. Programmer's name for it: SEdCmdUpperCase
 #: StringResources.pas
@@ -7762,7 +7762,7 @@ msgstr "Select Column Right"
 #. Programmer's name for it: SEdCmdSelColumnUp
 #: StringResources.pas
 msgid "Select Column Up"
-msgstr "Select Column Up"
+msgstr "Select Column Yukarı"
 
 #. Programmer's name for it: SEdCmdSelColumnDown
 #: StringResources.pas
@@ -7772,7 +7772,7 @@ msgstr "Select Column Down"
 #. Programmer's name for it: SEdCmdSelColumnPageUp
 #: StringResources.pas
 msgid "Select Column Page Up"
-msgstr "Select Column Page Up"
+msgstr "Select Column Page Yukarı"
 
 #. Programmer's name for it: SEdCmdSelColumnPageDown
 #: StringResources.pas
