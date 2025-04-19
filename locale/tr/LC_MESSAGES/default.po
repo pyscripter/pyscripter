@@ -1005,7 +1005,7 @@ msgstr "&Çalıştırmadan Önce Yeniden Başlat"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm frmPythonII.pas
 msgid "Remote"
-msgstr "Remote"
+msgstr "Uzaktan"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm frmPythonII.pas
@@ -1015,12 +1015,12 @@ msgstr "Internal"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm frmPythonII.pas
 msgid "Remote (Tk)"
-msgstr "Remote (Tk)"
+msgstr "Uzaktan (Tk)"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm
 msgid "Remote (Wx)"
-msgstr "Remote (Wx)"
+msgstr "Uzaktan (Wx)"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm
@@ -3295,7 +3295,7 @@ msgstr "Unfold functions"
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr "Save to Remote Dosya"
+msgstr "Save to Uzaktan Dosya"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
@@ -4607,7 +4607,7 @@ msgstr "Debug the seçili yapılandırma"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr "Ekle Remote Dosya"
+msgstr "Ekle Uzaktan Dosya"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
@@ -5355,7 +5355,7 @@ msgstr "Kullan internal Python Motor"
 #. PyIDEMainForm..actlStandard..actPythonRemote..Caption
 #: frmPyIDEMain.dfm
 msgid "&Remote"
-msgstr "&Remote"
+msgstr "&Uzaktan"
 
 #. PyIDEMainForm..actlStandard..actPythonRemote..Hint
 #: frmPyIDEMain.dfm
@@ -5365,7 +5365,7 @@ msgstr "Kullan a remote Python engine"
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Caption
 #: frmPyIDEMain.dfm
 msgid "Remote (&Tk)"
-msgstr "Remote (&Tk)"
+msgstr "Uzaktan (&Tk)"
 
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Hint
 #: frmPyIDEMain.dfm
@@ -5375,7 +5375,7 @@ msgstr "Kullan a remote Python engine for Tkinter applications"
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Caption
 #: frmPyIDEMain.dfm
 msgid "Remote (&Wx)"
-msgstr "Remote (&Wx)"
+msgstr "Uzaktan (&Wx)"
 
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Hint
 #: frmPyIDEMain.dfm
@@ -5627,12 +5627,12 @@ msgstr "Setup Python engine"
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr "Aç Remote Dosya"
+msgstr "Aç Uzaktan Dosya"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr "Aç Remote Dosya onunla SSH"
+msgstr "Aç Uzaktan Dosya onunla SSH"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
 #: frmPyIDEMain.dfm
@@ -8066,7 +8066,7 @@ msgid ""
 "Remote Server is not connected.\n"
 "Please reinitialize or disconnect the remote interpreter."
 msgstr ""
-"Remote Sunucu is not connected.\n"
+"Uzaktan Sunucu is not connected.\n"
 "Please reinitialize or disconnect the remote interpreter."
 
 #. Programmer's name for it: SRpycNotAvailable
@@ -8103,7 +8103,7 @@ msgstr ""
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
 msgid "*** Remote Interpreter Reinitialized ***"
-msgstr "*** Remote Interpreter Reinitialized ***"
+msgstr "*** Uzaktan Interpreter Reinitialized ***"
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas
@@ -9074,7 +9074,7 @@ msgstr "Unregistered Versiyonlar"
 #. Programmer's name for it: SRemoteFileSelect
 #: StringResources.pas
 msgid "Select Remote File"
-msgstr "Seçin Remote Dosya"
+msgstr "Seçin Uzaktan Dosya"
 
 #. Programmer's name for it: SErrorEmptyPath
 #: StringResources.pas
