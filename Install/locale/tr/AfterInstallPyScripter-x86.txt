@@ -1,0 +1,14 @@
+﻿*********** Bu, PyScripter'ın 32 bit sürümüdür. *************
+Windows'un 64 bit sürümünü kullanıyorsanız, PyScripter'ın yalnızca
+Python'ın 32 bit sürümü yüklüyse çalışacağını lütfen unutmayın.
+
+PyScripter'ı kullanmadan önce, makinenizde
+3.8 veya daha büyük bir Python sürümünün yüklü olduğundan emin olmalısınız. Yoksa, http://www.python.org/ adresinden
+bir tane indirebilirsiniz.
+
+Uzaktan hata ayıklama ve PyScripter ile ilgili diğer konular hakkında bilgi için lütfen https://github.com/pyscripter/pyscripter/wiki adresini ziyaret edin.
+
+Ayrıca, PyScripter'ın daha yeni bir sürümünün olup olmadığını şu adresten kontrol edebilirsiniz:
+https://sourceforge.net/projects/pyscripter/files/.
+
+PyScripter'a olan ilginiz için teşekkür ederiz.

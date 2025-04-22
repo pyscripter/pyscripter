@@ -1,0 +1,4 @@
+﻿tr.PyScripterHelp=PyScripter Yardımı
+tr.EditwithPyScripter=PyScripter ile Düzenle
+tr.ShellIntegrationEditwithPyScripter=Dosya Gezgini bağlam menüsüne 'PyScripter ile Düzenle'yi ekle
+tr.ShellIntegration=Kabuk Entegrasyonu
