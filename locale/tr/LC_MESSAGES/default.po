@@ -6508,7 +6508,7 @@ msgstr "Günlük kaydı etkinleştirildi"
 
 #: dmCommands.pas
 msgid "User Interface content font size in points"
-msgstr "Kullanıcı Arayüzü içerik yazı tipi boyutu (punto)"
+msgstr "Kullanıcı Arayüzü içerik yazı tipi punto boyutu"
 
 #: dmCommands.pas
 msgid "Save files before run"
