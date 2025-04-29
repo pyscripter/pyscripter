@@ -6905,7 +6905,7 @@ msgstr "1"
 #. Programmer's name for it: SNoneString
 #: frmFunctionList.pas
 msgid "<None>"
-msgstr "<Hiçbiri>"
+msgstr "1"
 
 #. Programmer's name for it: SParseStatistics
 #: frmFunctionList.pas
