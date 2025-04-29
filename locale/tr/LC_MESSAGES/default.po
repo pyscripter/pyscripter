@@ -6900,7 +6900,7 @@ msgstr "Dosya Gezgini favorileri"
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
 msgid "<All>"
-msgstr "<Hepsi>"
+msgstr "1"
 
 #. Programmer's name for it: SNoneString
 #: frmFunctionList.pas
