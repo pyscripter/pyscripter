@@ -8697,7 +8697,7 @@ msgstr "Arama dizini %s mevcut değil"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Replaced %d occurrence(s) in %.2f seconds"
-msgstr "%.2f saniyede %d oluşum değiştirildi"
+msgstr "%.2f saniyede %d oluşum(lar) değiştirildi"
 
 #. Programmer's name for it: SAllMatchedFiles
 #: StringResources.pas
