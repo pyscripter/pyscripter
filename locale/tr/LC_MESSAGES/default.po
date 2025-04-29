@@ -7887,7 +7887,7 @@ msgstr "Herkese &Hayır"
 #. Programmer's name for it: SDlgYesToAll
 #: StringResources.pas
 msgid "Yes to &All"
-msgstr "Evet &Hepsine"
+msgstr "&Hepsine Evet"
 
 #. Programmer's name for it: STrueValue
 #: StringResources.pas
