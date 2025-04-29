@@ -6978,7 +6978,7 @@ msgstr "Duraklatıldı"
 
 #: frmPyIDEMain.pas
 msgid "Post mortem"
-msgstr "Yapılandırılmış (Post mortem)"
+msgstr "Yapılandırılmış - Post mortem"
 
 #: frmPyIDEMain.pas
 msgid "Python not available"
