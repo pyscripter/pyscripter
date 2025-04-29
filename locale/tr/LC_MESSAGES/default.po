@@ -7006,7 +7006,7 @@ msgstr "PyScripter - Girdi istendi"
 
 #: frmPythonII.pas
 msgid "Input:"
-msgstr "Giriş:"
+msgstr "Girdi:"
 
 #: frmPythonII.pas
 msgid "Operation cancelled"
