@@ -216,7 +216,7 @@ const
   SNoParameters = '** No/Unknown parameters **';
   SInvalidRegularExpression = 'Invalid Regular Expression: %s';
   SEmptyList = '(Empty List)';
-  SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
+  SCommandLineMsg  = 'Command line: %s';
   SEngineActive = '*** %s Python engine is active ***';
   SInterpreterNA = 'The internal Python interpreter is not available';
   SPythonLoadError = 'PyScripter could not load a Python engine.' + sLineBreak +
@@ -406,7 +406,6 @@ const
   SProcessTerminated         = 'Process "%s" terminated, ExitCode: %.8x';
   SDirNotFound               = 'Directory "%s" does not exists';
   SProcessRunning            = 'One process is still running, stop it first.';
-  SPrintCommandLine          = 'Command line: %s';
   SPrintWorkingDir           = 'Working directory: ';
   SExternalToolStillRunning  = 'The External Tool "%s" is still running. Do you want to terminate it?';
 

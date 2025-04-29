@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-04-29 21:48\n"
+"POT-Creation-Date: 2025-04-30 01:06\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -6278,6 +6278,12 @@ msgstr ""
 msgid "Spanish: %s"
 msgstr ""
 
+#. Programmer's name for it: SAboutBoxCreditsTranslationTurkish
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Turkish: %s"
+msgstr ""
+
 #: dlgAboutPyScripter.pas
 msgid ""
 "Donations from numerous users have provided a strong incentive to develop "
@@ -7909,7 +7915,7 @@ msgstr ""
 #. Programmer's name for it: SCommandLineMsg
 #: StringResources.pas
 #, object-pascal-format
-msgid "Command Line : %s\n"
+msgid "Command line: %s"
 msgstr ""
 
 #. Programmer's name for it: SEngineActive
@@ -8692,12 +8698,6 @@ msgstr ""
 #. Programmer's name for it: SProcessRunning
 #: StringResources.pas
 msgid "One process is still running, stop it first."
-msgstr ""
-
-#. Programmer's name for it: SPrintCommandLine
-#: StringResources.pas
-#, object-pascal-format
-msgid "Command line: %s"
 msgstr ""
 
 #. Programmer's name for it: SPrintWorkingDir

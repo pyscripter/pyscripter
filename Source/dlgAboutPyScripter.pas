@@ -109,6 +109,7 @@ resourcestring
   SAboutBoxCreditsTranslationRussian = 'Russian: %s';
   SAboutBoxCreditsTranslationSlovak  = 'Slovak: %s';
   SAboutBoxCreditsTranslationSpanish = 'Spanish: %s';
+  SAboutBoxCreditsTranslationTurkish = 'Turkish: %s';
 
   SAboutBoxCreditsDonations =
     'Donations from numerous users have provided a strong incentive to develop this project.' + sLineBreak +
@@ -131,7 +132,7 @@ const
 type
   // in alphabetical order of the full English languages names!!
   // not in order of the gettext abbreviations.
-  ECreditLanguages = (ar,zh,fr,de,el,it,ja,kab,pt_BR,pt_PT,ru,sk,es);
+  ECreditLanguages = (ar,zh,fr,de,el,it,ja,kab,pt_BR,pt_PT,ru,sk,es, tr);
 
 const
   cAboutLanguages: array[ECreditLanguages] of string = (
@@ -147,7 +148,8 @@ const
     SAboutBoxCreditsTranslationPortuguesePT,
     SAboutBoxCreditsTranslationRussian,
     SAboutBoxCreditsTranslationSlovak,
-    SAboutBoxCreditsTranslationSpanish
+    SAboutBoxCreditsTranslationSpanish,
+    SAboutBoxCreditsTranslationTurkish
   );
   cAboutTranslationManager = 'Lübbe Onken';
   cAboutTranslators: array[ECreditLanguages] of string = (
@@ -163,7 +165,8 @@ const
     'Gustavo Carreno',
     'Aleksander Dragunkin, Andrei Aleksandrov, Dmitry Arefiev',
     'Marian Denes',
-    'Pedro Luis Larrosa, Victor Alberto Gil, Juan Carlos Cilleruelo'
+    'Pedro Luis Larrosa, Victor Alberto Gil, Juan Carlos Cilleruelo',
+    'Gökhan Cengiz'
   );
 
   cAboutBoxCreditsThemeDesign =

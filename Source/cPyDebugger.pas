@@ -1240,7 +1240,7 @@ begin
       P := GetParamStr(P, Param);
       SysMod.argv.append(Param);
     end;
-    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [Params]));
+    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [Params]) + SLineBreak);
   end;
 end;
 

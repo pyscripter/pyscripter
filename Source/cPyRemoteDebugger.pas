@@ -1117,7 +1117,7 @@ begin
       P := GetParamStr(P, Param);
       ArgV.append(Param);
     end;
-    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [Params]));
+    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [Params]) + SLineBreak);
   end;
 end;
 

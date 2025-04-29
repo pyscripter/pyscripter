@@ -512,7 +512,7 @@ begin
   Application.ProcessMessages;
 
   // Print Command line info
-  AddNewLine(Format(_(SPrintCommandLine), [AppName + ' ' + Arguments]));
+  AddNewLine(Format(_(SCommandLineMsg), [AppName + ' ' + Arguments]));
   AddNewLine(_(SPrintWorkingDir) + WorkDir);
   AddNewLine('');
 
