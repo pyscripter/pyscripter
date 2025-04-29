@@ -633,6 +633,12 @@
           Issues addressed
             #1367, #1369, #1372, #1373, #1374, #1375
 
+   History:   v 5.2.3
+          New Features
+            - Turkish tranlation added
+          Issues addressed
+
+
  {------------------------------------------------------------------------------}
 
 // Bugs and minor features

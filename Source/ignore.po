@@ -243,3 +243,6 @@ msgstr ""
 
 msgid "Gemini"
 msgstr ""
+
+msgid "Grok"
+msgstr ""

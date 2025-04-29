@@ -120,6 +120,10 @@ Source: ..\locale\pt_BR\LC_MESSAGES\default.mo; DestDir: {app}\locale\pt_BR\LC_M
 Source: ..\locale\pt_BR\LC_MESSAGES\default.po; DestDir: {app}\locale\pt_BR\LC_MESSAGES\
 Source: ..\locale\pt_BR\LC_MESSAGES\languages.mo; DestDir: {app}\locale\pt_BR\LC_MESSAGES\
 Source: ..\locale\pt_BR\LC_MESSAGES\languages.po; DestDir: {app}\locale\pt_BR\LC_MESSAGES\
+Source: ..\locale\tr\LC_MESSAGES\default.mo; DestDir: {app}\locale\tr\LC_MESSAGES\
+Source: ..\locale\tr\LC_MESSAGES\default.po; DestDir: {app}\locale\tr\LC_MESSAGES\
+Source: ..\locale\tr\LC_MESSAGES\languages.mo; DestDir: {app}\locale\tr\LC_MESSAGES\
+Source: ..\locale\tr\LC_MESSAGES\languages.po; DestDir: {app}\locale\tr\LC_MESSAGES\
 Source: ..\locale\ru\LC_MESSAGES\default.mo; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\locale\ru\LC_MESSAGES\default.po; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\locale\ru\LC_MESSAGES\languages.mo; DestDir: {app}\locale\ru\LC_MESSAGES\
