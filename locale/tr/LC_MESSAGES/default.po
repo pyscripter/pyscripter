@@ -4,16 +4,16 @@
 # This file is distributed under the same license as PyScripter
 # 
 # Translators:
-# Gkhn Cngz, 2025
 # Kiriakos Vlahos <pyscripter@gmail.com>, 2025
+# Gkhn Cngz, 2025
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-02-09 17:25\n"
+"POT-Creation-Date: 2025-04-29 21:48\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2025\n"
+"Last-Translator: Gkhn Cngz, 2025\n"
 "Language-Team: Turkish (https://app.transifex.com/pyscripter/teams/116142/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -995,7 +995,7 @@ msgstr "Python Motoru"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
-msgstr "Motor &Tip:"
+msgstr "Motor &Tipi:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
 #: dlgRunConfiguration.dfm
@@ -2416,6 +2416,7 @@ msgstr "Kapat|Aktif dosyayı kapat"
 #. CommandsDataModule..actlMain..actEditPaste..Category
 #. CommandsDataModule..actlMain..actEditDelete..Category
 #. CommandsDataModule..actlMain..actEditUndo..Category
+#. CommandsDataModule..actlMain..actEditRedo..Category
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
 #: dmCommands.dfm
 msgid "Edit"
@@ -2481,6 +2482,12 @@ msgstr "&Yeniden Yap"
 #: dmCommands.dfm
 msgid "Redo| Redo last action"
 msgstr "Yeniden yap|Son eylemi yeniden yap"
+
+#. CommandsDataModule..actlMain..actEditRedo..ImageName
+#. Programmer's name for it: SEdCmdRedo
+#: dmCommands.dfm StringResources.pas
+msgid "Redo"
+msgstr "Yeniden yap"
 
 #. CommandsDataModule..actlMain..actEditSelectAll..Caption
 #. UnitTestWindow..DialogActions..actSelectAll..Caption
@@ -3483,6 +3490,12 @@ msgstr "DeepSeek'i kullanın"
 msgid "Use Gemini"
 msgstr "Gemini'yi kullanın"
 
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiGrok..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGrok..Hint
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Use Grok"
+msgstr "Grok'u kullan"
+
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
@@ -3866,6 +3879,12 @@ msgstr "Katla"
 #: frmEditor.dfm
 msgid "Unfold"
 msgstr "Açıl"
+
+#. EditorForm..pmnuEditor..spiEditorViews..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..EditorViewsMenu..Caption
+#: frmEditor.dfm frmPyIDEMain.dfm
+msgid "Editor Views"
+msgstr "Editör Görünümleri"
 
 #. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Caption
 #: frmEditor.dfm
@@ -4861,11 +4880,6 @@ msgstr "&Son Projeler"
 #: frmPyIDEMain.dfm
 msgid "&Tools"
 msgstr "&Araçlar"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..EditorViewsMenu..Caption
-#: frmPyIDEMain.dfm
-msgid "Source Code Views"
-msgstr "Kaynak Kod Görünümleri"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
 #: frmPyIDEMain.dfm
@@ -6494,7 +6508,7 @@ msgstr "Günlük kaydı etkinleştirildi"
 
 #: dmCommands.pas
 msgid "User Interface content font size in points"
-msgstr "Kullanıcı Arayüzü içerik yazı tipi boyutu (punto)"
+msgstr "Kullanıcı Arayüzü içerik yazı tipi punto boyutu"
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -6667,6 +6681,10 @@ msgstr "Kaydırma çubuğu açıklaması"
 #: dmCommands.pas
 msgid "Display flow control symbols"
 msgstr "Akış kontrol sembollerini görüntüle"
+
+#: dmCommands.pas
+msgid "Accessibility support"
+msgstr "Erişilebilirlik desteği"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
@@ -6882,12 +6900,12 @@ msgstr "Dosya Gezgini favorileri"
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
 msgid "<All>"
-msgstr "<Hepsi>"
+msgstr "1"
 
 #. Programmer's name for it: SNoneString
 #: frmFunctionList.pas
 msgid "<None>"
-msgstr "<Hiçbiri>"
+msgstr "1"
 
 #. Programmer's name for it: SParseStatistics
 #: frmFunctionList.pas
@@ -6960,7 +6978,7 @@ msgstr "Duraklatıldı"
 
 #: frmPyIDEMain.pas
 msgid "Post mortem"
-msgstr "Yapılandırılmış (Post mortem)"
+msgstr "Yapılandırılmış - Post mortem"
 
 #: frmPyIDEMain.pas
 msgid "Python not available"
@@ -6984,11 +7002,11 @@ msgstr "Müsait değil"
 
 #: frmPythonII.pas
 msgid "PyScripter - Input requested"
-msgstr "PyScripter - Giriş istendi"
+msgstr "PyScripter - Girdi istendi"
 
 #: frmPythonII.pas
 msgid "Input:"
-msgstr "Giriş:"
+msgstr "Girdi:"
 
 #: frmPythonII.pas
 msgid "Operation cancelled"
@@ -7364,6 +7382,16 @@ msgstr "Katlama Seviyesi 3"
 msgid "Fold Nearest"
 msgstr "En Yakına Katla"
 
+#. Programmer's name for it: SEdCmdNextChange
+#: StringResources.pas
+msgid "Next Change"
+msgstr "Sonraki Değişiklik"
+
+#. Programmer's name for it: SEdCmdPreviousChange
+#: StringResources.pas
+msgid "Previous Change"
+msgstr "Sonraki Değişim"
+
 #. Programmer's name for it: SEdCmdGotoBookmark0
 #: StringResources.pas
 msgid "Goto Bookmark 0"
@@ -7498,11 +7526,6 @@ msgstr "Sayfa Yukarı"
 #: StringResources.pas
 msgid "Paste"
 msgstr "Yapıştır"
-
-#. Programmer's name for it: SEdCmdRedo
-#: StringResources.pas
-msgid "Redo"
-msgstr "Yeniden yap"
 
 #. Programmer's name for it: SEdCmdScrollDown
 #: StringResources.pas
@@ -7864,7 +7887,7 @@ msgstr "Herkese &Hayır"
 #. Programmer's name for it: SDlgYesToAll
 #: StringResources.pas
 msgid "Yes to &All"
-msgstr "Evet &Hepsine"
+msgstr "&Hepsine Evet"
 
 #. Programmer's name for it: STrueValue
 #: StringResources.pas
@@ -8674,7 +8697,7 @@ msgstr "Arama dizini %s mevcut değil"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Replaced %d occurrence(s) in %.2f seconds"
-msgstr "%.2f saniyede %d oluşum değiştirildi"
+msgstr "%.2f saniyede %d oluşum(lar) değiştirildi"
 
 #. Programmer's name for it: SAllMatchedFiles
 #: StringResources.pas
@@ -8925,80 +8948,6 @@ msgstr "\"%s\" Yinelenen Değiştiricisi"
 #: StringResources.pas
 msgid "Package Name"
 msgstr "Paket Adı"
-
-#. Refactoring
-#. Programmer's name for it: SCouldNotLoadModule
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not load and parse module: \"%s\""
-msgstr "Modül yüklenemedi ve ayrıştırılamadı: \"%s\""
-
-#. Programmer's name for it: SNoIdentifier
-#: StringResources.pas
-msgid "No Identifier at the given line and column"
-msgstr "Belirtilen satır ve sütunda Tanımlayıcı yok"
-
-#. Programmer's name for it: SCouldNotFindScope
-#: StringResources.pas
-msgid "Could not find scope for the given line"
-msgstr "Verilen satır için kapsam bulunamadı"
-
-#. Programmer's name for it: STypeOfSIsUnknown
-#: StringResources.pas
-#, object-pascal-format
-msgid "Type of \"%s\" is unknown"
-msgstr "\"%s\" türü bilinmiyor"
-
-#. Programmer's name for it: SCyclicImports
-#: StringResources.pas
-msgid "Cyclic imports encountered!"
-msgstr "Döngüsel içeri alma karşılaşıldı!"
-
-#. Programmer's name for it: SCyclicTypeDependency
-#: StringResources.pas
-msgid "Cyclic type dependency encountered!"
-msgstr "Döngüsel tip bağımlılığıyla karşılaşıldı!"
-
-#. Programmer's name for it: SCouldNotFindIdent
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not find identifier \"%s\" in module \"%s\""
-msgstr "\"%s\" modülünde \"%s\" tanımlayıcısı bulunamadı"
-
-#. Programmer's name for it: SCouldNotAnalyseModule
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not analyse module: \"%s\""
-msgstr "Modül analiz edilemedi: \"%s\""
-
-#. Programmer's name for it: SCouldNotFindModule
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not find module: \"%s\""
-msgstr "Modül bulunamadı: \"%s\""
-
-#. Programmer's name for it: SSelfOutsideClassScope
-#: StringResources.pas
-msgid "\"self\" or \"cls\" used outside a class scope"
-msgstr "\"self\" veya \"cls\" bir sınıf kapsamının dışında kullanılır"
-
-#. Programmer's name for it: SCouldNotFindIdentInScope
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not find identifier \"%s\" in scope \"%s\""
-msgstr "\"%s\" kapsamında \"%s\" tanımlayıcısı bulunamadı"
-
-#. Programmer's name for it: SCouldNotInferType
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not infer type from expresson \"%s\""
-msgstr "\"%s\" ifadesinden tür çıkarılamadı"
-
-#. Programmer's name for it: SCouldInferFunctionReturnType
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not infer return type of function \"%s\""
-msgstr "\"%s\" fonksiyonunun dönüş türü çıkarılamadı"
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
