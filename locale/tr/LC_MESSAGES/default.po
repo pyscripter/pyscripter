@@ -7002,7 +7002,7 @@ msgstr "Müsait değil"
 
 #: frmPythonII.pas
 msgid "PyScripter - Input requested"
-msgstr "PyScripter - Giriş istendi"
+msgstr "PyScripter - Girdi istendi"
 
 #: frmPythonII.pas
 msgid "Input:"
