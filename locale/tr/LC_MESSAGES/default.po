@@ -7934,7 +7934,7 @@ msgstr "Tüm dosyalar|*.*|"
 #. Programmer's name for it: SNoParameters
 #: StringResources.pas
 msgid "** No/Unknown parameters **"
-msgstr "Hayır/Bilinmeyen parametreler"
+msgstr "** Hayır/Bilinmeyen parametreler **"
 
 #. Programmer's name for it: SInvalidRegularExpression
 #: StringResources.pas
