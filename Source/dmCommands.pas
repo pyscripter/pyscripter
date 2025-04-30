@@ -2056,29 +2056,35 @@ var
   SearchText: string;
   OldCaret: TBufferCoord;
 begin
-  if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
-    SearchText :=  WordAtCursor;
-    if SearchText <> '' then begin
-      OldCaret := CaretXY;
+  if Assigned(GI_ActiveEditor) then
+    with GI_ActiveEditor.ActiveSynEdit do
+    begin
+      SearchText :=  WordAtCursor;
+      if SearchText <> '' then
+      begin
+        OldCaret := CaretXY;
 
-      SearchEngine := SynEditSearch;
-      SearchOptions := [];
-      if (Sender as TComponent).Tag = 1 then
-        Include(SearchOptions, ssoBackwards)
-      else
-        CaretX := CaretX + 1;  //  So that we find the next identifier
-      Include(SearchOptions, ssoMatchCase);
-      Include(SearchOptions, ssoWholeWord);
-      GI_PyIDEServices.WriteStatusMsg('');
-      if SearchReplace(SearchText, '', SearchOptions) = 0 then begin
-        CaretXY := OldCaret;
-        MessageBeep(MB_ICONASTERISK);
-        GI_PyIDEServices.WriteStatusMsg(Format(_(SNotFound), [SearchText]));
-      end else begin
-        CaretXY := BlockBegin;
+        SearchEngine := SynEditSearch;
+        SearchOptions := [];
+        if (Sender as TComponent).Tag = 1 then
+          Include(SearchOptions, ssoBackwards)
+        else
+          CaretX := CaretX + 1;  //  So that we find the next identifier
+        Include(SearchOptions, ssoMatchCase);
+        Include(SearchOptions, ssoWholeWord);
+        GI_PyIDEServices.WriteStatusMsg('');
+        if SearchReplace(SearchText, '', SearchOptions) = 0 then
+        begin
+          CaretXY := OldCaret;
+          MessageBeep(MB_ICONASTERISK);
+          GI_PyIDEServices.WriteStatusMsg(Format(_(SNotFound), [SearchText]));
+        end
+        else
+        begin
+          CaretXY := BlockBegin;
+        end;
       end;
     end;
-  end;
 end;
 
 procedure TCommandsDataModule.actFoldAllExecute(Sender: TObject);

@@ -637,6 +637,7 @@
           New Features
             - Turkish tranlation added
           Issues addressed
+            #1392
 
 
  {------------------------------------------------------------------------------}

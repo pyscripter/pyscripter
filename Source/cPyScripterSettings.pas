@@ -794,6 +794,7 @@ begin
     try
       SynEdit.SearchEngine.Pattern := ''; //  To deal with case sensitivity
       SynEdit.SearchEngine.Pattern := SearchText;
+      SynEdit.SearchEngine.IsWordBreakFunction := SynEdit.IsWordBreakChar;
       if ABackwards then
         CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitCaretXY, BE)
       else

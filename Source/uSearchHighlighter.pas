@@ -67,9 +67,10 @@ begin
   if ATerm = '' then Exit;
 
   Indicator.Id := SearchHighlightIndicatorId;
+  SearchEngine.Options := SearchOptions;
+  SearchEngine.Pattern := ATerm;
+  SearchEngine.IsWordBreakFunction := Editor.SynEdit.IsWordBreakChar;
   for var I := 0 to Editor.SynEdit.Lines.Count - 1 do begin
-    SearchEngine.Options := SearchOptions;
-    SearchEngine.Pattern := ATerm;
     SearchEngine.FindAll(Editor.SynEdit.Lines[I]);
 
     for var J := 0 to SearchEngine.ResultCount - 1 do begin
@@ -80,6 +81,7 @@ begin
     end;
   end;
   Editor.HasSearchHighlight := True;
+  SearchEngine.IsWordBreakFunction := nil;
 end;
 
 end.
