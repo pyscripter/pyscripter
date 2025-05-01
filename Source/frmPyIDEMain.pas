@@ -635,7 +635,7 @@
 
    History:   v 5.2.3
           New Features
-            - Turkish tranlation added
+            - Turkish translation added
           Issues addressed
             #1382, #1392
 

@@ -908,6 +908,7 @@ begin
   ThreadPythonExec(
     procedure
     begin
+      TThread.NameThreadForDebugging('Remote Debugger');
       RPI.run_nodebug(Code);
       VarClear(Code);
     end,
@@ -916,7 +917,6 @@ begin
     var
       Py: IPyEngineAndGIL;
     begin
-      TThread.NameThreadForDebugging('Remote Debugger');
       Py := SafePyEngine;
       try
         try
@@ -930,7 +930,9 @@ begin
           end;
         except
           // CheckError already called by VarPyth
-          on E: EPythonError do begin
+          on E: EPyEOFError do FConnected := False;
+          on E: EPythonError do
+          begin
             // should not happen
             CheckConnected(True, False);
             if Connected then HandlePyException(GetPythonEngine.Traceback,E.Message);
@@ -945,7 +947,7 @@ begin
           // Restore the command line parameters
           RestoreCommandLine;
 
-          //  Add again the empty path
+          // Add again the empty path
           SysPathAdd('');
 
           // Change the back current path
@@ -957,7 +959,12 @@ begin
         PythonPathAdder := nil;
         if not Connected then begin
           GI_PyInterpreter.ClearPendingMessages;
-          GI_PyInterpreter.ReinitInterpreter;
+          // Reinitialize destroys the interpreter which executes this method!
+          // So handle with a delay
+          TThread.ForceQueue(nil, procedure
+          begin
+            GI_PyInterpreter.ReinitInterpreter;
+          end);
         end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
           PyControl.ActiveDebugger.EnterPostMortem;
       end;
@@ -1658,7 +1665,6 @@ begin
   var
     Py: IPyEngineAndGIL;
   begin
-    OutputDebugString('Terminate');
     Py := SafePyEngine;
     try
       try
@@ -1673,6 +1679,7 @@ begin
         end;
       except
         // CheckError already called by VarPyth
+        on E: EPyEOFError do FRemotePython.FConnected := False;
         on E: EPythonError do begin
           // should not happen
           FRemotePython.CheckConnected(True, False);
@@ -1693,7 +1700,7 @@ begin
         // Restore the command line parameters
         RestoreCommandLine;
 
-        //  Add again the empty path
+        // Add again the empty path
         FRemotePython.SysPathAdd('');
 
         // Change the back current path
