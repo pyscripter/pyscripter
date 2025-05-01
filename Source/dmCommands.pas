@@ -1904,14 +1904,14 @@ begin
         BeginUpdate;
         with Parameters do begin
           for var Line:= 0 to Lines.Count - 1 do begin
-            var LineText := Lines[Line];
-            var MaskPos := AnsiPos(StartMask, LineText);
+            var SLine := Lines[Line];
+            var MaskPos := AnsiPos(StartMask, SLine);
             if MaskPos > 0 then begin
               BeginUndoBlock;
               try
                 BlockBegin := BufferCoord(MaskPos, Line + 1);
-                BlockEnd := BufferCoord(Length(LineText) + 1, Line + 1);
-                SelText := ReplaceInText(Copy(LineText, MaskPos, MaxInt));
+                BlockEnd := BufferCoord(Length(SLine) + 1, Line + 1);
+                SelText := ReplaceInText(Copy(SLine, MaskPos, MaxInt));
               finally
                 EndUndoBlock;
               end;
