@@ -932,11 +932,11 @@ begin
           // CheckError already called by VarPyth
           on E: EPyEOFError do FConnected := False;
           on E: EPythonError do
-          begin
-            // should not happen
-            CheckConnected(True, False);
-            if Connected then HandlePyException(GetPythonEngine.Traceback,E.Message);
-          end;
+            begin
+              // should not happen
+              CheckConnected(True, False);
+              if Connected then HandlePyException(GetPythonEngine.Traceback,E.Message);
+            end;
         end;
       finally
         GI_PyInterpreter.WritePendingMessages;
@@ -1680,12 +1680,13 @@ begin
       except
         // CheckError already called by VarPyth
         on E: EPyEOFError do FRemotePython.FConnected := False;
-        on E: EPythonError do begin
-          // should not happen
-          FRemotePython.CheckConnected(True, False);
-          if FRemotePython.Connected then
-            FRemotePython.HandlePyException(GetPythonEngine.Traceback, E.Message);
-        end;
+        on E: EPythonError do
+          begin
+            // should not happen
+            FRemotePython.CheckConnected(True, False);
+            if FRemotePython.Connected then
+              FRemotePython.HandlePyException(GetPythonEngine.Traceback, E.Message);
+          end;
       end;
     finally
       VarClear(AsyncResult);
