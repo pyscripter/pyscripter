@@ -664,7 +664,7 @@ msgstr "Ка&талоги:"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm frmFileExplorer.dfm
 #: dlgDirectoryList.pas dlgImportDirectory.pas frmFileExplorer.pas uParams.pas
 msgid "Select directory"
-msgstr ""
+msgstr "Выбрать каталог"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -807,73 +807,73 @@ msgstr "Отмена выбора всех элементов"
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr ""
+msgstr "Версии Python"
 
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
-msgstr ""
+msgstr "Папка"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
 msgid "Activate"
-msgstr ""
+msgstr "Активировать"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected Python version"
-msgstr ""
+msgstr "Активировать выбранную версию Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #. CommandsDataModule..actlMain..actSynSpellErrorAdd..Caption
 #: dlgPythonVersions.dfm dmCommands.dfm
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new Python version"
-msgstr ""
+msgstr "Добавить новую версию Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected Python version"
-msgstr ""
+msgstr "Удалить выбранную версию Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
 msgid "Test"
-msgstr ""
+msgstr "Тестировать"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
 msgid "Test selected Python version"
-msgstr ""
+msgstr "Тестировать выбранную версию Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
 msgid "Show"
-msgstr ""
+msgstr "Показать"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected Python version in Explorer"
-msgstr ""
+msgstr "Показать выдранную версию Python в Проводнике"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
 msgid "Shell"
-msgstr ""
+msgstr "Консоль"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr ""
+msgstr "Открыть командную строку для выбранной версии Python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -891,27 +891,27 @@ msgstr "Помощь"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
-msgstr ""
+msgstr "Показать справку"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
 #: dlgPythonVersions.dfm
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
 msgid "Rename selected Python version"
-msgstr ""
+msgstr "Переименовать выбранную версию Python"
 
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
-msgstr ""
+msgstr "Путь к файлу:"
 
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
 msgid "SSH Server:"
-msgstr ""
+msgstr "SSH сервер:"
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
@@ -976,7 +976,7 @@ msgstr "&Параметры:"
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
 #: dlgRunConfiguration.dfm
 msgid "Working &Directory:"
-msgstr ""
+msgstr "Рабочий &каталог:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonEngines..Caption
@@ -988,7 +988,7 @@ msgstr "Движок Python"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
-msgstr "Механизм &Тип:"
+msgstr "&Тип движка:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbReinitializeBeforeRun..Caption
 #: dlgRunConfiguration.dfm
@@ -1019,7 +1019,7 @@ msgstr "Удаленный (Wx)"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #. RunConfigurationForm..Panel1..GroupBox3..Caption
 #: dlgRunConfiguration.dfm
@@ -1029,7 +1029,7 @@ msgstr "Внешний Run"
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr ""
+msgstr "&Установить свойства внешнего запуска"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -1078,7 +1078,7 @@ msgstr ""
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "&Apply Style"
-msgstr ""
+msgstr "&Применить стиль"
 
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -1101,7 +1101,7 @@ msgstr "Нажатия клавиш"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Color Theme"
-msgstr ""
+msgstr "Цветовая тема"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Caption
@@ -1149,12 +1149,12 @@ msgstr "Пример кода"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
-msgstr ""
+msgstr "Доступные темы"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
-msgstr ""
+msgstr "Применить тему"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
@@ -1208,7 +1208,7 @@ msgid ""
 "space as the preceding line"
 msgstr ""
 "Расположит символ каретки с отступом на новых строках с тем же самым "
-"количеством продвижения пробела как предыдущая строка"
+"количеством пробелов, как в предыдущей строке"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1221,7 +1221,7 @@ msgid ""
 "When clicking with the right mouse for a popup menu, move the cursor to that"
 " location"
 msgstr ""
-"При нажатии правой кнопкой мыши на на всплывающем меню, курсор переместиться"
+"При нажатии правой кнопкой мыши на всплывающем меню, курсор переместиться"
 " на это место "
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckRightMouseMoves..Caption
@@ -1235,7 +1235,7 @@ msgid ""
 "Allows you to select a block of text and drag it within the document to "
 "another location"
 msgstr ""
-"Позволяет выбрать блок текста и перетащить его в другое место  в документе "
+"Позволяет выбрать блок текста и перетащить его в другое место в документе "
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
 #: dlgSynEditOptions.dfm
@@ -1255,7 +1255,7 @@ msgstr "Enhance End Key"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enable wrapping of long lines"
-msgstr ""
+msgstr "Включить перенос для длинных строк"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
@@ -1276,7 +1276,7 @@ msgstr "Enhance Home Key"
 #: dlgSynEditOptions.dfm
 msgid ""
 "Holding down the Alt Key will put the selection mode into columnar format"
-msgstr "Удержание клавиши Alt переведет режим выбора в многоколонный формат"
+msgstr "Удержание клавиши Alt переведет режим выбора в многоколоночный формат"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAltSetsColumnMode..Caption
 #: dlgSynEditOptions.dfm
@@ -1316,7 +1316,7 @@ msgstr "Smart tab delete"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
 msgid "Tab indents and Shift-Tab unindents"
-msgstr ""
+msgstr "Нажатие Tab добавляет отступ, а Shift-Tab - удаляет"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1334,7 +1334,7 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tabs"
-msgstr "Smart tabs"
+msgstr "Умные вкладки"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll....Hint
 #: dlgSynEditOptions.dfm
@@ -1342,13 +1342,13 @@ msgid ""
 "When scrolling with page-up and page-down commands, only scroll a half page "
 "at a time"
 msgstr ""
-"При прокрутке страницы вверх и вниз страницы команд,  выделите только "
-"половину страницы в то время"
+"При прокрутке с помощью команд PageUp и PageDown листать только половину "
+"страницы за раз"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHalfPageScroll..Caption
 #: dlgSynEditOptions.dfm
 msgid "Half page scroll"
-msgstr "Половина прокрутки страницы"
+msgstr "Пролистать половину страницы"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckTrimTrailingSpaces..Hint
 #: dlgSynEditOptions.dfm
@@ -1373,7 +1373,7 @@ msgstr "Прокрутка меньше"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr ""
+msgstr "Показывать разрывы строк, пробелы и табуляцию, используя специальные символы"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -1410,7 +1410,7 @@ msgid ""
 "Allows the cursor to go past the last character into the white space at the "
 "end of a line"
 msgstr ""
-"Позволяет курсору игнорировать  пробелы в качестве последнего символа в "
+"Позволяет курсору игнорировать пробелы в качестве последнего символа в "
 "конце строки"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
@@ -1424,6 +1424,8 @@ msgid ""
 "When undoing/redoing actions, handle all continuous changes of the same kind"
 " in one call instead undoing/redoing each command separately"
 msgstr ""
+"При отмене/повторе действий обрабатывать все идущие подряд изменения одного и того же типа"
+" за один раз, а не отменять/повторять каждую команду по отдельности"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
@@ -1469,12 +1471,12 @@ msgstr "Подсказка прокрутки следует за мышью"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures....Hint
 #: dlgSynEditOptions.dfm
 msgid "Show ligatures (joined font glyphs) when supported by the used font"
-msgstr ""
+msgstr "Показывать лигатуры, если они поддерживаются используемым шрифтом"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowLigatures..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show font ligatures"
-msgstr ""
+msgstr "Показывать лигатуры шрифта"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -1616,7 +1618,7 @@ msgstr "Интервал между строками / пространство 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
 msgid "Extra line spacing (pixels):"
-msgstr ""
+msgstr "межждустрочный интервал (пиксели):"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
@@ -1764,17 +1766,17 @@ msgstr "Нижний колонтитул:"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr ""
+msgstr "Внутреннее поле:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr ""
+msgstr "Отсуп текста слева:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr ""
+msgstr "Отступ текста справа:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label11..Caption
 #: dlgSynPageSetup.dfm
@@ -1814,12 +1816,12 @@ msgstr "Перенос строк"
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "Inches"
-msgstr ""
+msgstr "Дюймы"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "(1/1000) Inches"
-msgstr ""
+msgstr "(1/1000) дюйма"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -2272,8 +2274,8 @@ msgid ""
 "redirect the output to the \n"
 "corresponding outlet."
 msgstr ""
-"Выберите опцию кроме Одного к \n"
-"перенаправьте вывод к \n"
+"Выберите опцию отличную от None, чтобы \n"
+"перенаправить вывод к \n"
 "соответствующему выходу."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -2304,7 +2306,7 @@ msgstr "&Скрыть консоль"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
 msgid "Use the UTF8 encoding for stdin/stdout"
-msgstr ""
+msgstr "Использовать кодировку UTF-8 для stdin/stdout"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
@@ -2314,37 +2316,37 @@ msgstr ""
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
 msgid "Filename"
-msgstr "Наименование"
+msgstr "Имя файла"
 
 #. ToolProperties..FormatsPopup..Filename1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder of the Filename"
-msgstr "Заменитель имени файла"
+msgstr "Заполнитель для имени файла"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Line number"
-msgstr ""
+msgstr "Номер строки"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the line number"
-msgstr ""
+msgstr "Заполнитель для номера строки"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr ""
+msgstr "Номер столбца"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the column number"
-msgstr ""
+msgstr "Заполнитель для номера столбца"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Unit Test Wizard"
-msgstr "Мастер тестов"
+msgstr "Мастер юнит-тестов"
 
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
@@ -2390,12 +2392,12 @@ msgstr "Сохранить|Сохранить активный файл"
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
 msgid "Sav&e As..."
-msgstr ""
+msgstr "&Сохранить как..."
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Сохранить как|Сохранить активный файл с другим именем"
+msgstr "Сохранить как|Сохранить активный файл под другим именем"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. Programmer's name for it: SDlgClose
@@ -2499,7 +2501,7 @@ msgstr "Только чтение"
 #. CommandsDataModule..actlMain..actEditReadOnly..Hint
 #: dmCommands.dfm
 msgid "Enable/disable editing"
-msgstr ""
+msgstr "Включить/Выключить редактирование"
 
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
@@ -2539,12 +2541,12 @@ msgstr "&Заменить..."
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr ""
+msgstr "Заменить|Найти и заменить"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
 msgid "Save &All"
-msgstr "Сохранить &всё"
+msgstr "Сохранить &все"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
@@ -2746,7 +2748,7 @@ msgstr "Переход к позиции первой синтаксическо
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "Find &in Files..."
-msgstr ""
+msgstr "&Найти в файле..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
@@ -2838,7 +2840,7 @@ msgstr "Настройка &инструментов ..."
 #: dmCommands.dfm
 msgid "Configure Tools|Add/remove/edit command-line tools"
 msgstr ""
-"Настройка инструментов|Добавить/удалить редактировать инструменты командной "
+"Настройка инструментов|Добавить/удалить/редактировать инструменты командной "
 "строки"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
@@ -2904,17 +2906,17 @@ msgstr "Найти следующую ссылку на имя"
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr ""
+msgstr "DOS/Windows|Конвертировать в DOS разрыв строки"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm
 msgid "UNIX|Convert to UNIX line break"
-msgstr ""
+msgstr "UNIX|Конвертировать в UNIX разрыв строки"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm
 msgid "Mac|Convert to Mac line break"
-msgstr ""
+msgstr "Mac|Конвертировать в Mac разрыв строки"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
@@ -2924,7 +2926,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "Использовать кодировку ANSI"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
@@ -2949,12 +2951,12 @@ msgstr "Проверить наличие новой версии PyScripter "
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "Unit Test &Wizard..."
-msgstr ""
+msgstr "Мастер &юнит тестов..."
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
-msgstr ""
+msgstr "Мастер юнит тестов|Создать юнит тест для текущего модуля"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
@@ -2989,7 +2991,7 @@ msgstr "Добавить/Удалить шаблоны файла"
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
 msgid "UTF-8 with BOM"
-msgstr ""
+msgstr "UTF-8 с BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
@@ -2999,22 +3001,22 @@ msgstr "Использование UTF-8 кодировки при сохран�
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding without BOM"
-msgstr ""
+msgstr "Использовать кодировку UTF-8 без BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16LE encoding"
-msgstr ""
+msgstr "Использовать кодировку UTF-16LE"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16BE encoding"
-msgstr ""
+msgstr "Использовать кодировку UTF-16BE"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
 msgid "Re&load"
-msgstr ""
+msgstr "&Переоткрыть"
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
@@ -3060,7 +3062,7 @@ msgstr "Экспорт параметров подсветки синтакси�
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr ""
+msgstr "Заменить, используя существующие настройки"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -3080,7 +3082,7 @@ msgstr "Перенос строк"
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #: dmCommands.dfm
 msgid "Turn word wrap on/off (incompatible with code folding)"
-msgstr ""
+msgstr "Включить/выключить перенос слов (несовместимо со сворачиванием блоков кода"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
@@ -3090,7 +3092,7 @@ msgstr "Перейти к &Позиции отладки"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr ""
+msgstr "Перейти к текущей позиции дебаггера"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3125,17 +3127,17 @@ msgstr "Закройтыть все файлы, кроме активного "
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr ""
+msgstr "Закрыть все &справа"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr ""
+msgstr "Закрыть все файлы справа"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
 msgid "Copy File Name"
-msgstr ""
+msgstr "Копировать имя файла"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
@@ -3145,7 +3147,7 @@ msgstr "Копирует имя файла или активный файл в �
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit &Startup Scripts"
-msgstr ""
+msgstr "Реактировать &стартовый скрипт"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3155,33 +3157,33 @@ msgstr "Редактировать инициализационные файлы
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
-msgstr ""
+msgstr "&Блог"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr ""
+msgstr "Перейти в блог PyScripter"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
 #: dmCommands.dfm
 msgid "Code Folding"
-msgstr ""
+msgstr "Сворачивание кода"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm
 msgid "Show/Hide Code Folding"
-msgstr ""
+msgstr "Показать/скрыть сворачивание кода"
 
 #. CommandsDataModule..actlMain..actFoldAll..Caption
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
 msgid "Fold all"
-msgstr ""
+msgstr "Свернуть всё"
 
 #. CommandsDataModule..actlMain..actUnfoldAll..Hint
 #: dmCommands.dfm
@@ -3208,7 +3210,7 @@ msgstr "Развернуть ближайшее"
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
 #: dmCommands.dfm
 msgid "Regions"
-msgstr ""
+msgstr "Области"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
 #. Programmer's name for it: SEdCmdFoldRanges
@@ -3305,32 +3307,32 @@ msgstr "Развернуть функции"
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr ""
+msgstr "Сохранить в удалённый файл"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr ""
+msgstr "Сохранить в удалённый файл через SSH"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
 msgid "&Donate"
-msgstr ""
+msgstr "&Задонатить"
 
 #. CommandsDataModule..actlMain..actDonate..Hint
 #: dmCommands.dfm
 msgid "Donate to the PyScripter project"
-msgstr ""
+msgstr "Поддержать деньгами проект PyScripter"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Caption
 #: dmCommands.dfm
 msgid "Restart &Language Server"
-msgstr ""
+msgstr "Перезапустить &Language Server"
 
 #. CommandsDataModule..actlMain..actToolsRestartLS..Hint
 #: dmCommands.dfm
 msgid "Restart the Language Server"
-msgstr ""
+msgstr "Перезапустить Language Server"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
@@ -3344,52 +3346,52 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSynSpellErrorDelete..Category
 #: dmCommands.dfm dmCommands.pas
 msgid "Spell Checking"
-msgstr ""
+msgstr "Орфография"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Caption
 #: dmCommands.dfm
 msgid "Check File"
-msgstr ""
+msgstr "Проверить файл"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Caption
 #: dmCommands.dfm
 msgid "Check Line"
-msgstr ""
+msgstr "Проверить строку"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckSelection..Caption
 #: dmCommands.dfm
 msgid "Check Selection"
-msgstr ""
+msgstr "Проверить выделенное"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckWord..Caption
 #: dmCommands.dfm
 msgid "Check Word"
-msgstr ""
+msgstr "Проверить слово"
 
 #. CommandsDataModule..actlMain..actSynSpellClearErrors..Caption
 #: dmCommands.dfm
 msgid "Clear Errors"
-msgstr ""
+msgstr "Очистить ошибки"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckAsYouType..Caption
 #: dmCommands.dfm
 msgid "Check As You Type"
-msgstr ""
+msgstr "Проверять при вводе"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnoreOnce..Caption
 #: dmCommands.dfm
 msgid "Ignore Once"
-msgstr ""
+msgstr "Игнорировать сейчас"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Caption
 #: dmCommands.dfm
 msgid "Ignore"
-msgstr ""
+msgstr "Игнорировать"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorDelete..Caption
 #: dmCommands.dfm
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
@@ -3467,7 +3469,7 @@ msgstr "Наименование функции"
 #. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......Text
 #: frmCallStack.dfm
 msgid "Threads"
-msgstr ""
+msgstr "Потоки"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
@@ -3492,7 +3494,7 @@ msgstr ""
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
 msgid "Code Explorer"
-msgstr "Обзор кода"
+msgstr "Обозреватель кода"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
@@ -3515,7 +3517,7 @@ msgstr "&Свернуть все"
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Collapse all nodes"
-msgstr "Сверните все узлы"
+msgstr "Свернуть все узлы"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Caption
 #: frmCodeExplorer.dfm
@@ -3545,7 +3547,7 @@ msgstr "Показать выделенное"
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm
 msgid "Show selected node in editor"
-msgstr "Открыть выбранный узел в редакторе"
+msgstr "Показать выбранный узел в редакторе"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
@@ -3702,7 +3704,7 @@ msgstr "Найти"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSpelling..Caption
 #: frmEditor.dfm frmPyIDEMain.dfm
 msgid "Spelling"
-msgstr ""
+msgstr "Орфография"
 
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm
@@ -3875,7 +3877,7 @@ msgstr "Создать новый каталог"
 #. FileExplorerWindow..FileExplorerActions..actGoToCustomPath..Caption
 #: frmFileExplorer.dfm
 msgid "Select Directory..."
-msgstr ""
+msgstr "Выбрать каталог..."
 
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
@@ -4255,7 +4257,7 @@ msgstr "Добавить новую подпапку"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
 #: frmProjectExplorer.dfm
 msgid "Remove a file, folder or run configuration from the project"
-msgstr ""
+msgstr "Удалить файл, каталог или запустить конфигурацию проекта"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
 #: frmProjectExplorer.dfm
@@ -4356,17 +4358,17 @@ msgstr "Отладьте выбранную конфигурацию"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr ""
+msgstr "Добавить удалённый файл"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr ""
+msgstr "Добавить удалённый файл в папку"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
 msgid "Python version"
-msgstr ""
+msgstr "Версия Python"
 
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
 #: frmPyIDEMain.dfm dmCommands.pas
@@ -4376,7 +4378,7 @@ msgstr "Тип движка Python"
 #. PyIDEMainForm..StatusBar..lbStatusCaret..Hint
 #: frmPyIDEMain.dfm
 msgid "Text position"
-msgstr ""
+msgstr "Позиция текста"
 
 #. PyIDEMainForm..StatusBar..spiStatusLED..Hint
 #. PyIDEMainForm..StatusBar..spiLspLed..Hint
@@ -4515,7 +4517,7 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
 msgid "IDE &Windows"
-msgstr ""
+msgstr "Окна IDE"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
@@ -4525,7 +4527,7 @@ msgstr "&Окна отладчика"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
 msgid "Navi&gate"
-msgstr ""
+msgstr "&Навигация"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -4678,7 +4680,7 @@ msgstr "Поиск от курсора"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
 msgid "&Auto Case Sensitive"
-msgstr ""
+msgstr "Автоматический учёт регистра"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
@@ -4805,7 +4807,7 @@ msgstr "Установить параметры командной строки"
 #. PyIDEMainForm..actlStandard..actImportModule..Caption
 #: frmPyIDEMain.dfm
 msgid "Import &Module"
-msgstr ""
+msgstr "Импортировать &модуль"
 
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
@@ -4820,7 +4822,7 @@ msgstr "&Новый модуль Python "
 #. PyIDEMainForm..actlStandard..actFileNewModule..Hint
 #: frmPyIDEMain.dfm
 msgid "New Python module"
-msgstr "Создать новый модуль  Python "
+msgstr "Создать новый модуль Python "
 
 #. PyIDEMainForm..actlStandard..actFileOpen..Caption
 #: frmPyIDEMain.dfm
@@ -4855,7 +4857,7 @@ msgstr "Выход"
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Status &Bar"
-msgstr ""
+msgstr "Строка &состояния"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -4872,7 +4874,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
 msgid "Configure &External Run..."
-msgstr ""
+msgstr "Настроить внешнее выполнение..."
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
@@ -5001,7 +5003,7 @@ msgstr "Вкл./выкл. точку останова"
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmPyIDEMain.dfm
 msgid "Clear A&ll Breakpoints"
-msgstr ""
+msgstr "Удалить все точки останова"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
@@ -5083,7 +5085,7 @@ msgstr "Показать/Скрыть список задач"
 #. PyIDEMainForm..actlStandard..actViewFindResults..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &in Files Results"
-msgstr ""
+msgstr "Найти в файлах"
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Hint
 #: frmPyIDEMain.dfm
@@ -5124,7 +5126,7 @@ msgstr "Найти определение имени"
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
 msgid "Find R&eferences"
-msgstr ""
+msgstr "Найти ссылки"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
@@ -5479,34 +5481,34 @@ msgstr "Стили..."
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python Versions..."
-msgstr ""
+msgstr "Настроить версию Python..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
 msgid "Setup Python engine"
-msgstr ""
+msgstr "Настроить движок Python"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
 #. SSH File and Remote engine
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr ""
+msgstr "Открыть удалённый файл"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr ""
+msgstr "Открыть удалённый файл через SSH"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Caption
 #: frmPyIDEMain.dfm
 msgid "&Reset Zoom"
-msgstr ""
+msgstr "Сбросить масштабирование"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomReset..Hint
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
-msgstr ""
+msgstr "Сбросить размер шрифта в редакторе к настройкам по умолчанию"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -5850,7 +5852,7 @@ msgstr "Очистить все выражения"
 #. WebPreviewForm..Caption
 #: frmWebPreview.dfm
 msgid "Web Preview"
-msgstr ""
+msgstr "Web предпросмотр"
 
 #. Programmer's name for it: SNoFileOpen
 #: cFindInFiles.pas
@@ -5860,15 +5862,15 @@ msgstr "В настоящий момент нет активных вкладо�
 #. Programmer's name for it: SNonameFileTitle
 #: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
 msgid "Untitled"
-msgstr "Неназванный"
+msgstr "Без имени"
 
 #: cProjectClasses.pas
 msgid "Files"
-msgstr ""
+msgstr "Файлы"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
-msgstr ""
+msgstr "Запустить конфигурации"
 
 #: cPyScripterSettings.pas
 #, object-pascal-format
@@ -5880,76 +5882,76 @@ msgstr ""
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
-msgstr ""
+msgstr "Введите SSH пароль для %s"
 
 #: cSSHSupport.pas
 msgid "Password:"
-msgstr ""
+msgstr "Пароль:"
 
 #: cSSHSupport.pas
 msgid "SSH Servers"
-msgstr ""
+msgstr "SSH серверы"
 
 #: cSSHSupport.pas
 msgid "Select SSH Server"
-msgstr ""
+msgstr "Выберите SSH сервер"
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
-msgstr ""
+msgstr "Имя SSH сервера"
 
 #: cSSHSupport.pas
 msgid "Host name"
-msgstr ""
+msgstr "Имя хоста"
 
 #: cSSHSupport.pas uParams.pas
 msgid "User name"
-msgstr ""
+msgstr "Имя пользователя"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
-msgstr ""
+msgstr "Команда для запуска Python (без пробелов)"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
-msgstr ""
+msgstr "Путь до команды SSH"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
-msgstr ""
+msgstr "Параметры SSH"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
-msgstr ""
+msgstr "Путь до команды SCP"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
-msgstr ""
+msgstr "Параметры SCP"
 
 #: cSSHSupport.pas
 msgid "Password Needed (PyTTY only)"
-msgstr ""
+msgstr "Нужный пароль (только PyTTY)"
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
-msgstr ""
+msgstr "Редактировать SSH сервер"
 
 #. Add a few standard tools to the collection
 #: cTools.pas
 msgid "Python &Interpreter"
-msgstr ""
+msgstr "Интерпретатор Python"
 
 #: cTools.pas
 msgid "External Python Interpreter"
-msgstr ""
+msgstr "Внешний интерпретатор Python"
 
 #: cTools.pas
 msgid "Install Packages with pip"
-msgstr ""
+msgstr "Установить пакеты через pip"
 
 #: cTools.pas
 msgid "Install Python packages"
-msgstr ""
+msgstr "Установить Python пакеты"
 
 #: cTools.pas
 msgid "Python&Win help"
@@ -5961,55 +5963,55 @@ msgstr ""
 
 #: cTools.pas
 msgid "Check &Indentation"
-msgstr ""
+msgstr "Проверить отступы"
 
 #: cTools.pas
 msgid "Check the indentation of the Python program"
-msgstr ""
+msgstr "Проверить отступы в программе на Python"
 
 #: cTools.pas
 msgid "Command Prompt"
-msgstr ""
+msgstr "Командная строка"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr ""
+msgstr "Запускает командную строку в директории с текущим файлом"
 
 #: cTools.pas
 msgid "Profile"
-msgstr ""
+msgstr "Профилировать"
 
 #: cTools.pas
 msgid "Profile active file"
-msgstr ""
+msgstr "Профилировать текущий файл"
 
 #: cTools.pas
 msgid "PyLint tool (www.pylint.org)"
-msgstr ""
+msgstr "Инструмент PyLint (www.pylint.org)"
 
 #: cTools.pas
 msgid "Advanced Replace"
-msgstr ""
+msgstr "Расширенная замена"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
-msgstr ""
+msgstr "Расширенный инструмент Найти и заменить"
 
 #: cTools.pas
 msgid "Format Selection"
-msgstr ""
+msgstr "Форматировать выделенное"
 
 #: cTools.pas
 msgid "Format selected code using the \"black\" module"
-msgstr ""
+msgstr "Форматировать выделенный код, используя модуль \"black\""
 
 #: cTools.pas
 msgid "Sort Selection"
-msgstr ""
+msgstr "Сортировать выделенное"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
-msgstr ""
+msgstr "Сортировать выделенный блок (\"one-liner\" demo)"
 
 #: cTools.pas
 msgid "&Re-indent"
@@ -6048,7 +6050,7 @@ msgstr "Французский: %s"
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "German: %s"
-msgstr "German: %s"
+msgstr "Немецкий: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGreek
 #: dlgAboutPyScripter.pas
@@ -6123,15 +6125,15 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Translators"
-msgstr ""
+msgstr "Переводчики"
 
 #: dlgAboutPyScripter.pas
 msgid "Artwork and theme design"
-msgstr ""
+msgstr "Художники и дизайнеры тем"
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
-msgstr ""
+msgstr "Поддержка"
 
 #: dlgCollectionEditor.pas
 msgid "Please make a selection"
@@ -6150,29 +6152,29 @@ msgstr ""
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
 msgid "PyScripter Bug Report"
-msgstr "PyScripter об ошибках"
+msgstr "Написать баг репорт в PyScripter"
 
 #. Programmer's name for it: RsNoMailClient
 #: dlgExceptionMail.pas
 #, object-pascal-format
 msgid "No %s mail client is available"
-msgstr ""
+msgstr "Не доступен почтовый клиент %s"
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
-msgstr ""
+msgstr "Каталог для поиска:"
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
-msgstr ""
+msgstr "Выберите папку с установленным Python (включая окружения virtualenv и venv)"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
-msgstr ""
+msgstr "Переименовать версию Python"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr ""
+msgstr "Новое имя:"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -6181,17 +6183,17 @@ msgstr "Окно результатов поиска в файлах неакт�
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
-msgstr ""
+msgstr "Выбрать рабочий каталог:"
 
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
 msgid "Print the document on"
-msgstr ""
+msgstr "Напечатать документ на"
 
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
@@ -6199,12 +6201,12 @@ msgstr ""
 
 #: dlgToolProperties.pas
 msgid "External Run Properties"
-msgstr ""
+msgstr "Настройки внешнего выполнения"
 
 #: dlgUnitTestWizard.pas frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Python Module \"%s\""
-msgstr ""
+msgstr "Модуль Python \"%s\""
 
 #: dmCommands.pas
 msgid "IDE"
@@ -6224,7 +6226,7 @@ msgstr "Положение закладок редактора"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
-msgstr ""
+msgstr "Умные следующая/предыдущая страницы"
 
 #: dmCommands.pas
 msgid "Show tab close button"
@@ -6240,15 +6242,15 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
-msgstr ""
+msgstr "Шаблон файла для новых скриптов Python"
 
 #: dmCommands.pas
 msgid "Number of recent files"
-msgstr ""
+msgstr "Количество последних файлов"
 
 #: dmCommands.pas
 msgid "Style Main Window Border"
-msgstr ""
+msgstr "Стиль границы главного окна"
 
 #: dmCommands.pas
 msgid "Restore open files"
@@ -6256,19 +6258,19 @@ msgstr "Восстановить &открытые файлы"
 
 #: dmCommands.pas
 msgid "Restore open project"
-msgstr ""
+msgstr "Восстановить открытый проект"
 
 #: dmCommands.pas
 msgid "Automatic restart"
-msgstr ""
+msgstr "Автоматический перезапуск"
 
 #: dmCommands.pas
 msgid "Logging enabled"
-msgstr ""
+msgstr "Включить логирование"
 
 #: dmCommands.pas
 msgid "User Interface content font size in points"
-msgstr ""
+msgstr "Размер шрифта интерфейса в пунктах"
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -6276,11 +6278,11 @@ msgstr "Сохранять файлы перед запуском"
 
 #: dmCommands.pas
 msgid "Save environment before run"
-msgstr "Сохранять среду перед запуском"
+msgstr "Сохранять окружение перед запуском"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
-msgstr "Время ожидания выполнения скрптов (мс)"
+msgstr "Время ожидания перед выполнением скрптов (мс)"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6316,7 +6318,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Always use sockets"
-msgstr ""
+msgstr "Всегда использовать сокеты"
 
 #: dmCommands.pas
 msgid "Step into open files only"
@@ -6340,7 +6342,7 @@ msgstr "Панель обзора файлов"
 
 #: dmCommands.pas
 msgid "text file"
-msgstr ""
+msgstr "текстовый файл"
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6400,19 +6402,19 @@ msgstr "Подсвечивать выделенное слово"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr ""
+msgstr "Цвет подсветки выделенного слова"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
-msgstr ""
+msgstr "Отображать имена пакетов во вкладках редактора"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr ""
+msgstr "Сворачивание кода включено по умолчанию"
 
 #: dmCommands.pas
 msgid "Code folding options"
-msgstr ""
+msgstr "Настройки сворачивания кода"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
@@ -6424,15 +6426,15 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Track changes bar"
-msgstr ""
+msgstr "Панель отслеживания изменений"
 
 #: dmCommands.pas
 msgid "Selection color"
-msgstr ""
+msgstr "Цвет выделения"
 
 #: dmCommands.pas
 msgid "Indentation Guides"
-msgstr ""
+msgstr "Руководства по отступам"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
@@ -6458,11 +6460,11 @@ msgstr "Учитывать регистр"
 
 #: dmCommands.pas
 msgid "Complete Python keywords"
-msgstr ""
+msgstr "Завершать ключевые слова Python"
 
 #: dmCommands.pas
 msgid "Complete as you type"
-msgstr ""
+msgstr "Завершать при вводе"
 
 #: dmCommands.pas
 msgid "Auto completion font"
@@ -6543,55 +6545,55 @@ msgstr "Настройка инструментов"
 
 #: dmCommands.pas
 msgid "File download failed"
-msgstr ""
+msgstr "Загрузка файла не удалась"
 
 #: frmCodeExplorer.pas
 msgid "Imports"
-msgstr ""
+msgstr "Импорты"
 
 #: frmCodeExplorer.pas
 msgid "Imported modules"
-msgstr ""
+msgstr "Импортированные модули"
 
 #. else
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported Module \"%s\" at line %d"
-msgstr ""
+msgstr "Импортированные модули \"%s\" в строке %d"
 
 #: frmCodeExplorer.pas
 msgid "Global variables"
-msgstr ""
+msgstr "Глобальные переменные"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Global variable \"%s\" defined at line %d"
-msgstr ""
+msgstr "Глобальная переменная \"%s\" заданная в строке %d"
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
-msgstr ""
+msgstr "Атрибуты"
 
 #: frmCodeExplorer.pas
 msgid "Class attributes"
-msgstr ""
+msgstr "Атрибуты класса"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Class attribute \"%s\" defined at line %d"
-msgstr ""
+msgstr "Атрибут класса \"%s\" заданный в строке %d"
 
 #: frmFileExplorer.pas
 msgid "File Explorer Filter"
-msgstr ""
+msgstr "фильтр обозревателя файлов"
 
 #: frmFileExplorer.pas
 msgid "Enter Filter:"
-msgstr ""
+msgstr "Введите фильтр:"
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
-msgstr ""
+msgstr "Избранное обозревателя файлов"
 
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
@@ -6612,7 +6614,7 @@ msgstr "Модуль обрабатывался %g секунд "
 #. Programmer's name for it: SInvalidIndex
 #: frmFunctionList.pas
 msgid "Invalid index number"
-msgstr ""
+msgstr "Неправильный номер индекса"
 
 #. Programmer's name for it: SFileTemplateCategoryOther
 #: frmModSpTBXCustomize.pas StringResources.pas
@@ -6639,11 +6641,11 @@ msgstr "Отладка"
 
 #: frmPyIDEMain.pas
 msgid "Running"
-msgstr ""
+msgstr "Запуск"
 
 #: frmPyIDEMain.pas
 msgid "Paused"
-msgstr ""
+msgstr "Пауза"
 
 #: frmPyIDEMain.pas
 msgid "Post mortem"
@@ -6651,19 +6653,19 @@ msgstr ""
 
 #: frmPyIDEMain.pas
 msgid "Python not available"
-msgstr ""
+msgstr "Python не доступен"
 
 #: frmPyIDEMain.pas
 msgid "Debugger state: "
-msgstr ""
+msgstr "Состояние отладки:"
 
 #: frmPyIDEMain.pas
 msgid "Python Not Available"
-msgstr ""
+msgstr "Python не доступен"
 
 #: frmPyIDEMain.pas
 msgid "Not available"
-msgstr ""
+msgstr "Не доступен"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
@@ -6674,7 +6676,7 @@ msgstr ""
 #. Programmer's name for it: SDoneTodoDesignation
 #: frmToDo.pas
 msgid "Done"
-msgstr "Закончить"
+msgstr "Выполнено"
 
 #. Programmer's name for it: STodoItems
 #: frmToDo.pas
@@ -6683,7 +6685,7 @@ msgstr "Задачи"
 
 #: frmVariables.pas
 msgid "Namespace"
-msgstr ""
+msgstr "Область видимости"
 
 #: frmVariables.pas
 msgid "DocString"
@@ -6695,7 +6697,7 @@ msgstr ""
 
 #: frmWatches.pas
 msgid "Enter new expression:"
-msgstr ""
+msgstr "Введите новое выражение"
 
 #. File Filters
 #. Programmer's name for it: sPythonFileFilter
@@ -6765,17 +6767,17 @@ msgstr ""
 #. Programmer's name for it: SyntaxElementFriendlyName_Attribute
 #: StringResources.pas
 msgid "Attribute"
-msgstr ""
+msgstr "Атрибут"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Brackets
 #: StringResources.pas
 msgid "Brackets"
-msgstr ""
+msgstr "Скобки"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Character
 #: StringResources.pas
 msgid "Character"
-msgstr ""
+msgstr "Символ"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Directive
 #: StringResources.pas
@@ -6785,7 +6787,7 @@ msgstr ""
 #. Programmer's name for it: SyntaxElementFriendlyName_DocumentDelimiter
 #: StringResources.pas
 msgid "Document Delimiter"
-msgstr ""
+msgstr "Ограничение документа"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_Float
 #: StringResources.pas
