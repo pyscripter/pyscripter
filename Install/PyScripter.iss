@@ -45,7 +45,8 @@ Name: "es"; MessagesFile: "compiler:\Languages\Spanish.isl"; InfoAfterFile: "loc
 Name: "fa"; MessagesFile: "locale\fa\Farsi.isl"; InfoAfterFile: "locale\fa\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "ja"; MessagesFile: "compiler:\Languages\Japanese.isl"; InfoAfterFile: "locale\ja\AfterInstallPyScripter-{#OSPlatform}.txt"
-Name: "tr"; MessagesFile: "compiler:\Languages\Turkish.isl"; InfoAfterFile: "locale\tr\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "ru"; MessagesFile: "compiler:\Languages\Turkish.isl"; InfoAfterFile: "locale\tr\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "tr"; MessagesFile: "compiler:\Languages\Russian.isl"; InfoAfterFile: "locale\tr\AfterInstallPyScripter-{#OSPlatform}.txt"
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
@@ -270,6 +271,7 @@ FileName: "cmd";Parameters: "/c IF EXIST jedilsp\NUL rmdir jedilsp /s /q"; Worki
 #include "locale\fa\InstallMessages.txt"
 #include "locale\it\InstallMessages.txt"
 #include "locale\ja\InstallMessages.txt"
+#include "locale\ru\InstallMessages.txt"
 #include "locale\tr\InstallMessages.txt"
 
 ;#expr SaveToFile(AddBackslash(SourcePath) + "Preprocessed.iss")

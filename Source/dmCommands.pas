@@ -1892,29 +1892,25 @@ begin
 end;
 
 procedure TCommandsDataModule.actReplaceParametersExecute(Sender: TObject);
-var
-  OldCaret: TBufferCoord;
 begin
   if Screen.ActiveControl is TCustomSynEdit then
     with TCustomSynEdit(Screen.ActiveControl) do begin
-      OldCaret := CaretXY;
+      var OldCaret := CaretXY;
       if SelAvail then
         SelText := Parameters.ReplaceInText(SelText)
       else try
         BeginUpdate;
-        with Parameters do begin
-          for var Line:= 0 to Lines.Count - 1 do begin
-            var SLine := Lines[Line];
-            var MaskPos := AnsiPos(StartMask, SLine);
-            if MaskPos > 0 then begin
-              BeginUndoBlock;
-              try
-                BlockBegin := BufferCoord(MaskPos, Line + 1);
-                BlockEnd := BufferCoord(Length(SLine) + 1, Line + 1);
-                SelText := ReplaceInText(Copy(SLine, MaskPos, MaxInt));
-              finally
-                EndUndoBlock;
-              end;
+        for var Line:= 0 to Lines.Count - 1 do begin
+          var SLine := Lines[Line];
+          var MaskPos := AnsiPos(Parameters.StartMask, SLine);
+          if MaskPos > 0 then begin
+            BeginUndoBlock;
+            try
+              BlockBegin := BufferCoord(MaskPos, Line + 1);
+              BlockEnd := BufferCoord(Length(SLine) + 1, Line + 1);
+              SelText := Parameters.ReplaceInText(Copy(SLine, MaskPos, MaxInt));
+            finally
+              EndUndoBlock;
             end;
           end;
         end;
