@@ -163,7 +163,7 @@ const
     'Mohammed Belkacem',
     'Eric Szczepanik',
     'Gustavo Carreno',
-    'Aleksander Dragunkin, Andrei Aleksandrov, Dmitry Arefiev',
+    'Aleksander Dragunkin, Andrei Aleksandrov, Dmitry Arefiev, Roman Kuznetsov',
     'Marian Denes',
     'Pedro Luis Larrosa, Victor Alberto Gil, Juan Carlos Cilleruelo',
     'Gökhan Cengiz'
