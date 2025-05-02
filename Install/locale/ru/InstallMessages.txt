@@ -1,0 +1,4 @@
+ru.PyScripterHelp=Справка PyScripter
+ru.EditwithPyScripter=Редактировать в PyScripter
+ru.ShellIntegrationEditwithPyScripter=Добавить пункт 'Редактировать в PyScripter' в контекстное меню Проводника
+ru.ShellIntegration=Интеграция в оболочку
