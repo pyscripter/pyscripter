@@ -909,8 +909,16 @@ begin
     procedure
     begin
       TThread.NameThreadForDebugging('Remote Debugger');
-      RPI.run_nodebug(Code);
-      VarClear(Code);
+      try
+        RPI.run_nodebug(Code);
+        VarClear(Code);
+      except
+        on E: EPyEOFError do
+        begin
+          FConnected := False;
+          GI_PyInterpreter.ClearPendingMessages;
+        end
+      end;
     end,
 
     procedure
@@ -1091,7 +1099,7 @@ procedure TPyRemoteInterpreter.ServeConnection(MaxCount: Integer);
 var
   Count: Integer;
 begin
-  CheckConnected(False, False);
+  CheckConnected(True, False);
   if not Connected then Exit;
 
   Count := 0;
