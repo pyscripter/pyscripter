@@ -1346,37 +1346,8 @@ object ResourcesDataModule: TResourcesDataModule
           '    class ThreadWrapper(threading.Thread):'
           '        """ Wrapper class for threading.Thread. """'
           ''
-          '##        def _bootstrap_inner(self):'
-          '##            self._set_ident()'
-          
-            '##            self.debug_manager.thread_status(self.ident, self.' +
-            'name, self.debug_manager.thrdRunning)'
-          '##'
-          '##            debugger = self.debug_manager.main_debugger'
-          '##            debugger.thread_init()'
-          '##            debugger.reset()'
-          '##            debugger.InitStepIn = False'
-          '##            if debugger._sys.version_info < (3,13):'
-          
-            '##                debugger._sys.settrace(debugger.trace_dispatch' +
-            ')'
-          '##'
-          '##            try:'
-          '##                super()._bootstrap_inner()'
-          '##            except __import__("bdb").BdbQuit:'
-          '##                pass'
-          '##            finally:'
-          '##                if debugger._sys.version_info < (3,13):'
-          '##                    debugger._sys.settrace(None)'
-          '##                if self.debug_manager:'
-          
-            '##                  self.debug_manager.thread_status(self.ident,' +
-            ' self.name, self.debug_manager.thrdFinished)'
-          ''
-          '        @staticmethod'
-          '        def deco_run(func):'
+          '        def wrap_run(self):'
           '            def wrap(self):'
-          '                self._set_ident()'
           
             '                self.debug_manager.thread_status(self.ident, sel' +
             'f.name, self.debug_manager.thrdRunning)'
@@ -1391,7 +1362,7 @@ object ResourcesDataModule: TResourcesDataModule
             'ch)'
           ''
           '                try:'
-          '                    func(self)'
+          '                    type(self).run(self)'
           '                except __import__("bdb").BdbQuit:'
           '                    pass'
           '                finally:'
@@ -1401,19 +1372,13 @@ object ResourcesDataModule: TResourcesDataModule
           
             '                      self.debug_manager.thread_status(self.iden' +
             't, self.name, self.debug_manager.thrdFinished)'
-          '            return wrap'
+          '            self.run = wrap.__get__(self, type(self))'
           ''
           ''
           '        def _bootstrap_inner(self):'
-          '            if not hasattr(self, '#39'_run_decorated'#39'):'
-          '                # Create a new bound method for this instance'
-          
-            '                self.run = self.deco_run(type(self).run).__get__' +
-            '(self, type(self))'
-          '                self._run_decorated = True'
+          '            self.wrap_run()'
           ''
           '            super()._bootstrap_inner()'
-          ''
           '    class IDEDebugger(debugger_base):'
           ''
           '        @staticmethod'
