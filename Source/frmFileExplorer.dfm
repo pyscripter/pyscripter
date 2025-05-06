@@ -42,6 +42,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         TabOrder = 0
         TabStop = True
         TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoHideButtons, toAutoDeleteMovedNodes, toAutoChangeScale]
         TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
         TreeOptions.PaintOptions = [toHideSelection, toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
         TreeOptions.SelectionOptions = [toRightClickSelect]
