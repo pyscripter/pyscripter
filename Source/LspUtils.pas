@@ -184,18 +184,39 @@ begin
     Result := URIToFilePath(URI);
 end;
 
+{function GetProjectDir: String;
+var
+  FileName: String;
+begin
+  Result := '';
+  if Assigned(GI_ActiveEditor) then begin
+    FileName := GI_ActiveEditor.FileName;
+    Result := TPath.GetDirectoryName(FileName);
+  end;
+end;}
+
 function LSPInitializeParams(const ClientName, ClientVersion: string;
   ClientCapabilities: TJSONObject;
   InitializationOptions: TJSONObject = nil): TJSONObject;
 var
   ClientInfo: TJSONObject;
+  RootUri: String;
 begin
   ClientInfo := TJSONObject.Create;
   ClientInfo.AddPair('name', TJSONString.Create(ClientName));
   ClientInfo.AddPair('version', TJSONString.Create(ClientVersion));
   Result := TJSONObject.Create;
   Result.AddPair('clientInfo', ClientInfo);
-  Result.AddPair('rootUri', TJSONNull.Create);
+
+  //RootUri := GetProjectDir;
+  RootUri := GetEnvironmentVariable('USERPROFILE');
+  if RootUri = '' then
+    Result.AddPair('rootUri', TJSONNull.Create)
+  else begin
+    RootUri := FilePathToURI(RootUri);
+    Result.AddPair('rootUri', TJSONString.Create(RootUri));
+  end;
+
   Result.AddPair('capabilities', ClientCapabilities);
   if Assigned(InitializationOptions) then
     Result.AddPair('initializationOptions', InitializationOptions);

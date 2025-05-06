@@ -104,7 +104,9 @@ uses
   cPyControl,
   StringResources,
   JvGnugettext,
-  cPySupportTypes;
+  cPySupportTypes,
+  uEditAppIntfs,
+  PythonEngine;
 
 { TJedi }
 
@@ -170,6 +172,9 @@ class procedure TJedi.Initialize;
 var
   ClientCapabilities: TJSONObject;     // Will be freed by Initialize
   InitializationOptions: TJSONObject;  // Will be freed by Initialize
+  InitString: string;
+  ErrorCode: integer;
+  Py: IPyEngineAndGIL;
 const
    ClientCapabilitiesJson =
     '{"textDocument":{"documentSymbol":{"hierarchicalDocumentSymbolSupport":true}}}';
@@ -190,6 +195,9 @@ const
     '	  "jediSettings": {'#13#10 +
     '		"autoImportModules": [%s],'#13#10 +
     '		"caseInsensitiveCompletion": %s'#13#10 +
+    '	  },'#13#10 +
+    '   "workspace": {'#13#10 +
+    '       "extraPaths": [%s]'#13#10 +
     '	  }'#13#10 +
     '}';
 
@@ -204,17 +212,41 @@ const
     Result := string.Join(',', Arr);
   end;
 
+  function QuotePaths(Paths: TStringList): string;
+  begin
+    var Arr: TArray<String> := Paths.ToStringArray;
+    if Length(Arr) = 0 then Exit('');
+
+    for var I := 0 to Length(Arr) - 1 do
+      Arr[I] := '"' + ExcludeTrailingPathDelimiter(Trim(Arr[I])).Replace('\','\\') + '"';
+
+    Result := string.Join(',', Arr);
+  end;
+
 begin
   if LspClient.Status <> lspStarted then Exit;
 
   ClientCapabilities := TJSONObject.Create;
   ClientCapabilities.Parse(TEncoding.UTF8.GetBytes(ClientCapabilitiesJson), 0);
   InitializationOptions := TJSONObject.Create;
-  InitializationOptions.Parse(TEncoding.UTF8.GetBytes(
-    Format(InitializationOptionsLsp,
-    [BoolToStr(PyIDEOptions.CheckSyntaxAsYouType, True).ToLower,
-     QuotePackages(PyIDEOptions.SpecialPackages),
-     BoolToStr(not PyIDEOptions.CodeCompletionCaseSensitive, True).ToLower])), 0);
+
+  Py := SafePyEngine;
+  var Paths := TStringList.Create;
+  Py.PythonEngine.GetPythonPathAsStrings(Paths, wppOnlyCustom);
+
+  InitString := Format(InitializationOptionsLsp,
+    [
+      BoolToStr(PyIDEOptions.CheckSyntaxAsYouType, True).ToLower,
+      QuotePackages(PyIDEOptions.SpecialPackages),
+      BoolToStr(not PyIDEOptions.CodeCompletionCaseSensitive, True).ToLower,
+      QuotePaths(Paths)
+    ]
+  );
+
+  Paths.Free;
+  ErrorCode := InitializationOptions.Parse(TEncoding.UTF8.GetBytes(InitString), 0);
+  if ErrorCode < 0 then
+    GI_PyIDEServices.WriteStatusMsg('Failed to create LSP InitializationOptions, Error code: ' + IntToStr(ErrorCode));
 
   LspClient.Initialize('PyScripter', ApplicationVersion, ClientCapabilities,
     InitializationOptions);
