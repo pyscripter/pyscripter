@@ -1122,30 +1122,37 @@ class constructor TPyScripterSettings.CreateSettings;
 
 var
   PublicPath: string;
+  AppName, AppININame, EXEPath: string;
 begin
-  OptionsFileName := ChangeFileExt(Application.ExeName, '.ini');
+  AppName := 'PyScripter';
+  // uncomment the following if you want the options files to be named after the exe name
+//  AppName := ChangeFileExt(ExtractFileName(Application.ExeName), '');
+  AppININame := AppName + '.ini';
+  EXEPath := ExtractFilePath(Application.ExeName);
+
+  OptionsFileName := TPath.Combine(EXEPath, AppININame);
   IsPortable := FileExists(OptionsFileName);
   if IsPortable then begin
     // Portable version - nothing is stored in other directories
-    UserDataPath :=   ExtractFilePath(Application.ExeName);
+    UserDataPath := EXEPath;
     ColorThemesFilesDir := TPath.Combine(UserDataPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(UserDataPath, 'Styles');
     LspServerPath :=  TPath.Combine(UserDataPath, 'Lib\Lsp');
     UserDebugInspectorsDir :=  TPath.Combine(UserDataPath, 'Variable Inspectors');
   end else begin
-    UserDataPath := TPath.Combine(GetHomePath,  'PyScripter\');
-    OptionsFileName := TPath.Combine(UserDataPath, 'PyScripter.ini');
+    UserDataPath := TPath.Combine(GetHomePath,  AppName+'\');
+    OptionsFileName := TPath.Combine(UserDataPath, AppININame);
     if not ForceDirectories(UserDataPath) then
       StyledMessageDlg(Format(SAccessAppDataDir, [UserDataPath]),
       mtWarning, [mbOK], 0);
-    PublicPath := TPath.Combine(TPath.GetPublicPath, 'PyScripter\');
+    PublicPath := TPath.Combine(TPath.GetPublicPath, AppName+'\');
     ColorThemesFilesDir := TPath.Combine(PublicPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(PublicPath, 'Styles');
     LspServerPath :=  TPath.Combine(PublicPath, 'Lsp');
     UserDebugInspectorsDir :=  TPath.Combine(UserDataPath, 'Variable Inspectors');
     AppDebugInspectorsDir := TPath.Combine(PublicPath, 'Variable Inspectors');
     // First use setup
-    CopyFileIfNeeded(TPath.Combine(PublicPath, 'PyScripter.ini'), OptionsFileName);
+    CopyFileIfNeeded(TPath.Combine(PublicPath, AppININame), OptionsFileName);
   end;
   ForceDirectories(UserDebugInspectorsDir);
 
