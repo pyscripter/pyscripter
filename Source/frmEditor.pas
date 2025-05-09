@@ -805,27 +805,19 @@ begin
 end;
 
 procedure TEditor.OpenRemoteFile(const FileName, ServerName: string);
-var
-  TempFileName: string;
-  ErrorMsg: string;
 begin
   if (Form = nil) or (FileName = '') or (ServerName = '') then Abort;
 
-  TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(FileName));
-  if not GI_SSHServices.ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
-    StyledMessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
-    Abort;
-  end else
-  begin
-    Form.SynEdit.LockUndo;
-    try
-      if not LoadFileIntoWideStrings(TempFileName, Form.SynEdit.Lines) then
-        Abort
-      else
-        DeleteFile(TempFileName);
-    finally
-      Form.SynEdit.UnlockUndo;
-    end;
+  // CopyRemoteFileToTemp aborts on failure
+  var TempFileName := CopyRemoteFileToTemp(FileName, ServerName);
+
+  Form.SynEdit.LockUndo;
+  try
+    if not LoadFileIntoWideStrings(TempFileName, Form.SynEdit.Lines) then
+      Abort;
+  finally
+    DeleteFile(TempFileName);
+    Form.SynEdit.UnlockUndo;
   end;
 
   FRemoteFileName := FileName;
@@ -1176,7 +1168,7 @@ begin
     begin
       // save module1 as 1.py etc.
       var FName := (Ed as TEditor).FUntitledNumber.ToString;
-      FName := TPath.Combine(RecoveryDir, TPath.ChangeExtension(FName, DefaultExtension));
+      FName := TPath.Combine(RecoveryDir, ChangeFileExt(FName, DefaultExtension));
       SaveWideStringsToFile(FName, SynEdit.Lines, False);
     end;
   end);

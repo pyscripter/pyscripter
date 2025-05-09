@@ -1565,7 +1565,7 @@ begin
   AppStorage.FileName := TPyScripterSettings.OptionsFileName;
 
   // LocalAppStorage
-  LocalAppStorage.FileName := ChangeFileExt(TPyScripterSettings.OptionsFileName, '.local.ini');
+  LocalAppStorage.FileName := TPath.ChangeExtension(TPyScripterSettings.OptionsFileName, 'local.ini');
 
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before All Forms', StopWatch.ElapsedMilliseconds])));
   // Create and layout IDE windows

@@ -510,7 +510,8 @@ begin
   end;
 
   if FServerIsAvailable then begin
-    FServerFile := TPyScripterSettings.UserDataPath + RemoteServerBaseName;
+    FServerFile :=
+      TPath.Combine(TPyScripterSettings.UserDataPath, RemoteServerBaseName);
     case FEngineType of
       peRemote, peSSH: ServerName := 'SimpleServer';
       peRemoteTk: ServerName := 'TkServer';

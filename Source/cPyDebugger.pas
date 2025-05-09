@@ -1050,7 +1050,7 @@ begin
   Editor := GI_EditorFactory.GetEditorByFileId(ARunConfig.ScriptName);
   if Assigned(Editor) then begin
     Source := CleanEOLs(Editor.EncodedText) + #10;
-  end else begin
+  end else
     try
       Source := CleanEOLs(FileToEncodedStr(ARunConfig.ScriptName)) + #10;
     except
@@ -1059,7 +1059,6 @@ begin
         System.SysUtils.Abort;
       end;
     end;
-  end;
   FName := Py.PythonEngine.EncodeWindowsFilePath(ToPythonFileName(ARunConfig.ScriptName));
 
   co := Py.PythonEngine.Py_CompileString(PAnsiChar(Source), PAnsiChar(FName), file_input );

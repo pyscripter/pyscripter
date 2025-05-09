@@ -2150,7 +2150,8 @@ begin
   ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo' +
     PlatformSuffix + '.ini';
   try
-    ProgramVersionCheck.LocalDirectory := TPyScripterSettings.UserDataPath + 'Updates';
+    ProgramVersionCheck.LocalDirectory :=
+      TPath.Combine(TPyScripterSettings.UserDataPath, 'Updates');
     try
       FormatSettings.DateSeparator := '/';
       FormatSettings.ShortDateFormat := 'dd/MM/yyyy';
