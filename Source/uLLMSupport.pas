@@ -172,7 +172,7 @@ const
   OpenaiChatSettings: TLLMSettings = (
     EndPoint: 'https://api.openai.com/v1/chat/completions';
     ApiKey: '';
-    Model: 'gpt-4o';
+    Model: 'gpt-4.1-mini';
     TimeOut: 20000;
     MaxTokens: 2000;
     Temperature: 1.0;

@@ -3,6 +3,15 @@
 
 # History
 
+### Version 5.2.3 (May 10, 2025)
+
+* *New features:*
+	+ Turkish translation added
+
+* *Issues addressed:*
+	+  *#1382*, *#1392*, *#1397*, *#1401*
+
+
 ### Version 5.2.2 (April 14, 2025)
 
 * *New features:*

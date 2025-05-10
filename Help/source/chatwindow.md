@@ -78,7 +78,7 @@ defaults:
 *Model*\
 The model you want to use.   
 - OpenAI models\
-  **gpt-3.5-turbo** is good for coding tasks.  **gpt-4o** is newer, ten times more expensive, but possibly better.
+  Use **gpt-4.1** or the cheaper **gpt-4.1-mini** or any newer model.
 - DeepSeek models\
   Use **deepseek-chat** or **deepseek-reasoner**.
 - Gemini models\
