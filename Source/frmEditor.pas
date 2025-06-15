@@ -2123,16 +2123,27 @@ procedure TEditorForm.ScrollbarAnnotationGetInfo(Sender: TObject;
   AnnType: TSynScrollbarAnnType; var Rows: TArray<Integer>;
   var Colors: TArray<TColor>);
 begin
+  var Editor := Sender as TCustomSynEdit;
+
   Rows := [];
   Colors := [];
-  if HasSyntaxError then
+  if AnnType = sbaCustom1 then
   begin
-    var List := FEditor.FSynLsp.Diagnostics;
-    if List.Count > 0 then
+    if HasSyntaxError then
     begin
-      Rows := [FActiveSynEdit.BufferToDisplayPos(List[0].BlockBegin).Row];
+      var List := FEditor.FSynLsp.Diagnostics;
+      if List.Count > 0 then
+      begin
+        Rows := [Editor.BufferToDisplayPos(List[0].BlockBegin).Row];
+      end;
       Colors := [$3C14DC];
     end;
+  end
+  else if AnnType = sbaCustom2 then
+  begin
+    for var Pair in SynEdit.Indicators.GetById(SearchHighlightIndicatorId) do
+      Rows := Rows + [Editor.LineToRow(Pair.Key)];
+    Colors := [PyIDEOptions.HighlightSelectedWordColor];
   end;
 end;
 
@@ -2458,11 +2469,20 @@ procedure TEditorForm.ApplyPyIDEOptions;
     if PyIDEOptions.ScrollbarAnnotation then
     begin
       Editor.ScrollbarAnnotations.SetDefaultAnnotations;
+      // Diagnostics
       with Editor.ScrollbarAnnotations.Add as TSynScrollbarAnnItem do
       begin
         AnnType := sbaCustom1;
         AnnPos := sbpFullWidth;
         FullRow := True;
+        OnGetInfo := ScrollbarAnnotationGetInfo;
+      end;
+      // Search highlight
+      with Editor.ScrollbarAnnotations.Add as TSynScrollbarAnnItem do
+      begin
+        AnnType := sbaCustom2;
+        AnnPos := sbpSecondLeft;
+        FullRow := False;
         OnGetInfo := ScrollbarAnnotationGetInfo;
       end;
     end
