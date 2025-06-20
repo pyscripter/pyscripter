@@ -341,7 +341,6 @@ uses
   dlgPickList,
   dlgRemoteFile,
   frmPyIDEMain,
-  frmPythonII,
   frmCodeExplorer,
   uCommonFunctions,
   uSearchHighlighter,
@@ -946,7 +945,6 @@ begin
 
   GI_PyInterpreter.ShowWindow;
   GI_PyInterpreter.AppendText(sLineBreak);
-  PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
   Source := CleanEOLs(Source);
 
   ThreadPythonExec(procedure

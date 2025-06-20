@@ -50,7 +50,6 @@ inherited VariablesWindow: TVariablesWindow
           RightEdge = 0
           ScrollBars = ssNone
           ScrollbarAnnotations = <>
-          VisibleSpecialChars = []
           WordWrap = True
         end
       end

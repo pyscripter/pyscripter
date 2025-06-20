@@ -218,12 +218,18 @@ type
     procedure UpdateWindow;
   end;
 
+  IVariablesWindow = interface
+  ['{9BD1D8C0-A0A2-4A56-B30F-615DFC41846B}']
+    procedure UpdateWindow;
+  end;
+
   // Global Interfaces
 var
   GI_PyControl: IPyControl;
   GI_PyInterpreter: IPyInterpreter;
   GI_BreakpointManager: IBreakpointManager;
   GI_WatchManager: IWatchManager;
+  GI_VariablesWindow: IVariablesWindow;
 
 {$ENDREGION 'Python IDE Interfaces'}
 
