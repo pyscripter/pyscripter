@@ -1400,8 +1400,7 @@ type
     function NewFileFromTemplate(FileTemplate: TFileTemplate;
        TabControlIndex: Integer = 1): IEditor;
     procedure UpdateDebugCommands;
-    procedure DebuggerStateChange(Sender: TObject; OldState,
-      NewState: TDebuggerState);
+    procedure DebuggerStateChange(Sender: TObject);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
     procedure PyIDEOptionsChanged;
     procedure SetupCustomizer;
@@ -1863,9 +1862,9 @@ end;
 
 procedure TPyIDEMainForm.ClearPythonWindows;
 begin
-  VariablesWindow.ClearAll;
+  GI_VariablesWindow.ClearAll;
+  GI_CallStackWindow.ClearAll;
   UnitTestWindow.ClearAll;
-  CallStackWindow.ClearAll;
   RegExpTesterWindow.Clear;
 end;
 
@@ -2314,15 +2313,14 @@ begin
    actRunLastScriptExternal.Hint := _(SHintExternalRun) + FName;
 end;
 
-procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,
-  NewState: TDebuggerState);
+procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject);
 var
   StatusMsg: string;
 begin
   if GetIsClosing then Exit;
 
   if GI_PyControl.PythonLoaded then
-    case NewState of
+    case GI_PyControl.DebuggerState of
       dsDebugging,
       dsRunning: begin
                    StatusMsg := _('Running');
@@ -2350,7 +2348,6 @@ begin
   lbStatusMessage.Caption := ' ' + StatusMsg;
   StatusBar.Refresh;
 
-  CallStackWindow.UpdateWindow(NewState, OldState);  // also updates Variables and Watches
   UpdateDebugCommands;
 end;
 
@@ -2830,8 +2827,6 @@ begin
      (PyIDEOptions.PythonEngineType = peInternal)
   then
     PyIDEOptions.PythonEngineType := peRemote;
-
-  PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
   if PyIDEOptions.ShowTabCloseButton then
   begin
@@ -4407,9 +4402,7 @@ begin
     LoadToolbarItems('Toolbar Items');
 
   PyControl.OnStateChange := DebuggerStateChange;
-
-  // This is needed to update the variables window
-  GI_PyControl.DebuggerState := dsInactive;
+  DebuggerStateChange(PyControl);
 
   // Open initial files after loading Python (#879)
   OpenInitialFiles;

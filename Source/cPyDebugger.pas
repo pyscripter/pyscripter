@@ -84,7 +84,6 @@ type
     constructor Create(II: Variant);
     function CreateDebugger: TPyBaseDebugger; override;
 
-    procedure Initialize; override;
     function SysPathAdd(const Path: string): Boolean; override;
     function SysPathRemove(const Path: string): Boolean; override;
     procedure SysPathToStrings(Strings: TStrings); override;
@@ -866,14 +865,7 @@ begin
     dcStepOut    : InternalInterpreter.Debugger.set_return(Frame);
     dcRunToCursor: InternalInterpreter.Debugger.set_continue;
     dcPause      : InternalInterpreter.Debugger.set_step();
-    dcAbort      : begin
-                      InternalInterpreter.Debugger.set_quit();
-                      TThread.Synchronize(nil, procedure
-                      begin
-                        GI_PyIDEServices.Messages.AddMessage(_(SDebuggingAborted));
-                        GI_PyIDEServices.Messages.ShowWindow;
-                      end);
-                    end;
+    dcAbort      : InternalInterpreter.Debugger.set_quit();
    end;
    VarClear(Frame);
 end;
@@ -1171,13 +1163,6 @@ begin
 
     GI_PyControl.DebuggerState := dsInactive;
   end;
-end;
-
-procedure TPyInternalInterpreter.Initialize;
-begin
-  // do not run Python_Init if this is not our main engine
-  if PyIDEOptions.PythonEngineType <> peInternal then Exit;
-  inherited;
 end;
 
 function TPyInternalInterpreter.NameSpaceFromExpression(

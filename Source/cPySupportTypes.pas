@@ -119,6 +119,18 @@ type
     property ExternalRun: TExternalRun read FExternalRun write SetExternalRun;
   end;
 
+  // Base (abstract) class for Call Stack frame information
+  TBaseFrameInfo = class(TObject)
+  protected
+    function GetFunctionName: string; virtual; abstract;
+    function GetFileName: string; virtual; abstract;
+    function GetLine: Integer; virtual; abstract;
+  public
+    property FunctionName: string read GetFunctionName;
+    property FileName: string read GetFileName;
+    property Line: Integer read GetLine;
+  end;
+
   { Python related regular expressions }
   TPyRegExpr = class
     class var BlockOpenerRE: TRegEx;
@@ -220,7 +232,15 @@ type
 
   IVariablesWindow = interface
   ['{9BD1D8C0-A0A2-4A56-B30F-615DFC41846B}']
+    procedure ClearAll;
     procedure UpdateWindow;
+  end;
+
+  ICallStackWindow = interface
+  ['{CE08088E-6AE5-4F14-9114-92AB67E241E7}']
+    function GetSelectedStackFrame: TBaseFrameInfo;
+    procedure ClearAll(IncludeThreads: Boolean = True);
+    procedure UpdateWindow(NewState, OldState: TDebuggerState);
   end;
 
   // Global Interfaces
@@ -230,6 +250,7 @@ var
   GI_BreakpointManager: IBreakpointManager;
   GI_WatchManager: IWatchManager;
   GI_VariablesWindow: IVariablesWindow;
+  GI_CallStackWindow: ICallStackWindow;
 
 {$ENDREGION 'Python IDE Interfaces'}
 

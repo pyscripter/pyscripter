@@ -22,8 +22,6 @@ uses
   cInternalPython;
 
 type
-  TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
-
   TPythonControl = class(TComponent, IPyControl)
   {
     Interface between PyScripter and the Interpreter/Debugger.
@@ -34,7 +32,7 @@ type
     FCurrentPos: TEditorPos;
     FFinalizing: Boolean;
     FDebuggerState: TDebuggerState;
-    FOnStateChange: TDebuggerStateChangeEvent;
+    FOnStateChange: TNotifyEvent;
     FOnPythonVersionChange: TJclNotifyEventBroadcast;
     FActiveInterpreter: TPyBaseInterpreter;
     FActiveDebugger: TPyBaseDebugger ;
@@ -113,7 +111,7 @@ type
     property DebuggerState: TDebuggerState read FDebuggerState write SetDebuggerState;
     property RunConfig: TRunConfiguration read FRunConfig;
     property Finalizing: Boolean read FFinalizing;
-    property OnStateChange: TDebuggerStateChangeEvent read FOnStateChange
+    property OnStateChange: TNotifyEvent read FOnStateChange
       write FOnStateChange;
     property OnPythonVersionChange: TJclNotifyEventBroadcast read GetOnPythonVersionChange;
   end;
@@ -373,12 +371,13 @@ begin
   then
     Exit;
 
-  var Py := SafePyEngine;
-
-  if DebuggerState <> dsInactive then begin
+  if DebuggerState <> dsInactive then
+  begin
     StyledMessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
     Exit;
   end;
+
+  var Py := SafePyEngine;
 
   GI_PyIDEServices.ClearPythonWindows;
 
@@ -418,7 +417,8 @@ begin
         except
           Connected := False;
         end;
-        if Connected then begin
+        if Connected then
+        begin
           ActiveInterpreter := RemoteInterpreter;
           ActiveDebugger := ActiveInterpreter.CreateDebugger;
           PyIDEOptions.PythonEngineType := Value;
@@ -426,17 +426,19 @@ begin
           // Add extra project paths
           if Assigned(ActiveProject) then
             ActiveProject.AppendExtraPaths;
-        end else begin
-          // failed to connect
+        end
+        else
+        begin
+          // failed to connect - fall back to the internal engine
           FreeAndNil(RemoteInterpreter);
           ActiveInterpreter := FInternalInterpreter;
-          ActiveDebugger := TPyInternalDebugger.Create;
+          ActiveDebugger := ActiveInterpreter.CreateDebugger;
           PyIDEOptions.PythonEngineType := peInternal;
         end;
       end;
   end;
 
-  DebuggerState := dsInactive;
+  ActiveInterpreter.Initialize;
 end;
 
 procedure TPythonControl.SetPythonVersionIndex(const Value: Integer);
@@ -515,18 +517,26 @@ begin
     CurrentPos := TEditorPos.EmptyPos
   else
     ErrorPos := TEditorPos.EmptyPos;
+
   FDebuggerState := NewState;
+
   if Assigned(FOnStateChange) then
+    TThread.Queue(nil, procedure
+    begin
+      FOnStateChange(Self)
+    end);
+
+  if Assigned(ActiveInterpreter) and ActiveInterpreter.Initialized then
   begin
     if (GetCurrentThreadId = MainThreadID) then
-      FOnStateChange(Self, OldDebuggerState, NewState)
+      GI_CallStackWindow.UpdateWindow(NewState, OldDebuggerState)  // also updates Variables and Watches
     else
     begin
       TPythonThread.Py_Begin_Allow_Threads;
       try
         TThread.Synchronize(nil, procedure
         begin
-          FOnStateChange(Self, OldDebuggerState, NewState);
+          GI_CallStackWindow.UpdateWindow(NewState, OldDebuggerState);  // also updates Variables and Watches
         end);
       finally
         TPythonThread.Py_End_Allow_Threads;
@@ -628,9 +638,6 @@ begin
     // Allow threads
     TPythonThread.Py_Begin_Allow_Threads;
 
-    // Execute python_init.py
-    FInternalInterpreter.Initialize;
-
     // Execute pyscripter_init.py
     try
       FInternalInterpreter.RunScript(TPyScripterSettings.PyScripterInitFile);
@@ -644,11 +651,15 @@ begin
     FOnPythonVersionChange.Notify(Self);
 
     //  Set the current PythonEngine
-    PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
+    if PyIDEOptions.PythonEngineType = peInternal then
+      FInternalInterpreter.Initialize
+    else
+      PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
 
     GI_PyInterpreter.PrintInterpreterBanner;
     GI_PyInterpreter.PrintEngineType;
-  end else
+  end
+  else
     StyledMessageDlg(Format(_(SPythonLoadError), [MinPyVersion]), mtError, [mbOK], 0);
 end;
 

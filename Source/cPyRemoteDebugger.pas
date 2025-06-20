@@ -829,12 +829,12 @@ begin
           if Assigned(ActiveProject) then
             ActiveProject.AppendExtraPaths;
 
-          GI_PyControl.DebuggerState := dsInactive;
+          Initialize;
         end;
       end;
     else
       // Should not happen.  Reinitialise is not enabled for other states
-      Assert(False, Format(SInternalError, ['ShutdownServer']));
+      Assert(False, Format(SInternalError, ['ReInitialize']));
   end;
 end;
 
@@ -1056,7 +1056,7 @@ begin
     // Create the remote interpreter
     InitScriptName := 'Rpyc_Init';
 
-    Source := CleanEOLs(GI_PyIDEServices.GetStoredScript(InitScriptName).Text)+#10;
+    Source := CleanEOLs(GI_PyIDEServices.GetStoredScript(InitScriptName).Text) + #10;
     Conn.execute(Source);
     RPI := Conn.namespace.__getitem__('_RPI');
     //  pass a reference to the P4D module DebugIDE
@@ -1069,8 +1069,6 @@ begin
 
     FPythonVersion := Conn.modules.sys.version;
     FPythonPlatform := Conn.modules.sys.platform;
-
-    Initialize;
   end;
 end;
 
@@ -1179,6 +1177,7 @@ begin
   ServerTask := nil;
   FServerIsAvailable := False;
   FConnected := False;
+  FInitialized := False;
 end;
 
 procedure TPyRemoteInterpreter.StoreServerProcessInfo(const ProcessInfo:

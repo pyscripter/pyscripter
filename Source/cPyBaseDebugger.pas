@@ -27,18 +27,6 @@ type
 
   TThreadStatus = (thrdRunning, thrdBroken, thrdFinished);
 
-  // Base (abstract) class for Call Stack frame information
-  TBaseFrameInfo = class(TObject)
-  protected
-    function GetFunctionName: string; virtual; abstract;
-    function GetFileName: string; virtual; abstract;
-    function GetLine: Integer; virtual; abstract;
-  public
-    property FunctionName: string read GetFunctionName;
-    property FileName: string read GetFileName;
-    property Line: Integer read GetLine;
-  end;
-
   // Base (abstract) class for thread information
   TThreadInfo = class(TObject)
     Thread_ID: Int64;
@@ -100,6 +88,7 @@ type
     FCanDoPostMortem: Boolean;
     FPythonVersion: string;
     FPythonPlatform: string;
+    FInitialized: Boolean;
     function SystemTempFolder: string; virtual;
     function GetInterpreter: Variant; virtual; abstract;
   public
@@ -137,6 +126,7 @@ type
     function UnitTestResult: Variant; virtual; abstract;
     function NameSpaceItemFromPyObject(AName: string; APyObject: Variant): TBaseNameSpaceItem; virtual; abstract;
     procedure Pickle(AValue: Variant; const FileName: string); virtual; abstract;
+    property Initialized: Boolean read FInitialized;
     property PythonVersion: string read FPythonVersion;
     property PythonPlatform: string read FPythonPlatform;
     property EngineType: TPythonEngineType read FEngineType;
@@ -315,13 +305,16 @@ end;
 procedure TPyBaseInterpreter.Initialize;
 // Execute python_init.py
 begin
-  try
-    RunScript(TPyScripterSettings.EngineInitFile);
-  except
-    on E: Exception do
-      StyledMessageDlg(Format(_(SErrorInitScript),
-        [TPyScripterSettings.EngineInitFile, E.Message]), mtError, [mbOK], 0);
-  end;
+  if not FInitialized then
+    try
+      RunScript(TPyScripterSettings.EngineInitFile);
+    except
+      on E: Exception do
+        StyledMessageDlg(Format(_(SErrorInitScript),
+          [TPyScripterSettings.EngineInitFile, E.Message]), mtError, [mbOK], 0);
+    end;
+  FInitialized := True;
+  GI_PyControl.DebuggerState := dsInactive;
 end;
 
 procedure TPyBaseInterpreter.ReInitialize;
