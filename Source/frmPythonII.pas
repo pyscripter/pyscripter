@@ -732,7 +732,7 @@ begin
     procedure
     begin
       if GI_PyControl.PythonLoaded and not GI_PyControl.Running then
-        case PyControl.DebuggerState of
+        case GI_PyControl.DebuggerState of
           dsInactive :
             NeedIndent :=
               PyControl.ActiveInterpreter.RunSource(SourceCode, '<interactive input>');

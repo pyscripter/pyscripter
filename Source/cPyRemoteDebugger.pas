@@ -391,7 +391,7 @@ var
   Editor: IEditor;
 begin
   CheckConnected;
-  if PyControl.DebuggerState <> dsInactive then begin
+  if GI_PyControl.DebuggerState <> dsInactive then begin
     StyledMessageDlg(_(SCannotCompileWhileRunning),
       mtError, [mbAbort], 0);
     System.SysUtils.Abort;
@@ -678,7 +678,7 @@ begin
   else
     NameOfModule := ChangeFileExt(Editor.FileTitle, '');
 
-  PyControl.DebuggerState := dsRunning;
+  GI_PyControl.DebuggerState := dsRunning;
   try
     try
       Result := RPI.rem_import(NameOfModule, Code);
@@ -705,7 +705,7 @@ begin
     //  Add again the empty path
     SysPathAdd('');
 
-    PyControl.DebuggerState := dsInactive;
+    GI_PyControl.DebuggerState := dsInactive;
   end;
 end;
 
@@ -804,7 +804,7 @@ begin
   OutputDebugString('Reinitialize');
   FStoredServerOutput := [];
   Py := SafePyEngine;
-  case PyControl.DebuggerState of
+  case GI_PyControl.DebuggerState of
     dsDebugging, dsRunning:
       begin
         GI_PyInterpreter.ShowOutput := False;
@@ -829,7 +829,7 @@ begin
           if Assigned(ActiveProject) then
             ActiveProject.AppendExtraPaths;
 
-          PyControl.DebuggerState := dsInactive;
+          GI_PyControl.DebuggerState := dsInactive;
         end;
       end;
     else
@@ -894,7 +894,7 @@ begin
     StyledMessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
   end;
 
-  PyControl.DebuggerState := dsRunning;
+  GI_PyControl.DebuggerState := dsRunning;
 
   // New Line for output
   GI_PyInterpreter.AppendText(sLineBreak);
@@ -962,7 +962,7 @@ begin
           // Change the back current path
           RPI.rem_chdir(OldPath);
         end;
-        PyControl.DebuggerState := dsInactive;
+        GI_PyControl.DebuggerState := dsInactive;
         if ReturnFocusToEditor and Assigned(Editor) then
           Editor.Activate;
         PythonPathAdder := nil;
@@ -988,9 +988,9 @@ var
 begin
   CheckConnected;
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
-  OldDebuggerState := PyControl.DebuggerState;
+  OldDebuggerState := GI_PyControl.DebuggerState;
 
-  PyControl.DebuggerState := dsRunning;
+  GI_PyControl.DebuggerState := dsRunning;
   Py := SafePyEngine;
   try
     try
@@ -1007,7 +1007,7 @@ begin
       GI_PyInterpreter.ReinitInterpreter;
     end;
   finally
-    PyControl.DebuggerState := OldDebuggerState;
+    GI_PyControl.DebuggerState := OldDebuggerState;
   end;
 end;
 
@@ -1284,7 +1284,7 @@ end;
 
 procedure TPyRemDebugger.Abort;
 begin
-  case PyControl.DebuggerState of
+  case GI_PyControl.DebuggerState of
     dsPostMortem: ExitPostMortem;
     dsDebugging,
     dsRunning: RaiseKeyboardInterrupt(FRemotePython.ServerProcessInfo.dwProcessId);
@@ -1338,7 +1338,7 @@ var
   Frame, BotFrame, TraceBack: Variant;
 begin
   Py := SafePyEngine;
-  if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
+  if not (HaveTraceback and (GI_PyControl.DebuggerState = dsInactive)) then
     Exit;
 
   GI_PyInterpreter.SetPyInterpreterPrompt(pipPostMortem);
@@ -1350,7 +1350,7 @@ begin
     TraceBack := TraceBack.tb_next;
   Frame := TraceBack.tb_frame;
 
-  PyControl.DebuggerState := dsPostMortem;
+  GI_PyControl.DebuggerState := dsPostMortem;
   FMainThread.Status := thrdBroken;
   GetCallStack(FMainThread.CallStack, Frame, BotFrame);
   TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctAdded );
@@ -1365,7 +1365,7 @@ var
   ExprValue: Variant;
 begin
   Result := nil;
-  if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
+  if GI_PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     FExecPaused := True;
     try
@@ -1391,7 +1391,7 @@ var
 begin
   ObjType := _(SNotAvailable);
   Value := _(SNotAvailable);
-  if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
+  if GI_PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     FExecPaused := True;
     try
@@ -1422,7 +1422,7 @@ begin
   FMainThread.CallStack.Clear;
   TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctStatusChange);
   MakeFrameActive(nil);
-  PyControl.DebuggerState := dsInactive;
+  GI_PyControl.DebuggerState := dsInactive;
 end;
 
 procedure TPyRemDebugger.GetCallStack(CallStackList: TObjectList<TBaseFrameInfo>;
@@ -1445,7 +1445,7 @@ end;
 function TPyRemDebugger.GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
 begin
   Result := nil;
-  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
+  if not (GI_PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TRemNameSpaceItem.Create('globals',
     (Frame as TFrameInfo).PyFrame.f_globals, FRemotePython);
@@ -1454,7 +1454,7 @@ end;
 function TPyRemDebugger.GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
 begin
   Result := nil;
-  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
+  if not (GI_PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TRemNameSpaceItem.Create('locals',
     (Frame as TFrameInfo).PyFrame.f_locals, FRemotePython);
@@ -1471,7 +1471,7 @@ var
 begin
    FRemotePython.CheckConnected;
 
-   if (PyControl.DebuggerState <> dsPaused) or not FRemotePython.Connected then
+   if (GI_PyControl.DebuggerState <> dsPaused) or not FRemotePython.Connected then
      Exit;
 
    if GI_BreakpointManager.BreakpointsChanged then SetDebuggerBreakpoints;
@@ -1595,7 +1595,7 @@ begin
   FRemotePython.CheckConnected;
   FRemotePython.CanDoPostMortem := False;
   FDebuggerCommand := dcRun;
-  Assert(PyControl.DebuggerState = dsInactive, 'TPyRemDebugger.Debug');
+  Assert(GI_PyControl.DebuggerState = dsInactive, 'TPyRemDebugger.Debug');
 
   Py := SafePyEngine;
   //Compile
@@ -1626,7 +1626,7 @@ begin
     StyledMessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
   end;
 
-  PyControl.DebuggerState := dsDebugging;
+  GI_PyControl.DebuggerState := dsDebugging;
   TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctAdded );
 
 
@@ -1720,7 +1720,7 @@ begin
       if GI_PyIDEServices.Layouts.LayoutExists('Debug') then
         GI_PyIDEServices.Layouts.LoadLayout('Current');
 
-      PyControl.DebuggerState := dsInactive;
+      GI_PyControl.DebuggerState := dsInactive;
       if ReturnFocusToEditor and Assigned(Editor) then
         Editor.Activate;
       PythonPathAdder := nil;
@@ -1784,7 +1784,7 @@ function TPyRemDebugger.RunSource(const Source, FileName: string; const Symbol: 
 // The interpreter RunSource calls II.runsource which differs
 // according to whether we are debugging or not
 begin
-  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
+  if not (GI_PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit(False);
 
   FExecPaused := True;
@@ -1800,7 +1800,7 @@ var
   Py: IPyEngineAndGIL;
   FName: string;
 begin
-  Assert(PyControl.DebuggerState = dsPaused, 'TPyRemDebugger.RunToCursor');
+  Assert(GI_PyControl.DebuggerState = dsPaused, 'TPyRemDebugger.RunToCursor');
   GI_PyInterpreter.RemovePrompt;
   // Set Temporary breakpoint
   if GI_BreakpointManager.BreakpointsChanged then
@@ -1916,9 +1916,9 @@ begin
     ThreadInfo.Status := thrdBroken;
     GetCallStack(ThreadInfo.CallStack, Frame, BotFrame);
 
-    if PyControl.DebuggerState = dsDebugging then
+    if GI_PyControl.DebuggerState = dsDebugging then
     begin
-      PyControl.DebuggerState := dsPaused;
+      GI_PyControl.DebuggerState := dsPaused;
       TThread.Queue(nil, procedure
       begin
         GI_PyInterpreter.AppendPrompt;
@@ -1987,7 +1987,7 @@ begin
         begin
           ThreadInfo.CallStack.Clear;
           if not HaveBrokenThread then
-            PyControl.DebuggerState := dsDebugging;
+            GI_PyControl.DebuggerState := dsDebugging;
         end;
       end;
     end

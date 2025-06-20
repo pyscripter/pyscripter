@@ -21,13 +21,15 @@ uses
   cTools;
 
 type
-   { The available types of PythonEngines }
-   TPythonEngineType =
-     (peInternal,   // always available - used to communicate with external ones
-      peRemote,     // rpyc based external Python - default
-      peRemoteTk,   // specialized engines used to run GUI scripts
-      peRemoteWx,
-      peSSH);       // SSH Python engine
+  { The available types of PythonEngines }
+  TPythonEngineType =
+    (peInternal,   // always available - used to communicate with external ones
+     peRemote,     // rpyc based external Python - default
+     peRemoteTk,   // specialized engines used to run GUI scripts
+     peRemoteWx,
+     peSSH);       // SSH Python engine
+
+  TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
 
 const
   // Defined DebugIDE events
@@ -138,15 +140,19 @@ type
     function Running: Boolean;
     function Inactive: Boolean;
     function GetCurrentPos: TEditorPos;
+    function GetDebuggerState: TDebuggerState;
     function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     procedure SetCurrentPos(const NewPos: TEditorPos);
+    procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
     property CurrentPos: TEditorPos read GetCurrentPos write SetCurrentPos;
+    property DebuggerState: TDebuggerState read GetDebuggerState
+      write SetDebuggerState;
     property ErrorPos: TEditorPos read GetErrorPos write SetErrorPos;
     property PythonVersion: TPythonVersion read GetPythonVersion;
     property ActiveSSHServerName: string read GetActiveSSHServerName;
@@ -206,11 +212,18 @@ type
       write SetBreakpointsChanged;
   end;
 
+  IWatchManager = interface
+  ['{98C8EE88-8C29-436F-9CDC-730E7C7F0CA8}']
+    procedure AddWatch(Str: string);
+    procedure UpdateWindow;
+  end;
+
   // Global Interfaces
 var
   GI_PyControl: IPyControl;
   GI_PyInterpreter: IPyInterpreter;
   GI_BreakpointManager: IBreakpointManager;
+  GI_WatchManager: IWatchManager;
 
 {$ENDREGION 'Python IDE Interfaces'}
 

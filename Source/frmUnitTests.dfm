@@ -239,7 +239,6 @@ inherited UnitTestWindow: TUnitTestWindow
             ReadOnly = True
             RightEdge = 0
             ScrollbarAnnotations = <>
-            VisibleSpecialChars = []
           end
         end
       end

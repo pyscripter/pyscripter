@@ -22,8 +22,6 @@ uses
   cInternalPython;
 
 type
-  TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
-
   TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
 
   TPythonControl = class(TComponent, IPyControl)
@@ -50,7 +48,6 @@ type
     function InitPythonVersions: Boolean;
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
-    procedure SetDebuggerState(NewState: TDebuggerState);
     function GetPythonEngineType: TPythonEngineType;
     procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
@@ -62,11 +59,13 @@ type
     function Running: Boolean;
     function Inactive: Boolean;
     function GetCurrentPos: TEditorPos;
+    function GetDebuggerState: TDebuggerState;
     function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
     function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     procedure SetCurrentPos(const NewPos: TEditorPos);
+    procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
     function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
@@ -199,6 +198,11 @@ end;
 function TPythonControl.GetCurrentPos: TEditorPos;
 begin
   Result := FCurrentPos;
+end;
+
+function TPythonControl.GetDebuggerState: TDebuggerState;
+begin
+  Result := FDebuggerState;
 end;
 
 function TPythonControl.GetErrorPos: TEditorPos;
@@ -502,7 +506,7 @@ begin
   FErrorPos := NewPos;
 end;
 
-procedure TPythonControl.SetDebuggerState(NewState: TDebuggerState);
+procedure TPythonControl.SetDebuggerState(const NewState: TDebuggerState);
 var
   OldDebuggerState: TDebuggerState;
 begin

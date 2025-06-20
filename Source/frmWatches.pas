@@ -32,10 +32,10 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
-  cPyControl;
+  cPySupportTypes;
 
 type
-  TWatchesWindow = class(TIDEDockWindow)
+  TWatchesWindow = class(TIDEDockWindow, IWatchManager)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnAddWatch: TSpTBXItem;
     mnRemoveWatch: TSpTBXItem;
@@ -81,6 +81,9 @@ type
   private
     const FBasePath = 'Watches'; // Used for storing settings
     var FWatchesList: TObjectList;
+    // IWatchManager implementation
+    procedure UpdateWindow;
+    procedure AddWatch(Str: string);
   protected
     function CreateWatch(Sender: TJvCustomAppStorage; const Path: string;
       Index: Integer): TPersistent;
@@ -88,9 +91,6 @@ type
     // AppStorage
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
-
-    procedure UpdateWindow(DebuggerState: TDebuggerState);
-    procedure AddWatch(Str: string);
   end;
 
 var
@@ -109,7 +109,7 @@ uses
   StringResources,
   uCommonFunctions,
   dmResources,
-  cPySupportTypes,
+  cPyControl,
   cPyBaseDebugger;
 
 {$R *.dfm}
@@ -153,6 +153,8 @@ begin
   FWatchesList := TObjectList.Create(True); // Onwns objects
   // Let the tree know how much data space we need.
   WatchesView.NodeDataSize := SizeOf(TWatchRec);
+
+  GI_WatchManager := Self;
 end;
 
 procedure TWatchesWindow.WatchesViewInitChildren(Sender: TBaseVirtualTree;
@@ -270,7 +272,7 @@ begin
   WatchInfo := TWatchInfo.Create;
   WatchInfo.Watch := Str;
   FWatchesList.Add(WatchInfo);
-  UpdateWindow(PyControl.DebuggerState);
+  UpdateWindow;
 end;
 
 procedure TWatchesWindow.mnAddWatchClick(Sender: TObject);
@@ -297,7 +299,7 @@ begin
     WatchInfo.Watch := InputBox(_('Edit Watch'), _('Enter new expression:'), WatchInfo.Watch);
     if WatchInfo.Watch = '' then
       FWatchesList.Remove(WatchInfo);
-    UpdateWindow(PyControl.DebuggerState);
+    UpdateWindow;
   end;
 end;
 
@@ -315,7 +317,7 @@ begin
     WatchInfo := FWatchesList[Node.Index] as TWatchInfo;
     FWatchesList.Remove(WatchInfo);
     WatchesView.Clear;
-    UpdateWindow(PyControl.DebuggerState);
+    UpdateWindow;
   end;
 end;
 
@@ -427,7 +429,7 @@ begin
   end;
 end;
 
-procedure TWatchesWindow.UpdateWindow(DebuggerState: TDebuggerState);
+procedure TWatchesWindow.UpdateWindow;
 var
   Py: IPyEngineAndGIL;
 begin
@@ -443,7 +445,7 @@ begin
     with TWatchInfo(FWatchesList[I]) do
       begin
         FreeAndNil(FNS);
-        if DebuggerState in [dsPaused, dsPostMortem] then
+        if GI_PyControl.DebuggerState in [dsPaused, dsPostMortem] then
         FNS := PyControl.ActiveDebugger.Evaluate(Watch);
       end;
 
@@ -493,7 +495,7 @@ begin
     PPIScale(AppStorage.ReadInteger(FBasePath + '\WatchesWidth', 200));
   WatchesView.Header.Columns[1].Width :=
     PPIScale(AppStorage.ReadInteger(FBasePath+'\Types Width', 100));
-  UpdateWindow(PyControl.DebuggerState);
+  UpdateWindow;
 end;
 
 function TWatchesWindow.CreateWatch(Sender: TJvCustomAppStorage;

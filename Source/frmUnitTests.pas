@@ -493,7 +493,7 @@ begin
 
   Status := utwRunning;
   UpdateActions;
-  PyControl.DebuggerState := dsRunning;
+  GI_PyControl.DebuggerState := dsRunning;
   Application.ProcessMessages;
 
   TestResult := PyControl.ActiveInterpreter.UnitTestResult;
@@ -511,7 +511,7 @@ begin
     VarClear(UnitTestModule);
     VarClear(TestCase);
     Status := utwRun;
-    PyControl.DebuggerState := dsInactive;
+    GI_PyControl.DebuggerState := dsInactive;
     lblRunTests.Caption := Format(RunTestsLabel,
       [TestsRun, IfThen(TestsRun=1, '', 's'), Format(ElapsedTimeFormat, [ElapsedTime])]);
   end;

@@ -30,7 +30,7 @@ uses
   VirtualTrees.BaseTree,
   VirtualTrees,
   frmIDEDockWin,
-  cPyControl,
+  cPySupportTypes,
   cPyBaseDebugger;
 
 type
@@ -82,7 +82,7 @@ type
 
     procedure ClearAll(IncludeThreads: Boolean = True);
     function GetSelectedStackFrame: TBaseFrameInfo;
-    procedure UpdateWindow(DebuggerState, OldState: TDebuggerState);
+    procedure UpdateWindow(NewState, OldState: TDebuggerState);
     property ActiveThread: TThreadInfo read FActiveThread write SetActiveThread;
   end;
 
@@ -96,11 +96,10 @@ uses
   System.Math,
   PythonEngine,
   frmVariables,
-  frmWatches,
   uCommonFunctions,
   uEditAppIntfs,
-  cPySupportTypes,
-  dmResources;
+  dmResources,
+  cPyControl;
 
 {$R *.dfm}
 
@@ -148,13 +147,13 @@ begin
     ClearAll(False);
 end;
 
-procedure TCallStackWindow.UpdateWindow(DebuggerState, OldState: TDebuggerState);
+procedure TCallStackWindow.UpdateWindow(NewState, OldState: TDebuggerState);
 // ThreadView is always showing while debugging
 // The Call Stack is visible only when paused or in Post Mortem
 // The visibility of the Call stack is controlled by ThreadChangeNotify
 begin
   if GI_PyControl.PythonLoaded then
-    case DebuggerState of
+    case NewState of
       dsPaused, dsPostMortem:
          begin
            ThreadView.Enabled := True;
@@ -185,7 +184,7 @@ begin
      ClearAll;
   // Now update dependent windows
   if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
-  if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);
+  if Assigned(GI_WatchManager) then GI_WatchManager.UpdateWindow;
 end;
 
 procedure TCallStackWindow.ClearAll(IncludeThreads: Boolean = True);
@@ -229,7 +228,7 @@ begin
 
     // Update the Variables Window
     if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
-    if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(PyControl.DebuggerState);
+    if Assigned(GI_WatchManager) then GI_WatchManager.UpdateWindow;
   end;
 end;
 
