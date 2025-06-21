@@ -709,6 +709,7 @@ begin
       end;
     end;
   finally
+    FreeMultiSz(EnvironmentData);
     LastError := GetLastError;
     try
       SafeCloseHandle(InReadPipe);
