@@ -773,6 +773,7 @@ begin
   ServerProcess := TPProcess.Create(AddQuotesUnless(ExeName) +
     Format(' -u -X utf8 "%s" %d "%s"', [FServerFile, FSocketPort, FRpycPath]));
   ServerProcess.MergeError := True;
+  ServerProcess.ShowWindow := swNotSet;
   ServerProcess.OnRead := ProcessServerOutput;
   ServerProcess.Execute;
   while ServerProcess.State = TPPState.Created do

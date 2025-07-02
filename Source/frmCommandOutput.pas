@@ -501,9 +501,16 @@ begin
   FProcess.OnTerminate := ProcessTerminate;
 
   if Tool.ConsoleHidden then
-    FProcess.ShowWindow := swHide
+  begin
+    FProcess.ShowWindow := swNotSet;
+    FProcess.CreationFlag := cfNoWindow;
+  end
   else
+  begin
+    FProcess.CreationFlag := cfNewConsole;
     FProcess.ShowWindow := swShowNormal;
+  end;
+
   if Tool.UseCustomEnvironment then
     FProcess.Environment := Tool.Environment;
 
