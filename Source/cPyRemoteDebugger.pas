@@ -16,24 +16,22 @@ uses
   System.Classes,
   System.Generics.Collections,
   System.Threading,
-  uSysUtils,
+  PascalProcess,
   PythonEngine,
   uEditAppIntfs,
   cPySupportTypes,
   cPyBaseDebugger,
   cPyDebugger;
 
-
 type
   TRemoteDebuggerClass = class of TPyRemDebugger;
 
-  { Rpyc based remote Python Interpreter  }
+  { Rpyc-based remote Python Interpreter  }
   TPyRemoteInterpreter = class(TPyBaseInterpreter)
   private
     FUseNamedPipes: Boolean;
     FNamedPipeStream: Variant;
     procedure CreateAndConnectToServer;
-    procedure StoreServerProcessInfo(const ProcessInfo: TProcessInformation; InWritePipe: PHandle);
   protected
     const RemoteServerBaseName = 'remserver.py';
     const RpycZipModule = 'rpyc.zip';
@@ -48,15 +46,14 @@ type
     FSocketPort: Integer;
     FServerFile: string;
     FRpycPath: string;
-    ServerProcessOptions: TJclExecuteCmdProcessOptions;
-    ServerProcessInfo: TProcessInformation;
-    ServerTask: ITask;
+    ServerProcess: IPProcess;
     DebuggerClass: TRemoteDebuggerClass;
     FStoredServerOutput: TBytes;
     procedure CreateAndRunServerProcess; virtual;
     procedure ConnectToServer;
     procedure ShutDownServer;  virtual;
-    procedure ProcessServerOutput(const Bytes: TBytes; BytesRead: Cardinal);
+    procedure ProcessServerOutput(Sender: TObject; const Bytes: TBytes; BytesRead:
+        Cardinal);
     function GetInterpreter: Variant; override;
   public
     constructor Create(AEngineType: TPythonEngineType = peRemote);
@@ -369,8 +366,8 @@ end;
 
 procedure TPyRemoteInterpreter.CheckConnected(Quiet: Boolean = False; Abort: Boolean = True);
 begin
-  if not (Assigned(ServerTask) and FServerIsAvailable and FConnected and
-    (ServerTask.Status = TTaskStatus.Running)) then
+  if not (Assigned(ServerProcess) and FServerIsAvailable and FConnected and
+    (ServerProcess.State = TPPState.Running)) then
   begin
     FConnected := False;
     if not Quiet then
@@ -527,17 +524,6 @@ begin
     end;
   end;
 
-  ServerProcessOptions := TJclExecuteCmdProcessOptions.Create('');
-  ServerProcessOptions.OutputBufferCallback := ProcessServerOutput;
-  ServerProcessOptions.ErrorBufferCallback := ProcessServerOutput;
-  ServerProcessOptions.BeforeResume := StoreServerProcessInfo;
-  ServerProcessOptions.CreateProcessFlags :=
-    ServerProcessOptions.CreateProcessFlags or CREATE_NO_WINDOW or CREATE_UNICODE_ENVIRONMENT;
-  ServerProcessOptions.StartupVisibility := svNotSet;
-  ServerProcessOptions.MergeError := False;
-  ServerProcessOptions.RawOutput := True;
-  ServerProcessOptions.RawError := True;
-
   if FServerIsAvailable then CreateAndConnectToServer;
 end;
 
@@ -553,7 +539,6 @@ begin
     ModulesDict.update(FOldSysModules);
   end;
   VarClear(FOldSysModules);
-  ServerProcessOptions.Free;
   PyControl.InternalInterpreter.SysPathRemove(FRpycPath);
   inherited;
 end;
@@ -756,7 +741,8 @@ begin
   end;
 end;
 
-procedure TPyRemoteInterpreter.ProcessServerOutput(const Bytes: TBytes; BytesRead: Cardinal);
+procedure TPyRemoteInterpreter.ProcessServerOutput(Sender: TObject;
+  const Bytes: TBytes; BytesRead: Cardinal);
 begin
    // deal with Bytes containing incomplete UTF8 character
    FStoredServerOutput := FStoredServerOutput + Copy(Bytes, 0, BytesRead);
@@ -784,17 +770,14 @@ begin
   else
     ExeName := PyControl.PythonVersion.PythonExecutable;
 
-  ServerProcessOptions.CommandLine := AddQuotesUnless(ExeName) +
-        Format(' -u -X utf8 "%s" %d "%s"', [FServerFile, FSocketPort, FRpycPath]);
-  ServerTask := TTask.Create(procedure
-    begin
-      ExecuteCmdProcess(ServerProcessOptions);
-    end).Start;
-  if FUseNamedPipes then
-    Sleep(500)
-  else
-    Sleep(100);
-  FServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
+  ServerProcess := TPProcess.Create(AddQuotesUnless(ExeName) +
+    Format(' -u -X utf8 "%s" %d "%s"', [FServerFile, FSocketPort, FRpycPath]));
+  ServerProcess.MergeError := True;
+  ServerProcess.OnRead := ProcessServerOutput;
+  ServerProcess.Execute;
+  while ServerProcess.State = TPPState.Created do
+    TThread.Yield;
+  FServerIsAvailable := ServerProcess.State = TPPState.Running;
 end;
 
 procedure TPyRemoteInterpreter.ReInitialize;
@@ -910,15 +893,18 @@ begin
     procedure
     begin
       TThread.NameThreadForDebugging('Remote Debugger');
-      try
-        RPI.run_nodebug(Code);
-        VarClear(Code);
-      except
-        on E: EPyEOFError do
-        begin
-          FConnected := False;
-          GI_PyInterpreter.ClearPendingMessages;
-        end
+      var Py := SafePyEngine;
+      var Py_RPI := ExtractPythonObjectFrom(RPI);
+      var Py_Code := ExtractPythonObjectFrom(Code);
+      Py.PythonEngine.Py_XINCREF(Py_Code);
+      VarClear(Code);
+      // 'N' means that we are passing ownership of Py_Code
+      Py.PythonEngine.PyObject_CallMethod(Py_RPI, 'run_nodebug', 'N', Py_Code);
+      if Py.PythonEngine.PyErr_Occurred <> nil then
+      begin
+        // This means that the python server crashed or got disconnected
+        FConnected := False;
+        Py.PythonEngine.PyErr_Clear; // Ignore errors
       end;
     end,
 
@@ -1027,13 +1013,13 @@ begin
       FUseNamedPipes := True;
     except
       with GetPythonEngine do
-        if PyErr_Occurred <> nil then 
+        if PyErr_Occurred <> nil then
           PyErr_Clear;
       FUseNamedPipes := False;
     end;
 
   // Try to connect a few times
-  for var I := 1 to 5 do begin
+  for var I := 1 to 5 do
     try
       if FUseNamedPipes then
         Conn := Rpyc.classic.connect_stream(FNamedPipeStream)
@@ -1042,13 +1028,16 @@ begin
       FConnected := True;
       Break;
     except
-      // wait and try again
-      with GetPythonEngine do
-        if PyErr_Occurred <> nil then
-          PyErr_Clear;
-      Sleep(100);
+      on E: Exception do
+      begin
+        // wait and try again
+        with GetPythonEngine do
+          if PyErr_Occurred <> nil then
+            PyErr_Clear;
+        TThread.Yield;
+        Sleep(300);
+      end;
     end;
-  end;
 
   if FConnected then begin
     Conn._config.__setitem__('sync_request_timeout', None);
@@ -1139,7 +1128,8 @@ procedure TPyRemoteInterpreter.ShutDownServer;
 var
   OldExceptHook: Variant;
 begin
-  if FServerIsAvailable and Assigned(ServerTask) and (ServerTask.Status = TTaskStatus.Running) then begin
+  if FServerIsAvailable and Assigned(ServerProcess) and (ServerProcess.State = TPPState.Running) then
+  begin
     if Assigned(PyControl.ActiveDebugger) then
        PyControl.ActiveDebugger.Abort;
 
@@ -1170,20 +1160,14 @@ begin
      // swallow exceptions
     end;
     Sleep(100);
-    if ServerTask.Status = TTaskStatus.Running then
-      TerminateProcessTree(ServerProcessInfo.dwProcessId);
+    if ServerProcess.State = TPPState.Running then
+      ServerProcess.Terminate;
   end;
 
-  ServerTask := nil;
+  ServerProcess := nil;
   FServerIsAvailable := False;
   FConnected := False;
   FInitialized := False;
-end;
-
-procedure TPyRemoteInterpreter.StoreServerProcessInfo(const ProcessInfo:
-    TProcessInformation; InWritePipe: PHandle);
-begin
-  ServerProcessInfo := ProcessInfo;
 end;
 
 procedure TPyRemoteInterpreter.StringsToSysPath(Strings: TStrings);
@@ -1277,8 +1261,6 @@ begin
   end;
 end;
 
-
-
 { TPyRemDebugger }
 
 procedure TPyRemDebugger.Abort;
@@ -1286,7 +1268,7 @@ begin
   case GI_PyControl.DebuggerState of
     dsPostMortem: ExitPostMortem;
     dsDebugging,
-    dsRunning: RaiseKeyboardInterrupt(FRemotePython.ServerProcessInfo.dwProcessId);
+    dsRunning: RaiseKeyboardInterrupt(FRemotePython.ServerProcess.ProcessId);
     dsPaused:
       begin
         GI_PyInterpreter.RemovePrompt;

@@ -101,7 +101,7 @@ uses
   System.Threading,
   System.StrUtils,
   Vcl.Dialogs,
-  uSysUtils,
+  PascalProcess,
   JvGnugettext,
   MPCommonUtilities,
   dlgCollectionEditor,
@@ -332,45 +332,45 @@ end;
 function TSSHServices.Scp(const ScpCommand, FromFile, ToFile: string;
   out ErrorMsg: string; ScpOptions: string): Boolean;
 var
-  Task: ITask;
-  Command, Output, Error: string;
-  ExitCode: Integer;
+  ScpProcess: IPProcess;
+  Command: string;
+  Output, Error: TBytes;
+  {$IFDEF CPUX86}
+  IsWow64: LongBool;
+  {$ENDIF CPUX86}
 begin
   Command := Format('"%s" %s %s %s', [ScpCommand, ScpOptions, FromFile, ToFile]);
+  ScpProcess := TPProcess.Create(Command);
 
-  Task := TTask.Create(procedure
-  {$IFDEF CPUX86}
-  var
-    IsWow64: LongBool;
-  {$ENDIF CPUX86}
-  begin
   {$IFDEF CPUX86}
   IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-    ExitCode := ExecuteCmd(Command, Output, Error);
+    ScpProcess.Execute;
+    while ScpProcess.State = TPPState.Created do
+      TThread.Yield;
   {$IFDEF CPUX86}
   finally
     if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
   end;
   {$ENDIF CPUX86}
-  end);
-  Task.Start;
-  if not Task.Wait(ScpTimeout) then
+  if not ScpProcess.WaitFor(ScpTimeout) then
   begin
     ErrorMsg := SScpErrorTimeout;
     Exit(False);
   end;
 
-  Result :=  ExitCode = 0;
+  Result := ScpProcess.ExitCode = 0;
 
-  case ExitCode of
+  case ScpProcess.ExitCode of
     0: ErrorMsg :=  '';
     4: ErrorMsg := _(SScpError4);
     5: ErrorMsg := _(SScpError5);
     else
-      ErrorMsg := Format(_(SScpErrorOther), [Output, Error]);
+      ErrorMsg := Format(_(SScpErrorOther),
+        [TEncoding.UTF8.GetString(Output),
+         TEncoding.UTF8.GetString(Error)]);
   end;
 end;
 

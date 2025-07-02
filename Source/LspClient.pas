@@ -15,8 +15,7 @@ uses
   System.JSON,
   System.Generics.Collections,
   System.RegularExpressions,
-  uSysUtils,
-  JclSynch;
+  PascalProcess;
 
 type
 
@@ -52,9 +51,8 @@ type
   TLspClient = class
   private
     FId: NativeUInt;
-    FExCmdOptions: TJclExecuteCmdProcessOptions;
-    FServerThread: TThread;
-    FSendDataThread: TThread;
+    FServerPath: string;
+    FServerProcess: IPProcess;
     FContentHeaderRE: TRegEx;
     FReadLock: TRTLCriticalSection;
     FRequestsLock: TRTLCriticalSection;
@@ -73,8 +71,10 @@ type
     procedure HandleInitialize(Id: NativeUInt; Result, Error: TJSONValue);
     procedure HandleSyncRequest(Id: NativeUInt; AResult, AError: TJSONValue);
     procedure HandleShutdown(Id: NativeUInt; Result, Error: TJSONValue);
-    procedure ReceiveData(const Bytes: TBytes; BytesRead: Cardinal);
-    procedure ReceiveErrorOutput(const Bytes: TBytes; BytesRead: Cardinal);
+    procedure ReceiveData(Sender: TObject; const Bytes: TBytes; BytesRead:
+        Cardinal);
+    procedure ReceiveErrorOutput(Sender: TObject; const Bytes: TBytes; BytesRead:
+        Cardinal);
   public
     constructor Create(ServerPath: string);
     destructor Destroy; override;
@@ -121,38 +121,6 @@ const
      '{"jsonrpc": "2.0", "method": "%s", "params": %s}';
 
 type
-
-  TSendDataThread = class(TThread)
-  private
-    FWriteHandle: THandle;
-    FQueue: TThreadedQueue<TBytes>;
-  protected
-    procedure Execute; override;
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure SetWriteHandle(Handle: THandle);
-    procedure SendToServer(Bytes: TBytes);
-  end;
-
-
-  TLspServerThread = class(TThread)
-  private
-    FProcessHandle: THandle;
-    FExCmdOptions: TJclExecuteCmdProcessOptions;
-    FAbortEvent: TJclEvent;
-    FLspClient: TLspClient;
-    procedure BeforeResume(const ProcessInfo: TProcessInformation; WriteHandle:
-        PHandle);
-  protected
-    procedure Execute; override;
-    procedure TerminatedSet; override;
-  public
-    constructor Create(LspClient: TLspClient;
-      ExCmdOptions: TJclExecuteCmdProcessOptions);
-    destructor Destroy; override;
-  end;
-
   TSyncRequestHelper = class
     SyncEvent: TSimpleEvent;
     Result: TJSONValue;
@@ -177,6 +145,7 @@ end;
 constructor TLspClient.Create(ServerPath: string);
 begin
   inherited Create;
+  FServerPath := ServerPath;
   FReadLock.Initialize;
   FRequestsLock.Initialize;
   FSyncRequestLock.Initialize;
@@ -187,7 +156,6 @@ begin
     [roMultiLine]);
   FSyncHelper := TSyncRequestHelper.Create;
   FPendingRequests := TDictionary<NativeUInt, THandleResponse>.Create;
-  FExCmdOptions := TJclExecuteCmdProcessOptions.Create(ServerPath);
 end;
 
 destructor TLspClient.Destroy;
@@ -196,7 +164,6 @@ begin
   FOnErrorOuput := nil;
   Shutdown;
   FSyncHelper.Free;
-  FExCmdOptions.Free;
   FSyncRequestLock.Free;
   FRequestsLock.Free;
   FReadLock.Free;
@@ -248,7 +215,8 @@ begin
   end;
 end;
 
-procedure TLspClient.ReceiveData(const Bytes: TBytes; BytesRead: Cardinal);
+procedure TLspClient.ReceiveData(Sender: TObject; const Bytes: TBytes;
+  BytesRead: Cardinal);
 var
   Response,
   Result,
@@ -348,7 +316,8 @@ begin
   end;
 end;
 
-procedure TLspClient.ReceiveErrorOutput(const Bytes: TBytes; BytesRead: Cardinal);
+procedure TLspClient.ReceiveErrorOutput(Sender: TObject; const Bytes: TBytes;
+  BytesRead: Cardinal);
 begin
   if Assigned(FOnErrorOuput) then
     FOnErrorOuput(TEncoding.UTF8.GetString(Copy(Bytes, 0, BytesRead)));
@@ -408,8 +377,8 @@ end;
 
 procedure TLspClient.SendToServer(const Bytes: TBytes);
 begin
-  if Assigned(FSendDataThread) then
-    TSendDataThread(FSendDataThread).SendToServer(Bytes);
+  if Assigned(FServerProcess) then
+    FServerProcess.WriteProcessInput(Bytes);
 end;
 
 procedure TLspClient.ServerTerminated(Sender: TObject);
@@ -427,25 +396,22 @@ begin
     if FStatus = lspInitialized then
     begin
       Request('shutdown', 'null', HandleShutdown);
-      FServerThread.WaitFor;
+      FServerProcess.WaitFor;
     end;
-    FreeAndNil(FServerThread);
+    FServerProcess := nil;
     Assert(FStatus = lspInactive, 'Shutdown');
   end;
-  // TThread destroy calls Terminate and then WaitFor
-  FreeAndNil(FSendDataThread);
 end;
 
 procedure TLspClient.StartServer;
 begin
   Shutdown;
-  FSendDataThread := TSendDataThread.Create;
-  FExCmdOptions.OutputBufferCallback := ReceiveData;
-  FExCmdOptions.ErrorBufferCallback := ReceiveErrorOutput;
-  FExCmdOptions.BufferSize := 65536;
-  FServerThread := TLspServerThread.Create(Self, FExCmdOptions);
-  FServerThread.OnTerminate := ServerTerminated;
-  FServerThread.Start;
+  FServerProcess := TPProcess.Create(FServerPath);
+  FServerProcess.BufferSize := $10000;
+  FServerProcess.OnRead := ReceiveData;
+  FServerProcess.OnErrorRead := ReceiveErrorOutput;
+  FServerProcess.OnTerminate := ServerTerminated;
+  FServerProcess.Execute;
   FStatus := lspStarted;
 end;
 
@@ -521,55 +487,6 @@ begin
   CheckCapability('completionProvider.resolveProvider', lspscCompletionResolve);
 end;
 
-{ TLspClientThread }
-
-procedure TLspServerThread.BeforeResume(const ProcessInfo: TProcessInformation;
-  WriteHandle: PHandle);
-begin
-  FProcessHandle := ProcessInfo.hProcess;
-  TSendDataThread(FLspClient.FSendDataThread).SetWriteHandle(WriteHandle^);
-  FLspClient.FSendDataThread.Start;
-end;
-
-constructor TLspServerThread.Create(LspClient: TLspClient;
-  ExCmdOptions: TJclExecuteCmdProcessOptions);
-begin
-  inherited Create(True);
-  FLspClient := LspClient;
-  FExCmdOptions := ExCmdOptions;
-  FAbortEvent := TJclEvent.Create(nil, True, False, '');
-  with FExCmdOptions do
-  begin
-    AbortEvent := FAbortEvent;
-    BeforeResume := Self.BeforeResume;
-    AutoConvertOem := False;
-    RawOutput := True;
-    MergeError := False;
-    RawError := True;
-    BufferSize := 1024*64;
-  end;
-end;
-
-destructor TLspServerThread.Destroy;
-begin
-  inherited;
-  FAbortEvent.Free;
-  FExCmdOptions.AbortEvent := nil;
-  FExCmdOptions.BeforeResume := nil;
-end;
-
-procedure TLspServerThread.Execute;
-begin
-  NameThreadForDebugging('Lsp Server');
-  ExecuteCmdProcess(FExCmdOptions);
-end;
-
-procedure TLspServerThread.TerminatedSet;
-begin
-  inherited;
-  FAbortEvent.Pulse;
-end;
-
 { TSyncRequestHelper }
 
 constructor TSyncRequestHelper.Create;
@@ -581,48 +498,6 @@ destructor TSyncRequestHelper.Destroy;
 begin
   SyncEvent.Free;
   inherited;
-end;
-
-{ TSendDataThread }
-
-constructor TSendDataThread.Create;
-begin
-  FQueue := TThreadedQueue<TBytes>.Create(10, 100, 200);
-  inherited Create(True);
-end;
-
-destructor TSendDataThread.Destroy;
-begin
-  inherited;
-  // FQueue needs to be freed after inherited Destoy
-  FQueue.Free;
-end;
-
-procedure TSendDataThread.Execute;
-var
-  Bytes: TBytes;
-  Written: DWORD;
-begin
-  NameThreadForDebugging('LSP Send Data');
-  while not Terminated do
-    if (FQueue.PopItem(Bytes) = TWaitResult.wrSignaled) and (Length(Bytes) > 0) then
-    begin
-      WriteFile(FWriteHandle, Bytes[0], Length(Bytes), Written, nil);
-      //if Written = 0 then
-        //TODO: consider aborting the server
-        //RaiseLastOSError;
-    end;
-end;
-
-procedure TSendDataThread.SendToServer(Bytes: TBytes);
-begin
-  while not (FQueue.PushItem(Bytes) = TWaitResult.wrSignaled) do
-    FQueue.Grow(10);
-end;
-
-procedure TSendDataThread.SetWriteHandle(Handle: THandle);
-begin
-  FWriteHandle := Handle;
 end;
 
 end.

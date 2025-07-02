@@ -14,7 +14,7 @@ interface
 uses
   Winapi.Windows,
   System.Threading,
-  uSysUtils,
+  PascalProcess,
   cPyRemoteDebugger,
   cSSHSupport;
 
@@ -26,9 +26,7 @@ type
     FIs3K: Boolean;
     FRemServerFile: string;
     FRemRpycFile: string;
-    FTunnelProcessOptions: TJclExecuteCmdProcessOptions;
-    FTunnelProcessInfo: TProcessInformation;
-    FTunnelTask: ITask;
+    FTunnelProcess: IPProcess;
     FShuttingDown: Boolean;
     FSSHCommand: string;
     FSSHOptions: string;
@@ -36,8 +34,6 @@ type
     FTempDir: string;
     function ProcessPlatformInfo(Info: string; out Is3k: Boolean;
       out Sep: Char; out TempDir: string): Boolean;
-    procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation;
-      InWritePipe: PHandle);
   protected
     function SystemTempFolder: string; override;
     procedure CreateAndRunServerProcess; override;
@@ -50,7 +46,6 @@ type
     function FromPythonFileName(const FileName: string): string; override;
 
     constructor Create(SSHServer: TSSHServer);
-    destructor Destroy; override;
   end;
 
 implementation
@@ -79,35 +74,30 @@ constructor TPySSHInterpreter.Create(SSHServer: TSSHServer);
    5. Connect to server
 }
 var
-  CommandOutput, ErrorOutput: string;
-  Task: ITask;
-  ReturnCode: Integer;
+  PyProcess: IPProcess;
 
   procedure CreatePythonTask;
+  {$IFDEF CPUX86}
+  var
+    IsWow64: LongBool;
+  {$ENDIF CPUX86}
   begin
-    //  Test SSH connection and get information about the server
-    Task := TTask.Create(procedure
-    {$IFDEF CPUX86}
-    var
-      IsWow64: LongBool;
-    {$ENDIF CPUX86}
-    begin
+    PyProcess := TPProcess.Create(Format('"%s" %s %s %s -c ' +
+          '"''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''"',
+          [FSSHCommand, FSSHOptions, SSHDestination, PythonCommand]));
     {$IFDEF CPUX86}
     IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
     if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
     try
     {$ENDIF CPUX86}
-      ReturnCode := ExecuteCmd(Format('"%s" %s %s %s -c ' +
-        '"''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''"',
-        [FSSHCommand, FSSHOptions, SSHDestination, PythonCommand]),
-        CommandOutput, ErrorOutput);
-      FServerIsAvailable :=  ReturnCode = 0;
+    PyProcess.Execute;
+    while PyProcess.State = TPPState.Created do
+      TThread.Yield;
     {$IFDEF CPUX86}
     finally
       if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
     end;
     {$ENDIF CPUX86}
-    end).Start;
   end;
 
 begin
@@ -121,9 +111,10 @@ begin
   PythonCommand := SSHServer.PythonCommand;
 
   CreatePythonTask;
-  if Task.Wait(SSHTimeout) then begin
-    if SSHServer.IsClientPutty and (ErrorOutput <> '') and
-      SSHServer.ExtractHostKey(ErrorOutput) then
+  if PyProcess.WaitFor(SSHTimeout) then
+  begin
+    if SSHServer.IsClientPutty and (Length(PyProcess.ErrorOutput) > 0) and
+      SSHServer.ExtractHostKey(TEncoding.UTF8.GetString(PyProcess.ErrorOutput)) then
     begin
       // Unknown hostkey failure
       if StyledMessageDlg(Format(_(SSHUnknownServerQuery), [SSHServer.HostKey]),
@@ -131,28 +122,37 @@ begin
       begin
         FSSHOptions := SSHServer.SSHOptionsPW;
         CreatePythonTask;
-        if not Task.Wait(SSHTimeout) then begin
+        if not PyProcess.WaitFor(SSHTimeout) then begin
           // Timeout
           StyledMessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
           Exit;
         end;
-      end else begin
+      end
+      else
+      begin
         SSHServer.HostKey := '';
         Exit;
       end;
     end;
-    if FServerIsAvailable then
-      FServerIsAvailable := ProcessPlatformInfo(CommandOutput, FIs3K, FPathSeparator, FTempDir);
-  end else begin
+    FServerIsAvailable := (PyProcess.ExitCode = 0) and
+       ProcessPlatformInfo(
+       TEncoding.UTF8.GetString(PyProcess.Output),
+       FIs3K, FPathSeparator, FTempDir);
+  end
+  else
+  begin
     // Timeout
     StyledMessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
     Exit;
   end;
 
-  if not FServerIsAvailable then begin
-    SSHServer.ExtractHostKey(ErrorOutput);
+  if not FServerIsAvailable then
+  begin
+    SSHServer.ExtractHostKey(TEncoding.UTF8.GetString(PyProcess.ErrorOutput));
     StyledMessageDlg(Format(_(SSHPythonError),
-      [PythonCommand, ReturnCode, CommandOutput, ErrorOutput]), mtError, [mbAbort], 0);
+      [PythonCommand, PyProcess.ExitCode,
+      TEncoding.UTF8.GetString(PyProcess.Output),
+      TEncoding.UTF8.GetString(PyProcess.ErrorOutput)]), mtError, [mbAbort], 0);
     Exit;
   end;
 
@@ -164,16 +164,6 @@ begin
     Exit;
   end;
 
-  FTunnelProcessOptions := TJclExecuteCmdProcessOptions.Create('');
-  FTunnelProcessOptions.BeforeResume := StoreTunnelProcessInfo;
-  FTunnelProcessOptions.MergeError := False;
-  FTunnelProcessOptions.RawOutput := True;
-  FTunnelProcessOptions.RawError := True;
-  FTunnelProcessOptions.AutoConvertOem := False;
-  FTunnelProcessOptions.CreateProcessFlags :=
-    FTunnelProcessOptions.CreateProcessFlags or
-     CREATE_UNICODE_ENVIRONMENT or CREATE_NO_WINDOW or CREATE_NEW_CONSOLE;
-
   inherited Create(peSSH);
   DebuggerClass := TPyRemDebugger;
 end;
@@ -181,6 +171,9 @@ end;
 procedure TPySSHInterpreter.CreateAndRunServerProcess;
 var
   ErrorMsg: string;
+  {$IFDEF CPUX86}
+    IsWow64: LongBool;
+  {$ENDIF CPUX86}
 begin
   FShuttingDown := False;
   FServerIsAvailable := False;
@@ -205,58 +198,45 @@ begin
   FSocketPort := 18000 + Random(1000);
 
   // Create and Run Server process
-  ServerProcessOptions.CommandLine := Format('"%s" %s %s %s -u -X utf8 ',
+  ServerProcess := TPProcess.Create(Format('"%s" %s %s %s -u -X utf8 ',
     [FSSHCommand, FSSHOptions, SSHDestination, PythonCommand]) +
-    Format('"%s" %d "%s"', [FRemServerFile, FSocketPort, FRemRpycFile]);
-  ServerTask := TTask.Create(procedure
-    {$IFDEF CPUX86}
-    var
-      IsWow64: LongBool;
-   {$ENDIF CPUX86}
-    begin
-    {$IFDEF CPUX86}
-    IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
-    if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
-    try
-    {$ENDIF CPUX86}
-      ExecuteCmdProcess(ServerProcessOptions);
-    {$IFDEF CPUX86}
-    finally
-      if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
-    end;
-  {$ENDIF CPUX86}
-    end).Start;
-  Sleep(100);
-  FServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
+    Format('"%s" %d "%s"', [FRemServerFile, FSocketPort, FRemRpycFile]));
+  ServerProcess.MergeError := True;
+  ServerProcess.OnRead := ProcessServerOutput;
 
-  FTunnelProcessOptions.CommandLine := Format('"%s" %s %s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
-    [FSSHCommand, FSSHOptions, SSHDestination, FSocketPort]);
-  FTunnelTask := TTask.Create(procedure
-    {$IFDEF CPUX86}
-    var
-      IsWow64: LongBool;
-   {$ENDIF CPUX86}
-    begin
-    {$IFDEF CPUX86}
-    IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
-    if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
-    try
-    {$ENDIF CPUX86}
-      ExecuteCmdProcess(FTunnelProcessOptions);
-    {$IFDEF CPUX86}
-    finally
-      if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
-    end;
+  {$IFDEF CPUX86}
+  IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+  if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+  try
   {$ENDIF CPUX86}
-    end).Start;
-  Sleep(100);
-  FServerIsAvailable := FTunnelTask.Status = TTaskStatus.Running;
-end;
+  ServerProcess.Execute;
+  while ServerProcess.State = TPPState.Created do
+    TThread.Yield;
+  {$IFDEF CPUX86}
+  finally
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+  end;
+  {$ENDIF CPUX86}
+  FServerIsAvailable := ServerProcess.State = TPPState.Running;
 
-destructor TPySSHInterpreter.Destroy;
-begin
-  inherited;
-  FreeAndNil(FTunnelProcessOptions);
+  FTunnelProcess := TPProcess.Create(
+    Format('"%s" %s %s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
+    [FSSHCommand, FSSHOptions, SSHDestination, FSocketPort]));
+  {$IFDEF CPUX86}
+  IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+  if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+  try
+  {$ENDIF CPUX86}
+    FTunnelProcess.Execute;
+    while FTunnelProcess.State = TPPState.Created do
+      TThread.Yield;
+  {$IFDEF CPUX86}
+  finally
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+  end;
+  {$ENDIF CPUX86}
+  FServerIsAvailable := FServerIsAvailable and
+    (FTunnelProcess.State = TPPState.Running);
 end;
 
 function TPySSHInterpreter.ProcessPlatformInfo(Info: string; out Is3k: Boolean;
@@ -289,7 +269,8 @@ end;
 
 procedure TPySSHInterpreter.ShutDownServer;
 var
-  CommandOutput: string;
+  CommandOutput: TBytes;
+  ErrorOutput: TBytes;
   {$IFDEF CPUX86}
   IsWow64: LongBool;
   {$ENDIF CPUX86}
@@ -302,12 +283,14 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-  if (FRemServerFile <> '') and (ExecuteCmd(Format('"%s" %s %s rm ''%s''',
-      [FSSHCommand, FSSHOptions, SSHDestination, FRemServerFile]), CommandOutput) = 0)
+  if (FRemServerFile <> '') and (TPProcess.Execute(Format('"%s" %s %s rm ''%s''',
+      [FSSHCommand, FSSHOptions, SSHDestination, FRemServerFile]), '',
+      CommandOutput, ErrorOutput) = 0)
   then
     FRemServerFile := '';
-  if (FRemRpycFile <> '')  and (ExecuteCmd(Format('"%s" %s %s rm ''%s''',
-      [FSSHCommand, FSSHOptions, SSHDestination, FRemRpycFile]), CommandOutput) = 0)
+  if (FRemRpycFile <> '')  and (TPProcess.Execute(Format('"%s" %s %s rm ''%s''',
+      [FSSHCommand, FSSHOptions, SSHDestination, FRemRpycFile]), '',
+      CommandOutput, ErrorOutput) = 0)
   then
     FRemRpycFile := '';
   {$IFDEF CPUX86}
@@ -316,19 +299,8 @@ begin
   end;
   {$ENDIF CPUX86}
   // shut down tunnel
-  if Assigned(FTunnelTask) then
-  begin
-    if FTunnelTask.Status = TTaskStatus.Running then
-      TerminateProcessTree(FTunnelProcessInfo.dwProcessId);
-    FTunnelTask.Wait;
-    FTunnelTask := nil;
-  end;
-end;
-
-procedure TPySSHInterpreter.StoreTunnelProcessInfo(const ProcessInfo:
-    TProcessInformation; InWritePipe: PHandle);
-begin
-  FTunnelProcessInfo := ProcessInfo;
+  if Assigned(FTunnelProcess) then
+    FTunnelProcess := nil;
 end;
 
 function TPySSHInterpreter.SystemTempFolder: string;

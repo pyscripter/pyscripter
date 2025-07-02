@@ -26,12 +26,11 @@ uses
   Vcl.VirtualImageList,
   TB2Item,
   SpTBXItem,
-  JclSynch,
   JvComponentBase,
   JvDockControlForm,
   JvAppStorage,
   frmIDEDockWin,
-  uSysUtils,
+  PascalProcess,
   cTools;
 
 type
@@ -67,9 +66,7 @@ type
   private
     const FBasePath = 'Output Window Options'; // Used for storing settings
     var FTool: TExternalTool;
-    FCmdOptions: TJclExecuteCmdProcessOptions;
-    FAbortEvent: TJclEvent;
-    FIsRunning: Boolean;
+    FProcess: IPProcess;
     FRegEx: TRegEx;
     FItemMaxWidth: Integer;  // Calculating max width to show hor scrollbar
     {Process Output stuff}
@@ -85,12 +82,13 @@ type
     procedure InitializeOutput;
     procedure FinalilzeOuput;
     procedure ProcessOutput(OutType: TOutputType; const Bytes: TBytes; BytesRead: Cardinal);
-    procedure ProcessStdOut(const Bytes: TBytes; BytesRead: Cardinal);
-    procedure ProcessStdErr(const Bytes: TBytes; BytesRead: Cardinal);
-    procedure BeforeResume(const ProcessInfo: TProcessInformation; WriteHandle:
-        PHandle);
-    procedure ProcessTerminate;
+    procedure ProcessStdOut(Sender: TObject; const Bytes: TBytes; BytesRead:
+        Cardinal);
+    procedure ProcessStdErr(Sender: TObject; const Bytes: TBytes; BytesRead:
+        Cardinal);
+    procedure ProcessTerminate(Sender: TObject);
     procedure WriteOutput(OutputType: TOutputType);
+    function GetIsRunning: Boolean;
   public
     procedure AddNewLine(const Str: string; OutputType: TOutputType = TOutputType.Normal);
     procedure AppendToLastLine(const Str: string; OutputType: TOutputType);
@@ -99,7 +97,7 @@ type
     procedure ExecuteTool(Tool: TExternalTool);
     procedure StoreSettings(Storage: TJvCustomAppStorage); override;
     procedure RestoreSettings(Storage: TJvCustomAppStorage); override;
-    property IsRunning: Boolean read FIsRunning;
+    property IsRunning: Boolean read GetIsRunning;
     property RunningTool: string read FRunningTool;
   end;
 
@@ -138,33 +136,6 @@ begin
     FItemMaxWidth := Max(lsbConsole.Canvas.TextWidth(Str), FItemMaxWidth);
     ScrollWidth := FItemMaxWidth + 5;
     ItemIndex := Count - 1;
-  end;
-end;
-
-procedure TOutputWindow.BeforeResume(const ProcessInfo: TProcessInformation;
-  WriteHandle: PHandle);
-{ Encode and write std. input }
-begin
-  if WriteHandle^ = 0 then Exit;
-  if FInputString <> '' then
-  begin
-    var Task := TTask.Create(procedure
-    begin
-      var Bytes := FInputEncoding.GetBytes(FInputString);
-      var Written: DWORD;
-      // WriteFile may block for large input
-      WriteFile(WriteHandle^, Bytes[0], Length(Bytes), Written, nil);
-      // Signal the end of input
-      CloseHandle(WriteHandle^);
-      WriteHandle^ := 0;
-    end);
-    Task.Start;
-  end
-  else
-  begin
-    // Signal the end of input
-    CloseHandle(WriteHandle^);
-    WriteHandle^ := 0;
   end;
 end;
 
@@ -223,8 +194,10 @@ begin
   finally
     FOutputLock.Leave;
   end;
-  FreeAndNilEncoding(FInputEncoding);
-  FreeAndNilEncoding(FOutputEncoding);
+  if not TEncoding.IsStandardEncoding(FInputEncoding) then
+    FreeAndNilEncoding(FInputEncoding);
+  if not TEncoding.IsStandardEncoding(FOutputEncoding) then
+    FreeAndNilEncoding(FOutputEncoding);
 end;
 
 procedure TOutputWindow.FontOrColorUpdated;
@@ -233,7 +206,7 @@ begin
   lsbConsole.Perform(CM_RECREATEWND, 0, 0);
 end;
 
-procedure TOutputWindow.ProcessTerminate;
+procedure TOutputWindow.ProcessTerminate(Sender: TObject);
 {
    Called when a proces created with WaitForTermination set to true is finished
    Can parse Traceback info and Messages (ParseTraceback and ParseMessages Tool options
@@ -264,7 +237,7 @@ var
 
  var
   LineNo, ErrLineNo, ColNo, Indx: Integer;
-  ErrorMsg, RE, FileName, OutStr, OldCurrentDir: string;
+  ErrorMsg, RE, FileName, OutStr: string;
   ActiveEditor: IEditor;
 begin
   if GI_PyIDEServices.IsClosing then Exit;
@@ -278,10 +251,10 @@ begin
     WriteOutput(TOutputType.Error);
   end;
 
-  if FCmdOptions.ExitCode = 0 then
+  if FProcess.ExitCode = 0 then
     ErrorMsg := Format(_(SProcessSuccessful), [FTool.Caption.Replace('&', '')])
   else
-    ErrorMsg := Format(_(SProcessTerminated), [FTool.Caption.Replace('&', ''), FCmdOptions.ExitCode]);
+    ErrorMsg := Format(_(SProcessTerminated), [FTool.Caption.Replace('&', ''), FProcess.ExitCode]);
   AddNewLine('');
   AddNewLine(ErrorMsg);
   GI_PyIDEServices.WriteStatusMsg(ErrorMsg);
@@ -348,42 +321,34 @@ begin
 
       FRegEx := CompiledRegEx(RE+'(.*)');
 
-      if FCmdOptions.CurrentDir <> '' then begin
-         OldCurrentDir := GetCurrentDir;
-         SetCurrentDir(FCmdOptions.CurrentDir);
-      end;
-
-      try
-        LineNo := 0;
-        while LineNo < Length(Strings) do begin
-          with FRegEx.Match(Strings[LineNo]) do
-            if Success then begin
-              Indx := MatchIndex(FilePos);
-              if Indx > 0 then begin
-                FileName := Groups[Indx].Value;
-                StringReplace(FileName, '/', '\', [rfReplaceAll]); // fix for filenames with '/'
-                FileName := GetLongFileName(ExpandFileName(FileName)); // always full filename
-              end;
-              Indx := MatchIndex(LinePos);
-              if Indx > 0 then
-                ErrLineNo := StrToIntDef(Groups[Indx].Value, -1)
-              else
-                ErrLineNo := -1;
-              Indx := MatchIndex(ColPos);
-              if Indx > 0 then
-                ColNo := StrToIntDef(Groups[Indx].Value, -1)
-              else
-                ColNo := -1;
-             // add Message info (message, filename, linenumber)
-              GI_PyIDEServices.Messages.AddMessage(Groups[Groups.Count-1].Value, FileName, ErrLineNo, ColNo);
+      LineNo := 0;
+      while LineNo < Length(Strings) do
+      begin
+        with FRegEx.Match(Strings[LineNo]) do
+          if Success then
+          begin
+            Indx := MatchIndex(FilePos);
+            if Indx > 0 then begin
+              FileName := Groups[Indx].Value;
+              StringReplace(FileName, '/', '\', [rfReplaceAll]); // fix for filenames with '/'
+              FileName := GetLongFileName(ExpandFileName(FileName)); // always full filename
             end;
-          Inc(LineNo);
-        end;
-        GI_PyIDEServices.Messages.ShowWindow;
-      finally
-        if FCmdOptions.CurrentDir <> '' then
-         SetCurrentDir(OldCurrentDir);
+            Indx := MatchIndex(LinePos);
+            if Indx > 0 then
+              ErrLineNo := StrToIntDef(Groups[Indx].Value, -1)
+            else
+              ErrLineNo := -1;
+            Indx := MatchIndex(ColPos);
+            if Indx > 0 then
+              ColNo := StrToIntDef(Groups[Indx].Value, -1)
+            else
+              ColNo := -1;
+           // add Message info (message, filename, linenumber)
+            GI_PyIDEServices.Messages.AddMessage(Groups[Groups.Count-1].Value, FileName, ErrLineNo, ColNo);
+          end;
+        Inc(LineNo);
       end;
+      GI_PyIDEServices.Messages.ShowWindow;
     end;
   end;
 
@@ -443,6 +408,11 @@ begin
       end;
     end;
   end;
+
+  TThread.ForceQueue(nil, procedure
+  begin
+    FProcess := nil; // destroy FProcess
+  end);
 end;
 
 procedure TOutputWindow.RestoreSettings(Storage: TJvCustomAppStorage);
@@ -516,7 +486,6 @@ begin
   AddNewLine(_(SPrintWorkingDir) + WorkDir);
   AddNewLine('');
 
-
   if not WaitForTerminate then
   // simple case has the advantage of "executing" files
   begin
@@ -525,20 +494,18 @@ begin
     Exit;
   end;
 
-  FCmdOptions.CommandLine := Trim(AppName + ' ' + Arguments);
-  FCmdOptions.CurrentDir := WorkDir;
-  FCmdOptions.MergeError := False;
-  FCmdOptions.AbortEvent := FAbortEvent;
-  FCmdOptions.OutputBufferCallback := ProcessStdOut;
-  FCmdOptions.ErrorBufferCallback := ProcessStdErr;
-  FCmdOptions.BeforeResume := BeforeResume;
+  FProcess := TPProcess.Create(Trim(AppName + ' ' + Arguments), WorkDir);
+  FProcess.MergeError := False;
+  FProcess.OnRead := ProcessStdOut;
+  FProcess.OnErrorRead := ProcessStdErr;
+  FProcess.OnTerminate := ProcessTerminate;
+
   if Tool.ConsoleHidden then
-    FCmdOptions.StartupVisibility := svHide
+    FProcess.ShowWindow := swHide
   else
-    FCmdOptions.StartupVisibility := svNotSet; // svShow
-  FCmdOptions.Environment.Clear;
+    FProcess.ShowWindow := swShowNormal;
   if Tool.UseCustomEnvironment then
-    FCmdOptions.Environment.Assign(Tool.Environment);
+    FProcess.Environment := Tool.Environment;
 
   // standard input
   FInputString := '';
@@ -556,23 +523,10 @@ begin
   InitializeOutput;
   // Execute Process
   FRunningTool := Tool.Caption;
-  var Task := TTask.Create(procedure
-    begin
-       FIsRunning := True;
-       try
-         ExecuteCmdProcess(FCmdOptions);
-       finally
-         FIsRunning := False;
-       end;
-
-       FRunningTool := '';
-       if not GI_PyIDEServices.IsClosing then
-         TThread.ForceQueue(nil, procedure
-           begin
-             ProcessTerminate;
-           end);
-    end);
-  Task.Start;
+  if FInputString <> '' then
+    FProcess.WriteProcessInput(FInputEncoding.GetBytes(FInputString));
+  FProcess.Execute;
+  FProcess.CloseStdInHandle;
 
   if Tool.CaptureOutput then begin
     ShowDockForm(Self);
@@ -588,7 +542,7 @@ end;
 procedure TOutputWindow.actToolTerminateExecute(Sender: TObject);
 begin
   if IsRunning then
-    FAbortEvent.Pulse;
+    FProcess.Terminate;
 end;
 
 procedure TOutputWindow.OutputActionsUpdate(Action: TBasicAction;
@@ -623,12 +577,12 @@ begin
     end, 100);
 end;
 
-procedure TOutputWindow.ProcessStdErr(const Bytes: TBytes; BytesRead: Cardinal);
+procedure TOutputWindow.ProcessStdErr(Sender: TObject; const Bytes: TBytes; BytesRead: Cardinal);
 begin
   ProcessOutput(TOutputType.Error, Bytes, BytesRead);
 end;
 
-procedure TOutputWindow.ProcessStdOut(const Bytes: TBytes; BytesRead: Cardinal);
+procedure TOutputWindow.ProcessStdOut(Sender: TObject; const Bytes: TBytes; BytesRead: Cardinal);
 begin
   ProcessOutput(TOutputType.Normal, Bytes, BytesRead);
 end;
@@ -645,8 +599,6 @@ begin
   ImageName := 'CmdOuputWin';
   inherited;
   FTool := TExternalTool.Create;
-  FCmdOptions := TJclExecuteCmdProcessOptions.Create('');
-  FAbortEvent := TJclEvent.Create(nil, True, False, '');
 
   TExternalTool.ExternalToolExecute := ExecuteTool;
   FOutputLock.Initialize;
@@ -657,11 +609,14 @@ end;
 procedure TOutputWindow.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FTool);
-  FreeAndNil(FAbortEvent);
-  FreeAndNil(FCmdOptions);
   FinalilzeOuput;
   FOutputLock.Free;
   inherited;
+end;
+
+function TOutputWindow.GetIsRunning: Boolean;
+begin
+  Result := Assigned(FProcess) and (FProcess.State = TPPState.Running);
 end;
 
 procedure TOutputWindow.InitializeOutput;

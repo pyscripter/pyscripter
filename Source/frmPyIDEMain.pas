@@ -642,7 +642,8 @@
    History:   v 5.2.4
           New Features
             - Scrollbar annotation for highlighted search term
-
+          Issues addressed
+            #1407
 
  {------------------------------------------------------------------------------}
 
