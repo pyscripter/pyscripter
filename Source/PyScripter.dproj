@@ -320,7 +320,6 @@ $(PostBuildEvent)]]>
         <DCCReference Include="LspUtils.pas"/>
         <DCCReference Include="SynEditLsp.pas"/>
         <DCCReference Include="JediLspClient.pas"/>
-        <DCCReference Include="uSysUtils.pas"/>
         <DCCReference Include="uLLMSupport.pas"/>
         <DCCReference Include="frmLLMChat.pas">
             <Form>LLMChatForm</Form>

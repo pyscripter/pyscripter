@@ -118,7 +118,6 @@ uses
   LspUtils in 'LspUtils.pas',
   SynEditLsp in 'SynEditLsp.pas',
   JediLspClient in 'JediLspClient.pas',
-  uSysUtils in 'uSysUtils.pas',
   uLLMSupport in 'uLLMSupport.pas',
   frmLLMChat in 'frmLLMChat.pas' {LLMChatForm},
   frmSuggest in 'frmSuggest.pas' {SuggestWindow};
