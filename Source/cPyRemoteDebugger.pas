@@ -1270,7 +1270,7 @@ begin
   case GI_PyControl.DebuggerState of
     dsPostMortem: ExitPostMortem;
     dsDebugging,
-    dsRunning: RaiseKeyboardInterrupt(FRemotePython.ServerProcess.ProcessId);
+    dsRunning: FRemotePython.ServerProcess.RaiseKeyboardInterrupt;
     dsPaused:
       begin
         GI_PyInterpreter.RemovePrompt;

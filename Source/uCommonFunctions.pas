@@ -243,9 +243,6 @@ procedure UnblockFile(const FileName: string);
 (* Replaces <>"& with HTML entities *)
 function HTMLEncode(const Str: string): string;
 
-(* Raises a keyword interrupt in another process *)
-procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
-
 type
   TMatchHelper = record helper for TMatch
   public
@@ -1958,22 +1955,6 @@ begin
     Result := SB.ToString;
   finally
     SB.Free;
-  end;
-end;
-
-function CtrlHandler(fdwCtrlType: DWORD): LongBool; stdcall;
-begin
-  Result := True;
-end;
-
-procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
-begin
-  if AttachConsole(ProcessId) and SetConsoleCtrlHandler(@CtrlHandler, True) then
-  begin
-    GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0);
-    Sleep(100);
-    SetConsoleCtrlHandler(@CtrlHandler, False);
-    FreeConsole;
   end;
 end;
 
