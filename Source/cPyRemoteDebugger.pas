@@ -786,7 +786,6 @@ procedure TPyRemoteInterpreter.ReInitialize;
 var
   Py: IPyEngineAndGIL;
 begin
-  OutputDebugString('Reinitialize');
   FStoredServerOutput := [];
   Py := SafePyEngine;
   case GI_PyControl.DebuggerState of
