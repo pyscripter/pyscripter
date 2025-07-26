@@ -378,7 +378,7 @@ initialization
     Caption := _('Create Virtual Environment');
     Description := _('Create virtual environment using the venv module');
     ApplicationName := '$[PythonExe]';
-    Parameters := '-m venv $''Select venv folder''-SelectDir]';
+    Parameters := '-m venv $[''Select venv folder''-SelectDir]';
     ParseMessages := False;
     CaptureOutput := True;
     ConsoleHidden := True;
