@@ -1009,6 +1009,7 @@ begin
 
   if FUseNamedPipes then
     try
+      Sleep(500);  // Give the server some time to import pywin32 and create the pipe
       FNamedPipeStream := Rpyc.core.stream.NamedPipeStream.create_client(FSocketPort.ToString);
       Assert(VarIsPython(FNamedPipeStream), 'TPyRemoteInterpreter.ConnectToServer');
       FUseNamedPipes := True;
