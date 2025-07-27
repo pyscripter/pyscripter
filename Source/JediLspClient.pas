@@ -528,6 +528,10 @@ begin
       Result := GetLineRange(Result, 1, 20, True);
     end;
     Result := StringReplace(Result, '<br>---<br>', '<hr>', []);
+    // In some corner cases the hint may contain html that may cause exceptions
+    Result := StringReplace(Result, '<', '&lt;', [rfReplaceAll]);
+    Result := StringReplace(Result, '>', '&gt;', [rfReplaceAll]);
+    Result := StringReplace(Result, '&lt;hr&gt;', '<hr>', []);
 
     FindDefinitionByCoordinates(FileName, BC, DefFileName, DefBC);
     if (DefFileName <> '') then begin
