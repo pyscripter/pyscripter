@@ -438,16 +438,28 @@ var
   // Handle single CR used by python modules such as tdqm
   var
     P, PStart: PChar;
+    Line: string;
+    Overwrite: Integer;
 
     procedure AddLine(AddLB: Boolean);
     var
       Str: string;
     begin
       if P < PStart then Exit;
+      if SynEdit.Lines.Count = 0 then
+        SynEdit.Lines.Add('');
 
       SetString(Str, PStart, P - PStart);
-      SynEdit.Lines[SynEdit.Lines.Count - 1] :=
-        SynEdit.Lines[SynEdit.Lines.Count - 1] + Str;
+      Line := SynEdit.Lines[SynEdit.Lines.Count - 1];
+      if Overwrite = 0 then
+        Line := Line + Str
+      else
+      begin
+        Delete(Line, Overwrite, Str.Length);
+        Insert(Str, Line, Overwrite);
+        Inc(Overwrite, Str.Length);
+      end;
+      SynEdit.Lines[SynEdit.Lines.Count - 1] := Line;
 
       if AddLB then
         SynEdit.Lines.Add('');
@@ -456,6 +468,7 @@ var
     end;
 
   begin
+    Overwrite := 0;
     SynEdit.BeginUpdate;
     try
       if SynEdit.Lines.Count = 0 then
@@ -477,16 +490,21 @@ var
               if (P + 1)^ = WideLF then
               begin
                 AddLine(True);
+                Overwrite := 0;
                 Inc(PStart);
                 Inc(P);
               end
               else
               begin
-                SynEdit.Lines[SynEdit.Lines.Count - 1] := '';
-                PStart := P + 1;
+                AddLine(False);
+                Overwrite := 1;
               end;
             end;
-          WideLF: AddLine(True);
+          WideLF:
+          begin
+            AddLine(True);
+            Overwrite := 0;
+          end;
         end;
         Inc(P);
       end;
