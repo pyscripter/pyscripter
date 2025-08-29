@@ -20,9 +20,9 @@ object PyIDEMainForm: TPyIDEMainForm
   TextHeight = 15
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 520
+    Top = 538
     Width = 948
-    Height = 28
+    Height = 10
     SizeGrip = False
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 290
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -107,8 +107,8 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
     end
     object ActivityIndicator: TActivityIndicator
-      Left = 882
-      Top = 0
+      Left = 944
+      Top = 6
       FrameDelay = 150
       IndicatorSize = aisSmall
     end
@@ -117,7 +117,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 9
     Top = 85
     Width = 930
-    Height = 426
+    Height = 444
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
@@ -127,7 +127,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 0
       Top = 0
       Width = 926
-      Height = 426
+      Height = 444
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -179,7 +179,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 926
       Top = 0
       Width = 0
-      Height = 426
+      Height = 444
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -232,7 +232,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 926
       Top = 0
       Width = 4
-      Height = 426
+      Height = 444
       Cursor = crSizeWE
       Align = alRight
       ParentColor = False
@@ -732,11 +732,11 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = '&Project'
         object mnProjectNew: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectNew
-          Images = ProjectExplorerWindow.vilImages
+          ImageIndex = 112
         end
         object mnProjectOpen: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectOpen
-          Images = ProjectExplorerWindow.vilImages
+          ImageIndex = 113
         end
         object SpTBXSubmenuItem1: TSpTBXSubmenuItem
           Caption = '&Recent Projects'
@@ -750,7 +750,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnProjectSave: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSave
-          Images = ProjectExplorerWindow.vilImages
+          ImageIndex = 114
         end
         object mnProjectSaveAs: TSpTBXItem
           Action = ProjectExplorerWindow.actProjectSaveAs
@@ -1311,7 +1311,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 85
     Width = 9
-    Height = 426
+    Height = 444
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
@@ -1321,7 +1321,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 939
     Top = 85
     Width = 9
-    Height = 426
+    Height = 444
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
@@ -1329,7 +1329,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
-    Top = 511
+    Top = 529
     Width = 948
     Height = 9
     FixAlign = True
@@ -2770,6 +2770,21 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 157
         CollectionName = 'LLMProviders\Xai'
         Name = 'Xai'
+      end
+      item
+        CollectionIndex = 84
+        CollectionName = 'ProjectFile'
+        Name = 'ProjectFile'
+      end
+      item
+        CollectionIndex = 85
+        CollectionName = 'ProjectOpen'
+        Name = 'ProjectOpen'
+      end
+      item
+        CollectionIndex = 87
+        CollectionName = 'ProjectSave'
+        Name = 'ProjectSave'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
