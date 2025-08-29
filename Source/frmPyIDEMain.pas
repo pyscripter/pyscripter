@@ -643,7 +643,7 @@
           New Features
             - Scrollbar annotation for highlighted search term
           Issues addressed
-            #1407, #1409, #1411, #1419
+            #1407, #1409, #1411, #1418, #1419
 
  {------------------------------------------------------------------------------}
 

@@ -178,10 +178,17 @@ uses
 
 function ExpandEnv(const Str: string): string;
 var
-  Res: array[0..MAX_PATH] of WideChar;
+  Len: Integer;
 begin
-  ExpandEnvironmentStringsW(PWideChar(Str), @Res, MAX_PATH);
-  Result := Res;
+  Result := Str;
+  if Str = '' then Exit;
+
+  Len := ExpandEnvironmentStrings(PChar(Str), nil, 0);
+  if Len > 0 then
+  begin
+    SetLength(Result, Len - 1); // Includes the null
+    ExpandEnvironmentStrings(PChar(Str), PChar(Result), Len);
+  end
 end;
 
 function AddQuotesUnless(const Str: string): string;
