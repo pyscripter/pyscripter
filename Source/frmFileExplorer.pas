@@ -234,12 +234,6 @@ begin
     end;
   end;
 
-  // Connect ChangeNotify
-  if FCN = fcnDisabled then
-    FileExplorerTree.OnAfterShellNotify := nil
-  else
-    FileExplorerTree.OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
-
   if FileExplorerTree.Active then
     FileExplorerTree.RefreshTree;
 end;

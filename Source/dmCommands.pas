@@ -348,8 +348,6 @@ type
       AReplace: string; Line, Column: Integer; var Action: TSynReplaceAction);
     procedure IncrementalSearch;
     procedure ApplyEditorOptions;
-    procedure ProcessShellNotify(Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
-    procedure ProcessFolderChange(const FolderName: string);
     function FindSearchTarget: ISearchCommands;
     procedure HighlightWordInActiveEditor(SearchWord: string);
   end;
@@ -1199,103 +1197,6 @@ procedure TCommandsDataModule.actSearchMatchingBraceExecute(
 begin
   if Assigned(GI_ActiveEditor) then
     GI_ActiveEditor.ActiveSynEdit.CommandProcessor(ecMatchBracket, #0, nil);
-end;
-
-procedure TCommandsDataModule.ProcessFolderChange(const FolderName: string);
-var
-  I: Integer;
-  ModifiedCount: Integer;
-  Editor: IEditor;
-  ChangedFiles: TStringList;
-  FTime: TDateTime;
-begin
-  if FolderName = '' then Exit;
-
-  ChangedFiles := TSmartPtr.Make(TStringList.Create)();
-
-  GI_EditorFactory.ApplyToEditors(procedure(Ed: IEditor)
-  begin
-    if (Ed.FileName <> '') and (TPath.GetDirectoryName(Ed.FileName) = FolderName) then begin
-      if not FileAge(Ed.FileName, FTime) then begin
-        if not FileExists(Ed.FileName) and (TEditorForm(Ed.Form).FileTime <> 0) then begin
-          // File or directory has been moved or deleted
-          // Mark as modified so that we try to save it
-          Ed.SynEdit.Modified := True;
-          // Set FileTime to zero to prevent further notifications
-          TEditorForm(Ed.Form).FileTime := 0;
-          StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [Ed.FileName]) , mtWarning, [mbOK], 0);
-        end;
-      end else if not SameDateTime(TEditorForm(Ed.Form).FileTime, FTime) then begin
-        ChangedFiles.AddObject(Ed.FileId, Ed.Form);
-        // Prevent further notifications on this file
-        TEditorForm(Ed.Form).FileTime := FTime;
-      end;
-    end;
-  end);
-
-  ModifiedCount := 0;
-  for I := 0 to ChangedFiles.Count - 1 do begin
-    Editor := TEditorForm(ChangedFiles.Objects[I]).GetEditor;
-    if Editor.Modified then
-      Inc(ModifiedCount);
-    Editor.SynEdit.Modified := True;  //So that we are prompted to save changes
-  end;
-
-  if ChangedFiles.Count > 0 then
-    if PyIDEOptions.AutoReloadChangedFiles and (ModifiedCount = 0) then begin
-      for I := 0 to ChangedFiles.Count - 1 do begin
-        Editor := TEditorForm(ChangedFiles.Objects[I]).GetEditor;
-        (Editor as IFileCommands).ExecReload(True);
-      end;
-      MessageBeep(MB_ICONASTERISK);
-      GI_PyIDEServices.WriteStatusMsg(_(SChangedFilesReloaded));
-    end
-    else with TPickListDialog.Create(Application.MainForm) do begin
-      Caption := _(SFileChangeNotification);
-      lbMessage.Caption := _(SFileReloadWarning);
-      CheckListBox.Items.Assign(ChangedFiles);
-      SetScrollWidth;
-      mnSelectAllClick(nil);
-      if ShowModal = idOK then
-        for I := CheckListBox.Count - 1 downto 0 do begin
-          if CheckListBox.Checked[I] then begin
-            Editor := TEditorForm(CheckListBox.Items.Objects[I]).GetEditor;
-            (Editor as IFileCommands).ExecReload(True);
-          end;
-        end;
-      Release;
-    end;
-end;
-
-procedure TCommandsDataModule.ProcessShellNotify(Sender: TCustomVirtualExplorerTree;
-  ShellEvent: TVirtualShellEvent);
-var
-  NS: TNamespace;
-  WS: string;
-  Dir: string;
-begin
-  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneRenameFolder]) then Exit;
-
-  Dir := '';
-  NS := TNamespace.Create(ShellEvent.PIDL1, nil);
-  try
-    NS.FreePIDLOnDestroy := False;
-    Dir := NS.NameForParsing;
-    if PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
-      // Do not process mapped drive
-      WS := WideExtractFileDrive(Dir);
-      if WideIsDrive(WS) and (GetDriveType(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
-    end;
-    if not NS.Folder then // UpdateItem notifications
-      Dir := TPath.GetDirectoryName(Dir);
-  finally
-    NS.Free;
-  end;
-
-  TThread.ForceQueue(nil, procedure
-  begin
-    ProcessFolderChange(Dir);
-  end, 200);
 end;
 
 procedure TCommandsDataModule.actIDEOptionsExecute(Sender: TObject);

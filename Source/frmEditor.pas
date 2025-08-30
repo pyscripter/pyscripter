@@ -37,6 +37,7 @@ uses
   SynCompletionProposal,
   SynEditLsp,
   VirtualResources,
+  FileSystemMonitor,
   uEditAppIntfs,
   cPySupportTypes;
 
@@ -189,7 +190,6 @@ type
     procedure DoUpdateHighlighter(HighlighterName: string = '');
     procedure AutoCompleteBeforeExecute(Sender: TObject);
     procedure AutoCompleteAfterExecute(Sender: TObject);
-    procedure WMFolderChangeNotify(var Msg: TMessage); message WM_FOLDERCHANGENOTIFY;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info: string);
     procedure ApplyPyIDEOptions;
@@ -302,11 +302,15 @@ type
     procedure DoSetFileName(AFileName: string);
     function GetEncodedTextEx(var EncodedText: AnsiString;
       InformationLossWarning: Boolean): Boolean;
+    procedure FileChanged(Sender: TObject; const Path: string;
+      ChangeType: TFileChangeType);
+  private
+    class var UntitledNumbers: TBits;
+    class var FChangedFiles: TArray<string>;
+    class function GetUntitledNumber: Integer;
   public
     constructor Create(AForm: TEditorForm);
     destructor Destroy; override;
-    class var UntitledNumbers: TBits;
-    class function GetUntitledNumber: Integer;
     class constructor Create;
     class destructor Destroy;
   end;
@@ -320,7 +324,8 @@ uses
   System.SysUtils,
   System.Math,
   System.IOUtils,
-  VirtualShellNotifier,
+  System.DateUtils,
+  System.Generics.Collections,
   PythonEngine,
   Vcl.Dialogs,
   JclFileUtils,
@@ -483,7 +488,10 @@ end;
 
 destructor TEditor.Destroy;
 begin
-  // Kept for dubugging
+  // Unregister existing File Notification
+  if FFileName <> '' then
+    GI_FileSystemMonitor.RemoveFile(FFileName, FileChanged);
+
   inherited;
 end;
 
@@ -501,23 +509,20 @@ begin
   end;
   if AFileName <> FFileName then
   begin
+    // Unregister existing File Notification
+    if FFileName <> '' then
+      GI_FileSystemMonitor.RemoveFile(FFileName, FileChanged);
+
     FFileName := AFileName;
     if AFileName <> '' then
     begin
       FRemoteFileName := '';
       FSSHServer := '';
     end;
-    // Kernel change notification
-    if (FFileName <> '') and FileExists(FFileName) then
-    begin
-      // Register Kernel Notification
-      ChangeNotifier.RegisterKernelChangeNotify(Form, [vkneFileName, vkneDirName,
-        vkneLastWrite, vkneCreation]);
 
-      ChangeNotifier.NotifyWatchFolder(Form, TPath.GetDirectoryName(FFileName));
-    end
-    else
-      ChangeNotifier.UnRegisterKernelChangeNotify(Form);  // just in case it was registered
+    // Register File Notification
+    if FFileName <> '' then
+      GI_FileSystemMonitor.AddFile(FFileName, FileChanged);
   end;
 end;
 
@@ -964,6 +969,75 @@ begin
     GI_PyInterpreter.AppendPrompt;
     Activate(False);
   end);
+end;
+
+procedure TEditor.FileChanged(Sender: TObject; const Path: string;
+  ChangeType: TFileChangeType);
+var
+  FileTime: TDateTime;
+begin
+  if FFileName = ''  then Exit;
+
+  if (ChangeType in [fcRemoved, fcRenamedOld]) and
+    not TFile.Exists(FFileName) and (Form.FileTime <> 0) then
+  begin
+    Form.SynEdit.Modified := True;
+    // Set FileTime to zero to prevent further notifications
+    Form.FileTime := 0;
+    StyledMessageDlg(Format(_(SFileRenamedOrDeleted), [FFileName]),
+      mtWarning, [mbOK], 0);
+  end
+  else if FileAge(FFileName, FileTime) and not SameDateTime(FileTime, Form.FileTime) then
+  begin
+    // Prevent further notifications on this file
+    Form.FileTime := FileTime;
+    if PyIDEOptions.AutoReloadChangedFiles and not Form.SynEdit.Modified then
+      // Reload with a short delay
+      TThread.ForceQueue(nil,
+        procedure
+        begin
+          ExecReload(True);
+          MessageBeep(MB_ICONASTERISK);
+          GI_PyIDEServices.WriteStatusMsg(_(SChangedFilesReloaded));
+        end, 500)
+    else
+    begin
+      if TArray.IndexOf(FChangedFiles, FFileName) < 0 then
+      begin
+        FChangedFiles := FChangedFiles + [FFileName];
+        if Length(FChangedFiles) = 1 then
+          // Execute in the main thread with a delay in case more files
+          // are changed in the meantime.
+          TThread.ForceQueue(nil,
+            procedure
+            var
+              Editor: IEditor;
+            begin
+              with TPickListDialog.Create(Application.MainForm) do
+              begin
+                Caption := _(SFileChangeNotification);
+                lbMessage.Caption := _(SFileReloadWarning);
+                CheckListBox.Items.AddStrings(FChangedFiles);
+                SetScrollWidth;
+                mnSelectAllClick(nil);
+                if ShowModal = idOK then
+                  for var I := CheckListBox.Count - 1 downto 0 do
+                  begin
+                    if CheckListBox.Checked[I] then
+                    begin
+                      Editor := GI_EditorFactory.GetEditorByName(CheckListBox.Items[I]);
+                      if Assigned(Editor) then
+                        (Editor as IFileCommands).ExecReload(True);
+                    end;
+                  end;
+                Release;
+              end;
+              FChangedFiles := [];
+            end, 1000);  // 1 second delay
+      end;
+    end;
+    Form.SynEdit.Modified := True;  // so that we will be prompted to save changes
+  end;
 end;
 
 // IFileCommands implementation
@@ -1602,9 +1676,6 @@ begin
   if Breakpoints.Count > 0 then
     GI_BreakpointManager.BreakpointsChanged := True;
   Breakpoints.Free;
-
-  // Unregister kernel notification
-  ChangeNotifier.UnRegisterKernelChangeNotify(Self);
 
   SkinManager.RemoveSkinNotification(Self);
 end;
@@ -2369,15 +2440,6 @@ begin
       ViewsTabControl.TabVisible := False;
     end;
   end;
-end;
-
-procedure TEditorForm.WMFolderChangeNotify(var Msg: TMessage);
-begin
-  if FEditor.FFileName <> '' then
-    TThread.ForceQueue(nil, procedure
-    begin
-      CommandsDataModule.ProcessFolderChange(TPath.GetDirectoryName(FEditor.FFileName));
-    end, 200);
 end;
 
 procedure TEditorForm.AddWatchAtCursor;
