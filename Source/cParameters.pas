@@ -401,7 +401,9 @@ begin
   end
   else begin
     if AText^ = '?' then begin
+      {$HINTS OFF}
       Result:= True;
+      {$HINTS OFF}
       Inc(AText);
       while CharInSet(AText^, WhiteSpaces) do Inc(AText);
       case StyledMessageDlg(ALeft, mtConfirmation, mbYesNoCancel, 0) of

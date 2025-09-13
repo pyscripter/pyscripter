@@ -146,7 +146,7 @@ begin
         GI_BreakpointManager.ToggleBreakpoint(FileName, LineNo, False);
         Delete(FBreakPoints, Node.Index, 1);
         BreakPointsView.DeleteNode(Node);
-        Assert(BreakPointsView.RootNodeCount = Length(FBreakPoints));
+        Assert(Integer(BreakPointsView.RootNodeCount) = Length(FBreakPoints));
       end;
     end;
 end;
