@@ -11,7 +11,7 @@ languages.
 * [LLM-assisted coding](https://github.com/pyscripter/pyscripter/wiki/LLM_Support)
 * [Screenshots](https://github.com/pyscripter/pyscripter/wiki/Screenshots)
 * [Blog](https://pyscripter.blogspot.com/)
-* [Support](https://groups.google.com/forum/#!forum/pyscripter)
+* [Support](https://github.com/pyscripter/pyscripter/discussions)
 * [Licence: MIT](https://github.com/pyscripter/pyscripter/blob/master/LICENSE)
 
 ![Screenshot](https://raw.githubusercontent.com/wiki/pyscripter/pyscripter/images/PyScripter_main_window.png)
