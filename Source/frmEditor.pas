@@ -1188,7 +1188,7 @@ type
     function CanCloseAll: Boolean;
     procedure CloseAll;
     function OpenFile(AFileName: string; HighlighterName: string = '';
-       TabControlIndex: Integer = 1): IEditor;
+       TabControlIndex: Integer = 0): IEditor;
     function GetEditorCount: Integer;
     function GetEditorByName(const Name: string): IEditor;
     function GetEditorByFileId(const Name: string): IEditor;
@@ -1527,7 +1527,7 @@ function TEditorFactory.OpenFile(AFileName, HighlighterName: string;
 var
   IsRemote: Boolean;
   Server, FName: string;
-  TabCtrl: TSpTBXTabControl;
+  TabCtrl: TSpTBXCustomTabControl;
 begin
   Result := nil;
   PyIDEMainForm.tbiRecentFileList.MRURemove(AFileName);

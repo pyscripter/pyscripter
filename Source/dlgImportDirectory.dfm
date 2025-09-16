@@ -1,23 +1,25 @@
 inherited ImportDirectoryForm: TImportDirectoryForm
+  HelpContext = 435
   Caption = 'Import Directory'
-  ClientHeight = 188
+  ClientHeight = 208
   ClientWidth = 485
   PopupMode = pmAuto
   Position = poOwnerFormCenter
   DesignSize = (
     485
-    188)
+    208)
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 485
-    Height = 145
+    Height = 165
     Align = alTop
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
     DesignSize = (
       485
-      145)
+      165)
     object Label1: TLabel
       Left = 8
       Top = 15
@@ -46,9 +48,9 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     object cbRecursive: TCheckBox
       Left = 8
       Top = 93
-      Width = 108
+      Width = 328
       Height = 17
-      Anchors = [akTop, akRight]
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Recursive'
       Checked = True
       State = cbChecked
@@ -70,18 +72,29 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     object cbAutoUpdate: TCheckBox
       Left = 8
       Top = 116
-      Width = 108
+      Width = 328
       Height = 17
-      Anchors = [akTop, akRight]
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Auto-update'
       Checked = True
       State = cbChecked
       TabOrder = 3
     end
+    object cbPythonPath: TCheckBox
+      Left = 8
+      Top = 139
+      Width = 328
+      Height = 17
+      Anchors = [akLeft, akTop, akRight]
+      Caption = 'Add to python path'
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
+    end
   end
   object Button1: TButton
     Left = 152
-    Top = 156
+    Top = 176
     Width = 80
     Height = 25
     Anchors = [akLeft, akBottom]
@@ -92,7 +105,7 @@ inherited ImportDirectoryForm: TImportDirectoryForm
   end
   object Button2: TButton
     Left = 256
-    Top = 156
+    Top = 176
     Width = 80
     Height = 25
     Anchors = [akLeft, akBottom]

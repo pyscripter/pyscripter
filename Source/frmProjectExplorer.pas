@@ -126,6 +126,10 @@ type
     vilProjects: TVirtualImageList;
     vilImages: TVirtualImageList;
     icProjects: TSVGIconImageCollection;
+    ProjectAutoUpdateFolderPopupMenu: TSpTBXPopupMenu;
+    SpTBXItem8: TSpTBXItem;
+    SpTBXSeparatorItem14: TSpTBXSeparatorItem;
+    SpTBXItem9: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
@@ -191,6 +195,7 @@ type
     FShellImages: TCustomImageList;
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node: PVirtualNode);
+    procedure OnFolderChange(const Path: string);
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
@@ -508,8 +513,7 @@ begin
       if (TProjectFileNode(Data.ProjectNode).FileName <> '') and not
         TSSHFileName.Parse(TProjectFileNode(Data.ProjectNode).FileName, Server, FName)
       then
-        DisplayPropDialog(Handle,
-          GI_PyIDEServices.ReplaceParams(TProjectFilenode(Data.ProjectNode).FileName));
+        DisplayPropDialog(Handle, TProjectFilenode(Data.ProjectNode).FileName);
     end;
   end;
 end;
@@ -524,12 +528,22 @@ begin
   Node := ExplorerTree.GetFirstSelected;
   if Assigned(Node) then begin
     Data := ExplorerTree.GetNodeData(Node);
-    if Data.ProjectNode is TProjectFilesNode then begin
+    if Data.ProjectNode is TProjectFilesNode then
+    begin
       with TImportDirectoryForm do
-        if Execute and (Directory<>'') then begin
+        if Execute and (Directory <> '') then
+        begin
           TempCursor := WaitCursor;
-          TProjectFilesNode(Data.ProjectNode).ImportDirectory(Directory, FileMasks, Recursive);
-          ExplorerTree.ReinitNode(Node, True);
+          ExplorerTree.BeginUpdate;
+          try
+            TProjectFilesNode(Data.ProjectNode).ImportDirectory(Directory,
+              FileMasks, Recursive, AutoUpdate);
+            ExplorerTree.ReInitNode(Node, True, True);
+          finally
+            ExplorerTree.EndUpdate;
+          end;
+          if AddToPath then
+            ActiveProject.AppendExtraPath(Directory);
         end;
     end;
   end;
@@ -687,12 +701,7 @@ begin
   begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFileNode and (TProjectFileNode(Data.ProjectNode).FileName <> '') then
-    with PyIDEMainForm do
-    begin
-      GI_EditorFactory.OpenFile
-      (GI_PyIDEServices.ReplaceParams(TProjectFileNode(Data.ProjectNode).FileName),
-        '', TabControlIndex(ActiveTabControl));
-    end;
+    GI_EditorFactory.OpenFile(TProjectFileNode(Data.ProjectNode).FileName);
   end;
 end;
 
@@ -826,6 +835,7 @@ procedure TProjectExplorerWindow.UpdatePopupActions(Node: PVirtualNode);
 var
   Data: PNodeDataRec;
   SingleNodeSelected: Boolean;
+  AutoUpdating: Boolean;
 begin
    actProjectExtraPythonPath.Enabled := GI_PyControl.PythonLoaded and not GI_PyControl.Running;
    // We update project actions here based on selection
@@ -833,17 +843,27 @@ begin
      (Length(ExplorerTree.GetSortedSelection(False)) = 1);
    if Assigned(Node) then begin
      Data := ExplorerTree.GetNodeData(Node);
+     AutoUpdating := Data.ProjectNode.IsAutoUpdating;
      Assert(Assigned(Data.ProjectNode), 'TProjectExplorerWindow.UpdatePopupActions');
-     actProjectAddFiles.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;
-     actProjectAddActiveFile.Enabled := actProjectAddFiles.Enabled;
-     actProjectAddRemoteFile.Enabled := actProjectAddFiles.Enabled;
-     actProjectAddFolder.Enabled := actProjectAddFiles.Enabled;
-     actProjectRemove.Enabled := (Data.ProjectNode is TProjectFolderNode) or
-       (Data.ProjectNode is TProjectFileNode) or
+     actProjectAddFiles.Enabled := (Data.ProjectNode is TProjectFilesNode)
+       and SingleNodeSelected and not AutoUpdating;
+     actProjectAddActiveFile.Enabled := actProjectAddFiles.Enabled and
+       not AutoUpdating;
+     actProjectAddRemoteFile.Enabled := actProjectAddFiles.Enabled and
+       not AutoUpdating;
+     actProjectAddFolder.Enabled := actProjectAddFiles.Enabled and
+       not AutoUpdating;
+     actProjectRemove.Enabled :=
+       (Data.ProjectNode is TProjectAutoUpdateFolderNode) or
+       ((Data.ProjectNode is TProjectFolderNode) and not AutoUpdating) or
+       ((Data.ProjectNode is TProjectFileNode) and not AutoUpdating) or
        (Data.ProjectNode is TProjectRunConfiguationNode);
-     actProjectRename.Enabled := ((Data.ProjectNode is TProjectFolderNode) or
-       (Data.ProjectNode is TProjectRunConfiguationNode)) and SingleNodeSelected;
-     actProjectImportDirectory.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;
+     actProjectRename.Enabled := SingleNodeSelected and
+       ((Data.ProjectNode is TProjectAutoUpdateFolderNode) or
+       ((Data.ProjectNode is TProjectFolderNode) and not AutoUpdating) or
+       (Data.ProjectNode is TProjectRunConfiguationNode));
+     actProjectImportDirectory.Enabled := (Data.ProjectNode is TProjectFilesNode)
+       and SingleNodeSelected and not AutoUpdating;
      actProjectFileEdit.Enabled := Data.ProjectNode is TProjectFileNode;
      actProjectFileProperties.Enabled := (Data.ProjectNode is TProjectFileNode) and SingleNodeSelected;
      actProjectAddRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationsNode) and SingleNodeSelected;
@@ -895,7 +915,8 @@ begin
   if (MousePos.X = -1) and (MousePos.Y = -1) then
     // Keyboard invocation
     Node := ExplorerTree.GetFirstSelected
-  else begin
+  else
+  begin
     ExplorerTree.GetHitTestInfoAt(MousePos.X, MousePos.Y, True, HitInfo);
     Node := HitInfo.HitNode;
     if not ([hiOnItemLabel, hiOnNormalIcon] * HitInfo.HitPositions <> []) then
@@ -903,25 +924,29 @@ begin
     if Assigned(Node) and not (vsSelected in Node.States) then
       Node := nil;
   end;
-  if Assigned(Node) then begin
+  if Assigned(Node) then
+  begin
     Data := ExplorerTree.GetNodeData(Node);
-    if (Data.ProjectNode is TProjectRootNode) then
+    if Data.ProjectNode is TProjectRootNode then
       PopUpMenu := ProjectMainPopUpMenu
-    else if (Data.ProjectNode is TProjectFileNode) then
+    else if Data.ProjectNode is TProjectFileNode then
       PopUpMenu := ProjectFilePopupMenu
     else if Data.ProjectNode is TProjectRunConfiguationsNode then
       PopUpMenu := ProjectRunSettingsPopupMenu
     else if Data.ProjectNode is TProjectRunConfiguationNode then
       PopUpMenu := ProjectRunConfigPopupMenu
-    else if (Data.ProjectNode is TProjectFolderNode) or
-       (Data.ProjectNode is TProjectFilesNode)
+    else if Data.ProjectNode is TProjectAutoUpdateFolderNode then
+      PopUpMenu := ProjectAutoUpdateFolderPopupMenu
+    else if (Data.ProjectNode is TProjectFilesNode) and
+      not Data.ProjectNode.IsAutoUpdating
     then
       PopUpMenu := ProjectFolderPopupMenu;
-
-  end else begin
+  end else
+  begin
     PopUpMenu := ProjectMainPopUpMenu;
   end;
-  if Assigned(PopUpMenu) then begin
+  if Assigned(PopUpMenu) then
+  begin
     UpdatePopupActions(Node);
     Pos := ExplorerTree.ClientToScreen(MousePos);
     PopUpMenu.Popup(Pos.X, Pos.Y);
@@ -939,7 +964,10 @@ begin
   if Assigned(Node) then
   begin
     Data := ExplorerTree.GetNodeData(Node);
-    if (Data.ProjectNode is TProjectFileNode) or (Data.ProjectNode is TProjectFolderNode) then
+    if ((Data.ProjectNode is TProjectFileNode) or
+      (Data.ProjectNode is TProjectFolderNode)) and
+      not Data.ProjectNode.IsAutoUpdating
+    then
       Allowed := True;
   end;
 end;
@@ -966,7 +994,8 @@ begin
   if Assigned(Node) then
   begin
     Data := ExplorerTree.GetNodeData(Node);
-    if Data.ProjectNode is TProjectFilesNode then begin
+    if (Data.ProjectNode is TProjectFilesNode) and not Data.ProjectNode.IsAutoUpdating then
+    begin
       TempCursor := WaitCursor;
       if Sender = Source then begin
         // Internal Drop
@@ -1068,8 +1097,9 @@ begin
     Node := nil;
   if Assigned(Node) then begin
     Data := ExplorerTree.GetNodeData(Node);
-    if Data.ProjectNode is TProjectFilesNode then begin
-        Accept := True;
+    if (Data.ProjectNode is TProjectFilesNode) and not Data.ProjectNode.IsAutoUpdating then
+    begin
+      Accept := True;
       if Assigned(Source) and (Sender = Source) then
         Effect := DROPEFFECT_MOVE
       else
@@ -1126,6 +1156,8 @@ begin
   Data := ExplorerTree.GetNodeData(Node);
   if Data.ProjectNode is TProjectRootNode then
     ImageIndex := 0
+  else if Data.ProjectNode is TProjectAutoUpdateFolderNode then
+    ImageIndex := 4
   else if (Data.ProjectNode is TProjectFilesNode) or
           (Data.ProjectNode is TProjectFolderNode)
   then
@@ -1198,9 +1230,10 @@ begin
       ParentData.ProjectNode.Children[Node.Index] as TAbstractProjectNode;
   end;
   if Data.ProjectNode.Children.Count > 0 then begin
-    InitialStates := [ivsHasChildren];
-    if (not (ivsReInit in InitialStates) and PyIDEOptions.ProjectExplorerInitiallyExpanded)
-      or (Node.Parent = ExplorerTree.RootNode)
+    Include(InitialStates, ivsHasChildren);
+    if (not (ivsReInit in InitialStates) and PyIDEOptions.ProjectExplorerInitiallyExpanded) or
+      ((ivsReInit in InitialStates) and (Data.ProjectNode is TProjectAutoUpdateFolderNode)) or
+      (Node.Parent = ExplorerTree.RootNode)
     then
       Include(InitialStates, ivsExpanded);
   end;
@@ -1232,9 +1265,9 @@ begin
   end;
 
   if ModifiedText then begin
-    Assert(Assigned(Node.Parent), 'TProjectExplorerWindow.ExplorerTreeKeyPress');
+    Assert(Assigned(Node.Parent), 'TProjectExplorerWindow.ExplorerTreeNewText');
     ParentData := ExplorerTree.GetNodeData(Node.Parent);
-    Assert(Assigned(ParentData), 'TProjectExplorerWindow.ExplorerTreeKeyPress');
+    Assert(Assigned(ParentData), 'TProjectExplorerWindow.ExplorerTreeNewText');
     ExplorerTree.BeginUpdate;
     try
       ParentData.ProjectNode.SortChildren;
@@ -1286,6 +1319,9 @@ begin
   FShellImages.SetSize(MulDiv(FShellImages.Width, FCurrentPPI, Screen.PixelsPerInch),
     MulDiv(FShellImages.Height, FCurrentPPI, Screen.PixelsPerInch));
 
+  // Folder Change Notifier for auto updating folders
+  ActiveProject.OnFolderChange := OnFolderChange;
+
   // Wierd translation bug
   TP_Ignore(Self, 'mnProjectNew');
   TP_Ignore(Self, 'mnProjectOpen');
@@ -1304,6 +1340,25 @@ procedure TProjectExplorerWindow.FormShow(Sender: TObject);
 begin
   inherited;
   ExplorerTree.RootNodeCount := 1;
+end;
+
+procedure TProjectExplorerWindow.OnFolderChange(const Path: string);
+begin
+  var Node := ExplorerTree.IterateSubtree(ExplorerTree.RootNode,
+    procedure(Sender: TBaseVirtualTree; Node: PVirtualNode; Data: Pointer;
+      var Abort: Boolean)
+    begin
+      var NodeData: PNodeDataRec := ExplorerTree.GetNodeData(Node);
+      if Assigned(NodeData) and
+        (NodeData.ProjectNode is TProjectAutoUpdateFolderNode) and
+        AnsiSameText(TProjectAutoUpdateFolderNode(NodeData.ProjectNode).Path,
+          PChar(Data))
+      then
+        Abort := True;
+    end,
+    PChar(Path), [], False, True);
+  if Assigned(Node) then
+    ExplorerTree.ReinitNode(Node, True, True);
 end;
 
 end.

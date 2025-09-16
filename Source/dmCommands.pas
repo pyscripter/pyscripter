@@ -1498,7 +1498,7 @@ end;
 
 procedure TCommandsDataModule.actIDEShortcutsExecute(Sender: TObject);
 begin
-  with TfrmCustomKeyboard.Create(Self) do begin
+  with TfrmCustomKeyboard.Create(Application.MainForm) do begin
     if Execute then
       PyIDEMainForm.StoreApplicationData;
     Release;

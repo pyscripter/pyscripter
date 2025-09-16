@@ -121,7 +121,7 @@ type
     function CanCloseAll: Boolean;
     procedure CloseAll;
     function OpenFile(AFileName: string; HighlighterName: string = '';
-       TabControlIndex: Integer = 1): IEditor;
+       TabControlIndex: Integer = 0): IEditor;
     function GetEditorCount: Integer;
     function GetEditor(Index: Integer): IEditor;
     function GetEditorByName(const Name: string): IEditor;

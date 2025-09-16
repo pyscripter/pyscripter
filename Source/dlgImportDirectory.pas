@@ -23,11 +23,15 @@ type
     Label2: TLabel;
     DirectoryEdit: TButtonedEdit;
     vilImages: TVirtualImageList;
+    cbAutoUpdate: TCheckBox;
+    cbPythonPath: TCheckBox;
     procedure DirectoryEditBtnClick(Sender: TObject);
   public
     class var FileMasks: string;
     class var Directory: string;
     class var Recursive: Boolean;
+    class var AutoUpdate: Boolean;
+    class var AddToPath: Boolean;
     class function Execute: Boolean;
   end;
 
@@ -38,6 +42,7 @@ uses
   Winapi.ShLwApi,
   Vcl.FileCtrl,
   Vcl.Forms,
+  Vcl.Dialogs,
   JvGnugettext,
   dmResources;
 
@@ -63,23 +68,32 @@ begin
     Owner := Screen.ActiveCustomForm
   else
     Owner := Application.MainForm;
-  with TImportDirectoryForm.Create(Owner) do begin
-    Result := False;
+  with TImportDirectoryForm.Create(Owner) do
+  begin
     DirectoryEdit.Text := Directory;
     ebMask.Text := FileMasks;
     cbRecursive.Checked := Recursive;
-    SHAutoComplete(DirectoryEdit.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
-      SHACF_AUTOSUGGEST_FORCE_OFF);
-    if ShowModal = mrOk then begin
+    cbAutoUpdate.Checked := AutoUpdate;
+    cbPythonPath.Checked := AddToPath;
+    SHAutoComplete(DirectoryEdit.Handle, SHACF_FILESYSTEM or
+      SHACF_AUTOAPPEND_FORCE_ON or SHACF_AUTOSUGGEST_FORCE_OFF);
+    Result := ShowModal = mrOk;
+    if Result then
+    begin
       Result := True;
       FileMasks := ebMask.Text;
       Directory := DirectoryEdit.Text;
       Recursive := cbRecursive.Checked;
+      AutoUpdate := cbAutoUpdate.Checked;
+      AddToPath := cbPythonPath.Checked;
     end;
+    Release;
   end;
 end;
 
 initialization
-  TImportDirectoryForm.FileMasks := '*.py;*.pyw';
+  TImportDirectoryForm.FileMasks := '*.py;*.pyw;*.toml';
   TImportDirectoryForm.Recursive := True;
+  TImportDirectoryForm.AutoUpdate := True;
+  TImportDirectoryForm.AddToPath := True;
 end.

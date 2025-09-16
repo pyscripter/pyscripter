@@ -59,7 +59,7 @@ Chat settings are automatically saved when PyScripter exits and restored when
 PyScripter starts, in a Json file named "Chat Settings.json" in the same directory 
 as PyScripter.ini.
 
-![graphic](images/chatsettings.png){align=center width="23.875em" height="21.125"}
+![graphic](images/chatsettings.png){align=center width="23.875em" height="21.125em"}
 
 The following settings can be modified:
 

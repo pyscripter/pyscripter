@@ -468,6 +468,11 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         CollectionIndex = 2
         CollectionName = 'Projects\RunConfig'
         Name = 'RunConfig'
+      end
+      item
+        CollectionIndex = 4
+        CollectionName = 'Projects\FolderAutoRefresh'
+        Name = 'FolderAutoRefresh'
       end>
     ImageCollection = icProjects
     PreserveItems = True
@@ -633,8 +638,33 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           ',3.3-3.6v-18'#13#10#9'C34.5,8.8,33,7.2,31.2,7.2z M31.2,28.8H4.8v-18h26.' +
           '4V28.8z"/>'#13#10'<path d="M18.4,18h-7.6v3.6h7.6l-2.9,2.9L18,27l7.2-7.' +
           '2L18,12.6l-2.5,2.5L18.4,18z"/>'#13#10'</svg>'
+      end
+      item
+        IconName = 'Projects\FolderAutoRefresh'
+        SVGText = 
+          '<svg viewBox="0 0 24 24">'#13#10'  <path d="M18 14.5C19.11 14.5 20.11 ' +
+          '14.95 20.83 15.67L22 14.5V18.5H18L19.77 16.73C19.32 16.28 18.69 ' +
+          '16 18 16C16.62 16 15.5 17.12 15.5 18.5C15.5 19.88 16.62 21 18 21' +
+          'C18.82 21 19.54 20.61 20 20H21.71C21.12 21.47 19.68 22.5 18 22.5' +
+          'C15.79 22.5 14 20.71 14 18.5C14 16.29 15.79 14.5 18 14.5M20 8H4V' +
+          '18H12L12 18.5C12 19 12.06 19.5 12.17 20H4C2.89 20 2 19.1 2 18L2 ' +
+          '6C2 4.89 2.89 4 4 4H10L12 6H20C21.1 6 22 6.89 22 8V13C21.39 12.6' +
+          '3 20.72 12.34 20 12.17V8Z"/>'#13#10'</svg>'#13#10
       end>
     Left = 10
     Top = 160
+  end
+  object ProjectAutoUpdateFolderPopupMenu: TSpTBXPopupMenu
+    Images = vilImages
+    Left = 168
+    Top = 109
+    object SpTBXItem8: TSpTBXItem
+      Action = actProjectRename
+    end
+    object SpTBXSeparatorItem14: TSpTBXSeparatorItem
+    end
+    object SpTBXItem9: TSpTBXItem
+      Action = actProjectRemove
+    end
   end
 end

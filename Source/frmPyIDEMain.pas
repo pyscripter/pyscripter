@@ -641,6 +641,7 @@
 
    History:   v 5.2.4
           New Features
+            - Added auto-refreshing project folders that mirror physical folders (#521)
             - Scrollbar annotation for highlighted search term
           Issues addressed
             #1407, #1409, #1411, #1418, #1419
@@ -1426,9 +1427,9 @@ type
     function EditorFromTab(Tab: TSpTBXTabItem): IEditor;
     procedure SplitWorkspace(SecondTabsVisible: Boolean;
       Alignment: TAlign = alRight; Size: Integer = -1);
-    procedure MoveTab(Tab: TSpTBXTabItem; TabControl: TSpTBXTabControl;
+    procedure MoveTab(Tab: TSpTBXTabItem; TabControl: TSpTBXCustomTabControl;
       Index: Integer = -1);
-    function TabControl(TabControlIndex: Integer = 1): TSpTBXTabControl;
+    function TabControl(TabControlIndex: Integer = 1): TSpTBXCustomTabControl;
     function TabControlIndex(TabControl: TSpTBXCustomTabControl): Integer;
     procedure ShowIDEDockForm(Form: TForm);
     property ActiveTabControl: TSpTBXCustomTabControl read GetActiveTabControl
@@ -2435,7 +2436,7 @@ begin
     Editor := GI_EditorFactory.GetEditorByFileId(FileName);
     if not Assigned(Editor) and (FileName.StartsWith('ssh') or FileExists(FileName)) then begin
       try
-        GI_EditorFactory.OpenFile(FileName, '', TabControlIndex(ActiveTabControl));
+        GI_EditorFactory.OpenFile(FileName);
       except
         Exit;
       end;
@@ -2617,9 +2618,12 @@ begin
   Result := UnitTestWindow;
 end;
 
-function TPyIDEMainForm.TabControl(TabControlIndex: Integer): TSpTBXTabControl;
+function TPyIDEMainForm.TabControl(TabControlIndex: Integer = 1):
+    TSpTBXCustomTabControl;
 begin
-  if TabControlIndex = 2 then
+  if TabControlIndex = 0 then
+    Result := ActiveTabControl
+  else if TabControlIndex = 2 then
     Result := TabControl2
   else
     Result := TabControl1;
@@ -2769,7 +2773,7 @@ begin
   if Assigned(FileTemplate) then
     NewFileFromTemplate(FileTemplate, TabControlIndex(ActiveTabControl))
   else
-    GI_EditorFactory.OpenFile('', 'Python', TabControlIndex(ActiveTabControl));
+    GI_EditorFactory.OpenFile('', 'Python');
 end;
 
 procedure TPyIDEMainForm.actFileOpenExecute(Sender: TObject);
@@ -2787,7 +2791,7 @@ begin
     Options := Options + [ofAllowMultiSelect];
     if Execute then
       for var FName in Files do
-        GI_EditorFactory.OpenFile(FName, '', TabControlIndex(ActiveTabControl));
+        GI_EditorFactory.OpenFile(FName, '');
     Options := Options - [ofAllowMultiSelect];
   end;
 end;
@@ -3431,8 +3435,8 @@ begin
     not Assigned(Editor.SynEdit.Highlighter);
 end;
 
-procedure TPyIDEMainForm.MoveTab(Tab: TSpTBXTabItem;
-  TabControl: TSpTBXTabControl; Index: Integer);
+procedure TPyIDEMainForm.MoveTab(Tab: TSpTBXTabItem; TabControl:
+    TSpTBXCustomTabControl; Index: Integer = -1);
 var
   NewTab: TSpTBXTabItem;
   Sheet,
@@ -4185,7 +4189,7 @@ end;
 function TPyIDEMainForm.NewFileFromTemplate(
   FileTemplate: TFileTemplate; TabControlIndex: Integer): IEditor;
 var
-  TabCtrl: TSpTBXTabControl;
+  TabCtrl: TSpTBXCustomTabControl;
   Editor: IEditor;
   EditorView: IEditorView;
 begin
@@ -4274,8 +4278,7 @@ begin
   // Try to see whether it contains line/char info
   Result := JumpToFilePosInfo(FileName);
   if not Result and FileExists(FileName) then
-    Result := Assigned(GI_EditorFactory.OpenFile(FileName, '',
-      TabControlIndex(ActiveTabControl)));
+    Result := Assigned(GI_EditorFactory.OpenFile(FileName, ''));
 end;
 
 procedure TPyIDEMainForm.tbiBrowseNextClick(Sender: TObject);
@@ -4499,8 +4502,7 @@ var
   FileName, Server: string;
 begin
   if ExecuteRemoteFileDialog(FileName, Server, rfdOpen) then
-    GI_EditorFactory.OpenFile(TSSHFileName.Format(Server, FileName), '',
-      TabControlIndex(ActiveTabControl));
+    GI_EditorFactory.OpenFile(TSSHFileName.Format(Server, FileName));
 end;
 
 procedure TPyIDEMainForm.actRestoreEditorExecute(Sender: TObject);
@@ -4675,7 +4677,7 @@ end;
 procedure TPyIDEMainForm.tbiRecentFileListClick(Sender: TObject;
   const Filename: string);
 begin
-  GI_EditorFactory.OpenFile(Filename, '', TabControlIndex(ActiveTabControl));
+  GI_EditorFactory.OpenFile(Filename);
   TThread.ForceQueue(nil, procedure
   begin
     tbiRecentFileList.MRURemove(Filename);

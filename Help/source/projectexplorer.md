@@ -22,7 +22,7 @@ At any point in time one such project is active and if that project is not saved
 it has the name "Untitiled". The Project Explorer IDE Window 
 helps you explore and manage PyScripter projects.
 
-![graphic](images/theprojectexplorer1.JPG){align=center width="13.75em" height="30.44em"}
+![graphic](images/theprojectexplorer1.png){align=center width="18.4375em" height="33.75em"}
 
 
 The Root project  node always has exactly two child nodes:
@@ -47,13 +47,48 @@ You can double  click on files to open them in the editor. Alternatively you can
 multiple files and select the "Edit" command from the context menu 
 (see below).
 
-**Context sensitive menus**
+## Folder types
+
+You can add files and folders under the Files node, using its context menu (see below).  There are two types of folders you can add:
+
+- **Virtual folders**\
+These folders allow you to organize your project files in a logical manner.  For example you can 
+have a folder for source files, another one for documentation files and another one for 
+configuration files.  These folders are just collections of files and not necessarily correspond 
+to physical folders on disk.  They can contain subfolders.  You can create virtual folders using 
+the Add commands of the folder context menu.
+
+- **File-system folders**\
+These folders reflect the directory structure on disk.  Their content reflects the content of
+the physical folders and they are **auto-updating** when the contents of the folders on disk
+changed, e.g. when files are added, deleted or renamed.  They are created using the Import 
+Directory folder context menu.  They may contain subdirectories.
+
+The Project Explorer uses different icons to distinguish between these two types of folder nodes.
+For example in the picture above, "Doc" is a virtual folder and "rpyc" a file-system one.
+
+
+## Import directory dialog box
+
+![graphic](images/import_directory.png){align=center width="31.3125em" height="15.375em"}
+
+This dialog box is accessible from the folder context menu.  It allows you to import a 
+directory into the project.  In the file masks field you can provide one or more masks separated 
+by semi-colon that determines which file types will be imported into the project.  If 
+"Recursive" is checked subfolders will be imported too.  If "Auto-update" is checked then a 
+file-system folder will be created that will automatically refresh, whenever a change in the 
+specified directory takes place.  Otherwise, a virtual folder will be created.   Finally, you 
+have the option to add the specified directory to the python path (See the "Extra Python Path" 
+below).
+
+
+## Context sensitive menus
 
 There are different context menus available for each type of node:
 
-***a)  Window background and Root Project node context menu***
+###  Window background and Root Project node context menu
 
-![graphic](images/theprojectexplorer2.JPG){width="10.50em" height="13.19em"}
+![graphic](images/theprojectexplorer2.png){width="11.31em" height="16.5625em"}
 
 ***Commands:***
 
@@ -88,10 +123,9 @@ This option allows a project specific customization of the Python Path. Extra di
 specified are added to the Python path at the time the project is loaded and 
 every time an engine is reinitialized.
 
+### Folder context menu
 
-**b) Folder context menu**
-
-![graphic](images/theprojectexplorer3.JPG){width="9.70em" height="11.35em"}
+![graphic](images/theprojectexplorer3.png){width="10em" height="12.375em"}
 
 ***Commands:***
 
@@ -118,9 +152,11 @@ Rename the selected folder.
 *Remove*\
 Remove the selected folder and its child nodes.
 
-**c) File context menu**
+**Note**:  The first five commands are not available on file-system folders.
 
-![graphic](images/theprojectexplorer4.JPG){width="7.06em" height="4.75em"}
+### File context menu
+
+![graphic](images/theprojectexplorer4.png){width="7.5em" height="5.9375em"}
 
 ***Commands:***
 
@@ -133,19 +169,20 @@ Remove the selected file from the project.
 *Properties*\
 Show the standard Windows File Properties dialog for the selected file.
 
+**Note**:  Remove is disabled in file-system folders.
 
-**d) Run Configurations node context menu**
+### Run Configurations node context menu
 
-![graphic](images/theprojectexplorer5.JPG){width="11.44em" height="1.63em"}
+![graphic](images/theprojectexplorer5.png){width="12.125em" height="1.5em"}
 
 ***Commands:***
 
 *Add Run Configuration*\
 Create and add to the project a new Run Configuration.
 
-**e) Run Configuration context menu**
+### Run Configuration context menu
 
-![graphic](images/theprojectexplorer6.JPG){width="11.31em" height="9.06em"}
+![graphic](images/theprojectexplorer6.png){width="12.0625em" height="11.6875em"}
 
 ***Commands:***
 
@@ -171,7 +208,7 @@ Remove the selected Run Configuration.
 
 **The Project Explorer Toolbar**
 
-![graphic](images/theprojectexplorer7.JPG){width="14.63em" height="1.63em"}
+![graphic](images/theprojectexplorer7.png){width="14.9375em" height="1.6875em"}
 
 ***Commands:***
 

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-04-30 01:06\n"
+"POT-Creation-Date: 2025-09-16 12:43\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr ""
 #. FileTemplatesDialog..Panel..btnOK..Caption
 #. FindInFilesDialog..Panel1..btnOK..Caption
 #. FindResultsOptionsDialog..Panel1..btnOK..Caption
-#. ImportDirectoryForm..Panel1..Button1..Caption
+#. ImportDirectoryForm..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
 #. RemoteFileDialog..Panel2..OKButton..Caption
@@ -99,7 +99,7 @@ msgstr ""
 #. FileTemplatesDialog..Panel..btnCancel..Caption
 #. FindInFilesDialog..Panel1..btnCancel..Caption
 #. FindResultsOptionsDialog..Panel1..btnCancel..Caption
-#. ImportDirectoryForm..Panel1..Button2..Caption
+#. ImportDirectoryForm..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
 #. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
@@ -725,7 +725,17 @@ msgstr ""
 
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
-msgid "Recursive?"
+msgid "Recursive"
+msgstr ""
+
+#. ImportDirectoryForm..Panel1..cbAutoUpdate..Caption
+#: dlgImportDirectory.dfm
+msgid "Auto-update"
+msgstr ""
+
+#. ImportDirectoryForm..Panel1..cbPythonPath..Caption
+#: dlgImportDirectory.dfm
+msgid "Add to python path"
 msgstr ""
 
 #. NewFileDialog..Caption
@@ -4594,7 +4604,7 @@ msgid "Python version"
 msgstr ""
 
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
-#: frmPyIDEMain.dfm dmCommands.pas
+#: frmPyIDEMain.dfm
 msgid "Python engine type"
 msgstr ""
 
