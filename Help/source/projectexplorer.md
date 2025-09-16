@@ -55,31 +55,31 @@ You can add files and folders under the Files node, using its context menu (see 
 These folders allow you to organize your project files in a logical manner.  For example you can 
 have a folder for source files, another one for documentation files and another one for 
 configuration files.  These folders are just collections of files and not necessarily correspond 
-to physical folders on disk.  They can contain subfolders.  You can create virtual folders using 
+to physical folders on disk.  They may contain subfolders.  You can create virtual folders using 
 the Add commands of the folder context menu.
 
 - **File-system folders**\
-These folders reflect the directory structure on disk.  Their content reflects the content of
+These folders mirror the directory structure on disk.  Their content reflects the content of
 the physical folders and they are **auto-updating** when the contents of the folders on disk
-changed, e.g. when files are added, deleted or renamed.  They are created using the Import 
-Directory folder context menu.  They may contain subdirectories.
+change, e.g. when files are added, deleted or renamed.  They are created using the Import 
+Directory folder context menu.  They may also contain subfolders.
 
 The Project Explorer uses different icons to distinguish between these two types of folder nodes.
 For example in the picture above, "Doc" is a virtual folder and "rpyc" a file-system one.
 
 
-## Import directory dialog box
+## The Import directory dialog box
 
 ![graphic](images/import_directory.png){align=center width="31.3125em" height="15.375em"}
 
 This dialog box is accessible from the folder context menu.  It allows you to import a 
-directory into the project.  In the file masks field you can provide one or more masks separated 
-by semi-colon that determines which file types will be imported into the project.  If 
+directory into the project.  In the file masks field, you can provide one or more masks
+separated by semi-colon that determines which file types will be imported into the project.  If 
 "Recursive" is checked subfolders will be imported too.  If "Auto-update" is checked then a 
 file-system folder will be created that will automatically refresh, whenever a change in the 
 specified directory takes place.  Otherwise, a virtual folder will be created.   Finally, you 
-have the option to add the specified directory to the python path (See the "Extra Python Path" 
-below).
+have the option to add the specified directory to the to the project's "Extra Python Path", so 
+that the python interpreter can find and import modules in this directory..
 
 
 ## Context sensitive menus
