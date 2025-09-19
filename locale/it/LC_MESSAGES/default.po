@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-02-09 17:25\n"
+"POT-Creation-Date: 2025-09-16 12:43\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -78,7 +78,7 @@ msgstr "Inserisci un valore per il parametro "
 #. FileTemplatesDialog..Panel..btnOK..Caption
 #. FindInFilesDialog..Panel1..btnOK..Caption
 #. FindResultsOptionsDialog..Panel1..btnOK..Caption
-#. ImportDirectoryForm..Panel1..Button1..Caption
+#. ImportDirectoryForm..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
 #. RemoteFileDialog..Panel2..OKButton..Caption
@@ -111,7 +111,7 @@ msgstr "&OK"
 #. FileTemplatesDialog..Panel..btnCancel..Caption
 #. FindInFilesDialog..Panel1..btnCancel..Caption
 #. FindResultsOptionsDialog..Panel1..btnCancel..Caption
-#. ImportDirectoryForm..Panel1..Button2..Caption
+#. ImportDirectoryForm..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
 #. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
@@ -740,8 +740,18 @@ msgstr "Maschere dei file (es. *.py;*.pyw):"
 
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
-msgid "Recursive?"
-msgstr "Ricorsivo?"
+msgid "Recursive"
+msgstr "Ricorsivo"
+
+#. ImportDirectoryForm..Panel1..cbAutoUpdate..Caption
+#: dlgImportDirectory.dfm
+msgid "Auto-update"
+msgstr "Aggiornamento automatico"
+
+#. ImportDirectoryForm..Panel1..cbPythonPath..Caption
+#: dlgImportDirectory.dfm
+msgid "Add to python path"
+msgstr "Aggiungi al percorso python"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -2425,6 +2435,7 @@ msgstr "Chiudi|Chiudi file attuale"
 #. CommandsDataModule..actlMain..actEditPaste..Category
 #. CommandsDataModule..actlMain..actEditDelete..Category
 #. CommandsDataModule..actlMain..actEditUndo..Category
+#. CommandsDataModule..actlMain..actEditRedo..Category
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
 #: dmCommands.dfm
 msgid "Edit"
@@ -2490,6 +2501,12 @@ msgstr "&Ripeti"
 #: dmCommands.dfm
 msgid "Redo| Redo last action"
 msgstr "Ripeti|Ripeti ultima azione"
+
+#. CommandsDataModule..actlMain..actEditRedo..ImageName
+#. Programmer's name for it: SEdCmdRedo
+#: dmCommands.dfm StringResources.pas
+msgid "Redo"
+msgstr "Ripeti ultima azione annullata"
 
 #. CommandsDataModule..actlMain..actEditSelectAll..Caption
 #. UnitTestWindow..DialogActions..actSelectAll..Caption
@@ -3494,6 +3511,12 @@ msgstr "Usa DeepSeek"
 msgid "Use Gemini"
 msgstr "Usa Gemini"
 
+#. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiGrok..Hint
+#. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGrok..Hint
+#: dmCommands.dfm frmLLMChat.dfm
+msgid "Use Grok"
+msgstr "Usa Grok"
+
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
@@ -3877,6 +3900,12 @@ msgstr "Fold"
 #: frmEditor.dfm
 msgid "Unfold"
 msgstr "Espandi"
+
+#. EditorForm..pmnuEditor..spiEditorViews..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..EditorViewsMenu..Caption
+#: frmEditor.dfm frmPyIDEMain.dfm
+msgid "Editor Views"
+msgstr "Viste editor"
 
 #. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Caption
 #: frmEditor.dfm
@@ -4634,7 +4663,7 @@ msgid "Python version"
 msgstr "Versione Python"
 
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
-#: frmPyIDEMain.dfm dmCommands.pas
+#: frmPyIDEMain.dfm
 msgid "Python engine type"
 msgstr "Tipo di engine Python"
 
@@ -4872,11 +4901,6 @@ msgstr "Progetti &recenti"
 #: frmPyIDEMain.dfm
 msgid "&Tools"
 msgstr "&Strumenti"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..EditorViewsMenu..Caption
-#: frmPyIDEMain.dfm
-msgid "Source Code Views"
-msgstr "Viste codice sorgente"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
 #: frmPyIDEMain.dfm
@@ -6337,6 +6361,12 @@ msgstr "Slovacco: %s"
 msgid "Spanish: %s"
 msgstr "Spagnolo: %s"
 
+#. Programmer's name for it: SAboutBoxCreditsTranslationTurkish
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Turkish: %s"
+msgstr "Turco: %s"
+
 #: dlgAboutPyScripter.pas
 msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
@@ -6682,6 +6712,10 @@ msgstr "Barra scorrimento annotazione"
 #: dmCommands.pas
 msgid "Display flow control symbols"
 msgstr "Visualizza simboli controllo flusso"
+
+#: dmCommands.pas
+msgid "Accessibility support"
+msgstr "Supporto accessibilità"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
@@ -7378,6 +7412,16 @@ msgstr "Raggruppa livello 3"
 msgid "Fold Nearest"
 msgstr "Raggruppa più vicino"
 
+#. Programmer's name for it: SEdCmdNextChange
+#: StringResources.pas
+msgid "Next Change"
+msgstr "Modifica successiva"
+
+#. Programmer's name for it: SEdCmdPreviousChange
+#: StringResources.pas
+msgid "Previous Change"
+msgstr "Modifica precedente"
+
 #. Programmer's name for it: SEdCmdGotoBookmark0
 #: StringResources.pas
 msgid "Goto Bookmark 0"
@@ -7512,11 +7556,6 @@ msgstr "Pagina su"
 #: StringResources.pas
 msgid "Paste"
 msgstr "Incolla"
-
-#. Programmer's name for it: SEdCmdRedo
-#: StringResources.pas
-msgid "Redo"
-msgstr "Ripeti ultima azione annullata"
 
 #. Programmer's name for it: SEdCmdScrollDown
 #: StringResources.pas
@@ -7964,8 +8003,8 @@ msgstr "(Elenco vuoto)"
 #. Programmer's name for it: SCommandLineMsg
 #: StringResources.pas
 #, object-pascal-format
-msgid "Command Line : %s\n"
-msgstr "Riga comando: %s\n"
+msgid "Command line: %s"
+msgstr "Riga comando: %s"
 
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
@@ -8809,12 +8848,6 @@ msgstr "La cartella \"%s\" non esiste"
 msgid "One process is still running, stop it first."
 msgstr "Un processo è in esecuzione. Prima arrestarlo."
 
-#. Programmer's name for it: SPrintCommandLine
-#: StringResources.pas
-#, object-pascal-format
-msgid "Command line: %s"
-msgstr "Riga comando: %s"
-
 #. Programmer's name for it: SPrintWorkingDir
 #: StringResources.pas
 msgid "Working directory: "
@@ -8943,80 +8976,6 @@ msgstr "Modificatore \"%s\" duplicato"
 #: StringResources.pas
 msgid "Package Name"
 msgstr "Nome pacchetto"
-
-#. Refactoring
-#. Programmer's name for it: SCouldNotLoadModule
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not load and parse module: \"%s\""
-msgstr "Impossibile caricare e interpretare il modulo: \"%s\""
-
-#. Programmer's name for it: SNoIdentifier
-#: StringResources.pas
-msgid "No Identifier at the given line and column"
-msgstr "Nessun identificatore alla riga e colonna indicata"
-
-#. Programmer's name for it: SCouldNotFindScope
-#: StringResources.pas
-msgid "Could not find scope for the given line"
-msgstr "Impossibile trovare il contesto per questa riga"
-
-#. Programmer's name for it: STypeOfSIsUnknown
-#: StringResources.pas
-#, object-pascal-format
-msgid "Type of \"%s\" is unknown"
-msgstr "Tipo di \"%s\" sconosciuto"
-
-#. Programmer's name for it: SCyclicImports
-#: StringResources.pas
-msgid "Cyclic imports encountered!"
-msgstr "Riscontrata importazione ciclica!"
-
-#. Programmer's name for it: SCyclicTypeDependency
-#: StringResources.pas
-msgid "Cyclic type dependency encountered!"
-msgstr "Riscontrata dipendenza ridondante dei tipi!"
-
-#. Programmer's name for it: SCouldNotFindIdent
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not find identifier \"%s\" in module \"%s\""
-msgstr "Impossibile trovare l'identificatore \"%s\" nel modulo \"%s\""
-
-#. Programmer's name for it: SCouldNotAnalyseModule
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not analyse module: \"%s\""
-msgstr "Impossibile analizzare il modulo: \"%s\""
-
-#. Programmer's name for it: SCouldNotFindModule
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not find module: \"%s\""
-msgstr "Impossibile trovare il modulo: \"%s\""
-
-#. Programmer's name for it: SSelfOutsideClassScope
-#: StringResources.pas
-msgid "\"self\" or \"cls\" used outside a class scope"
-msgstr "\"self\" o \"cls\" usato fuori da un class scope"
-
-#. Programmer's name for it: SCouldNotFindIdentInScope
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not find identifier \"%s\" in scope \"%s\""
-msgstr "Impossibile trovare l'identificatore \"%s\" nel contesto \"%s\""
-
-#. Programmer's name for it: SCouldNotInferType
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not infer type from expresson \"%s\""
-msgstr "Impossibile dedurre il tipo dall'espressione \"%s\""
-
-#. Programmer's name for it: SCouldInferFunctionReturnType
-#: StringResources.pas
-#, object-pascal-format
-msgid "Could not infer return type of function \"%s\""
-msgstr "Impossibile dedurre il tipo restituito della funzione \"%s\""
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
