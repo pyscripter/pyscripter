@@ -28,7 +28,6 @@ const
   SWarningFilePosExpr = '^<?' +SFileExpr + '>?:(\d+):';
   WideLF = #$000A;
   WideNull = #$0000;
-  WordBreakString = ',.;:"´`°^!?&$@§%#~[](){}<>-=+*/\| ';
 
 (* returns the System ImageList index of the icon of a given file *)
 function GetIconIndexFromFile(const AFileName: string;

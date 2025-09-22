@@ -1457,12 +1457,19 @@ end;
 function TPyInternalInterpreter.SysPathAdd(const Path: string): Boolean;
 var
   Py: IPyEngineAndGIL;
+  SysPath: Variant;
 begin
   Py := SafePyEngine;
-  if SysModule.path.__contains__(Path) then
+
+  SysPath := SysModule.path;
+  if SysPath.__contains__(Path) then
     Result := False
-  else begin
-    SysModule.path.insert(0, Path);
+  else
+  begin
+    if (SysPath.__len__() > 0) and (SysPath.__getitem__(0) = '') then
+      SysPath.insert(1, Path)
+    else
+      SysPath.insert(0, Path);
     Result := True;
   end;
 end;

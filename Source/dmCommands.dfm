@@ -1043,7 +1043,7 @@ object CommandsDataModule: TCommandsDataModule
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoConsiderWordBreakChars, scoCompleteWithTab, scoCompleteWithEnter]
     EndOfTokenChr = '()[]. ='
     TriggerChars = '('
     Font.Charset = DEFAULT_CHARSET
@@ -1068,7 +1068,7 @@ object CommandsDataModule: TCommandsDataModule
     Top = 63
   end
   object SynCodeCompletion: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoEndCharCompletion, scoConsiderWordBreakChars, scoCompleteWithTab, scoCompleteWithEnter]
     Width = 200
     EndOfTokenChr = '()[]{}. =:'
     TriggerChars = '.'

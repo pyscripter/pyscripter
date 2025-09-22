@@ -19,6 +19,7 @@ uses
   System.Contnrs,
   System.ImageList,
   System.Threading,
+  System.Messaging,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Menus,
@@ -192,7 +193,8 @@ type
     procedure AutoCompleteAfterExecute(Sender: TObject);
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info: string);
-    procedure ApplyPyIDEOptions;
+    procedure ApplyPyIDEOptions(const Sender: TObject; const Msg:
+        System.Messaging.TMessage);
     procedure ScrollbarAnnotationGetInfo(Sender: TObject; AnnType:
       TSynScrollbarAnnType; var Rows: TArray<Integer>; var Colors: TArray<TColor>);
     class var FOldEditorForm: TEditorForm;
@@ -1361,7 +1363,7 @@ begin
       Visible := True;
       ScaleForPPI(Sheet.CurrentPPI);
       ApplyEditorOptions;
-      ApplyPyIDEOptions;
+      ApplyPyIDEOptions(PyIDEOptions, nil);
     end;
     if Result <> nil then
     begin
@@ -1667,9 +1669,6 @@ end;
 
 procedure TEditorForm.FormDestroy(Sender: TObject);
 begin
-  // PyIDEOptions change notification
-  PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
-
   if SynEdit2.IsChained then
     SynEdit2.RemoveLinesPointer;
 
@@ -1677,6 +1676,9 @@ begin
     GI_BreakpointManager.BreakpointsChanged := True;
   Breakpoints.Free;
 
+  // Remove notifications
+  TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
+    ApplyPyIDEOptions);
   SkinManager.RemoveSkinNotification(Self);
 end;
 
@@ -2270,12 +2272,12 @@ begin
   SynEdit.Indicators.RegisterSpec(HotIdentIndicatorSpec, IndicatorSpec);
   SynEdit2.Indicators.RegisterSpec(HotIdentIndicatorSpec, IndicatorSpec);
 
-  // PyIDEOptions change notification
-  PyIDEOptions.OnChange.AddHandler(ApplyPyIDEOptions);
-
-  SkinManager.AddSkinNotification(Self);
-
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
+
+  // Setup notifications
+  TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
+    ApplyPyIDEOptions);
+  SkinManager.AddSkinNotification(Self);
 
   TranslateComponent(Self);
 end;
@@ -2509,7 +2511,8 @@ begin
     ResourcesDataModule.SynPythonSyn.UnbalancedBraceAttri.Foreground, [fsBold]);
 end;
 
-procedure TEditorForm.ApplyPyIDEOptions;
+procedure TEditorForm.ApplyPyIDEOptions(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
 
   procedure  ApplyOptionsToEditor(Editor: TCustomSynEdit);
   begin
@@ -2609,8 +2612,8 @@ begin
   if Value.EndsWith('()') then
   begin
     // if the next char is an opening bracket remove the added brackets
-    if (Editor.CaretX <= Editor.LineText.Length) and
-      IsOpeningBracket(Editor.LineText[Editor.CaretX], Editor.Brackets) then
+    if (EndToken = '(') or ((Editor.CaretX <= Editor.LineText.Length) and
+      IsOpeningBracket(Editor.LineText[Editor.CaretX], Editor.Brackets)) then
     begin
       Editor.BeginUpdate;
       try
@@ -2619,7 +2622,6 @@ begin
       finally
         Editor.EndUpdate;
       end;
-      EndToken := #0;
     end
     else
     begin

@@ -12,6 +12,7 @@ interface
 
 uses
   System.Classes,
+  System.Messaging,
   Vcl.Dialogs,
   Vcl.BaseImageCollection,
   JclSysUtils,
@@ -69,7 +70,8 @@ type
     FHighlighters: THighlighterList;
     procedure SynPythonSynChanged(Sender: TObject);
     procedure SynIniSynChanged(Sender: TObject);
-    procedure PyIDEOptionsChanged;
+    procedure PyIDEOptionsChanged(const Sender: TObject; const Msg:
+        System.Messaging.TMessage);
   public
     SynPythonSyn: TSynPythonSyn;
     SynCythonSyn: TSynCythonSyn;
@@ -127,9 +129,11 @@ uses
 
 procedure TResourcesDataModule.DataModuleDestroy(Sender: TObject);
 begin
+  TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
+    PyIDEOptionsChanged);
+
   FLogger.Free;
   FHighlighters.Free;
-  PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
   ResourcesDataModule := nil;
 end;
 
@@ -286,7 +290,8 @@ begin
   // Use the toml INI highlighting type
   SynIniSyn.IniHighlightType := typeToml;
 
-  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
+  TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
+    PyIDEOptionsChanged);
 end;
 
 procedure TResourcesDataModule.ModifierCompletionCodeCompletion(Sender:
@@ -369,7 +374,8 @@ end;
 
 { TResourcesDataModule }
 
-procedure TResourcesDataModule.PyIDEOptionsChanged;
+procedure TResourcesDataModule.PyIDEOptionsChanged(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
 begin
   //  Dock animation parameters
   DockStyle.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);

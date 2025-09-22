@@ -13,7 +13,6 @@ interface
 
 uses
   System.Classes,
-  JclNotify,
   JvAppStorage,
   PythonVersions,
   uEditAppIntfs,
@@ -33,7 +32,6 @@ type
     FFinalizing: Boolean;
     FDebuggerState: TDebuggerState;
     FOnStateChange: TNotifyEvent;
-    FOnPythonVersionChange: TJclNotifyEventBroadcast;
     FActiveInterpreter: TPyBaseInterpreter;
     FActiveDebugger: TPyBaseDebugger ;
     FRunConfig: TRunConfiguration;
@@ -61,7 +59,6 @@ type
     function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
-    function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     procedure SetCurrentPos(const NewPos: TEditorPos);
     procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
@@ -113,7 +110,6 @@ type
     property Finalizing: Boolean read FFinalizing;
     property OnStateChange: TNotifyEvent read FOnStateChange
       write FOnStateChange;
-    property OnPythonVersionChange: TJclNotifyEventBroadcast read GetOnPythonVersionChange;
   end;
 
 var
@@ -127,6 +123,7 @@ uses
   System.Contnrs,
   System.UITypes,
   System.Math,
+  System.Messaging,
   Vcl.Forms,
   Vcl.Dialogs,
   JvGnugettext,
@@ -155,7 +152,6 @@ begin
   FRunConfig := TRunConfiguration.Create;
   FInternalPython := TInternalPython.Create;
   FRegPythonVersions := GetRegisteredPythonVersions(MinPyVersion, MaxPyVersion);
-  FOnPythonVersionChange := TJclNotifyEventBroadcast.Create;
 end;
 
 procedure TPythonControl.Debug(ARunConfig: TRunConfiguration;
@@ -183,7 +179,6 @@ begin
   GI_PyControl := nil;
   FreeAndNil(FInternalInterpreter);
   FreeAndNil(FInternalPython);
-  FreeAndNil(FOnPythonVersionChange);
   FRunConfig.Free;
   inherited;
 end;
@@ -216,11 +211,6 @@ begin
     StyledMessageDlg(_(SInterpreterNA), mtError, [mbAbort], 0);
     Abort;
   end;
-end;
-
-function TPythonControl.GetOnPythonVersionChange: TJclNotifyEventBroadcast;
-begin
-  Result := FOnPythonVersionChange;
 end;
 
 function TPythonControl.GetPythonEngineType: TPythonEngineType;
@@ -648,7 +638,7 @@ begin
     end;
 
     // Notify Python Version Change
-    FOnPythonVersionChange.Notify(Self);
+    TMessageManager.DefaultManager.SendMessage(Self, TPythonVersionChangeMessage.Create);
 
     //  Set the current PythonEngine
     if PyIDEOptions.PythonEngineType = peInternal then

@@ -14,6 +14,7 @@ uses
   System.JSON,
   System.SyncObjs,
   System.Generics.Collections,
+  System.Messaging,
   SynEditTypes,
   SynEdit,
   LspUtils;
@@ -64,7 +65,8 @@ type
     FNeedToRefreshDiagnostics: Boolean;
     FNeedToRefreshSymbols: Boolean;
     FDocSymbols: TDocSymbols;
-    procedure FOnLspInitialized(Sender: TObject);
+    procedure OnLspInitialized(const Sender: TObject; const Msg:
+        System.Messaging.TMessage);
     class var FDocSymbolsLock: TRTLCriticalSection;
     class var FSymbolsRequests: TStringList;
     class var Instances: TThreadList<TLspSynEditPlugin>;
@@ -92,7 +94,8 @@ type
     class constructor Create;
     class destructor Destroy;
     class procedure RefreshSymbols(const AFileId: string);
-    class procedure OnLspShutDown(Sender: TObject);
+    class procedure OnLspShutDown(const Sender: TObject; const Msg:
+        System.Messaging.TMessage);
     class procedure HandleLspNotify(const Method: string; Params: TJSONValue);
   end;
 
@@ -125,7 +128,8 @@ begin
   FIncChanges.Owned := False;
   FDiagnostics := TList<TDiagnostic>.Create;
   FNewDiagnostics := TThreadList<TDiagnostic>.Create;
-  TJedi.OnInitialized.AddHandler(FOnLspInitialized);
+  TMessageManager.DefaultManager.SubscribeToMessage(TLspServerInitializedMessage,
+    OnLspInitialized);
   Instances.Add(Self);
   FDocSymbols := TDocSymbols.Create(Self);
   AOwner.Indicators.RegisterSpec(DiagnosticsErrorIndicatorSpec,
@@ -136,7 +140,8 @@ end;
 destructor TLspSynEditPlugin.Destroy;
 begin
   Instances.Remove(Self);
-  TJedi.OnInitialized.RemoveHandler(FOnLspInitialized);
+  TMessageManager.DefaultManager.Unsubscribe(TLspServerInitializedMessage,
+    OnLspInitialized);
   FNewDiagnostics.Free;
   FDiagnostics.Free;
   FIncChanges.Free;
@@ -146,6 +151,8 @@ end;
 
 class destructor TLspSynEditPlugin.Destroy;
 begin
+  TMessageManager.DefaultManager.UnSubscribe(TLspServerShutDownMessage,
+    OnLspShutDown);
   Instances.Free;
   FDocSymbolsLock.Free;
   FSymbolsRequests.Free;
@@ -212,13 +219,15 @@ begin
   FileOpened(FileId, LangId);
 end;
 
-procedure TLspSynEditPlugin.FOnLspInitialized(Sender: TObject);
+procedure TLspSynEditPlugin.OnLspInitialized(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
 begin
   if (FFileId <> '') and (FLangId = lidPython) then
     FileOpened(FFileId, lidPython);
 end;
 
-class procedure TLspSynEditPlugin.OnLspShutDown(Sender: TObject);
+class procedure TLspSynEditPlugin.OnLspShutDown(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
 begin
   FDocSymbolsLock.Enter;
   try
@@ -570,6 +579,9 @@ begin
   FSymbolsRequests.UseLocale := True;
   FSymbolsRequests.Duplicates := dupError;
   FSymbolsRequests.Sorted := True;
+
+  TMessageManager.DefaultManager.SubscribeToMessage(TLspServerShutDownMessage,
+    OnLspShutDown);
 end;
 
 { TDocSymbols }

@@ -14,6 +14,7 @@ uses
   System.Types,
   System.Classes,
   System.Actions,
+  System.Messaging,
   Vcl.Graphics,
   Vcl.ActnList,
   Vcl.StdActns,
@@ -321,7 +322,8 @@ type
     procedure SynSpellCheckChange(Sender: TObject);
   private
     FConfirmReplaceDialogRect: TRect;
-    procedure PyIDEOptionsChanged;
+    procedure PyIDEOptionsChanged(const Sender: TObject; const Msg:
+        System.Messaging.TMessage);
   protected
     procedure Loaded; override;
   public
@@ -433,22 +435,21 @@ uses
 
 procedure TCommandsDataModule.DataModuleCreate(Sender: TObject);
 begin
-  SynCodeCompletion.EndOfTokenChr := WordBreakString;
-  SynParamCompletion.EndOfTokenChr := WordBreakString;
-
   // Set the language before all calls to TranslateComponent
   // This avoids retranslating if the local lanuage <> "en"
   // and the stored lanuage option is "en".
   UseLanguage('en');
   TranslateComponent(Self);
 
-  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
+  TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
+    PyIDEOptionsChanged);
 end;
 
 procedure TCommandsDataModule.DataModuleDestroy(Sender: TObject);
 begin
   CommandsDataModule := nil;
-  PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
+  TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
+    PyIDEOptionsChanged);
 end;
 
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
@@ -2525,7 +2526,8 @@ begin
   end;
 end;
 
-procedure TCommandsDataModule.PyIDEOptionsChanged;
+procedure TCommandsDataModule.PyIDEOptionsChanged(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
 begin
   // Syntax Code Completion
   SynCodeCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);

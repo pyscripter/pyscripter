@@ -670,6 +670,7 @@ uses
   System.Classes,
   System.Actions,
   System.ImageList,
+  System.Messaging,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -720,7 +721,7 @@ type
     zOrderProcessing: Boolean;
   public
     zOrder: TList;
-    procedure WMDropFiles(var Msg: TMessage); message WM_DROPFILES;
+    procedure WMDropFiles(var Msg: WinApi.Messages.TMessage); message WM_DROPFILES;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
   end;
@@ -1326,7 +1327,7 @@ type
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
     procedure OpenInitialFiles;
     procedure WMDestroy(var Message: TWMDestroy); message WM_DESTROY;
-    procedure WMWTSSessionChange (var Message: TMessage); message WM_WTSSESSION_CHANGE;
+    procedure WMWTSSessionChange (var Message: WinApi.Messages.TMessage); message WM_WTSSESSION_CHANGE;
     procedure WMEndSession(var Msg: TWMEndSession); message WM_ENDSESSION;
     procedure WMQueryEndSession(var Msg: TWMQueryEndSession); message WM_QUERYENDSESSION;
   protected
@@ -1343,10 +1344,10 @@ type
     procedure TabToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
     procedure TabToolbarlDragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure WMFindDefinition(var Msg: TMessage); message WM_FINDDEFINITION;
-    procedure WMSearchReplaceAction(var Msg: TMessage); message WM_SEARCHREPLACEACTION;
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
-    procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
+    procedure WMFindDefinition(var Msg: WinApi.Messages.TMessage); message WM_FINDDEFINITION;
+    procedure WMSearchReplaceAction(var Msg: WinApi.Messages.TMessage); message WM_SEARCHREPLACEACTION;
+    procedure WMSpSkinChange(var Message: WinApi.Messages.TMessage); message WM_SPSKINCHANGE;
+    procedure CMStyleChanged(var Message: WinApi.Messages.TMessage); message CM_STYLECHANGED;
     procedure SelectEditor(Sender: TObject);
     procedure mnLanguageClick(Sender: TObject);
     // Remote Desktop
@@ -1404,7 +1405,8 @@ type
     procedure UpdateDebugCommands;
     procedure DebuggerStateChange(Sender: TObject);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
-    procedure PyIDEOptionsChanged;
+    procedure PyIDEOptionsChanged(const Sender: TObject; const Msg:
+        System.Messaging.TMessage);
     procedure SetupCustomizer;
     procedure SetupLanguageMenu;
     procedure SetupToolsMenu;
@@ -1610,7 +1612,8 @@ begin
      CallStackWindow.actlCallStack];
 
   // Notifications
-  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
+  TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
+    PyIDEOptionsChanged);
   SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;
 
@@ -2748,7 +2751,8 @@ procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
   GI_PyIDEServices := nil;
   SkinManager.RemoveSkinNotification(Self);
-  PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
+  TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
+    PyIDEOptionsChanged);
   FreeAndNil(Layouts);
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
@@ -2815,7 +2819,8 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PyIDEOptionsChanged;
+procedure TPyIDEMainForm.PyIDEOptionsChanged(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
 begin
   Application.DefaultFont.Size := PyIDEOptions.UIContentFontSize;
 
@@ -4027,7 +4032,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.WMSpSkinChange(var Message: TMessage);
+procedure TPyIDEMainForm.WMSpSkinChange(var Message: WinApi.Messages.TMessage);
 begin
   // Update EditorOptions
   ThemeEditorGutter(EditorOptions.Gutter);
@@ -4057,7 +4062,8 @@ begin
   {$ENDIF}
 end;
 
-procedure TPyIDEMainForm.WMWTSSessionChange(var Message: TMessage);
+procedure TPyIDEMainForm.WMWTSSessionChange(var Message:
+    WinApi.Messages.TMessage);
 begin
   case Message.WParam of
     WTS_SESSION_LOCK,
@@ -4071,12 +4077,12 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.CMStyleChanged(var Message: TMessage);
+procedure TPyIDEMainForm.CMStyleChanged(var Message: WinApi.Messages.TMessage);
 begin
   SkinManager.BroadcastSkinNotification;
 end;
 
-procedure TPyIDEMainForm.WMFindDefinition(var Msg: TMessage);
+procedure TPyIDEMainForm.WMFindDefinition(var Msg: WinApi.Messages.TMessage);
 var
   FilePosInfo: string;
   FileName: string;
@@ -4092,7 +4098,8 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.WMSearchReplaceAction(var Msg: TMessage);
+procedure TPyIDEMainForm.WMSearchReplaceAction(var Msg:
+    WinApi.Messages.TMessage);
 begin
   if Msg.LParam <> 0 then begin
     var Action := TCustomAction(Msg.LParam);
@@ -4795,7 +4802,7 @@ end;
 
 { TTSpTBXTabControl }
 
-procedure TSpTBXTabControl.WMDropFiles(var Msg: TMessage);
+procedure TSpTBXTabControl.WMDropFiles(var Msg: WinApi.Messages.TMessage);
 var
   NumberDropped: Integer;
   FileName: array[0..MAX_PATH - 1] of Char;

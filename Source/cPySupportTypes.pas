@@ -14,7 +14,7 @@ uses
   System.Classes,
   System.RegularExpressions,
   System.Contnrs,
-  JclNotify,
+  System.Messaging,
   SynEdit,
   PythonEngine,
   PythonVersions,
@@ -30,6 +30,9 @@ type
      peSSH);       // SSH Python engine
 
   TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
+
+  // Notification messages
+  TPythonVersionChangeMessage = class(System.Messaging.TMessage);
 
 const
   // Defined DebugIDE events
@@ -156,7 +159,6 @@ type
     function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
-    function GetOnPythonVersionChange: TJclNotifyEventBroadcast;
     procedure SetCurrentPos(const NewPos: TEditorPos);
     procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
@@ -168,8 +170,6 @@ type
     property ErrorPos: TEditorPos read GetErrorPos write SetErrorPos;
     property PythonVersion: TPythonVersion read GetPythonVersion;
     property ActiveSSHServerName: string read GetActiveSSHServerName;
-    property OnPythonVersionChange: TJclNotifyEventBroadcast
-      read GetOnPythonVersionChange;
   end;
 
   TPyInterpreterPropmpt = (pipNormal, pipDebug, pipPostMortem);

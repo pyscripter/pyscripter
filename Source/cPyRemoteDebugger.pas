@@ -1189,14 +1189,20 @@ end;
 function TPyRemoteInterpreter.SysPathAdd(const Path: string): Boolean;
 var
   Py: IPyEngineAndGIL;
+  SysPath: Variant;
 begin
   Result := False;
   CheckConnected(True, False);
   if not Connected then Exit;
 
   Py := SafePyEngine;
-  if not Conn.modules.sys.path.__contains__(Path) then begin
-    Conn.modules.sys.path.insert(0, Path);
+  SysPath := Conn.modules.sys.path;
+  if not SysPath.__contains__(Path) then
+  begin
+    if (SysPath.__len__() > 0) and (SysPath.__getitem__(0) = '') then
+      SysPath.insert(1, Path)
+    else
+      SysPath.insert(0, Path);
     Result := True;
   end;
 end;
@@ -1204,15 +1210,18 @@ end;
 function TPyRemoteInterpreter.SysPathRemove(const Path: string): Boolean;
 var
   Py: IPyEngineAndGIL;
+  SysPath: Variant;
 begin
   Result := False;
   CheckConnected(True, False);
   if not Connected then Exit;
 
   Py := SafePyEngine;
-  if Conn.modules.sys.path.__contains__(Path) then begin
+  SysPath := Conn.modules.sys.path;
+  if SysPath.__contains__(Path) then
+  begin
     Result := True;
-    Conn.modules.sys.path.remove(Path);
+    SysPath.remove(Path);
   end;
 end;
 
@@ -1221,7 +1230,8 @@ var
   Py: IPyEngineAndGIL;
   RemPath: Variant;
 begin
-  CheckConnected;
+  CheckConnected(True, False);
+  if not Connected then Exit;
 
   Py := SafePyEngine;
   RemPath := Rpyc.classic.obtain(Conn.modules.sys.path);

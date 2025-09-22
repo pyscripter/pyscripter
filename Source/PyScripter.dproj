@@ -401,7 +401,8 @@ $(PostBuildEvent)]]>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -409,7 +410,8 @@ $(PostBuildEvent)]]>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
@@ -417,7 +419,8 @@ $(PostBuildEvent)]]>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win64'">
@@ -425,7 +428,8 @@ $(PostBuildEvent)]]>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

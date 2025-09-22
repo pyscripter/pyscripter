@@ -14,6 +14,7 @@ uses
   System.Classes,
   System.Actions,
   System.ImageList,
+  System.Messaging,
   Vcl.Controls,
   Vcl.ActnList,
   Vcl.Menus,
@@ -143,7 +144,8 @@ type
     FFavorites: TStringList;
     procedure PathItemClick(Sender: TObject);
     function GetExplorerPath: string;
-    procedure ApplyPyIDEOptions;
+    procedure ApplyPyIDEOptions(const Sender: TObject; const Msg:
+        System.Messaging.TMessage);
     procedure SetExplorerPath(const Value: string);
   public
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
@@ -307,7 +309,8 @@ begin
   end;
 end;
 
-procedure TFileExplorerWindow.ApplyPyIDEOptions;
+procedure TFileExplorerWindow.ApplyPyIDEOptions(const Sender: TObject;
+  const Msg: System.Messaging.TMessage);
 begin
   TThread.ForceQueue(nil, procedure
   begin
@@ -458,12 +461,14 @@ begin
   FFavorites := TStringList.Create;
   FFavorites.Duplicates := dupIgnore;
   FFavorites.Sorted := True;
-  PyIDEOptions.OnChange.AddHandler(ApplyPyIDEOptions);
+  TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
+    ApplyPyIDEOptions);
 end;
 
 procedure TFileExplorerWindow.FormDestroy(Sender: TObject);
 begin
-  PyIDEOptions.OnChange.RemoveHandler(ApplyPyIDEOptions);
+  TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
+    ApplyPyIDEOptions);
   FFavorites.Free;
   FileExplorerWindow := nil;
   inherited;
