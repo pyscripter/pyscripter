@@ -33,6 +33,7 @@ type
 
   // Notification messages
   TPythonVersionChangeMessage = class(System.Messaging.TMessage);
+  TProjectPythonPathChangeMessage = class(System.Messaging.TMessage<TArray<string>>);
 
 const
   // Defined DebugIDE events
@@ -159,10 +160,10 @@ type
     function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
+    procedure AppendProjectPaths;
     procedure SetCurrentPos(const NewPos: TEditorPos);
     procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
-    function AddPathToInternalPythonPath(const Path: string): IInterface;
     procedure Pickle(AValue: Variant; FileName: string);
     property CurrentPos: TEditorPos read GetCurrentPos write SetCurrentPos;
     property DebuggerState: TDebuggerState read GetDebuggerState

@@ -183,7 +183,6 @@ uses
   JvDSADialogs,
   JvGnugettext,
   StringResources,
-  cProjectClasses,
   cPyScripterSettings,
   cPyControl,
   cTools,
@@ -810,8 +809,7 @@ begin
           PyControl.ActiveDebugger := DebuggerClass.Create(Self);
 
           // Add extra project paths
-          if Assigned(ActiveProject) then
-            ActiveProject.AppendExtraPaths;
+          GI_PyControl.AppendProjectPaths;
 
           Initialize;
         end;

@@ -71,6 +71,7 @@ type
     FShowFileExtensions: Boolean;
     FExtraPythonPath: TStrings;
     function GetName: string;
+    procedure NotifyPythonPathChange;
     procedure SetStoreRelativePaths(const Value: Boolean);
     procedure SetShowFileExtensions(const Value: Boolean);
     procedure SetExtraPythonPath(const Value: TStrings);
@@ -84,9 +85,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
     function HasFile(const FileName: string): Boolean;
-    procedure AppendExtraPaths;
     procedure AppendExtraPath(const APath: string);
-    procedure RemoveExtraPaths;
     property Name: string read GetName;
     property FileName: string read FFileName write FFileName;
   published
@@ -188,9 +187,9 @@ uses
   System.Types,
   System.SysUtils,
   System.IOUtils,
+  System.Messaging,
   JvGnugettext,
   uCommonFunctions,
-  cPyControl,
   uEditAppIntfs;
 
 { Utility functions }
@@ -208,7 +207,6 @@ begin
     end;
   end;
 end;
-
 
 
 { TAbstractProjectNode }
@@ -393,16 +391,8 @@ begin
   if FExtraPythonPath.IndexOf(APath) < 0 then
   begin
     FExtraPythonPath.Add(APath);
-    PyControl.ActiveInterpreter.SysPathAdd(APath);
+    NotifyPythonPathChange;
   end;
-end;
-
-procedure TProjectRootNode.AppendExtraPaths;
-begin
-  if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
-
-  for var Path in FExtraPythonPath do
-    PyControl.ActiveInterpreter.SysPathAdd(Path);
 end;
 
 constructor TProjectRootNode.Create;
@@ -417,8 +407,9 @@ end;
 
 destructor TProjectRootNode.Destroy;
 begin
-  RemoveExtraPaths;
-  FreeAndNil(FExtraPythonPath);
+  FExtraPythonPath.Clear;
+  NotifyPythonPathChange;
+  FExtraPythonPath.Free;
   inherited;
 end;
 
@@ -449,29 +440,25 @@ begin
   Result := FirstThat(NodeHasFile, PWideChar(FileName)) <> nil;
 end;
 
+procedure TProjectRootNode.NotifyPythonPathChange;
+begin
+  TMessageManager.DefaultManager.SendMessage(Self,
+    TProjectPythonPathChangeMessage.Create(FExtraPythonPath.ToStringArray));
+end;
+
 procedure TProjectRootNode.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   inherited;
-  RemoveExtraPaths;
   FExtraPythonPath.Clear;
   AppStorage.ReadStringList(BasePath+'\ExtraPythonPath', FExtraPythonPath);
-  AppendExtraPaths;
-end;
-
-procedure TProjectRootNode.RemoveExtraPaths;
-begin
-  if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
-
-  for var Path in FExtraPythonPath do
-    PyControl.ActiveInterpreter.SysPathRemove(Path);
+  NotifyPythonPathChange;
 end;
 
 procedure TProjectRootNode.SetExtraPythonPath(const Value: TStrings);
 begin
-  RemoveExtraPaths;
   FExtraPythonPath.Assign(Value);
-  AppendExtraPaths;
+  NotifyPythonPathChange;
   Modified := True;
 end;
 
