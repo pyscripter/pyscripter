@@ -23,36 +23,6 @@ uses
 
 type
 
-  TParamCompletionInfo = class
-  private
-    FRequestId: NativeUInt;
-    FStartX: Integer;
-    FActiveParameter: Integer;
-    FHandled: Boolean;
-    FSucceeded: Boolean;
-    FDisplayString: string;
-    FDocString: string;
-    FFileId: string;
-    FCurrentLine: string;
-    FCaret: TBufferCoord;
-    FCriticalSection: TRTLCriticalSection;
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure Lock;
-    procedure UnLock;
-    property RequestId: NativeUInt read FRequestId write FRequestId;
-    property StartX: Integer read FStartX;
-    property ActiveParameter: Integer read FActiveParameter;
-    property Handled: Boolean read FHandled write FHandled;
-    property Succeeded: Boolean read FSucceeded;
-    property CurrentLine: string read FCurrentLine;
-    property DisplayString: string read FDisplayString;
-    property DocString: string read FDocString;
-    property FileId: string read FFileId;
-    property Caret: TBufferCoord read FCaret;
-  end;
-
   TJedi = class
   private
     class procedure CodeCompletionHandler(Id: NativeUInt; AResult, Error:
@@ -62,7 +32,6 @@ type
   public
     class var LspClient: TLspClient;
     class var SyncRequestTimeout: Integer;
-    class var ParamCompletionInfo: TParamCompletionInfo;
     class procedure PythonVersionChanged(const Sender: TObject;
       const Msg: System.Messaging.TMessage);
     class procedure OnLspClientInitialized(Sender: TObject);
@@ -112,7 +81,6 @@ uses
 
 class constructor TJedi.Create;
 begin
-  ParamCompletionInfo := TParamCompletionInfo.Create;
   SyncRequestTimeout := 4000; // ms
   TMessageManager.DefaultManager.SubscribeToMessage(TPythonVersionChangeMessage,
     PythonVersionChanged);
@@ -159,7 +127,6 @@ end;
 class destructor TJedi.Destroy;
 begin
   TMessageManager.DefaultManager.Unsubscribe(TPythonVersionChangeMessage, PythonVersionChanged);
-  ParamCompletionInfo.Free;
   LspClient.Free;
 end;
 
@@ -354,45 +321,47 @@ class procedure TJedi.ParamCompletionHandler(Id: NativeUInt; AResult,
 var
   Signature: TJsonValue;
 begin
-  ParamCompletionInfo.Lock;
+  var SignatureInfo := TIDECompletion.SignatureHelpInfo;
+
+  SignatureInfo.Lock;
   try
-    ParamCompletionInfo.FSucceeded := (Id = ParamCompletionInfo.RequestId) and
+    SignatureInfo.Succeeded := (Id = SignatureInfo.RequestId) and
       Assigned(AResult) and AResult.TryGetValue('signatures[0]', Signature);
 
-    if ParamCompletionInfo.FSucceeded then
+    if SignatureInfo.Succeeded then
     begin
-      ParamCompletionInfo.FDisplayString := '';
-      ParamCompletionInfo.FDocString := '';
-      Signature.TryGetValue<string>('label', ParamCompletionInfo.FDisplayString);
-      Signature.TryGetValue<string>('documentation.value', ParamCompletionInfo.FDocString);
-      if not AResult.TryGetValue<Integer>('activeParameter', ParamCompletionInfo.FActiveParameter) then
-        ParamCompletionInfo.FActiveParameter := 0;
-      ParamCompletionInfo.FStartX := 1;
+      SignatureInfo.DisplayString := '';
+      SignatureInfo.DocString := '';
+      Signature.TryGetValue<string>('label', SignatureInfo.DisplayString);
+      Signature.TryGetValue<string>('documentation.value', SignatureInfo.DocString);
+      if not AResult.TryGetValue<Integer>('activeParameter', SignatureInfo.ActiveParameter) then
+        SignatureInfo.ActiveParameter := 0;
+      SignatureInfo.StartX := 1;
 
-      if ParamCompletionInfo.FDisplayString.StartsWith('class') then
-        Delete(ParamCompletionInfo.FDisplayString, 1, 5)
-      else if ParamCompletionInfo.FDisplayString.StartsWith('def') then
-        Delete(ParamCompletionInfo.FDisplayString, 1, 3);
+      if SignatureInfo.DisplayString.StartsWith('class') then
+        Delete(SignatureInfo.DisplayString, 1, 5)
+      else if SignatureInfo.DisplayString.StartsWith('def') then
+        Delete(SignatureInfo.DisplayString, 1, 3);
 
-      var RightPar := ParamCompletionInfo.FDisplayString.LastDelimiter(')');
+      var RightPar := SignatureInfo.DisplayString.LastDelimiter(')');
       if RightPar >= 0 then
-        Delete(ParamCompletionInfo.FDisplayString, RightPar + 1, 1);
+        Delete(SignatureInfo.DisplayString, RightPar + 1, 1);
 
-      var LeftPar :=ParamCompletionInfo.FDisplayString.IndexOf('(');
+      var LeftPar :=SignatureInfo.DisplayString.IndexOf('(');
       if LeftPar >= 0 then
       begin
-        var FunctionName := Copy(ParamCompletionInfo.FDisplayString, 1, LeftPar).Trim;
-        ParamCompletionInfo.FDisplayString := Copy(ParamCompletionInfo.FDisplayString, LeftPar + 2);
-        var Match := TRegEx.Match(ParamCompletionInfo.FCurrentLine, FunctionName + '\s*(\()');
+        var FunctionName := Copy(SignatureInfo.DisplayString, 1, LeftPar).Trim;
+        SignatureInfo.DisplayString := Copy(SignatureInfo.DisplayString, LeftPar + 2);
+        var Match := TRegEx.Match(SignatureInfo.CurrentLine, FunctionName + '\s*(\()');
         if Match.Success then
-          ParamCompletionInfo.FStartX := Match.Groups[1].Index + 1;
+          SignatureInfo.StartX := Match.Groups[1].Index + 1;
       end;
     end;
 
     // Do nothing if a newer request is expected
-    if Id = ParamCompletionInfo.RequestId then begin
+    if Id = SignatureInfo.RequestId then begin
       // Mark the request info as handled (i.e. processed)
-      ParamCompletionInfo.FHandled := True;
+      SignatureInfo.Handled := True;
 
       // ActivateCompletion calls SynParamCompletionExecute in the main thread
       TThread.Queue(nil, procedure
@@ -401,7 +370,7 @@ begin
         end);
      end;
   finally
-    ParamCompletionInfo.UnLock;
+    SignatureInfo.UnLock;
     AResult.Free;
     Error.Free;
   end;
@@ -423,15 +392,16 @@ begin
 
   var Param := TSmartPtr.Make(LspDocPosition(AFileId, BufferCoord(TmpX, Editor.CaretY)))();
 
-  ParamCompletionInfo.Lock;
+  TIDECompletion.SignatureHelpInfo.Lock;
   try
-    ParamCompletionInfo.FRequestId := LspClient.Request('textDocument/signatureHelp',
+    TIDECompletion.SignatureHelpInfo.RequestId :=
+      LspClient.Request('textDocument/signatureHelp',
       Param.ToJSon, ParamCompletionHandler);
-    ParamCompletionInfo.FFileId := AFileId;
-    ParamCompletionInfo.FCaret := Editor.CaretXY;
-    ParamCompletionInfo.FCurrentLine := Line;
+    TIDECompletion.SignatureHelpInfo.FileId := AFileId;
+    TIDECompletion.SignatureHelpInfo.Caret := Editor.CaretXY;
+    TIDECompletion.SignatureHelpInfo.CurrentLine := Line;
   finally
-    ParamCompletionInfo.UnLock;
+    TIDECompletion.SignatureHelpInfo.UnLock;
   end;
 end;
 
@@ -605,33 +575,6 @@ begin
 end;
 
 {$EndRegion 'Lsp functionality'}
-
-{ TParamCompletionInfo }
-
-
-{ TParamCompletionInfo }
-
-constructor TParamCompletionInfo.Create;
-begin
-  inherited;
-  FCriticalSection.Initialize;
-end;
-
-destructor TParamCompletionInfo.Destroy;
-begin
-  FCriticalSection.Free;
-  inherited;
-end;
-
-procedure TParamCompletionInfo.Lock;
-begin
-  FCriticalSection.Enter;
-end;
-
-procedure TParamCompletionInfo.UnLock;
-begin
-  FCriticalSection.Leave;
-end;
 
 end.
 

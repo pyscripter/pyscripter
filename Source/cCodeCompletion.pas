@@ -80,10 +80,33 @@ type
     constructor Create;
   end;
 
+  // Support class used in editor signature help LSP request
+  TSignatureHelpInfo = class
+  private
+    FCriticalSection: TRTLCriticalSection;
+  public
+    RequestId: NativeUInt;
+    StartX: Integer;
+    ActiveParameter: Integer;
+    Handled: Boolean;
+    Succeeded: Boolean;
+    CurrentLine: string;
+    DisplayString: string;
+    DocString: string;
+    FileId: string;
+    Caret: TBufferCoord;
+
+    constructor Create;
+    destructor Destroy; override;
+    procedure Lock;
+    procedure UnLock;
+  end;
+
   TIDECompletion = class
     class var EditorCodeCompletion: TCodeCompletion;
     class var InterpreterCodeCompletion: TCodeCompletion;
     class var InterpreterParamCompletion: TBaseParamCompletion;
+    class var SignatureHelpInfo: TSignatureHelpInfo;
     class constructor Create;
     class destructor Destroy;
   end;
@@ -676,6 +699,30 @@ begin
   FAllowFunctionCalls := True;
 end;
 
+{ TSignatureHelpInfo }
+
+constructor TSignatureHelpInfo.Create;
+begin
+  inherited;
+  FCriticalSection.Initialize;
+end;
+
+destructor TSignatureHelpInfo.Destroy;
+begin
+  FCriticalSection.Free;
+  inherited;
+end;
+
+procedure TSignatureHelpInfo.Lock;
+begin
+  FCriticalSection.Enter;
+end;
+
+procedure TSignatureHelpInfo.UnLock;
+begin
+  FCriticalSection.Leave;
+end;
+
 { TIDECompletion }
 
 class constructor TIDECompletion.Create;
@@ -699,6 +746,8 @@ begin
   InterpreterCodeCompletion.RegisterCompletionHandler(TImportStatementHandler.Create);
   InterpreterCodeCompletion.RegisterCompletionHandler(TStringCompletionHandler.Create);
   InterpreterCodeCompletion.RegisterCompletionHandler(TLiveNamespaceCompletionHandler.Create);
+
+  SignatureHelpInfo := TSignatureHelpInfo.Create;
 end;
 
 class destructor TIDECompletion.Destroy;
@@ -706,6 +755,7 @@ begin
   EditorCodeCompletion.Free;
   InterpreterCodeCompletion.Free;
   InterpreterParamCompletion.Free;
+  SignatureHelpInfo.Free;
 end;
 
 end.
