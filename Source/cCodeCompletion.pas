@@ -32,6 +32,7 @@ type
   end;
 
   TCompletionInfo = record
+    Id: Integer;  // Lsp Request Id
     Editor: TSynEdit;
     CaretXY: TBufferCoord;
     InsertText,
@@ -480,6 +481,7 @@ procedure TCodeCompletion.CleanUp;
 begin
   Lock.Enter;
   try
+    CompletionInfo.Id := -1;
     CompletionInfo.InsertText := '';
     CompletionInfo.DisplayText := '';
     CompletionInfo.Editor := nil;

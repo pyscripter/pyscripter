@@ -354,21 +354,19 @@ end;
 
 function TLspClient.Request(const Method, Params: string; Handler: THandleResponse): NativeUInt;
 var
-  Id: NativeUInt;
   Header: string;
   Content: string;
   ContentBytes: TBytes;
   HeaderBytes: TBytes;
 begin
-  Id := AtomicIncrement(FId);
-  Result := Id;
-  Content := Format(LspRequest, [Id, Method, Params]);
+  Result := AtomicIncrement(FId);
+  Content := Format(LspRequest, [Result, Method, Params]);
   ContentBytes := TEncoding.UTF8.GetBytes(Content);
   Header := Format(LspHeader, [Length(ContentBytes)]);
   HeaderBytes := TEncoding.UTF8.GetBytes(Header);
   FRequestsLock.Enter;
   try
-    FPendingRequests.Add(Id, Handler);
+    FPendingRequests.Add(Result, Handler);
   finally
     FRequestsLock.Leave;
   end;

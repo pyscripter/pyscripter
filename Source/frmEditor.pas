@@ -1795,8 +1795,12 @@ begin
     PyIDEMainForm.UpdateCaption;
     ParentTabItem.Invalidate;
   end;
-  if scCaretY in Changes then begin
+  if scCaretY in Changes then
+  begin
     FNeedToSyncCodeExplorer := True;
+    // We refresh symbols only when the user finishes editing a line
+    // and moves the cursor to another one.  This is so that
+    // there is no slow down while typing.
     FEditor.RefreshSymbols;
   end;
   if (scCaretY in Changes) and ASynEdit.Gutter.Visible
@@ -2651,8 +2655,12 @@ begin
   if not CC.Lock.TryEnter then Exit;
   try
     if Assigned(CC.CompletionInfo.CompletionHandler) then
-      Info := CC.CompletionInfo.CompletionHandler.GetInfo(
-        (Sender as TSynCompletionProposal).InsertList[AIndex]);
+    begin
+      var CCItem := (Sender as TSynCompletionProposal).InsertList[AIndex];
+      if CCItem.EndsWith('()') then
+        CCItem := Copy(CCItem, 1, CCItem.Length - 2);
+      Info := CC.CompletionInfo.CompletionHandler.GetInfo(CCItem);
+    end;
   finally
     CC.Lock.Leave;
   end;
@@ -2664,6 +2672,7 @@ var
   Attr: TSynHighlighterAttributes;
   Highlighter: TSynCustomHighlighter;
   FileName, DummyToken: string;
+  DisplayText, InsertText: string;
 begin
   //Exit if cursor has moved
   if not Assigned(GI_ActiveEditor) or (GI_ActiveEditor.ActiveSynEdit <> Editor)
@@ -2689,68 +2698,35 @@ begin
   var CC := TIDECompletion.EditorCodeCompletion;
   if not CC.Lock.TryEnter then Exit;
   try
-    // Exit if busy
-    if CC.CompletionInfo.Editor <> nil then Exit;
     CC.CleanUp;
     CC.CompletionInfo.Editor := Editor;
     CC.CompletionInfo.CaretXY := Caret;
+
+    var Skipped := False;
+    for var I := 0 to CC.SkipHandlers.Count -1 do
+    begin
+      var SkipHandler := CC.SkipHandlers[I] as TBaseCodeCompletionSkipHandler;
+      Skipped := SkipHandler.SkipCodeCompletion(Locline, FileName, Caret, Highlighter, Attr);
+      if Skipped then Break;
+    end;
+
+    if Skipped then
+      CC.CleanUp
+    else
+      // There is one CompletionHandler (LSP) which will always fail!
+      // Completion will be activated by the LSP completion handler
+      for var I := 0 to CC.CompletionHandlers.Count - 1 do
+      begin
+        var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
+        CompletionHandler.Initialize;
+        var Handled := CompletionHandler.HandleCodeCompletion(Locline, FileName,
+          Caret, Highlighter, Attr, InsertText, DisplayText);
+        Assert(Handled = False, 'DoCodeCompletion');
+        CC.CompletionInfo.CompletionHandler := CompletionHandler;
+      end;
   finally
     CC.Lock.Leave;
   end;
-
-  TTask.Create(procedure
-  var
-    DisplayText, InsertText: string;
-  begin
-    var CC := TIDECompletion.EditorCodeCompletion;
-    if not CC.Lock.TryEnter then Exit;
-    try
-      var Skipped := False;
-      for var I := 0 to CC.SkipHandlers.Count -1 do
-      begin
-        var SkipHandler := CC.SkipHandlers[I] as TBaseCodeCompletionSkipHandler;
-        Skipped := SkipHandler.SkipCodeCompletion(Locline, FileName, Caret, Highlighter, Attr);
-        if Skipped then Break;
-      end;
-
-      var Handled := False;
-      if not Skipped then
-      begin
-        for var I := 0 to CC.CompletionHandlers.Count - 1 do
-        begin
-          var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
-          CompletionHandler.Initialize;
-          try
-            Handled := CompletionHandler.HandleCodeCompletion(Locline, FileName,
-              Caret, Highlighter, Attr, InsertText, DisplayText);
-          except
-          end;
-          if Handled then begin
-            //CompletionHandler will be finalized in the Cleanup call
-            CC.CompletionInfo.CompletionHandler := CompletionHandler;
-            CC.CompletionInfo.InsertText := InsertText;
-            CC.CompletionInfo.DisplayText := DisplayText;
-            Break;
-          end
-          else
-            CompletionHandler.Finalize;
-        end;
-      end;
-
-      if not Skipped and Handled and (InsertText <> '') then
-        TThread.Queue(nil, procedure
-        begin
-          if Assigned(GI_ActiveEditor) and (GI_ActiveEditor.FileId = FileName) and
-            (CommandsDataModule.SynCodeCompletion.Editor = GI_ActiveEditor.ActiveSynEdit)
-          then
-            CommandsDataModule.SynCodeCompletion.ActivateCompletion;
-        end)
-      else
-        CC.CleanUp;
-    finally
-      CC.Lock.Leave;
-    end;
-  end).Start;
 end;
 
 procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
@@ -2790,7 +2766,9 @@ begin
         CP.OnValidate(CP.Form, [], #0);
         CC.CleanUp;
       end;
-    end else begin
+    end
+    else
+    begin
       CP.ItemList.Clear;
       CP.InsertList.Clear;
       CC.CleanUp;
@@ -2819,7 +2797,7 @@ begin
     // This function is called
     // a) from the editor using trigger char or editor command
     // b) From TSynCompletionProposal.HookEditorCommand
-    // c) for TJedi ParamCompletionHandler Only then RequestId <> 0
+    // c) from TJedi ParamCompletionHandler only then RequestId <> 0
 
     if not TJedi.ParamCompletionInfo.Handled then
     begin

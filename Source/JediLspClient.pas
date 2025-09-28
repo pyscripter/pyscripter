@@ -55,6 +55,8 @@ type
 
   TJedi = class
   private
+    class procedure CodeCompletionHandler(Id: NativeUInt; AResult, Error:
+        TJSONValue);
     class procedure ParamCompletionHandler(Id: NativeUInt; AResult, Error:
         TJSONValue);
   public
@@ -75,8 +77,8 @@ type
       const BC: TBufferCoord; out DefFileName: string; out DefBC: TBufferCoord);
     class function FindReferencesByCoordinates(Filename: string;
       const BC: TBufferCoord): TArray<TDocPosition>;
-    class function HandleCodeCompletion(const Filename: string;
-      const BC: TBufferCoord; out InsertText, DisplayText: string): Boolean;
+    class function HandleCodeCompletion(const FileId: string; const BC:
+        TBufferCoord; out InsertText, DisplayText: string): Boolean;
     class function ResolveCompletionItem(CCItem: string): string;
     class procedure RequestParamCompletion(const AFileId: string; Editor:
         TCustomSynEdit);
@@ -102,6 +104,7 @@ uses
   SynEditLsp,
   cPyScripterSettings,
   cPyControl,
+  cCodeCompletion,
   StringResources,
   JvGnugettext;
 
@@ -311,68 +314,19 @@ begin
   FreeAndNil(Error);
 end;
 
-class function TJedi.HandleCodeCompletion(const Filename: string;
+class function TJedi.HandleCodeCompletion(const FileId: string;
   const BC: TBufferCoord; out InsertText, DisplayText: string): Boolean;
-
-  function KindToImageIndex(Kind: TLspCompletionItemKind): Integer;
-  begin
-    case Kind of
-      TLspCompletionItemKind._Constructor,
-      TLspCompletionItemKind.Method:     Result := Integer(TCodeImages.Method);
-      TLspCompletionItemKind._Function:  Result := Integer(TCodeImages.Func);
-      TLspCompletionItemKind.Variable:   Result := Integer(TCodeImages.Variable);
-      TLspCompletionItemKind._Class:     Result := Integer(TCodeImages.Klass);
-      TLspCompletionItemKind.Module:     Result := Integer(TCodeImages.Module);
-      TLspCompletionItemKind.Field,
-      TLspCompletionItemKind._Property:  Result := Integer(TCodeImages.Field);
-      TLspCompletionItemKind.Keyword:    Result := Integer(TCodeImages.Keyword);
-    else
-      Result := -1;
-    end;
-  end;
-
-  function ToLabel(Item: TCompletionItem): string;
-  begin
-    case Item.Kind of
-      TLspCompletionItemKind._Constructor,
-      TLspCompletionItemKind.Method,
-      TLspCompletionItemKind._Function:
-      Result := Item._Label + '()'
-    else
-      Result := Item._Label;
-    end;
-  end;
 
 var
   Param: TJsonObject;
-  AResult, Error: TJsonValue;
-  CompletionItems: TCompletionItems;
 begin
-  if not Ready or (FileName = '') then Exit(False);
+  if not Ready or (FileId = '') then Exit(False);
 
-  Param := TSmartPtr.Make(LspDocPosition(FileName, BC))();
-  LspClient.SyncRequest('textDocument/completion', Param.ToJSon, AResult, Error,
-    SyncRequestTimeout);
-  CompletionItems := LspCompletionItems(AResult);
-
-  if Length(CompletionItems) > 0 then
-  begin
-    // process completion items
-    InsertText := '';
-    DisplayText := '';
-    for var Item in CompletionItems do
-    begin
-      InsertText := InsertText + ToLabel(Item) + #10;
-      var ImageIndex := KindToImageIndex(TLspCompletionItemKind(Item.kind));
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{8}%s', [ImageIndex, Item._label]) + #10;
-    end;
-    Result := True;
-  end
-  else
-    Result := False;
-
-  FreeAndNil(AResult);
-  FreeAndNil(Error);
+  Param := TSmartPtr.Make(LspDocPosition(FileId, BC))();
+  TIDECompletion.EditorCodeCompletion.CompletionInfo.Id :=
+     LspClient.Request('textDocument/completion', Param.ToJSon,
+     CodeCompletionHandler);
+  Result := False;
 end;
 
 class function TJedi.ResolveCompletionItem(CCItem: string): string;
@@ -501,6 +455,82 @@ begin
   FreeAndNil(Error);
 end;
 
+class procedure TJedi.CodeCompletionHandler(Id: NativeUInt; AResult,
+  Error: TJSONValue);
+
+  function KindToImageIndex(Kind: TLspCompletionItemKind): Integer;
+  begin
+    case Kind of
+      TLspCompletionItemKind._Constructor,
+      TLspCompletionItemKind.Method:     Result := Integer(TCodeImages.Method);
+      TLspCompletionItemKind._Function:  Result := Integer(TCodeImages.Func);
+      TLspCompletionItemKind.Variable:   Result := Integer(TCodeImages.Variable);
+      TLspCompletionItemKind._Class:     Result := Integer(TCodeImages.Klass);
+      TLspCompletionItemKind.Module:     Result := Integer(TCodeImages.Module);
+      TLspCompletionItemKind.Field,
+      TLspCompletionItemKind._Property:  Result := Integer(TCodeImages.Field);
+      TLspCompletionItemKind.Keyword:    Result := Integer(TCodeImages.Keyword);
+    else
+      Result := -1;
+    end;
+  end;
+
+  function ToLabel(Item: TCompletionItem): string;
+  begin
+    case Item.Kind of
+      TLspCompletionItemKind._Constructor,
+      TLspCompletionItemKind.Method,
+      TLspCompletionItemKind._Function:
+      Result := Item._Label + '()'
+    else
+      Result := Item._Label;
+    end;
+  end;
+
+var
+  CompletionItems: TCompletionItems;
+  InsertText, DisplayText: string;
+begin
+  if not Assigned(AResult) then Exit;
+
+  try
+    CompletionItems := LspCompletionItems(AResult);
+
+    if Length(CompletionItems) > 0 then
+    begin
+      var CC := TIDECompletion.EditorCodeCompletion;
+      CC.Lock.Enter;
+      try
+        // Check we deal with the most recent completion request
+        if ID <> CC.CompletionInfo.Id  then Exit;
+
+        // process completion items
+        InsertText := '';
+        DisplayText := '';
+        for var Item in CompletionItems do
+        begin
+          InsertText := InsertText + ToLabel(Item) + #10;
+          var ImageIndex := KindToImageIndex(TLspCompletionItemKind(Item.kind));
+          DisplayText := DisplayText + Format('\Image{%d}\hspace{8}%s',
+            [ImageIndex, Item._label]) + #10;
+        end;
+        CC.CompletionInfo.InsertText := InsertText;
+        CC.CompletionInfo.DisplayText := DisplayText;
+
+        TThread.ForceQueue(nil, procedure
+        begin
+          CommandsDataModule.SynCodeCompletion.ActivateCompletion;
+        end)
+      finally
+        CC.Lock.Leave;
+      end;
+    end;
+  finally
+    FreeAndNil(AResult);
+    FreeAndNil(Error);
+  end;
+end;
+
 class function TJedi.CodeHintAtCoordinates(const Filename: string;
   const BC: TBufferCoord; const Ident: string): string;
 var
@@ -525,7 +555,8 @@ begin
       AResult.TryGetValue<string>('contents.value', Result);
       Result := GetLineRange(Result, 1, 20, True);
     end;
-    Result := StringReplace(Result, '<br>---<br>', '<hr>', []);
+    Result := StringReplace(Result, '<br>', SLineBreak, [rfReplaceAll]);
+    Result := StringReplace(Result, SLineBreak + '---' + SLineBreak, '<hr>', [rfReplaceAll]);
     // In some corner cases the hint may contain html that may cause exceptions
     Result := StringReplace(Result, '<', '&lt;', [rfReplaceAll]);
     Result := StringReplace(Result, '>', '&gt;', [rfReplaceAll]);
