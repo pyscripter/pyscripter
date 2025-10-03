@@ -952,7 +952,7 @@ begin
     (SynEdit.Selections.Count = 1)
   then
   begin
-    if (TIDECompletion.InterpreterCodeCompletion.CompletionInfo.Editor = nil)
+    if (TIDECompletion.CompletionInfo.Editor = nil)
       and (Pos(AChar, CommandsDataModule.SynCodeCompletion.TriggerChars) > 0)
     then
     begin
@@ -1277,7 +1277,7 @@ begin
   PyIDEOptions.CodeCompletionListSize :=
     CommandsDataModule.SynCodeCompletion.NbLinesInWindow;
   //  Clean-up
-  TIDECompletion.InterpreterCodeCompletion.CleanUp;
+  TIDECompletion.CompletionInfo.CleanUp;
 end;
 
 procedure TPythonIIForm.DoCodeCompletion(Editor: TSynEdit; Caret: TBufferCoord);
@@ -1313,16 +1313,15 @@ begin
   end else
     Exit;  // This is not a code line
 
-  var CC := TIDECompletion.InterpreterCodeCompletion;
-  if not CC.Lock.TryEnter then Exit;
+  if not TIDECompletion.CompletionLock.TryEnter then Exit;
   try
     // Exit if busy
-    if CC.CompletionInfo.Editor <> nil then Exit;
-    CC.CleanUp;
-    CC.CompletionInfo.Editor := SynEdit;
-    CC.CompletionInfo.CaretXY := Caret;
+    if TIDECompletion.CompletionInfo.Editor <> nil then Exit;
+    TIDECompletion.CompletionInfo.CleanUp;
+    TIDECompletion.CompletionInfo.Editor := SynEdit;
+    TIDECompletion.CompletionInfo.CaretXY := Caret;
   finally
-    CC.Lock.Leave;
+    TIDECompletion.CompletionLock.Leave;
   end;
 
   TTask.Create(procedure
@@ -1330,7 +1329,7 @@ begin
     DisplayText, InsertText: string;
   begin
     var CC := TIDECompletion.InterpreterCodeCompletion;
-    if not CC.Lock.TryEnter then Exit;
+    if not TIDECompletion.CompletionLock.TryEnter then Exit;
     try
       var Skipped := False;
       for var I := 0 to CC.SkipHandlers.Count -1 do
@@ -1354,9 +1353,9 @@ begin
           end;
           if Handled then begin
             //CompletionHandler will be finalized in the Cleanup call
-            CC.CompletionInfo.CompletionHandler := CompletionHandler;
-            CC.CompletionInfo.InsertText := InsertText;
-            CC.CompletionInfo.DisplayText := DisplayText;
+            TIDECompletion.CompletionInfo.CompletionHandler := CompletionHandler;
+            TIDECompletion.CompletionInfo.InsertText := InsertText;
+            TIDECompletion.CompletionInfo.DisplayText := DisplayText;
             Break;
           end
           else
@@ -1364,15 +1363,22 @@ begin
         end;
       end;
 
-      if not Skipped and Handled and (InsertText <> '') then
-        TThread.Queue(nil, procedure
-        begin
-          CommandsDataModule.SynCodeCompletion.ActivateCompletion;
-        end)
+      if not Skipped and Handled then
+      begin
+        // TBaseLspCompletionHandler descendents with activate completion
+        // from the completion handler
+        if not (TIDECompletion.CompletionInfo.CompletionHandler is
+          TBaseLspCompletionHandler) and (InsertText <> '')
+        then
+          TThread.Queue(nil, procedure
+          begin
+            CommandsDataModule.SynCodeCompletion.ActivateCompletion;
+          end)
+      end
       else
-        CC.CleanUp;
+        TIDECompletion.CompletionInfo.CleanUp;
     finally
-      CC.Lock.Leave;
+      TIDECompletion.CompletionLock.Leave;
     end;
   end).Start;
 end;
@@ -1381,28 +1387,27 @@ procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: string; var X, Y: Integer;
   var CanExecute: Boolean);
 begin
-  var CC := TIDECompletion.InterpreterCodeCompletion;
   var CP := TSynCompletionProposal(Sender);
 
   CanExecute := False;
-  if CC.Lock.TryEnter then
+  if TIDECompletion.CompletionLock.TryEnter then
   try
     CanExecute := Application.Active and
       (GetParentForm(SynEdit).ActiveControl = SynEdit) and
-      (CC.CompletionInfo.CaretXY = SynEdit.CaretXY);
+      (TIDECompletion.CompletionInfo.CaretXY = SynEdit.CaretXY);
 
     if CanExecute then
     begin
       CP.Font := PyIDEOptions.AutoCompletionFont;
-      CP.ItemList.Text := CC.CompletionInfo.DisplayText;
-      CP.InsertList.Text := CC.CompletionInfo.InsertText;
+      CP.ItemList.Text := TIDECompletion.CompletionInfo.DisplayText;
+      CP.InsertList.Text := TIDECompletion.CompletionInfo.InsertText;
       CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
       CP.CurrentString := CurrentInput;
 
       if CP.Form.AssignedList.Count = 0 then
       begin
         CanExecute := False;
-        CC.CleanUp;
+        TIDECompletion.CompletionInfo.CleanUp;
       end
       else
       if PyIDEOptions.CompleteWithOneEntry and (CP.Form.AssignedList.Count = 1) then
@@ -1410,29 +1415,29 @@ begin
         // Auto-complete with one entry without showing the form
         CanExecute := False;
         CP.OnValidate(CP.Form, [], #0);
-        CC.CleanUp;
+        TIDECompletion.CompletionInfo.CleanUp;
       end;
-    end else begin
+    end else
+    begin
       CP.ItemList.Clear;
       CP.InsertList.Clear;
-      CC.CleanUp;
+      TIDECompletion.CompletionInfo.CleanUp;
     end;
   finally
-    CC.Lock.Leave;
+    TIDECompletion.CompletionLock.Leave;
   end;
 end;
 
 procedure TPythonIIForm.SynCodeCompletionCodeItemInfo(Sender: TObject;
   AIndex: Integer; var Info: string);
 begin
-  var CC := TIDECompletion.InterpreterCodeCompletion;
-  if not CC.Lock.TryEnter then Exit;
+  if not TIDECompletion.CompletionLock.TryEnter then Exit;
   try
-    if Assigned(CC.CompletionInfo.CompletionHandler) then
-      Info := CC.CompletionInfo.CompletionHandler.GetInfo(
+    if Assigned(TIDECompletion.CompletionInfo.CompletionHandler) then
+      Info := TIDECompletion.CompletionInfo.CompletionHandler.GetInfo(
         (Sender as TSynCompletionProposal).InsertList[AIndex]);
   finally
-    CC.Lock.Leave;
+    TIDECompletion.CompletionLock.Leave;
   end;
 end;
 

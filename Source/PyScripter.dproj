@@ -314,10 +314,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="JvDockSupportProc.pas"/>
         <DCCReference Include="JvDockTree.pas"/>
         <DCCReference Include="JvDockVSNetStyleSpTBX.pas"/>
-        <DCCReference Include="LspClient.pas"/>
-        <DCCReference Include="LspUtils.pas"/>
         <DCCReference Include="SynEditLsp.pas"/>
-        <DCCReference Include="JediLspClient.pas"/>
         <DCCReference Include="uLLMSupport.pas"/>
         <DCCReference Include="frmLLMChat.pas">
             <Form>LLMChatForm</Form>
@@ -327,6 +324,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>SuggestWindow</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="cLSPClients.pas"/>
         <None Include="PyScripter.todo"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
@@ -399,23 +397,31 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
         <PreBuildEvent/>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
         <PreBuildEvent/>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win64'">
         <PreBuildEvent/>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy &quot;$(BDS)\Redist\$(Platform)\WebView2Loader.dll&quot; $(OUTPUTDIR)</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

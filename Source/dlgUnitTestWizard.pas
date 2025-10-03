@@ -13,7 +13,6 @@ uses
   System.UITypes,
   System.Classes,
   System.ImageList,
-  System.JSON,
   Vcl.Controls,
   Vcl.Menus,
   Vcl.ExtCtrls,
@@ -27,7 +26,8 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
-  dlgPyIDEBase;
+  dlgPyIDEBase,
+  XLSPTypes;
 
 type
 
@@ -62,12 +62,13 @@ type
       var HintText: string);
     procedure mnSelectAllClick(Sender: TObject);
     procedure mnDeselectAllClick(Sender: TObject);
+    function SymbolFromNode(Node: PVirtualNode): TLSPDocumentSymbol;
   private
-    Symbols: TJSONArray;
+    Symbols: TLSPDocumentSymbols;
     FModuleName: string;
     FModuleFileName: string;
-    function SymbolHint(Symbol: TJSONObject): string;
-    function SymbolSignature(Symbol: TJSONObject): string;
+    function SymbolHint(Symbol: TLSPDocumentSymbol): string;
+    function SymbolSignature(Symbol: TLSPDocumentSymbol): string;
   public
     class function GenerateTests(const ModuleFName: string): string;
   end;
@@ -83,59 +84,39 @@ uses
   dmResources,
   uCommonFunctions,
   SynEditTypes,
-  LspUtils,
-  JediLspClient;
+  cLSPClients;
 
 {$R *.dfm}
 
-procedure Prune(Symbols: TJSONArray; ModuleFileName: string);
+procedure Prune(var Symbols: TLSPDocumentSymbols; ModuleFileName: string);
 
-  function IsImported(Symbol: TJSONValue; Kind: Integer): Boolean;
-  var
-    Line: Integer;
+  function IsImported(Symbol: TLSPDocumentSymbol): Boolean;
   begin
-    Result := Symbol.TryGetValue<Integer>('selectionRange.start.line', Line);
-    if Result then
-    begin
+      var Line := Symbol.selectionRange.start.line;
       var LineSource := GetNthSourceLine(ModuleFileName, Line + 1).TrimLeft;
       Result := LineSource.StartsWith('from') or
-        ((Kind = Ord(TSymbolKind._Function)) and not LineSource.StartsWith('def'));
-    end;
+        ((Symbol.Kind = TLspSymbolKind.symFunction) and
+         not LineSource.StartsWith('def'));
   end;
 
-  function PruneChildren(Symbol: TJSONValue; IsClass: Boolean): Boolean;
-  var
-    Kind: Integer;
+  function PruneChildren(var Symbol: TLSPDocumentSymbol; IsClass: Boolean): Boolean;
   begin
-    Result := False;
-    var Children := Symbol.FindValue('children');
-    if Assigned(Children) and (Children is TJSONArray) then
+    for var I := High(Symbol.Children) downto Low(Symbol.Children) do
     begin
-      var Arr := TJSONArray(Children);
-      for var I := Arr.Count - 1 downto 0 do
-      begin
-         var Val := Arr[I];
-         if not IsClass or not Val.TryGetValue<Integer>('kind', Kind) or not
-           (Kind = Ord(TSymbolKind.Method))
-         then
-           Arr.Remove(I).Free;
-      end;
-      Result := IsClass and (Arr.Count = 0);
+       if not IsClass or (Symbol.Children[I].kind <> TLSPSymbolKind.symMethod) then
+         Delete(Symbol.Children, I, 1);
     end;
+    Result := IsClass and (Length(Symbol.Children) = 0);
   end;
 
-var
-  Kind: Integer;
 begin
-  for var I := Symbols.Count -1 downto 0 do
+  for var I := High(Symbols) downto Low(Symbols) do
   begin
-     var Value := Symbols[I];
-     if not Value.TryGetValue<Integer>('kind', Kind) or
-       not (Kind in [Ord(TSymbolKind._Class), Ord(TSymbolKind._Function)]) or
-       IsImported(Value, Kind) or
-       PruneChildren(Value, Kind = Ord(TSymbolKind._Class))
+     if not (Symbols[I].Kind in [TLSPSymbolKind.symClass, TLSPSymbolKind.symFunction]) or
+       IsImported(Symbols[I]) or
+       PruneChildren(Symbols[I], Symbols[I].Kind = TLSPSymbolKind.symClass)
      then
-       Symbols.Remove(I).Free;
+       Delete(Symbols, I, 1);
   end;
 end;
 
@@ -154,7 +135,7 @@ const
       '        pass' + sLineBreak + sLineBreak;
 
     MethodHeader =
-        '    def test%s(self):' + sLineBreak +
+        '    def test_%s(self):' + sLineBreak +
         '        pass' + sLineBreak + sLineBreak;
 
      Footer =
@@ -162,9 +143,8 @@ const
       '    unittest.main()' + sLineBreak;
 
 var
-  LSymbols: TJSONArray;
   Node, MethodNode: PVirtualNode;
-  Symbol, MSymbol: TJSONObject;
+  Symbol, MSymbol: TLSPDocumentSymbol;
   SName, MName: string;
   FunctionTests: string;
   WaitCursorInterface: IInterface;
@@ -172,14 +152,10 @@ begin
   Result := '';
   FunctionTests := '';
 
-  LSymbols := TJedi.DocumentSymbols(ModuleFName);
+  var LSymbols := TPyLspClient.MainLspClient.DocumentSymbols(ModuleFName);
   if not Assigned(LSymbols) then Exit;
   Prune(LSymbols, ModuleFName);
-  if LSymbols.Count = 0 then
-  begin
-    LSymbols.Free;
-    Exit;
-  end;
+  if Length(LSymbols) = 0 then Exit;
 
   with TUnitTestWizard.Create(Application) do
   begin
@@ -191,7 +167,6 @@ begin
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
     ExplorerTree.RootNodeCount := 1;
-    ExplorerTree.ReinitNode(ExplorerTree.RootNode, True);
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
     if ShowModal = idOK then begin
@@ -199,10 +174,11 @@ begin
       WaitCursorInterface := WaitCursor;
       // Generate code
       Result := Format(Header, [FModuleName]);
+      ExplorerTree.InitRecursive(ExplorerTree.RootNode, MaxInt, False);
       Node := ExplorerTree.RootNode^.FirstChild^.FirstChild;
       while Assigned(Node) do begin
-        Symbol := Node.GetData<TJSONObject>;
-        Symbol.TryGetValue<string>('name', SName);
+        Symbol := SymbolFromNode(Node);
+        SName := Symbol.name;
         if (Node.CheckState in [csCheckedNormal, csCheckedPressed,
           csMixedNormal, csMixedPressed]) then
         begin
@@ -212,8 +188,8 @@ begin
             MethodNode := Node.FirstChild;
             while Assigned(MethodNode) do begin
               if (MethodNode.CheckState in [csCheckedNormal, csCheckedPressed]) then begin
-                MSymbol := MethodNode.GetData<TJSONObject>;
-                MSymbol.TryGetValue<string>('name', MName);
+                MSymbol := SymbolFromNode(MethodNode);
+                MName := MSymbol.name;
                 Result := Result + Format(MethodHeader, [MName]);
               end;
               MethodNode := MethodNode.NextSibling;
@@ -233,7 +209,7 @@ begin
       Result := Result + Footer;
     end;
     Release;
-    Symbols.Free;
+    Symbols := [];
   end;
 end;
 
@@ -245,7 +221,7 @@ begin
     0:  HintText := Format(_('Python Module "%s"'), [FModuleName]);
     1, 2:
       begin
-        var Symbol := Node.GetData<TJSONObject>;
+        var Symbol := SymbolFromNode(Node);
         HintText := SymbolHint(Symbol);
       end;
   else
@@ -278,14 +254,14 @@ begin
     case ExplorerTree.GetNodeLevel(Node) of
       0:  CellText := FModuleName;
       1:  begin
-            var Symbol := Node.GetData<TJSONObject>;
+            var Symbol := SymbolFromNode(Node);
             if Node.ChildCount = 0 then
               CellText := SymbolSignature(Symbol)
             else
-              Symbol.TryGetValue<string>('name', CellText);
+              CellText := Symbol.name;
           end;
       2:  begin
-            var Symbol := Node.GetData<TJSONObject>;
+            var Symbol := SymbolFromNode(Node);
             CellText := SymbolSignature(Symbol);
           end;
       else
@@ -297,14 +273,12 @@ procedure TUnitTestWizard.ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
   Node: PVirtualNode; var ChildCount: Cardinal);
 begin
   case ExplorerTree.GetNodeLevel(Node) of
-    0: ChildCount := Symbols.Count;
+    0: ChildCount := Length(Symbols);
     1:
        begin
          ChildCount := 0;
-         var Value := Node.GetData<TJSONObject>;
-         var Children := Value.FindValue('children');
-         if Children is TJSONArray then
-           ChildCount := TJSONArray(Children).Count;
+         var Value := SymbolFromNode(Node);
+         ChildCount := Length(Value.children);
        end;
     2: ChildCount := 0;
     else
@@ -314,9 +288,6 @@ end;
 
 procedure TUnitTestWizard.ExplorerTreeInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-var
-  Name: string;
-  Kind: Integer;
 begin
   Node.CheckState := csCheckedNormal;
   Node.CheckType := ctCheckBox;
@@ -324,15 +295,12 @@ begin
     0:
        begin
          InitialStates := [ivsHasChildren, ivsExpanded];
-         Node.SetData<TJSONValue>(Symbols);
          Node.CheckType := ctTriStateCheckBox;
        end;
     1:
        begin
          var Child := Symbols[Node.Index];
-         Node.SetData<TJSONValue>(Child);
-         if Child.TryGetValue<Integer>('kind', Kind) and
-           (Kind = Ord(TSymbolKind._Class)) then
+         if Child.kind = TLSPSymbolKind.symClass then
          begin
            InitialStates := [ivsHasChildren, ivsExpanded];
            Node.CheckType := ctTriStateCheckBox;
@@ -340,12 +308,8 @@ begin
        end;
     2:
       begin
-        var Klass := ParentNode.GetData<TJSONObject>;
-        var Children := Klass.FindValue('children');
-        var Method := TJSONArray(Children).Items[Node.Index];
-        Assert(Assigned(Children) and (Children is TJSONArray));
-        Node.SetData<TJSONValue>(Method);
-        if Method.TryGetValue<string>('name', Name) and (Name = '__init__') then
+        var Method := SymbolFromNode(Node);
+        if Method.name = '__init__' then
           Node.CheckState := csUncheckedNormal;
       end;
     else
@@ -356,7 +320,7 @@ end;
 procedure TUnitTestWizard.FormCreate(Sender: TObject);
 begin
   inherited;
-  ExplorerTree.NodeDataSize := SizeOf(Pointer);
+  ExplorerTree.NodeDataSize := 0;
 end;
 
 procedure TUnitTestWizard.HelpButtonClick(Sender: TObject);
@@ -387,35 +351,34 @@ begin
    end;
 end;
 
-function TUnitTestWizard.SymbolHint(Symbol: TJSONObject): string;
-var
-  BC: TBufferCoord;
+function TUnitTestWizard.SymbolFromNode(Node: PVirtualNode): TLSPDocumentSymbol;
 begin
-  if Symbol.TryGetValue<Integer>('selectionRange.start.line', BC.Line) and
-    Symbol.TryGetValue<Integer>('selectionRange.start.character', BC.Char)
-  then
-  begin
-    Inc(BC.Line);
-    Inc(BC.Char);
-    Result := TJedi.SimpleHintAtCoordinates(FModuleFileName, BC);
-  end;
+  var Level := ExplorerTree.GetNodeLevel(Node);
+  if Level = 1 then
+    Result := Symbols[Node.Index]
+  else if Level = 2 then
+    Result := Symbols[Node.Parent.Index].children[Node.Index]
+  else
+    Result := Default(TLSPDocumentSymbol);
 end;
 
-function TUnitTestWizard.SymbolSignature(Symbol: TJSONObject): string;
-var
-  Line: Integer;
+function TUnitTestWizard.SymbolHint(Symbol: TLSPDocumentSymbol): string;
 begin
-  Result := '';
-  if Symbol.TryGetValue<Integer>('selectionRange.start.line', Line) then
-  begin
-    Result := Trim(GetNthSourceLine(FModuleFileName, Line + 1));
-    var Index := Result.LastIndexOf(':');
-    if Index >= 0 then
-      Delete(Result, Index + 1, MaxInt);
-    if Result.StartsWith('def') then
-      Delete(Result, 1, 3);
-    Result := Result.TrimLeft;
-  end;
+  var BC := BufferCoordFromLspPosition(Symbol.selectionRange.start);
+  Result := TPyLspClient.MainLspClient.SimpleHintAtCoordinates(FModuleFileName, BC);
+  Result := StringReplace(Result, '<br>', SLineBreak, [rfReplaceAll]);
+end;
+
+function TUnitTestWizard.SymbolSignature(Symbol: TLSPDocumentSymbol): string;
+begin
+  var Line := Symbol.selectionRange.start.line;
+  Result := Trim(GetNthSourceLine(FModuleFileName, Line + 1));
+  var Index := Result.LastIndexOf(':');
+  if Index >= 0 then
+    Delete(Result, Index + 1, MaxInt);
+  if Result.StartsWith('def') then
+    Delete(Result, 1, 3);
+  Result := Result.TrimLeft;
 end;
 
 end.

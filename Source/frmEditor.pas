@@ -327,6 +327,7 @@ uses
   System.Math,
   System.IOUtils,
   System.DateUtils,
+  System.SyncObjs,
   System.Generics.Collections,
   PythonEngine,
   Vcl.Dialogs,
@@ -356,7 +357,7 @@ uses
   cCodeHint,
   cPyScripterSettings,
   cSSHSupport,
-  JediLspClient;
+  cLspClients;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -861,7 +862,7 @@ end;
 procedure TEditor.RefreshSymbols;
 begin
   if FSynLsp.NeedToRefreshSymbols then
-    FSynLsp.RefreshSymbols(GetFileId);
+    FSynLsp.RefreshSymbols;
 end;
 
 procedure TEditor.Retranslate;
@@ -2169,7 +2170,7 @@ begin
         begin
           if PyIDEOptions.EditorCodeCompletion and (SynEd.Selections.Count = 1) then
           begin
-            if (TIDECompletion.EditorCodeCompletion.CompletionInfo.Editor = nil)
+            if (TIDECompletion.CompletionInfo.Editor = nil)
               and (Pos(AChar, CommandsDataModule.SynCodeCompletion.TriggerChars) > 0)
               and not ResourcesDataModule.CodeTemplatesCompletion.Executing
             then
@@ -2645,24 +2646,21 @@ procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
 begin
   PyIDEOptions.CodeCompletionListSize :=
     CommandsDataModule.SynCodeCompletion.NbLinesInWindow;
-  TIDECompletion.EditorCodeCompletion.CleanUp;
+  TIDECompletion.CompletionInfo.CleanUp;
 end;
 
 procedure TEditorForm.SynCodeCompletionCodeItemInfo(Sender: TObject;
   AIndex: Integer; var Info: string);
 begin
-  var CC := TIDECompletion.EditorCodeCompletion;
-  if not CC.Lock.TryEnter then Exit;
+  if not TIDECompletion.CompletionLock.TryEnter then Exit;
   try
-    if Assigned(CC.CompletionInfo.CompletionHandler) then
+    if Assigned(TIDECompletion.CompletionInfo.CompletionHandler) then
     begin
       var CCItem := (Sender as TSynCompletionProposal).InsertList[AIndex];
-      if CCItem.EndsWith('()') then
-        CCItem := Copy(CCItem, 1, CCItem.Length - 2);
-      Info := CC.CompletionInfo.CompletionHandler.GetInfo(CCItem);
+      Info := TIDECompletion.CompletionInfo.CompletionHandler.GetInfo(CCItem);
     end;
   finally
-    CC.Lock.Leave;
+    TIDECompletion.CompletionLock.Leave;
   end;
 end;
 
@@ -2696,9 +2694,9 @@ begin
   Inc(Caret.Char);
 
   var CC := TIDECompletion.EditorCodeCompletion;
-  if not CC.Lock.TryEnter then Exit;
+  if not TIDECompletion.CompletionLock.TryEnter then Exit;
   try
-    CC.CleanUp;
+    TIDECompletion.CompletionInfo.CleanUp;
 
     var Skipped := False;
     for var I := 0 to CC.SkipHandlers.Count -1 do
@@ -2709,21 +2707,21 @@ begin
     end;
 
     if not Skipped then
-      // There is one CompletionHandler (LSP) which will always fail!
-      // Completion will be activated by the LSP completion handler
+      // There is one CompletionHandler (LSP)!
+      // Completion will be activated by the LSP completion handler later
       for var I := 0 to CC.CompletionHandlers.Count - 1 do
       begin
         var CompletionHandler := CC.CompletionHandlers[I] as TBaseCodeCompletionHandler;
         CompletionHandler.Initialize;
-        var Handled := CompletionHandler.HandleCodeCompletion(Locline, FileName,
+        // We ignore the result of HandleCodeCompletion
+        CompletionHandler.HandleCodeCompletion(Locline, FileName,
           Caret, Highlighter, Attr, InsertText, DisplayText);
-        Assert(Handled = False, 'DoCodeCompletion');
-        CC.CompletionInfo.CompletionHandler := CompletionHandler;
-        CC.CompletionInfo.Editor := Editor;
-        CC.CompletionInfo.CaretXY := Caret;
+        TIDECompletion.CompletionInfo.CompletionHandler := CompletionHandler;
+        TIDECompletion.CompletionInfo.Editor := Editor;
+        TIDECompletion.CompletionInfo.CaretXY := Caret;
       end;
   finally
-    CC.Lock.Leave;
+    TIDECompletion.CompletionLock.Leave;
   end;
 end;
 
@@ -2731,30 +2729,30 @@ procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: string; var X, Y: Integer;
   var CanExecute: Boolean);
 begin
-  var CC := TIDECompletion.EditorCodeCompletion;
+  var CI := TIDECompletion.CompletionInfo;
   var CP := TSynCompletionProposal(Sender);
 
   CanExecute := False;
-  if CC.Lock.TryEnter then
+  if TIDECompletion.CompletionLock.TryEnter then
   try
     CanExecute := Assigned(GI_ActiveEditor) and
-      (GI_ActiveEditor.ActiveSynEdit = CC.CompletionInfo.Editor) and
+      (GI_ActiveEditor.ActiveSynEdit = CI.Editor) and
       Application.Active and
-      (GetParentForm(CC.CompletionInfo.Editor).ActiveControl = CC.CompletionInfo.Editor) and
-      (CC.CompletionInfo.CaretXY = CC.CompletionInfo.Editor.CaretXY);
+      (GetParentForm(CI.Editor).ActiveControl = CI.Editor) and
+      (TIDECompletion.CompletionInfo.CaretXY = TIDECompletion.CompletionInfo.Editor.CaretXY);
 
     if CanExecute then
     begin
       CP.Font := PyIDEOptions.AutoCompletionFont;
-      CP.ItemList.Text := CC.CompletionInfo.DisplayText;
-      CP.InsertList.Text := CC.CompletionInfo.InsertText;
+      CP.ItemList.Text := CI.DisplayText;
+      CP.InsertList.Text := CI.InsertText;
       CP.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
       CP.CurrentString := CurrentInput;
 
       if CP.Form.AssignedList.Count = 0 then
       begin
         CanExecute := False;
-        CC.CleanUp;
+        TIDECompletion.CompletionInfo.CleanUp;
       end
       else
       if PyIDEOptions.CompleteWithOneEntry and (CP.Form.AssignedList.Count = 1) then
@@ -2762,17 +2760,17 @@ begin
         // Auto-complete with one entry without showing the form
         CanExecute := False;
         CP.OnValidate(CP.Form, [], #0);
-        CC.CleanUp;
+        TIDECompletion.CompletionInfo.CleanUp;
       end;
     end
     else
     begin
       CP.ItemList.Clear;
       CP.InsertList.Clear;
-      CC.CleanUp;
+      TIDECompletion.CompletionInfo.CleanUp;
     end;
   finally
-    CC.Lock.Leave;
+    TIDECompletion.CompletionLock.Leave;
   end;
 end;
 
@@ -2789,7 +2787,7 @@ begin
 
   TIDECompletion.SignatureHelpInfo.Lock;
   try
-    CanExecute := Assigned(Editor) and Editor.HasPythonFile and TJedi.Ready
+    CanExecute := Assigned(Editor) and Editor.HasPythonFile and TPyLspClient.MainLspClient.Ready
       and (Editor.ActiveSynEdit = CP.Editor) and PyIDEOptions.EditorCodeCompletion;
 
     // This function is called
@@ -2799,7 +2797,7 @@ begin
 
     if not TIDECompletion.SignatureHelpInfo.Handled then
     begin
-      TJedi.RequestParamCompletion(Editor.FileId, CP.Editor);
+      TPyLspClient.MainLspClient.SignatureHelp(Editor.FileId, CP.Editor);
 
       if CanExecute and CP.Form.Visible then
       begin
@@ -2833,6 +2831,7 @@ begin
         DocString := GetLineRange(DocString, 1, 20); // 20 lines max
       end;
 
+      CP.Font := PyIDEOptions.AutoCompletionFont;
       CP.Form.CurrentIndex := TIDECompletion.SignatureHelpInfo.ActiveParameter;
       CP.ItemList.Text := DisplayString + DocString;
 
@@ -3134,8 +3133,8 @@ begin
         FHintFuture := TFuture<string>.Create(nil, nil,
           function: string
           begin
-            Result := TJedi.CodeHintAtCoordinates(FEditor.GetFileId,
-              BC1, Token);
+            Result := TPyLspClient.MainLspClient.CodeHintAtCoordinates(
+              FEditor.GetFileId, BC1, Token);
           end, TThreadPool.Default).Start;
       end
       else

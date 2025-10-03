@@ -24,6 +24,7 @@ Delphi 10.4 and 11 Should also be supported.
   13. MarkdownProcessor (https://github.com/EtheaDev/MarkdownProcessor) 
   14. pascal-process (https://github.com/pyscripter/pascal-process.git)
   15. FileSystemMonitor (https://github.com/pyscripter/FileSystemMonitor)
+  16. LSP Pascal Library (https://github.com/pyscripter/LSP-Pascal-Library)
 
   
 ** Installiing Third Party components: and compiling PyScripter **
@@ -31,7 +32,7 @@ A. Make sure you have git.exe accessible from the command prompt.  If not get fr
 B. Clone the PyScripter project (https://github.com/pyscripter/pyscripter) 
 C. Clone or download JCL and JVCL and use provided installers (run install.bat)
 D. Use Multiinstaller.exe in the Components\ThirdParty folder to download  
-   dependencies 3-15 to a folder of your choice and install in one step.
+   dependencies 3-16 to a folder of your choice and install in one step.
 E. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
 F. In SVGIconImageList\Source\SVGIconImageList.inc define PreferNativeSvgSupport
 G. Install the "EdgeView2 SDK" from Getit

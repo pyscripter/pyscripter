@@ -1516,8 +1516,7 @@ uses
   cPyRemoteDebugger,
   cProjectClasses,
   cSSHSupport,
-  LspUtils,
-  JediLspClient;
+  cLspClients;
 
 {$R *.DFM}
 
@@ -2685,7 +2684,7 @@ begin
     lbPythonEngine.Caption := ' ';
   end;
 
-  if TJedi.Ready then
+  if TPyLspClient.MainLspClient.Ready then
   begin
     spiLspLed.Hint := _('Language Server') + ': ' + _('Ready');
     icIndicators.SVGIconItems[2].FixedColor := $1F5FFF;
@@ -3946,7 +3945,7 @@ begin
             end;
 
             FileName := '';
-            TJedi.FindDefinitionByCoordinates(FName, TextCoord, FileName, BC);
+            TPyLspClient.MainLspClient.FindDefinitionByCoordinates(FName, TextCoord, FileName, BC);
 
             if (FileName <> '') and ShowMessages then
               GI_PyIDEServices.Messages.AddMessage(_(SDefinitionFound), FileName, BC.Line, BC.Char);
@@ -4010,7 +4009,7 @@ begin
             GI_PyIDEServices.Messages.ClearMessages;
             GI_PyIDEServices.Messages.AddMessage(_(SReferencesOf) + Token + '"');
 
-            References := TJedi.FindReferencesByCoordinates(FName, CaretXY);
+            References := TPyLspClient.MainLspClient.FindReferencesByCoordinates(FName, CaretXY);
             FoundReferences := Length(References) > 0;
             for var DocPosition in References do
             begin

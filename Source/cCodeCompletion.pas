@@ -31,24 +31,31 @@ type
     function GetInfo(CCItem: string): string; virtual; abstract;
   end;
 
+  TBaseLspCompletionHandler = class(TBaseCodeCompletionHandler)
+  protected
+    function GetWordStart(const Line: string;
+      const Caret: TBufferCoord): Integer;
+  public
+    function GetInfo(CCItem: string): string; override;
+  end;
+
   TCompletionInfo = record
+  public
     Id: Integer;  // Lsp Request Id
     Editor: TSynEdit;
     CaretXY: TBufferCoord;
     InsertText,
     DisplayText: string;
     CompletionHandler: TBaseCodeCompletionHandler;
+    procedure CleanUp;
   end;
 
   TCodeCompletion = class
   public
     SkipHandlers: TObjectList;
     CompletionHandlers: TObjectList;
-    CompletionInfo: TCompletionInfo;
-    Lock: TRTLCriticalSection;
     constructor Create;
     destructor Destroy; override;
-    procedure CleanUp;
     procedure RegisterSkipHandler(Handler: TBaseCodeCompletionSkipHandler);
     procedure RegisterCompletionHandler(Handler: TBaseCodeCompletionHandler);
   end;
@@ -103,10 +110,12 @@ type
   end;
 
   TIDECompletion = class
+    class var CompletionInfo: TCompletionInfo;
     class var EditorCodeCompletion: TCodeCompletion;
     class var InterpreterCodeCompletion: TCodeCompletion;
     class var InterpreterSignatureHelp: TBaseSignatureHelp;
     class var SignatureHelpInfo: TSignatureHelpInfo;
+    class var CompletionLock: TRTLCriticalSection;
     class constructor Create;
     class destructor Destroy;
   end;
@@ -131,8 +140,8 @@ uses
   cPyScripterSettings,
   cPySupportTypes,
   cPyControl,
-  LspUtils,
-  JediLspClient;
+  XLSPTypes,
+  cLSPClients;
 
 { TRegExpressions }
 type
@@ -248,6 +257,9 @@ var
   Index: Integer;
   NameSpaceItem: TBaseNameSpaceItem;
 begin
+  if CCItem.EndsWith('()') then
+    CCItem := Copy(CCItem, 1, CCItem.Length - 2);
+
   Index := FNameSpace.IndexOf(CCItem);
   if Index >=0  then
   begin
@@ -372,18 +384,12 @@ begin
 end;
 
 { TBaseLspCompletionHandler }
-type
-  TBaseLspCompletionHandler = class(TBaseCodeCompletionHandler)
-  protected
-    function GetWordStart(const Line: string;
-      const Caret: TBufferCoord): Integer;
-  public
-    function GetInfo(CCItem: string): string; override;
-  end;
-
 function TBaseLspCompletionHandler.GetInfo(CCItem: string): string;
 begin
-  Result := TJedi.ResolveCompletionItem(CCItem);
+  if CCItem.EndsWith('()') then
+    CCItem := Copy(CCItem, 1, CCItem.Length - 2);
+  Result := TPyLspClient.MainLspClient.ResolveCompletionItem(CCItem);
+  Result := GetLineRange(Result, 1, 40); // 40 lines max
 end;
 
 function TBaseLspCompletionHandler.GetWordStart(const Line: string;
@@ -411,12 +417,12 @@ function TLspCompletionHandler.HandleCodeCompletion(const Line,
   DisplayText: string): Boolean;
 
 begin
-  if not TJedi.Ready or (FileName = '') then Exit(False);
+  if not TPyLspClient.MainLspClient.Ready or (FileName = '') then Exit(False);
 
   // Get Completion for the current word
   var WordStart := GetWordStart(Line, Caret);
 
-  Result := TJedi.HandleCodeCompletion(FileName, BufferCoord(WordStart, Caret.Line),
+  Result := TPyLspClient.MainLspClient.HandleCodeCompletion(FileName, BufferCoord(WordStart, Caret.Line),
     InsertText, DisplayText);
 end;
 
@@ -438,26 +444,26 @@ function TBaseLspIICompletionHandler.HandleCodeCompletion(const Line,
   FileName: string; Caret: TBufferCoord;
   Highlighter: TSynCustomHighlighter; HighlighterAttr: TSynHighlighterAttributes;
   out InsertText, DisplayText: string): Boolean;
-var
-  Param: TJSONObject;
 const
-  TempFileName = 'TempInterpreterFile';
+  TempFileName = 'C:\Temp\TempInterpreterFile';
 begin
-  if not (TJedi.Ready and CanHandle(Line, Caret)) then Exit(False);
+  if not (TPyLspClient.MainLspClient.Ready and
+    TPyLspClient.MainLspClient.LspClient.ServerCapabilities.textDocumentSync.openClose and
+    CanHandle(Line, Caret))
+  then
+    Exit(False);
 
-  Param := TJSONObject.Create;
-  Param.AddPair('textDocument', LspTextDocumentItem(TempFileName, 'python',
-    FDocContent, 0));
-  TJedi.LspClient.Notify('textDocument/didOpen', Param.ToJSON);
-  Param.Free;
+  var Params := TSmartPtr.Make(TLSPDidOpenTextDocumentParams.Create)();
+  Params.textDocument.uri := FileIdToURI(TempFileName);
+  Params.textDocument.languageId := 'python';
+  Params.textDocument.text := FDocContent;
+  TPyLspClient.MainLspClient.LspClient.SendNotification(lspDidOpenTextDocument, Params);
 
-  Result := TJedi.HandleCodeCompletion(TempFileName, BufferCoord(FDocContent.Length + 1, 1),
+  Result := TPyLspClient.MainLspClient.HandleCodeCompletion(TempFileName,
+    BufferCoord(FDocContent.Length + 1, 1),
     InsertText, DisplayText);
 
-  Param := TJSONObject.Create;
-  Param.AddPair('textDocument', LspTextDocumentIdentifier(TempFileName));
-  TJedi.LspClient.Notify('textDocument/didClose', Param.ToJSON);
-  Param.Free;
+  TPyLspClient.MainLspClient.LspClient.SendNotification(lspDidCloseTextDocument, Params);
 end;
 
 { TImportStatementHandler }
@@ -500,37 +506,14 @@ end;
 
 { TCodeCompletion }
 
-procedure TCodeCompletion.CleanUp;
-begin
-  Lock.Enter;
-  try
-    CompletionInfo.Id := -1;
-    CompletionInfo.InsertText := '';
-    CompletionInfo.DisplayText := '';
-    CompletionInfo.Editor := nil;
-    CompletionInfo.CaretXY := BufferCoord(0,9);
-    if Assigned(CompletionInfo.CompletionHandler) then
-    begin
-      CompletionInfo.CompletionHandler.Finalize;
-      CompletionInfo.CompletionHandler := nil;
-    end;
-  finally
-    Lock.Leave;
-  end;
-end;
-
 constructor TCodeCompletion.Create;
 begin
   SkipHandlers := TObjectList.Create(True);
   CompletionHandlers := TObjectList.Create(True);
-  Lock.Initialize;
 end;
 
 destructor TCodeCompletion.Destroy;
 begin
-  Lock.Enter;
-  Lock.Leave;
-  Lock.Free;
   SkipHandlers.Free;
   CompletionHandlers.Free;
   inherited;
@@ -727,6 +710,7 @@ end;
 
 class constructor TIDECompletion.Create;
 begin
+  CompletionLock.Initialize;
   InterpreterSignatureHelp := TInterpreterSignatureHelp.Create;
 
   EditorCodeCompletion := TCodeCompletion.Create;
@@ -752,10 +736,35 @@ end;
 
 class destructor TIDECompletion.Destroy;
 begin
+  CompletionLock.Enter;
+  CompletionLock.Leave;
+  CompletionLock.Free;
   EditorCodeCompletion.Free;
   InterpreterCodeCompletion.Free;
   InterpreterSignatureHelp.Free;
   SignatureHelpInfo.Free;
+end;
+
+{ TCompletionInfo }
+
+procedure TCompletionInfo.CleanUp;
+begin
+  TIDECompletion.CompletionLock.Enter;
+  try
+    Id := -1;
+    InsertText := '';
+    DisplayText := '';
+    Editor := nil;
+    CaretXY := TBufferCoord.Invalid;
+    if Assigned(CompletionHandler) then
+    begin
+      CompletionHandler.Finalize;
+      CompletionHandler := nil;
+    end;
+  finally
+    TIDECompletion.CompletionLock.Leave;
+  end;
+
 end;
 
 end.

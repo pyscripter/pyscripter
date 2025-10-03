@@ -114,13 +114,11 @@ uses
   JvDockSupportProc in 'JvDockSupportProc.pas',
   JvDockTree in 'JvDockTree.pas',
   JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas',
-  LspClient in 'LspClient.pas',
-  LspUtils in 'LspUtils.pas',
   SynEditLsp in 'SynEditLsp.pas',
-  JediLspClient in 'JediLspClient.pas',
   uLLMSupport in 'uLLMSupport.pas',
   frmLLMChat in 'frmLLMChat.pas' {LLMChatForm},
-  frmSuggest in 'frmSuggest.pas' {SuggestWindow};
+  frmSuggest in 'frmSuggest.pas' {SuggestWindow},
+  cLSPClients in 'cLSPClients.pas';
 
 {$R *.RES}
 
