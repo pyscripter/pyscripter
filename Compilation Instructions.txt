@@ -3,7 +3,7 @@ INSTRUCTIONS FOR COMPILIING PyScripter
 
 I am using Delphi 12 to compile PyScripter. 
 You can use the free Delphi Community edition to compile PyScripter.
-Delphi 10.4 and 11 Should also be supported.
+Delphi 11 and 13 should also work.
 
 ** Third Party Components: (Read next section below before cloning manually) **
   1. JCL (https://github.com/project-jedi/jcl) - at Github.com 
