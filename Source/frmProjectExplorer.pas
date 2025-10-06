@@ -523,19 +523,23 @@ begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFilesNode then
     begin
-      with TImportDirectoryForm do
-        if Execute and (Directory <> '') then
-        begin
-          TempCursor := WaitCursor;
-          ExplorerTree.BeginUpdate;
-          try
-            TProjectFilesNode(Data.ProjectNode).ImportDirectory(Directory,
-              FileMasks, Recursive, AutoUpdate, AddToPath);
-            ExplorerTree.ReInitNode(Node, True, True);
-          finally
-            ExplorerTree.EndUpdate;
-          end;
+      if ActiveProject.FileName <> '' then
+        TImportDirectoryForm.Directory :=
+          TPath.GetDirectoryName(ActiveProject.FileName);
+      if TImportDirectoryForm.Execute and (TImportDirectoryForm.Directory <> '') then
+      begin
+        TempCursor := WaitCursor;
+        ExplorerTree.BeginUpdate;
+        try
+          TProjectFilesNode(Data.ProjectNode).ImportDirectory(
+            TImportDirectoryForm.Directory, TImportDirectoryForm.FileMasks,
+            TImportDirectoryForm.Recursive, TImportDirectoryForm.AutoUpdate,
+            TImportDirectoryForm.AddToPath);
+          ExplorerTree.ReInitNode(Node, True, True);
+        finally
+          ExplorerTree.EndUpdate;
         end;
+      end;
     end;
   end;
 end;
