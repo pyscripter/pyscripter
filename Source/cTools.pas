@@ -471,22 +471,6 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := _('Format Selection');
-    Description := _('Format selected code using the "black" module');
-    ApplicationName := '$[PythonExe-Short]';
-    Parameters := '-m black -';
-    ShortCut := Vcl.Menus.ShortCut(Ord('F'), [ssShift, ssAlt]);
-    Context := tcSelectionAvailable;
-    SaveFiles := sfNone;
-    ProcessInput := piSelection;
-    ProcessOutput := poSelection;
-    ParseMessages := False;
-    CaptureOutput := False;
-    ConsoleHidden := True;
-    Utf8IO := True;
-  end;
-
-  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := _('Sort Selection');
     Description := _('Sort the selected editor block ("one-liner" demo)');
     ApplicationName := '$[PythonExe-Short]';

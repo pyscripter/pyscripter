@@ -1611,10 +1611,12 @@ end;
 procedure TCommandsDataModule.UpdateMainActions;
 var
   SelAvail: Boolean;
+  ReadOnly: Boolean;
   Editor: IEditor;
   SearchCommands: ISearchCommands;
 begin
   Editor := GI_PyIDEServices.ActiveEditor;
+  ReadOnly := Assigned(Editor) and Editor.SynEdit.ReadOnly;
 
   actFoldVisible.Enabled := Assigned(GI_ActiveEditor);
   actFoldVisible.Checked := Assigned(GI_ActiveEditor) and
@@ -1663,20 +1665,22 @@ begin
 
   SelAvail := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ActiveSynEdit.SelAvail;
   // Source Code Actions
+  actEditIndent.Enabled := SelAvail and not ReadOnly;
+  actEditDedent.Enabled := SelAvail and not ReadOnly;
+  actEditTabify.Enabled := SelAvail and not ReadOnly;
+  actEditUntabify.Enabled := SelAvail and not ReadOnly;
   actFormatCode.Enabled := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
-  actEditIndent.Enabled := SelAvail;
-  actEditDedent.Enabled := SelAvail;
-  actEditTabify.Enabled := SelAvail;
-  actEditUntabify.Enabled := SelAvail;
-  actEditToggleComment.Enabled := Assigned(GI_ActiveEditor);
-  actEditCommentOut.Enabled := Assigned(GI_ActiveEditor);
-  actEditUncomment.Enabled := Assigned(GI_ActiveEditor);
+  actEditToggleComment.Enabled := Assigned(GI_ActiveEditor) and not ReadOnly;
+  actEditCommentOut.Enabled := Assigned(GI_ActiveEditor) and not ReadOnly;
+  actEditUncomment.Enabled := Assigned(GI_ActiveEditor) and not ReadOnly;
   actEditLineNumbers.Enabled := Assigned(GI_ActiveEditor);
   actEditReadOnly.Enabled := Assigned(GI_ActiveEditor);
-  actEditReadOnly.Checked := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ReadOnly;
-  actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) and not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding
-    or GI_PyInterpreter.Editor.Focused;
-  actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or GI_PyInterpreter.Editor.Focused;
+  actEditReadOnly.Checked := Assigned(GI_ActiveEditor) and ReadOnly;
+  actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) and
+    not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding or
+    GI_PyInterpreter.Editor.Focused;
+  actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or
+    GI_PyInterpreter.Editor.Focused;
   if Assigned(GI_ActiveEditor) then begin
     actEditLineNumbers.Checked := GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;
     actEditWordWrap.Checked := GI_ActiveEditor.ActiveSynEdit.WordWrap;

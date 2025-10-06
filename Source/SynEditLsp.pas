@@ -303,22 +303,24 @@ begin
       Params.textDocument.version := fVersion;
 
       if (syncKind = TLSPTextDocumentSyncKindRec.Incremental) and
-        // too many changes - faster to send all text
         InRange(FIncChanges.Count, 1, Editor.Lines.Count div 3)
       then
       begin
         Params.contentChanges := FIncChanges.ToArray;
-        // the TLSPBaseTextDocumentContentChangeEvents will be detroyed by
-        // the Params (TLSPDidChangeTextDocumentParams) destructor
-        FIncChanges.Clear;
+        Client.LspClient.SendNotification(lspDidChangeTextDocument, Params);
+        // This is so that we do not double destroy the content changes
+        Params.contentChanges := [];
       end
       else
       begin
+        // too many changes - faster to send all text
+        // The TLSPBaseTextDocumentContentChangeEvent will be detroyed by
+        // the Params (TLSPDidChangeTextDocumentParams) destructor
         Change := TLSPBaseTextDocumentContentChangeEvent.Create;
         Change.text := Editor.Text;
         Params.contentChanges := [Change];
+        Client.LspClient.SendNotification(lspDidChangeTextDocument, Params);
       end;
-      Client.LspClient.SendNotification(lspDidChangeTextDocument, Params);
     end;
   finally
     // if the FIncChanges were not used we need to destroy them here

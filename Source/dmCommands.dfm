@@ -1018,6 +1018,7 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 
         'Format source code, either the selected text or the whole docume' +
         'nt.'
+      ShortCut = 41030
       OnExecute = actFormatCodeExecute
     end
   end
