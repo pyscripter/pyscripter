@@ -1338,7 +1338,7 @@ end;
 
 procedure TProjectExplorerWindow.OnFolderChange(const Path: string);
 begin
-  var Node := ExplorerTree.IterateSubtree(ExplorerTree.RootNode,
+  var Node := ExplorerTree.IterateSubtree(ExplorerTree.RootNode.FirstChild,
     procedure(Sender: TBaseVirtualTree; Node: PVirtualNode; Data: Pointer;
       var Abort: Boolean)
     begin
@@ -1352,7 +1352,14 @@ begin
     end,
     PChar(Path), [], False, True);
   if Assigned(Node) then
-    ExplorerTree.ReinitNode(Node, True, True);
+  begin
+    ExplorerTree.BeginUpdate;
+    try
+      ExplorerTree.ReinitNode(Node, True, True);
+    finally
+      ExplorerTree.EndUpdate;
+    end;
+  end;
 end;
 
 end.

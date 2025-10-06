@@ -3133,7 +3133,7 @@ begin
         FHintFuture := TFuture<string>.Create(nil, nil,
           function: string
           begin
-            Result := TPyLspClient.MainLspClient.CodeHintAtCoordinates(
+            Result := TPyLspClient.CodeHintAtCoordinates(
               FEditor.GetFileId, BC1, Token);
           end, TThreadPool.Default).Start;
       end

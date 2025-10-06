@@ -1011,6 +1011,15 @@ object CommandsDataModule: TCommandsDataModule
         'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_butto' +
         'n_id=SX9B6G2GF5K4U'
     end
+    object actFormatCode: TAction
+      Category = 'Source Code'
+      Caption = 'Format Code'
+      HelpContext = 320
+      Hint = 
+        'Format source code, either the selected text or the whole docume' +
+        'nt.'
+      OnExecute = actFormatCodeExecute
+    end
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]

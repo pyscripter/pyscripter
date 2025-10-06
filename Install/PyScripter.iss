@@ -29,6 +29,7 @@ ChangesAssociations=true
 UninstallDisplayIcon={app}\{#MyAppName}.exe
 PrivilegesRequired=poweruser
 RestartIfNeededByRun=yes
+Compression=lzma2/ultra64
 AppCopyright=(C) Kiriakos Vlahos
 ;WizardStyle = modern
 #if OSPlatform == "x64"
@@ -227,6 +228,8 @@ Source: "..\Styles\Zircon.vsf"; DestDir: "{commonappdata}\PyScripter\Styles"
 ; Language Server
 Source: "..\Lib\Lsp\jls\jedilsp.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"; Flags: ignoreversion
 Source: "..\Lib\Lsp\jls\run-jedi-language-server.py"; DestDir: "{commonappdata}\PyScripter\Lsp\jls"
+Source: "ruff.exe"; DestDir: "{commonappdata}\PyScripter\Lsp\Ruff"
+Source: "ruff.toml"; DestDir: "{commonappdata}\PyScripter\Lsp\Ruff"
 ; Variable Inspectors
 Source: "..\Lib\Variable Inspectors\dataframe\main.py"; DestDir: "{commonappdata}\PyScripter\Variable Inspectors\dataframe"; 
 Source: "..\Lib\Variable Inspectors\dataframe\dataexplore.gif"; DestDir: "{commonappdata}\PyScripter\Variable Inspectors\dataframe"; 

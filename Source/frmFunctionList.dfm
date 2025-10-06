@@ -83,6 +83,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Font.Name = 'Segoe UI'
       Font.Style = []
       HideSelection = False
+      Items.ItemData = {050000000000000000}
       ReadOnly = True
       RowSelect = True
       ParentFont = False

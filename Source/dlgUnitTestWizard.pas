@@ -152,7 +152,7 @@ begin
   Result := '';
   FunctionTests := '';
 
-  var LSymbols := TPyLspClient.MainLspClient.DocumentSymbols(ModuleFName);
+  var LSymbols := TPyLspClient.DocumentSymbols(ModuleFName);
   if not Assigned(LSymbols) then Exit;
   Prune(LSymbols, ModuleFName);
   if Length(LSymbols) = 0 then Exit;
@@ -365,7 +365,7 @@ end;
 function TUnitTestWizard.SymbolHint(Symbol: TLSPDocumentSymbol): string;
 begin
   var BC := BufferCoordFromLspPosition(Symbol.selectionRange.start);
-  Result := TPyLspClient.MainLspClient.SimpleHintAtCoordinates(FModuleFileName, BC);
+  Result := TPyLspClient.SimpleHintAtCoordinates(FModuleFileName, BC);
   Result := StringReplace(Result, '<br>', SLineBreak, [rfReplaceAll]);
 end;
 

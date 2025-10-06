@@ -39,9 +39,13 @@ Insert a [code template](codetemplates) in the active editor.
 
 ### Source Code submenu
 
-![graphic](images/editmenu2.png){width="15.24em"  height="10.69em"}
+![graphic](images/menu_sourcecode.png){width="14.7em"  height="12.125em"}
 
 ***Commands/Actions:***
+
+*Format Code*\
+If there is selected text in the editor it formats just the selection. Otherwise, it formats the
+whole document. Code formatting uses the Ruff Language Server.
 
 *Indent Block*\
 Indent the selected block of code.

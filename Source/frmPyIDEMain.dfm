@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 290
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -365,6 +365,9 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnSourceCode: TSpTBXSubmenuItem
           Caption = '&Source Code'
+          object mnFormat: TSpTBXItem
+            Action = CommandsDataModule.actFormatCode
+          end
           object mnIndentBlock: TSpTBXItem
             Action = CommandsDataModule.actEditIndent
           end

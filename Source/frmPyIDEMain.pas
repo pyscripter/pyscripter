@@ -1196,6 +1196,7 @@ type
     mnFreeThreaded: TSpTBXItem;
     EditorViewsMenu: TSpTBXSubmenuItem;
     spiSeparatorItem: TSpTBXSeparatorItem;
+    mnFormat: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -3945,7 +3946,7 @@ begin
             end;
 
             FileName := '';
-            TPyLspClient.MainLspClient.FindDefinitionByCoordinates(FName, TextCoord, FileName, BC);
+            TPyLspClient.FindDefinitionByCoordinates(FName, TextCoord, FileName, BC);
 
             if (FileName <> '') and ShowMessages then
               GI_PyIDEServices.Messages.AddMessage(_(SDefinitionFound), FileName, BC.Line, BC.Char);
@@ -4009,7 +4010,7 @@ begin
             GI_PyIDEServices.Messages.ClearMessages;
             GI_PyIDEServices.Messages.AddMessage(_(SReferencesOf) + Token + '"');
 
-            References := TPyLspClient.MainLspClient.FindReferencesByCoordinates(FName, CaretXY);
+            References := TPyLspClient.FindReferencesByCoordinates(FName, CaretXY);
             FoundReferences := Length(References) > 0;
             for var DocPosition in References do
             begin

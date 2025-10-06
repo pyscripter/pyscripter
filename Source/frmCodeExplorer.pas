@@ -1116,7 +1116,7 @@ end;
 
 function TCodeElementCENode.GetHint: string;
 begin
-  Result := TPyLspClient.MainLspClient.SimpleHintAtCoordinates(FileName, CodePos);
+  Result := TPyLspClient.SimpleHintAtCoordinates(FileName, CodePos);
   Result := StringReplace(Result, '<br>', SLineBreak, [rfReplaceAll]);
 end;
 

@@ -249,7 +249,7 @@ procedure TFunctionListWindow.LoadProcs;
 
 begin
   Caption := Caption + ' - ' + TPath.GetFileName(FFileName);
-  var DocSymbols := TPyLspClient.MainLspClient.DocumentSymbols(FFileName);
+  var DocSymbols := TPyLspClient.DocumentSymbols(FFileName);
   if Length(DocSymbols) = 0 then Exit;
 
   FProcList.Capacity := 200;
@@ -619,7 +619,7 @@ end;
 function TFunctionListWindow.Signature(ProcInfo: TProcInfo): string;
 begin
 //  var BC := BufferCoord(ProcInfo.Char, ProcInfo.LineNo);
-//  Result := TJedi.SimpleHintAtCoordinates(FFileName, BC);
+//  Result := TPyLspClient.SimpleHintAtCoordinates(FFileName, BC);
 //  if Result <> '' then
 //    Result := GetLineRange(Result, 1, 1);
   Result := Trim(GetNthSourceLine(FFileName, ProcInfo.LineNo));

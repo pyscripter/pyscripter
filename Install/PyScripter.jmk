@@ -61,6 +61,20 @@ begin jvcsutils.batchinternal
   BatchLine3=popd
 end
 begin command.comment
+  Caption=DOWNLOAD RUST
+  Ignore=0
+  Value=DOWNLOAD RUST
+end
+begin jvcsutils.batchinternal
+  Caption=Download Rust
+  Ignore=0
+  ReplaceVars=1
+  BatchLineCount=3
+  BatchLine1=pushd %AppPath%\Install
+  BatchLine2=powershell .\DownloadRuff.ps1
+  BatchLine3=popd
+end
+begin command.comment
   Caption=CREATE CLEAN PYSCRIPTER.INI
   Ignore=0
   Value=CREATE CLEAN PYSCRIPTER.INI

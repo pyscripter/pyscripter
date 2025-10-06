@@ -1139,7 +1139,9 @@ begin
   end else begin
     UserDataPath := TPath.Combine(GetHomePath,  AppName);
     OptionsFileName := TPath.Combine(UserDataPath, AppININame);
-    if not ForceDirectories(UserDataPath) then
+    if not ForceDirectories(UserDataPath) or
+       not ForceDirectories(TPath.Combine(UserDataPath, 'Lsp'))
+    then
       StyledMessageDlg(Format(SAccessAppDataDir, [UserDataPath]),
       mtWarning, [mbOK], 0);
     PublicPath := TPath.Combine(TPath.GetPublicPath, AppName);
@@ -1157,8 +1159,11 @@ begin
   PyScripterInitFile := TPath.Combine(UserDataPath, 'pyscripter_init.py');
   PyScripterLogFile := TPath.Combine(UserDataPath, 'pyscripter.log');
   RecoveryDir := TPath.Combine(UserDataPath, 'Recovery');
+  // First use setup
+  ForceDirectories(TPath.Combine(UserDataPath, 'Lsp'));
+  CopyFileIfNeeded(TPath.Combine(PublicPath, 'Lsp',  'Ruff', 'ruff.toml'),
+    TPath.Combine(UserDataPath, 'Lsp', 'ruff.toml'));
   if not IsPortable then begin
-    // First use setup
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'python_init.py'), EngineInitFile);
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'pyscripter_init.py'), PyScripterInitFile);
   end;

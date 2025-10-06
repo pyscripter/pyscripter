@@ -92,7 +92,7 @@ type
   private
     FCriticalSection: TRTLCriticalSection;
   public
-    RequestId: NativeUInt;
+    RequestId: Integer;
     StartX: Integer;
     ActiveParameter: Integer;
     Handled: Boolean;

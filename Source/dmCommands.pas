@@ -214,6 +214,7 @@ type
     spiDeepSeek: TSpTBXItem;
     spiGrok: TSpTBXItem;
     actEditRedo: TSynEditRedo;
+    actFormatCode: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -309,6 +310,7 @@ type
     procedure actUnfoldFunctionsExecute(Sender: TObject);
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
+    procedure actFormatCodeExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
     procedure HighlightCheckedImg(Sender: TObject; ACanvas: TCanvas; State:
         TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage; var AImageList:
@@ -1661,6 +1663,7 @@ begin
 
   SelAvail := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ActiveSynEdit.SelAvail;
   // Source Code Actions
+  actFormatCode.Enabled := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
   actEditIndent.Enabled := SelAvail;
   actEditDedent.Enabled := SelAvail;
   actEditTabify.Enabled := SelAvail;
@@ -2073,6 +2076,13 @@ begin
     else
       StyledMessageDlg(_(SCurrentVersionUptodate), mtInformation, [mbOK], 0);
   GI_PyIDEServices.AppStorage.WriteDateTime('Date checked for updates', Now);
+end;
+
+procedure TCommandsDataModule.actFormatCodeExecute(Sender: TObject);
+begin
+  var Editor := GI_ActiveEditor;
+  if Assigned(Editor) then
+    TPyLspClient.FormatCode(Editor.FileId, Editor.ActiveSynEdit);
 end;
 
 procedure TCommandsDataModule.actToolsRestartLSExecute(Sender: TObject);

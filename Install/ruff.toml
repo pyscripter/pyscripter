@@ -1,0 +1,118 @@
+# Ruff configuration file with all available options as of Ruff v0.6.9
+# See https://docs.astral.sh/ruff/settings/ for full documentation
+
+# Core settings for file discovery and general behavior
+extend = ""  # Path to another config file to inherit settings from (relative to this file)
+src = []  # List of directories to search for Python files (default: current directory)
+include = ["*.py", "*.pyi", "*.ipynb"]  # File patterns to include (default: Python and Jupyter files)
+extend-include = []  # Additional file patterns to include
+exclude = [
+    ".bzr", ".direnv", ".eggs", ".git", ".git-rewrite", ".hg",
+    ".ipynb_checkpoints", ".mypy_cache", ".nox", ".pants.d", ".pyenv",
+    ".pytest_cache", ".pytype", ".ruff_cache", ".svn", ".tox", ".venv",
+    ".vscode", "__pypackages__", "_build", "buck-out", "build", "dist",
+    "node_modules", "site-packages", "venv"
+]  # Directories to exclude from linting/formatting
+extend-exclude = []  # Additional directories/files to exclude
+force-exclude = false  # Enforce exclusions even for paths passed via CLI
+respect-gitignore = true  # Respect .gitignore files for exclusions
+line-length = 88  # Maximum line length (default: 88, same as Black)
+indent-width = 4  # Number of spaces per indentation level (default: 4)
+output-format = "full"  # Violation message format: "full", "concise", "grouped", "json", "junit", "github", "gitlab", "pylint", "azure"
+preview = false  # Enable preview mode for unstable features
+namespace-packages = []  # Directories to treat as namespace packages (adds implicit __init__.py)
+required-version = ">=0.6.9"  # Minimum Ruff version required
+task-tags = ["TODO", "FIXME", "XXX"]  # Tags to recognize for task-related linting
+per-file-target-version = {}  # Map of file patterns to specific Python versions (e.g., {"tests/*.py" = "py310"})
+
+# Linting-specific settings
+[lint]
+select = ["E4", "E7", "E9", "F"]  # Default rules: subset of pycodestyle (E) and Pyflakes (F)
+extend-select = []  # Additional rules to enable (e.g., ["I", "UP"] for isort, pyupgrade)
+ignore = []  # Rules to ignore (e.g., ["E501"] for line length)
+extend-ignore = []  # Additional rules to ignore
+fixable = ["ALL"]  # Rules to autofix when --fix is used
+unfixable = []  # Rules to never autofix
+
+[lint.isort]
+case-sensitive = false  # Case-sensitive import sorting
+combine-as-imports = false  # Combine 'as' imports
+default-section = "third-party"  # Default section for unknown imports
+force-single-line = false  # Force single-line imports
+force-sort-within-sections = false  # Sort imports within sections
+force-wrap-aliases = false  # Force alias imports to wrap
+known-first-party = []  # Modules to treat as first-party
+known-third-party = []  # Modules to treat as third-party
+lines-after-imports = -1  # Number of blank lines after imports (-1 = auto)
+lines-between-types = 0  # Lines between import types
+no-lines-before = []  # Sections with no blank lines before
+order-by-type = true  # Order imports by type
+required-imports = []  # Imports that must always be present
+split-on-trailing-comma = true  # Split imports on trailing comma
+forced-separate = []  # Modules to keep in separate sections
+
+# Plugin-specific linting settings
+[lint.pycodestyle]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"  # Regex for allowed dummy variable names
+max-complexity = 10  # Maximum McCabe complexity for functions (default: unset)
+allowed-confused-variables = []  # Variables that can have ambiguous names (e.g., ["l", "O"])
+explicit-preview-rules = false  # Explicitly enable preview rules (requires preview = true)
+max-line-length = 88  # Override line length for pycodestyle rules
+max-doc-length = 0  # Maximum docstring length (0 = disabled)
+
+[lint.pyflakes]
+extend-generics = []  # Additional generic types to recognize
+
+# Removed [lint.flake8-annotations] section as it is not valid under the schema
+[lint.flake8-bandit]
+check-typed-exception = false  # Check for typed exceptions
+
+[lint.flake8-bugbear]
+extend-immutable-calls = []  # Additional immutable calls for B006
+
+[lint.flake8-builtins]
+builtins-ignorelist = []  # Builtins to ignore for shadowing checks
+
+[lint.flake8-comprehensions]
+allow-dict-calls-with-keyword-arguments = false  # Allow dict() calls with kwargs
+
+[lint.flake8-tidy-imports]
+banned-api = {}  # Map of banned APIs (e.g., {"typing.List" = {msg = "Use list instead"}})
+ban-relative-imports = "none"  # Ban relative imports: "none", "parents", "all"
+
+[lint.flake8-type-checking]
+exempt-modules = []  # Modules exempt from type-checking rules
+quote-annotations = false  # Quote type annotations
+runtime-evaluated-base-classes = []  # Base classes evaluated at runtime
+runtime-evaluated-decorators = []  # Decorators evaluated at runtime
+strict = false  # Strict type checking
+
+[lint.pydocstyle]
+convention = "pep257"  # Docstring convention: "pep257", "google", "numpy", or null
+property-decorators = []  # Decorators to treat as property decorators
+
+[lint.pylint]
+allow-dunder-method-names = []  # Dunder methods to allow
+allow-magic-value-types = []  # Magic value types to allow
+max-args = 5  # Maximum function arguments
+max-branches = 12  # Maximum branches in a function
+max-nested-blocks = 5  # Maximum nested blocks
+max-public-methods = 20  # Maximum public methods in a class
+max-returns = 6  # Maximum return statements
+max-statements = 50  # Maximum statements in a function
+
+[lint.mccabe]
+max-complexity = 10  # Override max-complexity for McCabe
+
+# Formatting-specific settings
+[format]
+quote_style = "double"  # String quote style: "double" or "single"
+indent_style = "space"  # Indent style: "space" or "tab"
+line_ending = "auto"  # Line ending: "auto", "lf", "crlf", "cr"
+
+# Language server-specific settings (for editors like VS Code)
+
+# Example per-file ignores
+[per-file-ignores]
+"__init__.py" = ["E402"]  # Ignore import order in __init__.py
+"tests/*.py" = ["S101"]  # Ignore assert usage in tests

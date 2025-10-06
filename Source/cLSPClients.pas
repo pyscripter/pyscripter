@@ -33,34 +33,40 @@ type
   TPyLspClient = class
   private
     FLspClient: TLSPClient;
-    procedure PythonVersionChanged(const Sender: TObject;
+    class var FProjectPythonPath: TArray<string>;
+    class procedure PythonVersionChanged(const Sender: TObject;
+      const Msg: System.Messaging.TMessage);
+    class procedure ProjectPythonPathChanged(const Sender: TObject;
       const Msg: System.Messaging.TMessage);
   protected
-    FProjectPythonPath: TArray<string>;
+    procedure ClientCapabilities(Capabilities: TLSPClientCapabilities);
+    procedure CreateServer; virtual;
     function GetCommandLine: string; virtual; abstract;
-    procedure HandleProjectPythonPathChange(const Sender: TObject;
-      const Msg: System.Messaging.TMessage);
+    function LogFileName: string; virtual; abstract;
+    // Client event handlers
+    procedure OnExit(Sender: TObject; exitCode: Integer;
+      const bRestartServer: Boolean);
     procedure OnInitialize(Sender: TObject;
       var value: TLSPInitializeParams); virtual; abstract;
     procedure OnInitialized(Sender: TObject; var value: TLSPInitializeResult);
-    procedure OnServerConnected(Sender: TObject);
-    procedure OnExit(Sender: TObject; exitCode: Integer;
-      const bRestartServer: Boolean);
-    procedure CompletionHandler(AJson: TJsonObject);
-    procedure SignatureHelpHandler(AJson: TJsonObject);
     procedure OnResponseError(Sender: TObject; const id, errorCode: Integer;
       const errorMsg: string; retriggerRequest: Boolean = False);
+    procedure OnServerConnected(Sender: TObject);
+    procedure OnShowMessage(Sender: TObject; const ntype: TLSPMessageType;
+      const msg: string);
+    // Completion handlers
+    procedure CompletionHandler(AJson: TJsonObject);
+    procedure SignatureHelpHandler(AJson: TJsonObject);
   public
     // class vars and methods
     class var LspClients: TObjectList<TPyLspClient>;
     class var MainLspClient: TPyLspClient;
+    class var DiagnosticsLspClient: TPyLspClient;
     class var SyncRequestTimeout: Integer;
     class constructor Create;
     class destructor Destroy;
 
-    constructor Create;
     destructor Destroy; override;
-    procedure CreateServer; virtual;
     procedure CreateAndRunServer;
     function Ready: Boolean;
     property CommandLine: string read GetCommandLine;
@@ -68,25 +74,27 @@ type
 
     // lsp Functionality
     /// <summary>Find the definition of the symbol at a given position</summary>
-    procedure FindDefinitionByCoordinates(const FileId: string;
+    class procedure FindDefinitionByCoordinates(const FileId: string;
       const BC: TBufferCoord; out DefFileName: string; out DefBC: TBufferCoord);
     /// <summary>Find references of the symbol at a given position</summary>
-    function FindReferencesByCoordinates(FileId: string;
+    class function FindReferencesByCoordinates(FileId: string;
       const BC: TBufferCoord): TArray<TDocPosition>;
+    /// <summary>Format selected code or the whole document</summary>
+    class procedure FormatCode(FileId: string; SynEdit: TCustomSynEdit);
     /// <summary>Requests completion assynchrously</summary>
     function HandleCodeCompletion(const FileId: string;
       const BC: TBufferCoord; out InsertText, DisplayText: string): Boolean;
     /// <summary>Get the documentation of a completion item</summary>
     function ResolveCompletionItem(CCItem: string): string;
     /// <summary>Get the document symbols synchronously</summary>
-    function DocumentSymbols(const FileId: string): TLSPDocumentSymbols;
+    class function DocumentSymbols(const FileId: string): TLSPDocumentSymbols;
     /// <summary>Get a simple hint synchronously</summary>
     procedure SignatureHelp(const AFileId: string; Editor: TCustomSynEdit);
     /// <summary>Get a code hint for an editor identifier</summary>
-    function SimpleHintAtCoordinates(const FileId: string;
+    class function SimpleHintAtCoordinates(const FileId: string;
       const BC: TBufferCoord): string;
     /// <summary>Like SimpleHintAtCoordinates but includes definition info</summary>
-    function CodeHintAtCoordinates(const FileId: string;
+    class function CodeHintAtCoordinates(const FileId: string;
       const BC: TBufferCoord; const Ident: string): string;
   end;
 
@@ -98,11 +106,20 @@ type
   TJediClient = class(TPyLspClient)
   protected
     function GetCommandLine: string; override;
+    function LogFileName: string; override;
     procedure OnInitialize(Sender: TObject;
       var Params: TLSPInitializeParams); override;
   end;
 
 {$ENDREGION 'TJediClient'}
+
+TRuffLspClient = class(TPyLspClient)
+  protected
+    function GetCommandLine: string; override;
+    function LogFileName: string; override;
+    procedure OnInitialize(Sender: TObject;
+      var Params: TLSPInitializeParams); override;
+end;
 
 // Notifications
   TLspServerInitializedMessage = class(System.Messaging.TMessage);
@@ -116,6 +133,11 @@ procedure BufferCoordinatesFromLspRange(const Range: TLSPRange;
   out BB, BE: TBufferCoord);
 function FileIdToURI(const FilePath: string): string;
 function FileIdFromURI(const URI: string): string;
+procedure ApplyTextEdit(SynEdit: TCustomSynedit;
+  TextEdit: TLSPAnnotatedTextEdit);
+procedure ApplyTextEdits(SynEdit: TCustomSynedit;
+  TextEdits: TArray<TLSPAnnotatedTextEdit>);
+
 
 {$ENDREGION 'Utility functions'}
 
@@ -140,8 +162,6 @@ uses
   cSSHSupport;
 
 {$REGION 'Utility functions'}
-
-{ TDocPosition }
 
 function LspPosition(const BC: TBufferCoord): TLSPPosition;
 begin
@@ -207,21 +227,61 @@ begin
     Result := URIToFilePath(URI);
 end;
 
+procedure ApplyTextEdit(SynEdit: TCustomSynedit;
+  TextEdit: TLSPAnnotatedTextEdit);
+var
+  BB, BE: TBufferCoord;
+begin
+  BB := BufferCoordFromLspPosition(TextEdit.range.start);
+  BE := BufferCoordFromLspPosition(TextEdit.range.&end);
+  SynEdit.SetSelectionText(TextEdit.newText, BB, BE)
+end;
+
+procedure ApplyTextEdits(SynEdit: TCustomSynedit;
+  TextEdits: TArray<TLSPAnnotatedTextEdit>);
+begin
+  SynEdit.Lines.BeginUpdate;
+  SynEdit.BeginUndoBlock;
+  try
+    for var TextEdit in TextEdits do
+      ApplyTextEdit(SynEdit, TextEdit);
+
+  finally
+    SynEdit.EndUndoBlock;
+    SynEdit.Lines.EndUpdate;
+  end;
+
+end;
+
 {$ENDREGION 'Utility functions'}
 
 
 {$REGION 'TPyLspClient'}
 
-function TPyLspClient.CodeHintAtCoordinates(const FileId: string;
-  const BC: TBufferCoord; const Ident: string): string;
+procedure TPyLspClient.ClientCapabilities(Capabilities: TLSPClientCapabilities);
+begin
+  Capabilities.AddWorkspaceCapabilities(False, True, False);
+  Capabilities.AddSynchronizationSupport(True, False, False, False);
+  Capabilities.AddDocumentSymbolSupport(True, False, False);
+  Capabilities.AddCompletionSupport(False, False, False, True, False,
+    False, False, False, False);
+  Capabilities.AddDefinitionSupport(False);
+  Capabilities.AddReferencesSupport(False);
+  Capabilities.AddHoverSupport(False, True, True);
+  Capabilities.AddDiagnosticSupport(False, False);
+  Capabilities.AddPublishDiagnosticsSupport(False, True, True, False);
+  Capabilities.AddFormattingSupport(False);
+  Capabilities.AddRangeFormattingSupport(False);
+end;
+
+class function TPyLspClient.CodeHintAtCoordinates(const FileId: string; const
+    BC: TBufferCoord; const Ident: string): string;
 var
   DefFileName: string;
   DefBC: TBufferCoord;
   ModuleName: string;
   DefinedIn: string;
 begin
-  if not (Ready and FLspClient.IsRequestSupported(lspHover)) then Exit;
-
   Result := SimpleHintAtCoordinates(FileId, BC);
 
   if Result = '' then Exit;
@@ -247,23 +307,20 @@ begin
   end;
 end;
 
-constructor TPyLspClient.Create;
-begin
-  inherited Create;
-
-  // Notifications
-  TMessageManager.DefaultManager.SubscribeToMessage(TPythonVersionChangeMessage,
-    PythonVersionChanged);
-  TMessageManager.DefaultManager.SubscribeToMessage(TProjectPythonPathChangeMessage,
-    HandleProjectPythonPathChange);
-end;
-
 class constructor TPyLspClient.Create;
 begin
   SyncRequestTimeout := 4000; // ms
   LspClients := TObjectList<TpyLspClient>.Create(True);
   MainLspClient := TJediClient.Create;
   LspClients.Add(MainLspClient);
+  DiagnosticsLspClient := TRuffLspClient.Create;
+  LspClients.Add(DiagnosticsLspClient);
+
+  // Notifications
+  TMessageManager.DefaultManager.SubscribeToMessage(TPythonVersionChangeMessage,
+    PythonVersionChanged);
+  TMessageManager.DefaultManager.SubscribeToMessage(TProjectPythonPathChangeMessage,
+    ProjectPythonPathChanged);
 end;
 
 procedure TPyLspClient.CreateAndRunServer;
@@ -290,15 +347,19 @@ begin
   FLspClient.OnInitialized := OnInitialized;
   FLspClient.OnError := OnResponseError;
   FLspClient.OnServerConnected := OnServerConnected;
+  FLspClient.OnShowMessage := OnShowMessage;
+
+  if PyIDEOptions.LspDebug then
+  begin
+    FLSPClient.LogItems :=
+      [liServerRPCMessages, liClientRPCMessages, liServerMessages];
+    FLspClient.LogFileName :=
+      TPath.Combine(TPyScripterSettings.UserDataPath, 'Lsp', LogFileName);
+  end;
 end;
 
 destructor TPyLspClient.Destroy;
 begin
-  TMessageManager.DefaultManager.Unsubscribe(TPythonVersionChangeMessage,
-    PythonVersionChanged);
-  TMessageManager.DefaultManager.Unsubscribe(TProjectPythonPathChangeMessage,
-    HandleProjectPythonPathChange);
-
   TMessageManager.DefaultManager.SendMessage(Self,
     TLspServerShutDownMessage.Create);
   FLspClient.Free;
@@ -307,22 +368,31 @@ end;
 
 class destructor TPyLspClient.Destroy;
 begin
+  TMessageManager.DefaultManager.Unsubscribe(TPythonVersionChangeMessage,
+    PythonVersionChanged);
+  TMessageManager.DefaultManager.Unsubscribe(TProjectPythonPathChangeMessage,
+    ProjectPythonPathChanged);
+
   FreeAndNil(LspClients);
 end;
 
-function TPyLspClient.DocumentSymbols(const FileId: string):
+class function TPyLspClient.DocumentSymbols(const FileId: string):
     TLSPDocumentSymbols;
 var
   Symbols: TLSPDocumentSymbols;
 begin
-  if not (Ready and FLspClient.IsRequestSupported(lspDocumentSymbol)) then Exit;
+  var Client := MainLspClient;
+  if not Assigned(Client) or not (Client.Ready and
+    Client.LspClient.IsRequestSupported(lspDocumentSymbol))
+  then
+    Exit;
 
   Symbols := [];
 
   var Params := TSmartPtr.Make(TLSPDocumentSymbolParams.Create)();
   Params.textDocument.uri := FileIdToURI(FileId);
 
-  FLspClient.SendSyncRequest(lspDocumentSymbol, Params,
+  Client.LspClient.SendSyncRequest(lspDocumentSymbol, Params,
     procedure(AJson: TJsonObject)
     begin
       if ResponseError(AJson) then Exit;
@@ -336,20 +406,24 @@ begin
   Result := Symbols;
 end;
 
-procedure TPyLspClient.FindDefinitionByCoordinates(const FileId: string;
-  const BC: TBufferCoord; out DefFileName: string; out DefBC: TBufferCoord);
+class procedure TPyLspClient.FindDefinitionByCoordinates(const FileId: string;
+    const BC: TBufferCoord; out DefFileName: string; out DefBC: TBufferCoord);
 var
   FName: string;
   ResBC: TBufferCoord;
 begin
-  if not (Ready and FLspClient.IsRequestSupported(lspGotoDefinition)) then Exit;
+  var Client := MainLspClient;
+  if not Assigned(Client) or not (Client.Ready and
+    Client.LspClient.IsRequestSupported(lspGotoDefinition))
+  then
+    Exit;
 
   ResBC := TBufferCoord.Invalid;
   var Params := TSmartPtr.Make(TLSPDefinitionParams.Create)();
   Params.textDocument.uri := FileIdToURI(FileId);
   Params.position := LspPosition(BC);
 
-  FLspClient.SendSyncRequest(lspGotoDefinition, Params,
+  Client.LspClient.SendSyncRequest(lspGotoDefinition, Params,
     procedure(AJson: TJsonObject)
     var
       Loc: TLSPLocation;
@@ -373,12 +447,16 @@ begin
   DefBC := ResBC;
 end;
 
-function TPyLspClient.FindReferencesByCoordinates(FileId: string;
-  const BC: TBufferCoord): TArray<TDocPosition>;
+class function TPyLspClient.FindReferencesByCoordinates(FileId: string; const
+    BC: TBufferCoord): TArray<TDocPosition>;
 var
   Locations: TArray<TLSPLocation>;
 begin
-  if not (Ready and FLspClient.IsRequestSupported(lspReferences)) then Exit;
+  var Client := MainLspClient;
+  if not Assigned(Client) or not (Client.Ready and
+    Client.LspClient.IsRequestSupported(lspReferences))
+  then
+    Exit;
 
   var Params := TSmartPtr.Make(TLSPReferencesParams.Create)();
   Params.textDocument.uri := FileIdToURI(FileId);
@@ -386,7 +464,7 @@ begin
   Params.context.includeDeclaration := True;
 
   Locations := [];
-  FLspClient.SendSyncRequest(lspReferences, Params,
+  Client.LspClient.SendSyncRequest(lspReferences, Params,
     procedure(AJson: TJsonObject)
     begin
       if ResponseError(AJson) then Exit;
@@ -408,6 +486,56 @@ begin
   end;
 end;
 
+class procedure TPyLspClient.FormatCode(FileId: string;
+  SynEdit: TCustomSynEdit);
+var
+  LspKind: TLSPKind;
+  Params: TLSPDocumentFormattingParams;
+  edits: TArray<TLSPAnnotatedTextEdit>;
+begin
+  var Client := DiagnosticsLspClient;
+  if not Assigned(Client) and Client.Ready then Exit;
+
+  var BB := SynEdit.BlockBegin;
+  var BE := SynEdit.BlockEnd;
+  if (BB = BE) then
+  begin
+    // Format whole document
+    if not Client.FLspClient.IsRequestSupported(lspDocumentFormatting) then
+      Exit;
+    LSPKind := lspDocumentFormatting;
+    Params := TSmartPtr.Make(TLSPDocumentFormattingParams.Create)();
+  end
+  else
+  begin
+    // Format the document range
+    if not Client.FLspClient.IsRequestSupported(lspDocumentRangeFormatting) then
+      Exit;
+    LSPKind := lspDocumentRangeFormatting;
+    Params := TSmartPtr.Make(TLSPDocumentRangeFormattingParams.Create)();
+    TLSPDocumentRangeFormattingParams(Params).range := LspRange(BB, BE);
+  end;
+  Params.textDocument.uri := FileIdToURI(FileId);
+  Params.options.tabSize := SynEdit.TabWidth;
+  Params.options.insertSpaces := True;
+  Params.options.trimTrailingWhitespace := True;
+  Params.options.insertFinalNewline := True;
+  Params.options.trimFinalNewlines := True;
+
+  Client.LspClient.SendSyncRequest(LspKind, Params,
+    procedure(AJson: TJSONObject)
+    begin
+      if ResponseError(AJson) then Exit;
+      var JsonResult := AJson.Values['result'];
+      if JsonResult.Null then Exit;
+      var Results :=
+        TSmartPtr.Make(JsonDocumentFormattingResultToObject(JsonResult))();
+      edits := Results.edits;
+    end,
+    SyncRequestTimeout);
+    ApplyTextEdits(SynEdit, edits);
+end;
+
 function TPyLspClient.HandleCodeCompletion(const FileId: string;
   const BC: TBufferCoord; out InsertText, DisplayText: string): Boolean;
 begin
@@ -426,44 +554,15 @@ begin
   Result := True;
 end;
 
-procedure TPyLspClient.HandleProjectPythonPathChange(const Sender: TObject;
-  const Msg: System.Messaging.TMessage);
-begin
-  var NewPath := TProjectPythonPathChangeMessage(Msg).Value;
-
-  if Ready and
-    FLspClient.IsRequestSupported(lspDidChangeWorkspaceFolders) then
-  begin
-    var Params := TSmartPtr.Make(TLSPDidChangeWorkspaceFoldersParams.Create)();
-    Params.event := Default(TLSPWorkspaceFoldersChangeEvent);
-    var Comparer: IComparer<string> := TIStringComparer.Ordinal;
-
-    // Remove old entries
-    for var Item in FProjectPythonPath do
-      if not TArray.Contains<string>(NewPath, Item, Comparer) then
-      begin
-        var Folder := Default(TLSPWorkspaceFolder);
-        Folder.uri := FilePathToURI(Item);
-        Folder.name := TPath.GetFileNameWithoutExtension(Item);
-        Params.event.removed := Params.event.removed + [Folder];
-      end;
-    for var Item in NewPath do
-      if not TArray.Contains<string>(FProjectPythonPath, Item, Comparer) then
-      begin
-        var Folder := Default(TLSPWorkspaceFolder);
-        Folder.uri := FilePathToURI(Item);
-        Folder.name := TPath.GetFileNameWithoutExtension(Item);
-        Params.event.added := Params.event.added + [Folder];
-      end;
-    if (Length(Params.event.removed) > 0) or (Length(Params.event.added) > 0) then
-      FLspClient.SendNotification(lspDidChangeWorkspaceFolders, Params);
-  end;
-  FProjectPythonPath := NewPath;
-end;
-
 procedure TPyLspClient.OnServerConnected(Sender: TObject);
 begin
  FLspClient.SendRequest(lspInitialize);
+end;
+
+procedure TPyLspClient.OnShowMessage(Sender: TObject;
+  const ntype: TLSPMessageType; const msg: string);
+begin
+  GI_PyIDEServices.WriteStatusMsg(Format('LSP %s: %s', [ntype.ToString, msg]));
 end;
 
 procedure TPyLspClient.CompletionHandler(AJson: TJsonObject);
@@ -570,7 +669,7 @@ begin
   var SignatureInfo := TIDECompletion.SignatureHelpInfo;
   SignatureInfo.Lock;
   try
-    var Id := AJson.GetValue<Integer>('id', -1);
+    var Id := AJson.GetValue<Integer>('id', 0);
     // Check we deal with the most recent signature help request
     if Id <> SignatureInfo.RequestId then Exit;
 
@@ -626,12 +725,53 @@ procedure TPyLspClient.OnResponseError(Sender: TObject; const id,
 begin
   if Id = TIDECompletion.CompletionInfo.Id then
     TIDECompletion.CompletionInfo.CleanUp;
+
+  if Ready then
+     FLspClient.SaveToLogFile('Response Error: ' + SLineBreak + errorMsg);
 end;
 
-procedure TPyLspClient.PythonVersionChanged(const Sender: TObject;
-  const Msg: System.Messaging.TMessage);
+class procedure TPyLspClient.ProjectPythonPathChanged(const Sender:
+    TObject; const Msg: System.Messaging.TMessage);
 begin
-  CreateAndRunServer;
+  var NewPath := TProjectPythonPathChangeMessage(Msg).Value;
+
+  var Params := TSmartPtr.Make(TLSPDidChangeWorkspaceFoldersParams.Create)();
+  Params.event := Default(TLSPWorkspaceFoldersChangeEvent);
+  var Comparer: IComparer<string> := TIStringComparer.Ordinal;
+
+  // Remove old entries
+  for var Item in FProjectPythonPath do
+    if not TArray.Contains<string>(NewPath, Item, Comparer) then
+    begin
+      var Folder := Default(TLSPWorkspaceFolder);
+      Folder.uri := FilePathToURI(Item);
+      Folder.name := TPath.GetFileNameWithoutExtension(Item);
+      Params.event.removed := Params.event.removed + [Folder];
+    end;
+  for var Item in NewPath do
+    if not TArray.Contains<string>(FProjectPythonPath, Item, Comparer) then
+    begin
+      var Folder := Default(TLSPWorkspaceFolder);
+      Folder.uri := FilePathToURI(Item);
+      Folder.name := TPath.GetFileNameWithoutExtension(Item);
+      Params.event.added := Params.event.added + [Folder];
+    end;
+
+  FProjectPythonPath := NewPath;
+
+  if (Length(Params.event.removed) > 0) or (Length(Params.event.added) > 0) then
+    for var Client in LspClients do
+      if Client.Ready and
+        Client.FLspClient.IsRequestSupported(lspDidChangeWorkspaceFolders)
+      then
+        Client.FLspClient.SendNotification(lspDidChangeWorkspaceFolders, Params);
+end;
+
+class procedure TPyLspClient.PythonVersionChanged(const Sender: TObject; const
+    Msg: System.Messaging.TMessage);
+begin
+  for var Client in LSPClients do
+    Client.CreateAndRunServer;
 end;
 
 function TPyLspClient.Ready: Boolean;
@@ -700,18 +840,22 @@ begin
   Result := Str;
 end;
 
-function TPyLspClient.SimpleHintAtCoordinates(const FileId: string;
-  const BC: TBufferCoord): string;
+class function TPyLspClient.SimpleHintAtCoordinates(const FileId: string; const
+    BC: TBufferCoord): string;
 var
   Str: string;
 begin
-  if not (Ready and FLspClient.IsRequestSupported(lspHover)) then Exit('');
+  var Client := MainLspClient;
+  if not Assigned(Client) or not (Client.Ready and
+    Client.LspClient.IsRequestSupported(lspHover))
+  then
+    Exit;
 
   var Params := TSmartPtr.Make(TLSPHoverParams.Create)();
   Params.textDocument.uri := FileIdToURI(FileId);
   Params.position := LspPosition(BC);
 
-  FLspClient.SendSyncRequest(lspHover, Params,
+  Client.LspClient.SendSyncRequest(lspHover, Params,
     procedure(AJson: TJsonObject)
     begin
       if ResponseError(AJson) then Exit;
@@ -745,18 +889,16 @@ begin
 
   Result := Format('"%s" -u "%s"',
     [GI_PyControl.PythonVersion.PythonExecutable, ServerPath]);
-  if PyIDEOptions.LspDebug then
-  begin
-    Result := Format('%s -v --log-file "%s"', [Result,
-      TPath.Combine(TPyScripterSettings.UserDataPath, LspDebugFile)]);
-  end;
+end;
+
+function TJediClient.LogFileName: string;
+begin
+  Result := 'JediLsp.log';
 end;
 
 procedure TJediClient.OnInitialize(Sender: TObject;
   var Params: TLSPInitializeParams);
 const
-   // extrapath
-
    InitializationOptionsLsp =
     '{'#13#10 +
     '    "diagnostics": {'#13#10 +
@@ -796,23 +938,18 @@ const
     for var I := Low(Paths) to High(Paths) do
       Paths[I] := '"' + Paths[I] + '"';
     Result := string.Join(',', Paths);
-    Result := Result.Replace('\', '/  ', [rfReplaceAll]);
+    Result := Result.Replace('\', '/', [rfReplaceAll]);
   end;
 
 begin
-  Params.capabilities.AddSynchronizationSupport(True, False, False, False);
-  Params.capabilities.AddDocumentSymbolSupport(True, False, False);
-  Params.capabilities.AddCompletionSupport(False, False, False, True, False,
-    False, False, False, False);
-  Params.capabilities.AddDefinitionSupport(False);
-  Params.capabilities.AddReferencesSupport(False);
-  Params.capabilities.AddHoverSupport(False, True, True);
-  Params.capabilities.AddPublishDiagnosticsSupport(False, True, True, False);
+  ClientCapabilities(Params.capabilities);
   if Length(FProjectPythonPath) > 0 then
   begin
     Params.AddWorkspaceFolders(FProjectPythonPath);
     Params.AddRoot(FProjectPythonPath[0]);
   end;
+  if PyIDEOptions.LspDebug then
+    Params.trace := 'verbose';
   Params.initializationOptions :=
     Format(InitializationOptionsLsp,
     [BoolToStr(PyIDEOptions.CheckSyntaxAsYouType, True).ToLower,
@@ -823,5 +960,46 @@ end;
 
 {$ENDREGION 'TJediClient'}
 
+
+{$REGION 'TRuffLspClient'}
+
+function TRuffLspClient.GetCommandLine: string;
+begin
+  var ServerPath :=
+    TPath.Combine(TPyScripterSettings.LspServerPath, 'Ruff', 'ruff.exe');
+  if not FileExists(ServerPath) then Abort;
+
+  var ConfigFile := TPath.Combine(TPyScripterSettings.UserDataPath,
+                                  'Lsp', 'ruff.toml');
+  var PyVersion := GI_PyControl.PythonVersion.SysVersion;
+  PyVersion := PyVersion.Replace('.', '');
+
+  var CacheDir := TPath.Combine(TPyScripterSettings.UserDataPath, 'Lsp', 'cache');
+  CacheDir := CacheDir.Replace('\', '/', [rfReplaceAll]);
+
+  Result := Format(
+    '"%s" server' +
+    ' --config "%s"' +
+    ' --config "target-version=\"py%s\""' +
+    ' --config "cache-dir=\"%s\""',
+    [ServerPath, ConfigFile, PyVersion, CacheDir]);
+end;
+
+function TRuffLspClient.LogFileName: string;
+begin
+  Result := 'RuffLsp.log';
+end;
+
+procedure TRuffLspClient.OnInitialize(Sender: TObject;
+  var Params: TLSPInitializeParams);
+begin
+  ClientCapabilities(Params.capabilities);
+  if Length(FProjectPythonPath) > 0 then
+    Params.AddWorkspaceFolders(FProjectPythonPath);
+  if PyIDEOptions.LspDebug then
+    Params.trace := 'verbose';
+end;
+
+{$ENDREGION 'TRuffLspClient'}
 
 end.

@@ -701,6 +701,7 @@ procedure TProjectAutoUpdateFolderNode.FolderChange(Sender: TObject;
   const Path: string; ChangeType: TFileChangeType);
 begin
   ImportFiles(FPath, FMasks, FRecursive);
+  Modified := False;
   if Assigned(OnFolderChange) then
     OnFolderChange(FPath);
 end;
