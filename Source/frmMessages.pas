@@ -101,7 +101,6 @@ uses
   System.SysUtils,
   Vcl.Clipbrd,
   dmResources,
-  frmPyIDEMain,
   uCommonFunctions,
   JvGnugettext,
   StringResources;
@@ -217,7 +216,7 @@ end;
 
 procedure TMessagesWindow.ShowWindow;
 begin
-  PyIDEMainForm.ShowIDEDockForm(Self);
+  GI_PyIDEServices.ShowIDEDockForm(Self, False);
 end;
 
 procedure TMessagesWindow.StoreTopNodeIndex;

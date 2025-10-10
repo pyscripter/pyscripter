@@ -656,13 +656,9 @@ end;
 procedure TPyLspClient.OnInitialized(Sender: TObject;
   var value: TLSPInitializeResult);
 begin
-  TThread.ForceQueue(nil, procedure
-  begin
-    TMessageManager.DefaultManager.SendMessage(Self,
-      TLspServerInitializedMessage.Create);
-  end);
+  TMessageManager.DefaultManager.SendMessage(Self,
+    TLspServerInitializedMessage.Create);
 end;
-
 
 procedure TPyLspClient.SignatureHelpHandler(AJson: TJsonObject);
 begin

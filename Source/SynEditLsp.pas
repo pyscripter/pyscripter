@@ -22,6 +22,8 @@ type
 
   TLspSynEditPlugin = class;
 
+  TOnDiagnosticsUpdate = procedure (Invoked: Boolean) of object;
+
   TDocSymbols = class
     {Asynchronous symbol support for Code Explorer}
   private
@@ -60,7 +62,7 @@ type
     FNeedToRefreshSymbols: Boolean;
     FDocSymbols: TDocSymbols;
     FLastDeletedLiine: string;
-    FOnDiagnosticsUpdate: TNotifyEvent;
+    FOnDiagnosticsUpdate: TOnDiagnosticsUpdate;
     class var FDocSymbolsLock: TRTLCriticalSection;
     class var Instances: TThreadList<TLspSynEditPlugin>;
   protected
@@ -78,9 +80,9 @@ type
     procedure FileSaved;
     procedure FileSavedAs(const FileId: string; LangId: TLangId);
     // Document Diagnostics
-    procedure ApplyNewDiagnostics;
-    procedure ClearDiagnostics(NeedRefresh: Boolean = True);
-    procedure PullDiagnostics;
+    procedure ApplyNewDiagnostics(Invoked: Boolean = False);
+    procedure ClearDiagnostics(Invoked: Boolean = False);
+    procedure PullDiagnostics(Invoked: Boolean = False);
     // Document Symbols
     procedure RefreshSymbols;
     // properties
@@ -88,7 +90,7 @@ type
       write FTransmitChanges;
     property Diagnostics: TLSPDiagnostics read FDiagnostics; // Sorted by severity
     property DocSymbols: TDocSymbols read FDocSymbols;
-    property OnDiagnosticsUpdate: TNotifyEvent
+    property OnDiagnosticsUpdate: TOnDiagnosticsUpdate
       read FOnDiagnosticsUpdate write FOnDiagnosticsUpdate;
     // class vars and procedures
     class var DiagnosticsIndicatorIds: TArray<TGUID>;
@@ -101,6 +103,7 @@ type
   TLSPDiagnosticHelper = record helper for TLSPDiagnostic
     function SeverityText: string;
     function Hint: string;
+    function SimpleMessage: string;
   end;
 
   TLSPDiagnosticsHelper = record helper for TLSPDiagnostics
@@ -108,6 +111,8 @@ type
     function HasSyntaxError: Boolean;
     function HasWarnings: Boolean;
     function ToBCArray(MaxSeverity: Integer = 4): TArray<TBufferCoord>;
+    procedure ShowInMessages(const FileId: string);
+    function Summary: string;
   end;
 
 implementation
@@ -217,11 +222,14 @@ begin
     then
       Client.LspClient.SendNotification(lspDidOpenTextDocument, Params);
 
-  FNeedToRefreshDiagnostics := True;
-  if PyIDEOptions.DiagnosticsOnOpen then
-    PullDiagnostics;
-  FNeedToRefreshSymbols := True;
-  RefreshSymbols;
+  if (AClient = nil) or (AClient = TPyLspClient.DiagnosticsLspClient) then
+  begin
+    FNeedToRefreshDiagnostics := True;
+    if PyIDEOptions.DiagnosticsOnOpen then
+      PullDiagnostics;
+  end;
+  if (AClient = nil) or (AClient = TPyLspClient.MainLspClient) then
+    RefreshSymbols;
 end;
 
 procedure TLspSynEditPlugin.FileSaved;
@@ -252,9 +260,15 @@ begin
   FileOpened(FileId, LangId);
 end;
 
-procedure TLspSynEditPlugin.PullDiagnostics;
+procedure TLspSynEditPlugin.PullDiagnostics(Invoked: Boolean = False);
 begin
-  if not FNeedToRefreshDiagnostics then Exit;
+  if not FNeedToRefreshDiagnostics then
+  begin
+    if Invoked then
+      if Assigned(FOnDiagnosticsUpdate) then
+        FOnDiagnosticsUpdate(Invoked);
+    Exit;
+  end;
 
   var Client := TPyLspClient.DiagnosticsLspClient;
   if not (Assigned(Client) and Client.Ready and TransmitChanges and
@@ -287,10 +301,15 @@ begin
             if Result = 0 then
               Result := CompareValue(Left.range.start.character, Right.range.start.character);
           end));
-        TThread.ForceQueue(TThread.CurrentThread, ApplyNewDiagnostics);
       finally
         FNewDiagnostics.UnlockList;
       end;
+
+      TThread.ForceQueue(TThread.CurrentThread,
+        procedure
+        begin
+          ApplyNewDiagnostics(Invoked);
+        end);
     end);
 
   FNeedToRefreshDiagnostics := False;
@@ -495,7 +514,10 @@ begin
   FNeedToRefreshSymbols := False;
 end;
 
-procedure TLspSynEditPlugin.ApplyNewDiagnostics;
+procedure TLspSynEditPlugin.ApplyNewDiagnostics(Invoked: Boolean = False);
+var
+  Diagnostic: TLSPDiagnostic;
+  IndicatorId: TGUID;
 begin
   { Should be called from the main thread }
   Assert(GetCurrentThreadId = MainThreadID, 'TLspSynEditPlugin.ApplyNewDiagnostics');
@@ -504,48 +526,29 @@ begin
   try
     ClearDiagnostics(False);
     FDiagnostics := List.ToArray;
-
-    var Errors := 0;
-    var Warnings := 0;
-    var Hints := 0;
     for var I := 0 to Length(FDiagnostics) - 1 do
     begin
-      var Diagnostic := FDiagnostics[I];
-      var IndicatorId := DiagnosticsHintIndicatorId;
+      Diagnostic := FDiagnostics[I];
+      IndicatorId := DiagnosticsHintIndicatorId;
       case Diagnostic.severity of
-        0, 1:
-          begin
-            Inc(Errors);
-            IndicatorId := DiagnosticsErrorIndicatorId;
-          end;
-        2:
-          begin
-            Inc(Warnings);
-            IndicatorId := DiagnosticsWarningIndicatorId;
-          end;
-      else
-        begin
-          Inc(Hints);
-        end;
+        0, 1:  IndicatorId := DiagnosticsErrorIndicatorId;
+        2:     IndicatorId := DiagnosticsWarningIndicatorId;
       end;
       Editor.Indicators.Add(Diagnostic.range.start.line + 1,
         TSynIndicator.New(IndicatorId,
         Diagnostic.range.start.character + 1,
         Diagnostic.range.&end.character + 1, I));
     end;
-
-    GI_PyIDEServices.WriteStatusMsg(Format(
-      _('File Check: Errors: %d, Warnings: %d, Hints: %d'),
-      [Errors, Warnings, Hints]));
   finally
     FNewDiagnostics.UnlockList;
   end;
   Editor.UpdateScrollBars;
+
   if Assigned(FOnDiagnosticsUpdate) then
-    FOnDiagnosticsUpdate(Self);
+    FOnDiagnosticsUpdate(Invoked);
 end;
 
-procedure TLspSynEditPlugin.ClearDiagnostics(NeedRefresh: Boolean = True);
+procedure TLspSynEditPlugin.ClearDiagnostics(Invoked: Boolean = False);
 begin
   if Length(FDiagnostics) > 0 then
   begin
@@ -555,12 +558,14 @@ begin
     FDiagnostics := [];
     Editor.UpdateScrollBars;
 
-    // Only change FNeedToRefreshDiagnostics if NeedRefresh = True
-    if NeedRefresh then
+    if Invoked then
+    begin
+      // Only change FNeedToRefreshDiagnostics if Invoked = True
       FNeedToRefreshDiagnostics := True;
 
-    if Assigned(FOnDiagnosticsUpdate) then
-      FOnDiagnosticsUpdate(Self);
+      if Assigned(FOnDiagnosticsUpdate) then
+        FOnDiagnosticsUpdate(False);
+    end;
   end;
 end;
 
@@ -621,6 +626,11 @@ end;
 
 { TLSPDiagnosticHelper }
 
+function TLSPDiagnosticHelper.SimpleMessage: string;
+begin
+  Result := Format('%s: %s', [SeverityText, &message]);
+end;
+
 function TLSPDiagnosticHelper.Hint: string;
 begin
   Result := Format('<b>%s</b>: %s', [SeverityText, &message]);
@@ -658,6 +668,42 @@ end;
 function TLSPDiagnosticsHelper.HasWarnings: Boolean;
 begin
   Result := (Length(Self) > 0) and (Self[0].severity <= 2);
+end;
+
+procedure TLSPDiagnosticsHelper.ShowInMessages(const FileId: string);
+begin
+  var Messages := GI_PyIDEServices.Messages;
+  Messages.ClearMessages;
+  if Length(Self) > 0 then
+  begin
+    Messages.AddMessage(Summary);
+    for var Diagnostic in Self do
+      Messages.AddMessage(
+        Diagnostic.SimpleMessage, FileId,
+        Diagnostic.range.start.line + 1,
+        Diagnostic.range.start.character + 1);
+  end
+  else
+    Messages.AddMessage(_('Code Check') + ': ' + _('No issues found'));
+  Messages.ShowWindow;
+end;
+
+function TLSPDiagnosticsHelper.Summary: string;
+begin
+  var Errors := 0;
+  var Warnings := 0;
+  var Hints := 0;
+  for var Diagnostic in Self do
+  begin
+    case Diagnostic.severity of
+      0, 1:Inc(Errors);
+      2: Inc(Warnings);
+    else
+      Inc(Hints);
+    end;
+  end;
+  Result := Format( _('File Check: Errors: %d, Warnings: %d, Hints: %d'),
+                   [Errors, Warnings, Hints])
 end;
 
 function TLSPDiagnosticsHelper.ToBCArray(

@@ -1882,7 +1882,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Reinitiali&ze Python engine'
       HelpContext = 340
       HelpType = htContext
-      ShortCut = 16497
+      ShortCut = 49265
       OnExecute = actPythonReinitializeExecute
     end
     object actPythonInternal: TAction

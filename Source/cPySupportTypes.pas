@@ -176,7 +176,6 @@ type
   TPyInterpreterPropmpt = (pipNormal, pipDebug, pipPostMortem);
   IPyInterpreter = interface
   ['{6BAAD187-B00E-4E2A-B01D-C47EED922E59}']
-    procedure ShowWindow;
     procedure AppendPrompt;
     procedure RemovePrompt;
     procedure AppendText(const Str: string);
@@ -196,6 +195,7 @@ type
     function GetEditor: TCustomSynEdit;
     function GetShowOutput: Boolean;
     procedure SetShowOutput(const Value: Boolean);
+    procedure ShowWindow(Activate: Boolean = True);
     property Editor: TCustomSynEdit read GetEditor;
     property PythonIO: TPythonInputOutput read GetPythonIO;
     property ShowOutput: Boolean read GetShowOutput write SetShowOutput;

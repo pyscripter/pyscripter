@@ -601,8 +601,6 @@ procedure TPyInternalDebugger.Debug(ARunConfig: TRunConfiguration;
 var
   Code: Variant;
   Path, OldPath: string;
-  ReturnFocusToEditor: Boolean;
-  [Weak] Editor: IEditor;
 begin
   InternalInterpreter.CanDoPostMortem := False;
 
@@ -637,15 +635,13 @@ begin
     TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctAdded );
 
     GI_PyIDEServices.Messages.ClearMessages;
-    Editor := GI_ActiveEditor;
-    ReturnFocusToEditor := Assigned(Editor);
     // Set the layout to the Debug layout is it exists
     if GI_PyIDEServices.Layouts.LayoutExists('Debug') then begin
       GI_PyIDEServices.Layouts.SaveLayout('Current');
       GI_PyIDEServices.Layouts.LoadLayout('Debug');
       Application.ProcessMessages;
     end else
-      GI_PyInterpreter.ShowWindow;
+      GI_PyInterpreter.ShowWindow(not Assigned(GI_ActiveEditor));
 
     //try
     GI_PyInterpreter.SetPyInterpreterPrompt(pipDebug);
@@ -693,7 +689,6 @@ begin
           TThread.Synchronize(nil, procedure
           begin
             InternalInterpreter.HandlePyException(GetPythonEngine.Traceback, E.Message, 2);
-            ReturnFocusToEditor := False;
             InternalInterpreter.CanDoPostMortem := True;
             //System.SysUtils.Abort;
           end);
@@ -722,8 +717,6 @@ begin
         GI_PyIDEServices.Layouts.LoadLayout('Current');
 
       GI_PyControl.DebuggerState := dsInactive;
-      if ReturnFocusToEditor and Assigned(Editor) then
-        Editor.Activate;
       if InternalInterpreter.CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         EnterPostMortem;
     end);
@@ -1287,8 +1280,6 @@ var
   TimeCaps: TTimeCaps;
   Path, OldPath: string;
   PythonPathAdder: IInterface;
-  ReturnFocusToEditor: Boolean;
-  [Weak] Editor: IEditor;
 begin
   CanDoPostMortem := False;
 
@@ -1333,9 +1324,7 @@ begin
     // Set the command line parameters
     SetCommandLine(ARunConfig);
 
-    Editor := GI_ActiveEditor;
-    ReturnFocusToEditor := Assigned(Editor);
-    GI_PyInterpreter.ShowWindow;
+    GI_PyInterpreter.ShowWindow(not Assigned(GI_ActiveEditor));
 
     try
       // Set Multimedia Timer
@@ -1359,7 +1348,6 @@ begin
         on E: EPythonError do
         begin
           HandlePyException(Py.PythonEngine.Traceback, E.Message);
-          ReturnFocusToEditor := False;
           CanDoPostMortem := True;
           System.SysUtils.Abort;
         end;
@@ -1381,8 +1369,6 @@ begin
       SetCurrentDir(OldPath);
 
       GI_PyControl.DebuggerState := dsInactive;
-      if ReturnFocusToEditor and Assigned(Editor) then
-        Editor.Activate;
       if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;

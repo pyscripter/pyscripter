@@ -1398,6 +1398,7 @@ type
     function GetLogger: TJclSimpleLog;
     procedure MRUAddEditor(Editor: IEditor);
     procedure RemoveDefunctEditorOptions;
+    procedure ShowIDEDockForm(Form: TForm; Activate: Boolean = True);
   public
     ActiveTabControlIndex: Integer;
     PythonKeywordHelpRequested: Boolean;
@@ -1441,7 +1442,6 @@ type
       Index: Integer = -1);
     function TabControl(TabControlIndex: Integer = 1): TSpTBXCustomTabControl;
     function TabControlIndex(TabControl: TSpTBXCustomTabControl): Integer;
-    procedure ShowIDEDockForm(Form: TForm);
     property ActiveTabControl: TSpTBXCustomTabControl read GetActiveTabControl
       write SetActiveTabControl;
   end;
@@ -1863,13 +1863,20 @@ begin
     Editor.Activate;
 end;
 
-procedure TPyIDEMainForm.ShowIDEDockForm(Form: TForm);
+procedure TPyIDEMainForm.ShowIDEDockForm(Form: TForm; Activate: Boolean = True);
 begin
+  if not Activate then
+    DockServer.AutoFocusDockedForm := False;
   ShowDockForm(Form as TIDEDockWindow);
-  if Assigned(Form.OnActivate) then
-    Form.OnActivate(Self);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
+  if Activate then
+    begin
+    if Assigned(Form.OnActivate) then
+      Form.OnActivate(Self);
+    // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
+    //ResourcesDataModule.DockStyle.ChannelOption.MouseleaveHide := False;
+  end;
   ResourcesDataModule.DockStyle.ChannelOption.MouseleaveHide := False;
+  DockServer.AutoFocusDockedForm := True;
 end;
 
 procedure TPyIDEMainForm.ClearPythonWindows;
@@ -2058,18 +2065,10 @@ begin
 end;
 
 procedure TPyIDEMainForm.actSyntaxCheckExecute(Sender: TObject);
-var
-  ActiveEditor: IEditor;
-  ErrorPos: TEditorPos;
 begin
-  ActiveEditor := GetActiveEditor;
+  var ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
-
-  if TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(ActiveEditor, ErrorPos) then begin
-    GI_PyIDEServices.Messages.AddMessage(Format(_(SSyntaxIsOK), [ActiveEditor.FileTitle]));
-    ShowDockForm(MessagesWindow);
-  end else
-    ShowDockForm(PythonIIForm);
+  (ActiveEditor as TEditor).PullDiagnostics;
 end;
 
 procedure TPyIDEMainForm.actImportModuleExecute(Sender: TObject);

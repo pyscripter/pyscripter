@@ -230,6 +230,7 @@ type
     function GetLocalAppStorage: TJvCustomAppStorage;
     function GetLogger: TJclSimpleLog;
     procedure MRUAddEditor(Editor: IEditor);
+    procedure ShowIDEDockForm(Form: TForm; Activate: Boolean = True);
     property ActiveEditor: IEditor read GetActiveEditor;
     property IsClosing: Boolean read GetIsClosing;
     property Messages: IMessageServices read GetMessageServices;

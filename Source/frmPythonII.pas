@@ -138,7 +138,7 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info: string);
     // Implementation of IPyInterpreter
-    procedure ShowWindow;
+    procedure ShowWindow(Activate: Boolean = True);
     procedure AppendPrompt;
     procedure RemovePrompt;
     procedure AppendText(const Str: string);
@@ -1237,9 +1237,9 @@ begin
   FShowOutput := Value;
 end;
 
-procedure TPythonIIForm.ShowWindow;
+procedure TPythonIIForm.ShowWindow(Activate: Boolean = True);
 begin
-  PyIDEMainForm.ShowIDEDockForm(Self);
+  GI_PyIDEServices.ShowIDEDockForm(Self, Activate);
 end;
 
 procedure TPythonIIForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
