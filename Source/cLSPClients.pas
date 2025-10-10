@@ -269,7 +269,7 @@ begin
   Capabilities.AddReferencesSupport(False);
   Capabilities.AddHoverSupport(False, True, True);
   Capabilities.AddDiagnosticSupport(False, False);
-  Capabilities.AddPublishDiagnosticsSupport(False, True, True, False);
+  //Capabilities.AddPublishDiagnosticsSupport(False, True, True, False);
   Capabilities.AddFormattingSupport(False);
   Capabilities.AddRangeFormattingSupport(False);
 end;
@@ -902,10 +902,10 @@ const
    InitializationOptionsLsp =
     '{'#13#10 +
     '    "diagnostics": {'#13#10 +
-    '      "enable": true,'#13#10 +
-    '      "didOpen": true,'#13#10 +
-    '      "didChange": %s,'#13#10 +
-    '      "didSave": true'#13#10 +
+    '      "enable": false,'#13#10 +
+    '      "didOpen": false,'#13#10 +
+    '      "didChange": false,'#13#10 +
+    '      "didSave": false'#13#10 +
     '    },'#13#10 +
     '   "completion": {'#13#10 +
     '       "disableSnippets": true,'#13#10 +
@@ -952,8 +952,7 @@ begin
     Params.trace := 'verbose';
   Params.initializationOptions :=
     Format(InitializationOptionsLsp,
-    [BoolToStr(PyIDEOptions.CheckSyntaxAsYouType, True).ToLower,
-     QuotePackages(PyIDEOptions.SpecialPackages),
+    [QuotePackages(PyIDEOptions.SpecialPackages),
      BoolToStr(not PyIDEOptions.CodeCompletionCaseSensitive, True).ToLower,
      ExtraPaths]);
 end;

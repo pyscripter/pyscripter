@@ -215,6 +215,10 @@ type
     spiGrok: TSpTBXItem;
     actEditRedo: TSynEditRedo;
     actFormatCode: TAction;
+    actCodeCheck: TAction;
+    actClearIssues: TAction;
+    actNextIssue: TAction;
+    actPreviousIssue: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -251,6 +255,8 @@ type
     procedure actAssistantFixBugsExecute(Sender: TObject);
     procedure actAssistantOptimizeExecute(Sender: TObject);
     procedure actAssistantSuggestExecute(Sender: TObject);
+    procedure actClearIssuesExecute(Sender: TObject);
+    procedure actCodeCheckExecute(Sender: TObject);
     procedure actPythonManualsExecute(Sender: TObject);
     procedure UpdateMainActions;
     procedure actSearchGoToLineExecute(Sender: TObject);
@@ -311,6 +317,8 @@ type
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actFormatCodeExecute(Sender: TObject);
+    procedure actNextIssueExecute(Sender: TObject);
+    procedure actPreviousIssueExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
     procedure HighlightCheckedImg(Sender: TObject; ACanvas: TCanvas; State:
         TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage; var AImageList:
@@ -1423,13 +1431,17 @@ begin
   end;
   with Categories[10] do begin
     DisplayName := _('Language Server');
-    SetLength(Options, 3);
+    SetLength(Options, 5);
     Options[0].PropertyName := 'LspDebug';
     Options[0].DisplayName := _('Language server debug output');
     Options[1].PropertyName := 'CheckSyntaxAsYouType';
     Options[1].DisplayName := _('Check syntax as you type');
     Options[2].PropertyName := 'SpecialPackages';
     Options[2].DisplayName := _('Special packages');
+    Options[3].PropertyName := 'DiagnosticsOnOpen';
+    Options[3].DisplayName := _('Code check of file open');
+    Options[4].PropertyName := 'DiagnosticsOnSave';
+    Options[4].DisplayName := _('Code check on file save');
   end;
   with Categories[11] do begin
     DisplayName := _('Spell Checking');
@@ -1609,15 +1621,7 @@ begin
 end;
 
 procedure TCommandsDataModule.UpdateMainActions;
-var
-  SelAvail: Boolean;
-  ReadOnly: Boolean;
-  Editor: IEditor;
-  SearchCommands: ISearchCommands;
 begin
-  Editor := GI_PyIDEServices.ActiveEditor;
-  ReadOnly := Assigned(Editor) and Editor.SynEdit.ReadOnly;
-
   actFoldVisible.Enabled := Assigned(GI_ActiveEditor);
   actFoldVisible.Checked := Assigned(GI_ActiveEditor) and
     GI_ActiveEditor.SynEdit.UseCodeFolding;
@@ -1663,19 +1667,27 @@ begin
   actEditUTF16BE.Checked := Assigned(GI_ActiveEditor) and
     (GI_ActiveEditor.FileEncoding = sf_UTF16BE);
 
-  SelAvail := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ActiveSynEdit.SelAvail;
+  var Editor := GI_PyIDEServices.ActiveEditor;
+  var ReadOnly := Assigned(Editor) and Editor.SynEdit.ReadOnly;
+  var SelAvail := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ActiveSynEdit.SelAvail;
+  var HasPython := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
+
   // Source Code Actions
+  actCodeCheck.Enabled := HasPython;
+  actClearIssues.Enabled := HasPython;
+  actNextIssue.Enabled := HasPython;
+  actPreviousIssue.Enabled := HasPython;
   actEditIndent.Enabled := SelAvail and not ReadOnly;
   actEditDedent.Enabled := SelAvail and not ReadOnly;
   actEditTabify.Enabled := SelAvail and not ReadOnly;
   actEditUntabify.Enabled := SelAvail and not ReadOnly;
-  actFormatCode.Enabled := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
+  actFormatCode.Enabled := HasPython;
   actEditToggleComment.Enabled := Assigned(GI_ActiveEditor) and not ReadOnly;
   actEditCommentOut.Enabled := Assigned(GI_ActiveEditor) and not ReadOnly;
   actEditUncomment.Enabled := Assigned(GI_ActiveEditor) and not ReadOnly;
   actEditLineNumbers.Enabled := Assigned(GI_ActiveEditor);
   actEditReadOnly.Enabled := Assigned(GI_ActiveEditor);
-  actEditReadOnly.Checked := Assigned(GI_ActiveEditor) and ReadOnly;
+  actEditReadOnly.Checked := ReadOnly;
   actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) and
     not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding or
     GI_PyInterpreter.Editor.Focused;
@@ -1708,7 +1720,7 @@ begin
     end));
 
   // Search Actions
-  SearchCommands := FindSearchTarget;
+  var SearchCommands := FindSearchTarget;
   actSearchFind.Enabled := (SearchCommands <> nil) and SearchCommands.CanFind;
   actSearchFindNext.Enabled := (SearchCommands <> nil) and SearchCommands.CanFindNext;
   actSearchFindPrev.Enabled := actSearchFindNext.Enabled;
@@ -2082,11 +2094,35 @@ begin
   GI_PyIDEServices.AppStorage.WriteDateTime('Date checked for updates', Now);
 end;
 
+procedure TCommandsDataModule.actClearIssuesExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    (GI_ActiveEditor as TEditor).ClearDiagnostics;
+end;
+
+procedure TCommandsDataModule.actCodeCheckExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    (GI_ActiveEditor as TEditor).PullDiagnostics;
+end;
+
 procedure TCommandsDataModule.actFormatCodeExecute(Sender: TObject);
 begin
   var Editor := GI_ActiveEditor;
   if Assigned(Editor) then
     TPyLspClient.FormatCode(Editor.FileId, Editor.ActiveSynEdit);
+end;
+
+procedure TCommandsDataModule.actNextIssueExecute(Sender: TObject);
+begin
+  if  Assigned(GI_ActiveEditor) then
+    (GI_ActiveEditor as TEditor).NextDiagnostic;
+end;
+
+procedure TCommandsDataModule.actPreviousIssueExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    (GI_ActiveEditor as TEditor).PreviousDiagnostic;
 end;
 
 procedure TCommandsDataModule.actToolsRestartLSExecute(Sender: TObject);

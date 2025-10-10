@@ -365,6 +365,25 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnSourceCode: TSpTBXSubmenuItem
           Caption = '&Source Code'
+          object mnCheckCode: TSpTBXSubmenuItem
+            Caption = 'Check Code'
+            object mnCodeCheck: TSpTBXItem
+              Action = CommandsDataModule.actCodeCheck
+            end
+            object mnClearIssues: TSpTBXItem
+              Action = CommandsDataModule.actClearIssues
+            end
+            object SpTBXSeparatorItem25: TSpTBXSeparatorItem
+            end
+            object mnNextIssue: TSpTBXItem
+              Action = CommandsDataModule.actNextIssue
+            end
+            object mnPreviousIssue: TSpTBXItem
+              Action = CommandsDataModule.actPreviousIssue
+            end
+          end
+          object SpTBXSeparatorItem: TSpTBXSeparatorItem
+          end
           object mnFormat: TSpTBXItem
             Action = CommandsDataModule.actFormatCode
           end
@@ -2215,152 +2234,152 @@ object PyIDEMainForm: TPyIDEMainForm
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 46
+        CollectionIndex = 47
         CollectionName = 'FileNew'
         Name = 'FileNew'
       end
       item
-        CollectionIndex = 47
+        CollectionIndex = 48
         CollectionName = 'FileOpen'
         Name = 'FileOpen'
       end
       item
-        CollectionIndex = 108
+        CollectionIndex = 109
         CollectionName = 'Save'
         Name = 'Save'
       end
       item
-        CollectionIndex = 109
+        CollectionIndex = 110
         CollectionName = 'SaveAll'
         Name = 'SaveAll'
       end
       item
-        CollectionIndex = 81
+        CollectionIndex = 82
         CollectionName = 'PrintSetup'
         Name = 'PrintSetup'
       end
       item
-        CollectionIndex = 80
+        CollectionIndex = 81
         CollectionName = 'PrintPreview'
         Name = 'PrintPreview'
       end
       item
-        CollectionIndex = 79
+        CollectionIndex = 80
         CollectionName = 'Print'
         Name = 'Print'
       end
       item
-        CollectionIndex = 138
+        CollectionIndex = 139
         CollectionName = 'Undo'
         Name = 'Undo'
       end
       item
-        CollectionIndex = 96
+        CollectionIndex = 97
         CollectionName = 'Redo'
         Name = 'Redo'
       end
       item
-        CollectionIndex = 26
+        CollectionIndex = 27
         CollectionName = 'Cut'
         Name = 'Cut'
       end
       item
-        CollectionIndex = 25
+        CollectionIndex = 26
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 74
+        CollectionIndex = 75
         CollectionName = 'Paste'
         Name = 'Paste'
       end
       item
-        CollectionIndex = 30
+        CollectionIndex = 31
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 110
+        CollectionIndex = 111
         CollectionName = 'Search'
         Name = 'Search'
       end
       item
-        CollectionIndex = 50
+        CollectionIndex = 51
         CollectionName = 'FindNext'
         Name = 'FindNext'
       end
       item
-        CollectionIndex = 100
+        CollectionIndex = 101
         CollectionName = 'Replace'
         Name = 'Replace'
       end
       item
-        CollectionIndex = 38
+        CollectionIndex = 39
         CollectionName = 'Execute'
         Name = 'Execute'
       end
       item
-        CollectionIndex = 20
+        CollectionIndex = 21
         CollectionName = 'Check'
         Name = 'Check'
       end
       item
-        CollectionIndex = 36
+        CollectionIndex = 37
         CollectionName = 'EditOptions'
         Name = 'EditOptions'
       end
       item
-        CollectionIndex = 1
+        CollectionIndex = 2
         CollectionName = 'AppSettings'
         Name = 'AppSettings'
       end
       item
-        CollectionIndex = 55
+        CollectionIndex = 56
         CollectionName = 'Folders'
         Name = 'Folders'
       end
       item
-        CollectionIndex = 58
+        CollectionIndex = 59
         CollectionName = 'Function'
         Name = 'Function'
       end
       item
-        CollectionIndex = 41
+        CollectionIndex = 42
         CollectionName = 'ExternalRun'
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 41
         CollectionName = 'Expand'
         Name = 'Expand'
       end
       item
-        CollectionIndex = 24
+        CollectionIndex = 25
         CollectionName = 'Collapse'
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 64
+        CollectionIndex = 65
         CollectionName = 'Info'
         Name = 'Info'
       end
       item
-        CollectionIndex = 60
+        CollectionIndex = 61
         CollectionName = 'GoToLine'
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 61
+        CollectionIndex = 62
         CollectionName = 'Help'
         Name = 'Help'
       end
       item
-        CollectionIndex = 106
+        CollectionIndex = 107
         CollectionName = 'RunScript'
         Name = 'RunScript'
       end
       item
-        CollectionIndex = 97
+        CollectionIndex = 98
         CollectionName = 'Refresh'
         Name = 'Refresh'
       end
@@ -2370,422 +2389,422 @@ object PyIDEMainForm: TPyIDEMainForm
         Name = 'Abort'
       end
       item
-        CollectionIndex = 67
+        CollectionIndex = 68
         CollectionName = 'LineNumbers'
         Name = 'LineNumbers'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 40
         CollectionName = 'Exit'
         Name = 'Exit'
       end
       item
-        CollectionIndex = 102
+        CollectionIndex = 103
         CollectionName = 'Run'
         Name = 'Run'
       end
       item
-        CollectionIndex = 27
+        CollectionIndex = 28
         CollectionName = 'Debug'
         Name = 'Debug'
       end
       item
-        CollectionIndex = 107
+        CollectionIndex = 108
         CollectionName = 'RunToCursor'
         Name = 'RunToCursor'
       end
       item
-        CollectionIndex = 117
+        CollectionIndex = 118
         CollectionName = 'StepIn'
         Name = 'StepIn'
       end
       item
-        CollectionIndex = 119
+        CollectionIndex = 120
         CollectionName = 'StepOver'
         Name = 'StepOver'
       end
       item
-        CollectionIndex = 118
+        CollectionIndex = 119
         CollectionName = 'StepOut'
         Name = 'StepOut'
       end
       item
-        CollectionIndex = 7
+        CollectionIndex = 8
         CollectionName = 'Breakpoint'
         Name = 'Breakpoint'
       end
       item
-        CollectionIndex = 8
+        CollectionIndex = 9
         CollectionName = 'BreakpointsRemove'
         Name = 'BreakpointsRemove'
       end
       item
-        CollectionIndex = 11
+        CollectionIndex = 12
         CollectionName = 'CallStack'
         Name = 'CallStack'
       end
       item
-        CollectionIndex = 143
+        CollectionIndex = 144
         CollectionName = 'VariablesWin'
         Name = 'VariablesWin'
       end
       item
-        CollectionIndex = 147
+        CollectionIndex = 148
         CollectionName = 'WatchesWin'
         Name = 'WatchesWin'
       end
       item
-        CollectionIndex = 9
+        CollectionIndex = 10
         CollectionName = 'BreakpointsWin'
         Name = 'BreakpointsWin'
       end
       item
-        CollectionIndex = 63
+        CollectionIndex = 64
         CollectionName = 'Indent'
         Name = 'Indent'
       end
       item
-        CollectionIndex = 29
+        CollectionIndex = 30
         CollectionName = 'Dedent'
         Name = 'Dedent'
       end
       item
-        CollectionIndex = 22
+        CollectionIndex = 23
         CollectionName = 'CodeComment'
         Name = 'CodeComment'
       end
       item
-        CollectionIndex = 137
+        CollectionIndex = 138
         CollectionName = 'UnCodeComment'
         Name = 'UnCodeComment'
       end
       item
-        CollectionIndex = 70
+        CollectionIndex = 71
         CollectionName = 'MessagesWin'
         Name = 'MessagesWin'
       end
       item
-        CollectionIndex = 23
+        CollectionIndex = 24
         CollectionName = 'CodeExplorer'
         Name = 'CodeExplorer'
       end
       item
-        CollectionIndex = 89
+        CollectionIndex = 90
         CollectionName = 'PyDoc'
         Name = 'PyDoc'
       end
       item
-        CollectionIndex = 73
+        CollectionIndex = 74
         CollectionName = 'PageSetup'
         Name = 'PageSetup'
       end
       item
-        CollectionIndex = 123
+        CollectionIndex = 124
         CollectionName = 'TabNext'
         Name = 'TabNext'
       end
       item
-        CollectionIndex = 124
+        CollectionIndex = 125
         CollectionName = 'TabPrevious'
         Name = 'TabPrevious'
       end
       item
-        CollectionIndex = 133
+        CollectionIndex = 134
         CollectionName = 'Tools'
         Name = 'Tools'
       end
       item
-        CollectionIndex = 134
+        CollectionIndex = 135
         CollectionName = 'ToolsSetup'
         Name = 'ToolsSetup'
       end
       item
-        CollectionIndex = 45
+        CollectionIndex = 46
         CollectionName = 'FileExplorer'
         Name = 'FileExplorer'
       end
       item
-        CollectionIndex = 131
+        CollectionIndex = 132
         CollectionName = 'TodoWin'
         Name = 'TodoWin'
       end
       item
-        CollectionIndex = 111
+        CollectionIndex = 112
         CollectionName = 'SearchFolder'
         Name = 'SearchFolder'
       end
       item
-        CollectionIndex = 53
+        CollectionIndex = 54
         CollectionName = 'FindResults'
         Name = 'FindResults'
       end
       item
-        CollectionIndex = 43
+        CollectionIndex = 44
         CollectionName = 'ExternalRunSetup'
         Name = 'ExternalRunSetup'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 22
         CollectionName = 'CmdOuputWin'
         Name = 'CmdOuputWin'
       end
       item
-        CollectionIndex = 113
+        CollectionIndex = 114
         CollectionName = 'SpecialChars'
         Name = 'SpecialChars'
       end
       item
-        CollectionIndex = 2
+        CollectionIndex = 3
         CollectionName = 'ArrowLeft'
         Name = 'ArrowLeft'
       end
       item
-        CollectionIndex = 3
+        CollectionIndex = 4
         CollectionName = 'ArrowRight'
         Name = 'ArrowRight'
       end
       item
-        CollectionIndex = 98
+        CollectionIndex = 99
         CollectionName = 'RegExp'
         Name = 'RegExp'
       end
       item
-        CollectionIndex = 65
+        CollectionIndex = 66
         CollectionName = 'Keyboard'
         Name = 'Keyboard'
       end
       item
-        CollectionIndex = 139
+        CollectionIndex = 140
         CollectionName = 'UnitTestWin'
         Name = 'UnitTestWin'
       end
       item
-        CollectionIndex = 121
+        CollectionIndex = 122
         CollectionName = 'Styles'
         Name = 'Styles'
       end
       item
-        CollectionIndex = 4
+        CollectionIndex = 5
         CollectionName = 'Assembly'
         Name = 'Assembly'
       end
       item
-        CollectionIndex = 150
+        CollectionIndex = 151
         CollectionName = 'ZoomIn'
         Name = 'ZoomIn'
       end
       item
-        CollectionIndex = 151
+        CollectionIndex = 152
         CollectionName = 'ZoomOut'
         Name = 'ZoomOut'
       end
       item
-        CollectionIndex = 75
+        CollectionIndex = 76
         CollectionName = 'Pause'
         Name = 'Pause'
       end
       item
-        CollectionIndex = 34
+        CollectionIndex = 35
         CollectionName = 'EditorMax'
         Name = 'EditorMax'
       end
       item
-        CollectionIndex = 37
+        CollectionIndex = 38
         CollectionName = 'EditorMin'
         Name = 'EditorMin'
       end
       item
-        CollectionIndex = 51
+        CollectionIndex = 52
         CollectionName = 'FindPrevious'
         Name = 'FindPrevious'
       end
       item
-        CollectionIndex = 62
+        CollectionIndex = 63
         CollectionName = 'Highlight'
         Name = 'Highlight'
       end
       item
-        CollectionIndex = 59
+        CollectionIndex = 60
         CollectionName = 'GoToError'
         Name = 'GoToError'
       end
       item
-        CollectionIndex = 149
+        CollectionIndex = 150
         CollectionName = 'WordWrap'
         Name = 'WordWrap'
       end
       item
-        CollectionIndex = 116
+        CollectionIndex = 117
         CollectionName = 'SplitVertical'
         Name = 'SplitVertical'
       end
       item
-        CollectionIndex = 115
+        CollectionIndex = 116
         CollectionName = 'SplitHorizontal'
         Name = 'SplitHorizontal'
       end
       item
-        CollectionIndex = 78
+        CollectionIndex = 79
         CollectionName = 'PostMortem'
         Name = 'PostMortem'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 94
         CollectionName = 'Python'
         Name = 'Python'
       end
       item
-        CollectionIndex = 94
+        CollectionIndex = 95
         CollectionName = 'PythonScript'
         Name = 'PythonScript'
       end
       item
-        CollectionIndex = 83
+        CollectionIndex = 84
         CollectionName = 'ProjectExplorer'
         Name = 'ProjectExplorer'
       end
       item
-        CollectionIndex = 35
+        CollectionIndex = 36
         CollectionName = 'Editor'
         Name = 'Editor'
       end
       item
-        CollectionIndex = 105
+        CollectionIndex = 106
         CollectionName = 'RunLast'
         Name = 'RunLast'
       end
       item
-        CollectionIndex = 28
+        CollectionIndex = 29
         CollectionName = 'DebugLast'
         Name = 'DebugLast'
       end
       item
-        CollectionIndex = 42
+        CollectionIndex = 43
         CollectionName = 'ExternalRunLast'
         Name = 'ExternalRunLast'
       end
       item
-        CollectionIndex = 68
+        CollectionIndex = 69
         CollectionName = 'Link'
         Name = 'Link'
       end
       item
-        CollectionIndex = 148
+        CollectionIndex = 149
         CollectionName = 'Web'
         Name = 'Web'
       end
       item
-        CollectionIndex = 122
+        CollectionIndex = 123
         CollectionName = 'TabClose'
         Name = 'TabCLose'
       end
       item
-        CollectionIndex = 126
+        CollectionIndex = 127
         CollectionName = 'TabsClose'
         Name = 'TabsClose'
       end
       item
-        CollectionIndex = 90
+        CollectionIndex = 91
         CollectionName = 'PySetup'
         Name = 'PySetup'
       end
       item
-        CollectionIndex = 32
+        CollectionIndex = 33
         CollectionName = 'Download'
         Name = 'Download'
       end
       item
-        CollectionIndex = 141
+        CollectionIndex = 142
         CollectionName = 'Upload'
         Name = 'Upload'
       end
       item
-        CollectionIndex = 66
+        CollectionIndex = 67
         CollectionName = 'Layouts'
         Name = 'Layouts'
       end
       item
-        CollectionIndex = 125
+        CollectionIndex = 126
         CollectionName = 'Tabs'
         Name = 'Tabs'
       end
       item
-        CollectionIndex = 10
+        CollectionIndex = 11
         CollectionName = 'Bug'
         Name = 'Bug'
       end
       item
-        CollectionIndex = 33
+        CollectionIndex = 34
         CollectionName = 'Edit'
         Name = 'Edit'
       end
       item
-        CollectionIndex = 112
+        CollectionIndex = 113
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 114
+        CollectionIndex = 115
         CollectionName = 'SpellCheck'
         Name = 'SpellCheck'
       end
       item
-        CollectionIndex = 152
+        CollectionIndex = 153
         CollectionName = 'ZoomReset'
         Name = 'ZoomReset'
       end
       item
-        CollectionIndex = 13
+        CollectionIndex = 14
         CollectionName = 'Chat\Chat'
         Name = 'Chat'
       end
       item
-        CollectionIndex = 5
+        CollectionIndex = 6
         CollectionName = 'Assistant'
         Name = 'Assistant'
       end
       item
-        CollectionIndex = 12
+        CollectionIndex = 13
         CollectionName = 'Cancel'
         Name = 'Cancel'
       end
       item
-        CollectionIndex = 153
+        CollectionIndex = 154
         CollectionName = 'LLMProviders\Ollama'
         Name = 'Ollama'
       end
       item
-        CollectionIndex = 154
+        CollectionIndex = 155
         CollectionName = 'LLMProviders\DeepSeek'
         Name = 'DeepSeek'
       end
       item
-        CollectionIndex = 155
+        CollectionIndex = 156
         CollectionName = 'LLMProviders\OpenAI'
         Name = 'OpenAI'
       end
       item
-        CollectionIndex = 156
+        CollectionIndex = 157
         CollectionName = 'LLMProviders\Gemini'
         Name = 'Gemini'
       end
       item
-        CollectionIndex = 157
+        CollectionIndex = 158
         CollectionName = 'LLMProviders\Xai'
         Name = 'Xai'
       end
       item
-        CollectionIndex = 84
+        CollectionIndex = 85
         CollectionName = 'ProjectFile'
         Name = 'ProjectFile'
       end
       item
-        CollectionIndex = 85
+        CollectionIndex = 86
         CollectionName = 'ProjectOpen'
         Name = 'ProjectOpen'
       end
       item
-        CollectionIndex = 87
+        CollectionIndex = 88
         CollectionName = 'ProjectSave'
         Name = 'ProjectSave'
       end>
@@ -2861,14 +2880,19 @@ object PyIDEMainForm: TPyIDEMainForm
   object vilTabDecorators: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 10
+        CollectionIndex = 11
         CollectionName = 'Bug'
         Name = 'Bug'
       end
       item
-        CollectionIndex = 69
+        CollectionIndex = 70
         CollectionName = 'Lock'
         Name = 'Lock'
+      end
+      item
+        CollectionIndex = 1
+        CollectionName = 'Alert'
+        Name = 'Alert'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True

@@ -1197,6 +1197,13 @@ type
     EditorViewsMenu: TSpTBXSubmenuItem;
     spiSeparatorItem: TSpTBXSeparatorItem;
     mnFormat: TSpTBXItem;
+    SpTBXSeparatorItem: TSpTBXSeparatorItem;
+    mnCheckCode: TSpTBXSubmenuItem;
+    mnCodeCheck: TSpTBXItem;
+    mnClearIssues: TSpTBXItem;
+    SpTBXSeparatorItem25: TSpTBXSeparatorItem;
+    mnNextIssue: TSpTBXItem;
+    mnPreviousIssue: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -4227,7 +4234,6 @@ begin
 
       Result.SynEdit.ClearUndo;
       Result.SynEdit.Modified := False;
-      Result.RefreshSymbols;
 
       TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
       // Jupyter support

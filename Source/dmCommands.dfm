@@ -1021,6 +1021,50 @@ object CommandsDataModule: TCommandsDataModule
       ShortCut = 41030
       OnExecute = actFormatCodeExecute
     end
+    object actCodeCheck: TAction
+      Category = 'Source Code'
+      Caption = 'Code Check'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Clear code issues'
+      ImageIndex = 17
+      ImageName = 'Check'
+      ShortCut = 16497
+      OnExecute = actCodeCheckExecute
+    end
+    object actClearIssues: TAction
+      Category = 'Source Code'
+      Caption = 'Clear Issues'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Perform a code check'
+      ImageIndex = 12
+      ImageName = 'Delete'
+      ShortCut = 24689
+      OnExecute = actClearIssuesExecute
+    end
+    object actNextIssue: TAction
+      Category = 'Source Code'
+      Caption = 'Previous Issue'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Go to the previous issue'
+      ImageIndex = 65
+      ImageName = 'ArrowRight'
+      ShortCut = 113
+      OnExecute = actNextIssueExecute
+    end
+    object actPreviousIssue: TAction
+      Category = 'Source Code'
+      Caption = 'Previous Issue'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Go to the next issue'
+      ImageIndex = 65
+      ImageName = 'ArrowRight'
+      ShortCut = 8305
+      OnExecute = actPreviousIssueExecute
+    end
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]

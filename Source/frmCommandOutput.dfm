@@ -90,32 +90,32 @@ inherited OutputWindow: TOutputWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 25
+        CollectionIndex = 26
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 30
+        CollectionIndex = 31
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 120
+        CollectionIndex = 121
         CollectionName = 'Stop'
         Name = 'Stop'
       end
       item
-        CollectionIndex = 39
+        CollectionIndex = 40
         CollectionName = 'Exit'
         Name = 'Exit'
       end
       item
-        CollectionIndex = 95
+        CollectionIndex = 96
         CollectionName = 'Quit'
         Name = 'Quit'
       end
       item
-        CollectionIndex = 56
+        CollectionIndex = 57
         CollectionName = 'Font'
         Name = 'Font'
       end>

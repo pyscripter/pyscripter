@@ -11,26 +11,14 @@ interface
 uses
   Winapi.Windows,
   System.Classes,
-  System.JSON,
-  System.SyncObjs,
-  System.Math,
   System.Generics.Collections,
   System.Messaging,
-  SynEditTypes,
   SynEdit,
-  XLspTypes,
+  XLSPTypes,
   cLSPClients;
 
 type
   TLangId = (lidNone, lidPython);
-
-  TDiagnostic = record
-    Severity: TLSPDiagnosticSeverity;
-    BlockBegin,
-    BlockEnd: TBufferCoord;
-    Source: string;
-    Msg: string;
-  end;
 
   TLspSynEditPlugin = class;
 
@@ -53,24 +41,28 @@ type
     property OnNotify: TNotifyEvent read FOnNotify write FOnNotify;
   end;
 
+  TLSPDiagnostics = TArray<TLSPDiagnostic>;
+
   TLspSynEditPlugin = class(TSynEditPlugin)
   public
-    const DiagnosticsErrorIndicatorSpec: TGUID = '{48005990-9661-4DA7-A1B1-84A20045F37B}';
+    const DiagnosticsErrorIndicatorId: TGUID = '{48005990-9661-4DA7-A1B1-84A20045F37B}';
+    const DiagnosticsWarningIndicatorId: TGUID = '{2D6B2929-BA1A-495A-8942-EF6E2B648857}';
+    const DiagnosticsHintIndicatorId: TGUID = '{8BFA8988-6B28-47F9-97AD-8360D0A4CFEE}';
   private
     FFileId: string;
     FLangId: TLangId;
     FIncChanges: TList<TLSPBaseTextDocumentContentChangeEvent>;
     FVersion: NativeUInt;
     FTransmitChanges: Boolean;
-    FDiagnostics:  TList<TDiagnostic>;
-    FNewDiagnostics: TThreadList<TDiagnostic>;
+    FDiagnostics:  TLSPDiagnostics;
+    FNewDiagnostics: TThreadList<TLSPDiagnostic>;
     FNeedToRefreshDiagnostics: Boolean;
     FNeedToRefreshSymbols: Boolean;
     FDocSymbols: TDocSymbols;
     FLastDeletedLiine: string;
+    FOnDiagnosticsUpdate: TNotifyEvent;
     class var FDocSymbolsLock: TRTLCriticalSection;
     class var Instances: TThreadList<TLspSynEditPlugin>;
-    class function FindPluginWithFileId(const AFileId: string): TLspSynEditPlugin;
   protected
     procedure LinesInserted(FirstLine, Count: Integer); override;
     procedure LinesBeforeDeleted(FirstLine, Count: Integer); override;
@@ -85,35 +77,57 @@ type
     procedure FileClosed;
     procedure FileSaved;
     procedure FileSavedAs(const FileId: string; LangId: TLangId);
+    // Document Diagnostics
     procedure ApplyNewDiagnostics;
-    procedure ClearDiagnostics;
+    procedure ClearDiagnostics(NeedRefresh: Boolean = True);
+    procedure PullDiagnostics;
+    // Document Symbols
     procedure RefreshSymbols;
+    // properties
     property TransmitChanges: Boolean read FTransmitChanges
       write FTransmitChanges;
-    property Diagnostics: TList<TDiagnostic> read FDiagnostics;
-    property NeedToRefreshSymbols: Boolean read FNeedToRefreshSymbols;
+    property Diagnostics: TLSPDiagnostics read FDiagnostics; // Sorted by severity
     property DocSymbols: TDocSymbols read FDocSymbols;
+    property OnDiagnosticsUpdate: TNotifyEvent
+      read FOnDiagnosticsUpdate write FOnDiagnosticsUpdate;
+    // class vars and procedures
+    class var DiagnosticsIndicatorIds: TArray<TGUID>;
     class constructor Create;
     class destructor Destroy;
     class procedure OnLspInitialized(const Sender: TObject; const Msg:
         System.Messaging.TMessage);
-    class procedure OnPublishDiagnostics(Sender: TObject; const uri: string;
-      const version: Cardinal; const diagnostics: TArray<TLSPDiagnostic>);
+  end;
+
+  TLSPDiagnosticHelper = record helper for TLSPDiagnostic
+    function SeverityText: string;
+    function Hint: string;
+  end;
+
+  TLSPDiagnosticsHelper = record helper for TLSPDiagnostics
+    function HasErrors: Boolean;
+    function HasSyntaxError: Boolean;
+    function HasWarnings: Boolean;
+    function ToBCArray(MaxSeverity: Integer = 4): TArray<TBufferCoord>;
   end;
 
 implementation
 
 uses
-  System.SysUtils,
   System.UITypes,
-  System.Threading,
+  System.SysUtils,
+  System.JSON,
+  System.SyncObjs,
+  System.Math,
+  SynEditTypes,
+  System.Generics.Defaults,
   SynEditMiscProcs,
   SynEditMiscClasses,
   SynDWrite,
   XLSPFunctions,
+  JvGnugettext,
+  cPyScripterSettings,
   uEditAppIntfs,
   uCommonFunctions;
-
 { TLspSynEditPlugin }
 
 constructor TLspSynEditPlugin.Create(AOwner: TCustomSynEdit);
@@ -122,20 +136,24 @@ begin
   FHandlers := [phLinesInserted, phLinesBeforeDeleted, phLinesDeleted,
                 phLinePut, phLinesChanged];
   FIncChanges := TList<TLSPBaseTextDocumentContentChangeEvent>.Create;
-  FDiagnostics := TList<TDiagnostic>.Create;
-  FNewDiagnostics := TThreadList<TDiagnostic>.Create;
+  FNewDiagnostics := TThreadList<TLSPDiagnostic>.Create;
   Instances.Add(Self);
   FDocSymbols := TDocSymbols.Create(Self);
-  AOwner.Indicators.RegisterSpec(DiagnosticsErrorIndicatorSpec,
+  AOwner.Indicators.RegisterSpec(DiagnosticsErrorIndicatorId,
     TSynIndicatorSpec.New(sisSquiggleMicrosoftWord,
     D2D1ColorF(TColors.Red), clNoneF, []));
+  AOwner.Indicators.RegisterSpec(DiagnosticsWarningIndicatorId,
+    TSynIndicatorSpec.New(sisSquiggleMicrosoftWord,
+    D2D1ColorF(TColors.Darkorange), clNoneF, []));
+  AOwner.Indicators.RegisterSpec(DiagnosticsHintIndicatorId,
+    TSynIndicatorSpec.New(sisSquiggleMicrosoftWord,
+    D2D1ColorF(TColors.Goldenrod), clNoneF, []));
 end;
 
 destructor TLspSynEditPlugin.Destroy;
 begin
   Instances.Remove(Self);
   FNewDiagnostics.Free;
-  FDiagnostics.Free;
   for var Event in FIncChanges do
     Event.Free;
   FIncChanges.Free;
@@ -160,14 +178,15 @@ begin
   FFileId := '';
   if (OldLangId <> lidPython) or (OldFileId = '') then Exit;
 
+  var Params := TSmartPtr.Make(TLSPDidCloseTextDocumentParams.Create)();
+  Params.textDocument.uri := FileIdToURI(OldFileId);
+  var Json := Params.AsJson;
+
   for var Client in TPyLspClient.LspClients do
     if Client.Ready and (OldFileId <> '') and
-      Client.LspClient.ServerCapabilities.textDocumentSync.openClose then
-    begin
-      var Params := TSmartPtr.Make(TLSPDidCloseTextDocumentParams.Create)();
-      Params.textDocument.uri := FileIdToURI(OldFileId);
-      Client.LspClient.SendNotification(lspDidCloseTextDocument, Params);
-    end;
+      Client.LspClient.ServerCapabilities.textDocumentSync.openClose
+    then
+      Client.LspClient.SendNotification(lspDidCloseTextDocument, '', nil, Json);
 end;
 
 procedure TLspSynEditPlugin.FileOpened(const FileId: string; LangId: TLangId;
@@ -179,25 +198,29 @@ begin
   Assert(FileId <> '', 'TLspSynEditPlugin.FileOpened');
   FFileId := FileId;
   FLangId := LangId;
-  FNeedToRefreshSymbols := False;
 
   FVersion := 0;
   FDocSymbols.Clear;
 
   if LangId <> lidPython then Exit;
 
+  FTransmitChanges := True;
+
+  var Params := TSmartPtr.Make(TLSPDidOpenTextDocumentParams.Create)();
+  Params.textDocument.uri := FileIdToURI(FileId);
+  Params.textDocument.languageId := 'python';
+  Params.textDocument.text := Editor.Text;
+
   for var Client in TPyLspClient.LspClients do
     if ((AClient = nil) or (AClient = Client)) and Client.Ready and
-      Client.LspClient.ServerCapabilities.textDocumentSync.openClose then
-    begin
-      var Params := TSmartPtr.Make(TLSPDidOpenTextDocumentParams.Create)();
-      Params.textDocument.uri := FileIdToURI(FileId);
-      Params.textDocument.languageId := 'python';
-      Params.textDocument.text := Editor.Text;
+      Client.LspClient.ServerCapabilities.textDocumentSync.openClose
+    then
       Client.LspClient.SendNotification(lspDidOpenTextDocument, Params);
-    end;
 
-  FTransmitChanges := True;
+  FNeedToRefreshDiagnostics := True;
+  if PyIDEOptions.DiagnosticsOnOpen then
+    PullDiagnostics;
+  FNeedToRefreshSymbols := True;
   RefreshSymbols;
 end;
 
@@ -205,15 +228,21 @@ procedure TLspSynEditPlugin.FileSaved;
 begin
   if (FFileId = '') or (FLangId <> lidPython) then Exit;
 
+  var Params := TSmartPtr.Make(TLSPDidSaveTextDocumentParams.Create)();
+  Params.textDocument.uri := FileIdToURI(FFileId);
+
   for var Client in TPyLspClient.LspClients do
     if Client.Ready and
       Client.LspClient.ServerCapabilities.textDocumentSync.save.value then
     begin
-      var Params := TSmartPtr.Make(TLSPDidSaveTextDocumentParams.Create)();
-      Params.textDocument.uri := FileIdToURI(FFileId);
       if Client.LspClient.ServerCapabilities.textDocumentSync.save.includeText then
-        Params.text := Editor.Text;
+        Params.text := Editor.Text
+      else
+        Params.text := '';
       Client.LspClient.SendNotification(lspDidSaveTextDocument, Params);
+
+      if PyIDEOptions.DiagnosticsOnSave then
+        PullDiagnostics;
     end;
 end;
 
@@ -223,54 +252,48 @@ begin
   FileOpened(FileId, LangId);
 end;
 
-class procedure TLspSynEditPlugin.OnPublishDiagnostics(Sender: TObject;
-  const uri: string; const version: Cardinal;
-  const diagnostics: TArray<TLSPDiagnostic>);
-var
-  Diagnostic: TDiagnostic;
+procedure TLspSynEditPlugin.PullDiagnostics;
 begin
-  if GI_PyIDEServices.IsClosing then Exit;
+  if not FNeedToRefreshDiagnostics then Exit;
 
-  var LFileId := FileIdFromURI(Uri);
-  if LFileId = '' then Exit;
+  var Client := TPyLspClient.DiagnosticsLspClient;
+  if not (Assigned(Client) and Client.Ready and TransmitChanges and
+    Client.LspClient.IsRequestSupported(lspDocumentDiagnostic))
+  then
+    Exit;
 
-  // Exit if we cannot find the Plugin
-  var Plugin := FindPluginWithFileId(LFileId);
-  if not Assigned(Plugin) then Exit;
-
-  // Exit if the diagnostics are not for the current version
-  if (version <> 0) and (version <> Plugin.FVersion) then Exit;
-
-  var List := Plugin.FNewDiagnostics.LockList;
-  try
-    List.Clear;
-    for var LspDiagnostic in diagnostics do
+  var Params := TSmartPtr.Make(TLSPDocumentDiagnosticParams.Create)();
+  Params.textDocument.uri := FileIdToURI(FFileId);
+  Client.LspClient.SendRequest(lspDocumentDiagnostic, Params,
+    procedure(AJson: TJSONObject)
     begin
-      Diagnostic.Severity := LspDiagnostic.severity;
-      Diagnostic.Msg := LspDiagnostic.message;
-      Diagnostic.Source := LspDiagnostic.source;
-      BufferCoordinatesFromLspRange(LspDiagnostic.range,
-        Diagnostic.BlockBegin, Diagnostic.BlockEnd);
-      List.Add(Diagnostic);
-    end;
-    Plugin.FNeedToRefreshDiagnostics := True;
-  finally
-    Plugin.FNewDiagnostics.UnlockList;
-  end;
-end;
+      if ResponseError(AJson) then Exit;
+      var JsonResult := AJson.Values['result'];
+      if JsonResult.Null then Exit;
+      var Results :=
+        TSmartPtr.Make(JsonDocumentDiagnosticReportToObject(JsonResult))();
 
-class function TLspSynEditPlugin.FindPluginWithFileId(
-  const AFileId: string): TLspSynEditPlugin;
-begin
-  Result := nil;
-  var List := Instances.LockList;
-  try
-     for var Plugin in List do
-       if SameFileName(AFileId, Plugin.FFileId) then
-          Exit(Plugin);
-  finally
-    Instances.UnlockList;
-  end;
+      var List := FNewDiagnostics.LockList;
+      try
+        List.Clear;
+        List.AddRange(Results.items);
+        // Sort the list
+        List.Sort(TComparer<TLSPDiagnostic>.Construct(
+          function(const Left, Right: TLSPDiagnostic): Integer
+          begin
+            Result := CompareValue(Left.severity, Right.severity);
+            if Result = 0 then
+              Result := CompareValue(Left.range.start.line, Right.range.start.line);
+            if Result = 0 then
+              Result := CompareValue(Left.range.start.character, Right.range.start.character);
+          end));
+        TThread.ForceQueue(TThread.CurrentThread, ApplyNewDiagnostics);
+      finally
+        FNewDiagnostics.UnlockList;
+      end;
+    end);
+
+  FNeedToRefreshDiagnostics := False;
 end;
 
 procedure TLspSynEditPlugin.LinesBeforeDeleted(FirstLine, Count: Integer);
@@ -285,6 +308,11 @@ var
   syncKind: Integer;
 begin
   Inc(FVersion);
+  FNeedToRefreshSymbols := True;
+  FNeedToRefreshDiagnostics:= True;
+  // Document changes may invalidate Diagnostics so we clear them
+  ClearDiagnostics;
+
   if (FFileId = '') or (FLangId <> lidPython) or
     not FTransmitChanges or (FIncChanges.Count = 0)
   then
@@ -328,8 +356,6 @@ begin
       Event.Free;
     FIncChanges.Clear;
   end;
-
-  FNeedToRefreshSymbols := True;
 end;
 
 procedure TLspSynEditPlugin.LinesDeleted(FirstLine, Count: Integer);
@@ -392,10 +418,6 @@ end;
 class procedure TLspSynEditPlugin.OnLspInitialized(const Sender: TObject;
   const Msg: System.Messaging.TMessage);
 begin
-  if Sender = TPyLspClient.MainLspClient then
-    TPyLspClient.MainLspClient.LspClient.OnPublishDiagnostics :=
-      OnPublishDiagnostics;
-
   var List := Instances.LockList;
   try
     for var Plugin in List do
@@ -429,16 +451,19 @@ end;
 
 procedure TLspSynEditPlugin.RefreshSymbols;
 begin
-  if not (TPyLspClient.MainLspClient.Ready and
-    TPyLspClient.MainLspClient.LspClient.IsRequestSupported(lspDocumentSymbol))
+  if not FNeedToRefreshSymbols then Exit;
+
+  var Client := TPyLspClient.MainLspClient;
+  if not (Assigned(Client) and Client.Ready and
+    Client.LspClient.IsRequestSupported(lspDocumentSymbol))
   then
     Exit;
 
   var Params := TSmartPtr.Make(TLSPDocumentSymbolParams.Create)();
   Params.textDocument.uri := FileIdToURI(FFileId);
 
-  FDocSymbols.FRequestId := TPyLspClient.MainLspClient.LspClient.SendRequest(
-    lspDocumentSymbol, Params,
+  FDocSymbols.FRequestId := Client.LspClient.SendRequest(lspDocumentSymbol,
+    Params,
     procedure(AJson: TJSONObject)
     begin
       FDocSymbolsLock.Enter;
@@ -474,30 +499,78 @@ procedure TLspSynEditPlugin.ApplyNewDiagnostics;
 begin
   { Should be called from the main thread }
   Assert(GetCurrentThreadId = MainThreadID, 'TLspSynEditPlugin.ApplyNewDiagnostics');
-  if not FNeedToRefreshDiagnostics then Exit;
 
-  ClearDiagnostics;
   var List := FNewDiagnostics.LockList;
   try
-    FDiagnostics.AddRange(List);
-    FNeedToRefreshDiagnostics := False;
-    for var I := 0 to FDiagnostics.Count - 1 do
-      Editor.Indicators.Add(FDiagnostics[I].BlockBegin.Line,
-        TSynIndicator.New(DiagnosticsErrorIndicatorSpec,
-        FDiagnostics[I].BlockBegin.Char, FDiagnostics[I].BlockEnd.Char, I));
+    ClearDiagnostics(False);
+    FDiagnostics := List.ToArray;
+
+    var Errors := 0;
+    var Warnings := 0;
+    var Hints := 0;
+    for var I := 0 to Length(FDiagnostics) - 1 do
+    begin
+      var Diagnostic := FDiagnostics[I];
+      var IndicatorId := DiagnosticsHintIndicatorId;
+      case Diagnostic.severity of
+        0, 1:
+          begin
+            Inc(Errors);
+            IndicatorId := DiagnosticsErrorIndicatorId;
+          end;
+        2:
+          begin
+            Inc(Warnings);
+            IndicatorId := DiagnosticsWarningIndicatorId;
+          end;
+      else
+        begin
+          Inc(Hints);
+        end;
+      end;
+      Editor.Indicators.Add(Diagnostic.range.start.line + 1,
+        TSynIndicator.New(IndicatorId,
+        Diagnostic.range.start.character + 1,
+        Diagnostic.range.&end.character + 1, I));
+    end;
+
+    GI_PyIDEServices.WriteStatusMsg(Format(
+      _('File Check: Errors: %d, Warnings: %d, Hints: %d'),
+      [Errors, Warnings, Hints]));
   finally
     FNewDiagnostics.UnlockList;
   end;
+  Editor.UpdateScrollBars;
+  if Assigned(FOnDiagnosticsUpdate) then
+    FOnDiagnosticsUpdate(Self);
 end;
 
-procedure TLspSynEditPlugin.ClearDiagnostics;
+procedure TLspSynEditPlugin.ClearDiagnostics(NeedRefresh: Boolean = True);
 begin
-  Editor.Indicators.Clear(DiagnosticsErrorIndicatorSpec);
-  FDiagnostics.Clear;
+  if Length(FDiagnostics) > 0 then
+  begin
+    Editor.Indicators.Clear(DiagnosticsErrorIndicatorId);
+    Editor.Indicators.Clear(DiagnosticsWarningIndicatorId);
+    Editor.Indicators.Clear(DiagnosticsHintIndicatorId);
+    FDiagnostics := [];
+    Editor.UpdateScrollBars;
+
+    // Only change FNeedToRefreshDiagnostics if NeedRefresh = True
+    if NeedRefresh then
+      FNeedToRefreshDiagnostics := True;
+
+    if Assigned(FOnDiagnosticsUpdate) then
+      FOnDiagnosticsUpdate(Self);
+  end;
 end;
 
 class constructor TLspSynEditPlugin.Create;
 begin
+  DiagnosticsIndicatorIds :=
+    [DiagnosticsErrorIndicatorId,
+    DiagnosticsWarningIndicatorId,
+    DiagnosticsHintIndicatorId];
+
   Instances := TThreadList<TLspSynEditPlugin>.Create;
   FDocSymbolsLock.Initialize;
 
@@ -544,6 +617,62 @@ end;
 procedure TDocSymbols.Unlock;
 begin
   TLspSynEditPlugin.FDocSymbolsLock.Leave;
+end;
+
+{ TLSPDiagnosticHelper }
+
+function TLSPDiagnosticHelper.Hint: string;
+begin
+  Result := Format('<b>%s</b>: %s', [SeverityText, &message]);
+  if (code <> '') and (codeDescription.href <> '') then
+    Result := Result + Format(
+      ' (<a href="%s"><font color="$FF8844"><u>%s</u></font></a>)',
+      [codeDescription.href, code]);
+end;
+
+function TLSPDiagnosticHelper.SeverityText: string;
+begin
+  case severity of
+    0: Result := _('Syntax Error');
+    1: Result := _('Error');
+    2: Result := _('Warning');
+    3: Result := _('Information');
+  else
+    Result := _('Hint');
+  end;
+end;
+
+{ TLSPDiagnosticsHelper }
+
+function TLSPDiagnosticsHelper.HasErrors: Boolean;
+begin
+  // Diagnostics are sorted according to severity
+  Result := (Length(Self) > 0) and (Self[0].severity <= 1);
+end;
+
+function TLSPDiagnosticsHelper.HasSyntaxError: Boolean;
+begin
+  Result := (Length(Self) > 0) and (Self[0].severity = 0);
+end;
+
+function TLSPDiagnosticsHelper.HasWarnings: Boolean;
+begin
+  Result := (Length(Self) > 0) and (Self[0].severity <= 2);
+end;
+
+function TLSPDiagnosticsHelper.ToBCArray(
+  MaxSeverity: Integer): TArray<TBufferCoord>;
+begin
+  SetLength(Result, Length(Self));
+  var Count := 0;
+  for var Diagnostic in Self do
+     if Diagnostic.severity <= MaxSeverity then
+     begin
+       Result[Count] := BufferCoord(Diagnostic.Range.start.character + 1,
+                                    Diagnostic.Range.start.line + 1);
+       Inc(Count);
+     end;
+  SetLength(Result, Count);
 end;
 
 end.

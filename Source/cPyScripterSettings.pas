@@ -141,6 +141,8 @@ type
     FAccessibilitySupport: Boolean;
     FUIContentFontSize: Integer;
     FPreferFreeThreaded: Boolean;
+    FDiagnosticsOnOpen: Boolean;
+    FDiagnosticsOnSave: Boolean;
     FTrackChanges: TSynTrackChanges;
     FSelectionColor: TSynSelectedColor;
     FIndentGuides: TSynIndentGuides;
@@ -332,6 +334,8 @@ type
     property AccessibilitySupport: Boolean read FAccessibilitySupport write FAccessibilitySupport default True;
     property UIContentFontSize: Integer read FUIContentFontSize write FUIContentFontSize default 9;
     property PreferFreeThreaded: Boolean read FPreferFreeThreaded write FPreferFreeThreaded default False;
+    property DiagnosticsOnOpen: Boolean read FDiagnosticsOnOpen write FDiagnosticsOnOpen default True;
+    property DiagnosticsOnSave: Boolean read FDiagnosticsOnSave write FDiagnosticsOnSave default True;
   end;
 {$METHODINFO OFF}
 
@@ -532,6 +536,8 @@ begin
       Self.FAccessibilitySupport := AccessibilitySupport;
       Self.FUIContentFontSize := UIContentFontSize;
       Self.FPreferFreeThreaded := PreferFreeThreaded;
+      Self.FDiagnosticsOnOpen := DiagnosticsOnOpen;
+      Self.FDiagnosticsOnSave := DiagnosticsOnSave;
     end
   else
     inherited;
@@ -635,6 +641,8 @@ begin
   FLoggingEnabled := False;
   FScrollbarAnnotation := True;
   FAccessibilitySupport := True;
+  FDiagnosticsOnOpen := True;
+  FDiagnosticsOnSave := True;
   FUIContentFontSize := 9;
   FCodeFolding := TSynCodeFolding.Create;
   FCodeFolding.GutterShapeSize := 9;  // default value
