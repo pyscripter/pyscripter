@@ -294,6 +294,7 @@ end;
 
 procedure TCallStackWindow.FormDestroy(Sender: TObject);
 begin
+  GI_CallStackWindow := nil;
   CallStackWindow := nil;
   FThreads.Free;
   inherited;

@@ -319,11 +319,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="uLLMSupport.pas"/>
         <DCCReference Include="frmLLMChat.pas">
             <Form>LLMChatForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="frmSuggest.pas">
             <Form>SuggestWindow</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="cLSPClients.pas"/>
         <None Include="PyScripter.todo"/>

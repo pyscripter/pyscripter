@@ -2,7 +2,7 @@
 # See https://docs.astral.sh/ruff/settings/ for full documentation
 
 # Core settings for file discovery and general behavior
-extend = ""  # Path to another config file to inherit settings from (relative to this file)
+#extend = ""  # Path to another config file to inherit settings from (relative to this file)
 src = []  # List of directories to search for Python files (default: current directory)
 include = ["*.py", "*.pyi", "*.ipynb"]  # File patterns to include (default: Python and Jupyter files)
 extend-include = []  # Additional file patterns to include
@@ -22,7 +22,6 @@ output-format = "full"  # Violation message format: "full", "concise", "grouped"
 preview = false  # Enable preview mode for unstable features
 namespace-packages = []  # Directories to treat as namespace packages (adds implicit __init__.py)
 required-version = ">=0.6.9"  # Minimum Ruff version required
-task-tags = ["TODO", "FIXME", "XXX"]  # Tags to recognize for task-related linting
 per-file-target-version = {}  # Map of file patterns to specific Python versions (e.g., {"tests/*.py" = "py310"})
 
 # Linting-specific settings
@@ -33,6 +32,7 @@ ignore = []  # Rules to ignore (e.g., ["E501"] for line length)
 extend-ignore = []  # Additional rules to ignore
 fixable = ["ALL"]  # Rules to autofix when --fix is used
 unfixable = []  # Rules to never autofix
+task-tags = ["TODO", "FIXME", "XXX"]  # Tags to recognize for task-related linting
 
 [lint.isort]
 case-sensitive = false  # Case-sensitive import sorting
@@ -53,12 +53,7 @@ forced-separate = []  # Modules to keep in separate sections
 
 # Plugin-specific linting settings
 [lint.pycodestyle]
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"  # Regex for allowed dummy variable names
-max-complexity = 10  # Maximum McCabe complexity for functions (default: unset)
-allowed-confused-variables = []  # Variables that can have ambiguous names (e.g., ["l", "O"])
-explicit-preview-rules = false  # Explicitly enable preview rules (requires preview = true)
 max-line-length = 88  # Override line length for pycodestyle rules
-max-doc-length = 0  # Maximum docstring length (0 = disabled)
 
 [lint.pyflakes]
 extend-generics = []  # Additional generic types to recognize
@@ -78,7 +73,7 @@ allow-dict-calls-with-keyword-arguments = false  # Allow dict() calls with kwarg
 
 [lint.flake8-tidy-imports]
 banned-api = {}  # Map of banned APIs (e.g., {"typing.List" = {msg = "Use list instead"}})
-ban-relative-imports = "none"  # Ban relative imports: "none", "parents", "all"
+ban-relative-imports = "parents"  # Ban relative imports: "parents", "all"
 
 [lint.flake8-type-checking]
 exempt-modules = []  # Modules exempt from type-checking rules
@@ -106,13 +101,11 @@ max-complexity = 10  # Override max-complexity for McCabe
 
 # Formatting-specific settings
 [format]
-quote_style = "double"  # String quote style: "double" or "single"
-indent_style = "space"  # Indent style: "space" or "tab"
-line_ending = "auto"  # Line ending: "auto", "lf", "crlf", "cr"
-
-# Language server-specific settings (for editors like VS Code)
+quote-style = "double"  # String quote style: "double" or "single"
+indent-style = "space"  #"space" or "tab"
+line-ending = "auto"  # Line ending: "auto", "lf", "crlf", "cr"
 
 # Example per-file ignores
-[per-file-ignores]
+[lint.per-file-ignores]
 "__init__.py" = ["E402"]  # Ignore import order in __init__.py
 "tests/*.py" = ["S101"]  # Ignore assert usage in tests

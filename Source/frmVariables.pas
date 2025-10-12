@@ -472,6 +472,7 @@ end;
 
 procedure TVariablesWindow.FormDestroy(Sender: TObject);
 begin
+  GI_VariablesWindow := nil;
   VariablesWindow := nil;
   ClearAll;
   inherited;

@@ -386,6 +386,7 @@ end;
 
 procedure TWatchesWindow.FormDestroy(Sender: TObject);
 begin
+  GI_WatchManager := nil;
   FWatchesList.Free;
   inherited;
 end;

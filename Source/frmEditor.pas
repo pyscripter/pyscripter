@@ -312,7 +312,7 @@ type
     procedure ClearDiagnostics;
     procedure NextDiagnostic;
     procedure PreviousDiagnostic;
-    procedure OnDiagnosticsUpdate(Invoked: Boolean);
+    procedure OnDiagnosticsUpdate(UpdateTypes: TDiagnosticUpdateTypes);
   private
     class var UntitledNumbers: TBits;
     class var FChangedFiles: TArray<string>;
@@ -459,7 +459,7 @@ end;
 
 procedure TEditor.ClearDiagnostics;
 begin
-  FSynLsp.ClearDiagnostics(True);
+  FSynLsp.ClearDiagnostics;
   GI_PyIDEServices.Messages.ClearMessages;
 end;
 
@@ -779,10 +779,12 @@ begin
   end;
 end;
 
-procedure TEditor.OnDiagnosticsUpdate(Invoked: Boolean);
+procedure TEditor.OnDiagnosticsUpdate(UpdateTypes: TDiagnosticUpdateTypes);
 begin
   Form.UpdateTabImage;
-  if Invoked then
+  Form.SynEdit.UpdateScrollBars;
+
+  if datInvoked in UpdateTypes then
   begin
    GI_PyIDEServices.WriteStatusMsg(FSynLsp.Diagnostics.Summary);
    FSynLsp.Diagnostics.ShowInMessages(GetFileId);
@@ -2297,13 +2299,19 @@ begin
   Colors := [];
   if AnnType = sbaCustom1 then
   begin
-    if HasSyntaxError then
-    begin
-      var Errors := Editor.Indicators.GetById(FEditor.FSynLsp.DiagnosticsIndicatorIds);
-      for var Error in Errors do
-        Rows := Rows + [Error.Key];
-      Colors := [$3C14DC];
-    end;
+    for var Diagnostic in FEditor.FSynLsp.Diagnostics do
+      case Diagnostic.severity of
+        0,1 :
+          begin
+            Rows := Rows + [Editor.LineToRow(Diagnostic.range.start.line + 1)];
+            Colors := Colors + [TColors.Crimson];
+          end;
+        2:
+          begin
+            Rows := Rows + [Editor.LineToRow(Diagnostic.range.start.line + 1)];
+            Colors := Colors + [TColors.Darkorange];
+          end;
+      end;
   end
   else if AnnType = sbaCustom2 then
   begin
@@ -3009,10 +3017,16 @@ end;
 
 class procedure TEditorForm.CodeHintLinkHandler(Sender: TObject; LinkName: string);
 begin
-  if LinkName.StartsWith('http') then Exit; //already handled
-
   var Editor := GI_PyIDEServices.ActiveEditor;
-  if Assigned(Editor) then
+  if not Assigned(Editor) then Exit;
+
+  if LinkName.StartsWith('http') then
+    Exit //already handled
+  else if LinkName = 'QuickFix' then
+    (Editor as TEditor).FSynLsp.PerformQuickFix
+  else if LinkName = 'Ignore' then
+    (Editor as TEditor).FSynLsp.PerformNoqaEdit
+  else
   begin
     var SynEd := Editor.ActiveSynEdit;
     var P := TEditorForm(Editor.Form).FHintCursorRect.TopLeft;
@@ -3163,6 +3177,7 @@ begin
     // will be shown unlessmouse leaves and reenters the control
     HintInfo.CursorRect := CursorRect(SynEd, BC1, BC2, HintInfo.HintPos);
     HintStr := FEditor.FSynLsp.Diagnostics[Indicator.Tag].Hint;
+    FEditor.FSynLsp.DiagnosticHintIndex := Indicator.Tag;
   end
   else if FEditor.HasPythonFile and not SynEd.IsPointInSelection(BC) and
     SynEd.GetHighlighterAttriAtRowColEx(BC, Token, TokenType, Start, Attri) and

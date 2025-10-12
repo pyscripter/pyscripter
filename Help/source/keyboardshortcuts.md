@@ -79,7 +79,7 @@ dialog.
 | Step Out | Shift+F8 | Resumes debugging by stepping out the current execution frame |
 | Syntax Check |  | Perform a syntax check of the active file |
 | Toggle Breakpoint | F5 | Toggles the breakpoint at the cursor position |
-| Reinitialize Python | Ctrl+F2 | Reinitialize the remote Python engine |
+| Reinitialize Python | Ctrl+Alt+F2 | Reinitialize the remote Python engine |
 | ***Tools Commands*** | | |
 | Code Templates... |  | Configure [Code Templates](codetemplates) |
 | Configure Tools... |  | Configure [External Tools](externaltools) |

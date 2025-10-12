@@ -65,6 +65,7 @@ type
     class var SyncRequestTimeout: Integer;
     class constructor Create;
     class destructor Destroy;
+    class procedure RestartServers;
 
     destructor Destroy; override;
     procedure CreateAndRunServer;
@@ -135,8 +136,8 @@ function FileIdToURI(const FilePath: string): string;
 function FileIdFromURI(const URI: string): string;
 procedure ApplyTextEdit(SynEdit: TCustomSynedit;
   TextEdit: TLSPAnnotatedTextEdit);
-procedure ApplyTextEdits(SynEdit: TCustomSynedit;
-  TextEdits: TArray<TLSPAnnotatedTextEdit>);
+procedure ApplyTextEdits(SynEdit: TCustomSynedit; TextEdits:
+    TLSPAnnotatedTextEdits);
 
 
 {$ENDREGION 'Utility functions'}
@@ -238,7 +239,7 @@ begin
 end;
 
 procedure ApplyTextEdits(SynEdit: TCustomSynedit;
-  TextEdits: TArray<TLSPAnnotatedTextEdit>);
+  TextEdits: TLSPAnnotatedTextEdits);
 begin
   SynEdit.Lines.BeginUpdate;
   SynEdit.BeginUndoBlock;
@@ -766,8 +767,7 @@ end;
 class procedure TPyLspClient.PythonVersionChanged(const Sender: TObject; const
     Msg: System.Messaging.TMessage);
 begin
-  for var Client in LSPClients do
-    Client.CreateAndRunServer;
+  RestartServers;
 end;
 
 function TPyLspClient.Ready: Boolean;
@@ -834,6 +834,12 @@ begin
     SyncRequestTimeout div 10,
     Format(paramTemplate, [CCItem]));
   Result := Str;
+end;
+
+class procedure TPyLspClient.RestartServers;
+begin
+  for var Client in LSPClients do
+    Client.CreateAndRunServer;
 end;
 
 class function TPyLspClient.SimpleHintAtCoordinates(const FileId: string; const
@@ -964,8 +970,6 @@ begin
     TPath.Combine(TPyScripterSettings.LspServerPath, 'Ruff', 'ruff.exe');
   if not FileExists(ServerPath) then Abort;
 
-  var ConfigFile := TPath.Combine(TPyScripterSettings.UserDataPath,
-                                  'Lsp', 'ruff.toml');
   var PyVersion := GI_PyControl.PythonVersion.SysVersion;
   PyVersion := PyVersion.Replace('.', '');
 
@@ -974,10 +978,9 @@ begin
 
   Result := Format(
     '"%s" server' +
-    ' --config "%s"' +
     ' --config "target-version=\"py%s\""' +
     ' --config "cache-dir=\"%s\""',
-    [ServerPath, ConfigFile, PyVersion, CacheDir]);
+    [ServerPath, PyVersion, CacheDir]);
 end;
 
 function TRuffLspClient.LogFileName: string;
@@ -987,12 +990,25 @@ end;
 
 procedure TRuffLspClient.OnInitialize(Sender: TObject;
   var Params: TLSPInitializeParams);
+const
+  InitOptions =
+'{'#13#10 +
+'    "settings": {'#13#10 +
+'             "configuration": "%s"'#13#10 +
+'    }'#13#10 +
+'}';
 begin
   ClientCapabilities(Params.capabilities);
   if Length(FProjectPythonPath) > 0 then
     Params.AddWorkspaceFolders(FProjectPythonPath);
   if PyIDEOptions.LspDebug then
     Params.trace := 'verbose';
+
+  var ConfigFile := TPath.Combine(TPyScripterSettings.UserDataPath,
+                                  'Lsp', 'ruff.toml');
+  ConfigFile := ConfigFile.Replace('\', '/', [rfReplaceAll]);
+
+  Params.initializationOptions := Format(InitOptions, [ConfigFile]);
 end;
 
 {$ENDREGION 'TRuffLspClient'}

@@ -22,7 +22,9 @@ type
 
   TLspSynEditPlugin = class;
 
-  TOnDiagnosticsUpdate = procedure (Invoked: Boolean) of object;
+  TDiagnosticUpdateType = (datInvoked, datCleared, datUpdated);
+  TDiagnosticUpdateTypes = set of TDiagnosticUpdateType;
+  TOnDiagnosticsUpdate = procedure (UpdateTypes: TDiagnosticUpdateTypes) of object;
 
   TDocSymbols = class
     {Asynchronous symbol support for Code Explorer}
@@ -62,7 +64,9 @@ type
     FNeedToRefreshSymbols: Boolean;
     FDocSymbols: TDocSymbols;
     FLastDeletedLiine: string;
+    FDiagnosticsRequestId: Integer;
     FOnDiagnosticsUpdate: TOnDiagnosticsUpdate;
+    procedure ClearDiagnosticsInternal;
     class var FDocSymbolsLock: TRTLCriticalSection;
     class var Instances: TThreadList<TLspSynEditPlugin>;
   protected
@@ -81,8 +85,11 @@ type
     procedure FileSavedAs(const FileId: string; LangId: TLangId);
     // Document Diagnostics
     procedure ApplyNewDiagnostics(Invoked: Boolean = False);
-    procedure ClearDiagnostics(Invoked: Boolean = False);
+    procedure ClearDiagnostics;
     procedure PullDiagnostics(Invoked: Boolean = False);
+    // Fixes
+    procedure PerformQuickFix;
+    procedure PerformNoqaEdit;
     // Document Symbols
     procedure RefreshSymbols;
     // properties
@@ -93,6 +100,7 @@ type
     property OnDiagnosticsUpdate: TOnDiagnosticsUpdate
       read FOnDiagnosticsUpdate write FOnDiagnosticsUpdate;
     // class vars and procedures
+    class var DiagnosticHintIndex: Integer;
     class var DiagnosticsIndicatorIds: TArray<TGUID>;
     class constructor Create;
     class destructor Destroy;
@@ -129,10 +137,13 @@ uses
   SynEditMiscClasses,
   SynDWrite,
   XLSPFunctions,
+  XLSPUtils,
   JvGnugettext,
   cPyScripterSettings,
   uEditAppIntfs,
   uCommonFunctions;
+
+
 { TLspSynEditPlugin }
 
 constructor TLspSynEditPlugin.Create(AOwner: TCustomSynEdit);
@@ -146,7 +157,7 @@ begin
   FDocSymbols := TDocSymbols.Create(Self);
   AOwner.Indicators.RegisterSpec(DiagnosticsErrorIndicatorId,
     TSynIndicatorSpec.New(sisSquiggleMicrosoftWord,
-    D2D1ColorF(TColors.Red), clNoneF, []));
+    D2D1ColorF(TColors.Crimson), clNoneF, []));
   AOwner.Indicators.RegisterSpec(DiagnosticsWarningIndicatorId,
     TSynIndicatorSpec.New(sisSquiggleMicrosoftWord,
     D2D1ColorF(TColors.Darkorange), clNoneF, []));
@@ -185,7 +196,7 @@ begin
 
   var Params := TSmartPtr.Make(TLSPDidCloseTextDocumentParams.Create)();
   Params.textDocument.uri := FileIdToURI(OldFileId);
-  var Json := Params.AsJson;
+  var Json := Params.AsJson;  //TODO: investigate exception here
 
   for var Client in TPyLspClient.LspClients do
     if Client.Ready and (OldFileId <> '') and
@@ -196,9 +207,10 @@ end;
 
 procedure TLspSynEditPlugin.FileOpened(const FileId: string; LangId: TLangId;
   AClient: TPyLspClient = nil);
-{ Support for didOpen is mandatory for the client
-  but I assume that is supported by the Server even if it does not say so
-  or not (lspscOpenCloseNotify in fLspClient.ServerCapabilities) }
+{Support for didOpen is mandatory for the client
+This method is called when the editor opens a file with AClient = nil
+  meaning that the notification should be sent to all clients.
+  It is also called when a server is initialized.  In this case AClient <> nil}
 begin
   Assert(FileId <> '', 'TLspSynEditPlugin.FileOpened');
   FFileId := FileId;
@@ -217,6 +229,7 @@ begin
   Params.textDocument.text := Editor.Text;
 
   for var Client in TPyLspClient.LspClients do
+    // if AClient <> nil then notify only this client
     if ((AClient = nil) or (AClient = Client)) and Client.Ready and
       Client.LspClient.ServerCapabilities.textDocumentSync.openClose
     then
@@ -260,13 +273,51 @@ begin
   FileOpened(FileId, LangId);
 end;
 
+procedure TLspSynEditPlugin.PerformNoqaEdit;
+begin
+  if not InRange(DiagnosticHintIndex, 0, Length(FDiagnostics) - 1) then Exit;
+
+  var Diagnostic := FDiagnostics[DiagnosticHintIndex];
+  if Diagnostic.data = '' then Exit;
+
+  var JsonValue := TSmartPtr.Make(TJsonValue.ParseJSONValue(Diagnostic.data))();
+  if not (JsonValue is TJSONObject) then Exit;
+
+  var DataObj := TJSONObject(JsonValue);
+  var NoqaEdit := DataObj.Values['noqa_edit'];
+
+  if not (NoqaEdit is TJSONObject) then Exit;
+  var Edit := TSerializer.Deserialize<TLSPAnnotatedTextEdit>(NoqaEdit);
+  ApplyTextEdit(Editor, Edit);
+  PullDiagnostics(False);
+end;
+
+procedure TLspSynEditPlugin.PerformQuickFix;
+begin
+  if not InRange(DiagnosticHintIndex, 0, Length(FDiagnostics) - 1) then Exit;
+
+  var Diagnostic := FDiagnostics[DiagnosticHintIndex];
+  if Diagnostic.data = '' then Exit;
+
+  var JsonValue := TSmartPtr.Make(TJsonValue.ParseJSONValue(Diagnostic.data))();
+  if not (JsonValue is TJSONObject) then Exit;
+
+  var DataObj := TJSONObject(JsonValue);
+  var Fix := DataObj.Values['edits'];
+
+  if not (Fix is TJSONArray) or (TJSONArray(Fix).Count = 0) then Exit;
+  var Edits := TSerializer.Deserialize<TLSPAnnotatedTextEdits>(Fix);
+  ApplyTextEdits(Editor, Edits);
+  PullDiagnostics(False);
+end;
+
 procedure TLspSynEditPlugin.PullDiagnostics(Invoked: Boolean = False);
 begin
   if not FNeedToRefreshDiagnostics then
   begin
     if Invoked then
       if Assigned(FOnDiagnosticsUpdate) then
-        FOnDiagnosticsUpdate(Invoked);
+        FOnDiagnosticsUpdate([datInvoked]);
     Exit;
   end;
 
@@ -278,10 +329,13 @@ begin
 
   var Params := TSmartPtr.Make(TLSPDocumentDiagnosticParams.Create)();
   Params.textDocument.uri := FileIdToURI(FFileId);
-  Client.LspClient.SendRequest(lspDocumentDiagnostic, Params,
+  FDiagnosticsRequestId := Client.LspClient.SendRequest(lspDocumentDiagnostic, Params,
     procedure(AJson: TJSONObject)
     begin
       if ResponseError(AJson) then Exit;
+      var Id := AJson.GetValue<Integer>('id', -1);
+      if Id <> FDiagnosticsRequestId then Exit;
+
       var JsonResult := AJson.Values['result'];
       if JsonResult.Null then Exit;
       var Results :=
@@ -328,7 +382,6 @@ var
 begin
   Inc(FVersion);
   FNeedToRefreshSymbols := True;
-  FNeedToRefreshDiagnostics:= True;
   // Document changes may invalidate Diagnostics so we clear them
   ClearDiagnostics;
 
@@ -489,7 +542,6 @@ begin
       try
         FreeAndNil(FDocSymbols.Symbols);
         if ResponseError(AJson) then Exit;
-        var JsonResult := AJson.Values['result'];
 
         // Check if this is the latest docsymbol request
         var Id := AJson.GetValue<Integer>('id', -1);
@@ -497,6 +549,7 @@ begin
 
         FDocSymbols.Symbols := TList<TLSPDocumentSymbol>.Create;
 
+        var JsonResult := AJson.Values['result'];
         if not JsonResult.Null then
         begin
           var Results :=
@@ -524,7 +577,7 @@ begin
 
   var List := FNewDiagnostics.LockList;
   try
-    ClearDiagnostics(False);
+    ClearDiagnosticsInternal;
     FDiagnostics := List.ToArray;
     for var I := 0 to Length(FDiagnostics) - 1 do
     begin
@@ -534,6 +587,7 @@ begin
         0, 1:  IndicatorId := DiagnosticsErrorIndicatorId;
         2:     IndicatorId := DiagnosticsWarningIndicatorId;
       end;
+      // TODO Deal with mult-line diagnostics
       Editor.Indicators.Add(Diagnostic.range.start.line + 1,
         TSynIndicator.New(IndicatorId,
         Diagnostic.range.start.character + 1,
@@ -545,27 +599,35 @@ begin
   Editor.UpdateScrollBars;
 
   if Assigned(FOnDiagnosticsUpdate) then
-    FOnDiagnosticsUpdate(Invoked);
+  begin
+    if Invoked then
+      FOnDiagnosticsUpdate([datInvoked, datUpdated])
+    else
+      FOnDiagnosticsUpdate([datUpdated]);
+  end;
 end;
 
-procedure TLspSynEditPlugin.ClearDiagnostics(Invoked: Boolean = False);
+procedure TLspSynEditPlugin.ClearDiagnostics;
 begin
+  FNeedToRefreshDiagnostics := True;
+  if Length(FDiagnostics) > 0 then
+  begin
+    ClearDiagnosticsInternal;
+
+    if Assigned(FOnDiagnosticsUpdate) then
+      FOnDiagnosticsUpdate([datCleared]);
+  end;
+end;
+
+procedure TLspSynEditPlugin.ClearDiagnosticsInternal;
+begin
+  DiagnosticHintIndex := -1;
   if Length(FDiagnostics) > 0 then
   begin
     Editor.Indicators.Clear(DiagnosticsErrorIndicatorId);
     Editor.Indicators.Clear(DiagnosticsWarningIndicatorId);
     Editor.Indicators.Clear(DiagnosticsHintIndicatorId);
     FDiagnostics := [];
-    Editor.UpdateScrollBars;
-
-    if Invoked then
-    begin
-      // Only change FNeedToRefreshDiagnostics if Invoked = True
-      FNeedToRefreshDiagnostics := True;
-
-      if Assigned(FOnDiagnosticsUpdate) then
-        FOnDiagnosticsUpdate(False);
-    end;
   end;
 end;
 
@@ -581,6 +643,8 @@ begin
 
   TMessageManager.DefaultManager.SubscribeToMessage(TLspServerInitializedMessage,
     OnLspInitialized);
+
+  DiagnosticHintIndex := -1;
 end;
 
 { TDocSymbols }
@@ -638,6 +702,27 @@ begin
     Result := Result + Format(
       ' (<a href="%s"><font color="$FF8844"><u>%s</u></font></a>)',
       [codeDescription.href, code]);
+  if Data <> '' then
+  begin
+    var JsonValue := TSmartPtr.Make(TJsonValue.ParseJSONValue(Data))();
+    if not (JsonValue is TJSONObject) then Exit;
+    var DataObj := TJSONObject(JsonValue);
+    var HasFix := (DataObj.Values['edits'] is TJSONArray) and
+      (TJSONArray(DataObj.Values['edits']).Count > 0);
+    var HasIgnore := Assigned(DataObj.Values['noqa_edit']);
+    var Title := DataObj.GetValue<string>('title', '');
+
+    if HasFix or HasIgnore then
+      Result := Result + '<br>';
+    if HasFix then
+      Result := Result + Format(
+        '<a href="QuickFix"><font color="$FF8844"><u>%s: %s</u></font></a> ',
+        [_('Quick Fix'), Title]);
+    if HasIgnore then
+      Result := Result + Format(
+        '<a href="Ignore"><font color="$FF8844"><u>%s</u></font></a>',
+        [_('Ignore')]);
+  end;
 end;
 
 function TLSPDiagnosticHelper.SeverityText: string;
