@@ -105,7 +105,6 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
             end>
           RightEdge = 0
           ScrollbarAnnotations = <>
-          VisibleSpecialChars = []
         end
         object lbColorThemes: TListBox
           Left = 3
@@ -265,7 +264,6 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
             end>
           RightEdge = 0
           ScrollbarAnnotations = <>
-          VisibleSpecialChars = []
         end
         object cbHighlighters: TComboBox
           Left = 15
@@ -1024,8 +1022,8 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
             object lblGutterFont: TLabel
               Left = 1
               Top = 1
-              Width = 179
-              Height = 25
+              Width = 72
+              Height = 8
               Align = alClient
               Alignment = taCenter
               Caption = 'Terminal 8pt'
@@ -1168,8 +1166,8 @@ inherited EditorOptionsDialog: TEditorOptionsDialog
             object labFont: TLabel
               Left = 1
               Top = 1
-              Width = 188
-              Height = 28
+              Width = 91
+              Height = 15
               Align = alClient
               Alignment = taCenter
               Caption = 'Consolas 10pt'

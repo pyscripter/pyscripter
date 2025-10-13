@@ -22,6 +22,7 @@ uses
   PythonEngine,
   PythonVersions,
   SynEdit,
+  SynEditMiscClasses,
   SpTBXItem,
   FileSystemMonitor;
 
@@ -59,6 +60,7 @@ type
     procedure Activate(Primary: Boolean = True);
     function ActivateView(ViewFactory: IEditorViewFactory): IEditorView;
     function AskSaveChanges: Boolean;
+    procedure ApplyEditorOptions(EditorOptions: TSynEditorOptionsContainer);
     function CanClose: Boolean;
     procedure Close;
     function GetSynEdit: TSynEdit;

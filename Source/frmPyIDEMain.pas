@@ -2890,7 +2890,8 @@ begin
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
 
-    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'DisplayFlowControl']);
+    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides',
+      'DisplayFlowControl', 'BookmarkOptions']);
     AppStorage.DeleteSubTree('Editor Options');
     AppStorage.WritePersistent('Editor Options', EditorOptions, True, TempStringList);
 

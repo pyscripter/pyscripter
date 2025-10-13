@@ -21,8 +21,7 @@ uses
   SynEdit,
   WrapDelphi,
   uEditAppIntfs,
-  cPySupportTypes,
-  dlgSynEditOptions;
+  cPySupportTypes;
 
 const
   dsaSearchFromStart = 1;

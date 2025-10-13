@@ -55,6 +55,7 @@ type
     SynCppSyn: TSynCppSyn;
     SynJSONSyn: TSynJSONSyn;
     SynGeneralSyn: TSynGeneralSyn;
+    icEditorMarks: TSVGIconImageCollection;
     procedure DataModuleDestroy(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
     procedure ModifierCompletionCodeCompletion(Sender: TObject; var Value: string;
@@ -476,6 +477,7 @@ begin
   ProcessImageCollection(icBrowserImages, TextColor);
   ProcessImageCollection(icCodeImages, TColors.SysWindowText, TColors.SysWindow);
   ProcessImageCollection(icGutterGlyphs, TextColor);
+  ProcessImageCollection(icEditorMarks, TextColor);
   ProcessImageCollection(icSVGImages, TextColor);
 end;
 
