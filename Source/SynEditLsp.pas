@@ -109,9 +109,11 @@ type
   end;
 
   TLSPDiagnosticHelper = record helper for TLSPDiagnostic
-    function SeverityText: string;
+    function HasFix: Boolean;
     function Hint: string;
+    function SeverityText: string;
     function SimpleMessage: string;
+    procedure ProcessData(var HasFix, HasIgnore: Boolean; var Title: string);
   end;
 
   TLSPDiagnosticsHelper = record helper for TLSPDiagnostics
@@ -574,6 +576,7 @@ procedure TLspSynEditPlugin.ApplyNewDiagnostics(Invoked: Boolean = False);
 var
   Diagnostic: TLSPDiagnostic;
   IndicatorId: TGUID;
+  StartLine: Integer;
 begin
   { Should be called from the main thread }
   Assert(GetCurrentThreadId = MainThreadID, 'TLspSynEditPlugin.ApplyNewDiagnostics');
@@ -582,6 +585,8 @@ begin
   try
     ClearDiagnosticsInternal;
     FDiagnostics := List.ToArray;
+
+    var MarksDict := TSmartPtr.Make(TDictionary<Integer, Boolean>.Create)();
     for var I := 0 to Length(FDiagnostics) - 1 do
     begin
       Diagnostic := FDiagnostics[I];
@@ -597,11 +602,27 @@ begin
         Diagnostic.range.&end.character :=
           Editor.Lines[Diagnostic.range.start.line].Length;
       end;
-      Editor.Indicators.Add(Diagnostic.range.start.line + 1,
+      StartLine := Diagnostic.range.start.line + 1;
+      Editor.Indicators.Add(StartLine,
         TSynIndicator.New(IndicatorId,
         Diagnostic.range.start.character + 1,
         Diagnostic.range.&end.character + 1, I));
+
+      if Diagnostic.HasFix and not MarksDict.ContainsKey(StartLine) then
+      begin
+        MarksDict.Add(StartLine, True);
+        var Mark := TSynEditMark.Create(Editor);
+        Mark.ImageIndex := 10;
+        Mark.Line := Diagnostic.range.start.line + 1;
+        Mark.Char := Diagnostic.range.start.character + 1;
+        Mark.Visible := True;
+        Mark.Tag := I;
+        Editor.Marks.Place(Mark);
+      end;
     end;
+
+    if MarksDict.Count > 0 then
+      Editor.BookmarkOptions.DrawBookmarksFirst := False;
   finally
     FNewDiagnostics.UnlockList;
   end;
@@ -633,6 +654,12 @@ begin
   DiagnosticHintIndex := -1;
   if Length(FDiagnostics) > 0 then
   begin
+    // Clear Marks
+    for var I := Editor.Marks.Count - 1 downto 0 do
+      if not Editor.Marks[I].IsBookmark then
+        Editor.Marks.Delete(I);
+    Editor.BookmarkOptions.DrawBookmarksFirst := True;
+    // Clear Indicators
     Editor.Indicators.Clear(DiagnosticsErrorIndicatorId);
     Editor.Indicators.Clear(DiagnosticsWarningIndicatorId);
     Editor.Indicators.Clear(DiagnosticsHintIndicatorId);
@@ -704,34 +731,52 @@ begin
   Result := Format('%s: %s', [SeverityText, &message]);
 end;
 
+function TLSPDiagnosticHelper.HasFix: Boolean;
+var
+  HasIgnore: Boolean;
+  Title: string;
+begin
+  ProcessData(Result, HasIgnore, Title);
+end;
+
 function TLSPDiagnosticHelper.Hint: string;
+var
+  HasFix, HasIgnore: Boolean;
+  Title: string;
 begin
   Result := Format('<b>%s</b>: %s', [SeverityText, &message]);
   if (code <> '') and (codeDescription.href <> '') then
     Result := Result + Format(
       ' (<a href="%s"><font color="$FF8844"><u>%s</u></font></a>)',
       [codeDescription.href, code]);
-  if Data <> '' then
-  begin
-    var JsonValue := TSmartPtr.Make(TJsonValue.ParseJSONValue(Data))();
-    if not (JsonValue is TJSONObject) then Exit;
-    var DataObj := TJSONObject(JsonValue);
-    var HasFix := (DataObj.Values['edits'] is TJSONArray) and
-      (TJSONArray(DataObj.Values['edits']).Count > 0);
-    var HasIgnore := Assigned(DataObj.Values['noqa_edit']);
-    var Title := DataObj.GetValue<string>('title', '');
+  ProcessData(HasFix, HasIgnore, Title);
+  if HasFix or HasIgnore then
+    Result := Result + '<br>';
+  if HasFix then
+    Result := Result + Format(
+      '<a href="QuickFix"><font color="$FF8844"><u>%s: %s</u></font></a> ',
+      [_('Quick Fix'), Title]);
+  if HasIgnore then
+    Result := Result + Format(
+      '<a href="Ignore"><font color="$FF8844"><u>%s</u></font></a>',
+      [_('Ignore')]);
+end;
 
-    if HasFix or HasIgnore then
-      Result := Result + '<br>';
-    if HasFix then
-      Result := Result + Format(
-        '<a href="QuickFix"><font color="$FF8844"><u>%s: %s</u></font></a> ',
-        [_('Quick Fix'), Title]);
-    if HasIgnore then
-      Result := Result + Format(
-        '<a href="Ignore"><font color="$FF8844"><u>%s</u></font></a>',
-        [_('Ignore')]);
-  end;
+procedure TLSPDiagnosticHelper.ProcessData(var HasFix, HasIgnore: Boolean;
+  var Title: string);
+begin
+  HasFix := False;
+  HasIgnore := False;
+  if data = '' then Exit;
+
+  var JsonValue := TSmartPtr.Make(TJsonValue.ParseJSONValue(data))();
+  if not (JsonValue is TJSONObject) then Exit;
+
+  var DataJson := TJSONObject(JsonValue);
+  HasFix := (DataJson.Values['edits'] is TJSONArray) and
+      (TJSONArray(DataJson.Values['edits']).Count > 0);
+  HasIgnore := Assigned(DataJson.Values['noqa_edit']);
+  Title := DataJson.GetValue<string>('title', '');
 end;
 
 function TLSPDiagnosticHelper.SeverityText: string;

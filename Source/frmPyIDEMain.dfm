@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 314
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -107,7 +107,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
     end
     object ActivityIndicator: TActivityIndicator
-      Left = 944
+      Left = 956
       Top = 6
       FrameDelay = 150
       IndicatorSize = aisSmall
@@ -2807,6 +2807,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 88
         CollectionName = 'ProjectSave'
         Name = 'ProjectSave'
+      end
+      item
+        CollectionIndex = 159
+        CollectionName = 'BugFix'
+        Name = 'BugFix'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True

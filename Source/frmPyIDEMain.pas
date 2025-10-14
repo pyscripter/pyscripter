@@ -3021,7 +3021,8 @@ begin
   var TempStringList := TSmartPtr.Make(TStringList.Create)();
   if AppStorage.PathExists('Editor Options') then
   begin
-    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides', 'DisplayFlowControl']);
+    TempStringList.AddStrings(['TrackChanges', 'SelectedColor', 'IndentGuides',
+      'DisplayFlowControl', 'BookmarkOptions']);
     AppStorage.ReadPersistent('Editor Options', EditorOptions, True, True, TempStringList);
     EditorOptions.Options := EditorOptions.Options + [eoBracketsHighlight];
   end;

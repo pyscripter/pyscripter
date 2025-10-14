@@ -41,7 +41,7 @@ object EditorForm: TEditorForm
         Checked = True
       end
       object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-        CustomWidth = 458
+        CustomWidth = 470
       end
       object tbiUpdateView: TSpTBXItem
         Caption = 'Update View'
@@ -59,9 +59,9 @@ object EditorForm: TEditorForm
       end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 25
+        Top = 30
         Width = 578
-        Height = 393
+        Height = 388
         Caption = 'Source'
         ImageIndex = -1
         TabItem = 'tabSource'
@@ -108,6 +108,9 @@ object EditorForm: TEditorForm
             item
               Kind = gbkMarks
               Width = 13
+              OnCLick = SynEditGutterMarksCLick
+              OnContextPopup = SynEditTSynGutterBands0ContextPopup
+              OnMouseCursor = SynEditGutterMarksMouseCursor
             end
             item
               Kind = gbkCustom
@@ -568,6 +571,26 @@ object EditorForm: TEditorForm
         CollectionIndex = 9
         CollectionName = 'Mark9'
         Name = 'Mark9'
+      end
+      item
+        CollectionIndex = 10
+        CollectionName = 'Bulb'
+        Name = 'Bulb'
+      end
+      item
+        CollectionIndex = 13
+        CollectionName = 'Wrench'
+        Name = 'Wrench'
+      end
+      item
+        CollectionIndex = 11
+        CollectionName = 'BugFix'
+        Name = 'BugFix'
+      end
+      item
+        CollectionIndex = 12
+        CollectionName = 'QuickFix'
+        Name = 'QuickFix'
       end>
     ImageCollection = ResourcesDataModule.icEditorMarks
     PreserveItems = True
@@ -575,5 +598,21 @@ object EditorForm: TEditorForm
     Height = 14
     Left = 257
     Top = 80
+  end
+  object pmnuDiagnostics: TSpTBXPopupMenu
+    Images = PyIDEMainForm.vilImages
+    Left = 96
+    Top = 136
+    object mnFixIssue: TSpTBXItem
+      Caption = 'Quick Fix Issue'
+      ImageIndex = 115
+      ImageName = 'BugFix'
+      OnClick = mnFixIssueClick
+    end
+    object mnIgnoreIssue: TSpTBXItem
+      Caption = 'Ignore Issue'
+      Hint = 'Flag the issue as ignored'
+      OnClick = mnIgnoreIssueClick
+    end
   end
 end
