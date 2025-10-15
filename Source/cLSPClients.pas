@@ -74,6 +74,8 @@ type
     property LspClient: TLSPClient read FLspClient;
 
     // lsp Functionality
+    /// <summary>Execute a server command on the given file</summary>
+    procedure ExecuteCommand(const Command, FileId: string; Version: Integer);
     /// <summary>Find the definition of the symbol at a given position</summary>
     class procedure FindDefinitionByCoordinates(const FileId: string;
       const BC: TBufferCoord; out DefFileName: string; out DefBC: TBufferCoord);
@@ -97,6 +99,9 @@ type
     /// <summary>Like SimpleHintAtCoordinates but includes definition info</summary>
     class function CodeHintAtCoordinates(const FileId: string;
       const BC: TBufferCoord; const Ident: string): string;
+    class procedure OnWorkspaceApplyEdit(Sender: TObject;
+      const value: TLSPApplyWorkspaceEditParams;
+      var errorCode: Integer; var errorMessage: string);
   end;
 
 {$ENDREGION 'TPyLspClient'}
@@ -138,6 +143,7 @@ procedure ApplyTextEdit(SynEdit: TCustomSynedit;
   TextEdit: TLSPAnnotatedTextEdit);
 procedure ApplyTextEdits(SynEdit: TCustomSynedit; TextEdits:
     TLSPAnnotatedTextEdits);
+procedure ApplyWorkspaceEdit(EditParams: TLSPApplyWorkspaceEditParams);
 
 
 {$ENDREGION 'Utility functions'}
@@ -146,11 +152,13 @@ implementation
 uses
   System.Classes,
   System.Character,
+  System.Variants,
   System.IOUtils,
   System.NetEncoding,
   System.RegularExpressions,
   System.Generics.Defaults,
   cPySupportTypes,
+  XLspUtils,
   XLSPFunctions,
   JvGnugettext,
   StringResources,
@@ -254,6 +262,40 @@ begin
 
 end;
 
+procedure ApplyWorkspaceEdit(EditParams: TLSPApplyWorkspaceEditParams);
+begin
+  if Length(EditParams.edit.documentChanges) > 0 then
+    for var Item in EditParams.edit.documentChanges do
+    begin
+      // Currently we do not handle workspace commands
+      var DocEdit := Item as TLSPTextDocumentEdit;
+      var FileId := FileIdFromURI(DocEdit.textDocument.uri);
+      if not GI_PyIDEServices.ShowFilePosition(FileId) then Continue;
+      var Editor := GI_PyIDEServices.ActiveEditor;
+      if not Assigned(GI_PyIDEServices.ActiveEditor) then Continue;
+
+      if not VarIsNull(DocEdit.textDocument.version) and
+        (Editor.Version <> DocEdit.textDocument.version)
+      then
+        Exit;
+      ApplyTextEdits(Editor.SynEdit, DocEdit.edits);
+      Editor.PullDiagnostics;
+    end
+  else if Assigned(EditParams.edit.changes) and (EditParams.edit.changes.Count > 0) then
+  begin
+    for var Key in EditParams.edit.changes.Keys do
+    begin
+      var FileId := FileIdFromURI(Key);
+      if not GI_PyIDEServices.ShowFilePosition(FileId) then Continue;
+      var Editor := GI_PyIDEServices.ActiveEditor;
+      if not Assigned(GI_PyIDEServices.ActiveEditor) then Continue;
+      ApplyTextEdits(Editor.SynEdit, EditParams.edit.changes[Key]);
+      Editor.PullDiagnostics;
+    end;
+  end;
+end;
+
+
 {$ENDREGION 'Utility functions'}
 
 
@@ -261,7 +303,9 @@ end;
 
 procedure TPyLspClient.ClientCapabilities(Capabilities: TLSPClientCapabilities);
 begin
-  Capabilities.AddWorkspaceCapabilities(False, True, False);
+  Capabilities.AddWorkspaceCapabilities(True, True, False);
+  Capabilities.AddWorkspaceEdit(True, True, 'abort', True, True);
+  Capabilities.AddWorkspaceExecuteCommand(False);
   Capabilities.AddSynchronizationSupport(True, False, False, False);
   Capabilities.AddDocumentSymbolSupport(True, False, False);
   Capabilities.AddCompletionSupport(False, False, False, True, False,
@@ -273,6 +317,8 @@ begin
   //Capabilities.AddPublishDiagnosticsSupport(False, True, True, False);
   Capabilities.AddFormattingSupport(False);
   Capabilities.AddRangeFormattingSupport(False);
+  Capabilities.AddCodeActionSupport(False, True, False, True, True);
+  Capabilities.AddRenameSupport(False, True, True);
 end;
 
 class function TPyLspClient.CodeHintAtCoordinates(const FileId: string; const
@@ -349,6 +395,7 @@ begin
   FLspClient.OnError := OnResponseError;
   FLspClient.OnServerConnected := OnServerConnected;
   FLspClient.OnShowMessage := OnShowMessage;
+  FLspClient.OnWorkspaceApplyEdit := OnWorkspaceApplyEdit;
 
   if PyIDEOptions.LspDebug then
   begin
@@ -405,6 +452,24 @@ begin
     end,
     SyncRequestTimeout);
   Result := Symbols;
+end;
+
+procedure TPyLspClient.ExecuteCommand(const Command, FileId: string; Version:
+    Integer);
+var
+  Doc: TLSPVersionedTextDocumentIdentifier;
+begin
+  if not (Ready and
+    LspClient.IsRequestSupported(lspWorkspaceExecuteCommand)) and
+    (FileId <> '')
+  then
+    Exit;
+
+  Doc.uri := FileIdToURI(FileId);
+  Doc.version := Version;
+  var JsonDoc := TSerializer.Serialize(Doc);
+
+  LspClient.SendExecuteCommandRequest(Command, Format('[%s]', [JsonDoc]));
 end;
 
 class procedure TPyLspClient.FindDefinitionByCoordinates(const FileId: string;
@@ -638,6 +703,15 @@ begin
       CommandsDataModule.SynCodeCompletion.ActivateCompletion;
     end)
   end;
+end;
+
+class procedure TPyLspClient.OnWorkspaceApplyEdit(Sender: TObject;
+  const value: TLSPApplyWorkspaceEditParams; var errorCode: Integer;
+  var errorMessage: string);
+begin
+  ApplyWorkspaceEdit(value);
+  errorCode := 0;
+  errorMessage := '';
 end;
 
 procedure TPyLspClient.OnExit(Sender: TObject; exitCode: Integer;

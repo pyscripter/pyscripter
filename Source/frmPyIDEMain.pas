@@ -639,8 +639,13 @@
           Issues addressed
             #1382, #1392, #1397. #1401
 
-   History:   v 5.2.4
+   History:   v 5.3
           New Features
+            - Integration with Ruff a very fast linter and language server
+            - Implemented file check, with issues shown in the editor
+            - Quick fix and Ignore on file check
+            - Fixable issues flagged in the gutter
+            - Fix all and Organize import commands
             - Added auto-refreshing project folders that mirror physical folders (#521)
             - Scrollbar annotation for highlighted search term
           Issues addressed
@@ -1204,6 +1209,10 @@ type
     SpTBXSeparatorItem25: TSpTBXSeparatorItem;
     mnNextIssue: TSpTBXItem;
     mnPreviousIssue: TSpTBXItem;
+    mnRefactor: TSpTBXSubmenuItem;
+    mnFixAll: TSpTBXItem;
+    SpTBXSeparatorItem29: TSpTBXSeparatorItem;
+    mnOrganizeImports: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1939,11 +1948,12 @@ end;
 
 procedure TPyIDEMainForm.actNewFileExecute(Sender: TObject);
 begin
-  with TNewFileDialog.Create(Self) do begin
-    if ShowModal = mrOk then begin
-      NewFileFromTemplate(SelectedTemplate);
-    end;
-    Free;
+  var NewFileDialog := TNewFileDialog.Create(Self);
+  try
+    if NewFileDialog.ShowModal = mrOk then
+      NewFileFromTemplate(NewFileDialog.SelectedTemplate);
+  finally
+    NewFileDialog.Free;
   end;
 end;
 
@@ -2068,7 +2078,7 @@ procedure TPyIDEMainForm.actSyntaxCheckExecute(Sender: TObject);
 begin
   var ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
-  (ActiveEditor as TEditor).PullDiagnostics;
+  ActiveEditor.PullDiagnostics;
 end;
 
 procedure TPyIDEMainForm.actImportModuleExecute(Sender: TObject);
@@ -2443,7 +2453,8 @@ begin
     if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
       FileName :=  Copy(FileName, 2, Length(FileName)-2);
     Editor := GI_EditorFactory.GetEditorByFileId(FileName);
-    if not Assigned(Editor) and (FileName.StartsWith('ssh') or FileExists(FileName)) then begin
+    if not Assigned(Editor) and (FileName.StartsWith('ssh') or FileExists(FileName)) then
+    begin
       try
         GI_EditorFactory.OpenFile(FileName);
       except

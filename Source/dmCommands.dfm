@@ -1026,7 +1026,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Code Check'
       HelpContext = 320
       HelpType = htContext
-      Hint = 'Clear code issues'
+      Hint = 'Perform a code check'
       ImageIndex = 17
       ImageName = 'Check'
       ShortCut = 16497
@@ -1037,7 +1037,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Clear Issues'
       HelpContext = 320
       HelpType = htContext
-      Hint = 'Perform a code check'
+      Hint = 'Clear code issues'
       ImageIndex = 12
       ImageName = 'Delete'
       ShortCut = 24689
@@ -1045,10 +1045,10 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actNextIssue: TAction
       Category = 'Source Code'
-      Caption = 'Previous Issue'
+      Caption = 'Next Issue'
       HelpContext = 320
       HelpType = htContext
-      Hint = 'Go to the previous issue'
+      Hint = 'Go to the next issue'
       ImageIndex = 65
       ImageName = 'ArrowRight'
       ShortCut = 113
@@ -1059,11 +1059,26 @@ object CommandsDataModule: TCommandsDataModule
       Caption = 'Previous Issue'
       HelpContext = 320
       HelpType = htContext
-      Hint = 'Go to the next issue'
+      Hint = 'Go to the previous issue'
       ImageIndex = 65
       ImageName = 'ArrowRight'
       ShortCut = 8305
       OnExecute = actPreviousIssueExecute
+    end
+    object actFixAll: TAction
+      Category = 'Refactoring'
+      Caption = 'Fix All'
+      Hint = 'Apply all available fixes'
+      ImageIndex = 115
+      ImageName = 'BugFix'
+      ShortCut = 49265
+      OnExecute = actFixAllExecute
+    end
+    object actOrganizeImports: TAction
+      Category = 'Refactoring'
+      Caption = 'Organize Imports'
+      Hint = 'Organize import statements'
+      OnExecute = actOrganizeImportsExecute
     end
   end
   object SynWebCompletion: TSynCompletionProposal

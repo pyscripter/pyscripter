@@ -82,6 +82,7 @@ type
     function GetRemoteFileName: string;
     function GetHasSearchHighlight: Boolean;
     function GetSSHServer: string;
+    function GetVersion: Integer;
     procedure SetReadOnly(Value: Boolean);
     procedure SetHasSearchHighlight(Value: Boolean);
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
@@ -95,6 +96,7 @@ type
     procedure SplitEditorVertrically;
     procedure SplitEditorHide;
     procedure Retranslate;
+    procedure PullDiagnostics;
     property FileName: string read GetFileName;
     property RemoteFileName: string read GetRemoteFileName;
     property FileId: string read GetFileId;
@@ -113,6 +115,7 @@ type
       write SetHasSearchHighlight;
     property TabControlIndex: Integer read GetTabControlIndex;
     property ReadOnly: Boolean read GetReadOnly write SetReadOnly;
+    property Version: Integer read GetVersion;
   end;
 
   TInvalidationType = (itLine, itGutter, itBoth);

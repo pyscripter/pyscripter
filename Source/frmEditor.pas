@@ -277,11 +277,13 @@ type
     procedure SplitEditorVertrically;
     procedure SplitEditorHide;
     procedure Retranslate;
+    procedure PullDiagnostics;
     function GetForm: TForm;
     function GetDocSymbols: TObject;
     function GetTabControlIndex: Integer;
     function GetRemoteFileName: string;
     function GetSSHServer: string;
+    function GetVersion: Integer;
     // IFileCommands implementation
     function CanClose: Boolean;
     function CanPrint: Boolean;
@@ -320,7 +322,6 @@ type
       ChangeType: TFileChangeType);
   public
     // Diagnostics
-    procedure PullDiagnostics;
     procedure ClearDiagnostics;
     procedure NextDiagnostic;
     procedure PreviousDiagnostic;
@@ -593,6 +594,11 @@ class function TEditor.GetUntitledNumber: Integer;
 begin
   Result := UntitledNumbers.OpenBit;
   UntitledNumbers[Result] := True;
+end;
+
+function TEditor.GetVersion: Integer;
+begin
+  Result := FSynLsp.Version;
 end;
 
 function TEditor.GetActiveSynEdit: TSynEdit;

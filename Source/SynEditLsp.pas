@@ -56,7 +56,7 @@ type
     FFileId: string;
     FLangId: TLangId;
     FIncChanges: TList<TLSPBaseTextDocumentContentChangeEvent>;
-    FVersion: NativeUInt;
+    FVersion: Integer;
     FTransmitChanges: Boolean;
     FDiagnostics:  TLSPDiagnostics;
     FNewDiagnostics: TThreadList<TLSPDiagnostic>;
@@ -92,7 +92,9 @@ type
     procedure PerformNoqaEdit;
     // Document Symbols
     procedure RefreshSymbols;
+    // Commands
     // properties
+    property Version: Integer read FVersion;
     property TransmitChanges: Boolean read FTransmitChanges
       write FTransmitChanges;
     property Diagnostics: TLSPDiagnostics read FDiagnostics; // Sorted by severity
@@ -403,7 +405,7 @@ begin
 
       var Params := TSmartPtr.Make(TLSPDidChangeTextDocumentParams.Create)();
       Params.textDocument.uri := FileIdToURI(FFileId);
-      Params.textDocument.version := fVersion;
+      Params.textDocument.version := FVersion;
 
       if (syncKind = TLSPTextDocumentSyncKindRec.Incremental) and
         InRange(FIncChanges.Count, 1, Editor.Lines.Count div 3)
