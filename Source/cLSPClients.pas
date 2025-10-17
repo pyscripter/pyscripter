@@ -102,6 +102,7 @@ type
     /// <summary>Like SimpleHintAtCoordinates but includes definition info</summary>
     class function CodeHintAtCoordinates(const FileId: string;
       const BC: TBufferCoord; const Ident: string): string;
+    /// <summary>Handles the workspace/applyEdit server request </summary>
     class procedure OnWorkspaceApplyEdit(Sender: TObject;
       const value: TLSPApplyWorkspaceEditParams;
       var errorCode: Integer; var errorMessage: string);

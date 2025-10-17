@@ -70,6 +70,8 @@ type
     class var FDocSymbolsLock: TRTLCriticalSection;
     class var Instances: TThreadList<TLspSynEditPlugin>;
   protected
+    // Used to notify LSP servers about document changes
+    // Note: unix line endings are used
     procedure LinesInserted(FirstLine, Count: Integer); override;
     procedure LinesBeforeDeleted(FirstLine, Count: Integer); override;
     procedure LinesDeleted(FirstLine, Count: Integer); override;
@@ -485,22 +487,14 @@ begin
 
   var TextAdded := '';
   for var I := FirstLine to FirstLine + Count - 1 do
-    TextAdded := TextAdded + Editor.Lines[I]  + #10;
+    TextAdded := TextAdded + Editor.Lines[I]  + WideLF;
   if (FirstLine = Editor.Lines.Count - Count) then
   begin
     // Lines added at the end
     if (FirstLine > 0) then
-      TextAdded := #10 + TextAdded;
+      TextAdded := WideLF + TextAdded;
     Delete(TextAdded, TextAdded.Length, 1);
   end;
-//  for var I := FirstLine to FirstLine + Count - 1 do
-//    TextAdded := TextAdded + Editor.Lines[I]  + sLineBreak;
-//  if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
-//    // Lines added at the end
-//    TextAdded := sLineBreak + TextAdded;
-//  if (FirstLine = Editor.Lines.Count - Count) then
-//    // Lines added at the end
-//    Delete(TextAdded, TextAdded.Length - Length(sLineBreak) + 1, Length(sLineBreak));
 
   var Change := TLSPTextDocumentContentChangeEvent.Create;
   Change.range := LspRange(BB, BE);
