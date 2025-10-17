@@ -644,6 +644,8 @@
             - Integration with Ruff a very fast linter and language server
             - Implemented file check, with issues shown in the editor
             - Quick fix and Ignore on file check
+            - Refactoring support: Organize Imports, extract variable,
+              extract function, inline
             - Fixable issues flagged in the gutter
             - Fix all and Organize import commands
             - Added auto-refreshing project folders that mirror physical folders (#521)
@@ -1213,6 +1215,8 @@ type
     mnFixAll: TSpTBXItem;
     SpTBXSeparatorItem29: TSpTBXSeparatorItem;
     mnOrganizeImports: TSpTBXItem;
+    SpTBXSeparatorItem30: TSpTBXSeparatorItem;
+    mnRefactorRename: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1329,6 +1333,8 @@ type
     procedure lbPythonVersionClick(Sender: TObject);
     procedure lbPythonEngineClick(Sender: TObject);
     procedure lbStatusCaretClick(Sender: TObject);
+    procedure mnRefactorClosePopup(Sender: TObject);
+    procedure mnRefactorInitPopup(Sender: TObject; PopupView: TTBView);
     procedure mnSyntaxClick(Sender: TObject);
     procedure tbiReplaceTextExit(Sender: TObject);
   private
@@ -4613,6 +4619,44 @@ begin
   ChangeLanguage(fLanguageList[(Sender as TSpTBXItem).Tag]);
   SetupSyntaxMenu;
   SetupToolsMenu;
+end;
+
+procedure TPyIDEMainForm.mnRefactorClosePopup(Sender: TObject);
+begin
+  // Clear CadeAction menu items
+  while mnRefactor[mnRefactor.Count - 1].Action = CommandsDataModule.actCodeAction do
+    mnRefactor[mnRefactor.Count - 1].Free;
+end;
+
+procedure TPyIDEMainForm.mnRefactorInitPopup(Sender: TObject; PopupView:
+    TTBView);
+begin
+  var Editor := GI_ActiveEditor;
+  if Assigned(Editor) then
+  begin
+    TPyLspClient.MainLspClient.GetCodeActions(Editor.FileId,
+      Editor.ActiveSynEdit.BlockBegin, Editor.ActiveSynEdit.BlockEnd);
+    if not Assigned(TPyLspClient.CodeActions) or
+      (Length(TPyLspClient.CodeActions.codeActions) = 0)
+    then
+      Exit;
+    for var I := 0 to High(TPyLspClient.CodeActions.codeActions) do
+    begin
+      var CodeAction := TPyLspClient.CodeActions.codeActions[I];
+      if not Assigned(CodeAction.edit) then Continue;
+      var MenuItem := TSpTBXItem.Create(Self);
+      MenuItem.Action := CommandsDataModule.actCodeAction;
+      MenuItem.Hint :=  CodeAction.title;
+      if MenuItem.Hint.StartsWith('Inline') then
+        MenuItem.Caption := _('Inline')
+      else if MenuItem.Hint.StartsWith('Extract expression into function') then
+        MenuItem.Caption := _('Extract function')
+      else
+        MenuItem.Caption := _('Extract variable');
+      MenuItem.Tag := I;
+      mnRefactor.Add(MenuItem);
+    end;
+  end;
 end;
 
 procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);

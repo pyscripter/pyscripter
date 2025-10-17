@@ -63,6 +63,7 @@ type
     class var MainLspClient: TPyLspClient;
     class var DiagnosticsLspClient: TPyLspClient;
     class var SyncRequestTimeout: Integer;
+    class var CodeActions: TLSPCodeActionResult; // for temp storing of CodeActions
     class constructor Create;
     class destructor Destroy;
     class procedure RestartServers;
@@ -74,6 +75,8 @@ type
     property LspClient: TLSPClient read FLspClient;
 
     // lsp Functionality
+    /// <summary>Get available code actions for a given location</summary>
+    procedure GetCodeActions(const FileId: string; BB, BE: TBufferCoord);
     /// <summary>Execute a server command on the given file</summary>
     procedure ExecuteCommand(const Command, FileId: string; Version: Integer);
     /// <summary>Find the definition of the symbol at a given position</summary>
@@ -132,6 +135,7 @@ end;
   TLspServerShutDownMessage = class(System.Messaging.TMessage);
 
 {$REGION 'Utility functions'}
+function TextWithLF(SynEdit: TCustomSynEdit): string;
 function LspPosition(const BC: TBufferCoord): TLSPPosition;
 function LspRange(const BlockBegin, BlockEnd: TBufferCoord): TLSPRange;
 function BufferCoordFromLspPosition(const Pos: TLSPPosition): TBufferCoord;
@@ -143,7 +147,8 @@ procedure ApplyTextEdit(SynEdit: TCustomSynedit;
   TextEdit: TLSPAnnotatedTextEdit);
 procedure ApplyTextEdits(SynEdit: TCustomSynedit; TextEdits:
     TLSPAnnotatedTextEdits);
-procedure ApplyWorkspaceEdit(EditParams: TLSPApplyWorkspaceEditParams);
+procedure ApplyWorkspaceEdit(EditParams: TLSPApplyWorkspaceEditParams); overload;
+procedure ApplyWorkspaceEdit(Edit: TLSPWorkspaceEdit); overload;
 
 
 {$ENDREGION 'Utility functions'}
@@ -160,6 +165,7 @@ uses
   cPySupportTypes,
   XLspUtils,
   XLSPFunctions,
+  SynEditTextBuffer,
   JvGnugettext,
   StringResources,
   dmResources,
@@ -171,6 +177,11 @@ uses
   cSSHSupport;
 
 {$REGION 'Utility functions'}
+
+function TextWithLF(SynEdit: TCustomSynEdit): string;
+begin
+  Result := TSynEditStringList(SynEdit.Lines).GetSeparatedText(WideLF);
+end;
 
 function LspPosition(const BC: TBufferCoord): TLSPPosition;
 begin
@@ -209,7 +220,13 @@ begin
       Result := 'file://SSH/' + ServerName + FileName;
     end
     else
-      Result := FilePathToURI(FilePath);
+    begin
+      // change drive to lower case
+      var Path := FilePath;
+      if TPath.DriveExists(Path) then
+        Path[1] := Path[1].ToLower;
+      Result := FilePathToURI(Path);
+    end;
   end
   else
     // Not sure how to handle unsaved files
@@ -252,8 +269,14 @@ begin
   SynEdit.Lines.BeginUpdate;
   SynEdit.BeginUndoBlock;
   try
-    for var TextEdit in TextEdits do
+    // TextEdit positions refer to the original document
+    // We need to apply edits in reverse order
+    // to avoid having to adjust the ranges
+    for var I := High(TextEdits) downto Low(TextEdits) do
+    begin
+      var TextEdit := TextEdits[I];
       ApplyTextEdit(SynEdit, TextEdit);
+    end;
 
   finally
     SynEdit.EndUndoBlock;
@@ -264,15 +287,24 @@ end;
 
 procedure ApplyWorkspaceEdit(EditParams: TLSPApplyWorkspaceEditParams);
 begin
-  if Length(EditParams.edit.documentChanges) > 0 then
-    for var Item in EditParams.edit.documentChanges do
+  ApplyWorkspaceEdit(EditParams.edit);
+end;
+
+procedure ApplyWorkspaceEdit(Edit: TLSPWorkspaceEdit); overload;
+begin
+  if Length(Edit.documentChanges) > 0 then
+    for var Item in Edit.documentChanges do
     begin
       // Currently we do not handle workspace commands
       var DocEdit := Item as TLSPTextDocumentEdit;
       var FileId := FileIdFromURI(DocEdit.textDocument.uri);
-      if not GI_PyIDEServices.ShowFilePosition(FileId) then Continue;
       var Editor := GI_PyIDEServices.ActiveEditor;
-      if not Assigned(GI_PyIDEServices.ActiveEditor) then Continue;
+      if not Assigned(Editor) or not AnsiSameText(Editor.FileId, FileId) then
+      begin
+        if not GI_PyIDEServices.ShowFilePosition(FileId) then Continue;
+        Editor := GI_PyIDEServices.ActiveEditor;
+      end;
+      if not Assigned(Editor) then Continue;
 
       if not VarIsNull(DocEdit.textDocument.version) and
         (Editor.Version <> DocEdit.textDocument.version)
@@ -281,15 +313,15 @@ begin
       ApplyTextEdits(Editor.SynEdit, DocEdit.edits);
       Editor.PullDiagnostics;
     end
-  else if Assigned(EditParams.edit.changes) and (EditParams.edit.changes.Count > 0) then
+  else if Assigned(Edit.changes) and (Edit.changes.Count > 0) then
   begin
-    for var Key in EditParams.edit.changes.Keys do
+    for var Key in Edit.changes.Keys do
     begin
       var FileId := FileIdFromURI(Key);
       if not GI_PyIDEServices.ShowFilePosition(FileId) then Continue;
       var Editor := GI_PyIDEServices.ActiveEditor;
       if not Assigned(GI_PyIDEServices.ActiveEditor) then Continue;
-      ApplyTextEdits(Editor.SynEdit, EditParams.edit.changes[Key]);
+      ApplyTextEdits(Editor.SynEdit, Edit.changes[Key]);
       Editor.PullDiagnostics;
     end;
   end;
@@ -319,6 +351,28 @@ begin
   Capabilities.AddRangeFormattingSupport(False);
   Capabilities.AddCodeActionSupport(False, True, False, True, True);
   Capabilities.AddRenameSupport(False, True, True);
+end;
+
+procedure TPyLspClient.GetCodeActions(const FileId: string; BB,
+  BE: TBufferCoord);
+begin
+  FreeAndNil(CodeActions);
+  if not Ready or not FLspClient.IsRequestSupported(lspCodeAction) then Exit;
+
+  var Params := TSmartPtr.Make(TLSPCodeActionParams.Create)();
+  Params.textDocument.uri := FileIdToURI(FileId);
+  Params.range := LspRange(BB, BE);
+  Params.context.triggerKind := 1;
+
+  FLspClient.SendSyncRequest(lspCodeAction, Params,
+    procedure(AJson: TJSONObject)
+    begin
+      if ResponseError(AJson) then Exit;
+      var JsonResult := AJson.Values['result'];
+      if JsonResult.Null then Exit;
+      CodeActions := JsonCodeActionResultToObject(JsonResult);
+    end,
+    SyncRequestTimeout);
 end;
 
 class function TPyLspClient.CodeHintAtCoordinates(const FileId: string; const
@@ -422,6 +476,7 @@ begin
     ProjectPythonPathChanged);
 
   FreeAndNil(LspClients);
+  FreeAndNil(CodeActions);
 end;
 
 class function TPyLspClient.DocumentSymbols(const FileId: string):
@@ -447,7 +502,7 @@ begin
       var JsonResult := AJson.Values['result'];
       if JsonResult.Null then Exit;
       var Results :=
-        TSmartPtr.Make(JsonDocumentSymbolsResultToObject(JsonResult));
+        TSmartPtr.Make(JsonDocumentSymbolsResultToObject(JsonResult))();
       Symbols := Results.symbols;
     end,
     SyncRequestTimeout);
@@ -560,7 +615,10 @@ var
   edits: TArray<TLSPAnnotatedTextEdit>;
 begin
   var Client := DiagnosticsLspClient;
-  if not Assigned(Client) and Client.Ready then Exit;
+  if not (Assigned(Client) and Client.Ready and
+    Client.FLspClient.IsRequestSupported(lspDocumentFormatting))
+  then
+    Exit;
 
   var BB := SynEdit.BlockBegin;
   var BE := SynEdit.BlockEnd;

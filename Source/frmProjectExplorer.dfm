@@ -231,6 +231,8 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Caption = 'Re&name'
       HelpContext = 435
       Hint = 'Rename the selected folder or RunConfiguration'
+      ImageIndex = 20
+      ImageName = 'Rename'
       OnExecute = actProjectRenameExecute
     end
     object actProjectFileEdit: TAction
@@ -582,6 +584,11 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         CollectionIndex = 44
         CollectionName = 'ExternalRunLast'
         Name = 'ExternalRunLast'
+      end
+      item
+        CollectionIndex = 101
+        CollectionName = 'Rename'
+        Name = 'Rename'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True

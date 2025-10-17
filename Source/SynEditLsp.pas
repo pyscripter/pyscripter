@@ -230,7 +230,7 @@ begin
   var Params := TSmartPtr.Make(TLSPDidOpenTextDocumentParams.Create)();
   Params.textDocument.uri := FileIdToURI(FileId);
   Params.textDocument.languageId := 'python';
-  Params.textDocument.text := Editor.Text;
+  Params.textDocument.text := TextWithLF(Editor);
 
   for var Client in TPyLspClient.LspClients do
     // if AClient <> nil then notify only this client
@@ -246,7 +246,10 @@ begin
       PullDiagnostics;
   end;
   if (AClient = nil) or (AClient = TPyLspClient.MainLspClient) then
+  begin
+    FNeedToRefreshSymbols := True;
     RefreshSymbols;
+  end;
 end;
 
 procedure TLspSynEditPlugin.FileSaved;
@@ -261,7 +264,7 @@ begin
       Client.LspClient.ServerCapabilities.textDocumentSync.save.value then
     begin
       if Client.LspClient.ServerCapabilities.textDocumentSync.save.includeText then
-        Params.text := Editor.Text
+        Params.text := TextWithLF(Editor)
       else
         Params.text := '';
       Client.LspClient.SendNotification(lspDidSaveTextDocument, Params);
@@ -336,6 +339,7 @@ begin
   FDiagnosticsRequestId := Client.LspClient.SendRequest(lspDocumentDiagnostic, Params,
     procedure(AJson: TJSONObject)
     begin
+      if GI_PyIDEServices.IsClosing then Exit;
       if ResponseError(AJson) then Exit;
       var Id := AJson.GetValue<Integer>('id', -1);
       if Id <> FDiagnosticsRequestId then Exit;
@@ -385,10 +389,13 @@ var
   Change: TLSPBaseTextDocumentContentChangeEvent;
   syncKind: Integer;
 begin
-  Inc(FVersion);
-  FNeedToRefreshSymbols := True;
-  // Document changes may invalidate Diagnostics so we clear them
-  ClearDiagnostics;
+  if FIncChanges.Count > 0 then
+  begin
+    Inc(FVersion);
+    FNeedToRefreshSymbols := True;
+    // Document changes may invalidate Diagnostics so we clear them
+    ClearDiagnostics;
+  end;
 
   if (FFileId = '') or (FLangId <> lidPython) or
     not FTransmitChanges or (FIncChanges.Count = 0)
@@ -422,7 +429,7 @@ begin
         // The TLSPBaseTextDocumentContentChangeEvent will be detroyed by
         // the Params (TLSPDidChangeTextDocumentParams) destructor
         Change := TLSPBaseTextDocumentContentChangeEvent.Create;
-        Change.text := Editor.Text;
+        Change.text := TextWithLF(Editor);
         Params.contentChanges := [Change];
         Client.LspClient.SendNotification(lspDidChangeTextDocument, Params);
       end;
@@ -478,13 +485,22 @@ begin
 
   var TextAdded := '';
   for var I := FirstLine to FirstLine + Count - 1 do
-    TextAdded := TextAdded + Editor.Lines[I]  + sLineBreak;
-  if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
-    // Lines added at the end
-    TextAdded := sLineBreak + TextAdded;
+    TextAdded := TextAdded + Editor.Lines[I]  + #10;
   if (FirstLine = Editor.Lines.Count - Count) then
+  begin
     // Lines added at the end
-    Delete(TextAdded, TextAdded.Length - Length(sLineBreak) + 1, Length(sLineBreak));
+    if (FirstLine > 0) then
+      TextAdded := #10 + TextAdded;
+    Delete(TextAdded, TextAdded.Length, 1);
+  end;
+//  for var I := FirstLine to FirstLine + Count - 1 do
+//    TextAdded := TextAdded + Editor.Lines[I]  + sLineBreak;
+//  if (FirstLine = Editor.Lines.Count - Count) and (FirstLine > 0) then
+//    // Lines added at the end
+//    TextAdded := sLineBreak + TextAdded;
+//  if (FirstLine = Editor.Lines.Count - Count) then
+//    // Lines added at the end
+//    Delete(TextAdded, TextAdded.Length - Length(sLineBreak) + 1, Length(sLineBreak));
 
   var Change := TLSPTextDocumentContentChangeEvent.Create;
   Change.range := LspRange(BB, BE);

@@ -389,8 +389,15 @@ object PyIDEMainForm: TPyIDEMainForm
           end
           object mnRefactor: TSpTBXSubmenuItem
             Caption = 'Refactor Code'
+            OnClosePopup = mnRefactorClosePopup
+            OnInitPopup = mnRefactorInitPopup
             object mnOrganizeImports: TSpTBXItem
               Action = CommandsDataModule.actOrganizeImports
+            end
+            object SpTBXSeparatorItem30: TSpTBXSeparatorItem
+            end
+            object mnRefactorRename: TSpTBXItem
+              Action = CommandsDataModule.actRefactorRename
             end
           end
           object SpTBXSeparatorItem: TSpTBXSeparatorItem
@@ -2823,6 +2830,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 12
         CollectionName = 'BugFix'
         Name = 'BugFix'
+      end
+      item
+        CollectionIndex = 101
+        CollectionName = 'Rename'
+        Name = 'Rename'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
