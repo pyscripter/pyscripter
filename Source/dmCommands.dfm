@@ -1029,7 +1029,7 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Perform a code check'
       ImageIndex = 17
       ImageName = 'Check'
-      ShortCut = 16497
+      ShortCut = 16501
       OnExecute = actCodeCheckExecute
     end
     object actClearIssues: TAction
@@ -1040,7 +1040,7 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Clear code issues'
       ImageIndex = 12
       ImageName = 'Delete'
-      ShortCut = 24689
+      ShortCut = 24693
       OnExecute = actClearIssuesExecute
     end
     object actNextIssue: TAction
@@ -1051,7 +1051,7 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Go to the next issue'
       ImageIndex = 65
       ImageName = 'ArrowRight'
-      ShortCut = 113
+      ShortCut = 117
       OnExecute = actNextIssueExecute
     end
     object actPreviousIssue: TAction
@@ -1062,7 +1062,7 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Go to the previous issue'
       ImageIndex = 65
       ImageName = 'ArrowRight'
-      ShortCut = 8305
+      ShortCut = 8309
       OnExecute = actPreviousIssueExecute
     end
     object actFixAll: TAction
@@ -1071,7 +1071,7 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Apply all available fixes'
       ImageIndex = 115
       ImageName = 'BugFix'
-      ShortCut = 49265
+      ShortCut = 49269
       OnExecute = actFixAllExecute
     end
     object actOrganizeImports: TAction
@@ -1086,6 +1086,8 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Rename the selected identifier '
       ImageIndex = 116
       ImageName = 'Rename'
+      ShortCut = 113
+      OnExecute = actRefactorRenameExecute
     end
     object actCodeAction: TAction
       Category = 'Refactoring'

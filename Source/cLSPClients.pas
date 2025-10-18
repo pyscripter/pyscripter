@@ -81,15 +81,15 @@ type
     procedure ExecuteCommand(const Command, FileId: string; Version: Integer);
     /// <summary>Find the definition of the symbol at a given position</summary>
     class procedure FindDefinitionByCoordinates(const FileId: string;
-      const BC: TBufferCoord; out DefFileName: string; out DefBC: TBufferCoord);
+       const BC: TBufferCoord; out DefFileName: string; out DefBC: TBufferCoord);
     /// <summary>Find references of the symbol at a given position</summary>
     class function FindReferencesByCoordinates(FileId: string;
-      const BC: TBufferCoord): TArray<TDocPosition>;
+       const BC: TBufferCoord): TArray<TDocPosition>;
     /// <summary>Format selected code or the whole document</summary>
     class procedure FormatCode(FileId: string; SynEdit: TCustomSynEdit);
     /// <summary>Requests completion assynchrously</summary>
     function HandleCodeCompletion(const FileId: string;
-      const BC: TBufferCoord; out InsertText, DisplayText: string): Boolean;
+       const BC: TBufferCoord; out InsertText, DisplayText: string): Boolean;
     /// <summary>Get the documentation of a completion item</summary>
     function ResolveCompletionItem(CCItem: string): string;
     /// <summary>Get the document symbols synchronously</summary>
@@ -98,14 +98,20 @@ type
     procedure SignatureHelp(const AFileId: string; Editor: TCustomSynEdit);
     /// <summary>Get a code hint for an editor identifier</summary>
     class function SimpleHintAtCoordinates(const FileId: string;
-      const BC: TBufferCoord): string;
+       const BC: TBufferCoord): string;
     /// <summary>Like SimpleHintAtCoordinates but includes definition info</summary>
     class function CodeHintAtCoordinates(const FileId: string;
-      const BC: TBufferCoord; const Ident: string): string;
-    /// <summary>Handles the workspace/applyEdit server request </summary>
+       const BC: TBufferCoord; const Ident: string): string;
+    /// <summary>Handles the workspace/applyEdit server request</summary>
     class procedure OnWorkspaceApplyEdit(Sender: TObject;
       const value: TLSPApplyWorkspaceEditParams;
       var errorCode: Integer; var errorMessage: string);
+    /// <summary>Send the prepareRename and return the results</summary>
+    function PrepareRename(const FileId: string; const BC: TBufferCoord):
+        TLSPPrepareRenameResult;
+    /// <summary>Send the prepareRename and return the results</summary>
+    function Rename(const FileId, NewName: string; const BC: TBufferCoord):
+        TLSPWorkspaceEdit;
   end;
 
 {$ENDREGION 'TPyLspClient'}
@@ -292,7 +298,11 @@ begin
 end;
 
 procedure ApplyWorkspaceEdit(Edit: TLSPWorkspaceEdit); overload;
+// Todo: If more than one file is affected, show the affected files
+// and let the user decide to which files to apply the edit
 begin
+  if not Assigned(Edit) then Exit;
+
   if Length(Edit.documentChanges) > 0 then
     for var Item in Edit.documentChanges do
     begin
@@ -516,8 +526,8 @@ var
   Doc: TLSPVersionedTextDocumentIdentifier;
 begin
   if not (Ready and
-    LspClient.IsRequestSupported(lspWorkspaceExecuteCommand)) and
-    (FileId <> '')
+    LspClient.IsRequestSupported(lspWorkspaceExecuteCommand) and
+    (FileId <> ''))
   then
     Exit;
 
@@ -860,6 +870,64 @@ begin
      FLspClient.SaveToLogFile('Response Error: ' + SLineBreak + errorMsg);
 end;
 
+function TPyLspClient.PrepareRename(const FileId: string;
+  const BC: TBufferCoord): TLSPPrepareRenameResult;
+var
+  Res: TLSPPrepareRenameResult;
+begin
+  Res := nil;
+  if not (Ready and
+    LspClient.IsRequestSupported(lspPrepareRename) and
+    (FileId <> ''))
+  then
+    Exit(nil);
+
+  var Params := TSmartPtr.Make(TLSPPrepareRenameParams.Create)();
+  Params.textDocument.uri := FileIdToURI(FileId);
+  Params.position := LspPosition(BC);
+
+  FLspClient.SendSyncRequest(lspPrepareRename, Params,
+    procedure(AJson: TJSONObject)
+    begin
+      if ResponseError(AJson) then Exit;
+      var JsonResult := AJson.Values['result'];
+      Res := JsonPrepareRenameResultToObject(JsonResult);
+    end,
+    SyncRequestTimeout);
+
+  Result := Res;
+end;
+
+function TPyLspClient.Rename(const FileId, NewName: string;
+  const BC: TBufferCoord): TLSPWorkspaceEdit;
+var
+  Res: TLSPWorkspaceEdit;
+begin
+  Res := nil;
+  if not (Ready and
+    LspClient.IsRequestSupported(lspRename) and
+    (FileId <> ''))
+  then
+    Exit(nil);
+
+  var Params := TSmartPtr.Make(TLSPRenameParams.Create)();
+  Params.textDocument.uri := FileIdToURI(FileId);
+  Params.position := LspPosition(BC);
+  Params.newName := NewName;
+
+  FLspClient.SendSyncRequest(lspRename, Params,
+    procedure(AJson: TJSONObject)
+    begin
+      if ResponseError(AJson) then Exit;
+      var JsonResult := AJson.Values['result'];
+      if JsonResult.Null then Exit;
+      Res := TSerializer.Deserialize<TLSPWorkspaceEdit>(JsonResult);
+    end,
+    SyncRequestTimeout);
+
+  Result := Res;
+end;
+
 class procedure TPyLspClient.ProjectPythonPathChanged(const Sender:
     TObject; const Msg: System.Messaging.TMessage);
 begin
@@ -1053,6 +1121,10 @@ const
     '   },'#13#10 +
     '   "workspace": {'#13#10 +
     '     "extraPaths": [%s]'#13#10 +
+    '   },'#13#10 +
+    '   "codeAction": {'#13#10 +
+    '      "nameExtractVariable": "extract_var",'#13#10 +
+    '      "nameExtractFunction": "extract_def"'#13#10 +
     '   }'#13#10 +
     '}';
 

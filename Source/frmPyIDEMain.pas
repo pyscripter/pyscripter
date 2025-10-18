@@ -644,7 +644,7 @@
             - Integration with Ruff a very fast linter and language server
             - Implemented file check, with issues shown in the editor
             - Quick fix and Ignore on file check
-            - Refactoring support: Organize Imports, extract variable,
+            - Refactoring support: Organize Imports, rename, extract variable,
               extract function, inline
             - Fixable issues flagged in the gutter
             - Fix all and Organize import commands

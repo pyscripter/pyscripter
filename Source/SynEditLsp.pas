@@ -71,7 +71,7 @@ type
     class var Instances: TThreadList<TLspSynEditPlugin>;
   protected
     // Used to notify LSP servers about document changes
-    // Note: unix line endings are used
+    // Note: unix line endings are used throughout
     procedure LinesInserted(FirstLine, Count: Integer); override;
     procedure LinesBeforeDeleted(FirstLine, Count: Integer); override;
     procedure LinesDeleted(FirstLine, Count: Integer); override;

@@ -23,12 +23,13 @@ dialog.
 | Print Preview |  | Preview active file |
 | Print... | Ctrl+P | Print active Document |
 | ***Code Check*** | | |
-| Check Code | Ctrl+F2 | Perform a code check |
-| Clear Issues | Shift+Ctrl+F2 | Clear code check issues |
-| Clear Issues | Shift+Ctrl+F2 | Clear code check issues |
-| Next Issue | F2 | Go to the next code check issue |
-| Previous Issue | Shift+F2 | Go to the previous code check issue |
-| Fix All | Alt+Ctrl+F2 | Apply all available fixes to code check issues |
+| Check Code | Ctrl+F6 | Perform a code check |
+| Clear Issues | Shift+Ctrl+F6 | Clear code check issues |
+| Fix All | Alt+Ctrl+F6 | Apply all available fixes to code check issues |
+| Next Issue | F6 | Go to the next code check issue |
+| Previous Issue | Shift+F6 | Go to the previous code check issue |
+| ***Refactoring*** | | |
+| Rename | F2 | Rename the selected identifier |
 | ***Edit Commands*** | | |
 | Comment out | Ctrl+Alt+. | Comment out a block of code |
 | Copy | Ctrl+C | Copy selection to Clipboard |
@@ -86,7 +87,7 @@ dialog.
 | Step Out | Shift+F8 | Resumes debugging by stepping out the current execution frame |
 | Syntax Check |  | Perform a syntax check of the active file |
 | Toggle Breakpoint | F5 | Toggles the breakpoint at the cursor position |
-| Reinitialize Python | Ctrl+F6 | Reinitialize the remote Python engine |
+| Reinitialize Python | Ctrl+F2 | Reinitialize the remote Python engine |
 | ***Tools Commands*** | | |
 | Code Templates... |  | Configure [Code Templates](codetemplates) |
 | Configure Tools... |  | Configure [External Tools](externaltools) |

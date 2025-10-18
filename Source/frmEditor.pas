@@ -932,6 +932,9 @@ begin
   TArray.BinarySearch<TBufferCoord>(BCArray, Form.SynEdit.CaretXY,
                                     Index, Comparer);
   Dec(Index);
+  // Skip diagnostics with the same start
+  while (Index >= 0) and (BCArray[Index] = BCArray[Index - 1]) do
+    Dec(Index);
   if Index = 0 then
     Index := High(BCArray);
   Form.SynEdit.CaretXY := BCArray[Index];
@@ -1297,7 +1300,12 @@ begin
   var Found := TArray.BinarySearch<TBufferCoord>(BCArray, Form.SynEdit.CaretXY,
                                                  Index, Comparer);
   if Found then
+  begin
     Inc(Index);
+    // Skip diagnostics with the same start
+    while (Index <= High(BCArray)) and (BCArray[Index] = BCArray[Index - 1]) do
+      Inc(Index);
+  end;
   if Index = Length(BCArray) then
     Index := 0;
   Form.SynEdit.CaretXY := BCArray[Index];
