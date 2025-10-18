@@ -250,7 +250,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 0
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 0
       Images = vilImages
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
@@ -366,7 +365,7 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnSourceCode: TSpTBXSubmenuItem
           Caption = '&Source Code'
           object mnCheckCode: TSpTBXSubmenuItem
-            Caption = 'Check Code'
+            Caption = 'Check'
             object mnFixAll: TSpTBXItem
               Action = CommandsDataModule.actFixAll
             end
@@ -388,7 +387,7 @@ object PyIDEMainForm: TPyIDEMainForm
             end
           end
           object mnRefactor: TSpTBXSubmenuItem
-            Caption = 'Refactor Code'
+            Caption = 'Refactor'
             OnClosePopup = mnRefactorClosePopup
             OnInitPopup = mnRefactorInitPopup
             object mnOrganizeImports: TSpTBXItem
@@ -400,10 +399,10 @@ object PyIDEMainForm: TPyIDEMainForm
               Action = CommandsDataModule.actRefactorRename
             end
           end
-          object SpTBXSeparatorItem: TSpTBXSeparatorItem
-          end
           object mnFormat: TSpTBXItem
             Action = CommandsDataModule.actFormatCode
+          end
+          object SpTBXSeparatorItem: TSpTBXSeparatorItem
           end
           object mnIndentBlock: TSpTBXItem
             Action = CommandsDataModule.actEditIndent

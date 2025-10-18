@@ -600,4 +600,18 @@ object EditorForm: TEditorForm
       OnClick = mnIgnoreIssueClick
     end
   end
+  object pmnuRefactor: TSpTBXPopupMenu
+    OnPopup = pmnuRefactorPopup
+    OnClosePopup = pmnuRefactorClosePopup
+    Left = 184
+    Top = 136
+    object mnOrganizeImports: TSpTBXItem
+      Action = CommandsDataModule.actOrganizeImports
+    end
+    object SpTBXSeparatorItem9: TSpTBXSeparatorItem
+    end
+    object mnRename: TSpTBXItem
+      Action = CommandsDataModule.actRefactorRename
+    end
+  end
 end

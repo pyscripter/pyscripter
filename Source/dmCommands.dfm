@@ -1013,7 +1013,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actFormatCode: TAction
       Category = 'Source Code'
-      Caption = 'Format Code'
+      Caption = 'Format'
       HelpContext = 320
       Hint = 
         'Format source code, either the selected text or the whole docume' +
@@ -1023,7 +1023,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actCodeCheck: TAction
       Category = 'Source Code'
-      Caption = 'Code Check'
+      Caption = 'Check Code'
       HelpContext = 320
       HelpType = htContext
       Hint = 'Perform a code check'
@@ -1060,8 +1060,8 @@ object CommandsDataModule: TCommandsDataModule
       HelpContext = 320
       HelpType = htContext
       Hint = 'Go to the previous issue'
-      ImageIndex = 65
-      ImageName = 'ArrowRight'
+      ImageIndex = 64
+      ImageName = 'ArrowLeft'
       ShortCut = 8309
       OnExecute = actPreviousIssueExecute
     end
@@ -1094,6 +1094,11 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 56
       ImageName = 'ToolsSetup'
       OnExecute = actCodeActionExecute
+    end
+    object actShowRefactorMenu: TAction
+      Category = 'Refactoring'
+      ShortCut = 8305
+      OnExecute = actShowRefactorMenuExecute
     end
   end
   object SynWebCompletion: TSynCompletionProposal

@@ -223,6 +223,7 @@ type
     actOrganizeImports: TAction;
     actRefactorRename: TAction;
     actCodeAction: TAction;
+    actShowRefactorMenu: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -327,6 +328,7 @@ type
     procedure actOrganizeImportsExecute(Sender: TObject);
     procedure actPreviousIssueExecute(Sender: TObject);
     procedure actRefactorRenameExecute(Sender: TObject);
+    procedure actShowRefactorMenuExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
     procedure HighlightCheckedImg(Sender: TObject; ACanvas: TCanvas; State:
         TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage; var AImageList:
@@ -1714,7 +1716,7 @@ begin
 
   // File Actions
   actFileReload.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanReload;
-  actFileClose.Enabled := Assigned(Editor) and Editor.CanClose;
+  actFileClose.Enabled := Assigned(Editor) and IFileCommands(Editor).CanClose;
   actFilePrint.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanPrint;
   actPrintPreview.Enabled := actFilePrint.Enabled;
   actFileSave.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanSave;
@@ -2169,7 +2171,9 @@ begin
       SynEdit.SetCaretAndSelection(BE, BB, BE)
     else
       SynEdit.ExecuteCommand(ecSelWord);
-  end;
+  end
+  else
+    SynEdit.ExecuteCommand(ecSelWord);
 
   var NewName := SynEdit.WordAtCursor;
   if not InputQuery(_('Rename'), _('New name')+':', NewName) then
@@ -2184,6 +2188,12 @@ begin
     finally
       Edit.Free;
     end;
+end;
+
+procedure TCommandsDataModule.actShowRefactorMenuExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then
+    GI_ActiveEditor.ShowRefactoringMenu;
 end;
 
 procedure TCommandsDataModule.actToolsRestartLSExecute(Sender: TObject);

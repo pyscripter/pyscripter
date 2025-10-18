@@ -16,6 +16,7 @@ uses
   System.SyncObjs,
   System.JSON,
   System.Generics.Collections,
+  TB2Item,
   XLspTYpes,
   XLspClient,
   SynEdit,
@@ -156,6 +157,9 @@ procedure ApplyTextEdits(SynEdit: TCustomSynedit; TextEdits:
     TLSPAnnotatedTextEdits);
 procedure ApplyWorkspaceEdit(EditParams: TLSPApplyWorkspaceEditParams); overload;
 procedure ApplyWorkspaceEdit(Edit: TLSPWorkspaceEdit); overload;
+procedure SetupRefactoringMenu(FileId: string; const BB, BE: TBufferCoord;
+    MenuItem: TTBCustomItem);
+procedure CleanUpRefactoringMenu(MenuItem: TTBCustomItem);
 
 
 {$ENDREGION 'Utility functions'}
@@ -169,6 +173,7 @@ uses
   System.NetEncoding,
   System.RegularExpressions,
   System.Generics.Defaults,
+  spTBXItem,
   cPySupportTypes,
   XLspUtils,
   XLSPFunctions,
@@ -338,6 +343,37 @@ begin
   end;
 end;
 
+procedure SetupRefactoringMenu(FileId: string; const BB, BE: TBufferCoord;
+  MenuItem: TTBCustomItem);
+begin
+  TPyLspClient.MainLspClient.GetCodeActions(FileId, BB, BE);
+  if not Assigned(TPyLspClient.CodeActions) or
+    (Length(TPyLspClient.CodeActions.codeActions) = 0)
+  then
+    Exit;
+  for var I := 0 to High(TPyLspClient.CodeActions.codeActions) do
+  begin
+    var CodeAction := TPyLspClient.CodeActions.codeActions[I];
+    if not Assigned(CodeAction.edit) then Continue;
+    var Item := TSpTBXItem.Create(nil);
+    Item.Action := CommandsDataModule.actCodeAction;
+    Item.Hint :=  CodeAction.title;
+    if Item.Hint.StartsWith('Inline') then
+      Item.Caption := _('Inline')
+    else if Item.Hint.StartsWith('Extract expression into function') then
+      Item.Caption := _('Extract function')
+    else
+      Item.Caption := _('Extract variable');
+    Item.Tag := I;
+    MenuItem.Add(Item);
+  end;
+end;
+
+procedure CleanUpRefactoringMenu(MenuItem: TTBCustomItem);
+begin
+  while MenuItem[MenuItem.Count - 1].Action = CommandsDataModule.actCodeAction do
+    MenuItem[MenuItem.Count - 1].Free;
+end;
 
 {$ENDREGION 'Utility functions'}
 

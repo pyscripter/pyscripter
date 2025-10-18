@@ -30,6 +30,7 @@ dialog.
 | Previous Issue | Shift+F6 | Go to the previous code check issue |
 | ***Refactoring*** | | |
 | Rename | F2 | Rename the selected identifier |
+| Show Refactoring Menu | Shift+F2 | Show the refactoring meny for the current editor position |
 | ***Edit Commands*** | | |
 | Comment out | Ctrl+Alt+. | Comment out a block of code |
 | Copy | Ctrl+C | Copy selection to Clipboard |

@@ -120,6 +120,10 @@ type
     pmnuDiagnostics: TSpTBXPopupMenu;
     mnIgnoreIssue: TSpTBXItem;
     mnFixIssue: TSpTBXItem;
+    pmnuRefactor: TSpTBXPopupMenu;
+    mnOrganizeImports: TSpTBXItem;
+    SpTBXSeparatorItem9: TSpTBXSeparatorItem;
+    mnRename: TSpTBXItem;
     procedure FormDestroy(Sender: TObject);
     procedure SynEditChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -169,6 +173,8 @@ type
         TPoint; Row, Line: Integer; var Handled: Boolean);
     procedure mnFixIssueClick(Sender: TObject);
     procedure mnIgnoreIssueClick(Sender: TObject);
+    procedure pmnuRefactorClosePopup(Sender: TObject);
+    procedure pmnuRefactorPopup(Sender: TObject);
     procedure spiBreakpointClearClick(Sender: TObject);
     procedure spiBreakpointEnabledClick(Sender: TObject);
     procedure spiBreakpointPropertiesClick(Sender: TObject);
@@ -250,40 +256,41 @@ type
     function AskSaveChanges: Boolean;
     procedure ApplyEditorOptions(EditorOptions: TSynEditorOptionsContainer);
     procedure Close;
-    function GetCaretPos: TPoint;
     function GetSynEdit: TSynEdit;
     function GetSynEdit2: TSynEdit;
     function GetActiveSynEdit: TSynEdit;
     function GetBreakpoints: TObjectList;
+    function GetCaretPos: TPoint;
     function GetEditorState: string;
     function GetFileName: string;
     function GetFileTitle: string;
     function GetFileId: string;
     function GetModified: Boolean;
-    function GetHasSearchHighlight: Boolean;
     function GetFileEncoding: TFileSaveFormat;
+    function GetForm: TForm;
+    function GetDocSymbols: TObject;
+    function GetEncodedText: AnsiString;
+    function GetTabControlIndex: Integer;
+    function GetReadOnly: Boolean;
+    function GetRemoteFileName: string;
+    function GetHasSearchHighlight: Boolean;
+    function GetSSHServer: string;
+    function GetVersion: Integer;
+    procedure SetReadOnly(Value: Boolean);
+    procedure SetHasSearchHighlight(Value: Boolean);
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
     procedure SetHighlighter(const HighlighterName: string);
-    function GetEncodedText: AnsiString;
+    procedure ShowRefactoringMenu;
     procedure OpenLocalFile(const AFileName: string; HighlighterName: string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
     function SaveToRemoteFile(const FileName, ServerName: string): Boolean;
     function HasPythonFile: Boolean;
-    function GetReadOnly: Boolean;
-    procedure SetReadOnly(Value: Boolean);
-    procedure SetHasSearchHighlight(Value: Boolean);
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
     procedure SplitEditorHide;
     procedure Retranslate;
     procedure PullDiagnostics;
-    function GetForm: TForm;
-    function GetDocSymbols: TObject;
-    function GetTabControlIndex: Integer;
-    function GetRemoteFileName: string;
-    function GetSSHServer: string;
-    function GetVersion: Integer;
     // IFileCommands implementation
     function CanClose: Boolean;
     function CanPrint: Boolean;
@@ -770,6 +777,16 @@ begin
   GetSynEdit.ReadOnly := Value;
   GetSynEdit2.ReadOnly := Value;
   Form.UpdateTabImage;
+end;
+
+procedure TEditor.ShowRefactoringMenu;
+begin
+  var Editor := GetActiveSynEdit;
+  Editor.EnsureCursorPosVisibleEx(True);
+  var P := Editor.BufferToPixels(Editor.CaretXY);
+  Inc(P.Y, Editor.LineHeight);
+  P := Editor.ClientToScreen(P);
+  Form.pmnuRefactor.Popup(P.X, P.Y);
 end;
 
 procedure TEditor.SplitEditorHorizontally;
@@ -2422,6 +2439,10 @@ begin
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
 
+  // Refactor munu
+//  pmnuRefactor.OnInitPopup := TSpTBXSubmenuItem(pmnuRefactor.LinkSubitems).OnInitPopup;
+//  pmnuRefactor.OnClosePopup := TSpTBXSubmenuItem(pmnuRefactor.LinkSubitems).OnClosePopup;
+
   // Setup notifications
   TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
     ApplyPyIDEOptions);
@@ -3325,6 +3346,17 @@ begin
   // Use the mechanism of the diagnostic hint
   TLspSynEditPlugin.DiagnosticHintIndex := pmnuDiagnostics.Tag;
   FEditor.FSynLsp.PerformNoqaEdit;
+end;
+
+procedure TEditorForm.pmnuRefactorClosePopup(Sender: TObject);
+begin
+  CleanUpRefactoringMenu(pmnuRefactor.Items);
+end;
+
+procedure TEditorForm.pmnuRefactorPopup(Sender: TObject);
+begin
+  SetupRefactoringMenu(FEditor.GetFileId, FEditor.GetActiveSynEdit.BlockBegin,
+    FEditor.GetActiveSynEdit.BlockEnd, pmnuRefactor.Items);
 end;
 
 procedure TEditorForm.spiBreakpointClearClick(Sender: TObject);

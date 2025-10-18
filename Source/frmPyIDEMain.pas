@@ -1333,11 +1333,12 @@ type
     procedure lbPythonVersionClick(Sender: TObject);
     procedure lbPythonEngineClick(Sender: TObject);
     procedure lbStatusCaretClick(Sender: TObject);
-    procedure mnRefactorClosePopup(Sender: TObject);
-    procedure mnRefactorInitPopup(Sender: TObject; PopupView: TTBView);
     procedure mnSyntaxClick(Sender: TObject);
     procedure tbiReplaceTextExit(Sender: TObject);
+    procedure mnRefactorClosePopup(Sender: TObject);
+    procedure mnRefactorInitPopup(Sender: TObject; PopupView: TTBView);
   private
+    FLanguageList: TStringList;
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles: TStringList;
 //    function FindAction(var Key: Word; Shift: TShiftState): TCustomAction;
@@ -1419,7 +1420,6 @@ type
     PythonKeywordHelpRequested: Boolean;
     MenuHelpRequested: Boolean;
     Layouts: TStringList;
-    fLanguageList: TStringList;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
     procedure StoreLocalApplicationData;
@@ -1622,7 +1622,7 @@ begin
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
 
   // Setup Languages
-  fLanguageList := TStringList.Create;
+  FLanguageList := TStringList.Create;
   SetupLanguageMenu;
 
   // ActionLists
@@ -2777,7 +2777,7 @@ begin
   TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
     PyIDEOptionsChanged);
   FreeAndNil(Layouts);
-  FreeAndNil(fLanguageList);
+  FreeAndNil(FLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
 end;
@@ -3407,16 +3407,16 @@ begin
   mnLanguage.Clear;
   CurrentLanguage := GetCurrentLanguage;
   DefaultInstance.bindtextdomainToFile ('languagecodes',ExtractFilePath(Application.ExeName)+'locale\languagecodes.mo');
-  DefaultInstance.GetListOfLanguages ('default',fLanguageList);
-  fLanguageList.Insert(0, 'en');
+  DefaultInstance.GetListOfLanguages ('default',FLanguageList);
+  FLanguageList.Insert(0, 'en');
   HaveLang := False;
-  for var I := 0 to fLanguageList.Count - 1 do
+  for var I := 0 to FLanguageList.Count - 1 do
   begin
     MenuItem := TSpTBXItem.Create(Self);
     // Translate the language code to English language name and then to a localized language name
-    MenuItem.Caption := dgettext('languages', dgettext('languagecodes', fLanguageList[I]));
+    MenuItem.Caption := dgettext('languages', dgettext('languagecodes', FLanguageList[I]));
     MenuItem.Tag := I;
-    if fLanguageList[I] = CurrentLanguage then begin
+    if FLanguageList[I] = CurrentLanguage then begin
       MenuItem.Checked := True;
       HaveLang := True;
     end;
@@ -4616,16 +4616,14 @@ end;
 
 procedure TPyIDEMainForm.mnLanguageClick(Sender: TObject);
 begin
-  ChangeLanguage(fLanguageList[(Sender as TSpTBXItem).Tag]);
+  ChangeLanguage(FLanguageList[(Sender as TSpTBXItem).Tag]);
   SetupSyntaxMenu;
   SetupToolsMenu;
 end;
 
 procedure TPyIDEMainForm.mnRefactorClosePopup(Sender: TObject);
 begin
-  // Clear CadeAction menu items
-  while mnRefactor[mnRefactor.Count - 1].Action = CommandsDataModule.actCodeAction do
-    mnRefactor[mnRefactor.Count - 1].Free;
+  CleanUpRefactoringMenu(mnRefactor);
 end;
 
 procedure TPyIDEMainForm.mnRefactorInitPopup(Sender: TObject; PopupView:
@@ -4633,30 +4631,8 @@ procedure TPyIDEMainForm.mnRefactorInitPopup(Sender: TObject; PopupView:
 begin
   var Editor := GI_ActiveEditor;
   if Assigned(Editor) then
-  begin
-    TPyLspClient.MainLspClient.GetCodeActions(Editor.FileId,
-      Editor.ActiveSynEdit.BlockBegin, Editor.ActiveSynEdit.BlockEnd);
-    if not Assigned(TPyLspClient.CodeActions) or
-      (Length(TPyLspClient.CodeActions.codeActions) = 0)
-    then
-      Exit;
-    for var I := 0 to High(TPyLspClient.CodeActions.codeActions) do
-    begin
-      var CodeAction := TPyLspClient.CodeActions.codeActions[I];
-      if not Assigned(CodeAction.edit) then Continue;
-      var MenuItem := TSpTBXItem.Create(Self);
-      MenuItem.Action := CommandsDataModule.actCodeAction;
-      MenuItem.Hint :=  CodeAction.title;
-      if MenuItem.Hint.StartsWith('Inline') then
-        MenuItem.Caption := _('Inline')
-      else if MenuItem.Hint.StartsWith('Extract expression into function') then
-        MenuItem.Caption := _('Extract function')
-      else
-        MenuItem.Caption := _('Extract variable');
-      MenuItem.Tag := I;
-      mnRefactor.Add(MenuItem);
-    end;
-  end;
+    SetupRefactoringMenu(Editor.FileId, Editor.ActiveSynEdit.BlockBegin,
+      Editor.ActiveSynEdit.BlockEnd, mnRefactor);
 end;
 
 procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);
