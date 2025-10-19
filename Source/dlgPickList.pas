@@ -58,8 +58,7 @@ uses
 
 procedure TPickListDialog.mnSelectAllClick(Sender: TObject);
 begin
-  for var I := 0 to CheckListBox.Items.Count - 1 do
-    CheckListBox.Checked[I] := True;
+  CheckListBox.CheckAll(cbChecked);
 end;
 
 procedure TPickListDialog.SetScrollWidth;
@@ -85,8 +84,7 @@ end;
 
 procedure TPickListDialog.mnDeselectAllClick(Sender: TObject);
 begin
-  for var I := 0 to CheckListBox.Items.Count - 1 do
-    CheckListBox.Checked[I] := False;
+  CheckListBox.CheckAll(cbUnchecked);
 end;
 
 end.

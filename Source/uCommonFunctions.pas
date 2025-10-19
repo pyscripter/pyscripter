@@ -242,6 +242,9 @@ procedure UnblockFile(const FileName: string);
 (* Replaces <>"& with HTML entities *)
 function HTMLEncode(const Str: string): string;
 
+(* Get the absolute path as stored in the file system *)
+function NormalizePath(const Path: string): string;
+
 type
   TMatchHelper = record helper for TMatch
   public
@@ -1955,6 +1958,24 @@ begin
   finally
     SB.Free;
   end;
+end;
+
+function NormalizePath(const Path: string): string;
+var
+  LongPath: array[0..MAX_PATH - 1] of Char;
+begin
+  Result := TPath.GetFullPath(Path);
+
+  // Remove trailing path delimiter
+  Result := ExcludeTrailingPathDelimiter(Result);
+
+  // Convert to long path (correct casing, expand 8.3 names)
+  if GetLongPathName(PChar(Result), LongPath, MAX_PATH) > 0 then
+    Result := LongPath;
+
+  // Lowercase drive letter if present (required by Jedi LSP)
+  if (Length(Result) >= 2) and (Result[2] = DriveDelim) then
+    Result[1] := Result[1].ToLower;
 end;
 
 { TMatchHelper }

@@ -290,6 +290,10 @@ const
   SFileReloadWarning = 'The following files have been changed on disk.'+
       ' Select the files that you wish to reload and press the OK button.'+
       ' Please note that you will lose all changes to these files.';
+  SRenameConfirmation =
+    'The rename refactoring will change the following files.' + sLineBreak +
+    'Please uncheck the files you want to keep unchanged and press OK to ' +
+    'confirm or Cancel to cancel the operation';
   StrScriptRunOK = 'Script run OK';
   SDebuggingAborted = 'Debugging Aborted';
   SSyntaxError = 'Syntax Error';

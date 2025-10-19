@@ -1690,6 +1690,8 @@ begin
   actClearIssues.Enabled := HasPython;
   actNextIssue.Enabled := HasPython;
   actPreviousIssue.Enabled := HasPython;
+  actRefactorRename.Enabled := HasPython;
+  actShowRefactorMenu.Enabled := HasPython;
   actEditIndent.Enabled := SelAvail and not ReadOnly;
   actEditDedent.Enabled := SelAvail and not ReadOnly;
   actEditTabify.Enabled := SelAvail and not ReadOnly;
@@ -1716,7 +1718,7 @@ begin
 
   // File Actions
   actFileReload.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanReload;
-  actFileClose.Enabled := Assigned(Editor) and IFileCommands(Editor).CanClose;
+  actFileClose.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanClose;
   actFilePrint.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanPrint;
   actPrintPreview.Enabled := actFilePrint.Enabled;
   actFileSave.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanSave;

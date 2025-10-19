@@ -538,7 +538,7 @@ end;
 
 procedure TLspSynEditPlugin.RefreshSymbols;
 begin
-  if not FNeedToRefreshSymbols then Exit;
+  if GI_PyIDEServices.IsClosing or not FNeedToRefreshSymbols then Exit;
 
   var Client := TPyLspClient.MainLspClient;
   if not (Assigned(Client) and Client.Ready and

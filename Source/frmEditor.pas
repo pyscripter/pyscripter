@@ -359,6 +359,7 @@ uses
   System.Generics.Defaults,
   PythonEngine,
   Vcl.Dialogs,
+  Vcl.StdCtrls,
   JclFileUtils,
   SynEditHighlighter,
   SynEditKeyCmds,
@@ -1137,7 +1138,7 @@ begin
                 lbMessage.Caption := _(SFileReloadWarning);
                 CheckListBox.Items.AddStrings(FChangedFiles);
                 SetScrollWidth;
-                mnSelectAllClick(nil);
+                CheckListBox.CheckAll(cbChecked);
                 if ShowModal = idOK then
                   for var I := CheckListBox.Count - 1 downto 0 do
                   begin
@@ -1922,6 +1923,10 @@ end;
 
 procedure TEditorForm.SynEditExit(Sender: TObject);
 begin
+  // To make sure Jedi has the latest version
+  if not (csDestroying in ComponentState) then
+    FEditor.FSynLsp.RefreshSymbols;
+
   DoAssignInterfacePointer(False);
 
   if FHotIdentInfo.HaveHotIdent then

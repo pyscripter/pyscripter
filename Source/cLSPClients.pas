@@ -173,6 +173,7 @@ uses
   System.NetEncoding,
   System.RegularExpressions,
   System.Generics.Defaults,
+  Vcl.StdCtrls,
   spTBXItem,
   cPySupportTypes,
   XLspUtils,
@@ -182,6 +183,7 @@ uses
   StringResources,
   dmResources,
   dmCommands,
+  dlgPickList,
   uEditAppIntfs,
   uCommonFunctions,
   cCodeCompletion,
@@ -233,9 +235,9 @@ begin
     end
     else
     begin
-      // change drive to lower case
+      // change drive to lower case required by Jedi Lsp
       var Path := FilePath;
-      if TPath.DriveExists(Path) then
+      if TPath.IsDriveRooted(Path) then
         Path[1] := Path[1].ToLower;
       Result := FilePathToURI(Path);
     end;
@@ -305,24 +307,78 @@ end;
 procedure ApplyWorkspaceEdit(Edit: TLSPWorkspaceEdit); overload;
 // Todo: If more than one file is affected, show the affected files
 // and let the user decide to which files to apply the edit
+
+  function GetAffectedFiles: TArray<string>;
+  begin
+    Result := [];
+    if Length(Edit.documentChanges) > 0 then
+      for var Item in Edit.documentChanges do
+      begin
+        if not (Item is TLSPTextDocumentEdit) then Continue;
+        var DocEdit := TLSPTextDocumentEdit(Item);
+        Result := Result + [FileIdFromURI(DocEdit.textDocument.uri)];
+      end
+    else if Assigned(Edit.changes) and (Edit.changes.Count > 0) then
+    begin
+      for var Key in Edit.changes.Keys do
+        Result := Result + [FileIdFromURI(Key)];
+    end;
+  end;
+
+  function GetConfirmedFiles(const AffectedFiles: TArray<string>): TArray<string>;
+  begin
+    var dlg := TPickListDialog.Create(nil);
+    dlg.Caption := _('Confirm Rename');
+    dlg.lbMessage.Caption := _(SRenameConfirmation);
+    dlg.CheckListBox.Items.AddStrings(AffectedFiles);
+    dlg.CheckListBox.CheckAll(cbChecked);
+    dlg.SetScrollWidth;
+
+    Result := [];
+    if dlg.ShowModal = idOK then
+      for var I := 0 to dlg.CheckListBox.Items.Count - 1 do
+        if dlg.CheckListBox.Checked[I] then
+          Result := Result + [dlg.CheckListBox.Items[I]];
+  end;
+
+var
+  ConfirmedFiles: TArray<string>;
 begin
   if not Assigned(Edit) then Exit;
+
+  var AffectedFiles := GetAffectedFiles;
+  if Length(AffectedFiles) = 0 then Exit;
+
+  if Length(AffectedFiles) > 1 then
+    ConfirmedFiles := GetConfirmedFiles(AffectedFiles)
+  else
+    ConfirmedFiles := AffectedFiles;
+
+  if Length(ConfirmedFiles) = 0 then Exit;
 
   if Length(Edit.documentChanges) > 0 then
     for var Item in Edit.documentChanges do
     begin
       // Currently we do not handle workspace commands
-      var DocEdit := Item as TLSPTextDocumentEdit;
-      var FileId := FileIdFromURI(DocEdit.textDocument.uri);
-      var Editor := GI_PyIDEServices.ActiveEditor;
-      if not Assigned(Editor) or not AnsiSameText(Editor.FileId, FileId) then
-      begin
-        if not GI_PyIDEServices.ShowFilePosition(FileId) then Continue;
-        Editor := GI_PyIDEServices.ActiveEditor;
-      end;
-      if not Assigned(Editor) then Continue;
+      if not (Item is TLSPTextDocumentEdit) then Continue;
 
-      if not VarIsNull(DocEdit.textDocument.version) and
+      var DocEdit := TLSPTextDocumentEdit(Item);
+      var FileId := FileIdFromURI(DocEdit.textDocument.uri);
+      if not TArray.Contains<string>(ConfirmedFiles, FileId) then Continue;
+
+      var Editor := GI_EditorFactory.GetEditorByFileId(FileId);
+      var Opened := False;
+      if not Assigned(Editor) then
+        try
+          Editor := GI_EditorFactory.OpenFile(FileId);
+          Opened := True;
+        except
+          Continue;
+        end;
+      if not Assigned(Editor) then Continue;
+      Editor.Activate;
+
+      if not Opened and not VarIsNull(DocEdit.textDocument.version) and
         (Editor.Version <> DocEdit.textDocument.version)
       then
         Exit;
@@ -334,8 +390,18 @@ begin
     for var Key in Edit.changes.Keys do
     begin
       var FileId := FileIdFromURI(Key);
+      if not TArray.Contains<string>(ConfirmedFiles, FileId) then Continue;
       if not GI_PyIDEServices.ShowFilePosition(FileId) then Continue;
-      var Editor := GI_PyIDEServices.ActiveEditor;
+      var Editor := GI_EditorFactory.GetEditorByFileId(FileId);
+      if not Assigned(Editor) then
+        try
+          Editor := GI_EditorFactory.OpenFile(FileId);
+        except
+          Continue;
+        end;
+      if not Assigned(Editor) then Continue;
+      Editor.Activate;
+
       if not Assigned(GI_PyIDEServices.ActiveEditor) then Continue;
       ApplyTextEdits(Editor.SynEdit, Edit.changes[Key]);
       Editor.PullDiagnostics;

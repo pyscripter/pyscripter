@@ -480,7 +480,11 @@ begin
   var Paths := TSmartPtr.Make(TStringList.Create)();
   Paths.Assign(ActiveProject.ExtraPythonPath);
   if EditFolderList(Paths, _(SProjectPythonPath), 0) then
+  begin
+    for var I := 0 to Paths.Count - 1 do
+      Paths[I] := NormalizePath(Paths[I]);
     ActiveProject.ExtraPythonPath := Paths;
+  end;
 end;
 
 procedure TProjectExplorerWindow.actProjectFileEditExecute(Sender: TObject);
