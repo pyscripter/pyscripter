@@ -662,7 +662,6 @@
 // TODO: Find module expert
 // TODO: Code helpers, automatically fill the self parameter in methods
 // TODO: UML Editor View
-// TODO: Refactorings
 // TODO: Plugin architecture
 // TODO Package as an Application Scripter Component
 
@@ -1497,8 +1496,7 @@ uses
   dlgRemoteFile,
   frmEditor,
   frmIDEDockWin,
-  frmFileExplorer,
-  frmRegExpTester,
+  //frmRegExpTester,
   frmWebPreview,
   frmModSpTBXCustomize,
   cPyBaseDebugger,
@@ -1753,9 +1751,8 @@ begin
     except
     end;
 
-    // Disconnect ChangeNotify
-    FileExplorerWindow.FileExplorerTree.Active := False;
-    FileExplorerWindow.ConfigureThreads(fcnDisabled, False);
+    // Disconnect File Explorer
+    GI_FileExplorer.Active := False;
 
     // Stop accepting files
     DragAcceptFiles(TabControl1.Handle, False);
@@ -1832,7 +1829,7 @@ begin
   GI_VariablesWindow.ClearAll;
   GI_CallStackWindow.ClearAll;
   GI_UnitTestsService.ClearAll;
-  RegExpTesterWindow.Clear;
+  GI_RegExpService.Clear;
 end;
 
 procedure TPyIDEMainForm.actNewFileExecute(Sender: TObject);
@@ -4282,7 +4279,7 @@ end;
 procedure TPyIDEMainForm.FormShowDelayedActions;
 begin
   // Activate File Explorer
-  FileExplorerWindow.FileExplorerTree.Active := True;
+  GI_FileExplorer.Active := True;
 
   // Load Python Engine and Assign Debugger Events
   PyControl.LoadPythonEngine;

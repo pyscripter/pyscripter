@@ -221,6 +221,17 @@ type
     function SaveProjectAs: Boolean;
   end;
 
+  IFileExplorer = interface
+  ['{0244CC06-409A-4062-825E-917D94C6B262}']
+    procedure SetActive(Value: Boolean);
+    property Active:Boolean write SetActive;
+  end;
+
+  IRegExpService = interface
+  ['{F3A4617B-AA4B-476B-BCF6-D7233E42AF3A}']
+    procedure Clear;
+  end;
+
   IIDELayouts = interface
   ['{506187EB-6438-4B0B-92B0-07112F812EE8}']
     function LayoutExists(const Layout: string): Boolean;
@@ -285,6 +296,8 @@ var
   GI_UnitTestsService: IUnitTestsService;
   GI_SystemCommandService: ISystemCommandService;
   GI_ProjectService: IProjectService;
+  GI_FileExplorer: IFileExplorer;
+  GI_RegExpService: IRegExpService;
   GI_SSHServices: ISSHServices;
 
   GI_FileSystemMonitor: IFileSystemMonitor;

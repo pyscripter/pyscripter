@@ -37,10 +37,11 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees,
   SynEdit,
+  uEditAppIntfs,
   frmIDEDockWin;
 
 type
-  TRegExpTesterWindow = class(TIDEDockWindow)
+  TRegExpTesterWindow = class(TIDEDockWindow, IRegExpService)
     TBXDock: TSpTBXDock;
     RegExpTesterToolbar: TSpTBXToolbar;
     TBXSubmenuItem2: TSpTBXSubmenuItem;
@@ -102,11 +103,12 @@ type
     FRegExp: Variant;
     FMatchObject: Variant;
     FMatchList: TList<Variant>;
+    // IRegExpService implementation
+    procedure Clear;
   protected
     const FBasePath = 'RegExp Tester Options'; // Used for storing settings
     const FHighlightIndicatorID: TGUID = '{10FBEC66-4210-49F5-9F7D-189B6252080B}';
   public
-    procedure Clear;
     procedure HighlightMatches;
     procedure ClearHighlight;
     // AppStorage
@@ -133,7 +135,6 @@ uses
   dmResources,
   dmCommands,
   PythonEngine,
-  uEditAppIntfs,
   cPySupportTypes,
   uCommonFunctions;
 
@@ -190,10 +191,14 @@ begin
   FMatchList := TList<Variant>.Create;
 
   GroupsView.NodeDataSize := 0;
+
+  GI_RegExpService := Self;
 end;
 
 procedure TRegExpTesterWindow.FormDestroy(Sender: TObject);
 begin
+  GI_RegExpService := nil;
+
   Clear;
   FreeAndNil(FMatchList);
   inherited;

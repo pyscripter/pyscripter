@@ -35,11 +35,12 @@ uses
   VirtualExplorerTree,
   VirtualShellHistory,
   MPShellUtilities,
+  uEditAppIntfs,
   cPyScripterSettings,
   frmIDEDockWin;
 
 type
-  TFileExplorerWindow = class(TIDEDockWindow)
+  TFileExplorerWindow = class(TIDEDockWindow, IFileExplorer)
     FileExplorerTree: TVirtualExplorerTree;
     VirtualShellHistory: TVirtualShellHistory;
     ExplorerDock: TSpTBXDock;
@@ -147,6 +148,8 @@ type
     procedure ApplyPyIDEOptions(const Sender: TObject; const Msg:
         System.Messaging.TMessage);
     procedure SetExplorerPath(const Value: string);
+    // IFileExplorer implementation
+    procedure SetActive(Value: Boolean);
   public
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
@@ -177,7 +180,6 @@ uses
   dmCommands,
   frmFindResults,
   dlgDirectoryList,
-  uEditAppIntfs,
   cFindInFiles,
   cPyControl;
 
@@ -357,6 +359,13 @@ begin
     end;
 end;
 
+procedure TFileExplorerWindow.SetActive(Value: Boolean);
+begin
+  FileExplorerTree.Active := Value;
+  if not Value then
+    ConfigureThreads(fcnDisabled, False);
+end;
+
 procedure TFileExplorerWindow.SetExplorerPath(const Value: string);
 begin
   try
@@ -469,12 +478,16 @@ begin
   FFavorites := TStringList.Create;
   FFavorites.Duplicates := dupIgnore;
   FFavorites.Sorted := True;
+
+  GI_FileExplorer := Self;
+
   TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
     ApplyPyIDEOptions);
 end;
 
 procedure TFileExplorerWindow.FormDestroy(Sender: TObject);
 begin
+  GI_FileExplorer := nil;
   TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
     ApplyPyIDEOptions);
   FFavorites.Free;
