@@ -339,6 +339,7 @@ procedure ApplyWorkspaceEdit(Edit: TLSPWorkspaceEdit); overload;
       for var I := 0 to dlg.CheckListBox.Items.Count - 1 do
         if dlg.CheckListBox.Checked[I] then
           Result := Result + [dlg.CheckListBox.Items[I]];
+    dlg.Free;
   end;
 
 var

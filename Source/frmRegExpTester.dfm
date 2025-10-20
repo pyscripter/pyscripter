@@ -307,7 +307,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               RightEdge = 0
               ScrollBars = ssVertical
               ScrollbarAnnotations = <>
-              VisibleSpecialChars = []
               WordWrap = True
               OnChange = RegExpTextChange
             end
@@ -392,7 +391,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 RightEdge = 0
                 ScrollBars = ssVertical
                 ScrollbarAnnotations = <>
-                VisibleSpecialChars = []
                 WordWrap = True
                 OnChange = RegExpTextChange
               end
@@ -498,7 +496,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
                 RightEdge = 0
                 ScrollBars = ssVertical
                 ScrollbarAnnotations = <>
-                VisibleSpecialChars = []
                 WordWrap = True
               end
             end
@@ -516,32 +513,32 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 30
+        CollectionIndex = 32
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 38
+        CollectionIndex = 40
         CollectionName = 'Execute'
         Name = 'Execute'
       end
       item
-        CollectionIndex = 20
+        CollectionIndex = 22
         CollectionName = 'Check'
         Name = 'Check'
       end
       item
-        CollectionIndex = 120
+        CollectionIndex = 122
         CollectionName = 'Stop'
         Name = 'Stop'
       end
       item
-        CollectionIndex = 112
+        CollectionIndex = 114
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 61
+        CollectionIndex = 63
         CollectionName = 'Help'
         Name = 'Help'
       end>

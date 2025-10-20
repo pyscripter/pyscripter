@@ -173,7 +173,6 @@ inherited FindResultsWindow: TFindResultsWindow
           ReadOnly = True
           RightEdge = 0
           ScrollbarAnnotations = <>
-          VisibleSpecialChars = []
           OnSpecialLineColors = reContextSpecialLineColors
         end
       end
@@ -395,57 +394,57 @@ inherited FindResultsWindow: TFindResultsWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 108
+        CollectionIndex = 110
         CollectionName = 'Save'
         Name = 'Save'
       end
       item
-        CollectionIndex = 79
+        CollectionIndex = 81
         CollectionName = 'Print'
         Name = 'Print'
       end
       item
-        CollectionIndex = 25
+        CollectionIndex = 27
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 110
+        CollectionIndex = 112
         CollectionName = 'Search'
         Name = 'Search'
       end
       item
-        CollectionIndex = 100
+        CollectionIndex = 102
         CollectionName = 'Replace'
         Name = 'Replace'
       end
       item
-        CollectionIndex = 101
+        CollectionIndex = 103
         CollectionName = 'ReplaceAll'
         Name = 'ReplaceAll'
       end
       item
-        CollectionIndex = 112
+        CollectionIndex = 114
         CollectionName = 'Setup'
         Name = 'Setup'
       end
       item
-        CollectionIndex = 40
+        CollectionIndex = 42
         CollectionName = 'Expand'
         Name = 'Expand'
       end
       item
-        CollectionIndex = 24
+        CollectionIndex = 26
         CollectionName = 'Collapse'
         Name = 'Collapse'
       end
       item
-        CollectionIndex = 60
+        CollectionIndex = 62
         CollectionName = 'GoToLine'
         Name = 'GoToLine'
       end
       item
-        CollectionIndex = 61
+        CollectionIndex = 63
         CollectionName = 'Help'
         Name = 'Help'
       end
@@ -455,7 +454,7 @@ inherited FindResultsWindow: TFindResultsWindow
         Name = 'Abort'
       end
       item
-        CollectionIndex = 52
+        CollectionIndex = 54
         CollectionName = 'FindRefresh'
         Name = 'FindRefresh'
       end>

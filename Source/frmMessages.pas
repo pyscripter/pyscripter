@@ -36,7 +36,7 @@ uses
   frmIDEDockWin;
 
 type
-  TMessagesWindow = class(TIDEDockWindow, IMessageServices)
+  TMessagesWindow = class(TIDEDockWindow, IMessagesService)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnClearall: TSpTBXItem;
     MessagesView: TVirtualStringTree;
@@ -90,6 +90,7 @@ type
     procedure ShowPythonSyntaxError(E: EPySyntaxError);
     procedure JumpToPosition(Node: PVirtualNode);
     procedure UpdateMsgActions;
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 var
@@ -99,6 +100,7 @@ implementation
 
 uses
   System.SysUtils,
+  Vcl.Forms,
   Vcl.Clipbrd,
   dmResources,
   uCommonFunctions,
@@ -181,6 +183,12 @@ begin
   UpdateMsgActions;
 end;
 
+class function TMessagesWindow.CreateInstance: TIDEDockWindow;
+begin
+  MessagesWindow := TMessagesWindow.Create(Application);
+  Result := MessagesWindow;
+end;
+
 procedure TMessagesWindow.ClearAllExecute(Sender: TObject);
 begin
   FMessageHistory.Clear;
@@ -261,10 +269,13 @@ begin
   FHistorySize := 10;
   // Let the tree know how much data space we need.
   MessagesView.NodeDataSize := SizeOf(TMsgRec);
+
+  GI_MessagesService := Self;
 end;
 
 procedure TMessagesWindow.FormDestroy(Sender: TObject);
 begin
+  GI_MessagesService := nil;
   FMessageHistory.Free;
   inherited;
 end;
@@ -386,4 +397,6 @@ begin
   UpdateMsgActions;
 end;
 
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideMessages, TMessagesWindow);
 end.

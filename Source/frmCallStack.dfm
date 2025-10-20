@@ -129,6 +129,7 @@ inherited CallStackWindow: TCallStackWindow
     Top = 33
   end
   object actlCallStack: TActionList
+    OnUpdate = actlCallStackUpdate
     Left = 492
     Top = 33
     object actPreviousFrame: TAction
@@ -155,17 +156,17 @@ inherited CallStackWindow: TCallStackWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 67
+        CollectionIndex = 78
         CollectionName = 'Pin'
         Name = 'Pin'
       end
       item
-        CollectionIndex = 120
+        CollectionIndex = 131
         CollectionName = 'ThreadRunning'
         Name = 'ThreadRunning'
       end
       item
-        CollectionIndex = 119
+        CollectionIndex = 130
         CollectionName = 'ThreadPaused'
         Name = 'ThreadPaused'
       end>

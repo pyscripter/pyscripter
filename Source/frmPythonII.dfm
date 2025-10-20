@@ -138,6 +138,7 @@ inherited PythonIIForm: TPythonIIForm
   end
   object InterpreterActionList: TActionList
     Images = vilImages
+    OnUpdate = InterpreterActionListUpdate
     Left = 40
     Top = 109
     object actCopyHistory: TAction
@@ -239,37 +240,37 @@ inherited PythonIIForm: TPythonIIForm
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 26
+        CollectionIndex = 28
         CollectionName = 'Cut'
         Name = 'Cut'
       end
       item
-        CollectionIndex = 25
+        CollectionIndex = 27
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 74
+        CollectionIndex = 76
         CollectionName = 'Paste'
         Name = 'Paste'
       end
       item
-        CollectionIndex = 30
+        CollectionIndex = 32
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 36
+        CollectionIndex = 38
         CollectionName = 'EditOptions'
         Name = 'EditOptions'
       end
       item
-        CollectionIndex = 93
+        CollectionIndex = 95
         CollectionName = 'Python'
         Name = 'Python'
       end
       item
-        CollectionIndex = 90
+        CollectionIndex = 92
         CollectionName = 'PySetup'
         Name = 'PySetup'
       end>

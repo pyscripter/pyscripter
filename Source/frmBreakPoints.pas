@@ -71,6 +71,7 @@ type
     // AppStorage
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 var
@@ -83,6 +84,7 @@ uses
   System.Types,
   System.Math,
   System.Contnrs,
+  Vcl.Forms,
   Vcl.Dialogs,
   Vcl.Clipbrd,
   uEditAppIntfs,
@@ -257,6 +259,12 @@ begin
   end;
 end;
 
+class function TBreakPointsWindow.CreateInstance: TIDEDockWindow;
+begin
+  BreakPointsWindow  := TBreakPointsWindow.Create(Application);
+  Result := BreakPointsWindow;
+end;
+
 procedure TBreakPointsWindow.TBXPopupMenuPopup(Sender: TObject);
 begin
   mnClear.Enabled := Assigned(BreakPointsView.GetFirstSelected());
@@ -428,6 +436,7 @@ end;
 {$ENDREGION 'TBreakpointManagement'}
 
 initialization
+  TIDEDockWindow.RegisterDockWinClass(ideBreakpoints, TBreakPointsWindow);
   GI_BreakpointManager := TBreakpointManager.Create;
 finalization
   GI_BreakpointManager := nil;

@@ -205,6 +205,7 @@ type
     function DoSaveFile: Boolean;
     function DoSaveAs: Boolean;
     function CanClose: Boolean;
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 resourcestring
@@ -236,6 +237,7 @@ uses
   JvGnugettext,
   StringResources,
   dmResources,
+  dmCommands,
   frmPyIDEMain,
   uCommonFunctions,
   dlgImportDirectory,
@@ -688,6 +690,12 @@ begin
       mrCancel:  Result := False;
     end;
   end;
+end;
+
+class function TProjectExplorerWindow.CreateInstance: TIDEDockWindow;
+begin
+  ProjectExplorerWindow := TProjectExplorerWindow.Create(Application);
+  Result := ProjectExplorerWindow;
 end;
 
 procedure TProjectExplorerWindow.ProjectFileNodeEdit(Node: PVirtualNode);
@@ -1317,6 +1325,8 @@ begin
   FShellImages.SetSize(MulDiv(FShellImages.Width, FCurrentPPI, Screen.PixelsPerInch),
     MulDiv(FShellImages.Height, FCurrentPPI, Screen.PixelsPerInch));
 
+  TCommandsDataModule.RegisterActionList(ProjectActionList);
+
   // Folder Change Notifier for auto updating folders
   ActiveProject.OnFolderChange := OnFolderChange;
 
@@ -1366,4 +1376,6 @@ begin
   end;
 end;
 
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideProjectExplorer, TProjectExplorerWindow);
 end.

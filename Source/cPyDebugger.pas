@@ -634,7 +634,7 @@ begin
     GI_PyControl.DebuggerState := dsDebugging;
     TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctAdded );
 
-    GI_PyIDEServices.Messages.ClearMessages;
+    GI_MessagesService.ClearMessages;
     // Set the layout to the Debug layout is it exists
     if GI_PyIDEServices.Layouts.LayoutExists('Debug') then begin
       GI_PyIDEServices.Layouts.SaveLayout('Current');
@@ -876,8 +876,8 @@ begin
     InternalInterpreter.Debugger.set_quit();
     TThread.Synchronize(nil, procedure
     begin
-      GI_PyIDEServices.Messages.AddMessage(_(SDebuggingAborted));
-      GI_PyIDEServices.Messages.ShowWindow;
+      GI_MessagesService.AddMessage(_(SDebuggingAborted));
+      GI_MessagesService.ShowWindow;
     end);
   end else if FDebuggerCommand = dcPause then
     InternalInterpreter.Debugger.set_step();
@@ -1030,7 +1030,7 @@ begin
   VarClear(Result);
   GI_PyControl.ErrorPos := TEditorPos.EmptyPos;
 
-  GI_PyIDEServices.Messages.ClearMessages;
+  GI_MessagesService.ClearMessages;
 
   Editor := GI_EditorFactory.GetEditorByFileId(ARunConfig.ScriptName);
   if Assigned(Editor) then begin
@@ -1430,7 +1430,7 @@ begin
 
         if not Quiet then
         begin
-          GI_PyIDEServices.Messages.ClearMessages;
+          GI_MessagesService.ClearMessages;
           // New Line for output
           GI_PyInterpreter.AppendPrompt;
           GI_PyControl.ErrorPos := ErrorPos;

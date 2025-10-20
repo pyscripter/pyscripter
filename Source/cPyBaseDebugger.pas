@@ -286,8 +286,8 @@ var
   TBItem: TTracebackItem;
   FileName: string;
 begin
-  GI_PyIDEServices.Messages.ShowPythonTraceback(Traceback, SkipFrames);
-  GI_PyIDEServices.Messages.AddMessage(ErrorMsg);
+  GI_MessagesService.ShowPythonTraceback(Traceback, SkipFrames);
+  GI_MessagesService.AddMessage(ErrorMsg);
   with Traceback do begin
     if ItemCount > 0 then begin
       TBItem := Items[ItemCount -1];

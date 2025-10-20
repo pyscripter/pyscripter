@@ -398,7 +398,7 @@ begin
   VarClear(Result);
   GI_PyControl.ErrorPos := TEditorPos.EmptyPos;
 
-  GI_PyIDEServices.Messages.ClearMessages;
+  GI_MessagesService.ClearMessages;
 
   Editor := GI_EditorFactory.GetEditorByFileId(ARunConfig.ScriptName);
   if Assigned(Editor) then
@@ -1611,7 +1611,7 @@ begin
   GI_PyControl.DebuggerState := dsDebugging;
   TPyBaseDebugger.ThreadChangeNotify(FMainThread, tctAdded );
 
-  GI_PyIDEServices.Messages.ClearMessages;
+  GI_MessagesService.ClearMessages;
   // Set the layout to the Debug layout is it exists
   if GI_PyIDEServices.Layouts.LayoutExists('Debug') then begin
     GI_PyIDEServices.Layouts.SaveLayout('Current');

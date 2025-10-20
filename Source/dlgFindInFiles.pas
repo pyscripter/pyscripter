@@ -240,13 +240,13 @@ begin
   FFindInFilesExpert.GrepRegEx := cbRegEx.Checked;
 
   if rbCurrentOnly.Checked then
-    FFindInFilesExpert.GrepSearch := 0
+    FFindInFilesExpert.GrepSearch := gaCurrentOnlyGrep
   else if rbOpenFiles.Checked then
-    FFindInFilesExpert.GrepSearch := 1
+    FFindInFilesExpert.GrepSearch := gaOpenFilesGrep
   else if rbProject.Checked then
-    FFindInFilesExpert.GrepSearch := 2
+    FFindInFilesExpert.GrepSearch := gaProjectGrep
   else if rbDirectories.Checked then
-    FFindInFilesExpert.GrepSearch := 3;
+    FFindInFilesExpert.GrepSearch := gaDirGrep;
 end;
 
 procedure TFindInFilesDialog.LoadFormSettings;
@@ -311,10 +311,10 @@ begin
     cbWholeWord.Checked := FFindInFilesExpert.GrepWholeWord;
     cbRegEx.Checked := FFindInFilesExpert.GrepRegEx;
     case FFindInFilesExpert.GrepSearch of
-      0: rbCurrentOnly.Checked := True;
-      1: rbOpenFiles.Checked := True;
-      2: rbProject.Checked := True;
-      3: rbDirectories.Checked := True;
+      gaCurrentOnlyGrep: rbCurrentOnly.Checked := True;
+      gaOpenFilesGrep:   rbOpenFiles.Checked := True;
+      gaProjectGrep:     rbProject.Checked := True;
+      gaDirGrep:         rbDirectories.Checked := True;
     end;
 
     if cbText.Items.Count > 0 then

@@ -24,6 +24,29 @@ uses
   SpTBXSkins;
 
 type
+  // The available kinds of IDE dock Windows
+  TIDEDockWindowKind = (
+    ideInterpreter,
+    ideCallStack,
+    ideVariables,
+    ideWatches,
+    ideBreakpoints,
+    ideCommandOutput,
+    ideMessages,
+    ideCodeExplorer,
+    ideFileExplorer,
+    ideTodo,
+    ideRegExp,
+    ideUnitTests,
+    ideSearchResults,
+    ideProjectExplorer,
+    ideLLMChat);
+
+  TIDEDockWindow = class;
+  TIDEDockWindowType = class of TIDEDockWindow;
+  TRegisteredDockWinClasses = array[TIDEDockWindowKind] of TIDEDockWindowType;
+  TIDEDockWindows = array[TIDEDockWindowKind] of TIDEDockWindow;
+
   TIDEDockWindow = class(TForm)
     DockClient: TJvDockClient;
     FGPanel: TPanel;
@@ -37,8 +60,11 @@ type
     procedure FormDeactivate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure CMParentFontChanged(var Message: TCMParentFontChanged); message CM_PARENTFONTCHANGED;
-  protected
+  private
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
+  private
+    class var FRegisteredClasses: TRegisteredDockWinClasses;
+    class var FIDEDocWindows: TIDEDockWindows;
   public
     BorderHighlight: TColor;
     BorderNormal: TColor;
@@ -47,7 +73,19 @@ type
     procedure CreateFormIcon;
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); virtual;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); virtual;
+    // class methods
+    class procedure RegisterDockWinClass(Kind: TIDEDockWindowKind;
+      AClass: TIDEDockWindowType);
+    class function CreateInstance: TIDEDockWindow; virtual; abstract;
+    class procedure CreateDockForms(MainForm: TForm);
+    class procedure FreeDockForms;
+    class Procedure StoreFormSettings(AppStorage: TJvCustomAppStorage);
+    class Procedure RestoreFormSettings(AppStorage: TJvCustomAppStorage);
+    class function DockForm(Kind: TIDEDockWindowKind): TIDEDockWindow;
   end;
+
+  // short form
+  function IDEDockForm(Kind: TIDEDockWindowKind): TIDEDockWindow;
 
 implementation
 
@@ -99,8 +137,6 @@ end;
 
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
-  PopupParent := Owner as TForm;
-
   DockClient.DockStyle := ResourcesDataModule.DockStyle;
   StyledBorderColors(BorderNormal, BorderHighlight);
 
@@ -129,9 +165,38 @@ begin
   SkinManager.RemoveSkinNotification(Self);
 end;
 
+class procedure TIDEDockWindow.FreeDockForms;
+begin
+  for var Kind := High(TIDEDockWindowKind) downto Low(TIDEDockWindowKind) do
+    if Assigned(FIDEDocWindows[Kind]) then
+        FIDEDocWindows[Kind].Free;
+end;
+
+class procedure TIDEDockWindow.RegisterDockWinClass(Kind: TIDEDockWindowKind;
+  AClass: TIDEDockWindowType);
+begin
+  FRegisteredClasses[Kind] := AClass;
+end;
+
+class procedure TIDEDockWindow.RestoreFormSettings(
+  AppStorage: TJvCustomAppStorage);
+begin
+  for var Kind := Low(TIDEDockWindowKind) to High(TIDEDockWindowKind) do
+    if Assigned(FIDEDocWindows[Kind]) then
+      FIDEDocWindows[Kind].RestoreSettings(AppStorage);
+end;
+
 procedure TIDEDockWindow.RestoreSettings(AppStorage: TJvCustomAppStorage);
 begin
   // Empty at the base class
+end;
+
+class procedure TIDEDockWindow.StoreFormSettings(
+  AppStorage: TJvCustomAppStorage);
+begin
+  for var Kind := Low(TIDEDockWindowKind) to High(TIDEDockWindowKind) do
+    if Assigned(FIDEDocWindows[Kind]) then
+      FIDEDocWindows[Kind].StoreSettings(AppStorage);
 end;
 
 procedure TIDEDockWindow.StoreSettings(AppStorage: TJvCustomAppStorage);
@@ -149,11 +214,27 @@ begin
   TabHost.PopupParent := Application.MainForm;
 end;
 
+class function TIDEDockWindow.DockForm(
+  Kind: TIDEDockWindowKind): TIDEDockWindow;
+begin
+  Result := FIDEDocWindows[Kind];
+end;
+
 procedure TIDEDockWindow.CMParentFontChanged(var Message: TCMParentFontChanged);
 { Invoked when Application.DefaultFont changes }
 begin
   Font.Height := MulDiv(Application.DefaultFont.Height, FCurrentPPI,
     Screen.PixelsPerInch);
+end;
+
+class procedure TIDEDockWindow.CreateDockForms(MainForm: TForm);
+begin
+  for var Kind := Low(TIDEDockWindowKind) to High(TIDEDockWindowKind) do
+    if Assigned(FRegisteredClasses[Kind]) then
+    begin
+      FIDEDocWindows[Kind] := FRegisteredClasses[Kind].CreateInstance;
+      FIDEDocWindows[Kind].PopupParent := MainForm;
+    end;
 end;
 
 procedure TIDEDockWindow.CreateFormIcon;
@@ -176,5 +257,12 @@ begin
   ConjoinHost.PopupMode := pmExplicit;
   ConjoinHost.PopupParent := Application.MainForm;
 end;
+
+
+function IDEDockForm(Kind: TIDEDockWindowKind): TIDEDockWindow;
+begin
+  Result := TIDEDockWindow.DockForm(Kind);
+end;
+
 
 end.

@@ -601,6 +601,7 @@ object EditorForm: TEditorForm
     end
   end
   object pmnuRefactor: TSpTBXPopupMenu
+    Images = PyIDEMainForm.vilImages
     OnPopup = pmnuRefactorPopup
     OnClosePopup = pmnuRefactorClosePopup
     Left = 184

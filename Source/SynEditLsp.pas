@@ -823,7 +823,7 @@ end;
 
 procedure TLSPDiagnosticsHelper.ShowInMessages(const FileId: string);
 begin
-  var Messages := GI_PyIDEServices.Messages;
+  var Messages := GI_MessagesService;
   Messages.ClearMessages;
   if Length(Self) > 0 then
   begin

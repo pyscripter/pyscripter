@@ -224,6 +224,7 @@ type
     actRefactorRename: TAction;
     actCodeAction: TAction;
     actShowRefactorMenu: TAction;
+    actFileExit: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -321,6 +322,7 @@ type
     procedure actFoldFunctionsExecute(Sender: TObject);
     procedure actUnfoldFunctionsExecute(Sender: TObject);
     procedure actEditReadOnlyExecute(Sender: TObject);
+    procedure actFileExitExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actFixAllExecute(Sender: TObject);
     procedure actFormatCodeExecute(Sender: TObject);
@@ -372,6 +374,7 @@ type
     procedure ApplyEditorOptions;
     function FindSearchTarget: ISearchCommands;
     procedure HighlightWordInActiveEditor(SearchWord: string);
+    class procedure RegisterActionList(ActionList: TActionList);
   end;
 
 var
@@ -461,6 +464,7 @@ begin
   // and the stored lanuage option is "en".
   UseLanguage('en');
   TranslateComponent(Self);
+  RegisterActionList(actlMain);
 
   TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
     PyIDEOptionsChanged);
@@ -905,12 +909,15 @@ begin
   TempIniFile := TMemIniFile.Create(TempStream);
   ResourcesDataModule.SynWebHtmlSyn.SaveToIniFile(TempIniFile);
   try
-    with TSynEditOptionsDialog.Create(Self) do begin
+    with TSynEditOptionsDialog.Create(Self) do
+    begin
       Form.cbApplyToAll.Checked := True;
-      if Assigned(GI_ActiveEditor) then begin
+      if Assigned(GI_ActiveEditor) then
+      begin
         TempEditorOptions.Assign(GI_ActiveEditor.ActiveSynEdit);
         Form.cbApplyToAll.Enabled := True;
-      end else begin
+      end else
+      begin
         TempEditorOptions.Assign(EditorOptions);
         Form.cbApplyToAll.Enabled := False;
       end;
@@ -923,13 +930,15 @@ begin
       GetUserCommand := GetEditorUserCommand;
       GetAllUserCommands := GetEditorAllUserCommands;
       UseExtendedStrings := True;
-      if Execute(TempEditorOptions) then begin
+      if Execute(TempEditorOptions) then
+      begin
         UpdateHighlighters;
         PyIDEMainForm.AppStorage.WriteString('ColorTheme', Form.ColorTheme);
-        if Form.cbApplyToAll.Checked then begin
+        if Form.cbApplyToAll.Checked then
+        begin
           EditorOptions.Assign(TempEditorOptions);
           ApplyEditorOptions;
-          PythonIIForm.ApplyEditorOptions;
+          (GI_PyInterpreter as TPythonIIForm).ApplyEditorOptions(EditorOptions);
           PyIDEMainForm.StoreApplicationData;
         end else if Assigned(GI_ActiveEditor) then
           GI_ActiveEditor.ActiveSynEdit.Assign(TempEditorOptions);
@@ -962,8 +971,7 @@ begin
     TSynEditOptionsDialog.HighlighterFileDir := TPyScripterSettings.ColorThemesFilesDir;
     if Execute(TempEditorOptions) then begin
       UpdateHighlighters;
-      PythonIIForm.ValidateEditorOptions(TempEditorOptions);
-      GI_PyInterpreter.Editor.Assign(TempEditorOptions);
+      (GI_PyInterpreter as TPythonIIForm).ApplyEditorOptions(TempEditorOptions);
     end;
     Free;
   end;
@@ -1195,8 +1203,7 @@ begin
             Editor.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
           end);
 
-          GI_PyInterpreter.Editor.Keystrokes.Assign(EditorOptions.Keystrokes);
-          PythonIIForm.RegisterHistoryCommands;
+          (GI_PyInterpreter as TPythonIIForm).ApplyEditorOptions(EditorOptions, True);
         end;
       finally
         AppStorage.Free;
@@ -1753,7 +1760,7 @@ begin
     TEditorForm(GI_ActiveEditor.Form).HasSyntaxError;
   actSearchGoToDebugLine.Enabled := (GI_PyControl.CurrentPos.Line >= 1) and
     GI_PyControl.PythonLoaded and not GI_PyControl.Running;
-  actFindInFiles.Enabled := not FindResultsWindow.DoingSearchOrReplace;
+  actFindInFiles.Enabled := not FindResultsWindow.IsBusy;
 
   actFindFunction.Enabled := HasPython;
   actUnitTestWizard.Enabled := HasPython;
@@ -2116,6 +2123,11 @@ begin
     GI_ActiveEditor.PullDiagnostics;
 end;
 
+procedure TCommandsDataModule.actFileExitExecute(Sender: TObject);
+begin
+  Application.MainForm.Close;
+end;
+
 procedure TCommandsDataModule.actFixAllExecute(Sender: TObject);
 begin
   var Editor := GI_ActiveEditor;
@@ -2408,7 +2420,7 @@ begin
   if not Assigned(GI_SearchCmds) then
   begin
     if EditorSearchOptions.InterpreterIsSearchTarget and CanActuallyFocus(GI_PyInterpreter.Editor) then
-      Result := PythonIIForm
+      Result := GI_PyInterpreter as ISearchCommands
     else
     begin
       var Editor := GI_PyIDEServices.ActiveEditor;
@@ -2697,6 +2709,12 @@ begin
       [CommandsDataModule.SynSpellCheck.LanguageCode]),
       mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
   end);
+end;
+
+class procedure TCommandsDataModule.RegisterActionList(ActionList: TActionList);
+begin
+  TActionProxyCollection.ActionLists := TActionProxyCollection.ActionLists +
+    [ActionList];
 end;
 
 procedure TCommandsDataModule.spiAcceptSettings(Sender: TObject; var

@@ -30,7 +30,6 @@ uses
   XLSPTypes;
 
 type
-
   TUnitTestWizard = class(TPyIDEDlgBase)
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;

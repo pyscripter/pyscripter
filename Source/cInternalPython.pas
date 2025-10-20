@@ -331,7 +331,7 @@ begin
   Offset := 0;
   with PythonEngine do
     if PyArg_ParseTuple(Args, 's|sii:messageWrite', @Msg, @FName, @LineNo, @Offset) <> 0 then begin
-      GI_PyIDEServices.Messages.AddMessage(UTF8ToUnicodeString(Msg),
+      GI_MessagesService.AddMessage(UTF8ToUnicodeString(Msg),
         UTF8ToUnicodeString(FName), LineNo, Offset);
       Result := ReturnNone;
     end else
@@ -363,7 +363,7 @@ end;
 procedure TInternalPython.testResultAddError(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  GI_PyIDEServices.UnitTests.AddError(VarPythonCreate(Args).__getitem__(0),
+  GI_UnitTestsService.AddError(VarPythonCreate(Args).__getitem__(0),
     VarPythonCreate(Args).__getitem__(1));
   Result := PythonEngine.ReturnNone;
 end;
@@ -371,7 +371,7 @@ end;
 procedure TInternalPython.testResultAddFailure(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  GI_PyIDEServices.UnitTests.AddFailure(VarPythonCreate(Args).__getitem__(0),
+  GI_UnitTestsService.AddFailure(VarPythonCreate(Args).__getitem__(0),
     VarPythonCreate(Args).__getitem__(1));
   Result := PythonEngine.ReturnNone;
 end;
@@ -379,21 +379,21 @@ end;
 procedure TInternalPython.testResultAddSuccess(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  GI_PyIDEServices.UnitTests.AddSuccess(VarPythonCreate(Args).__getitem__(0));
+  GI_UnitTestsService.AddSuccess(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 
 procedure TInternalPython.testResultStartTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  GI_PyIDEServices.UnitTests.StartTest(VarPythonCreate(Args).__getitem__(0));
+  GI_UnitTestsService.StartTest(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 
 procedure TInternalPython.testResultStopTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  GI_PyIDEServices.UnitTests.StopTest(VarPythonCreate(Args).__getitem__(0));
+  GI_UnitTestsService.StopTest(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 

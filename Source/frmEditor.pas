@@ -499,7 +499,7 @@ end;
 procedure TEditor.ClearDiagnostics;
 begin
   FSynLsp.ClearDiagnostics;
-  GI_PyIDEServices.Messages.ClearMessages;
+  GI_MessagesService.ClearMessages;
 end;
 
 procedure TEditor.Close;

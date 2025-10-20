@@ -10,6 +10,7 @@ unit frmCallStack;
 interface
 
 uses
+  WinApi.Windows,
   System.SysUtils,
   System.Classes,
   System.Generics.Collections,
@@ -44,6 +45,7 @@ type
     Panel2: TPanel;
     Splitter1: TSpTBXSplitter;
     vilImages: TVirtualImageList;
+    procedure actlCallStackUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure CallStackViewDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -80,12 +82,12 @@ type
     procedure ClearAll(IncludeThreads: Boolean = True);
     procedure UpdateWindow(NewState, OldState: TDebuggerState);
   public
+    property ActiveThread: TThreadInfo read FActiveThread write SetActiveThread;
     // AppStorage
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
-
-    property ActiveThread: TThreadInfo read FActiveThread write SetActiveThread;
-  end;
+    class function CreateInstance: TIDEDockWindow; override;
+end;
 
 var
   CallStackWindow: TCallStackWindow = nil;
@@ -95,10 +97,12 @@ implementation
 uses
   System.Generics.Defaults,
   System.Math,
+  Vcl.Forms,
   PythonEngine,
   uCommonFunctions,
   uEditAppIntfs,
   dmResources,
+  dmCommands,
   cPyControl;
 
 {$R *.dfm}
@@ -111,6 +115,16 @@ type
     FileName: string;
     Line: Integer;
   end;
+
+procedure TCallStackWindow.actlCallStackUpdate(Action: TBasicAction; var
+    Handled: Boolean);
+begin
+  var Paused := GI_PyControl.DebuggerState = dsPaused;
+  if Action = actPreviousFrame then
+    actPreviousFrame.Enabled := Paused
+  else if Action = actNextFrame then
+    actNextFrame.Enabled := Paused;
+end;
 
 { TCallStackWindow }
 
@@ -197,6 +211,12 @@ begin
     ThreadView.Enabled := False;
     FActiveThread := nil;
   end;
+end;
+
+class function TCallStackWindow.CreateInstance: TIDEDockWindow;
+begin
+  CallStackWindow := TCallStackWindow.Create(Application);
+  Result := CallStackWindow;
 end;
 
 procedure TCallStackWindow.actNextFrameExecute(Sender: TObject);
@@ -286,6 +306,8 @@ begin
           Result := CompareValue(L.Thread_ID, R.Thread_ID);
       end;
     end));
+
+  TCommandsDataModule.RegisterActionList(actlCallStack);
 
   TPyBaseDebugger.ThreadChangeNotify := ThreadChangeNotify;
 
@@ -510,6 +532,8 @@ begin
   end;
 end;
 
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideCallStack, TCallStackWindow);
 end.
 
 

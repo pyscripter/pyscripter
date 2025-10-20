@@ -1100,6 +1100,17 @@ object CommandsDataModule: TCommandsDataModule
       ShortCut = 8305
       OnExecute = actShowRefactorMenuExecute
     end
+    object actFileExit: TAction
+      Category = 'File'
+      Caption = 'E&xit'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Exit'
+      ImageIndex = 32
+      ImageName = 'Exit'
+      ShortCut = 32883
+      OnExecute = actFileExitExecute
+    end
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]

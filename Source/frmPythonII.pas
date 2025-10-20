@@ -102,6 +102,8 @@ type
     procedure SynCodeCompletionClose(Sender: TObject);
     procedure actCopyWithoutPromptsExecute(Sender: TObject);
     procedure actPasteAndExecuteExecute(Sender: TObject);
+    procedure InterpreterActionListUpdate(Action: TBasicAction; var Handled:
+        Boolean);
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditExit(Sender: TObject);
     procedure SynCodeCompletionAfterCodeCompletion(Sender: TObject;
@@ -172,15 +174,16 @@ type
     procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure AppendToPrompt(const Buffer: array of string);
     function IsEmpty: Boolean;
-    procedure UpdateInterpreterActions;
     procedure RegisterHistoryCommands;
     procedure ValidateEditorOptions(SynEditOptions: TSynEditorOptionsContainer);
-    procedure ApplyEditorOptions;
+    procedure ApplyEditorOptions(Options: TSynEditorOptionsContainer;
+        OnlyKeyStrokes: Boolean = False);
     procedure ExecuteStatement(const SourceCode: string; WaitToFinish: Boolean = False);
     property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
     property CommandHistory: TStringList read FCommandHistory;
     property CommandHistoryPointer: Integer read FCommandHistoryPointer write FCommandHistoryPointer;
     property CommandHistorySize: Integer read FCommandHistorySize write SetCommandHistorySize;
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 var
@@ -419,6 +422,12 @@ begin
   end;
 end;
 
+class function TPythonIIForm.CreateInstance: TIDEDockWindow;
+begin
+  PythonIIForm := TPythonIIForm.Create(Application);
+  Result := PythonIIForm;
+end;
+
 procedure TPythonIIForm.ClearDisplay;
 begin
   SynEdit.ClearAll;
@@ -585,17 +594,22 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.ApplyEditorOptions;
+procedure TPythonIIForm.ApplyEditorOptions(Options: TSynEditorOptionsContainer;
+  OnlyKeyStrokes: Boolean = False);
 begin
-  var SynEditOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(nil))();
+  if OnlyKeyStrokes then
+    SynEdit.Keystrokes.Assign(Options.Keystrokes)
+  else
+  begin
+    var TempSynEditOptions := TSmartPtr.Make(TSynEditorOptionsContainer.Create(nil))();
+    var OldWordWrap := SynEdit.WordWrap;
+    TempSynEditOptions.Assign(Options);
+    ValidateEditorOptions(TempSynEditOptions);
+    SynEdit.Assign(TempSynEditOptions);
+    SynEdit.WordWrap := OldWordWrap;
 
-  var OldWordWrap := SynEdit.WordWrap;
-  SynEditOptions.Assign(EditorOptions);
-  ValidateEditorOptions(SynEditOptions);
-  SynEdit.Assign(SynEditOptions);
-  SynEdit.WordWrap := OldWordWrap;
-
-  SynEdit.Highlighter.Assign(ResourcesDataModule.SynPythonSyn);
+    SynEdit.Highlighter.Assign(ResourcesDataModule.SynPythonSyn);
+  end;
   RegisterHistoryCommands;
 end;
 
@@ -625,7 +639,7 @@ begin
   SynEdit.Highlighter.Assign(ResourcesDataModule.SynPythonSyn);
   SynEdit.ScrollbarAnnotations.Clear;
 
-  ApplyEditorOptions;
+  ApplyEditorOptions(EditorOptions);
 
   // IO
   PythonIO.OnSendUniData := PythonIOSendData;
@@ -644,6 +658,8 @@ begin
   FCommandHistoryPointer := 0;
 
   SetPyInterpreterPrompt(pipNormal);
+
+  TCommandsDataModule.RegisterActionList(InterpreterActionList);
 
   // PyIDEOptions change notification
   TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
@@ -1556,12 +1572,6 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.UpdateInterpreterActions;
-begin
-  actCopyWithoutPrompts.Enabled := SynEdit.SelAvail;
-  actPasteAndExecute.Enabled := Clipboard.HasFormat(CF_UNICODETEXT);
-end;
-
 procedure TPythonIIForm.UpdatePythonKeywords;
 var
   Keywords, Builtins, BuiltInMod: Variant;
@@ -1711,6 +1721,16 @@ begin
   Result := SynEdit;
 end;
 
+procedure TPythonIIForm.InterpreterActionListUpdate(Action: TBasicAction; var
+    Handled: Boolean);
+begin
+  if Action = actCopyWithoutPrompts then
+    actCopyWithoutPrompts.Enabled := SynEdit.SelAvail
+  else if Action = actPasteAndExecute then
+    actPasteAndExecute.Enabled := Clipboard.HasFormat(CF_UNICODETEXT);
+  Handled := True;
+end;
+
 procedure TPythonIIForm.RegisterHistoryCommands;
 // Register the Recall History Command
 
@@ -1802,4 +1822,6 @@ begin
   CommandHistoryPointer := TempStringList.Count;  // one after the last one
 end;
 
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideInterpreter, TPythonIIForm);
 end.

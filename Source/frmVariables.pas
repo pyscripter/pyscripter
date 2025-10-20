@@ -89,6 +89,7 @@ type
 
     class constructor Create;
     class destructor Destroy;
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 var
@@ -102,6 +103,7 @@ uses
   System.SysUtils,
   System.Math,
   System.IOUtils,
+  Vcl.Forms,
   Vcl.Dialogs,
   Vcl.Themes,
   JvGnugettext,
@@ -456,6 +458,12 @@ begin
   ProcessFolder(TPyScripterSettings.AppDebugInspectorsDir);
 end;
 
+class function TVariablesWindow.CreateInstance: TIDEDockWindow;
+begin
+  VariablesWindow := TVariablesWindow.Create(Application);
+  Result := VariablesWindow;
+end;
+
 class destructor TVariablesWindow.Destroy;
 begin
   DebugInspectorsRegister.Free;
@@ -601,6 +609,8 @@ begin
   end;
 end;
 
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideVariables, TVariablesWindow);
 end.
 
 

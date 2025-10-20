@@ -151,6 +151,7 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     LLMChat: TLLMChat;
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 var
@@ -1215,4 +1216,12 @@ begin
   StyleForm;
 end;
 
+class function TLLMChatForm.CreateInstance: TIDEDockWindow;
+begin
+  LLMChatForm := TLLMChatForm.Create(Application);
+  Result := LLMChatForm;
+end;
+
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideLLMChat, TLLMChatForm);
 end.

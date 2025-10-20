@@ -91,6 +91,7 @@ type
     // AppStorage
     procedure StoreSettings(AppStorage: TJvCustomAppStorage); override;
     procedure RestoreSettings(AppStorage: TJvCustomAppStorage); override;
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 var
@@ -101,6 +102,7 @@ implementation
 uses
   Winapi.Windows,
   System.SysUtils,
+  Vcl.Forms,
   Vcl.Dialogs,
   Vcl.Clipbrd,
   SynEdit,
@@ -115,6 +117,7 @@ uses
 {$R *.dfm}
 
 type
+
   TWatchInfo = class(TPersistent)
   private
     FWatch: string;
@@ -133,6 +136,8 @@ type
     ImageIndex: Integer;
     NS: TBaseNameSpaceItem;
   end;
+
+{ TWatchInfo }
 
 destructor TWatchInfo.Destroy;
 begin
@@ -499,12 +504,18 @@ begin
   UpdateWindow;
 end;
 
+class function TWatchesWindow.CreateInstance: TIDEDockWindow;
+begin
+  WatchesWindow := TWatchesWindow.Create(Application);
+  Result := WatchesWindow;
+end;
+
 function TWatchesWindow.CreateWatch(Sender: TJvCustomAppStorage;
   const Path: string; Index: Integer): TPersistent;
 begin
   Result := TWatchInfo.Create;
 end;
 
-{ TWatchInfo }
-
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideWatches, TWatchesWindow);
 end.

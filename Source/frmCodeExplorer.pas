@@ -238,6 +238,7 @@ type
     procedure ClearAll;
     procedure ShowEditorCodeElement;
     procedure UpdateWindow(DocSymbols: TDocSymbols; UpdateReason: TCEUpdateReason);
+    class function CreateInstance: TIDEDockWindow; override;
   end;
 
 var
@@ -250,6 +251,7 @@ uses
   System.Math,
   System.IOUtils,
   System.Threading,
+  Vcl.Forms,
   JvGnugettext,
   SynEdit,
   dmResources,
@@ -433,6 +435,12 @@ procedure TCodeExplorerWindow.ExplorerTreeGetHint(Sender: TBaseVirtualTree;
   var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: string);
 begin
   HintText := Node.GetData<TAbstractCENode>.Hint;
+end;
+
+class function TCodeExplorerWindow.CreateInstance: TIDEDockWindow;
+begin
+  CodeExplorerWindow := TCodeExplorerWindow.Create(Application);
+  Result := CodeExplorerWindow;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeChange(Sender: TBaseVirtualTree;
@@ -1121,5 +1129,7 @@ begin
 end;
 
 
+initialization
+  TIDEDockWindow.RegisterDockWinClass(ideCodeExplorer, TCodeExplorerWindow);
 end.
 
