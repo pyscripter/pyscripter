@@ -1497,7 +1497,6 @@ uses
   dlgRemoteFile,
   frmEditor,
   frmIDEDockWin,
-  frmProjectExplorer,
   frmFileExplorer,
   frmRegExpTester,
   frmWebPreview,
@@ -1743,7 +1742,7 @@ begin
     CanClose := GI_EditorFactory.CanCloseAll;
 
   // Ask about saving unsaved project
-  CanClose := CanClose and ProjectExplorerWindow.CanClose;
+  CanClose := CanClose and GI_ProjectService.CanClose;
 
   if CanClose then begin
     // Shut down help
@@ -2600,7 +2599,7 @@ begin
 
   // Project Filename
   if CmdLineReader.ReadString('PROJECT') <> '' then
-    ProjectExplorerWindow.DoOpenProjectFile(CmdLineReader.ReadString('PROJECT'));
+    GI_ProjectService.OpenProjectFile(CmdLineReader.ReadString('PROJECT'));
 end;
 
 procedure TPyIDEMainForm.CreateWnd;
@@ -2973,7 +2972,7 @@ begin
   if (CmdLineReader.ReadString('PROJECT') = '') and PyIDEOptions.RestoreOpenProject then begin
     var FName := AppStorage.ReadString('Active Project');
     if FName <> '' then
-      ProjectExplorerWindow.DoOpenProjectFile(FName);
+      GI_ProjectService.OpenProjectFile(FName);
   end;
 
   // Load MRU Lists
@@ -4587,7 +4586,7 @@ end;
 procedure TPyIDEMainForm.tbiRecentProjectsClick(Sender: TObject;
   const Filename: string);
 begin
-  ProjectExplorerWindow.DoOpenProjectFile(Filename);
+  GI_ProjectService.OpenProjectFile(Filename);
   tbiRecentProjects.MRURemove(Filename);
 end;
 

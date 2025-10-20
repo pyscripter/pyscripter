@@ -70,13 +70,16 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
             Caption = 'Project Explorer Toolbar'
             Customizable = False
             object tbiProjectNew: TSpTBXItem
-              Action = actProjectNew
+              Action = CommandsDataModule.actProjectNew
+              ImageIndex = 6
             end
             object tbiProjectOpen: TSpTBXItem
-              Action = actProjectOpen
+              Action = CommandsDataModule.actProjectOpen
+              ImageIndex = 7
             end
             object tbiProjectSave: TSpTBXItem
-              Action = actProjectSave
+              Action = CommandsDataModule.actProjectSave
+              ImageIndex = 12
             end
             object SpTBXSeparatorItem8: TSpTBXSeparatorItem
             end
@@ -109,44 +112,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Images = vilImages
     Left = 41
     Top = 76
-    object actProjectNew: TAction
-      Category = 'Project'
-      Caption = '&New Project'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Start a new project'
-      ImageIndex = 6
-      ImageName = 'ProjectFile'
-      OnExecute = actProjectNewExecute
-    end
-    object actProjectOpen: TAction
-      Category = 'Project'
-      Caption = '&Open Project...'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Open a project file'
-      ImageIndex = 7
-      ImageName = 'ProjectOpen'
-      OnExecute = actProjectOpenExecute
-    end
-    object actProjectSave: TAction
-      Category = 'Project'
-      Caption = '&Save Project'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Save the project'
-      ImageIndex = 12
-      ImageName = 'ProjectSave'
-      OnExecute = actProjectSaveExecute
-    end
-    object actProjectSaveAs: TAction
-      Category = 'Project'
-      Caption = 'Save Project &As...'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Save project with under a different name'
-      OnExecute = actProjectSaveAsExecute
-    end
     object actProjectRelativePaths: TAction
       Category = 'Project'
       AutoCheck = True
@@ -331,16 +296,19 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 8
     Top = 108
     object mnProjectNew: TSpTBXItem
-      Action = actProjectNew
+      Action = CommandsDataModule.actProjectNew
+      ImageIndex = 6
     end
     object mnProjectOpen: TSpTBXItem
-      Action = actProjectOpen
+      Action = CommandsDataModule.actProjectOpen
+      ImageIndex = 7
     end
     object mnProjectSave: TSpTBXItem
-      Action = actProjectSave
+      Action = CommandsDataModule.actProjectSave
+      ImageIndex = 12
     end
     object mnProjectSaveAs: TSpTBXItem
-      Action = actProjectSaveAs
+      Action = CommandsDataModule.actProjectSaveAs
     end
     object SpTBXSeparatorItem10: TSpTBXSeparatorItem
     end

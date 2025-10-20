@@ -39,10 +39,11 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
+  uEditAppIntfs,
   frmIDEDockWin;
 
 type
-  TProjectExplorerWindow = class(TIDEDockWindow)
+  TProjectExplorerWindow = class(TIDEDockWindow, IProjectService)
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
     ProjectMainPopUpMenu: TSpTBXPopupMenu;
@@ -110,10 +111,6 @@ type
     actProjectExpandAll: TAction;
     actProjectShowFileExtensions: TAction;
     actProjectRelativePaths: TAction;
-    actProjectSaveAs: TAction;
-    actProjectSave: TAction;
-    actProjectOpen: TAction;
-    actProjectNew: TAction;
     actProjectExtraPythonPath: TAction;
     SpTBXSeparatorItem12: TSpTBXSeparatorItem;
     mnProjectNew: TSpTBXItem;
@@ -147,10 +144,6 @@ type
       Column: TColumnIndex; NewText: string);
     procedure actProjectAddFilesExecute(Sender: TObject);
     procedure actProjectRenameExecute(Sender: TObject);
-    procedure actProjectSaveExecute(Sender: TObject);
-    procedure actProjectSaveAsExecute(Sender: TObject);
-    procedure actProjectNewExecute(Sender: TObject);
-    procedure actProjectOpenExecute(Sender: TObject);
     procedure actProjectRemoveExecute(Sender: TObject);
     procedure actProjectFileEditExecute(Sender: TObject);
     procedure ExplorerTreeKeyPress(Sender: TObject; var Key: Char);
@@ -196,15 +189,19 @@ type
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node: PVirtualNode);
     procedure OnFolderChange(const Path: string);
+
+    // IProjectService Interface
+    function CanClose: Boolean;
+    procedure OpenProject;
+    procedure OpenProjectFile(const FileName: string);
+    function SaveProject: Boolean;
+    function SaveProjectAs: Boolean;
+    procedure NewProject;
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
-    procedure DoOpenProjectFile(FileName: string);
-    function DoSave: Boolean;
     function DoSaveFile: Boolean;
-    function DoSaveAs: Boolean;
-    function CanClose: Boolean;
     class function CreateInstance: TIDEDockWindow; override;
   end;
 
@@ -243,7 +240,6 @@ uses
   dlgImportDirectory,
   dlgRunConfiguration,
   dlgDirectoryList,
-  uEditAppIntfs,
   cPyScripterSettings,
   cPySupportTypes,
   cPyControl,
@@ -550,40 +546,6 @@ begin
   end;
 end;
 
-procedure TProjectExplorerWindow.actProjectNewExecute(Sender: TObject);
-begin
-  if CanClose then begin
-    if ActiveProject.FileName <> '' then
-      PyIDEMainForm.tbiRecentProjects.MRUAdd(ActiveProject.FileName);
-
-    ExplorerTree.Clear;
-    FreeAndNil(ActiveProject);
-    ActiveProject := TProjectRootNode.Create;
-    ExplorerTree.RootNodeCount := 1;
-  end;
-end;
-
-procedure TProjectExplorerWindow.actProjectOpenExecute(Sender: TObject);
-var
-  Editor: IEditor;
-begin
-  if CanClose then begin
-    with ResourcesDataModule.dlgFileOpen do begin
-      Title := _(SOpenProject);
-      FileName := '';
-      Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
-      Editor := GI_PyIDEServices.ActiveEditor;
-      if Assigned(Editor) and (Editor.FileName <> '') and
-        (TPath.GetDirectoryName(Editor.FileName) <> '')
-      then
-        InitialDir := TPath.GetDirectoryName(Editor.FileName);
-
-      if Execute then
-        DoOpenProjectFile(FileName);
-    end;
-  end;
-end;
-
 procedure TProjectExplorerWindow.actProjectRelativePathsExecute(
   Sender: TObject);
 begin
@@ -663,16 +625,6 @@ begin
   end;
 end;
 
-procedure TProjectExplorerWindow.actProjectSaveAsExecute(Sender: TObject);
-begin
-  DoSaveAs;
-end;
-
-procedure TProjectExplorerWindow.actProjectSaveExecute(Sender: TObject);
-begin
-  DoSave;
-end;
-
 procedure TProjectExplorerWindow.actProjectShowFileExtensionsExecute(
   Sender: TObject);
 begin
@@ -685,7 +637,7 @@ begin
   Result := not ActiveProject.Modified;
   if not Result then begin
     case StyledMessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
-      mrYes: Result := DoSave;
+      mrYes: Result := SaveProject;
       mrNo: Result := True;
       mrCancel:  Result := False;
     end;
@@ -716,7 +668,7 @@ begin
   actProjectShowFileExtensions.Checked := ActiveProject.ShowFileExtensions;
 end;
 
-procedure TProjectExplorerWindow.DoOpenProjectFile(FileName: string);
+procedure TProjectExplorerWindow.OpenProjectFile(const FileName: string);
 var
   AppStorage: TJvAppIniFileStorage;
 begin
@@ -749,15 +701,15 @@ begin
   end;
 end;
 
-function TProjectExplorerWindow.DoSave: Boolean;
+function TProjectExplorerWindow.SaveProject: Boolean;
 begin
   if ActiveProject.FileName <> '' then
     Result := DoSaveFile
   else
-    Result := DoSaveAs;
+    Result := SaveProjectAs;
 end;
 
-function TProjectExplorerWindow.DoSaveAs: Boolean;
+function TProjectExplorerWindow.SaveProjectAs: Boolean;
 var
   NewName: string;
 begin
@@ -1330,6 +1282,8 @@ begin
   // Folder Change Notifier for auto updating folders
   ActiveProject.OnFolderChange := OnFolderChange;
 
+  GI_ProjectService := Self;
+
   // Wierd translation bug
   TP_Ignore(Self, 'mnProjectNew');
   TP_Ignore(Self, 'mnProjectOpen');
@@ -1339,6 +1293,7 @@ end;
 
 procedure TProjectExplorerWindow.FormDestroy(Sender: TObject);
 begin
+  GI_ProjectService := nil;
   ExplorerTree.Clear;
   FFileImageList.Free;
   inherited;
@@ -1348,6 +1303,20 @@ procedure TProjectExplorerWindow.FormShow(Sender: TObject);
 begin
   inherited;
   ExplorerTree.RootNodeCount := 1;
+end;
+
+procedure TProjectExplorerWindow.NewProject;
+begin
+  if CanClose then
+  begin
+    if ActiveProject.FileName <> '' then
+      PyIDEMainForm.tbiRecentProjects.MRUAdd(ActiveProject.FileName);
+
+    ExplorerTree.Clear;
+    FreeAndNil(ActiveProject);
+    ActiveProject := TProjectRootNode.Create;
+    ExplorerTree.RootNodeCount := 1;
+  end;
 end;
 
 procedure TProjectExplorerWindow.OnFolderChange(const Path: string);
@@ -1372,6 +1341,25 @@ begin
       ExplorerTree.ReinitNode(Node, True, True);
     finally
       ExplorerTree.EndUpdate;
+    end;
+  end;
+end;
+
+procedure TProjectExplorerWindow.OpenProject;
+begin
+  if CanClose then begin
+    with ResourcesDataModule.dlgFileOpen do begin
+      Title := _(SOpenProject);
+      FileName := '';
+      Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
+      var Editor := GI_PyIDEServices.ActiveEditor;
+      if Assigned(Editor) and (Editor.FileName <> '') and
+        (TPath.GetDirectoryName(Editor.FileName) <> '')
+      then
+        InitialDir := TPath.GetDirectoryName(Editor.FileName);
+
+      if Execute then
+        OpenProjectFile(FileName);
     end;
   end;
 end;

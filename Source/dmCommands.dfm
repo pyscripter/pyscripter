@@ -1111,6 +1111,44 @@ object CommandsDataModule: TCommandsDataModule
       ShortCut = 32883
       OnExecute = actFileExitExecute
     end
+    object actProjectNew: TAction
+      Category = 'Project'
+      Caption = '&New Project'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Start a new project'
+      ImageIndex = 112
+      ImageName = 'ProjectFile'
+      OnExecute = actProjectNewExecute
+    end
+    object actProjectOpen: TAction
+      Category = 'Project'
+      Caption = '&Open Project...'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Open a project file'
+      ImageIndex = 113
+      ImageName = 'ProjectOpen'
+      OnExecute = actProjectOpenExecute
+    end
+    object actProjectSave: TAction
+      Category = 'Project'
+      Caption = '&Save Project'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Save the project'
+      ImageIndex = 114
+      ImageName = 'ProjectSave'
+      OnExecute = actProjectSaveExecute
+    end
+    object actProjectSaveAs: TAction
+      Category = 'Project'
+      Caption = 'Save Project &As...'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Save project with under a different name'
+      OnExecute = actProjectSaveAsExecute
+    end
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]

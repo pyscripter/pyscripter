@@ -225,6 +225,10 @@ type
     actCodeAction: TAction;
     actShowRefactorMenu: TAction;
     actFileExit: TAction;
+    actProjectNew: TAction;
+    actProjectOpen: TAction;
+    actProjectSave: TAction;
+    actProjectSaveAs: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -329,6 +333,10 @@ type
     procedure actNextIssueExecute(Sender: TObject);
     procedure actOrganizeImportsExecute(Sender: TObject);
     procedure actPreviousIssueExecute(Sender: TObject);
+    procedure actProjectNewExecute(Sender: TObject);
+    procedure actProjectOpenExecute(Sender: TObject);
+    procedure actProjectSaveAsExecute(Sender: TObject);
+    procedure actProjectSaveExecute(Sender: TObject);
     procedure actRefactorRenameExecute(Sender: TObject);
     procedure actShowRefactorMenuExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
@@ -2161,6 +2169,26 @@ procedure TCommandsDataModule.actPreviousIssueExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
     (GI_ActiveEditor as TEditor).PreviousDiagnostic;
+end;
+
+procedure TCommandsDataModule.actProjectNewExecute(Sender: TObject);
+begin
+  GI_ProjectService.NewProject;
+end;
+
+procedure TCommandsDataModule.actProjectOpenExecute(Sender: TObject);
+begin
+  GI_ProjectService.OpenProject;
+end;
+
+procedure TCommandsDataModule.actProjectSaveAsExecute(Sender: TObject);
+begin
+  GI_ProjectService.SaveProjectAs;
+end;
+
+procedure TCommandsDataModule.actProjectSaveExecute(Sender: TObject);
+begin
+  GI_ProjectService.SaveProject;
 end;
 
 procedure TCommandsDataModule.actRefactorRenameExecute(Sender: TObject);

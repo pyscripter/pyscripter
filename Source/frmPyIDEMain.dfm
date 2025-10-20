@@ -771,12 +771,10 @@ object PyIDEMainForm: TPyIDEMainForm
       object ProjectMenu: TSpTBXSubmenuItem
         Caption = '&Project'
         object mnProjectNew: TSpTBXItem
-          Action = ProjectExplorerWindow.actProjectNew
-          ImageIndex = 112
+          Action = CommandsDataModule.actProjectNew
         end
         object mnProjectOpen: TSpTBXItem
-          Action = ProjectExplorerWindow.actProjectOpen
-          ImageIndex = 113
+          Action = CommandsDataModule.actProjectOpen
         end
         object SpTBXSubmenuItem1: TSpTBXSubmenuItem
           Caption = '&Recent Projects'
@@ -789,11 +787,10 @@ object PyIDEMainForm: TPyIDEMainForm
         object SpTBXSeparatorItem16: TSpTBXSeparatorItem
         end
         object mnProjectSave: TSpTBXItem
-          Action = ProjectExplorerWindow.actProjectSave
-          ImageIndex = 114
+          Action = CommandsDataModule.actProjectSave
         end
         object mnProjectSaveAs: TSpTBXItem
-          Action = ProjectExplorerWindow.actProjectSaveAs
+          Action = CommandsDataModule.actProjectSaveAs
         end
         object SpTBXSeparatorItem4: TSpTBXSeparatorItem
         end

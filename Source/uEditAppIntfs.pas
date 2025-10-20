@@ -211,6 +211,16 @@ type
     property RunningTool: string read GetRunningTool;
   end;
 
+  IProjectService = interface
+  ['{170C60D6-3DB9-4DAA-9190-F19BA6CB50DB}']
+    function CanClose: Boolean;
+    procedure OpenProject;
+    procedure OpenProjectFile(const FileName: string);
+    procedure NewProject;
+    function SaveProject: Boolean;
+    function SaveProjectAs: Boolean;
+  end;
+
   IIDELayouts = interface
   ['{506187EB-6438-4B0B-92B0-07112F812EE8}']
     function LayoutExists(const Layout: string): Boolean;
@@ -274,6 +284,7 @@ var
   GI_MessagesService: IMessagesService;
   GI_UnitTestsService: IUnitTestsService;
   GI_SystemCommandService: ISystemCommandService;
+  GI_ProjectService: IProjectService;
   GI_SSHServices: ISSHServices;
 
   GI_FileSystemMonitor: IFileSystemMonitor;
