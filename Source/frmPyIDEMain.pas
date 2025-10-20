@@ -2426,7 +2426,9 @@ end;
 
 procedure TPyIDEMainForm.actNavigateToDockWindow(Sender: TObject);
 begin
-  ShowIDEDockForm(IDEDockForm(TIDEDockWindowKind((Sender as TAction).Tag)));
+  var DockForm := IDEDockForm(TIDEDockWindowKind((Sender as TAction).Tag));
+  if Assigned(DockForm) then
+    ShowIDEDockForm(DockForm);
 end;
 
 procedure TPyIDEMainForm.actViewHideSecondaryWorkspaceExecute(Sender: TObject);
