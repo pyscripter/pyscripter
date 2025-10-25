@@ -505,8 +505,8 @@ initialization
   with ExternalPython do begin
     Caption := _('Python Interpreter');
     Description := _('External Python Interpreter');
-    ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[ActiveDoc-Short] $[CmdLineArgs]';
+    ApplicationName := '$[PythonExe]';
+    Parameters := '"$[ActiveDoc]" $[CmdLineArgs]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     SaveFiles := sfAll;
     Context := tcActiveFile;

@@ -334,7 +334,7 @@ var
   RootNodeCount: Cardinal;
   OldGlobalsNameSpace, OldLocalsNamespace: TBaseNameSpaceItem;
 begin
-  if ((PyControl.PythonEngineType = peSSH) and PyIDEOptions.SSHDisableVariablesWin) or
+  if ((GI_PyControl.PythonEngineType = peSSH) and PyIDEOptions.SSHDisableVariablesWin) or
      not (GI_PyControl.PythonLoaded and
           Assigned(GI_CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and

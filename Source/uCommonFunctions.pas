@@ -245,6 +245,9 @@ function HTMLEncode(const Str: string): string;
 (* Get the absolute path as stored in the file system *)
 function NormalizePath(const Path: string): string;
 
+(* Convert spaces to tabs in a string *)
+function TabifyString(const S: string; TabWidth: Integer = 4): string;
+
 type
   TMatchHelper = record helper for TMatch
   public
@@ -1976,6 +1979,64 @@ begin
   // Lowercase drive letter if present (required by Jedi LSP)
   if (Length(Result) >= 2) and (Result[2] = DriveDelim) then
     Result[1] := Result[1].ToLower;
+end;
+
+function TabifyString(const S: string; TabWidth: Integer = 4): string;
+begin
+  if TabWidth <= 1 then Exit(S);
+
+  var SB := TStringBuilder.Create;
+  try
+    var Column := 0;
+    var SpaceCount := 0;
+
+    for var Ch in S do
+    begin
+      if Ch = ' ' then
+      begin
+        Inc(SpaceCount);
+        Inc(Column);
+
+        // Check if we've reached a tab stop
+        if (Column mod TabWidth) = 0 then
+        begin
+          if SpaceCount > 1 then
+            SB.Append(#9)
+          else
+            SB.Append(' ');
+          SpaceCount := 0;
+        end;
+      end
+      else
+      begin
+        // Output any remaining spaces that didn't reach a tab stop
+        if SpaceCount > 0 then
+        begin
+          SB.Append(' ', SpaceCount);
+          SpaceCount := 0;
+        end;
+
+        SB.Append(Ch);
+
+        // Reset column on newline
+        case Ch of
+          #13: Column := 0;
+          #10: Column := 0;
+          #9:  Column := ((Column div TabWidth) + 1) * TabWidth;
+        else
+          Inc(Column);
+        end;
+      end;
+    end;
+
+    // Handle trailing spaces
+    if SpaceCount > 0 then
+      SB.Append(' ', SpaceCount);
+
+    Result := SB.ToString;
+  finally
+    SB.Free;
+  end;
 end;
 
 { TMatchHelper }

@@ -1209,7 +1209,7 @@ begin
   var ScriptName := ToPythonFileName(ARunConfig.ScriptName);
   SysMod.argv.append(ScriptName);
 
-  Params := Trim(ARunConfig.Parameters);
+  Params := Trim(GI_PyIDEServices.ReplaceParams(ARunConfig.Parameters));
   if Params <> '' then begin
     Params := GI_PyIDEServices.ReplaceParams(Params);
     P := PChar(Params);

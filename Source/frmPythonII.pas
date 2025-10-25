@@ -48,9 +48,6 @@ uses
   uEditAppIntfs,
   cPySupportTypes;
 
-const
-  WM_REINITINTERPRETER = WM_USER + 1030;
-
 type
   TPythonIIForm = class(TIDEDockWindow, ISearchCommands, IPyInterpreter)
     SynEdit: TSynEdit;
@@ -155,7 +152,6 @@ type
     procedure StopFileMirror;
     procedure UpdatePythonKeywords;
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
-    procedure ReinitInterpreter;
     function GetEditor: TCustomSynEdit;
     function GetPythonIO: TPythonInputOutput;
     function GetShowOutput: Boolean;
@@ -163,7 +159,6 @@ type
   protected
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
-    procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
   public
     { Public declarations }
     PS1, PS2: string;
@@ -1623,12 +1618,6 @@ begin
   SynEdit.InvalidateGutter;
 end;
 
-procedure TPythonIIForm.WMREINITINTERPRETER(var Message: TMessage);
-begin
-  if Assigned(PyControl.ActiveInterpreter) then
-    PyControl.ActiveInterpreter.ReInitialize;
-end;
-
 function TPythonIIForm.IsEmpty: Boolean;
 begin
   Result := (SynEdit.Lines.Count  = 0) or
@@ -1669,16 +1658,6 @@ end;
 procedure TPythonIIForm.ExecReplace;
 begin
   CommandsDataModule.ShowSearchReplaceDialog(SynEdit, True);
-end;
-
-procedure TPythonIIForm.ReinitInterpreter;
-begin
-  if Assigned(PyControl.ActiveInterpreter) then
-    TThread.ForceQueue(nil,
-    procedure
-    begin
-      PyControl.ActiveInterpreter.ReInitialize;
-    end, 500);
 end;
 
 procedure TPythonIIForm.RemovePrompt;

@@ -460,7 +460,7 @@ function GetActivePythonDir: string;
 begin
   Result := '';
   if GI_PyControl.PythonLoaded then
-    Result := IncludeTrailingPathDelimiter(PyControl.PythonVersion.InstallPath);
+    Result := IncludeTrailingPathDelimiter(GI_PyControl.PythonVersion.InstallPath);
 end;
 
 function GetActivePythonExe: string;
@@ -469,10 +469,10 @@ begin
   begin
     if (PyIDEOptions.PythonEngineType = peRemote) and
       PyIDEOptions.PreferFreeThreaded and
-      (PyControl.PythonVersion.PythonFreeThreadedExecutable <> '') then
-      Result := PyControl.PythonVersion.PythonFreeThreadedExecutable
+      (GI_PyControl.PythonVersion.PythonFreeThreadedExecutable <> '') then
+      Result := GI_PyControl.PythonVersion.PythonFreeThreadedExecutable
     else
-      Result := PyControl.PythonVersion.PythonExecutable;
+      Result := GI_PyControl.PythonVersion.PythonExecutable;
   end
   else
     Result := 'python.exe';
@@ -503,7 +503,7 @@ function GetPythonVersion: string;
 begin
   Result := '';
   if GI_PyControl.PythonLoaded then
-    Result := PyControl.PythonVersion.SysVersion;
+    Result := GI_PyControl.PythonVersion.SysVersion;
 end;
 
 function GetCmdLineArgs: string;

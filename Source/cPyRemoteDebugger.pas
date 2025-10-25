@@ -763,11 +763,11 @@ begin
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
   if PyIDEOptions.PreferFreeThreaded and
-    (PyControl.PythonVersion.PythonFreeThreadedExecutable <> '')
+    (GI_PyControl.PythonVersion.PythonFreeThreadedExecutable <> '')
   then
-    ExeName := PyControl.PythonVersion.PythonFreeThreadedExecutable
+    ExeName := GI_PyControl.PythonVersion.PythonFreeThreadedExecutable
   else
-    ExeName := PyControl.PythonVersion.PythonExecutable;
+    ExeName := GI_PyControl.PythonVersion.PythonExecutable;
 
   ServerProcess := TPProcess.Create(AddQuotesUnless(ExeName) +
     Format(' -u -X utf8 "%s" %d "%s"', [FServerFile, FSocketPort, FRpycPath]));
@@ -863,7 +863,7 @@ begin
   // Set the Working directory
   if ARunConfig.WorkingDir <> '' then
     Path := GI_PyIDEServices.ReplaceParams(ARunConfig.WorkingDir);
-  if Path.Length <= 1 then
+  if Path = '' then
     Path := SystemTempFolder;
   OldPath := RPI.rem_getcwdu();
 
@@ -950,8 +950,8 @@ begin
           // So handle with a delay
           TThread.ForceQueue(nil, procedure
           begin
-            GI_PyInterpreter.ReinitInterpreter;
-          end);
+            PyControl.ActiveInterpreter.ReInitialize;
+          end, 500);
         end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
           PyControl.ActiveDebugger.EnterPostMortem;
       end;
@@ -982,7 +982,10 @@ begin
     begin
       Result := False;
       GI_PyInterpreter.ClearPendingMessages;
-      GI_PyInterpreter.ReinitInterpreter;
+      TThread.ForceQueue(nil, procedure
+      begin
+          PyControl.ActiveInterpreter.ReInitialize;
+      end, 500);
     end;
   finally
     GI_PyControl.DebuggerState := OldDebuggerState;
@@ -1105,7 +1108,7 @@ begin
   var ScriptName :=  ToPythonFileName(ARunConfig.ScriptName);
   ArgV.append(ScriptName);
 
-  Params := Trim(ARunConfig.Parameters);
+  Params := Trim(GI_PyIDEServices.ReplaceParams(ARunConfig.Parameters));
   if Params <> '' then begin
     Params := GI_PyIDEServices.ReplaceParams(Params);
     var P := PChar(Params);
@@ -1706,8 +1709,8 @@ begin
         // So handle with a delay
         TThread.ForceQueue(nil, procedure
         begin
-          GI_PyInterpreter.ReinitInterpreter;
-        end);
+            PyControl.ActiveInterpreter.ReInitialize;
+        end, 500);
       end else if FRemotePython.CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;

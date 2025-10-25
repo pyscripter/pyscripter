@@ -552,65 +552,65 @@ object PyIDEMainForm: TPyIDEMainForm
         object sbmnNavigate: TSpTBXSubmenuItem
           Caption = 'Navi&gate'
           object mnNavEditor: TSpTBXItem
-            Action = actNavEditor
+            Action = CommandsDataModule.actNavEditor
           end
           object TBXSeparatorItem24: TSpTBXSeparatorItem
           end
           object sbmnIDEWindows: TSpTBXSubmenuItem
             Caption = 'IDE &Windows'
             object mnNavInterpreter: TSpTBXItem
-              Action = actNavInterpreter
+              Action = CommandsDataModule.actNavInterpreter
             end
             object SpTBXSeparatorItem26: TSpTBXSeparatorItem
             end
             object mnNavCodeExplorer: TSpTBXItem
-              Action = actNavCodeExplorer
+              Action = CommandsDataModule.actNavCodeExplorer
             end
             object mnNavFileExplorer: TSpTBXItem
-              Action = actNavFileExplorer
+              Action = CommandsDataModule.actNavFileExplorer
             end
             object mnNavProjectExplorer: TSpTBXItem
-              Action = actNavProjectExplorer
+              Action = CommandsDataModule.actNavProjectExplorer
             end
             object SpTBXSeparatorItem28: TSpTBXSeparatorItem
             end
             object SpTBXItem16: TSpTBXItem
-              Action = actNavChat
+              Action = CommandsDataModule.actNavChat
             end
             object SpTBXSeparatorItem27: TSpTBXSeparatorItem
             end
             object mnNavOutput: TSpTBXItem
-              Action = actNavOutput
+              Action = CommandsDataModule.actNavOutput
             end
             object mnNavUnitTests: TSpTBXItem
-              Action = actNavUnitTests
+              Action = CommandsDataModule.actNavUnitTests
             end
             object mnNavTodo: TSpTBXItem
-              Action = actNavTodo
+              Action = CommandsDataModule.actNavTodo
             end
             object mnNavRegExp: TSpTBXItem
-              Action = actNavRegExp
+              Action = CommandsDataModule.actNavRegExp
             end
             object mnNavFindResults: TSpTBXItem
-              Action = actNavFindResults
+              Action = CommandsDataModule.actNavFindResults
             end
           end
           object sbmnDebugWindows: TSpTBXSubmenuItem
             Caption = '&Debug Windows'
             object mnNavBreakpoints: TSpTBXItem
-              Action = actNavBreakpoints
+              Action = CommandsDataModule.actNavBreakpoints
             end
             object mnNavCallStack: TSpTBXItem
-              Action = actNavCallStack
+              Action = CommandsDataModule.actNavCallStack
             end
             object mnNavMessages: TSpTBXItem
-              Action = actNavMessages
+              Action = CommandsDataModule.actNavMessages
             end
             object mnNavVariables: TSpTBXItem
-              Action = actNavVariables
+              Action = CommandsDataModule.actNavVariables
             end
             object mnNavWatches: TSpTBXItem
-              Action = actNavWatches
+              Action = CommandsDataModule.actNavWatches
             end
           end
         end
@@ -795,13 +795,18 @@ object PyIDEMainForm: TPyIDEMainForm
         object SpTBXSeparatorItem4: TSpTBXSeparatorItem
         end
         object mnNavProjectExplorer2: TSpTBXItem
-          Action = actNavProjectExplorer
+          Caption = '&Project Explorer'
+          Hint = 'Activate the Project Explorer window'
+          HelpContext = 360
+          ImageIndex = 85
+          ImageName = 'ProjectExplorer'
+          ShortCut = 49232
         end
       end
       object RunMenu: TSpTBXSubmenuItem
         Caption = '&Run'
         object mnSyntaxCheck: TSpTBXItem
-          Action = actSyntaxCheck
+          Action = CommandsDataModule.actCodeCheck
         end
         object mnImportModule: TSpTBXItem
           Action = actImportModule
@@ -1084,7 +1089,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Action = CommandsDataModule.actFindInFiles
       end
       object mnuFindInFilesResults: TSpTBXItem
-        Action = actNavFindResults
+        Action = CommandsDataModule.actNavFindResults
       end
       object TBXSeparatorItem5: TSpTBXSeparatorItem
       end
@@ -1525,16 +1530,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ShortCut = 16505
       OnExecute = actViewMainMenuExecute
     end
-    object actSyntaxCheck: TAction
-      Category = 'Run'
-      Caption = '&Syntax Check'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Syntax Check|Perform syntax check and load scripts'
-      ImageIndex = 17
-      ImageName = 'Check'
-      OnExecute = actSyntaxCheckExecute
-    end
     object actRun: TAction
       Category = 'Run'
       Caption = '&Run'
@@ -1765,18 +1760,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'BreakpointsRemove'
       OnExecute = actClearAllBreakpointsExecute
     end
-    object actNavFindResults: TAction
-      Tag = 12
-      Category = 'IDE Navigation'
-      Caption = 'Find &in Files Results'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Activate the Find in Files Results window'
-      ImageIndex = 60
-      ImageName = 'FindResults'
-      ShortCut = 49222
-      OnExecute = actNavigateToDockWindow
-    end
     object actFindDefinition: TAction
       Category = 'Refactoring'
       Caption = 'Find &Definition'
@@ -1950,136 +1933,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'FileNew'
       OnExecute = actNewFileExecute
     end
-    object actNavWatches: TAction
-      Tag = 3
-      Category = 'IDE Navigation'
-      Caption = '&Watches'
-      HelpType = htContext
-      Hint = 'Activate the Watches window'
-      ImageIndex = 43
-      ImageName = 'WatchesWin'
-      ShortCut = 49239
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavBreakpoints: TAction
-      Tag = 4
-      Category = 'IDE Navigation'
-      Caption = '&BreakPoints'
-      HelpType = htContext
-      Hint = 'Activate the Breakpoints window'
-      ImageIndex = 44
-      ImageName = 'BreakpointsWin'
-      ShortCut = 49218
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavInterpreter: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Interpreter'
-      HelpType = htContext
-      Hint = 'Activate the Interpreter window'
-      ImageIndex = 83
-      ImageName = 'Python'
-      ShortCut = 49225
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavVariables: TAction
-      Tag = 2
-      Category = 'IDE Navigation'
-      Caption = '&Variables'
-      HelpType = htContext
-      Hint = 'Activate the Variables window'
-      ImageIndex = 42
-      ImageName = 'VariablesWin'
-      ShortCut = 49238
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavCallStack: TAction
-      Tag = 1
-      Category = 'IDE Navigation'
-      Caption = '&Call Stack'
-      HelpType = htContext
-      Hint = 'Activate the Call Stack window'
-      ImageIndex = 41
-      ImageName = 'CallStack'
-      ShortCut = 49235
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavMessages: TAction
-      Tag = 6
-      Category = 'IDE Navigation'
-      Caption = '&Messages '
-      HelpType = htContext
-      Hint = 'Activate the Messages window'
-      ImageIndex = 49
-      ImageName = 'MessagesWin'
-      ShortCut = 49229
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavFileExplorer: TAction
-      Tag = 8
-      Category = 'IDE Navigation'
-      Caption = 'File E&xplorer'
-      HelpType = htContext
-      Hint = 'Activate the File Explorer window'
-      ImageIndex = 57
-      ImageName = 'FileExplorer'
-      ShortCut = 49240
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavCodeExplorer: TAction
-      Tag = 7
-      Category = 'IDE Navigation'
-      Caption = '&Code Explorer'
-      HelpType = htContext
-      Hint = 'Activate the Code Explorer window'
-      ImageIndex = 50
-      ImageName = 'CodeExplorer'
-      ShortCut = 49219
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavTodo: TAction
-      Tag = 9
-      Category = 'IDE Navigation'
-      Caption = '&Todo List'
-      HelpType = htContext
-      Hint = 'Activate the Todo List window'
-      ImageIndex = 58
-      ImageName = 'TodoWin'
-      ShortCut = 49236
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavUnitTests: TAction
-      Tag = 11
-      Category = 'IDE Navigation'
-      Caption = '&Unit Tests'
-      HelpType = htContext
-      Hint = 'Activate the Todo List window'
-      ImageIndex = 68
-      ImageName = 'UnitTestWin'
-      ShortCut = 49237
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavOutput: TAction
-      Tag = 5
-      Category = 'IDE Navigation'
-      Caption = 'Command &Output'
-      HelpType = htContext
-      Hint = 'Activate the Command Output window'
-      ImageIndex = 62
-      ImageName = 'CmdOuputWin'
-      ShortCut = 49231
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavEditor: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Editor'
-      HelpType = htContext
-      Hint = 'Activate the Editor'
-      ImageIndex = 86
-      ImageName = 'Editor'
-      ShortCut = 123
-      OnExecute = actNavEditorExecute
-    end
     object actPythonSSH: TAction
       Tag = 4
       Category = 'Run'
@@ -2137,18 +1990,6 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Customize the toolbars'
       OnExecute = actViewCustomizeToolbarsExecute
-    end
-    object actNavProjectExplorer: TAction
-      Tag = 13
-      Category = 'IDE Navigation'
-      Caption = '&Project Explorer'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Activate the Project Explorer window'
-      ImageIndex = 85
-      ImageName = 'ProjectExplorer'
-      ShortCut = 49232
-      OnExecute = actNavigateToDockWindow
     end
     object actViewSplitWorkspaceVer: TAction
       Category = 'View'
@@ -2215,26 +2056,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'ZoomReset'
       ShortCut = 32864
       OnExecute = actEditorZoomResetExecute
-    end
-    object actNavRegExp: TAction
-      Tag = 10
-      Category = 'IDE Navigation'
-      Caption = 'Regular Expression Tester'
-      Hint = 'Activate the Regular Expression Tester window'
-      ImageIndex = 66
-      ImageName = 'RegExp'
-      ShortCut = 49234
-      OnExecute = actNavigateToDockWindow
-    end
-    object actNavChat: TAction
-      Tag = 14
-      Category = 'IDE Navigation'
-      Caption = 'Chat'
-      Hint = 'Activate the Chat window'
-      ImageIndex = 104
-      ImageName = 'Chat'
-      ShortCut = 49217
-      OnExecute = actNavigateToDockWindow
     end
     object actPythonFreeThreaded: TAction
       Category = 'Run'

@@ -46,8 +46,6 @@ type
     function InitPythonVersions: Boolean;
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
-    function GetPythonEngineType: TPythonEngineType;
-    procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
     procedure PrepareRun;
     function GetInternalInterpreter: TPyBaseInterpreter;
@@ -61,10 +59,12 @@ type
     function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
+    function GetPythonEngineType: TPythonEngineType;
     procedure AppendProjectPaths;
     procedure SetCurrentPos(const NewPos: TEditorPos);
     procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
+    procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure Pickle(AValue: Variant; FileName: string);
 
     procedure HandleProjectPythonPathChange(const Sender: TObject;

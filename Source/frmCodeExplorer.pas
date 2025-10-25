@@ -602,7 +602,7 @@ begin
     (ExplorerTree.RootNodeCount > 0)
   then
   begin
-    CodeElement := FModuleNode. GetScopeForLine(Editor.ActiveSynEdit.CaretY);
+    CodeElement := FModuleNode.GetScopeForLine(Editor.ActiveSynEdit.CaretY);
     if Assigned(CodeElement) and Assigned(CodeElement.FNode) then
     begin
       ExplorerTree.TreeOptions.AnimationOptions :=

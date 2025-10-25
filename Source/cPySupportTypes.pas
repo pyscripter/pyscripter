@@ -106,6 +106,7 @@ type
     procedure SetExternalRun(const Value: TExternalRun);
   public
     constructor Create;
+    constructor CreateFromFileId(const FileId: string);
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   published
@@ -160,16 +161,20 @@ type
     function GetErrorPos: TEditorPos;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
+    function GetPythonEngineType: TPythonEngineType;
     procedure AppendProjectPaths;
     procedure SetCurrentPos(const NewPos: TEditorPos);
     procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
+    procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure Pickle(AValue: Variant; FileName: string);
     property CurrentPos: TEditorPos read GetCurrentPos write SetCurrentPos;
     property DebuggerState: TDebuggerState read GetDebuggerState
       write SetDebuggerState;
     property ErrorPos: TEditorPos read GetErrorPos write SetErrorPos;
     property PythonVersion: TPythonVersion read GetPythonVersion;
+    property PythonEngineType: TPythonEngineType read GetPythonEngineType
+      write SetPythonEngineType;
     property ActiveSSHServerName: string read GetActiveSSHServerName;
   end;
 
@@ -190,7 +195,7 @@ type
     procedure StopFileMirror;
     procedure UpdatePythonKeywords;
     procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
-    procedure ReinitInterpreter;
+    //procedure ReinitInterpreter;
     function GetPythonIO: TPythonInputOutput;
     function GetEditor: TCustomSynEdit;
     function GetShowOutput: Boolean;
@@ -263,7 +268,9 @@ implementation
 
 uses
   System.SysUtils,
-  uCommonFunctions;
+  uEditAppIntfs,
+  uCommonFunctions,
+  cPyScripterSettings;
 
 { TRunConfiguration }
 
@@ -297,8 +304,8 @@ begin
   with FExternalRun do begin
     Caption := 'External Run';
     Description := 'Run script using an external Python Interpreter';
-    ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[ActiveScript-Short]';
+    ApplicationName := '$[PythonExe]';
+    Parameters := '"$[ActiveScript]"';
     WorkingDirectory := '$[ActiveScript-Dir]';
     SaveFiles := sfAll;
     Context := tcActiveFile;
@@ -306,6 +313,20 @@ begin
     CaptureOutput := True;
     ConsoleHidden := True;
   end;
+end;
+
+constructor TRunConfiguration.CreateFromFileId(const FileId: string);
+begin
+  Create;
+  FScriptName := FileId;
+  FEngineType := GI_PyControl.PythonEngineType;
+  FReinitializeBeforeRun := PyIDEOptions.ReinitializeBeforeRun;
+  if FileExists(FIleId) then
+    FWorkingDir := ExtractFileDir(FileId)
+  else
+    FWorkingDir := '';
+  FParameters := '$[CmdLineArgs]';
+  ExternalRun.Assign(ExternalPython);
 end;
 
 destructor TRunConfiguration.Destroy;

@@ -155,9 +155,7 @@ type
   IFileCommands = interface
   ['{C10F67B6-BE8D-4A0D-8FDA-05BBF8DEA08A}']
     function CanClose: Boolean;
-    function CanPrint: Boolean;
     function CanSave: Boolean;
-    function CanSaveAs: Boolean;
     function CanReload: Boolean;
     procedure ExecClose;
     procedure ExecPrint;

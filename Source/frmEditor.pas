@@ -293,9 +293,7 @@ type
     procedure PullDiagnostics;
     // IFileCommands implementation
     function CanClose: Boolean;
-    function CanPrint: Boolean;
     function CanSave: Boolean;
-    function CanSaveAs: Boolean;
     function CanReload: Boolean;
     procedure ExecClose;
     procedure ExecPrint;
@@ -1161,19 +1159,9 @@ end;
 
 // IFileCommands implementation
 
-function TEditor.CanPrint: Boolean;
-begin
-  Result := True;
-end;
-
 function TEditor.CanSave: Boolean;
 begin
   Result := Assigned(Form) and (GetModified or ((FFileName = '') and (FRemoteFileName = '')));
-end;
-
-function TEditor.CanSaveAs: Boolean;
-begin
-  Result := Assigned(Form);
 end;
 
 function TEditor.CanClose: Boolean;

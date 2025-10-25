@@ -124,7 +124,6 @@ uses
   StringResources,
   cPyScripterSettings,
   cPySupportTypes,
-  cPyControl,
   dmResources;
 
 function GetScrollbarWidth: Integer;
@@ -300,8 +299,8 @@ begin
   cbMasks.Items.Assign(FFindInFilesExpert.MaskList);
 
   if GI_PyControl.PythonLoaded and
-    (cbDirectory.Items.IndexOf(PyControl.PythonVersion.InstallPath) < 0) then
-    cbDirectory.Items. Add(PyControl.PythonVersion.InstallPath);
+    (cbDirectory.Items.IndexOf(GI_PyControl.PythonVersion.InstallPath) < 0) then
+    cbDirectory.Items. Add(GI_PyControl.PythonVersion.InstallPath);
 
   if FFindInFilesExpert.GrepSave then
   begin
