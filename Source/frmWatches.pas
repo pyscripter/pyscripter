@@ -112,7 +112,6 @@ uses
   uCommonFunctions,
   dmResources,
   cPySupportTypes,
-  cPyControl,
   cPyBaseDebugger;
 
 {$R *.dfm}
@@ -453,7 +452,7 @@ begin
       begin
         FreeAndNil(FNS);
         if GI_PyControl.DebuggerState in [dsPaused, dsPostMortem] then
-        FNS := PyControl.ActiveDebugger.Evaluate(Watch);
+        FNS := GI_PyControl.ActiveDebugger.Evaluate(Watch);
       end;
 
   // Turn off Animation to speed things up

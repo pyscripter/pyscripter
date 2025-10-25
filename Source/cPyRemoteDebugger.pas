@@ -954,7 +954,7 @@ begin
             GI_PyControl.ActiveInterpreter.ReInitialize;
           end, 500);
         end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
-          PyControl.ActiveDebugger.EnterPostMortem;
+          GI_PyControl.ActiveDebugger.EnterPostMortem;
       end;
     end);
 end;

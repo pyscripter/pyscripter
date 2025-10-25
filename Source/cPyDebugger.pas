@@ -236,7 +236,7 @@ begin
   else begin
     var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      Result := PyControl.InternalInterpreter.PyInteractiveInterpreter.membercount(FPyObject, ExpandSequences,
+      Result := GI_PyControl.InternalInterpreter.PyInteractiveInterpreter.membercount(FPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
     except
       Result := 0;
@@ -265,7 +265,7 @@ begin
     FGotChildNodes := True;
     var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
-      FullInfoTuple := PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(FPyObject, ExpandSequences,
+      FullInfoTuple := GI_PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(FPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
       FChildCount := len(FullInfoTuple);
 
@@ -323,7 +323,7 @@ procedure TNameSpaceItem.FillObjectInfo;
 begin
   var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    FObjectInfo := PyControl.InternalInterpreter.PyInteractiveInterpreter.objectinfo(FPyObject);
+    FObjectInfo := GI_PyControl.InternalInterpreter.PyInteractiveInterpreter.objectinfo(FPyObject);
   except
     FObjectInfo := 0;
   end;
@@ -334,14 +334,14 @@ begin
   if FQualifiedObjectType <> '' then
     Result := FQualifiedObjectType.Substring(fQualifiedObjectType.LastIndexOf('.') + 1)
   else
-    Result := PyControl.InternalInterpreter.GetObjectType(FPyObject);
+    Result := GI_PyControl.InternalInterpreter.GetObjectType(FPyObject);
 end;
 
 function TNameSpaceItem.GetValue: string;
 begin
   var SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
-    Result :=  PyControl.InternalInterpreter.PyInteractiveInterpreter.saferepr(FPyObject);
+    Result :=  GI_PyControl.InternalInterpreter.PyInteractiveInterpreter.saferepr(FPyObject);
   except
     Result := '';
   end;
@@ -426,7 +426,7 @@ begin
   inherited Create;
   FDebugEvent := TSimpleEvent.Create(nil, False, False, '');
 
-  InternalInterpreter := PyControl.InternalInterpreter as TPyInternalInterpreter;
+  InternalInterpreter := GI_PyControl.InternalInterpreter as TPyInternalInterpreter;
 
   FLineCache := Import('linecache');
 
@@ -1371,7 +1371,7 @@ begin
 
       GI_PyControl.DebuggerState := dsInactive;
       if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
-        PyControl.ActiveDebugger.EnterPostMortem;
+        GI_PyControl.ActiveDebugger.EnterPostMortem;
     end;
   end;
 end;
