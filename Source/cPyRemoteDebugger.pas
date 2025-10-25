@@ -183,6 +183,7 @@ uses
   JvDSADialogs,
   JvGnugettext,
   StringResources,
+  uPythonItfs,
   cPyScripterSettings,
   cPyControl,
   cTools,
@@ -235,7 +236,7 @@ begin
         FullInfoTuple := FRemotePython.RPI.safegetmembersfullinfo(fPyObject, ExpandSequences,
           ExpandCommonTypes, ExpandSequences)
       else
-        FullInfoTuple := PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject,
+        FullInfoTuple := GI_PyControl.InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject,
           ExpandSequences, ExpandCommonTypes, ExpandSequences);
       FChildCount := len(FullInfoTuple);
 
@@ -497,7 +498,7 @@ begin
   FOldsysmodules := SysModule.modules.copy();
   try
     FRpycPath := Format('%sLib\%s', [ExtractFilePath(Application.ExeName), RpycZipModule]);
-    PyControl.InternalInterpreter.SysPathAdd(FRpycPath);
+    GI_PyControl.InternalInterpreter.SysPathAdd(FRpycPath);
     Rpyc := Import('rpyc');
     FServerIsAvailable := True;
   except
@@ -538,7 +539,7 @@ begin
     ModulesDict.update(FOldSysModules);
   end;
   VarClear(FOldSysModules);
-  PyControl.InternalInterpreter.SysPathRemove(FRpycPath);
+  GI_PyControl.InternalInterpreter.SysPathRemove(FRpycPath);
   inherited;
 end;
 
@@ -565,7 +566,7 @@ end;
 
 function TPyRemoteInterpreter.GetObjectType(Obj: Variant): string;
 begin
-  Result := PyControl.InternalInterpreter.GetObjectType(Obj);
+  Result := GI_PyControl.InternalInterpreter.GetObjectType(Obj);
 end;
 
 procedure TPyRemoteInterpreter.HandleRemoteException(const ExcInfo: Variant; SkipFrames: Integer);
@@ -950,7 +951,7 @@ begin
           // So handle with a delay
           TThread.ForceQueue(nil, procedure
           begin
-            PyControl.ActiveInterpreter.ReInitialize;
+            GI_PyControl.ActiveInterpreter.ReInitialize;
           end, 500);
         end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
           PyControl.ActiveDebugger.EnterPostMortem;
@@ -984,7 +985,7 @@ begin
       GI_PyInterpreter.ClearPendingMessages;
       TThread.ForceQueue(nil, procedure
       begin
-          PyControl.ActiveInterpreter.ReInitialize;
+        GI_PyControl.ActiveInterpreter.ReInitialize;
       end, 500);
     end;
   finally
@@ -1126,8 +1127,8 @@ var
 begin
   if FServerIsAvailable and Assigned(ServerProcess) and (ServerProcess.State = TPPState.Running) then
   begin
-    if Assigned(PyControl.ActiveDebugger) then
-       PyControl.ActiveDebugger.Abort;
+    if Assigned(GI_PyControl.ActiveDebugger) then
+       GI_PyControl.ActiveDebugger.Abort;
 
     if FConnected then begin
       try
@@ -1290,7 +1291,7 @@ begin
   FRemotePython := RemotePython;
   FDebugManager := FRemotePython.RPI.DebugManager;
   FDebugManager.debugIDE :=
-    PyControl.InternalInterpreter.PyInteractiveInterpreter.debugIDE;
+    GI_PyControl.InternalInterpreter.PyInteractiveInterpreter.debugIDE;
 
   FMainDebugger := FDebugManager.main_debugger;
 
@@ -1709,10 +1710,10 @@ begin
         // So handle with a delay
         TThread.ForceQueue(nil, procedure
         begin
-            PyControl.ActiveInterpreter.ReInitialize;
+          GI_PyControl.ActiveInterpreter.ReInitialize;
         end, 500);
       end else if FRemotePython.CanDoPostMortem and PyIDEOptions.PostMortemOnException then
-        PyControl.ActiveDebugger.EnterPostMortem;
+        GI_PyControl.ActiveDebugger.EnterPostMortem;
     end;
   end;
 
@@ -1807,7 +1808,7 @@ begin
 
   for var BPInfo in GI_BreakpointManager.AllBreakPoints do
     if not BPInfo.Disabled then
-      FMainDebugger.set_break(FRemotePython.ToPythonFileName(BPInfo.FileName),
+      FMainDebugger.set_break(FRemotePython.ToPythonFileName(BPInfo.FileId),
        BPInfo.LineNo, False, BPInfo.Condition, BPInfo.IgnoreCount);
 
   GI_BreakpointManager.BreakpointsChanged := False;

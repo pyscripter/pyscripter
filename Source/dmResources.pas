@@ -120,10 +120,10 @@ uses
   TB2Item,
   StringResources,
   uEditAppIntfs,
+  uPythonItfs,
   uCommonFunctions,
   cPyScripterSettings,
-  cParameters,
-  cPySupportTypes;
+  cParameters;
 
 
 {$R *.dfm}

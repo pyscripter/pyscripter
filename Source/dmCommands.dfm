@@ -1448,6 +1448,15 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actNavigateToDockWindow
       OnUpdate = UpdateActionAlwaysEnabled
     end
+    object actCommandLine: TAction
+      Category = 'Run'
+      Caption = 'Command Line &Parameters...'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Set command line parameters'
+      OnExecute = actCommandLineExecute
+      OnUpdate = UpdateRunActions
+    end
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]

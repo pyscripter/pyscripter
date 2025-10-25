@@ -32,7 +32,7 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
-  cPySupportTypes;
+  uPythonItfs;
 
 type
   TWatchesWindow = class(TIDEDockWindow, IWatchManager)
@@ -111,6 +111,7 @@ uses
   StringResources,
   uCommonFunctions,
   dmResources,
+  cPySupportTypes,
   cPyControl,
   cPyBaseDebugger;
 

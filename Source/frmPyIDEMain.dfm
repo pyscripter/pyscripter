@@ -817,7 +817,7 @@ object PyIDEMainForm: TPyIDEMainForm
           Action = actRun
         end
         object mnCommandLineParams: TSpTBXItem
-          Action = actCommandLine
+          Action = CommandsDataModule.actCommandLine
         end
         object N22: TSpTBXSeparatorItem
         end
@@ -1540,14 +1540,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'Run'
       ShortCut = 16504
       OnExecute = actRunExecute
-    end
-    object actCommandLine: TAction
-      Category = 'Run'
-      Caption = 'Command Line &Parameters...'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Set command line parameters'
-      OnExecute = actCommandLineExecute
     end
     object actImportModule: TAction
       Category = 'Run'

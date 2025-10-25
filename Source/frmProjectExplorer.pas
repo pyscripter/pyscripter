@@ -240,8 +240,8 @@ uses
   dlgImportDirectory,
   dlgRunConfiguration,
   dlgDirectoryList,
+  uPythonItfs,
   cPyScripterSettings,
-  cPySupportTypes,
   cPyControl,
   cSSHSupport,
   dlgRemoteFile,
@@ -480,7 +480,7 @@ begin
   if EditFolderList(Paths, _(SProjectPythonPath), 0) then
   begin
     for var I := 0 to Paths.Count - 1 do
-      Paths[I] := NormalizePath(Paths[I]);
+      Paths[I] := NormalizePath(Paths[I], True);
     ActiveProject.ExtraPythonPath := Paths;
   end;
 end;

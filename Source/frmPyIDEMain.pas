@@ -712,8 +712,7 @@ uses
   SynEdit,
   uEditAppIntfs,
   cFileTemplates,
-  cPySupportTypes,
-  cPyControl;
+  cPySupportTypes;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1088,7 +1087,6 @@ type
     actFileOpen: TAction;
     actFileNewModule: TAction;
     actImportModule: TAction;
-    actCommandLine: TAction;
     actRun: TAction;
     actViewMainMenu: TAction;
     tbiRecentFileList: TSpTBXMRUListItem;
@@ -1207,7 +1205,6 @@ type
     procedure actLayoutDebugExecute(Sender: TObject);
     procedure actLayoutsDeleteExecute(Sender: TObject);
     procedure actLayoutSaveExecute(Sender: TObject);
-    procedure actCommandLineExecute(Sender: TObject);
     procedure JvAppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -1361,9 +1358,9 @@ type
     function GetIsClosing: Boolean;
     procedure WriteStatusMsg(const Msg: string);
     function FileIsPythonSource(const FileName: string): Boolean;
-    function ShowFilePosition(FileName: string; Line: Integer = 1;
-      Offset: Integer = 1; SelLen: Integer = 0;
-      ForceToMiddle: Boolean = True; FocusEditor: Boolean = True): Boolean;
+    function ShowFilePosition(const AFileId: string; Line: Integer = 1; Offset:
+        Integer = 1; SelLen: Integer = 0; ForceToMiddle: Boolean = True;
+        FocusEditor: Boolean = True): Boolean;
     procedure ClearPythonWindows;
     procedure SaveEnvironment;
     procedure SaveFileModules;
@@ -1460,6 +1457,7 @@ uses
   dmResources,
   dmCommands,
   StringResources,
+  uPythonItfs,
   uCmdLine,
   uCommonFunctions,
   uSearchHighlighter,
@@ -1467,7 +1465,6 @@ uses
   uHighlighterProcs,
   dlgCustomShortcuts,
   dlgNewFile,
-  dlgCommandLine,
   dlgToolProperties,
   dlgStyleSelector,
   dlgPickList,
@@ -1475,7 +1472,6 @@ uses
   dlgRemoteFile,
   frmEditor,
   frmIDEDockWin,
-  //frmRegExpTester,
   frmWebPreview,
   frmModSpTBXCustomize,
   cPyBaseDebugger,
@@ -1484,6 +1480,7 @@ uses
   cTools,
   cParameters,
   cFilePersist,
+  cPyControl,
   cPyRemoteDebugger,
   cProjectClasses,
   cSSHSupport,
@@ -1690,19 +1687,23 @@ begin
     if StyledMessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
     begin
       if (GI_PyControl.DebuggerState in [dsPaused, dsPostMortem]) or
-        (PyControl.ActiveDebugger is TPyInternalDebugger) then
+        (GI_PyControl.PythonEngineType = peInternal) then
       begin
         CanClose := False;
-        PyControl.ActiveDebugger.Abort;
+        GI_PyControl.ActiveDebugger.Abort;
         DelayedClose;
         Exit;
-      end else begin
+      end
+      else
+      begin
         CanClose := False;
-        PyControl.ActiveInterpreter.ReInitialize;
+        GI_PyControl.ActiveInterpreter.ReInitialize;
         DelayedClose;
         Exit;
       end;
-    end else begin  // mrNo
+    end
+    else
+    begin  // mrNo
        CanClose := False;
        Exit;
     end;
@@ -1853,7 +1854,7 @@ end;
 
 procedure TPyIDEMainForm.actPostMortemExecute(Sender: TObject);
 begin
-  PyControl.ActiveDebugger.EnterPostMortem;
+  GI_PyControl.ActiveDebugger.EnterPostMortem;
 end;
 
 procedure TPyIDEMainForm.actPreviousEditorExecute(Sender: TObject);
@@ -1915,7 +1916,7 @@ begin
     if StyledMessageDlg(_(STerminateInterpreter),
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
-  PyControl.ActiveInterpreter.ReInitialize;
+  GI_PyControl.ActiveInterpreter.ReInitialize;
 end;
 
 procedure TPyIDEMainForm.actPythonSetupExecute(Sender: TObject);
@@ -1940,7 +1941,7 @@ begin
   if not Assigned(ActiveEditor) then Exit;
 
   Py := SafePyEngine;
-  var PyModule := PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
+  var PyModule := GI_PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
   VarClear(PyModule);
 
   GI_MessagesService.AddMessage(Format(_(SModuleImportedOK), [ActiveEditor.FileTitle]));
@@ -1948,10 +1949,8 @@ begin
 end;
 
 procedure TPyIDEMainForm.actToggleBreakPointExecute(Sender: TObject);
-var
-  ActiveEditor: IEditor;
 begin
-  ActiveEditor := GetActiveEditor;
+  var ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) and ActiveEditor.HasPythonFile then
     GI_BreakpointManager.ToggleBreakpoint(ActiveEditor.FileId,
       ActiveEditor.SynEdit.CaretY);
@@ -1960,11 +1959,6 @@ end;
 procedure TPyIDEMainForm.actClearAllBreakpointsExecute(Sender: TObject);
 begin
   GI_BreakpointManager.ClearAllBreakpoints;
-end;
-
-procedure TPyIDEMainForm.actCommandLineExecute(Sender: TObject);
-begin
-  TCommandLineDlg.Execute;
 end;
 
 procedure TPyIDEMainForm.actRunDebugLastScriptExecute(Sender: TObject);
@@ -2005,13 +1999,13 @@ begin
     if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor)
     else if GI_PyControl.DebuggerState = dsPaused then
-      PyControl.ActiveDebugger.Resume;
+      GI_PyControl.ActiveDebugger.Resume;
   end;
 end;
 
 procedure TPyIDEMainForm.actDebugPauseExecute(Sender: TObject);
 begin
-  PyControl.ActiveDebugger.Pause;
+  GI_PyControl.ActiveDebugger.Pause;
 end;
 
 procedure TPyIDEMainForm.actSelectStyleExecute(Sender: TObject);
@@ -2029,23 +2023,23 @@ begin
     if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor, True)
     else if GI_PyControl.DebuggerState = dsPaused then
-      PyControl.ActiveDebugger.StepInto;
+      GI_PyControl.ActiveDebugger.StepInto;
   end;
 end;
 
 procedure TPyIDEMainForm.actStepOverExecute(Sender: TObject);
 begin
-  PyControl.ActiveDebugger.StepOver;
+  GI_PyControl.ActiveDebugger.StepOver;
 end;
 
 procedure TPyIDEMainForm.actStepOutExecute(Sender: TObject);
 begin
-  PyControl.ActiveDebugger.StepOut;
+  GI_PyControl.ActiveDebugger.StepOut;
 end;
 
 procedure TPyIDEMainForm.actDebugAbortExecute(Sender: TObject);
 begin
-  PyControl.ActiveDebugger.Abort;
+  GI_PyControl.ActiveDebugger.Abort;
 end;
 
 procedure TPyIDEMainForm.actRunToCursorExecute(Sender: TObject);
@@ -2056,7 +2050,7 @@ begin
     if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor, False, ActiveEditor.SynEdit.CaretY)
     else if GI_PyControl.DebuggerState = dsPaused then
-      PyControl.ActiveDebugger.RunToCursor(ActiveEditor, ActiveEditor.SynEdit.CaretY);
+      GI_PyControl.ActiveDebugger.RunToCursor(ActiveEditor, ActiveEditor.SynEdit.CaretY);
   end;
 end;
 
@@ -2087,8 +2081,7 @@ end;
 procedure TPyIDEMainForm.UpdateDebugCommands;
 begin
   var Editor := GetActiveEditor;
-  var PyFileActive := Assigned(Editor) and
-    (Editor.SynEdit.Highlighter = ResourcesDataModule.SynPythonSyn);
+  var PyFileActive := Assigned(Editor) and Editor.HasPythonFile;
   var DbgState := GI_PyControl.DebuggerState;
 
   actRun.Enabled := PyFileActive and GI_PyControl.Inactive;
@@ -2106,11 +2099,11 @@ begin
   actClearAllBreakpoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;
   actExecSelection.Enabled := GI_PyControl.PythonLoaded and not GI_PyControl.Running and PyFileActive;
-  actPythonReinitialize.Enabled := Assigned(PyControl.ActiveInterpreter) and
-    (icReInitialize in PyControl.ActiveInterpreter.InterpreterCapabilities) and
+  actPythonReinitialize.Enabled := Assigned(GI_PyControl.ActiveInterpreter) and
+    (icReInitialize in GI_PyControl.ActiveInterpreter.InterpreterCapabilities) and
     not (DbgState in [dsPaused, dsPostMortem]);
   actPostMortem.Enabled := GI_PyControl.Inactive and
-    Assigned(PyControl.ActiveDebugger) and PyControl.ActiveDebugger.PostMortemEnabled;
+    Assigned(GI_PyControl.ActiveDebugger) and GI_PyControl.ActiveDebugger.PostMortemEnabled;
   if DbgState = dsPaused then
   begin
     actDebug.Caption := _(SResumeCaption);
@@ -2214,10 +2207,9 @@ begin
 
   // If a Tk or Wx remote engine is active pump up event handling
   // This is for processing input output coming from event handlers
-  if (PyControl.ActiveInterpreter is TPyRemoteInterpreter) and
-     GI_PyControl.Inactive
+  if (GI_PyControl.PythonEngineType <> peInternal) and GI_PyControl.Inactive
   then
-    with TPyRemoteInterpreter(PyControl.ActiveInterpreter) do begin
+    with TPyRemoteInterpreter(GI_PyControl.ActiveInterpreter) do begin
       if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
       try
         // Ignore exceptions here
@@ -2258,25 +2250,25 @@ begin
     HintInfo.HideTimeout := 5000;
 end;
 
-function TPyIDEMainForm.ShowFilePosition(FileName: string; Line: Integer = 1;
-      Offset: Integer = 1; SelLen: Integer = 0;
-      ForceToMiddle: Boolean = True; FocusEditor: Boolean = True): Boolean;
-var
-  Editor: IEditor;
+function TPyIDEMainForm.ShowFilePosition(const AFileId: string;
+  Line: Integer = 1; Offset: Integer = 1; SelLen: Integer = 0;
+  ForceToMiddle: Boolean = True; FocusEditor: Boolean = True): Boolean;
 begin
   Result := False;
-  if FileName <> '' then begin
-    if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
-      FileName :=  Copy(FileName, 2, Length(FileName)-2);
-    Editor := GI_EditorFactory.GetEditorByFileId(FileName);
-    if not Assigned(Editor) and (FileName.StartsWith('ssh') or FileExists(FileName)) then
+  var LFileId := AFileId;
+  if LFileId <> '' then
+  begin
+    if (LFileId[1] ='<') and (LFileId[LFileId.Length] = '>') then
+      LFileId :=  Copy(LFileId, 2, LFileId.Length - 2);
+    var Editor := GI_EditorFactory.GetEditorByFileId(LFileId);
+    if not Assigned(Editor) and (LFileId.StartsWith('ssh') or FileExists(LFileId)) then
     begin
       try
-        GI_EditorFactory.OpenFile(FileName);
+        GI_EditorFactory.OpenFile(LFileId);
       except
         Exit;
       end;
-      Editor := GI_EditorFactory.GetEditorByFileId(FileName);
+      Editor := GI_EditorFactory.GetEditorByFileId(LFileId);
 
       if GI_PyControl.PythonLoaded and
         Editor.FileName.StartsWith(GI_PyControl.PythonVersion.InstallPath, True)
@@ -3046,8 +3038,6 @@ begin
   actFileOpen.Enabled := GI_EditorFactory <> nil;
   actFileCloseAll.Enabled := (GI_EditorFactory <> nil)
     and (GI_EditorFactory.GetEditorCount > 0);
-
-  actCommandLine.Checked := CommandLineParams <> '';
 
   // Refactoring
   actFindDefinition.Enabled := Assigned(GI_ActiveEditor) and

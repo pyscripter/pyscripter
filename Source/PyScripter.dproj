@@ -324,6 +324,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>SuggestWindow</Form>
         </DCCReference>
         <DCCReference Include="cLSPClients.pas"/>
+        <DCCReference Include="uPythonItfs.pas"/>
         <None Include="PyScripter.todo"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

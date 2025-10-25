@@ -171,42 +171,42 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 72
+        CollectionIndex = 74
         CollectionName = 'OpenFolder'
         Name = 'OpenFolder'
       end
       item
-        CollectionIndex = 91
+        CollectionIndex = 93
         CollectionName = 'PySetupAdd'
         Name = 'PySetupAdd'
       end
       item
-        CollectionIndex = 92
+        CollectionIndex = 94
         CollectionName = 'PySetupRemove'
         Name = 'PySetupRemove'
       end
       item
-        CollectionIndex = 61
+        CollectionIndex = 63
         CollectionName = 'Help'
         Name = 'Help'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 23
         CollectionName = 'CmdOuputWin'
         Name = 'CmdOuputWin'
       end
       item
-        CollectionIndex = 41
+        CollectionIndex = 43
         CollectionName = 'ExternalRun'
         Name = 'ExternalRun'
       end
       item
-        CollectionIndex = 88
+        CollectionIndex = 90
         CollectionName = 'PyActivate'
         Name = 'PyActivate'
       end
       item
-        CollectionIndex = 99
+        CollectionIndex = 101
         CollectionName = 'Rename'
         Name = 'Rename'
       end>
@@ -220,7 +220,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
   object vilTreeImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 3
+        CollectionIndex = 4
         CollectionName = 'ArrowRight'
         Name = 'ArrowRight'
       end>

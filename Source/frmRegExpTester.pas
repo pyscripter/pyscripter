@@ -135,7 +135,7 @@ uses
   dmResources,
   dmCommands,
   PythonEngine,
-  cPySupportTypes,
+  uPythonItfs,
   uCommonFunctions;
 
 {$R *.dfm}

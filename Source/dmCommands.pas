@@ -245,6 +245,7 @@ type
     actNavProjectExplorer: TAction;
     actNavRegExp: TAction;
     actNavChat: TAction;
+    actCommandLine: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -299,6 +300,7 @@ type
     procedure actInsertTemplateExecute(Sender: TObject);
     procedure actCustomizeParametersExecute(Sender: TObject);
     procedure actCodeTemplatesExecute(Sender: TObject);
+    procedure actCommandLineExecute(Sender: TObject);
     procedure actConfigureToolsExecute(Sender: TObject);
     procedure actHelpExternalToolsExecute(Sender: TObject);
     procedure actFindFunctionExecute(Sender: TObject);
@@ -377,6 +379,7 @@ type
     procedure UpdateIssuesActions(Sender: TObject);
     procedure UpdateParameterActions(Sender: TObject);
     procedure UpdateRefactorActions(Sender: TObject);
+    procedure UpdateRunActions(Sender: TObject);
     procedure UpdateSearchActions(Sender: TObject);
     procedure UpdateSourceCodeActions(Sender: TObject);
     procedure UpdateToolsActions(Sender: TObject);
@@ -464,9 +467,11 @@ uses
   XLSPTypes,
   dmResources,
   StringResources,
+  uPythonItfs,
   dlgSynPageSetup,
   dlgDirectoryList,
   dlgAboutPyScripter,
+  dlgCommandLine,
   dlgConfirmReplace,
   dlgCustomShortcuts,
   dlgUnitTestWizard,
@@ -491,7 +496,6 @@ uses
   cPySupportTypes,
   cPyScripterSettings,
   cParameters,
-  cPyControl,
   dlgSynEditOptions,
   dlgOptionsEditor;
 
@@ -806,7 +810,7 @@ procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
 begin
   with GI_PyControl.CurrentPos do
     if (Line >= 1) and GI_PyControl.PythonLoaded and not GI_PyControl.Running then
-      GI_PyIDEServices.ShowFilePosition(FileName , Line, 1, 0, True, True);
+      GI_PyIDEServices.ShowFilePosition(FileId , Line, 1, 0, True, True);
 end;
 
 procedure TCommandsDataModule.actSearchGoToLineExecute(Sender: TObject);
@@ -1614,9 +1618,9 @@ begin
 
   var Paths := TStringList.Create;
   try
-    PyControl.ActiveInterpreter.SysPathToStrings(Paths);
+    GI_PyControl.ActiveInterpreter.SysPathToStrings(Paths);
     if EditFolderList(Paths, _('Python Path'), 870) then
-      PyControl.ActiveInterpreter.StringsToSysPath(Paths);
+      GI_PyControl.ActiveInterpreter.StringsToSysPath(Paths);
   finally
     Paths.Free;
   end;
@@ -1663,7 +1667,7 @@ end;
 
 procedure TCommandsDataModule.actPythonManualsExecute(Sender: TObject);
 begin
-  var PythonHelpFile := PyControl.PythonHelpFile;
+  var PythonHelpFile := GI_PyControl.PythonHelpFile;
   if PythonHelpFile = '' then Exit;
 
   if ExtractFileExt(PythonHelpFile) = '.chm' then begin
@@ -1683,12 +1687,12 @@ end;
 function TCommandsDataModule.ShowPythonKeywordHelp(KeyWord: string): Boolean;
 begin
   Result := False;
-  var PythonHelpFile := PyControl.PythonHelpFile;
+  var PythonHelpFile := GI_PyControl.PythonHelpFile;
   if PythonHelpFile = '' then Exit;
 
   if ExtractFileExt(PythonHelpFile) = '.chm' then begin
     var OldHelpFile := Application.HelpFile;
-    Application.HelpFile := PyControl.PythonHelpFile;
+    Application.HelpFile := GI_PyControl.PythonHelpFile;
     PyIDEMainForm.PythonKeywordHelpRequested := True;
     try
       Result := Application.HelpKeyword(KeyWord);
@@ -2050,6 +2054,11 @@ begin
     GI_ActiveEditor.PullDiagnostics;
 end;
 
+procedure TCommandsDataModule.actCommandLineExecute(Sender: TObject);
+begin
+  TCommandLineDlg.Execute;
+end;
+
 procedure TCommandsDataModule.actFileExitExecute(Sender: TObject);
 begin
   Application.MainForm.Close;
@@ -2214,21 +2223,35 @@ begin
     TAction(Sender).Enabled := HasFold;
 end;
 
-procedure TCommandsDataModule.UpdateLineBreakActions(Sender: TObject);
+procedure TCommandsDataModule.UpdateEditActions(Sender: TObject);
 begin
-  TAction(Sender).Enabled := Assigned(GI_ActiveEditor);
-  if TAction(Sender).Enabled then
+  var ReadOnly := Assigned(GI_ActiveEditor) and GI_ActiveEditor.SynEdit.ReadOnly;
+  if Sender = actEditLineNumbers then
   begin
-    var Fmt := (GI_ActiveEditor.SynEdit.Lines as TSynEditStringList).FileFormat;
-    if Sender = actEditLBDos then
-      actEditLBDos.Checked := Fmt = sffDos
-    else if Sender = actEditLBUnix then
-      actEditLBUnix.Checked := Fmt = sffUnix
-    else if Sender = actEditLBMac then
-      actEditLBMac.Checked := Fmt = sffMac;
+    actEditLineNumbers.Enabled := Assigned(GI_ActiveEditor);
+    actEditLineNumbers.Checked := Assigned(GI_ActiveEditor) and
+      GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;
   end
-  else
-    TAction(Sender).Checked := False;
+  else if Sender = actEditReadOnly then
+    actEditReadOnly.Checked := ReadOnly
+  else if Sender = actEditWordWrap then
+  begin
+    actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) and
+      not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding or
+      GI_PyInterpreter.Editor.Focused;
+    actEditWordWrap.Checked := Assigned(GI_ActiveEditor) and
+      GI_ActiveEditor.ActiveSynEdit.WordWrap or
+      GI_PyInterpreter.Editor.Focused and GI_PyInterpreter.Editor.WordWrap;
+  end
+  else if Sender = actEditShowSpecialChars then
+  begin
+    actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or
+      GI_PyInterpreter.Editor.Focused;
+    actEditShowSpecialChars.Checked := Assigned(GI_ActiveEditor) and
+      not (GI_ActiveEditor.ActiveSynEdit.VisibleSpecialChars = []);
+  end
+  else if Sender = actInsertTemplate then
+    actInsertTemplate.Enabled := Assigned(GI_ActiveEditor);
 end;
 
 procedure TCommandsDataModule.UpdateEncodingActions(Sender: TObject);
@@ -2250,17 +2273,6 @@ begin
   end
   else
     TAction(Sender).Checked := False;
-end;
-
-procedure TCommandsDataModule.UpdateRefactorActions(Sender: TObject);
-begin
-  TAction(Sender).Enabled := Assigned(GI_ActiveEditor)
-    and GI_ActiveEditor.HasPythonFile and not GI_ActiveEditor.SynEdit.ReadOnly;
-end;
-
-procedure TCommandsDataModule.UpdateParameterActions(Sender: TObject);
-begin
-  TAction(Sender).Enabled := Screen.ActiveControl is TCustomSynEdit;;
 end;
 
 procedure TCommandsDataModule.UpdateFileActions(Sender: TObject);
@@ -2288,6 +2300,40 @@ begin
       begin
         Result := (Ed as IFileCommands).CanSave;
       end));
+end;
+
+procedure TCommandsDataModule.UpdateLineBreakActions(Sender: TObject);
+begin
+  TAction(Sender).Enabled := Assigned(GI_ActiveEditor);
+  if TAction(Sender).Enabled then
+  begin
+    var Fmt := (GI_ActiveEditor.SynEdit.Lines as TSynEditStringList).FileFormat;
+    if Sender = actEditLBDos then
+      actEditLBDos.Checked := Fmt = sffDos
+    else if Sender = actEditLBUnix then
+      actEditLBUnix.Checked := Fmt = sffUnix
+    else if Sender = actEditLBMac then
+      actEditLBMac.Checked := Fmt = sffMac;
+  end
+  else
+    TAction(Sender).Checked := False;
+end;
+
+procedure TCommandsDataModule.UpdateParameterActions(Sender: TObject);
+begin
+  TAction(Sender).Enabled := Screen.ActiveControl is TCustomSynEdit;;
+end;
+
+procedure TCommandsDataModule.UpdateRefactorActions(Sender: TObject);
+begin
+  TAction(Sender).Enabled := Assigned(GI_ActiveEditor)
+    and GI_ActiveEditor.HasPythonFile and not GI_ActiveEditor.SynEdit.ReadOnly;
+end;
+
+procedure TCommandsDataModule.UpdateRunActions(Sender: TObject);
+begin
+  if Sender = actCommandLine then
+    actCommandLine.Checked := CommandLineParams <> '';
 end;
 
 procedure TCommandsDataModule.UpdateSearchActions(Sender: TObject);
@@ -2354,37 +2400,6 @@ begin
     TAction(Sender).Enabled := Assigned(GI_ActiveEditor) and not ReadOnly
   else if Sender = actFormatCode then
     actFormatCode.Enabled := not ReadOnly and GI_ActiveEditor.HasPythonFile;
-end;
-
-procedure TCommandsDataModule.UpdateEditActions(Sender: TObject);
-begin
-  var ReadOnly := Assigned(GI_ActiveEditor) and GI_ActiveEditor.SynEdit.ReadOnly;
-  if Sender = actEditLineNumbers then
-  begin
-    actEditLineNumbers.Enabled := Assigned(GI_ActiveEditor);
-    actEditLineNumbers.Checked := Assigned(GI_ActiveEditor) and
-      GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;
-  end
-  else if Sender = actEditReadOnly then
-    actEditReadOnly.Checked := ReadOnly
-  else if Sender = actEditWordWrap then
-  begin
-    actEditWordWrap.Enabled := Assigned(GI_ActiveEditor) and
-      not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding or
-      GI_PyInterpreter.Editor.Focused;
-    actEditWordWrap.Checked := Assigned(GI_ActiveEditor) and
-      GI_ActiveEditor.ActiveSynEdit.WordWrap or
-      GI_PyInterpreter.Editor.Focused and GI_PyInterpreter.Editor.WordWrap;
-  end
-  else if Sender = actEditShowSpecialChars then
-  begin
-    actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor) or
-      GI_PyInterpreter.Editor.Focused;
-    actEditShowSpecialChars.Checked := Assigned(GI_ActiveEditor) and
-      not (GI_ActiveEditor.ActiveSynEdit.VisibleSpecialChars = []);
-  end
-  else if Sender = actInsertTemplate then
-    actInsertTemplate.Enabled := Assigned(GI_ActiveEditor);
 end;
 
 procedure TCommandsDataModule.UpdateToolsActions(Sender: TObject);

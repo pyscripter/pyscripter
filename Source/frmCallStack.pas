@@ -30,6 +30,7 @@ uses
   VirtualTrees.AncestorVCL,
   VirtualTrees.BaseTree,
   VirtualTrees,
+  uPythonItfs,
   frmIDEDockWin,
   cPySupportTypes,
   cPyBaseDebugger;
@@ -102,8 +103,7 @@ uses
   uCommonFunctions,
   uEditAppIntfs,
   dmResources,
-  dmCommands,
-  cPyControl;
+  dmCommands;
 
 {$R *.dfm}
 
@@ -244,7 +244,7 @@ begin
   begin
     Assert(Assigned(FActiveThread), 'CallStackViewAddToSelection');
     Assert(Integer(Node.Index) < FActiveThread.CallStack.Count, 'CallStackViewAddToSelection');
-    PyControl.ActiveDebugger.MakeFrameActive(FActiveThread.CallStack[Node.Index]);
+    GI_PyControl.ActiveDebugger.MakeFrameActive(FActiveThread.CallStack[Node.Index]);
 
     // Update the Variables Window
     if Assigned(GI_VariablesWindow) then GI_VariablesWindow.UpdateWindow;
@@ -360,7 +360,7 @@ begin
   with FActiveThread.CallStack[Node.Index] do
   begin
     FrameData.Func := FunctionName;
-    FrameData.FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
+    FrameData.FileName := GI_PyControl.ActiveInterpreter.FromPythonFileName(FileName);
     FrameData.Line := Line;
   end;
 end;
@@ -527,7 +527,7 @@ procedure TCallStackWindow.SetActiveThread(const Value: TThreadInfo);
 begin
   if FActiveThread <> Value then begin
     FActiveThread := Value;
-    PyControl.ActiveDebugger.MakeThreadActive(FActiveThread);
+    GI_PyControl.ActiveDebugger.MakeThreadActive(FActiveThread);
     UpdateCallStack;
   end;
 end;

@@ -73,8 +73,8 @@ uses
   Vcl.Dialogs,
   VarPyth,
   uEditAppIntfs,
+  uPythonItfs,
   cPyScripterSettings,
-  cPySupportTypes,
   uCommonFunctions;
 
 { TInternalPython }

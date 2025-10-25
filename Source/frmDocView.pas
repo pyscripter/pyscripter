@@ -83,8 +83,8 @@ uses
   JvGnugettext,
   PythonEngine,
   StringResources,
+  uPythonItfs,
   uCommonFunctions,
-  cPyControl,
   cPyScripterSettings,
   dmResources;
 
@@ -133,8 +133,8 @@ begin
   Py := SafePyEngine;
   Cursor := WaitCursor;
 
-  Module := PyControl.ActiveInterpreter.ImportModule(Editor);
-  FHtml := PyControl.ActiveInterpreter.PyInteractiveInterpreter.htmldoc(Module);
+  Module := GI_PyControl.ActiveInterpreter.ImportModule(Editor);
+  FHtml := GI_PyControl.ActiveInterpreter.PyInteractiveInterpreter.htmldoc(Module);
 
   WebBrowser.CreateWebView;
 end;

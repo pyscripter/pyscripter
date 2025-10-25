@@ -119,11 +119,11 @@ uses
   Vcl.Dialogs,
   JvGnugettext,
   uEditAppIntfs,
+  uPythonItfs,
   uCommonFunctions,
   frmFindResults,
   StringResources,
   cPyScripterSettings,
-  cPySupportTypes,
   dmResources;
 
 function GetScrollbarWidth: Integer;

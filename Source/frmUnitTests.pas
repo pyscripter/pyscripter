@@ -144,9 +144,9 @@ uses
   PythonEngine,
   VarPyth,
   StringResources,
+  uPythonItfs,
   uCommonFunctions,
   cPySupportTypes,
-  cPyControl,
   dmResources;
 
 {$R *.dfm}
@@ -189,8 +189,8 @@ begin
     ModuleName.Caption := 'Module: ' + Editor.FileTitle;
     ModuleName.Hint := Editor.FileName;
 
-    Module := PyControl.ActiveInterpreter.ImportModule(Editor);
-    UnitTest := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
+    Module := GI_PyControl.ActiveInterpreter.ImportModule(Editor);
+    UnitTest := GI_PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
     TestSuite := UnitTest.defaultTestLoader.loadTestsFromModule(Module);
     //  This TestSuite contains a list of TestSuites
     //  each of which contains TestCases corresponding to
@@ -204,7 +204,7 @@ begin
         TestCase.testStatus := Ord(tsNotRun);
         TestCase.errMsg := '';
         TestCase.enabled := True;
-        ClassName := PyControl.ActiveInterpreter.GetObjectType(TestCase);
+        ClassName := GI_PyControl.ActiveInterpreter.GetObjectType(TestCase);
         Index := TestClasses.IndexOf(ClassName);
         if Index < 0 then begin
           SL := TStringList.Create;
@@ -474,7 +474,7 @@ begin
   if not GI_PyControl.Inactive then Exit;
 
   Py := SafePyEngine;
-  UnitTestModule := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
+  UnitTestModule := GI_PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
 
   //  Create a TempTestSuite that contains only the checked tests
   TempTestSuite := UnitTestModule.TestSuite();
@@ -507,7 +507,7 @@ begin
   GI_PyControl.DebuggerState := dsRunning;
   Application.ProcessMessages;
 
-  TestResult := PyControl.ActiveInterpreter.UnitTestResult;
+  TestResult := GI_PyControl.ActiveInterpreter.UnitTestResult;
   try
     QueryPerformanceCounter(StartTime);
     TempTestSuite.run(TestResult);
@@ -734,7 +734,7 @@ begin
     end;
     if VarIsPython(PythonObject) then
     begin
-      InspectModule := PyControl.ActiveInterpreter.EvalCode('__import__("inspect")');
+      InspectModule := GI_PyControl.ActiveInterpreter.EvalCode('__import__("inspect")');
       if InspectModule.ismethod(PythonObject) then
       begin
         FileName := InspectModule.getsourcefile(PythonObject);

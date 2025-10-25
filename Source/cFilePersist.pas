@@ -92,6 +92,7 @@ uses
   TB2Item,
   JvJCLUtils,
   dmResources,
+  uPythonItfs,
   frmPyIDEMain,
   cPyControl,
   cPyScripterSettings,

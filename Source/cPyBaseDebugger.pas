@@ -3,8 +3,8 @@
  Author:    Kiriakos Vlahos
  Date:      23-Apr-2006
  Purpose:   Base debugger classes
- History:
 -----------------------------------------------------------------------------}
+
 unit cPyBaseDebugger;
 
 interface
@@ -219,8 +219,8 @@ uses
   JvGnugettext,
   JclSysInfo,
   StringResources,
+  uPythonItfs,
   uCommonFunctions,
-  cPyControl,
   cPyScripterSettings,
   cSSHSupport;
 

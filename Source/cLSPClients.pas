@@ -175,7 +175,6 @@ uses
   System.Generics.Defaults,
   Vcl.StdCtrls,
   spTBXItem,
-  cPySupportTypes,
   XLspUtils,
   XLSPFunctions,
   SynEditTextBuffer,
@@ -185,7 +184,9 @@ uses
   dmCommands,
   dlgPickList,
   uEditAppIntfs,
+  uPythonItfs,
   uCommonFunctions,
+  cPySupportTypes,
   cCodeCompletion,
   cPyScripterSettings,
   cSSHSupport;

@@ -342,7 +342,7 @@ begin
             if Indx > 0 then begin
               FileName := Groups[Indx].Value;
               StringReplace(FileName, '/', '\', [rfReplaceAll]); // fix for filenames with '/'
-              FileName := GetLongFileName(ExpandFileName(FileName)); // always full filename
+              FileName := NormalizePath(FileName); // always full filename
             end;
             Indx := MatchIndex(LinePos);
             if Indx > 0 then
@@ -386,7 +386,7 @@ begin
                 ErrLineNo := StrToIntDef(GroupValue(2), 0);
                 // add traceback info (function name, filename, linenumber)
                 GI_MessagesService.AddMessage('    ' + GroupValue(4),
-                  GetLongFileName(ExpandFileName(GroupValue(1))), ErrLineNo);
+                  NormalizePath(GroupValue(1)), ErrLineNo);
               end;
             Inc(LineNo);
           end;
@@ -409,7 +409,7 @@ begin
             // add Syntax error info (error message, filename, linenumber)
             GI_MessagesService.AddMessage(_(SSyntaxError));
             GI_MessagesService.AddMessage(ErrorMsg + GroupValue(5),
-              GetLongFileName(ExpandFileName(GroupValue(1))), ErrLineNo, ColNo);
+              NormalizePath(GroupValue(1)), ErrLineNo, ColNo);
           end;
           GI_MessagesService.ShowWindow;
           MessageBeep(MB_ICONEXCLAMATION);

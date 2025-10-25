@@ -17,6 +17,7 @@ uses
   JvAppStorage,
   PythonVersions,
   uEditAppIntfs,
+  uPythonItfs,
   cPySupportTypes,
   cPyBaseDebugger,
   cInternalPython;
@@ -41,22 +42,24 @@ type
     FInternalPython: TInternalPython;
     FInternalInterpreter: TPyBaseInterpreter;
     FActiveSSHServerName: string;
-    FPythonHelpFile: string;
     FProjectPythonPath: TArray<string>;
     function InitPythonVersions: Boolean;
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
     procedure PrepareRun;
-    function GetInternalInterpreter: TPyBaseInterpreter;
     procedure SetPythonVersionIndex(const Value: Integer);
     // IPyControl implementation
     function PythonLoaded: Boolean;
     function Running: Boolean;
     function Inactive: Boolean;
     function GetCurrentPos: TEditorPos;
+    function GetActiveDebugger: TPyBaseDebugger;
+    function GetActiveInterpreter: TPyBaseInterpreter;
+    function GetInternalInterpreter: TPyBaseInterpreter;
     function GetDebuggerState: TDebuggerState;
     function GetErrorPos: TEditorPos;
+    function GetPythonHelpFile: string;
     function GetPythonVersion: TPythonVersion;
     function GetActiveSSHServerName: string;
     function GetPythonEngineType: TPythonEngineType;
@@ -105,7 +108,6 @@ type
     property InternalInterpreter: TPyBaseInterpreter read GetInternalInterpreter;
     property ActiveInterpreter: TPyBaseInterpreter read FActiveInterpreter
       write SetActiveInterpreter;
-    property PythonHelpFile: string read FPythonHelpFile;
     property ActiveDebugger: TPyBaseDebugger read FActiveDebugger
       write SetActiveDebugger;
     property CurrentPos: TEditorPos read FCurrentPos write SetCurrentPos;
@@ -201,6 +203,16 @@ begin
   inherited;
 end;
 
+function TPythonControl.GetActiveDebugger: TPyBaseDebugger;
+begin
+  Result := FActiveDebugger;
+end;
+
+function TPythonControl.GetActiveInterpreter: TPyBaseInterpreter;
+begin
+  Result := FActiveInterpreter;
+end;
+
 function TPythonControl.GetActiveSSHServerName: string;
 begin
   Result := FActiveSSHServerName;
@@ -237,6 +249,11 @@ begin
     Result := ActiveInterpreter.EngineType
   else
     Result := peInternal;
+end;
+
+function TPythonControl.GetPythonHelpFile: string;
+begin
+  Result := PythonVersion.HelpFile;
 end;
 
 function TPythonControl.GetPythonVersion: TPythonVersion;
@@ -477,16 +494,16 @@ procedure CurrentPosChanged(OldPos, NewPos: TEditorPos);
 begin
   if GI_PyIDEServices.IsClosing  then Exit;
 
-  GI_EditorFactory.InvalidatePos(OldPos.FileName, OldPos.Line, itBoth);
+  GI_EditorFactory.InvalidatePos(OldPos.FileId, OldPos.Line, itBoth);
   if NewPos.IsValid and
-    GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line, 1, 0, True, False)
+    GI_PyIDEServices.ShowFilePosition(NewPos.FileId, NewPos.Line, 1, 0, True, False)
   then
-    GI_EditorFactory.InvalidatePos(NewPos.FileName, NewPos.Line, itBoth);
+    GI_EditorFactory.InvalidatePos(NewPos.FileId, NewPos.Line, itBoth);
 end;
 
 procedure TPythonControl.SetCurrentPos(const NewPos: TEditorPos);
 begin
-  if NewPos.PointsTo(FCurrentPos.FileName, FCurrentPos.Line) then Exit;
+  if NewPos.PointsTo(FCurrentPos.FileId, FCurrentPos.Line) then Exit;
 
   var OldPos := FCurrentPos;
   FCurrentPos := NewPos;
@@ -505,11 +522,11 @@ procedure ErrorPosChanged(OldPos, NewPos: TEditorPos);
 begin
   if GI_PyIDEServices.IsClosing  then Exit;
 
-  GI_EditorFactory.InvalidatePos(OldPos.FileName, OldPos.Line, itLine);
+  GI_EditorFactory.InvalidatePos(OldPos.FileId, OldPos.Line, itLine);
   if NewPos.IsValid and
-    GI_PyIDEServices.ShowFilePosition(NewPos.FileName, NewPos.Line)
+    GI_PyIDEServices.ShowFilePosition(NewPos.FileId, NewPos.Line)
   then
-    GI_EditorFactory.InvalidatePos(NewPos.FileName, NewPos.Line, itLine);
+    GI_EditorFactory.InvalidatePos(NewPos.FileId, NewPos.Line, itLine);
 end;
 
 procedure TPythonControl.SetErrorPos(const NewPos: TEditorPos);
@@ -638,14 +655,12 @@ begin
     GI_PyIDEServices.ClearPythonWindows;
 
   // Destroy Active debugger and interpreter
-  PyControl.ActiveDebugger := nil;
-  PyControl.ActiveInterpreter := nil;
+  ActiveDebugger := nil;
+  ActiveInterpreter := nil;
   FreeAndNil(FInternalInterpreter);
 
   if InternalPython.LoadPython(APythonVersion) then
   begin
-    FPythonHelpFile := APythonVersion.HelpFile;
-
     var II := VarPythonEval('_II'); // wrapping sys and code modules
     // Create internal Interpreter and Debugger
     InternalPython.PythonEngine.ExecString('del _II');

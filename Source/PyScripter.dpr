@@ -118,7 +118,8 @@ uses
   uLLMSupport in 'uLLMSupport.pas',
   frmLLMChat in 'frmLLMChat.pas' {LLMChatForm},
   frmSuggest in 'frmSuggest.pas' {SuggestWindow},
-  cLSPClients in 'cLSPClients.pas';
+  cLSPClients in 'cLSPClients.pas',
+  uPythonItfs in 'uPythonItfs.pas';
 
 {$R *.RES}
 

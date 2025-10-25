@@ -108,6 +108,7 @@ uses
   uCommonFunctions,
   PythonEngine,
   uEditAppIntfs,
+  uPythonItfs,
   cPySupportTypes,
   cPyScripterSettings;
 

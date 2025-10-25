@@ -177,6 +177,7 @@ uses
   JclSysInfo,
   VarPyth,
   StringResources,
+  uPythonItfs,
   uCommonFunctions,
   cPyScripterSettings,
   cPyControl;
@@ -900,7 +901,7 @@ begin
   for var BPInfo in GI_BreakpointManager.AllBreakPoints do
     if not BPInfo.Disabled then
       InternalInterpreter.Debugger.set_break(
-        InternalInterpreter.ToPythonFileName(BPInfo.FileName),
+        InternalInterpreter.ToPythonFileName(BPInfo.FileId),
         BPInfo.LineNo, False, BPInfo.Condition, BPInfo.IgnoreCount);
 
   GI_BreakpointManager.BreakPointsChanged := False;

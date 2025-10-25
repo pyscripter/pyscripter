@@ -66,6 +66,7 @@ uses
   StringResources,
   dmResources,
   uEditAppIntfs,
+  uPythonItfs,
   uCommonFunctions,
   cPyScripterSettings,
   cPySupportTypes,

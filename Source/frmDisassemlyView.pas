@@ -46,8 +46,8 @@ uses
   PythonEngine,
   StringResources,
   dmResources,
-  cPyScripterSettings,
-  cPyControl;
+  uPythonItfs,
+  cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -83,9 +83,9 @@ begin
 
   Py := SafePyEngine;
 
-  module := PyControl.ActiveInterpreter.ImportModule(Editor);
-  PyControl.ActiveInterpreter.RunSource(Code, '<Getdis>', 'exec');
-  getdis := PyControl.ActiveInterpreter.EvalCode('GetDis');
+  module := GI_PyControl.ActiveInterpreter.ImportModule(Editor);
+  GI_PyControl.ActiveInterpreter.RunSource(Code, '<Getdis>', 'exec');
+  getdis := GI_PyControl.ActiveInterpreter.EvalCode('GetDis');
 
   DisSynEdit.Text := Format(Header,[Editor.FileTitle]) + getdis.__call__(module);
 end;

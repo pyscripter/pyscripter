@@ -51,6 +51,5 @@ object DisForm: TDisForm
         AnnPos = sbpFullWidth
         FullRow = False
       end>
-    VisibleSpecialChars = []
   end
 end

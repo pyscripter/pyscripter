@@ -51,17 +51,17 @@ const
 type
   TEditorPos = record
   public
-    FileName: string;
+    FileId: string;
     Line: Integer;
     Char: Integer;
     IsSyntax: Boolean;
     ErrorMsg: string;
-    function PointsTo(AFileName: string; ALine: Integer): Boolean;
+    function PointsTo(const AFileId: string; ALine: Integer): Boolean;
     function IsValid: Boolean;
     procedure Clear;
     class function EmptyPos: TEditorPos; static;
-    class function New(FName: string; ALine: Integer; AChar: Integer = -1;
-      IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos; static;
+    class function New(const AFileId: string; ALine: Integer; AChar: Integer = -1;
+        IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos; static;
   end;
 
   TBreakpoint = class(TPersistent)
@@ -149,116 +149,17 @@ type
     class function IsExecutableLine(Line: string): Boolean;
   end;
 
-{$REGION 'Python IDE Interfaces'}
-
-  IPyControl = interface
-  ['{DE1C1145-DC0F-4829-B36B-74EC818E168E}']
-    function PythonLoaded: Boolean;
-    function Running: Boolean;
-    function Inactive: Boolean;
-    function GetCurrentPos: TEditorPos;
-    function GetDebuggerState: TDebuggerState;
-    function GetErrorPos: TEditorPos;
-    function GetPythonVersion: TPythonVersion;
-    function GetActiveSSHServerName: string;
-    function GetPythonEngineType: TPythonEngineType;
-    procedure AppendProjectPaths;
-    procedure SetCurrentPos(const NewPos: TEditorPos);
-    procedure SetDebuggerState(const NewState: TDebuggerState);
-    procedure SetErrorPos(const NewPos: TEditorPos);
-    procedure SetPythonEngineType(const Value: TPythonEngineType);
-    procedure Pickle(AValue: Variant; FileName: string);
-    property CurrentPos: TEditorPos read GetCurrentPos write SetCurrentPos;
-    property DebuggerState: TDebuggerState read GetDebuggerState
-      write SetDebuggerState;
-    property ErrorPos: TEditorPos read GetErrorPos write SetErrorPos;
-    property PythonVersion: TPythonVersion read GetPythonVersion;
-    property PythonEngineType: TPythonEngineType read GetPythonEngineType
-      write SetPythonEngineType;
-    property ActiveSSHServerName: string read GetActiveSSHServerName;
-  end;
-
-  TPyInterpreterPropmpt = (pipNormal, pipDebug, pipPostMortem);
-  IPyInterpreter = interface
-  ['{6BAAD187-B00E-4E2A-B01D-C47EED922E59}']
-    procedure AppendPrompt;
-    procedure RemovePrompt;
-    procedure AppendText(const Str: string);
-    procedure PrintEngineType;
-    procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
-    procedure WritePendingMessages;
-    procedure ClearPendingMessages;
-    procedure ClearDisplay;
-    procedure ClearLastPrompt;
-    function OutputSuppressor: IInterface;
-    procedure StartOutputMirror(const AFileName: string; Append: Boolean);
-    procedure StopFileMirror;
-    procedure UpdatePythonKeywords;
-    procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
-    //procedure ReinitInterpreter;
-    function GetPythonIO: TPythonInputOutput;
-    function GetEditor: TCustomSynEdit;
-    function GetShowOutput: Boolean;
-    procedure SetShowOutput(const Value: Boolean);
-    procedure ShowWindow(Activate: Boolean = True);
-    property Editor: TCustomSynEdit read GetEditor;
-    property PythonIO: TPythonInputOutput read GetPythonIO;
-    property ShowOutput: Boolean read GetShowOutput write SetShowOutput;
-  end;
-
+  // Record storing breakpoint properties
   TBreakpointInfo = record
-    FileName: string;
+    FileId: string;
     LineNo: Integer;
     Disabled: Boolean;
     Condition: string;
     IgnoreCount: Integer;
   end;
 
-  IBreakpointManager = interface
-  ['{2A3F48C2-06E0-455D-B2D1-73BEAD0CF8F7}']
-    function GetBreakpointsChanged: Boolean;
-    procedure SetBreakpointsChanged(Value: Boolean);
-    procedure ToggleBreakpoint(const FileName: string; ALine: Integer;
-      CtrlPressed: Boolean = False; UpdateUI: Boolean = True);
-    procedure SetBreakpoint(const FileName: string; ALine: Integer;
-      Disabled: Boolean; Condition: string = ''; IgnoreCount: Integer = 0;
-      UpdateUI: Boolean = True);
-    function AllBreakPoints: TArray<TBreakpointInfo>;
-    function EditProperties(var Condition: string; var IgnoreCount: Integer): Boolean;
-    procedure ClearAllBreakpoints;
-    property BreakpointsChanged: Boolean read GetBreakpointsChanged
-      write SetBreakpointsChanged;
-  end;
-
-  IWatchManager = interface
-  ['{98C8EE88-8C29-436F-9CDC-730E7C7F0CA8}']
-    procedure AddWatch(Str: string);
-    procedure UpdateWindow;
-  end;
-
-  IVariablesWindow = interface
-  ['{9BD1D8C0-A0A2-4A56-B30F-615DFC41846B}']
-    procedure ClearAll;
-    procedure UpdateWindow;
-  end;
-
-  ICallStackWindow = interface
-  ['{CE08088E-6AE5-4F14-9114-92AB67E241E7}']
-    function GetSelectedStackFrame: TBaseFrameInfo;
-    procedure ClearAll(IncludeThreads: Boolean = True);
-    procedure UpdateWindow(NewState, OldState: TDebuggerState);
-  end;
-
-  // Global Interfaces
-var
-  GI_PyControl: IPyControl;
-  GI_PyInterpreter: IPyInterpreter;
-  GI_BreakpointManager: IBreakpointManager;
-  GI_WatchManager: IWatchManager;
-  GI_VariablesWindow: IVariablesWindow;
-  GI_CallStackWindow: ICallStackWindow;
-
-{$ENDREGION 'Python IDE Interfaces'}
+  // The types of the interpreter prompt
+  TPyInterpreterPropmpt = (pipNormal, pipDebug, pipPostMortem);
 
 const
   IdentRE = '[_\p{L}]\w*';
@@ -269,6 +170,7 @@ implementation
 uses
   System.SysUtils,
   uEditAppIntfs,
+  uPythonItfs,
   uCommonFunctions,
   cPyScripterSettings;
 
@@ -371,7 +273,7 @@ end;
 class function TEditorPos.EmptyPos: TEditorPos;
 begin
   with Result do begin
-    FileName := '';
+    FileId := '';
     Line := -1;
     Char := -1;
     IsSyntax := False;
@@ -381,14 +283,15 @@ end;
 
 function TEditorPos.IsValid: Boolean;
 begin
-  Result := FileName <> '';
+  Result := FileId <> '';
 end;
 
-class function TEditorPos.New(FName: string; ALine: Integer; AChar: Integer =
-    -1; IsSyntaxError: Boolean = False; AErrorMsg: string = ''): TEditorPos;
+class function TEditorPos.New(const AFileId: string; ALine: Integer;
+  AChar: Integer = -1; IsSyntaxError: Boolean = False;
+  AErrorMsg: string = ''): TEditorPos;
 begin
   with Result do begin
-    FileName := FName;
+    FileId := AFileId;
     Line := ALine;
     Char := AChar;
     IsSyntax := IsSyntaxError;
@@ -396,14 +299,14 @@ begin
   end;
 end;
 
-function TEditorPos.PointsTo(AFileName: string; ALine: Integer): Boolean;
+function TEditorPos.PointsTo(const AFileId: string; ALine: Integer): Boolean;
 begin
-  Result := (ALine = Line) and (AnsiCompareText(AFileName, FileName) = 0);
+  Result := (ALine = Line) and (AnsiCompareText(AFileId, FileId) = 0);
 end;
 
 procedure TEditorPos.Clear;
 begin
-  FileName := '';
+  FileId := '';
   Line := -1;
   Char := -1;
   IsSyntax := False;
