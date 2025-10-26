@@ -11,7 +11,6 @@ interface
 uses
   System.Classes,
   System.Generics.Collections,
-  uEditAppIntfs,
   cPySupportTypes,
   PythonEngine;
 
@@ -116,7 +115,7 @@ type
     function ToPythonFileName(const FileName: string): string; virtual;
     function FromPythonFileName(const FileName: string): string; virtual;
     // Main interface
-    function ImportModule(Editor: IEditor; AddToNameSpace: Boolean = False): Variant; virtual; abstract;
+    function ImportModule(const FileId: string; AddToNameSpace: Boolean = False): Variant; virtual; abstract;
     procedure Run(ARunConfig: TRunConfiguration); virtual; abstract;
     function RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean; virtual; abstract;
     procedure RunScript(FileName: string); virtual;
@@ -150,7 +149,7 @@ type
     // Debugging
     procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
             RunToCursorLine: Integer = -1); virtual; abstract;
-    procedure RunToCursor(Editor: IEditor; ALine: Integer); virtual; abstract;
+    procedure RunToCursor(const FileId: string; ALine: Integer); virtual; abstract;
     procedure StepInto; virtual; abstract;
     procedure StepOver; virtual; abstract;
     procedure StepOut; virtual; abstract;
@@ -217,8 +216,8 @@ uses
   System.IOUtils,
   Vcl.Dialogs,
   JvGnugettext,
-  JclSysInfo,
   StringResources,
+  uEditAppIntfs,
   uPythonItfs,
   uCommonFunctions,
   cPyScripterSettings,
@@ -334,7 +333,7 @@ end;
 
 function TPyBaseInterpreter.SystemTempFolder: string;
 begin
-  Result := GetWindowsTempFolder;
+  Result := TPath.GetTempPath;
 end;
 
 function TPyBaseInterpreter.FromPythonFileName(const FileName: string): string;

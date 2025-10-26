@@ -671,9 +671,7 @@ function TEditor.GetFileTitle: string;
 begin
   if FFileName <> '' then
   begin
-    if PyIDEOptions.DisplayPackageNames and
-      FileIsPythonPackage(FFileName)
-    then
+    if PyIDEOptions.DisplayPackageNames and FileIsPythonPackage(FFileName) then
       Result := FileNameToModuleName(FFileName)
     else
       Result := TPath.GetFileName(FFileName);

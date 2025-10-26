@@ -16,7 +16,6 @@ uses
   System.Generics.Collections,
   System.SyncObjs,
   PythonEngine,
-  uEditAppIntfs,
   cPySupportTypes,
   cPyBaseDebugger;
 
@@ -95,9 +94,10 @@ type
       var DisplayString, DocString: string): Boolean; override;
     procedure SetCommandLine(ARunConfig: TRunConfiguration); override;
     procedure RestoreCommandLine; override;
-    function ImportModule(Editor: IEditor; AddToNameSpace: Boolean = False): Variant; override;
+    function ImportModule(const FileId: string; AddToNameSpace: Boolean = False): Variant; override;
     procedure Run(ARunConfig: TRunConfiguration); override;
-    function SyntaxCheck(Editor: IEditor; out ErrorPos: TEditorPos; Quiet: Boolean = False): Boolean;
+    function SyntaxCheck(const FileId: string; out ErrorPos: TEditorPos; Quiet:
+        Boolean = False): Boolean;
     function RunSource(const Source, FileName: string; const Symbol: string = 'single'): Boolean; override;
     function EvalCode(const Expr: string): Variant; override;
     procedure SystemCommand(const Cmd: string); override;
@@ -137,7 +137,7 @@ type
     // Debugging
     procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
           RunToCursorLine: Integer = -1); override;
-    procedure RunToCursor(Editor: IEditor; ALine: Integer); override;
+    procedure RunToCursor(const FileId: string; ALine: Integer); override;
     procedure StepInto; override;
     procedure StepOver; override;
     procedure StepOut; override;
@@ -177,6 +177,7 @@ uses
   JclSysInfo,
   VarPyth,
   StringResources,
+  uEditAppIntfs,
   uPythonItfs,
   uCommonFunctions,
   cPyScripterSettings,
@@ -731,7 +732,7 @@ begin
   Result := InternalInterpreter.RunSource(Source, FileName, Symbol);
 end;
 
-procedure TPyInternalDebugger.RunToCursor(Editor: IEditor; ALine: Integer);
+procedure TPyInternalDebugger.RunToCursor(const FileId: string; ALine: Integer);
 var
   Py: IPyEngineAndGIL;
   FName: string;
@@ -740,7 +741,7 @@ begin
   // Set Temporary breakpoint
   if GI_BreakpointManager.BreakPointsChanged then
     SetDebuggerBreakpoints;  // So that this one is not cleared
-  FName := InternalInterpreter.ToPythonFileName(Editor.FileId);
+  FName := InternalInterpreter.ToPythonFileName(FileId);
   Py := SafePyEngine;
   InternalInterpreter.Debugger.set_break(FName, ALine, True);
 
@@ -1091,8 +1092,8 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.ImportModule(Editor: IEditor;
-  AddToNameSpace: Boolean = False): Variant;
+function TPyInternalInterpreter.ImportModule(const FileId: string;
+    AddToNameSpace: Boolean = False): Variant;
 {
   Imports Editor text without saving the file.
   Does not add the module name to the locals()
@@ -1106,19 +1107,17 @@ var
   RunConfiguration: TRunConfiguration;
 begin
   Py := SafePyEngine;
-  Assert(Assigned(Editor), 'TPyInternalInterpreter.ImportModule');
   VarClear(Result);
   //Compile                           ,
-  RunConfiguration := TRunConfiguration.Create;
+  RunConfiguration := TRunConfiguration.CreateFromFileId(FileId);
   try
-    RunConfiguration.ScriptName := Editor.FileId;
     Code := Compile(RunConfiguration);
   finally
     RunConfiguration.Free;
   end;
 
   // Add the path of the imported script to the Python Path
-  Path := ToPythonFileName(Editor.FileId);
+  Path := ToPythonFileName(FileId);
   if Path.StartsWith('<') then
     Path := ''
   else
@@ -1128,10 +1127,12 @@ begin
     SysPathRemove('');
   end;
 
-  if Editor.FileName <> '' then
-    NameOfModule := FileNameToModuleName(Editor.FileName)
-  else
-    NameOfModule := ChangeFileExt(Editor.FileTitle, '');
+//  if Editor.FileName <> '' then
+//    NameOfModule := FileNameToModuleName(Editor.FileName)
+//  else
+//    NameOfModule := ChangeFileExt(Editor.FileTitle, '');
+
+  NameOfModule := FileNameToModuleName(FileId);
 
   GI_PyControl.DebuggerState := dsRunning;
   try
@@ -1150,7 +1151,7 @@ begin
       System.SysUtils.Abort;
     end else if AddToNameSpace then
       // add Module name to the locals() of the interpreter
-      Py.PythonEngine.ExecString(AnsiString('import ' + NameOfModule));
+      Py.PythonEngine.ExecString(UTF8Encode('import ' + NameOfModule));
   finally
     //  Add again the empty path
     SysPathAdd('');
@@ -1393,7 +1394,8 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; out ErrorPos: TEditorPos; Quiet: Boolean = False): Boolean;
+function TPyInternalInterpreter.SyntaxCheck(const FileId: string; out ErrorPos:
+    TEditorPos; Quiet: Boolean = False): Boolean;
 var
   Py: IPyEngineAndGIL;
   FName: string;
@@ -1405,7 +1407,8 @@ begin
 
   TThread.Synchronize(nil, procedure
   begin
-    FName := ToPythonFileName(Editor.FileId);
+    var Editor := GI_EditorFactory.GetEditorByFileId(FileId);
+    FName := ToPythonFileName(FileId);
     Source := CleanEOLs(Editor.EncodedText)+AnsiString(#10);
   end);
 
@@ -1427,7 +1430,7 @@ begin
     except
       on E: EPySyntaxError do begin
         Result := False;
-        ErrorPos := TEditorPos.New(Editor.FileId, E.ELineNumber, E.EOffset, True);
+        ErrorPos := TEditorPos.New(FileId, E.ELineNumber, E.EOffset, True);
 
         if not Quiet then
         begin
