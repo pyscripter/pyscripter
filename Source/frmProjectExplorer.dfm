@@ -84,15 +84,15 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
             object SpTBXSeparatorItem8: TSpTBXSeparatorItem
             end
             object tbiRunLast: TSpTBXItem
-              Action = PyIDEMainForm.actRunLastScript
+              Action = CommandsDataModule.actRunLastScript
               ImageIndex = 17
             end
             object tbiDebugLast: TSpTBXItem
-              Action = PyIDEMainForm.actRunDebugLastScript
+              Action = CommandsDataModule.actDebugLastScript
               ImageIndex = 18
             end
             object tbiRunLastExternal: TSpTBXItem
-              Action = PyIDEMainForm.actRunLastScriptExternal
+              Action = CommandsDataModule.actExternalRunLastScript
               ImageIndex = 19
             end
             object SpTBXSeparatorItem11: TSpTBXSeparatorItem

@@ -1448,6 +1448,168 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actNavigateToDockWindow
       OnUpdate = UpdateActionAlwaysEnabled
     end
+    object actRun: TAction
+      Category = 'Run'
+      Caption = '&Run'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Run|Run active module'
+      ImageIndex = 33
+      ImageName = 'Run'
+      ShortCut = 16504
+      OnExecute = actRunExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actDebug: TAction
+      Category = 'Run'
+      Caption = '&Debug'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Debug|Debug active script'
+      ImageIndex = 34
+      ImageName = 'Debug'
+      ShortCut = 120
+      OnExecute = actDebugExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actRunToCursor: TAction
+      Category = 'Run'
+      Caption = 'Run To &Cursor'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Run to cursor'
+      ImageIndex = 35
+      ImageName = 'RunToCursor'
+      ShortCut = 115
+      OnExecute = actRunToCursorExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actStepInto: TAction
+      Category = 'Run'
+      Caption = 'Step &Into'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Step into subroutine '
+      ImageIndex = 36
+      ImageName = 'StepIn'
+      ShortCut = 118
+      OnExecute = actStepIntoExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actStepOver: TAction
+      Category = 'Run'
+      Caption = 'Step &Over'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Step over next function call'
+      ImageIndex = 37
+      ImageName = 'StepOver'
+      ShortCut = 119
+      OnExecute = actStepOverExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actStepOut: TAction
+      Category = 'Run'
+      Caption = 'Step O&ut'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Step out of the current subroutine'
+      ImageIndex = 38
+      ImageName = 'StepOut'
+      ShortCut = 8311
+      OnExecute = actStepOutExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actDebugPause: TAction
+      Category = 'Run'
+      Caption = '&Pause'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Pause running program'
+      ImageIndex = 73
+      ImageName = 'Pause'
+      OnExecute = actDebugPauseExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actDebugAbort: TAction
+      Category = 'Run'
+      Caption = '&Abort Debugging'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Abort debugging'
+      ImageIndex = 30
+      ImageName = 'Abort'
+      ShortCut = 49272
+      OnExecute = actDebugAbortExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actExternalRun: TAction
+      Category = 'Run'
+      Caption = 'E&xternal Run'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'External Run|Run active module in external Python interpreter'
+      ImageIndex = 22
+      ImageName = 'ExternalRun'
+      ShortCut = 32888
+      OnExecute = actExternalRunExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actExternalRunConfigure: TAction
+      Category = 'Run'
+      Caption = 'Configure &External Run...'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Configure External Run'
+      ImageIndex = 61
+      ImageName = 'ExternalRunSetup'
+      OnExecute = actExternalRunConfigureExecute
+      OnUpdate = UpdateActionAlwaysEnabled
+    end
+    object actRunLastScript: TAction
+      Category = 'Run'
+      Caption = 'Run Last Script'
+      HelpType = htContext
+      Hint = 'Run last script'
+      ImageIndex = 87
+      ImageName = 'RunLast'
+      ShortCut = 24696
+      OnExecute = actRunLastScriptExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actDebugLastScript: TAction
+      Category = 'Run'
+      Caption = 'Debug Last Script'
+      HelpType = htContext
+      Hint = 'Debug last script'
+      ImageIndex = 88
+      ImageName = 'DebugLast'
+      ShortCut = 8312
+      OnExecute = actDebugLastScriptExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actExternalRunLastScript: TAction
+      Category = 'Run'
+      Caption = 'Run Last Script Externally'
+      HelpType = htContext
+      Hint = 'Run last script externally'
+      ImageIndex = 89
+      ImageName = 'ExternalRunLast'
+      ShortCut = 41080
+      OnExecute = actExternalRunLastScriptExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actImportModule: TAction
+      Category = 'Run'
+      Caption = 'Import &Module'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Import module'
+      ImageIndex = 28
+      ImageName = 'RunScript'
+      OnExecute = actImportModuleExecute
+      OnUpdate = UpdateRunActions
+    end
     object actCommandLine: TAction
       Category = 'Run'
       Caption = 'Command Line &Parameters...'
@@ -1456,6 +1618,150 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Set command line parameters'
       OnExecute = actCommandLineExecute
       OnUpdate = UpdateRunActions
+    end
+    object actPythonInternal: TAction
+      Category = 'Run'
+      AutoCheck = True
+      Caption = '&Internal'
+      Checked = True
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use internal Python Engine'
+      OnExecute = actPythonEngineExecute
+      OnUpdate = UpdatePythonEngineActions
+    end
+    object actPythonRemote: TAction
+      Tag = 1
+      Category = 'Run'
+      AutoCheck = True
+      Caption = '&Remote'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine'
+      OnExecute = actPythonEngineExecute
+      OnUpdate = UpdatePythonEngineActions
+    end
+    object actPythonRemoteTk: TAction
+      Tag = 2
+      Category = 'Run'
+      AutoCheck = True
+      Caption = 'Remote (&Tk)'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine for Tkinter applications'
+      OnExecute = actPythonEngineExecute
+      OnUpdate = UpdatePythonEngineActions
+    end
+    object actPythonRemoteWx: TAction
+      Tag = 3
+      Category = 'Run'
+      AutoCheck = True
+      Caption = 'Remote (&Wx)'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine for wxPython applications'
+      OnExecute = actPythonEngineExecute
+      OnUpdate = UpdatePythonEngineActions
+    end
+    object actPythonSSH: TAction
+      Tag = 4
+      Category = 'Run'
+      AutoCheck = True
+      Caption = '&SSH'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use an SSH remote Python engine'
+      OnExecute = actPythonEngineExecute
+      OnUpdate = UpdatePythonEngineActions
+    end
+    object actPythonReinitialize: TAction
+      Category = 'Run'
+      Caption = 'Reinitiali&ze Python engine'
+      HelpContext = 340
+      HelpType = htContext
+      ShortCut = 16501
+      OnExecute = actPythonReinitializeExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actPythonFreeThreaded: TAction
+      Category = 'Run'
+      AutoCheck = True
+      Caption = 'Free-Threaded'
+      Hint = 'Use the free-trheaded version of Python'
+      OnExecute = actPythonFreeThreadedExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actClearAllBreakpoints: TAction
+      Category = 'Run'
+      Caption = 'Clear A&ll Breakpoints'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Clear all breakpoints'
+      ImageIndex = 40
+      ImageName = 'BreakpointsRemove'
+      OnExecute = actClearAllBreakpointsExecute
+      OnUpdate = UpdateBreakpointActions
+    end
+    object actToggleBreakPoint: TAction
+      Category = 'Run'
+      Caption = 'Toggle &breakpoint'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Toggle breakpoint'
+      ImageIndex = 39
+      ImageName = 'Breakpoint'
+      ShortCut = 116
+      OnExecute = actToggleBreakPointExecute
+      OnUpdate = UpdateBreakpointActions
+    end
+    object actAddWatchAtCursor: TAction
+      Category = 'Run'
+      Caption = 'Add &Watch At Cursor'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Add the expression at the editor current position as a watch'
+      ImageIndex = 118
+      ImageName = 'Watch'
+      ShortCut = 32855
+      OnExecute = actAddWatchAtCursorExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actPostMortem: TAction
+      Category = 'Run'
+      Caption = '&Post Mortem'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Enter post mortem analysis'
+      ImageIndex = 82
+      ImageName = 'PostMortem'
+      OnExecute = actPostMortemExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actExecSelection: TAction
+      Category = 'Run'
+      Caption = 'E&xecute selection'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Execute the editor selection'
+      ImageIndex = 16
+      ImageName = 'Execute'
+      ShortCut = 16502
+      OnExecute = actExecSelectionExecute
+      OnUpdate = UpdateRunActions
+    end
+    object actPythonSetup: TAction
+      Category = 'Run'
+      Caption = 'Setup Python Versions...'
+      Hint = 'Setup Python engine'
+      ImageIndex = 94
+      ImageName = 'PySetup'
+      OnExecute = actPythonSetupExecute
+      OnUpdate = UpdateActionAlwaysEnabled
     end
   end
   object SynWebCompletion: TSynCompletionProposal

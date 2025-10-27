@@ -15,17 +15,6 @@ uses
   PythonEngine;
 
 type
-  TDebuggerCommand = (dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut,
-                      dcRunToCursor, dcPause, dcAbort);
-
-  TInterpreterCapability = (icReInitialize);
-  TInterpreterCapabilities = set of TInterpreterCapability;
-
-  TNamespaceItemAttribute = (nsaNew, nsaChanged);
-  TNamespaceItemAttributes = set of TNamespaceItemAttribute;
-
-  TThreadStatus = (thrdRunning, thrdBroken, thrdFinished);
-
   // Base (abstract) class for thread information
   TThreadInfo = class(TObject)
     Thread_ID: Int64;

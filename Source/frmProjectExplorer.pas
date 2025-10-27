@@ -235,7 +235,6 @@ uses
   StringResources,
   dmResources,
   dmCommands,
-  frmPyIDEMain,
   uCommonFunctions,
   dlgImportDirectory,
   dlgRunConfiguration,
@@ -435,7 +434,7 @@ begin
   if Assigned(Node) then begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectRunConfiguationNode then
-      PyControl.Debug(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig);
+      GI_PyControl.Debug(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig);
   end;
 end;
 
@@ -468,7 +467,7 @@ begin
   begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectRunConfiguationNode then
-      PyControl.ExternalRun(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig);
+      GI_PyControl.ExternalRun(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig);
   end;
 end;
 
@@ -621,7 +620,7 @@ begin
   if Assigned(Node) then begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectRunConfiguationNode then
-      PyControl.Run(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig);
+      GI_PyControl.Run(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig);
   end;
 end;
 
@@ -673,7 +672,7 @@ var
   AppStorage: TJvAppIniFileStorage;
 begin
   if ActiveProject.FileName <> '' then
-    PyIDEMainForm.tbiRecentProjects.MRUAdd(ActiveProject.FileName);
+    GI_PyIDEServices.ProjectsMRUAdd(ActiveProject.FileName);
 
   ExplorerTree.Clear;
   ActiveProject.Free;
@@ -689,7 +688,7 @@ begin
       AppStorage.ReadPersistent('Project', ActiveProject);
       ActiveProject.Modified := False;
       ExplorerTree.RootNodeCount := 1;
-      PyIDEMainForm.tbiRecentProjects.MRURemove(FileName);
+      GI_PyIDEServices.ProjectsMRURemove(FileName);
     finally
       AppStorage.Free;
     end;
@@ -1310,8 +1309,8 @@ begin
   if CanClose then
   begin
     if ActiveProject.FileName <> '' then
-      PyIDEMainForm.tbiRecentProjects.MRUAdd(ActiveProject.FileName);
-
+      GI_PyIDEServices.ProjectsMRUAdd(ActiveProject.FileName);
+  
     ExplorerTree.Clear;
     FreeAndNil(ActiveProject);
     ActiveProject := TProjectRootNode.Create;

@@ -93,7 +93,8 @@ uses
   cPyControl,
   JvGnugettext,
   StringResources,
-  dmResources;
+  dmResources,
+  dmCommands;
 
 {$R *.dfm}
 

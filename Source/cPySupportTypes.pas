@@ -31,6 +31,17 @@ type
 
   TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
 
+  TDebuggerCommand = (dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut,
+                      dcRunToCursor, dcPause, dcAbort);
+
+  TInterpreterCapability = (icReInitialize);
+  TInterpreterCapabilities = set of TInterpreterCapability;
+
+  TNamespaceItemAttribute = (nsaNew, nsaChanged);
+  TNamespaceItemAttributes = set of TNamespaceItemAttribute;
+
+  TThreadStatus = (thrdRunning, thrdBroken, thrdFinished);
+
   // Notification messages
   TPythonVersionChangeMessage = class(System.Messaging.TMessage);
   TProjectPythonPathChangeMessage = class(System.Messaging.TMessage<TArray<string>>);

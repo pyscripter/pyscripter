@@ -27,20 +27,26 @@ type
   /// </summary>
   IPyControl = interface
   ['{DE1C1145-DC0F-4829-B36B-74EC818E168E}']
+    procedure Run(ARunConfig: TRunConfiguration = nil);
+    procedure Debug(ARunConfig: TRunConfiguration = nil; InitStepIn: Boolean =
+        False; RunToCursorLine: Integer = -1);
+    procedure ExternalRun(ARunConfig: TRunConfiguration = nil);
     function PythonLoaded: Boolean;
     function Running: Boolean;
     function Inactive: Boolean;
     function GetCurrentPos: TEditorPos;
     function GetActiveDebugger: TPyBaseDebugger;
     function GetActiveInterpreter: TPyBaseInterpreter;
-    function GetInternalInterpreter: TPyBaseInterpreter;
+    function GetActiveSSHServerName: string;
     function GetDebuggerState: TDebuggerState;
     function GetErrorPos: TEditorPos;
+    function GetInternalInterpreter: TPyBaseInterpreter;
+    function GetLastRunFileId: string;
     function GetPythonHelpFile: string;
     function GetPythonVersion: TPythonVersion;
-    function GetActiveSSHServerName: string;
     function GetPythonEngineType: TPythonEngineType;
     procedure AppendProjectPaths;
+    procedure SetActiveSSHServerName(const Value: string);
     procedure SetCurrentPos(const NewPos: TEditorPos);
     procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
@@ -48,12 +54,15 @@ type
     procedure Pickle(AValue: Variant; FileName: string);
     property ActiveDebugger: TPyBaseDebugger read GetActiveDebugger;
     property ActiveInterpreter: TPyBaseInterpreter read GetActiveInterpreter;
-    property ActiveSSHServerName: string read GetActiveSSHServerName;
+    property ActiveSSHServerName: string read GetActiveSSHServerName
+      write SetActiveSSHServerName;
     property CurrentPos: TEditorPos read GetCurrentPos write SetCurrentPos;
     property DebuggerState: TDebuggerState read GetDebuggerState
       write SetDebuggerState;
     property ErrorPos: TEditorPos read GetErrorPos write SetErrorPos;
-    property InternalInterpreter: TPyBaseInterpreter read GetInternalInterpreter;
+    property InternalInterpreter: TPyBaseInterpreter
+      read GetInternalInterpreter;
+    property LastRunFileId: string read GetLastRunFileId;
     property PythonVersion: TPythonVersion read GetPythonVersion;
     property PythonEngineType: TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;

@@ -111,6 +111,7 @@ uses
   StringResources,
   uCommonFunctions,
   dmResources,
+  dmCommands,
   cPySupportTypes,
   cPyBaseDebugger;
 

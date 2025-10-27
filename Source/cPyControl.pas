@@ -50,20 +50,26 @@ type
     procedure PrepareRun;
     procedure SetPythonVersionIndex(const Value: Integer);
     // IPyControl implementation
+    procedure Run(ARunConfig: TRunConfiguration = nil);
+    procedure Debug(ARunConfig: TRunConfiguration = nil; InitStepIn: Boolean =
+        False; RunToCursorLine: Integer = -1);
+    procedure ExternalRun(ARunConfig: TRunConfiguration = nil);
     function PythonLoaded: Boolean;
     function Running: Boolean;
     function Inactive: Boolean;
     function GetCurrentPos: TEditorPos;
     function GetActiveDebugger: TPyBaseDebugger;
     function GetActiveInterpreter: TPyBaseInterpreter;
-    function GetInternalInterpreter: TPyBaseInterpreter;
+    function GetActiveSSHServerName: string;
     function GetDebuggerState: TDebuggerState;
     function GetErrorPos: TEditorPos;
+    function GetInternalInterpreter: TPyBaseInterpreter;
+    function GetLastRunFileId: string;
     function GetPythonHelpFile: string;
     function GetPythonVersion: TPythonVersion;
-    function GetActiveSSHServerName: string;
     function GetPythonEngineType: TPythonEngineType;
     procedure AppendProjectPaths;
+    procedure SetActiveSSHServerName(const Value: string);
     procedure SetCurrentPos(const NewPos: TEditorPos);
     procedure SetDebuggerState(const NewState: TDebuggerState);
     procedure SetErrorPos(const NewPos: TEditorPos);
@@ -82,11 +88,6 @@ type
 
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    // Running Python Scripts
-    procedure Run(ARunConfig: TRunConfiguration);
-    procedure Debug(ARunConfig: TRunConfiguration; InitStepIn: Boolean = False;
-      RunToCursorLine: Integer = -1);
-    procedure ExternalRun(ARunConfig: TRunConfiguration);
     // InternalPython
     procedure LoadPythonEngine; overload;
     procedure LoadPythonEngine(const APythonVersion: TPythonVersion); overload;
@@ -172,9 +173,12 @@ begin
     HandleProjectPythonPathChange);
 end;
 
-procedure TPythonControl.Debug(ARunConfig: TRunConfiguration;
+procedure TPythonControl.Debug(ARunConfig: TRunConfiguration = nil;
   InitStepIn: Boolean = False; RunToCursorLine: Integer = -1);
 begin
+  if ARunConfig = nil then
+    ARunConfig := FRunConfig;
+
   SetRunConfig(ARunConfig);
 
   if not Assigned(ActiveDebugger) then Exit;
@@ -241,6 +245,11 @@ begin
     StyledMessageDlg(_(SInterpreterNA), mtError, [mbAbort], 0);
     Abort;
   end;
+end;
+
+function TPythonControl.GetLastRunFileId: string;
+begin
+  Result := FRunConfig.ScriptName;
 end;
 
 function TPythonControl.GetPythonEngineType: TPythonEngineType;
@@ -400,6 +409,11 @@ begin
     end;
     FActiveInterpreter := Value;
   end;
+end;
+
+procedure TPythonControl.SetActiveSSHServerName(const Value: string);
+begin
+  FActiveSSHServerName := Value;
 end;
 
 procedure TPythonControl.SetPythonEngineType(const Value: TPythonEngineType);
@@ -581,8 +595,11 @@ begin
   end;
 end;
 
-procedure TPythonControl.ExternalRun(ARunConfig: TRunConfiguration);
+procedure TPythonControl.ExternalRun(ARunConfig: TRunConfiguration = nil);
 begin
+  if ARunConfig = nil then
+    ARunConfig := FRunConfig;
+
   SetRunConfig(ARunConfig);
   FRunConfig.ExternalRun.Execute;
 end;
@@ -632,7 +649,6 @@ begin
     // Expand Parameters in filename
     FRunConfig.ScriptName := '';  // to avoid circular substitution
     FRunConfig.ScriptName := GI_PyIDEServices.ReplaceParams(ARunConfig.ScriptName);
-    GI_PyIDEServices.SetRunLastScriptHints(FRunConfig.ScriptName);
   end;
 end;
 
@@ -697,8 +713,11 @@ begin
     StyledMessageDlg(Format(_(SPythonLoadError), [MinPyVersion]), mtError, [mbOK], 0);
 end;
 
-procedure TPythonControl.Run(ARunConfig: TRunConfiguration);
+procedure TPythonControl.Run(ARunConfig: TRunConfiguration = nil);
 begin
+  if ARunConfig = nil then
+    ARunConfig := FRunConfig;
+
   SetRunConfig(ARunConfig);
 
   if not Assigned(ActiveInterpreter) then Exit;

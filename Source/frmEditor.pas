@@ -509,9 +509,10 @@ begin
   if Assigned(Form) then
   begin
     FSynLsp.FileClosed;
-    GI_PyIDEServices.MRUAddEditor(Self);
     if FUntitledNumber <> -1 then
-      UntitledNumbers[FUntitledNumber] := False;
+      UntitledNumbers[FUntitledNumber] := False
+    else
+      GI_PyIDEServices.FilesMRUAdd(GetFileId);
 
     Form.DoAssignInterfacePointer(False);
     GI_EditorFactory.RemoveEditor(Self);
@@ -2608,24 +2609,29 @@ var
   BC: TBufferCoord;
 begin
   BC := SynEdit.CaretXY;
-  if SynEdit.Highlighter = ResourcesDataModule.SynPythonSyn then
-    with SynEdit do
+  if SynEdit.Highlighter <> ResourcesDataModule.SynPythonSyn then
+    Exit;
+
+  with SynEdit do
+  if SelAvail and (BlockBegin.Line = BlockEnd.Line) then
+    GI_WatchManager.AddWatch(SelText)
+  else
+  begin
+    GetHighlighterAttriAtRowCol(BC, Token, Attri);
+    if (Attri = ResourcesDataModule.SynPythonSyn.IdentifierAttri) or
+      (Attri = ResourcesDataModule.SynPythonSyn.NonKeyAttri) or
+      (Attri = ResourcesDataModule.SynPythonSyn.SystemAttri) or
+      ((Token = ')') or (Token = ']')) then
     begin
-      GetHighlighterAttriAtRowCol(BC, Token, Attri);
-      if (Attri = ResourcesDataModule.SynPythonSyn.IdentifierAttri) or
-        (Attri = ResourcesDataModule.SynPythonSyn.NonKeyAttri) or
-        (Attri = ResourcesDataModule.SynPythonSyn.SystemAttri) or
-        ((Token = ')') or (Token = ']')) then
-      begin
-        LineTxt := Lines[BC.Line - 1];
-        DottedIdent := GetWordAtPos(LineTxt, BC.Char,
-          True, True, False, True);
-        DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
-          BC.Char + 1, False, False, True);
-        if (DottedIdent <> '') and Assigned(GI_WatchManager) then
-          GI_WatchManager.AddWatch(DottedIdent);
-      end;
+      LineTxt := Lines[BC.Line - 1];
+      DottedIdent := GetWordAtPos(LineTxt, BC.Char,
+        True, True, False, True);
+      DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
+        BC.Char + 1, False, False, True);
+      if (DottedIdent <> '') and Assigned(GI_WatchManager) then
+        GI_WatchManager.AddWatch(DottedIdent);
     end;
+  end;
 end;
 
 procedure TEditorForm.mnUpdateViewClick(Sender: TObject);

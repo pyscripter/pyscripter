@@ -246,6 +246,33 @@ type
     actNavRegExp: TAction;
     actNavChat: TAction;
     actCommandLine: TAction;
+    actToggleBreakPoint: TAction;
+    actClearAllBreakpoints: TAction;
+    actImportModule: TAction;
+    actPythonInternal: TAction;
+    actPythonRemote: TAction;
+    actPythonRemoteTk: TAction;
+    actPythonRemoteWx: TAction;
+    actPythonSSH: TAction;
+    actPythonReinitialize: TAction;
+    actPythonFreeThreaded: TAction;
+    actAddWatchAtCursor: TAction;
+    actPostMortem: TAction;
+    actRun: TAction;
+    actDebug: TAction;
+    actExternalRun: TAction;
+    actRunToCursor: TAction;
+    actStepInto: TAction;
+    actStepOver: TAction;
+    actStepOut: TAction;
+    actDebugPause: TAction;
+    actDebugAbort: TAction;
+    actExternalRunConfigure: TAction;
+    actRunLastScript: TAction;
+    actDebugLastScript: TAction;
+    actExternalRunLastScript: TAction;
+    actExecSelection: TAction;
+    actPythonSetup: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -277,11 +304,13 @@ type
     procedure actIDEOptionsExecute(Sender: TObject);
     procedure actPythonPathExecute(Sender: TObject);
     procedure actAboutExecute(Sender: TObject);
+    procedure actAddWatchAtCursorExecute(Sender: TObject);
     procedure actAssistantExplainExecute(Sender: TObject);
     procedure actAssistantCancelExecute(Sender: TObject);
     procedure actAssistantFixBugsExecute(Sender: TObject);
     procedure actAssistantOptimizeExecute(Sender: TObject);
     procedure actAssistantSuggestExecute(Sender: TObject);
+    procedure actClearAllBreakpointsExecute(Sender: TObject);
     procedure UpdateAssistantActions(Sender: TObject);
     procedure actClearIssuesExecute(Sender: TObject);
     procedure actCodeActionExecute(Sender: TObject);
@@ -302,6 +331,9 @@ type
     procedure actCodeTemplatesExecute(Sender: TObject);
     procedure actCommandLineExecute(Sender: TObject);
     procedure actConfigureToolsExecute(Sender: TObject);
+    procedure actDebugAbortExecute(Sender: TObject);
+    procedure actDebugExecute(Sender: TObject);
+    procedure actDebugPauseExecute(Sender: TObject);
     procedure actHelpExternalToolsExecute(Sender: TObject);
     procedure actFindFunctionExecute(Sender: TObject);
     procedure actEditLineNumbersExecute(Sender: TObject);
@@ -344,21 +376,39 @@ type
     procedure actFoldFunctionsExecute(Sender: TObject);
     procedure actUnfoldFunctionsExecute(Sender: TObject);
     procedure actEditReadOnlyExecute(Sender: TObject);
+    procedure actExternalRunConfigureExecute(Sender: TObject);
+    procedure actExternalRunExecute(Sender: TObject);
     procedure actFileExitExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actFixAllExecute(Sender: TObject);
     procedure actFormatCodeExecute(Sender: TObject);
+    procedure actImportModuleExecute(Sender: TObject);
     procedure actNavEditorExecute(Sender: TObject);
     procedure actNavigateToDockWindow(Sender: TObject);
     procedure actNextIssueExecute(Sender: TObject);
     procedure actOrganizeImportsExecute(Sender: TObject);
+    procedure actPostMortemExecute(Sender: TObject);
     procedure actPreviousIssueExecute(Sender: TObject);
     procedure actProjectNewExecute(Sender: TObject);
     procedure actProjectOpenExecute(Sender: TObject);
     procedure actProjectSaveAsExecute(Sender: TObject);
     procedure actProjectSaveExecute(Sender: TObject);
+    procedure actPythonEngineExecute(Sender: TObject);
+    procedure actPythonFreeThreadedExecute(Sender: TObject);
+    procedure actPythonReinitializeExecute(Sender: TObject);
     procedure actRefactorRenameExecute(Sender: TObject);
+    procedure actDebugLastScriptExecute(Sender: TObject);
+    procedure actExecSelectionExecute(Sender: TObject);
+    procedure actRunExecute(Sender: TObject);
+    procedure actRunLastScriptExecute(Sender: TObject);
+    procedure actExternalRunLastScriptExecute(Sender: TObject);
+    procedure actPythonSetupExecute(Sender: TObject);
+    procedure actRunToCursorExecute(Sender: TObject);
     procedure actShowRefactorMenuExecute(Sender: TObject);
+    procedure actStepIntoExecute(Sender: TObject);
+    procedure actStepOutExecute(Sender: TObject);
+    procedure actStepOverExecute(Sender: TObject);
+    procedure actToggleBreakPointExecute(Sender: TObject);
     procedure actToolsRestartLSExecute(Sender: TObject);
     procedure UpdateActionAlwaysEnabled(Sender: TObject);
     procedure HighlightCheckedImg(Sender: TObject; ACanvas: TCanvas; State:
@@ -374,10 +424,12 @@ type
         Accept: Boolean);
     procedure spiSettingsInitPopup(Sender: TObject; PopupView: TTBView);
     procedure SynSpellCheckChange(Sender: TObject);
+    procedure UpdateBreakpointActions(Sender: TObject);
     procedure UpdateEncodingActions(Sender: TObject);
     procedure UpdateFileActions(Sender: TObject);
     procedure UpdateIssuesActions(Sender: TObject);
     procedure UpdateParameterActions(Sender: TObject);
+    procedure UpdatePythonEngineActions(Sender: TObject);
     procedure UpdateRefactorActions(Sender: TObject);
     procedure UpdateRunActions(Sender: TObject);
     procedure UpdateSearchActions(Sender: TObject);
@@ -387,6 +439,8 @@ type
     FConfirmReplaceDialogRect: TRect;
     procedure PyIDEOptionsChanged(const Sender: TObject; const Msg:
         System.Messaging.TMessage);
+    procedure DebugActiveScript(ActiveEditor: IEditor;
+      InitStepIn: Boolean = False; RunToCursorLine: Integer = -1);
   protected
     procedure Loaded; override;
   public
@@ -468,19 +522,20 @@ uses
   dmResources,
   StringResources,
   uPythonItfs,
-  dlgSynPageSetup,
+  dlgCodeTemplates,
+  dlgCollectionEditor,
   dlgDirectoryList,
   dlgAboutPyScripter,
   dlgCommandLine,
   dlgConfirmReplace,
+  dlgCustomParams,
   dlgCustomShortcuts,
-  dlgUnitTestWizard,
   dlgFileTemplates,
   dlgPickList,
-  dlgCodeTemplates,
-  dlgCollectionEditor,
+  dlgPythonVersions,
+  dlgSynPageSetup,
   dlgToolProperties,
-  dlgCustomParams,
+  dlgUnitTestWizard,
   frmPythonII,
   frmPyIDEMain,
   frmEditor,
@@ -496,6 +551,7 @@ uses
   cPySupportTypes,
   cPyScripterSettings,
   cParameters,
+  cSSHSupport,
   dlgSynEditOptions,
   dlgOptionsEditor;
 
@@ -519,6 +575,15 @@ begin
   CommandsDataModule := nil;
   TMessageManager.DefaultManager.Unsubscribe(TIDEOptionsChangedMessage,
     PyIDEOptionsChanged);
+end;
+
+procedure TCommandsDataModule.DebugActiveScript(ActiveEditor: IEditor;
+  InitStepIn: Boolean; RunToCursorLine: Integer);
+begin
+  Assert(GI_PyControl.Inactive, 'DebugActiveScript');
+  var RunConfig :=
+    TSmartPtr.Make(TRunConfiguration.CreateFromFileId(ActiveEditor.FileId))();
+  GI_PyControl.Debug(RunConfig, InitStepIn, RunToCursorLine);
 end;
 
 {$REGION 'Highlighter methods'}
@@ -1634,6 +1699,13 @@ begin
   end;
 end;
 
+procedure TCommandsDataModule.actAddWatchAtCursorExecute(Sender: TObject);
+begin
+  var Editor := GI_PyIDEServices.ActiveEditor;
+  if Assigned(Editor) then
+    TEditorForm(Editor.Form).AddWatchAtCursor;
+end;
+
 procedure TCommandsDataModule.actAssistantExplainExecute(Sender: TObject);
 begin
    LLMAssistant.Explain;
@@ -2033,6 +2105,11 @@ begin
   GI_PyIDEServices.AppStorage.WriteDateTime('Date checked for updates', Now);
 end;
 
+procedure TCommandsDataModule.actClearAllBreakpointsExecute(Sender: TObject);
+begin
+  GI_BreakpointManager.ClearAllBreakpoints;
+end;
+
 procedure TCommandsDataModule.actClearIssuesExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
@@ -2059,6 +2136,61 @@ begin
   TCommandLineDlg.Execute;
 end;
 
+procedure TCommandsDataModule.actDebugAbortExecute(Sender: TObject);
+begin
+  GI_PyControl.ActiveDebugger.Abort;
+end;
+
+procedure TCommandsDataModule.actDebugExecute(Sender: TObject);
+begin
+  Assert(GI_PyControl.PythonLoaded and not GI_PyControl.Running, 'actDebugExecute');
+  var ActiveEditor := GI_PyIDEServices.ActiveEditor;
+  if Assigned(ActiveEditor) then
+  begin
+    if GI_PyControl.Inactive then
+      DebugActiveScript(ActiveEditor)
+    else if GI_PyControl.DebuggerState = dsPaused then
+      GI_PyControl.ActiveDebugger.Resume;
+  end;
+end;
+
+procedure TCommandsDataModule.actDebugLastScriptExecute(Sender: TObject);
+begin
+  if GI_PyControl.Inactive then
+    GI_PyControl.Debug;
+end;
+
+procedure TCommandsDataModule.actDebugPauseExecute(Sender: TObject);
+begin
+  GI_PyControl.ActiveDebugger.Pause;
+end;
+
+procedure TCommandsDataModule.actExecSelectionExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then
+    GI_ActiveEditor.ExecuteSelection;
+end;
+
+procedure TCommandsDataModule.actExternalRunConfigureExecute(Sender: TObject);
+begin
+  EditTool(ExternalPython, True);
+end;
+
+procedure TCommandsDataModule.actExternalRunExecute(Sender: TObject);
+begin
+  var ActiveEditor := GI_PyIDEServices.ActiveEditor;
+  if not Assigned(ActiveEditor) or ActiveEditor.FileName.IsEmpty then Exit;
+
+  var RunConfig :=
+    TSmartPtr.Make(TRunConfiguration.CreateFromFileId(ActiveEditor.FileId))();
+  GI_PyControl.ExternalRun(RunConfig);
+end;
+
+procedure TCommandsDataModule.actExternalRunLastScriptExecute(Sender: TObject);
+begin
+  GI_PyControl.ExternalRun;
+end;
+
 procedure TCommandsDataModule.actFileExitExecute(Sender: TObject);
 begin
   Application.MainForm.Close;
@@ -2077,6 +2209,22 @@ begin
   var Editor := GI_ActiveEditor;
   if Assigned(Editor) and Editor.HasPythonFile then
     TPyLspClient.FormatCode(Editor.FileId, Editor.ActiveSynEdit);
+end;
+
+procedure TCommandsDataModule.actImportModuleExecute(Sender: TObject);
+var
+  Py: IPyEngineAndGIL;
+begin
+  var ActiveEditor := GI_PyIDEServices.ActiveEditor;
+  if not Assigned(ActiveEditor) then Exit;
+
+  Py := SafePyEngine;
+  var PyModule :=
+    GI_PyControl.ActiveInterpreter.ImportModule(ActiveEditor.FileId, True);
+  VarClear(PyModule);
+
+  GI_MessagesService.AddMessage(Format(_(SModuleImportedOK), [ActiveEditor.FileId]));
+  GI_PyIDEServices.ShowIDEDockForm(IDEDockForm(ideMessages), False);
 end;
 
 procedure TCommandsDataModule.actNavEditorExecute(Sender: TObject);
@@ -2107,6 +2255,11 @@ begin
       Editor.FileId, Editor.Version);
 end;
 
+procedure TCommandsDataModule.actPostMortemExecute(Sender: TObject);
+begin
+  GI_PyControl.ActiveDebugger.EnterPostMortem;
+end;
+
 procedure TCommandsDataModule.actPreviousIssueExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
@@ -2131,6 +2284,45 @@ end;
 procedure TCommandsDataModule.actProjectSaveExecute(Sender: TObject);
 begin
   GI_ProjectService.SaveProject;
+end;
+
+procedure TCommandsDataModule.actPythonEngineExecute(Sender: TObject);
+begin
+  var EngineType := TPythonEngineType((Sender as TAction).Tag);
+  if EngineType = peSSH then begin
+    var SSHServer := SelectSSHServer;
+    if SSHServer <> '' then
+      GI_PyControl.ActiveSSHServerName := SSHServer
+    else
+      Exit;
+  end;
+  GI_PyControl.PythonEngineType := EngineType;
+  GI_PyInterpreter.PrintEngineType;
+end;
+
+procedure TCommandsDataModule.actPythonFreeThreadedExecute(Sender: TObject);
+begin
+  PyIDEOptions.PreferFreeThreaded := actPythonFreeThreaded.Checked;
+  actPythonReinitializeExecute(Sender);
+end;
+
+procedure TCommandsDataModule.actPythonReinitializeExecute(Sender: TObject);
+begin
+  if not GI_PyControl.Inactive then begin
+    if StyledMessageDlg(_(STerminateInterpreter),
+      mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
+  end;
+  GI_PyControl.ActiveInterpreter.ReInitialize;
+end;
+
+procedure TCommandsDataModule.actPythonSetupExecute(Sender: TObject);
+begin
+  with TPythonVersionsDialog.Create(Self) do
+  begin
+    ShowModal;
+    Release;
+  end;
+  PyIDEMainForm.SetupPythonVersionsMenu;
 end;
 
 procedure TCommandsDataModule.actRefactorRenameExecute(Sender: TObject);
@@ -2174,10 +2366,72 @@ begin
     end;
 end;
 
+procedure TCommandsDataModule.actRunExecute(Sender: TObject);
+begin
+  Application.ProcessMessages;
+  var ActiveEditor := GI_PyIDEServices.ActiveEditor;
+  if not Assigned(ActiveEditor) then Exit;
+
+  var RunConfig :=
+    TSmartPtr.Make(TRunConfiguration.CreateFromFileId(ActiveEditor.FileId))();
+  GI_PyControl.Run(RunConfig);
+end;
+
+procedure TCommandsDataModule.actRunLastScriptExecute(Sender: TObject);
+begin
+  if GI_PyControl.Inactive then
+    GI_PyControl.Run;
+end;
+
+procedure TCommandsDataModule.actRunToCursorExecute(Sender: TObject);
+begin
+  Application.ProcessMessages;
+  var ActiveEditor := GI_PyIDEServices.ActiveEditor;
+  if Assigned(ActiveEditor) then
+  begin
+    if GI_PyControl.Inactive then
+      DebugActiveScript(ActiveEditor, False, ActiveEditor.SynEdit.CaretY)
+    else if GI_PyControl.DebuggerState = dsPaused then
+      GI_PyControl.ActiveDebugger.RunToCursor(ActiveEditor.FileId,
+        ActiveEditor.SynEdit.CaretY);
+  end;
+end;
+
 procedure TCommandsDataModule.actShowRefactorMenuExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then
     GI_ActiveEditor.ShowRefactoringMenu;
+end;
+
+procedure TCommandsDataModule.actStepIntoExecute(Sender: TObject);
+begin
+  Assert(GI_PyControl.PythonLoaded and not GI_PyControl.Running, 'actStepIntoExecute');
+  var ActiveEditor := GI_PyIDEServices.ActiveEditor;
+  if Assigned(ActiveEditor) then
+  begin
+    if GI_PyControl.Inactive then
+      DebugActiveScript(ActiveEditor, True)
+    else if GI_PyControl.DebuggerState = dsPaused then
+      GI_PyControl.ActiveDebugger.StepInto;
+  end;
+end;
+
+procedure TCommandsDataModule.actStepOutExecute(Sender: TObject);
+begin
+  GI_PyControl.ActiveDebugger.StepOut;
+end;
+
+procedure TCommandsDataModule.actStepOverExecute(Sender: TObject);
+begin
+  GI_PyControl.ActiveDebugger.StepOver;
+end;
+
+procedure TCommandsDataModule.actToggleBreakPointExecute(Sender: TObject);
+begin
+  var ActiveEditor := GI_PyIDEServices.ActiveEditor;
+  if Assigned(ActiveEditor) and ActiveEditor.HasPythonFile then
+    GI_BreakpointManager.ToggleBreakpoint(ActiveEditor.FileId,
+      ActiveEditor.SynEdit.CaretY);
 end;
 
 procedure TCommandsDataModule.actToolsRestartLSExecute(Sender: TObject);
@@ -2210,10 +2464,16 @@ begin
   end;
 end;
 
+procedure TCommandsDataModule.UpdateBreakpointActions(Sender: TObject);
+begin
+  var Editor := GI_PyIDEServices.ActiveEditor;
+  TAction(Sender).Enabled := Assigned(Editor) and Editor.HasPythonFile;
+end;
+
 procedure TCommandsDataModule.UpdateCodeFoldingActions(Sender: TObject);
 begin
   var HasFold := Assigned(GI_ActiveEditor) and
-    GI_ActiveEditor.SynEdit.UseCodeFolding;
+    GI_ActiveEditor.ActiveSynEdit.UseCodeFolding;
   if Sender = actFoldVisible then
   begin
     actFoldVisible.Enabled := Assigned(GI_ActiveEditor);
@@ -2332,8 +2592,94 @@ end;
 
 procedure TCommandsDataModule.UpdateRunActions(Sender: TObject);
 begin
+  var Editor := GI_PyIDEServices.ActiveEditor;
+  var PyFileActive := Assigned(Editor) and Editor.HasPythonFile;
+  var DbgState := GI_PyControl.DebuggerState;
+
   if Sender = actCommandLine then
-    actCommandLine.Checked := CommandLineParams <> '';
+    actCommandLine.Checked := CommandLineParams <> ''
+  else if Sender = actImportModule then
+    actImportModule.Enabled := PyFileActive and GI_PyControl.Inactive
+  else if Sender = actPythonReinitialize then
+    actPythonReinitialize.Enabled := Assigned(GI_PyControl.ActiveInterpreter) and
+      (icReInitialize in GI_PyControl.ActiveInterpreter.InterpreterCapabilities) and
+      not (DbgState in [dsPaused, dsPostMortem])
+  else if Sender = actPythonFreeThreaded then
+  begin
+    actPythonFreeThreaded.Enabled :=
+      GI_PyControl.PythonLoaded and
+      (PyIDEOptions.PythonEngineType = peRemote) and
+      (GI_PyControl.PythonVersion.PythonFreeThreadedExecutable <> '');
+    actPythonFreeThreaded.Checked :=
+      PyIDEOptions.PreferFreeThreaded;
+  end
+  else if Sender = actAddWatchAtCursor then
+    actAddWatchAtCursor.Enabled := PyFileActive
+  else if Sender = actPostMortem then
+    actPostMortem.Enabled := GI_PyControl.Inactive and
+      Assigned(GI_PyControl.ActiveDebugger) and
+      GI_PyControl.ActiveDebugger.PostMortemEnabled
+  else if Sender = actRun then
+    actRun.Enabled := PyFileActive and GI_PyControl.Inactive
+  else if Sender = actDebug then
+  begin
+    actDebug.Enabled := PyFileActive and
+      (GI_PyControl.Inactive or (DbgState = dsPaused));
+    if DbgState = dsPaused then
+    begin
+      actDebug.Caption := _(SResumeCaption);
+      actDebug.Hint := _(SResumeHint);
+    end else
+    begin
+      actDebug.Caption := _('Debug');
+      actDebug.Hint := _(SDebugHint);
+    end;
+  end
+  else if Sender = actExternalRun then
+    actExternalRun.Enabled := PyFileActive and not Editor.FileName.IsEmpty
+  else if Sender = actRunToCursor then
+    actRunToCursor.Enabled := PyFileActive and
+      (GI_PyControl.Inactive or (DbgState = dsPaused)) and
+      TPyRegExpr.IsExecutableLine(Editor.SynEdit.LineText)
+  else if Sender = actStepInto then
+    actStepInto.Enabled := PyFileActive and
+      (GI_PyControl.Inactive or (DbgState = dsPaused))
+  else if (Sender = actStepOver) or (Sender = actStepOut) then
+    TAction(Sender).Enabled := DbgState = dsPaused
+  else if Sender = actDebugAbort then
+    actDebugAbort.Enabled :=
+      DbgState in [dsPaused, dsDebugging, dsRunning, dsPostMortem]
+  else if Sender = actDebugPause then
+    actDebugPause.Enabled := DbgState = dsDebugging
+  else if (Sender = actRunLastScript) or (Sender = actDebugLastScript) or
+    (Sender = actExternalRunLastScript) then
+  begin
+    TAction(Sender).Enabled := GI_PyControl.Inactive and
+      (GI_PyControl.LastRunFileId <> '');
+     var FName := TPath.GetFileName(GI_PyControl.LastRunFileId);
+     if FName <> '' then
+       FName := Format(' - %s', [FName]);
+     if Sender = actRunLastScript then
+       actRunLastScript.Hint := _(SHintRun) + FName
+     else if Sender = actDebugLastScript then
+       actDebugLastScript.Hint := _(SHintDebug) + FName
+     else
+       actExternalRunLastScript.Hint := _(SHintExternalRun) + FName;
+  end
+  else if Sender = actExecSelection then
+    actExecSelection.Enabled := GI_PyControl.PythonLoaded and
+      not GI_PyControl.Running and PyFileActive;
+end;
+
+procedure TCommandsDataModule.UpdatePythonEngineActions(Sender: TObject);
+begin
+  case PyIDEOptions.PythonEngineType of
+    peInternal:  actPythonInternal.Checked := True;
+    peRemote: actPythonRemote.Checked := True;
+    peRemoteTk: actPythonRemoteTk.Checked := True;
+    peRemoteWx: actPythonRemoteWx.Checked := True;
+    peSSH: actPythonSSH.Checked := True;
+  end;
 end;
 
 procedure TCommandsDataModule.UpdateSearchActions(Sender: TObject);
@@ -2889,6 +3235,13 @@ begin
 
   // Syntax Parameter Completion
   SynParamCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
+
+  // Set Python engine
+  actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
+  if not actPythonInternal.Visible and
+    (PyIDEOptions.PythonEngineType = peInternal)
+  then
+    PyIDEOptions.PythonEngineType := peRemote;
 
   // SpellCheck
   SynSpellCheck.BeginUpdate;

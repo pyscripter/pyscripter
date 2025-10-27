@@ -91,9 +91,8 @@ inherited WatchesWindow: TWatchesWindow
       OnClick = mnAddWatchClick
     end
     object TBXItem1: TSpTBXItem
-      Action = PyIDEMainForm.actAddWatchAtCursor
+      Action = CommandsDataModule.actAddWatchAtCursor
       ImageIndex = 4
-      ImageName = 'Watch'
     end
     object mnRemoveWatch: TSpTBXItem
       Caption = '&Remove Watch'
@@ -186,32 +185,32 @@ inherited WatchesWindow: TWatchesWindow
   object vilImages: TVirtualImageList
     Images = <
       item
-        CollectionIndex = 16
+        CollectionIndex = 27
         CollectionName = 'Copy'
         Name = 'Copy'
       end
       item
-        CollectionIndex = 21
+        CollectionIndex = 32
         CollectionName = 'Delete'
         Name = 'Delete'
       end
       item
-        CollectionIndex = 68
+        CollectionIndex = 79
         CollectionName = 'Plus'
         Name = 'Plus'
       end
       item
-        CollectionIndex = 62
+        CollectionIndex = 73
         CollectionName = 'Minus'
         Name = 'Minus'
       end
       item
-        CollectionIndex = 135
+        CollectionIndex = 148
         CollectionName = 'Watch'
         Name = 'Watch'
       end
       item
-        CollectionIndex = 24
+        CollectionIndex = 35
         CollectionName = 'Edit'
         Name = 'Edit'
       end>

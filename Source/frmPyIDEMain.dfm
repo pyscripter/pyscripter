@@ -423,7 +423,12 @@ object PyIDEMainForm: TPyIDEMainForm
           object TBXSeparatorItem27: TSpTBXSeparatorItem
           end
           object mnExecSelection: TSpTBXItem
-            Action = actExecSelection
+            Caption = 'E&xecute selection'
+            Hint = 'Execute the editor selection'
+            HelpContext = 320
+            ImageIndex = 16
+            ImageName = 'Execute'
+            ShortCut = 16502
           end
         end
         object SpTBXSeparatorItem10: TSpTBXSeparatorItem
@@ -809,12 +814,12 @@ object PyIDEMainForm: TPyIDEMainForm
           Action = CommandsDataModule.actCodeCheck
         end
         object mnImportModule: TSpTBXItem
-          Action = actImportModule
+          Action = CommandsDataModule.actImportModule
         end
         object N21: TSpTBXSeparatorItem
         end
         object mnRun: TSpTBXItem
-          Action = actRun
+          Action = CommandsDataModule.actRun
         end
         object mnCommandLineParams: TSpTBXItem
           Action = CommandsDataModule.actCommandLine
@@ -822,49 +827,53 @@ object PyIDEMainForm: TPyIDEMainForm
         object N22: TSpTBXSeparatorItem
         end
         object mnExternalRun: TSpTBXItem
-          Action = actExternalRun
+          Action = CommandsDataModule.actExternalRun
         end
         object mnConfigureExternalRun: TSpTBXItem
-          Action = actExternalRunConfigure
+          Caption = 'Configure &External Run...'
+          Hint = 'Configure External Run'
+          HelpContext = 340
+          ImageIndex = 61
+          ImageName = 'ExternalRunSetup'
         end
         object N8: TSpTBXSeparatorItem
         end
         object mnDebug: TSpTBXItem
-          Action = actDebug
+          Action = CommandsDataModule.actDebug
         end
         object mnRunToCursor: TSpTBXItem
-          Action = actRunToCursor
+          Action = CommandsDataModule.actRunToCursor
         end
         object mnStepInto: TSpTBXItem
-          Action = actStepInto
+          Action = CommandsDataModule.actStepInto
         end
         object mnStepOver: TSpTBXItem
-          Action = actStepOver
+          Action = CommandsDataModule.actStepOver
         end
         object mnStepOut: TSpTBXItem
-          Action = actStepOut
+          Action = CommandsDataModule.actStepOut
         end
         object mnPause: TSpTBXItem
-          Action = actDebugPause
+          Action = CommandsDataModule.actDebugPause
         end
         object mnAbortDebugging: TSpTBXItem
-          Action = actDebugAbort
+          Action = CommandsDataModule.actDebugAbort
         end
         object TBXSeparatorItem33: TSpTBXSeparatorItem
         end
         object mnPostMortem: TSpTBXItem
-          Action = actPostMortem
+          Action = CommandsDataModule.actPostMortem
         end
         object N9: TSpTBXSeparatorItem
         end
         object mnTogglebreakpoint: TSpTBXItem
-          Action = actToggleBreakPoint
+          Action = CommandsDataModule.actToggleBreakPoint
         end
         object mnClearAllBreakpoints: TSpTBXItem
-          Action = actClearAllBreakpoints
+          Action = CommandsDataModule.actClearAllBreakpoints
         end
         object mnAddWatchAtCursor: TSpTBXItem
-          Action = actAddWatchAtCursor
+          Action = CommandsDataModule.actAddWatchAtCursor
         end
         object SpTBXSeparatorItem17: TSpTBXSeparatorItem
         end
@@ -876,36 +885,36 @@ object PyIDEMainForm: TPyIDEMainForm
           object SpTBXSeparatorItem18: TSpTBXSeparatorItem
           end
           object SpTBXItem4: TSpTBXItem
-            Action = actPythonSetup
+            Action = CommandsDataModule.actPythonSetup
             Images = vilImages
           end
         end
         object mnPythonEngines: TSpTBXSubmenuItem
           Caption = 'Python Engine'
           object mnEngineInternal: TSpTBXItem
-            Action = actPythonInternal
+            Action = CommandsDataModule.actPythonInternal
           end
           object mnEngineRemote: TSpTBXItem
-            Action = actPythonRemote
+            Action = CommandsDataModule.actPythonRemote
           end
           object mnEngineRemoteTk: TSpTBXItem
-            Action = actPythonRemoteTk
+            Action = CommandsDataModule.actPythonRemoteTk
           end
           object mnEngineRemoteWx: TSpTBXItem
-            Action = actPythonRemoteWx
+            Action = CommandsDataModule.actPythonRemoteWx
           end
           object mnPythonEngineSSH: TSpTBXItem
-            Action = actPythonSSH
+            Action = CommandsDataModule.actPythonSSH
           end
           object SpTBXSeparatorItem24: TSpTBXSeparatorItem
           end
           object mnFreeThreaded: TSpTBXItem
-            Action = actPythonFreeThreaded
+            Action = CommandsDataModule.actPythonFreeThreaded
           end
           object TBXSeparatorItem26: TSpTBXSeparatorItem
           end
           object mnReinitEngine: TSpTBXItem
-            Action = actPythonReinitialize
+            Action = CommandsDataModule.actPythonReinitialize
           end
         end
       end
@@ -1106,38 +1115,38 @@ object PyIDEMainForm: TPyIDEMainForm
       TabOrder = 2
       Caption = 'Debug Toolbar'
       object tbiRunRun: TSpTBXItem
-        Action = actRun
+        Action = CommandsDataModule.actRun
       end
       object TBXSeparatorItem6: TSpTBXSeparatorItem
       end
       object tbiRunDebug: TSpTBXItem
-        Action = actDebug
+        Action = CommandsDataModule.actDebug
       end
       object tbiRunRunToCursor: TSpTBXItem
-        Action = actRunToCursor
+        Action = CommandsDataModule.actRunToCursor
       end
       object tbiRunStepInto: TSpTBXItem
-        Action = actStepInto
+        Action = CommandsDataModule.actStepInto
       end
       object tbiRunStepOver: TSpTBXItem
-        Action = actStepOver
+        Action = CommandsDataModule.actStepOver
       end
       object tbiRunStepOut: TSpTBXItem
-        Action = actStepOut
+        Action = CommandsDataModule.actStepOut
       end
       object tbiRunPause: TSpTBXItem
-        Action = actDebugPause
+        Action = CommandsDataModule.actDebugPause
       end
       object tbiRunAbort: TSpTBXItem
-        Action = actDebugAbort
+        Action = CommandsDataModule.actDebugAbort
       end
       object TBXSeparatorItem7: TSpTBXSeparatorItem
       end
       object tbiRunToggleBreakpoint: TSpTBXItem
-        Action = actToggleBreakPoint
+        Action = CommandsDataModule.actToggleBreakPoint
       end
       object tbiRunClearAllBreakpoints: TSpTBXItem
-        Action = actClearAllBreakpoints
+        Action = CommandsDataModule.actClearAllBreakpoints
       end
     end
     object ViewToolbar: TSpTBXToolbar
@@ -1529,27 +1538,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'View/Hide main menu'
       ShortCut = 16505
       OnExecute = actViewMainMenuExecute
-    end
-    object actRun: TAction
-      Category = 'Run'
-      Caption = '&Run'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Run|Run active module'
-      ImageIndex = 33
-      ImageName = 'Run'
-      ShortCut = 16504
-      OnExecute = actRunExecute
-    end
-    object actImportModule: TAction
-      Category = 'Run'
-      Caption = 'Import &Module'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Import module'
-      ImageIndex = 28
-      ImageName = 'RunScript'
-      OnExecute = actImportModuleExecute
+      OnUpdate = UpdateViewActions
     end
     object actFileNewModule: TAction
       Category = 'File'
@@ -1561,6 +1550,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'PythonScript'
       ShortCut = 16462
       OnExecute = actFileNewModuleExecute
+      OnUpdate = UpdateFileActions
     end
     object actFileOpen: TAction
       Category = 'File'
@@ -1572,6 +1562,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'FileOpen'
       ShortCut = 16463
       OnExecute = actFileOpenExecute
+      OnUpdate = UpdateFileActions
     end
     object actFileCloseAll: TAction
       Category = 'File'
@@ -1584,6 +1575,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'TabsClose'
       ShortCut = 24691
       OnExecute = actFileCloseAllExecute
+      OnUpdate = UpdateFileActions
     end
     object actViewStatusBar: TAction
       Category = 'View'
@@ -1592,48 +1584,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'View/Hide status bar'
       OnExecute = actViewStatusBarExecute
-    end
-    object actExternalRun: TAction
-      Category = 'Run'
-      Caption = 'E&xternal Run'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'External Run|Run active module in external Python interpreter'
-      ImageIndex = 22
-      ImageName = 'ExternalRun'
-      ShortCut = 32888
-      OnExecute = actExternalRunExecute
-    end
-    object actExternalRunConfigure: TAction
-      Category = 'Run'
-      Caption = 'Configure &External Run...'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Configure External Run'
-      ImageIndex = 61
-      ImageName = 'ExternalRunSetup'
-      OnExecute = actExternalRunConfigureExecute
-    end
-    object actRunDebugLastScript: TAction
-      Category = 'Run'
-      Caption = 'Debug Last Script'
-      HelpType = htContext
-      Hint = 'Debug last script'
-      ImageIndex = 88
-      ImageName = 'DebugLast'
-      ShortCut = 8312
-      OnExecute = actRunDebugLastScriptExecute
-    end
-    object actDebug: TAction
-      Category = 'Run'
-      Caption = '&Debug'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Debug|Debug active script'
-      ImageIndex = 34
-      ImageName = 'Debug'
-      ShortCut = 120
-      OnExecute = actDebugExecute
+      OnUpdate = UpdateViewActions
     end
     object actRestoreEditor: TAction
       Category = 'View'
@@ -1645,112 +1596,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'EditorMin'
       ShortCut = 41050
       OnExecute = actRestoreEditorExecute
-    end
-    object actRunToCursor: TAction
-      Category = 'Run'
-      Caption = 'Run To &Cursor'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Run to cursor'
-      ImageIndex = 35
-      ImageName = 'RunToCursor'
-      ShortCut = 115
-      OnExecute = actRunToCursorExecute
-    end
-    object actStepInto: TAction
-      Category = 'Run'
-      Caption = 'Step &Into'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Step into subroutine '
-      ImageIndex = 36
-      ImageName = 'StepIn'
-      ShortCut = 118
-      OnExecute = actStepIntoExecute
-    end
-    object actStepOver: TAction
-      Category = 'Run'
-      Caption = 'Step &Over'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Step over next function call'
-      ImageIndex = 37
-      ImageName = 'StepOver'
-      ShortCut = 119
-      OnExecute = actStepOverExecute
-    end
-    object actStepOut: TAction
-      Category = 'Run'
-      Caption = 'Step O&ut'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Step out of the current subroutine'
-      ImageIndex = 38
-      ImageName = 'StepOut'
-      ShortCut = 8311
-      OnExecute = actStepOutExecute
-    end
-    object actDebugPause: TAction
-      Category = 'Run'
-      Caption = '&Pause'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Pause running program'
-      ImageIndex = 73
-      ImageName = 'Pause'
-      OnExecute = actDebugPauseExecute
-    end
-    object actDebugAbort: TAction
-      Category = 'Run'
-      Caption = '&Abort Debugging'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Abort debugging'
-      ImageIndex = 30
-      ImageName = 'Abort'
-      ShortCut = 49272
-      OnExecute = actDebugAbortExecute
-    end
-    object actRunLastScriptExternal: TAction
-      Category = 'Run'
-      Caption = 'Run Last Script Externally'
-      HelpType = htContext
-      Hint = 'Run last script externally'
-      ImageIndex = 89
-      ImageName = 'ExternalRunLast'
-      ShortCut = 41080
-      OnExecute = actRunLastScriptExternalExecute
-    end
-    object actRunLastScript: TAction
-      Category = 'Run'
-      Caption = 'Run Last Script'
-      HelpType = htContext
-      Hint = 'Run last script'
-      ImageIndex = 87
-      ImageName = 'RunLast'
-      ShortCut = 24696
-      OnExecute = actRunLastScriptExecute
-    end
-    object actToggleBreakPoint: TAction
-      Category = 'Run'
-      Caption = 'Toggle &breakpoint'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Toggle breakpoint'
-      ImageIndex = 39
-      ImageName = 'Breakpoint'
-      ShortCut = 116
-      OnExecute = actToggleBreakPointExecute
-    end
-    object actClearAllBreakpoints: TAction
-      Category = 'Run'
-      Caption = 'Clear A&ll Breakpoints'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Clear all breakpoints'
-      ImageIndex = 40
-      ImageName = 'BreakpointsRemove'
-      OnExecute = actClearAllBreakpointsExecute
+      OnUpdate = UpdateViewActions
     end
     object actFindDefinition: TAction
       Category = 'Refactoring'
@@ -1760,6 +1606,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Find definition of an Identifier'
       ShortCut = 32836
       OnExecute = actFindDefinitionExecute
+      OnUpdate = UpdateRefactoringActions
     end
     object actFindReferences: TAction
       Category = 'Refactoring'
@@ -1768,6 +1615,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Find references of an Identifier'
       OnExecute = actFindReferencesExecute
+      OnUpdate = UpdateRefactoringActions
     end
     object actBrowseBack: TAction
       Category = 'Refactoring'
@@ -1779,6 +1627,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'ArrowLeft'
       ShortCut = 32805
       OnExecute = tbiBrowsePreviousClick
+      OnUpdate = UpdateRefactoringActions
     end
     object actBrowseForward: TAction
       Category = 'Refactoring'
@@ -1790,6 +1639,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'ArrowRight'
       ShortCut = 32807
       OnExecute = tbiBrowseNextClick
+      OnUpdate = UpdateRefactoringActions
     end
     object actLayoutSave: TAction
       Category = 'View'
@@ -1797,6 +1647,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Save Current Layout'
       OnExecute = actLayoutSaveExecute
+      OnUpdate = UpdateViewActions
     end
     object actLayoutsDelete: TAction
       Category = 'View'
@@ -1804,6 +1655,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Delete a layout'
       OnExecute = actLayoutsDeleteExecute
+      OnUpdate = UpdateViewActions
     end
     object actLayoutDebug: TAction
       Category = 'View'
@@ -1811,6 +1663,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Set the current layout as the debug layout'
       OnExecute = actLayoutDebugExecute
+      OnUpdate = UpdateViewActions
     end
     object actMaximizeEditor: TAction
       Category = 'View'
@@ -1822,26 +1675,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'EditorMax'
       ShortCut = 32858
       OnExecute = actMaximizeEditorExecute
-    end
-    object actEditorZoomIn: TAction
-      Category = 'View'
-      Caption = 'Zoom &In'
-      HelpType = htContext
-      Hint = 'Increase the font size of the editor'
-      ImageIndex = 71
-      ImageName = 'ZoomIn'
-      ShortCut = 32875
-      OnExecute = actEditorZoomInExecute
-    end
-    object actEditorZoomOut: TAction
-      Category = 'View'
-      Caption = 'Zoom &Out'
-      HelpType = htContext
-      Hint = 'Decrease the font size of the editor'
-      ImageIndex = 72
-      ImageName = 'ZoomOut'
-      ShortCut = 32877
-      OnExecute = actEditorZoomOutExecute
+      OnUpdate = UpdateViewActions
     end
     object actViewSplitEditorVer: TAction
       Category = 'View'
@@ -1852,69 +1686,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 80
       ImageName = 'SplitVertical'
       OnExecute = actViewSplitEditorVerExecute
-    end
-    object actAddWatchAtCursor: TAction
-      Category = 'Run'
-      Caption = 'Add &Watch At Cursor'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Add the expression at the editor current position as a watch'
-      ImageIndex = 43
-      ImageName = 'WatchesWin'
-      ShortCut = 32855
-      OnExecute = actAddWatchAtCursorExecute
-    end
-    object actPythonReinitialize: TAction
-      Category = 'Run'
-      Caption = 'Reinitiali&ze Python engine'
-      HelpContext = 340
-      HelpType = htContext
-      ShortCut = 16501
-      OnExecute = actPythonReinitializeExecute
-    end
-    object actPythonInternal: TAction
-      Category = 'Run'
-      AutoCheck = True
-      Caption = '&Internal'
-      Checked = True
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use internal Python Engine'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonRemote: TAction
-      Tag = 1
-      Category = 'Run'
-      AutoCheck = True
-      Caption = '&Remote'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonRemoteTk: TAction
-      Tag = 2
-      Category = 'Run'
-      AutoCheck = True
-      Caption = 'Remote (&Tk)'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine for Tkinter applications'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonRemoteWx: TAction
-      Tag = 3
-      Category = 'Run'
-      AutoCheck = True
-      Caption = 'Remote (&Wx)'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine for wxPython applications'
-      OnExecute = actPythonEngineExecute
+      OnUpdate = UpdateViewActions
     end
     object actNewFile: TAction
       Category = 'File'
@@ -1924,28 +1696,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 0
       ImageName = 'FileNew'
       OnExecute = actNewFileExecute
-    end
-    object actPythonSSH: TAction
-      Tag = 4
-      Category = 'Run'
-      AutoCheck = True
-      Caption = '&SSH'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use an SSH remote Python engine'
-      OnExecute = actPythonEngineExecute
-    end
-    object actExecSelection: TAction
-      Category = 'Run'
-      Caption = 'E&xecute selection'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Execute the editor selection'
-      ImageIndex = 16
-      ImageName = 'Execute'
-      ShortCut = 16502
-      OnExecute = actExecSelectionExecute
+      OnUpdate = UpdateFileActions
     end
     object actViewSplitEditorHor: TAction
       Category = 'View'
@@ -1956,6 +1707,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 81
       ImageName = 'SplitHorizontal'
       OnExecute = actViewSplitEditorHorExecute
+      OnUpdate = UpdateViewActions
     end
     object actViewHideSecondEditor: TAction
       Category = 'View'
@@ -1964,16 +1716,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Clear the editor'
       OnExecute = actViewHideSecondEditorExecute
-    end
-    object actPostMortem: TAction
-      Category = 'Run'
-      Caption = '&Post Mortem'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Enter post mortem analysis'
-      ImageIndex = 82
-      ImageName = 'PostMortem'
-      OnExecute = actPostMortemExecute
+      OnUpdate = UpdateViewActions
     end
     object actViewCustomizeToolbars: TAction
       Category = 'View'
@@ -1982,6 +1725,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Customize the toolbars'
       OnExecute = actViewCustomizeToolbarsExecute
+      OnUpdate = UpdateViewActions
     end
     object actViewSplitWorkspaceVer: TAction
       Category = 'View'
@@ -1994,6 +1738,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 80
       ImageName = 'SplitVertical'
       OnExecute = actViewSplitWorkspaceVerExecute
+      OnUpdate = UpdateViewActions
     end
     object actViewSplitWorkspaceHor: TAction
       Category = 'View'
@@ -2006,6 +1751,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 81
       ImageName = 'SplitHorizontal'
       OnExecute = actViewSplitWorkspaceHorExecute
+      OnUpdate = UpdateViewActions
     end
     object actViewHideSecondaryWorkspace: TAction
       Category = 'View'
@@ -2014,6 +1760,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Hide secondary workspace'
       OnExecute = actViewHideSecondaryWorkspaceExecute
+      OnUpdate = UpdateViewActions
     end
     object actSelectStyle: TAction
       Category = 'View'
@@ -2022,14 +1769,29 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 69
       ImageName = 'Styles'
       OnExecute = actSelectStyleExecute
+      OnUpdate = UpdateViewActions
     end
-    object actPythonSetup: TAction
-      Category = 'Run'
-      Caption = 'Setup Python Versions...'
-      Hint = 'Setup Python engine'
-      ImageIndex = 94
-      ImageName = 'PySetup'
-      OnExecute = actPythonSetupExecute
+    object actEditorZoomIn: TAction
+      Category = 'View'
+      Caption = 'Zoom &In'
+      HelpType = htContext
+      Hint = 'Increase the font size of the editor'
+      ImageIndex = 71
+      ImageName = 'ZoomIn'
+      ShortCut = 32875
+      OnExecute = actEditorZoomInExecute
+      OnUpdate = UpdateViewActions
+    end
+    object actEditorZoomOut: TAction
+      Category = 'View'
+      Caption = 'Zoom &Out'
+      HelpType = htContext
+      Hint = 'Decrease the font size of the editor'
+      ImageIndex = 72
+      ImageName = 'ZoomOut'
+      ShortCut = 32877
+      OnExecute = actEditorZoomOutExecute
+      OnUpdate = UpdateViewActions
     end
     object actRemoteFileOpen: TAction
       Category = 'File'
@@ -2038,6 +1800,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 95
       ImageName = 'Download'
       OnExecute = actRemoteFileOpenExecute
+      OnUpdate = UpdateFileActions
     end
     object actEditorZoomReset: TAction
       Category = 'View'
@@ -2048,13 +1811,7 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageName = 'ZoomReset'
       ShortCut = 32864
       OnExecute = actEditorZoomResetExecute
-    end
-    object actPythonFreeThreaded: TAction
-      Category = 'Run'
-      AutoCheck = True
-      Caption = 'Free-Threaded'
-      Hint = 'Use the free-trheaded version of Python'
-      OnExecute = actPythonFreeThreadedExecute
+      OnUpdate = UpdateViewActions
     end
   end
   object LocalAppStorage: TJvAppIniFileStorage
@@ -2660,6 +2417,11 @@ object PyIDEMainForm: TPyIDEMainForm
         CollectionIndex = 122
         CollectionName = 'Stop'
         Name = 'Stop'
+      end
+      item
+        CollectionIndex = 148
+        CollectionName = 'Watch'
+        Name = 'Watch'
       end>
     ImageCollection = ResourcesDataModule.icSVGImages
     PreserveItems = True
