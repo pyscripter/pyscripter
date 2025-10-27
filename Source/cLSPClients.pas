@@ -1144,7 +1144,11 @@ end;
 class procedure TPyLspClient.RestartServers;
 begin
   for var Client in LSPClients do
-    Client.CreateAndRunServer;
+    try
+      Client.CreateAndRunServer;
+    except
+      // Absorb exceptions
+    end;
 end;
 
 class function TPyLspClient.SimpleHintAtCoordinates(const FileId: string; const
