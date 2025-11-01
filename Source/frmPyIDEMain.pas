@@ -1163,13 +1163,10 @@ type
     SpTBXSeparatorItem25: TSpTBXSeparatorItem;
     mnNextIssue: TSpTBXItem;
     mnPreviousIssue: TSpTBXItem;
-    mnRefactor: TSpTBXSubmenuItem;
     mnFixAll: TSpTBXItem;
     SpTBXSeparatorItem29: TSpTBXSeparatorItem;
-    mnOrganizeImports: TSpTBXItem;
-    SpTBXSeparatorItem30: TSpTBXSeparatorItem;
-    mnRefactorRename: TSpTBXItem;
     mnTerminate: TSpTBXItem;
+    mnRefactor: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1246,8 +1243,6 @@ type
     procedure lbStatusCaretClick(Sender: TObject);
     procedure mnSyntaxClick(Sender: TObject);
     procedure tbiReplaceTextExit(Sender: TObject);
-    procedure mnRefactorClosePopup(Sender: TObject);
-    procedure mnRefactorInitPopup(Sender: TObject; PopupView: TTBView);
     procedure mnTerminateClick(Sender: TObject);
     procedure spiExternalToolsLEDClick(Sender: TObject);
     procedure UpdateFileActions(Sender: TObject);
@@ -4036,20 +4031,6 @@ begin
   ChangeLanguage(FLanguageList[(Sender as TSpTBXItem).Tag]);
   SetupSyntaxMenu;
   SetupToolsMenu;
-end;
-
-procedure TPyIDEMainForm.mnRefactorClosePopup(Sender: TObject);
-begin
-  CleanUpRefactoringMenu(mnRefactor);
-end;
-
-procedure TPyIDEMainForm.mnRefactorInitPopup(Sender: TObject; PopupView:
-    TTBView);
-begin
-  var Editor := GI_ActiveEditor;
-  if Assigned(Editor) then
-    SetupRefactoringMenu(Editor.FileId, Editor.ActiveSynEdit.BlockBegin,
-      Editor.ActiveSynEdit.BlockEnd, mnRefactor);
 end;
 
 procedure TPyIDEMainForm.mnTerminateClick(Sender: TObject);

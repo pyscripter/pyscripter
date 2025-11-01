@@ -1200,6 +1200,8 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actShowRefactorMenu: TAction
       Category = 'Refactoring'
+      Caption = 'Refactor'
+      Hint = 'Show refactoring menu'
       ShortCut = 8305
       OnExecute = actShowRefactorMenuExecute
       OnUpdate = UpdateRefactorActions

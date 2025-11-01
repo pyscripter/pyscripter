@@ -2431,10 +2431,6 @@ begin
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
 
-  // Refactor munu
-//  pmnuRefactor.OnInitPopup := TSpTBXSubmenuItem(pmnuRefactor.LinkSubitems).OnInitPopup;
-//  pmnuRefactor.OnClosePopup := TSpTBXSubmenuItem(pmnuRefactor.LinkSubitems).OnClosePopup;
-
   // Setup notifications
   TMessageManager.DefaultManager.SubscribeToMessage(TIDEOptionsChangedMessage,
     ApplyPyIDEOptions);

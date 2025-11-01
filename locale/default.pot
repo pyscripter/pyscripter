@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-11-01 02:36\n"
+"POT-Creation-Date: 2025-11-01 22:20\n"
 "PO-Revision-Date: 2020-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -3490,6 +3490,16 @@ msgstr ""
 msgid "Rename the selected identifier "
 msgstr ""
 
+#. CommandsDataModule..actlMain..actShowRefactorMenu..Caption
+#: dmCommands.dfm
+msgid "Refactor"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actShowRefactorMenu..Hint
+#: dmCommands.dfm
+msgid "Show refactoring menu"
+msgstr ""
+
 #. CommandsDataModule..actlMain..actFileExit..Caption
 #: dmCommands.dfm
 msgid "E&xit"
@@ -5190,11 +5200,6 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnCheckCode..Caption
 #: frmPyIDEMain.dfm
 msgid "Check"
-msgstr ""
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnRefactor..Caption
-#: frmPyIDEMain.dfm
-msgid "Refactor"
 msgstr ""
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption

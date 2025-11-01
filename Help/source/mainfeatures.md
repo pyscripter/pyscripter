@@ -38,9 +38,10 @@
   - Can run or debug files without first saving them 
   - [Run/debug scipts remotely on Windows and Linux servers](pythonengines.md#ssh-engine)
 - **Built-in integration with LLM models**
-  - Assistant functionality in the editor (Suggest, Find Bugs, Optimize, etc.)
-  - Chat window for interacting with LLM.
-  - [Openai](https://openai.com/), [Gemini](https://gemini.google.com/)  and local LLM models supported- Editor Views
+  - [Assistant](assistant) functionality in the editor (Suggest, Find Bugs, Optimize, etc.)
+  - [Chat window](chatwindow) for interacting with LLM.
+  - [Openai](https://openai.com/), [Gemini](https://gemini.google.com/), [DeepSeek](https://www.deepseek.com/), [Grok](https://grok.com/) and local LLM models supported
+- **Editor Views**
   - [Disassembly](disassemblyview)
   - [HTML Documentation](documentationview) (pydoc)
   - [Code Explorer](codeexplorer)
@@ -51,10 +52,12 @@
 - **[Project Explorer](projectexplorer)**
   - Import existing paths
   - Multiple run configurations
-- **Integrated Unit testing**
+- **Integrated Unit Testing**
   - [Automatic generation of tests](unittesting)
   - [Unit testing GUI](unittestwindow)
-- **Other features**
+- **Other Features**
+  - Refactoring support
+  - Diagnostics with quick fixes
   - Access to Python manuals through the Help menu 
   - [To Do List](todolistwindow)
   - [Find and Replace in Files](findinfileswindow)

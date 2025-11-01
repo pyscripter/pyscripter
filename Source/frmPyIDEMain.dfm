@@ -387,18 +387,8 @@ object PyIDEMainForm: TPyIDEMainForm
               Action = CommandsDataModule.actPreviousIssue
             end
           end
-          object mnRefactor: TSpTBXSubmenuItem
-            Caption = 'Refactor'
-            OnClosePopup = mnRefactorClosePopup
-            OnInitPopup = mnRefactorInitPopup
-            object mnOrganizeImports: TSpTBXItem
-              Action = CommandsDataModule.actOrganizeImports
-            end
-            object SpTBXSeparatorItem30: TSpTBXSeparatorItem
-            end
-            object mnRefactorRename: TSpTBXItem
-              Action = CommandsDataModule.actRefactorRename
-            end
+          object mnRefactor: TSpTBXItem
+            Action = CommandsDataModule.actShowRefactorMenu
           end
           object mnFormat: TSpTBXItem
             Action = CommandsDataModule.actFormatCode
