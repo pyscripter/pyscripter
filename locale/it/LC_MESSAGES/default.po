@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-09-16 12:43\n"
+"POT-Creation-Date: 2025-11-01 02:36\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -914,7 +914,8 @@ msgid "Show Help"
 msgstr "Visualizza Guida in linea"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
-#: dlgPythonVersions.dfm
+#. CommandsDataModule..actlMain..actRefactorRename..Caption
+#: dlgPythonVersions.dfm dmCommands.dfm dmCommands.pas
 msgid "Rename"
 msgstr "Rinomina"
 
@@ -2519,17 +2520,6 @@ msgstr "Selezion&a tutto"
 msgid "Select All|Selects the entire document"
 msgstr "Seleziona tutto|Seleziona l'intero documento"
 
-#. CommandsDataModule..actlMain..actEditReadOnly..Caption
-#. Programmer's name for it: SReadOnly
-#: dmCommands.dfm StringResources.pas
-msgid "Read Only"
-msgstr "Solo lettura"
-
-#. CommandsDataModule..actlMain..actEditReadOnly..Hint
-#: dmCommands.dfm
-msgid "Enable/disable editing"
-msgstr "Abilita/disabilita modifica"
-
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
 msgid "&Find..."
@@ -2579,6 +2569,27 @@ msgstr "S&alva tutto"
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
 msgstr "Salva tutto|Salva progetto e tutti i file aperti"
+
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
+#. Programmer's name for it: SRemoteFIleSave
+#: dmCommands.dfm StringResources.pas
+msgid "Save to Remote File"
+msgstr "Salva nel file remoto"
+
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
+#: dmCommands.dfm
+msgid "Save to remote file with SSH"
+msgstr "Salva nel file remoto con SSH"
+
+#. CommandsDataModule..actlMain..actFileReload..Caption
+#: dmCommands.dfm
+msgid "Re&load"
+msgstr "&Ricarica"
+
+#. CommandsDataModule..actlMain..actFileReload..Hint
+#: dmCommands.dfm
+msgid "Reload|Reload active file"
+msgstr "Ricarica|Ricarica file attuale"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -2711,16 +2722,6 @@ msgstr "Elimi&na tabulazione"
 #: dmCommands.dfm
 msgid "Untabify|Convert tabs to spaces"
 msgstr "Elimina tabulazioni|Converti le tabulazioni in spazi"
-
-#. CommandsDataModule..actlMain..actPythonPath..Caption
-#: dmCommands.dfm
-msgid "Python &Path..."
-msgstr "&Percorso Python..."
-
-#. CommandsDataModule..actlMain..actPythonPath..Hint
-#: dmCommands.dfm
-msgid "Python Path|View or edit the Python path"
-msgstr "Percorso Python|Visualizza/modifica percorso Python"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
@@ -2890,6 +2891,27 @@ msgstr "Trova f&unzione..."
 msgid "Find Function|Find function from function list"
 msgstr "Trova funzione|Trova una funzione da un elenco di funzioni"
 
+#. CommandsDataModule..actlMain..actEditCopyFileName..Caption
+#: dmCommands.dfm
+msgid "Copy File Name"
+msgstr "Copia nome file"
+
+#. CommandsDataModule..actlMain..actEditCopyFileName..Hint
+#: dmCommands.dfm
+msgid "Copy file name of active file to clipboard"
+msgstr "Copia nome file attivo negli Appunti"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Caption
+#. Programmer's name for it: SReadOnly
+#: dmCommands.dfm StringResources.pas
+msgid "Read Only"
+msgstr "Solo lettura"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Hint
+#: dmCommands.dfm
+msgid "Enable/disable editing"
+msgstr "Abilita/disabilita modifica"
+
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
 msgid "Line &Numbers"
@@ -2909,6 +2931,18 @@ msgstr "&Caratteri speciali"
 #: dmCommands.dfm
 msgid "Show/Hide special characters"
 msgstr "Visualizza/nascondi i caratteri speciali"
+
+#. CommandsDataModule..actlMain..actEditWordWrap..Caption
+#: dmCommands.dfm
+msgid "Word &Wrap"
+msgstr "&A capo automatico"
+
+#. CommandsDataModule..actlMain..actEditWordWrap..Hint
+#: dmCommands.dfm
+msgid "Turn word wrap on/off (incompatible with code folding)"
+msgstr ""
+"Attiva/disattiva ritorno a capo automatico (non compatibile con "
+"raggruppamento codice)"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #: dmCommands.dfm
@@ -2975,16 +3009,6 @@ msgstr "Ricerca &aggiornamenti"
 msgid "Check whether a newer version of PyScripter is available"
 msgstr "Verifica se è disponibile una nuova versione di PyScripter"
 
-#. CommandsDataModule..actlMain..actUnitTestWizard..Caption
-#: dmCommands.dfm
-msgid "Unit Test &Wizard..."
-msgstr "Procedura test unità..."
-
-#. CommandsDataModule..actlMain..actUnitTestWizard..Hint
-#: dmCommands.dfm
-msgid "Unit test wizard|Create unit test for active module"
-msgstr "Procedura test unità|Crea test unità per il modulo attuale"
-
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Interpreter Editor Options..."
@@ -3040,16 +3064,6 @@ msgstr "Usa codifica UTF-16LE"
 msgid "Use UTF-16BE encoding"
 msgstr "Usa codfica UTF-16BE"
 
-#. CommandsDataModule..actlMain..actFileReload..Caption
-#: dmCommands.dfm
-msgid "Re&load"
-msgstr "&Ricarica"
-
-#. CommandsDataModule..actlMain..actFileReload..Hint
-#: dmCommands.dfm
-msgid "Reload|Reload active file"
-msgstr "Ricarica|Ricarica file attuale"
-
 #. CommandsDataModule..actlMain..actImportShortcuts..Caption
 #. CommandsDataModule..actlMain..actImportShortcuts..Hint
 #. Programmer's name for it: SImportShortcuts
@@ -3101,18 +3115,6 @@ msgstr "&Evidenzia il testo di ricerca"
 msgid "Highlight the search text in the current editor"
 msgstr "Evidenzia il testo di ricerca nell'editor attuale"
 
-#. CommandsDataModule..actlMain..actEditWordWrap..Caption
-#: dmCommands.dfm
-msgid "Word &Wrap"
-msgstr "&A capo automatico"
-
-#. CommandsDataModule..actlMain..actEditWordWrap..Hint
-#: dmCommands.dfm
-msgid "Turn word wrap on/off (incompatible with code folding)"
-msgstr ""
-"Attiva/disattiva ritorno a capo automatico (non compatibile con "
-"raggruppamento codice)"
-
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Debugger Position"
@@ -3162,16 +3164,6 @@ msgstr "Chiudi tutto sulla dest&ra"
 #: dmCommands.dfm
 msgid "Close all files to the right"
 msgstr "Chiudi tutti i file sulla destra"
-
-#. CommandsDataModule..actlMain..actEditCopyFileName..Caption
-#: dmCommands.dfm
-msgid "Copy File Name"
-msgstr "Copia nome file"
-
-#. CommandsDataModule..actlMain..actEditCopyFileName..Hint
-#: dmCommands.dfm
-msgid "Copy file name of active file to clipboard"
-msgstr "Copia nome file attivo negli Appunti"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3322,17 +3314,6 @@ msgstr "Applica il Fold alle funzioni"
 msgid "Unfold functions"
 msgstr "Rimuovi raggruppamento dalle funzioni"
 
-#. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
-#. Programmer's name for it: SRemoteFIleSave
-#: dmCommands.dfm StringResources.pas
-msgid "Save to Remote File"
-msgstr "Salva nel file remoto"
-
-#. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
-#: dmCommands.dfm
-msgid "Save to remote file with SSH"
-msgstr "Salva nel file remoto con SSH"
-
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
@@ -3352,6 +3333,26 @@ msgstr "Riavvia server &lingua"
 #: dmCommands.dfm
 msgid "Restart the Language Server"
 msgstr "Riavvia il server lingua"
+
+#. CommandsDataModule..actlMain..actPythonPath..Caption
+#: dmCommands.dfm
+msgid "Python &Path..."
+msgstr "&Percorso Python..."
+
+#. CommandsDataModule..actlMain..actPythonPath..Hint
+#: dmCommands.dfm
+msgid "Python Path|View or edit the Python path"
+msgstr "Percorso Python|Visualizza/modifica percorso Python"
+
+#. CommandsDataModule..actlMain..actUnitTestWizard..Caption
+#: dmCommands.dfm
+msgid "Unit Test &Wizard..."
+msgstr "Procedura test unità..."
+
+#. CommandsDataModule..actlMain..actUnitTestWizard..Hint
+#: dmCommands.dfm
+msgid "Unit test wizard|Create unit test for active module"
+msgstr "Procedura test unità|Crea test unità per il modulo attuale"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
@@ -3403,7 +3404,7 @@ msgid "Ignore Once"
 msgstr "Ignora una volta"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Caption
-#: dmCommands.dfm
+#: dmCommands.dfm SynEditLsp.pas
 msgid "Ignore"
 msgstr "Ignora"
 
@@ -3472,6 +3473,582 @@ msgstr "&Dona"
 #: dmCommands.dfm
 msgid "Donate to the PyScripter project"
 msgstr "Dona contributo al progetto PyScripter"
+
+#. CommandsDataModule..actlMain..actFormatCode..Caption
+#: dmCommands.dfm
+msgid "Format"
+msgstr "Formato"
+
+#. CommandsDataModule..actlMain..actFormatCode....Hint
+#: dmCommands.dfm
+msgid "Format source code, either the selected text or the whole document."
+msgstr ""
+"Formatta il codice sorgente, il testo selezionato o l'intero documento."
+
+#. CommandsDataModule..actlMain..actCodeCheck..Caption
+#: dmCommands.dfm
+msgid "Check Code"
+msgstr "Controllo codice"
+
+#. CommandsDataModule..actlMain..actCodeCheck..Hint
+#: dmCommands.dfm
+msgid "Perform a code check"
+msgstr "Effettua controllo del codice"
+
+#. CommandsDataModule..actlMain..actClearIssues..Caption
+#: dmCommands.dfm
+msgid "Clear Issues"
+msgstr "Azzera problemi"
+
+#. CommandsDataModule..actlMain..actClearIssues..Hint
+#: dmCommands.dfm
+msgid "Clear code issues"
+msgstr "Azzera problemi codice"
+
+#. CommandsDataModule..actlMain..actNextIssue..Caption
+#: dmCommands.dfm
+msgid "Next Issue"
+msgstr "Problema successivo"
+
+#. CommandsDataModule..actlMain..actNextIssue..Hint
+#: dmCommands.dfm
+msgid "Go to the next issue"
+msgstr "Vai al problema successivo"
+
+#. CommandsDataModule..actlMain..actPreviousIssue..Caption
+#: dmCommands.dfm
+msgid "Previous Issue"
+msgstr "Problema precedente"
+
+#. CommandsDataModule..actlMain..actPreviousIssue..Hint
+#: dmCommands.dfm
+msgid "Go to the previous issue"
+msgstr "Vai al problema precedente"
+
+#. CommandsDataModule..actlMain..actFixAll..Caption
+#: dmCommands.dfm
+msgid "Fix All"
+msgstr "Correggi tutto"
+
+#. CommandsDataModule..actlMain..actFixAll..Hint
+#: dmCommands.dfm
+msgid "Apply all available fixes"
+msgstr "Applica tutte le correzioni disponibili"
+
+#. CommandsDataModule..actlMain..actOrganizeImports..Caption
+#: dmCommands.dfm
+msgid "Organize Imports"
+msgstr "Organizza importazioni"
+
+#. CommandsDataModule..actlMain..actOrganizeImports..Hint
+#: dmCommands.dfm
+msgid "Organize import statements"
+msgstr "Organizza importazione istruzioni"
+
+#. CommandsDataModule..actlMain..actRefactorRename..Hint
+#: dmCommands.dfm
+msgid "Rename the selected identifier "
+msgstr "Rinomina gli identificatori selezionati"
+
+#. CommandsDataModule..actlMain..actFileExit..Caption
+#: dmCommands.dfm
+msgid "E&xit"
+msgstr "&Esci"
+
+#. CommandsDataModule..actlMain..actFileExit..Hint
+#: dmCommands.dfm
+msgid "Exit"
+msgstr "Esci"
+
+#. CommandsDataModule..actlMain..actProjectNew..Caption
+#: dmCommands.dfm
+msgid "&New Project"
+msgstr "&Nuovo progetto"
+
+#. CommandsDataModule..actlMain..actProjectNew..Hint
+#: dmCommands.dfm
+msgid "Start a new project"
+msgstr "Inizia un nuovo progetto"
+
+#. CommandsDataModule..actlMain..actProjectOpen..Caption
+#: dmCommands.dfm
+msgid "&Open Project..."
+msgstr "Apri pr&ogetto..."
+
+#. CommandsDataModule..actlMain..actProjectOpen..Hint
+#: dmCommands.dfm
+msgid "Open a project file"
+msgstr "Apri un file di progetto"
+
+#. CommandsDataModule..actlMain..actProjectSave..Caption
+#: dmCommands.dfm
+msgid "&Save Project"
+msgstr "&Salva progetto"
+
+#. CommandsDataModule..actlMain..actProjectSave..Hint
+#: dmCommands.dfm
+msgid "Save the project"
+msgstr "Salva il progetto"
+
+#. CommandsDataModule..actlMain..actProjectSaveAs..Caption
+#: dmCommands.dfm
+msgid "Save Project &As..."
+msgstr "S&alva progetto come..."
+
+#. CommandsDataModule..actlMain..actProjectSaveAs..Hint
+#: dmCommands.dfm
+msgid "Save project with under a different name"
+msgstr "Salva progetto con un altro nome"
+
+#. CommandsDataModule..actlMain..actNavEditor..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "&Editor"
+msgstr "&Editor"
+
+#. CommandsDataModule..actlMain..actNavEditor..Hint
+#: dmCommands.dfm
+msgid "Activate the Editor"
+msgstr "Attiva editor"
+
+#. CommandsDataModule..actlMain..actNavFindResults..Caption
+#: dmCommands.dfm
+msgid "Find &in Files Results"
+msgstr "Risultati ricerca ne&i file"
+
+#. CommandsDataModule..actlMain..actNavFindResults..Hint
+#: dmCommands.dfm
+msgid "Activate the Find in Files Results window"
+msgstr "Attiva la ricerca nella finestra Risultati file"
+
+#. CommandsDataModule..actlMain..actNavWatches..Caption
+#: dmCommands.dfm
+msgid "&Watches"
+msgstr "&Monitoraggi"
+
+#. CommandsDataModule..actlMain..actNavWatches..Hint
+#: dmCommands.dfm
+msgid "Activate the Watches window"
+msgstr "Attiva la finestra delle osservazioni"
+
+#. CommandsDataModule..actlMain..actNavBreakpoints..Caption
+#: dmCommands.dfm
+msgid "&BreakPoints"
+msgstr "&Punti interruzione"
+
+#. CommandsDataModule..actlMain..actNavBreakpoints..Hint
+#: dmCommands.dfm
+msgid "Activate the Breakpoints window"
+msgstr "Attiva la finestra dei punti d'interruzione"
+
+#. CommandsDataModule..actlMain..actNavInterpreter..Caption
+#: dmCommands.dfm
+msgid "&Interpreter"
+msgstr "&Interprete"
+
+#. CommandsDataModule..actlMain..actNavInterpreter..Hint
+#: dmCommands.dfm
+msgid "Activate the Interpreter window"
+msgstr "Attiva la finestra dell'interprete"
+
+#. CommandsDataModule..actlMain..actNavVariables..Caption
+#: dmCommands.dfm
+msgid "&Variables"
+msgstr "&Variabili"
+
+#. CommandsDataModule..actlMain..actNavVariables..Hint
+#: dmCommands.dfm
+msgid "Activate the Variables window"
+msgstr "Attiva la finestra delle variabili"
+
+#. CommandsDataModule..actlMain..actNavCallStack..Caption
+#: dmCommands.dfm
+msgid "&Call Stack"
+msgstr "Stack &chiamata"
+
+#. CommandsDataModule..actlMain..actNavCallStack..Hint
+#: dmCommands.dfm
+msgid "Activate the Call Stack window"
+msgstr "Attiva la finestra dello stack delle chiamate"
+
+#. CommandsDataModule..actlMain..actNavMessages..Caption
+#: dmCommands.dfm
+msgid "&Messages "
+msgstr "&Messaggi "
+
+#. CommandsDataModule..actlMain..actNavMessages..Hint
+#: dmCommands.dfm
+msgid "Activate the Messages window"
+msgstr "Attiva la finestra dei mesaggi"
+
+#. CommandsDataModule..actlMain..actNavFileExplorer..Caption
+#: dmCommands.dfm
+msgid "File E&xplorer"
+msgstr "File E&xplorer"
+
+#. CommandsDataModule..actlMain..actNavFileExplorer..Hint
+#: dmCommands.dfm
+msgid "Activate the File Explorer window"
+msgstr "Attiva finestra Explorer file"
+
+#. CommandsDataModule..actlMain..actNavCodeExplorer..Caption
+#: dmCommands.dfm
+msgid "&Code Explorer"
+msgstr "Explorer &codice"
+
+#. CommandsDataModule..actlMain..actNavCodeExplorer..Hint
+#: dmCommands.dfm
+msgid "Activate the Code Explorer window"
+msgstr "Attiva finestra Explorer codice"
+
+#. CommandsDataModule..actlMain..actNavTodo..Caption
+#: dmCommands.dfm
+msgid "&Todo List"
+msgstr "&Cose da fare"
+
+#. CommandsDataModule..actlMain..actNavTodo..Hint
+#. CommandsDataModule..actlMain..actNavUnitTests..Hint
+#: dmCommands.dfm
+msgid "Activate the Todo List window"
+msgstr "Attiva la finestra delle cose da fare"
+
+#. CommandsDataModule..actlMain..actNavUnitTests..Caption
+#: dmCommands.dfm
+msgid "&Unit Tests"
+msgstr "Test &unità"
+
+#. CommandsDataModule..actlMain..actNavOutput..Caption
+#: dmCommands.dfm
+msgid "Command &Output"
+msgstr "&Output comando"
+
+#. CommandsDataModule..actlMain..actNavOutput..Hint
+#: dmCommands.dfm
+msgid "Activate the Command Output window"
+msgstr "Attiva la finestra dell'output del comando"
+
+#. CommandsDataModule..actlMain..actNavProjectExplorer..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnNavProjectExplorer2..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "&Project Explorer"
+msgstr "Explorer &progetto"
+
+#. CommandsDataModule..actlMain..actNavProjectExplorer..Hint
+#. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnNavProjectExplorer2..Hint
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Activate the Project Explorer window"
+msgstr "Attiva finestra Explorer progetto"
+
+#. CommandsDataModule..actlMain..actNavRegExp..Caption
+#: dmCommands.dfm
+msgid "Regular Expression Tester"
+msgstr "Tester espressioni regolari"
+
+#. CommandsDataModule..actlMain..actNavRegExp..Hint
+#: dmCommands.dfm
+msgid "Activate the Regular Expression Tester window"
+msgstr "Attiva la finestra Tester espressioni regolari"
+
+#. CommandsDataModule..actlMain..actNavChat..Caption
+#. LLMChatForm..Caption
+#: dmCommands.dfm frmLLMChat.dfm frmLLMChat.pas
+msgid "Chat"
+msgstr "Chat"
+
+#. CommandsDataModule..actlMain..actNavChat..Hint
+#: dmCommands.dfm
+msgid "Activate the Chat window"
+msgstr "Attiva la finestra Chat"
+
+#. CommandsDataModule..actlMain..actRun..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..Caption
+#. UnitTestWindow..DialogActions..actRun..Caption
+#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
+msgid "&Run"
+msgstr "&Esegui"
+
+#. CommandsDataModule..actlMain..actRun..Hint
+#: dmCommands.dfm
+msgid "Run|Run active module"
+msgstr "Esegui|Esegui modulo attuale"
+
+#. CommandsDataModule..actlMain..actDebug..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Caption
+#: dmCommands.dfm frmProjectExplorer.dfm
+msgid "&Debug"
+msgstr "&Debug"
+
+#. CommandsDataModule..actlMain..actDebug..Hint
+#. Programmer's name for it: SDebugHint
+#: dmCommands.dfm StringResources.pas
+msgid "Debug|Debug active script"
+msgstr "Debug|Debug dello script attivo"
+
+#. CommandsDataModule..actlMain..actRunToCursor..Caption
+#: dmCommands.dfm
+msgid "Run To &Cursor"
+msgstr "Esegui fino al &cursore"
+
+#. CommandsDataModule..actlMain..actRunToCursor..Hint
+#: dmCommands.dfm
+msgid "Run to cursor"
+msgstr "Esegui fino al cursore"
+
+#. CommandsDataModule..actlMain..actStepInto..Caption
+#: dmCommands.dfm
+msgid "Step &Into"
+msgstr "Vai all'&interno"
+
+#. CommandsDataModule..actlMain..actStepInto..Hint
+#: dmCommands.dfm
+msgid "Step into subroutine "
+msgstr "Vai all'interno della subroutine "
+
+#. CommandsDataModule..actlMain..actStepOver..Caption
+#: dmCommands.dfm
+msgid "Step &Over"
+msgstr "Passa &oltre"
+
+#. CommandsDataModule..actlMain..actStepOver..Hint
+#: dmCommands.dfm
+msgid "Step over next function call"
+msgstr "Vai alla prossima chiamata di funzione"
+
+#. CommandsDataModule..actlMain..actStepOut..Caption
+#: dmCommands.dfm
+msgid "Step O&ut"
+msgstr "&Esci"
+
+#. CommandsDataModule..actlMain..actStepOut..Hint
+#: dmCommands.dfm
+msgid "Step out of the current subroutine"
+msgstr "Esci dalla subroutine attuale"
+
+#. CommandsDataModule..actlMain..actDebugPause..Caption
+#: dmCommands.dfm
+msgid "&Pause"
+msgstr "&Pausa"
+
+#. CommandsDataModule..actlMain..actDebugPause..Hint
+#: dmCommands.dfm
+msgid "Pause running program"
+msgstr "Sospendi il programma in esecuzione"
+
+#. CommandsDataModule..actlMain..actDebugAbort..Caption
+#: dmCommands.dfm
+msgid "&Abort Debugging"
+msgstr "&Interrompi debug"
+
+#. CommandsDataModule..actlMain..actDebugAbort..Hint
+#: dmCommands.dfm
+msgid "Abort debugging"
+msgstr "Interrompi debug"
+
+#. CommandsDataModule..actlMain..actExternalRun..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
+#: dmCommands.dfm frmProjectExplorer.dfm
+msgid "E&xternal Run"
+msgstr "Esecuzione &esterna"
+
+#. CommandsDataModule..actlMain..actExternalRun..Hint
+#: dmCommands.dfm
+msgid "External Run|Run active module in external Python interpreter"
+msgstr ""
+"Esecuzione esterna|Esegui il modulo attivo nell'interprete Python esterno"
+
+#. CommandsDataModule..actlMain..actExternalRunConfigure..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnConfigureExternalRun..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Configure &External Run..."
+msgstr "Imposta &esecuzione esterna..."
+
+#. CommandsDataModule..actlMain..actExternalRunConfigure..Hint
+#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnConfigureExternalRun..Hint
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Configure External Run"
+msgstr "Configura esecuzione esterna"
+
+#. CommandsDataModule..actlMain..actRunLastScript..Caption
+#: dmCommands.dfm
+msgid "Run Last Script"
+msgstr "Esegui ultimo script"
+
+#. CommandsDataModule..actlMain..actRunLastScript..Hint
+#. Programmer's name for it: SHintRun
+#: dmCommands.dfm StringResources.pas
+msgid "Run last script"
+msgstr "Esegui ultimo script"
+
+#. CommandsDataModule..actlMain..actDebugLastScript..Caption
+#: dmCommands.dfm
+msgid "Debug Last Script"
+msgstr "Debug dell'ultimo script"
+
+#. CommandsDataModule..actlMain..actDebugLastScript..Hint
+#. Programmer's name for it: SHintDebug
+#: dmCommands.dfm StringResources.pas
+msgid "Debug last script"
+msgstr "Debug dell'ultimo script"
+
+#. CommandsDataModule..actlMain..actExternalRunLastScript..Caption
+#: dmCommands.dfm
+msgid "Run Last Script Externally"
+msgstr "Esegui esternamente ultimo script"
+
+#. CommandsDataModule..actlMain..actExternalRunLastScript..Hint
+#. Programmer's name for it: SHintExternalRun
+#: dmCommands.dfm StringResources.pas
+msgid "Run last script externally"
+msgstr "Esegui esternamente ultimo script"
+
+#. CommandsDataModule..actlMain..actImportModule..Caption
+#: dmCommands.dfm
+msgid "Import &Module"
+msgstr "Importa &modulo"
+
+#. CommandsDataModule..actlMain..actImportModule..Hint
+#: dmCommands.dfm
+msgid "Import module"
+msgstr "Importa un modulo"
+
+#. CommandsDataModule..actlMain..actCommandLine..Caption
+#: dmCommands.dfm
+msgid "Command Line &Parameters..."
+msgstr "&Parametri riga comando..."
+
+#. CommandsDataModule..actlMain..actCommandLine..Hint
+#: dmCommands.dfm
+msgid "Set command line parameters"
+msgstr "Imposta i parametri della riga di comando"
+
+#. CommandsDataModule..actlMain..actPythonInternal..Caption
+#: dmCommands.dfm
+msgid "&Internal"
+msgstr "&Interno"
+
+#. CommandsDataModule..actlMain..actPythonInternal..Hint
+#: dmCommands.dfm
+msgid "Use internal Python Engine"
+msgstr "Usa l'engine Python interno"
+
+#. CommandsDataModule..actlMain..actPythonRemote..Caption
+#: dmCommands.dfm
+msgid "&Remote"
+msgstr "&Remoto"
+
+#. CommandsDataModule..actlMain..actPythonRemote..Hint
+#: dmCommands.dfm
+msgid "Use a remote Python engine"
+msgstr "Usa un engine Python remoto"
+
+#. CommandsDataModule..actlMain..actPythonRemoteTk..Caption
+#: dmCommands.dfm
+msgid "Remote (&Tk)"
+msgstr "Remoto (&Tk)"
+
+#. CommandsDataModule..actlMain..actPythonRemoteTk..Hint
+#: dmCommands.dfm
+msgid "Use a remote Python engine for Tkinter applications"
+msgstr "Usa un engine Python remoto per le applicazioni Tkinter"
+
+#. CommandsDataModule..actlMain..actPythonRemoteWx..Caption
+#: dmCommands.dfm
+msgid "Remote (&Wx)"
+msgstr "Remoto (&Wx)"
+
+#. CommandsDataModule..actlMain..actPythonRemoteWx..Hint
+#: dmCommands.dfm
+msgid "Use a remote Python engine for wxPython applications"
+msgstr "Usa un engine Python remoto per le applicazioni wxPython"
+
+#. CommandsDataModule..actlMain..actPythonSSH..Caption
+#: dmCommands.dfm
+msgid "&SSH"
+msgstr "&SSH"
+
+#. CommandsDataModule..actlMain..actPythonSSH..Hint
+#: dmCommands.dfm
+msgid "Use an SSH remote Python engine"
+msgstr "Usa un engine Python remoto SSH"
+
+#. CommandsDataModule..actlMain..actPythonReinitialize..Caption
+#: dmCommands.dfm
+msgid "Reinitiali&ze Python engine"
+msgstr "Reini&zializza l'engine Python"
+
+#. CommandsDataModule..actlMain..actPythonFreeThreaded..Caption
+#: dmCommands.dfm
+msgid "Free-Threaded"
+msgstr "Thread free"
+
+#. CommandsDataModule..actlMain..actPythonFreeThreaded..Hint
+#: dmCommands.dfm
+msgid "Use the free-trheaded version of Python"
+msgstr "Usa la versione free thread di Python"
+
+#. CommandsDataModule..actlMain..actClearAllBreakpoints..Caption
+#: dmCommands.dfm
+msgid "Clear A&ll Breakpoints"
+msgstr "Rimuovi tutti i punti interruzione"
+
+#. CommandsDataModule..actlMain..actClearAllBreakpoints..Hint
+#: dmCommands.dfm
+msgid "Clear all breakpoints"
+msgstr "Rimuovi tutti i punti interruzione"
+
+#. CommandsDataModule..actlMain..actToggleBreakPoint..Caption
+#: dmCommands.dfm
+msgid "Toggle &breakpoint"
+msgstr "Commuta &punto d'interruzione"
+
+#. CommandsDataModule..actlMain..actToggleBreakPoint..Hint
+#: dmCommands.dfm
+msgid "Toggle breakpoint"
+msgstr "Commuta il punto d'interruzione"
+
+#. CommandsDataModule..actlMain..actAddWatchAtCursor..Caption
+#: dmCommands.dfm
+msgid "Add &Watch At Cursor"
+msgstr "Aggiungi &monitoraggio al cursore"
+
+#. CommandsDataModule..actlMain..actAddWatchAtCursor..Hint
+#: dmCommands.dfm
+msgid "Add the expression at the editor current position as a watch"
+msgstr ""
+"Aggiungi l'espressione alla posizione attuale dell'editor come monitoraggio"
+
+#. CommandsDataModule..actlMain..actPostMortem..Caption
+#: dmCommands.dfm
+msgid "&Post Mortem"
+msgstr "&Post mortem"
+
+#. CommandsDataModule..actlMain..actPostMortem..Hint
+#: dmCommands.dfm
+msgid "Enter post mortem analysis"
+msgstr "Modalità analisi post mortem"
+
+#. CommandsDataModule..actlMain..actExecSelection..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnExecSelection..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "E&xecute selection"
+msgstr "&Esegui la selezione"
+
+#. CommandsDataModule..actlMain..actExecSelection..Hint
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnExecSelection..Hint
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Execute the editor selection"
+msgstr "Esegui la selezione dell'editor"
+
+#. CommandsDataModule..actlMain..actPythonSetup..Caption
+#: dmCommands.dfm
+msgid "Setup Python Versions..."
+msgstr "Imposta versione Python..."
+
+#. CommandsDataModule..actlMain..actPythonSetup..Hint
+#: dmCommands.dfm
+msgid "Setup Python engine"
+msgstr "Imposta engine Python"
 
 #. CommandsDataModule..pmSpelling..mnSpelling..Caption
 #. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
@@ -3800,12 +4377,14 @@ msgid "Clear output"
 msgstr "Azzera output"
 
 #. OutputWindow..OutputActions..actToolTerminate..Caption
-#: frmCommandOutput.dfm
+#. PyIDEMainForm..RunningProcessesPopUpMenu..mnTerminate..Caption
+#: frmCommandOutput.dfm frmPyIDEMain.dfm
 msgid "&Terminate"
 msgstr "&Termina"
 
 #. OutputWindow..OutputActions..actToolTerminate..Hint
-#: frmCommandOutput.dfm
+#. PyIDEMainForm..RunningProcessesPopUpMenu..mnTerminate..Hint
+#: frmCommandOutput.dfm frmPyIDEMain.dfm
 msgid "Terminate running tool (unsafe)"
 msgstr "Termina lo strumento in esecuzione (non sicuro)"
 
@@ -3921,6 +4500,21 @@ msgstr "Abilita/disabilita punto interruzione"
 #: frmEditor.dfm
 msgid "Clear breakpoint"
 msgstr "Azzera punto interruzione"
+
+#. EditorForm..pmnuDiagnostics..mnFixIssue..Caption
+#: frmEditor.dfm
+msgid "Quick Fix Issue"
+msgstr "Correzione rapida problema"
+
+#. EditorForm..pmnuDiagnostics..mnIgnoreIssue..Caption
+#: frmEditor.dfm
+msgid "Ignore Issue"
+msgstr "Ignora problema"
+
+#. EditorForm..pmnuDiagnostics..mnIgnoreIssue..Hint
+#: frmEditor.dfm
+msgid "Flag the issue as ignored"
+msgstr "Segna il problema come ignorato"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4302,12 +4896,6 @@ msgstr "&Vai"
 msgid "Goto implementation"
 msgstr "Vai all'implementazione"
 
-#. LLMChatForm..Caption
-#. PyIDEMainForm..actlStandard..actNavChat..Caption
-#: frmLLMChat.dfm frmPyIDEMain.dfm frmLLMChat.pas
-msgid "Chat"
-msgstr "Chat"
-
 #. LLMChatForm..ChatActionList..actChatSave..Caption
 #: frmLLMChat.dfm
 msgid "Save chat"
@@ -4451,46 +5039,6 @@ msgstr "Progetto"
 msgid "Project Explorer Toolbar"
 msgstr "Barra strumenti Explorer progetto"
 
-#. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
-#: frmProjectExplorer.dfm
-msgid "&New Project"
-msgstr "&Nuovo progetto"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
-#: frmProjectExplorer.dfm
-msgid "Start a new project"
-msgstr "Inizia un nuovo progetto"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
-#: frmProjectExplorer.dfm
-msgid "&Open Project..."
-msgstr "Apri pr&ogetto..."
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
-#: frmProjectExplorer.dfm
-msgid "Open a project file"
-msgstr "Apri un file di progetto"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
-#: frmProjectExplorer.dfm
-msgid "&Save Project"
-msgstr "&Salva progetto"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSave..Hint
-#: frmProjectExplorer.dfm
-msgid "Save the project"
-msgstr "Salva il progetto"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Caption
-#: frmProjectExplorer.dfm
-msgid "Save Project &As..."
-msgstr "S&alva progetto come..."
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
-#: frmProjectExplorer.dfm
-msgid "Save project with under a different name"
-msgstr "Salva progetto con un altro nome"
-
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
 msgid "Store &Relative Paths"
@@ -4611,35 +5159,15 @@ msgstr "Modifica la configurazione di esecuzione"
 msgid "Show file properties"
 msgstr "Visualizza proprietà file"
 
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..Caption
-#. PyIDEMainForm..actlStandard..actRun..Caption
-#. UnitTestWindow..DialogActions..actRun..Caption
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
-msgid "&Run"
-msgstr "&Esegui"
-
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run the selected configuration"
 msgstr "Esegui la configurazione selezionata"
 
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
-#. PyIDEMainForm..actlStandard..actExternalRun..Caption
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "E&xternal Run"
-msgstr "Esecuzione &esterna"
-
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run configuration using an external Python interpreter"
 msgstr "Esegui la configurazione usando un interprete Python esterno"
-
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Caption
-#. PyIDEMainForm..actlStandard..actDebug..Caption
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "&Debug"
-msgstr "&Debug"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Hint
 #: frmProjectExplorer.dfm
@@ -4721,6 +5249,16 @@ msgstr "File &recenti"
 msgid "&Source Code"
 msgstr "Codice &sorgente"
 
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnCheckCode..Caption
+#: frmPyIDEMain.dfm
+msgid "Check"
+msgstr "Controlla"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnRefactor..Caption
+#: frmPyIDEMain.dfm
+msgid "Refactor"
+msgstr "Refattore"
+
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: frmPyIDEMain.dfm dmResources.pas
 msgid "Parameters"
@@ -4750,12 +5288,6 @@ msgstr "Finestre IDE"
 #: frmPyIDEMain.dfm
 msgid "&Debug Windows"
 msgstr "Finestre di &debug"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..Caption
-#. PyIDEMainForm..actlStandard..actNavEditor..Caption
-#: frmPyIDEMain.dfm
-msgid "&Editor"
-msgstr "&Editor"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -5049,41 +5581,6 @@ msgstr "Men&u principale"
 msgid "View/Hide main menu"
 msgstr "Visualizza/nascondi il menu interattivo"
 
-#. PyIDEMainForm..actlStandard..actSyntaxCheck..Caption
-#: frmPyIDEMain.dfm
-msgid "&Syntax Check"
-msgstr "Verifica &sintassi"
-
-#. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
-#: frmPyIDEMain.dfm
-msgid "Syntax Check|Perform syntax check and load scripts"
-msgstr "Verifica sintassi|Esegue verifica sintassi e carica script"
-
-#. PyIDEMainForm..actlStandard..actRun..Hint
-#: frmPyIDEMain.dfm
-msgid "Run|Run active module"
-msgstr "Esegui|Esegui modulo attuale"
-
-#. PyIDEMainForm..actlStandard..actCommandLine..Caption
-#: frmPyIDEMain.dfm
-msgid "Command Line &Parameters..."
-msgstr "&Parametri riga comando..."
-
-#. PyIDEMainForm..actlStandard..actCommandLine..Hint
-#: frmPyIDEMain.dfm
-msgid "Set command line parameters"
-msgstr "Imposta i parametri della riga di comando"
-
-#. PyIDEMainForm..actlStandard..actImportModule..Caption
-#: frmPyIDEMain.dfm
-msgid "Import &Module"
-msgstr "Importa &modulo"
-
-#. PyIDEMainForm..actlStandard..actImportModule..Hint
-#: frmPyIDEMain.dfm
-msgid "Import module"
-msgstr "Importa un modulo"
-
 #. PyIDEMainForm..actlStandard..actFileNewModule..Caption
 #: frmPyIDEMain.dfm
 msgid "&New Python module"
@@ -5114,16 +5611,6 @@ msgstr "&Chiudi tutto"
 msgid "Close all files"
 msgstr "Chiudi tutti i file"
 
-#. PyIDEMainForm..actlStandard..actFileExit..Caption
-#: frmPyIDEMain.dfm
-msgid "E&xit"
-msgstr "&Esci"
-
-#. PyIDEMainForm..actlStandard..actFileExit..Hint
-#: frmPyIDEMain.dfm
-msgid "Exit"
-msgstr "Esci"
-
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Status &Bar"
@@ -5134,39 +5621,6 @@ msgstr "&Barra di stato"
 msgid "View/Hide status bar"
 msgstr "Visualizza/nascondi barra di stato"
 
-#. PyIDEMainForm..actlStandard..actExternalRun..Hint
-#: frmPyIDEMain.dfm
-msgid "External Run|Run active module in external Python interpreter"
-msgstr ""
-"Esecuzione esterna|Esegui il modulo attivo nell'interprete Python esterno"
-
-#. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
-#: frmPyIDEMain.dfm
-msgid "Configure &External Run..."
-msgstr "Imposta &esecuzione esterna..."
-
-#. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
-#: frmPyIDEMain.dfm
-msgid "Configure External Run"
-msgstr "Configura esecuzione esterna"
-
-#. PyIDEMainForm..actlStandard..actRunDebugLastScript..Caption
-#: frmPyIDEMain.dfm
-msgid "Debug Last Script"
-msgstr "Debug dell'ultimo script"
-
-#. PyIDEMainForm..actlStandard..actRunDebugLastScript..Hint
-#. Programmer's name for it: SHintDebug
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Debug last script"
-msgstr "Debug dell'ultimo script"
-
-#. PyIDEMainForm..actlStandard..actDebug..Hint
-#. Programmer's name for it: SDebugHint
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Debug|Debug active script"
-msgstr "Debug|Debug dello script attivo"
-
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Restore Editor"
@@ -5176,118 +5630,6 @@ msgstr "&Ripristina editor"
 #: frmPyIDEMain.dfm
 msgid "Restore editor window"
 msgstr "Ripristina finestra editor"
-
-#. PyIDEMainForm..actlStandard..actRunToCursor..Caption
-#: frmPyIDEMain.dfm
-msgid "Run To &Cursor"
-msgstr "Esegui fino al &cursore"
-
-#. PyIDEMainForm..actlStandard..actRunToCursor..Hint
-#: frmPyIDEMain.dfm
-msgid "Run to cursor"
-msgstr "Esegui fino al cursore"
-
-#. PyIDEMainForm..actlStandard..actStepInto..Caption
-#: frmPyIDEMain.dfm
-msgid "Step &Into"
-msgstr "Vai all'&interno"
-
-#. PyIDEMainForm..actlStandard..actStepInto..Hint
-#: frmPyIDEMain.dfm
-msgid "Step into subroutine "
-msgstr "Vai all'interno della subroutine "
-
-#. PyIDEMainForm..actlStandard..actStepOver..Caption
-#: frmPyIDEMain.dfm
-msgid "Step &Over"
-msgstr "Passa &oltre"
-
-#. PyIDEMainForm..actlStandard..actStepOver..Hint
-#: frmPyIDEMain.dfm
-msgid "Step over next function call"
-msgstr "Vai alla prossima chiamata di funzione"
-
-#. PyIDEMainForm..actlStandard..actStepOut..Caption
-#: frmPyIDEMain.dfm
-msgid "Step O&ut"
-msgstr "&Esci"
-
-#. PyIDEMainForm..actlStandard..actStepOut..Hint
-#: frmPyIDEMain.dfm
-msgid "Step out of the current subroutine"
-msgstr "Esci dalla subroutine attuale"
-
-#. PyIDEMainForm..actlStandard..actDebugPause..Caption
-#: frmPyIDEMain.dfm
-msgid "&Pause"
-msgstr "&Pausa"
-
-#. PyIDEMainForm..actlStandard..actDebugPause..Hint
-#: frmPyIDEMain.dfm
-msgid "Pause running program"
-msgstr "Sospendi il programma in esecuzione"
-
-#. PyIDEMainForm..actlStandard..actDebugAbort..Caption
-#: frmPyIDEMain.dfm
-msgid "&Abort Debugging"
-msgstr "&Interrompi debug"
-
-#. PyIDEMainForm..actlStandard..actDebugAbort..Hint
-#: frmPyIDEMain.dfm
-msgid "Abort debugging"
-msgstr "Interrompi debug"
-
-#. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Caption
-#: frmPyIDEMain.dfm
-msgid "Run Last Script Externally"
-msgstr "Esegui esternamente ultimo script"
-
-#. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Hint
-#. Programmer's name for it: SHintExternalRun
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Run last script externally"
-msgstr "Esegui esternamente ultimo script"
-
-#. PyIDEMainForm..actlStandard..actRunLastScript..Caption
-#: frmPyIDEMain.dfm
-msgid "Run Last Script"
-msgstr "Esegui ultimo script"
-
-#. PyIDEMainForm..actlStandard..actRunLastScript..Hint
-#. Programmer's name for it: SHintRun
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Run last script"
-msgstr "Esegui ultimo script"
-
-#. PyIDEMainForm..actlStandard..actToggleBreakPoint..Caption
-#: frmPyIDEMain.dfm
-msgid "Toggle &breakpoint"
-msgstr "Commuta &punto d'interruzione"
-
-#. PyIDEMainForm..actlStandard..actToggleBreakPoint..Hint
-#: frmPyIDEMain.dfm
-msgid "Toggle breakpoint"
-msgstr "Commuta il punto d'interruzione"
-
-#. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
-#: frmPyIDEMain.dfm
-msgid "Clear A&ll Breakpoints"
-msgstr "Rimuovi tutti i punti interruzione"
-
-#. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
-#: frmPyIDEMain.dfm
-msgid "Clear all breakpoints"
-msgstr "Rimuovi tutti i punti interruzione"
-
-#. PyIDEMainForm..actlStandard..actNavFindResults..Caption
-#: frmPyIDEMain.dfm
-msgid "Find &in Files Results"
-msgstr "Risultati ricerca ne&i file"
-
-#. PyIDEMainForm..actlStandard..actNavFindResults..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Find in Files Results window"
-msgstr "Attiva la ricerca nella finestra Risultati file"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
@@ -5339,26 +5681,6 @@ msgstr "&Massimizza editor"
 msgid "Maximize editor window"
 msgstr "Massimizza finestra editor"
 
-#. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
-#: frmPyIDEMain.dfm
-msgid "Zoom &In"
-msgstr "&Aumenta zoom"
-
-#. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
-#: frmPyIDEMain.dfm
-msgid "Increase the font size of the editor"
-msgstr "Incrementa dimensione font dell'editor"
-
-#. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
-#: frmPyIDEMain.dfm
-msgid "Zoom &Out"
-msgstr "&Diminuisci zoom"
-
-#. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
-#: frmPyIDEMain.dfm
-msgid "Decrease the font size of the editor"
-msgstr "Diminuisci dimensione font dell'editor"
-
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor Vertically"
@@ -5369,62 +5691,6 @@ msgstr "Dividi editor verticalmente"
 msgid "Split the editor Windows vertically"
 msgstr "Dividi finestre editor verticalmente"
 
-#. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
-#: frmPyIDEMain.dfm
-msgid "Add &Watch At Cursor"
-msgstr "Aggiungi &monitoraggio al cursore"
-
-#. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
-#: frmPyIDEMain.dfm
-msgid "Add the expression at the editor current position as a watch"
-msgstr ""
-"Aggiungi l'espressione alla posizione attuale dell'editor come monitoraggio"
-
-#. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
-#: frmPyIDEMain.dfm
-msgid "Reinitiali&ze Python engine"
-msgstr "Reini&zializza l'engine Python"
-
-#. PyIDEMainForm..actlStandard..actPythonInternal..Caption
-#: frmPyIDEMain.dfm
-msgid "&Internal"
-msgstr "&Interno"
-
-#. PyIDEMainForm..actlStandard..actPythonInternal..Hint
-#: frmPyIDEMain.dfm
-msgid "Use internal Python Engine"
-msgstr "Usa l'engine Python interno"
-
-#. PyIDEMainForm..actlStandard..actPythonRemote..Caption
-#: frmPyIDEMain.dfm
-msgid "&Remote"
-msgstr "&Remoto"
-
-#. PyIDEMainForm..actlStandard..actPythonRemote..Hint
-#: frmPyIDEMain.dfm
-msgid "Use a remote Python engine"
-msgstr "Usa un engine Python remoto"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteTk..Caption
-#: frmPyIDEMain.dfm
-msgid "Remote (&Tk)"
-msgstr "Remoto (&Tk)"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteTk..Hint
-#: frmPyIDEMain.dfm
-msgid "Use a remote Python engine for Tkinter applications"
-msgstr "Usa un engine Python remoto per le applicazioni Tkinter"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteWx..Caption
-#: frmPyIDEMain.dfm
-msgid "Remote (&Wx)"
-msgstr "Remoto (&Wx)"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteWx..Hint
-#: frmPyIDEMain.dfm
-msgid "Use a remote Python engine for wxPython applications"
-msgstr "Usa un engine Python remoto per le applicazioni wxPython"
-
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
 msgid "New File..."
@@ -5434,137 +5700,6 @@ msgstr "Nuovo file..."
 #: frmPyIDEMain.dfm
 msgid "New file from template"
 msgstr "Nuovo file da modello"
-
-#. PyIDEMainForm..actlStandard..actNavWatches..Caption
-#: frmPyIDEMain.dfm
-msgid "&Watches"
-msgstr "&Monitoraggi"
-
-#. PyIDEMainForm..actlStandard..actNavWatches..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Watches window"
-msgstr "Attiva la finestra delle osservazioni"
-
-#. PyIDEMainForm..actlStandard..actNavBreakpoints..Caption
-#: frmPyIDEMain.dfm
-msgid "&BreakPoints"
-msgstr "&Punti interruzione"
-
-#. PyIDEMainForm..actlStandard..actNavBreakpoints..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Breakpoints window"
-msgstr "Attiva la finestra dei punti d'interruzione"
-
-#. PyIDEMainForm..actlStandard..actNavInterpreter..Caption
-#: frmPyIDEMain.dfm
-msgid "&Interpreter"
-msgstr "&Interprete"
-
-#. PyIDEMainForm..actlStandard..actNavInterpreter..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Interpreter window"
-msgstr "Attiva la finestra dell'interprete"
-
-#. PyIDEMainForm..actlStandard..actNavVariables..Caption
-#: frmPyIDEMain.dfm
-msgid "&Variables"
-msgstr "&Variabili"
-
-#. PyIDEMainForm..actlStandard..actNavVariables..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Variables window"
-msgstr "Attiva la finestra delle variabili"
-
-#. PyIDEMainForm..actlStandard..actNavCallStack..Caption
-#: frmPyIDEMain.dfm
-msgid "&Call Stack"
-msgstr "Stack &chiamata"
-
-#. PyIDEMainForm..actlStandard..actNavCallStack..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Call Stack window"
-msgstr "Attiva la finestra dello stack delle chiamate"
-
-#. PyIDEMainForm..actlStandard..actNavMessages..Caption
-#: frmPyIDEMain.dfm
-msgid "&Messages "
-msgstr "&Messaggi "
-
-#. PyIDEMainForm..actlStandard..actNavMessages..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Messages window"
-msgstr "Attiva la finestra dei mesaggi"
-
-#. PyIDEMainForm..actlStandard..actNavFileExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "File E&xplorer"
-msgstr "File E&xplorer"
-
-#. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the File Explorer window"
-msgstr "Attiva finestra Explorer file"
-
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "&Code Explorer"
-msgstr "Explorer &codice"
-
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Code Explorer window"
-msgstr "Attiva finestra Explorer codice"
-
-#. PyIDEMainForm..actlStandard..actNavTodo..Caption
-#: frmPyIDEMain.dfm
-msgid "&Todo List"
-msgstr "&Cose da fare"
-
-#. PyIDEMainForm..actlStandard..actNavTodo..Hint
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Todo List window"
-msgstr "Attiva la finestra delle cose da fare"
-
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
-#: frmPyIDEMain.dfm
-msgid "&Unit Tests"
-msgstr "Test &unità"
-
-#. PyIDEMainForm..actlStandard..actNavOutput..Caption
-#: frmPyIDEMain.dfm
-msgid "Command &Output"
-msgstr "&Output comando"
-
-#. PyIDEMainForm..actlStandard..actNavOutput..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Command Output window"
-msgstr "Attiva la finestra dell'output del comando"
-
-#. PyIDEMainForm..actlStandard..actNavEditor..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Editor"
-msgstr "Attiva editor"
-
-#. PyIDEMainForm..actlStandard..actPythonSSH..Caption
-#: frmPyIDEMain.dfm
-msgid "&SSH"
-msgstr "&SSH"
-
-#. PyIDEMainForm..actlStandard..actPythonSSH..Hint
-#: frmPyIDEMain.dfm
-msgid "Use an SSH remote Python engine"
-msgstr "Usa un engine Python remoto SSH"
-
-#. PyIDEMainForm..actlStandard..actExecSelection..Caption
-#: frmPyIDEMain.dfm
-msgid "E&xecute selection"
-msgstr "&Esegui la selezione"
-
-#. PyIDEMainForm..actlStandard..actExecSelection..Hint
-#: frmPyIDEMain.dfm
-msgid "Execute the editor selection"
-msgstr "Esegui la selezione dell'editor"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Caption
 #: frmPyIDEMain.dfm
@@ -5586,16 +5721,6 @@ msgstr "Nascondi editor secondario"
 msgid "Clear the editor"
 msgstr "Azzera editor"
 
-#. PyIDEMainForm..actlStandard..actPostMortem..Caption
-#: frmPyIDEMain.dfm
-msgid "&Post Mortem"
-msgstr "&Post mortem"
-
-#. PyIDEMainForm..actlStandard..actPostMortem..Hint
-#: frmPyIDEMain.dfm
-msgid "Enter post mortem analysis"
-msgstr "Modalità analisi post mortem"
-
 #. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Caption
 #: frmPyIDEMain.dfm
 msgid "Customize..."
@@ -5605,16 +5730,6 @@ msgstr "Personalizza..."
 #: frmPyIDEMain.dfm
 msgid "Customize the toolbars"
 msgstr "Personalizza le barre degli strumenti"
-
-#. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "&Project Explorer"
-msgstr "Explorer &progetto"
-
-#. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Project Explorer window"
-msgstr "Attiva finestra Explorer progetto"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -5657,15 +5772,25 @@ msgstr "Nascondi lo spazio di lavoro secondario"
 msgid "Styles..."
 msgstr "Stili..."
 
-#. PyIDEMainForm..actlStandard..actPythonSetup..Caption
+#. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
-msgid "Setup Python Versions..."
-msgstr "Imposta versione Python..."
+msgid "Zoom &In"
+msgstr "&Aumenta zoom"
 
-#. PyIDEMainForm..actlStandard..actPythonSetup..Hint
+#. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
 #: frmPyIDEMain.dfm
-msgid "Setup Python engine"
-msgstr "Imposta engine Python"
+msgid "Increase the font size of the editor"
+msgstr "Incrementa dimensione font dell'editor"
+
+#. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
+#: frmPyIDEMain.dfm
+msgid "Zoom &Out"
+msgstr "&Diminuisci zoom"
+
+#. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
+#: frmPyIDEMain.dfm
+msgid "Decrease the font size of the editor"
+msgstr "Diminuisci dimensione font dell'editor"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
 #. SSH File and Remote engine
@@ -5688,31 +5813,6 @@ msgstr "&Ripristina zoom"
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
 msgstr "Ripristina la dimensione del font dell'editor al valore predefinito"
-
-#. PyIDEMainForm..actlStandard..actNavRegExp..Caption
-#: frmPyIDEMain.dfm
-msgid "Regular Expression Tester"
-msgstr "Tester espressioni regolari"
-
-#. PyIDEMainForm..actlStandard..actNavRegExp..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Regular Expression Tester window"
-msgstr "Attiva la finestra Tester espressioni regolari"
-
-#. PyIDEMainForm..actlStandard..actNavChat..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Chat window"
-msgstr "Attiva la finestra Chat"
-
-#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Caption
-#: frmPyIDEMain.dfm
-msgid "Free-Threaded"
-msgstr "Thread free"
-
-#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Hint
-#: frmPyIDEMain.dfm
-msgid "Use the free-trheaded version of Python"
-msgstr "Usa la versione free thread di Python"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -6102,6 +6202,22 @@ msgstr "Anteprima web"
 msgid "No editor is currently active"
 msgstr "Nessun editor è attualmente attivo"
 
+#: cLSPClients.pas
+msgid "Confirm Rename"
+msgstr "Conferma rinomina"
+
+#: cLSPClients.pas
+msgid "Inline"
+msgstr "In linea"
+
+#: cLSPClients.pas
+msgid "Extract function"
+msgstr "Estrai funzione"
+
+#: cLSPClients.pas
+msgid "Extract variable"
+msgstr "Estrai variabile"
+
 #. Programmer's name for it: SNonameFileTitle
 #: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
 msgid "Untitled"
@@ -6249,14 +6365,6 @@ msgstr "Sostituzione avanzata"
 #: cTools.pas
 msgid "Advanced Search and replace"
 msgstr "Cerca e sostituisci avanzato"
-
-#: cTools.pas
-msgid "Format Selection"
-msgstr "Selezione formato"
-
-#: cTools.pas
-msgid "Format selected code using the \"black\" module"
-msgstr "Formatta il codice selezionato usando il modulo \"nero\"."
 
 #: cTools.pas
 msgid "Sort Selection"
@@ -6805,6 +6913,14 @@ msgid "Special packages"
 msgstr "Pacchetti speciali"
 
 #: dmCommands.pas
+msgid "Code check of file open"
+msgstr "Controllo del codice del file aperto"
+
+#: dmCommands.pas
+msgid "Code check on file save"
+msgstr "Controllo del codice al salvataggio del file"
+
+#: dmCommands.pas
 msgid "Dictionary language code"
 msgstr "Codice lingua dizionario"
 
@@ -6863,6 +6979,18 @@ msgstr "Colore salvato e modificato"
 #: dmCommands.pas
 msgid "Configure Tools"
 msgstr "Configura strumenti"
+
+#: dmCommands.pas
+msgid "Cannot perform rename"
+msgstr "Impossibile eseguire la rinomina"
+
+#: dmCommands.pas
+msgid "New name"
+msgstr "Nuovo nome"
+
+#: dmCommands.pas
+msgid "Debug"
+msgstr "Debug"
 
 #: dmCommands.pas
 msgid "Downloading..."
@@ -6994,10 +7122,6 @@ msgstr ""
 #, object-pascal-format
 msgid "PyScripter project files (*.%s)|*.%0:s"
 msgstr "File progetto PyScripter (*.%s)|*.%0:s"
-
-#: frmPyIDEMain.pas
-msgid "Debug"
-msgstr "Debug"
 
 #: frmPyIDEMain.pas
 msgid "Running"
@@ -7249,7 +7373,7 @@ msgstr "Simbolo"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_SyntaxError
 #. Programmer's name for it: SSyntaxError
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Syntax Error"
 msgstr "Errore di sintassi"
 
@@ -7870,17 +7994,17 @@ msgid "(None)"
 msgstr "(nessuno)"
 
 #. Programmer's name for it: SDlgWarning
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Warning"
 msgstr "Attenzione"
 
 #. Programmer's name for it: SDlgError
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Error"
 msgstr "Errore"
 
 #. Programmer's name for it: SDlgInformation
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Information"
 msgstr "Informazioni"
 
@@ -9180,6 +9304,27 @@ msgstr "Reinizialzza"
 #: StringResources.pas
 msgid "Interpreter"
 msgstr "Interprete"
+
+#: SynEditLsp.pas
+msgid "Quick Fix"
+msgstr "Correzione rapida"
+
+#: SynEditLsp.pas
+msgid "Hint"
+msgstr "Suggerimento"
+
+#: SynEditLsp.pas
+msgid "Code Check"
+msgstr "Controllo del codice"
+
+#: SynEditLsp.pas
+msgid "No issues found"
+msgstr "Nessun problema rilevato"
+
+#: SynEditLsp.pas
+#, object-pascal-format
+msgid "File Check: Errors: %d, Warnings: %d, Hints: %d"
+msgstr "Controllo file: errori: %d, avvisi: %d, suggerimenti: %d"
 
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
