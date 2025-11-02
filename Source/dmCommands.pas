@@ -1762,7 +1762,7 @@ begin
 
   if ExtractFileExt(PythonHelpFile) = '.chm' then begin
     var OldHelpFile := Application.HelpFile;
-    Application.HelpFile := GI_PyControl.PythonHelpFile;
+    Application.HelpFile := PythonHelpFile;
     try
       Result := Application.HelpKeyword(KeyWord);
     finally
