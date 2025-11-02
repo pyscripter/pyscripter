@@ -651,7 +651,7 @@
             - Added auto-refreshing project folders that mirror physical folders (#521)
             - Scrollbar annotation for highlighted search term
           Issues addressed
-            #1407, #1409, #1411, #1418, #1419
+            #1407, #1409, #1411, #1418, #1419, #1436
 
  {------------------------------------------------------------------------------}
 
