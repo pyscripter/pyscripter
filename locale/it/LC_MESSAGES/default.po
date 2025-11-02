@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-11-01 02:36\n"
+"POT-Creation-Date: 2025-11-01 22:20\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -3550,6 +3550,16 @@ msgstr "Organizza importazione istruzioni"
 msgid "Rename the selected identifier "
 msgstr "Rinomina gli identificatori selezionati"
 
+#. CommandsDataModule..actlMain..actShowRefactorMenu..Caption
+#: dmCommands.dfm
+msgid "Refactor"
+msgstr "Refattore"
+
+#. CommandsDataModule..actlMain..actShowRefactorMenu..Hint
+#: dmCommands.dfm
+msgid "Show refactoring menu"
+msgstr "Visualizza menu Refactoring"
+
 #. CommandsDataModule..actlMain..actFileExit..Caption
 #: dmCommands.dfm
 msgid "E&xit"
@@ -5253,11 +5263,6 @@ msgstr "Codice &sorgente"
 #: frmPyIDEMain.dfm
 msgid "Check"
 msgstr "Controlla"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnRefactor..Caption
-#: frmPyIDEMain.dfm
-msgid "Refactor"
-msgstr "Refattore"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: frmPyIDEMain.dfm dmResources.pas
