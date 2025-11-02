@@ -1119,7 +1119,7 @@ object CommandsDataModule: TCommandsDataModule
     object actCodeCheck: TAction
       Category = 'Source Code'
       Caption = 'Check Code'
-      HelpContext = 320
+      HelpContext = 895
       HelpType = htContext
       Hint = 'Perform a code check'
       ImageIndex = 17
@@ -1131,7 +1131,7 @@ object CommandsDataModule: TCommandsDataModule
     object actClearIssues: TAction
       Category = 'Source Code'
       Caption = 'Clear Issues'
-      HelpContext = 320
+      HelpContext = 895
       HelpType = htContext
       Hint = 'Clear code issues'
       ImageIndex = 12
@@ -1143,7 +1143,7 @@ object CommandsDataModule: TCommandsDataModule
     object actNextIssue: TAction
       Category = 'Source Code'
       Caption = 'Next Issue'
-      HelpContext = 320
+      HelpContext = 895
       HelpType = htContext
       Hint = 'Go to the next issue'
       ImageIndex = 65
@@ -1155,7 +1155,7 @@ object CommandsDataModule: TCommandsDataModule
     object actPreviousIssue: TAction
       Category = 'Source Code'
       Caption = 'Previous Issue'
-      HelpContext = 320
+      HelpContext = 895
       HelpType = htContext
       Hint = 'Go to the previous issue'
       ImageIndex = 64
@@ -1165,8 +1165,9 @@ object CommandsDataModule: TCommandsDataModule
       OnUpdate = UpdateIssuesActions
     end
     object actFixAll: TAction
-      Category = 'Refactoring'
+      Category = 'Source Code'
       Caption = 'Fix All'
+      HelpContext = 895
       Hint = 'Apply all available fixes'
       ImageIndex = 115
       ImageName = 'BugFix'
@@ -1177,6 +1178,7 @@ object CommandsDataModule: TCommandsDataModule
     object actOrganizeImports: TAction
       Category = 'Refactoring'
       Caption = 'Organize Imports'
+      HelpContext = 890
       Hint = 'Organize import statements'
       OnExecute = actOrganizeImportsExecute
       OnUpdate = UpdateRefactorActions
@@ -1184,6 +1186,7 @@ object CommandsDataModule: TCommandsDataModule
     object actRefactorRename: TAction
       Category = 'Refactoring'
       Caption = 'Rename'
+      HelpContext = 890
       Hint = 'Rename the selected identifier '
       ImageIndex = 116
       ImageName = 'Rename'
@@ -1193,6 +1196,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actCodeAction: TAction
       Category = 'Refactoring'
+      HelpContext = 890
       ImageIndex = 56
       ImageName = 'ToolsSetup'
       OnExecute = actCodeActionExecute
@@ -1201,6 +1205,7 @@ object CommandsDataModule: TCommandsDataModule
     object actShowRefactorMenu: TAction
       Category = 'Refactoring'
       Caption = 'Refactor'
+      HelpContext = 890
       Hint = 'Show refactoring menu'
       ShortCut = 8305
       OnExecute = actShowRefactorMenuExecute

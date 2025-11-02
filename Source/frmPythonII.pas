@@ -1512,18 +1512,18 @@ end;
 
 function TPythonIIForm.FormHelp(Command: Word; Data: THelpEventData;
   var CallHelp: Boolean): Boolean;
-var
-  Keyword: string;
 begin
-  Keyword := SynEdit.WordAtCursor;
-  if not PyIDEMainForm.PythonKeywordHelpRequested and
-    not PyIDEMainForm.MenuHelpRequested and (Keyword <> '') then
+  CallHelp := True;
+  Result := False;
+
+  if (Command = HELP_CONTEXT) and (Data = HelpContext) then
   begin
-    CallHelp := not CommandsDataModule.ShowPythonKeywordHelp(Keyword);
-    Result := True;
-  end else begin
-    CallHelp := True;
-    Result := False;
+    var Keyword := SynEdit.WordAtCursor;
+    if Keyword <> '' then
+    begin
+      CallHelp := not CommandsDataModule.ShowPythonKeywordHelp(Keyword);
+      Result := True;
+    end
   end;
 end;
 

@@ -6,7 +6,6 @@
 :::{toctree}
 editorfeatures
 editorshortcuts
-languageserver
 codecompletion
 codeanddebuggerhints
 codetemplates

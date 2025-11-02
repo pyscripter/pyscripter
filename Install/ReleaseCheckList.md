@@ -14,8 +14,7 @@
 12. Upload setup and zip files (4 files) to Sourceforge
 13. Update PyScripterVersionInfo.ini and PyScripterVersionInfo-x64.ini
 14. Blog announcement at https://pyscripter.blogspot.com/
-15. Announcement at https://groups.google.com/g/pyscripter
-16. Announcement at https://groups.google.com/g/comp.lang.python.announce
-17. Update history at PyScripter wiki
-18. Optionally create Github release
+15. Announcement at https://github.com/pyscripter/pyscripter/discussions
+16. Update history at PyScripter wiki
+17. Optionally create Github release
 

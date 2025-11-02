@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-PyScripter's documentation
+PyScripter documentation
 ==========================
 
 .. toctree::
@@ -17,6 +17,7 @@ PyScripter's documentation
    ide_windows
    debug_windows
    editor
+   languageserver
    llmintegration
    running_python
    programmer_utilities

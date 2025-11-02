@@ -1199,8 +1199,6 @@ type
     procedure tbiBrowsePreviousClick(Sender: TObject);
     procedure NextListClick(Sender: TObject; Str: string);
     procedure tbiBrowseNextClick(Sender: TObject);
-    function ApplicationHelp(Command: Word; Data: THelpEventData;
-      var CallHelp: Boolean): Boolean;
     procedure FormShow(Sender: TObject);
     procedure actNewFileExecute(Sender: TObject);
     procedure actEditorZoomResetExecute(Sender: TObject);
@@ -1249,6 +1247,7 @@ type
     procedure UpdateRefactoringActions(Sender: TObject);
     procedure UpdateViewActions(Sender: TObject);
   private
+    FIsClosing: Boolean;
     FLanguageList: TStringList;
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles: TStringList;
@@ -1328,8 +1327,6 @@ type
     procedure ShowIDEDockForm(Form: TForm; Activate: Boolean = True);
   public
     ActiveTabControlIndex: Integer;
-    PythonKeywordHelpRequested: Boolean;
-    MenuHelpRequested: Boolean;
     Layouts: TStringList;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
@@ -1462,7 +1459,6 @@ begin
 
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
-  Application.OnHelp := Self.ApplicationHelp;
   // In zip distributions the help file may be blocked
   if IsFileBlocked(Application.HelpFile) then
     UnblockFile(Application.HelpFile);
@@ -1676,8 +1672,8 @@ begin
   CanClose := CanClose and GI_ProjectService.CanClose;
 
   if CanClose then begin
-    // Shut down help
-    Application.OnHelp := nil;
+    FIsClosing := True;
+
     // QC25183
     try
       Application.HelpCommand(HELP_QUIT, 0);
@@ -2143,9 +2139,7 @@ end;
 
 function TPyIDEMainForm.GetIsClosing: Boolean;
 begin
-  // Use Application.OnHelp to signal exit
-  // Application.Help is set to nil as soon as we are about to close
-  Result := not Assigned(Application.OnHelp);
+  Result := FIsClosing;
 end;
 
 function TPyIDEMainForm.GetLocalAppStorage: TJvCustomAppStorage;
@@ -3786,27 +3780,6 @@ begin
   end;
 end;
 
-function TPyIDEMainForm.ApplicationHelp(Command: Word; Data: THelpEventData;
-  var CallHelp: Boolean): Boolean;
-var
-  KeyWord: string;
-begin
-  CallHelp := True;
-  Result := False;
-  // We are not going to show popup help
-  //if Command = HELP_SETPOPUP_POS then Exit;
-  if not PythonKeywordHelpRequested and not MenuHelpRequested and
-     Active and (ActiveControl is TSynEdit) and
-    (TSynEdit(ActiveControl).Highlighter = ResourcesDataModule.SynPythonSyn) then
-  begin
-    KeyWord := TSynEdit(ActiveControl).WordAtCursor;
-    if KeyWord <> '' then begin
-      CallHelp := not CommandsDataModule.ShowPythonKeywordHelp(KeyWord);
-      Result := True;
-    end;
-  end;
-end;
-
 procedure TPyIDEMainForm.WMDestroy(var Message: TWMDestroy);
 begin
   inherited;
@@ -3878,12 +3851,7 @@ begin
   TThread.ForceQueue(nil, procedure
   begin
     if IsUpgrade then
-    begin
-      // Show history help topic
-      PyIDEMainForm.MenuHelpRequested := True;
-      Application.HelpJump('history');
-      PyIDEMainForm.MenuHelpRequested := False;
-    end;
+      Application.HelpJump('history'); // Show history help topic
     CommandsDataModule.AutoCheckForUpdates;
   end);
 

@@ -9,6 +9,7 @@ object EditorForm: TEditorForm
   ParentFont = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnHelp = FormHelp
   TextHeight = 15
   object BGPanel: TPanel
     Left = 0
@@ -167,6 +168,7 @@ object EditorForm: TEditorForm
           Top = 0
           Width = 200
           Height = 384
+          HelpContext = 510
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText

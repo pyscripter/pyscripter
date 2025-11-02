@@ -12,6 +12,7 @@ to write better code efficiently, by providing features such as:
 - [Code hints](codeanddebuggerhints)
 - [Find definition](finddefinition)
 - [Find references](findreferences)
+- [Refactoring](refactoring)
 - … and more
 
 These features are collectively referred to as “Code IntelliSense”, a term coined by 
@@ -27,15 +28,14 @@ PyScripter implements the Language Server Protocol and uses the python
 [Jedi Language Server](https://github.com/pappasam/jedi-language-server), which is
 based on the [Jedi library](https://github.com/davidhalter/jedi), 
 that is used by many other IDEs. This language server is bundled with the PyScripter
-distribution.
+distribution.  
+
+PyScripter also includes [ruff](https://docs.astral.sh/ruff/), an extremely fast python 
+linter, to provide code diagnostics and quick fixes.
  
- The use of the LSP brings a number of advantages:
-- Improved stability since the source code parsing and analysis is carried 
-  out in external processes.
-- Better quality of Code IntelliSense, since the Jedi Language Server is actively 
-  developed and supports the latest python features.
-- The default Language Server (Jedi) can be easily swapped for alternative python 
-  Language Servers.
-- New features such as code diagnostics and refactoring can be easily added, since 
-  they are supported by the LSP.
-- Development resources are freed and can be diverted to other improvements of PyScripter.
+:::{toctree}
+finddefinition
+findreferences
+refactoring
+diagnostics
+:::

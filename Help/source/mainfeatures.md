@@ -55,9 +55,14 @@
 - **Integrated Unit Testing**
   - [Automatic generation of tests](unittesting)
   - [Unit testing GUI](unittestwindow)
+- **[Refactoring support](refactoring)**
+  - Organize imports
+  - Rename
+  - Extact variable
+  - Extract function
+  - Inline 
+- **[Code Diagnostics](diagnostics) with quick fixes**
 - **Other Features**
-  - Refactoring support
-  - Diagnostics with quick fixes
   - Access to Python manuals through the Help menu 
   - [To Do List](todolistwindow)
   - [Find and Replace in Files](findinfileswindow)
