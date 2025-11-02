@@ -91,6 +91,10 @@ type
     procedure OpenRemoteFile(const FileName, ServerName: string);
     function SaveToRemoteFile(const FileName, ServerName: string): Boolean;
     function HasPythonFile: Boolean;
+    function HasSyntaxError: Boolean;
+    function HasIssues: Boolean;
+    function HasFixableIssues: Boolean;
+    procedure GoToSyntaxError;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;

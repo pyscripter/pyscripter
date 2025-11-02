@@ -900,7 +900,7 @@ end;
 procedure TCommandsDataModule.actSearchGoToSyntaxErrorExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    TEditorForm(GI_ActiveEditor.Form).GoToSyntaxError;
+    GI_ActiveEditor.GoToSyntaxError;
 end;
 
 procedure TCommandsDataModule.actSearchHighlightExecute(Sender: TObject);
@@ -2576,7 +2576,9 @@ end;
 procedure TCommandsDataModule.UpdateRefactorActions(Sender: TObject);
 begin
   TAction(Sender).Enabled := Assigned(GI_ActiveEditor)
-    and GI_ActiveEditor.HasPythonFile and not GI_ActiveEditor.SynEdit.ReadOnly;
+    and GI_ActiveEditor.HasPythonFile and not GI_ActiveEditor.SynEdit.ReadOnly
+    and Assigned(TPyLspClient.MainLspClient) and
+    TPyLspClient.MainLspClient.Ready;
 end;
 
 procedure TCommandsDataModule.UpdateRunActions(Sender: TObject);
@@ -2679,7 +2681,7 @@ begin
     actSearchGoToLine.Enabled := Assigned(actSearchGoToLine)
   else if Sender = actSearchGoToSyntaxError then
     actSearchGoToSyntaxError.Enabled := Assigned(GI_ActiveEditor) and
-      TEditorForm(GI_ActiveEditor.Form).HasSyntaxError
+      GI_ActiveEditor.HasSyntaxError
   else if Sender = actSearchHighlight then
   begin
     var Editor := GI_PyIDEServices.ActiveEditor;
@@ -2717,8 +2719,19 @@ end;
 
 procedure TCommandsDataModule.UpdateIssuesActions(Sender: TObject);
 begin
+  if Sender = actFixAll then
+    actFixAll.Enabled := Assigned(GI_ActiveEditor) and
+      GI_ActiveEditor.HasFixableIssues
+  else if (Sender = actClearIssues) or (Sender = actNextIssue) or
+    (Sender = actPreviousIssue)
+  then
   TAction(Sender).Enabled := Assigned(GI_ActiveEditor) and
-    GI_ActiveEditor.HasPythonFile;
+    GI_ActiveEditor.HasIssues
+  else if Sender = actCodeCheck then
+    actCodeCheck.Enabled := Assigned(GI_ActiveEditor) and
+      GI_ActiveEditor.HasPythonFile and
+      Assigned(TPyLspClient.DiagnosticsLspClient) and
+      TPyLspClient.DiagnosticsLspClient.Ready;
 end;
 
 procedure TCommandsDataModule.UpdateSourceCodeActions(Sender: TObject);
@@ -2734,7 +2747,9 @@ begin
   then
     TAction(Sender).Enabled := NotReadOnly
   else if Sender = actFormatCode then
-    actFormatCode.Enabled := NotReadOnly and GI_ActiveEditor.HasPythonFile;
+    actFormatCode.Enabled := NotReadOnly and GI_ActiveEditor.HasPythonFile and
+      Assigned(TPyLspClient.DiagnosticsLspClient) and
+      TPyLspClient.DiagnosticsLspClient.Ready;
 end;
 
 procedure TCommandsDataModule.UpdateToolsActions(Sender: TObject);

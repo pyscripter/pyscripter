@@ -245,8 +245,6 @@ type
     procedure DoOnIdle;
     procedure SyncCodeExplorer;
     procedure AddWatchAtCursor;
-    function HasSyntaxError: Boolean;
-    procedure GoToSyntaxError;
   end;
 
   TEditor = class(TInterfacedObject, IUnknown, IEditor,  IFileCommands,
@@ -287,6 +285,10 @@ type
     procedure OpenRemoteFile(const FileName, ServerName: string);
     function SaveToRemoteFile(const FileName, ServerName: string): Boolean;
     function HasPythonFile: Boolean;
+    function HasSyntaxError: Boolean;
+    function HasIssues: Boolean;
+    function HasFixableIssues: Boolean;
+    procedure GoToSyntaxError;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
@@ -610,6 +612,13 @@ begin
   Result := FSynLsp.Version;
 end;
 
+procedure TEditor.GoToSyntaxError;
+begin
+  if HasSyntaxError then
+    Form.SynEdit.CaretXY :=
+      BufferCoordFromLspPosition(FSynLsp.Diagnostics[0].range.start);
+end;
+
 function TEditor.GetActiveSynEdit: TSynEdit;
 begin
   if Form.SynEdit2.Visible and (Form.FActiveSynEdit = Form.SynEdit2) then
@@ -841,8 +850,8 @@ begin
   begin
    GI_PyIDEServices.WriteStatusMsg(FSynLsp.Diagnostics.Summary);
    FSynLsp.Diagnostics.ShowInMessages(GetFileId);
-   if Form.HasSyntaxError then
-     Form.GoToSyntaxError;
+   if HasSyntaxError then
+     GoToSyntaxError;
   end;
 end;
 
@@ -985,9 +994,25 @@ begin
   Form.Retranslate;
 end;
 
+function TEditor.HasFixableIssues: Boolean;
+begin
+  // When we have fixable issues the quick fix marks are shown first
+  Result := not Form.SynEdit.BookmarkOptions.DrawBookmarksFirst;
+end;
+
+function TEditor.HasIssues: Boolean;
+begin
+  Result := Length(FSynLsp.Diagnostics) > 0;
+end;
+
 function TEditor.HasPythonFile: Boolean;
 begin
   Result := GetSynEdit.Highlighter is TSynPythonSyn;
+end;
+
+function TEditor.HasSyntaxError: Boolean;
+begin
+  Result := HasPythonFile and FSynLsp.Diagnostics.HasSyntaxError;
 end;
 
 function TEditor.GetForm: TForm;
@@ -2477,18 +2502,6 @@ end;
 function TEditorForm.GetEditor: IEditor;
 begin
   Result := FEditor;
-end;
-
-procedure TEditorForm.GoToSyntaxError;
-begin
-  if HasSyntaxError then
-    SynEdit.CaretXY :=
-      BufferCoordFromLspPosition(FEditor.FSynLsp.Diagnostics[0].range.start);
-end;
-
-function TEditorForm.HasSyntaxError: Boolean;
-begin
-  Result := FEditor.HasPythonFile and FEditor.FSynLsp.Diagnostics.HasSyntaxError;
 end;
 
 procedure TEditorForm.SynEditKeyDown(Sender: TObject; var Key: Word;
