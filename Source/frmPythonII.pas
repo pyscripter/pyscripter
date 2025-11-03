@@ -1580,7 +1580,7 @@ begin
     for var I := 0 to len(Keywords) - 1 do
       SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(I), Pointer(Ord(tkKey)));
     // Add soft keywords excluding the underscore
-    if VarModuleHasObject(KeywordModule, 'softkwlist') then
+    if VarHasAttr(KeywordModule, 'softkwlist') then
     begin
       Keywords := KeywordModule.softkwlist;
       for var I := 0 to len(Keywords) - 1 do
