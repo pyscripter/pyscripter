@@ -1569,14 +1569,23 @@ end;
 
 procedure TPythonIIForm.UpdatePythonKeywords;
 var
-  Keywords, Builtins, BuiltInMod: Variant;
+  KeywordModule, Keywords, Builtins, BuiltInMod: Variant;
 begin
   with ResourcesDataModule do begin
     SynPythonSyn.Keywords.Clear;
     SynPythonSyn.Keywords.Sorted := False;
-    Keywords := Import('keyword').kwlist;
+    // Add keywords
+    KeywordModule := Import('keyword');
+    Keywords := KeywordModule.kwlist;
     for var I := 0 to len(Keywords) - 1 do
       SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(I), Pointer(Ord(tkKey)));
+    // Add soft keywords excluding the underscore
+    if VarModuleHasObject(KeywordModule, 'softkwlist') then
+    begin
+      Keywords := KeywordModule.softkwlist;
+      for var I := 0 to len(Keywords) - 1 do
+        SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(I), Pointer(Ord(tkKey)));
+    end;
     // Avoid adding duplicates (None, True, False)
     SynPythonSyn.Keywords.Sorted := True;
     BuiltInMod := VarPyth.BuiltinModule;
