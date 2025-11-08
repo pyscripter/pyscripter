@@ -89,13 +89,17 @@ For each SSH server you need to provide a Name that will be used to identify
 the SSH server, as well as the user name and host name (or IP address) that 
 will be used to connect to the server. You also need to provide the path to 
 the scp and ssh commads and  the command that will be used to execute Python 
-on the server . Optionally you can provide additional SSH -o  options that will 
-be passed to the ssh and scp commands. For standard use, leave this field empty. 
-If you want to use password authentication (only with Putty - see below) you also 
-need to check the Password Needed option.
-  
-Instead of [OpenSSH for Windows](https://github.com/PowerShell/Win32-OpenSSH) 
-you can use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+on the server . Optionally you can provide additional ssh and scp -o  options that will 
+be passed to the ssh and scp commands. If you want to use password authentication (only with Putty - see below) you also need to check the Password Needed option.
+
+The image above shows default settings for connecting to a Linux SSH server using 
+[OpenSSH for Windows](https://github.com/PowerShell/Win32-OpenSSH). 
+
+***NOTE:*** If you are using OpenSSH v9.5 or later that first came with Windows 11 24H2
+you need to add the `-O` flag to the scp options or otherwise scp will fail.
+
+Instead of OpenSSH you can use 
+[PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 as the SSH client. See below a typical PuTTY configuration of 
 an SSH server. The example uses password authentication, but you can 
 use a private/public key combination instead for password-free 
@@ -104,6 +108,6 @@ the private/public key and add -i path\_to\_your\_private\_key to the scp
 and ssh options or instead run pagent and add to it the private key. 
 You also need to setup your server to accept the public key by appending it to 
 the ~/.ssh/authorized\_keys file. See
- [here](https://www.ssh.com/ssh/authorized_keys/openssh) for  details.  
+ [here](https://www.ssh.com/ssh/authorized_keys/openssh) for details.  
 
 ![graphic](images/editsshserverdialog_putty.JPG){align=center width="37.15em" height="24.40em"}
