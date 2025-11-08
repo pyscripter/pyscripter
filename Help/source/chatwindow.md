@@ -18,6 +18,8 @@ withoug leaving PyScripter.  It features the following:
 - Within each topic the conversation context is maintained
 - Spell-checking the question/prompt
 
+The default shortcut for showing the Chat Window is Ctrl+Alt+A.
+
 ![graphic](images/chatwindow.png){align=center width="38.1875em" height="32.875em"}
 
 ### Toolbar Commands:
