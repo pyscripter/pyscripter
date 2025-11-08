@@ -642,16 +642,17 @@
    History:   v 5.3
           New Features
             - Integration with Ruff a very fast linter and language server
-            - Implemented file check, with issues shown in the editor
-            - Quick fix and Ignore on file check
+            - File Check, with issues shown in the editor
+            - Fixable issues flagged in the gutter
+            - Quick Fix or Ignore fixable found issues
             - Refactoring support: Organize Imports, rename, extract variable,
               extract function, inline
-            - Fixable issues flagged in the gutter
+            - Built-in code formatting
             - Fix all and Organize import commands
             - Added auto-refreshing project folders that mirror physical folders (#521)
             - Scrollbar annotation for highlighted search term
           Issues addressed
-            #1407, #1409, #1411, #1418, #1419, #1436
+            #1407, #1409, #1411, #1418, #1419, #1436, #1438
 
  {------------------------------------------------------------------------------}
 

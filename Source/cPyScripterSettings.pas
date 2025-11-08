@@ -628,6 +628,9 @@ begin
   FSSHOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   FScpCommand := 'scp';
   FScpOptions := '-T -o PasswordAuthentication=no -o StrictHostKeyChecking=no';
+  // https://pyscripter.blogspot.com/2024/11/ssh-engines-broken-by-november-12-2024.html
+  if (TOSVersion.Major > 10) or (TOSVersion.Major = 10) and (TOSVersion.Build >= 26100) then
+    FScpOptions := '-O ' + FScpOptions;
   FSSHDisableVariablesWin := True;
   FAlwaysUseSockets := True;
   FTrimTrailingSpacesOnSave := True;
