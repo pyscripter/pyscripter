@@ -129,6 +129,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 0
       Width = 926
       Height = 453
+      HelpContext = 895
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup

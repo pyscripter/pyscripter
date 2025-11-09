@@ -83,8 +83,6 @@ In this dialog box you add remove or modify SSH servers.
 
 ### Editing SSH server information
 
-![graphic](images/editsshserverdialog.JPG){align=center width="37.15em" height="24.40em"}
-  
 For each SSH server you need to provide a Name that will be used to identify 
 the SSH server, as well as the user name and host name (or IP address) that 
 will be used to connect to the server. You also need to provide the path to 
@@ -92,15 +90,16 @@ the scp and ssh commads and  the command that will be used to execute Python
 on the server . Optionally you can provide additional ssh and scp -o  options that will 
 be passed to the ssh and scp commands. If you want to use password authentication (only with Putty - see below) you also need to check the Password Needed option.
 
+![graphic](images/editsshserverdialog.JPG){align=center width="37.15em" height="24.40em"}
+  
 The image above shows default settings for connecting to a Linux SSH server using 
 [OpenSSH for Windows](https://github.com/PowerShell/Win32-OpenSSH). 
 
-***NOTE:*** If you are using OpenSSH v9.5 or later that first came with Windows 11 24H2
+***NOTE:*** If you are using OpenSSH v9.5 or later, that first came with Windows 11 24H2,
 you need to add the `-O` flag to the scp options or otherwise scp will fail.
 
-Instead of OpenSSH you can use 
-[PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
-as the SSH client. See below a typical PuTTY configuration of 
+You may also use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+instead of OpenSSH as the SSH client. See below a typical PuTTY configuration of 
 an SSH server. The example uses password authentication, but you can 
 use a private/public key combination instead for password-free 
 authentication. In that case you need to use puttygen to create 

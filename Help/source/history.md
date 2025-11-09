@@ -3,6 +3,23 @@
 
 # History
 
+### Version 5.3 (November 10, 2025)
+
+* *New features:*
+	+ [Code diagnostics](diagnostics) using Ruff a very fast linter and language server
+	+ File Check, with issues shown in the editor
+	+ Fixable issues flagged in the gutter
+	+ Quick Fix or Ignore fixable found issues
+	+ Fix all command
+	+ Refactoring support: Organize Imports, rename, extract variable, extract function, inline
+	+ Built-in code formatting
+    + Added auto-refreshing project folders that mirror physical folders (*#521*)
+	+ Scrollbar annotation for highlighted search term
+
+* *Issues addressed:*
+	+  *#1407*, *#1409*, *#1411*, *#1418*, *#1419*, *#1436*, *#1438*
+
+
 ### Version 5.2.3 (May 10, 2025)
 
 * *New features:*

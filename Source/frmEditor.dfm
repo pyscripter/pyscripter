@@ -592,6 +592,7 @@ object EditorForm: TEditorForm
     Top = 136
     object mnFixIssue: TSpTBXItem
       Caption = 'Quick Fix Issue'
+      HelpContext = 895
       ImageIndex = 115
       ImageName = 'BugFix'
       OnClick = mnFixIssueClick
@@ -599,6 +600,7 @@ object EditorForm: TEditorForm
     object mnIgnoreIssue: TSpTBXItem
       Caption = 'Ignore Issue'
       Hint = 'Flag the issue as ignored'
+      HelpContext = 895
       OnClick = mnIgnoreIssueClick
     end
   end
