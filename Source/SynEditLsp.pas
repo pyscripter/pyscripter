@@ -114,7 +114,7 @@ type
 
   TLSPDiagnosticHelper = record helper for TLSPDiagnostic
     function HasFix: Boolean;
-    function Hint: string;
+    function Hint(IsReadOnly: Boolean): string;
     function SeverityText: string;
     function SimpleMessage: string;
     procedure ProcessData(var HasFix, HasIgnore: Boolean; var Title: string);
@@ -620,7 +620,8 @@ begin
         Diagnostic.range.start.character + 1,
         Diagnostic.range.&end.character + 1, I));
 
-      if Diagnostic.HasFix and not MarksDict.ContainsKey(StartLine) then
+      if not Editor.ReadOnly and Diagnostic.HasFix and
+        not MarksDict.ContainsKey(StartLine) then
       begin
         MarksDict.Add(StartLine, True);
         var Mark := TSynEditMark.Create(Editor);
@@ -751,7 +752,7 @@ begin
   ProcessData(Result, HasIgnore, Title);
 end;
 
-function TLSPDiagnosticHelper.Hint: string;
+function TLSPDiagnosticHelper.Hint(IsReadOnly: Boolean): string;
 var
   HasFix, HasIgnore: Boolean;
   Title: string;
@@ -761,6 +762,9 @@ begin
     Result := Result + Format(
       ' (<a href="%s"><font color="$FF8844"><u>%s</u></font></a>)',
       [codeDescription.href, code]);
+
+  if IsReadOnly then Exit;
+
   ProcessData(HasFix, HasIgnore, Title);
   if HasFix or HasIgnore then
     Result := Result + '<br>';

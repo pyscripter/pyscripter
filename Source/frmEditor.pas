@@ -3239,7 +3239,7 @@ begin
     // Setting HintInfo.CursorRect is important.  Otherwise no other hint
     // will be shown unlessmouse leaves and reenters the control
     HintInfo.CursorRect := CursorRect(SynEd, BC1, BC2, HintInfo.HintPos);
-    HintStr := FEditor.FSynLsp.Diagnostics[Indicator.Tag].Hint;
+    HintStr := FEditor.FSynLsp.Diagnostics[Indicator.Tag].Hint(SynEdit.ReadOnly);
     FEditor.FSynLsp.DiagnosticHintIndex := Indicator.Tag;
   end
   else if FEditor.HasPythonFile and not SynEd.IsPointInSelection(BC) and
