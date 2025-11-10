@@ -1503,8 +1503,7 @@ begin
       SFName := FRemotePython.ToPythonFileName(FileId);
       if SFName.StartsWith('<') and
         // so that we do not push to ssh engine linecache all local open files
-        (PyControl.RunConfig.ScriptName = FileId)
-      then
+        (PyControl.RunConfig.ScriptName = FileId) then
       begin
         Source := CleanEOLs(SynEdit.Text)+WideLF;
         LineList := VarPythonCreate(Source);

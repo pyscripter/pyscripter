@@ -198,7 +198,10 @@ begin
   FLangId := lidNone;
   var OldFileId := FFileId;
   FFileId := '';
-  if (OldLangId <> lidPython) or (OldFileId = '') then Exit;
+  if (OldLangId <> lidPython) or (OldFileId = '') or
+    GI_PyIDEServices.IsClosing // Don't bother
+  then
+    Exit;
 
   var Params := TSmartPtr.Make(TLSPDidCloseTextDocumentParams.Create)();
   Params.textDocument.uri := FileIdToURI(OldFileId);

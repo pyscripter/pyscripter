@@ -920,7 +920,9 @@ begin
     with Editor do begin
       if not HasPythonFile then Exit;
       SFName := InternalInterpreter.ToPythonFileName(FileId);
-      if SFName.StartsWith('<') then
+      if SFName.StartsWith('<') and
+        // so that we do not push to ssh engine linecache all local open files
+        (PyControl.RunConfig.ScriptName = FileId) then
       begin
         Source := CleanEOLs(SynEdit.Text)+WideLF;
         LineList := VarPythonCreate(Source);
