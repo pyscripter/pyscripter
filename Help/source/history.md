@@ -11,9 +11,9 @@
 	+ Fixable issues flagged in the gutter
 	+ Quick Fix or Ignore fixable found issues
 	+ Fix all command
-	+ Refactoring support: Organize Imports, rename, extract variable, extract function, inline
-	+ Built-in code formatting
-    + Added auto-refreshing project folders that mirror physical folders (*#521*)
+	+ [Refactoring](refactoring) support: Organize Imports, rename, extract variable, extract function, inline
+	+ Built-in code formatting (Edit, Source Code, Format)
+    + Added [auto-refreshing project folders](projectexplorer.md#folder-types) that mirror physical folders (*#521*)
 	+ Scrollbar annotation for highlighted search term
 
 * *Issues addressed:*
@@ -33,7 +33,7 @@
 
 * *New features:*
 	+ Support for Grok LLM
-    + New editor commands Next/Previous change (Shft+Ctrl+Num+/-)
+    + New editor commands Next/Previous change (Shift+Ctrl+Num+/-)
     + IDE option to enable/disable editor accessibility support
 
 * *Issues addressed:*
@@ -43,11 +43,11 @@
 ### Version 5.2.1 (Feburay 10, 2025)
 
 * *New features:*
-	+ [LLM Suport improvements](https://pyscripter.blogspot.com/2025/02/deepseek-and-other-improvements-to-llm.html)
+	+ [LLM Support improvements](https://pyscripter.blogspot.com/2025/02/deepseek-and-other-improvements-to-llm.html)
 		+ Added support for DeepSeek LLM
 		+ Added support for DeepSeek and OpenAI "o" LLM reasoning models
 		+ Improved display of LLM output
-		+ Syntax Highligting for 300 languges
+		+ Syntax Highlighting for 300 languages
 		+ Exposed the temperature LLM parameter
 		+ Printing of LLM output
 	+ Debugging

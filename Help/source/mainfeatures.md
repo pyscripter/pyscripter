@@ -44,7 +44,7 @@
 - **Editor Views**
   - [Disassembly](disassemblyview)
   - [HTML Documentation](documentationview) (pydoc)
-  - [Code Explorer](codeexplorer)
+- **[Code Explorer](codeexplorer)**
 - **[File Explorer](fileexplorer)**
   - Easy configuration and browsing of the Python Path
   - Integrated Version Control using [TortoiseGit](https://tortoisegit.org/),
@@ -58,7 +58,7 @@
 - **[Refactoring support](refactoring)**
   - Organize imports
   - Rename
-  - Extact variable
+  - Extract variable
   - Extract function
   - Inline 
 - **[Code Diagnostics](diagnostics) with quick fixes**

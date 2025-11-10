@@ -36,6 +36,7 @@ And quite a few good ones, for example [Spyder](https://pythonhosted.org/spyder/
 :titlesonly:
 mainfeatures
 history
+videos
 knownissues
 future
 credits

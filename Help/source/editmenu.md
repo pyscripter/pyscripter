@@ -39,11 +39,18 @@ Insert a [code template](codetemplates) in the active editor.
 
 ### Source Code submenu
 
-![graphic](images/menu_sourcecode.png){width="14.7em"  height="12.125em"}
+![graphic](images/menu_sourcecode.png){width="15.3125em"  height="16.0625em"}
+
+The [Check submenu](diagnostics.md#the-code-check-menu) allows you to perform code quality
+checks and identify errors and other quality issues (diagnostics).
 
 ***Commands/Actions:***
 
-*Format Code*\
+*Refactor*\
+Displays the [Refactoring menu](refactoring.md#the-refactoring-menu) which allows you to perform
+refactorings that apply to the current editor position.
+
+*Format*\
 If there is selected text in the editor it formats just the selection. Otherwise, it formats the
 whole document. Code formatting uses the Ruff Language Server.
 

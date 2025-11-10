@@ -54,7 +54,7 @@ You can add files and folders under the Files node, using its context menu (see 
 - **Virtual folders**\
 These folders allow you to organize your project files in a logical manner.  For example you can 
 have a folder for source files, another one for documentation files and another one for 
-configuration files.  These folders are just collections of files and not necessarily correspond 
+configuration files.  These folders are just collections of files and do not necessarily correspond 
 to physical folders on disk.  They may contain subfolders.  You can create virtual folders using 
 the Add commands of the folder context menu.
 
@@ -78,9 +78,8 @@ separated by semi-colon that determines which file types will be imported into t
 "Recursive" is checked subfolders will be imported too.  If "Auto-update" is checked then a 
 file-system folder will be created that will automatically refresh, whenever a change in the 
 specified directory takes place.  Otherwise, a virtual folder will be created.   Finally, you 
-have the option to add the specified directory to the to the project's "Extra Python Path", so 
-that the python interpreter can find and import modules in this directory..
-
+have the option to add the specified directory to the to the project's 
+"***Extra Python Path"***, so that the python interpreter can find and import modules in this directory.
 
 ## Context sensitive menus
 

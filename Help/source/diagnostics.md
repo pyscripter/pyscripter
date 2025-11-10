@@ -1,3 +1,5 @@
+:::{index} Diagnostics
+:::
 :::{index} Diagnostics; Check Code
 :::
 :::{index} Diagnostics; Quick Fix
@@ -91,12 +93,13 @@ You can customize the checks that ruff performs as well as other
 - *Global settings* \
   A file named ruff.toml can be found in the PyScripter user directory 
   (%APPDATA%\Pyscripter\Lsp, where %APPDATA% is the folder pointed by the environment 
-  variable “APPDATA” or the root folder of PyScripter for registry-free installations).  
-  This file contains the default ruff options. You can modify and customize this file.
-  The changes in these settings will apply globally.
+  variable “APPDATA” or the "Lsp" subdirecotry of the root folder of PyScripter for 
+  registry-free installations).  This file contains the default ruff options. You can modify and 
+  customize this file. The changes in these settings will apply globally.
 - *Project specific settings* \
   Global settings can be overwritten by project specific settings. Please consult the 
   ruff [config file discovery](https://docs.astral.sh/ruff/configuration/#config-file-discovery) information for details.
 
+---
 You can view a [video-tutorial](https://pyscripter.blogspot.com/2025/10/feature-preview-code-checks-and-quick.html)
 that introduces the above functionality of PyScripter.
