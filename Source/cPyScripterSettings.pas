@@ -1139,14 +1139,17 @@ begin
 
   OptionsFileName := TPath.Combine(EXEPath, AppININame);
   IsPortable := FileExists(OptionsFileName);
-  if IsPortable then begin
+  if IsPortable then
+  begin
     // Portable version - nothing is stored in other directories
     UserDataPath := EXEPath;
     ColorThemesFilesDir := TPath.Combine(UserDataPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(UserDataPath, 'Styles');
     LspServerPath :=  TPath.Combine(UserDataPath, 'Lib', 'Lsp');
     UserDebugInspectorsDir :=  TPath.Combine(UserDataPath, 'Variable Inspectors');
-  end else begin
+  end
+  else
+  begin
     UserDataPath := TPath.Combine(GetHomePath,  AppName);
     OptionsFileName := TPath.Combine(UserDataPath, AppININame);
     if not ForceDirectories(UserDataPath) or
