@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-11-01 22:20\n"
+"POT-Creation-Date: 2025-11-11 02:50\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: ROBERTO BORIOTTI <roberto.boriotti@canon.it>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/pyscripter/teams/116142/it/)\n"
@@ -6918,8 +6918,8 @@ msgid "Special packages"
 msgstr "Pacchetti speciali"
 
 #: dmCommands.pas
-msgid "Code check of file open"
-msgstr "Controllo del codice del file aperto"
+msgid "Code check on file open"
+msgstr "Controllo codice all'apertura file"
 
 #: dmCommands.pas
 msgid "Code check on file save"
