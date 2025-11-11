@@ -2811,7 +2811,7 @@ object ResourcesDataModule: TResourcesDataModule
       '|Python Module header'
       
         '=#--------------------------------------------------------------' +
-        '-----------------'
+        '-------------------------'
       '=# Name:        $[ActiveDoc-Name]'
       '=# Purpose:     |'
       '=#'
@@ -2822,12 +2822,12 @@ object ResourcesDataModule: TResourcesDataModule
       '=# Licence:     <your licence>'
       
         '=#--------------------------------------------------------------' +
-        '-----------------'
+        '-------------------------'
       'cl'
       '|Comment Line'
       
         '=#--------------------------------------------------------------' +
-        '-----------------'
+        '-------------------------'
       '=|'
       'pyapp'
       '|Python application'

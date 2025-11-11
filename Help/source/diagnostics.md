@@ -11,7 +11,7 @@ PyScripter includes [ruff](https://docs.astral.sh/ruff/) an extremely fast linte
 code as well as code formatting.
 
 Code checking happens when you open or save a python file and 
-[optionally](ideoptions.md#language-server) as you type. You can also inititate a code 
+[optionally](ideoptions.md#language-server) as you type. You can also initiate a code 
 check at any time by issuing the [Check Code](editmenu.md#source-code-submenu) command.
 
 The flagged issues are highlighted in the editor by a squiggly underline with a color that
@@ -92,8 +92,8 @@ You can customize the checks that ruff performs as well as other
 
 - *Global settings* \
   A file named ruff.toml can be found in the PyScripter user directory 
-  (%APPDATA%\Pyscripter\Lsp, where %APPDATA% is the folder pointed by the environment 
-  variable “APPDATA” or the "Lsp" subdirecotry of the root folder of PyScripter for 
+  (%APPDATA%\Pyscripter\Lsp\Ruff, where %APPDATA% is the folder pointed by the environment 
+  variable “APPDATA” or the "Lsp\Ruff" subdirectory of the root folder of PyScripter for 
   registry-free installations).  This file contains the default ruff options. You can modify and 
   customize this file. The changes in these settings will apply globally.
 - *Project specific settings* \

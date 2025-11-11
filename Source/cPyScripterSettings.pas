@@ -1172,11 +1172,13 @@ begin
   PyScripterInitFile := TPath.Combine(UserDataPath, 'pyscripter_init.py');
   PyScripterLogFile := TPath.Combine(UserDataPath, 'pyscripter.log');
   RecoveryDir := TPath.Combine(UserDataPath, 'Recovery');
-  // First use setup
-  ForceDirectories(TPath.Combine(UserDataPath, 'Lsp'));
-  CopyFileIfNeeded(TPath.Combine(PublicPath, 'Lsp',  'Ruff', 'ruff.toml'),
-    TPath.Combine(UserDataPath, 'Lsp', 'ruff.toml'));
-  if not IsPortable then begin
+  if not IsPortable then
+  begin
+    // First use ruff setup
+    ForceDirectories(TPath.Combine(UserDataPath, 'Lsp', 'Ruff'));
+    CopyFileIfNeeded(TPath.Combine(PublicPath, 'Lsp', 'Ruff', 'ruff.toml'),
+      TPath.Combine(UserDataPath, 'Lsp', 'Ruff', 'ruff.toml'));
+    // Also copy start-up scripts
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'python_init.py'), EngineInitFile);
     CopyFileIfNeeded(TPath.Combine(PublicPath, 'pyscripter_init.py'), PyScripterInitFile);
   end;
@@ -1206,7 +1208,8 @@ end;
 class procedure TPyScripterSettings.CreateEditorOptions;
 begin
   EditorOptions := TSynEditorOptionsContainer.Create(nil);
-  with EditorOptions do begin
+  with EditorOptions do
+  begin
     Font.Name := DefaultCodeFontName;
     Font.Size := 10;
     Gutter.Font.Name := Font.Name;
@@ -1228,6 +1231,11 @@ begin
     WantTabs := True;
     TabWidth := 4;
     MaxUndo := 0;
+    // ActiveLineColor and RightEdgeColor for dark backgrounds.
+    // Will be adjusted automatically when switching to light background themes.
+    ActiveLineColor := $333333;
+    RightEdgeColor := TColors.DimGray;
+    RightEdge := 88;  // same as ruff and black
 
     RegisterEditorUserCommands(EditorOptions.Keystrokes);
   end;

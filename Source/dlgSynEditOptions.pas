@@ -766,17 +766,28 @@ begin
     end;
     FColorTheme:= lbColorThemes.Items[lbColorThemes.ItemIndex];
 
-    // Adjust active line color
-    if (FSynEdit.ActiveLineColor <> clNone) and Assigned(SynThemeSample.Highlighter) then
+    // Adjust active line color and RightEdgeColor
+    // Only change if we switching from dark to light or vice versa.
+    if Assigned(SynThemeSample.Highlighter) then
     begin
       LineColor := SynThemeSample.Highlighter.WhitespaceAttribute.Background;
-      // Only change if we switching from dart to light or vice versa.
       if IsColorDark(LineColor) xor IsColorDark(FBgColor) then
       begin
-        if IsColorDark(LineColor) then
-          cbActiveLineColor.SelectedColor := LightenColor(LineColor, 5)
-        else
-          cbActiveLineColor.SelectedColor := DarkenColor(LineColor, 5);
+        if FSynEdit.ActiveLineColor <> clNone then
+        begin
+          if IsColorDark(LineColor) then
+            cbActiveLineColor.SelectedColor := LightenColor(LineColor, 5)
+          else
+            cbActiveLineColor.SelectedColor := DarkenColor(LineColor, 5);
+        end;
+
+        if FSynEdit.RightEdgeColor <> clNone then
+        begin
+          if IsColorDark(LineColor) then
+            cbRightEdgeColor.SelectedColor := clWebDimGray
+          else
+            cbRightEdgeColor.SelectedColor := clLtGray;
+        end;
       end;
     end;
   end;

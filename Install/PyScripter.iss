@@ -1,7 +1,7 @@
 ﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyAppName "PyScripter"
 #ifndef MyAppVersion
-  #define MyAppVersion "5.2.3"
+  #define MyAppVersion "5.3.0"
 #endif
 #ifndef OSPlatform
   #define OSPlatform "x64"
@@ -23,13 +23,12 @@ DefaultDirName={commonpf}\{#MyAppName}
 DefaultGroupName={#MyAppName}-{#OSPlatform}
 OutputDir=Output
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}-{#OSPlatform}-Setup
-Compression=lzma/Max
+Compression=lzma2/ultra64
 SolidCompression=true
 ChangesAssociations=true
 UninstallDisplayIcon={app}\{#MyAppName}.exe
 PrivilegesRequired=poweruser
 RestartIfNeededByRun=yes
-Compression=lzma2/ultra64
 AppCopyright=(C) Kiriakos Vlahos
 ;WizardStyle = modern
 #if OSPlatform == "x64"

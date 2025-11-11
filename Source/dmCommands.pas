@@ -1596,7 +1596,7 @@ begin
     Options[2].PropertyName := 'SpecialPackages';
     Options[2].DisplayName := _('Special packages');
     Options[3].PropertyName := 'DiagnosticsOnOpen';
-    Options[3].DisplayName := _('Code check of file open');
+    Options[3].DisplayName := _('Code check on file open');
     Options[4].PropertyName := 'DiagnosticsOnSave';
     Options[4].DisplayName := _('Code check on file save');
   end;

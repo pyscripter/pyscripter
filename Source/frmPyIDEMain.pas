@@ -641,14 +641,14 @@
 
    History:   v 5.3
           New Features
-            - Integration with Ruff a very fast linter and language server
+            - Code diagnostics using Ruff a very fast linter and language server
             - File Check, with issues shown in the editor
             - Fixable issues flagged in the gutter
             - Quick Fix or Ignore fixable found issues
+            - Fix all command
             - Refactoring support: Organize Imports, rename, extract variable,
               extract function, inline
             - Built-in code formatting
-            - Fix all and Organize import commands
             - Added auto-refreshing project folders that mirror physical folders (#521)
             - Scrollbar annotation for highlighted search term
           Issues addressed

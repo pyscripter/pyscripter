@@ -529,7 +529,7 @@ const
   SModuleImportCodeHint = '<b>Imported module <font color="$FF8844">%s</font></b>';
 
   SPythonFileTemplate =
-    '#-------------------------------------------------------------------------------' + sLineBreak +
+    '#---------------------------------------------------------------------------------------' + sLineBreak +
     '# Name:        $[ActiveDoc-Name]' + sLineBreak +
     '# Purpose:     ' + sLineBreak +
     '#' + sLineBreak +
@@ -538,7 +538,7 @@ const
     '# Created:     $[DateTime-''DD/MM/YYYY''-DateFormat]' + sLineBreak +
     '# Copyright:   (c) $[UserName] $[DateTime-''YYYY''-DateFormat]' + sLineBreak +
     '# Licence:     <your licence>' + sLineBreak +
-    '#-------------------------------------------------------------------------------' + sLineBreak +
+    '#---------------------------------------------------------------------------------------' + sLineBreak +
     '' + sLineBreak +
     'def main():' + sLineBreak +
     '    pass' + sLineBreak +

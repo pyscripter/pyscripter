@@ -1318,7 +1318,7 @@ begin
     Params.trace := 'verbose';
 
   var ConfigFile := TPath.Combine(TPyScripterSettings.UserDataPath,
-                                  'Lsp', 'ruff.toml');
+                                  'Lsp', 'Ruff', 'ruff.toml');
   ConfigFile := ConfigFile.Replace('\', '/', [rfReplaceAll]);
 
   Params.initializationOptions := Format(InitOptions, [ConfigFile]);
