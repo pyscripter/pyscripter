@@ -654,6 +654,11 @@
           Issues addressed
             #1407, #1409, #1411, #1418, #1419, #1436, #1438
 
+   History:   v 5.3.1
+          New Features
+            - Korean translation added
+          Issues addressed
+
  {------------------------------------------------------------------------------}
 
 // Bugs and minor features
