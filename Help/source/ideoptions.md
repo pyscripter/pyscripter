@@ -205,9 +205,15 @@ cursor on an error indicator you will see a hint explaining the
 problem. If this option is not checked, the file is checked only when
 you open or save it. 
 
+*Code check on file open*\
+Perform a code check when a file is opened.
+
+*Code check on file save*\
+Perform a code check when a file is saved.
+
 *Language server debug output*\
 If set, the language server produces debug output in the file
- %APPDATA%\PyScripter\LSPDebug.log for diagnostic purposes.
+ %APPDATA%\PyScripter\Lsp\LSPDebug.log for diagnostic purposes.
 
 *Special packages*\
 The code and parameter completion should be one of the best you can find
