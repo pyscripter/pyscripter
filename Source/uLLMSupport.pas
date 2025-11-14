@@ -172,11 +172,11 @@ const
   OpenaiChatSettings: TLLMSettings = (
     EndPoint: 'https://api.openai.com/v1/chat/completions';
     ApiKey: '';
-    Model: 'gpt-4.1-mini';
-    TimeOut: 20000;
+    Model: 'gpt-5-mini';
+    TimeOut: 40000;
     MaxTokens: 2000;
     Temperature: 1.0;
-    SystemPrompt: DefaultSystemPrompt);
+    SystemPrompt: DefaultSystemPrompt + ' Use Markup for ouptut.');
 
   OpenaiCompletionSettings: TLLMSettings = (
     EndPoint: 'https://api.openai.com/v1/completions';
@@ -655,7 +655,7 @@ begin
       begin
         JSON.AddPair('temperature', Settings.Temperature);
         // Newer OpenAI models do not support max_tokens
-        if Settings.Model.StartsWith('o') then
+        if Settings.EndPoint.Contains('openai') then
           JSON.AddPair('max_completion_tokens', Settings.MaxTokens)
         else
           JSON.AddPair('max_tokens', Settings.MaxTokens);
@@ -973,7 +973,7 @@ begin
       begin
         JSON.AddPair('temperature', Settings.Temperature);
         // Newer OpenAI models do not support max_tokens
-        if Settings.Model.StartsWith('o') then
+        if Settings.EndPoint.Contains('openai') then
           JSON.AddPair('max_completion_tokens', Settings.MaxTokens)
         else
           JSON.AddPair('max_tokens', Settings.MaxTokens);
