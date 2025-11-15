@@ -1335,6 +1335,7 @@ begin
     SYN_ATTR_KEYWORD: Result := FKeyAttri;
     SYN_ATTR_WHITESPACE:
       begin
+        // To allow background coloring of doc strings
         FTempSpaceAttri.Assign(FSpaceAttri);
         if (FRange = rsMultilineString) and (FMultiLineStringAttri.Background <> clNone) then
           FTempSpaceAttri.Background := FMultiLineStringAttri.Background
@@ -1343,7 +1344,15 @@ begin
         Result := FTempSpaceAttri;
       end;
     SYN_ATTR_SYMBOL: Result := FSymbolAttri;
-    SYN_ATTR_STRING: Result := FStringAttri;  // To allow background coloring of doc strings
+    SYN_ATTR_STRING:
+      begin
+        if (FRange = rsMultilineString) then
+          Result := FMultiLineStringAttri
+        else if (FRange = rsMultilineString2) then
+          Result := FDocStringAttri
+        else
+          Result := FStringAttri;
+      end;
     SYN_ATTR_IDENTIFIER: Result := FIdentifierAttri;
   else
     Result := nil;
