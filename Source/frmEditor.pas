@@ -506,25 +506,23 @@ end;
 
 procedure TEditor.Close;
 // Closes without asking
-var
-  TabSheet: TSpTBXTabSheet;
-  TabControl: TSpTBXCustomTabControl;
 begin
+  FSynLsp.FileClosed;
+  if FUntitledNumber <> -1 then
+    UntitledNumbers[FUntitledNumber] := False
+  else
+    GI_PyIDEServices.FilesMRUAdd(GetFileId);
+  // Unregister existing File Notification
+  if FFileName <> '' then
+    GI_FileSystemMonitor.RemoveFile(FFileName, FileChanged);
+
   if Assigned(Form) then
   begin
-    FSynLsp.FileClosed;
-    if FUntitledNumber <> -1 then
-      UntitledNumbers[FUntitledNumber] := False
-    else
-      GI_PyIDEServices.FilesMRUAdd(GetFileId);
-
     Form.DoAssignInterfacePointer(False);
     GI_EditorFactory.RemoveEditor(Self);
-    if GI_EditorFactory.Count = 0 then
-      PyIDEMainForm.UpdateCaption;
 
-    TabSheet := (Form.Parent as TSpTBXTabSheet);
-    TabControl := TabSheet.TabControl;
+    var TabSheet := (Form.Parent as TSpTBXTabSheet);
+    var TabControl := TabSheet.TabControl;
     TabControl.Toolbar.BeginUpdate;
     try
       (Form.ParentTabControl as TSpTBXTabControl).zOrder.Remove(TabSheet.Item);
@@ -532,12 +530,15 @@ begin
       // The form is owned by the tabshhet and it is also destroyed
       // The SynEdit plugin FSynLsp will also be destroyed
       TabSheet.Free;
-      if Assigned(TabControl) then
+      if not GI_PyIDEServices.IsClosing then
         TabControl.Toolbar.MakeVisible(TabControl.ActiveTab);
     finally
       TabControl.Toolbar.EndUpdate;
     end;
   end;
+
+  if GI_EditorFactory.Count = 0 then
+    PyIDEMainForm.UpdateCaption;
 end;
 
 class constructor TEditor.Create;
@@ -548,10 +549,6 @@ end;
 
 destructor TEditor.Destroy;
 begin
-  // Unregister existing File Notification
-  if FFileName <> '' then
-    GI_FileSystemMonitor.RemoveFile(FFileName, FileChanged);
-
   inherited;
 end;
 
@@ -1426,7 +1423,7 @@ begin
   FEditors.Lock;
   try
     for var I := 0 to FEditors.Count - 1 do
-      Proc(IEditor(FEditors[I]));
+      Proc(FEditors[I] as IEditor);
   finally
     FEditors.Unlock;
   end;
@@ -1439,7 +1436,7 @@ begin
     Result := nil;
     for var I := 0 to FEditors.Count - 1 do
     begin
-      var Editor := IEditor(FEditors[I]);
+      var Editor := FEditors[I] as IEditor;
       if Predicate(Editor) then
         Exit(Editor);
     end;
@@ -1494,7 +1491,7 @@ begin
     I := FEditors.Count - 1;
     while I >= 0 do
     begin
-      IEditor(FEditors[I]).Close;
+      (FEditors[I] as IEditor).Close;
       Dec(I);
     end;
   finally
@@ -1629,7 +1626,7 @@ end;
 
 function TEditorFactory.GetEditor(Index: Integer): IEditor;
 begin
-  Result := IEditor(FEditors[Index]);
+  Result := FEditors[Index] as IEditor;
 end;
 
 procedure TEditorFactory.RemoveEditor(AEditor: IEditor);
@@ -2094,14 +2091,11 @@ begin
     GI_FileCmds := FEditor;
     GI_SearchCmds := FEditor;
   end
-  else
+  else if GI_ActiveEditor = FEditor as IEditor then
   begin
-    if GI_ActiveEditor = IEditor(FEditor) then
-      GI_ActiveEditor := nil;
-    if GI_FileCmds = IFileCommands(FEditor) then
-      GI_FileCmds := nil;
-    if GI_SearchCmds = ISearchCommands(FEditor) then
-      GI_SearchCmds := nil;
+    GI_ActiveEditor := nil;
+    GI_FileCmds := nil;
+    GI_SearchCmds := nil;
   end;
 end;
 
