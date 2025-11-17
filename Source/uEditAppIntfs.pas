@@ -145,8 +145,6 @@ type
     procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
     procedure CreateRecoveryFiles;
     procedure RecoverFiles;
-    procedure LockList;
-    procedure UnlockList;
     procedure ApplyToEditors(const Proc: TProc<IEditor>);
     function FirstEditorCond(const Predicate: TPredicate<IEditor>): IEditor;
     //procedure GetRegisteredViewFactory(ViewName: string):IEditorViewFactory;

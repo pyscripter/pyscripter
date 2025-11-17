@@ -1348,8 +1348,8 @@ end;
 type
   TEditorFactory = class(TInterfacedObject, IEditorFactory)
   private
-    FEditors: TInterfaceList;
-    FEditorViewFactories: TInterfaceList;
+    FEditors: TList<IEditor>;
+    FEditorViewFactories: TList<IEditorViewFactory>;
     // IEditorFactory implementation
     function CanCloseAll: Boolean;
     procedure CloseAll;
@@ -1370,8 +1370,6 @@ type
     procedure UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
     procedure CreateRecoveryFiles;
     procedure RecoverFiles;
-    procedure LockList;
-    procedure UnlockList;
     procedure ApplyToEditors(const Proc: TProc<IEditor>);
     function FirstEditorCond(const Predicate: TPredicate<IEditor>): IEditor;
   public
@@ -1383,8 +1381,8 @@ type
 constructor TEditorFactory.Create;
 begin
   inherited Create;
-  FEditors := TInterfaceList.Create;
-  FEditorViewFactories := TInterfaceList.Create;
+  FEditors := TList<IEditor>.Create;
+  FEditorViewFactories := TList<IEditorViewFactory>.Create;
 end;
 
 procedure TEditorFactory.CreateRecoveryFiles;
@@ -1420,28 +1418,17 @@ end;
 
 procedure TEditorFactory.ApplyToEditors(const Proc: TProc<IEditor>);
 begin
-  FEditors.Lock;
-  try
-    for var I := 0 to FEditors.Count - 1 do
-      Proc(FEditors[I] as IEditor);
-  finally
-    FEditors.Unlock;
-  end;
+  for var Editor in FEditors do
+    Proc(Editor);
 end;
 
 function TEditorFactory.FirstEditorCond(const Predicate: TPredicate<IEditor>): IEditor;
 begin
-  FEditors.Lock;
-  try
-    Result := nil;
-    for var I := 0 to FEditors.Count - 1 do
-    begin
-      var Editor := FEditors[I] as IEditor;
-      if Predicate(Editor) then
-        Exit(Editor);
-    end;
-  finally
-    FEditors.Unlock;
+  Result := nil;
+  for var Editor in FEditors do
+  begin
+    if Predicate(Editor) then
+      Exit(Editor);
   end;
 end;
 
@@ -1483,19 +1470,12 @@ begin
 end;
 
 procedure TEditorFactory.CloseAll;
-var
-  I: Integer;
 begin
-  FEditors.Lock;
-  try
-    I := FEditors.Count - 1;
-    while I >= 0 do
-    begin
-      (FEditors[I] as IEditor).Close;
-      Dec(I);
-    end;
-  finally
-    FEditors.Unlock;
+  var I := FEditors.Count - 1;
+  while I >= 0 do
+  begin
+    FEditors[I].Close;
+    Dec(I);
   end;
 end;
 
@@ -1545,12 +1525,7 @@ end;
 
 function TEditorFactory.GetViewFactory(Index: Integer): IEditorViewFactory;
 begin
-  FEditorViewFactories.Lock;
-  try
-    Result := FEditorViewFactories[Index] as IEditorViewFactory;
-  finally
-    FEditorViewFactories.Unlock;
-  end;
+    Result := FEditorViewFactories[Index];
 end;
 
 function TEditorFactory.GetViewFactoryCount: Integer;
@@ -1592,11 +1567,6 @@ begin
   end;
 end;
 
-procedure TEditorFactory.LockList;
-begin
-  FEditors.Lock;
-end;
-
 function TEditorFactory.GetEditorByName(const Name: string): IEditor;
 var
   FullName: string;
@@ -1626,14 +1596,12 @@ end;
 
 function TEditorFactory.GetEditor(Index: Integer): IEditor;
 begin
-  Result := FEditors[Index] as IEditor;
+  Result := FEditors[Index];
 end;
 
 procedure TEditorFactory.RemoveEditor(AEditor: IEditor);
 begin
-  var Index := FEditors.IndexOf(AEditor);
-  if Index >= 0 then
-    FEditors.Delete(Index);
+  FEditors.Remove(AEditor);
 end;
 
 procedure TEditorFactory.RecoverFiles;
@@ -1681,7 +1649,7 @@ begin
   Index := (Sender as TSpTBXItem).Tag;
   if (Index >= 0) and (Index < FEditorViewFactories.Count) then
   begin
-    ViewFactory := FEditorViewFactories[Index] as IEditorViewFactory;
+    ViewFactory := FEditorViewFactories[Index];
     EditorView := Editor.ActivateView(ViewFactory);
     if Assigned(EditorView) then
       EditorView.UpdateView(Editor);
@@ -1759,32 +1727,22 @@ var
   ViewFactory: IEditorViewFactory;
 begin
   ViewsMenu.Clear;
-  FEditorViewFactories.Lock;
-  try
-    ViewsMenu.Enabled := FEditorViewFactories.Count > 0;
-    for var I := 0 to FEditorViewFactories.Count - 1 do
-    begin
-      ViewFactory := FEditorViewFactories[I] as IEditorViewFactory;
+  ViewsMenu.Enabled := FEditorViewFactories.Count > 0;
+  for var I := 0 to FEditorViewFactories.Count - 1 do
+  begin
+    ViewFactory := FEditorViewFactories[I];
 
-      // Add MenuItem
-      MenuItem := TSpTBXItem.Create(nil); // will be freed by the Parent Item
-      MenuItem.Hint := ViewFactory.Hint;
-      MenuItem.ImageIndex := ImgList.GetIndexByName(ViewFactory.ImageName);
-      MenuItem.Caption := ViewFactory.MenuCaption;
-      MenuItem.ShortCut := ViewFactory.ShortCut;
-      MenuItem.OnClick := OnEditorViewClick;
-      MenuItem.Tag := I;
+    // Add MenuItem
+    MenuItem := TSpTBXItem.Create(nil); // will be freed by the Parent Item
+    MenuItem.Hint := ViewFactory.Hint;
+    MenuItem.ImageIndex := ImgList.GetIndexByName(ViewFactory.ImageName);
+    MenuItem.Caption := ViewFactory.MenuCaption;
+    MenuItem.ShortCut := ViewFactory.ShortCut;
+    MenuItem.OnClick := OnEditorViewClick;
+    MenuItem.Tag := I;
 
-      ViewsMenu.Add(MenuItem);
-    end;
-  finally
-    FEditorViewFactories.Unlock;
+    ViewsMenu.Add(MenuItem);
   end;
-end;
-
-procedure TEditorFactory.UnlockList;
-begin
-  FEditors.Unlock;
 end;
 
 procedure TEditorFactory.UpdateEditorViewsMenu(ViewsMenu: TSpTBXItem);
@@ -1794,16 +1752,16 @@ var
   List: TList;
   Enabled: Boolean;
 begin
-  FEditorViewFactories.Lock;
+  Editor := GI_PyIDEServices.ActiveEditor;
+
   List := TList.Create;
   try
     for var I := 0 to FEditorViewFactories.Count - 1 do
     begin
-      Editor := GI_PyIDEServices.ActiveEditor;
       Enabled := Assigned(Editor);
       if Enabled then
       begin
-        ViewFactory := FEditorViewFactories[I] as IEditorViewFactory;
+        ViewFactory := FEditorViewFactories[I];
         ViewFactory.GetContextHighlighters(List);
         if List.Count > 0 then
         begin
@@ -1823,7 +1781,6 @@ begin
     end;
   finally
     List.Free;
-    FEditorViewFactories.Unlock;
   end;
 end;
 
