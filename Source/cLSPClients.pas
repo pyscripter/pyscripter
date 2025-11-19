@@ -1188,8 +1188,6 @@ end;
 {$REGION 'TJediClient'}
 
 function TJediClient.GetCommandLine: string;
-const
-  LspDebugFile = 'JediLspDebug.log';
 begin
   if not GI_PyControl.PythonLoaded then Exit;
 
