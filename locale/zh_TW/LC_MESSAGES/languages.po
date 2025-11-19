@@ -61,6 +61,10 @@ msgstr "にほんご"
 msgid "Taqbaylit"
 msgstr "Тақбайлит"
 
+#. Language of Korea
+msgid "Korean"
+msgstr ""
+
 #. Language of Poland, Europe
 msgid "Polish"
 msgstr "Polskie"
@@ -84,6 +88,10 @@ msgstr "Slovenský"
 #. Language of Spain
 msgid "Spanish"
 msgstr "Español"
+
+#. Language of Turkey
+msgid "Turkish"
+msgstr ""
 
 #. Language of Ukraine
 msgid "Ukrainian"
