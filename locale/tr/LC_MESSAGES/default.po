@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2025-04-30 01:06\n"
+"POT-Creation-Date: 2025-11-11 02:50\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2025\n"
 "Language-Team: Turkish (https://app.transifex.com/pyscripter/teams/116142/tr/)\n"
@@ -76,7 +76,7 @@ msgstr " Parametre için değer girin"
 #. FileTemplatesDialog..Panel..btnOK..Caption
 #. FindInFilesDialog..Panel1..btnOK..Caption
 #. FindResultsOptionsDialog..Panel1..btnOK..Caption
-#. ImportDirectoryForm..Panel1..Button1..Caption
+#. ImportDirectoryForm..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
 #. RemoteFileDialog..Panel2..OKButton..Caption
@@ -109,7 +109,7 @@ msgstr "&Tamam"
 #. FileTemplatesDialog..Panel..btnCancel..Caption
 #. FindInFilesDialog..Panel1..btnCancel..Caption
 #. FindResultsOptionsDialog..Panel1..btnCancel..Caption
-#. ImportDirectoryForm..Panel1..Button2..Caption
+#. ImportDirectoryForm..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
 #. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
@@ -737,8 +737,18 @@ msgstr "Dosya Maskeleri (örneğin *.py;*.pyw):"
 
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
-msgid "Recursive?"
-msgstr "Tekrarlı mı?"
+msgid "Recursive"
+msgstr ""
+
+#. ImportDirectoryForm..Panel1..cbAutoUpdate..Caption
+#: dlgImportDirectory.dfm
+msgid "Auto-update"
+msgstr ""
+
+#. ImportDirectoryForm..Panel1..cbPythonPath..Caption
+#: dlgImportDirectory.dfm
+msgid "Add to python path"
+msgstr ""
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -901,7 +911,8 @@ msgid "Show Help"
 msgstr "Yardımı Göster"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
-#: dlgPythonVersions.dfm
+#. CommandsDataModule..actlMain..actRefactorRename..Caption
+#: dlgPythonVersions.dfm dmCommands.dfm dmCommands.pas
 msgid "Rename"
 msgstr "Yeniden isimlendir"
 
@@ -2500,17 +2511,6 @@ msgstr "&Tümünü Seç"
 msgid "Select All|Selects the entire document"
 msgstr "Tümünü Seç|Tüm belgeyi seçer"
 
-#. CommandsDataModule..actlMain..actEditReadOnly..Caption
-#. Programmer's name for it: SReadOnly
-#: dmCommands.dfm StringResources.pas
-msgid "Read Only"
-msgstr "Sadece Okunur"
-
-#. CommandsDataModule..actlMain..actEditReadOnly..Hint
-#: dmCommands.dfm
-msgid "Enable/disable editing"
-msgstr "Düzenlemeyi etkinleştir/devre dışı bırak"
-
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
 msgid "&Find..."
@@ -2560,6 +2560,27 @@ msgstr "&Tümünü Kaydet"
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
 msgstr "Tümünü kaydet|Projeyi ve tüm açık dosyaları kaydet"
+
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
+#. Programmer's name for it: SRemoteFIleSave
+#: dmCommands.dfm StringResources.pas
+msgid "Save to Remote File"
+msgstr "Uzak Dosyaya Kaydet"
+
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
+#: dmCommands.dfm
+msgid "Save to remote file with SSH"
+msgstr "SSH ile uzak dosyaya kaydet"
+
+#. CommandsDataModule..actlMain..actFileReload..Caption
+#: dmCommands.dfm
+msgid "Re&load"
+msgstr "&Yeniden yükle"
+
+#. CommandsDataModule..actlMain..actFileReload..Hint
+#: dmCommands.dfm
+msgid "Reload|Reload active file"
+msgstr "Yeniden yükle|Aktif dosyayı yeniden yükle"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -2691,16 +2712,6 @@ msgstr "&Untabify"
 #: dmCommands.dfm
 msgid "Untabify|Convert tabs to spaces"
 msgstr "Untabify|Sekmeleri boşluklara dönüştür"
-
-#. CommandsDataModule..actlMain..actPythonPath..Caption
-#: dmCommands.dfm
-msgid "Python &Path..."
-msgstr "Python &Yolu..."
-
-#. CommandsDataModule..actlMain..actPythonPath..Hint
-#: dmCommands.dfm
-msgid "Python Path|View or edit the Python path"
-msgstr "Python Yolu | Python yolunu görüntüle veya düzenle"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
@@ -2870,6 +2881,27 @@ msgstr "Fonksiyonu Bul..."
 msgid "Find Function|Find function from function list"
 msgstr "Fonksiyonu Bul | Fonksiyon listesinden fonksiyonu bul"
 
+#. CommandsDataModule..actlMain..actEditCopyFileName..Caption
+#: dmCommands.dfm
+msgid "Copy File Name"
+msgstr "Dosya Adını Kopyala"
+
+#. CommandsDataModule..actlMain..actEditCopyFileName..Hint
+#: dmCommands.dfm
+msgid "Copy file name of active file to clipboard"
+msgstr "Etkin dosyanın dosya adını panoya kopyala"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Caption
+#. Programmer's name for it: SReadOnly
+#: dmCommands.dfm StringResources.pas
+msgid "Read Only"
+msgstr "Sadece Okunur"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Hint
+#: dmCommands.dfm
+msgid "Enable/disable editing"
+msgstr "Düzenlemeyi etkinleştir/devre dışı bırak"
+
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
 msgid "Line &Numbers"
@@ -2889,6 +2921,16 @@ msgstr "Özel &Karakterler"
 #: dmCommands.dfm
 msgid "Show/Hide special characters"
 msgstr "Özel karakterleri göster/gizle"
+
+#. CommandsDataModule..actlMain..actEditWordWrap..Caption
+#: dmCommands.dfm
+msgid "Word &Wrap"
+msgstr "Kelime &Kırpma"
+
+#. CommandsDataModule..actlMain..actEditWordWrap..Hint
+#: dmCommands.dfm
+msgid "Turn word wrap on/off (incompatible with code folding)"
+msgstr "Kelime kaydırmayı aç/kapat (kod katlama ile uyumlu değil)"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #: dmCommands.dfm
@@ -2956,16 +2998,6 @@ msgid "Check whether a newer version of PyScripter is available"
 msgstr ""
 "PyScripter'ın daha yeni bir sürümünün mevcut olup olmadığını kontrol edin"
 
-#. CommandsDataModule..actlMain..actUnitTestWizard..Caption
-#: dmCommands.dfm
-msgid "Unit Test &Wizard..."
-msgstr "Birim Testi ve Sihirbazı..."
-
-#. CommandsDataModule..actlMain..actUnitTestWizard..Hint
-#: dmCommands.dfm
-msgid "Unit test wizard|Create unit test for active module"
-msgstr "Birim test sihirbazı | Etkin modül için birim testi oluştur"
-
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Interpreter Editor Options..."
@@ -3021,16 +3053,6 @@ msgstr "UTF-16LE kodlamasını kullan"
 msgid "Use UTF-16BE encoding"
 msgstr "UTF-16BE kodlamasını kullan"
 
-#. CommandsDataModule..actlMain..actFileReload..Caption
-#: dmCommands.dfm
-msgid "Re&load"
-msgstr "&Yeniden yükle"
-
-#. CommandsDataModule..actlMain..actFileReload..Hint
-#: dmCommands.dfm
-msgid "Reload|Reload active file"
-msgstr "Yeniden yükle|Aktif dosyayı yeniden yükle"
-
 #. CommandsDataModule..actlMain..actImportShortcuts..Caption
 #. CommandsDataModule..actlMain..actImportShortcuts..Hint
 #. Programmer's name for it: SImportShortcuts
@@ -3082,16 +3104,6 @@ msgstr "&Arama Metnini Vurgula"
 msgid "Highlight the search text in the current editor"
 msgstr "Mevcut düzenleyicide arama metnini vurgula"
 
-#. CommandsDataModule..actlMain..actEditWordWrap..Caption
-#: dmCommands.dfm
-msgid "Word &Wrap"
-msgstr "Kelime &Kırpma"
-
-#. CommandsDataModule..actlMain..actEditWordWrap..Hint
-#: dmCommands.dfm
-msgid "Turn word wrap on/off (incompatible with code folding)"
-msgstr "Kelime kaydırmayı aç/kapat (kod katlama ile uyumlu değil)"
-
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Debugger Position"
@@ -3141,16 +3153,6 @@ msgstr "&Sağdaki Tümünü Kapat"
 #: dmCommands.dfm
 msgid "Close all files to the right"
 msgstr "Sağdaki tüm dosyaları kapat"
-
-#. CommandsDataModule..actlMain..actEditCopyFileName..Caption
-#: dmCommands.dfm
-msgid "Copy File Name"
-msgstr "Dosya Adını Kopyala"
-
-#. CommandsDataModule..actlMain..actEditCopyFileName..Hint
-#: dmCommands.dfm
-msgid "Copy file name of active file to clipboard"
-msgstr "Etkin dosyanın dosya adını panoya kopyala"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3301,17 +3303,6 @@ msgstr "Katlama fonksiyonları"
 msgid "Unfold functions"
 msgstr "Fonksiyonları aç"
 
-#. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
-#. Programmer's name for it: SRemoteFIleSave
-#: dmCommands.dfm StringResources.pas
-msgid "Save to Remote File"
-msgstr "Uzak Dosyaya Kaydet"
-
-#. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
-#: dmCommands.dfm
-msgid "Save to remote file with SSH"
-msgstr "SSH ile uzak dosyaya kaydet"
-
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
@@ -3331,6 +3322,26 @@ msgstr "&Dil Sunucusunu Yeniden Başlat"
 #: dmCommands.dfm
 msgid "Restart the Language Server"
 msgstr "Dil Sunucusunu Yeniden Başlatın"
+
+#. CommandsDataModule..actlMain..actPythonPath..Caption
+#: dmCommands.dfm
+msgid "Python &Path..."
+msgstr "Python &Yolu..."
+
+#. CommandsDataModule..actlMain..actPythonPath..Hint
+#: dmCommands.dfm
+msgid "Python Path|View or edit the Python path"
+msgstr "Python Yolu | Python yolunu görüntüle veya düzenle"
+
+#. CommandsDataModule..actlMain..actUnitTestWizard..Caption
+#: dmCommands.dfm
+msgid "Unit Test &Wizard..."
+msgstr "Birim Testi ve Sihirbazı..."
+
+#. CommandsDataModule..actlMain..actUnitTestWizard..Hint
+#: dmCommands.dfm
+msgid "Unit test wizard|Create unit test for active module"
+msgstr "Birim test sihirbazı | Etkin modül için birim testi oluştur"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
@@ -3382,7 +3393,7 @@ msgid "Ignore Once"
 msgstr "Bir Kez Yoksay"
 
 #. CommandsDataModule..actlMain..actSynSpellErrorIgnore..Caption
-#: dmCommands.dfm
+#: dmCommands.dfm SynEditLsp.pas
 msgid "Ignore"
 msgstr "Yoksay"
 
@@ -3451,6 +3462,590 @@ msgstr "&Bağış"
 #: dmCommands.dfm
 msgid "Donate to the PyScripter project"
 msgstr "PyScripter projesine bağış yapın"
+
+#. CommandsDataModule..actlMain..actFormatCode..Caption
+#: dmCommands.dfm
+msgid "Format"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actFormatCode....Hint
+#: dmCommands.dfm
+msgid "Format source code, either the selected text or the whole document."
+msgstr ""
+
+#. CommandsDataModule..actlMain..actCodeCheck..Caption
+#: dmCommands.dfm
+msgid "Check Code"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actCodeCheck..Hint
+#: dmCommands.dfm
+msgid "Perform a code check"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actClearIssues..Caption
+#: dmCommands.dfm
+msgid "Clear Issues"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actClearIssues..Hint
+#: dmCommands.dfm
+msgid "Clear code issues"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actNextIssue..Caption
+#: dmCommands.dfm
+msgid "Next Issue"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actNextIssue..Hint
+#: dmCommands.dfm
+msgid "Go to the next issue"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actPreviousIssue..Caption
+#: dmCommands.dfm
+msgid "Previous Issue"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actPreviousIssue..Hint
+#: dmCommands.dfm
+msgid "Go to the previous issue"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actFixAll..Caption
+#: dmCommands.dfm
+msgid "Fix All"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actFixAll..Hint
+#: dmCommands.dfm
+msgid "Apply all available fixes"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actOrganizeImports..Caption
+#: dmCommands.dfm
+msgid "Organize Imports"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actOrganizeImports..Hint
+#: dmCommands.dfm
+msgid "Organize import statements"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actRefactorRename..Hint
+#: dmCommands.dfm
+msgid "Rename the selected identifier "
+msgstr ""
+
+#. CommandsDataModule..actlMain..actShowRefactorMenu..Caption
+#: dmCommands.dfm
+msgid "Refactor"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actShowRefactorMenu..Hint
+#: dmCommands.dfm
+msgid "Show refactoring menu"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actFileExit..Caption
+#: dmCommands.dfm
+msgid "E&xit"
+msgstr "&Çıkış"
+
+#. CommandsDataModule..actlMain..actFileExit..Hint
+#: dmCommands.dfm
+msgid "Exit"
+msgstr "Çıkış"
+
+#. CommandsDataModule..actlMain..actProjectNew..Caption
+#: dmCommands.dfm
+msgid "&New Project"
+msgstr "&Yeni Proje"
+
+#. CommandsDataModule..actlMain..actProjectNew..Hint
+#: dmCommands.dfm
+msgid "Start a new project"
+msgstr "Yeni bir proje başlat"
+
+#. CommandsDataModule..actlMain..actProjectOpen..Caption
+#: dmCommands.dfm
+msgid "&Open Project..."
+msgstr "&Projeyi Aç..."
+
+#. CommandsDataModule..actlMain..actProjectOpen..Hint
+#: dmCommands.dfm
+msgid "Open a project file"
+msgstr "Bir proje dosyası açın"
+
+#. CommandsDataModule..actlMain..actProjectSave..Caption
+#: dmCommands.dfm
+msgid "&Save Project"
+msgstr "&Projeyi Kaydet"
+
+#. CommandsDataModule..actlMain..actProjectSave..Hint
+#: dmCommands.dfm
+msgid "Save the project"
+msgstr "Projeyi kaydet"
+
+#. CommandsDataModule..actlMain..actProjectSaveAs..Caption
+#: dmCommands.dfm
+msgid "Save Project &As..."
+msgstr "Projeyi &Farklı Kaydet..."
+
+#. CommandsDataModule..actlMain..actProjectSaveAs..Hint
+#: dmCommands.dfm
+msgid "Save project with under a different name"
+msgstr "Projeyi farklı bir adla kaydedin"
+
+#. CommandsDataModule..actlMain..actNavEditor..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "&Editor"
+msgstr "&Editör"
+
+#. CommandsDataModule..actlMain..actNavEditor..Hint
+#: dmCommands.dfm
+msgid "Activate the Editor"
+msgstr "Editörü Etkinleştir"
+
+#. CommandsDataModule..actlMain..actNavFindResults..Caption
+#: dmCommands.dfm
+msgid "Find &in Files Results"
+msgstr "&in Dosya Sonuçlarını Bul"
+
+#. CommandsDataModule..actlMain..actNavFindResults..Hint
+#: dmCommands.dfm
+msgid "Activate the Find in Files Results window"
+msgstr "Dosyalarda Bul Sonuçları penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavWatches..Caption
+#: dmCommands.dfm
+msgid "&Watches"
+msgstr "&İzlemeler"
+
+#. CommandsDataModule..actlMain..actNavWatches..Hint
+#: dmCommands.dfm
+msgid "Activate the Watches window"
+msgstr "İzleme penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavBreakpoints..Caption
+#: dmCommands.dfm
+msgid "&BreakPoints"
+msgstr "&Kesme Noktaları"
+
+#. CommandsDataModule..actlMain..actNavBreakpoints..Hint
+#: dmCommands.dfm
+msgid "Activate the Breakpoints window"
+msgstr "Kesme Noktaları penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavInterpreter..Caption
+#: dmCommands.dfm
+msgid "&Interpreter"
+msgstr "&Denetleyici"
+
+#. CommandsDataModule..actlMain..actNavInterpreter..Hint
+#: dmCommands.dfm
+msgid "Activate the Interpreter window"
+msgstr "Yorumlayıcı penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavVariables..Caption
+#: dmCommands.dfm
+msgid "&Variables"
+msgstr "&Değişkenler"
+
+#. CommandsDataModule..actlMain..actNavVariables..Hint
+#: dmCommands.dfm
+msgid "Activate the Variables window"
+msgstr "Değişkenler penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavCallStack..Caption
+#: dmCommands.dfm
+msgid "&Call Stack"
+msgstr "&Çağrı Yığını"
+
+#. CommandsDataModule..actlMain..actNavCallStack..Hint
+#: dmCommands.dfm
+msgid "Activate the Call Stack window"
+msgstr "Çağrı Yığını penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavMessages..Caption
+#: dmCommands.dfm
+msgid "&Messages "
+msgstr " &Mesajlar"
+
+#. CommandsDataModule..actlMain..actNavMessages..Hint
+#: dmCommands.dfm
+msgid "Activate the Messages window"
+msgstr "Mesajlar penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavFileExplorer..Caption
+#: dmCommands.dfm
+msgid "File E&xplorer"
+msgstr "Dosya &Gezgini"
+
+#. CommandsDataModule..actlMain..actNavFileExplorer..Hint
+#: dmCommands.dfm
+msgid "Activate the File Explorer window"
+msgstr "Dosya Gezgini penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavCodeExplorer..Caption
+#: dmCommands.dfm
+msgid "&Code Explorer"
+msgstr "&Kod Gezgini"
+
+#. CommandsDataModule..actlMain..actNavCodeExplorer..Hint
+#: dmCommands.dfm
+msgid "Activate the Code Explorer window"
+msgstr "Kod Gezgini penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavTodo..Caption
+#: dmCommands.dfm
+msgid "&Todo List"
+msgstr "&Yapılacaklar Listesi"
+
+#. CommandsDataModule..actlMain..actNavTodo..Hint
+#. CommandsDataModule..actlMain..actNavUnitTests..Hint
+#: dmCommands.dfm
+msgid "Activate the Todo List window"
+msgstr "Yapılacaklar Listesi penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavUnitTests..Caption
+#: dmCommands.dfm
+msgid "&Unit Tests"
+msgstr "&Birim Testleri"
+
+#. CommandsDataModule..actlMain..actNavOutput..Caption
+#: dmCommands.dfm
+msgid "Command &Output"
+msgstr "&Çıktı Komutu"
+
+#. CommandsDataModule..actlMain..actNavOutput..Hint
+#: dmCommands.dfm
+msgid "Activate the Command Output window"
+msgstr "Komut Çıktısı penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavProjectExplorer..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnNavProjectExplorer2..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "&Project Explorer"
+msgstr "&Proje Gezgini"
+
+#. CommandsDataModule..actlMain..actNavProjectExplorer..Hint
+#. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnNavProjectExplorer2..Hint
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Activate the Project Explorer window"
+msgstr "Proje Gezgini penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavRegExp..Caption
+#: dmCommands.dfm
+msgid "Regular Expression Tester"
+msgstr "Düzenli İfade Test Cihazı"
+
+#. CommandsDataModule..actlMain..actNavRegExp..Hint
+#: dmCommands.dfm
+msgid "Activate the Regular Expression Tester window"
+msgstr "Düzenli İfade Tester penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actNavChat..Caption
+#. LLMChatForm..Caption
+#: dmCommands.dfm frmLLMChat.dfm frmLLMChat.pas
+msgid "Chat"
+msgstr "Sohbet"
+
+#. CommandsDataModule..actlMain..actNavChat..Hint
+#: dmCommands.dfm
+msgid "Activate the Chat window"
+msgstr "Sohbet penceresini etkinleştirin"
+
+#. CommandsDataModule..actlMain..actRun..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..Caption
+#. UnitTestWindow..DialogActions..actRun..Caption
+#: dmCommands.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
+msgid "&Run"
+msgstr "&Çalıştır"
+
+#. CommandsDataModule..actlMain..actRun..Hint
+#: dmCommands.dfm
+msgid "Run|Run active module"
+msgstr "Çalıştır|Aktif modülü çalıştır"
+
+#. CommandsDataModule..actlMain..actDebug..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Caption
+#: dmCommands.dfm frmProjectExplorer.dfm
+msgid "&Debug"
+msgstr "&Hata Ayıklama"
+
+#. CommandsDataModule..actlMain..actDebug..Hint
+#. Programmer's name for it: SDebugHint
+#: dmCommands.dfm StringResources.pas
+msgid "Debug|Debug active script"
+msgstr "Hata Ayıklama|Aktif komut dosyasında hata ayıklayın"
+
+#. CommandsDataModule..actlMain..actRunToCursor..Caption
+#: dmCommands.dfm
+msgid "Run To &Cursor"
+msgstr "&İmlece kadar Çalıştır"
+
+#. CommandsDataModule..actlMain..actRunToCursor..Hint
+#: dmCommands.dfm
+msgid "Run to cursor"
+msgstr "İmlece koş"
+
+#. CommandsDataModule..actlMain..actStepInto..Caption
+#: dmCommands.dfm
+msgid "Step &Into"
+msgstr "&İçine Adımla"
+
+#. CommandsDataModule..actlMain..actStepInto..Hint
+#: dmCommands.dfm
+msgid "Step into subroutine "
+msgstr " Alt yordama adım at"
+
+#. CommandsDataModule..actlMain..actStepOver..Caption
+#: dmCommands.dfm
+msgid "Step &Over"
+msgstr "&Üzerinden Adımla"
+
+#. CommandsDataModule..actlMain..actStepOver..Hint
+#: dmCommands.dfm
+msgid "Step over next function call"
+msgstr "Bir sonraki fonksiyon çağrısına geç"
+
+#. CommandsDataModule..actlMain..actStepOut..Caption
+#: dmCommands.dfm
+msgid "Step O&ut"
+msgstr "&Dışarı Adımla"
+
+#. CommandsDataModule..actlMain..actStepOut..Hint
+#: dmCommands.dfm
+msgid "Step out of the current subroutine"
+msgstr "Mevcut alt rutinden çık"
+
+#. CommandsDataModule..actlMain..actDebugPause..Caption
+#: dmCommands.dfm
+msgid "&Pause"
+msgstr "&Duraklat"
+
+#. CommandsDataModule..actlMain..actDebugPause..Hint
+#: dmCommands.dfm
+msgid "Pause running program"
+msgstr "Çalışan programı duraklat"
+
+#. CommandsDataModule..actlMain..actDebugAbort..Caption
+#: dmCommands.dfm
+msgid "&Abort Debugging"
+msgstr "&Hata Ayıklamayı Durdur"
+
+#. CommandsDataModule..actlMain..actDebugAbort..Hint
+#: dmCommands.dfm
+msgid "Abort debugging"
+msgstr "Hata ayıklamayı iptal et"
+
+#. CommandsDataModule..actlMain..actExternalRun..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
+#: dmCommands.dfm frmProjectExplorer.dfm
+msgid "E&xternal Run"
+msgstr "&Harici Çalıştır"
+
+#. CommandsDataModule..actlMain..actExternalRun..Hint
+#: dmCommands.dfm
+msgid "External Run|Run active module in external Python interpreter"
+msgstr ""
+"Harici Çalıştırma|Harici Python yorumlayıcısında aktif modülü çalıştır"
+
+#. CommandsDataModule..actlMain..actExternalRunConfigure..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnConfigureExternalRun..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Configure &External Run..."
+msgstr "&Harici Çalıştırmayı Yapılandır..."
+
+#. CommandsDataModule..actlMain..actExternalRunConfigure..Hint
+#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnConfigureExternalRun..Hint
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Configure External Run"
+msgstr "Harici Çalıştırmayı Yapılandır"
+
+#. CommandsDataModule..actlMain..actRunLastScript..Caption
+#: dmCommands.dfm
+msgid "Run Last Script"
+msgstr "Son Komut Dosyasını Çalıştır"
+
+#. CommandsDataModule..actlMain..actRunLastScript..Hint
+#. Programmer's name for it: SHintRun
+#: dmCommands.dfm StringResources.pas
+msgid "Run last script"
+msgstr "Son betiği çalıştır"
+
+#. CommandsDataModule..actlMain..actDebugLastScript..Caption
+#: dmCommands.dfm
+msgid "Debug Last Script"
+msgstr "Son Komut Dosyasını Hata Ayıkla"
+
+#. CommandsDataModule..actlMain..actDebugLastScript..Hint
+#. Programmer's name for it: SHintDebug
+#: dmCommands.dfm StringResources.pas
+msgid "Debug last script"
+msgstr "Son betiği hata ayıkla"
+
+#. CommandsDataModule..actlMain..actExternalRunLastScript..Caption
+#: dmCommands.dfm
+msgid "Run Last Script Externally"
+msgstr "Son Komut Dosyasını Harici Olarak Çalıştır"
+
+#. CommandsDataModule..actlMain..actExternalRunLastScript..Hint
+#. Programmer's name for it: SHintExternalRun
+#: dmCommands.dfm StringResources.pas
+msgid "Run last script externally"
+msgstr "Son betiği harici olarak çalıştır"
+
+#. CommandsDataModule..actlMain..actImportModule..Caption
+#: dmCommands.dfm
+msgid "Import &Module"
+msgstr "&Modülü içe aktar"
+
+#. CommandsDataModule..actlMain..actImportModule..Hint
+#: dmCommands.dfm
+msgid "Import module"
+msgstr "Modülü içe aktar"
+
+#. CommandsDataModule..actlMain..actCommandLine..Caption
+#: dmCommands.dfm
+msgid "Command Line &Parameters..."
+msgstr "Komut Satırı &Parametreleri..."
+
+#. CommandsDataModule..actlMain..actCommandLine..Hint
+#: dmCommands.dfm
+msgid "Set command line parameters"
+msgstr "Komut satırı parametrelerini ayarlayın"
+
+#. CommandsDataModule..actlMain..actPythonInternal..Caption
+#: dmCommands.dfm
+msgid "&Internal"
+msgstr "&Dahili"
+
+#. CommandsDataModule..actlMain..actPythonInternal..Hint
+#: dmCommands.dfm
+msgid "Use internal Python Engine"
+msgstr "Dahili Python Motorunu kullanın"
+
+#. CommandsDataModule..actlMain..actPythonRemote..Caption
+#: dmCommands.dfm
+msgid "&Remote"
+msgstr "&Uzak"
+
+#. CommandsDataModule..actlMain..actPythonRemote..Hint
+#: dmCommands.dfm
+msgid "Use a remote Python engine"
+msgstr "Uzaktan bir Python motoru kullanın"
+
+#. CommandsDataModule..actlMain..actPythonRemoteTk..Caption
+#: dmCommands.dfm
+msgid "Remote (&Tk)"
+msgstr "Uzaktan (&Tk)"
+
+#. CommandsDataModule..actlMain..actPythonRemoteTk..Hint
+#: dmCommands.dfm
+msgid "Use a remote Python engine for Tkinter applications"
+msgstr "Tkinter uygulamaları için uzaktan Python motorunu kullanın"
+
+#. CommandsDataModule..actlMain..actPythonRemoteWx..Caption
+#: dmCommands.dfm
+msgid "Remote (&Wx)"
+msgstr "Uzaktan (&Wx)"
+
+#. CommandsDataModule..actlMain..actPythonRemoteWx..Hint
+#: dmCommands.dfm
+msgid "Use a remote Python engine for wxPython applications"
+msgstr "wxPython uygulamaları için uzaktan Python motoru kullanın"
+
+#. CommandsDataModule..actlMain..actPythonSSH..Caption
+#: dmCommands.dfm
+msgid "&SSH"
+msgstr "&SSH"
+
+#. CommandsDataModule..actlMain..actPythonSSH..Hint
+#: dmCommands.dfm
+msgid "Use an SSH remote Python engine"
+msgstr "SSH uzaktan Python motorunu kullanın"
+
+#. CommandsDataModule..actlMain..actPythonReinitialize..Caption
+#: dmCommands.dfm
+msgid "Reinitiali&ze Python engine"
+msgstr "Python motorunu yeniden başlat"
+
+#. CommandsDataModule..actlMain..actPythonFreeThreaded..Caption
+#: dmCommands.dfm
+msgid "Free-Threaded"
+msgstr "Serbest Konulu"
+
+#. CommandsDataModule..actlMain..actPythonFreeThreaded..Hint
+#: dmCommands.dfm
+msgid "Use the free-trheaded version of Python"
+msgstr "Python'un free-trheaded versiyonunu kullanın"
+
+#. CommandsDataModule..actlMain..actClearAllBreakpoints..Caption
+#: dmCommands.dfm
+msgid "Clear A&ll Breakpoints"
+msgstr "A&ll Kesme Noktalarını Temizle"
+
+#. CommandsDataModule..actlMain..actClearAllBreakpoints..Hint
+#: dmCommands.dfm
+msgid "Clear all breakpoints"
+msgstr "Tüm kesme noktalarını temizle"
+
+#. CommandsDataModule..actlMain..actToggleBreakPoint..Caption
+#: dmCommands.dfm
+msgid "Toggle &breakpoint"
+msgstr "&Kesme noktasını değiştir"
+
+#. CommandsDataModule..actlMain..actToggleBreakPoint..Hint
+#: dmCommands.dfm
+msgid "Toggle breakpoint"
+msgstr "Kesme noktasını değiştir"
+
+#. CommandsDataModule..actlMain..actAddWatchAtCursor..Caption
+#: dmCommands.dfm
+msgid "Add &Watch At Cursor"
+msgstr "İmleçte &İzle Ekle"
+
+#. CommandsDataModule..actlMain..actAddWatchAtCursor..Hint
+#: dmCommands.dfm
+msgid "Add the expression at the editor current position as a watch"
+msgstr "İfadeyi düzenleyicinin geçerli konumuna bir izleme olarak ekleyin"
+
+#. CommandsDataModule..actlMain..actPostMortem..Caption
+#: dmCommands.dfm
+msgid "&Post Mortem"
+msgstr "&Yapılandırılmış(Post Mortem)"
+
+#. CommandsDataModule..actlMain..actPostMortem..Hint
+#: dmCommands.dfm
+msgid "Enter post mortem analysis"
+msgstr " Yapılandırılmış (Post-Mortem) analizi girin"
+
+#. CommandsDataModule..actlMain..actExecSelection..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnExecSelection..Caption
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "E&xecute selection"
+msgstr "&Uygulama seçimi"
+
+#. CommandsDataModule..actlMain..actExecSelection..Hint
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnExecSelection..Hint
+#: dmCommands.dfm frmPyIDEMain.dfm
+msgid "Execute the editor selection"
+msgstr "Editör seçimini yürüt"
+
+#. CommandsDataModule..actlMain..actPythonSetup..Caption
+#: dmCommands.dfm
+msgid "Setup Python Versions..."
+msgstr "Python Sürümlerini Kurun..."
+
+#. CommandsDataModule..actlMain..actPythonSetup..Hint
+#: dmCommands.dfm
+msgid "Setup Python engine"
+msgstr "Python motorunu kurun"
 
 #. CommandsDataModule..pmSpelling..mnSpelling..Caption
 #. EditorForm..pmnuEditor..SpTBXSubmenuItem1..Caption
@@ -3779,12 +4374,14 @@ msgid "Clear output"
 msgstr "Çıktıyı temizle"
 
 #. OutputWindow..OutputActions..actToolTerminate..Caption
-#: frmCommandOutput.dfm
+#. PyIDEMainForm..RunningProcessesPopUpMenu..mnTerminate..Caption
+#: frmCommandOutput.dfm frmPyIDEMain.dfm
 msgid "&Terminate"
 msgstr "&Sonlandır"
 
 #. OutputWindow..OutputActions..actToolTerminate..Hint
-#: frmCommandOutput.dfm
+#. PyIDEMainForm..RunningProcessesPopUpMenu..mnTerminate..Hint
+#: frmCommandOutput.dfm frmPyIDEMain.dfm
 msgid "Terminate running tool (unsafe)"
 msgstr "Çalışan aracı sonlandır (güvenli değil)"
 
@@ -3900,6 +4497,21 @@ msgstr "Kesme noktasını etkinleştir/devre dışı bırak"
 #: frmEditor.dfm
 msgid "Clear breakpoint"
 msgstr "Kesme noktasını temizle"
+
+#. EditorForm..pmnuDiagnostics..mnFixIssue..Caption
+#: frmEditor.dfm
+msgid "Quick Fix Issue"
+msgstr ""
+
+#. EditorForm..pmnuDiagnostics..mnIgnoreIssue..Caption
+#: frmEditor.dfm
+msgid "Ignore Issue"
+msgstr ""
+
+#. EditorForm..pmnuDiagnostics..mnIgnoreIssue..Hint
+#: frmEditor.dfm
+msgid "Flag the issue as ignored"
+msgstr ""
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4282,12 +4894,6 @@ msgstr "&Git"
 msgid "Goto implementation"
 msgstr "Uygulamaya git"
 
-#. LLMChatForm..Caption
-#. PyIDEMainForm..actlStandard..actNavChat..Caption
-#: frmLLMChat.dfm frmPyIDEMain.dfm frmLLMChat.pas
-msgid "Chat"
-msgstr "Sohbet"
-
 #. LLMChatForm..ChatActionList..actChatSave..Caption
 #: frmLLMChat.dfm
 msgid "Save chat"
@@ -4431,46 +5037,6 @@ msgstr "Proje Gezgini"
 msgid "Project Explorer Toolbar"
 msgstr "Proje Gezgini Araç Çubuğu"
 
-#. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
-#: frmProjectExplorer.dfm
-msgid "&New Project"
-msgstr "&Yeni Proje"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
-#: frmProjectExplorer.dfm
-msgid "Start a new project"
-msgstr "Yeni bir proje başlat"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
-#: frmProjectExplorer.dfm
-msgid "&Open Project..."
-msgstr "&Projeyi Aç..."
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
-#: frmProjectExplorer.dfm
-msgid "Open a project file"
-msgstr "Bir proje dosyası açın"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
-#: frmProjectExplorer.dfm
-msgid "&Save Project"
-msgstr "&Projeyi Kaydet"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSave..Hint
-#: frmProjectExplorer.dfm
-msgid "Save the project"
-msgstr "Projeyi kaydet"
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Caption
-#: frmProjectExplorer.dfm
-msgid "Save Project &As..."
-msgstr "Projeyi &Farklı Kaydet..."
-
-#. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Hint
-#: frmProjectExplorer.dfm
-msgid "Save project with under a different name"
-msgstr "Projeyi farklı bir adla kaydedin"
-
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
 msgid "Store &Relative Paths"
@@ -4592,35 +5158,15 @@ msgstr "Çalıştırma yapılandırmasını düzenle"
 msgid "Show file properties"
 msgstr "Dosya özelliklerini göster"
 
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..Caption
-#. PyIDEMainForm..actlStandard..actRun..Caption
-#. UnitTestWindow..DialogActions..actRun..Caption
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
-msgid "&Run"
-msgstr "&Çalıştır"
-
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run the selected configuration"
 msgstr "Seçili yapılandırmayı çalıştır"
 
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
-#. PyIDEMainForm..actlStandard..actExternalRun..Caption
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "E&xternal Run"
-msgstr "&Harici Çalıştır"
-
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Hint
 #: frmProjectExplorer.dfm
 msgid "Run configuration using an external Python interpreter"
 msgstr "Yapılandırmayı harici bir Python yorumlayıcısı kullanarak çalıştırın"
-
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Caption
-#. PyIDEMainForm..actlStandard..actDebug..Caption
-#: frmProjectExplorer.dfm frmPyIDEMain.dfm
-msgid "&Debug"
-msgstr "&Hata Ayıklama"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Hint
 #: frmProjectExplorer.dfm
@@ -4644,7 +5190,7 @@ msgid "Python version"
 msgstr "Python sürümü"
 
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
-#: frmPyIDEMain.dfm dmCommands.pas
+#: frmPyIDEMain.dfm
 msgid "Python engine type"
 msgstr "Python motor türü"
 
@@ -4702,6 +5248,11 @@ msgstr "&Son Dosyalar"
 msgid "&Source Code"
 msgstr "&Kaynak Kodu"
 
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnCheckCode..Caption
+#: frmPyIDEMain.dfm
+msgid "Check"
+msgstr ""
+
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: frmPyIDEMain.dfm dmResources.pas
 msgid "Parameters"
@@ -4731,12 +5282,6 @@ msgstr "IDE ve Windows"
 #: frmPyIDEMain.dfm
 msgid "&Debug Windows"
 msgstr "&Windows Hata Ayıklama"
-
-#. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..Caption
-#. PyIDEMainForm..actlStandard..actNavEditor..Caption
-#: frmPyIDEMain.dfm
-msgid "&Editor"
-msgstr "&Editör"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..sbmnViewEditor..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -5027,43 +5572,6 @@ msgstr "Ana &Menü"
 msgid "View/Hide main menu"
 msgstr "Ana menüyü görüntüle/gizle"
 
-#. PyIDEMainForm..actlStandard..actSyntaxCheck..Caption
-#: frmPyIDEMain.dfm
-msgid "&Syntax Check"
-msgstr "&Sözdizimi Denetimi"
-
-#. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
-#: frmPyIDEMain.dfm
-msgid "Syntax Check|Perform syntax check and load scripts"
-msgstr ""
-"Sözdizimi Denetimi | Sözdizimi denetimi gerçekleştirin ve komut dosyalarını "
-"yükleyin"
-
-#. PyIDEMainForm..actlStandard..actRun..Hint
-#: frmPyIDEMain.dfm
-msgid "Run|Run active module"
-msgstr "Çalıştır|Aktif modülü çalıştır"
-
-#. PyIDEMainForm..actlStandard..actCommandLine..Caption
-#: frmPyIDEMain.dfm
-msgid "Command Line &Parameters..."
-msgstr "Komut Satırı &Parametreleri..."
-
-#. PyIDEMainForm..actlStandard..actCommandLine..Hint
-#: frmPyIDEMain.dfm
-msgid "Set command line parameters"
-msgstr "Komut satırı parametrelerini ayarlayın"
-
-#. PyIDEMainForm..actlStandard..actImportModule..Caption
-#: frmPyIDEMain.dfm
-msgid "Import &Module"
-msgstr "&Modülü içe aktar"
-
-#. PyIDEMainForm..actlStandard..actImportModule..Hint
-#: frmPyIDEMain.dfm
-msgid "Import module"
-msgstr "Modülü içe aktar"
-
 #. PyIDEMainForm..actlStandard..actFileNewModule..Caption
 #: frmPyIDEMain.dfm
 msgid "&New Python module"
@@ -5094,16 +5602,6 @@ msgstr "&Tümünü Kapat"
 msgid "Close all files"
 msgstr "Tüm dosyaları kapat"
 
-#. PyIDEMainForm..actlStandard..actFileExit..Caption
-#: frmPyIDEMain.dfm
-msgid "E&xit"
-msgstr "&Çıkış"
-
-#. PyIDEMainForm..actlStandard..actFileExit..Hint
-#: frmPyIDEMain.dfm
-msgid "Exit"
-msgstr "Çıkış"
-
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Status &Bar"
@@ -5114,39 +5612,6 @@ msgstr "Durum &Çubuğu"
 msgid "View/Hide status bar"
 msgstr "Durum çubuğunu görüntüle/gizle"
 
-#. PyIDEMainForm..actlStandard..actExternalRun..Hint
-#: frmPyIDEMain.dfm
-msgid "External Run|Run active module in external Python interpreter"
-msgstr ""
-"Harici Çalıştırma|Harici Python yorumlayıcısında aktif modülü çalıştır"
-
-#. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
-#: frmPyIDEMain.dfm
-msgid "Configure &External Run..."
-msgstr "&Harici Çalıştırmayı Yapılandır..."
-
-#. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
-#: frmPyIDEMain.dfm
-msgid "Configure External Run"
-msgstr "Harici Çalıştırmayı Yapılandır"
-
-#. PyIDEMainForm..actlStandard..actRunDebugLastScript..Caption
-#: frmPyIDEMain.dfm
-msgid "Debug Last Script"
-msgstr "Son Komut Dosyasını Hata Ayıkla"
-
-#. PyIDEMainForm..actlStandard..actRunDebugLastScript..Hint
-#. Programmer's name for it: SHintDebug
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Debug last script"
-msgstr "Son betiği hata ayıkla"
-
-#. PyIDEMainForm..actlStandard..actDebug..Hint
-#. Programmer's name for it: SDebugHint
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Debug|Debug active script"
-msgstr "Hata Ayıklama|Aktif komut dosyasında hata ayıklayın"
-
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Restore Editor"
@@ -5156,118 +5621,6 @@ msgstr "&Editörü Geri Yükle"
 #: frmPyIDEMain.dfm
 msgid "Restore editor window"
 msgstr "Düzenleyici penceresini geri yükle"
-
-#. PyIDEMainForm..actlStandard..actRunToCursor..Caption
-#: frmPyIDEMain.dfm
-msgid "Run To &Cursor"
-msgstr "&İmlece kadar Çalıştır"
-
-#. PyIDEMainForm..actlStandard..actRunToCursor..Hint
-#: frmPyIDEMain.dfm
-msgid "Run to cursor"
-msgstr "İmlece koş"
-
-#. PyIDEMainForm..actlStandard..actStepInto..Caption
-#: frmPyIDEMain.dfm
-msgid "Step &Into"
-msgstr "&İçine Adımla"
-
-#. PyIDEMainForm..actlStandard..actStepInto..Hint
-#: frmPyIDEMain.dfm
-msgid "Step into subroutine "
-msgstr " Alt yordama adım at"
-
-#. PyIDEMainForm..actlStandard..actStepOver..Caption
-#: frmPyIDEMain.dfm
-msgid "Step &Over"
-msgstr "&Üzerinden Adımla"
-
-#. PyIDEMainForm..actlStandard..actStepOver..Hint
-#: frmPyIDEMain.dfm
-msgid "Step over next function call"
-msgstr "Bir sonraki fonksiyon çağrısına geç"
-
-#. PyIDEMainForm..actlStandard..actStepOut..Caption
-#: frmPyIDEMain.dfm
-msgid "Step O&ut"
-msgstr "&Dışarı Adımla"
-
-#. PyIDEMainForm..actlStandard..actStepOut..Hint
-#: frmPyIDEMain.dfm
-msgid "Step out of the current subroutine"
-msgstr "Mevcut alt rutinden çık"
-
-#. PyIDEMainForm..actlStandard..actDebugPause..Caption
-#: frmPyIDEMain.dfm
-msgid "&Pause"
-msgstr "&Duraklat"
-
-#. PyIDEMainForm..actlStandard..actDebugPause..Hint
-#: frmPyIDEMain.dfm
-msgid "Pause running program"
-msgstr "Çalışan programı duraklat"
-
-#. PyIDEMainForm..actlStandard..actDebugAbort..Caption
-#: frmPyIDEMain.dfm
-msgid "&Abort Debugging"
-msgstr "&Hata Ayıklamayı Durdur"
-
-#. PyIDEMainForm..actlStandard..actDebugAbort..Hint
-#: frmPyIDEMain.dfm
-msgid "Abort debugging"
-msgstr "Hata ayıklamayı iptal et"
-
-#. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Caption
-#: frmPyIDEMain.dfm
-msgid "Run Last Script Externally"
-msgstr "Son Komut Dosyasını Harici Olarak Çalıştır"
-
-#. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Hint
-#. Programmer's name for it: SHintExternalRun
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Run last script externally"
-msgstr "Son betiği harici olarak çalıştır"
-
-#. PyIDEMainForm..actlStandard..actRunLastScript..Caption
-#: frmPyIDEMain.dfm
-msgid "Run Last Script"
-msgstr "Son Komut Dosyasını Çalıştır"
-
-#. PyIDEMainForm..actlStandard..actRunLastScript..Hint
-#. Programmer's name for it: SHintRun
-#: frmPyIDEMain.dfm StringResources.pas
-msgid "Run last script"
-msgstr "Son betiği çalıştır"
-
-#. PyIDEMainForm..actlStandard..actToggleBreakPoint..Caption
-#: frmPyIDEMain.dfm
-msgid "Toggle &breakpoint"
-msgstr "&Kesme noktasını değiştir"
-
-#. PyIDEMainForm..actlStandard..actToggleBreakPoint..Hint
-#: frmPyIDEMain.dfm
-msgid "Toggle breakpoint"
-msgstr "Kesme noktasını değiştir"
-
-#. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
-#: frmPyIDEMain.dfm
-msgid "Clear A&ll Breakpoints"
-msgstr "A&ll Kesme Noktalarını Temizle"
-
-#. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
-#: frmPyIDEMain.dfm
-msgid "Clear all breakpoints"
-msgstr "Tüm kesme noktalarını temizle"
-
-#. PyIDEMainForm..actlStandard..actNavFindResults..Caption
-#: frmPyIDEMain.dfm
-msgid "Find &in Files Results"
-msgstr "&in Dosya Sonuçlarını Bul"
-
-#. PyIDEMainForm..actlStandard..actNavFindResults..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Find in Files Results window"
-msgstr "Dosyalarda Bul Sonuçları penceresini etkinleştirin"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
@@ -5319,26 +5672,6 @@ msgstr "&Editörü En Büyüt"
 msgid "Maximize editor window"
 msgstr "Editör penceresini büyüt"
 
-#. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
-#: frmPyIDEMain.dfm
-msgid "Zoom &In"
-msgstr "&Yakınlaştır"
-
-#. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
-#: frmPyIDEMain.dfm
-msgid "Increase the font size of the editor"
-msgstr "Editörün yazı tipi boyutunu artırın"
-
-#. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
-#: frmPyIDEMain.dfm
-msgid "Zoom &Out"
-msgstr "&Uzaklaştır"
-
-#. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
-#: frmPyIDEMain.dfm
-msgid "Decrease the font size of the editor"
-msgstr "Editörün yazı tipi boyutunu küçült"
-
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor Vertically"
@@ -5349,61 +5682,6 @@ msgstr "Düzenleyiciyi Dikey Olarak Böl"
 msgid "Split the editor Windows vertically"
 msgstr "Editör Pencerelerini dikey olarak böl"
 
-#. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
-#: frmPyIDEMain.dfm
-msgid "Add &Watch At Cursor"
-msgstr "İmleçte &İzle Ekle"
-
-#. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
-#: frmPyIDEMain.dfm
-msgid "Add the expression at the editor current position as a watch"
-msgstr "İfadeyi düzenleyicinin geçerli konumuna bir izleme olarak ekleyin"
-
-#. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
-#: frmPyIDEMain.dfm
-msgid "Reinitiali&ze Python engine"
-msgstr "Python motorunu yeniden başlat"
-
-#. PyIDEMainForm..actlStandard..actPythonInternal..Caption
-#: frmPyIDEMain.dfm
-msgid "&Internal"
-msgstr "&Dahili"
-
-#. PyIDEMainForm..actlStandard..actPythonInternal..Hint
-#: frmPyIDEMain.dfm
-msgid "Use internal Python Engine"
-msgstr "Dahili Python Motorunu kullanın"
-
-#. PyIDEMainForm..actlStandard..actPythonRemote..Caption
-#: frmPyIDEMain.dfm
-msgid "&Remote"
-msgstr "&Uzak"
-
-#. PyIDEMainForm..actlStandard..actPythonRemote..Hint
-#: frmPyIDEMain.dfm
-msgid "Use a remote Python engine"
-msgstr "Uzaktan bir Python motoru kullanın"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteTk..Caption
-#: frmPyIDEMain.dfm
-msgid "Remote (&Tk)"
-msgstr "Uzaktan (&Tk)"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteTk..Hint
-#: frmPyIDEMain.dfm
-msgid "Use a remote Python engine for Tkinter applications"
-msgstr "Tkinter uygulamaları için uzaktan Python motorunu kullanın"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteWx..Caption
-#: frmPyIDEMain.dfm
-msgid "Remote (&Wx)"
-msgstr "Uzaktan (&Wx)"
-
-#. PyIDEMainForm..actlStandard..actPythonRemoteWx..Hint
-#: frmPyIDEMain.dfm
-msgid "Use a remote Python engine for wxPython applications"
-msgstr "wxPython uygulamaları için uzaktan Python motoru kullanın"
-
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
 msgid "New File..."
@@ -5413,137 +5691,6 @@ msgstr "Yeni Dosya..."
 #: frmPyIDEMain.dfm
 msgid "New file from template"
 msgstr "Şablondan yeni dosya"
-
-#. PyIDEMainForm..actlStandard..actNavWatches..Caption
-#: frmPyIDEMain.dfm
-msgid "&Watches"
-msgstr "&İzlemeler"
-
-#. PyIDEMainForm..actlStandard..actNavWatches..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Watches window"
-msgstr "İzleme penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavBreakpoints..Caption
-#: frmPyIDEMain.dfm
-msgid "&BreakPoints"
-msgstr "&Kesme Noktaları"
-
-#. PyIDEMainForm..actlStandard..actNavBreakpoints..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Breakpoints window"
-msgstr "Kesme Noktaları penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavInterpreter..Caption
-#: frmPyIDEMain.dfm
-msgid "&Interpreter"
-msgstr "&Denetleyici"
-
-#. PyIDEMainForm..actlStandard..actNavInterpreter..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Interpreter window"
-msgstr "Yorumlayıcı penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavVariables..Caption
-#: frmPyIDEMain.dfm
-msgid "&Variables"
-msgstr "&Değişkenler"
-
-#. PyIDEMainForm..actlStandard..actNavVariables..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Variables window"
-msgstr "Değişkenler penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavCallStack..Caption
-#: frmPyIDEMain.dfm
-msgid "&Call Stack"
-msgstr "&Çağrı Yığını"
-
-#. PyIDEMainForm..actlStandard..actNavCallStack..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Call Stack window"
-msgstr "Çağrı Yığını penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavMessages..Caption
-#: frmPyIDEMain.dfm
-msgid "&Messages "
-msgstr " &Mesajlar"
-
-#. PyIDEMainForm..actlStandard..actNavMessages..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Messages window"
-msgstr "Mesajlar penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavFileExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "File E&xplorer"
-msgstr "Dosya &Gezgini"
-
-#. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the File Explorer window"
-msgstr "Dosya Gezgini penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "&Code Explorer"
-msgstr "&Kod Gezgini"
-
-#. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Code Explorer window"
-msgstr "Kod Gezgini penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavTodo..Caption
-#: frmPyIDEMain.dfm
-msgid "&Todo List"
-msgstr "&Yapılacaklar Listesi"
-
-#. PyIDEMainForm..actlStandard..actNavTodo..Hint
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Todo List window"
-msgstr "Yapılacaklar Listesi penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
-#: frmPyIDEMain.dfm
-msgid "&Unit Tests"
-msgstr "&Birim Testleri"
-
-#. PyIDEMainForm..actlStandard..actNavOutput..Caption
-#: frmPyIDEMain.dfm
-msgid "Command &Output"
-msgstr "&Çıktı Komutu"
-
-#. PyIDEMainForm..actlStandard..actNavOutput..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Command Output window"
-msgstr "Komut Çıktısı penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavEditor..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Editor"
-msgstr "Editörü Etkinleştir"
-
-#. PyIDEMainForm..actlStandard..actPythonSSH..Caption
-#: frmPyIDEMain.dfm
-msgid "&SSH"
-msgstr "&SSH"
-
-#. PyIDEMainForm..actlStandard..actPythonSSH..Hint
-#: frmPyIDEMain.dfm
-msgid "Use an SSH remote Python engine"
-msgstr "SSH uzaktan Python motorunu kullanın"
-
-#. PyIDEMainForm..actlStandard..actExecSelection..Caption
-#: frmPyIDEMain.dfm
-msgid "E&xecute selection"
-msgstr "&Uygulama seçimi"
-
-#. PyIDEMainForm..actlStandard..actExecSelection..Hint
-#: frmPyIDEMain.dfm
-msgid "Execute the editor selection"
-msgstr "Editör seçimini yürüt"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Caption
 #: frmPyIDEMain.dfm
@@ -5565,16 +5712,6 @@ msgstr "İkinci Editörü Gizle"
 msgid "Clear the editor"
 msgstr "Editörü temizle"
 
-#. PyIDEMainForm..actlStandard..actPostMortem..Caption
-#: frmPyIDEMain.dfm
-msgid "&Post Mortem"
-msgstr "&Yapılandırılmış(Post Mortem)"
-
-#. PyIDEMainForm..actlStandard..actPostMortem..Hint
-#: frmPyIDEMain.dfm
-msgid "Enter post mortem analysis"
-msgstr " Yapılandırılmış (Post-Mortem) analizi girin"
-
 #. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Caption
 #: frmPyIDEMain.dfm
 msgid "Customize..."
@@ -5584,16 +5721,6 @@ msgstr "Özelleştirmek..."
 #: frmPyIDEMain.dfm
 msgid "Customize the toolbars"
 msgstr "Araç çubuklarını özelleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
-#: frmPyIDEMain.dfm
-msgid "&Project Explorer"
-msgstr "&Proje Gezgini"
-
-#. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Project Explorer window"
-msgstr "Proje Gezgini penceresini etkinleştirin"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -5636,15 +5763,25 @@ msgstr "İkincil çalışma alanını gizle"
 msgid "Styles..."
 msgstr "Stiller..."
 
-#. PyIDEMainForm..actlStandard..actPythonSetup..Caption
+#. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
-msgid "Setup Python Versions..."
-msgstr "Python Sürümlerini Kurun..."
+msgid "Zoom &In"
+msgstr "&Yakınlaştır"
 
-#. PyIDEMainForm..actlStandard..actPythonSetup..Hint
+#. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
 #: frmPyIDEMain.dfm
-msgid "Setup Python engine"
-msgstr "Python motorunu kurun"
+msgid "Increase the font size of the editor"
+msgstr "Editörün yazı tipi boyutunu artırın"
+
+#. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
+#: frmPyIDEMain.dfm
+msgid "Zoom &Out"
+msgstr "&Uzaklaştır"
+
+#. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
+#: frmPyIDEMain.dfm
+msgid "Decrease the font size of the editor"
+msgstr "Editörün yazı tipi boyutunu küçült"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
 #. SSH File and Remote engine
@@ -5667,31 +5804,6 @@ msgstr "&Yakınlaştırmayı Sıfırla"
 #: frmPyIDEMain.dfm
 msgid "Reset the font size of the editor to its default"
 msgstr "Editörün yazı tipi boyutunu varsayılanına sıfırla"
-
-#. PyIDEMainForm..actlStandard..actNavRegExp..Caption
-#: frmPyIDEMain.dfm
-msgid "Regular Expression Tester"
-msgstr "Düzenli İfade Test Cihazı"
-
-#. PyIDEMainForm..actlStandard..actNavRegExp..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Regular Expression Tester window"
-msgstr "Düzenli İfade Tester penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actNavChat..Hint
-#: frmPyIDEMain.dfm
-msgid "Activate the Chat window"
-msgstr "Sohbet penceresini etkinleştirin"
-
-#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Caption
-#: frmPyIDEMain.dfm
-msgid "Free-Threaded"
-msgstr "Serbest Konulu"
-
-#. PyIDEMainForm..actlStandard..actPythonFreeThreaded..Hint
-#: frmPyIDEMain.dfm
-msgid "Use the free-trheaded version of Python"
-msgstr "Python'un free-trheaded versiyonunu kullanın"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -6081,6 +6193,22 @@ msgstr "Web Önizlemesi"
 msgid "No editor is currently active"
 msgstr "Şu anda aktif bir editör yok"
 
+#: cLSPClients.pas
+msgid "Confirm Rename"
+msgstr ""
+
+#: cLSPClients.pas
+msgid "Inline"
+msgstr ""
+
+#: cLSPClients.pas
+msgid "Extract function"
+msgstr ""
+
+#: cLSPClients.pas
+msgid "Extract variable"
+msgstr ""
+
 #. Programmer's name for it: SNonameFileTitle
 #: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
 msgid "Untitled"
@@ -6226,14 +6354,6 @@ msgstr "Gelişmiş Değiştirme"
 #: cTools.pas
 msgid "Advanced Search and replace"
 msgstr "Gelişmiş Arama ve değiştirme"
-
-#: cTools.pas
-msgid "Format Selection"
-msgstr "Biçim Seçimi"
-
-#: cTools.pas
-msgid "Format selected code using the \"black\" module"
-msgstr "\"Siyah\" modülünü kullanarak seçili kodu biçimlendirin"
 
 #: cTools.pas
 msgid "Sort Selection"
@@ -6780,6 +6900,14 @@ msgid "Special packages"
 msgstr "Özel paketler"
 
 #: dmCommands.pas
+msgid "Code check on file open"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Code check on file save"
+msgstr ""
+
+#: dmCommands.pas
 msgid "Dictionary language code"
 msgstr "Sözlük dil kodu"
 
@@ -6838,6 +6966,18 @@ msgstr "Kaydedilen ve değiştirilen renk"
 #: dmCommands.pas
 msgid "Configure Tools"
 msgstr "Araçları Yapılandır"
+
+#: dmCommands.pas
+msgid "Cannot perform rename"
+msgstr ""
+
+#: dmCommands.pas
+msgid "New name"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Debug"
+msgstr "Hata ayıklama"
 
 #: dmCommands.pas
 msgid "Downloading..."
@@ -6969,10 +7109,6 @@ msgstr ""
 #, object-pascal-format
 msgid "PyScripter project files (*.%s)|*.%0:s"
 msgstr "PyScripter proje dosyaları (*.%s)|*.%0:s"
-
-#: frmPyIDEMain.pas
-msgid "Debug"
-msgstr "Hata ayıklama"
 
 #: frmPyIDEMain.pas
 msgid "Running"
@@ -7225,7 +7361,7 @@ msgstr "Sembol"
 
 #. Programmer's name for it: SyntaxElementFriendlyName_SyntaxError
 #. Programmer's name for it: SSyntaxError
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Syntax Error"
 msgstr "Sözdizimi Hatası"
 
@@ -7846,17 +7982,17 @@ msgid "(None)"
 msgstr "(Hiçbiri)"
 
 #. Programmer's name for it: SDlgWarning
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Warning"
 msgstr "Uyarı"
 
 #. Programmer's name for it: SDlgError
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Error"
 msgstr "Hata"
 
 #. Programmer's name for it: SDlgInformation
-#: StringResources.pas
+#: StringResources.pas SynEditLsp.pas
 msgid "Information"
 msgstr "Bilgi"
 
@@ -9152,6 +9288,27 @@ msgstr "Yeniden düzenleme"
 #: StringResources.pas
 msgid "Interpreter"
 msgstr "Yorumlayıcı"
+
+#: SynEditLsp.pas
+msgid "Quick Fix"
+msgstr ""
+
+#: SynEditLsp.pas
+msgid "Hint"
+msgstr ""
+
+#: SynEditLsp.pas
+msgid "Code Check"
+msgstr ""
+
+#: SynEditLsp.pas
+msgid "No issues found"
+msgstr ""
+
+#: SynEditLsp.pas
+#, object-pascal-format
+msgid "File Check: Errors: %d, Warnings: %d, Hints: %d"
+msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
