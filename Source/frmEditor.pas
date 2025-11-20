@@ -3152,9 +3152,13 @@ procedure TEditorForm.EditorShowHint(var HintStr: string; var CanShow:
     var P1 := SynEd.RowColumnToPixels(SynEd.BufferToDisplayPos(BC1));
     var P2 := SynEd.RowColumnToPixels(SynEd.BufferToDisplayPos(BC2));
     Inc(P2.Y, SynEd.LineHeight);
-
     HintPos := SynEd.ClientToScreen(Point(P1.X, P2.Y));
-    Result := TRect.Create(P1,P2);
+
+    // #1448
+    P1.X := Min(P1.X, HintInfo.CursorPos.X);
+    P2.X := Max(P2.X, HintInfo.CursorPos.X);
+
+    Result := TRect.Create(P1, P2);
   end;
 
 var
@@ -3174,21 +3178,18 @@ begin
     Exit;
 
   var Highlighter := TSynPythonSyn(SynEd.Highlighter);
-
-  var DC := SynEd.PixelsToNearestRowColumn(HintInfo.CursorPos.X, HintInfo.CursorPos.Y);
-  var BC := SynEd.DisplayToBufferPos(DC);
+  var BC := SynEd.PixelsToBuffer(HintInfo.CursorPos);
 
   // Diagnostic errors hints first
   if (Length(FEditor.FSynLsp.Diagnostics) > 0) and
     SynEd.Indicators.IndicatorAtPos(BC,
-    FEditor.FSynLsp.DiagnosticsIndicatorIds, Indicator)
-  then
+    FEditor.FSynLsp.DiagnosticsIndicatorIds, Indicator) then
   begin
     CanShow := True;
     BC1 := BufferCoord(Indicator.CharStart, BC.Line);
     BC2 := BufferCoord(Indicator.CharEnd, BC.Line);
     // Setting HintInfo.CursorRect is important.  Otherwise no other hint
-    // will be shown unlessmouse leaves and reenters the control
+    // will be shown unless mouse leaves and reenters the control
     HintInfo.CursorRect := CursorRect(SynEd, BC1, BC2, HintInfo.HintPos);
     HintStr := FEditor.FSynLsp.Diagnostics[Indicator.Tag].Hint(SynEdit.ReadOnly);
     FEditor.FSynLsp.DiagnosticHintIndex := Indicator.Tag;

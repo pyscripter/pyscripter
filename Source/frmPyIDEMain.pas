@@ -658,7 +658,7 @@
           New Features
             - Korean translation added
           Issues addressed
-            - #1444
+            - #1444, #1448
  {------------------------------------------------------------------------------}
 
 // Bugs and minor features
