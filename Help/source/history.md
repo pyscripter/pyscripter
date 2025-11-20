@@ -3,6 +3,15 @@
 
 # History
 
+### Version 5.3.1 (November 20, 2025)
+
+* *New features:*
+	+ Korean translation added
+
+* *Issues addressed:*
+	+  *#1444*, *#1448*, *#1484*
+
+
 ### Version 5.3 (November 10, 2025)
 
 * *New features:*
