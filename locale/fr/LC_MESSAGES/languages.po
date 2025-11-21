@@ -59,7 +59,7 @@ msgstr "Persan (Iran)"
 
 #. Language of Japan, Asia
 msgid "Japanese"
-msgstr "Japonnais"
+msgstr "Japonais"
 
 #. Language of Kabyle people
 msgid "Taqbaylit"
