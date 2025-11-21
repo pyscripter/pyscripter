@@ -1567,7 +1567,7 @@ msgstr "Couleur de bordure:"
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..lDigits..Caption
 #: dlgSynEditOptions.dfm
 msgid "Digits:"
-msgstr "Décimales:"
+msgstr "Chiffres:"
 
 #. EditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
 #: dlgSynEditOptions.dfm
