@@ -3470,7 +3470,7 @@ msgstr "Corriger un bug dans le code sélectionné"
 #. CommandsDataModule..actlMain..actAssistantExplain..Caption
 #: dmCommands.dfm
 msgid "Explain"
-msgstr "Explication"
+msgstr "Expliquer"
 
 #. CommandsDataModule..actlMain..actAssistantExplain..Hint
 #: dmCommands.dfm
