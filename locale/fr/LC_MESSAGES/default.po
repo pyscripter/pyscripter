@@ -8373,7 +8373,7 @@ msgstr "Entrer le numéro de la ligne:"
 #: StringResources.pas
 #, object-pascal-format
 msgid "%s has been renamed or deleted."
-msgstr "%s a été renommé ou déplacé."
+msgstr "%s a été renommé ou supprimé."
 
 #. Programmer's name for it: SRegistryAccessDenied
 #: StringResources.pas
