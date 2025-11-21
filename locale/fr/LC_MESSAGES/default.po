@@ -10,6 +10,7 @@
 # Vincent CARDON <vcardon@tranquil.it>, 2019
 # Lübbe Onken <luebbe.opensource@gmail.com>, 2023
 # Goery Valance, 2025
+# Stéphane Quenson, 2025
 # 
 #, fuzzy
 msgid ""
@@ -17,7 +18,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2025-11-11 02:50\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Goery Valance, 2025\n"
+"Last-Translator: Stéphane Quenson, 2025\n"
 "Language-Team: French (https://app.transifex.com/pyscripter/teams/116142/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -743,17 +744,17 @@ msgstr "Extensions de fichiers (par exemple *.py; *.pyw)"
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
 msgid "Recursive"
-msgstr ""
+msgstr "Récursif"
 
 #. ImportDirectoryForm..Panel1..cbAutoUpdate..Caption
 #: dlgImportDirectory.dfm
 msgid "Auto-update"
-msgstr ""
+msgstr "Mise à jour automatique"
 
 #. ImportDirectoryForm..Panel1..cbPythonPath..Caption
 #: dlgImportDirectory.dfm
 msgid "Add to python path"
-msgstr ""
+msgstr "Ajouter au chemin de python"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -1201,12 +1202,12 @@ msgstr "Commande:"
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 2:"
-msgstr ""
+msgstr "Touche 2:"
 
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 1:"
-msgstr ""
+msgstr "Touche 1:"
 
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
@@ -1217,7 +1218,7 @@ msgstr "Commandes"
 #. EditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke"
-msgstr ""
+msgstr "Touche"
 
 #. EditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1792,22 +1793,22 @@ msgstr "Pied de page:"
 #. PageSetupDlg..TabControl..tbMargins..Label8..Caption
 #: dlgSynPageSetup.dfm
 msgid "Internal Margin:"
-msgstr ""
+msgstr "Marge intérieure:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label9..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left Text Indent:"
-msgstr ""
+msgstr "Indentation gauche:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label10..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right Text Indent:"
-msgstr ""
+msgstr "Indentation droite:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label11..Caption
 #: dlgSynPageSetup.dfm
 msgid "Gutter:"
-msgstr ""
+msgstr "Bordure"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
@@ -1842,12 +1843,12 @@ msgstr "Retour les lignes"
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "Inches"
-msgstr ""
+msgstr "Pouces"
 
 #. PageSetupDlg..TabControl..tbMargins..CBUnits....Items.Strings
 #: dlgSynPageSetup.dfm
 msgid "(1/1000) Inches"
-msgstr ""
+msgstr "(1/1000) de pouces"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -2333,12 +2334,12 @@ msgstr "&Cacher la console"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Hint
 #: dlgToolProperties.dfm
 msgid "Use the UTF8 encoding for stdin/stdout"
-msgstr ""
+msgstr "Utiliser le codage UTF8 en entrée et sortie"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbUTF8IO..Caption
 #: dlgToolProperties.dfm
 msgid "&UTF8 IO"
-msgstr ""
+msgstr "&UTF8 IO"
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
@@ -2420,7 +2421,7 @@ msgstr "Sauvegarder|Sauvegarder le fichier actif"
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
 msgid "Sav&e As..."
-msgstr ""
+msgstr "Sauv&egarder sous..."
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
@@ -2565,7 +2566,7 @@ msgstr "&Remplacer..."
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search & Replace"
-msgstr ""
+msgstr "Remplacer|Chercher et Remplacer"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
@@ -2591,7 +2592,7 @@ msgstr "Enregistrer vers un fichier distant avec SSH"
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
 msgid "Re&load"
-msgstr ""
+msgstr "Rechar&ger"
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
@@ -2672,12 +2673,12 @@ msgstr "Indenter un bloc|Indenter le bloc de code sélectionné"
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
 msgid "&Unindent Block"
-msgstr ""
+msgstr "&Désindenter un bloc"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
 msgid "Unindent|Unindent selected block of code"
-msgstr ""
+msgstr "Désindenter|Désindenter le bloc de code sélectionné"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
@@ -2784,7 +2785,7 @@ msgstr "Aller à la première erreur de syntaxe"
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "Find &in Files..."
-msgstr ""
+msgstr "Rechercher dans les F&ichiers"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
@@ -2976,17 +2977,17 @@ msgstr "Rechercher la précédente réference à l'identificateur"
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr ""
+msgstr "DOS/Windows|Convertir en fin de ligne DOS"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm
 msgid "UNIX|Convert to UNIX line break"
-msgstr ""
+msgstr "Unix|Convertir en fin de ligne UNIX"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm
 msgid "Mac|Convert to Mac line break"
-msgstr ""
+msgstr "Mac|Convertir en fin de ligne Mac"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
@@ -3053,7 +3054,7 @@ msgstr "Ajouter/Supprimer les modèles de fichier"
 #. CommandsDataModule..actlMain..actEditUTF8..Caption
 #: dmCommands.dfm
 msgid "UTF-8 with BOM"
-msgstr ""
+msgstr "UTF-8 avec BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
@@ -3114,7 +3115,7 @@ msgstr "Exporter les surligneurs de syntaxe"
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing settings"
-msgstr ""
+msgstr "Remplacer par les options actuelles"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
@@ -3179,7 +3180,7 @@ msgstr "Fermer tous les fichiers à droite"
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit &Startup Scripts"
-msgstr ""
+msgstr "Éditer les &Scripts de démarrage"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
@@ -3358,12 +3359,13 @@ msgstr "Chemin Python|Afficher ou éditer le chemin Python"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "Unit Test &Wizard..."
-msgstr ""
+msgstr "Assistant de &test unitaire"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
 msgstr ""
+"Assistant de test unitaire|Créer un test unitaire pour le module actif"
 
 #. CommandsDataModule..actlMain..actSynSpellCheckFile..Category
 #. CommandsDataModule..actlMain..actSynSpellCheckLine..Category
@@ -3473,7 +3475,7 @@ msgstr "Explication"
 #. CommandsDataModule..actlMain..actAssistantExplain..Hint
 #: dmCommands.dfm
 msgid "Add comments explaining the selected code"
-msgstr ""
+msgstr "Ajouter des commentaires expliquant le code sélectionné"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
@@ -3488,87 +3490,88 @@ msgstr "Faire un don au projet PyScripter"
 #. CommandsDataModule..actlMain..actFormatCode..Caption
 #: dmCommands.dfm
 msgid "Format"
-msgstr ""
+msgstr "Formatter"
 
 #. CommandsDataModule..actlMain..actFormatCode....Hint
 #: dmCommands.dfm
 msgid "Format source code, either the selected text or the whole document."
 msgstr ""
+"Formatter le code source, soit le texte sélectionné soit tout le document"
 
 #. CommandsDataModule..actlMain..actCodeCheck..Caption
 #: dmCommands.dfm
 msgid "Check Code"
-msgstr ""
+msgstr "Vérifier le code"
 
 #. CommandsDataModule..actlMain..actCodeCheck..Hint
 #: dmCommands.dfm
 msgid "Perform a code check"
-msgstr ""
+msgstr "Faire un vérification du code"
 
 #. CommandsDataModule..actlMain..actClearIssues..Caption
 #: dmCommands.dfm
 msgid "Clear Issues"
-msgstr ""
+msgstr "Effacer les erreurs"
 
 #. CommandsDataModule..actlMain..actClearIssues..Hint
 #: dmCommands.dfm
 msgid "Clear code issues"
-msgstr ""
+msgstr "Effacer les erreurs de code"
 
 #. CommandsDataModule..actlMain..actNextIssue..Caption
 #: dmCommands.dfm
 msgid "Next Issue"
-msgstr ""
+msgstr "Erreur suivante"
 
 #. CommandsDataModule..actlMain..actNextIssue..Hint
 #: dmCommands.dfm
 msgid "Go to the next issue"
-msgstr ""
+msgstr "Aller à l'erreur suivante"
 
 #. CommandsDataModule..actlMain..actPreviousIssue..Caption
 #: dmCommands.dfm
 msgid "Previous Issue"
-msgstr ""
+msgstr "Erreur précédente"
 
 #. CommandsDataModule..actlMain..actPreviousIssue..Hint
 #: dmCommands.dfm
 msgid "Go to the previous issue"
-msgstr ""
+msgstr "Aller à l'erreur précédente"
 
 #. CommandsDataModule..actlMain..actFixAll..Caption
 #: dmCommands.dfm
 msgid "Fix All"
-msgstr ""
+msgstr "Résoudre tout"
 
 #. CommandsDataModule..actlMain..actFixAll..Hint
 #: dmCommands.dfm
 msgid "Apply all available fixes"
-msgstr ""
+msgstr "Appliquer tous les résolutions disponibles"
 
 #. CommandsDataModule..actlMain..actOrganizeImports..Caption
 #: dmCommands.dfm
 msgid "Organize Imports"
-msgstr ""
+msgstr "Organiser les imports"
 
 #. CommandsDataModule..actlMain..actOrganizeImports..Hint
 #: dmCommands.dfm
 msgid "Organize import statements"
-msgstr ""
+msgstr "Organiser les commandes import"
 
 #. CommandsDataModule..actlMain..actRefactorRename..Hint
 #: dmCommands.dfm
 msgid "Rename the selected identifier "
-msgstr ""
+msgstr "Renommer l'identifiant sélectionné"
 
 #. CommandsDataModule..actlMain..actShowRefactorMenu..Caption
 #: dmCommands.dfm
 msgid "Refactor"
-msgstr ""
+msgstr "Restructurer"
 
 #. CommandsDataModule..actlMain..actShowRefactorMenu..Hint
 #: dmCommands.dfm
 msgid "Show refactoring menu"
-msgstr ""
+msgstr "Afficher le menu Restructurer"
 
 #. CommandsDataModule..actlMain..actFileExit..Caption
 #: dmCommands.dfm
@@ -3639,7 +3642,7 @@ msgstr "Recherche dans les fichiers"
 #. CommandsDataModule..actlMain..actNavFindResults..Hint
 #: dmCommands.dfm
 msgid "Activate the Find in Files Results window"
-msgstr ""
+msgstr "Activer la fenêtre Chercher dans la Liste de Fichiers "
 
 #. CommandsDataModule..actlMain..actNavWatches..Caption
 #: dmCommands.dfm
@@ -3762,23 +3765,23 @@ msgstr "Activer la fenêtre de l'Explorateur de Projets"
 #. CommandsDataModule..actlMain..actNavRegExp..Caption
 #: dmCommands.dfm
 msgid "Regular Expression Tester"
-msgstr ""
+msgstr "Testeur d'Expressions Régulières"
 
 #. CommandsDataModule..actlMain..actNavRegExp..Hint
 #: dmCommands.dfm
 msgid "Activate the Regular Expression Tester window"
-msgstr ""
+msgstr "Activer la fenêtre Testeur d'Expressions Régulières"
 
 #. CommandsDataModule..actlMain..actNavChat..Caption
 #. LLMChatForm..Caption
 #: dmCommands.dfm frmLLMChat.dfm frmLLMChat.pas
 msgid "Chat"
-msgstr ""
+msgstr "Discussion"
 
 #. CommandsDataModule..actlMain..actNavChat..Hint
 #: dmCommands.dfm
 msgid "Activate the Chat window"
-msgstr ""
+msgstr "Activer la fenêtre Discussion"
 
 #. CommandsDataModule..actlMain..actRun..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Caption
@@ -4000,7 +4003,7 @@ msgstr "Ré&initialiser le moteur Python"
 #. CommandsDataModule..actlMain..actPythonFreeThreaded..Caption
 #: dmCommands.dfm
 msgid "Free-Threaded"
-msgstr ""
+msgstr "Free-Threaded"
 
 #. CommandsDataModule..actlMain..actPythonFreeThreaded..Hint
 #: dmCommands.dfm
@@ -4077,19 +4080,19 @@ msgstr "Définir le moteur Python"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSpelling..Caption
 #: dmCommands.dfm frmEditor.dfm frmLLMChat.dfm frmPyIDEMain.dfm
 msgid "Spelling"
-msgstr ""
+msgstr "Orthographe"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..Caption
 #. EditorForm..pmnuEditor..mniAssistant..Caption
 #: dmCommands.dfm frmEditor.dfm
 msgid "Assistant"
-msgstr ""
+msgstr "Assistant"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..Caption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..Caption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Settings"
-msgstr ""
+msgstr "Paramètres"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiDeepSeek..Caption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiDeepSeek..Caption
@@ -4107,49 +4110,49 @@ msgstr "Utiliser DeepSeek"
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGemini..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use Gemini"
-msgstr ""
+msgstr "Utiliser Gemini"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiGrok..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiGrok..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use Grok"
-msgstr ""
+msgstr "Utiliser Grok"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOpenAI..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOpenai..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use OpenAI"
-msgstr ""
+msgstr "Utiliser OpenAI"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiOllama..Hint
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiOllama..Hint
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Use Ollama"
-msgstr ""
+msgstr "Utiliser Ollama"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiEndpoint..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiEndpoint..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Endpoint:"
-msgstr ""
+msgstr "Point distant:"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiModel..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiModel..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Model:"
-msgstr ""
+msgstr "Modèle:"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiApiKey..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiApiKey..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Api key:"
-msgstr ""
+msgstr "Clé API:"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiTimeout..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiTimeout..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Timeout (in seconds):"
-msgstr ""
+msgstr "Durée maximum (en secondes):"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiTemperature..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiTemperature..EditCaption
@@ -4161,13 +4164,13 @@ msgstr "Température (de 0.0 à 2.0)"
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiMaxTokens..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "Maximum number of response tokens:"
-msgstr ""
+msgstr "Nombre maximum de jetons réponse:"
 
 #. CommandsDataModule..pmAssistant..spiAssistant..spiSettings..spiSystemPrompt..EditCaption
 #. LLMChatForm..BGPanel..FGPanel..SpTBXDock..SpTBXToolbar..spiSettings..spiSystemPrompt..EditCaption
 #: dmCommands.dfm frmLLMChat.dfm
 msgid "System prompt:"
-msgstr ""
+msgstr "Invite système:"
 
 #. ResourcesDataModule..SynGeneralSyn..DefaultFilter
 #. Programmer's name for it: sGeneralFileFilter
@@ -4505,7 +4508,7 @@ msgstr "Déplier"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..EditorViewsMenu..Caption
 #: frmEditor.dfm frmPyIDEMain.dfm
 msgid "Editor Views"
-msgstr ""
+msgstr "Vues Éditeur"
 
 #. EditorForm..pmnuBreakpoint..spiBreakpointEnabled..Caption
 #: frmEditor.dfm
@@ -4525,17 +4528,17 @@ msgstr "Effacer le point d'arrêt"
 #. EditorForm..pmnuDiagnostics..mnFixIssue..Caption
 #: frmEditor.dfm
 msgid "Quick Fix Issue"
-msgstr ""
+msgstr "Résolution rapide"
 
 #. EditorForm..pmnuDiagnostics..mnIgnoreIssue..Caption
 #: frmEditor.dfm
 msgid "Ignore Issue"
-msgstr ""
+msgstr "Ignorer l'erreur"
 
 #. EditorForm..pmnuDiagnostics..mnIgnoreIssue..Hint
 #: frmEditor.dfm
 msgid "Flag the issue as ignored"
-msgstr ""
+msgstr "Marquer l'erreur comme ignorée"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4920,12 +4923,12 @@ msgstr "Allez à l'implémentation"
 #. LLMChatForm..ChatActionList..actChatSave..Caption
 #: frmLLMChat.dfm
 msgid "Save chat"
-msgstr ""
+msgstr "Sauvegarder la discussion"
 
 #. LLMChatForm..ChatActionList..actChatSave..Hint
 #: frmLLMChat.dfm
 msgid "Save chat history"
-msgstr ""
+msgstr "Sauvegarder l'historique de discussion"
 
 #. LLMChatForm..ChatActionList..actChatRemove..Caption
 #: frmLLMChat.dfm
@@ -4970,12 +4973,12 @@ msgstr "Monter la conversation suivante"
 #. LLMChatForm..ChatActionList..actAskQuestion..Hint
 #: frmLLMChat.dfm
 msgid "Ask question"
-msgstr ""
+msgstr "Poser une question"
 
 #. LLMChatForm..ChatActionList..actTopicTitle..Caption
 #: frmLLMChat.dfm frmLLMChat.pas
 msgid "Topic Title"
-msgstr ""
+msgstr "Titre du sujet"
 
 #. LLMChatForm..ChatActionList..actTopicTitle..Hint
 #: frmLLMChat.dfm
@@ -4985,12 +4988,12 @@ msgstr "Titrer la conversation"
 #. LLMChatForm..ChatActionList..actCancelRequest..Caption
 #: frmLLMChat.dfm
 msgid "Cancel Request"
-msgstr ""
+msgstr "Annuler la demande"
 
 #. LLMChatForm..ChatActionList..actCancelRequest..Hint
 #: frmLLMChat.dfm
 msgid "Cancel active request"
-msgstr ""
+msgstr "Annuler la demande actuelle"
 
 #. LLMChatForm..ChatActionList..actPrint..Hint
 #: frmLLMChat.dfm
@@ -5274,7 +5277,7 @@ msgstr "&Code Source"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..mnCheckCode..Caption
 #: frmPyIDEMain.dfm
 msgid "Check"
-msgstr ""
+msgstr "Vérifier"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: frmPyIDEMain.dfm dmResources.pas
@@ -5758,6 +5761,8 @@ msgstr "Séparer l'espace verticalement"
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
+"Diviser l'espace de travail verticalement|Afficher l'espace de travail "
+"secondaire aligné verticalement"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
@@ -5947,7 +5952,7 @@ msgstr "Trouver tout"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
 msgid "Performs re.findall"
-msgstr ""
+msgstr "Exécuter re.findall"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_AutoExecute..Caption
 #: frmRegExpTester.dfm
@@ -6002,42 +6007,42 @@ msgstr "Afficher une correspondance trouvée"
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..Caption
 #: frmSuggest.dfm
 msgid "SpTBXToolbar"
-msgstr ""
+msgstr "SpTBXToolbar"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAccept..Caption
 #: frmSuggest.dfm
 msgid "Accept (Tab)"
-msgstr ""
+msgstr "Accepter (Tab)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Caption
 #: frmSuggest.dfm
 msgid "Accept Word (Ctrl+Right)"
-msgstr ""
+msgstr "Accepter le mot (Ctrl + Flèche droite)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptWord..Hint
 #: frmSuggest.dfm
 msgid "Accept the first suggested word"
-msgstr ""
+msgstr "Accepter le premier mot suggéré"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Caption
 #: frmSuggest.dfm
 msgid "Accept Line (Ctrl+Enter)"
-msgstr ""
+msgstr "Accepter la ligne (Ctrl + Entrée)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiAcceptLine..Hint
 #: frmSuggest.dfm
 msgid "Accept the first suggested line"
-msgstr ""
+msgstr "Accepter la première ligne suggérée"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Caption
 #: frmSuggest.dfm
 msgid "Cancel (Esc)"
-msgstr ""
+msgstr "Annuler (Esc)"
 
 #. SuggestWindow..SpTBXDock..SpTBXToolbar..spiCancel..Hint
 #: frmSuggest.dfm
 msgid "Close the form"
-msgstr ""
+msgstr "Fermer la fenêtre"
 
 #. ToDoWindow..Caption
 #: frmToDo.dfm
@@ -6228,19 +6233,19 @@ msgstr "Aucun éditeur n'est actuellement actif"
 
 #: cLSPClients.pas
 msgid "Confirm Rename"
-msgstr ""
+msgstr "Confirmer le renommage"
 
 #: cLSPClients.pas
 msgid "Inline"
-msgstr ""
+msgstr "dans la ligne"
 
 #: cLSPClients.pas
 msgid "Extract function"
-msgstr ""
+msgstr "Extraire la fonction"
 
 #: cLSPClients.pas
 msgid "Extract variable"
-msgstr ""
+msgstr "Extraire la variable"
 
 #. Programmer's name for it: SNonameFileTitle
 #: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
@@ -6340,11 +6345,11 @@ msgstr "Installer de packages Python"
 
 #: cTools.pas
 msgid "Create Virtual Environment"
-msgstr ""
+msgstr "Créer un environnement virtuel"
 
 #: cTools.pas
 msgid "Create virtual environment using the venv module"
-msgstr ""
+msgstr "Créer un environnement virtuel qui utilise le module venv"
 
 #: cTools.pas
 msgid "Python&Win help"
@@ -6498,7 +6503,7 @@ msgstr "Espagnol : %s"
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Turkish: %s"
-msgstr ""
+msgstr "Turc: %s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6844,11 +6849,11 @@ msgstr "Annotation de la barre de défilement"
 
 #: dmCommands.pas
 msgid "Display flow control symbols"
-msgstr ""
+msgstr "Afficher les symboles de contrôle de navigation "
 
 #: dmCommands.pas
 msgid "Accessibility support"
-msgstr ""
+msgstr "Rapport d'accessibilité"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
@@ -6939,11 +6944,11 @@ msgstr "Packages spéciaux"
 
 #: dmCommands.pas
 msgid "Code check on file open"
-msgstr ""
+msgstr "Vérifier le code à l'ouverture du fichier"
 
 #: dmCommands.pas
 msgid "Code check on file save"
-msgstr ""
+msgstr "Vérifier le code à la sauvegarde du fichier"
 
 #: dmCommands.pas
 msgid "Dictionary language code"
@@ -6959,47 +6964,47 @@ msgstr "Points de vérification de l'ortographe"
 
 #: dmCommands.pas
 msgid "Highlight structure"
-msgstr ""
+msgstr "Surligner la structure"
 
 #: dmCommands.pas
 msgid "Show hint mark"
-msgstr ""
+msgstr "Afficher le marqueur de suggestion"
 
 #: dmCommands.pas
 msgid "Gutter shape size"
-msgstr ""
+msgstr "Taille de la bordure"
 
 #: dmCommands.pas
 msgid "Show collapsed line"
-msgstr ""
+msgstr "Afficher la ligne repliée"
 
 #: dmCommands.pas
 msgid "Collapsed line color"
-msgstr ""
+msgstr "Couleur de la ligne repliée"
 
 #: dmCommands.pas
 msgid "Folder bar lines color"
-msgstr ""
+msgstr "Couleur des lignes joignant les dossiers"
 
 #: dmCommands.pas
 msgid "Fill whole lines"
-msgstr ""
+msgstr "Remplir des lignes complètes"
 
 #: dmCommands.pas
 msgid "Modified color"
-msgstr ""
+msgstr "Couleur modifiée"
 
 #: dmCommands.pas
 msgid "Original color"
-msgstr ""
+msgstr "Couleur initiale"
 
 #: dmCommands.pas
 msgid "Saved color"
-msgstr ""
+msgstr "Couleur sauvegardée"
 
 #: dmCommands.pas
 msgid "Saved and modified color"
-msgstr ""
+msgstr "Couleur modifiée et sauvegardée"
 
 #: dmCommands.pas
 msgid "Configure Tools"
@@ -7007,11 +7012,11 @@ msgstr "Configurer les outils"
 
 #: dmCommands.pas
 msgid "Cannot perform rename"
-msgstr ""
+msgstr "Impossible de renommer"
 
 #: dmCommands.pas
 msgid "New name"
-msgstr ""
+msgstr "Nouveau nom"
 
 #: dmCommands.pas
 msgid "Debug"
@@ -7019,7 +7024,7 @@ msgstr "Débugger"
 
 #: dmCommands.pas
 msgid "Downloading..."
-msgstr ""
+msgstr "Téléchargement..."
 
 #: dmCommands.pas
 msgid "File download failed"
@@ -7105,12 +7110,12 @@ msgstr "Numéro d'index invalide"
 #. Programmer's name for it: SQuestionHintValid
 #: frmLLMChat.pas
 msgid "Ask me anything"
-msgstr ""
+msgstr "Demandez-moi n'importe quoi"
 
 #. Programmer's name for it: SQuestionHintInvalid
 #: frmLLMChat.pas
 msgid "Chat setup incomplete"
-msgstr ""
+msgstr "Mise en route incomplète de la discussion"
 
 #. Restore settings and history
 #: frmLLMChat.pas
@@ -7123,7 +7128,7 @@ msgstr "Impossible de lire les paramètres des discussions"
 
 #: frmLLMChat.pas
 msgid "Enter title:"
-msgstr ""
+msgstr "Entrer le titre:"
 
 #: frmLLMChat.pas
 msgid "Copy code to new editor"
@@ -7170,7 +7175,7 @@ msgstr "Etat du Débuggeur:"
 
 #: frmPyIDEMain.pas
 msgid "carets"
-msgstr ""
+msgstr "curseurs"
 
 #: frmPyIDEMain.pas
 msgid "Python Not Available"
@@ -7182,15 +7187,15 @@ msgstr "Non disponible"
 
 #: frmPythonII.pas
 msgid "PyScripter - Input requested"
-msgstr ""
+msgstr "PyScripter - Entrée requise"
 
 #: frmPythonII.pas
 msgid "Input:"
-msgstr ""
+msgstr "Entrée:"
 
 #: frmPythonII.pas
 msgid "Operation cancelled"
-msgstr ""
+msgstr "Opération annulée"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
@@ -7218,7 +7223,7 @@ msgstr "DocString"
 
 #: frmWatches.pas
 msgid "Enter watch expression:"
-msgstr ""
+msgstr "Entrer l´expression à analyser:"
 
 #: frmWatches.pas
 msgid "Edit Watch"
@@ -7473,7 +7478,7 @@ msgstr "Copier"
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
-msgstr ""
+msgstr "Copier la ligne vers le bas"
 
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
@@ -7563,12 +7568,12 @@ msgstr "Replier au plus près"
 #. Programmer's name for it: SEdCmdNextChange
 #: StringResources.pas
 msgid "Next Change"
-msgstr ""
+msgstr "Changement suivant"
 
 #. Programmer's name for it: SEdCmdPreviousChange
 #: StringResources.pas
 msgid "Previous Change"
-msgstr ""
+msgstr "Changement précédent"
 
 #. Programmer's name for it: SEdCmdGotoBookmark0
 #: StringResources.pas
@@ -7863,17 +7868,17 @@ msgstr "Définir le Marqueur 9"
 #. Programmer's name for it: SEdCmdZoomIn
 #: StringResources.pas
 msgid "Zoom In"
-msgstr ""
+msgstr "Zoomer"
 
 #. Programmer's name for it: SEdCmdZoomOut
 #: StringResources.pas
 msgid "Zoom Out"
-msgstr ""
+msgstr "Dézoomer"
 
 #. Programmer's name for it: SEdCmdZoomReset
 #: StringResources.pas
 msgid "Zoom Reset"
-msgstr ""
+msgstr "Annulation du zoom"
 
 #. Programmer's name for it: SEdCmdShiftTab
 #: StringResources.pas
@@ -7959,47 +7964,47 @@ msgstr "Mot de Droite"
 #. Programmer's name for it: SEdCmdCancelSelections
 #: StringResources.pas
 msgid "Cancel Selections"
-msgstr ""
+msgstr "Annuler les Sélections"
 
 #. Programmer's name for it: SEdCmdSelColumnLeft
 #: StringResources.pas
 msgid "Selelct Column Left"
-msgstr ""
+msgstr "Choisir la colonne Gauche"
 
 #. Programmer's name for it: SEdCmdSelColumnRight
 #: StringResources.pas
 msgid "Select Column Right"
-msgstr ""
+msgstr "Choisir la colonne Droite"
 
 #. Programmer's name for it: SEdCmdSelColumnUp
 #: StringResources.pas
 msgid "Select Column Up"
-msgstr ""
+msgstr "Choisir la colonne Vers le Haut"
 
 #. Programmer's name for it: SEdCmdSelColumnDown
 #: StringResources.pas
 msgid "Select Column Down"
-msgstr ""
+msgstr "Choisir la colonne Vers le Bas"
 
 #. Programmer's name for it: SEdCmdSelColumnPageUp
 #: StringResources.pas
 msgid "Select Column Page Up"
-msgstr ""
+msgstr "Choisir la colonne Page vers le Haut"
 
 #. Programmer's name for it: SEdCmdSelColumnPageDown
 #: StringResources.pas
 msgid "Select Column Page Down"
-msgstr ""
+msgstr "Choisir la colonne Page vers le Bas"
 
 #. Programmer's name for it: SEdCmdSelMatchingText
 #: StringResources.pas
 msgid "Select Matching Text"
-msgstr ""
+msgstr "Choisir Comparaison de Texte"
 
 #. Programmer's name for it: SEdCmdCaretsAtLineEnds
 #: StringResources.pas
 msgid "Carets At Line Ends"
-msgstr ""
+msgstr "Curseur à la fin des lignes"
 
 #. Programmer's name for it: SEdCmdParameterCompletion
 #: StringResources.pas
@@ -8203,6 +8208,9 @@ msgid ""
 "You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
 "To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr ""
+"Vous êtes à présent en mode analyse rétrospective.\n"
+"Vous pouvez examiner la pile d'appel, les variables et la fenêtre de Surveillance, les expressions évaluées ...\n"
+"Pour quitter le mode analyse rétrospective cliquer sur le bouton \"Interrompre le débogage\"."
 
 #. Programmer's name for it: SFileEncodingWarning
 #: StringResources.pas
@@ -8211,6 +8219,8 @@ msgid ""
 "Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
 "Do you want to proceed?"
 msgstr ""
+"Encoder le fichier \"%s\" utilisant l'encodage \"%s\" entraînera la perte "
+"d'informations. Voulez-vous continuer?"
 
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas
@@ -8270,6 +8280,8 @@ msgid ""
 "Remote Server is not connected.\n"
 "Please reinitialize or disconnect the remote interpreter."
 msgstr ""
+"Le serveur distant n'est pas connecté. Réinitialisez-le ou déconnectez la "
+"console de processus distant."
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
@@ -8278,6 +8290,9 @@ msgid ""
 "Please restart PyScripter and try again.\n"
 "If the error persists reinstall PyScripter."
 msgstr ""
+"Le module 'rpyc' est indisponible.\n"
+"Relancez PyScripter et réessayez.\n"
+"Si le problème persiste, réinstallez PyScripter."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
@@ -8290,7 +8305,7 @@ msgstr ""
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
 msgid "Error in creating the remote interpreter: "
-msgstr ""
+msgstr "Erreur en créant l'ínterpréteur à distance:"
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas
@@ -8464,7 +8479,7 @@ msgstr "Aucun test trouvé!"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Shortcut for command \"%s\" is already used for command \"%s\""
-msgstr ""
+msgstr "Le raccourci pour la commande \"%s\" est déjà utilisé par la commande \"%s\""
 
 #. Programmer's name for it: SChangedFilesReloaded
 #: StringResources.pas
@@ -8596,7 +8611,7 @@ msgstr "Utiliser la syntaxe %s"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "Basculer vers \"%s\""
 
 #. Programmer's name for it: SThemeHint
 #: StringResources.pas
@@ -8976,7 +8991,7 @@ msgstr "Options de ligne de commande Python"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Process \"%s\" ended successfully."
-msgstr ""
+msgstr "Le processus \"%s\" s'est terminé correctement."
 
 #. Programmer's name for it: SProcessTerminated
 #: StringResources.pas
@@ -9328,24 +9343,24 @@ msgstr "Console"
 
 #: SynEditLsp.pas
 msgid "Quick Fix"
-msgstr ""
+msgstr "Solution rapide"
 
 #: SynEditLsp.pas
 msgid "Hint"
-msgstr ""
+msgstr "Suggestion"
 
 #: SynEditLsp.pas
 msgid "Code Check"
-msgstr ""
+msgstr "Vérification du code"
 
 #: SynEditLsp.pas
 msgid "No issues found"
-msgstr ""
+msgstr "Aucune erreur trouvée"
 
 #: SynEditLsp.pas
 #, object-pascal-format
 msgid "File Check: Errors: %d, Warnings: %d, Hints: %d"
-msgstr ""
+msgstr "Vérification du Fichier: Erreurs: %d, Alertes: %d, Suggestions:%d"
 
 #. Programmer's name for it: SYNS_FriendlyCommentedCode
 #: SynHighlighterPython.pas
@@ -9399,46 +9414,46 @@ msgstr "Commande Système"
 #. Programmer's name for it: sLLMBusy
 #: uLLMSupport.pas
 msgid "The LLM client is busy"
-msgstr ""
+msgstr "Le client LLM est occupé"
 
 #. Programmer's name for it: sNoResponse
 #: uLLMSupport.pas
 msgid "No response from the LLM Server"
-msgstr ""
+msgstr "Pas de réponse du serveur LLM"
 
 #. Programmer's name for it: sNoAPIKey
 #: uLLMSupport.pas
 msgid "The LLM API key is missing"
-msgstr ""
+msgstr "La clé API du LLM est absente"
 
 #. Programmer's name for it: sNoModel
 #: uLLMSupport.pas
 msgid "The LLM model has not been set"
-msgstr ""
+msgstr "Le LLM n'est pas configuré"
 
 #. Programmer's name for it: sInvalidTemperature
 #: uLLMSupport.pas
 msgid "Invalid temperature: It should be a decimal number between 0.0 and 2.0"
-msgstr ""
+msgstr "Température invalide: ce doit être un nombre décimal entre 0.0 et 2.0"
 
 #. Programmer's name for it: sUnsupportedEndpoint
 #: uLLMSupport.pas
 msgid "The LLM endpoint is missing or not supported"
-msgstr ""
+msgstr "Le LLM distant est absent ou bien non supporté"
 
 #. Programmer's name for it: sUnsupportedModel
 #: uLLMSupport.pas
 msgid "The LLM model is not supported"
-msgstr ""
+msgstr "Le LLM n'est pas supporté"
 
 #. Programmer's name for it: sUnexpectedResponse
 #: uLLMSupport.pas
 msgid "Unexpected response from the LLM Server"
-msgstr ""
+msgstr "Réponse inattendue du serveur LLM"
 
 #: uLLMSupport.pas
 msgid "Assistant is busy. Click to cancel."
-msgstr ""
+msgstr "l'assistant est occupé. Cliquer pour annuler."
 
 #. Python Paths etc.
 #: uParams.pas
