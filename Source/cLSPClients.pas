@@ -1061,12 +1061,14 @@ begin
 
   FProjectPythonPath := NewPath;
 
-  if (Length(Params.event.removed) > 0) or (Length(Params.event.added) > 0) then
+  if (Length(Params.event.removed) > 0) or (Length(Params.event.added) > 0) then begin
     for var Client in LspClients do
       if Client.Ready and
         Client.FLspClient.IsRequestSupported(lspDidChangeWorkspaceFolders)
       then
         Client.FLspClient.SendNotification(lspDidChangeWorkspaceFolders, Params);
+    RestartServers;
+  end;
 end;
 
 class procedure TPyLspClient.PythonVersionChanged(const Sender: TObject; const

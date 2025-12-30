@@ -1682,10 +1682,15 @@ begin
   if not GI_PyControl.PythonLoaded then Exit;
 
   var Paths := TStringList.Create;
+  var PathsCurrent := TStringList.Create;
   try
     GI_PyControl.ActiveInterpreter.SysPathToStrings(Paths);
+    PathsCurrent.Assign(Paths);
     if EditFolderList(Paths, _('Python Path'), 870) then
-      GI_PyControl.ActiveInterpreter.StringsToSysPath(Paths);
+      if not PathsCurrent.Equals(Paths) then begin
+        GI_PyControl.ActiveInterpreter.StringsToSysPath(Paths);
+        TPyLspClient.RestartServers;
+      end;
   finally
     Paths.Free;
   end;
