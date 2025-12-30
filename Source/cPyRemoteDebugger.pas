@@ -187,7 +187,8 @@ uses
   cPyScripterSettings,
   cPyControl,
   cTools,
-  uCommonFunctions;
+  uCommonFunctions,
+  cAppPaths;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(AName: string; const APyObject: Variant;
@@ -497,7 +498,7 @@ begin
 
   FOldsysmodules := SysModule.modules.copy();
   try
-    FRpycPath := Format('%sLib\%s', [ExtractFilePath(Application.ExeName), RpycZipModule]);
+    FRpycPath := Format('%sLib\%s', [GetAppRootPath, RpycZipModule]);
     GI_PyControl.InternalInterpreter.SysPathAdd(FRpycPath);
     Rpyc := Import('rpyc');
     FServerIsAvailable := True;

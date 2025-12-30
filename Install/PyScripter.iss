@@ -58,7 +58,7 @@ Source: ..\PyScripter.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\PyScripter.chm; DestDir: {app}; Flags: ignoreversion
 Source: ..\Source\PyProject.ico; DestDir: {app}
 Source: ..\Lib\rpyc.zip; DestDir: {app}\Lib
-Source: Dependencies\{#OSPlatform}\WebView2Loader.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\{#OSPlatform}\WebView2Loader.dll; DestDir: {app}; Flags: ignoreversion
 Source: Dependencies\MicrosoftEdgeWebview2Setup.exe; DestDir: "{commonappdata}\PyScripter"; Flags: ignoreversion
 ; localization
 Source: ..\locale\default.pot; DestDir: {app}\locale

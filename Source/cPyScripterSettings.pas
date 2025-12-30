@@ -434,7 +434,8 @@ uses
   SynUnicode,
   SynEditRegexSearch,
   StringResources,
-  uCommonFunctions;
+  uCommonFunctions,
+  cAppPaths;
 
 { TPythonIDEOptions }
 
@@ -1131,18 +1132,18 @@ class constructor TPyScripterSettings.CreateSettings;
 
 var
   PublicPath: string;
-  AppName, AppININame, EXEPath: string;
+  AppName, AppININame, AppRootPath: string;
 begin
-  AppName := TPath.GetFileNameWithoutExtension(Application.ExeName);
+  AppName := GetAppName;
   AppININame := AppName + '.ini';
-  EXEPath := TPath.GetDirectoryName(Application.ExeName);
+  AppRootPath := GetAppRootPath;
 
-  OptionsFileName := TPath.Combine(EXEPath, AppININame);
+  OptionsFileName := TPath.Combine(AppRootPath, AppININame);
   IsPortable := FileExists(OptionsFileName);
   if IsPortable then
   begin
     // Portable version - nothing is stored in other directories
-    UserDataPath := EXEPath;
+    UserDataPath := AppRootPath;
     ColorThemesFilesDir := TPath.Combine(UserDataPath, 'Highlighters');
     StylesFilesDir := TPath.Combine(UserDataPath, 'Styles');
     LspServerPath :=  TPath.Combine(UserDataPath, 'Lib', 'Lsp');

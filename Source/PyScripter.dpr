@@ -100,6 +100,7 @@ uses
   cCodeCompletion in 'cCodeCompletion.pas',
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
+  cAppPaths in 'cAppPaths.pas',
   cPyScripterSettings in 'cPyScripterSettings.pas',
   cPySupportTypes in 'cPySupportTypes.pas',
   cPyControl in 'cPyControl.pas',

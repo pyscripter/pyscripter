@@ -718,7 +718,8 @@ uses
   SynEdit,
   uEditAppIntfs,
   cFileTemplates,
-  cPySupportTypes;
+  cPySupportTypes,
+  cAppPaths;
 
 const
   WM_FINDDEFINITION = WM_USER + 100;
@@ -1464,7 +1465,7 @@ begin
     MulDiv(FShellImages.Height, FCurrentPPI, Screen.PixelsPerInch));
 
   //Set the HelpFile
-  Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
+  Application.HelpFile := GetAppRootPath + 'PyScripter.chm';
   // In zip distributions the help file may be blocked
   if IsFileBlocked(Application.HelpFile) then
     UnblockFile(Application.HelpFile);
@@ -2854,7 +2855,7 @@ var
 begin
   mnLanguage.Clear;
   CurrentLanguage := GetCurrentLanguage;
-  DefaultInstance.bindtextdomainToFile ('languagecodes',ExtractFilePath(Application.ExeName)+'locale\languagecodes.mo');
+  DefaultInstance.bindtextdomainToFile ('languagecodes',GetAppRootPath+'locale\languagecodes.mo');
   DefaultInstance.GetListOfLanguages ('default',FLanguageList);
   FLanguageList.Insert(0, 'en');
   HaveLang := False;
